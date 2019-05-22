@@ -8,13 +8,13 @@ import { EmptyState } from './EmptyState';
 import { groupMediaItemsByDate } from './groupMediaItemsByDate';
 import { ItemClickEvent } from './types/ItemClickEvent';
 import { missingCaseError } from '../../../util/missingCaseError';
-import { Localizer } from '../../../types/Util';
+import { LocalizerType } from '../../../types/Util';
 
 import { MediaItemType } from '../../LightboxGallery';
 
 interface Props {
   documents: Array<MediaItemType>;
-  i18n: Localizer;
+  i18n: LocalizerType;
   media: Array<MediaItemType>;
   onItemClick?: (event: ItemClickEvent) => void;
 }
@@ -91,7 +91,7 @@ export class MediaGallery extends React.Component<Props, State> {
     );
   }
 
-  private handleTabSelect = (event: TabSelectEvent): void => {
+  private readonly handleTabSelect = (event: TabSelectEvent): void => {
     this.setState({ selectedTab: event.type });
   };
 

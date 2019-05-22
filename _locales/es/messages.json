@@ -1,4 +1,20 @@
 {
+    "copyErrorAndQuit": {
+        "message": "Copiar fallo y cerrar Signal",
+        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "unknownGroup": {
+        "message": "Grupo sin nombre",
+        "description": "Shown as the name of a group if we don't have any information about it"
+    },
+    "databaseError": {
+        "message": "Fallo en la base de datos",
+        "description": "Shown in a popup if the database cannot start up properly"
+    },
+    "deleteAndRestart": {
+        "message": "Borrar todos los datos y reiniciar",
+        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    },
     "mainMenuFile": {
         "message": "&Archivo",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -144,6 +160,22 @@
                 "example": "45/200"
             }
         }
+    },
+    "archivedConversations": {
+        "message": "Chats archivados",
+        "description": "Shown in place of the search box when showing archived conversation list"
+    },
+    "archiveHelperText": {
+        "message": "Estos chats están archivados y sólo aparecerán en el buzón de entrada si recibes nuevos mensajes.",
+        "description": "Shown at the top of the archived converations list in the left pane"
+    },
+    "archiveConversation": {
+        "message": "Archivar chat",
+        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
+    },
+    "moveConversationToInbox": {
+        "message": "Devolver chat al buzón de entrada",
+        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
         "message": "Seleccionar carpeta",
@@ -611,13 +643,35 @@
         "message": "Cerrar",
         "description": "Command in the tray icon menu, to quit the application"
     },
-    "trayTooltip": {
+    "signalDesktop": {
         "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
-    "searchForPeopleOrGroups": {
-        "message": "Introducir nombre o número",
+    "search": {
+        "message": "Buscar",
         "description": "Placeholder text in the search input"
+    },
+    "noSearchResults": {
+        "message": "Sin resultados para «$searchTerm$»",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            }
+        }
+    },
+    "conversationsHeader": {
+        "message": "Chats",
+        "description": "Shown to separate the types of search results"
+    },
+    "contactsHeader": {
+        "message": "Contactos",
+        "description": "Shown to separate the types of search results"
+    },
+    "messagesHeader": {
+        "message": "Mensajes",
+        "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
         "message": "Bienvenida a Signal",
@@ -672,6 +726,10 @@
     "poBox": {
         "message": "apdo. de correos",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "downloading": {
+        "message": "Descargando",
+        "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
         "message": "Descargar adjunto",
@@ -735,6 +793,18 @@
         "message": "Foto",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "cannotUpdate": {
+        "message": "Cannot Update",
+        "description": "Shown as the title of our update error dialogs on windows"
+    },
+    "cannotUpdateDetail": {
+        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "description": "Shown if a general error happened while trying to install update package"
+    },
+    "readOnlyVolume": {
+        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+    },
     "ok": {
         "message": "Aceptar",
         "description": ""
@@ -772,7 +842,7 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "A",
+        "message": "para",
         "description": "Label for the receiver of a message"
     },
     "sent": {
@@ -959,14 +1029,6 @@
         "message": "General",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Enviar previsualización",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Al activar, las previsualizaciones de enlaces de Imgur, Instagram, Reddit y YouTube se envian automáticamente.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Comprobar la ortografía al escribir el mensaje",
         "description": "Description of the media permission description"
@@ -1062,10 +1124,6 @@
     "expiredWarning": {
         "message": "Esta versión de Signal Desktop ha caducado. Por favor, actualiza a la última versión para seguir enviando mensajes.",
         "description": "Warning notification that this version of the app has expired"
-    },
-    "androidMessageLengthWarning": {
-        "message": "Contactos con un teléfono Android solo recibirán los primeros 2000 caracteres de este mensaje.",
-        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "upgrade": {
         "message": "Actualizar",
@@ -1373,12 +1431,16 @@
         "message": "Oscuro",
         "description": "Label text for dark theme"
     },
+    "noteToSelf": {
+        "message": "Notas personales",
+        "description": "Name for the conversation with your own phone number"
+    },
     "hideMenuBar": {
         "message": "Ocultar barra de menú",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Iniciar chat ...",
+        "message": "Comienza con un chat ...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {

@@ -1,4 +1,20 @@
 {
+    "copyErrorAndQuit": {
+        "message": "Скопировать ошибку и выйти",
+        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "unknownGroup": {
+        "message": "Неизвестная группа",
+        "description": "Shown as the name of a group if we don't have any information about it"
+    },
+    "databaseError": {
+        "message": "Ошибка базы данных",
+        "description": "Shown in a popup if the database cannot start up properly"
+    },
+    "deleteAndRestart": {
+        "message": "Удалить все данные и перезапустить",
+        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    },
     "mainMenuFile": {
         "message": "&Файл",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -144,6 +160,22 @@
                 "example": "45/200"
             }
         }
+    },
+    "archivedConversations": {
+        "message": "Архивированные разговоры",
+        "description": "Shown in place of the search box when showing archived conversation list"
+    },
+    "archiveHelperText": {
+        "message": "Эти разговоры архивированы и будут появляться во Входящих только когда получены новые сообщения.",
+        "description": "Shown at the top of the archived converations list in the left pane"
+    },
+    "archiveConversation": {
+        "message": "Архивировать разговор",
+        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
+    },
+    "moveConversationToInbox": {
+        "message": "Переместить разговор во Входящие",
+        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
         "message": "Выберите папку",
@@ -611,13 +643,35 @@
         "message": "Выйти",
         "description": "Command in the tray icon menu, to quit the application"
     },
-    "trayTooltip": {
+    "signalDesktop": {
         "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
-    "searchForPeopleOrGroups": {
-        "message": "Введите имя или номер",
+    "search": {
+        "message": "Поиск",
         "description": "Placeholder text in the search input"
+    },
+    "noSearchResults": {
+        "message": "Нет результатов для \"$searchTerm$\"",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            }
+        }
+    },
+    "conversationsHeader": {
+        "message": "Разговоры",
+        "description": "Shown to separate the types of search results"
+    },
+    "contactsHeader": {
+        "message": "Контакты",
+        "description": "Shown to separate the types of search results"
+    },
+    "messagesHeader": {
+        "message": "Сообщения",
+        "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
         "message": "Добро пожаловать в Signal",
@@ -672,6 +726,10 @@
     "poBox": {
         "message": "почтовый ящик",
         "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "downloading": {
+        "message": "Скачивание",
+        "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
         "message": "Загрузить вложение",
@@ -735,6 +793,18 @@
         "message": "Фото",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "cannotUpdate": {
+        "message": "Cannot Update",
+        "description": "Shown as the title of our update error dialogs on windows"
+    },
+    "cannotUpdateDetail": {
+        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "description": "Shown if a general error happened while trying to install update package"
+    },
+    "readOnlyVolume": {
+        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+    },
     "ok": {
         "message": "OK",
         "description": ""
@@ -772,7 +842,7 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Кому",
+        "message": "->",
         "description": "Label for the receiver of a message"
     },
     "sent": {
@@ -959,14 +1029,6 @@
         "message": "Общие",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Отправлять предпросмотр ссылки",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Предварительный просмотр поддерживается для ссылок Imgur, Instagram, Reddit и YouTube.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
         "message": "Включить проверку орфографии текста, введенного в поле создания сообщения",
         "description": "Description of the media permission description"
@@ -1062,10 +1124,6 @@
     "expiredWarning": {
         "message": "Эта версия Signal Desktop устарела. Выполните обновление до последней версии, чтобы продолжить обмен сообщениями.",
         "description": "Warning notification that this version of the app has expired"
-    },
-    "androidMessageLengthWarning": {
-        "message": "Пользователи Android получат только первые 2000 символов этого сообщения.",
-        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "upgrade": {
         "message": "Обновить",
@@ -1373,12 +1431,16 @@
         "message": "Темная",
         "description": "Label text for dark theme"
     },
+    "noteToSelf": {
+        "message": "Заметка для себя",
+        "description": "Name for the conversation with your own phone number"
+    },
     "hideMenuBar": {
         "message": "Скрыть строку меню",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Начать разговор…",
+        "message": "Начать новый разговор…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {

@@ -1,9 +1,11 @@
 const { assert } = require('chai');
 
 const {
+  findLinks,
   getTitleMetaTag,
   getImageMetaTag,
   isLinkInWhitelist,
+  isLinkSneaky,
   isMediaLinkInWhitelist,
 } = require('../../js/modules/link_previews');
 
@@ -226,6 +228,108 @@ describe('Link previews', () => {
         'First thing\r\nSecond thing\nThird thing',
         getTitleMetaTag(html)
       );
+    });
+  });
+
+  describe('#findLinks', () => {
+    it('returns all links if no caretLocation is provided', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+
+      const expected = [
+        'https://github.com/signalapp/Signal-Desktop',
+        'https://github.com/signalapp/Signal-Android',
+      ];
+
+      const actual = findLinks(text);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('includes all links if cursor is not in a link', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = 10;
+
+      const expected = [
+        'https://github.com/signalapp/Signal-Desktop',
+        'https://github.com/signalapp/Signal-Android',
+      ];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('excludes a link not at the end if the caret is inside of it', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = 30;
+
+      const expected = ['https://github.com/signalapp/Signal-Android'];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('excludes a link not at the end if the caret is at its end', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = 64;
+
+      const expected = ['https://github.com/signalapp/Signal-Android'];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('excludes a link at the end of the caret is inside of it', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = 100;
+
+      const expected = ['https://github.com/signalapp/Signal-Desktop'];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('includes link at the end if cursor is at its end', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = text.length;
+
+      const expected = [
+        'https://github.com/signalapp/Signal-Desktop',
+        'https://github.com/signalapp/Signal-Android',
+      ];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+  });
+
+  describe('#isLinkSneaky', () => {
+    it('returns false for all-latin domain', () => {
+      const link = 'https://www.amazon.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, false);
+    });
+
+    it('returns true for Latin + Cyrillic domain', () => {
+      const link = 'https://www.aмazon.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
+    });
+
+    it('returns true for Latin + Greek domain', () => {
+      const link = 'https://www.αpple.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
+    });
+
+    it('returns true for Latin + High Greek domain', () => {
+      const link = `https://www.apple${String.fromCodePoint(0x101a0)}.com`;
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
     });
   });
 });

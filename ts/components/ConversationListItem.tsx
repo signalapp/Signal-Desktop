@@ -1,5 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { Portal } from 'react-portal';
 
 import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
@@ -7,16 +10,17 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { Colors, Localizer } from '../types/Util';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { Colors, LocalizerType } from '../types/Util';
 
-interface Props {
+export type PropsData = {
+  id: string;
   phoneNumber: string;
+  color?: string;
   profileName?: string;
   name?: string;
-  color?: string;
-  conversationType: 'group' | 'direct';
+  type: 'group' | 'direct';
   avatarPath?: string;
+  isMe: boolean;
 
   lastUpdated: number;
   unreadCount: number;
@@ -27,14 +31,18 @@ interface Props {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
   };
-  showFriendRequestIndicator?: boolean;
-  isBlocked: boolean;
-  isOnline: boolean;
-  isMe: boolean;
-  hasNickname: boolean;
 
-  i18n: Localizer;
-  onClick?: () => void;
+  showFriendRequestIndicator?: boolean;
+  isBlocked?: boolean;
+  isOnline?: boolean;
+  hasNickname?: boolean;
+  isFriendItem?: boolean;
+};
+
+type PropsHousekeeping = {
+  i18n: LocalizerType;
+  style?: Object;
+  onClick?: (id: string) => void;
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
   onBlockContact?: () => void;
@@ -42,15 +50,18 @@ interface Props {
   onClearNickname?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
-}
+};
 
-export class ConversationListItem extends React.Component<Props> {
+type Props = PropsData & PropsHousekeeping;
+
+export class ConversationListItem extends React.PureComponent<Props> {
   public renderAvatar() {
     const {
       avatarPath,
       color,
-      conversationType,
+      type,
       i18n,
+      isMe,
       name,
       phoneNumber,
       profileName,
@@ -64,7 +75,8 @@ export class ConversationListItem extends React.Component<Props> {
         <Avatar
           avatarPath={avatarPath}
           color={color}
-          conversationType={conversationType}
+          noteToSelf={isMe}
+          conversationType={type}
           i18n={i18n}
           name={name}
           phoneNumber={phoneNumber}
@@ -95,10 +107,12 @@ export class ConversationListItem extends React.Component<Props> {
     const {
       unreadCount,
       i18n,
+      isMe,
       lastUpdated,
       name,
       phoneNumber,
       profileName,
+      isFriendItem,
     } = this.props;
 
     return (
@@ -111,28 +125,34 @@ export class ConversationListItem extends React.Component<Props> {
               : null
           )}
         >
-          <ContactName
-            phoneNumber={phoneNumber}
-            name={name}
-            profileName={profileName}
-            i18n={i18n}
-          />
-        </div>
-        <div
-          className={classNames(
-            'module-conversation-list-item__header__date',
-            unreadCount > 0
-              ? 'module-conversation-list-item__header__date--has-unread'
-              : null
+          {isMe ? (
+            i18n('noteToSelf')
+          ) : (
+            <ContactName
+              phoneNumber={phoneNumber}
+              name={name}
+              profileName={profileName}
+              i18n={i18n}
+            />
           )}
-        >
-          <Timestamp
-            timestamp={lastUpdated}
-            extended={false}
-            module="module-conversation-list-item__header__timestamp"
-            i18n={i18n}
-          />
         </div>
+        {!isFriendItem && (
+          <div
+            className={classNames(
+              'module-conversation-list-item__header__date',
+              unreadCount > 0
+                ? 'module-conversation-list-item__header__date--has-unread'
+                : null
+            )}
+          >
+            <Timestamp
+              timestamp={lastUpdated}
+              extended={false}
+              module="module-conversation-list-item__header__timestamp"
+              i18n={i18n}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -178,9 +198,24 @@ export class ConversationListItem extends React.Component<Props> {
   }
 
   public renderMessage() {
-    const { lastMessage, isTyping, unreadCount, i18n } = this.props;
+    const {
+      lastMessage,
+      isTyping,
+      unreadCount,
+      i18n,
+      isFriendItem,
+    } = this.props;
+
+    if (isFriendItem) {
+      return null;
+    }
 
     if (!lastMessage && !isTyping) {
+      return null;
+    }
+    const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+
+    if (isEmpty(text)) {
       return null;
     }
 
@@ -198,7 +233,7 @@ export class ConversationListItem extends React.Component<Props> {
             <TypingAnimation i18n={i18n} />
           ) : (
             <MessageBody
-              text={lastMessage && lastMessage.text ? lastMessage.text : ''}
+              text={text}
               disableJumbomoji={true}
               disableLinks={true}
               i18n={i18n}
@@ -224,9 +259,11 @@ export class ConversationListItem extends React.Component<Props> {
       phoneNumber,
       unreadCount,
       onClick,
+      id,
       isSelected,
       showFriendRequestIndicator,
       isBlocked,
+      style,
     } = this.props;
 
     const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
@@ -236,7 +273,12 @@ export class ConversationListItem extends React.Component<Props> {
         <ContextMenuTrigger id={triggerId}>
           <div
             role="button"
-            onClick={onClick}
+            onClick={() => {
+              if (onClick) {
+                onClick(id);
+              }
+            }}
+            style={style}
             className={classNames(
               'module-conversation-list-item',
               unreadCount > 0
@@ -256,7 +298,7 @@ export class ConversationListItem extends React.Component<Props> {
             </div>
           </div>
         </ContextMenuTrigger>
-        {this.renderContextMenu(triggerId)}
+        <Portal>{this.renderContextMenu(triggerId)}</Portal>
       </div>
     );
   }

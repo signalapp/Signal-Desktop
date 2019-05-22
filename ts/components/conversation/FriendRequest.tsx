@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 import { MessageBody } from './MessageBody';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   direction: 'incoming' | 'outgoing';
   status: string;
   friendStatus: 'pending' | 'accepted' | 'declined' | 'expired';
-  i18n: Localizer;
+  i18n: LocalizerType;
   isBlocked: boolean;
   onAccept: () => void;
   onDecline: () => void;

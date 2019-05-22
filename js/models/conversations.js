@@ -1,15 +1,18 @@
-/* global _: false */
-/* global Backbone: false */
-/* global BlockedNumberController: false */
-/* global ConversationController: false */
-/* global clipboard: false */
-/* global i18n: false */
-/* global profileImages: false */
-/* global storage: false */
-/* global textsecure: false */
-/* global Whisper: false */
-/* global lokiP2pAPI: false */
-/* global JobQueue: false */
+/* global
+  _,
+  i18n,
+  Backbone,
+  ConversationController,
+  MessageController,
+  storage,
+  textsecure,
+  Whisper,
+  profileImages,
+  clipboard,
+  BlockedNumberController,
+  lokiP2pAPI,
+  JobQueue
+*/
 
 /* eslint-disable more/no-then */
 
@@ -96,6 +99,17 @@
       this.trigger('messageError', message, errors);
     },
 
+    getContactCollection() {
+      const collection = new Backbone.Collection();
+      const collator = new Intl.Collator();
+      collection.comparator = (left, right) => {
+        const leftLower = left.getTitle().toLowerCase();
+        const rightLower = right.getTitle().toLowerCase();
+        return collator.compare(leftLower, rightLower);
+      };
+      return collection;
+    },
+
     initialize() {
       this.ourNumber = textsecure.storage.user.getNumber();
       this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
@@ -104,13 +118,7 @@
       //   our first save to the database. Or first fetch from the database.
       this.initialPromise = Promise.resolve();
 
-      this.contactCollection = new Backbone.Collection();
-      const collator = new Intl.Collator();
-      this.contactCollection.comparator = (left, right) => {
-        const leftLower = left.getTitle().toLowerCase();
-        const rightLower = right.getTitle().toLowerCase();
-        return collator.compare(leftLower, rightLower);
-      };
+      this.contactCollection = this.getContactCollection();
       this.messageCollection = new Whisper.MessageCollection([], {
         conversation: this,
       });
@@ -153,8 +161,6 @@
       this.unset('unidentifiedDeliveryUnrestricted');
       this.unset('hasFetchedProfile');
       this.unset('tokens');
-      this.unset('lastMessage');
-      this.unset('lastMessageStatus');
 
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
@@ -163,6 +169,13 @@
       this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
 
       this.messageSendQueue = new JobQueue();
+
+      // Keep props ready
+      const generateProps = () => {
+        this.cachedProps = this.getProps();
+      };
+      this.on('change', generateProps);
+      generateProps();
     },
 
     isOnline() {
@@ -250,14 +263,16 @@
     sendTypingMessage(isTyping) {
       const groupId = !this.isPrivate() ? this.id : null;
       const recipientId = this.isPrivate() ? this.id : null;
+      const groupNumbers = this.getRecipients();
 
       const sendOptions = this.getSendOptions();
       this.wrapSend(
         textsecure.messaging.sendTypingMessage(
           {
-            groupId,
             isTyping,
             recipientId,
+            groupId,
+            groupNumbers,
           },
           sendOptions
         )
@@ -351,27 +366,6 @@
       this.clearContactTypingTimer(identifier);
     },
 
-    addSingleMessage(message, setToExpire = true) {
-      const model = this.messageCollection.add(message, { merge: true });
-      if (setToExpire) model.setToExpire();
-      return model;
-    },
-    format() {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-      const color = this.getColor();
-
-      return {
-        phoneNumber: format(this.id, {
-          ourRegionCode: regionCode,
-        }),
-        color,
-        avatarPath: this.getAvatarPath(),
-        name: this.getName(),
-        profileName: this.getProfileName(),
-        title: this.getTitle(),
-      };
-    },
     // This goes through all our message history and finds a friend request
     async getFriendRequests(direction = null, status = ['pending']) {
       // Theoretically all our messages could be friend requests,
@@ -397,27 +391,50 @@
     async getPendingFriendRequests(direction = null) {
       return this.getFriendRequests(direction, ['pending']);
     },
-    getPropsForListItem() {
+
+    addSingleMessage(message, setToExpire = true) {
+      const model = this.messageCollection.add(message, { merge: true });
+      if (setToExpire) model.setToExpire();
+      return model;
+    },
+    format() {
+      return this.cachedProps;
+    },
+    getProps() {
+      const { format } = PhoneNumber;
+      const regionCode = storage.get('regionCode');
+      const color = this.getColor();
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const result = {
-        ...this.format(),
-        conversationType: this.isPrivate() ? 'direct' : 'group',
+        id: this.id,
 
+        isArchived: this.get('isArchived'),
+        activeAt: this.get('active_at'),
+        avatarPath: this.getAvatarPath(),
+        color,
+        type: this.isPrivate() ? 'direct' : 'group',
+        isMe: this.isMe(),
+        isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
+        name: this.getName(),
+        profileName: this.getProfileName(),
+        timestamp: this.get('timestamp'),
+        title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
-        isSelected: this.isSelected,
         showFriendRequestIndicator: this.isPendingFriendRequest(),
         isBlocked: this.isBlocked(),
 
-        isTyping: typingKeys.length > 0,
+        phoneNumber: format(this.id, {
+          ourRegionCode: regionCode,
+        }),
         lastMessage: {
-          status: this.lastMessageStatus,
-          text: this.lastMessage,
+          status: this.get('lastMessageStatus'),
+          text: this.get('lastMessage'),
         },
         isOnline: this.isOnline(),
-        isMe: this.isMe(),
         hasNickname: !!this.getNickname(),
+        isFriend: this.isFriend(),
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
@@ -867,8 +884,8 @@
     onMemberVerifiedChange() {
       // If the verified state of a member changes, our aggregate state changes.
       // We trigger both events to replicate the behavior of Backbone.Model.set()
-      this.trigger('change:verified');
-      this.trigger('change');
+      this.trigger('change:verified', this);
+      this.trigger('change', this);
     },
     toggleVerified() {
       if (this.isVerified()) {
@@ -970,14 +987,6 @@
     },
 
     async onReadMessage(message, readAt) {
-      const existing = this.messageCollection.get(message.id);
-      if (existing) {
-        const fetched = await window.Signal.Data.getMessageById(existing.id, {
-          Message: Whisper.Message,
-        });
-        existing.merge(fetched);
-      }
-
       // We mark as read everything older than this message - to clean up old stuff
       //   still marked unread in the database. If the user generally doesn't read in
       //   the desktop app, so the desktop app only gets read syncs, we can very
@@ -1076,41 +1085,20 @@
       return _.without(this.get('members'), me);
     },
 
-    async makeQuote(quotedMessage) {
-      const { getName } = Contact;
-      const contact = quotedMessage.getContact();
-      const attachments = quotedMessage.get('attachments');
-      const preview = quotedMessage.get('preview');
-
-      const body = quotedMessage.get('body');
-      const embeddedContact = quotedMessage.get('contact');
-      const embeddedContactName =
-        embeddedContact && embeddedContact.length > 0
-          ? getName(embeddedContact[0])
-          : '';
-
-      const media =
-        attachments && attachments.length ? attachments : preview || [];
-
-      return {
-        author: contact.id,
-        id: quotedMessage.get('sent_at'),
-        text: body || embeddedContactName,
-        attachments: await Promise.all(
-          media
+    async getQuoteAttachment(attachments, preview) {
+      if (attachments && attachments.length) {
+        return Promise.all(
+          attachments
             .filter(
               attachment =>
                 attachment &&
-                (attachment.image || (!attachment.pending && !attachment.error))
+                attachment.contentType &&
+                !attachment.pending &&
+                !attachment.error
             )
             .slice(0, 1)
             .map(async attachment => {
-              const { fileName } = attachment;
-
-              const thumbnail = attachment.thumbnail || attachment.image;
-              const contentType =
-                attachment.contentType ||
-                (attachment.image && attachment.image.contentType);
+              const { fileName, thumbnail, contentType } = attachment;
 
               return {
                 contentType,
@@ -1125,7 +1113,55 @@
                   : null,
               };
             })
-        ),
+        );
+      }
+
+      if (preview && preview.length) {
+        return Promise.all(
+          preview
+            .filter(item => item && item.image)
+            .slice(0, 1)
+            .map(async attachment => {
+              const { image } = attachment;
+              const { contentType } = image;
+
+              return {
+                contentType,
+                // Our protos library complains about this field being undefined, so we
+                //   force it to null
+                fileName: null,
+                thumbnail: image
+                  ? {
+                      ...(await loadAttachmentData(image)),
+                      objectUrl: getAbsoluteAttachmentPath(image.path),
+                    }
+                  : null,
+              };
+            })
+        );
+      }
+
+      return [];
+    },
+
+    async makeQuote(quotedMessage) {
+      const { getName } = Contact;
+      const contact = quotedMessage.getContact();
+      const attachments = quotedMessage.get('attachments');
+      const preview = quotedMessage.get('preview');
+
+      const body = quotedMessage.get('body');
+      const embeddedContact = quotedMessage.get('contact');
+      const embeddedContactName =
+        embeddedContact && embeddedContact.length > 0
+          ? getName(embeddedContact[0])
+          : '';
+
+      return {
+        author: contact.id,
+        id: quotedMessage.get('sent_at'),
+        text: body || embeddedContactName,
+        attachments: await this.getQuoteAttachment(attachments, preview),
       };
     },
 
@@ -1212,9 +1248,20 @@
           });
         }
 
-        const message = this.addSingleMessage(messageWithSchema);
-        this.lastMessage = message.getNotificationText();
-        this.lastMessageStatus = 'sending';
+        if (this.isPrivate()) {
+          messageWithSchema.destination = destination;
+        }
+        const attributes = {
+          ...messageWithSchema,
+          id: window.getGuid(),
+        };
+
+        const model = this.addSingleMessage(attributes);
+        const message = MessageController.register(model.id, model);
+        await window.Signal.Data.saveMessage(message.attributes, {
+          forceSave: true,
+          Message: Whisper.Message,
+        });
 
         if (this.isPrivate()) {
           message.set({ destination });
@@ -1226,8 +1273,11 @@
         message.set({ id });
 
         this.set({
+          lastMessage: model.getNotificationText(),
+          lastMessageStatus: 'sending',
           active_at: now,
           timestamp: now,
+          isArchived: false,
         });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
@@ -1245,13 +1295,68 @@
           return null;
         }
 
+        const attachmentsWithData = await Promise.all(
+          messageWithSchema.attachments.map(loadAttachmentData)
+        );
+
+        const {
+          body: messageBody,
+          attachments: finalAttachments,
+        } = Whisper.Message.getLongMessageAttachment({
+          body,
+          attachments: attachmentsWithData,
+          now,
+        });
+
+        // Special-case the self-send case - we send only a sync message
+        if (this.isMe()) {
+          const dataMessage = await textsecure.messaging.getMessageProto(
+            destination,
+            messageBody,
+            finalAttachments,
+            quote,
+            preview,
+            now,
+            expireTimer,
+            profileKey
+          );
+          return message.sendSyncMessageOnly(dataMessage);
+        }
+
         const conversationType = this.get('type');
-        const sendFunction = (() => {
+
+        const options = this.getSendOptions();
+        options.messageType = message.get('type');
+
+        const groupNumbers = this.getRecipients();
+
+        const promise = (() => {
           switch (conversationType) {
             case Message.PRIVATE:
-              return textsecure.messaging.sendMessageToNumber;
+              return textsecure.messaging.sendMessageToNumber(
+                destination,
+                messageBody,
+                finalAttachments,
+                quote,
+                preview,
+                now,
+                expireTimer,
+                profileKey,
+                options
+              );
             case Message.GROUP:
-              return textsecure.messaging.sendMessageToGroup;
+              return textsecure.messaging.sendMessageToGroup(
+                destination,
+                groupNumbers,
+                messageBody,
+                finalAttachments,
+                quote,
+                preview,
+                now,
+                expireTimer,
+                profileKey,
+                options
+              );
             default:
               throw new TypeError(
                 `Invalid conversation type: '${conversationType}'`
@@ -1259,30 +1364,9 @@
           }
         })();
 
-        const attachmentsWithData = await Promise.all(
-          messageWithSchema.attachments.map(loadAttachmentData)
-        );
-
-        const options = this.getSendOptions();
-        options.messageType = message.get('type');
-
         // Add the message sending on another queue so that our UI doesn't get blocked
         this.queueMessageSend(async () => {
-          message.send(
-            this.wrapSend(
-              sendFunction(
-                destination,
-                body,
-                attachmentsWithData,
-                quote,
-                preview,
-                now,
-                expireTimer,
-                profileKey,
-                options
-              )
-            )
-          );
+          message.send(this.wrapSend(promise));
         });
 
         return true;
@@ -1473,7 +1557,6 @@
         ? lastMessageModel.getMessagePropStatus()
         : null;
       const lastMessageUpdate = Conversation.createLastMessageUpdate({
-        currentLastMessageText: this.get('lastMessage') || null,
         currentTimestamp: this.get('timestamp') || null,
         lastMessage: lastMessageJSON,
         lastMessageStatus: lastMessageStatusModel,
@@ -1481,17 +1564,6 @@
           ? lastMessageModel.getNotificationText()
           : null,
       });
-
-      let hasChanged = false;
-      const { lastMessage, lastMessageStatus } = lastMessageUpdate;
-      delete lastMessageUpdate.lastMessage;
-      delete lastMessageUpdate.lastMessageStatus;
-
-      hasChanged = hasChanged || lastMessage !== this.lastMessage;
-      this.lastMessage = lastMessage;
-
-      hasChanged = hasChanged || lastMessageStatus !== this.lastMessageStatus;
-      this.lastMessageStatus = lastMessageStatus;
 
       // Because we're no longer using Backbone-integrated saves, we need to manually
       //   clear the changed fields here so our hasChanged() check below is useful.
@@ -1502,9 +1574,14 @@
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
-      } else if (hasChanged) {
-        this.trigger('change');
       }
+    },
+
+    async setArchived(isArchived) {
+      this.set({ isArchived });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
 
     async updateExpirationTimer(
@@ -1578,25 +1655,48 @@
         return message;
       }
 
-      let sendFunc;
-      if (this.get('type') === 'private') {
-        sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
-      } else {
-        sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
-      }
       let profileKey;
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
-
       const sendOptions = this.getSendOptions();
-      const promise = sendFunc(
-        this.get('id'),
-        this.get('expireTimer'),
-        message.get('sent_at'),
-        profileKey,
-        sendOptions
-      );
+      let promise;
+
+      if (this.isMe()) {
+        const flags =
+          textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+        const dataMessage = await textsecure.messaging.getMessageProto(
+          this.get('id'),
+          null,
+          [],
+          null,
+          [],
+          message.get('sent_at'),
+          expireTimer,
+          profileKey,
+          flags
+        );
+        return message.sendSyncMessageOnly(dataMessage);
+      }
+
+      if (this.get('type') === 'private') {
+        promise = textsecure.messaging.sendExpirationTimerUpdateToNumber(
+          this.get('id'),
+          expireTimer,
+          message.get('sent_at'),
+          profileKey,
+          sendOptions
+        );
+      } else {
+        promise = textsecure.messaging.sendExpirationTimerUpdateToGroup(
+          this.get('id'),
+          this.getRecipients(),
+          expireTimer,
+          message.get('sent_at'),
+          profileKey,
+          sendOptions
+        );
+      }
 
       await message.send(this.wrapSend(promise));
 
@@ -1738,6 +1838,7 @@
     async leaveGroup() {
       const now = Date.now();
       if (this.get('type') === 'group') {
+        const groupNumbers = this.getRecipients();
         this.set({ left: true });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
@@ -1758,7 +1859,9 @@
 
         const options = this.getSendOptions();
         message.send(
-          this.wrapSend(textsecure.messaging.leaveGroup(this.id, options))
+          this.wrapSend(
+            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
+          )
         );
       }
     },
@@ -1781,11 +1884,9 @@
 
       let read = await Promise.all(
         _.map(oldUnread, async providedM => {
-          let m = providedM;
+          const m = MessageController.register(providedM.id, providedM);
 
-          if (this.messageCollection.get(m.id)) {
-            m = this.messageCollection.get(m.id);
-          } else {
+          if (!this.messageCollection.get(m.id)) {
             window.log.warn(
               'Marked a message as read in the database, but ' +
                 'it was not in messageCollection.'
@@ -2108,7 +2209,7 @@
       if (this.isPrivate()) {
         return this.get('name');
       }
-      return this.get('name') || 'Unknown group';
+      return this.get('name') || i18n('unknownGroup');
     },
 
     getTitle() {
@@ -2340,14 +2441,14 @@
         if (!record) {
           // User was not previously typing before. State change!
           this.trigger('typing-update');
-          this.trigger('change');
+          this.trigger('change', this);
         }
       } else {
         delete this.contactTypingTimers[identifier];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('typing-update');
-          this.trigger('change');
+          this.trigger('change', this);
         }
       }
     },
@@ -2362,7 +2463,7 @@
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('typing-update');
-        this.trigger('change');
+        this.trigger('change', this);
       }
     },
   });
@@ -2383,21 +2484,6 @@
         )
       );
       this.reset([]);
-    },
-
-    async search(providedQuery) {
-      let query = providedQuery.trim().toLowerCase();
-      query = query.replace(/[+-.()]*/g, '');
-
-      if (query.length === 0) {
-        return;
-      }
-
-      const collection = await window.Signal.Data.searchConversations(query, {
-        ConversationCollection: Whisper.ConversationCollection,
-      });
-
-      this.reset(collection.models);
     },
   });
 

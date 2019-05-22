@@ -523,9 +523,11 @@
       return new Promise((resolve, reject) => {
         const FR = new FileReader();
         FR.onload = e => {
+          const data = e.target.result;
           resolve({
             ...attachment,
-            data: e.target.result,
+            data,
+            size: data.byteLength,
           });
         };
         FR.onerror = reject;

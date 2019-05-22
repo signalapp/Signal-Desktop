@@ -64,6 +64,13 @@
     },
   });
 
+  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
+  Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('messageBodyTooLong') };
+    },
+  });
+
   Whisper.ConversationLoadingScreen = Whisper.View.extend({
     templateName: 'conversation-loading-screen',
     className: 'conversation-loading-screen',
@@ -81,7 +88,6 @@
       return {
         'disable-inputs': false,
         'send-message': i18n('sendMessage'),
-        'android-length-warning': i18n('androidMessageLengthWarning'),
       };
     },
     initialize(options) {
@@ -92,6 +98,7 @@
       this.listenTo(this.model, 'prune', this.onPrune);
       this.listenTo(this.model, 'disable:input', this.onDisableInput);
       this.listenTo(this.model, 'change:placeholder', this.onChangePlaceholder);
+      this.listenTo(this.model, 'unload', () => this.unload('model trigger'));
       this.listenTo(this.model, 'typing-update', this.renderTypingBubble);
       this.listenTo(
         this.model.messageCollection,
@@ -190,12 +197,15 @@
           profileName: this.model.getProfileName(),
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
+
           isVerified: this.model.isVerified(),
           isKeysPending: !this.model.isFriend(),
           isMe: this.model.isMe(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
           isOnline: this.model.isOnline(),
+          isArchived: this.model.get('isArchived'),
+
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
@@ -219,8 +229,8 @@
             await this.showAllMedia();
             this.updateHeader();
           },
-          onShowGroupMembers: () => {
-            this.showMembers();
+          onShowGroupMembers: async () => {
+            await this.showMembers();
             this.updateHeader();
           },
           onGoBack: () => {
@@ -242,6 +252,13 @@
           },
           onCopyPublicKey: () => {
             this.model.copyPublicKey();
+          },
+          onArchive: () => {
+            this.unload('archive');
+            this.model.setArchived(true);
+          },
+          onMoveToInbox: () => {
+            this.model.setArchived(false);
           },
         };
       };
@@ -587,13 +604,6 @@
       }
       */
     },
-    toggleLengthWarning() {
-      if (this.$('.send-message').val().length > 2000) {
-        this.$('.android-length-warning').show();
-      } else {
-        this.$('.android-length-warning').hide();
-      }
-    },
     captureAudio(e) {
       e.preventDefault();
 
@@ -782,13 +792,15 @@
         const collection = await window.Signal.Data.getMessagesBySentAt(id, {
           MessageCollection: Whisper.MessageCollection,
         });
-        const messageFromDatabase = collection.find(item => {
-          const messageAuthor = item.getContact();
+        const found = Boolean(
+          collection.find(item => {
+            const messageAuthor = item.getContact();
 
-          return messageAuthor && author === messageAuthor.id;
-        });
+            return messageAuthor && author === messageAuthor.id;
+          })
+        );
 
-        if (messageFromDatabase) {
+        if (found) {
           const toast = new Whisper.FoundButNotLoadedToast();
           toast.$el.appendTo(this.$el);
           toast.render();
@@ -823,119 +835,140 @@
       const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
       const conversationId = this.model.get('id');
-      const rawMedia = await Signal.Data.getMessagesWithVisualMediaAttachments(
-        conversationId,
-        {
-          limit: DEFAULT_MEDIA_FETCH_COUNT,
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
-      const rawDocuments = await Signal.Data.getMessagesWithFileAttachments(
-        conversationId,
-        {
-          limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
 
-      // First we upgrade these messages to ensure that they have thumbnails
-      for (let max = rawMedia.length, i = 0; i < max; i += 1) {
-        const message = rawMedia[i];
-        const { schemaVersion } = message;
-
-        if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
-          // Yep, we really do want to wait for each of these
-          // eslint-disable-next-line no-await-in-loop
-          rawMedia[i] = await upgradeMessageSchema(message);
-          // eslint-disable-next-line no-await-in-loop
-          await window.Signal.Data.saveMessage(rawMedia[i], {
-            Message: Whisper.Message,
-          });
-        }
-      }
-
-      const media = _.flatten(
-        rawMedia.map(message => {
-          const { attachments } = message;
-          return (attachments || []).map((attachment, index) => {
-            const { thumbnail } = attachment;
-
-            return {
-              objectURL: getAbsoluteAttachmentPath(attachment.path),
-              thumbnailObjectUrl: thumbnail
-                ? getAbsoluteAttachmentPath(thumbnail.path)
-                : null,
-              contentType: attachment.contentType,
-              index,
-              attachment,
-              message,
-            };
-          });
-        })
-      );
-
-      // Unlike visual media, only one non-image attachment is supported
-      const documents = rawDocuments.map(message => {
-        const attachments = message.attachments || [];
-        const attachment = attachments[0];
-        return {
-          contentType: attachment.contentType,
-          index: 0,
-          attachment,
-          message,
-        };
-      });
-
-      const saveAttachment = async ({ attachment, message } = {}) => {
-        const timestamp = message.received_at;
-        Signal.Types.Attachment.save({
-          attachment,
-          document,
-          getAbsolutePath: getAbsoluteAttachmentPath,
-          timestamp,
-        });
-      };
-
-      const onItemClick = async ({ message, attachment, type }) => {
-        switch (type) {
-          case 'documents': {
-            saveAttachment({ message, attachment });
-            break;
+      const getProps = async () => {
+        const rawMedia = await Signal.Data.getMessagesWithVisualMediaAttachments(
+          conversationId,
+          {
+            limit: DEFAULT_MEDIA_FETCH_COUNT,
+            MessageCollection: Whisper.MessageCollection,
           }
+        );
+        const rawDocuments = await Signal.Data.getMessagesWithFileAttachments(
+          conversationId,
+          {
+            limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
+            MessageCollection: Whisper.MessageCollection,
+          }
+        );
 
-          case 'media': {
-            const selectedIndex = media.findIndex(
-              mediaMessage => mediaMessage.attachment.path === attachment.path
-            );
-            this.lightboxGalleryView = new Whisper.ReactWrapperView({
-              className: 'lightbox-wrapper',
-              Component: Signal.Components.LightboxGallery,
-              props: {
-                media,
-                onSave: saveAttachment,
-                selectedIndex,
-              },
-              onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+        // First we upgrade these messages to ensure that they have thumbnails
+        for (let max = rawMedia.length, i = 0; i < max; i += 1) {
+          const message = rawMedia[i];
+          const { schemaVersion } = message;
+
+          if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
+            // Yep, we really do want to wait for each of these
+            // eslint-disable-next-line no-await-in-loop
+            rawMedia[i] = await upgradeMessageSchema(message);
+            // eslint-disable-next-line no-await-in-loop
+            await window.Signal.Data.saveMessage(rawMedia[i], {
+              Message: Whisper.Message,
             });
-            Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
-            break;
           }
-
-          default:
-            throw new TypeError(`Unknown attachment type: '${type}'`);
         }
+
+        const media = _.flatten(
+          rawMedia.map(message => {
+            const { attachments } = message;
+            return (attachments || [])
+              .filter(
+                attachment =>
+                  attachment.thumbnail &&
+                  !attachment.pending &&
+                  !attachment.error
+              )
+              .map((attachment, index) => {
+                const { thumbnail } = attachment;
+
+                return {
+                  objectURL: getAbsoluteAttachmentPath(attachment.path),
+                  thumbnailObjectUrl: thumbnail
+                    ? getAbsoluteAttachmentPath(thumbnail.path)
+                    : null,
+                  contentType: attachment.contentType,
+                  index,
+                  attachment,
+                  message,
+                };
+              });
+          })
+        );
+
+        // Unlike visual media, only one non-image attachment is supported
+        const documents = rawDocuments.map(message => {
+          const attachments = message.attachments || [];
+          const attachment = attachments[0];
+          return {
+            contentType: attachment.contentType,
+            index: 0,
+            attachment,
+            message,
+          };
+        });
+
+        const saveAttachment = async ({ attachment, message } = {}) => {
+          const timestamp = message.received_at;
+          Signal.Types.Attachment.save({
+            attachment,
+            document,
+            getAbsolutePath: getAbsoluteAttachmentPath,
+            timestamp,
+          });
+        };
+
+        const onItemClick = async ({ message, attachment, type }) => {
+          switch (type) {
+            case 'documents': {
+              saveAttachment({ message, attachment });
+              break;
+            }
+
+            case 'media': {
+              const selectedIndex = media.findIndex(
+                mediaMessage => mediaMessage.attachment.path === attachment.path
+              );
+              this.lightboxGalleryView = new Whisper.ReactWrapperView({
+                className: 'lightbox-wrapper',
+                Component: Signal.Components.LightboxGallery,
+                props: {
+                  media,
+                  onSave: saveAttachment,
+                  selectedIndex,
+                },
+                onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+              });
+              Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
+              break;
+            }
+
+            default:
+              throw new TypeError(`Unknown attachment type: '${type}'`);
+          }
+        };
+
+        return {
+          documents,
+          media,
+          onItemClick,
+        };
       };
 
       const view = new Whisper.ReactWrapperView({
         className: 'panel-wrapper',
         Component: Signal.Components.MediaGallery,
-        props: {
-          documents,
-          media,
-          onItemClick,
+        props: await getProps(),
+        onClose: () => {
+          this.stopListening(this.model.messageCollection, 'remove', update);
+          this.resetPanel();
         },
-        onClose: () => this.resetPanel(),
       });
+
+      const update = async () => {
+        view.update(await getProps());
+      };
+
+      this.listenTo(this.model.messageCollection, 'remove', update);
 
       this.listenBack(view);
     },
@@ -1183,13 +1216,12 @@
       }
     },
 
-    showMembers(e, providedMembers, options = {}) {
+    async showMembers(e, providedMembers, options = {}) {
       _.defaults(options, { needVerify: false });
 
-      const members = providedMembers || this.model.contactCollection;
-
+      const model = providedMembers || this.model.contactCollection;
       const view = new Whisper.GroupMemberList({
-        model: members,
+        model,
         // we pass this in to allow nested panels
         listenBack: this.listenBack.bind(this),
         needVerify: options.needVerify,
@@ -1288,7 +1320,19 @@
       }
 
       const attachments = message.get('attachments') || [];
-      if (attachments.length === 1) {
+
+      const media = attachments
+        .filter(item => item.thumbnail && !item.pending && !item.error)
+        .map((item, index) => ({
+          objectURL: getAbsoluteAttachmentPath(item.path),
+          path: item.path,
+          contentType: item.contentType,
+          index,
+          message,
+          attachment: item,
+        }));
+
+      if (media.length === 1) {
         const props = {
           objectURL: getAbsoluteAttachmentPath(path),
           contentType,
@@ -1299,30 +1343,28 @@
           className: 'lightbox-wrapper',
           Component: Signal.Components.Lightbox,
           props,
-          onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+          onClose: () => {
+            Signal.Backbone.Views.Lightbox.hide();
+            this.stopListening(message);
+          },
         });
+        this.listenTo(message, 'expired', () => this.lightboxView.remove());
         Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
         return;
       }
 
       const selectedIndex = _.findIndex(
-        attachments,
+        media,
         item => attachment.path === item.path
       );
-      const media = attachments.map((item, index) => ({
-        objectURL: getAbsoluteAttachmentPath(item.path),
-        contentType: item.contentType,
-        index,
-        message,
-        attachment: item,
-      }));
 
       const onSave = async (options = {}) => {
         Signal.Types.Attachment.save({
           attachment: options.attachment,
           document,
+          index: options.index + 1,
           getAbsolutePath: getAbsoluteAttachmentPath,
-          timestamp: options.message.received_at,
+          timestamp: options.message.get('sent_at'),
         });
       };
 
@@ -1335,26 +1377,35 @@
         className: 'lightbox-wrapper',
         Component: Signal.Components.LightboxGallery,
         props,
-        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+        onClose: () => {
+          Signal.Backbone.Views.Lightbox.hide();
+          this.stopListening(message);
+        },
       });
+      this.listenTo(message, 'expired', () =>
+        this.lightboxGalleryView.remove()
+      );
       Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
     showMessageDetail(message) {
+      const onClose = () => {
+        this.stopListening(message, 'change', update);
+        this.resetPanel();
+        this.updateHeader();
+      };
+
       const props = message.getPropsForMessageDetail();
       const view = new Whisper.ReactWrapperView({
         className: 'message-detail-wrapper',
         Component: Signal.Components.MessageDetail,
         props,
-        onClose: () => {
-          this.stopListening(message, 'change', update);
-          this.resetPanel();
-          this.updateHeader();
-        },
+        onClose,
       });
 
       const update = () => view.update(message.getPropsForMessageDetail());
       this.listenTo(message, 'change', update);
+      this.listenTo(message, 'expired', onClose);
       // We could listen to all involved contacts, but we'll call that overkill
 
       this.listenBack(view);
@@ -1394,11 +1445,7 @@
     },
 
     async openConversation(number) {
-      const conversation = await window.ConversationController.getOrCreateAndWait(
-        number,
-        'private'
-      );
-      window.Whisper.events.trigger('showConversation', conversation);
+      window.Whisper.events.trigger('showConversation', number);
     },
 
     listenBack(view) {
@@ -1442,8 +1489,15 @@
       Whisper.events.trigger('showConfirmationDialog', {
         message: i18n('deleteConversationConfirmation'),
         onOk: async () => {
-          await this.model.destroyMessages();
-          this.remove();
+          try {
+            await this.model.destroyMessages();
+            this.unload('delete messages');
+          } catch (error) {
+            window.log.error(
+              'destroyMessages: Failed to successfully delete conversation',
+              error && error.stack ? error.stack : error
+            );
+          }
         },
       });
     },
@@ -1661,6 +1715,9 @@
       this.closeEmojiPanel();
       this.model.clearTypingTimers();
 
+      const input = this.$messageField;
+      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
+
       let toast;
       if (extension.expired()) {
         toast = new Whisper.ExpiredToast();
@@ -1674,6 +1731,9 @@
       if (!this.model.isPrivate() && this.model.get('left')) {
         toast = new Whisper.LeftGroupToast();
       }
+      if (message.length > MAX_MESSAGE_BODY_LENGTH) {
+        toast = new Whisper.MessageBodyTooLongToast();
+      }
 
       if (toast) {
         toast.$el.appendTo(this.$el);
@@ -1681,17 +1741,6 @@
         this.focusMessageFieldAndClearDisabled();
         return;
       }
-
-      const input = this.$messageField;
-      const inputMessage = window.Signal.Emoji.replaceColons(
-        input.val()
-      ).trim();
-
-      // Limit the message to 2000 characters
-      const message = inputMessage.substring(
-        0,
-        Math.min(2000, inputMessage.length)
-      );
 
       try {
         if (!message.length && !this.fileInput.hasFiles()) {
@@ -1749,6 +1798,7 @@
       }
 
       const messageText = this.$messageField.val().trim();
+      const caretLocation = this.$messageField.get(0).selectionStart;
 
       if (!messageText) {
         this.resetLinkPreview();
@@ -1758,7 +1808,10 @@
         return;
       }
 
-      const links = window.Signal.LinkPreviews.findLinks(messageText);
+      const links = window.Signal.LinkPreviews.findLinks(
+        messageText,
+        caretLocation
+      );
       const { currentlyMatchedLink } = this;
       if (links.includes(currentlyMatchedLink)) {
         return;
@@ -2054,7 +2107,6 @@
         return;
       }
       this.toggleMicrophone();
-      this.toggleLengthWarning();
 
       this.view.measureScrollPosition();
       window.autosize(this.$messageField);

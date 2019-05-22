@@ -26,8 +26,8 @@
 echo "Releasing $NAME build version $VERSION"
 
 REPO=signal-desktop
-CURRENT=artful
-PREVIOUS=xenial
+CURRENT=xenial
+# PREVIOUS=xenial
 ENDPOINT=signal-desktop-apt # Matches endpoint name in .aptly.conf
 SNAPSHOT=signal-desktop_v$VERSION
 GPG_KEYID=57F6FB06
@@ -46,7 +46,7 @@ aptly snapshot create $SNAPSHOT from repo $REPO
 # these update already-published repos, run every time after that
 #   https://www.aptly.info/doc/aptly/publish/switch/
 aptly publish switch -gpg-key=$GPG_KEYID $CURRENT $SNAPSHOT
-aptly publish switch -gpg-key=$GPG_KEYID $PREVIOUS $SNAPSHOT
+# aptly publish switch -gpg-key=$GPG_KEYID $PREVIOUS $SNAPSHOT
 aptly publish switch -gpg-key=$GPG_KEYID -config=.aptly.conf $CURRENT s3:$ENDPOINT: $SNAPSHOT
-aptly publish switch -gpg-key=$GPG_KEYID -config=.aptly.conf $PREVIOUS s3:$ENDPOINT: $SNAPSHOT
+# aptly publish switch -gpg-key=$GPG_KEYID -config=.aptly.conf $PREVIOUS s3:$ENDPOINT: $SNAPSHOT
 

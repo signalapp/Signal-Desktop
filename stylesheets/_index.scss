@@ -1,3 +1,7 @@
+.conversation-stack {
+  position: relative;
+}
+
 .conversation-stack,
 .new-conversation,
 .inbox,
@@ -182,12 +186,13 @@ h4.section-toggle,
   }
 }
 
-.underneathIdentityWrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 300px;
-  right: 0;
+.left-pane-placeholder {
+  flex-grow: 1;
+  display: flex;
+}
+
+.left-pane-wrapper {
+  flex: 1;
 }
 
 .conversation-stack {

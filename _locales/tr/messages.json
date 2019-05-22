@@ -1,4 +1,20 @@
 {
+    "copyErrorAndQuit": {
+        "message": "Hatayı kopyala ve çık",
+        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "unknownGroup": {
+        "message": "Bilinmeyen grup",
+        "description": "Shown as the name of a group if we don't have any information about it"
+    },
+    "databaseError": {
+        "message": "Veritabanı hatası",
+        "description": "Shown in a popup if the database cannot start up properly"
+    },
+    "deleteAndRestart": {
+        "message": "Tüm verileri sil ve yeniden başlat",
+        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    },
     "mainMenuFile": {
         "message": "&Dosya",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -136,7 +152,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Mesajlar optimize ediliyor... $status$ tamamlandı.",
+        "message": "İletiler optimize ediliyor... $status$ tamamlandı.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -144,6 +160,22 @@
                 "example": "45/200"
             }
         }
+    },
+    "archivedConversations": {
+        "message": "Arşivlenmiş Sohbetler",
+        "description": "Shown in place of the search box when showing archived conversation list"
+    },
+    "archiveHelperText": {
+        "message": "Bu sohbetler arşivlendi ve sadece yeni iletiler alınırsa gelen kutusunda görünecekler.",
+        "description": "Shown at the top of the archived converations list in the left pane"
+    },
+    "archiveConversation": {
+        "message": "Sohbeti Arşivle",
+        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
+    },
+    "moveConversationToInbox": {
+        "message": "Sohbeti Gelen Kutusuna Taşı",
+        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
         "message": "Klasör seçin",
@@ -158,7 +190,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Dışa aktarma işlemini tamamladınız ve kişileriniz ile mesajlarınız sabırla  bilgisayarınızda bekliyor. Kaydettiğiniz Signal verilerinizi içeren klasörü seçin.",
+        "message": "Dışa aktarma işlemini tamamladınız ve kişileriniz ile iletileriniz sabırla  bilgisayarınızda bekliyor. Kaydettiğiniz Signal verilerinizi içeren klasörü seçin.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +202,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Kişiler ve mesajlar yükleniyor",
+        "message": "Kişiler ve iletiler yükleniyor",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -206,7 +238,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Mesajlar yükleniyor. Şimdiye kadar $count$...",
+        "message": "İletiler yükleniyor. Şimdiye kadar $count$...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -232,19 +264,19 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messageBelow": {
-        "message": "Aşağıda yeni mesaj var",
+        "message": "Aşağıda yeni ileti var",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
-        "message": "Aşağıda yeni mesajlar var",
+        "message": "Aşağıda yeni iletiler var",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 Okunmamış Mesaj",
+        "message": "1 Okunmamış İleti",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ Okunmamış Mesaj",
+        "message": "$count$ Okunmamış İleti",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -428,7 +460,7 @@
         "description": ""
     },
     "incomingError": {
-        "message": "Gelen mesaj işlenirken hata oluştu",
+        "message": "Gelen ileti işlenirken hata oluştu",
         "description": ""
     },
     "media": {
@@ -476,7 +508,7 @@
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Sesli Mesaj",
+        "message": "Sesli İleti",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
@@ -518,19 +550,19 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Görüntü olmayan eklentiler içerildiğinde, mesaj başı eklenti sınırı birdir.",
+        "message": "Görüntü olmayan eklentiler içerildiğinde, ileti başı eklenti sınırı birdir.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "Görüntü ve görüntü olmayan eklentileri tek mesajda birleştiremezsiniz.",
+        "message": "Görüntü ve görüntü olmayan eklentileri tek iletide birleştiremezsiniz.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Bu mesaja daha fazla eklenti ekleyemezsiniz.",
+        "message": "Bu iletiye daha fazla eklenti ekleyemezsiniz.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Üzgünüz, seçilen dosya mesaj boyutu kısıtlamalarını aşıyor.",
+        "message": "Üzgünüz, seçilen dosya ileti boyutu kısıtlamalarını aşıyor.",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -611,13 +643,35 @@
         "message": "Çıkış Yap",
         "description": "Command in the tray icon menu, to quit the application"
     },
-    "trayTooltip": {
+    "signalDesktop": {
         "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
-    "searchForPeopleOrGroups": {
-        "message": "İsim ya da numara girin",
+    "search": {
+        "message": "Ara",
         "description": "Placeholder text in the search input"
+    },
+    "noSearchResults": {
+        "message": "\"$searchTerm$\" için arama sonucu yok",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            }
+        }
+    },
+    "conversationsHeader": {
+        "message": "Sohbetler",
+        "description": "Shown to separate the types of search results"
+    },
+    "contactsHeader": {
+        "message": "Kişiler",
+        "description": "Shown to separate the types of search results"
+    },
+    "messagesHeader": {
+        "message": "İletiler",
+        "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
         "message": "Signal'e Hoşgeldin",
@@ -642,7 +696,7 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Mesaj Gönder",
+        "message": "İleti Gönder",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
@@ -673,28 +727,32 @@
         "message": "Posta Kutusu",
         "description": "When rendering an address, used to provide context to a post office box"
     },
+    "downloading": {
+        "message": "İndiriliyor",
+        "description": "Shown in the message bubble while a long message attachment is being downloaded"
+    },
     "downloadAttachment": {
         "message": "Eklentiyi İndir",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Mesajı Yanıtla",
+        "message": "İletiyi Yanıtla",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Mesajın aslı bulunamadı",
+        "message": "İletinin aslı bulunamadı",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Mesajın aslı artık mevcut değil",
+        "message": "İletinin aslı artık mevcut değil",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Mesajın aslı bulundu, ama yüklenmedi. Yüklemek için yukarıya kaydırın.",
+        "message": "İletinin aslı bulundu, ama yüklenmedi. Yüklemek için yukarıya kaydırın.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Sesli not bir mesajda içerilen tek eklenti olmalıdır.",
+        "message": "Sesli not bir iletide içerilen tek eklenti olmalıdır.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
@@ -712,7 +770,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Sesli mesajlar göndermek için, Signal Desktop'ın mikrofonunuza erişimine izin verin.",
+        "message": "Sesli iletiler göndermek için, Signal Desktop'ın mikrofonunuza erişimine izin verin.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -735,6 +793,18 @@
         "message": "Fotoğraf",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "cannotUpdate": {
+        "message": "Cannot Update",
+        "description": "Shown as the title of our update error dialogs on windows"
+    },
+    "cannotUpdateDetail": {
+        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "description": "Shown if a general error happened while trying to install update package"
+    },
+    "readOnlyVolume": {
+        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+    },
     "ok": {
         "message": "TAMAM",
         "description": ""
@@ -752,7 +822,7 @@
         "description": ""
     },
     "messageDetail": {
-        "message": "Mesaj Detayı",
+        "message": "İleti Detayı",
         "description": ""
     },
     "delete": {
@@ -760,11 +830,11 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Emin misiniz? 'Sil'e tıklamak bu mesajı sadece bu cihazdan kalıcı olarak silecektir.",
+        "message": "Emin misiniz? 'Sil'e tıklamak bu iletiyi sadece bu cihazdan kalıcı olarak silecektir.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Bu mesajı sil",
+        "message": "Bu iletiyi sil",
         "description": ""
     },
     "from": {
@@ -772,7 +842,7 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Alıcı",
+        "message": "alıcı",
         "description": "Label for the receiver of a message"
     },
     "sent": {
@@ -784,7 +854,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Mesaj gönder",
+        "message": "İleti gönder",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -818,7 +888,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Bu kişiyle herhangi bir mesajlaşmada bulunmadınız. Güvenlik numaralarınız ilk mesajdan sonra oluşturulacaktır.",
+        "message": "Bu kişiyle herhangi bir iletişimde bulunmadınız. Güvenlik numaralarınız ilk iletiden sonra oluşturulacaktır.",
         "description": ""
     },
     "moreInfo": {
@@ -830,11 +900,11 @@
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Mesajı Sil",
+        "message": "İletiyi Sil",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Mesajları sil",
+        "message": "İletileri sil",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
@@ -846,15 +916,15 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Alıntılanmış mesajdaki görüntünün önizlemesi",
+        "message": "Alıntılanmış iletideki görüntünün önizlemesi",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Mesaja görüntü eklenmiş",
+        "message": "İletiye görüntü eklenmiş",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Mesaja eklenen videonun ekran görüntüsü",
+        "message": "İletiye eklenen videonun ekran görüntüsü",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
@@ -959,16 +1029,8 @@
         "message": "Genel",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Bağlantı Ön İzlemelerini Gönder",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Ön izlemeler Imgur, Instagram, Reddit, ve YouTube bağlantıları için desteklenmektedir.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
-        "message": "Mesaj kutusuna girilen sözcüklerin denetlenmesini etkinleştir",
+        "message": "İleti kutusuna girilen sözcüklerin denetlenmesini etkinleştir",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
@@ -976,7 +1038,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Bu, tüm mesajları ve kayıtlı hesap bilgilerini kaldırarak uygulamadaki tüm verileri temizler.",
+        "message": "Bu, tüm iletileri ve kayıtlı hesap bilgilerini kaldırarak uygulamadaki tüm verileri temizler.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -988,7 +1050,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Tüm kişilerin ve tüm mesajların dahil olduğu bu uygulamanın tüm kayıtlı hesap bilgilerini silmek üzeresiniz. İstediğiniz zaman mobil cihazınızla tekrar bağlayabilirsiniz, ancak silinen mesajlar geri yüklenmeyecektir.",
+        "message": "Tüm kişilerin ve tüm iletilerin dahil olduğu bu uygulamanın tüm kayıtlı hesap bilgilerini silmek üzeresiniz. İstediğiniz zaman mobil cihazınızla tekrar bağlayabilirsiniz, ancak silinen iletiler geri yüklenmeyecektir.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1004,7 +1066,7 @@
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Mesaj geldiğinde şunların olduğu bildirim göster:",
+        "message": "İleti geldiğinde şunların olduğu bildirim göster:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1012,11 +1074,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Gönderenin adını ve mesajını",
+        "message": "Gönderenin adını ve iletisini",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Ne gönderenin adını ne de mesajını",
+        "message": "Ne gönderenin adını ne de iletisini",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1024,11 +1086,11 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Yeni Mesaj",
+        "message": "Yeni İleti",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "Yeni Mesajlar",
+        "message": "Yeni İletiler",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
@@ -1060,19 +1122,15 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Signal Desktop'ın bu sürümünün süresi doldu. Mesajlaşmaya devam etmek için lütfen en son sürüme geçin.",
+        "message": "Signal Desktop'ın bu sürümünün süresi doldu. İletişime devam etmek için lütfen en son sürüme geçin.",
         "description": "Warning notification that this version of the app has expired"
-    },
-    "androidMessageLengthWarning": {
-        "message": "Android istemcileri bu mesajın yalnızca ilk 2000 karakterini alacaktır.",
-        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "upgrade": {
         "message": "Yükselt",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Medya mesajı",
+        "message": "Medya iletisi",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -1164,15 +1222,15 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unblockToSend": {
-        "message": "Mesaj göndermek için bu kişinin engellenmesini kaldırın.",
+        "message": "İleti göndermek için bu kişinin engellenmesini kaldırın.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Mesaj göndermek için bu grubun engellenmesini kaldırın.",
+        "message": "İleti göndermek için bu grubun engellenmesini kaldırın.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Kaybolan mesaj zamanlayıcsını $time$ olarak ayarladınız",
+        "message": "Kaybolan ileti zamanlayıcsını $time$ olarak ayarladınız",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1182,7 +1240,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Kaybolan mesaj zamanlayıcısı $time$ olarak güncellendi",
+        "message": "Kaybolan ileti zamanlayıcısı $time$ olarak güncellendi",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1192,7 +1250,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ kaybolan mesaj zamanlayıcısını $time$ olarak ayarladı",
+        "message": "$name$ kaybolan ileti zamanlayıcısını $time$ olarak ayarladı",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1254,7 +1312,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Kaybolan mesajlar",
+        "message": "Kaybolan iletiler",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
@@ -1306,11 +1364,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Kaybolan mesajlar devre dışı",
+        "message": "Kaybolan iletiler devre dışı",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ kaybolan mesajları devre dışı bıraktı",
+        "message": "$name$ kaybolan iletileri devre dışı bıraktı",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1320,7 +1378,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Kaybolan mesajları devre dışı bıraktınız",
+        "message": "Kaybolan iletileri devre dışı bıraktınız",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1373,12 +1431,16 @@
         "message": "Koyu",
         "description": "Label text for dark theme"
     },
+    "noteToSelf": {
+        "message": "Kendime Not",
+        "description": "Name for the conversation with your own phone number"
+    },
     "hideMenuBar": {
         "message": "Menü çubuğunu gizle",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Sohbet başlat…",
+        "message": "Yeni sohbet başlat…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
@@ -1390,7 +1452,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Mesajlaşmaya devam etmek için Signal Desktop'ı mobil cihazınıza yeniden bağlayın.",
+        "message": "İletişime devam etmek için Signal Desktop'ı mobil cihazınıza yeniden bağlayın.",
         "description": ""
     },
     "unlinked": {

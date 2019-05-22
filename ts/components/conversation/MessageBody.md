@@ -36,17 +36,38 @@
 ### Jumbomoji disabled
 
 ```jsx
-<MessageBody text="🔥" disableJumbomoji i18n={util.i18n} />
+<MessageBody text="🔥" disableJumbomoji={true} i18n={util.i18n} />
 ```
 
 ### Links disabled
 
 ```jsx
-<MessageBody text="http://somewhere.com" disableLinks i18n={util.i18n} />
+<MessageBody text="http://somewhere.com" disableLinks={true} i18n={util.i18n} />
 ```
 
 ### Emoji in link
 
 ```jsx
 <MessageBody text="http://somewhere.com?s=🔥\nCool, huh?" i18n={util.i18n} />
+```
+
+### Text pending
+
+```jsx
+<MessageBody
+  text="http://somewhere.com?s=🔥\nCool, huh?"
+  textPending={true}
+  i18n={util.i18n}
+/>
+```
+
+### Text pending, disable links
+
+```jsx
+<MessageBody
+  text="http://somewhere.com?s=🔥\nCool, huh?"
+  textPending={true}
+  disableLinks={true}
+  i18n={util.i18n}
+/>
 ```

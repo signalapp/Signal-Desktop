@@ -149,6 +149,8 @@ So you wanna make a pull request? Please observe the following guidelines.
   the translations in
   [Transifex](https://www.transifex.com/projects/p/signal-desktop).
 -->
+* First, make sure that your `yarn ready` run passes - it's very similar to what our
+  Continuous Integration servers do to test the app.
 * Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
   [`_locales/en/messages.json`](_locales/en/messages.json).

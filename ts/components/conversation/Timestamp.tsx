@@ -4,15 +4,15 @@ import moment from 'moment';
 
 import { formatRelativeTime } from '../../util/formatRelativeTime';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
-  timestamp: number | null;
-  extended: boolean;
+  timestamp?: number;
+  extended?: boolean;
   module?: string;
   withImageNoCaption?: boolean;
   direction?: 'incoming' | 'outgoing';
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 const UPDATE_FREQUENCY = 60 * 1000;

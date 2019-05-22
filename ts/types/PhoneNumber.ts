@@ -1,38 +1,62 @@
-import { instance, PhoneNumberFormat } from '../util/libphonenumberInstance';
+import { LocalizerType } from './Util';
 
 export function format(
   phoneNumber: string,
-  options: {
+  _options: {
     ourRegionCode: string;
   }
 ) {
-  try {
-    const { ourRegionCode } = options;
-    const parsedNumber = instance.parse(phoneNumber);
-    const regionCode = instance.getRegionCodeForNumber(parsedNumber);
-
-    if (ourRegionCode && regionCode === ourRegionCode) {
-      return instance.format(parsedNumber, PhoneNumberFormat.NATIONAL);
-    }
-
-    return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);
-  } catch (error) {
-    return phoneNumber;
-  }
+  return phoneNumber;
 }
 
 export function parse(
   phoneNumber: string,
-  options: {
+  _options: {
     regionCode: string;
   }
 ): string {
-  const { regionCode } = options;
-  const parsedNumber = instance.parse(phoneNumber, regionCode);
+  return phoneNumber;
+}
 
-  if (instance.isValidNumber(parsedNumber)) {
-    return instance.format(parsedNumber, PhoneNumberFormat.E164);
+export function normalize(
+  phoneNumber: string,
+  _options: { regionCode: string }
+): string | undefined {
+  try {
+    if (isValidNumber(phoneNumber)) {
+      return phoneNumber;
+    }
+
+    return;
+  } catch (error) {
+    return;
+  }
+}
+
+function validate(number: string) {
+  // Check if it's hex
+  const isHex = number.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
+  if (!isHex) {
+    return 'invalidHexId';
   }
 
-  return phoneNumber;
+  // Check if the pubkey length is 33 and leading with 05 or of length 32
+  const len = number.length;
+  if ((len !== 33 * 2 || !/^05/.test(number)) && len !== 32 * 2) {
+    return 'invalidPubkeyFormat';
+  }
+
+  return null;
+}
+
+function isValidNumber(number: string) {
+  const error = validate(number);
+
+  return !error;
+}
+
+export function validateNumber(number: string, i18n: LocalizerType) {
+  const error = validate(number);
+
+  return error && i18n(error);
 }

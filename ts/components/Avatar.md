@@ -63,6 +63,45 @@
 </util.ConversationContext>
 ```
 
+### Note to self
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar
+    size={80}
+    color="pink"
+    noteToSelf={true}
+    phoneNumber="(555) 353-3433"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={48}
+    color="pink"
+    noteToSelf={true}
+    phoneNumber="(555) 353-3433"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={36}
+    color="pink"
+    noteToSelf={true}
+    phoneNumber="(555) 353-3433"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={28}
+    color="pink"
+    noteToSelf={true}
+    phoneNumber="(555) 353-3433"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+</util.ConversationContext>
+```
+
 ### All colors
 
 ```jsx

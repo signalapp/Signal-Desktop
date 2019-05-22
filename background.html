@@ -38,6 +38,7 @@
       <div class='message'>{{ message }}</div>
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
     <div class='content'>
       <img src='images/loki/loki_icon_128.png'>
@@ -48,49 +49,28 @@
       </div>
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
       <div class='network-status-container'></div>
-      <div class='main-header-placeholder'></div>
-      <div class='tool-bar clearfix'>
-        <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}' dir='auto'>
-        <span class='search-icon'></span>
-      </div>
-      <div class='content'>
-        <div class='conversations-list'>
-          <div class='section-toggle section-toggle-visible'>
-            <div class='section-conversations-container'>
-              <h4>Conversations</h4>
-              <div class='section-conversations-unread-counter'>0</div>
-            </div>
-          </div>
-          <div class='conversations inbox'></div>
-          <h4 class='section-toggle section-toggle-visible'>Contacts</h4>
-          <div class='conversations friends'></div>
-        </div>
-        <div class='conversations search-results hide'>
-          <div class='new-contact contact hide'></div>
-        </div>
-      </div>
+      <div class='left-pane-placeholder'></div>
       <div class='loki'>
-        <img src='images/loki/loki_icon_text.png'>
+        <img src='images/loki/loki_icon_text.png' />
       </div>
     </div>
-    <div class='underneathIdentityWrapper'>
-      <div class='conversation-stack'>
-        <div class='conversation placeholder'>
-          <div class='conversation-header'></div>
-          <div class='container'>
-            <div class='content'>
-              <img src='images/loki/loki_icon_128.png' />
-              <h3>{{ welcomeToSignal }}</h3>
-              <p>{{ selectAContact }}</p>
-            </div>
+    <div class='conversation-stack'>
+      <div class='conversation placeholder'>
+        <div class='conversation-header'></div>
+        <div class='container'>
+          <div class='content'>
+            <img src='images/loki/loki_icon_128.png' />
+            <h3>{{ welcomeToSignal }}</h3>
+            <p>{{ selectAContact }}</p>
           </div>
         </div>
       </div>
-      <div class='lightbox-container'></div>
     </div>
+    <div class='lightbox-container'></div>
   </script>
   <script type='text/x-tmpl-mustache' id='main-header-placeholder'>
     <div class='main-header-title-wrapper'>
@@ -102,23 +82,27 @@
       {{ /items }}
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
     <button class='text module-scroll-down__button {{ buttonClass }}' alt='{{ moreBelow }}'>
       <div class='module-scroll-down__icon'></div>
     </button>
   </script>
+
   <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
     <div class='module-last-seen-indicator__bar'/>
     <div class='module-last-seen-indicator__text'>
       {{ unreadMessages }}
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='expired_alert'>
     <a target='_blank' href='https://signal.org/download/'>
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
     {{ expiredWarning }}
   </script>
+
   <script type='text/x-tmpl-mustache' id='banner'>
     <div class='body'>
       <span class='icon warning'></span>
@@ -126,12 +110,11 @@
       <span class='icon dismiss'></span>
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='toast'>
     {{ toastMessage }}
   </script>
-  <script type='text/x-tmpl-mustache' id='hint'>
-    <p> {{ content }}</p>
-  </script>
+
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header'></div>
     <div class='main panel'>
@@ -152,9 +135,6 @@
                 <div class='capture-audio hide'>
                     <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 </div>
-                <div class='android-length-warning'>
-                    {{ android-length-warning }}
-                </div>
                 <div class='choose-file hide'>
                     <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                     <input type='file' class='file-input' multiple='multiple'>
@@ -165,10 +145,12 @@
       </div>
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='message-list'>
     <div class='messages'></div>
     <div class='typing-container'></div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='recorder'>
       <button class='finish'><span class='icon'></span></button>
       <span class='time'>0:00</span>
@@ -263,35 +245,6 @@
       </div>
     </div>
   </script>
-  <script type='text/x-tmpl-mustache' id='attachment-preview'>
-        <div class='image-container'>
-          <img src='{{ source }}' class='preview' />
-          <div class='outer'>
-            <div class='play icon'></div>
-          </div>
-        </div>
-        <a class='x close' alt='remove attachment' href='#'></a>
-  </script>
-  <script type='text/x-tmpl-mustache' id='file-view'>
-    <div class='icon {{ mediaType }}'></div>
-    <div class='text'>
-      <div class='fileName' title='{{ altText }}'>
-        {{ fileName }}
-      </div>
-      <div class='fileSize'>{{ fileSize }}</div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='new-group-update'>
-      <div class='conversation-header'>
-        <button class='back'></button>
-        <button class='send check'></button>
-        <span class='conversation-title'>Update group</span>
-      </div>
-      {{> group_info_input }}
-      <div class='container'>
-        <div class='scrollable'></div>
-      </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='identicon-svg'>
       <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
          <circle cx='50' cy='50' r='40' fill='{{ color }}' />
@@ -300,54 +253,7 @@
           </text>
       </svg>
   </script>
-  <script type='text/x-tmpl-mustache' id='avatar'>
-    <span aria-hidden class='avatar
-      {{ ^avatar.url }}
-        {{ avatar.color }}
-      {{ /avatar.url }}
-      '
-      {{ #avatar.url }}
-        style='background-image: url("{{ avatar.url }}");'
-      {{ /avatar.url }}
-    >
-        {{ avatar.content }}
-    </span>
-  </script>
-  <script type='text/x-tmpl-mustache' id='contact_pill'>
-    <span>{{ name }}</span><span class='remove'>x</span>
-  </script>
-  <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
-    <h3 class='name' dir='auto'>
-      {{ title }}
-      {{ #profileName }}
-        <span class='profileName'>{{ profileName }} </span>
-      {{ /profileName }}
-    </h3>
-    <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='contact'>
-      {{> avatar }}
-      <div class='contact-details {{ class }}'> {{> contact_name_and_number }} </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='new-contact'>
-      {{> avatar }}
-      <div class='contact-details'>
-          {{> contact_name_and_number }}
-      </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='conversation-preview'>
-      {{> avatar }}
-      <div class='contact-details'>
-          <span class='last-timestamp' data-timestamp='{{ last_message_timestamp }}' dir='auto' > </span>
-          <h3 class='name' dir='auto'></h3>
-          {{ #unreadCount }}
-            <span class='unread-count'>{{ unreadCount }}</span>
-          {{ /unreadCount }}
-          {{ #last_message }}
-            <p class='last-message' dir='auto'></p>
-          {{ /last_message }}
-      </div>
-  </script>
+
   <script type='text/x-tmpl-mustache' id='phone-number'>
       <div class='phone-input-form'>
           <div class='number-container'>
@@ -355,18 +261,22 @@
           </div>
       </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='file-size-modal'>
       {{ file-size-warning }}
       ({{ limit }}{{ units }})
   </script>
+
   <script type='text/x-tmpl-mustache' id='attachment-type-modal'>
       Sorry, your attachment has a type, {{type}}, that is not currently supported.
   </script>
+
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='container'>
       {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='key-verification'>
     <div class='container'>
       {{ ^hasTheirKey }}
@@ -397,52 +307,7 @@
       </div>
     </div>
   </script>
-  <!-- index -->
-  <script type='text/x-tmpl-mustache' id='group_info_input'>
-      <div class='group-info-input'>
-        <div class='group-avatar'>
-          <div class='choose-file attachment-previews thumbnail'>
-            {{> avatar }}
-            </div>
-          <input type='file' name='avatar' class='file-input'>
-        </div>
-        <input type='text' name='name' class='name' placeholder='Group Name' value='{{ name }}'>
-      </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='new-conversation'>
-      <div class='conversation-header'>
-        <button class='back'></button>
-        <button class='create check hide'></button>
-        <span class='conversation-title'>New Message</span>
-      </div>
-      {{> group_info_input }}
-      <div class='container'>
-        <div class='scrollable'>
-        </div>
-      </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='recipients-input'>
-      <div class='recipients-container'>
-        <span class='recipients'></span>
-        <input type='text' class='search' placeholder='{{ placeholder }}' dir='auto' />
-      </div>
-      <div class='results'>
-        <div class='new-contact contact hide'></div>
-        <div class='contacts'></div>
-      </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='error-icon'>
-    <span class='error-icon'>
-    </span>
-    {{ #message }}
-      <span class='error-message'>{{message}}</span>
-    {{ /message }}
-  </script>
-  <script type='text/x-tmpl-mustache' id='link_to_support'>
-    <a href='http://support.signal.org/hc/articles/213134107' target='_blank'>
-      {{ learnMore }}
-    </a>
-  </script>
+
   <script type='text/x-tmpl-mustache' id='clear-data'>
     {{#isStep1}}
     <div class='step'>
@@ -760,6 +625,7 @@
   <script type='text/javascript' src='js/conversation_controller.js'></script>
   <script type='text/javascript' src='js/blocked_number_controller.js'></script>
   <script type='text/javascript' src='js/link_previews_helper.js'></script>
+  <script type='text/javascript' src='js/message_controller.js'></script>
 
   <script type='text/javascript' src='js/views/react_wrapper_view.js'></script>
   <script type='text/javascript' src='js/views/whisper_view.js'></script>
@@ -768,21 +634,14 @@
   <script type='text/javascript' src='js/views/toast_view.js'></script>
   <script type='text/javascript' src='js/views/file_input_view.js'></script>
   <script type='text/javascript' src='js/views/list_view.js'></script>
-  <script type='text/javascript' src='js/views/conversation_list_item_view.js'></script>
-  <script type='text/javascript' src='js/views/conversation_list_view.js'></script>
   <script type='text/javascript' src='js/views/contact_list_view.js'></script>
   <script type='text/javascript' src='js/views/main_header_view.js'></script>
-  <script type='text/javascript' src='js/views/new_group_update_view.js'></script>
-  <script type='text/javascript' src='js/views/attachment_view.js'></script>
-  <script type='text/javascript' src='js/views/timestamp_view.js'></script>
   <script type='text/javascript' src='js/views/message_view.js'></script>
   <script type='text/javascript' src='js/views/key_verification_view.js'></script>
   <script type='text/javascript' src='js/views/message_list_view.js'></script>
   <script type='text/javascript' src='js/views/group_member_list_view.js'></script>
   <script type='text/javascript' src='js/views/recorder_view.js'></script>
   <script type='text/javascript' src='js/views/conversation_view.js'></script>
-  <script type='text/javascript' src='js/views/conversation_search_view.js'></script>
-  <script type='text/javascript' src='js/views/hint_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
   <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>

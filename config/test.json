@@ -1,5 +1,4 @@
 {
   "storageProfile": "test",
-  "disableAutoUpdate": true,
   "openDevTools": false
 }

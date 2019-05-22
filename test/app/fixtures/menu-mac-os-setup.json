@@ -1,5 +1,6 @@
 [
   {
+    "label": "Loki Messenger",
     "submenu": [
       {
         "label": "About Loki Messenger",
@@ -114,6 +115,7 @@
         "role": "resetzoom"
       },
       {
+        "accelerator": "Command+=",
         "label": "Zoom In",
         "role": "zoomin"
       },

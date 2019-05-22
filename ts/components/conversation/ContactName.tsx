@@ -1,14 +1,14 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { Emojify } from './Emojify';
-
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
   phoneNumber: string;
   name?: string;
   profileName?: string;
-  i18n: Localizer;
+  i18n: LocalizerType;
   module?: string;
 }
 
@@ -26,11 +26,14 @@ export class ContactName extends React.Component<Props> {
     ) : null;
 
     return (
-      <span className={prefix}>
+      <span className={prefix} dir="auto">
         {profileElement}
+        {shouldShowProfile ? ' ' : null}
         <span
-          title={phoneNumber}
-          className={shouldShowProfile ? `${prefix}__profile-number` : ''}
+          className={classNames(
+            `${prefix}__profile-number`,
+            shouldShowProfile && 'italic'
+          )}
         >
           <Emojify text={title} i18n={i18n} />
         </span>

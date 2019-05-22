@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
-  i18n: Localizer;
+  i18n: LocalizerType;
   color?: string;
 }
 

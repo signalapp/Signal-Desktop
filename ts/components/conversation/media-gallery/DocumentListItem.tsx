@@ -10,7 +10,7 @@ interface Props {
   timestamp: number;
 
   // Optional
-  fileName?: string | null;
+  fileName?: string;
   fileSize?: number;
   onClick?: () => void;
   shouldShowSeparator?: boolean;
