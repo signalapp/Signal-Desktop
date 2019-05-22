@@ -255,7 +255,6 @@ OutgoingMessage.prototype = {
       request: requestMessage,
     });
     const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer());
-    log.info(bytes.toString()); // print bytes for debugging purposes: can be injected in mock socket server
     return bytes;
   },
   doSendMessage(number, deviceIds, recurse) {
