@@ -2915,17 +2915,17 @@
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 2031,
+    "lineNumber": 2039,
     "reasonCategory": "falseMatch",
-    "updated": "2019-02-22T01:08:09.603Z"
+    "updated": "2019-05-28T20:54:46.198Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3433,
+    "lineNumber": 3443,
     "reasonCategory": "falseMatch",
-    "updated": "2019-02-22T01:08:09.603Z"
+    "updated": "2019-05-28T20:54:46.198Z"
   },
   {
     "rule": "jQuery-wrap(",
