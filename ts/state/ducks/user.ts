@@ -6,6 +6,7 @@ import { LocalizerType } from '../../types/Util';
 export type UserStateType = {
   attachmentsPath: string;
   stickersPath: string;
+  tempPath: string;
   ourNumber: string;
   regionCode: string;
   i18n: LocalizerType;
@@ -45,6 +46,7 @@ function getEmptyState(): UserStateType {
   return {
     attachmentsPath: 'missing',
     stickersPath: 'missing',
+    tempPath: 'missing',
     ourNumber: 'missing',
     regionCode: 'missing',
     i18n: () => 'missing',

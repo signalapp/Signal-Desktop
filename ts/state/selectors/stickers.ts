@@ -20,13 +20,14 @@ import {
   StickersStateType,
   StickerType,
 } from '../ducks/stickers';
-import { getStickersPath } from './user';
+import { getStickersPath, getTempPath } from './user';
 
 const getSticker = (
   packs: Dictionary<StickerPackDBType>,
   packId: string,
   stickerId: number,
-  stickerPath: string
+  stickerPath: string,
+  tempPath: string
 ): StickerType | undefined => {
   const pack = packs[packId];
   if (!pack) {
@@ -38,20 +39,25 @@ const getSticker = (
     return;
   }
 
-  return translateStickerFromDB(sticker, stickerPath);
+  const isEphemeral = pack.status === 'ephemeral';
+
+  return translateStickerFromDB(sticker, stickerPath, tempPath, isEphemeral);
 };
 
 const translateStickerFromDB = (
   sticker: StickerDBType,
-  stickerPath: string
+  stickerPath: string,
+  tempPath: string,
+  isEphemeral: boolean
 ): StickerType => {
   const { id, packId, emoji, path } = sticker;
+  const prefix = isEphemeral ? tempPath : stickerPath;
 
   return {
     id,
     packId,
     emoji,
-    url: join(stickerPath, path),
+    url: join(prefix, path),
   };
 };
 
@@ -59,9 +65,11 @@ export const translatePackFromDB = (
   pack: StickerPackDBType,
   packs: Dictionary<StickerPackDBType>,
   blessedPacks: Dictionary<boolean>,
-  stickersPath: string
+  stickersPath: string,
+  tempPath: string
 ) => {
-  const { id, stickers, coverStickerId } = pack;
+  const { id, stickers, status, coverStickerId } = pack;
+  const isEphemeral = status === 'ephemeral';
 
   // Sometimes sticker packs have a cover which isn't included in their set of stickers.
   //   We don't want to show cover-only images when previewing or picking from a pack.
@@ -70,13 +78,13 @@ export const translatePackFromDB = (
     sticker => sticker.isCoverOnly
   );
   const translatedStickers = map(filteredStickers, sticker =>
-    translateStickerFromDB(sticker, stickersPath)
+    translateStickerFromDB(sticker, stickersPath, tempPath, isEphemeral)
   );
 
   return {
     ...pack,
     isBlessed: Boolean(blessedPacks[id]),
-    cover: getSticker(packs, id, coverStickerId, stickersPath),
+    cover: getSticker(packs, id, coverStickerId, stickersPath, tempPath),
     stickers: sortBy(translatedStickers, sticker => sticker.id),
   };
 };
@@ -86,18 +94,15 @@ const filterAndTransformPacks = (
   packFilter: (sticker: StickerPackDBType) => boolean,
   packSort: (sticker: StickerPackDBType) => any,
   blessedPacks: Dictionary<boolean>,
-  stickersPath: string
+  stickersPath: string,
+  tempPath: string
 ): Array<StickerPackType> => {
   const list = filter(packs, packFilter);
   const sorted = orderBy<StickerPackDBType>(list, packSort, ['desc']);
 
-  const ready = sorted.map(pack =>
-    translatePackFromDB(pack, packs, blessedPacks, stickersPath)
+  return sorted.map(pack =>
+    translatePackFromDB(pack, packs, blessedPacks, stickersPath, tempPath)
   );
-
-  // We're explicitly forcing pack.cover to be truthy here, but TypeScript doesn't
-  //   understand that.
-  return ready.filter(pack => Boolean(pack.cover)) as Array<StickerPackType>;
 };
 
 const getStickers = (state: StateType) => state.stickers;
@@ -121,14 +126,16 @@ export const getRecentStickers = createSelector(
   getRecents,
   getPacks,
   getStickersPath,
+  getTempPath,
   (
     recents: Array<RecentStickerType>,
     packs: Dictionary<StickerPackDBType>,
-    stickersPath: string
+    stickersPath: string,
+    tempPath: string
   ) => {
     return compact(
       recents.map(({ packId, stickerId }) => {
-        return getSticker(packs, packId, stickerId, stickersPath);
+        return getSticker(packs, packId, stickerId, stickersPath, tempPath);
       })
     );
   }
@@ -138,17 +145,20 @@ export const getInstalledStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,
   getStickersPath,
+  getTempPath,
   (
     packs: Dictionary<StickerPackDBType>,
     blessedPacks: Dictionary<boolean>,
-    stickersPath: string
+    stickersPath: string,
+    tempPath: string
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
       pack => pack.status === 'installed',
       pack => pack.installedAt,
       blessedPacks,
-      stickersPath
+      stickersPath,
+      tempPath
     );
   }
 );
@@ -169,19 +179,22 @@ export const getReceivedStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,
   getStickersPath,
+  getTempPath,
   (
     packs: Dictionary<StickerPackDBType>,
     blessedPacks: Dictionary<boolean>,
-    stickersPath: string
+    stickersPath: string,
+    tempPath: string
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
       pack =>
-        (pack.status === 'advertised' || pack.status === 'pending') &&
+        (pack.status === 'downloaded' || pack.status === 'pending') &&
         !blessedPacks[pack.id],
       pack => pack.createdAt,
       blessedPacks,
-      stickersPath
+      stickersPath,
+      tempPath
     );
   }
 );
@@ -190,17 +203,42 @@ export const getBlessedStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,
   getStickersPath,
+  getTempPath,
   (
     packs: Dictionary<StickerPackDBType>,
     blessedPacks: Dictionary<boolean>,
-    stickersPath: string
+    stickersPath: string,
+    tempPath: string
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
       pack => blessedPacks[pack.id] && pack.status !== 'installed',
       pack => pack.createdAt,
       blessedPacks,
-      stickersPath
+      stickersPath,
+      tempPath
+    );
+  }
+);
+
+export const getKnownStickerPacks = createSelector(
+  getPacks,
+  getBlessedPacks,
+  getStickersPath,
+  getTempPath,
+  (
+    packs: Dictionary<StickerPackDBType>,
+    blessedPacks: Dictionary<boolean>,
+    stickersPath: string,
+    tempPath: string
+  ): Array<StickerPackType> => {
+    return filterAndTransformPacks(
+      packs,
+      pack => !blessedPacks[pack.id] && pack.status === 'known',
+      pack => pack.createdAt,
+      blessedPacks,
+      stickersPath,
+      tempPath
     );
   }
 );

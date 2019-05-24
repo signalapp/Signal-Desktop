@@ -35,11 +35,11 @@ const packs = [
   },
 ];
 
-const receivedPacks = packs.map(p => ({ ...p, status: 'advertised' }));
+const receivedPacks = packs.map(p => ({ ...p, status: 'downloaded' }));
 const installedPacks = packs.map(p => ({ ...p, status: 'installed' }));
 const blessedPacks = packs.map(p => ({
   ...p,
-  status: 'advertised',
+  status: 'downloaded',
   isBlessed: true,
 }));
 
@@ -154,6 +154,64 @@ const noPacks = [];
     receivedPacks={receivedPacks}
     blessedPacks={noPacks}
     installStickerPack={id => console.log('installStickerPack', id)}
+  />
+</util.ConversationContext>;
+```
+
+#### No with 'known'
+
+```jsx
+const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
+const sticker2 = { id: 2, url: util.kitten264ObjectUrl, packId: 'bar' };
+const sticker3 = { id: 3, url: util.kitten364ObjectUrl, packId: 'baz' };
+
+const installedPacks = [
+  {
+    id: 'foo',
+    cover: sticker1,
+    title: 'Foo',
+    status: 'installed',
+    author: 'Foo McBarrington',
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker1, id })),
+  },
+];
+
+const knownPacks = [
+  {
+    id: 'foo',
+    key: 'key1',
+    stickers: [],
+    state: 'known',
+  },
+  {
+    id: 'bar',
+    key: 'key2',
+    stickers: [],
+    state: 'known',
+  },
+  {
+    id: 'baz',
+    key: 'key3',
+    stickers: [],
+    state: 'known',
+  },
+];
+
+const noPacks = [];
+
+<util.ConversationContext theme={util.theme}>
+  <StickerManager
+    i18n={util.i18n}
+    installedPacks={installedPacks}
+    receivedPacks={noPacks}
+    blessedPacks={noPacks}
+    knownPacks={knownPacks}
+    installStickerPack={id => console.log('installStickerPack', id)}
+    downloadStickerPack={(packId, packKey, options) =>
+      console.log('downloadStickerPack', { packId, packKey, options })
+    }
   />
 </util.ConversationContext>;
 ```

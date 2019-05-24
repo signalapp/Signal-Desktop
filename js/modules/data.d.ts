@@ -8,7 +8,7 @@ export function updateStickerLastUsed(
 ): Promise<void>;
 export function updateStickerPackStatus(
   packId: string,
-  status: 'advertised' | 'installed' | 'error' | 'pending',
+  status: 'known' | 'downloaded' | 'installed' | 'error' | 'pending',
   options?: { timestamp: number }
 ): Promise<void>;
 

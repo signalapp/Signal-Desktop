@@ -11,6 +11,8 @@ export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly receivedPacks: ReadonlyArray<StickerPackType>;
   readonly installedPacks: ReadonlyArray<StickerPackType>;
+  readonly blessedPacks: ReadonlyArray<StickerPackType>;
+  readonly knownPacks: ReadonlyArray<StickerPackType>;
   readonly installedPack?: StickerPackType | null;
   readonly recentStickers: ReadonlyArray<StickerType>;
   readonly clearInstalledStickerPack: () => unknown;
@@ -35,6 +37,8 @@ export const StickerButton = React.memo(
     receivedPacks,
     installedPack,
     installedPacks,
+    blessedPacks,
+    knownPacks,
     showIntroduction,
     clearShowIntroduction,
     showPickerHint,
@@ -138,7 +142,12 @@ export const StickerButton = React.memo(
       [installedPack, clearInstalledStickerPack]
     );
 
-    if (installedPacks.length + receivedPacks.length === 0) {
+    const totalPacks =
+      knownPacks.length +
+      blessedPacks.length +
+      installedPacks.length +
+      receivedPacks.length;
+    if (totalPacks === 0) {
       return null;
     }
 
@@ -166,11 +175,15 @@ export const StickerButton = React.memo(
                 role="button"
                 onClick={clearInstalledStickerPack}
               >
-                <img
-                  className="module-sticker-button__tooltip__image"
-                  src={installedPack.cover.url}
-                  alt={installedPack.title}
-                />
+                {installedPack.cover ? (
+                  <img
+                    className="module-sticker-button__tooltip__image"
+                    src={installedPack.cover.url}
+                    alt={installedPack.title}
+                  />
+                ) : (
+                  <div className="module-sticker-button__tooltip__image-placeholder" />
+                )}
                 <span className="module-sticker-button__tooltip__text">
                   <span className="module-sticker-button__tooltip__text__title">
                     {installedPack.title}
@@ -202,7 +215,7 @@ export const StickerButton = React.memo(
                 role="button"
                 onClick={handleClearIntroduction}
               >
-                <div className="module-sticker-button__tooltip--introduction__image" />
+                {/* <div className="module-sticker-button__tooltip--introduction__image" /> */}
                 <div className="module-sticker-button__tooltip--introduction__meta">
                   <div className="module-sticker-button__tooltip--introduction__meta__title">
                     {i18n('stickers--StickerManager--Introduction--Title')}

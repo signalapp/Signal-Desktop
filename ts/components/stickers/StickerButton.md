@@ -43,6 +43,8 @@ const packs = [
       i18n={util.i18n}
       receivedPacks={[]}
       installedPacks={packs}
+      blessedPacks={[]}
+      knownPacks={[]}
       onPickSticker={(packId, stickerId) =>
         console.log('onPickSticker', { packId, stickerId })
       }
@@ -100,8 +102,10 @@ const packs = [
   >
     <StickerButton
       i18n={util.i18n}
-      receivedPacks={[]}
-      installedPacks={packs}
+      receivedPacks={packs}
+      installedPacks={[]}
+      blessedPacks={[]}
+      knownPacks={[]}
       onPickSticker={(packId, stickerId) =>
         console.log('onPickSticker', { packId, stickerId })
       }
@@ -113,7 +117,75 @@ const packs = [
 </util.ConversationContext>;
 ```
 
-#### No Advertised Packs and No Installed Packs
+#### Just known packs
+
+Even with just known packs, the button should render.
+
+```jsx
+const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
+
+const packs = [
+  {
+    id: 'foo',
+    cover: sticker1,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker1, id })),
+  },
+];
+
+<util.ConversationContext theme={util.theme}>
+  <StickerButton
+    i18n={util.i18n}
+    receivedPacks={[]}
+    installedPacks={[]}
+    knownPacks={packs}
+    blessedPacks={[]}
+    onPickSticker={(packId, stickerId) =>
+      console.log('onPickSticker', { packId, stickerId })
+    }
+    clearInstalledStickerPack={() => console.log('clearInstalledStickerPack')}
+    onClickAddPack={() => console.log('onClickAddPack')}
+    recentStickers={[]}
+  />
+</util.ConversationContext>;
+```
+
+#### Just blessed packs
+
+Even with just blessed packs, the button should render.
+
+```jsx
+const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
+
+const packs = [
+  {
+    id: 'foo',
+    cover: sticker1,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker1, id })),
+  },
+];
+
+<util.ConversationContext theme={util.theme}>
+  <StickerButton
+    i18n={util.i18n}
+    receivedPacks={[]}
+    installedPacks={[]}
+    blessedPacks={packs}
+    knownPacks={[]}
+    onPickSticker={(packId, stickerId) =>
+      console.log('onPickSticker', { packId, stickerId })
+    }
+    clearInstalledStickerPack={() => console.log('clearInstalledStickerPack')}
+    onClickAddPack={() => console.log('onClickAddPack')}
+    recentStickers={[]}
+  />
+</util.ConversationContext>;
+```
+
+#### No packs at all
 
 When there are no advertised packs and no installed packs the button should not render anything.
 
@@ -123,6 +195,8 @@ When there are no advertised packs and no installed packs the button should not 
     i18n={util.i18n}
     receivedPacks={[]}
     installedPacks={[]}
+    blessedPacks={[]}
+    knownPacks={[]}
     onPickSticker={(packId, stickerId) =>
       console.log('onPickSticker', { packId, stickerId })
     }
@@ -188,6 +262,8 @@ const packs = [
       i18n={util.i18n}
       receivedPacks={[]}
       installedPacks={packs}
+      blessedPacks={[]}
+      knownPacks={[]}
       installedPack={packs[0]}
       onPickSticker={(packId, stickerId) =>
         console.log('onPickSticker', { packId, stickerId })
@@ -257,6 +333,8 @@ const packs = [
       i18n={util.i18n}
       receivedPacks={[]}
       installedPacks={packs}
+      blessedPacks={[]}
+      knownPacks={[]}
       onPickSticker={(packId, stickerId) =>
         console.log('onPickSticker', { packId, stickerId })
       }

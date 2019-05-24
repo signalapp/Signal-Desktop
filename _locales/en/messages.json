@@ -1835,6 +1835,12 @@
     "message": "Sticker Pack",
     "description": "The title that appears in the sticker pack preview modal."
   },
+  "stickers--StickerPreview--Error": {
+    "message":
+      "Error opening sticker pack. Check your internet connection and try again.",
+    "description":
+      "The message that appears in the sticker preview modal when there is an error."
+  },
   "EmojiPicker--empty": {
     "message": "No emoji found",
     "description": "Shown in the emoji picker when a search yields 0 results."

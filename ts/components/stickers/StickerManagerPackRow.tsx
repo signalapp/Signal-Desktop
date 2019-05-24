@@ -91,11 +91,15 @@ export const StickerManagerPackRow = React.memo(
           onClick={handleClickPreview}
           className="module-sticker-manager__pack-row"
         >
-          <img
-            src={pack.cover.url}
-            alt={pack.title}
-            className="module-sticker-manager__pack-row__cover"
-          />
+          {pack.cover ? (
+            <img
+              src={pack.cover.url}
+              alt={pack.title}
+              className="module-sticker-manager__pack-row__cover"
+            />
+          ) : (
+            <div className="module-sticker-manager__pack-row__cover-placeholder" />
+          )}
           <div className="module-sticker-manager__pack-row__meta">
             <div className="module-sticker-manager__pack-row__meta__title">
               {pack.title}
@@ -108,17 +112,17 @@ export const StickerManagerPackRow = React.memo(
             </div>
           </div>
           <div className="module-sticker-manager__pack-row__controls">
-            {pack.status === 'advertised' ? (
-              <StickerPackInstallButton
-                installed={false}
-                i18n={i18n}
-                onClick={handleInstall}
-              />
-            ) : (
+            {pack.status === 'installed' ? (
               <StickerPackInstallButton
                 installed={true}
                 i18n={i18n}
                 onClick={handleUninstall}
+              />
+            ) : (
+              <StickerPackInstallButton
+                installed={false}
+                i18n={i18n}
+                onClick={handleInstall}
               />
             )}
           </div>

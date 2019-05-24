@@ -9,6 +9,8 @@ export type OwnProps = {
   readonly installedPacks: ReadonlyArray<StickerPackType>;
   readonly receivedPacks: ReadonlyArray<StickerPackType>;
   readonly blessedPacks: ReadonlyArray<StickerPackType>;
+  readonly knownPacks?: ReadonlyArray<StickerPackType>;
+  readonly downloadStickerPack: (packId: string, packKey: string) => unknown;
   readonly installStickerPack: (packId: string, packKey: string) => unknown;
   readonly uninstallStickerPack: (packId: string, packKey: string) => unknown;
   readonly i18n: LocalizerType;
@@ -20,7 +22,9 @@ export const StickerManager = React.memo(
   ({
     installedPacks,
     receivedPacks,
+    knownPacks,
     blessedPacks,
+    downloadStickerPack,
     installStickerPack,
     uninstallStickerPack,
     i18n,
@@ -29,6 +33,15 @@ export const StickerManager = React.memo(
       packToPreview,
       setPackToPreview,
     ] = React.useState<StickerPackType | null>(null);
+
+    React.useEffect(() => {
+      if (!knownPacks) {
+        return;
+      }
+      knownPacks.forEach(pack => {
+        downloadStickerPack(pack.id, pack.key);
+      });
+    }, []);
 
     const clearPackToPreview = React.useCallback(
       () => {
@@ -51,6 +64,7 @@ export const StickerManager = React.memo(
             i18n={i18n}
             pack={packToPreview}
             onClose={clearPackToPreview}
+            downloadStickerPack={downloadStickerPack}
             installStickerPack={installStickerPack}
             uninstallStickerPack={uninstallStickerPack}
           />

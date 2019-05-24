@@ -229,9 +229,17 @@
   },
   {
     "rule": "jQuery-load(",
+    "path": "js/modules/emojis.js",
+    "line": "async function load() {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-05-23T22:27:53.554Z"
+  },
+  {
+    "rule": "jQuery-load(",
     "path": "js/modules/stickers.js",
     "line": "async function load() {",
-    "lineNumber": 53,
+    "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-26T17:48:30.675Z"
   },
@@ -6066,13 +6074,5 @@
     "lineNumber": 60,
     "reasonCategory": "falseMatch",
     "updated": "2019-05-02T20:44:56.470Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "js/modules/emojis.js",
-    "line": "async function load() {",
-    "lineNumber": 13,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-05-23T22:27:53.554Z"
   }
 ]

@@ -302,22 +302,25 @@
         await window.Signal.Data.shutdown();
       },
 
-      installStickerPack: async (id, key) => {
-        const status = window.Signal.Stickers.getStickerPackStatus(id);
+      showStickerPack: async (packId, key) => {
+        // Kick off the download
+        window.Signal.Stickers.downloadEphemeralPack(packId, key);
 
-        if (status === 'installed') {
-          return;
-        }
+        const props = {
+          packId,
+          onClose: async () => {
+            stickerPreviewModalView.remove();
+            await window.Signal.Stickers.removeEphemeralPack(packId);
+          },
+        };
 
-        if (status === 'advertised') {
-          await window.reduxActions.stickers.installStickerPack(id, key, {
-            fromSync: true,
-          });
-        } else {
-          await window.Signal.Stickers.downloadStickerPack(id, key, {
-            finalStatus: 'installed',
-          });
-        }
+        const stickerPreviewModalView = new Whisper.ReactWrapperView({
+          className: 'sticker-preview-modal-wrapper',
+          JSX: Signal.State.Roots.createStickerPreviewModal(
+            window.reduxStore,
+            props
+          ),
+        });
       },
     };
 
@@ -464,6 +467,7 @@
       user: {
         attachmentsPath: window.baseAttachmentsPath,
         stickersPath: window.baseStickersPath,
+        tempPath: window.baseTempPath,
         regionCode: window.storage.get('regionCode'),
         ourNumber: textsecure.storage.user.getNumber(),
         i18n: window.i18n,
@@ -1056,7 +1060,7 @@
           fromSync: true,
         });
       } else if (isInstall) {
-        if (status === 'advertised') {
+        if (status === 'downloaded') {
           window.reduxActions.stickers.installStickerPack(id, key, {
             fromSync: true,
           });

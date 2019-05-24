@@ -153,12 +153,16 @@ export const StickerPicker = React.memo(
                       }
                     )}
                   >
-                    <img
-                      className="module-sticker-picker__header__button__image"
-                      src={pack.cover.url}
-                      alt={pack.title}
-                      title={pack.title}
-                    />
+                    {pack.cover ? (
+                      <img
+                        className="module-sticker-picker__header__button__image"
+                        src={pack.cover.url}
+                        alt={pack.title}
+                        title={pack.title}
+                      />
+                    ) : (
+                      <div className="module-sticker-picker__header__button__image-placeholder" />
+                    )}
                   </button>
                 ))}
               </div>

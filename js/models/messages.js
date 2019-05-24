@@ -33,7 +33,7 @@
   const {
     copyStickerToAttachments,
     deletePackReference,
-    downloadStickerPack,
+    savePackMetadata,
     getStickerPackStatus,
   } = window.Signal.Stickers;
   const { addStickerPackReference } = window.Signal.Data;
@@ -1467,7 +1467,7 @@
         const status = getStickerPackStatus(packId);
         let data;
 
-        if (status && status !== 'pending' && status !== 'error') {
+        if (status && (status === 'downloaded' || status === 'installed')) {
           try {
             const copiedSticker = await copyStickerToAttachments(
               packId,
@@ -1492,8 +1492,8 @@
           });
         }
         if (!status) {
-          // kick off the download without waiting
-          downloadStickerPack(packId, packKey, { messageId });
+          // Save the packId/packKey for future download/install
+          savePackMetadata(packId, packKey, { messageId });
         } else {
           await addStickerPackReference(messageId, packId);
         }

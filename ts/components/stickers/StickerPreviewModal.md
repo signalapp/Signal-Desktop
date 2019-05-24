@@ -9,7 +9,7 @@ const pack = {
   title: 'Foo',
   isBlessed: true,
   author: 'Foo McBarrington',
-  status: 'advertised',
+  status: 'downloaded',
   stickers: Array(101)
     .fill(0)
     .map((n, id) => ({ ...abeSticker, id })),

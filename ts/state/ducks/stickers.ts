@@ -4,9 +4,14 @@ import {
   updateStickerLastUsed,
   updateStickerPackStatus,
 } from '../../../js/modules/data';
-import { maybeDeletePack } from '../../../js/modules/stickers';
+import {
+  downloadStickerPack as externalDownloadStickerPack,
+  maybeDeletePack,
+} from '../../../js/modules/stickers';
 import { sendStickerPackSync } from '../../shims/textsecure';
 import { trigger } from '../../shims/events';
+
+import { NoopActionType } from './noop';
 
 // State
 
@@ -24,14 +29,20 @@ export type StickerPackDBType = {
   readonly id: string;
   readonly key: string;
 
-  readonly attemptedStatus: string;
+  readonly attemptedStatus: 'downloaded' | 'installed' | 'ephemeral';
   readonly author: string;
   readonly coverStickerId: number;
   readonly createdAt: number;
   readonly downloadAttempts: number;
   readonly installedAt: number | null;
   readonly lastUsed: number;
-  readonly status: 'advertised' | 'installed' | 'pending' | 'error';
+  readonly status:
+    | 'known'
+    | 'ephemeral'
+    | 'downloaded'
+    | 'installed'
+    | 'pending'
+    | 'error';
   readonly stickerCount: number;
   readonly stickers: Dictionary<StickerDBType>;
   readonly title: string;
@@ -64,9 +75,16 @@ export type StickerPackType = {
   readonly title: string;
   readonly author: string;
   readonly isBlessed: boolean;
-  readonly cover: StickerType;
+  readonly cover?: StickerType;
   readonly lastUsed: number;
-  readonly status: 'advertised' | 'installed' | 'pending' | 'error';
+  readonly attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral';
+  readonly status:
+    | 'known'
+    | 'ephemeral'
+    | 'downloaded'
+    | 'installed'
+    | 'pending'
+    | 'error';
   readonly stickers: Array<StickerType>;
   readonly stickerCount: number;
 };
@@ -103,7 +121,7 @@ type ClearInstalledStickerPackAction = {
 
 type UninstallStickerPackPayloadType = {
   packId: string;
-  status: 'advertised';
+  status: 'downloaded';
   installedAt: null;
   recentStickers: Array<RecentStickerType>;
 };
@@ -148,11 +166,13 @@ export type StickersActionType =
   | UninstallStickerPackFulfilledAction
   | StickerPackUpdatedAction
   | StickerPackRemovedAction
-  | UseStickerFulfilledAction;
+  | UseStickerFulfilledAction
+  | NoopActionType;
 
 // Action Creators
 
 export const actions = {
+  downloadStickerPack,
   clearInstalledStickerPack,
   removeStickerPack,
   stickerAdded,
@@ -188,6 +208,23 @@ function stickerPackAdded(payload: StickerPackDBType): StickerPackAddedAction {
   return {
     type: 'stickers/STICKER_PACK_ADDED',
     payload,
+  };
+}
+
+function downloadStickerPack(
+  packId: string,
+  packKey: string,
+  options?: { finalStatus?: 'installed' | 'downloaded' }
+): NoopActionType {
+  const { finalStatus } = options || { finalStatus: undefined };
+
+  // We're just kicking this off, since it will generate more redux events
+  // tslint:disable-next-line:no-floating-promises
+  externalDownloadStickerPack(packId, packKey, { finalStatus });
+
+  return {
+    type: 'NOOP',
+    payload: null,
   };
 }
 
@@ -246,7 +283,7 @@ async function doUninstallStickerPack(
 ): Promise<UninstallStickerPackPayloadType> {
   const { fromSync } = options || { fromSync: false };
 
-  const status = 'advertised';
+  const status = 'downloaded';
   await updateStickerPackStatus(packId, status);
 
   // If there are no more references, it should be removed
@@ -277,6 +314,13 @@ function stickerPackUpdated(
   packId: string,
   patch: Partial<StickerPackDBType>
 ): StickerPackUpdatedAction {
+  const { status, attemptedStatus } = patch;
+
+  // We do this to trigger a toast, which is still done via Backbone
+  if (status === 'error' && attemptedStatus === 'installed') {
+    trigger('pack-install-failed');
+  }
+
   return {
     type: 'stickers/STICKER_PACK_UPDATED',
     payload: {

@@ -20,6 +20,8 @@ import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import { app, BrowserWindow, dialog } from 'electron';
 
+import { getTempPath } from '../../app/attachments';
+
 // @ts-ignore
 import * as packageJson from '../../package.json';
 import { getSignatureFileName } from './signature';
@@ -269,7 +271,7 @@ function getGotOptions(): GotOptions<null> {
 
 function getBaseTempDir() {
   // We only use tmpdir() when this code is run outside of an Electron app (as in: tests)
-  return app ? join(app.getPath('userData'), 'temp') : tmpdir();
+  return app ? getTempPath(app.getPath('userData')) : tmpdir();
 }
 
 export async function createTempDir() {
@@ -301,11 +303,6 @@ export async function deleteTempDir(targetDir: string) {
 
 export function getPrintableError(error: Error) {
   return error && error.stack ? error.stack : error;
-}
-
-export async function deleteBaseTempDir() {
-  const baseTempDir = getBaseTempDir();
-  await rimrafPromise(baseTempDir);
 }
 
 export function getCliOptions<T>(options: any): T {

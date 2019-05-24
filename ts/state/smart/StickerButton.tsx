@@ -6,7 +6,9 @@ import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 import {
+  getBlessedStickerPacks,
   getInstalledStickerPacks,
+  getKnownStickerPacks,
   getReceivedStickerPacks,
   getRecentlyInstalledStickerPack,
   getRecentStickers,
@@ -15,6 +17,9 @@ import {
 const mapStateToProps = (state: StateType) => {
   const receivedPacks = getReceivedStickerPacks(state);
   const installedPacks = getInstalledStickerPacks(state);
+  const blessedPacks = getBlessedStickerPacks(state);
+  const knownPacks = getKnownStickerPacks(state);
+
   const recentStickers = getRecentStickers(state);
   const installedPack = getRecentlyInstalledStickerPack(state);
   const showIntroduction = get(
@@ -29,6 +34,8 @@ const mapStateToProps = (state: StateType) => {
   return {
     receivedPacks,
     installedPack,
+    blessedPacks,
+    knownPacks,
     installedPacks,
     recentStickers,
     showIntroduction,
