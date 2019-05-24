@@ -26,7 +26,7 @@ describe('LokiP2pAPI', () => {
     it('Should return null if no contact details exist', () => {
       const details = this.lokiP2pAPI.getContactP2pDetails(usedKey);
       assert.isNull(details);
-    })
+    });
 
     it('Should return the exact same object if contact details exist', () => {
       this.lokiP2pAPI.contactP2pDetails[usedKey] = usedDetails;
@@ -60,12 +60,7 @@ describe('LokiP2pAPI', () => {
       const { address, port } = details;
 
       this.lokiP2pAPI.contactP2pDetails[usedKey] = details;
-      this.lokiP2pAPI.updateContactP2pDetails(
-        usedKey,
-        address,
-        port,
-        isP2P
-      );
+      this.lokiP2pAPI.updateContactP2pDetails(usedKey, address, port, isP2P);
 
       // They should also be marked as online
       assert.isTrue(this.lokiP2pAPI.isOnline(usedKey));
@@ -197,7 +192,7 @@ describe('LokiP2pAPI', () => {
           true
         );
         assert.isTrue(this.lokiP2pAPI.isOnline(usedKey));
-        done()
+        done();
       });
 
       // The first message should ping
