@@ -1,7 +1,7 @@
 /* global setTimeout, clearTimeout */
 
 const EventEmitter = require('events');
-const { isEmpty } = require('lodash')
+const { isEmpty } = require('lodash');
 
 const offlinePingTime = 2 * 60 * 1000; // 2 minutes
 
@@ -32,16 +32,17 @@ class LokiP2pAPI extends EventEmitter {
 
     // Always set the new contact details
     this.contactP2pDetails[pubKey] = {
-     address,
-     port,
-     timerDuration,
-     pingTimer: null,
-     isOnline: false,
-   };
+      address,
+      port,
+      timerDuration,
+      pingTimer: null,
+      isOnline: false,
+    };
 
-    const contactExists = isEmpty(baseDetails)
+    const contactExists = isEmpty(baseDetails);
     const { isOnline } = baseDetails;
-    const detailsChanged = baseDetails.address !== address || baseDetails.port !== port
+    const detailsChanged =
+      baseDetails.address !== address || baseDetails.port !== port;
 
     // If we had the contact details
     // And we got a P2P message
@@ -52,7 +53,7 @@ class LokiP2pAPI extends EventEmitter {
       // We also need to set the current contact details to show online
       //  because they get reset to `false` above
       this.setContactOnline(pubKey);
-      return
+      return;
     }
 
     /*

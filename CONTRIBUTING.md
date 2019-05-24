@@ -89,10 +89,10 @@ can public keys. To test the P2P functionality on the same machine, however, req
 that each client binds their message server to a different port.
 
 You can use the following command to start a client bound to a different port.
+
 ```
 yarn start-multi
 ```
-
 
 For more than 2 clients, you can setup additional storage profiles and switch
 between them using the `NODE_APP_INSTANCE` environment variable and specifying a
@@ -149,14 +149,15 @@ So you wanna make a pull request? Please observe the following guidelines.
   the translations in
   [Transifex](https://www.transifex.com/projects/p/signal-desktop).
 -->
+
 * First, make sure that your `yarn ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
 * Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
   [`_locales/en/messages.json`](_locales/en/messages.json).
-<!-- TODO:
-  Other locales are generated automatically based on that file and then periodically
-  uploaded to Transifex for translation. -->
+  <!-- TODO:
+    Other locales are generated automatically based on that file and then periodically
+    uploaded to Transifex for translation. -->
 * [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
   changes on the latest `development` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
