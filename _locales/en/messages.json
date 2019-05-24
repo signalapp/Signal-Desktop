@@ -1835,6 +1835,25 @@
     "message": "Sticker Pack",
     "description": "The title that appears in the sticker pack preview modal."
   },
+  "EmojiPicker--empty": {
+    "message": "No emoji found",
+    "description": "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder": {
+    "message": "Search Emoji",
+    "description":
+      "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone": {
+    "message": "Skin tone $tone$",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "2"
+      }
+    },
+    "description": "Shown as a tooltip over the emoji tone buttons."
+  },
   "confirmation-dialog--Cancel": {
     "message": "Cancel",
     "description": "Appears on the cancel button in confirmation dialogs."

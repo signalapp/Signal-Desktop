@@ -58,11 +58,11 @@
     "emoji-datasource": "4.0.0",
     "emoji-datasource-apple": "4.0.0",
     "emoji-js": "3.4.0",
-    "emoji-panel": "https://github.com/scottnonnenberg-signal/emoji-panel.git#v0.5.5",
     "filesize": "3.6.1",
     "firstline": "1.2.1",
     "form-data": "2.3.2",
     "fs-extra": "5.0.0",
+    "fuse.js": "^3.4.4",
     "glob": "7.1.2",
     "google-libphonenumber": "3.2.2",
     "got": "8.2.0",
@@ -209,11 +209,16 @@
       "target": [
         "nsis"
       ],
-      "extraFiles": [{
-        "from": "node_modules/@journeyapps/sqlcipher/build/Release/",
-        "to": ".",
-        "filter": ["msvcp140.dll", "vcruntime140.dll"]
-      }]
+      "extraFiles": [
+        {
+          "from": "node_modules/@journeyapps/sqlcipher/build/Release/",
+          "to": ".",
+          "filter": [
+            "msvcp140.dll",
+            "vcruntime140.dll"
+          ]
+        }
+      ]
     },
     "nsis": {
       "deleteAppDataOnUninstall": true
@@ -268,11 +273,6 @@
       "fonts/*",
       "build/assets",
       "node_modules/**",
-      "!node_modules/emoji-panel/dist/*",
-      "!node_modules/emoji-panel/lib/emoji-panel-emojione-*.css",
-      "!node_modules/emoji-panel/lib/emoji-panel-google-*.css",
-      "!node_modules/emoji-panel/lib/emoji-panel-twitter-*.css",
-      "!node_modules/emoji-panel/lib/emoji-panel-apple-{16,20,64}.css",
       "!node_modules/emoji-datasource/emoji_pretty.json",
       "!node_modules/emoji-datasource/*.png",
       "!node_modules/emoji-datasource-apple/emoji_pretty.json",

@@ -434,6 +434,7 @@
       await Promise.all([
         ConversationController.load(),
         Signal.Stickers.load(),
+        Signal.Emojis.load(),
         textsecure.storage.protocol.hydrateCaches(),
       ]);
     } catch (error) {
@@ -457,6 +458,7 @@
       conversations: {
         conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
       },
+      emojis: Signal.Emojis.getInitialState(),
       items: storage.getItemsState(),
       stickers: Signal.Stickers.getInitialState(),
       user: {
@@ -478,6 +480,10 @@
     //   redux when things change in the backbone world.
     actions.conversations = Signal.State.bindActionCreators(
       Signal.State.Ducks.conversations.actions,
+      store.dispatch
+    );
+    actions.emojis = Signal.State.bindActionCreators(
+      Signal.State.Ducks.emojis.actions,
       store.dispatch
     );
     actions.items = Signal.State.bindActionCreators(

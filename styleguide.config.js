@@ -17,6 +17,11 @@ module.exports = {
       components: 'ts/components/conversation/[^_]*.tsx',
     },
     {
+      name: 'Emoji',
+      description: 'All components related to emojis',
+      components: 'ts/components/emoji/[^_]*.tsx',
+    },
+    {
       name: 'Media Gallery',
       description: 'Display media and documents in a conversation',
       components: 'ts/components/conversation/media-gallery/[^_]*.tsx',

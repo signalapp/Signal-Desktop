@@ -5,6 +5,7 @@ const Backbone = require('../../ts/backbone');
 const Crypto = require('./crypto');
 const Data = require('./data');
 const Database = require('./database');
+const Emojis = require('./emojis');
 const Emoji = require('../../ts/util/emoji');
 const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
@@ -69,6 +70,7 @@ const {
 } = require('../../ts/components/conversation/VerificationNotification');
 
 // State
+const { createEmojiButton } = require('../../ts/state/roots/createEmojiButton');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
 const {
   createStickerButton,
@@ -82,6 +84,7 @@ const {
 
 const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
+const emojisDuck = require('../../ts/state/ducks/emojis');
 const itemsDuck = require('../../ts/state/ducks/items');
 const stickersDuck = require('../../ts/state/ducks/stickers');
 const userDuck = require('../../ts/state/ducks/user');
@@ -262,6 +265,7 @@ exports.setup = (options = {}) => {
   };
 
   const Roots = {
+    createEmojiButton,
     createLeftPane,
     createStickerButton,
     createStickerManager,
@@ -269,6 +273,7 @@ exports.setup = (options = {}) => {
   };
   const Ducks = {
     conversations: conversationsDuck,
+    emojis: emojisDuck,
     items: itemsDuck,
     user: userDuck,
     stickers: stickersDuck,
@@ -308,6 +313,7 @@ exports.setup = (options = {}) => {
     Crypto,
     Data,
     Database,
+    Emojis,
     Emoji,
     IndexedDB,
     LinkPreviews,

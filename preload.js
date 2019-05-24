@@ -278,7 +278,6 @@ const { autoOrientImage } = require('./js/modules/auto_orient_image');
 window.autoOrientImage = autoOrientImage;
 window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
 window.emojiData = require('emoji-datasource');
-window.EmojiPanel = require('emoji-panel');
 window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;

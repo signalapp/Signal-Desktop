@@ -2,8 +2,6 @@
   $,
   _,
   ConversationController
-  emojiData,
-  EmojiPanel,
   extension,
   i18n,
   Signal,
@@ -278,23 +276,21 @@
       this.$('.send-message').focus(this.focusBottomBar.bind(this));
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
-      this.$emojiPanelContainer = this.$('.emoji-panel-container');
-
+      this.setupEmojiPickerButton();
       this.setupStickerPickerButton();
     },
 
     events: {
-      keydown: 'onKeyDown',
       'submit .send': 'clickSend',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
       'keyup .send-message': 'onKeyUp',
       click: 'onClick',
-      'click .sticker-button-placeholder': 'onClickStickerButtonPlaceholder',
+      'click .emoji-button-placeholder': 'onClickPlaceholder',
+      'click .sticker-button-placeholder': 'onClickPlaceholder',
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
       'click .module-scroll-down': 'scrollToBottom',
-      'click button.emoji': 'toggleEmojiPanel',
       'focus .send-message': 'focusBottomBar',
       'change .file-input': 'toggleMicrophone',
       'blur .send-message': 'unfocusBottomBar',
@@ -312,6 +308,20 @@
       dragleave: 'onDragLeave',
       drop: 'onDrop',
       paste: 'onPaste',
+    },
+
+    setupEmojiPickerButton() {
+      const props = {
+        onPickEmoji: e => this.insertEmoji(e),
+      };
+
+      this.emojiButtonView = new Whisper.ReactWrapperView({
+        className: 'emoji-button-wrapper',
+        JSX: Signal.State.Roots.createEmojiButton(window.reduxStore, props),
+      });
+
+      // Finally, add it to the DOM
+      this.$('.emoji-button-placeholder').append(this.emojiButtonView.el);
     },
 
     setupStickerPickerButton() {
@@ -334,9 +344,9 @@
       this.$('.sticker-button-placeholder').append(this.stickerButtonView.el);
     },
 
-    // We need this, or clicking the sticker button will submit the form and send any
+    // We need this, or clicking the reactified buttons will submit the form and send any
     //   mid-composition message content.
-    onClickStickerButtonPlaceholder(e) {
+    onClickPlaceholder(e) {
       e.preventDefault();
     },
 
@@ -1684,40 +1694,10 @@
       return null;
     },
 
-    toggleEmojiPanel(e) {
-      e.preventDefault();
-      if (!this.emojiPanel) {
-        this.openEmojiPanel();
-      } else {
-        this.closeEmojiPanel();
-      }
-    },
-    onKeyDown(event) {
-      if (event.key !== 'Escape') {
-        return;
-      }
-      this.closeEmojiPanel();
-    },
-    openEmojiPanel() {
-      this.$emojiPanelContainer.outerHeight(200);
-      this.emojiPanel = new EmojiPanel(this.$emojiPanelContainer[0], {
-        onClick: this.insertEmoji.bind(this),
-      });
-      this.view.resetScrollPosition();
-      this.updateMessageFieldSize({});
-    },
-    closeEmojiPanel() {
-      if (this.emojiPanel === null) {
-        return;
-      }
-
-      this.$emojiPanelContainer.empty().outerHeight(0);
-      this.emojiPanel = null;
-      this.view.resetScrollPosition();
-      this.updateMessageFieldSize({});
-    },
-    insertEmoji(e) {
-      const colons = `:${emojiData[e.index].short_name}:`;
+    insertEmoji({ shortName, skinTone }) {
+      const colons = `:${shortName}:${
+        skinTone ? `:skin-tone-${skinTone}:` : ''
+      }`;
 
       const textarea = this.$messageField[0];
       if (textarea.selectionStart || textarea.selectionStart === 0) {
@@ -1806,11 +1786,10 @@
 
     async sendMessage(e) {
       this.removeLastSeenIndicator();
-      this.closeEmojiPanel();
       this.model.clearTypingTimers();
 
       const input = this.$messageField;
-      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
+      const message = window.Signal.Emojis.replaceColons(input.val()).trim();
 
       let toast;
       if (extension.expired()) {
@@ -2283,7 +2262,6 @@
       const height =
         this.$messageField.outerHeight() +
         $attachmentPreviews.outerHeight() +
-        this.$emojiPanelContainer.outerHeight() +
         quoteHeight +
         parseInt($bottomBar.css('min-height'), 10);
 

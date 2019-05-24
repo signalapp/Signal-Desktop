@@ -2772,12 +2772,6 @@ emoji-js@3.4.0:
   dependencies:
     emoji-datasource "4.0.0"
 
-"emoji-panel@https://github.com/scottnonnenberg-signal/emoji-panel.git#v0.5.5":
-  version "0.5.5"
-  resolved "https://github.com/scottnonnenberg-signal/emoji-panel.git#81e236e03458a44d4a174ab5f367cb4b9b1b2f97"
-  dependencies:
-    emoji-datasource "4.0.0"
-
 "emoji-regex@>=6.0.0 <=6.1.1":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-6.1.1.tgz#c6cd0ec1b0642e2a3c67a1137efc5e796da4f88e"
@@ -3731,6 +3725,11 @@ function.name-polyfill@^1.0.5:
 functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
+
+fuse.js@^3.4.4:
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.4.4.tgz#f98f55fcb3b595cf6a3e629c5ffaf10982103e95"
+  integrity sha512-pyLQo/1oR5Ywf+a/tY8z4JygnIglmRxVUOiyFAbd11o9keUDpUJSMGRWJngcnkURj30kDHPmhoKY8ChJiz3EpQ==
 
 gauge@~2.7.1, gauge@~2.7.3:
   version "2.7.4"

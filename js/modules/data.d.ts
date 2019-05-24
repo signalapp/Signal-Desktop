@@ -18,3 +18,8 @@ export function getRecentStickers(): Promise<
     packId: string;
   }>
 >;
+
+export function updateEmojiUsage(shortName: string): Promise<void>;
+export function getRecentEmojis(
+  limit: number
+): Promise<Array<{ shortName: string; lastUsage: string }>>;

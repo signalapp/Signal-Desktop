@@ -6,6 +6,11 @@ import {
   reducer as conversations,
 } from './ducks/conversations';
 import {
+  EmojisActionType,
+  EmojisStateType,
+  reducer as emojis,
+} from './ducks/emojis';
+import {
   ItemsActionType,
   ItemsStateType,
   reducer as items,
@@ -24,6 +29,7 @@ import { reducer as user, UserStateType } from './ducks/user';
 
 export type StateType = {
   conversations: ConversationsStateType;
+  emojis: EmojisStateType;
   items: ItemsStateType;
   search: SearchStateType;
   stickers: StickersStateType;
@@ -31,13 +37,15 @@ export type StateType = {
 };
 
 export type ActionsType =
-  | ItemsActionType
+  | EmojisActionType
   | ConversationActionType
+  | ItemsActionType
   | StickersActionType
   | SearchActionType;
 
 export const reducers = {
   conversations,
+  emojis,
   items,
   search,
   stickers,

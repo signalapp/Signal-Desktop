@@ -3173,29 +3173,41 @@
   outline: none;
 }
 
-// Module: StickerPicker
+// Module: CompositionPopper
 
-.module-sticker-picker {
+%module-composition-popper {
   width: 332px;
-  height: 400px;
   border-radius: 8px;
-  display: grid;
-  grid-template-rows: 44px 1fr;
-  grid-template-columns: 1fr;
+  margin-bottom: 6px;
+  z-index: 2;
   user-select: none;
   overflow: hidden;
-  z-index: 2;
-  margin-bottom: 6px;
 
   @include popper-shadow();
 
   @include light-theme {
     background: $color-gray-02;
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-gray-02;
+    }
   }
 
   @include dark-theme {
     background: $color-gray-75;
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-gray-75;
+    }
   }
+}
+
+// Module: StickerPicker
+
+.module-sticker-picker {
+  @extend %module-composition-popper;
+  height: 400px;
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  grid-template-columns: 1fr;
 }
 
 .module-sticker-picker__header {
@@ -3830,6 +3842,7 @@
     content: '';
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
 
     @include light-theme {
       @include color-svg('../images/sticker-filled.svg', $color-gray-60);
@@ -4074,6 +4087,320 @@
         }
       }
     }
+  }
+}
+
+// Module: Emoji Picker
+
+%module-emoji-picker--ribbon {
+  height: 44px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-emoji-picker {
+  @extend %module-composition-popper;
+  height: 428px;
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  grid-template-columns: 1fr;
+
+  &__header {
+    @extend %module-emoji-picker--ribbon;
+    justify-content: space-between;
+    margin: 0 12px;
+
+    &__search-field {
+      flex-grow: 1;
+      margin-left: 8px;
+      position: relative;
+
+      &::after {
+        display: block;
+        content: '';
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        left: 8px;
+        top: 6px;
+
+        @include light-theme {
+          @include color-svg('../images/search.svg', $color-gray-60);
+        }
+        @include dark-theme {
+          @include color-svg('../images/search.svg', $color-gray-25);
+        }
+      }
+
+      &__input {
+        width: 100%;
+        height: 28px;
+        line-height: 28px;
+        font-size: 14px;
+        border-radius: 17px;
+        border-width: 1px;
+        border-style: solid;
+        padding: 0 8px 0 30px;
+
+        &:focus {
+          outline: none;
+        }
+
+        @include light-theme {
+          background: $color-white;
+          color: $color-gray-90;
+          border-color: $color-gray-60;
+
+          &:focus {
+            border-color: $color-signal-blue;
+          }
+
+          &::placeholder {
+            color: $color-gray-45;
+          }
+        }
+
+        @include dark-theme {
+          border-color: $color-gray-25;
+          background: $color-gray-75;
+          color: $color-gray-05;
+
+          &:focus {
+            border-color: $color-signal-blue;
+          }
+
+          &::placeholder {
+            color: $color-gray-45;
+          }
+        }
+      }
+    }
+  }
+
+  &__footer {
+    @extend %module-emoji-picker--ribbon;
+    justify-content: center;
+  }
+
+  &__button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 8px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+
+    &--footer {
+      &:not(:first-of-type) {
+        margin-left: 4px;
+      }
+    }
+
+    &--selected {
+      @include light-theme {
+        background: $color-gray-10;
+      }
+
+      @include dark-theme {
+        background: $color-gray-60;
+      }
+    }
+
+    &--icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &::after {
+        display: block;
+        content: '';
+        width: 20px;
+        height: 20px;
+      }
+
+      &--search {
+        &::after {
+          @include light-theme {
+            @include color-svg('../images/search.svg', $color-gray-60);
+          }
+          @include dark-theme {
+            @include color-svg('../images/search.svg', $color-gray-25);
+          }
+        }
+      }
+
+      &--close {
+        &::after {
+          @include light-theme {
+            @include color-svg('../images/x.svg', $color-gray-60);
+          }
+          @include dark-theme {
+            @include color-svg('../images/x.svg', $color-gray-25);
+          }
+        }
+      }
+
+      &--recents {
+        &::after {
+          @include light-theme {
+            @include color-svg(
+              '../images/recent-outline-20.svg',
+              $color-gray-60
+            );
+          }
+          @include dark-theme {
+            @include color-svg(
+              '../images/recent-outline-20.svg',
+              $color-gray-25
+            );
+          }
+        }
+      }
+
+      &--emoji {
+        &::after {
+          @include light-theme {
+            @include color-svg(
+              '../images/emoji-outline-20.svg',
+              $color-gray-60
+            );
+          }
+          @include dark-theme {
+            @include color-svg('../images/emoji-filled-20.svg', $color-gray-25);
+          }
+        }
+      }
+
+      $categories: animal food activity travel object symbol flag;
+
+      @each $cat in $categories {
+        &--#{$cat} {
+          &::after {
+            @include light-theme {
+              @include color-svg(
+                '../images/emoji-#{$cat}-outline-20.svg',
+                $color-gray-60
+              );
+            }
+            @include dark-theme {
+              @include color-svg(
+                '../images/emoji-#{$cat}-filled-20.svg',
+                $color-gray-25
+              );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__body {
+    padding: 8px 16px 0 12px;
+
+    &__emoji-cell {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    &--empty {
+      display: flex;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+    }
+  }
+}
+
+// Module: EmojiButton
+
+.emoji-button-wrapper {
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 6px;
+  padding-top: 4px;
+}
+
+.module-emoji-button__button {
+  border: 0;
+  background: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:after {
+    display: block;
+    content: '';
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+
+    @include light-theme {
+      @include color-svg('../images/smile.svg', $color-gray-60);
+    }
+    @include dark-theme {
+      @include color-svg('../images/smile.svg', $color-gray-25);
+    }
+  }
+
+  &--active {
+    @include light-theme() {
+      background: $color-gray-10;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-75;
+    }
+
+    opacity: 1;
+  }
+}
+
+// Module: Emoji
+@mixin emoji-size($size, $emoji-sheet-columns: 51) {
+  &--#{$size} {
+    width: $size;
+    height: $size;
+    background-size: $emoji-sheet-columns * $size;
+  }
+}
+
+.module-emoji {
+  display: block;
+  background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets-256/64.png');
+
+  @include emoji-size(16px);
+  @include emoji-size(20px);
+  @include emoji-size(28px);
+  @include emoji-size(32px);
+  @include emoji-size(64px);
+  @include emoji-size(66px);
+
+  &--inline {
+    display: inline-block;
   }
 }
 

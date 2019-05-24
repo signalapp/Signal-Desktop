@@ -150,6 +150,9 @@ module.exports = {
   getAllStickers,
   getRecentStickers,
 
+  updateEmojiUsage,
+  getRecentEmojis,
+
   removeAll,
   removeAllConfiguration,
 
@@ -932,6 +935,14 @@ async function getAllStickers() {
 async function getRecentStickers() {
   const recentStickers = await channels.getRecentStickers();
   return recentStickers;
+}
+
+// Emojis
+async function updateEmojiUsage(shortName) {
+  await channels.updateEmojiUsage(shortName);
+}
+async function getRecentEmojis(limit = 32) {
+  return channels.getRecentEmojis(limit);
 }
 
 // Other
