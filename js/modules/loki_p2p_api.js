@@ -39,7 +39,7 @@ class LokiP2pAPI extends EventEmitter {
       isOnline: false,
     };
 
-    const contactExists = isEmpty(baseDetails);
+    const contactExists = !isEmpty(baseDetails);
     const { isOnline } = baseDetails;
     const detailsChanged =
       baseDetails.address !== address || baseDetails.port !== port;
@@ -70,7 +70,8 @@ class LokiP2pAPI extends EventEmitter {
   }
 
   getContactP2pDetails(pubKey) {
-    return this.contactP2pDetails[pubKey] || null;
+    if (!this.contactP2pDetails[pubKey]) return null;
+    return { ...this.contactP2pDetails[pubKey] };
   }
 
   isContactOnline(pubKey) {
