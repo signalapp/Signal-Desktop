@@ -19,6 +19,7 @@ describe('LokiP2pAPI', () => {
   });
 
   afterEach(() => {
+    this.lokiP2pAPI.removeAllListeners();
     this.lokiP2pAPI.reset();
   });
 
@@ -173,37 +174,6 @@ describe('LokiP2pAPI', () => {
       assert.strictEqual(usedAddress, p2pDetails.address);
       assert.strictEqual(usedPort, p2pDetails.port);
     });
-
-    it('Should establish a proper p2p connection', done => {
-      // We assume that when we pinged a contact then it was successful
-      let pingCount = 0;
-
-      this.lokiP2pAPI.on('pingContact', pubKey => {
-        pingCount += 1;
-        assert.strictEqual(pingCount, 1);
-        assert.strictEqual(pubKey, usedKey);
-        this.lokiP2pAPI.setContactOnline(pubKey);
-
-        // The second message should work and the user should be online
-        this.lokiP2pAPI.updateContactP2pDetails(
-          usedKey,
-          usedAddress,
-          usedPort,
-          true
-        );
-        assert.isTrue(this.lokiP2pAPI.isOnline(usedKey));
-        done();
-      });
-
-      // The first message should ping
-      this.lokiP2pAPI.updateContactP2pDetails(
-        usedKey,
-        usedAddress,
-        usedPort,
-        false
-      );
-      assert.isFalse(this.lokiP2pAPI.isOnline(usedKey));
-    }).timeout(2000);
 
     it('Should set a contact as offline and online', () => {
       this.lokiP2pAPI.contactP2pDetails[usedKey] = { ...usedDetails };
