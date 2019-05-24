@@ -1,6 +1,7 @@
-/* global setTimeout, clearTimeout, _ */
+/* global setTimeout, clearTimeout */
 
 const EventEmitter = require('events');
+const { isEmpty } = require('lodash')
 
 const offlinePingTime = 2 * 60 * 1000; // 2 minutes
 
@@ -38,7 +39,7 @@ class LokiP2pAPI extends EventEmitter {
      isOnline: false,
    };
 
-    const contactExists = _.isEmpty(baseDetails)
+    const contactExists = isEmpty(baseDetails)
     const { isOnline } = baseDetails;
     const detailsChanged = baseDetails.address !== address || baseDetails.port !== port
 
