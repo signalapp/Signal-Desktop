@@ -74,11 +74,6 @@ class LokiP2pAPI extends EventEmitter {
     return { ...this.contactP2pDetails[pubKey] };
   }
 
-  isContactOnline(pubKey) {
-    const contactDetails = this.contactP2pDetails[pubKey];
-    return !!(contactDetails && contactDetails.isOnline);
-  }
-
   setContactOffline(pubKey) {
     this.emit('offline', pubKey);
     if (!this.contactP2pDetails[pubKey]) {

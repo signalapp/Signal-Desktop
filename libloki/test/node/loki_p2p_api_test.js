@@ -70,7 +70,7 @@ describe('LokiP2pAPI', () => {
     it("Should ping a contact if we don't have details for it", done => {
       this.lokiP2pAPI.on('pingContact', pubKey => {
         assert.strictEqual(pubKey, usedKey);
-        assert.isFalse(this.lokiP2pAPI.isContactOnline(usedKey));
+        assert.isFalse(this.lokiP2pAPI.isOnline(usedKey));
         done();
       });
       this.lokiP2pAPI.updateContactP2pDetails(
@@ -87,7 +87,7 @@ describe('LokiP2pAPI', () => {
 
       this.lokiP2pAPI.on('pingContact', pubKey => {
         assert.strictEqual(pubKey, usedKey);
-        assert.isFalse(this.lokiP2pAPI.isContactOnline(usedKey));
+        assert.isFalse(this.lokiP2pAPI.isOnline(usedKey));
         done();
       });
       this.lokiP2pAPI.updateContactP2pDetails(
@@ -105,7 +105,7 @@ describe('LokiP2pAPI', () => {
 
       this.lokiP2pAPI.on('pingContact', pubKey => {
         assert.strictEqual(pubKey, usedKey);
-        assert.isFalse(this.lokiP2pAPI.isContactOnline(usedKey));
+        assert.isFalse(this.lokiP2pAPI.isOnline(usedKey));
         done();
       });
       this.lokiP2pAPI.updateContactP2pDetails(
