@@ -196,15 +196,7 @@ class LokiMessageAPI {
       params,
       options
     );
-    if (Array.isArray(result.messages) && result.messages.length) {
-      const filteredMessages = await this.jobQueue.add(() =>
-        filterIncomingMessages(result.messages)
-      );
-      if (filteredMessages.length) {
-        return filteredMessages;
-      }
-    }
-    return [];
+    return result.messages || [];
   }
 
   async openConnection(callback) {
@@ -218,7 +210,7 @@ class LokiMessageAPI {
         await sleepFor(successiveFailures * 1000);
 
         try {
-          const messages = await this.retrieveNextMessages(
+          let messages = await this.retrieveNextMessages(
             url,
             nodeData,
             ourKey
@@ -232,7 +224,11 @@ class LokiMessageAPI {
               lastMessage.hash,
               lastMessage.expiration
             );
+            messages = await this.jobQueue.add(() =>
+              filterIncomingMessages(messages)
+            );
           }
+          // Execute callback even with empty array to signal online status
           callback(messages);
         } catch (e) {
           log.warn('Loki retrieve messages:', e);
