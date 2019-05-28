@@ -29,11 +29,9 @@
     const profile = storage.getLocalProfile();
     const newProfile = profile || {};
     if (_.isEmpty(trimmed)) {
-      delete newProfile.name;
+      delete newProfile.displayName;
     } else {
-      newProfile.name = {
-        displayName: trimmed,
-      };
+      newProfile.displayName = trimmed;
     }
 
     await storage.saveLocalProfile(newProfile);

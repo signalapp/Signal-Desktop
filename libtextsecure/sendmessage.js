@@ -143,10 +143,12 @@ Message.prototype = {
       proto.profileKey = this.profileKey;
     }
 
-    if (this.profile && this.profile.name) {
-      const contact = new textsecure.protobuf.DataMessage.Contact();
-      contact.name = this.profile.name;
-      proto.profile = contact;
+    // Only send the display name for now.
+    // In the future we might want to extend this to send other things.
+    if (this.profile && this.profile.displayName) {
+      const profile = new textsecure.protobuf.DataMessage.LokiProfile();
+      profile.displayName = this.profile.displayName;
+      proto.profile = profile;
     }
 
     this.dataMessage = proto;

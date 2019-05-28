@@ -620,7 +620,7 @@
     Whisper.events.on('onEditProfile', () => {
       const ourNumber = textsecure.storage.user.getNumber();
       const profile = storage.getLocalProfile();
-      const displayName = profile && profile.name && profile.name.displayName;
+      const displayName = profile && profile.displayName;
       if (appView) {
         appView.showNicknameDialog({
           title: window.i18n('editProfileTitle'),

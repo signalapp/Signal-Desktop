@@ -180,6 +180,11 @@ message DataMessage {
     optional AttachmentPointer image = 3;
   }
 
+  // Loki: A custom message for our profile
+  message LokiProfile {
+    optional string displayName = 1;
+  }
+
   optional string             body        = 1;
   repeated AttachmentPointer  attachments = 2;
   optional GroupContext       group       = 3;
@@ -190,7 +195,7 @@ message DataMessage {
   optional Quote              quote       = 8;
   repeated Contact            contact     = 9;
   repeated Preview            preview     = 10;
-  optional Contact            profile     = 101; // Loki: The profile of the current user
+  optional LokiProfile        profile     = 101; // Loki: The profile of the current user
 }
 
 message NullMessage {
