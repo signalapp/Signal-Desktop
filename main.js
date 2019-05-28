@@ -63,8 +63,11 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 //   data directory has been set.
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
-// TODO: remove or restore when appropriate
-// const autoUpdate = require('./app/auto_update');
+
+// TODO: Enable when needed
+// const updater = require('./ts/updater/index');
+const updater = null;
+
 const createTrayIcon = require('./app/tray_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
@@ -101,21 +104,25 @@ function showWindow() {
 
 if (!process.mas) {
   console.log('making app single instance');
-  const shouldQuit = app.makeSingleInstance(() => {
-    // Someone tried to run a second instance, we should focus our window
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) {
-        mainWindow.restore();
-      }
-
-      showWindow();
+  const gotLock = app.requestSingleInstanceLock();
+  if (!gotLock) {
+    // Don't allow second instance if we are in prod
+    if (appInstance === 0) {
+      console.log('quitting; we are the second instance');
+      app.exit();
     }
-    return true;
-  });
+  } else {
+    app.on('second-instance', () => {
+      // Someone tried to run a second instance, we should focus our window
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        }
 
-  if (appInstance === 0 && shouldQuit) {
-    console.log('quitting; we are the second instance');
-    app.exit();
+        showWindow();
+      }
+      return true;
+    });
   }
 }
 
@@ -220,7 +227,7 @@ function createWindow() {
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        // sandbox: true,
+        contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
       },
@@ -384,11 +391,28 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-
-  ipc.on('show-window', () => {
-    showWindow();
-  });
 }
+
+ipc.on('show-window', () => {
+  showWindow();
+});
+
+let updatesStarted = false;
+ipc.on('ready-for-updates', async () => {
+  if (updatesStarted || !updater) {
+    return;
+  }
+  updatesStarted = true;
+
+  try {
+    await updater.start(getMainWindow, locale.messages, logger);
+  } catch (error) {
+    logger.error(
+      'Error starting update checks:',
+      error && error.stack ? error.stack : error
+    );
+  }
+});
 
 function openReleaseNotes() {
   shell.openExternal(
@@ -515,8 +539,8 @@ function showAbout() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'about_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -561,8 +585,8 @@ async function showSettingsWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'settings_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -606,8 +630,8 @@ async function showDebugLogWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'debug_log_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -654,8 +678,8 @@ async function showPermissionsPopupWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'permissions_popup_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -707,19 +731,10 @@ app.on('ready', async () => {
 
   installPermissionsHandler({ session, userConfig });
 
-  let loggingSetupError;
-  try {
-    await logging.initialize();
-  } catch (error) {
-    loggingSetupError = error;
-  }
-
-  if (loggingSetupError) {
-    console.error('Problem setting up logging', loggingSetupError.stack);
-  }
-
+  await logging.initialize();
   logger = logging.getLogger();
   logger.info('app ready');
+  logger.info(`starting version ${packageJson.version}`);
 
   if (!locale) {
     const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
@@ -766,7 +781,11 @@ async function removeDB() {
 async function showMainWindow(sqlKey) {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
-  await sql.initialize({ configDir: userDataPath, key: sqlKey });
+  await sql.initialize({
+    configDir: userDataPath,
+    key: sqlKey,
+    messages: locale.messages,
+  });
   await sqlChannels.initialize();
 
   try {
@@ -800,9 +819,6 @@ async function showMainWindow(sqlKey) {
   });
 
   ready = true;
-
-  // TODO: remove or restore when appropriate
-  // autoUpdate.initialize(getMainWindow, locale.messages);
 
   createWindow();
 
@@ -879,6 +895,7 @@ app.on('before-quit', () => {
     readyForShutdown: mainWindow ? mainWindow.readyForShutdown : null,
     shouldQuit: windowState.shouldQuit(),
   });
+
   windowState.markShouldQuit();
 });
 

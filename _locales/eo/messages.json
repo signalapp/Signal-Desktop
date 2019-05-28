@@ -1,4 +1,20 @@
 {
+    "copyErrorAndQuit": {
+        "message": "Kopii la eraron kaj eliri",
+        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "unknownGroup": {
+        "message": "Nekonata grupo",
+        "description": "Shown as the name of a group if we don't have any information about it"
+    },
+    "databaseError": {
+        "message": "Datumbaza eraro",
+        "description": "Shown in a popup if the database cannot start up properly"
+    },
+    "deleteAndRestart": {
+        "message": "Forigi ĉiujn datumojn kaj restarti",
+        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    },
     "mainMenuFile": {
         "message": "&Dosiero",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -60,7 +76,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Alglui kaj akordigi je stilo",
+        "message": "Alglui nur tekston",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -108,35 +124,35 @@
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Ŝalti/malŝalti plenekranan reĝimon",
+        "message": "Baskuligi plenekranan reĝimon",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Ŝalti/malŝalti programistajn ilojn",
+        "message": "Baskuligi programistajn ilojn",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Set Up with Import",
+        "message": "Agordi kun importo",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
+        "message": "Agordi kiel novan aparaton",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Set Up as Standalone Device",
+        "message": "Agordi kiel memstaran aparaton",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
-        "message": "Ŝarĝante…",
+        "message": "Ŝargante…",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "Optimumigo de la aplikaĵo...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimizing messages... $status$ complete.",
+        "message": "Optimumigo de la mesaĝoj... $status$ plenumitaj.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -145,44 +161,60 @@
             }
         }
     },
+    "archivedConversations": {
+        "message": "Enarĥivigitaj interparoloj",
+        "description": "Shown in place of the search box when showing archived conversation list"
+    },
+    "archiveHelperText": {
+        "message": "Tiuj interparoloj estas enarĥivigitaj kaj aperos en la ricevujo, nur se novaj mesaĝoj riceviĝas.",
+        "description": "Shown at the top of the archived converations list in the left pane"
+    },
+    "archiveConversation": {
+        "message": "Enarĥivigi interparolon",
+        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
+    },
+    "moveConversationToInbox": {
+        "message": "Movi interparolon al la ricevujo",
+        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
+    },
     "chooseDirectory": {
-        "message": "Elekti dosierejon",
+        "message": "Elekti dosierujon",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Choose file",
+        "message": "Elekti dosieron",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Ŝarĝu viajn datumojn",
+        "message": "Ŝargu viajn datumojn",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "Vi ĵus plenumis la eksportan procezon, kaj viaj kontaktoj kaj mesaĝoj atendas pacience ĉe via komputilo. Elektu la dosierujon, kiu enhavas viajn konservitajn Signal-datumojn.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Elektu dosierejon je eksportitaj datumoj",
+        "message": "Elektu dosierujon kun eksportitaj datumoj",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Ho ve! Io eraris!",
+        "message": "Ho ve! Okazis eraro!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Ŝarĝante kontaktojn kaj mesaĝojn",
+        "message": "Ŝargante kontaktojn kaj mesaĝojn",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Certigu, ke vi elektis la ĝustan dosierujon, kiu enhavas viajn konservitajn Signal-datumojn. Ties nomo komencu per „Signal Export“. Vi ankaŭ povas konservi novan kopion el viaj datumoj per la aplikaĵo Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "Se tiuj paŝoj ne funkcias, bv. sendi sencimigan protokolon (Vidi → Sencimiga protokolo), por ke ni helpu vin kun la transirado!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Elektu dosierejon kaj klopodu denove",
+        "message": "Elektu dosierujon kaj reprovu",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
@@ -202,11 +234,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Upgrading database. This may take some time...",
+        "message": "Ĝisdatigo de la datumbazo. Tio povas daŭri...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Ŝarĝante mesaĝojn. Jam $count$…",
+        "message": "Ŝargante mesaĝojn. $count$ ĝis nun…",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -228,11 +260,11 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Scroll to bottom of conversation",
+        "message": "Rulumi al interparola malsupro",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messageBelow": {
-        "message": "Novaj mesaĝo suben",
+        "message": "Nova mesaĝo suben",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
@@ -244,7 +276,7 @@
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ nelegata mesaĝoj",
+        "message": "$count$ nelegataj mesaĝoj",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -254,7 +286,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "Vi markis la sekurnumero de $name$ kontrolita.",
+        "message": "Vi markis vian sekurigan numeron kun $name$ konfirmita.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -264,7 +296,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Vi markis la sekurnumero de $name$ nekontrolita.",
+        "message": "Vi markis vian sekurigan numeron kun $name$ kiel nekonfirmita.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -274,7 +306,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Vi markis la sekurnumero de $name$ kontrolita de alia aparato.",
+        "message": "Vi markis, el alia aparato, vian sekurigan numeron kun $name$ kiel konfirmita.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -284,7 +316,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Vi markis la sekurnumero de $name$ nekontrolita de alia aparato.",
+        "message": "Vi markis, el alia aparato, vian sekurigan numeron kun $name$ kiel nekonfirmita.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -294,15 +326,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "Viaj sekurigaj numeroj kun tiuj grupanoj ŝanĝigis de post via lasta kontrolo. Alklaku grupanon por vidi la novan sekurigan numeron kun li aŭ ŝi.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Viaj sekurigaj numeroj kun pluraj grupanoj ŝanĝiĝis de post via lasta kontrolo. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke ili simple reinstalis Signal-on.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "La sekurnumero de $name$ ŝanĝigis post kiam vi laste kontrolis ĝin. Tio eble signifas, ke oni klopodas forkapti viajn komunikaĵojn aŭ $name$ nur denove instalis Signal-on.",
+        "message": "La sekuriga numero de $name$ ŝanĝiĝis post kiam vi laste kontrolis ĝin. Tio eble signifas, ke oni klopodas forkapti viajn komunikaĵojn, aŭ ke $name$ nur denove instalis Signal-on.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -312,7 +344,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "La sekuriga numero, kiun vi kontrolas, ŝanĝiĝis. Bv. kontroli vian sekurigan numeron kun $name$. Atentu, ke tiu ŝanĝo eble signifas, ke iu klopodas forkapti viajn komunikojn, aŭ ke $name$ simple re-instalis Signal-on.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -322,11 +354,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Viaj sekurigaj numeroj kun pluraj grupanoj ŝanĝiĝis antaŭnelonge. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke ili simple reinstalis Signal-on.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Via sekuriga numero kun $name$ ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke $name$ simple reinstalis Signal-on.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -336,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "Via sekuriga numero kun $name$ ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke $name$ simple reinstalis Signal-on. Vi certe volos kontroli la sekurigan numeron kun tiu ĉi kontakto.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -346,11 +378,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Ĉu ankoraŭ sendu",
+        "message": "Tamen sendi",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "Via sekuriga numero kun $name$ ŝanĝiĝis kaj ne plu estas konfirmita. Alklaku por montri ĝin.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -360,15 +392,15 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "Viaj sekurigaj numeroj kun pluraj anoj el tiu grupo ŝanĝiĝis kaj ne plu estas konfirmita. Alklaku por montri ilin.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Tiu protokolo estos afiŝita publike en la reto, por ke kontribuantoj vidu ĝin; vi povas revizii ĝin antaŭ ol sendi ĝin.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "Eraro dum la alŝuto! Bv. konsideri mane aldoni la protokolo, al problemo, kiun vi raportas.",
         "description": ""
     },
     "reportIssue": {
@@ -380,7 +412,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Proponi",
+        "message": "Sendi",
         "description": ""
     },
     "acceptNewKey": {
@@ -388,15 +420,15 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Marki kontrolita",
+        "message": "Marki konfirmita",
         "description": ""
     },
     "unverify": {
-        "message": "Marki nekontrolita",
+        "message": "Marki nekonfirmita",
         "description": ""
     },
     "isVerified": {
-        "message": "Vi jam kontrolis la sekurnumeron de $name$.",
+        "message": "Vi jam konfirmis la sekurigan numeron kun $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -406,7 +438,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Vi ne jam kontrolis la sekurnumeron de $name$.",
+        "message": "Vi ankoraŭ ne konfirmis la sekurigan numeron kun $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -416,27 +448,27 @@
         }
     },
     "verified": {
-        "message": "Kontrolita",
+        "message": "Konfirmita",
         "description": ""
     },
     "newIdentity": {
-        "message": "Nova sekurnumero",
+        "message": "Nova sekuriga numero",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "Via sekuriga numero kun tiu ĉi kontakto ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke tiu kontakto simple reinstalis Signal-on. Vi certe volos kontroli la novan sekurigan numeron ĉi-suban.",
         "description": ""
     },
     "incomingError": {
-        "message": "Okazis eraron ricevante mesaĝon",
+        "message": "Okazis eraro dum ricevo de mesaĝo",
         "description": ""
     },
     "media": {
-        "message": "Enmetitaĵoj",
+        "message": "Aŭdvidaĵo",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
+        "message": "Vi havas neniun aŭdvidaĵon en tiu interparolo",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
@@ -444,7 +476,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
+        "message": "Vi havas neniun dokumenton en tiu interparolo",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -456,15 +488,15 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Ĉi-semajnon",
+        "message": "Ĉisemajne",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Ĉi-monaton",
+        "message": "Ĉimonate",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Nesubtenata tipo de kunsendaĵo. Alklaku por konservi ĝin.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
@@ -472,23 +504,23 @@
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Nenomita dosiero",
+        "message": "Sennoma dosiero",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Voĉmesaĝo",
+        "message": "Voĉa mesaĝo",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Attachment type not allowed for security reasons",
+        "message": "Kunsendaĵa tipo ne permesata por sekurecaj kialoj",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Loading Preview...",
+        "message": "Ŝargante antaŭrigardon...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "Preparante miniaturan antaŭrigardon de ligilo pri $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -498,7 +530,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "Miniatura antaŭrigardo de ligilo pri $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -508,7 +540,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "Preparante bildan kunsendaĵon: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -518,23 +550,23 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "message": "Kiam oni enmetas nebildan kunsendaĵon, limo estas po unu kunsendaĵo mesaĝe.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "You cannot mix non-image and image attachments in one message.",
+        "message": "Vi ne povas kunmeti nebildajn kaj bildajn kunsendaĵojn en unu mesaĝo.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "You cannot add any more attachments to this message.",
+        "message": "Ne plu eblas aldoni kunsendaĵojn al tiu mesaĝo.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Bedaŭrinde, la elektita dosiero tro grandas.",
+        "message": "Bedaŭrinde, la elektita dosiero transpasas limigon pri grandeco de mesaĝo.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Unable to load selected attachment.",
+        "message": "Ne eblas ŝargi la elektitan kunsendaĵon.",
         "description": ""
     },
     "disconnected": {
@@ -542,7 +574,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Konektigante",
+        "message": "Konektante",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
@@ -550,11 +582,11 @@
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Kontrolu vian retkonekton.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Provo rekonekti post $reconnect_duration_in_seconds$ sekundoj",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -611,16 +643,38 @@
         "message": "Fini",
         "description": "Command in the tray icon menu, to quit the application"
     },
-    "trayTooltip": {
+    "signalDesktop": {
         "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
-    "searchForPeopleOrGroups": {
-        "message": "Entajpu nomon aŭ numeron",
+    "search": {
+        "message": "Serĉi",
         "description": "Placeholder text in the search input"
     },
+    "noSearchResults": {
+        "message": "Neniu rezulto pri „$searchTerm$“",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            }
+        }
+    },
+    "conversationsHeader": {
+        "message": "Interparoloj",
+        "description": "Shown to separate the types of search results"
+    },
+    "contactsHeader": {
+        "message": "Kontaktaro",
+        "description": "Shown to separate the types of search results"
+    },
+    "messagesHeader": {
+        "message": "Mesaĝoj",
+        "description": "Shown to separate the types of search results"
+    },
     "welcomeToSignal": {
-        "message": "Bonvenu al Signal",
+        "message": "Bonvenon al Signal",
         "description": ""
     },
     "selectAContact": {
@@ -628,11 +682,11 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Typing animation for this conversation",
+        "message": "Tajp-indikiloj por tiu interparolo",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "Avataro el kontakto $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -670,15 +724,19 @@
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "poŝtoficeja skatalo",
+        "message": "abonkesto",
         "description": "When rendering an address, used to provide context to a post office box"
     },
+    "downloading": {
+        "message": "Elŝutado",
+        "description": "Shown in the message bubble while a long message attachment is being downloaded"
+    },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "Elŝuti kunsendaĵon",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Respondi al la mesaĝon",
+        "message": "Respondi al la mesaĝo",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
@@ -690,11 +748,11 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Original message found, but not loaded. Scroll up to load it.",
+        "message": "Origina mesaĝo trovebla sed ne ŝargita. Rulumu supren por ŝargi ĝin.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice note must be the only attachment included in a message.",
+        "message": "Voĉa noto estu la sola kunsendaĵo en mesaĝo.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
@@ -702,7 +760,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Respondante al $name$",
+        "message": "Respondo al $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -712,11 +770,11 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Por sendi sonmesaĝojn, permesu Signal Desktop-on uzi la mikrofonon.",
+        "message": "Por sendi aŭdajn mesaĝojn, donu al Signal Desktop permeson uzi vian mikrofonon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Permisi",
+        "message": "Permesi",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
@@ -728,12 +786,24 @@
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Filmeto",
+        "message": "Videaĵo",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
         "message": "Foto",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "cannotUpdate": {
+        "message": "Cannot Update",
+        "description": "Shown as the title of our update error dialogs on windows"
+    },
+    "cannotUpdateDetail": {
+        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "description": "Shown if a general error happened while trying to install update package"
+    },
+    "readOnlyVolume": {
+        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
         "message": "Bone",
@@ -744,7 +814,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Malsukcesis sendi al iom da ricevontoj. Kontrolu la retkonekton.",
+        "message": "Malsukcesis sendi al iuj ricevontoj. Kontrolu la retkonekton.",
         "description": ""
     },
     "error": {
@@ -760,7 +830,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Ĉu vi certas? Se vi alklakus 'forigi', la mesaĝo neŝanĝeble forigos nur de ĉi tiu aparato.",
+        "message": "Ĉu vi pricertas? Per alklako de „Forigi“, tiu mesaĝo porĉiame foriĝos nur de ĉi tiu aparato.",
         "description": ""
     },
     "deleteThisMessage": {
@@ -768,11 +838,11 @@
         "description": ""
     },
     "from": {
-        "message": "De",
+        "message": "El",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Al",
+        "message": "al",
         "description": "Label for the receiver of a message"
     },
     "sent": {
@@ -784,7 +854,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Sendu mesaĝon",
+        "message": "Sendi mesaĝon",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -796,19 +866,19 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Forviŝi sesion",
+        "message": "Forviŝi seancon",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Montri sekurnumeron",
+        "message": "Montri sekurigan numeron",
         "description": ""
     },
     "viewAllMedia": {
-        "message": "Montri ĉiujn enmetaĵojn",
+        "message": "Montru ĉiujn aŭdvidaĵojn",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "Se vi volas kontroli la sekurecon de via tutvoja ĉifrado kun $name$, komparu la ĉi-superajn nombrojn kun la nombroj el lia aŭ ŝia aparato.",
         "description": "",
         "placeholders": {
             "name": {
@@ -818,15 +888,15 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Vi ne jam interŝanĝis mesaĝojn de tiu ĉi kontakto. La sekurnumero de tiu disponeblos post la unua mesaĝo.",
+        "message": "Vi ankoraŭ ne interŝanĝis mesaĝojn kun tiu ĉi kontakto. La sekuriga numero nur disponeblos post la unua mesaĝo.",
         "description": ""
     },
     "moreInfo": {
-        "message": "Pli da inforomoj…",
+        "message": "Pli da informoj…",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Klopodi denove sendi",
+        "message": "Klopodi resendi",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
@@ -838,35 +908,35 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Senŝanĝeble forigi tiun ĉi konversacion?",
+        "message": "Ĉu porĉiame forigi tiun ĉi tutan interparolon?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Oni forviŝis la sekura sesio",
+        "message": "Sekura seanco restariĝis",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "Bildominiaturo el citita mesaĝo",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Enmetigita bildo",
+        "message": "Bildo kunsendita kun la mesaĝo",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Enmetigita ekrankopio de filmeto",
+        "message": "Ekrankopio de videaĵo kunsendita kun la mesaĝo",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Sendita bildo",
+        "message": "Bildo sendita en interparolo",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Icon showing that this image has a caption",
+        "message": "Piktogramo montranta, ke tiu bildo havas priskribon",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Aldoni klarigon...",
+        "message": "Aldoni priskribon...",
         "description": ""
     },
     "save": {
@@ -874,11 +944,11 @@
         "description": ""
     },
     "fileIconAlt": {
-        "message": "File icon",
+        "message": "Dosierpiktogramo",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "emojiAlt": {
-        "message": "Emoji image of '$title$'",
+        "message": "Emoĝibildo de „$title$“",
         "description": "Used in the alt tag of all emoji images",
         "placeholders": {
             "title": {
@@ -888,11 +958,11 @@
         }
     },
     "installWelcome": {
-        "message": "Bonvenu al Signal Desktop",
+        "message": "Bonvenon al Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privateco eblas. Signal faras tion facila.",
+        "message": "Privateco eblas. Signal tion faciligas.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -908,7 +978,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+' butono",
+        "message": "Butono „+“",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
@@ -928,7 +998,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Akordigante kontaktojn kaj grupojn",
+        "message": "Sinkronigo de kontaktoj kaj grupoj",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -936,7 +1006,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Bedaŭrinde, vi havas tro da ligitaj aparatoj. Provu malligi kelkajn.",
         "description": ""
     },
     "settings": {
@@ -944,31 +1014,23 @@
         "description": "Menu item and header for global settings"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Etoso",
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Permisoj",
+        "message": "Permesoj",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
+        "message": "Permesi aliron al la fotilo kaj la mikrofono",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "General",
+        "message": "Ĝenerala",
         "description": "Header for general options on the settings screen"
     },
-    "sendLinkPreviews": {
-        "message": "Send Link Previews",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
-    },
     "spellCheckDescription": {
-        "message": "Ŝalti literumkontrolo de teksto entajpita en mesaĝa verkejo",
+        "message": "Ŝalti literumilon de teksto entajpita en mesaĝa verkejo",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
@@ -976,7 +1038,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Tiun ĉi forviŝus ĉiujn datumojn en la programo, forigante ĉiujn mesaĝojn kaj konservitajn kontinformojn",
+        "message": "Tio forviŝos ĉiujn datumojn en la programo, forigante ĉiujn mesaĝojn kaj konservitajn kontinformojn.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -988,7 +1050,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "Vi estas forigonta ĉiujn kontajn informojn el tiu ĉi aplikaĵo, inkluzive de ĉiuj kontaktoj kaj ĉiuj mesaĝoj. Vi povos re-ligi vian porteblan aparaton, sed tio ne restaŭros forigitajn mesaĝojn.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1004,7 +1066,7 @@
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Kiam mesaĝoj alvenas, montru sciigojn, kiuj malkaŝas:",
+        "message": "Kiam mesaĝoj alvenas, montri sciigojn, kiuj malkaŝas:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1012,7 +1074,7 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Ambaŭ la nomon de la sendanto kaj la mesaĝon",
+        "message": "Ambaŭ sendanto-nomon kaj mesaĝon",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
@@ -1020,7 +1082,7 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Nur la nomon de la sendanto",
+        "message": "Nur la sendanto-nomon",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
@@ -1056,16 +1118,12 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Lernu pli pri kontrolo de sekurigaj numeroj",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
         "message": "Tiu ĉi versio de Signal Desktop jam nevalidas. Bonvolu ĝisdatigi al la nuna versio por daŭrigi sendi mesaĝojn.",
         "description": "Warning notification that this version of the app has expired"
-    },
-    "androidMessageLengthWarning": {
-        "message": "Android clients will only receive the first 2000 characters of this message.",
-        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "upgrade": {
         "message": "Ĝisdatigi",
@@ -1084,7 +1142,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Importi ĉiujn Signal-grupojn kaj kontaktojn el via portebla aparato.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1100,7 +1158,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Importado malsukcesis. Certigu, ke viaj komputilo kaj telefono estas konektitaj al la interreto.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -1108,15 +1166,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minuton",
+        "message": "1 minuton",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 horon",
+        "message": "1 horon",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgoShort": {
-        "message": "$hours$ hr",
+        "message": "$hours$ h",
         "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "hours": {
@@ -1126,7 +1184,7 @@
         }
     },
     "hoursAgo": {
-        "message": "antaŭ $hours$ hr",
+        "message": "antaŭ $hours$ h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1136,7 +1194,7 @@
         }
     },
     "minutesAgoShort": {
-        "message": "$minutes$ min",
+        "message": "$minutes$ min",
         "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "minutes": {
@@ -1146,7 +1204,7 @@
         }
     },
     "minutesAgo": {
-        "message": "antaŭ $minutes$ min",
+        "message": "antaŭ $minutes$ min",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1160,19 +1218,19 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "MMM T",
+        "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Malbloki tiun kontakton por sendi mesaĝon.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Unblock this group to send a message.",
+        "message": "Malbloki tiun grupon por sendi mesaĝon.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "Vi agordis la malaperon de la memviŝontaj mesaĝoj al $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1182,7 +1240,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "Ĝisdatiĝis la malapero de la memviŝontaj mesaĝoj al $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1192,7 +1250,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ agordis la malaperon de la memviŝontaj mesaĝoj al $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1210,47 +1268,47 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 sekundojn",
+        "message": "5 sekundojn",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 sekundojn",
+        "message": "10 sekundojn",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 sekundojn",
+        "message": "30 sekundojn",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minuton",
+        "message": "1 minuton",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutojn",
+        "message": "5 minutojn",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutojn",
+        "message": "30 minutojn",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 horon",
+        "message": "1 horon",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 horojn",
+        "message": "6 horojn",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 horojn",
+        "message": "12 horojn",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 tagon",
+        "message": "1 tagon",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 semajnon",
+        "message": "1 semajnon",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
@@ -1306,7 +1364,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Memviŝontaj mesaĝoj malŝaltita",
+        "message": "Memviŝontaj mesaĝoj malŝaltitaj",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
@@ -1324,7 +1382,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Malapero de la memviŝontaj mesaĝoj post $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1334,15 +1392,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Ludi sonan sciigon",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Sekurnumero ŝanĝiĝis",
+        "message": "Sekuriga numero ŝanĝiĝis",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Sekurnumero de $name$ ŝanĝiĝis",
+        "message": "Sekuriga numero kun $name$ ŝanĝiĝis",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1352,11 +1410,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Montri sekurnumeron",
+        "message": "Kontroli sekurigan numeron",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "La sekurnumero de $name$:",
+        "message": "Via sekuriga numero kun $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1373,12 +1431,16 @@
         "message": "Malhela",
         "description": "Label text for dark theme"
     },
+    "noteToSelf": {
+        "message": "Noto al mi mem",
+        "description": "Name for the conversation with your own phone number"
+    },
     "hideMenuBar": {
-        "message": "Hide menu bar",
+        "message": "Kaŝi la menubreton",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Komenci konversacion…",
+        "message": "Krei novan interparolon...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
@@ -1390,7 +1452,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Denove ligu Signal Desktop-on al la portebla aparato por daŭrigi sendadi mesaĝojn",
+        "message": "Re-ligi aplikaĵon Signal Desktop al via portebla aparato por daŭrigi mesaĝadon.",
         "description": ""
     },
     "unlinked": {
@@ -1398,7 +1460,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Refoje ligi",
+        "message": "Re-ligi",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
@@ -1410,11 +1472,11 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Premu 'Reŝarĝi Signal-on' por ĝisdatumigi.",
+        "message": "Premu „Restartigi Signal-on“ por ĝisdatigi.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Reŝalti Signal-on",
+        "message": "Restartigi Signal-on",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -1422,7 +1484,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ lasis la grupon",
+        "message": "$name$ forlasis la grupon",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1432,7 +1494,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ lasis la grupon",
+        "message": "$name$ forlasis la grupon",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1446,7 +1508,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Titolo nun estas '$name$'",
+        "message": "Titolo nun estas „$name$“",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1456,7 +1518,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ aliĝis la grupon",
+        "message": "$name$ grupaniĝis",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1466,7 +1528,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ aliĝis la grupon",
+        "message": "$names$ grupaniĝis",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1476,7 +1538,7 @@
         }
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "Kondiĉoj de uzo kaj regularo pri privateco",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

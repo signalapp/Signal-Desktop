@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
-import { Colors, Localizer } from '../../types/Util';
+import { Colors, LocalizerType } from '../../types/Util';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -15,34 +15,36 @@ interface TimerOption {
   value: number;
 }
 
-interface Trigger {
-  handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-}
-
 interface Props {
-  i18n: Localizer;
-  isVerified: boolean;
-  isKeysPending: boolean;
-  name?: string;
   id: string;
+  name?: string;
+
   phoneNumber: string;
   profileName?: string;
   color: string;
-
   avatarPath?: string;
-  isBlocked: boolean;
+
+  isVerified: boolean;
   isMe: boolean;
   isGroup: boolean;
-  isOnline?: boolean;
+  isArchived: boolean;
+
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
   hasNickname?: boolean;
 
+  isBlocked: boolean;
+  isKeysPending: boolean;
+  isOnline?: boolean;
+
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;
   onResetSession: () => void;
+
+  onArchive: () => void;
+  onMoveToInbox: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -56,27 +58,24 @@ interface Props {
   onChangeNickname: () => void;
 
   onCopyPublicKey: () => void;
+
+  i18n: LocalizerType;
 }
 
 export class ConversationHeader extends React.Component<Props> {
-  public captureMenuTriggerBound: (trigger: any) => void;
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
-  public menuTriggerRef: Trigger | null;
+  public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
     super(props);
 
-    this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
+    this.menuTriggerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
-    this.menuTriggerRef = null;
   }
 
-  public captureMenuTrigger(triggerRef: Trigger) {
-    this.menuTriggerRef = triggerRef;
-  }
   public showMenu(event: React.MouseEvent<HTMLDivElement>) {
-    if (this.menuTriggerRef) {
-      this.menuTriggerRef.handleContextClick(event);
+    if (this.menuTriggerRef.current) {
+      this.menuTriggerRef.current.handleContextClick(event);
     }
   }
 
@@ -97,7 +96,15 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const { phoneNumber, i18n, profileName, isKeysPending } = this.props;
+    const { phoneNumber, i18n, profileName, isKeysPending, isMe } = this.props;
+
+    if (isMe) {
+      return (
+        <div className="module-conversation-header__title">
+          {i18n('noteToSelf')}
+        </div>
+      );
+    }
 
     return (
       <div className="module-conversation-header__title">
@@ -117,6 +124,7 @@ export class ConversationHeader extends React.Component<Props> {
       color,
       i18n,
       isGroup,
+      isMe,
       name,
       phoneNumber,
       profileName,
@@ -124,14 +132,16 @@ export class ConversationHeader extends React.Component<Props> {
     } = this.props;
 
     const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE_LIGHT;
+    const conversationType = isGroup ? 'group' : 'direct';
 
     return (
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
           color={color}
-          conversationType={isGroup ? 'group' : 'direct'}
+          conversationType={conversationType}
           i18n={i18n}
+          noteToSelf={isMe}
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
@@ -168,7 +178,7 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTriggerBound}>
+      <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
         <div
           role="button"
           onClick={this.showMenuBound}
@@ -178,13 +188,13 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  /* tslint:disable:jsx-no-lambda react-this-binding-issue */
   public renderMenu(triggerId: string) {
     const {
       i18n,
       isBlocked,
       isMe,
       isGroup,
+      isArchived,
       onDeleteMessages,
       onDeleteContact,
       onResetSession,
@@ -192,6 +202,8 @@ export class ConversationHeader extends React.Component<Props> {
       onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
+      onArchive,
+      onMoveToInbox,
       timerOptions,
       onBlockUser,
       onUnblockUser,
@@ -247,6 +259,13 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        {isArchived ? (
+          <MenuItem onClick={onMoveToInbox}>
+            {i18n('moveConversationToInbox')}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+        )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {!isMe ? (
           <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
@@ -254,12 +273,10 @@ export class ConversationHeader extends React.Component<Props> {
       </ContextMenu>
     );
   }
-  /* tslint:enable */
 
   public render() {
     const { id } = this.props;
-
-    const triggerId = `${id}-${Date.now()}`;
+    const triggerId = `conversation-${id}`;
 
     return (
       <div className="module-conversation-header">

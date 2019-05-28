@@ -21,8 +21,14 @@
     add(data) {
       return textsecure.storage.protocol.addUnprocessed(data);
     },
-    save(data) {
-      return textsecure.storage.protocol.saveUnprocessed(data);
+    updateAttempts(id, attempts) {
+      return textsecure.storage.protocol.updateUnprocessedAttempts(
+        id,
+        attempts
+      );
+    },
+    addDecryptedData(id, data) {
+      return textsecure.storage.protocol.updateUnprocessedWithData(id, data);
     },
     remove(id) {
       return textsecure.storage.protocol.removeUnprocessed(id);

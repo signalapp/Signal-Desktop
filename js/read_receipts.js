@@ -1,4 +1,11 @@
-/* global Whisper, Backbone, _, ConversationController, window */
+/* global
+  Whisper,
+  Backbone,
+  _,
+  ConversationController,
+  MessageController,
+  window
+*/
 
 /* eslint-disable more/no-then */
 
@@ -46,9 +53,14 @@
       const ids = groups.pluck('id');
       ids.push(reader);
 
-      return messages.find(
+      const target = messages.find(
         item => item.isOutgoing() && _.contains(ids, item.get('conversationId'))
       );
+      if (!target) {
+        return null;
+      }
+
+      return MessageController.register(target.id, target);
     },
     async onReceipt(receipt) {
       try {

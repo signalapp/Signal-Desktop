@@ -66,6 +66,51 @@ const contact = {
 </util.ConversationContext>;
 ```
 
+#### Image download pending
+
+```jsx
+const contact = {
+  name: {
+    displayName: 'Someone Somewhere',
+  },
+  number: [
+    {
+      value: '(202) 555-0000',
+      type: 1,
+    },
+  ],
+  avatar: {
+    avatar: {
+      pending: true,
+    },
+  },
+  onClick: () => console.log('onClick'),
+  onSendMessage: () => console.log('onSendMessage'),
+  hasSignalAccount: true,
+};
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      contact={contact}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      contact={contact}
+    />
+  </li>
+</util.ConversationContext>;
+```
+
 #### Really long data
 
 ```

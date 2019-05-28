@@ -1,5 +1,4 @@
 {
   "storageProfile": "development",
-  "disableAutoUpdate": true,
   "openDevTools": true
 }

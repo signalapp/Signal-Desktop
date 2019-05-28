@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message, Props as MessageProps } from './Message';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Contact {
   status: string;
@@ -31,7 +31,7 @@ interface Props {
   errors: Array<Error>;
   contacts: Array<Contact>;
 
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class MessageDetail extends React.Component<Props> {

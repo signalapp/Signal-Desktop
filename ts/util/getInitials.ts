@@ -5,16 +5,16 @@ function removeNonInitials(name: string) {
   return name.replace(BAD_CHARACTERS, '').replace(WHITESPACE, ' ');
 }
 
-export function getInitials(name?: string): string | null {
+export function getInitials(name?: string): string | undefined {
   if (!name) {
-    return null;
+    return;
   }
 
   const cleaned = removeNonInitials(name);
   const parts = cleaned.split(' ');
   const initials = parts.map(part => part.trim()[0]);
   if (!initials.length) {
-    return null;
+    return;
   }
 
   return initials.slice(0, 2).join('');

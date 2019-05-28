@@ -2,29 +2,34 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Avatar } from '../Avatar';
+import { Spinner } from '../Spinner';
 import { MessageBody } from './MessageBody';
-import { ExpireTimer, getIncrement } from './ExpireTimer';
-import {
-  getGridDimensions,
-  getImageDimensions,
-  hasImage,
-  hasVideoScreenshot,
-  ImageGrid,
-  isImage,
-  isImageAttachment,
-  isVideo,
-} from './ImageGrid';
+import { ExpireTimer } from './ExpireTimer';
+import { ImageGrid } from './ImageGrid';
 import { Image } from './Image';
 import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
 import { Quote, QuotedAttachmentType } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
-import * as MIME from '../../../ts/types/MIME';
 
-import { AttachmentType } from './types';
-import { isFileDangerous } from '../../util/isFileDangerous';
+import {
+  canDisplayImage,
+  getExtensionForDisplay,
+  getGridDimensions,
+  getImageDimensions,
+  hasImage,
+  hasVideoScreenshot,
+  isAudio,
+  isImage,
+  isImageAttachment,
+  isVideo,
+} from '../../../ts/types/Attachment';
+import { AttachmentType } from '../../types/Attachment';
 import { Contact } from '../../types/Contact';
-import { Color, Localizer } from '../../types/Util';
+
+import { getIncrement } from '../../util/timer';
+import { isFileDangerous } from '../../util/isFileDangerous';
+import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Trigger {
@@ -44,6 +49,7 @@ interface LinkPreviewType {
 export interface Props {
   disableMenu?: boolean;
   text?: string;
+  textPending?: boolean;
   id?: string;
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
@@ -55,12 +61,12 @@ export interface Props {
     onSendMessage?: () => void;
     onClick?: () => void;
   };
-  i18n: Localizer;
+  i18n: LocalizerType;
   authorName?: string;
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  authorColor?: Color;
+  authorColor?: ColorType;
   conversationType: 'group' | 'direct';
   attachments?: Array<AttachmentType>;
   quote?: {
@@ -70,7 +76,7 @@ export interface Props {
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
-    authorColor?: Color;
+    authorColor?: ColorType;
     onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
@@ -100,12 +106,12 @@ interface State {
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
-export class Message extends React.Component<Props, State> {
+export class Message extends React.PureComponent<Props, State> {
   public captureMenuTriggerBound: (trigger: any) => void;
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
   public handleImageErrorBound: () => void;
 
-  public menuTriggerRef: Trigger | null;
+  public menuTriggerRef: Trigger | undefined;
   public expirationCheckInterval: any;
   public expiredTimeout: any;
 
@@ -115,10 +121,6 @@ export class Message extends React.Component<Props, State> {
     this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
     this.showMenuBound = this.showMenu.bind(this);
     this.handleImageErrorBound = this.handleImageError.bind(this);
-
-    this.menuTriggerRef = null;
-    this.expirationCheckInterval = null;
-    this.expiredTimeout = null;
 
     this.state = {
       expiring: false,
@@ -198,6 +200,7 @@ export class Message extends React.Component<Props, State> {
       i18n,
       status,
       text,
+      textPending,
       timestamp,
       isP2p,
     } = this.props;
@@ -260,7 +263,12 @@ export class Message extends React.Component<Props, State> {
           />
         ) : null}
         <span className="module-message__metadata__spacer" />
-        {direction === 'outgoing' && status !== 'error' ? (
+        {textPending ? (
+          <div className="module-message__metadata__spinner-container">
+            <Spinner size="mini" direction={direction} />
+          </div>
+        ) : null}
+        {!textPending && direction === 'outgoing' && status !== 'error' ? (
           <div
             className={classNames(
               'module-message__metadata__status-icon',
@@ -359,7 +367,7 @@ export class Message extends React.Component<Props, State> {
           />
         </div>
       );
-    } else if (isAudio(attachments)) {
+    } else if (!firstAttachment.pending && isAudio(attachments)) {
       return (
         <audio
           controls={true}
@@ -372,13 +380,14 @@ export class Message extends React.Component<Props, State> {
               ? 'module-message__audio-attachment--with-content-above'
               : null
           )}
+          key={firstAttachment.url}
         >
           <source src={firstAttachment.url} />
         </audio>
       );
     } else {
-      const { fileName, fileSize, contentType } = firstAttachment;
-      const extension = getExtension({ contentType, fileName });
+      const { pending, fileName, fileSize, contentType } = firstAttachment;
+      const extension = getExtensionForDisplay({ contentType, fileName });
       const isDangerous = isFileDangerous(fileName || '');
 
       return (
@@ -393,20 +402,26 @@ export class Message extends React.Component<Props, State> {
               : null
           )}
         >
-          <div className="module-message__generic-attachment__icon-container">
-            <div className="module-message__generic-attachment__icon">
-              {extension ? (
-                <div className="module-message__generic-attachment__icon__extension">
-                  {extension}
+          {pending ? (
+            <div className="module-message__generic-attachment__spinner-container">
+              <Spinner size="small" direction={direction} />
+            </div>
+          ) : (
+            <div className="module-message__generic-attachment__icon-container">
+              <div className="module-message__generic-attachment__icon">
+                {extension ? (
+                  <div className="module-message__generic-attachment__icon__extension">
+                    {extension}
+                  </div>
+                ) : null}
+              </div>
+              {isDangerous ? (
+                <div className="module-message__generic-attachment__icon-dangerous-container">
+                  <div className="module-message__generic-attachment__icon-dangerous" />
                 </div>
               ) : null}
             </div>
-            {isDangerous ? (
-              <div className="module-message__generic-attachment__icon-dangerous-container">
-                <div className="module-message__generic-attachment__icon-dangerous" />
-              </div>
-            ) : null}
-          </div>
+          )}
           <div className="module-message__generic-attachment__text">
             <div
               className={classNames(
@@ -653,7 +668,7 @@ export class Message extends React.Component<Props, State> {
   }
 
   public renderText() {
-    const { text, i18n, direction, status } = this.props;
+    const { text, textPending, i18n, direction, status } = this.props;
 
     const contents =
       direction === 'incoming' && status === 'error'
@@ -675,7 +690,11 @@ export class Message extends React.Component<Props, State> {
             : null
         )}
       >
-        <MessageBody text={contents || ''} i18n={i18n} />
+        <MessageBody
+          text={contents || ''}
+          i18n={i18n}
+          textPending={textPending}
+        />
       </div>
     );
   }
@@ -725,9 +744,10 @@ export class Message extends React.Component<Props, State> {
       attachments && attachments[0] ? attachments[0].fileName : null;
     const isDangerous = isFileDangerous(fileName || '');
     const multipleAttachments = attachments && attachments.length > 1;
+    const firstAttachment = attachments && attachments[0];
 
     const downloadButton =
-      !multipleAttachments && attachments && attachments[0] ? (
+      !multipleAttachments && firstAttachment && !firstAttachment.pending ? (
         <div
           onClick={() => {
             if (onDownload) {
@@ -858,7 +878,7 @@ export class Message extends React.Component<Props, State> {
     );
   }
 
-  public getWidth(): Number | undefined {
+  public getWidth(): number | undefined {
     const { attachments, previews } = this.props;
 
     if (attachments && attachments.length) {
@@ -988,50 +1008,4 @@ export class Message extends React.Component<Props, State> {
       </div>
     );
   }
-}
-
-export function getExtension({
-  fileName,
-  contentType,
-}: {
-  fileName: string;
-  contentType: MIME.MIMEType;
-}): string | null {
-  if (fileName && fileName.indexOf('.') >= 0) {
-    const lastPeriod = fileName.lastIndexOf('.');
-    const extension = fileName.slice(lastPeriod + 1);
-    if (extension.length) {
-      return extension;
-    }
-  }
-
-  const slash = contentType.indexOf('/');
-  if (slash >= 0) {
-    return contentType.slice(slash + 1);
-  }
-
-  return null;
-}
-
-function isAudio(attachments?: Array<AttachmentType>) {
-  return (
-    attachments &&
-    attachments[0] &&
-    attachments[0].contentType &&
-    MIME.isAudio(attachments[0].contentType)
-  );
-}
-
-function canDisplayImage(attachments?: Array<AttachmentType>) {
-  const { height, width } =
-    attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
-
-  return (
-    height &&
-    height > 0 &&
-    height <= 4096 &&
-    width &&
-    width > 0 &&
-    width <= 4096
-  );
 }

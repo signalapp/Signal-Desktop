@@ -150,12 +150,14 @@
         value: window.initialData.spellCheck,
         setFn: window.setSpellCheck,
       });
-      new CheckboxView({
-        el: this.$('.menu-bar-setting'),
-        name: 'menu-bar-setting',
-        value: window.initialData.hideMenuBar,
-        setFn: window.setHideMenuBar,
-      });
+      if (Settings.isHideMenuBarSupported()) {
+        new CheckboxView({
+          el: this.$('.menu-bar-setting'),
+          name: 'menu-bar-setting',
+          value: window.initialData.hideMenuBar,
+          setFn: window.setHideMenuBar,
+        });
+      }
       new CheckboxView({
         el: this.$('.link-preview-setting'),
         name: 'link-preview-setting',
@@ -203,6 +205,7 @@
         nameOnly: i18n('nameOnly'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
+        isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
         themeLight: i18n('themeLight'),
         themeDark: i18n('themeDark'),
         hideMenuBar: i18n('hideMenuBar'),

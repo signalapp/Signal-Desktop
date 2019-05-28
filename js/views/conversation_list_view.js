@@ -1,4 +1,4 @@
-/* global Whisper, getInboxCollection, getContactCollection, $ */
+/* global Whisper, getInboxCollection, $ */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -66,13 +66,6 @@
       if ($el && $el.length > 0) {
         $el.remove();
       }
-    },
-  });
-
-  Whisper.ConversationContactListView = Whisper.ConversationListView.extend({
-    itemView: Whisper.ConversationContactListItemView,
-    getCollection() {
-      return getContactCollection();
     },
   });
 })();

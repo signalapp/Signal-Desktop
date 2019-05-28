@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Localizer } from '../../types/Util';
-import { AttachmentType } from './types';
+import { Spinner } from '../Spinner';
+import { LocalizerType } from '../../types/Util';
+import { AttachmentType } from '../../types/Attachment';
 
 interface Props {
   alt: string;
@@ -27,7 +28,7 @@ interface Props {
   playIconOverlay?: boolean;
   softCorners?: boolean;
 
-  i18n: Localizer;
+  i18n: LocalizerType;
   onClick?: (attachment: AttachmentType) => void;
   onClickClose?: (attachment: AttachmentType) => void;
   onError?: () => void;
@@ -59,19 +60,21 @@ export class Image extends React.Component<Props> {
       width,
     } = this.props;
 
-    const { caption } = attachment || { caption: null };
+    const { caption, pending } = attachment || { caption: null, pending: true };
+    const canClick = onClick && !pending;
+    const role = canClick ? 'button' : undefined;
 
     return (
       <div
-        role={onClick ? 'button' : undefined}
+        role={role}
         onClick={() => {
-          if (onClick) {
+          if (canClick && onClick) {
             onClick(attachment);
           }
         }}
         className={classNames(
           'module-image',
-          onClick ? 'module-image__with-click-handler' : null,
+          canClick ? 'module-image__with-click-handler' : null,
           curveBottomLeft ? 'module-image--curved-bottom-left' : null,
           curveBottomRight ? 'module-image--curved-bottom-right' : null,
           curveTopLeft ? 'module-image--curved-top-left' : null,
@@ -80,14 +83,29 @@ export class Image extends React.Component<Props> {
           softCorners ? 'module-image--soft-corners' : null
         )}
       >
-        <img
-          onError={onError}
-          className="module-image__image"
-          alt={alt}
-          height={height}
-          width={width}
-          src={url}
-        />
+        {pending ? (
+          <div
+            className="module-image__loading-placeholder"
+            style={{
+              height: `${height}px`,
+              width: `${width}px`,
+              lineHeight: `${height}px`,
+              textAlign: 'center',
+            }}
+            // alt={i18n('loading')}
+          >
+            <Spinner size="normal" />
+          </div>
+        ) : (
+          <img
+            onError={onError}
+            className="module-image__image"
+            alt={alt}
+            height={height}
+            width={width}
+            src={url}
+          />
+        )}
         {caption ? (
           <img
             className="module-image__caption-icon"
@@ -128,7 +146,7 @@ export class Image extends React.Component<Props> {
             )}
           />
         ) : null}
-        {playIconOverlay ? (
+        {!pending && playIconOverlay ? (
           <div className="module-image__play-overlay__circle">
             <div className="module-image__play-overlay__icon" />
           </div>

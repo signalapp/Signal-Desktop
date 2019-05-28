@@ -12,6 +12,8 @@ const readFirstLine = require('firstline');
 const readLastLines = require('read-last-lines').read;
 const rimraf = require('rimraf');
 
+const { redactAll } = require('../js/modules/privacy');
+
 const { app, ipcMain: ipc } = electron;
 const LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'];
 let logger;
@@ -102,21 +104,31 @@ async function deleteAllLogs(logPath) {
   });
 }
 
-function cleanupLogs(logPath) {
+async function cleanupLogs(logPath) {
   const now = new Date();
   const earliestDate = new Date(
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 3)
   );
 
-  return eliminateOutOfDateFiles(logPath, earliestDate).then(remaining => {
+  try {
+    const remaining = await eliminateOutOfDateFiles(logPath, earliestDate);
     const files = _.filter(remaining, file => !file.start && file.end);
 
     if (!files.length) {
-      return null;
+      return;
     }
 
-    return eliminateOldEntries(files, earliestDate);
-  });
+    await eliminateOldEntries(files, earliestDate);
+  } catch (error) {
+    console.error(
+      'Error cleaning logs; deleting and starting over from scratch.',
+      error.stack
+    );
+
+    // delete and re-create the log directory
+    await deleteAllLogs(logPath);
+    mkdirp.sync(logPath);
+  }
 }
 
 function isLineAfterDate(line, date) {
@@ -247,7 +259,7 @@ function logAtLevel(level, ...args) {
 
       return item;
     });
-    logger[level](str.join(' '));
+    logger[level](redactAll(str.join(' ')));
   } else {
     console._log(...args);
   }

@@ -2,17 +2,19 @@ import React from 'react';
 
 import LinkifyIt from 'linkify-it';
 
-import { RenderTextCallback } from '../../types/Util';
+import { RenderTextCallbackType } from '../../types/Util';
+import { isLinkSneaky } from '../../../js/modules/link_previews';
 
 const linkify = LinkifyIt();
 
 interface Props {
   text: string;
   /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
-  renderNonLink?: RenderTextCallback;
+  renderNonLink?: RenderTextCallbackType;
 }
 
 const SUPPORTED_PROTOCOLS = /^(http|https):/i;
+const HAS_AT = /@/;
 
 export class Linkify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
@@ -49,7 +51,11 @@ export class Linkify extends React.Component<Props> {
         }
 
         const { url, text: originalText } = match;
-        if (SUPPORTED_PROTOCOLS.test(url)) {
+        if (
+          SUPPORTED_PROTOCOLS.test(url) &&
+          !isLinkSneaky(url) &&
+          !HAS_AT.test(url)
+        ) {
           results.push(
             <a key={count++} href={url}>
               {originalText}

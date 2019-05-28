@@ -1,14 +1,17 @@
-/* global _: false */
-/* global Backbone: false */
-/* global storage: false */
-/* global filesize: false */
-/* global ConversationController: false */
-/* global clipboard: false */
-/* global getAccountManager: false */
-/* global i18n: false */
-/* global Signal: false */
-/* global textsecure: false */
-/* global Whisper: false */
+/* global
+  _,
+  Backbone,
+  storage,
+  filesize,
+  ConversationController,
+  MessageController,
+  getAccountManager,
+  i18n,
+  Signal,
+  textsecure,
+  Whisper,
+  clipboard
+*/
 
 /* eslint-disable more/no-then */
 
@@ -23,17 +26,19 @@
     Contact,
     PhoneNumber,
     Attachment,
+    Errors,
   } = Signal.Types;
+
   const {
-    deleteAttachmentData,
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
-    writeNewAttachmentData,
     writeAttachment,
+    upgradeMessageSchema,
   } = window.Signal.Migrations;
+  const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
@@ -93,6 +98,44 @@
       this.setToExpire();
 
       this.updatePreview();
+
+      // Keep props ready
+      const generateProps = () => {
+        if (this.isExpirationTimerUpdate()) {
+          this.propsForTimerNotification = this.getPropsForTimerNotification();
+        } else if (this.isKeyChange()) {
+          this.propsForSafetyNumberNotification = this.getPropsForSafetyNumberNotification();
+        } else if (this.isVerifiedChange()) {
+          this.propsForVerificationNotification = this.getPropsForVerificationNotification();
+        } else if (this.isEndSession()) {
+          this.propsForResetSessionNotification = this.getPropsForResetSessionNotification();
+        } else if (this.isGroupUpdate()) {
+          this.propsForGroupNotification = this.getPropsForGroupNotification();
+        } else if (this.isFriendRequest()) {
+          this.propsForFriendRequest = this.getPropsForFriendRequest();
+        } else {
+          this.propsForSearchResult = this.getPropsForSearchResult();
+          this.propsForMessage = this.getPropsForMessage();
+        }
+      };
+      this.on('change', generateProps);
+
+      const applicableConversationChanges =
+        'change:color change:name change:number change:profileName change:profileAvatar';
+
+      const conversation = this.getConversation();
+      const fromContact = this.getIncomingContact();
+
+      this.listenTo(conversation, applicableConversationChanges, generateProps);
+      if (fromContact) {
+        this.listenTo(
+          fromContact,
+          applicableConversationChanges,
+          generateProps
+        );
+      }
+
+      generateProps();
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -315,6 +358,7 @@
       this.cleanup();
     },
     async cleanup() {
+      MessageController.unregister(this.id);
       this.unload();
       await deleteExternalMessageFiles(this.attributes);
     },
@@ -327,9 +371,12 @@
       this.hasExpired = true;
     },
     getPropsForTimerNotification() {
-      const { expireTimer, fromSync, source } = this.get(
-        'expirationTimerUpdate'
-      );
+      const timerUpdate = this.get('expirationTimerUpdate');
+      if (!timerUpdate) {
+        return null;
+      }
+
+      const { expireTimer, fromSync, source } = timerUpdate;
       const timespan = Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
       const disabled = !expireTimer;
 
@@ -548,7 +595,36 @@
 
       return 'sending';
     },
-    getPropsForMessage() {
+    getPropsForSearchResult() {
+      const fromNumber = this.getSource();
+      const from = this.findAndFormatContact(fromNumber);
+      if (fromNumber === this.OUR_NUMBER) {
+        from.isMe = true;
+      }
+
+      const toNumber = this.get('conversationId');
+      let to = this.findAndFormatContact(toNumber);
+      if (toNumber === this.OUR_NUMBER) {
+        to.isMe = true;
+      } else if (fromNumber === toNumber) {
+        to = {
+          isMe: true,
+        };
+      }
+
+      return {
+        from,
+        to,
+
+        isSelected: this.isSelected,
+
+        id: this.id,
+        conversationId: this.get('conversationId'),
+        receivedAt: this.get('received_at'),
+        snippet: this.get('snippet'),
+      };
+    },
+    getPropsForMessage(options) {
       const phoneNumber = this.getSource();
       const contact = this.findAndFormatContact(phoneNumber);
       const contactModel = this.findContact(phoneNumber);
@@ -573,6 +649,7 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
+        textPending: this.get('bodyPending'),
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
@@ -583,11 +660,11 @@
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
         conversationType: isGroup ? 'group' : 'direct',
-        attachments: attachments.map(attachment =>
-          this.getPropsForAttachment(attachment)
-        ),
+        attachments: attachments
+          .filter(attachment => !attachment.error)
+          .map(attachment => this.getPropsForAttachment(attachment)),
         previews: this.getPropsForPreview(),
-        quote: this.getPropsForQuote(),
+        quote: this.getPropsForQuote(options),
         authorAvatarPath,
         isExpired: this.hasExpired,
         expirationLength,
@@ -622,11 +699,10 @@
       const nbsp = '\xa0';
       const regex = /(\S)( +)(\S+\s*)$/;
       return text.replace(regex, (match, start, spaces, end) => {
-        const newSpaces = _.reduce(
-          spaces,
-          accumulator => accumulator + nbsp,
-          ''
-        );
+        const newSpaces =
+          end.length < 12
+            ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
+            : spaces;
         return `${start}${newSpaces}${end}`;
       });
     },
@@ -660,7 +736,7 @@
       // Would be nice to do this before render, on initial load of message
       if (!window.isSignalAccountCheckComplete(firstNumber)) {
         window.checkForSignalAccount(firstNumber).then(() => {
-          this.trigger('change');
+          this.trigger('change', this);
         });
       }
 
@@ -717,7 +793,8 @@
         };
       });
     },
-    getPropsForQuote() {
+    getPropsForQuote(options = {}) {
+      const { noClick } = options;
       const quote = this.get('quote');
       if (!quote) {
         return null;
@@ -736,13 +813,15 @@
       const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
-      const onClick = () => {
-        this.trigger('scroll-to-message', {
-          author,
-          id,
-          referencedMessageNotFound,
-        });
-      };
+      const onClick = noClick
+        ? null
+        : () => {
+            this.trigger('scroll-to-message', {
+              author,
+              id,
+              referencedMessageNotFound,
+            });
+          };
 
       const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -765,7 +844,7 @@
         return null;
       }
 
-      const { path, flags, size, screenshot, thumbnail } = attachment;
+      const { path, pending, flags, size, screenshot, thumbnail } = attachment;
 
       return {
         ...attachment,
@@ -774,7 +853,8 @@
           flags &&
           // eslint-disable-next-line no-bitwise
           flags & textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
-        url: getAbsoluteAttachmentPath(path),
+        pending,
+        url: path ? getAbsoluteAttachmentPath(path) : null,
         screenshot: screenshot
           ? {
               ...screenshot,
@@ -808,11 +888,15 @@
         return accumulator;
       }, Object.create(null));
 
+      // We include numbers we didn't successfully send to so we can display errors.
       // Older messages don't have the recipients included on the message, so we fall
       //   back to the conversation's current recipients
       const phoneNumbers = this.isIncoming()
         ? [this.get('source')]
-        : this.get('recipients') || this.conversation.getRecipients();
+        : _.union(
+            this.get('sent_to') || [],
+            this.get('recipients') || this.getConversation().getRecipients()
+          );
 
       // This will make the error message for outgoing key errors a bit nicer
       const allErrors = (this.get('errors') || []).map(error => {
@@ -864,7 +948,7 @@
         sentAt: this.get('sent_at'),
         receivedAt: this.get('received_at'),
         message: {
-          ...this.getPropsForMessage(),
+          ...this.getPropsForMessage({ noClick: true }),
           disableMenu: true,
           // To ensure that group avatar doesn't show up
           conversationType: 'direct',
@@ -888,52 +972,66 @@
         return null;
       }
 
-      const [retries, errors] = _.partition(
-        this.get('errors'),
-        this.isReplayableError.bind(this)
-      );
+      this.set({ errors: null });
 
-      // Remove the errors that aren't replayable
-      this.set({ errors });
+      const conversation = this.getConversation();
+      const intendedRecipients = this.get('recipients') || [];
+      const successfulRecipients = this.get('sent_to') || [];
+      const currentRecipients = conversation.getRecipients();
 
-      const profileKey = null;
-      let numbers = retries
-        .map(retry => retry.number)
-        .filter(item => Boolean(item));
+      const profileKey = conversation.get('profileSharing')
+        ? storage.get('profileKey')
+        : null;
 
-      if (!numbers.length) {
-        window.log.warn(
-          'retrySend: No numbers in error set, using all recipients'
-        );
-        const conversation = this.getConversation();
-        if (conversation) {
-          numbers = conversation.getRecipients();
-          this.set({ errors: null });
-        } else {
-          throw new Error(
-            'No numbers in error set, did not find conversation for message'
-          );
-        }
+      let recipients = _.intersection(intendedRecipients, currentRecipients);
+      recipients = _.without(recipients, successfulRecipients);
+
+      if (!recipients.length) {
+        window.log.warn('retrySend: Nobody to send to!');
+
+        return window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
       }
 
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
+      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
-      const conversation = this.getConversation();
+      // Special-case the self-send case - we send only a sync message
+      if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
+        const [number] = recipients;
+        const dataMessage = await textsecure.messaging.getMessageProto(
+          number,
+          body,
+          attachments,
+          quoteWithData,
+          previewWithData,
+          this.get('sent_at'),
+          this.get('expireTimer'),
+          profileKey
+        );
+        return this.sendSyncMessageOnly(dataMessage);
+      }
+
+      let promise;
       const options = conversation.getSendOptions();
       options.messageType = this.get('type');
 
-      let promise;
-
       if (conversation.isPrivate()) {
-        const [number] = numbers;
+        const [number] = recipients;
         promise = textsecure.messaging.sendMessageToNumber(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
@@ -947,10 +1045,10 @@
 
         promise = textsecure.messaging.sendMessage(
           {
-            recipients: numbers,
-            body: this.get('body'),
+            recipients,
+            body,
             timestamp: this.get('sent_at'),
-            attachments: attachmentsWithData,
+            attachments,
             quote: quoteWithData,
             preview: previewWithData,
             needsSync: !this.get('synced'),
@@ -984,31 +1082,55 @@
     //   One caller today: ConversationView.forceSend()
     async resend(number) {
       const error = this.removeOutgoingErrors(number);
-      if (error) {
-        const profileKey = null;
-        const attachmentsWithData = await Promise.all(
-          (this.get('attachments') || []).map(loadAttachmentData)
-        );
-        const quoteWithData = await loadQuoteData(this.get('quote'));
-        const previewWithData = await loadPreviewData(this.get('preview'));
+      if (!error) {
+        window.log.warn('resend: requested number was not present in errors');
+        return null;
+      }
 
-        const { wrap, sendOptions } = ConversationController.prepareForSend(
-          number
-        );
-        const promise = textsecure.messaging.sendMessageToNumber(
+      const profileKey = null;
+      const attachmentsWithData = await Promise.all(
+        (this.get('attachments') || []).map(loadAttachmentData)
+      );
+      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
+      const quoteWithData = await loadQuoteData(this.get('quote'));
+      const previewWithData = await loadPreviewData(this.get('preview'));
+
+      // Special-case the self-send case - we send only a sync message
+      if (number === this.OUR_NUMBER) {
+        const dataMessage = await textsecure.messaging.getMessageProto(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
-          profileKey,
-          sendOptions
+          profileKey
         );
-
-        this.send(wrap(promise));
+        return this.sendSyncMessageOnly(dataMessage);
       }
+
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        number
+      );
+      const promise = textsecure.messaging.sendMessageToNumber(
+        number,
+        body,
+        attachments,
+        quoteWithData,
+        previewWithData,
+        this.get('sent_at'),
+        this.get('expireTimer'),
+        profileKey,
+        sendOptions
+      );
+
+      return this.send(wrap(promise));
     },
     removeOutgoingErrors(number) {
       const errors = _.partition(
@@ -1123,7 +1245,7 @@
           this.trigger('done');
 
           // This is used by sendSyncMessage, then set to null
-          if (result.dataMessage) {
+          if (!this.get('synced') && result.dataMessage) {
             this.set({ dataMessage: result.dataMessage });
           }
 
@@ -1224,6 +1346,45 @@
       return false;
     },
 
+    async sendSyncMessageOnly(dataMessage) {
+      this.set({ dataMessage });
+
+      try {
+        this.set({
+          // These are the same as a normal send()
+          sent_to: [this.OUR_NUMBER],
+          sent: true,
+          expirationStartTimestamp: Date.now(),
+        });
+        const result = await this.sendSyncMessage();
+        this.set({
+          // We have to do this afterward, since we didn't have a previous send!
+          unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
+
+          // These are unique to a Note to Self message - immediately read/delivered
+          delivered_to: [this.OUR_NUMBER],
+          read_by: [this.OUR_NUMBER],
+        });
+      } catch (result) {
+        const errors = (result && result.errors) || [
+          new Error('Unknown error'),
+        ];
+        this.set({ errors });
+      } finally {
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        this.trigger('done');
+
+        const errors = this.get('errors');
+        if (errors) {
+          this.trigger('send-error', errors);
+        } else {
+          this.trigger('sent');
+        }
+      }
+    },
+
     sendSyncMessage() {
       const ourNumber = textsecure.storage.user.getNumber();
       const { wrap, sendOptions } = ConversationController.prepareForSend(
@@ -1232,7 +1393,7 @@
       );
 
       this.syncPromise = this.syncPromise || Promise.resolve();
-      this.syncPromise = this.syncPromise.then(() => {
+      const next = () => {
         const dataMessage = this.get('dataMessage');
         if (this.get('synced') || !dataMessage) {
           return Promise.resolve();
@@ -1247,16 +1408,20 @@
             this.get('unidentifiedDeliveries'),
             sendOptions
           )
-        ).then(() => {
+        ).then(result => {
           this.set({
             synced: true,
             dataMessage: null,
           });
           return window.Signal.Data.saveMessage(this.attributes, {
             Message: Whisper.Message,
-          });
+          }).then(() => result);
         });
-      });
+      };
+
+      this.syncPromise = this.syncPromise.then(next, next);
+
+      return this.syncPromise;
     },
 
     async saveErrors(providedErrors) {
@@ -1304,7 +1469,235 @@
       );
       return !!error;
     },
-    handleDataMessage(dataMessage, confirm) {
+    async queueAttachmentDownloads() {
+      const messageId = this.id;
+      let count = 0;
+      let bodyPending;
+
+      const [longMessageAttachments, normalAttachments] = _.partition(
+        this.get('attachments') || [],
+        attachment =>
+          attachment.contentType === Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
+      );
+
+      if (longMessageAttachments.length > 1) {
+        window.log.error(
+          `Received more than one long message attachment in message ${this.idForLogging()}`
+        );
+      }
+      if (longMessageAttachments.length > 0) {
+        count += 1;
+        bodyPending = true;
+        await window.Signal.AttachmentDownloads.addJob(
+          longMessageAttachments[0],
+          {
+            messageId,
+            type: 'long-message',
+            index: 0,
+          }
+        );
+      }
+
+      const attachments = await Promise.all(
+        normalAttachments.map((attachment, index) => {
+          count += 1;
+          return window.Signal.AttachmentDownloads.addJob(attachment, {
+            messageId,
+            type: 'attachment',
+            index,
+          });
+        })
+      );
+
+      const preview = await Promise.all(
+        (this.get('preview') || []).map(async (item, index) => {
+          if (!item.image) {
+            return item;
+          }
+
+          count += 1;
+          return {
+            ...item,
+            image: await window.Signal.AttachmentDownloads.addJob(item.image, {
+              messageId,
+              type: 'preview',
+              index,
+            }),
+          };
+        })
+      );
+
+      const contact = await Promise.all(
+        (this.get('contact') || []).map(async (item, index) => {
+          if (!item.avatar || !item.avatar.avatar) {
+            return item;
+          }
+
+          count += 1;
+          return {
+            ...item,
+            avatar: {
+              ...item.avatar,
+              avatar: await window.Signal.AttachmentDownloads.addJob(
+                item.avatar.avatar,
+                {
+                  messageId,
+                  type: 'contact',
+                  index,
+                }
+              ),
+            },
+          };
+        })
+      );
+
+      let quote = this.get('quote');
+      if (quote && quote.attachments && quote.attachments.length) {
+        quote = {
+          ...quote,
+          attachments: await Promise.all(
+            (quote.attachments || []).map(async (item, index) => {
+              // If we already have a path, then we copied this image from the quoted
+              //    message and we don't need to download the attachment.
+              if (!item.thumbnail || item.thumbnail.path) {
+                return item;
+              }
+
+              count += 1;
+              return {
+                ...item,
+                thumbnail: await window.Signal.AttachmentDownloads.addJob(
+                  item.thumbnail,
+                  {
+                    messageId,
+                    type: 'quote',
+                    index,
+                  }
+                ),
+              };
+            })
+          ),
+        };
+      }
+
+      let group = this.get('group');
+      if (group && group.avatar) {
+        group = {
+          ...group,
+          avatar: await window.Signal.AttachmentDownloads.addJob(group.avatar, {
+            messageId,
+            type: 'group-avatar',
+            index: 0,
+          }),
+        };
+      }
+
+      if (count > 0) {
+        this.set({ bodyPending, attachments, preview, contact, quote, group });
+
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+
+        return true;
+      }
+
+      return false;
+    },
+
+    async copyFromQuotedMessage(message) {
+      const { quote } = message;
+      if (!quote) {
+        return message;
+      }
+
+      const { attachments, id, author } = quote;
+      const firstAttachment = attachments[0];
+
+      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+        MessageCollection: Whisper.MessageCollection,
+      });
+      const found = collection.find(item => {
+        const messageAuthor = item.getContact();
+
+        return messageAuthor && author === messageAuthor.id;
+      });
+
+      if (!found) {
+        quote.referencedMessageNotFound = true;
+        return message;
+      }
+
+      const queryMessage = MessageController.register(found.id, found);
+      quote.text = queryMessage.get('body');
+      if (firstAttachment) {
+        firstAttachment.thumbnail = null;
+      }
+
+      if (
+        !firstAttachment ||
+        (!window.Signal.Util.GoogleChrome.isImageTypeSupported(
+          firstAttachment.contentType
+        ) &&
+          !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
+            firstAttachment.contentType
+          ))
+      ) {
+        return message;
+      }
+
+      try {
+        if (
+          queryMessage.get('schemaVersion') <
+          TypedMessage.VERSION_NEEDED_FOR_DISPLAY
+        ) {
+          const upgradedMessage = await upgradeMessageSchema(
+            queryMessage.attributes
+          );
+          queryMessage.set(upgradedMessage);
+          await window.Signal.Data.saveMessage(upgradedMessage, {
+            Message: Whisper.Message,
+          });
+        }
+      } catch (error) {
+        window.log.error(
+          'Problem upgrading message quoted message from database',
+          Errors.toLogFormat(error)
+        );
+        return message;
+      }
+
+      const queryAttachments = queryMessage.get('attachments') || [];
+
+      if (queryAttachments.length > 0) {
+        const queryFirst = queryAttachments[0];
+        const { thumbnail } = queryFirst;
+
+        if (thumbnail && thumbnail.path) {
+          firstAttachment.thumbnail = {
+            ...thumbnail,
+            copied: true,
+          };
+        }
+      }
+
+      const queryPreview = queryMessage.get('preview') || [];
+      if (queryPreview.length > 0) {
+        const queryFirst = queryPreview[0];
+        const { image } = queryFirst;
+
+        if (image && image.path) {
+          firstAttachment.thumbnail = {
+            ...image,
+            copied: true,
+          };
+        }
+      }
+
+      return message;
+    },
+
+    handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
       //   2. on a sent message sync'd from another device
@@ -1314,13 +1707,21 @@
       const source = message.get('source');
       const type = message.get('type');
       let conversationId = message.get('conversationId');
-      if (dataMessage.group) {
-        conversationId = dataMessage.group.id;
+      if (initialMessage.group) {
+        conversationId = initialMessage.group.id;
       }
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
       return conversation.queueJob(async () => {
+        window.log.info(
+          `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+        );
+        const withQuoteReference = await this.copyFromQuotedMessage(
+          initialMessage
+        );
+        const dataMessage = await upgradeMessageSchema(withQuoteReference);
+
         try {
           const now = new Date().getTime();
           let attributes = {
@@ -1342,18 +1743,6 @@
                   conversation.get('members')
                 ),
               };
-
-              // Update this group conversations's avatar on disk if it has changed.
-              if (dataMessage.group.avatar) {
-                attributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-                  attributes,
-                  dataMessage.group.avatar.data,
-                  {
-                    writeNewAttachmentData,
-                    deleteAttachmentData,
-                  }
-                );
-              }
 
               groupUpdate =
                 conversation.changedAttributes(
@@ -1517,10 +1906,10 @@
                 c.onReadMessage(message);
               }
             } else {
-              conversation.set(
-                'unreadCount',
-                conversation.get('unreadCount') + 1
-              );
+              conversation.set({
+                unreadCount: conversation.get('unreadCount') + 1,
+                isArchived: false,
+              });
             }
           }
 
@@ -1533,6 +1922,14 @@
               const readBy = reads.map(receipt => receipt.get('reader'));
               message.set({
                 read_by: _.union(message.get('read_by'), readBy),
+              });
+            }
+
+            // A sync'd message to ourself is automatically considered read and delivered
+            if (conversation.isMe()) {
+              message.set({
+                read_by: conversation.getRecipients(),
+                delivered_to: conversation.getRecipients(),
               });
             }
 
@@ -1602,6 +1999,12 @@
             Message: Whisper.Message,
           });
           message.set({ id });
+          MessageController.register(message.id, message);
+
+          // Note that this can save the message again, if jobs were queued. We need to
+          //   call it after we have an id for this message, because the jobs refer back
+          //   to their source message.
+          await message.queueAttachmentDownloads();
 
           await window.Signal.Data.updateConversation(
             conversationId,
@@ -1726,6 +2129,31 @@
     },
   });
 
+  // Receive will be enabled before we enable send
+  Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
+
+  Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
+    if (body.length <= 2048) {
+      return {
+        body,
+        attachments,
+      };
+    }
+
+    const data = bytesFromString(body);
+    const attachment = {
+      contentType: Whisper.Message.LONG_MESSAGE_CONTENT_TYPE,
+      fileName: `long-message-${now}.txt`,
+      data,
+      size: data.byteLength,
+    };
+
+    return {
+      body: body.slice(0, 2048),
+      attachments: [attachment, ...attachments],
+    };
+  };
+
   Whisper.Message.refreshExpirationTimer = () =>
     Whisper.ExpiringMessagesListener.update();
 
@@ -1778,7 +2206,9 @@
         }
       );
 
-      const models = messages.filter(message => Boolean(message.id));
+      const models = messages
+        .filter(message => Boolean(message.id))
+        .map(message => MessageController.register(message.id, message));
       const eliminated = messages.length - models.length;
       if (eliminated > 0) {
         window.log.warn(

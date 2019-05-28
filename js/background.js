@@ -177,6 +177,12 @@
       const PASSWORD = storage.get('password');
       accountManager = new textsecure.AccountManager(USERNAME, PASSWORD);
       accountManager.addEventListener('registration', () => {
+        const user = {
+          regionCode: window.storage.get('regionCode'),
+          ourNumber: textsecure.storage.user.getNumber(),
+        };
+        Whisper.events.trigger('userChanged', user);
+
         Whisper.Registration.markDone();
         window.log.info('dispatching registration event');
         Whisper.events.trigger('registration_done');
@@ -296,6 +302,19 @@
       },
 
       shutdown: async () => {
+        // Stop background processing
+        window.Signal.AttachmentDownloads.stop();
+        if (idleDetector) {
+          idleDetector.stop();
+        }
+
+        // Stop processing incoming messages
+        if (messageReceiver) {
+          await messageReceiver.stopProcessing();
+          messageReceiver = null;
+        }
+
+        // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
       },
     };
@@ -338,6 +357,108 @@
     }
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
+
+    if (newVersion) {
+      await window.Signal.Data.cleanupOrphanedAttachments();
+    }
+
+    Views.Initialization.setMessage(window.i18n('loading'));
+
+    idleDetector = new IdleDetector();
+    let isMigrationWithIndexComplete = false;
+    window.log.info(
+      `Starting background data migration. Target version: ${
+        Message.CURRENT_SCHEMA_VERSION
+      }`
+    );
+    idleDetector.on('idle', async () => {
+      const NUM_MESSAGES_PER_BATCH = 1;
+
+      if (!isMigrationWithIndexComplete) {
+        const batchWithIndex = await MessageDataMigrator.processNext({
+          BackboneMessage: Whisper.Message,
+          BackboneMessageCollection: Whisper.MessageCollection,
+          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
+          upgradeMessageSchema,
+          getMessagesNeedingUpgrade:
+            window.Signal.Data.getMessagesNeedingUpgrade,
+          saveMessage: window.Signal.Data.saveMessage,
+        });
+        window.log.info('Upgrade message schema (with index):', batchWithIndex);
+        isMigrationWithIndexComplete = batchWithIndex.done;
+      }
+
+      if (isMigrationWithIndexComplete) {
+        window.log.info(
+          'Background migration complete. Stopping idle detector.'
+        );
+        idleDetector.stop();
+      }
+    });
+
+    const startSpellCheck = () => {
+      if (!window.enableSpellCheck || !window.disableSpellCheck) {
+        return;
+      }
+
+      if (window.Events.getSpellCheck()) {
+        window.enableSpellCheck();
+      } else {
+        window.disableSpellCheck();
+      }
+    };
+    startSpellCheck();
+
+    const themeSetting = window.Events.getThemeSetting();
+    const newThemeSetting = mapOldThemeToNew(themeSetting);
+    window.Events.setThemeSetting(newThemeSetting);
+
+    try {
+      await Promise.all([
+        ConversationController.load(),
+        textsecure.storage.protocol.hydrateCaches(),
+      ]);
+      BlockedNumberController.refresh();
+    } catch (error) {
+      window.log.error(
+        'background.js: ConversationController failed to load:',
+        error && error.stack ? error.stack : error
+      );
+    } finally {
+      start();
+    }
+  });
+
+  Whisper.events.on('setupWithImport', () => {
+    const { appView } = window.owsDesktopApp;
+    if (appView) {
+      appView.openImporter();
+    }
+  });
+
+  Whisper.events.on('setupAsNewDevice', () => {
+    const { appView } = window.owsDesktopApp;
+    if (appView) {
+      appView.openInstaller();
+    }
+  });
+
+  Whisper.events.on('setupAsStandalone', () => {
+    const { appView } = window.owsDesktopApp;
+    if (appView) {
+      appView.openStandalone();
+    }
+  });
+
+  function manageExpiringData() {
+    window.Signal.Data.cleanSeenMessages();
+    window.Signal.Data.cleanLastHashes();
+    setTimeout(manageExpiringData, 1000 * 60 * 60);
+  }
+
+  async function start() {
+    manageExpiringData();
+    window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('Cleanup: starting...');
     const results = await Promise.all([
@@ -398,118 +519,13 @@
         await window.Signal.Data.removeMessage(message.id, {
           Message: Whisper.Message,
         });
+        const conversation = message.getConversation();
+        if (conversation) {
+          await conversation.updateLastMessage();
+        }
       })
     );
     window.log.info('Cleanup: complete');
-
-    if (newVersion) {
-      await window.Signal.Data.cleanupOrphanedAttachments();
-    }
-
-    Views.Initialization.setMessage(window.i18n('loading'));
-
-    idleDetector = new IdleDetector();
-    let isMigrationWithIndexComplete = false;
-    window.log.info(
-      `Starting background data migration. Target version: ${
-        Message.CURRENT_SCHEMA_VERSION
-      }`
-    );
-    idleDetector.on('idle', async () => {
-      const NUM_MESSAGES_PER_BATCH = 1;
-
-      if (!isMigrationWithIndexComplete) {
-        const batchWithIndex = await MessageDataMigrator.processNext({
-          BackboneMessage: Whisper.Message,
-          BackboneMessageCollection: Whisper.MessageCollection,
-          numMessagesPerBatch: NUM_MESSAGES_PER_BATCH,
-          upgradeMessageSchema,
-          getMessagesNeedingUpgrade:
-            window.Signal.Data.getMessagesNeedingUpgrade,
-          saveMessage: window.Signal.Data.saveMessage,
-        });
-        window.log.info('Upgrade message schema (with index):', batchWithIndex);
-        isMigrationWithIndexComplete = batchWithIndex.done;
-      }
-
-      if (isMigrationWithIndexComplete) {
-        window.log.info(
-          'Background migration complete. Stopping idle detector.'
-        );
-        idleDetector.stop();
-      }
-    });
-
-    const startSpellCheck = () => {
-      if (!window.enableSpellCheck || !window.disableSpellCheck) {
-        return;
-      }
-
-      if (window.Events.getSpellCheck()) {
-        window.enableSpellCheck();
-      } else {
-        window.disableSpellCheck();
-      }
-    };
-    startSpellCheck();
-
-    const themeSetting = window.Events.getThemeSetting();
-    const newThemeSetting = mapOldThemeToNew(themeSetting);
-    window.Events.setThemeSetting(newThemeSetting);
-
-    try {
-      await ConversationController.load();
-      BlockedNumberController.refresh();
-    } catch (error) {
-      window.log.error(
-        'background.js: ConversationController failed to load:',
-        error && error.stack ? error.stack : error
-      );
-    } finally {
-      start();
-    }
-  });
-
-  Whisper.events.on('shutdown', async () => {
-    if (idleDetector) {
-      idleDetector.stop();
-    }
-    if (messageReceiver) {
-      await messageReceiver.close();
-    }
-    Whisper.events.trigger('shutdown-complete');
-  });
-
-  Whisper.events.on('setupWithImport', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openImporter();
-    }
-  });
-
-  Whisper.events.on('setupAsNewDevice', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openInstaller();
-    }
-  });
-
-  Whisper.events.on('setupAsStandalone', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openStandalone();
-    }
-  });
-
-  function manageExpiringData() {
-    window.Signal.Data.cleanSeenMessages();
-    window.Signal.Data.cleanLastHashes();
-    setTimeout(manageExpiringData, 1000 * 60 * 60);
-  }
-
-  async function start() {
-    manageExpiringData();
-    window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('listening for registration events');
     Whisper.events.on('registration_done', () => {
@@ -577,9 +593,9 @@
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
-    Whisper.events.on('showConversation', conversation => {
+    Whisper.events.on('showConversation', (id, messageId) => {
       if (appView) {
-        appView.openConversation(conversation);
+        appView.openConversation(id, messageId);
       }
     });
 
@@ -590,10 +606,10 @@
       });
     });
 
-    Whisper.Notifications.on('click', conversation => {
+    Whisper.Notifications.on('click', (id, messageId) => {
       window.showWindow();
-      if (conversation) {
-        appView.openConversation(conversation);
+      if (id) {
+        appView.openConversation(id, messageId);
       } else {
         appView.openInbox({
           initialLoadComplete,
@@ -692,13 +708,6 @@
   window.getSyncRequest = () =>
     new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
 
-  Whisper.events.on('start-shutdown', async () => {
-    if (messageReceiver) {
-      await messageReceiver.close();
-    }
-    Whisper.events.trigger('shutdown-complete');
-  });
-
   let disconnectTimer = null;
   function onOffline() {
     window.log.info('offline');
@@ -748,6 +757,7 @@
     if (messageReceiver) {
       messageReceiver.close();
     }
+    window.Signal.AttachmentDownloads.stop();
   }
 
   let connectCount = 0;
@@ -811,6 +821,11 @@
     messageReceiver.addEventListener('progress', onProgress);
     messageReceiver.addEventListener('configuration', onConfiguration);
     messageReceiver.addEventListener('typing', onTyping);
+
+    window.Signal.AttachmentDownloads.start({
+      getMessageReceiver: () => messageReceiver,
+      logger: window.log,
+    });
 
     window.textsecure.messaging = new textsecure.MessageSender(
       USERNAME,
@@ -907,6 +922,8 @@
   }
   function onEmpty() {
     initialLoadComplete = true;
+
+    window.readyForUpdates();
 
     let interval = setInterval(() => {
       const view = window.owsDesktopApp.appView;
@@ -1204,101 +1221,14 @@
         return event.confirm();
       }
 
-      const withQuoteReference = await copyFromQuotedMessage(data.message);
-      const upgradedMessage = await upgradeMessageSchema(withQuoteReference);
-
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,
         messageDescriptor.type
       );
-      return message.handleDataMessage(upgradedMessage, event.confirm, {
+      return message.handleDataMessage(data.message, event.confirm, {
         initialLoadComplete,
       });
     };
-  }
-
-  async function copyFromQuotedMessage(message) {
-    const { quote } = message;
-    if (!quote) {
-      return message;
-    }
-
-    const { attachments, id, author } = quote;
-    const firstAttachment = attachments[0];
-
-    const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-      MessageCollection: Whisper.MessageCollection,
-    });
-    const queryMessage = collection.find(item => {
-      const messageAuthor = item.getContact();
-
-      return messageAuthor && author === messageAuthor.id;
-    });
-
-    if (!queryMessage) {
-      quote.referencedMessageNotFound = true;
-      return message;
-    }
-
-    quote.text = queryMessage.get('body');
-    if (firstAttachment) {
-      firstAttachment.thumbnail = null;
-    }
-
-    if (
-      !firstAttachment ||
-      (!window.Signal.Util.GoogleChrome.isImageTypeSupported(
-        firstAttachment.contentType
-      ) &&
-        !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
-          firstAttachment.contentType
-        ))
-    ) {
-      return message;
-    }
-
-    try {
-      if (
-        queryMessage.get('schemaVersion') < Message.VERSION_NEEDED_FOR_DISPLAY
-      ) {
-        const upgradedMessage = await upgradeMessageSchema(
-          queryMessage.attributes
-        );
-        queryMessage.set(upgradedMessage);
-        await window.Signal.Data.saveMessage(upgradedMessage, {
-          Message: Whisper.Message,
-        });
-      }
-    } catch (error) {
-      window.log.error(
-        'Problem upgrading message quoted message from database',
-        Errors.toLogFormat(error)
-      );
-      return message;
-    }
-
-    const queryAttachments = queryMessage.get('attachments') || [];
-
-    if (queryAttachments.length > 0) {
-      const queryFirst = queryAttachments[0];
-      const { thumbnail } = queryFirst;
-
-      if (thumbnail && thumbnail.path) {
-        firstAttachment.thumbnail = thumbnail;
-      }
-    }
-
-    const queryPreview = queryMessage.get('preview') || [];
-    if (queryPreview.length > 0) {
-      const queryFirst = queryPreview[0];
-      const { image } = queryFirst;
-
-      if (image && image.path) {
-        firstAttachment.thumbnail = image;
-      }
-    }
-
-    return message;
   }
 
   // Received:
@@ -1469,6 +1399,13 @@
       (error.code === 401 || error.code === 403)
     ) {
       Whisper.events.trigger('unauthorized');
+
+      if (messageReceiver) {
+        await messageReceiver.stopProcessing();
+        messageReceiver = null;
+      }
+
+      onEmpty();
 
       window.log.warn(
         'Client is no longer authorized; deleting local configuration'

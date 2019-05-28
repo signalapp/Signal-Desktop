@@ -10,8 +10,9 @@ describe('KeyChangeListener', () => {
   const newKey = libsignal.crypto.getRandomBytes(33);
   let store;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     store = new SignalProtocolStore();
+    await store.hydrateCaches();
     Whisper.KeyChangeListener.init(store);
     return store.saveIdentity(address.toString(), oldKey);
   });

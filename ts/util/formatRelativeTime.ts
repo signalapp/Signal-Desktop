@@ -1,12 +1,12 @@
 import moment from 'moment';
-import { Localizer } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 
-const getExtendedFormats = (i18n: Localizer) => ({
+const getExtendedFormats = (i18n: LocalizerType) => ({
   y: 'lll',
   M: `${i18n('timestampFormat_M') || 'MMM D'} LT`,
   d: 'ddd LT',
 });
-const getShortFormats = (i18n: Localizer) => ({
+const getShortFormats = (i18n: LocalizerType) => ({
   y: 'll',
   M: i18n('timestampFormat_M') || 'MMM D',
   d: 'ddd',
@@ -28,7 +28,7 @@ function isYear(timestamp: moment.Moment) {
 
 export function formatRelativeTime(
   rawTimestamp: number | Date,
-  options: { extended: boolean; i18n: Localizer }
+  options: { extended?: boolean; i18n: LocalizerType }
 ) {
   const { extended, i18n } = options;
 

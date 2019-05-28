@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
   avatarPath?: string;
@@ -13,7 +13,7 @@ interface Props {
   phoneNumber: string;
   profileName: string;
   conversationType: string;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class TypingBubble extends React.Component<Props> {

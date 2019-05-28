@@ -84,6 +84,7 @@ exports.createTemplate = (options, messages) => {
           label: messages.viewMenuResetZoom.message,
         },
         {
+          accelerator: platform === 'darwin' ? 'Command+=' : 'Control+Plus',
           role: 'zoomin',
           label: messages.viewMenuZoomIn.message,
         },
@@ -232,6 +233,7 @@ function updateForMac(template, messages, options) {
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
+    label: messages.lokiMessenger.message,
     submenu: [
       {
         label: messages.aboutSignalDesktop.message,

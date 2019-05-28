@@ -1,4 +1,4 @@
-/* global chai, Whisper */
+/* global chai, Whisper, _, Backbone */
 
 mocha.setup('bdd');
 window.assert = chai.assert;
@@ -74,10 +74,14 @@ function deleteIndexedDB() {
 before(async () => {
   await deleteIndexedDB();
   await window.Signal.Data.removeAll();
+  await window.storage.fetch();
 });
 
 window.clearDatabase = async () => {
   await window.Signal.Data.removeAll();
+  await window.storage.fetch();
 };
 
 window.lokiP2pAPI = new window.LokiP2pAPI('ourKey');
+window.Whisper = window.Whisper || {};
+window.Whisper.events = _.clone(Backbone.Events);
