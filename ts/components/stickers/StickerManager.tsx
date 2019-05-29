@@ -75,45 +75,54 @@ export const StickerManager = React.memo(
               i18nKey: 'stickers--StickerManager--InstalledPacks',
               i18nEmptyKey: 'stickers--StickerManager--InstalledPacks--Empty',
               packs: installedPacks,
+              hideIfEmpty: false,
             },
             {
               i18nKey: 'stickers--StickerManager--BlessedPacks',
               i18nEmptyKey: 'stickers--StickerManager--BlessedPacks--Empty',
               packs: blessedPacks,
+              hideIfEmpty: true,
             },
             {
               i18nKey: 'stickers--StickerManager--ReceivedPacks',
               i18nEmptyKey: 'stickers--StickerManager--ReceivedPacks--Empty',
               packs: receivedPacks,
+              hideIfEmpty: false,
             },
-          ].map(section => (
-            <React.Fragment key={section.i18nKey}>
-              <h2
-                className={classNames(
-                  'module-sticker-manager__text',
-                  'module-sticker-manager__text--heading'
+          ].map(section => {
+            if (section.hideIfEmpty && section.packs.length === 0) {
+              return;
+            }
+
+            return (
+              <React.Fragment key={section.i18nKey}>
+                <h2
+                  className={classNames(
+                    'module-sticker-manager__text',
+                    'module-sticker-manager__text--heading'
+                  )}
+                >
+                  {i18n(section.i18nKey)}
+                </h2>
+                {section.packs.length > 0 ? (
+                  section.packs.map(pack => (
+                    <StickerManagerPackRow
+                      key={pack.id}
+                      pack={pack}
+                      i18n={i18n}
+                      onClickPreview={previewPack}
+                      installStickerPack={installStickerPack}
+                      uninstallStickerPack={uninstallStickerPack}
+                    />
+                  ))
+                ) : (
+                  <div className="module-sticker-manager__empty">
+                    {i18n(section.i18nEmptyKey)}
+                  </div>
                 )}
-              >
-                {i18n(section.i18nKey)}
-              </h2>
-              {section.packs.length > 0 ? (
-                section.packs.map(pack => (
-                  <StickerManagerPackRow
-                    key={pack.id}
-                    pack={pack}
-                    i18n={i18n}
-                    onClickPreview={previewPack}
-                    installStickerPack={installStickerPack}
-                    uninstallStickerPack={uninstallStickerPack}
-                  />
-                ))
-              ) : (
-                <div className="module-sticker-manager__empty">
-                  {i18n(section.i18nEmptyKey)}
-                </div>
-              )}
-            </React.Fragment>
-          ))}
+              </React.Fragment>
+            );
+          })}
         </div>
       </>
     );

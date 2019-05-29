@@ -55,7 +55,7 @@ const blessedPacks = packs.map(p => ({
 </util.ConversationContext>;
 ```
 
-#### No Advertised Packs
+#### Only installed packs
 
 ```jsx
 const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
@@ -107,7 +107,7 @@ const noPacks = [];
 </util.ConversationContext>;
 ```
 
-#### No Installed Packs
+#### Only received packs
 
 ```jsx
 const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
@@ -158,7 +158,7 @@ const noPacks = [];
 </util.ConversationContext>;
 ```
 
-#### No with 'known'
+#### Just installed and 'known'
 
 ```jsx
 const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
@@ -216,7 +216,7 @@ const noPacks = [];
 </util.ConversationContext>;
 ```
 
-#### No Packs at All
+#### No packs at All
 
 ```jsx
 const noPacks = [];
