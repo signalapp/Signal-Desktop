@@ -81,6 +81,13 @@ export const StickerButton = React.memo(
       [setOpen, onPickSticker]
     );
 
+    const handleClose = React.useCallback(
+      () => {
+        setOpen(false);
+      },
+      [setOpen]
+    );
+
     const handleClickAddPack = React.useCallback(
       () => {
         setOpen(false);
@@ -253,6 +260,7 @@ export const StickerButton = React.memo(
                     i18n={i18n}
                     style={style}
                     packs={installedPacks}
+                    onClose={handleClose}
                     onClickAddPack={handleClickAddPack}
                     onPickSticker={handlePickSticker}
                     recentStickers={recentStickers}

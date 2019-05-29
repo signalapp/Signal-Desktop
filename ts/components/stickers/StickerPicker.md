@@ -156,6 +156,7 @@ const packs = [
       sticker3,
       { ...sticker2, id: 9999 },
     ]}
+    onClose={() => console.log('onClose')}
     onClickAddPack={() => console.log('onClickAddPack')}
     onPickSticker={(packId, stickerId) =>
       console.log('onPickSticker', { packId, stickerId })
@@ -206,6 +207,7 @@ const packs = [
     i18n={util.i18n}
     packs={packs}
     recentStickers={[]}
+    onClose={() => console.log('onClose')}
     onClickAddPack={() => console.log('onClickAddPack')}
     onPickSticker={(packId, stickerId) =>
       console.log('onPickSticker', { packId, stickerId })
@@ -222,6 +224,7 @@ const packs = [
     i18n={util.i18n}
     packs={[]}
     recentStickers={[]}
+    onClose={() => console.log('onClose')}
     onClickAddPack={() => console.log('onClickAddPack')}
     onPickSticker={(packId, stickerId) =>
       console.log('onPickSticker', { packId, stickerId })
@@ -249,6 +252,7 @@ const packs = [
     i18n={util.i18n}
     packs={packs}
     recentStickers={[]}
+    onClose={() => console.log('onClose')}
     onClickAddPack={() => console.log('onClickAddPack')}
     onPickSticker={(packId, stickerId) =>
       console.log('onPickSticker', { packId, stickerId })
@@ -277,6 +281,7 @@ const packs = [
     i18n={util.i18n}
     packs={packs}
     recentStickers={[]}
+    onClose={() => console.log('onClose')}
     onClickAddPack={() => console.log('onClickAddPack')}
     onPickSticker={(packId, stickerId) =>
       console.log('onPickSticker', { packId, stickerId })
@@ -312,6 +317,7 @@ const packs = [
     i18n={util.i18n}
     packs={packs}
     recentStickers={[]}
+    onClose={() => console.log('onClose')}
     onClickAddPack={() => console.log('onClickAddPack')}
     onPickSticker={(packId, stickerId) =>
       console.log('onPickSticker', { packId, stickerId })

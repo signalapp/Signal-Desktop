@@ -7,6 +7,7 @@ import { LocalizerType } from '../../types/Util';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
+  readonly onClose: () => unknown;
   readonly onClickAddPack: () => unknown;
   readonly onPickSticker: (packId: string, stickerId: number) => unknown;
   readonly packs: ReadonlyArray<StickerPackType>;
@@ -59,6 +60,7 @@ export const StickerPicker = React.memo(
         i18n,
         packs,
         recentStickers,
+        onClose,
         onClickAddPack,
         onPickSticker,
         showPickerHint,
@@ -94,6 +96,24 @@ export const StickerPicker = React.memo(
           setPacksPage(i => i + 1);
         },
         [setPacksPage]
+      );
+
+      // Handle escape key
+      React.useEffect(
+        () => {
+          const handler = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+              onClose();
+            }
+          };
+
+          document.addEventListener('keyup', handler);
+
+          return () => {
+            document.removeEventListener('keyup', handler);
+          };
+        },
+        [onClose]
       );
 
       const isEmpty = stickers.length === 0;
