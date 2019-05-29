@@ -147,10 +147,12 @@ function capturePacksToDownload(existingPackLookup) {
     }
 
     if (doesPackNeedDownload(existing)) {
+      const status =
+        existing.attemptedStatus === 'installed' ? 'installed' : null;
       toDownload[id] = {
         id,
         key: existing.key,
-        status: existing.attemptedStatus,
+        status,
       };
     }
   });
