@@ -87,7 +87,13 @@
   }
 
   function getItemsState() {
-    return _.clone(items);
+    const data = _.clone(items);
+    const ids = Object.keys(data);
+    ids.forEach(id => {
+      data[id] = data[id].value;
+    });
+
+    return data;
   }
 
   function reset() {

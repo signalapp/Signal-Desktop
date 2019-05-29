@@ -24,11 +24,11 @@ const mapStateToProps = (state: StateType) => {
   const installedPack = getRecentlyInstalledStickerPack(state);
   const showIntroduction = get(
     state.items,
-    ['showStickersIntroduction', 'value'],
+    ['showStickersIntroduction'],
     false
   );
   const showPickerHint =
-    get(state.items, ['showStickerPickerHint', 'value'], false) &&
+    get(state.items, ['showStickerPickerHint'], false) &&
     receivedPacks.length > 0;
 
   return {

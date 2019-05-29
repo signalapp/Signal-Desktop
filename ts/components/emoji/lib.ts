@@ -112,6 +112,10 @@ export const dataByCategory = mapValues(
   arr => sortBy(arr, 'sort_order')
 );
 
+export function isShortNameValid(shortName: string) {
+  return Boolean(dataByShortName[shortName]);
+}
+
 export function getSheetCoordinates(
   shortName: keyof typeof dataByShortName,
   skinTone?: SkinToneKey | number

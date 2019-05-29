@@ -5,6 +5,7 @@ import { mapDispatchToProps } from '../actions';
 import { EmojiButton, Props } from '../../components/emoji/EmojiButton';
 import { StateType } from '../reducer';
 
+import { isShortNameValid } from '../../components/emoji/lib';
 import { getIntl } from '../selectors/user';
 
 const mapStateToProps = (state: StateType) => {
@@ -12,8 +13,8 @@ const mapStateToProps = (state: StateType) => {
 
   return {
     i18n: getIntl(state),
-    recentEmojis: recents,
-    skinTone: get(state, ['items', 'skinTone', 'value'], 0),
+    recentEmojis: recents.filter(isShortNameValid),
+    skinTone: get(state, ['items', 'skinTone'], 0),
   };
 };
 
