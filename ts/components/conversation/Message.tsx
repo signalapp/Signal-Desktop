@@ -493,7 +493,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  // tslint:disable-next-line cyclomatic-complexity
+  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   public renderPreview() {
     const {
       attachments,
@@ -564,6 +564,8 @@ export class Message extends React.PureComponent<Props, State> {
             <div className="module-message__link-preview__icon_container">
               <Image
                 smallCurveTopLeft={!withContentAbove}
+                noBorder={true}
+                noBackground={true}
                 softCorners={true}
                 alt={i18n('previewThumbnail', [first.domain])}
                 height={72}
