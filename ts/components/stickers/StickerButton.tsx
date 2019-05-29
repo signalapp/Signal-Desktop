@@ -53,6 +53,7 @@ export const StickerButton = React.memo(
       () => {
         // Clear tooltip state
         clearInstalledStickerPack();
+        clearShowIntroduction();
 
         // Handle button click
         if (installedPacks.length === 0) {
