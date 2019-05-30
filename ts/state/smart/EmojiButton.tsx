@@ -5,12 +5,12 @@ import { mapDispatchToProps } from '../actions';
 import { EmojiButton, Props } from '../../components/emoji/EmojiButton';
 import { StateType } from '../reducer';
 
-import { isShortNameValid } from '../../components/emoji/lib';
+import { isShortName } from '../../components/emoji/lib';
 import { getIntl } from '../selectors/user';
 
 const selectRecentEmojis = createSelector(
   ({ emojis }: StateType) => emojis.recents,
-  recents => recents.filter(isShortNameValid)
+  recents => recents.filter(isShortName)
 );
 
 const mapStateToProps = (state: StateType) => {
