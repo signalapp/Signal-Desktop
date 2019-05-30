@@ -164,6 +164,11 @@ class LokiMessageAPI {
           await lokiSnodeAPI.updateSwarmNodes(params.pubKey, newSwarm);
           this.sendingSwarmNodes[params.timestamp] = newSwarm;
           return false;
+        } else if (e instanceof textsecure.WrongDifficultyError) {
+          const { newDifficulty } = e;
+          if (!Number.isNaN(newDifficulty)) {
+            window.storage.put('PoWDifficulty', newDifficulty);
+          }
         } else if (e instanceof textsecure.NotFoundError) {
           // TODO: Handle resolution error
           successiveFailures += 1;

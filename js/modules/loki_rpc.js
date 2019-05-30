@@ -40,23 +40,46 @@ const fetch = async (url, options = {}) => {
     });
 
     if (response.status === 421) {
-      let newSwarm = await response.text();
+      let responseJson = await response.text();
+      let newSwarm = [];
       if (doEncryptChannel) {
         try {
-          newSwarm = await libloki.crypto.snodeCipher.decrypt(
+          responseJson = await libloki.crypto.snodeCipher.decrypt(
             address,
-            newSwarm
+            responseJson
           );
         } catch (e) {
           log.warn(`Could not decrypt response from ${address}`, e);
         }
-        try {
-          newSwarm = newSwarm === '' ? {} : JSON.parse(newSwarm);
-        } catch (e) {
-          log.warn(`Could not parse string to json ${newSwarm}`, e);
-        }
+      }
+      try {
+        responseJson = responseJson === '' ? {} : JSON.parse(responseJson);
+        newSwarm = responseJson.snodes ? responseJson.snodes : [];
+      } catch (e) {
+        log.warn(`Could not parse string to json ${newSwarm}`, e);
       }
       throw new textsecure.WrongSwarmError(newSwarm);
+    }
+
+    if (response.status === 402) {
+      let responseJson = await response.text();
+      if (doEncryptChannel) {
+        try {
+          responseJson = await libloki.crypto.snodeCipher.decrypt(
+            address,
+            responseJson
+          );
+        } catch (e) {
+          log.warn(`Could not decrypt response from ${address}`, e);
+        }
+      }
+      try {
+        responseJson = responseJson === '' ? {} : JSON.parse(responseJson);
+      } catch (e) {
+        log.warn(`Could not parse string to json ${responseJson}`, e);
+      }
+      const newDifficulty = parseInt(responseJson.difficulty, 10);
+      throw new textsecure.WrongDifficultyError(newDifficulty);
     }
 
     if (!response.ok) {
