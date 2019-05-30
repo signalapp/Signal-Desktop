@@ -13,11 +13,18 @@ export type OwnProps = {
 export type Props = OwnProps &
   Pick<
     EmojiPickerProps,
-    'onPickEmoji' | 'skinTone' | 'onSetSkinTone' | 'recentEmojis'
+    'onClose' | 'onPickEmoji' | 'skinTone' | 'onSetSkinTone' | 'recentEmojis'
   >;
 
 export const EmojiButton = React.memo(
-  ({ i18n, onPickEmoji, skinTone, onSetSkinTone, recentEmojis }: Props) => {
+  ({
+    i18n,
+    onClose,
+    onPickEmoji,
+    skinTone,
+    onSetSkinTone,
+    recentEmojis,
+  }: Props) => {
     const [open, setOpen] = React.useState(false);
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
       null
@@ -36,9 +43,10 @@ export const EmojiButton = React.memo(
 
     const handleClose = React.useCallback(
       () => {
+        onClose();
         setOpen(false);
       },
-      [setOpen]
+      [setOpen, onClose]
     );
 
     // Create popper root and handle outside clicks

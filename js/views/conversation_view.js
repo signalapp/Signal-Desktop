@@ -313,6 +313,7 @@
     setupEmojiPickerButton() {
       const props = {
         onPickEmoji: e => this.insertEmoji(e),
+        onClose: () => this.focusMessageField(),
       };
 
       this.emojiButtonView = new Whisper.ReactWrapperView({

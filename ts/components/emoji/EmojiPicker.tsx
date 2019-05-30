@@ -137,6 +137,7 @@ export const EmojiPicker = React.memo(
                 'ArrowDown',
                 'ArrowLeft',
                 'ArrowRight',
+                'Shift',
                 'Tab',
                 ' ', // Space
               ].includes(e.key)
