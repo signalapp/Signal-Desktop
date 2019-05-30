@@ -19,7 +19,7 @@ const decryptResponse = async (response, address) => {
     log.warn(`Could not decrypt response from ${address}`, e);
   }
   return {};
-}
+};
 
 // A small wrapper around node-fetch which deserializes response
 const fetch = async (url, options = {}) => {

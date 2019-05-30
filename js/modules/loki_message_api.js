@@ -160,7 +160,10 @@ class LokiMessageAPI {
         // Make sure we aren't doing too much PoW
         const currentDifficulty = window.storage.get('PoWDifficulty', null);
         const newDifficulty = result.difficulty;
-        if (!Number.isNaN(newDifficulty) && newDifficulty !== currentDifficulty) {
+        if (
+          !Number.isNaN(newDifficulty) &&
+          newDifficulty !== currentDifficulty
+        ) {
           window.storage.put('PoWDifficulty', newDifficulty);
         }
         return true;
