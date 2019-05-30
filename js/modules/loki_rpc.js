@@ -6,6 +6,21 @@ const { parse } = require('url');
 const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 const endpointBase = '/v1/storage_rpc';
 
+const decryptResponse = async (response, address) => {
+  try {
+    const ciphertext = await response.text();
+    const plaintext = await libloki.crypto.snodeCipher.decrypt(
+      address,
+      ciphertext
+    );
+    const result = plaintext === '' ? {} : JSON.parse(plaintext);
+    return result;
+  } catch (e) {
+    log.warn(`Could not decrypt response from ${address}`, e);
+  }
+  return {};
+}
+
 // A small wrapper around node-fetch which deserializes response
 const fetch = async (url, options = {}) => {
   const timeout = options.timeout || 10000;
@@ -39,72 +54,41 @@ const fetch = async (url, options = {}) => {
       method,
     });
 
+    let result;
+    // Wrong swarm
     if (response.status === 421) {
-      let responseJson = await response.text();
-      let newSwarm = [];
       if (doEncryptChannel) {
-        try {
-          responseJson = await libloki.crypto.snodeCipher.decrypt(
-            address,
-            responseJson
-          );
-        } catch (e) {
-          log.warn(`Could not decrypt response from ${address}`, e);
-        }
+        result = decryptResponse(response, address);
+      } else {
+        result = await response.json();
       }
-      try {
-        responseJson = responseJson === '' ? {} : JSON.parse(responseJson);
-        newSwarm = responseJson.snodes ? responseJson.snodes : [];
-      } catch (e) {
-        log.warn(`Could not parse string to json ${newSwarm}`, e);
-      }
+      const newSwarm = result.snodes ? result.snodes : [];
       throw new textsecure.WrongSwarmError(newSwarm);
     }
 
+    // Wrong PoW difficulty
     if (response.status === 402) {
-      let responseJson = await response.text();
       if (doEncryptChannel) {
-        try {
-          responseJson = await libloki.crypto.snodeCipher.decrypt(
-            address,
-            responseJson
-          );
-        } catch (e) {
-          log.warn(`Could not decrypt response from ${address}`, e);
-        }
+        result = decryptResponse(response, address);
+      } else {
+        result = await response.json();
       }
-      try {
-        responseJson = responseJson === '' ? {} : JSON.parse(responseJson);
-      } catch (e) {
-        log.warn(`Could not parse string to json ${responseJson}`, e);
-      }
-      const newDifficulty = parseInt(responseJson.difficulty, 10);
-      throw new textsecure.WrongDifficultyError(newDifficulty);
+      const { difficulty } = result;
+      throw new textsecure.WrongDifficultyError(difficulty);
     }
 
     if (!response.ok) {
       throw new textsecure.HTTPError('Loki_rpc error', response);
     }
 
-    let result;
     if (response.headers.get('Content-Type') === 'application/json') {
       result = await response.json();
     } else if (options.responseType === 'arraybuffer') {
       result = await response.buffer();
+    } else if (doEncryptChannel) {
+      result = decryptResponse(response, address);
     } else {
       result = await response.text();
-      if (doEncryptChannel) {
-        try {
-          result = await libloki.crypto.snodeCipher.decrypt(address, result);
-        } catch (e) {
-          log.warn(`Could not decrypt response from ${address}`, e);
-        }
-        try {
-          result = result === '' ? {} : JSON.parse(result);
-        } catch (e) {
-          log.warn(`Could not parse string to json ${result}`, e);
-        }
-      }
     }
 
     return result;

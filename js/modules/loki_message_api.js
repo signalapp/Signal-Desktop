@@ -155,7 +155,14 @@ class LokiMessageAPI {
     while (successiveFailures < 3) {
       await sleepFor(successiveFailures * 500);
       try {
-        await rpc(`http://${url}`, this.snodeServerPort, 'store', params);
+        const result = await rpc(`http://${url}`, this.snodeServerPort, 'store', params);
+
+        // Make sure we aren't doing too much PoW
+        const currentDifficulty = window.storage.get('PoWDifficulty', null);
+        const newDifficulty = result.difficulty;
+        if (!Number.isNaN(newDifficulty) && newDifficulty !== currentDifficulty) {
+          window.storage.put('PoWDifficulty', newDifficulty);
+        }
         return true;
       } catch (e) {
         log.warn('Loki send message:', e);
