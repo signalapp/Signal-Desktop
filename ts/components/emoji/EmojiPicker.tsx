@@ -130,7 +130,17 @@ export const EmojiPicker = React.memo(
               setSearchText('');
               setSearchMode(false);
               setScrollToRow(0);
-            } else if (!searchMode) {
+            } else if (
+              !searchMode &&
+              ![
+                'ArrowUp',
+                'ArrowDown',
+                'ArrowLeft',
+                'ArrowRight',
+                'Tab',
+                ' ', // Space
+              ].includes(e.key)
+            ) {
               onClose();
             }
           };
