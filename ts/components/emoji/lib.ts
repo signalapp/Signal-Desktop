@@ -169,8 +169,8 @@ export function convertShortName(shortName: string, skinTone: number = 0) {
     return '';
   }
 
-  if (skinTone && base.skin_variations) {
-    const toneKey = skinTones[0];
+  if (skinTone > 0 && base.skin_variations) {
+    const toneKey = skinTones[skinTone - 1];
     const variation = base.skin_variations[toneKey];
     if (variation) {
       return unifiedToEmoji(variation.unified);
@@ -181,7 +181,7 @@ export function convertShortName(shortName: string, skinTone: number = 0) {
 }
 
 export function replaceColons(str: string) {
-  return str.replace(/:[a-z0-9-_+]+:(?::skin-tone-[1-4]:)?/gi, m => {
+  return str.replace(/:[a-z0-9-_+]+:(?::skin-tone-[1-5]:)?/gi, m => {
     const [shortName = '', skinTone = '0'] = m
       .replace('skin-tone-', '')
       .split(':')
