@@ -761,6 +761,41 @@ async function updateToSchemaVersion14(currentVersion, instance) {
   console.log('updateToSchemaVersion14: success!');
 }
 
+async function updateToSchemaVersion15(currentVersion, instance) {
+  if (currentVersion >= 15) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion15: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // SQLite has again coerced our STRINGs into numbers, so we force it with TEXT
+  // We create a new table then copy the data into it, since we can't modify columns
+
+  await instance.run('DROP INDEX emojis_lastUsage;');
+  await instance.run('ALTER TABLE emojis RENAME TO emojis_old;');
+
+  await instance.run(`CREATE TABLE emojis(
+    shortName TEXT PRIMARY KEY,
+    lastUsage INTEGER
+  );`);
+  await instance.run(`CREATE INDEX emojis_lastUsage
+    ON emojis (
+      lastUsage
+  );`);
+
+  await instance.run('DELETE FROM emojis WHERE shortName = 1');
+  await instance.run(`INSERT INTO emojis(shortName, lastUsage)
+    SELECT shortName, lastUsage FROM emojis_old;
+  `);
+
+  await instance.run('DROP TABLE emojis_old;');
+
+  await instance.run('PRAGMA schema_version = 15;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion15: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -776,6 +811,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion12,
   updateToSchemaVersion13,
   updateToSchemaVersion14,
+  updateToSchemaVersion15,
 ];
 
 async function updateSchema(instance) {
