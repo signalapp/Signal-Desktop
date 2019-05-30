@@ -8,12 +8,15 @@ import { StateType } from '../reducer';
 import { isShortNameValid } from '../../components/emoji/lib';
 import { getIntl } from '../selectors/user';
 
-const mapStateToProps = (state: StateType) => {
-  const { recents } = state.emojis;
+const selectRecentEmojis = createSelector(
+  ({ emojis }: StateType) => emojis.recents,
+  recents => recents.filter(isShortNameValid)
+);
 
+const mapStateToProps = (state: StateType) => {
   return {
     i18n: getIntl(state),
-    recentEmojis: recents.filter(isShortNameValid),
+    recentEmojis: selectRecentEmojis(state),
     skinTone: get(state, ['items', 'skinTone'], 0),
   };
 };
