@@ -202,7 +202,7 @@ export function replaceColons(str: string) {
       .split(':')
       .filter(Boolean);
 
-    if (shortName) {
+    if (shortName && isShortName(shortName)) {
       return convertShortName(shortName, parseInt(skinTone, 10));
     }
 
