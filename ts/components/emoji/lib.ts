@@ -158,6 +158,25 @@ export function unifiedToEmoji(unified: string) {
     .join('');
 }
 
+export function hasVariation(shortName: string, skinTone: number = 0) {
+  if (skinTone === 0) {
+    return false;
+  }
+
+  const base = dataByShortName[shortName];
+  if (!base) {
+    return false;
+  }
+
+  if (skinTone > 0 && base.skin_variations) {
+    const toneKey = skinTones[skinTone - 1];
+
+    return Boolean(base.skin_variations[toneKey]);
+  }
+
+  return false;
+}
+
 export function convertShortName(shortName: string, skinTone: number = 0) {
   const base = dataByShortName[shortName];
 

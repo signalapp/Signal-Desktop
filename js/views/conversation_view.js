@@ -278,6 +278,12 @@
 
       this.setupEmojiPickerButton();
       this.setupStickerPickerButton();
+
+      this.lastSelectionStart = 0;
+      document.addEventListener(
+        'selectionchange',
+        this.updateLastSelectionStart.bind(this, undefined)
+      );
     },
 
     events: {
@@ -313,7 +319,17 @@
     setupEmojiPickerButton() {
       const props = {
         onPickEmoji: e => this.insertEmoji(e),
-        onClose: () => this.focusMessageField(),
+        onClose: () => {
+          const textarea = this.$messageField[0];
+
+          textarea.focus();
+
+          const newPos = textarea.value.length;
+          textarea.selectionStart = newPos;
+          textarea.selectionEnd = newPos;
+
+          this.forceUpdateLastSelectionStart(newPos);
+        },
       };
 
       this.emojiButtonView = new Whisper.ReactWrapperView({
@@ -447,6 +463,10 @@
 
       this.window.removeEventListener('resize', this.onResize);
       this.window.removeEventListener('focus', this.onFocus);
+      document.removeEventListener(
+        'selectionchange',
+        this.updateLastSelectionStart
+      );
 
       window.autosize.destroy(this.$messageField);
 
@@ -1052,6 +1072,7 @@
     focusMessageFieldAndClearDisabled() {
       this.$messageField.removeAttr('disabled');
       this.$messageField.focus();
+      this.updateLastSelectionStart();
     },
 
     async loadMoreMessages() {
@@ -1697,24 +1718,31 @@
     },
 
     insertEmoji({ shortName, skinTone }) {
-      const colons = `:${shortName}:${
-        skinTone ? `:skin-tone-${skinTone}:` : ''
-      }`;
+      const skinReplacement = window.Signal.Emojis.hasVariation(
+        shortName,
+        skinTone
+      )
+        ? `:skin-tone-${skinTone}:`
+        : '';
+
+      const colons = `:${shortName}:${skinReplacement}`;
 
       const textarea = this.$messageField[0];
-      if (textarea.selectionStart || textarea.selectionStart === 0) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
+      const hasFocus = document.activeElement === textarea;
+      const startPos = hasFocus
+        ? textarea.selectionStart
+        : this.lastSelectionStart;
+      const endPos = hasFocus ? textarea.selectionEnd : this.lastSelectionStart;
 
-        textarea.value =
-          textarea.value.substring(0, startPos) +
-          colons +
-          textarea.value.substring(endPos, textarea.value.length);
-        textarea.selectionStart = startPos + colons.length;
-        textarea.selectionEnd = startPos + colons.length;
-      } else {
-        textarea.value += colons;
-      }
+      textarea.value =
+        textarea.value.substring(0, startPos) +
+        colons +
+        textarea.value.substring(endPos, textarea.value.length);
+      const newPos = startPos + colons.length;
+      textarea.selectionStart = newPos;
+      textarea.selectionEnd = newPos;
+      this.forceUpdateLastSelectionStart(newPos);
+      this.forceUpdateMessageFieldSize({});
     },
 
     async setQuoteMessage(messageId) {
@@ -1851,6 +1879,18 @@
     onKeyUp() {
       this.maybeBumpTyping();
       this.debouncedMaybeGrabLinkPreview();
+    },
+
+    updateLastSelectionStart(newPos) {
+      if (document.activeElement === this.$messageField[0]) {
+        this.forceUpdateLastSelectionStart(newPos);
+      }
+    },
+
+    forceUpdateLastSelectionStart(
+      newPos = this.$messageField[0].selectionStart
+    ) {
+      this.lastSelectionStart = newPos;
     },
 
     maybeGrabLinkPreview() {
