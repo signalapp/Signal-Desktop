@@ -5,7 +5,8 @@
     "node": false
   },
   "globals": {
-    "console": true
+    "console": true,
+    "setTimeout": true
   },
   "parserOptions": {
     "sourceType": "module"

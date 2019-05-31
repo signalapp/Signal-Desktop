@@ -3,8 +3,8 @@
 // eslint-disable-next-line func-names
 (function() {
   let server;
-  const SUCCESS_POLL_TIME = 100;
-  const FAIL_POLL_TIME = 2000;
+  const EXHAUSTED_SNODES_RETRY_DELAY = 5000;
+  const NUM_CONCURRENT_CONNECTIONS = 3;
 
   function stringToArrayBufferBase64(string) {
     return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
@@ -78,24 +78,28 @@
       }
     };
 
+    // Note: calling callback(false) is currently not necessary
     this.pollServer = async callback => {
+      // This blocking call will return only when all attempts
+      // at reaching snodes are exhausted or a DNS error occured
       try {
-        await server.retrieveMessages(messages => {
+        await server.startLongPolling(NUM_CONCURRENT_CONNECTIONS, messages => {
+          connected = true;
+          callback(connected);
           messages.forEach(message => {
             const { data } = message;
             this.handleMessage(data);
           });
         });
-        connected = true;
-      } catch (err) {
-        window.log.error('Polling error: ', err);
-        connected = false;
+      } catch (e) {
+        // we'll try again anyway
       }
-      const pollTime = connected ? SUCCESS_POLL_TIME : FAIL_POLL_TIME;
-      callback(connected);
+
+      connected = false;
+      // Exhausted all our snodes urls, trying again later from scratch
       setTimeout(() => {
         this.pollServer(callback);
-      }, pollTime);
+      }, EXHAUSTED_SNODES_RETRY_DELAY);
     };
 
     this.isConnected = function isConnected() {

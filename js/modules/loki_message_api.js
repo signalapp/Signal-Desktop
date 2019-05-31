@@ -9,6 +9,28 @@ const { rpc } = require('./loki_rpc');
 const MINIMUM_SUCCESSFUL_REQUESTS = 2;
 const LOKI_LONGPOLL_HEADER = 'X-Loki-Long-Poll';
 
+function sleepFor(time) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), time);
+  });
+}
+
+const filterIncomingMessages = async messages => {
+  const incomingHashes = messages.map(m => m.hash);
+  const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(
+    incomingHashes
+  );
+  const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
+  if (newMessages.length) {
+    const newHashes = newMessages.map(m => ({
+      expiresAt: m.expiration,
+      hash: m.hash,
+    }));
+    await window.Signal.Data.saveSeenMessageHashes(newHashes);
+  }
+  return newMessages;
+};
+
 class LokiMessageAPI {
   constructor({ snodeServerPort }) {
     this.snodeServerPort = snodeServerPort ? `:${snodeServerPort}` : '';
@@ -155,6 +177,93 @@ class LokiMessageAPI {
     log.info(`Successful storage message to ${pubKey}`);
   }
 
+  async retrieveNextMessages(nodeUrl, nodeData, ourKey) {
+    const params = {
+      pubKey: ourKey,
+      lastHash: nodeData.lastHash || '',
+    };
+    const options = {
+      timeout: 40000,
+      headers: {
+        [LOKI_LONGPOLL_HEADER]: true,
+      },
+    };
+
+    const result = await rpc(
+      `http://${nodeUrl}`,
+      this.snodeServerPort,
+      'retrieve',
+      params,
+      options
+    );
+    return result.messages || [];
+  }
+
+  async openConnection(callback) {
+    const ourKey = window.textsecure.storage.user.getNumber();
+    while (!_.isEmpty(this.ourSwarmNodes)) {
+      const url = Object.keys(this.ourSwarmNodes)[0];
+      const nodeData = this.ourSwarmNodes[url];
+      delete this.ourSwarmNodes[url];
+      let successiveFailures = 0;
+      while (successiveFailures < 3) {
+        await sleepFor(successiveFailures * 1000);
+
+        try {
+          let messages = await this.retrieveNextMessages(
+            url,
+            nodeData,
+            ourKey
+          );
+          successiveFailures = 0;
+          if (messages.length) {
+            const lastMessage = _.last(messages);
+            nodeData.lashHash = lastMessage.hash;
+            lokiSnodeAPI.updateLastHash(
+              url,
+              lastMessage.hash,
+              lastMessage.expiration
+            );
+            messages = await this.jobQueue.add(() =>
+              filterIncomingMessages(messages)
+            );
+          }
+          // Execute callback even with empty array to signal online status
+          callback(messages);
+        } catch (e) {
+          log.warn('Loki retrieve messages:', e);
+          if (e instanceof textsecure.WrongSwarmError) {
+            const { newSwarm } = e;
+            await lokiSnodeAPI.updateOurSwarmNodes(newSwarm);
+            // Try another snode
+            break;
+          } else if (e instanceof textsecure.NotFoundError) {
+            // DNS/Lokinet error, needs to bubble up
+            throw new window.textsecure.DNSResolutionError(
+              'Retrieving messages'
+            );
+          }
+          successiveFailures += 1;
+        }
+      }
+    }
+  }
+
+  async startLongPolling(numConnections, callback) {
+    this.ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
+
+    const promises = [];
+
+    for (let i = 0; i < numConnections; i += 1)
+      promises.push(this.openConnection(callback));
+
+    // blocks until all snodes in our swarms have been removed from the list
+    // or if there is network issues (ENOUTFOUND due to lokinet)
+    await Promise.all(promises);
+  }
+
+  // stale function, kept around to reduce diff noise
+  // TODO: remove
   async retrieveMessages(callback) {
     const ourKey = window.textsecure.storage.user.getNumber();
     const completedNodes = [];
@@ -162,22 +271,6 @@ class LokiMessageAPI {
     let successfulRequests = 0;
 
     let ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
-
-    const filterIncomingMessages = async messages => {
-      const incomingHashes = messages.map(m => m.hash);
-      const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(
-        incomingHashes
-      );
-      const newMessages = messages.filter(m => !dupHashes.includes(m.hash));
-      if (newMessages.length) {
-        const newHashes = newMessages.map(m => ({
-          expiresAt: m.expiration,
-          hash: m.hash,
-        }));
-        await window.Signal.Data.saveSeenMessageHashes(newHashes);
-      }
-      return newMessages;
-    };
 
     const nodeComplete = nodeUrl => {
       completedNodes.push(nodeUrl);
