@@ -106,7 +106,10 @@ const rpc = (address, port, method, params, options = {}) => {
     method: 'POST',
     ...options,
     body: JSON.stringify(body),
-    headers,
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
   };
 
   return fetch(url, fetchOptions);

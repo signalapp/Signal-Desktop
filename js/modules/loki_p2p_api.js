@@ -1,6 +1,7 @@
 /* global setTimeout, clearTimeout */
 
 const EventEmitter = require('events');
+const { isEmpty } = require('lodash');
 
 const offlinePingTime = 2 * 60 * 1000; // 2 minutes
 
@@ -18,68 +19,59 @@ class LokiP2pAPI extends EventEmitter {
     });
   }
 
-  updateContactP2pDetails(pubKey, address, port, isPing = false) {
+  updateContactP2pDetails(pubKey, address, port, isP2PMessage = false) {
     // Stagger the timers so the friends don't ping each other at the same time
     const timerDuration =
       pubKey < this.ourKey
         ? 60 * 1000 // 1 minute
         : 2 * 60 * 1000; // 2 minutes
 
-    if (!this.contactP2pDetails[pubKey]) {
-      // We didn't have this contact's details
-      this.contactP2pDetails[pubKey] = {
-        address,
-        port,
-        timerDuration,
-        pingTimer: null,
-        isOnline: false,
-      };
-      if (isPing) {
-        this.setContactOnline(pubKey);
-        return;
-      }
-      // Try ping
-      this.pingContact(pubKey);
-      return;
-    }
+    // Get the current contact details
+    // This will be empty if we don't have them
+    const baseDetails = { ...(this.contactP2pDetails[pubKey] || {}) };
 
-    // We already had this contact's details
-    const baseDetails = { ...this.contactP2pDetails[pubKey] };
+    // Always set the new contact details
+    this.contactP2pDetails[pubKey] = {
+      address,
+      port,
+      timerDuration,
+      pingTimer: null,
+      isOnline: false,
+    };
 
-    if (isPing) {
-      // Received a ping
-      // Update details in case they are new and mark online
-      this.contactP2pDetails[pubKey].address = address;
-      this.contactP2pDetails[pubKey].port = port;
+    const contactExists = !isEmpty(baseDetails);
+    const { isOnline } = baseDetails;
+    const detailsChanged =
+      baseDetails.address !== address || baseDetails.port !== port;
+
+    // If we had the contact details
+    // And we got a P2P message
+    // And the contact was online
+    // And the new details that we got matched the old
+    // Then we don't need to bother pinging
+    if (contactExists && isP2PMessage && isOnline && !detailsChanged) {
+      // We also need to set the current contact details to show online
+      //  because they get reset to `false` above
       this.setContactOnline(pubKey);
       return;
     }
 
-    // Received a storage broadcast message
-    if (
-      baseDetails.isOnline ||
-      baseDetails.address !== address ||
-      baseDetails.port !== port
-    ) {
-      // Had the contact marked as online and details we had were the same
-      this.pingContact(pubKey);
-      return;
-    }
-
-    // Had the contact marked as offline or got new details
-    this.contactP2pDetails[pubKey].address = address;
-    this.contactP2pDetails[pubKey].port = port;
-    this.setContactOffline(pubKey);
+    /*
+      Ping the contact.
+      This happens in the following scenarios:
+        1. We didn't have the contact, we need to ping them to let them know our details.
+        2. isP2PMessage = false, so we assume the contact doesn't have our details.
+        3. We had the contact marked as offline,
+            we need to make sure that we can reach their server.
+        4. The other contact details have changed,
+            we need to make sure that we can reach their new server.
+    */
     this.pingContact(pubKey);
   }
 
   getContactP2pDetails(pubKey) {
-    return this.contactP2pDetails[pubKey] || null;
-  }
-
-  isContactOnline(pubKey) {
-    const contactDetails = this.contactP2pDetails[pubKey];
-    return !!(contactDetails && contactDetails.isOnline);
+    if (!this.contactP2pDetails[pubKey]) return null;
+    return { ...this.contactP2pDetails[pubKey] };
   }
 
   setContactOffline(pubKey) {
