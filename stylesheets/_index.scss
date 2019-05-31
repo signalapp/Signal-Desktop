@@ -3,11 +3,7 @@
 .inbox,
 .gutter {
   height: 100%;
-}
-
-.inbox {
-  display: flex;
-  flex-direction: row;
+  overflow: hidden;
 }
 
 .expired {
@@ -86,7 +82,6 @@
 }
 
 .conversation-stack {
-  flex-grow: 1;
   .conversation {
     display: none;
   }
