@@ -60,9 +60,11 @@ exports.upload = async content => {
     filename: `signal-desktop-debug-log-${VERSION}.txt`,
   });
 
+  window.log.info('Debug log upload starting...');
   // WORKAROUND: See comment on `submitFormData`:
   // await got.post(url, { body: form });
   await submitFormData(form, url);
+  window.log.info('Debug log upload complete.');
 
   return `${BASE_URL}/${fields.key}`;
 };

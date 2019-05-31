@@ -238,11 +238,15 @@ Developer Tools) and entering this into the Console and pressing enter: `window.
 
 If you're completely sure that your changes will have no impact to the production servers,
 you can connect your development build to the production server by putting a file called
-`local-development.json` in the `config` directory that looks like this:
+`local-development.json` in the `config` directory with the same contents as
+`production.json`, except that you should also remove the `updatesEnabled` setting so that
+the auto update infrastructure doesn't kick in while you are developing.
+`local-development.json` should look something like this:
 
-```
+```json
 {
   "serverUrl": "https://textsecure-service.whispersystems.org",
+  "serverTrustRoot": "SOME_ALPHANUMERIC_STRING_MATCHING_PRODUCTION_JSON",
   "cdnUrl": "https://cdn.signal.org"
 }
 ```

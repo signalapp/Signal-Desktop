@@ -1,13 +1,10 @@
 /* global
   ConversationController,
   extension,
-  getConversations,
   getInboxCollection,
   i18n,
   Whisper,
-  textsecure,
   Signal
-
 */
 
 // eslint-disable-next-line func-names
@@ -15,6 +12,12 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
+
+  Whisper.StickerPackInstallFailedToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('stickers--toast--InstallFailed') };
+    },
+  });
 
   Whisper.ConversationStack = Whisper.View.extend({
     className: 'conversation-stack',
@@ -39,6 +42,8 @@
         $el.prependTo(this.el);
       }
       conversation.trigger('opened');
+      // Make sure poppers are positioned properly
+      window.dispatchEvent(new Event('resize'));
     },
   });
 
@@ -80,7 +85,7 @@
 
       this.listenTo(inboxCollection, 'messageError', () => {
         if (this.networkStatusView) {
-          this.networkStatusView.render();
+          this.networkStatusView.update();
         }
       });
 
@@ -95,6 +100,12 @@
         this.$el.addClass('expired');
       }
 
+      Whisper.events.on('pack-install-failed', () => {
+        const toast = new Whisper.StickerPackInstallFailedToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+      });
+
       this.setupLeftPane();
     },
     render_attributes: {
@@ -105,85 +116,10 @@
       click: 'onClick',
     },
     setupLeftPane() {
-      // Here we set up a full redux store with initial state for our LeftPane Root
-      const convoCollection = getConversations();
-      const conversations = convoCollection.map(
-        conversation => conversation.cachedProps
-      );
-      const initialState = {
-        conversations: {
-          conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
-        },
-        user: {
-          regionCode: window.storage.get('regionCode'),
-          ourNumber: textsecure.storage.user.getNumber(),
-          i18n: window.i18n,
-        },
-      };
-
-      this.store = Signal.State.createStore(initialState);
-      window.inboxStore = this.store;
       this.leftPaneView = new Whisper.ReactWrapperView({
-        JSX: Signal.State.Roots.createLeftPane(this.store),
+        JSX: Signal.State.Roots.createLeftPane(window.reduxStore),
         className: 'left-pane-wrapper',
       });
-
-      // Enables our redux store to be updated by backbone events in the outside world
-      const {
-        conversationAdded,
-        conversationChanged,
-        conversationRemoved,
-        removeAllConversations,
-        messageExpired,
-        openConversationExternal,
-      } = Signal.State.bindActionCreators(
-        Signal.State.Ducks.conversations.actions,
-        this.store.dispatch
-      );
-      const { userChanged } = Signal.State.bindActionCreators(
-        Signal.State.Ducks.user.actions,
-        this.store.dispatch
-      );
-
-      this.openConversationAction = openConversationExternal;
-
-      // In the future this listener will be added by the conversation view itself. But
-      //   because we currently have multiple converations open at once, we install just
-      //   one global handler.
-      // $(document).on('keydown', event => {
-      //   const { ctrlKey, key } = event;
-
-      // We can add Command-E as the Mac shortcut when we add it to our Electron menus:
-      //   https://stackoverflow.com/questions/27380018/when-cmd-key-is-kept-pressed-keyup-is-not-triggered-for-any-other-key
-      // For now, it will stay as CTRL-E only
-      //   if (key === 'e' && ctrlKey) {
-      //     const state = this.store.getState();
-      //     const selectedId = state.conversations.selectedConversation;
-      //     const conversation = ConversationController.get(selectedId);
-
-      //     if (conversation && !conversation.get('isArchived')) {
-      //       conversation.setArchived(true);
-      //       conversation.trigger('unload');
-      //     }
-      //   }
-      // });
-
-      this.listenTo(convoCollection, 'remove', conversation => {
-        const { id } = conversation || {};
-        conversationRemoved(id);
-      });
-      this.listenTo(convoCollection, 'add', conversation => {
-        const { id, cachedProps } = conversation || {};
-        conversationAdded(id, cachedProps);
-      });
-      this.listenTo(convoCollection, 'change', conversation => {
-        const { id, cachedProps } = conversation || {};
-        conversationChanged(id, cachedProps);
-      });
-      this.listenTo(convoCollection, 'reset', removeAllConversations);
-
-      Whisper.events.on('messageExpired', messageExpired);
-      Whisper.events.on('userChanged', userChanged);
 
       // Finally, add it to the DOM
       this.$('.left-pane-placeholder').append(this.leftPaneView.el);
@@ -248,8 +184,9 @@
         'private'
       );
 
-      if (this.openConversationAction) {
-        this.openConversationAction(id, messageId);
+      const { openConversationExternal } = window.reduxActions.conversations;
+      if (openConversationExternal) {
+        openConversationExternal(id, messageId);
       }
 
       this.conversation_stack.open(conversation);

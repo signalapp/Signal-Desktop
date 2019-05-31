@@ -5,6 +5,7 @@ const url = require('url');
 const os = require('os');
 const fs = require('fs');
 const crypto = require('crypto');
+const qs = require('qs');
 
 const _ = require('lodash');
 const pify = require('pify');
@@ -63,6 +64,7 @@ const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 const updater = require('./ts/updater/index');
 const createTrayIcon = require('./app/tray_icon');
+const dockIcon = require('./app/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
 const sql = require('./app/sql');
@@ -94,6 +96,9 @@ function showWindow() {
   if (tray) {
     tray.updateContextMenu();
   }
+
+  // show the app on the Dock in case it was hidden before
+  dockIcon.show();
 }
 
 if (!process.mas) {
@@ -366,6 +371,11 @@ function createWindow() {
         tray.updateContextMenu();
       }
 
+      // hide the app from the Dock on macOS if the tray icon is enabled
+      if (usingTrayIcon) {
+        dockIcon.hide();
+      }
+
       return;
     }
 
@@ -389,13 +399,16 @@ ipc.on('show-window', () => {
   showWindow();
 });
 
-let updatesStarted = false;
-ipc.on('ready-for-updates', async () => {
-  if (updatesStarted) {
-    return;
+ipc.once('ready-for-updates', async () => {
+  // First, install requested sticker pack
+  if (process.argv.length > 1) {
+    const [incomingUrl] = process.argv;
+    if (incomingUrl.startsWith('sgnl://')) {
+      handleSgnlLink(incomingUrl);
+    }
   }
-  updatesStarted = true;
 
+  // Second, start checking for app updates
   try {
     await updater.start(getMainWindow, locale.messages, logger);
   } catch (error) {
@@ -494,7 +507,6 @@ async function showSettingsWindow() {
     return;
   }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
   const size = mainWindow.getSize();
   const options = {
     width: Math.min(500, size[0]),
@@ -519,7 +531,7 @@ async function showSettingsWindow() {
 
   captureClicks(settingsWindow);
 
-  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html'], { theme }));
+  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html']));
 
   settingsWindow.on('closed', () => {
     removeDarkOverlay();
@@ -705,8 +717,23 @@ app.on('ready', async () => {
       userDataPath,
       attachments: orphanedAttachments,
     });
+
+    const allStickers = await attachments.getAllStickers(userDataPath);
+    const orphanedStickers = await sql.removeKnownStickers(allStickers);
+    await attachments.deleteAllStickers({
+      userDataPath,
+      stickers: orphanedStickers,
+    });
   }
 
+  try {
+    await attachments.clearTempPath(userDataPath);
+  } catch (error) {
+    logger.error(
+      'main/ready: Error deleting temp dir:',
+      error && error.stack ? error.stack : error
+    );
+  }
   await attachmentChannel.initialize({
     configDir: userDataPath,
     cleanupOrphanedAttachments,
@@ -829,6 +856,12 @@ app.on('web-contents-created', (createEvent, contents) => {
   contents.on('new-window', newEvent => {
     newEvent.preventDefault();
   });
+});
+
+app.setAsDefaultProtocolClient('sgnl');
+app.on('open-url', (event, incomingUrl) => {
+  event.preventDefault();
+  handleSgnlLink(incomingUrl);
 });
 
 ipc.on('set-badge-count', (event, count) => {
@@ -1001,4 +1034,16 @@ function installSettingsSetter(name) {
       mainWindow.webContents.send(`set-${name}`, value);
     }
   });
+}
+
+function handleSgnlLink(incomingUrl) {
+  const { host: command, query } = url.parse(incomingUrl);
+  const args = qs.parse(query);
+  if (command === 'addstickers' && mainWindow && mainWindow.webContents) {
+    const { pack_id: packId, pack_key: packKeyHex } = args;
+    const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
+    mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
+  } else {
+    console.error('Unhandled sgnl link');
+  }
 }

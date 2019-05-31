@@ -5,10 +5,12 @@ const Backbone = require('../../ts/backbone');
 const Crypto = require('./crypto');
 const Data = require('./data');
 const Database = require('./database');
+const Emojis = require('./emojis');
 const Emoji = require('../../ts/util/emoji');
 const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
+const Stickers = require('./stickers');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
@@ -68,9 +70,23 @@ const {
 } = require('../../ts/components/conversation/VerificationNotification');
 
 // State
+const { createEmojiButton } = require('../../ts/state/roots/createEmojiButton');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
+const {
+  createStickerButton,
+} = require('../../ts/state/roots/createStickerButton');
+const {
+  createStickerManager,
+} = require('../../ts/state/roots/createStickerManager');
+const {
+  createStickerPreviewModal,
+} = require('../../ts/state/roots/createStickerPreviewModal');
+
 const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
+const emojisDuck = require('../../ts/state/ducks/emojis');
+const itemsDuck = require('../../ts/state/ducks/items');
+const stickersDuck = require('../../ts/state/ducks/stickers');
 const userDuck = require('../../ts/state/ducks/user');
 
 // Migrations
@@ -112,6 +128,8 @@ function initializeMigrations({
   }
   const {
     getPath,
+    getStickersPath,
+    getTempPath,
     createReader,
     createAbsolutePathGetter,
     createWriterForNew,
@@ -130,25 +148,48 @@ function initializeMigrations({
   const loadAttachmentData = Type.loadData(readAttachmentData);
   const loadPreviewData = MessageType.loadPreviewData(loadAttachmentData);
   const loadQuoteData = MessageType.loadQuoteData(loadAttachmentData);
+  const loadStickerData = MessageType.loadStickerData(loadAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
   const writeNewAttachmentData = createWriterForNew(attachmentsPath);
+  const copyIntoAttachmentsDirectory = Attachments.copyIntoAttachmentsDirectory(
+    attachmentsPath
+  );
+
+  const stickersPath = getStickersPath(userDataPath);
+  const writeNewStickerData = createWriterForNew(stickersPath);
+  const getAbsoluteStickerPath = createAbsolutePathGetter(stickersPath);
+  const deleteSticker = Attachments.createDeleter(stickersPath);
+  const readStickerData = createReader(stickersPath);
+
+  const tempPath = getTempPath(userDataPath);
+  const getAbsoluteTempPath = createAbsolutePathGetter(tempPath);
+  const writeNewTempData = createWriterForNew(tempPath);
+  const deleteTempFile = Attachments.createDeleter(tempPath);
+  const readTempData = createReader(tempPath);
 
   return {
     attachmentsPath,
+    copyIntoAttachmentsDirectory,
     deleteAttachmentData: deleteOnDisk,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
       deleteAttachmentData: Type.deleteData(deleteOnDisk),
       deleteOnDisk,
     }),
+    deleteSticker,
+    deleteTempFile,
     getAbsoluteAttachmentPath,
+    getAbsoluteStickerPath,
     getPlaceholderMigrations,
     getCurrentVersion,
     loadAttachmentData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     loadPreviewData,
     loadQuoteData,
+    loadStickerData,
     readAttachmentData,
+    readStickerData,
+    readTempData,
     run,
     processNewAttachment: attachment =>
       MessageType.processNewAttachment(attachment, {
@@ -159,6 +200,20 @@ function initializeMigrations({
         getImageDimensions,
         makeImageThumbnail,
         makeVideoScreenshot,
+        logger,
+      }),
+    processNewSticker: stickerData =>
+      MessageType.processNewSticker(stickerData, {
+        writeNewStickerData,
+        getAbsoluteStickerPath,
+        getImageDimensions,
+        logger,
+      }),
+    processNewEphemeralSticker: stickerData =>
+      MessageType.processNewSticker(stickerData, {
+        writeNewStickerData: writeNewTempData,
+        getAbsoluteStickerPath: getAbsoluteTempPath,
+        getImageDimensions,
         logger,
       }),
     upgradeMessageSchema: (message, options = {}) => {
@@ -226,11 +281,18 @@ exports.setup = (options = {}) => {
   };
 
   const Roots = {
+    createEmojiButton,
     createLeftPane,
+    createStickerButton,
+    createStickerManager,
+    createStickerPreviewModal,
   };
   const Ducks = {
     conversations: conversationsDuck,
+    emojis: emojisDuck,
+    items: itemsDuck,
     user: userDuck,
+    stickers: stickersDuck,
   };
   const State = {
     bindActionCreators,
@@ -267,6 +329,7 @@ exports.setup = (options = {}) => {
     Crypto,
     Data,
     Database,
+    Emojis,
     Emoji,
     IndexedDB,
     LinkPreviews,
@@ -278,6 +341,7 @@ exports.setup = (options = {}) => {
     RefreshSenderCertificate,
     Settings,
     State,
+    Stickers,
     Types,
     Util,
     Views,

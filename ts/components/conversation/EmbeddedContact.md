@@ -20,7 +20,7 @@ const contact = {
   },
   onClick: () => console.log('onClick'),
   onSendMessage: () => console.log('onSendMessage'),
-  hasSignalAccount: true,
+  signalAccount: '+12025550000',
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
@@ -86,7 +86,7 @@ const contact = {
   },
   onClick: () => console.log('onClick'),
   onSendMessage: () => console.log('onSendMessage'),
-  hasSignalAccount: true,
+  signalAccount: '+12025550000',
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
@@ -129,7 +129,6 @@ const contact = {
       path: util.gifObjectUrl,
     },
   },
-  hasSignalAccount: true,
 };
 <util.ConversationContext theme={util.theme}  ios={util.ios}>
   <li>
@@ -170,7 +169,7 @@ const contact = {
       path: util.gifObjectUrl,
     },
   },
-  hasSignalAccount: true,
+  signalAccount: '+12025550000',
 };
 <util.ConversationContext theme={util.theme} type="group" ios={util.ios}>
   <li>
@@ -230,7 +229,6 @@ const contact = {
       path: util.gifObjectUrl,
     },
   },
-  hasSignalAccount: false,
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
@@ -292,7 +290,6 @@ const contact = {
       path: util.gifObjectUrl,
     },
   },
-  hasSignalAccount: false,
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
@@ -356,7 +353,7 @@ const contact = {
       path: util.gifObjectUrl,
     },
   },
-  hasSignalAccount: false,
+  signalAccount: '+12025551000',
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
@@ -415,7 +412,6 @@ const contact = {
       type: 1,
     },
   ],
-  hasSignalAccount: true,
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>
@@ -527,7 +523,7 @@ const contactWithAccount = {
       path: util.gifObjectUrl,
     },
   },
-  hasSignalAccount: true,
+  signalAccount: '+12025550000',
 };
 const contactWithoutAccount = {
   name: {
@@ -544,7 +540,6 @@ const contactWithoutAccount = {
       path: util.gifObjectUrl,
     },
   },
-  hasSignalAccount: false,
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <li>

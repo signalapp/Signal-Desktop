@@ -90,10 +90,11 @@
 
       return verifyMAC(ivAndCiphertext, macKey, mac, 32)
         .then(() => {
-          if (!theirDigest) {
-            throw new Error('Failure: Ask sender to update Signal and resend.');
+          if (theirDigest) {
+            return verifyDigest(encryptedBin, theirDigest);
           }
-          return verifyDigest(encryptedBin, theirDigest);
+
+          return null;
         })
         .then(() => decrypt(aesKey, ciphertext, iv));
     },

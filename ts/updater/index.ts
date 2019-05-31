@@ -3,12 +3,7 @@ import { BrowserWindow } from 'electron';
 
 import { start as startMacOS } from './macos';
 import { start as startWindows } from './windows';
-import {
-  deleteBaseTempDir,
-  getPrintableError,
-  LoggerType,
-  MessagesType,
-} from './common';
+import { LoggerType, MessagesType } from './common';
 
 let initialized = false;
 
@@ -37,15 +32,6 @@ export async function start(
     );
 
     return;
-  }
-
-  try {
-    await deleteBaseTempDir();
-  } catch (error) {
-    logger.error(
-      'updater/start: Error deleting temp dir:',
-      getPrintableError(error)
-    );
   }
 
   if (platform === 'win32') {

@@ -21,3 +21,18 @@ export const getIntl = createSelector(
   getUser,
   (state: UserStateType): LocalizerType => state.i18n
 );
+
+export const getAttachmentsPath = createSelector(
+  getUser,
+  (state: UserStateType): string => state.attachmentsPath
+);
+
+export const getStickersPath = createSelector(
+  getUser,
+  (state: UserStateType): string => state.stickersPath
+);
+
+export const getTempPath = createSelector(
+  getUser,
+  (state: UserStateType): string => state.tempPath
+);

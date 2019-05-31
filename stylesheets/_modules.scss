@@ -157,6 +157,10 @@
   min-width: 0px;
 }
 
+.module-message__container--with-sticker {
+  padding-bottom: 0px;
+}
+
 .module-message__container--outgoing {
   background-color: $color-light-10;
 }
@@ -201,31 +205,53 @@
 }
 
 .module-message__attachment-container {
-  // Entirely to ensure that images are centered if they aren't full width of bubble
+  // To ensure that images are centered if they aren't full width of bubble
   text-align: center;
   position: relative;
 
-  margin-left: -12px;
-  margin-right: -12px;
-  margin-top: -10px;
-  margin-bottom: -10px;
+  margin: {
+    left: -12px;
+    right: -12px;
+    top: -10px;
+    bottom: -10px;
+  }
 
   border-radius: 16px;
   overflow: hidden;
 
   background-color: $color-white;
+
+  &--with-content-below {
+    margin-bottom: 7px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  &--with-content-above {
+    margin-top: 4px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+  }
 }
 
-.module-message__attachment-container--with-content-below {
-  margin-bottom: 7px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
+.module-message__sticker-container {
+  // To ensure that images are centered if they aren't full width of bubble
+  text-align: center;
 
-.module-message__attachment-container--with-content-above {
-  margin-top: 4px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  margin: {
+    left: -12px;
+    right: -12px;
+    top: -9px;
+    bottom: -5px;
+  }
+
+  &--with-content-below {
+    margin-bottom: 5px;
+  }
+
+  &--with-content-above {
+    margin-top: 4px;
+  }
 }
 
 .module-message__img-attachment {
@@ -440,10 +466,32 @@
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  &__profile-name {
+    font-style: italic;
+  }
 }
 
-.module-message__author__profile-name {
-  font-style: italic;
+.module-message__author_with_sticker {
+  color: $color-gray-90;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 18px;
+  height: 18px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  // Stickers are pretty narrow, so we allow this one element of a sticker
+  //   message to go wider than normal.
+  // There's a tension here, since this is width and not max-width; things will
+  //   look bad for RTL users if we make it too wide.
+  width: 300px;
+
+  &__profile-name {
+    font-style: italic;
+  }
 }
 
 .module-message__text {
@@ -451,7 +499,6 @@
   font-size: 14px;
   line-height: 18px;
   text-align: start;
-
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -2160,11 +2207,14 @@
 
 .module-image {
   overflow: hidden;
-  background-color: $color-white;
   position: relative;
   display: inline-block;
   margin: 1px;
   vertical-align: middle;
+}
+
+.module-image--with-background {
+  background-color: $color-white;
 }
 
 .module-image__caption-icon {
@@ -2316,6 +2366,10 @@
 
 .module-image-grid--one-image {
   margin-bottom: -5px;
+}
+
+.module-image-grid--with-sticker {
+  padding: 8px;
 }
 
 .module-image-grid__column {
@@ -3103,6 +3157,1295 @@
   font-style: italic;
   color: $color-gray-60;
   font-size: 13px;
+}
+
+// Module: Timeline
+
+.module-timeline {
+  height: 100%;
+}
+
+.module-timeline__message-container {
+  padding-top: 10px;
+}
+
+.ReactVirtualized__List {
+  outline: none;
+}
+
+// Module: CompositionPopper
+
+%module-composition-popper {
+  width: 332px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  z-index: 2;
+  user-select: none;
+  overflow: hidden;
+
+  @include popper-shadow();
+
+  @include light-theme {
+    background: $color-gray-02;
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-gray-02;
+    }
+  }
+
+  @include dark-theme {
+    background: $color-gray-75;
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-gray-75;
+    }
+  }
+}
+
+// Module: StickerPicker
+
+.module-sticker-picker {
+  @extend %module-composition-popper;
+  height: 400px;
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  grid-template-columns: 1fr;
+}
+
+.module-sticker-picker__header {
+  display: flex;
+  flex-direction: row;
+  padding: 0 8px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.module-sticker-picker__header__packs {
+  width: 288px;
+  overflow: hidden;
+  position: relative;
+
+  &__slider {
+    display: flex;
+    flex-direction: row;
+    transform: translateX(0);
+    transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+.module-sticker-picker__header__button {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  margin-right: 4px;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  &--selected {
+    @include light-theme {
+      background: $color-gray-10;
+    }
+    @include dark-theme {
+      background: $color-gray-60;
+    }
+  }
+
+  &--recents,
+  &--add-pack {
+    &::after {
+      content: '';
+      display: block;
+      min-width: 20px;
+      min-height: 20px;
+    }
+  }
+
+  &--recents {
+    &::after {
+      @include light-theme {
+        @include color-svg('../images/recent-outline.svg', $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg('../images/recent-outline.svg', $color-gray-25);
+      }
+    }
+  }
+
+  &--add-pack {
+    &::after {
+      @include light-theme {
+        @include color-svg('../images/plus-20.svg', $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg('../images/plus-20.svg', $color-gray-25);
+      }
+    }
+  }
+
+  &--prev-page,
+  &--next-page {
+    top: 0;
+    margin: 0;
+    border-radius: 0;
+
+    &::after {
+      content: '';
+      display: block;
+      min-width: 12px;
+      min-height: 12px;
+    }
+
+    @include light-theme {
+      background: $color-gray-02;
+    }
+
+    @include dark-theme {
+      background: $color-gray-75;
+    }
+  }
+
+  &--prev-page {
+    position: absolute;
+    left: 0;
+
+    &::after {
+      @include light-theme {
+        @include color-svg('../images/chevron-left-12.svg', $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg('../images/chevron-left-12.svg', $color-gray-25);
+      }
+    }
+  }
+
+  &--next-page {
+    position: absolute;
+    right: 0;
+
+    &::after {
+      @include light-theme {
+        @include color-svg('../images/chevron-right-12.svg', $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg('../images/chevron-right-12.svg', $color-gray-25);
+      }
+    }
+  }
+
+  &--error {
+    position: relative;
+
+    &::before {
+      display: block;
+      content: '';
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      left: 14px;
+      top: 2px;
+      @include color-svg('../images/error-filled.svg', $color-core-red);
+    }
+  }
+
+  &--hint {
+    position: relative;
+    &::before {
+      display: block;
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 14px;
+      height: 14px;
+      border-radius: 7px;
+      background: $color-signal-blue;
+    }
+  }
+}
+
+.module-sticker-picker__header__button__image {
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+}
+
+.module-sticker-picker__header__button__image--placeholder {
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+  background-color: $color-gray-10;
+}
+
+.module-sticker-picker__body {
+  position: relative;
+
+  &__content {
+    width: 332px;
+    height: 356px;
+    padding: 8px 20px 16px 16px;
+    overflow-y: auto;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 68px;
+
+    &--under-text {
+      height: 320px;
+    }
+
+    &--under-long-text {
+      height: 304px;
+    }
+  }
+
+  &__cell {
+    border: none;
+    background: none;
+    padding: 0;
+    width: 68px;
+    height: 68px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__image,
+    &__placeholder {
+      width: 100%;
+      height: 100%;
+    }
+
+    &__placeholder {
+      border-radius: 4px;
+
+      @include light-theme() {
+        background-color: $color-gray-05;
+      }
+
+      @include dark-theme() {
+        background-color: $color-gray-60;
+      }
+    }
+  }
+
+  &--empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__text {
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 14px;
+    text-align: center;
+    padding: 8px 16px 12px 0;
+
+    @include light-theme() {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme() {
+      color: $color-gray-25;
+    }
+
+    &:only-child {
+      padding: 0 0 28px 0; // header height to offset the text so it is centered in the whole picker
+    }
+
+    &--error {
+      @include light-theme() {
+        color: $color-core-red;
+      }
+      @include dark-theme() {
+        color: $color-core-red;
+      }
+    }
+
+    &--hint {
+      @include light-theme() {
+        color: $color-signal-blue;
+      }
+
+      @include dark-theme() {
+        color: $color-signal-blue;
+      }
+    }
+
+    &--pin {
+      padding: 8px 16px 12px 0px;
+      position: absolute;
+      top: 0;
+    }
+  }
+}
+
+// Module: StickerManager
+
+.module-sticker-manager {
+  padding: 0 16px;
+}
+
+.module-sticker-manager__text {
+  height: 18px;
+  font-size: 13px;
+  font-weight: normal;
+  font-family: Roboto;
+  letter-spacing: 0px;
+  line-height: 18px;
+
+  @include light-theme() {
+    color: $color-gray-60;
+  }
+
+  @include dark-theme() {
+    color: $color-gray-25;
+  }
+
+  &--heading {
+    font-size: 14px;
+    font-weight: 300;
+
+    @include light-theme() {
+      color: $color-gray-90;
+    }
+
+    @include dark-theme() {
+      color: $color-gray-05;
+    }
+  }
+}
+
+.module-sticker-manager__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+  border-radius: 8px;
+  font-family: Roboto-Light;
+  font-size: 13px;
+
+  @include light-theme {
+    background: $color-gray-02;
+    color: $color-gray-60;
+  }
+
+  @include dark-theme {
+    background: $color-gray-90;
+    color: $color-gray-25;
+  }
+}
+
+.module-sticker-manager__pack-row {
+  display: flex;
+  flex-direction: row;
+  padding: 16px 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  & + & {
+    border-top: 1px solid $color-gray-15;
+  }
+
+  &__cover {
+    width: 48px;
+    height: 48px;
+  }
+  &__cover-placeholder {
+    width: 48px;
+    height: 48px;
+    background: $color-gray-10;
+  }
+
+  &__meta {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    &:not(:first-child) {
+      padding: 0 12px;
+    }
+
+    &__title {
+      flex: 1;
+    }
+
+    &__author {
+      flex: 1;
+      font-family: Roboto-Light;
+      font-size: 13px;
+
+      @include light-theme() {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme() {
+        color: $color-gray-25;
+      }
+    }
+
+    &__blessed-icon {
+      height: 16px;
+      width: 16px;
+      display: inline-block;
+      margin-left: 3px;
+      vertical-align: top;
+      background-image: url('../images/check-circle-filled-16.svg');
+    }
+  }
+
+  &__controls {
+    flex-shrink: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__button {
+      background: none;
+      border: 0;
+      &--menu {
+        &:after {
+          content: '';
+          display: block;
+          min-width: 24px;
+          min-height: 24px;
+          @include light-theme {
+            @include color-svg('../images/more-h.svg', $color-gray-60);
+          }
+          @include dark-theme {
+            @include color-svg('../images/more-h.svg', $color-gray-25);
+          }
+        }
+      }
+    }
+  }
+}
+
+.module-sticker-manager__install-button {
+  background: none;
+  border: 0;
+  font-family: Roboto;
+  color: $color-gray-90;
+  font-weight: 300;
+  font-size: 13px;
+  height: 24px;
+  background: $color-gray-05;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 12px;
+
+  @include dark-theme {
+    color: $color-gray-05;
+    background: $color-gray-75;
+  }
+
+  &--blue {
+    @include light-theme {
+      background: $color-signal-blue;
+      color: $color-white;
+    }
+    @include dark-theme {
+      background: $color-signal-blue;
+      color: $color-white;
+    }
+  }
+}
+
+.module-sticker-manager__preview-modal {
+  &__overlay {
+    background: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+  }
+
+  &__container {
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+    width: 440px;
+    height: 360px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    @include light-theme {
+      background: $color-white;
+    }
+    @include dark-theme {
+      background: $color-gray-75;
+    }
+
+    &__error {
+      color: $color-core-red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      padding: 0 80px 30px 80px;
+      font-family: Roboto;
+      font-weight: 300;
+    }
+
+    &__header {
+      display: flex;
+      flex-direction: row;
+      flex-shrink: 0;
+      height: 36px;
+      padding: 0 8px 0 16px;
+      justify-content: space-between;
+      align-items: center;
+
+      &__text {
+        font-weight: 300;
+        font-size: 14px;
+        color: $color-gray-90;
+        @include dark-theme {
+          color: $color-gray-05;
+        }
+      }
+
+      &__close-button {
+        border: none;
+        width: 20px;
+        height: 20px;
+        @include light-theme {
+          @include color-svg('../images/x.svg', $color-gray-60);
+        }
+        @include dark-theme {
+          @include color-svg('../images/x.svg', $color-gray-05);
+        }
+      }
+    }
+
+    &__sticker-grid {
+      width: 100%;
+      display: grid;
+      grid-gap: 8px;
+      grid-template-columns: repeat(4, 1fr);
+      overflow-y: auto;
+      padding: 0 16px 80px 16px;
+
+      &__cell {
+        width: 96px;
+        height: 96px;
+
+        &__image {
+          width: 100%;
+          height: 100%;
+        }
+
+        &--placeholder {
+          border-radius: 4px;
+
+          @include light-theme() {
+            background: $color-gray-05;
+          }
+
+          @include dark-theme() {
+            background: $color-gray-60;
+          }
+        }
+      }
+    }
+
+    &__meta-overlay {
+      border-radius: 4px;
+      width: 408px;
+      height: 52px;
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      @include light-theme {
+        background: $color-gray-05;
+      }
+
+      @include dark-theme {
+        background: $color-gray-60;
+      }
+
+      &__info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &__title {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 300;
+          height: 20px;
+          line-height: 20px;
+
+          @include light-theme {
+            color: $color-gray-90;
+          }
+
+          @include dark-theme {
+            color: $color-gray-05;
+          }
+        }
+
+        &__author {
+          margin: 0;
+          font-family: Roboto-Light;
+          font-size: 13px;
+          height: 18px;
+          line-height: 18px;
+
+          @include light-theme {
+            color: $color-gray-60;
+          }
+
+          @include dark-theme {
+            color: $color-gray-25;
+          }
+        }
+
+        &__blessed-icon {
+          height: 16px;
+          width: 16px;
+          display: inline-block;
+          margin-left: 3px;
+          vertical-align: top;
+
+          @include light-theme {
+            background-image: url('../images/check-circle-filled-16.svg');
+          }
+
+          @include dark-theme {
+            background-image: url('../images/check-circle-filled-16.svg');
+          }
+        }
+      }
+
+      &__install {
+        flex-shrink: 1;
+      }
+    }
+  }
+}
+
+// Module: Sticker button (launches the sticker picker)
+
+.sticker-button-wrapper {
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 6px;
+}
+
+.module-sticker-button__button {
+  border: 0;
+  background: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:after {
+    display: block;
+    content: '';
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+
+    @include light-theme {
+      @include color-svg('../images/sticker-filled.svg', $color-gray-60);
+    }
+    @include dark-theme {
+      @include color-svg('../images/sticker-filled.svg', $color-gray-25);
+    }
+  }
+
+  &--active {
+    @include light-theme() {
+      background: $color-gray-10;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-75;
+    }
+
+    opacity: 1;
+  }
+}
+
+.module-sticker-button__tooltip {
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  z-index: 1;
+
+  @include light-theme {
+    background: $color-white;
+  }
+
+  @include dark-theme {
+    background: $color-gray-75;
+  }
+
+  @include popper-shadow();
+
+  &__triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 8px 0 8px;
+
+    @include light-theme {
+      border-color: $color-white transparent transparent transparent;
+    }
+
+    @include dark-theme {
+      border-color: $color-gray-75 transparent transparent transparent;
+    }
+
+    &--top-end {
+      top: 34px;
+    }
+
+    &--introduction {
+      top: 72px;
+    }
+  }
+
+  &__image {
+    width: 20px;
+    height: 20px;
+  }
+  &__image-placeholder {
+    width: 20px;
+    height: 20px;
+    background-color: $color-gray-10;
+  }
+
+  &__text {
+    margin-left: 4px;
+    font-size: 14px;
+    cursor: default;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+
+    &__title {
+      font-weight: 300;
+    }
+  }
+
+  &--introduction {
+    width: 420px;
+    height: 72px;
+    display: flex;
+    flex-direction: row;
+
+    // &__image {
+    //   width: 52px;
+    //   height: 52px;
+    //   background: $color-gray-10;
+    // }
+
+    &__meta {
+      flex-grow: 1;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      @include light-theme {
+        color: $color-gray-90;
+      }
+
+      @include dark-theme {
+        color: $color-gray-05;
+      }
+
+      &__title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 300;
+        height: 16px;
+        line-height: 20px;
+      }
+
+      &__subtitle {
+        margin-top: 3px;
+        font-size: 14px;
+        height: 16px;
+      }
+    }
+
+    &__close {
+      flex-shrink: 1;
+      height: 100%;
+      &__button {
+        width: 20px;
+        height: 20px;
+        border: none;
+
+        @include light-theme {
+          @include color-svg('../images/x.svg', $color-gray-60);
+        }
+
+        @include dark-theme {
+          @include color-svg('../images/x.svg', $color-gray-05);
+        }
+      }
+    }
+  }
+}
+
+// Module: confirmation dialog
+.module-confirmation-dialog {
+  &__overlay {
+    background: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+  }
+
+  &__container {
+    width: 360px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    @include popper-shadow();
+
+    @include light-theme() {
+      background: $color-white;
+      color: $color-gray-90;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-75;
+      color: $color-gray-05;
+    }
+
+    &__content {
+      margin-bottom: 20px;
+    }
+
+    &__buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+
+      &__button {
+        margin-left: 4px;
+        border-radius: 14px;
+        height: 28px;
+        padding: 5px 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: Roboto;
+
+        @include light-theme() {
+          background: $color-white;
+          color: $color-gray-60;
+          border: 1px solid $color-gray-60;
+        }
+
+        @include dark-theme() {
+          background: $color-gray-75;
+          color: $color-gray-25;
+          border: 1px solid $color-gray-25;
+        }
+
+        &--negative {
+          @include light-theme() {
+            border: none;
+            background: $color-core-red;
+            color: $color-white;
+          }
+
+          @include dark-theme() {
+            border: none;
+            background: $color-core-red;
+            color: $color-white;
+          }
+        }
+
+        &--affirmative {
+          @include light-theme() {
+            border: none;
+            background: $color-core-green;
+            color: $color-white;
+          }
+
+          @include dark-theme() {
+            border: none;
+            background: $color-core-green;
+            color: $color-white;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Module: Emoji Picker
+
+%module-emoji-picker--ribbon {
+  height: 44px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-emoji-picker {
+  @extend %module-composition-popper;
+  height: 428px;
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  grid-template-columns: 1fr;
+
+  &__header {
+    @extend %module-emoji-picker--ribbon;
+    justify-content: space-between;
+    margin: 0 12px;
+
+    &__search-field {
+      flex-grow: 1;
+      margin-left: 8px;
+      position: relative;
+
+      &::after {
+        display: block;
+        content: '';
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        left: 8px;
+        top: 6px;
+
+        @include light-theme {
+          @include color-svg('../images/search.svg', $color-gray-60);
+        }
+        @include dark-theme {
+          @include color-svg('../images/search.svg', $color-gray-25);
+        }
+      }
+
+      &__input {
+        width: 100%;
+        height: 28px;
+        line-height: 28px;
+        font-size: 14px;
+        border-radius: 17px;
+        border-width: 1px;
+        border-style: solid;
+        padding: 0 8px 0 30px;
+
+        &:focus {
+          outline: none;
+        }
+
+        @include light-theme {
+          background: $color-white;
+          color: $color-gray-90;
+          border-color: $color-gray-60;
+
+          &:focus {
+            border-color: $color-signal-blue;
+          }
+
+          &::placeholder {
+            color: $color-gray-45;
+          }
+        }
+
+        @include dark-theme {
+          border-color: $color-gray-25;
+          background: $color-gray-75;
+          color: $color-gray-05;
+
+          &:focus {
+            border-color: $color-signal-blue;
+          }
+
+          &::placeholder {
+            color: $color-gray-45;
+          }
+        }
+      }
+    }
+  }
+
+  &__footer {
+    @extend %module-emoji-picker--ribbon;
+    justify-content: center;
+  }
+
+  &__button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 8px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+
+    &--footer {
+      &:not(:first-of-type) {
+        margin-left: 4px;
+      }
+    }
+
+    &--selected {
+      @include light-theme {
+        background: $color-gray-10;
+      }
+
+      @include dark-theme {
+        background: $color-gray-60;
+      }
+    }
+
+    &--icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &::after {
+        display: block;
+        content: '';
+        width: 20px;
+        height: 20px;
+      }
+
+      &--search {
+        &::after {
+          @include light-theme {
+            @include color-svg('../images/search.svg', $color-gray-60);
+          }
+          @include dark-theme {
+            @include color-svg('../images/search.svg', $color-gray-25);
+          }
+        }
+      }
+
+      &--close {
+        &::after {
+          @include light-theme {
+            @include color-svg('../images/x.svg', $color-gray-60);
+          }
+          @include dark-theme {
+            @include color-svg('../images/x.svg', $color-gray-25);
+          }
+        }
+      }
+
+      &--recents {
+        &::after {
+          @include light-theme {
+            @include color-svg(
+              '../images/recent-outline-20.svg',
+              $color-gray-60
+            );
+          }
+          @include dark-theme {
+            @include color-svg(
+              '../images/recent-outline-20.svg',
+              $color-gray-25
+            );
+          }
+        }
+      }
+
+      &--emoji {
+        &::after {
+          @include light-theme {
+            @include color-svg(
+              '../images/emoji-outline-20.svg',
+              $color-gray-60
+            );
+          }
+          @include dark-theme {
+            @include color-svg('../images/emoji-filled-20.svg', $color-gray-25);
+          }
+        }
+      }
+
+      $categories: animal food activity travel object symbol flag;
+
+      @each $cat in $categories {
+        &--#{$cat} {
+          &::after {
+            @include light-theme {
+              @include color-svg(
+                '../images/emoji-#{$cat}-outline-20.svg',
+                $color-gray-60
+              );
+            }
+            @include dark-theme {
+              @include color-svg(
+                '../images/emoji-#{$cat}-filled-20.svg',
+                $color-gray-25
+              );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__body {
+    padding: 8px 16px 0 12px;
+
+    &__emoji-cell {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    &--empty {
+      display: flex;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
+
+      @include light-theme {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+    }
+  }
+}
+
+// Module: EmojiButton
+
+.emoji-button-wrapper {
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 6px;
+  padding-top: 4px;
+}
+
+.module-emoji-button__button {
+  border: 0;
+  background: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:after {
+    display: block;
+    content: '';
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+
+    @include light-theme {
+      @include color-svg('../images/smile.svg', $color-gray-60);
+    }
+    @include dark-theme {
+      @include color-svg('../images/smile.svg', $color-gray-25);
+    }
+  }
+
+  &--active {
+    @include light-theme() {
+      background: $color-gray-10;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-75;
+    }
+
+    opacity: 1;
+  }
+}
+
+// Module: Emoji
+@mixin emoji-size($size, $emoji-sheet-columns: 51) {
+  &--#{$size} {
+    width: $size;
+    height: $size;
+    background-size: $emoji-sheet-columns * $size;
+  }
+}
+
+.module-emoji {
+  display: block;
+  background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets-256/64.png');
+
+  @include emoji-size(16px);
+  @include emoji-size(20px);
+  @include emoji-size(28px);
+  @include emoji-size(32px);
+  @include emoji-size(64px);
+  @include emoji-size(66px);
+
+  &--inline {
+    display: inline-block;
+  }
 }
 
 // Third-party module: react-contextmenu

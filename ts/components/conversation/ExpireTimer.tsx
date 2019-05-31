@@ -5,9 +5,10 @@ import { getIncrement, getTimerBucket } from '../../util/timer';
 
 interface Props {
   withImageNoCaption: boolean;
+  withSticker: boolean;
   expirationLength: number;
   expirationTimestamp: number;
-  direction: 'incoming' | 'outgoing';
+  direction?: 'incoming' | 'outgoing';
 }
 
 export class ExpireTimer extends React.Component<Props> {
@@ -44,6 +45,7 @@ export class ExpireTimer extends React.Component<Props> {
       expirationLength,
       expirationTimestamp,
       withImageNoCaption,
+      withSticker,
     } = this.props;
 
     const bucket = getTimerBucket(expirationTimestamp, expirationLength);
@@ -56,7 +58,8 @@ export class ExpireTimer extends React.Component<Props> {
           `module-expire-timer--${direction}`,
           withImageNoCaption
             ? 'module-expire-timer--with-image-no-caption'
-            : null
+            : null,
+          withSticker ? 'module-expire-timer--with-sticker' : null
         )}
       />
     );

@@ -1,5 +1,4 @@
-/* global Whisper: false */
-/* global window: false */
+/* global Whisper, window */
 
 const electron = require('electron');
 const semver = require('semver');
@@ -7,6 +6,13 @@ const semver = require('semver');
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
 const { app } = electron.remote;
+const { systemPreferences } = electron.remote.require('electron');
+
+// Waiting for clients to implement changes on receive side
+window.ENABLE_STICKER_SEND = true;
+window.TIMESTAMP_VALIDATION = false;
+window.PAD_ALL_ATTACHMENTS = false;
+window.SEND_RECIPIENT_UPDATES = false;
 
 window.PROTO_ROOT = 'protos';
 const config = require('url').parse(window.location.toString(), true).query;
@@ -30,6 +36,25 @@ window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
+
+function setSystemTheme() {
+  window.systemTheme = systemPreferences.isDarkMode() ? 'dark' : 'light';
+}
+
+setSystemTheme();
+
+window.subscribeToSystemThemeChange = fn => {
+  if (!systemPreferences.subscribeNotification) {
+    return;
+  }
+  systemPreferences.subscribeNotification(
+    'AppleInterfaceThemeChangedNotification',
+    () => {
+      setSystemTheme();
+      fn();
+    }
+  );
+};
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -150,6 +175,14 @@ ipc.on('delete-all-data', () => {
   }
 });
 
+ipc.on('show-sticker-pack', (_event, info) => {
+  const { packId, packKey } = info;
+  const { showStickerPack } = window.Events;
+  if (showStickerPack) {
+    showStickerPack(packId, packKey);
+  }
+});
+
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};
   if (!shutdown) {
@@ -245,7 +278,6 @@ const { autoOrientImage } = require('./js/modules/auto_orient_image');
 window.autoOrientImage = autoOrientImage;
 window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
 window.emojiData = require('emoji-datasource');
-window.EmojiPanel = require('emoji-panel');
 window.filesize = require('filesize');
 window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
@@ -271,9 +303,13 @@ window.moment.updateLocale(locale, {
 });
 window.moment.locale(locale);
 
+const userDataPath = app.getPath('userData');
+window.baseAttachmentsPath = Attachments.getPath(userDataPath);
+window.baseStickersPath = Attachments.getStickersPath(userDataPath);
+window.baseTempPath = Attachments.getTempPath(userDataPath);
 window.Signal = Signal.setup({
   Attachments,
-  userDataPath: app.getPath('userData'),
+  userDataPath,
   getRegionCode: () => window.storage.get('regionCode'),
   logger: window.log,
 });

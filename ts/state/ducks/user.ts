@@ -1,8 +1,12 @@
+import { AnyAction } from 'redux';
 import { LocalizerType } from '../../types/Util';
 
 // State
 
 export type UserStateType = {
+  attachmentsPath: string;
+  stickersPath: string;
+  tempPath: string;
   ourNumber: string;
   regionCode: string;
   i18n: LocalizerType;
@@ -18,7 +22,7 @@ type UserChangedActionType = {
   };
 };
 
-export type UserActionType = UserChangedActionType;
+export type UserActionType = AnyAction | UserChangedActionType;
 
 // Action Creators
 
@@ -40,6 +44,9 @@ function userChanged(attributes: {
 
 function getEmptyState(): UserStateType {
   return {
+    attachmentsPath: 'missing',
+    stickersPath: 'missing',
+    tempPath: 'missing',
     ourNumber: 'missing',
     regionCode: 'missing',
     i18n: () => 'missing',
@@ -47,7 +54,7 @@ function getEmptyState(): UserStateType {
 }
 
 export function reducer(
-  state: UserStateType,
+  state: UserStateType = getEmptyState(),
   action: UserActionType
 ): UserStateType {
   if (!state) {

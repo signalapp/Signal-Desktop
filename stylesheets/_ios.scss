@@ -43,6 +43,9 @@
   .module-message__metadata__date--with-image-no-caption {
     color: $color-white;
   }
+  .module-message__metadata__date--with-sticker {
+    color: $color-gray-60;
+  }
 
   .module-message__metadata__status-icon--sending {
     @include color-svg('../images/sending.svg', $color-white);
@@ -60,6 +63,9 @@
 
   .module-message__metadata__status-icon--with-image-no-caption {
     background-color: $color-white;
+  }
+  .module-message__metadata__status-icon--with-sticker {
+    background-color: $color-gray-60;
   }
 
   .module-message__generic-attachment__file-name {
@@ -81,8 +87,10 @@
   .module-expire-timer {
     background-color: $color-white-08;
   }
-
   .module-expire-timer--incoming {
+    background-color: $color-gray-60;
+  }
+  .module-expire-timer--with-sticker {
     background-color: $color-gray-60;
   }
 
@@ -188,7 +196,6 @@
     .module-message__metadata__date {
       color: $color-white-08;
     }
-
     .module-message__metadata__date--incoming {
       color: $color-gray-25;
     }
@@ -203,7 +210,6 @@
     .module-expire-timer {
       background-color: $color-white-08;
     }
-
     .module-expire-timer--incoming {
       background-color: $color-gray-25;
     }

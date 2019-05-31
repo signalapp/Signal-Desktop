@@ -37,6 +37,12 @@ describe('Link previews', () => {
         isLinkInWhitelist('https://m.instagram.com/blah'),
         true
       );
+      assert.strictEqual(isLinkInWhitelist('https://pinterest.com/blah'), true);
+      assert.strictEqual(
+        isLinkInWhitelist('https://www.pinterest.com/blah'),
+        true
+      );
+      assert.strictEqual(isLinkInWhitelist('https://pin.it/blah'), true);
     });
 
     it('returns false for subdomains', () => {
@@ -109,6 +115,10 @@ describe('Link previews', () => {
         isMediaLinkInWhitelist('https://i.imgur.com/something'),
         true
       );
+      assert.strictEqual(
+        isMediaLinkInWhitelist('https://pinimg.com/something'),
+        true
+      );
     });
 
     it('returns false for insecure protocol', () => {
@@ -128,6 +138,10 @@ describe('Link previews', () => {
       );
       assert.strictEqual(
         isMediaLinkInWhitelist('http://i.imgur.com/something'),
+        false
+      );
+      assert.strictEqual(
+        isMediaLinkInWhitelist('http://pinimg.com/something'),
         false
       );
     });
@@ -192,7 +206,7 @@ describe('Link previews', () => {
       );
     });
 
-    it('returns html-decoded tag contents from Instagram', () => {
+    it('returns html-decoded tag contents from Imgur', () => {
       const imgur = `
         <meta property="og:site_name" content="Imgur">
         <meta property="og:url" content="https://imgur.com/gallery/KFCL8fm">
@@ -208,6 +222,26 @@ describe('Link previews', () => {
       assert.strictEqual(
         'https://i.imgur.com/Y3wjlwY.jpg?fb',
         getImageMetaTag(imgur)
+      );
+    });
+
+    it('returns html-decoded tag contents from Pinterest', () => {
+      const pinterest = `
+        <meta property="og:image" name="og:image" content="https://i.pinimg.com/736x/9a/9e/64/9a9e64ed6b42b0a0e480dded4579d940--yard-sale-mulches.jpg" data-app>
+        <meta property="og:image:height" name="og:image:height" content="200" data-app>
+        <meta property="og:image:width" name="og:image:width" content="300" data-app>
+        <meta property="og:title" name="og:title" content="Inexpensive Landscaping Ideas" data-app>
+        <meta property="og:type" name="og:type" content="pinterestapp:pin" data-app>
+        <meta property="og:url" name="og:url" content="https://www.pinterest.com/pin/3166662212807634/" data-app>
+      `;
+
+      assert.strictEqual(
+        'Inexpensive Landscaping Ideas',
+        getTitleMetaTag(pinterest)
+      );
+      assert.strictEqual(
+        'https://i.pinimg.com/736x/9a/9e/64/9a9e64ed6b42b0a0e480dded4579d940--yard-sale-mulches.jpg',
+        getImageMetaTag(pinterest)
       );
     });
 

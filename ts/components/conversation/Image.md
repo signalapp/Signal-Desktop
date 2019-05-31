@@ -418,3 +418,51 @@
   </div>
 </util.ConversationContext>
 ```
+
+### No border, no background
+
+```jsx
+<util.ConversationContext theme={util.theme}>
+  <div style={{ padding: '10px', backgroundColor: 'lightgrey' }}>
+    <div>
+      <Image
+        height="512"
+        width="512"
+        noBorder={true}
+        noBackground={true}
+        attachment={{}}
+        onClick={() => console.log('onClick')}
+        onClickClose={attachment => console.log('onClickClose', attachment)}
+        url={util.squareStickerObjectUrl}
+        i18n={util.i18n}
+      />
+    </div>
+    <div>
+      <Image
+        height="256"
+        width="256"
+        noBorder={true}
+        noBackground={true}
+        attachment={{}}
+        onClick={() => console.log('onClick')}
+        onClickClose={attachment => console.log('onClickClose', attachment)}
+        url={util.squareStickerObjectUrl}
+        i18n={util.i18n}
+      />
+    </div>
+    <div>
+      <Image
+        height="128"
+        width="128"
+        noBorder={true}
+        noBackground={true}
+        attachment={{}}
+        onClick={() => console.log('onClick')}
+        onClickClose={attachment => console.log('onClickClose', attachment)}
+        url={util.squareStickerObjectUrl}
+        i18n={util.i18n}
+      />
+    </div>
+  </div>
+</util.ConversationContext>
+```

@@ -569,7 +569,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       onDownload={() => console.log('onDownload')}
       onReply={() => console.log('onReply')}
     />
@@ -590,7 +590,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       onDownload={() => console.log('onDownload')}
       onReply={() => console.log('onReply')}
     />
@@ -611,7 +611,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       onDownload={() => console.log('onDownload')}
       onReply={() => console.log('onReply')}
     />
@@ -632,7 +632,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       onDownload={() => console.log('onDownload')}
       onReply={() => console.log('onReply')}
     />
@@ -662,7 +662,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -682,7 +682,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -699,7 +699,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -717,7 +717,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -735,7 +735,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -754,7 +754,306 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Sticker
+
+Stickers have no background, but they have all the standard message bubble features.
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      expirationLength={60 * 1000}
+      expirationTimestamp={Date.now() + 30 * 1000}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      expirationLength={60 * 1000}
+      expirationTimestamp={Date.now() + 30 * 1000}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      authorName="Mr. Sticker"
+      conversationType="group"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      authorName="Mr. Sticker (and a really long suffix, long long long long long)"
+      conversationType="group"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      conversationType="group"
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Sticker with collapsed metadata
+
+First set is in a 1:1 conversation, second set is in a group.
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      collapseMetadata
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      collapseMetadata
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      authorName="Mr. Sticker"
+      conversationType="group"
+      collapseMetadata
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      conversationType="group"
+      collapseMetadata
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.squareStickerObjectUrl,
+          contentType: 'image/png',
+          width: 128,
+          height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Sticker with pending image
+
+A sticker with no attachments (what our selectors produce for a pending sticker) is not displayed at all.
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      collapseMetadata
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      collapseMetadata
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      authorName="Mr. Sticker"
+      conversationType="group"
+      collapseMetadata
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      conversationType="group"
+      collapseMetadata
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -784,7 +1083,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -813,42 +1112,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
-    />
-  </li>
-  <li>
-    <Message
-      authorColor="green"
-      direction="incoming"
-      timestamp={Date.now()}
-      i18n={util.i18n}
-      attachments={[
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-      ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -882,14 +1146,8 @@ First, showing the metadata overlay on dark and light images, then a message wit
           width: 320,
           height: 240,
         },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -929,6 +1187,47 @@ First, showing the metadata overlay on dark and light images, then a message wit
           width: 320,
           height: 240,
         },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
         {
           url: util.gifObjectUrl,
           contentType: 'image/gif',
@@ -936,7 +1235,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -967,7 +1266,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -997,7 +1296,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1033,7 +1332,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1075,7 +1374,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1123,7 +1422,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -1150,7 +1449,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1168,7 +1467,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1186,7 +1485,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1204,7 +1503,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -1229,7 +1528,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1248,7 +1547,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1278,7 +1577,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1309,7 +1608,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   </util.ConversationContext>
@@ -1333,7 +1632,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1351,7 +1650,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1369,7 +1668,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1387,7 +1686,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -1412,7 +1711,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1431,7 +1730,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1450,7 +1749,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1470,7 +1769,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1488,7 +1787,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       expirationLength={5 * 60 * 1000}
       expirationTimestamp={Date.now() + 5 * 60 * 1000}
     />
@@ -1509,7 +1808,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       expirationLength={5 * 60 * 1000}
       expirationTimestamp={Date.now() + 5 * 60 * 1000}
     />
@@ -1535,7 +1834,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 50,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1553,7 +1852,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 50,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1571,7 +1870,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 50,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1589,7 +1888,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 50,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -1614,7 +1913,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 50,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1633,7 +1932,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 50,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1652,7 +1951,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 50,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1671,7 +1970,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 50,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -1698,7 +1997,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1719,7 +2018,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1742,7 +2041,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1765,7 +2064,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -1794,7 +2093,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1816,7 +2115,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1839,7 +2138,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1862,7 +2161,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -1889,7 +2188,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1909,7 +2208,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1930,7 +2229,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1951,7 +2250,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1973,7 +2272,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -1995,7 +2294,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2018,7 +2317,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2041,7 +2340,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -2068,7 +2367,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2089,7 +2388,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2111,7 +2410,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2133,7 +2432,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -2160,7 +2459,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2180,7 +2479,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2202,7 +2501,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2224,7 +2523,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -2249,7 +2548,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2268,7 +2567,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2291,7 +2590,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2311,7 +2610,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -2334,7 +2633,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2351,7 +2650,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2368,7 +2667,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2385,7 +2684,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -2407,7 +2706,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2423,7 +2722,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2439,7 +2738,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2455,7 +2754,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -2484,7 +2783,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2503,7 +2802,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2522,7 +2821,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2541,7 +2840,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2561,7 +2860,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2580,7 +2879,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2622,7 +2921,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2640,7 +2939,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2658,7 +2957,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2676,7 +2975,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -2701,7 +3000,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2720,7 +3019,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2737,7 +3036,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>
@@ -2754,7 +3053,7 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
 </util.ConversationContext>
@@ -2778,8 +3077,8 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={isDangerous =>
-        console.log('onClickAttachment - isDangerous:', isDangerous)
+      showVisualAttachment={isDangerous =>
+        console.log('showVisualAttachment - isDangerous:', isDangerous)
       }
     />
   </li>
@@ -2798,8 +3097,8 @@ Voice notes are not shown any differently from audio attachments.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={isDangerous =>
-        console.log('onClickAttachment - isDangerous:', isDangerous)
+      showVisualAttachment={isDangerous =>
+        console.log('showVisualAttachment - isDangerous:', isDangerous)
       }
     />
   </li>
@@ -2906,6 +3205,62 @@ Voice notes are not shown any differently from audio attachments.
             contentType: 'image/png',
             width: 800,
             height: 1200,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Link previews, stickers url
+
+Sticker link previews are forced to use the small link preview form, no matter the image size.
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      text="Pretty sweet link: https://signal.org/addsticker/#pack_id=11111"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          isStickerPack: true,
+          domain: 'instagram.com',
+          image: {
+            url: util.squareStickerObjectUrl,
+            contentType: 'image/png',
+            width: 512512,
+            height: 512512,
+          },
+        },
+      ]}
+      onClickLinkPreview={url => console.log('onClickLinkPreview', url)}
+    />
+  </li>
+  <li>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      status="sent"
+      text="Pretty sweet link: https://signal.org/addsticker/#pack_id=11111"
+      previews={[
+        {
+          title: 'This is a really sweet post',
+          isStickerPack: true,
+          domain: 'signal.org',
+          image: {
+            url: util.squareStickerObjectUrl,
+            contentType: 'image/png',
+            width: 512,
+            height: 512,
           },
         },
       ]}
@@ -3231,6 +3586,19 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   <li>
     <Message
       direction="incoming"
+      collapseMetadata={true}
+      timestamp={Date.now()}
+      authorColor="pink"
+      conversationType="group"
+      authorPhoneNumber="(202) 555-0003"
+      text="Collapsed metadata"
+      i18n={util.i18n}
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
       timestamp={Date.now()}
       authorColor="blue"
       conversationType="group"
@@ -3285,7 +3653,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
           height: 240,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       authorAvatarPath={util.gifObjectUrl}
     />
   </li>
@@ -3309,7 +3677,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
           height: 1200,
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       authorAvatarPath={util.gifObjectUrl}
     />
   </li>
@@ -3327,7 +3695,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
           contentType: 'audio/mp3',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
       authorAvatarPath={util.gifObjectUrl}
     />
   </li>
@@ -3348,7 +3716,7 @@ Note that the author avatar goes away if `collapseMetadata` is set.
           fileSize: '3.05 KB',
         },
       ]}
-      onClickAttachment={() => console.log('onClickAttachment')}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
     />
   </li>
   <li>

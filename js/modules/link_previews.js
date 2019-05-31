@@ -18,6 +18,7 @@ module.exports = {
   isLinkInWhitelist,
   isMediaLinkInWhitelist,
   isLinkSneaky,
+  isStickerPack,
 };
 
 const SUPPORTED_DOMAINS = [
@@ -34,7 +35,12 @@ const SUPPORTED_DOMAINS = [
   'instagram.com',
   'www.instagram.com',
   'm.instagram.com',
+  'pinterest.com',
+  'www.pinterest.com',
+  'pin.it',
+  'signal.org',
 ];
+
 function isLinkInWhitelist(link) {
   try {
     const url = new URL(link);
@@ -58,7 +64,11 @@ function isLinkInWhitelist(link) {
   }
 }
 
-const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg.com|cdninstagram.com|redd.it|imgur.com|fbcdn.net)$/i;
+function isStickerPack(link) {
+  return (link || '').startsWith('https://signal.org/addstickers/');
+}
+
+const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg.com|cdninstagram.com|redd.it|imgur.com|fbcdn.net|pinimg.com)$/i;
 function isMediaLinkInWhitelist(link) {
   try {
     const url = new URL(link);
@@ -81,8 +91,8 @@ function isMediaLinkInWhitelist(link) {
   }
 }
 
-const META_TITLE = /<meta\s+property="og:title"\s+content="([\s\S]+?)"\s*\/?\s*>/im;
-const META_IMAGE = /<meta\s+property="og:image"\s+content="([\s\S]+?)"\s*\/?\s*>/im;
+const META_TITLE = /<meta\s+property="og:title"[^>]+?content="([\s\S]+?)"[^>]*>/im;
+const META_IMAGE = /<meta\s+property="og:image"[^>]+?content="([\s\S]+?)"[^>]*>/im;
 function _getMetaTag(html, regularExpression) {
   const match = regularExpression.exec(html);
   if (match && match[1]) {
@@ -135,28 +145,33 @@ function getDomain(url) {
 const MB = 1024 * 1024;
 const KB = 1024;
 
-function getChunkPattern(size) {
+function getChunkPattern(size, initialOffset) {
   if (size > MB) {
-    return _getRequestPattern(size, MB);
+    return _getRequestPattern(size, MB, initialOffset);
   } else if (size > 500 * KB) {
-    return _getRequestPattern(size, 500 * KB);
+    return _getRequestPattern(size, 500 * KB, initialOffset);
   } else if (size > 100 * KB) {
-    return _getRequestPattern(size, 100 * KB);
+    return _getRequestPattern(size, 100 * KB, initialOffset);
   } else if (size > 50 * KB) {
-    return _getRequestPattern(size, 50 * KB);
+    return _getRequestPattern(size, 50 * KB, initialOffset);
   } else if (size > 10 * KB) {
-    return _getRequestPattern(size, 10 * KB);
+    return _getRequestPattern(size, 10 * KB, initialOffset);
   } else if (size > KB) {
-    return _getRequestPattern(size, KB);
+    return _getRequestPattern(size, KB, initialOffset);
   }
 
-  throw new Error(`getChunkPattern: Unsupported size: ${size}`);
+  return {
+    start: {
+      start: initialOffset,
+      end: size - 1,
+    },
+  };
 }
 
-function _getRequestPattern(size, increment) {
+function _getRequestPattern(size, increment, initialOffset) {
   const results = [];
 
-  let offset = 0;
+  let offset = initialOffset || 0;
   while (size - offset > increment) {
     results.push({
       start: offset,

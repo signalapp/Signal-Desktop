@@ -1,5 +1,5 @@
 import { Attachment } from './Attachment';
-import { Contact } from './Contact';
+import { ContactType } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
 export type Message = UserMessage | VerifiedChangeMessage;
@@ -87,7 +87,7 @@ type MessageSchemaVersion5 = Partial<
 
 type MessageSchemaVersion6 = Partial<
   Readonly<{
-    contact: Array<Contact>;
+    contact: Array<ContactType>;
   }>
 >;
 

@@ -2,8 +2,6 @@
   $,
   _,
   ConversationController
-  emojiData,
-  EmojiPanel,
   extension,
   i18n,
   Signal,
@@ -104,6 +102,9 @@
       );
       this.listenTo(this.model.messageCollection, 'force-send', this.forceSend);
       this.listenTo(this.model.messageCollection, 'delete', this.deleteMessage);
+      this.listenTo(this.model.messageCollection, 'height-changed', () =>
+        this.view.scrollToBottomIfNeeded()
+      );
       this.listenTo(
         this.model.messageCollection,
         'scroll-to-message',
@@ -114,6 +115,7 @@
         'reply',
         this.setQuoteMessage
       );
+      this.listenTo(this.model.messageCollection, 'retry', this.retrySend);
       this.listenTo(
         this.model.messageCollection,
         'show-contact-detail',
@@ -274,20 +276,27 @@
       this.$('.send-message').focus(this.focusBottomBar.bind(this));
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
-      this.$emojiPanelContainer = this.$('.emoji-panel-container');
+      this.setupEmojiPickerButton();
+      this.setupStickerPickerButton();
+
+      this.lastSelectionStart = 0;
+      document.addEventListener(
+        'selectionchange',
+        this.updateLastSelectionStart.bind(this, undefined)
+      );
     },
 
     events: {
-      keydown: 'onKeyDown',
-      'submit .send': 'checkUnverifiedSendMessage',
+      'submit .send': 'clickSend',
       'input .send-message': 'updateMessageFieldSize',
       'keydown .send-message': 'updateMessageFieldSize',
       'keyup .send-message': 'onKeyUp',
       click: 'onClick',
+      'click .emoji-button-placeholder': 'onClickPlaceholder',
+      'click .sticker-button-placeholder': 'onClickPlaceholder',
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
       'click .module-scroll-down': 'scrollToBottom',
-      'click button.emoji': 'toggleEmojiPanel',
       'focus .send-message': 'focusBottomBar',
       'change .file-input': 'toggleMicrophone',
       'blur .send-message': 'unfocusBottomBar',
@@ -305,6 +314,57 @@
       dragleave: 'onDragLeave',
       drop: 'onDrop',
       paste: 'onPaste',
+    },
+
+    setupEmojiPickerButton() {
+      const props = {
+        onPickEmoji: e => this.insertEmoji(e),
+        onClose: () => {
+          const textarea = this.$messageField[0];
+
+          textarea.focus();
+
+          const newPos = textarea.value.length;
+          textarea.selectionStart = newPos;
+          textarea.selectionEnd = newPos;
+
+          this.forceUpdateLastSelectionStart(newPos);
+        },
+      };
+
+      this.emojiButtonView = new Whisper.ReactWrapperView({
+        className: 'emoji-button-wrapper',
+        JSX: Signal.State.Roots.createEmojiButton(window.reduxStore, props),
+      });
+
+      // Finally, add it to the DOM
+      this.$('.emoji-button-placeholder').append(this.emojiButtonView.el);
+    },
+
+    setupStickerPickerButton() {
+      if (!window.ENABLE_STICKER_SEND) {
+        return;
+      }
+
+      const props = {
+        onClickAddPack: () => this.showStickerManager(),
+        onPickSticker: (packId, stickerId) =>
+          this.sendStickerMessage({ packId, stickerId }),
+      };
+
+      this.stickerButtonView = new Whisper.ReactWrapperView({
+        className: 'sticker-button-wrapper',
+        JSX: Signal.State.Roots.createStickerButton(window.reduxStore, props),
+      });
+
+      // Finally, add it to the DOM
+      this.$('.sticker-button-placeholder').append(this.stickerButtonView.el);
+    },
+
+    // We need this, or clicking the reactified buttons will submit the form and send any
+    //   mid-composition message content.
+    onClickPlaceholder(e) {
+      e.preventDefault();
     },
 
     onChooseAttachment(e) {
@@ -365,6 +425,13 @@
 
       this.fileInput.remove();
       this.titleView.remove();
+      if (this.stickerButtonView) {
+        this.stickerButtonView.remove();
+      }
+
+      if (this.stickerPreviewModalView) {
+        this.stickerPreviewModalView.remove();
+      }
 
       if (this.captureAudioView) {
         this.captureAudioView.remove();
@@ -396,6 +463,10 @@
 
       this.window.removeEventListener('resize', this.onResize);
       this.window.removeEventListener('focus', this.onFocus);
+      document.removeEventListener(
+        'selectionchange',
+        this.updateLastSelectionStart
+      );
 
       window.autosize.destroy(this.$messageField);
 
@@ -705,8 +776,16 @@
       }
     },
 
+    async retrySend(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(`retrySend: Did not find message for id ${messageId}`);
+      }
+      await message.retrySend();
+    },
+
     async scrollToMessage(options = {}) {
-      const { author, id, referencedMessageNotFound } = options;
+      const { author, sentAt, referencedMessageNotFound } = options;
 
       // For simplicity's sake, we show the 'not found' toast no matter what if we were
       //   not able to find the referenced message when the quote was received.
@@ -724,7 +803,7 @@
         if (!messageAuthor || author !== messageAuthor.id) {
           return false;
         }
-        if (id !== item.get('sent_at')) {
+        if (sentAt !== item.get('sent_at')) {
           return false;
         }
 
@@ -734,13 +813,16 @@
       // If there's no message already in memory, we won't be scrolling. So we'll gather
       //   some more information then show an informative toast to the user.
       if (!targetMessage) {
-        const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-          MessageCollection: Whisper.MessageCollection,
-        });
+        const collection = await window.Signal.Data.getMessagesBySentAt(
+          sentAt,
+          {
+            MessageCollection: Whisper.MessageCollection,
+          }
+        );
+
         const found = Boolean(
           collection.find(item => {
             const messageAuthor = item.getContact();
-
             return messageAuthor && author === messageAuthor.id;
           })
         );
@@ -765,7 +847,7 @@
         toast.render();
 
         window.log.info(
-          `Error: had target message ${id} in messageCollection, but it was not in DOM`
+          `Error: had target message ${targetMessage.idForLogging()} in messageCollection, but it was not in DOM`
         );
         return;
       }
@@ -990,6 +1072,7 @@
     focusMessageFieldAndClearDisabled() {
       this.$messageField.removeAttr('disabled');
       this.$messageField.focus();
+      this.updateLastSelectionStart();
     },
 
     async loadMoreMessages() {
@@ -1175,7 +1258,15 @@
       this.listenBack(view);
     },
 
-    forceSend({ contact, message }) {
+    forceSend({ contactId, messageId }) {
+      const contact = ConversationController.get(contactId);
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `deleteMessage: Did not find message for id ${messageId}`
+        );
+      }
+
       const dialog = new Whisper.ConfirmationDialogView({
         message: i18n('identityKeyErrorOnSend', [
           contact.getTitle(),
@@ -1202,23 +1293,25 @@
       dialog.focusCancel();
     },
 
-    showSafetyNumber(providedModel) {
-      let model = providedModel;
+    showSafetyNumber(id) {
+      let conversation;
 
-      if (!model && this.model.isPrivate()) {
+      if (!id && this.model.isPrivate()) {
         // eslint-disable-next-line prefer-destructuring
-        model = this.model;
+        conversation = this.model;
+      } else {
+        conversation = ConversationController.get(id);
       }
-      if (model) {
+      if (conversation) {
         const view = new Whisper.KeyVerificationPanelView({
-          model,
+          model: conversation,
         });
         this.listenBack(view);
         this.updateHeader();
       }
     },
 
-    downloadAttachment({ attachment, message, isDangerous }) {
+    downloadAttachment({ attachment, timestamp, isDangerous }) {
       if (isDangerous) {
         const toast = new Whisper.DangerousFileTypeToast();
         toast.$el.appendTo(this.$el);
@@ -1230,11 +1323,18 @@
         attachment,
         document,
         getAbsolutePath: getAbsoluteAttachmentPath,
-        timestamp: message.get('sent_at'),
+        timestamp,
       });
     },
 
-    deleteMessage(message) {
+    deleteMessage(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `deleteMessage: Did not find message for id ${messageId}`
+        );
+      }
+
       const dialog = new Whisper.ConfirmationDialogView({
         message: i18n('deleteWarning'),
         okText: i18n('delete'),
@@ -1253,7 +1353,45 @@
       dialog.focusCancel();
     },
 
-    showLightbox({ attachment, message }) {
+    showStickerPackPreview(packId, packKey) {
+      if (!window.ENABLE_STICKER_SEND) {
+        return;
+      }
+
+      window.Signal.Stickers.downloadEphemeralPack(packId, packKey);
+
+      const props = {
+        packId,
+        onClose: async () => {
+          this.stickerPreviewModalView.remove();
+          this.stickerPreviewModalView = null;
+          await window.Signal.Stickers.removeEphemeralPack(packId);
+        },
+      };
+
+      this.stickerPreviewModalView = new Whisper.ReactWrapperView({
+        className: 'sticker-preview-modal-wrapper',
+        JSX: Signal.State.Roots.createStickerPreviewModal(
+          window.reduxStore,
+          props
+        ),
+      });
+    },
+
+    showLightbox({ attachment, messageId }) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `showLightbox: did not find message for id ${messageId}`
+        );
+      }
+      const sticker = message.get('sticker');
+      if (sticker) {
+        const { packId, packKey } = sticker;
+        this.showStickerPackPreview(packId, packKey);
+        return;
+      }
+
       const { contentType, path } = attachment;
 
       if (
@@ -1333,7 +1471,14 @@
       Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
-    showMessageDetail(message) {
+    showMessageDetail(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `showMessageDetail: Did not find message for id ${messageId}`
+        );
+      }
+
       const onClose = () => {
         this.stopListening(message, 'change', update);
         this.resetPanel();
@@ -1358,24 +1503,31 @@
       view.render();
     },
 
-    showContactDetail({ contact, hasSignalAccount }) {
-      const regionCode = storage.get('regionCode');
-      const { contactSelector } = Signal.Types.Contact;
+    showStickerManager() {
+      const view = new Whisper.ReactWrapperView({
+        className: ['sticker-manager-wrapper', 'panel'].join(' '),
+        JSX: Signal.State.Roots.createStickerManager(window.reduxStore),
+        onClose: () => {
+          this.resetPanel();
+          this.updateHeader();
+        },
+      });
 
+      this.listenBack(view);
+      this.updateHeader();
+      view.render();
+    },
+
+    showContactDetail({ contact, signalAccount }) {
       const view = new Whisper.ReactWrapperView({
         Component: Signal.Components.ContactDetail,
         className: 'contact-detail-pane panel',
         props: {
-          contact: contactSelector(contact, {
-            regionCode,
-            getAbsoluteAttachmentPath,
-          }),
-          hasSignalAccount,
+          contact,
+          signalAccount,
           onSendMessage: () => {
-            const number =
-              contact.number && contact.number[0] && contact.number[0].value;
-            if (number) {
-              this.openConversation(number);
+            if (signalAccount) {
+              this.openConversation(signalAccount);
             }
           },
         },
@@ -1415,6 +1567,8 @@
 
       if (this.panels.length === 0) {
         this.$el.trigger('force-resize');
+        // Make sure poppers are positioned properly
+        window.dispatchEvent(new Event('resize'));
       }
     },
 
@@ -1436,6 +1590,7 @@
         try {
           await this.model.destroyMessages();
           this.unload('delete messages');
+          this.model.updateLastMessage();
         } catch (error) {
           window.log.error(
             'destroyMessages: Failed to successfully delete conversation',
@@ -1447,165 +1602,168 @@
       }
     },
 
-    showSendConfirmationDialog(e, contacts) {
-      let message;
-      const isUnverified = this.model.isUnverified();
+    showSendAnywayDialog(contacts) {
+      return new Promise(resolve => {
+        let message;
+        const isUnverified = this.model.isUnverified();
 
-      if (contacts.length > 1) {
-        if (isUnverified) {
-          message = i18n('changedSinceVerifiedMultiple');
+        if (contacts.length > 1) {
+          if (isUnverified) {
+            message = i18n('changedSinceVerifiedMultiple');
+          } else {
+            message = i18n('changedRecentlyMultiple');
+          }
         } else {
-          message = i18n('changedRecentlyMultiple');
+          const contactName = contacts.at(0).getTitle();
+          if (isUnverified) {
+            message = i18n('changedSinceVerified', [contactName, contactName]);
+          } else {
+            message = i18n('changedRecently', [contactName, contactName]);
+          }
         }
-      } else {
-        const contactName = contacts.at(0).getTitle();
-        if (isUnverified) {
-          message = i18n('changedSinceVerified', [contactName, contactName]);
-        } else {
-          message = i18n('changedRecently', [contactName, contactName]);
-        }
-      }
 
-      const dialog = new Whisper.ConfirmationDialogView({
-        message,
-        okText: i18n('sendAnyway'),
-        resolve: () => {
-          this.checkUnverifiedSendMessage(e, { force: true });
-        },
-        reject: () => {
-          this.focusMessageFieldAndClearDisabled();
-        },
+        const dialog = new Whisper.ConfirmationDialogView({
+          message,
+          okText: i18n('sendAnyway'),
+          resolve: () => resolve(true),
+          reject: () => resolve(false),
+        });
+
+        this.$el.prepend(dialog.el);
+        dialog.focusCancel();
       });
-
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
     },
 
-    async checkUnverifiedSendMessage(e, options = {}) {
+    async clickSend(e, options) {
       e.preventDefault();
+
       this.sendStart = Date.now();
       this.$messageField.attr('disabled', true);
 
-      _.defaults(options, { force: false });
+      try {
+        const contacts = await this.getUntrustedContacts(options);
 
+        if (contacts && contacts.length) {
+          const sendAnyway = await this.showSendAnywayDialog(contacts);
+          if (sendAnyway) {
+            this.clickSend(e, { force: true });
+            return;
+          }
+
+          this.focusMessageFieldAndClearDisabled();
+          return;
+        }
+
+        this.sendMessage(e);
+      } catch (error) {
+        this.focusMessageFieldAndClearDisabled();
+        window.log.error(
+          'clickSend error:',
+          error && error.stack ? error.stack : error
+        );
+      }
+    },
+
+    async sendStickerMessage(options = {}) {
+      try {
+        const contacts = await this.getUntrustedContacts(options);
+
+        if (contacts && contacts.length) {
+          const sendAnyway = await this.showSendAnywayDialog(contacts);
+          if (sendAnyway) {
+            this.sendStickerMessage({ ...options, force: true });
+          }
+
+          return;
+        }
+
+        const { packId, stickerId } = options;
+        this.model.sendStickerMessage(packId, stickerId);
+      } catch (error) {
+        window.log.error(
+          'clickSend error:',
+          error && error.stack ? error.stack : error
+        );
+      }
+    },
+
+    async getUntrustedContacts(options = {}) {
       // This will go to the trust store for the latest identity key information,
       //   and may result in the display of a new banner for this conversation.
-      try {
-        await this.model.updateVerified();
-        const contacts = this.model.getUnverified();
-        if (!contacts.length) {
-          this.checkUntrustedSendMessage(e, options);
-          return;
+      await this.model.updateVerified();
+      const unverifiedContacts = this.model.getUnverified();
+
+      if (options.force) {
+        if (unverifiedContacts.length) {
+          await this.markAllAsVerifiedDefault(unverifiedContacts);
+          // We only want force to break us through one layer of checks
+          // eslint-disable-next-line no-param-reassign
+          options.force = false;
         }
+      } else if (unverifiedContacts.length) {
+        return unverifiedContacts;
+      }
 
-        if (options.force) {
-          await this.markAllAsVerifiedDefault(contacts);
-          this.checkUnverifiedSendMessage(e, options);
-          return;
+      const untrustedContacts = await this.model.getUntrusted();
+
+      if (options.force) {
+        if (untrustedContacts.length) {
+          await this.markAllAsApproved(untrustedContacts);
         }
-
-        this.showSendConfirmationDialog(e, contacts);
-      } catch (error) {
-        this.focusMessageFieldAndClearDisabled();
-        window.log.error(
-          'checkUnverifiedSendMessage error:',
-          error && error.stack ? error.stack : error
-        );
-      }
-    },
-
-    async checkUntrustedSendMessage(e, options = {}) {
-      _.defaults(options, { force: false });
-
-      try {
-        const contacts = await this.model.getUntrusted();
-        if (!contacts.length) {
-          this.sendMessage(e);
-          return;
-        }
-
-        if (options.force) {
-          await this.markAllAsApproved(contacts);
-          this.sendMessage(e);
-          return;
-        }
-
-        this.showSendConfirmationDialog(e, contacts);
-      } catch (error) {
-        this.focusMessageFieldAndClearDisabled();
-        window.log.error(
-          'checkUntrustedSendMessage error:',
-          error && error.stack ? error.stack : error
-        );
-      }
-    },
-
-    toggleEmojiPanel(e) {
-      e.preventDefault();
-      if (!this.emojiPanel) {
-        this.openEmojiPanel();
-      } else {
-        this.closeEmojiPanel();
-      }
-    },
-    onKeyDown(event) {
-      if (event.key !== 'Escape') {
-        return;
-      }
-      this.closeEmojiPanel();
-    },
-    openEmojiPanel() {
-      this.$emojiPanelContainer.outerHeight(200);
-      this.emojiPanel = new EmojiPanel(this.$emojiPanelContainer[0], {
-        onClick: this.insertEmoji.bind(this),
-      });
-      this.view.resetScrollPosition();
-      this.updateMessageFieldSize({});
-    },
-    closeEmojiPanel() {
-      if (this.emojiPanel === null) {
-        return;
+      } else if (untrustedContacts.length) {
+        return untrustedContacts;
       }
 
-      this.$emojiPanelContainer.empty().outerHeight(0);
-      this.emojiPanel = null;
-      this.view.resetScrollPosition();
-      this.updateMessageFieldSize({});
+      return null;
     },
-    insertEmoji(e) {
-      const colons = `:${emojiData[e.index].short_name}:`;
+
+    insertEmoji({ shortName, skinTone }) {
+      const skinReplacement = window.Signal.Emojis.hasVariation(
+        shortName,
+        skinTone
+      )
+        ? `:skin-tone-${skinTone}:`
+        : '';
+
+      const colons = `:${shortName}:${skinReplacement}`;
 
       const textarea = this.$messageField[0];
-      if (textarea.selectionStart || textarea.selectionStart === 0) {
-        const startPos = textarea.selectionStart;
-        const endPos = textarea.selectionEnd;
+      const hasFocus = document.activeElement === textarea;
+      const startPos = hasFocus
+        ? textarea.selectionStart
+        : this.lastSelectionStart;
+      const endPos = hasFocus ? textarea.selectionEnd : this.lastSelectionStart;
 
-        textarea.value =
-          textarea.value.substring(0, startPos) +
-          colons +
-          textarea.value.substring(endPos, textarea.value.length);
-        textarea.selectionStart = startPos + colons.length;
-        textarea.selectionEnd = startPos + colons.length;
-      } else {
-        textarea.value += colons;
-      }
-      this.focusMessageField();
+      textarea.value =
+        textarea.value.substring(0, startPos) +
+        colons +
+        textarea.value.substring(endPos, textarea.value.length);
+      const newPos = startPos + colons.length;
+      textarea.selectionStart = newPos;
+      textarea.selectionEnd = newPos;
+      this.forceUpdateLastSelectionStart(newPos);
+      this.forceUpdateMessageFieldSize({});
     },
 
-    async setQuoteMessage(message) {
+    async setQuoteMessage(messageId) {
       this.quote = null;
-      this.quotedMessage = message;
+      this.quotedMessage = null;
 
       if (this.quoteHolder) {
         this.quoteHolder.unload();
         this.quoteHolder = null;
       }
 
+      const message = this.model.messageCollection.get(messageId);
       if (message) {
-        const quote = await this.model.makeQuote(this.quotedMessage);
-        this.quote = quote;
+        this.quotedMessage = message;
 
-        this.focusMessageFieldAndClearDisabled();
+        if (message) {
+          const quote = await this.model.makeQuote(this.quotedMessage);
+          this.quote = quote;
+
+          this.focusMessageFieldAndClearDisabled();
+        }
       }
 
       this.renderQuotedMessage();
@@ -1657,11 +1815,10 @@
 
     async sendMessage(e) {
       this.removeLastSeenIndicator();
-      this.closeEmojiPanel();
       this.model.clearTypingTimers();
 
       const input = this.$messageField;
-      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
+      const message = window.Signal.Emojis.replaceColons(input.val()).trim();
 
       let toast;
       if (extension.expired()) {
@@ -1722,6 +1879,18 @@
     onKeyUp() {
       this.maybeBumpTyping();
       this.debouncedMaybeGrabLinkPreview();
+    },
+
+    updateLastSelectionStart(newPos) {
+      if (document.activeElement === this.$messageField[0]) {
+        this.forceUpdateLastSelectionStart(newPos);
+      }
+    },
+
+    forceUpdateLastSelectionStart(
+      newPos = this.$messageField[0].selectionStart
+    ) {
+      this.lastSelectionStart = newPos;
     },
 
     maybeGrabLinkPreview() {
@@ -1799,14 +1968,29 @@
 
     async makeChunkedRequest(url) {
       const PARALLELISM = 3;
-      const size = await textsecure.messaging.getProxiedSize(url);
-      const chunks = await Signal.LinkPreviews.getChunkPattern(size);
+      const first = await textsecure.messaging.makeProxiedRequest(url, {
+        start: 0,
+        end: Signal.Crypto.getRandomValue(1023, 2047),
+        returnArrayBuffer: true,
+      });
+      const { totalSize, result } = first;
+      const initialOffset = result.data.byteLength;
+      const firstChunk = {
+        start: 0,
+        end: initialOffset,
+        ...result,
+      };
+
+      const chunks = await Signal.LinkPreviews.getChunkPattern(
+        totalSize,
+        initialOffset
+      );
 
       let results = [];
       const jobs = chunks.map(chunk => async () => {
         const { start, end } = chunk;
 
-        const result = await textsecure.messaging.makeProxiedRequest(url, {
+        const jobResult = await textsecure.messaging.makeProxiedRequest(url, {
           start,
           end,
           returnArrayBuffer: true,
@@ -1814,7 +1998,7 @@
 
         return {
           ...chunk,
-          ...result,
+          ...jobResult.result,
         };
       });
 
@@ -1838,7 +2022,9 @@
       }
 
       const { contentType } = results[0];
-      const data = Signal.LinkPreviews.assembleChunks(results);
+      const data = Signal.LinkPreviews.assembleChunks(
+        [firstChunk].concat(results)
+      );
 
       return {
         contentType,
@@ -1846,7 +2032,71 @@
       };
     },
 
+    async getStickerPackPreview(url) {
+      const isPackDownloaded = pack =>
+        pack && (pack.status === 'downloaded' || pack.status === 'installed');
+      const isPackValid = pack =>
+        pack &&
+        (pack.status === 'ephemeral' ||
+          pack.status === 'downloaded' ||
+          pack.status === 'installed');
+
+      let id;
+      let key;
+
+      try {
+        ({ id, key } = window.Signal.Stickers.getDataFromLink(url));
+        const keyBytes = window.Signal.Crypto.bytesFromHexString(key);
+        const keyBase64 = window.Signal.Crypto.arrayBufferToBase64(keyBytes);
+
+        const existing = window.Signal.Stickers.getStickerPack(id);
+        if (!isPackDownloaded(existing)) {
+          await window.Signal.Stickers.downloadEphemeralPack(id, keyBase64);
+        }
+
+        const pack = window.Signal.Stickers.getStickerPack(id);
+        if (!isPackValid(pack)) {
+          return null;
+        }
+        if (pack.key !== keyBase64) {
+          return null;
+        }
+
+        const { title, coverStickerId } = pack;
+        const sticker = pack.stickers[coverStickerId];
+        const data =
+          pack.status === 'ephemeral'
+            ? await window.Signal.Migrations.readTempData(sticker.path)
+            : await window.Signal.Migrations.readStickerData(sticker.path);
+
+        return {
+          title,
+          url,
+          image: {
+            ...sticker,
+            data,
+            size: data.byteLength,
+            contentType: 'image/webp',
+          },
+        };
+      } catch (error) {
+        window.log.error(
+          'getStickerPackPreview error:',
+          error && error.stack ? error.stack : error
+        );
+        return null;
+      } finally {
+        if (id) {
+          await window.Signal.Stickers.removeEphemeralPack(id);
+        }
+      }
+    },
+
     async getPreview(url) {
+      if (window.Signal.LinkPreviews.isStickerPack(url)) {
+        return this.getStickerPackPreview(url);
+      }
+
       let html;
       try {
         html = await textsecure.messaging.makeProxiedRequest(url);
@@ -2066,7 +2316,6 @@
       const height =
         this.$messageField.outerHeight() +
         $attachmentPreviews.outerHeight() +
-        this.$emojiPanelContainer.outerHeight() +
         quoteHeight +
         parseInt($bottomBar.css('min-height'), 10);
 

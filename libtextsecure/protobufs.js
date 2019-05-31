@@ -35,6 +35,7 @@
   loadProtoBufs('SignalService.proto');
   loadProtoBufs('SubProtocol.proto');
   loadProtoBufs('DeviceMessages.proto');
+  loadProtoBufs('Stickers.proto');
 
   // Just for encrypting device names
   loadProtoBufs('DeviceName.proto');

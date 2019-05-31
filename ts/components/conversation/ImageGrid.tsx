@@ -20,11 +20,13 @@ interface Props {
   withContentAbove?: boolean;
   withContentBelow?: boolean;
   bottomOverlay?: boolean;
+  isSticker?: boolean;
+  stickerSize?: number;
 
   i18n: LocalizerType;
 
   onError: () => void;
-  onClickAttachment?: (attachment: AttachmentType) => void;
+  onClick?: (attachment: AttachmentType) => void;
 }
 
 export class ImageGrid extends React.Component<Props> {
@@ -34,8 +36,10 @@ export class ImageGrid extends React.Component<Props> {
       attachments,
       bottomOverlay,
       i18n,
+      isSticker,
+      stickerSize,
       onError,
-      onClickAttachment,
+      onClick,
       withContentAbove,
       withContentBelow,
     } = this.props;
@@ -56,27 +60,33 @@ export class ImageGrid extends React.Component<Props> {
     if (attachments.length === 1 || !areAllAttachmentsVisual(attachments)) {
       const { height, width } = getImageDimensions(attachments[0]);
 
+      const finalHeight = isSticker ? stickerSize : height;
+      const finalWidth = isSticker ? stickerSize : width;
+
       return (
         <div
           className={classNames(
             'module-image-grid',
-            'module-image-grid--one-image'
+            'module-image-grid--one-image',
+            isSticker ? 'module-image-grid--with-sticker' : null
           )}
         >
           <Image
             alt={getAlt(attachments[0], i18n)}
             i18n={i18n}
             bottomOverlay={withBottomOverlay}
+            noBorder={isSticker}
+            noBackground={isSticker}
             curveTopLeft={curveTopLeft}
             curveTopRight={curveTopRight}
             curveBottomLeft={curveBottomLeft}
             curveBottomRight={curveBottomRight}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
-            height={height}
-            width={width}
+            height={finalHeight}
+            width={finalWidth}
             url={getUrl(attachments[0])}
-            onClick={onClickAttachment}
+            onClick={onClick}
             onError={onError}
           />
         </div>
@@ -91,19 +101,21 @@ export class ImageGrid extends React.Component<Props> {
             i18n={i18n}
             attachment={attachments[0]}
             bottomOverlay={withBottomOverlay}
+            noBorder={isSticker}
             curveTopLeft={curveTopLeft}
             curveBottomLeft={curveBottomLeft}
             playIconOverlay={isVideoAttachment(attachments[0])}
             height={149}
             width={149}
             url={getThumbnailUrl(attachments[0])}
-            onClick={onClickAttachment}
+            onClick={onClick}
             onError={onError}
           />
           <Image
             alt={getAlt(attachments[1], i18n)}
             i18n={i18n}
             bottomOverlay={withBottomOverlay}
+            noBorder={isSticker}
             curveTopRight={curveTopRight}
             curveBottomRight={curveBottomRight}
             playIconOverlay={isVideoAttachment(attachments[1])}
@@ -111,7 +123,7 @@ export class ImageGrid extends React.Component<Props> {
             width={149}
             attachment={attachments[1]}
             url={getThumbnailUrl(attachments[1])}
-            onClick={onClickAttachment}
+            onClick={onClick}
             onError={onError}
           />
         </div>
@@ -125,6 +137,7 @@ export class ImageGrid extends React.Component<Props> {
             alt={getAlt(attachments[0], i18n)}
             i18n={i18n}
             bottomOverlay={withBottomOverlay}
+            noBorder={isSticker}
             curveTopLeft={curveTopLeft}
             curveBottomLeft={curveBottomLeft}
             attachment={attachments[0]}
@@ -132,7 +145,7 @@ export class ImageGrid extends React.Component<Props> {
             height={200}
             width={199}
             url={getUrl(attachments[0])}
-            onClick={onClickAttachment}
+            onClick={onClick}
             onError={onError}
           />
           <div className="module-image-grid__column">
@@ -145,20 +158,21 @@ export class ImageGrid extends React.Component<Props> {
               attachment={attachments[1]}
               playIconOverlay={isVideoAttachment(attachments[1])}
               url={getThumbnailUrl(attachments[1])}
-              onClick={onClickAttachment}
+              onClick={onClick}
               onError={onError}
             />
             <Image
               alt={getAlt(attachments[2], i18n)}
               i18n={i18n}
               bottomOverlay={withBottomOverlay}
+              noBorder={isSticker}
               curveBottomRight={curveBottomRight}
               height={99}
               width={99}
               attachment={attachments[2]}
               playIconOverlay={isVideoAttachment(attachments[2])}
               url={getThumbnailUrl(attachments[2])}
-              onClick={onClickAttachment}
+              onClick={onClick}
               onError={onError}
             />
           </div>
@@ -180,7 +194,7 @@ export class ImageGrid extends React.Component<Props> {
                 height={149}
                 width={149}
                 url={getThumbnailUrl(attachments[0])}
-                onClick={onClickAttachment}
+                onClick={onClick}
                 onError={onError}
               />
               <Image
@@ -192,7 +206,7 @@ export class ImageGrid extends React.Component<Props> {
                 width={149}
                 attachment={attachments[1]}
                 url={getThumbnailUrl(attachments[1])}
-                onClick={onClickAttachment}
+                onClick={onClick}
                 onError={onError}
               />
             </div>
@@ -201,26 +215,28 @@ export class ImageGrid extends React.Component<Props> {
                 alt={getAlt(attachments[2], i18n)}
                 i18n={i18n}
                 bottomOverlay={withBottomOverlay}
+                noBorder={isSticker}
                 curveBottomLeft={curveBottomLeft}
                 playIconOverlay={isVideoAttachment(attachments[2])}
                 height={149}
                 width={149}
                 attachment={attachments[2]}
                 url={getThumbnailUrl(attachments[2])}
-                onClick={onClickAttachment}
+                onClick={onClick}
                 onError={onError}
               />
               <Image
                 alt={getAlt(attachments[3], i18n)}
                 i18n={i18n}
                 bottomOverlay={withBottomOverlay}
+                noBorder={isSticker}
                 curveBottomRight={curveBottomRight}
                 playIconOverlay={isVideoAttachment(attachments[3])}
                 height={149}
                 width={149}
                 attachment={attachments[3]}
                 url={getThumbnailUrl(attachments[3])}
-                onClick={onClickAttachment}
+                onClick={onClick}
                 onError={onError}
               />
             </div>
@@ -247,7 +263,7 @@ export class ImageGrid extends React.Component<Props> {
               height={149}
               width={149}
               url={getThumbnailUrl(attachments[0])}
-              onClick={onClickAttachment}
+              onClick={onClick}
               onError={onError}
             />
             <Image
@@ -259,7 +275,7 @@ export class ImageGrid extends React.Component<Props> {
               width={149}
               attachment={attachments[1]}
               url={getThumbnailUrl(attachments[1])}
-              onClick={onClickAttachment}
+              onClick={onClick}
               onError={onError}
             />
           </div>
@@ -268,31 +284,34 @@ export class ImageGrid extends React.Component<Props> {
               alt={getAlt(attachments[2], i18n)}
               i18n={i18n}
               bottomOverlay={withBottomOverlay}
+              noBorder={isSticker}
               curveBottomLeft={curveBottomLeft}
               playIconOverlay={isVideoAttachment(attachments[2])}
               height={99}
               width={99}
               attachment={attachments[2]}
               url={getThumbnailUrl(attachments[2])}
-              onClick={onClickAttachment}
+              onClick={onClick}
               onError={onError}
             />
             <Image
               alt={getAlt(attachments[3], i18n)}
               i18n={i18n}
               bottomOverlay={withBottomOverlay}
+              noBorder={isSticker}
               playIconOverlay={isVideoAttachment(attachments[3])}
               height={99}
               width={98}
               attachment={attachments[3]}
               url={getThumbnailUrl(attachments[3])}
-              onClick={onClickAttachment}
+              onClick={onClick}
               onError={onError}
             />
             <Image
               alt={getAlt(attachments[4], i18n)}
               i18n={i18n}
               bottomOverlay={withBottomOverlay}
+              noBorder={isSticker}
               curveBottomRight={curveBottomRight}
               playIconOverlay={isVideoAttachment(attachments[4])}
               height={99}
@@ -301,7 +320,7 @@ export class ImageGrid extends React.Component<Props> {
               overlayText={moreMessagesOverlayText}
               attachment={attachments[4]}
               url={getThumbnailUrl(attachments[4])}
-              onClick={onClickAttachment}
+              onClick={onClick}
               onError={onError}
             />
           </div>

@@ -1625,6 +1625,10 @@
     "message": "Dark",
     "description": "Label text for dark theme"
   },
+  "themeSystem": {
+    "message": "System",
+    "description": "Label text for system theme"
+  },
   "noteToSelf": {
     "message": "Note to Self",
     "description": "Name for the conversation with your own phone number"
@@ -1730,5 +1734,134 @@
         "example": "Alice, Bob"
       }
     }
+  },
+  "message--getNotificationText--stickers": {
+    "message": "Sticker message",
+    "description":
+      "Shown in notifications and in the left pane instead of sticker image."
+  },
+  "stickers--toast--InstallFailed": {
+    "message": "Sticker pack could not be installed",
+    "description":
+      "Shown in a toast if the user attempts to install a sticker pack and it fails"
+  },
+  "stickers--StickerManager--InstalledPacks": {
+    "message": "Installed Stickers",
+    "description":
+      "Shown in the sticker pack manager above your installed sticker packs."
+  },
+  "stickers--StickerManager--InstalledPacks--Empty": {
+    "message": "No stickers installed",
+    "description":
+      "Shown in the sticker pack manager when you don't have any installed sticker packs."
+  },
+  "stickers--StickerManager--BlessedPacks": {
+    "message": "Signal Artist Series",
+    "description":
+      "Shown in the sticker pack manager above the default sticker packs."
+  },
+  "stickers--StickerManager--BlessedPacks--Empty": {
+    "message": "No Signal Artist stickers available",
+    "description":
+      "Shown in the sticker pack manager when there are no blessed sticker packs available."
+  },
+  "stickers--StickerManager--ReceivedPacks": {
+    "message": "Stickers You Received",
+    "description":
+      "Shown in the sticker pack manager above sticker packs which you have received in messages."
+  },
+  "stickers--StickerManager--ReceivedPacks--Empty": {
+    "message": "Stickers from incoming messages will appear here",
+    "description":
+      "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+  },
+  "stickers--StickerManager--Install": {
+    "message": "Install",
+    "description":
+      "Shown in the sticker pack manager next to sticker packs which can be installed."
+  },
+  "stickers--StickerManager--Uninstall": {
+    "message": "Uninstall",
+    "description":
+      "Shown in the sticker pack manager next to sticker packs which are already installed."
+  },
+  "stickers--StickerManager--UninstallWarning": {
+    "message":
+      "You may not be able to re-install this sticker pack if you no longer have the source message.",
+    "description":
+      "Shown in the sticker pack manager next to sticker packs which are already installed."
+  },
+  "stickers--StickerManager--Introduction--Title": {
+    "message": "Introducing Stickers",
+    "description":
+      "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+  },
+  "stickers--StickerManager--Introduction--Body": {
+    "message": "Why use words when you can use stickers?",
+    "description":
+      "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+  },
+  "stickers--StickerPicker--DownloadError": {
+    "message": "Some stickers could not be downloaded.",
+    "description":
+      "Shown in the sticker picker when one or more stickers could not be downloaded."
+  },
+  "stickers--StickerPicker--DownloadPending": {
+    "message": "Installing sticker pack...",
+    "description":
+      "Shown in the sticker picker when one or more stickers are still downloading."
+  },
+  "stickers--StickerPicker--Empty": {
+    "message": "No stickers found",
+    "description":
+      "Shown in the sticker picker when there are no stickers to show."
+  },
+  "stickers--StickerPicker--Hint": {
+    "message": "New sticker packs from your messages are available to install",
+    "description":
+      "Shown in the sticker picker the first time you have received new packs you can install."
+  },
+  "stickers--StickerPicker--NoPacks": {
+    "message": "No sticker packs found",
+    "description":
+      "Shown in the sticker picker when there are no installed sticker packs."
+  },
+  "stickers--StickerPicker--NoRecents": {
+    "message": "Recently used stickers will appear here.",
+    "description":
+      "Shown in the sticker picker when there are no recent stickers to show."
+  },
+  "stickers--StickerPreview--Title": {
+    "message": "Sticker Pack",
+    "description": "The title that appears in the sticker pack preview modal."
+  },
+  "stickers--StickerPreview--Error": {
+    "message":
+      "Error opening sticker pack. Check your internet connection and try again.",
+    "description":
+      "The message that appears in the sticker preview modal when there is an error."
+  },
+  "EmojiPicker--empty": {
+    "message": "No emoji found",
+    "description": "Shown in the emoji picker when a search yields 0 results."
+  },
+  "EmojiPicker--search-placeholder": {
+    "message": "Search Emoji",
+    "description":
+      "Shown as a placeholder inside the emoji picker search field."
+  },
+  "EmojiPicker--skin-tone": {
+    "message": "Skin tone $tone$",
+    "placeholders": {
+      "status": {
+        "content": "$1",
+        "example": "2"
+      }
+    },
+    "description": "Shown as a tooltip over the emoji tone buttons."
+  },
+  "confirmation-dialog--Cancel": {
+    "message": "Cancel",
+    "description": "Appears on the cancel button in confirmation dialogs."
   }
 }

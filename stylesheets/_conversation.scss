@@ -51,6 +51,11 @@
   }
 }
 
+// Make sure the main panel is hidden when other panels are in the dom
+.panel + .main.panel {
+  display: none;
+}
+
 .message-detail-wrapper {
   height: calc(100% - 48px);
   width: 100%;
@@ -287,7 +292,6 @@
     color: $color-light-90;
     border: 1px solid rgba(0, 0, 0, 0.2);
     outline: 0;
-    z-index: 5;
     resize: none;
     font-size: 1em;
     font-family: inherit;

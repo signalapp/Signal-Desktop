@@ -77,6 +77,9 @@
       }
     ],
 
+    // Crashing!
+    "use-default-type-parameter": false,
+
     // Disabling a large set of Microsoft-recommended rules
 
     // Modifying:

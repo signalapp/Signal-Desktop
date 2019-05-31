@@ -164,32 +164,15 @@ body.dark-theme {
     background-color: $color-dark-85;
   }
 
-  button.emoji {
-    &:before {
-      margin-top: 4px;
-      @include color-svg('../images/smile.svg', $color-dark-30);
-    }
-  }
-
-  .emoji-panel-container {
-    .ep ::-webkit-scrollbar-thumb {
-      background: $color-dark-55;
-
-      &:hover {
-        background: $color-dark-30;
-      }
-    }
-  }
-
   // _global
 
   ::-webkit-scrollbar-track {
-    background: $color-black;
+    background: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
     background: $color-dark-55;
-    border: 2px solid $color-black;
+    border: 2px solid $color-dark-85;
 
     &:hover {
       background: $color-dark-30;
@@ -397,10 +380,6 @@ body.dark-theme {
 
     ::-webkit-scrollbar-track {
       background: $color-dark-85;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-dark-85;
     }
   }
   .network-status-container {
@@ -693,6 +672,10 @@ body.dark-theme {
 
   .module-message__author {
     color: $color-white;
+  }
+
+  .module-message__author_with_sticker {
+    color: $color-gray-05;
   }
 
   .module-message__text {
@@ -1351,7 +1334,7 @@ body.dark-theme {
 
   // Module: Image
 
-  .module-image {
+  .module-image--with-background {
     background-color: $color-black;
   }
 

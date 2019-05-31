@@ -13,12 +13,17 @@ interface Contact {
   name?: string;
 }
 
-interface Props {
+export type PropsData = {
   type: 'markVerified' | 'markNotVerified';
   isLocal: boolean;
   contact: Contact;
+};
+
+type PropsHousekeeping = {
   i18n: LocalizerType;
-}
+};
+
+type Props = PropsData & PropsHousekeeping;
 
 export class VerificationNotification extends React.Component<Props> {
   public getStringId() {

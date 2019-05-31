@@ -27,14 +27,22 @@
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
+    loadStickerData,
     upgradeMessageSchema,
   } = window.Signal.Migrations;
+  const {
+    copyStickerToAttachments,
+    deletePackReference,
+    savePackMetadata,
+    getStickerPackStatus,
+  } = window.Signal.Stickers;
+  const { addStickerPackReference } = window.Signal.Data;
   const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
 
-  window.doesAcountCheckJobExist = number =>
+  window.doesAccountCheckJobExist = number =>
     Boolean(window.AccountJobs[number]);
   window.checkForSignalAccount = number => {
     if (window.AccountJobs[number]) {
@@ -88,24 +96,7 @@
       this.on('expired', this.onExpired);
       this.setToExpire();
 
-      // Keep props ready
-      const generateProps = () => {
-        if (this.isExpirationTimerUpdate()) {
-          this.propsForTimerNotification = this.getPropsForTimerNotification();
-        } else if (this.isKeyChange()) {
-          this.propsForSafetyNumberNotification = this.getPropsForSafetyNumberNotification();
-        } else if (this.isVerifiedChange()) {
-          this.propsForVerificationNotification = this.getPropsForVerificationNotification();
-        } else if (this.isEndSession()) {
-          this.propsForResetSessionNotification = this.getPropsForResetSessionNotification();
-        } else if (this.isGroupUpdate()) {
-          this.propsForGroupNotification = this.getPropsForGroupNotification();
-        } else {
-          this.propsForSearchResult = this.getPropsForSearchResult();
-          this.propsForMessage = this.getPropsForMessage();
-        }
-      };
-      this.on('change', generateProps);
+      this.on('change', this.generateProps);
 
       const applicableConversationChanges =
         'change:color change:name change:number change:profileName change:profileAvatar';
@@ -113,169 +104,191 @@
       const conversation = this.getConversation();
       const fromContact = this.getIncomingContact();
 
-      this.listenTo(conversation, applicableConversationChanges, generateProps);
+      this.listenTo(
+        conversation,
+        applicableConversationChanges,
+        this.generateProps
+      );
       if (fromContact) {
         this.listenTo(
           fromContact,
           applicableConversationChanges,
-          generateProps
+          this.generateProps
         );
       }
 
-      generateProps();
+      this.generateProps();
     },
-    idForLogging() {
-      return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
-        'sent_at'
-      )}`;
-    },
-    defaults() {
-      return {
-        timestamp: new Date().getTime(),
-        attachments: [],
-      };
-    },
-    validate(attributes) {
-      const required = ['conversationId', 'received_at', 'sent_at'];
-      const missing = _.filter(required, attr => !attributes[attr]);
-      if (missing.length) {
-        window.log.warn(`Message missing attributes: ${missing}`);
+
+    // Top-level prop generation for the message bubble
+    generateProps() {
+      if (this.isExpirationTimerUpdate()) {
+        this.props = {
+          type: 'timerNotification',
+          data: this.getPropsForTimerNotification(),
+        };
+      } else if (this.isKeyChange()) {
+        this.props = {
+          type: 'safetyNumberNotification',
+          data: this.getPropsForSafetyNumberNotification(),
+        };
+      } else if (this.isVerifiedChange()) {
+        this.props = {
+          type: 'verificationNotification',
+          data: this.getPropsForVerificationNotification(),
+        };
+      } else if (this.isGroupUpdate()) {
+        this.props = {
+          type: 'groupNotification',
+          data: this.getPropsForGroupNotification(),
+        };
+      } else if (this.isEndSession()) {
+        this.props = {
+          type: 'resetSessionNotification',
+          data: this.getPropsForResetSessionNotification(),
+        };
+      } else {
+        this.propsForSearchResult = this.getPropsForSearchResult();
+        this.props = {
+          type: 'message',
+          data: this.getPropsForMessage(),
+        };
       }
     },
-    isEndSession() {
-      const flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
-      // eslint-disable-next-line no-bitwise
-      return !!(this.get('flags') & flag);
+
+    // Other top-level prop-generation
+    getPropsForSearchResult() {
+      const fromNumber = this.getSource();
+      const from = this.findAndFormatContact(fromNumber);
+      if (fromNumber === this.OUR_NUMBER) {
+        from.isMe = true;
+      }
+
+      const toNumber = this.get('conversationId');
+      let to = this.findAndFormatContact(toNumber);
+      if (toNumber === this.OUR_NUMBER) {
+        to.isMe = true;
+      } else if (fromNumber === toNumber) {
+        to = {
+          isMe: true,
+        };
+      }
+
+      return {
+        from,
+        to,
+
+        isSelected: this.isSelected,
+
+        id: this.id,
+        conversationId: this.get('conversationId'),
+        receivedAt: this.get('received_at'),
+        snippet: this.get('snippet'),
+      };
     },
+    getPropsForMessageDetail() {
+      const newIdentity = i18n('newIdentity');
+      const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
+
+      const unidentifiedLookup = (
+        this.get('unidentifiedDeliveries') || []
+      ).reduce((accumulator, item) => {
+        // eslint-disable-next-line no-param-reassign
+        accumulator[item] = true;
+        return accumulator;
+      }, Object.create(null));
+
+      // We include numbers we didn't successfully send to so we can display errors.
+      // Older messages don't have the recipients included on the message, so we fall
+      //   back to the conversation's current recipients
+      const phoneNumbers = this.isIncoming()
+        ? [this.get('source')]
+        : _.union(
+            this.get('sent_to') || [],
+            this.get('recipients') || this.getConversation().getRecipients()
+          );
+
+      // This will make the error message for outgoing key errors a bit nicer
+      const allErrors = (this.get('errors') || []).map(error => {
+        if (error.name === OUTGOING_KEY_ERROR) {
+          // eslint-disable-next-line no-param-reassign
+          error.message = newIdentity;
+        }
+
+        return error;
+      });
+
+      // If an error has a specific number it's associated with, we'll show it next to
+      //   that contact. Otherwise, it will be a standalone entry.
+      const errors = _.reject(allErrors, error => Boolean(error.number));
+      const errorsGroupedById = _.groupBy(allErrors, 'number');
+      const finalContacts = (phoneNumbers || []).map(id => {
+        const errorsForContact = errorsGroupedById[id];
+        const isOutgoingKeyError = Boolean(
+          _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
+        );
+        const isUnidentifiedDelivery =
+          storage.get('unidentifiedDeliveryIndicators') &&
+          this.isUnidentifiedDelivery(id, unidentifiedLookup);
+
+        return {
+          ...this.findAndFormatContact(id),
+
+          status: this.getStatus(id),
+          errors: errorsForContact,
+          isOutgoingKeyError,
+          isUnidentifiedDelivery,
+          onSendAnyway: () =>
+            this.trigger('force-send', { contactId: id, messageId: this.id }),
+          onShowSafetyNumber: () => this.trigger('show-identity', id),
+        };
+      });
+
+      // The prefix created here ensures that contacts with errors are listed
+      //   first; otherwise it's alphabetical
+      const sortedContacts = _.sortBy(
+        finalContacts,
+        contact => `${contact.errors ? '0' : '1'}${contact.title}`
+      );
+
+      return {
+        sentAt: this.get('sent_at'),
+        receivedAt: this.get('received_at'),
+        message: {
+          ...this.getPropsForMessage(),
+          disableMenu: true,
+          disableScroll: true,
+          // To ensure that group avatar doesn't show up
+          conversationType: 'direct',
+        },
+        errors,
+        contacts: sortedContacts,
+      };
+    },
+
+    // Bucketing messages
     isExpirationTimerUpdate() {
       const flag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
     },
-    isGroupUpdate() {
-      return !!this.get('group_update');
-    },
-    isIncoming() {
-      return this.get('type') === 'incoming';
-    },
-    isUnread() {
-      return !!this.get('unread');
-    },
-    // Important to allow for this.unset('unread'), save to db, then fetch()
-    // to propagate. We don't want the unset key in the db so our unread index
-    // stays small.
-    merge(model) {
-      const attributes = model.attributes || model;
-
-      const { unread } = attributes;
-      if (typeof unread === 'undefined') {
-        this.unset('unread');
-      }
-
-      this.set(attributes);
-    },
-    getNameForNumber(number) {
-      const conversation = ConversationController.get(number);
-      if (!conversation) {
-        return number;
-      }
-      return conversation.getDisplayName();
-    },
-    getDescription() {
-      if (this.isGroupUpdate()) {
-        const groupUpdate = this.get('group_update');
-        if (groupUpdate.left === 'You') {
-          return i18n('youLeftTheGroup');
-        } else if (groupUpdate.left) {
-          return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
-        }
-
-        const messages = [];
-        if (!groupUpdate.name && !groupUpdate.joined) {
-          messages.push(i18n('updatedTheGroup'));
-        }
-        if (groupUpdate.name) {
-          messages.push(i18n('titleIsNow', groupUpdate.name));
-        }
-        if (groupUpdate.joined && groupUpdate.joined.length) {
-          const names = _.map(
-            groupUpdate.joined,
-            this.getNameForNumber.bind(this)
-          );
-          if (names.length > 1) {
-            messages.push(i18n('multipleJoinedTheGroup', names.join(', ')));
-          } else {
-            messages.push(i18n('joinedTheGroup', names[0]));
-          }
-        }
-
-        return messages.join(', ');
-      }
-      if (this.isEndSession()) {
-        return i18n('sessionEnded');
-      }
-      if (this.isIncoming() && this.hasErrors()) {
-        return i18n('incomingError');
-      }
-      return this.get('body');
+    isKeyChange() {
+      return this.get('type') === 'keychange';
     },
     isVerifiedChange() {
       return this.get('type') === 'verified-change';
     },
-    isKeyChange() {
-      return this.get('type') === 'keychange';
+    isGroupUpdate() {
+      return !!this.get('group_update');
     },
-    getNotificationText() {
-      const description = this.getDescription();
-      if (description) {
-        return description;
-      }
-      if (this.get('attachments').length > 0) {
-        return i18n('mediaMessage');
-      }
-      if (this.isExpirationTimerUpdate()) {
-        const { expireTimer } = this.get('expirationTimerUpdate');
-        if (!expireTimer) {
-          return i18n('disappearingMessagesDisabled');
-        }
+    isEndSession() {
+      const flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
+      // eslint-disable-next-line no-bitwise
+      return !!(this.get('flags') & flag);
+    },
 
-        return i18n(
-          'timerSetTo',
-          Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0)
-        );
-      }
-      if (this.isKeyChange()) {
-        const phoneNumber = this.get('key_changed');
-        const conversation = this.findContact(phoneNumber);
-        return i18n(
-          'safetyNumberChangedGroup',
-          conversation ? conversation.getTitle() : null
-        );
-      }
-      const contacts = this.get('contact');
-      if (contacts && contacts.length) {
-        return Contact.getName(contacts[0]);
-      }
-
-      return '';
-    },
-    onDestroy() {
-      this.cleanup();
-    },
-    async cleanup() {
-      MessageController.unregister(this.id);
-      this.unload();
-      await deleteExternalMessageFiles(this.attributes);
-    },
-    unload() {
-      if (this.quotedMessage) {
-        this.quotedMessage = null;
-      }
-    },
-    onExpired() {
-      this.hasExpired = true;
-    },
+    // Props for each message type
     getPropsForTimerNotification() {
       const timerUpdate = this.get('expirationTimerUpdate');
       if (!timerUpdate) {
@@ -287,8 +300,8 @@
       const disabled = !expireTimer;
 
       const basicProps = {
-        type: 'fromOther',
         ...this.findAndFormatContact(source),
+        type: 'fromOther',
         timespan,
         disabled,
       };
@@ -311,13 +324,12 @@
       const conversation = this.getConversation();
       const isGroup = conversation && !conversation.isPrivate();
       const phoneNumber = this.get('key_changed');
-      const onVerify = () =>
-        this.trigger('show-identity', this.findContact(phoneNumber));
+      const showIdentity = id => this.trigger('show-identity', id);
 
       return {
         isGroup,
         contact: this.findAndFormatContact(phoneNumber),
-        onVerify,
+        showIdentity,
       };
     },
     getPropsForVerificationNotification() {
@@ -329,31 +341,6 @@
         type,
         isLocal,
         contact: this.findAndFormatContact(phoneNumber),
-      };
-    },
-    getPropsForResetSessionNotification() {
-      // It doesn't need anything right now!
-      return {};
-    },
-    findContact(phoneNumber) {
-      return ConversationController.get(phoneNumber);
-    },
-    findAndFormatContact(phoneNumber) {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-
-      const contactModel = this.findContact(phoneNumber);
-      const color = contactModel ? contactModel.getColor() : null;
-
-      return {
-        phoneNumber: format(phoneNumber, {
-          ourRegionCode: regionCode,
-        }),
-        color,
-        avatarPath: contactModel ? contactModel.getAvatarPath() : null,
-        name: contactModel ? contactModel.getName() : null,
-        profileName: contactModel ? contactModel.getProfileName() : null,
-        title: contactModel ? contactModel.getTitle() : null,
       };
     },
     getPropsForGroupNotification() {
@@ -406,6 +393,139 @@
         changes,
       };
     },
+    getPropsForResetSessionNotification() {
+      // It doesn't need anything right now!
+      return {};
+    },
+    getAttachmentsForMessage() {
+      const sticker = this.get('sticker');
+      if (sticker && sticker.data) {
+        const { data } = sticker;
+
+        // We don't show anything if we're still loading a sticker
+        if (data.pending || !data.path) {
+          return [];
+        }
+
+        return [
+          {
+            ...data,
+            url: getAbsoluteAttachmentPath(data.path),
+          },
+        ];
+      }
+
+      const attachments = this.get('attachments') || [];
+      return attachments
+        .filter(attachment => !attachment.error)
+        .map(attachment => this.getPropsForAttachment(attachment));
+    },
+    getPropsForMessage() {
+      const phoneNumber = this.getSource();
+      const contact = this.findAndFormatContact(phoneNumber);
+      const contactModel = this.findContact(phoneNumber);
+
+      const authorColor = contactModel ? contactModel.getColor() : null;
+      const authorAvatarPath = contactModel
+        ? contactModel.getAvatarPath()
+        : null;
+
+      const expirationLength = this.get('expireTimer') * 1000;
+      const expireTimerStart = this.get('expirationStartTimestamp');
+      const expirationTimestamp =
+        expirationLength && expireTimerStart
+          ? expireTimerStart + expirationLength
+          : null;
+
+      const conversation = this.getConversation();
+      const isGroup = conversation && !conversation.isPrivate();
+      const sticker = this.get('sticker');
+
+      return {
+        text: this.createNonBreakingLastSeparator(this.get('body')),
+        textPending: this.get('bodyPending'),
+        id: this.id,
+        isSticker: Boolean(sticker),
+        direction: this.isIncoming() ? 'incoming' : 'outgoing',
+        timestamp: this.get('sent_at'),
+        status: this.getMessagePropStatus(),
+        contact: this.getPropsForEmbeddedContact(),
+        authorColor,
+        authorName: contact.name,
+        authorProfileName: contact.profileName,
+        authorPhoneNumber: contact.phoneNumber,
+        conversationType: isGroup ? 'group' : 'direct',
+        attachments: this.getAttachmentsForMessage(),
+        previews: this.getPropsForPreview(),
+        quote: this.getPropsForQuote(),
+        authorAvatarPath,
+        isExpired: this.hasExpired,
+        expirationLength,
+        expirationTimestamp,
+
+        replyToMessage: id => this.trigger('reply', id),
+        retrySend: id => this.trigger('retry', id),
+        deleteMessage: id => this.trigger('delete', id),
+        showMessageDetail: id => this.trigger('show-message-detail', id),
+
+        openConversation: conversationId =>
+          this.trigger('open-conversation', conversationId),
+        showContactDetail: contactOptions =>
+          this.trigger('show-contact-detail', contactOptions),
+
+        showVisualAttachment: lightboxOptions =>
+          this.trigger('show-lightbox', lightboxOptions),
+        downloadAttachment: downloadOptions =>
+          this.trigger('download', downloadOptions),
+
+        openLink: url => this.trigger('navigate-to', url),
+        scrollToMessage: scrollOptions =>
+          this.trigger('scroll-to-message', scrollOptions),
+      };
+    },
+
+    // Dependencies of prop-generation functions
+    findAndFormatContact(phoneNumber) {
+      const contactModel = this.findContact(phoneNumber);
+      if (contactModel) {
+        return contactModel.getProps();
+      }
+
+      const { format } = PhoneNumber;
+      const regionCode = storage.get('regionCode');
+      return {
+        phoneNumber: format(phoneNumber, {
+          ourRegionCode: regionCode,
+        }),
+      };
+    },
+    findContact(phoneNumber) {
+      return ConversationController.get(phoneNumber);
+    },
+    getConversation() {
+      // This needs to be an unsafe call, because this method is called during
+      //   initial module setup. We may be in the middle of the initial fetch to
+      //   the database.
+      return ConversationController.getUnsafe(this.get('conversationId'));
+    },
+    createNonBreakingLastSeparator(text) {
+      if (!text) {
+        return null;
+      }
+
+      const nbsp = '\xa0';
+      const regex = /(\S)( +)(\S+\s*)$/;
+      return text.replace(regex, (match, start, spaces, end) => {
+        const newSpaces =
+          end.length < 12
+            ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
+            : spaces;
+        return `${start}${newSpaces}${end}`;
+      });
+    },
+    isIncoming() {
+      return this.get('type') === 'incoming';
+    },
     getMessagePropStatus() {
       if (this.hasErrors()) {
         return 'error';
@@ -431,114 +551,6 @@
 
       return 'sending';
     },
-    getPropsForSearchResult() {
-      const fromNumber = this.getSource();
-      const from = this.findAndFormatContact(fromNumber);
-      if (fromNumber === this.OUR_NUMBER) {
-        from.isMe = true;
-      }
-
-      const toNumber = this.get('conversationId');
-      let to = this.findAndFormatContact(toNumber);
-      if (toNumber === this.OUR_NUMBER) {
-        to.isMe = true;
-      } else if (fromNumber === toNumber) {
-        to = {
-          isMe: true,
-        };
-      }
-
-      return {
-        from,
-        to,
-
-        isSelected: this.isSelected,
-
-        id: this.id,
-        conversationId: this.get('conversationId'),
-        receivedAt: this.get('received_at'),
-        snippet: this.get('snippet'),
-      };
-    },
-    getPropsForMessage(options) {
-      const phoneNumber = this.getSource();
-      const contact = this.findAndFormatContact(phoneNumber);
-      const contactModel = this.findContact(phoneNumber);
-
-      const authorColor = contactModel ? contactModel.getColor() : null;
-      const authorAvatarPath = contactModel
-        ? contactModel.getAvatarPath()
-        : null;
-
-      const expirationLength = this.get('expireTimer') * 1000;
-      const expireTimerStart = this.get('expirationStartTimestamp');
-      const expirationTimestamp =
-        expirationLength && expireTimerStart
-          ? expireTimerStart + expirationLength
-          : null;
-
-      const conversation = this.getConversation();
-      const isGroup = conversation && !conversation.isPrivate();
-
-      const attachments = this.get('attachments') || [];
-      const firstAttachment = attachments[0];
-
-      return {
-        text: this.createNonBreakingLastSeparator(this.get('body')),
-        textPending: this.get('bodyPending'),
-        id: this.id,
-        direction: this.isIncoming() ? 'incoming' : 'outgoing',
-        timestamp: this.get('sent_at'),
-        status: this.getMessagePropStatus(),
-        contact: this.getPropsForEmbeddedContact(),
-        authorColor,
-        authorName: contact.name,
-        authorProfileName: contact.profileName,
-        authorPhoneNumber: contact.phoneNumber,
-        conversationType: isGroup ? 'group' : 'direct',
-        attachments: attachments
-          .filter(attachment => !attachment.error)
-          .map(attachment => this.getPropsForAttachment(attachment)),
-        previews: this.getPropsForPreview(),
-        quote: this.getPropsForQuote(options),
-        authorAvatarPath,
-        isExpired: this.hasExpired,
-        expirationLength,
-        expirationTimestamp,
-        onReply: () => this.trigger('reply', this),
-        onRetrySend: () => this.retrySend(),
-        onShowDetail: () => this.trigger('show-message-detail', this),
-        onDelete: () => this.trigger('delete', this),
-        onClickLinkPreview: url => this.trigger('navigate-to', url),
-        onClickAttachment: attachment =>
-          this.trigger('show-lightbox', {
-            attachment,
-            message: this,
-          }),
-
-        onDownload: isDangerous =>
-          this.trigger('download', {
-            attachment: firstAttachment,
-            message: this,
-            isDangerous,
-          }),
-      };
-    },
-    createNonBreakingLastSeparator(text) {
-      if (!text) {
-        return null;
-      }
-
-      const nbsp = '\xa0';
-      const regex = /(\S)( +)(\S+\s*)$/;
-      return text.replace(regex, (match, start, spaces, end) => {
-        const newSpaces =
-          end.length < 12
-            ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
-            : spaces;
-        return `${start}${newSpaces}${end}`;
-      });
-    },
     getPropsForEmbeddedContact() {
       const regionCode = storage.get('regionCode');
       const { contactSelector } = Contact;
@@ -551,20 +563,6 @@
       const contact = contacts[0];
       const firstNumber =
         contact.number && contact.number[0] && contact.number[0].value;
-      const onSendMessage = firstNumber
-        ? () => {
-            this.trigger('open-conversation', firstNumber);
-          }
-        : null;
-      const onClick = async () => {
-        // First let's be sure that the signal account check is complete.
-        await window.checkForSignalAccount(firstNumber);
-
-        this.trigger('show-contact-detail', {
-          contact,
-          hasSignalAccount: window.hasSignalAccount(firstNumber),
-        });
-      };
 
       // Would be nice to do this before render, on initial load of message
       if (!window.isSignalAccountCheckComplete(firstNumber)) {
@@ -576,85 +574,10 @@
       return contactSelector(contact, {
         regionCode,
         getAbsoluteAttachmentPath,
-        onSendMessage,
-        onClick,
-        hasSignalAccount: window.hasSignalAccount(firstNumber),
-      });
-    },
-    processQuoteAttachment(attachment) {
-      const { thumbnail } = attachment;
-      const path =
-        thumbnail &&
-        thumbnail.path &&
-        getAbsoluteAttachmentPath(thumbnail.path);
-      const objectUrl = thumbnail && thumbnail.objectUrl;
-
-      const thumbnailWithObjectUrl =
-        !path && !objectUrl
-          ? null
-          : Object.assign({}, attachment.thumbnail || {}, {
-              objectUrl: path || objectUrl,
-            });
-
-      return Object.assign({}, attachment, {
-        isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
-        thumbnail: thumbnailWithObjectUrl,
-      });
-    },
-    getPropsForPreview() {
-      const previews = this.get('preview') || [];
-
-      return previews.map(preview => ({
-        ...preview,
-        domain: window.Signal.LinkPreviews.getDomain(preview.url),
-        image: preview.image ? this.getPropsForAttachment(preview.image) : null,
-      }));
-    },
-    getPropsForQuote(options = {}) {
-      const { noClick } = options;
-      const quote = this.get('quote');
-      if (!quote) {
-        return null;
-      }
-
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-
-      const { author, id, referencedMessageNotFound } = quote;
-      const contact = author && ConversationController.get(author);
-      const authorColor = contact ? contact.getColor() : 'grey';
-
-      const authorPhoneNumber = format(author, {
-        ourRegionCode: regionCode,
-      });
-      const authorProfileName = contact ? contact.getProfileName() : null;
-      const authorName = contact ? contact.getName() : null;
-      const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
-      const onClick = noClick
-        ? null
-        : () => {
-            this.trigger('scroll-to-message', {
-              author,
-              id,
-              referencedMessageNotFound,
-            });
-          };
-
-      const firstAttachment = quote.attachments && quote.attachments[0];
-
-      return {
-        text: this.createNonBreakingLastSeparator(quote.text),
-        attachment: firstAttachment
-          ? this.processQuoteAttachment(firstAttachment)
+        signalAccount: window.hasSignalAccount(firstNumber)
+          ? firstNumber
           : null,
-        isFromMe,
-        authorPhoneNumber,
-        authorProfileName,
-        authorName,
-        authorColor,
-        onClick,
-        referencedMessageNotFound,
-      };
+      });
     },
     getPropsForAttachment(attachment) {
       if (!attachment) {
@@ -686,6 +609,225 @@
           : null,
       };
     },
+    getPropsForPreview() {
+      const previews = this.get('preview') || [];
+
+      return previews.map(preview => ({
+        ...preview,
+        isStickerPack: window.Signal.LinkPreviews.isStickerPack(preview.url),
+        domain: window.Signal.LinkPreviews.getDomain(preview.url),
+        image: preview.image ? this.getPropsForAttachment(preview.image) : null,
+      }));
+    },
+    getPropsForQuote() {
+      const quote = this.get('quote');
+      if (!quote) {
+        return null;
+      }
+
+      const { format } = PhoneNumber;
+      const regionCode = storage.get('regionCode');
+
+      const { author, id: sentAt, referencedMessageNotFound } = quote;
+      const contact = author && ConversationController.get(author);
+      const authorColor = contact ? contact.getColor() : 'grey';
+
+      const authorPhoneNumber = format(author, {
+        ourRegionCode: regionCode,
+      });
+      const authorProfileName = contact ? contact.getProfileName() : null;
+      const authorName = contact ? contact.getName() : null;
+      const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
+      const firstAttachment = quote.attachments && quote.attachments[0];
+
+      return {
+        text: this.createNonBreakingLastSeparator(quote.text),
+        attachment: firstAttachment
+          ? this.processQuoteAttachment(firstAttachment)
+          : null,
+        isFromMe,
+        sentAt,
+        authorId: author,
+        authorPhoneNumber,
+        authorProfileName,
+        authorName,
+        authorColor,
+        referencedMessageNotFound,
+      };
+    },
+    getStatus(number) {
+      const readBy = this.get('read_by') || [];
+      if (readBy.indexOf(number) >= 0) {
+        return 'read';
+      }
+      const deliveredTo = this.get('delivered_to') || [];
+      if (deliveredTo.indexOf(number) >= 0) {
+        return 'delivered';
+      }
+      const sentTo = this.get('sent_to') || [];
+      if (sentTo.indexOf(number) >= 0) {
+        return 'sent';
+      }
+
+      return null;
+    },
+    processQuoteAttachment(attachment) {
+      const { thumbnail } = attachment;
+      const path =
+        thumbnail &&
+        thumbnail.path &&
+        getAbsoluteAttachmentPath(thumbnail.path);
+      const objectUrl = thumbnail && thumbnail.objectUrl;
+
+      const thumbnailWithObjectUrl =
+        !path && !objectUrl
+          ? null
+          : Object.assign({}, attachment.thumbnail || {}, {
+              objectUrl: path || objectUrl,
+            });
+
+      return Object.assign({}, attachment, {
+        isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
+        thumbnail: thumbnailWithObjectUrl,
+      });
+    },
+
+    // More display logic
+    getDescription() {
+      if (this.isGroupUpdate()) {
+        const groupUpdate = this.get('group_update');
+        if (groupUpdate.left === 'You') {
+          return i18n('youLeftTheGroup');
+        } else if (groupUpdate.left) {
+          return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
+        }
+
+        const messages = [];
+        if (!groupUpdate.name && !groupUpdate.joined) {
+          messages.push(i18n('updatedTheGroup'));
+        }
+        if (groupUpdate.name) {
+          messages.push(i18n('titleIsNow', groupUpdate.name));
+        }
+        if (groupUpdate.joined && groupUpdate.joined.length) {
+          const names = _.map(
+            groupUpdate.joined,
+            this.getNameForNumber.bind(this)
+          );
+          if (names.length > 1) {
+            messages.push(i18n('multipleJoinedTheGroup', names.join(', ')));
+          } else {
+            messages.push(i18n('joinedTheGroup', names[0]));
+          }
+        }
+
+        return messages.join(', ');
+      }
+      if (this.isEndSession()) {
+        return i18n('sessionEnded');
+      }
+      if (this.isIncoming() && this.hasErrors()) {
+        return i18n('incomingError');
+      }
+      return this.get('body');
+    },
+    getNotificationText() {
+      const description = this.getDescription();
+      if (description) {
+        return description;
+      }
+      if (this.get('attachments').length > 0) {
+        return i18n('mediaMessage');
+      }
+      if (this.get('sticker')) {
+        return i18n('message--getNotificationText--stickers');
+      }
+      if (this.isExpirationTimerUpdate()) {
+        const { expireTimer } = this.get('expirationTimerUpdate');
+        if (!expireTimer) {
+          return i18n('disappearingMessagesDisabled');
+        }
+
+        return i18n(
+          'timerSetTo',
+          Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0)
+        );
+      }
+      if (this.isKeyChange()) {
+        const phoneNumber = this.get('key_changed');
+        const conversation = this.findContact(phoneNumber);
+        return i18n(
+          'safetyNumberChangedGroup',
+          conversation ? conversation.getTitle() : null
+        );
+      }
+      const contacts = this.get('contact');
+      if (contacts && contacts.length) {
+        return Contact.getName(contacts[0]);
+      }
+
+      return '';
+    },
+
+    // General
+    idForLogging() {
+      return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
+        'sent_at'
+      )}`;
+    },
+    defaults() {
+      return {
+        timestamp: new Date().getTime(),
+        attachments: [],
+      };
+    },
+    validate(attributes) {
+      const required = ['conversationId', 'received_at', 'sent_at'];
+      const missing = _.filter(required, attr => !attributes[attr]);
+      if (missing.length) {
+        window.log.warn(`Message missing attributes: ${missing}`);
+      }
+    },
+    isUnread() {
+      return !!this.get('unread');
+    },
+    merge(model) {
+      const attributes = model.attributes || model;
+      this.set(attributes);
+    },
+    getNameForNumber(number) {
+      const conversation = ConversationController.get(number);
+      if (!conversation) {
+        return number;
+      }
+      return conversation.getDisplayName();
+    },
+    onDestroy() {
+      this.cleanup();
+    },
+    async cleanup() {
+      MessageController.unregister(this.id);
+      this.unload();
+      await deleteExternalMessageFiles(this.attributes);
+
+      const sticker = this.get('sticker');
+      if (!sticker) {
+        return;
+      }
+
+      const { packId } = sticker;
+      if (packId) {
+        await deletePackReference(this.id, packId);
+      }
+    },
+    unload() {
+      if (this.quotedMessage) {
+        this.quotedMessage = null;
+      }
+    },
+    onExpired() {
+      this.hasExpired = true;
+    },
     isUnidentifiedDelivery(contactId, lookup) {
       if (this.isIncoming()) {
         return this.get('unidentifiedDeliveryReceived');
@@ -693,88 +835,143 @@
 
       return Boolean(lookup[contactId]);
     },
-    getPropsForMessageDetail() {
-      const newIdentity = i18n('newIdentity');
-      const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
+    getSource() {
+      if (this.isIncoming()) {
+        return this.get('source');
+      }
 
-      const unidentifiedLookup = (
-        this.get('unidentifiedDeliveries') || []
-      ).reduce((accumulator, item) => {
-        // eslint-disable-next-line no-param-reassign
-        accumulator[item] = true;
-        return accumulator;
-      }, Object.create(null));
+      return this.OUR_NUMBER;
+    },
+    getContact() {
+      const source = this.getSource();
 
-      // We include numbers we didn't successfully send to so we can display errors.
-      // Older messages don't have the recipients included on the message, so we fall
-      //   back to the conversation's current recipients
-      const phoneNumbers = this.isIncoming()
-        ? [this.get('source')]
-        : _.union(
-            this.get('sent_to') || [],
-            this.get('recipients') || this.getConversation().getRecipients()
-          );
+      if (!source) {
+        return null;
+      }
 
-      // This will make the error message for outgoing key errors a bit nicer
-      const allErrors = (this.get('errors') || []).map(error => {
-        if (error.name === OUTGOING_KEY_ERROR) {
-          // eslint-disable-next-line no-param-reassign
-          error.message = newIdentity;
-        }
+      return ConversationController.getOrCreate(source, 'private');
+    },
+    isOutgoing() {
+      return this.get('type') === 'outgoing';
+    },
+    hasErrors() {
+      return _.size(this.get('errors')) > 0;
+    },
+    async saveErrors(providedErrors) {
+      let errors = providedErrors;
 
-        return error;
-      });
-
-      // If an error has a specific number it's associated with, we'll show it next to
-      //   that contact. Otherwise, it will be a standalone entry.
-      const errors = _.reject(allErrors, error => Boolean(error.number));
-      const errorsGroupedById = _.groupBy(allErrors, 'number');
-      const finalContacts = (phoneNumbers || []).map(id => {
-        const errorsForContact = errorsGroupedById[id];
-        const isOutgoingKeyError = Boolean(
-          _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
+      if (!(errors instanceof Array)) {
+        errors = [errors];
+      }
+      errors.forEach(e => {
+        window.log.error(
+          'Message.saveErrors:',
+          e && e.reason ? e.reason : null,
+          e && e.stack ? e.stack : e
         );
-        const isUnidentifiedDelivery =
-          storage.get('unidentifiedDeliveryIndicators') &&
-          this.isUnidentifiedDelivery(id, unidentifiedLookup);
-
-        return {
-          ...this.findAndFormatContact(id),
-          status: this.getStatus(id),
-          errors: errorsForContact,
-          isOutgoingKeyError,
-          isUnidentifiedDelivery,
-          onSendAnyway: () =>
-            this.trigger('force-send', {
-              contact: this.findContact(id),
-              message: this,
-            }),
-          onShowSafetyNumber: () =>
-            this.trigger('show-identity', this.findContact(id)),
-        };
       });
+      errors = errors.map(e => {
+        if (
+          e.constructor === Error ||
+          e.constructor === TypeError ||
+          e.constructor === ReferenceError
+        ) {
+          return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
+        }
+        return e;
+      });
+      errors = errors.concat(this.get('errors') || []);
 
-      // The prefix created here ensures that contacts with errors are listed
-      //   first; otherwise it's alphabetical
-      const sortedContacts = _.sortBy(
-        finalContacts,
-        contact => `${contact.errors ? '0' : '1'}${contact.title}`
+      this.set({ errors });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    async markRead(readAt) {
+      this.unset('unread');
+
+      if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
+        const expirationStartTimestamp = Math.min(
+          Date.now(),
+          readAt || Date.now()
+        );
+        this.set({ expirationStartTimestamp });
+      }
+
+      Whisper.Notifications.remove(
+        Whisper.Notifications.where({
+          messageId: this.id,
+        })
       );
 
-      return {
-        sentAt: this.get('sent_at'),
-        receivedAt: this.get('received_at'),
-        message: {
-          ...this.getPropsForMessage({ noClick: true }),
-          disableMenu: true,
-          // To ensure that group avatar doesn't show up
-          conversationType: 'direct',
-        },
-        errors,
-        contacts: sortedContacts,
-      };
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    isExpiring() {
+      return this.get('expireTimer') && this.get('expirationStartTimestamp');
+    },
+    isExpired() {
+      return this.msTilExpire() <= 0;
+    },
+    msTilExpire() {
+      if (!this.isExpiring()) {
+        return Infinity;
+      }
+      const now = Date.now();
+      const start = this.get('expirationStartTimestamp');
+      const delta = this.get('expireTimer') * 1000;
+      let msFromNow = start + delta - now;
+      if (msFromNow < 0) {
+        msFromNow = 0;
+      }
+      return msFromNow;
+    },
+    async setToExpire(force = false) {
+      if (this.isExpiring() && (force || !this.get('expires_at'))) {
+        const start = this.get('expirationStartTimestamp');
+        const delta = this.get('expireTimer') * 1000;
+        const expiresAt = start + delta;
+
+        this.set({ expires_at: expiresAt });
+        const id = this.get('id');
+        if (id) {
+          await window.Signal.Data.saveMessage(this.attributes, {
+            Message: Whisper.Message,
+          });
+        }
+
+        window.log.info('Set message expiration', {
+          expiresAt,
+          sentAt: this.get('sent_at'),
+        });
+      }
+    },
+    getIncomingContact() {
+      if (!this.isIncoming()) {
+        return null;
+      }
+      const source = this.get('source');
+      if (!source) {
+        return null;
+      }
+
+      return ConversationController.getOrCreate(source, 'private');
+    },
+    getQuoteContact() {
+      const quote = this.get('quote');
+      if (!quote) {
+        return null;
+      }
+      const { author } = quote;
+      if (!author) {
+        return null;
+      }
+
+      return ConversationController.get(author);
     },
 
+    // Send infrastructure
     // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
     async retrySend() {
       if (!textsecure.messaging) {
@@ -815,6 +1012,7 @@
 
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
+      const stickerWithData = await loadStickerData(this.get('sticker'));
 
       // Special-case the self-send case - we send only a sync message
       if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
@@ -825,6 +1023,7 @@
           attachments,
           quoteWithData,
           previewWithData,
+          stickerWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey
@@ -843,6 +1042,7 @@
           attachments,
           quoteWithData,
           previewWithData,
+          stickerWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey,
@@ -860,7 +1060,7 @@
             attachments,
             quote: quoteWithData,
             preview: previewWithData,
-            needsSync: !this.get('synced'),
+            sticker: stickerWithData,
             expireTimer: this.get('expireTimer'),
             profileKey,
             group: {
@@ -905,6 +1105,7 @@
 
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
+      const stickerWithData = await loadStickerData(this.get('sticker'));
 
       // Special-case the self-send case - we send only a sync message
       if (number === this.OUR_NUMBER) {
@@ -914,6 +1115,7 @@
           attachments,
           quoteWithData,
           previewWithData,
+          stickerWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey
@@ -930,6 +1132,7 @@
         attachments,
         quoteWithData,
         previewWithData,
+        stickerWithData,
         this.get('sent_at'),
         this.get('expireTimer'),
         profileKey,
@@ -953,76 +1156,6 @@
       return errors[0][0];
     },
 
-    getConversation() {
-      // This needs to be an unsafe call, because this method is called during
-      //   initial module setup. We may be in the middle of the initial fetch to
-      //   the database.
-      return ConversationController.getUnsafe(this.get('conversationId'));
-    },
-    getIncomingContact() {
-      if (!this.isIncoming()) {
-        return null;
-      }
-      const source = this.get('source');
-      if (!source) {
-        return null;
-      }
-
-      return ConversationController.getOrCreate(source, 'private');
-    },
-    getQuoteContact() {
-      const quote = this.get('quote');
-      if (!quote) {
-        return null;
-      }
-      const { author } = quote;
-      if (!author) {
-        return null;
-      }
-
-      return ConversationController.get(author);
-    },
-
-    getSource() {
-      if (this.isIncoming()) {
-        return this.get('source');
-      }
-
-      return this.OUR_NUMBER;
-    },
-    getContact() {
-      const source = this.getSource();
-
-      if (!source) {
-        return null;
-      }
-
-      return ConversationController.getOrCreate(source, 'private');
-    },
-    isOutgoing() {
-      return this.get('type') === 'outgoing';
-    },
-    hasErrors() {
-      return _.size(this.get('errors')) > 0;
-    },
-
-    getStatus(number) {
-      const readBy = this.get('read_by') || [];
-      if (readBy.indexOf(number) >= 0) {
-        return 'read';
-      }
-      const deliveredTo = this.get('delivered_to') || [];
-      if (deliveredTo.indexOf(number) >= 0) {
-        return 'delivered';
-      }
-      const sentTo = this.get('sent_to') || [];
-      if (sentTo.indexOf(number) >= 0) {
-        return 'sent';
-      }
-
-      return null;
-    },
-
     send(promise) {
       this.trigger('pending');
       return promise
@@ -1030,8 +1163,12 @@
           this.trigger('done');
 
           // This is used by sendSyncMessage, then set to null
-          if (!this.get('synced') && result.dataMessage) {
-            this.set({ dataMessage: result.dataMessage });
+          if (result.dataMessage) {
+            // When we're not sending recipient updates, we won't save the dataMessage
+            //   unless it's the first time we attempt to send the message.
+            if (!this.get('synced') || window.SEND_RECIPIENT_UPDATES) {
+              this.set({ dataMessage: result.dataMessage });
+            }
           }
 
           const sentTo = this.get('sent_to') || [];
@@ -1112,25 +1249,6 @@
         });
     },
 
-    someRecipientsFailed() {
-      const c = this.getConversation();
-      if (!c || c.isPrivate()) {
-        return false;
-      }
-
-      const recipients = c.contactCollection.length - 1;
-      const errors = this.get('errors');
-      if (!errors) {
-        return false;
-      }
-
-      if (errors.length > 0 && recipients > 0 && errors.length < recipients) {
-        return true;
-      }
-
-      return false;
-    },
-
     async sendSyncMessageOnly(dataMessage) {
       this.set({ dataMessage });
 
@@ -1180,9 +1298,16 @@
       this.syncPromise = this.syncPromise || Promise.resolve();
       const next = () => {
         const dataMessage = this.get('dataMessage');
-        if (this.get('synced') || !dataMessage) {
+        if (!dataMessage) {
           return Promise.resolve();
         }
+        const isUpdate = Boolean(this.get('synced'));
+
+        // Until isRecipientUpdate sync messages are widely supported, will not send them
+        if (isUpdate && !window.SEND_RECIPIENT_UPDATES) {
+          return Promise.resolve();
+        }
+
         return wrap(
           textsecure.messaging.sendSyncMessage(
             dataMessage,
@@ -1191,6 +1316,7 @@
             this.get('expirationStartTimestamp'),
             this.get('sent_to'),
             this.get('unidentifiedDeliveries'),
+            isUpdate,
             sendOptions
           )
         ).then(result => {
@@ -1209,47 +1335,7 @@
       return this.syncPromise;
     },
 
-    async saveErrors(providedErrors) {
-      let errors = providedErrors;
-
-      if (!(errors instanceof Array)) {
-        errors = [errors];
-      }
-      errors.forEach(e => {
-        window.log.error(
-          'Message.saveErrors:',
-          e && e.reason ? e.reason : null,
-          e && e.stack ? e.stack : e
-        );
-      });
-      errors = errors.map(e => {
-        if (
-          e.constructor === Error ||
-          e.constructor === TypeError ||
-          e.constructor === ReferenceError
-        ) {
-          return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
-        }
-        return e;
-      });
-      errors = errors.concat(this.get('errors') || []);
-
-      this.set({ errors });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-    },
-    hasNetworkError() {
-      const error = _.find(
-        this.get('errors'),
-        e =>
-          e.name === 'MessageError' ||
-          e.name === 'OutgoingMessageError' ||
-          e.name === 'SendMessageNetworkError' ||
-          e.name === 'SignedPreKeyRotationError'
-      );
-      return !!error;
-    },
+    // Receive logic
     async queueAttachmentDownloads() {
       const messageId = this.id;
       let count = 0;
@@ -1373,8 +1459,62 @@
         };
       }
 
+      let sticker = this.get('sticker');
+      if (sticker) {
+        count += 1;
+        const { packId, stickerId, packKey } = sticker;
+
+        const status = getStickerPackStatus(packId);
+        let data;
+
+        if (status && (status === 'downloaded' || status === 'installed')) {
+          try {
+            const copiedSticker = await copyStickerToAttachments(
+              packId,
+              stickerId
+            );
+            data = {
+              ...copiedSticker,
+              contentType: 'image/webp',
+            };
+          } catch (error) {
+            window.log.error(
+              `Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
+              error && error.stack ? error.stack : error
+            );
+          }
+        }
+        if (!data) {
+          data = await window.Signal.AttachmentDownloads.addJob(sticker.data, {
+            messageId,
+            type: 'sticker',
+            index: 0,
+          });
+        }
+        if (!status) {
+          // Save the packId/packKey for future download/install
+          savePackMetadata(packId, packKey, { messageId });
+        } else {
+          await addStickerPackReference(messageId, packId);
+        }
+
+        sticker = {
+          ...sticker,
+          packId,
+          data,
+        };
+      }
+
       if (count > 0) {
-        this.set({ bodyPending, attachments, preview, contact, quote, group });
+        this.set({
+          bodyPending,
+          attachments,
+          preview,
+          contact,
+          quote,
+          group,
+          sticker,
+        });
 
         await window.Signal.Data.saveMessage(this.attributes, {
           Message: Whisper.Message,
@@ -1449,7 +1589,6 @@
       }
 
       const queryAttachments = queryMessage.get('attachments') || [];
-
       if (queryAttachments.length > 0) {
         const queryFirst = queryAttachments[0];
         const { thumbnail } = queryFirst;
@@ -1473,6 +1612,14 @@
             copied: true,
           };
         }
+      }
+
+      const sticker = queryMessage.get('sticker');
+      if (sticker && sticker.data && sticker.data.path) {
+        firstAttachment.thumbnail = {
+          ...sticker.data,
+          copied: true,
+        };
       }
 
       return message;
@@ -1585,9 +1732,10 @@
             hasAttachments: dataMessage.hasAttachments,
             hasFileAttachments: dataMessage.hasFileAttachments,
             hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
-            quote: dataMessage.quote,
             preview,
+            quote: dataMessage.quote,
             schemaVersion: dataMessage.schemaVersion,
+            sticker: dataMessage.sticker,
           });
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(
@@ -1803,73 +1951,13 @@
         }
       });
     },
-    async markRead(readAt) {
-      this.unset('unread');
-
-      if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
-        const expirationStartTimestamp = Math.min(
-          Date.now(),
-          readAt || Date.now()
-        );
-        this.set({ expirationStartTimestamp });
-      }
-
-      Whisper.Notifications.remove(
-        Whisper.Notifications.where({
-          messageId: this.id,
-        })
-      );
-
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-    },
-    isExpiring() {
-      return this.get('expireTimer') && this.get('expirationStartTimestamp');
-    },
-    isExpired() {
-      return this.msTilExpire() <= 0;
-    },
-    msTilExpire() {
-      if (!this.isExpiring()) {
-        return Infinity;
-      }
-      const now = Date.now();
-      const start = this.get('expirationStartTimestamp');
-      const delta = this.get('expireTimer') * 1000;
-      let msFromNow = start + delta - now;
-      if (msFromNow < 0) {
-        msFromNow = 0;
-      }
-      return msFromNow;
-    },
-    async setToExpire(force = false) {
-      if (this.isExpiring() && (force || !this.get('expires_at'))) {
-        const start = this.get('expirationStartTimestamp');
-        const delta = this.get('expireTimer') * 1000;
-        const expiresAt = start + delta;
-
-        this.set({ expires_at: expiresAt });
-        const id = this.get('id');
-        if (id) {
-          await window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          });
-        }
-
-        window.log.info('Set message expiration', {
-          expiresAt,
-          sentAt: this.get('sent_at'),
-        });
-      }
-    },
   });
 
   // Receive will be enabled before we enable send
   Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
 
   Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
-    if (body.length <= 2048) {
+    if (!body || body.length <= 2048) {
       return {
         body,
         attachments,

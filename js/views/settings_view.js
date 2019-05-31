@@ -88,7 +88,9 @@
           $(document.body)
             .removeClass('dark-theme')
             .removeClass('light-theme')
-            .addClass(`${theme}-theme`);
+            .addClass(
+              `${theme === 'system' ? window.systemTheme : theme}-theme`
+            );
           window.setThemeSetting(theme);
         },
       });
@@ -143,8 +145,10 @@
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
         isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
+        hasSystemTheme: window.platform === 'darwin',
         themeLight: i18n('themeLight'),
         themeDark: i18n('themeDark'),
+        themeSystem: i18n('themeSystem'),
         hideMenuBar: i18n('hideMenuBar'),
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),

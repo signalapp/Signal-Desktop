@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, dcodeIO */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -13,19 +13,26 @@ function stringToArrayBuffer(str) {
   }
   return res;
 }
+function hexStringToArrayBuffer(string) {
+  return dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
+}
+function base64ToArrayBuffer(string) {
+  return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
+}
 
 function Message(options) {
-  this.body = options.body;
   this.attachments = options.attachments || [];
-  this.quote = options.quote;
-  this.preview = options.preview;
-  this.group = options.group;
-  this.flags = options.flags;
-  this.recipients = options.recipients;
-  this.timestamp = options.timestamp;
-  this.needsSync = options.needsSync;
+  this.body = options.body;
   this.expireTimer = options.expireTimer;
+  this.flags = options.flags;
+  this.group = options.group;
+  this.needsSync = options.needsSync;
+  this.preview = options.preview;
   this.profileKey = options.profileKey;
+  this.quote = options.quote;
+  this.recipients = options.recipients;
+  this.sticker = options.sticker;
+  this.timestamp = options.timestamp;
 
   if (!(this.recipients instanceof Array)) {
     throw new Error('Invalid recipient list');
@@ -91,10 +98,13 @@ Message.prototype = {
       return this.dataMessage;
     }
     const proto = new textsecure.protobuf.DataMessage();
+
+    proto.timestamp = this.timestamp;
+    proto.attachments = this.attachmentPointers;
+
     if (this.body) {
       proto.body = this.body;
     }
-    proto.attachments = this.attachmentPointers;
     if (this.flags) {
       proto.flags = this.flags;
     }
@@ -102,6 +112,16 @@ Message.prototype = {
       proto.group = new textsecure.protobuf.GroupContext();
       proto.group.id = stringToArrayBuffer(this.group.id);
       proto.group.type = this.group.type;
+    }
+    if (this.sticker) {
+      proto.sticker = new textsecure.protobuf.DataMessage.Sticker();
+      proto.sticker.packId = hexStringToArrayBuffer(this.sticker.packId);
+      proto.sticker.packKey = base64ToArrayBuffer(this.sticker.packKey);
+      proto.sticker.stickerId = this.sticker.stickerId;
+
+      if (this.sticker.attachmentPointer) {
+        proto.sticker.data = this.sticker.attachmentPointer;
+      }
     }
     if (Array.isArray(this.preview)) {
       proto.preview = this.preview.map(preview => {
@@ -137,7 +157,6 @@ Message.prototype = {
     if (this.expireTimer) {
       proto.expireTimer = this.expireTimer;
     }
-
     if (this.profileKey) {
       proto.profileKey = this.profileKey;
     }
@@ -158,57 +177,75 @@ function MessageSender(username, password) {
 MessageSender.prototype = {
   constructor: MessageSender,
 
-  //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  makeAttachmentPointer(attachment) {
+  _getAttachmentSizeBucket(size) {
+    return Math.max(
+      541,
+      Math.floor(1.05 ** Math.ceil(Math.log(size) / Math.log(1.05)))
+    );
+  },
+
+  getPaddedAttachment(data, shouldPad) {
+    if (!window.PAD_ALL_ATTACHMENTS && !shouldPad) {
+      return data;
+    }
+
+    const size = data.byteLength;
+    const paddedSize = this._getAttachmentSizeBucket(size);
+    const padding = window.Signal.Crypto.getZeroes(paddedSize - size);
+
+    return window.Signal.Crypto.concatenateBytes(data, padding);
+  },
+
+  async makeAttachmentPointer(attachment, shouldPad = false) {
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }
 
-    if (
-      !(attachment.data instanceof ArrayBuffer) &&
-      !ArrayBuffer.isView(attachment.data)
-    ) {
-      return Promise.reject(
-        new TypeError(
-          `\`attachment.data\` must be an \`ArrayBuffer\` or \`ArrayBufferView\`; got: ${typeof attachment.data}`
-        )
+    const { data, size } = attachment;
+    if (!(data instanceof ArrayBuffer) && !ArrayBuffer.isView(data)) {
+      throw new Error(
+        `makeAttachmentPointer: data was a '${typeof data}' instead of ArrayBuffer/ArrayBufferView`
+      );
+    }
+    if (data.byteLength !== size) {
+      throw new Error(
+        `makeAttachmentPointer: Size ${size} did not match data.byteLength ${
+          data.byteLength
+        }`
       );
     }
 
-    const proto = new textsecure.protobuf.AttachmentPointer();
-    proto.key = libsignal.crypto.getRandomBytes(64);
-
+    const padded = this.getPaddedAttachment(data, shouldPad);
+    const key = libsignal.crypto.getRandomBytes(64);
     const iv = libsignal.crypto.getRandomBytes(16);
-    return textsecure.crypto
-      .encryptAttachment(attachment.data, proto.key, iv)
-      .then(result =>
-        this.server.putAttachment(result.ciphertext).then(id => {
-          proto.id = id;
-          proto.contentType = attachment.contentType;
-          proto.digest = result.digest;
 
-          if (attachment.size) {
-            proto.size = attachment.size;
-          }
-          if (attachment.fileName) {
-            proto.fileName = attachment.fileName;
-          }
-          if (attachment.flags) {
-            proto.flags = attachment.flags;
-          }
-          if (attachment.width) {
-            proto.width = attachment.width;
-          }
-          if (attachment.height) {
-            proto.height = attachment.height;
-          }
-          if (attachment.caption) {
-            proto.caption = attachment.caption;
-          }
+    const result = await textsecure.crypto.encryptAttachment(padded, key, iv);
+    const id = await this.server.putAttachment(result.ciphertext);
 
-          return proto;
-        })
-      );
+    const proto = new textsecure.protobuf.AttachmentPointer();
+    proto.id = id;
+    proto.contentType = attachment.contentType;
+    proto.key = key;
+    proto.size = attachment.size;
+    proto.digest = result.digest;
+
+    if (attachment.fileName) {
+      proto.fileName = attachment.fileName;
+    }
+    if (attachment.flags) {
+      proto.flags = attachment.flags;
+    }
+    if (attachment.width) {
+      proto.width = attachment.width;
+    }
+    if (attachment.height) {
+      proto.height = attachment.height;
+    }
+    if (attachment.caption) {
+      proto.caption = attachment.caption;
+    }
+
+    return proto;
   },
 
   queueJobForNumber(number, runJob) {
@@ -267,6 +304,32 @@ MessageSender.prototype = {
     }
   },
 
+  async uploadSticker(message) {
+    try {
+      const { sticker } = message;
+
+      if (!sticker || !sticker.data) {
+        return;
+      }
+
+      const shouldPad = true;
+      // eslint-disable-next-line no-param-reassign
+      message.sticker = {
+        ...sticker,
+        attachmentPointer: await this.makeAttachmentPointer(
+          sticker.data,
+          shouldPad
+        ),
+      };
+    } catch (error) {
+      if (error instanceof Error && error.name === 'HTTPError') {
+        throw new textsecure.MessageError(message, error);
+      } else {
+        throw error;
+      }
+    }
+  },
+
   uploadThumbnails(message) {
     const makePointer = this.makeAttachmentPointer.bind(this);
     const { quote } = message;
@@ -304,6 +367,7 @@ MessageSender.prototype = {
       this.uploadAttachments(message),
       this.uploadThumbnails(message),
       this.uploadLinkPreviews(message),
+      this.uploadSticker(message),
     ]).then(
       () =>
         new Promise((resolve, reject) => {
@@ -418,6 +482,7 @@ MessageSender.prototype = {
     expirationStartTimestamp,
     sentTo = [],
     unidentifiedDeliveries = [],
+    isUpdate = false,
     options
   ) {
     const myNumber = textsecure.storage.user.getNumber();
@@ -448,6 +513,10 @@ MessageSender.prototype = {
       Object.create(null)
     );
 
+    if (isUpdate) {
+      sentMessage.isRecipientUpdate = true;
+    }
+
     // Though this field has 'unidenified' in the name, it should have entries for each
     //   number we sent to.
     if (sentTo && sentTo.length) {
@@ -468,7 +537,7 @@ MessageSender.prototype = {
     return this.sendIndividualProto(
       myNumber,
       contentMessage,
-      Date.now(),
+      timestamp,
       silent,
       options
     );
@@ -484,6 +553,13 @@ MessageSender.prototype = {
 
   getAvatar(path) {
     return this.server.getAvatar(path);
+  },
+
+  getSticker(packId, stickerId) {
+    return this.server.getSticker(packId, stickerId);
+  },
+  getStickerPackManifest(packId) {
+    return this.server.getStickerPackManifest(packId);
   },
 
   sendRequestConfigurationSyncMessage(options) {
@@ -674,6 +750,41 @@ MessageSender.prototype = {
 
     return Promise.resolve();
   },
+  async sendStickerPackSync(operations, options) {
+    const myDevice = textsecure.storage.user.getDeviceId();
+    if (myDevice === 1 || myDevice === '1') {
+      return null;
+    }
+
+    const myNumber = textsecure.storage.user.getNumber();
+    const ENUM = textsecure.protobuf.SyncMessage.StickerPackOperation.Type;
+
+    const packOperations = operations.map(item => {
+      const { packId, packKey, installed } = item;
+
+      const operation = new textsecure.protobuf.SyncMessage.StickerPackOperation();
+      operation.packId = hexStringToArrayBuffer(packId);
+      operation.packKey = base64ToArrayBuffer(packKey);
+      operation.type = installed ? ENUM.INSTALL : ENUM.REMOVE;
+
+      return operation;
+    });
+
+    const syncMessage = this.createSyncMessage();
+    syncMessage.stickerPackOperation = packOperations;
+
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      myNumber,
+      contentMessage,
+      Date.now(),
+      silent,
+      options
+    );
+  },
   syncVerification(destination, state, identityKey, options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -771,6 +882,7 @@ MessageSender.prototype = {
     attachments,
     quote,
     preview,
+    sticker,
     timestamp,
     expireTimer,
     profileKey,
@@ -783,6 +895,7 @@ MessageSender.prototype = {
       attachments,
       quote,
       preview,
+      sticker,
       expireTimer,
       profileKey,
       flags,
@@ -797,6 +910,7 @@ MessageSender.prototype = {
       this.uploadAttachments(message),
       this.uploadThumbnails(message),
       this.uploadLinkPreviews(message),
+      this.uploadSticker(message),
     ]);
 
     return message.toArrayBuffer();
@@ -808,6 +922,7 @@ MessageSender.prototype = {
     attachments,
     quote,
     preview,
+    sticker,
     timestamp,
     expireTimer,
     profileKey,
@@ -821,7 +936,7 @@ MessageSender.prototype = {
         attachments,
         quote,
         preview,
-        needsSync: true,
+        sticker,
         expireTimer,
         profileKey,
       },
@@ -905,6 +1020,7 @@ MessageSender.prototype = {
     attachments,
     quote,
     preview,
+    sticker,
     timestamp,
     expireTimer,
     profileKey,
@@ -919,7 +1035,7 @@ MessageSender.prototype = {
       attachments,
       quote,
       preview,
-      needsSync: true,
+      sticker,
       expireTimer,
       profileKey,
       group: {
@@ -1034,7 +1150,6 @@ MessageSender.prototype = {
     const attrs = {
       recipients: numbers,
       timestamp,
-      needsSync: true,
       expireTimer,
       profileKey,
       flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
@@ -1067,7 +1182,6 @@ MessageSender.prototype = {
       {
         recipients: [number],
         timestamp,
-        needsSync: true,
         expireTimer,
         profileKey,
         flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
@@ -1077,9 +1191,6 @@ MessageSender.prototype = {
   },
   makeProxiedRequest(url, options) {
     return this.server.makeProxiedRequest(url, options);
-  },
-  getProxiedSize(url) {
-    return this.server.getProxiedSize(url);
   },
 };
 
@@ -1122,8 +1233,11 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendDeliveryReceipt = sender.sendDeliveryReceipt.bind(sender);
   this.sendReadReceipts = sender.sendReadReceipts.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
-  this.getProxiedSize = sender.getProxiedSize.bind(sender);
   this.getMessageProto = sender.getMessageProto.bind(sender);
+  this._getAttachmentSizeBucket = sender._getAttachmentSizeBucket.bind(sender);
+  this.getSticker = sender.getSticker.bind(sender);
+  this.getStickerPackManifest = sender.getStickerPackManifest.bind(sender);
+  this.sendStickerPackSync = sender.sendStickerPackSync.bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

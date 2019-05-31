@@ -204,46 +204,6 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');",
-    "lineNumber": 38,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();",
-    "lineNumber": 41,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();",
-    "lineNumber": 45,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();",
-    "lineNumber": 49,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/modules/crypto.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');",
-    "lineNumber": 52,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "js/modules/debuglogs.js",
     "line": "  form.append('key', fields.key);",
@@ -268,6 +228,22 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "js/modules/emojis.js",
+    "line": "async function load() {",
+    "lineNumber": 17,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-05-23T22:27:53.554Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "js/modules/stickers.js",
+    "line": "async function load() {",
+    "lineNumber": 57,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T17:48:30.675Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "js/permissions_popup_start.js",
     "line": "$(document).on('keyup', e => {",
@@ -289,7 +265,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/permissions_popup_start.js",
     "line": "window.view.$el.appendTo($body);",
-    "lineNumber": 26,
+    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -316,7 +292,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/settings_start.js",
     "line": "    window.view.$el.appendTo($body);",
-    "lineNumber": 41,
+    "lineNumber": 57,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -349,7 +325,7 @@
     "rule": "DOM-innerHTML",
     "path": "js/views/app_view.js",
     "line": "      this.el.innerHTML = '';",
-    "lineNumber": 43,
+    "lineNumber": 55,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Hard-coded string"
@@ -358,7 +334,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/app_view.js",
     "line": "      this.el.append(view.el);",
-    "lineNumber": 44,
+    "lineNumber": 56,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -367,7 +343,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/app_view.js",
     "line": "      this.debugLogView.$el.appendTo(this.el);",
-    "lineNumber": 50,
+    "lineNumber": 62,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -501,7 +477,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        let $el = this.$(`#${id}`);",
-    "lineNumber": 30,
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -510,7 +486,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        $el.prependTo(this.el);",
-    "lineNumber": 39,
+    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -519,7 +495,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 51,
+    "lineNumber": 56,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -528,7 +504,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 68,
+    "lineNumber": 73,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -537,7 +513,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 75,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -546,7 +522,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 90,
+    "lineNumber": 95,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -555,25 +531,25 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 94,
+    "lineNumber": 99,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "jQuery-$(",
+    "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
-    "line": "      // $(document).on('keydown', event => {",
-    "lineNumber": 153,
+    "line": "        toast.$el.appendTo(this.$el);",
+    "lineNumber": 105,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-04-03T00:43:09.315Z",
+    "updated": "2019-05-10T00:25:51.515Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 189,
+    "lineNumber": 125,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -582,7 +558,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 189,
+    "lineNumber": 125,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -591,7 +567,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 230,
+    "lineNumber": 166,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -600,7 +576,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 234,
+    "lineNumber": 170,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -609,7 +585,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 238,
+    "lineNumber": 174,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -618,7 +594,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 240,
+    "lineNumber": 176,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -627,7 +603,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 259,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -636,7 +612,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 262,
+    "lineNumber": 199,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -896,7 +872,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/message_view.js",
     "line": "      this.$el.append(this.childView.el);",
-    "lineNumber": 122,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1040,7 +1016,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          el: this.$('.audio-notification-setting'),",
-    "lineNumber": 97,
+    "lineNumber": 99,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1049,7 +1025,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.spell-check-setting'),",
-    "lineNumber": 104,
+    "lineNumber": 106,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1058,7 +1034,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          el: this.$('.menu-bar-setting'),",
-    "lineNumber": 111,
+    "lineNumber": 113,
     "reasonCategory": "usageTrusted",
     "updated": "2019-04-08T18:24:35.255Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1067,7 +1043,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-permissions'),",
-    "lineNumber": 118,
+    "lineNumber": 120,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1076,7 +1052,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 124,
+    "lineNumber": 126,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1085,7 +1061,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 124,
+    "lineNumber": 126,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1094,15 +1070,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 179,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "      this.$('.sync').attr('disabled', 'disabled');",
     "lineNumber": 183,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -1111,8 +1078,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
+    "line": "      this.$('.sync').attr('disabled', 'disabled');",
+    "lineNumber": 187,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-09-19T21:59:32.770Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 195,
+    "lineNumber": 199,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1121,7 +1097,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 200,
+    "lineNumber": 204,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1344,7 +1320,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/crypto.js",
     "line": "      const data = dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 205,
+    "lineNumber": 206,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1352,7 +1328,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/crypto.js",
     "line": "        return dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 219,
+    "lineNumber": 220,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1387,6 +1363,22 @@
     "lineNumber": 858,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/sendmessage.js",
+    "line": "  return dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();",
+    "lineNumber": 17,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T17:48:30.675Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/sendmessage.js",
+    "line": "  return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T17:48:30.675Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -1834,7 +1826,7 @@
     "lineNumber": 31,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "<optional>"
+    "reasonDetail": "It's usage of bluebird that's the problem, not bluebird itself with this rule"
   },
   {
     "rule": "thenify-multiArgs",
@@ -1906,7 +1898,7 @@
     "lineNumber": 3519,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "<optional>"
+    "reasonDetail": "Usage of bluebird is the problem with this rule, not bluebird itself"
   },
   {
     "rule": "thenify-multiArgs",
@@ -2518,143 +2510,105 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/core-js/build/index.js",
-    "line": "              if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
-    "lineNumber": 36,
+    "line": "            if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
+    "lineNumber": 43,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "node_modules/core-js/build/index.js",
     "line": "  function in$(x, xs){",
-    "lineNumber": 99,
+    "lineNumber": 93,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(tag);",
-    "lineNumber": 391,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
+    "lineNumber": 1082,
+    "reasonCategory": "falseMatch"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(wks(name));",
-    "lineNumber": 408,
+    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 1135,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/core.js",
-    "line": "\t      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "lineNumber": 3893,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/core.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 7226,
+    "lineNumber": 4496,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/core.min.js",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(tag);",
-    "lineNumber": 379,
+    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
+    "lineNumber": 1033,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(wks(name));",
-    "lineNumber": 396,
+    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 1086,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/library.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 6749,
+    "lineNumber": 4136,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/library.min.js",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(tag);",
-    "lineNumber": 377,
+    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
+    "lineNumber": 1068,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(wks(name));",
-    "lineNumber": 394,
+    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 1121,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/shim.js",
-    "line": "\t      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "lineNumber": 3879,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/client/shim.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 7212,
+    "lineNumber": 4482,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/client/shim.min.js",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(tag);",
+    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 142,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(wks(name));",
-    "lineNumber": 159,
+    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 195,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -2662,31 +2616,23 @@
     "line": "  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/modules/es6.regexp.split.js",
-    "line": "      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "lineNumber": 36,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-04-26T19:26:59.689Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(tag);",
+    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 142,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(wks(name));",
-    "lineNumber": 159,
+    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
+    "lineNumber": 195,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -2694,7 +2640,78 @@
     "line": "  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-04-26T19:26:59.689Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "function createNodesFromMarkup(markup, handleScript) {",
+    "lineNumber": 51,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
+    "lineNumber": 58,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = markup;",
+    "lineNumber": 65,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
+    "lineNumber": 70,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "module.exports = createNodesFromMarkup;",
+    "lineNumber": 81,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<link />';",
+    "lineNumber": 83,
+    "reasonCategory": "falseMatch"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
+    "lineNumber": 85,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
   },
   {
     "rule": "jQuery-prepend(",
@@ -2898,17 +2915,17 @@
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 2031,
+    "lineNumber": 2039,
     "reasonCategory": "falseMatch",
-    "updated": "2019-02-22T01:08:09.603Z"
+    "updated": "2019-05-28T20:54:46.198Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3433,
+    "lineNumber": 3443,
     "reasonCategory": "falseMatch",
-    "updated": "2019-02-22T01:08:09.603Z"
+    "updated": "2019-05-28T20:54:46.198Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -2975,108 +2992,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "It's setting the html of the element to the previous HTML, just with the emoji replaced"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/dist/emoji-panel.js",
-    "line": "\t  el.innerHTML = '';",
-    "lineNumber": 94,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/dist/emoji-panel.js",
-    "line": "\t  panelEl.innerHTML = _template2.default;",
-    "lineNumber": 154,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "In this file, _template2.default is a hardcoded string generated from emoji data"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/dist/example.js",
-    "line": "\t  codeEl.innerHTML = codeEl.innerHTML.replace(/dist\\/emoji-panel-.*-.*.min.css/g, newHref);",
-    "lineNumber": 67,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-panel/dist/example.js",
-    "line": "\t$('#example-4-btn').click(function (e) {",
-    "lineNumber": 101,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-panel/dist/example.js",
-    "line": "\t  $('#example-4').dialog({",
-    "lineNumber": 102,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/lib/emoji-panel.js",
-    "line": "\t  el.innerHTML = '';",
-    "lineNumber": 103,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/lib/emoji-panel.js",
-    "line": "\t  panelEl.innerHTML = _template2.default;",
-    "lineNumber": 163,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "In this file, _template2.default is a hardcoded string generated from emoji data"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/lib/example.js",
-    "line": "\t  codeEl.innerHTML = codeEl.innerHTML.replace(/dist\\/emoji-panel-.*-.*.min.css/g, newHref);",
-    "lineNumber": 76,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-panel/lib/example.js",
-    "line": "\t$('#example-4-btn').click(function (e) {",
-    "lineNumber": 110,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-panel/lib/example.js",
-    "line": "\t  $('#example-4').dialog({",
-    "lineNumber": 111,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/src/create-panel.js",
-    "line": "  panelEl.innerHTML = panelTemplate;",
-    "lineNumber": 7,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "In this file, panelTemplate is a hardcoded string generated from emoji data"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/emoji-panel/src/emoji-panel.js",
-    "line": "    el.innerHTML = '';",
-    "lineNumber": 25,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
   },
   {
     "rule": "thenify-multiArgs",
@@ -3177,143 +3092,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "nodeName is limited to set of safe tag names."
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/fbjs/node_modules/core-js/build/index.js",
-    "line": "            if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/fbjs/node_modules/core-js/build/index.js",
-    "line": "  function in$(x, xs){",
-    "lineNumber": 93,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1082,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/core.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1135,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/core.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4496,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1033,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/library.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1086,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/library.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4136,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1068,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/shim.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1121,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/client/shim.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4482,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 142,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 195,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/library/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 18,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 142,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/modules/es6.symbol.js",
-    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 195,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/fbjs/node_modules/core-js/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 18,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-load(",
@@ -5133,6 +4911,27 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/popper.js/dist/esm/popper.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/popper.js/dist/popper.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/popper.js/dist/umd/popper.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-26T19:18:14.550Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/progress-stream/node_modules/through2/test.js",
     "line": "  bufs.append(crypto.randomBytes(10))",
@@ -6250,5 +6049,30 @@
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to trigger menu display"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Timeline.js",
+    "line": "        this.listRef = react_1.default.createRef();",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-04-17T18:44:33.207Z",
+    "reasonDetail": "Necessary to interact with child react-virtualized/List"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "ts/shims/textsecure.js",
+    "line": "    wrap(textsecure.messaging.sendStickerPackSync([",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-05-02T20:44:56.470Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "ts/shims/textsecure.ts",
+    "line": "  wrap(",
+    "lineNumber": 60,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-05-02T20:44:56.470Z"
   }
 ]
