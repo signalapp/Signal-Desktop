@@ -67,7 +67,7 @@ const fetch = async (url, options = {}) => {
     }
 
     // Wrong PoW difficulty
-    if (response.status === 402) {
+    if (response.status === 432) {
       if (doEncryptChannel) {
         result = decryptResponse(response, address);
       } else {
