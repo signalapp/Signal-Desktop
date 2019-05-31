@@ -9,8 +9,8 @@ import { SmartTimeline } from '../smart/Timeline';
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 const FilteredTimeline = SmartTimeline as any;
 
-export const createTimeline = (store: Store) => (
+export const createTimeline = (store: Store, props: Object) => (
   <Provider store={store}>
-    <FilteredTimeline />
+    <FilteredTimeline {...props} />
   </Provider>
 );

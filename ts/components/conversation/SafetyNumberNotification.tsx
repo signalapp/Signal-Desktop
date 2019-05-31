@@ -1,5 +1,4 @@
 import React from 'react';
-// import classNames from 'classnames';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';

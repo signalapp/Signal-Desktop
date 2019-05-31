@@ -152,7 +152,7 @@
         silent: !status.shouldPlayNotificationSound,
       });
       this.lastNotification.onclick = () =>
-        this.trigger('click', last.conversationId, last.id);
+        this.trigger('click', last.conversationId, last.messageId);
 
       // We continue to build up more and more messages for our notifications
       // until the user comes back to our app or closes the app. Then we’ll

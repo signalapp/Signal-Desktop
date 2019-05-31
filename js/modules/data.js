@@ -121,9 +121,11 @@ module.exports = {
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
-  getMessagesByConversation,
   getNextTapToViewMessageToAgeOut,
   getTapToViewMessagesNeedingErase,
+  getOlderMessagesByConversation,
+  getNewerMessagesByConversation,
+  getMessageMetricsForConversation,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -779,16 +781,39 @@ async function getUnreadByConversation(conversationId, { MessageCollection }) {
   return new MessageCollection(messages);
 }
 
-async function getMessagesByConversation(
+async function getOlderMessagesByConversation(
   conversationId,
   { limit = 100, receivedAt = Number.MAX_VALUE, MessageCollection }
 ) {
-  const messages = await channels.getMessagesByConversation(conversationId, {
-    limit,
-    receivedAt,
-  });
+  const messages = await channels.getOlderMessagesByConversation(
+    conversationId,
+    {
+      limit,
+      receivedAt,
+    }
+  );
 
   return new MessageCollection(messages);
+}
+async function getNewerMessagesByConversation(
+  conversationId,
+  { limit = 100, receivedAt = 0, MessageCollection }
+) {
+  const messages = await channels.getNewerMessagesByConversation(
+    conversationId,
+    {
+      limit,
+      receivedAt,
+    }
+  );
+
+  return new MessageCollection(messages);
+}
+async function getMessageMetricsForConversation(conversationId) {
+  const result = await channels.getMessageMetricsForConversation(
+    conversationId
+  );
+  return result;
 }
 
 async function removeAllMessagesInConversation(
@@ -800,7 +825,7 @@ async function removeAllMessagesInConversation(
     // Yes, we really want the await in the loop. We're deleting 100 at a
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
-    messages = await getMessagesByConversation(conversationId, {
+    messages = await getOlderMessagesByConversation(conversationId, {
       limit: 100,
       MessageCollection,
     });

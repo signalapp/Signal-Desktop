@@ -1,7 +1,8 @@
 /* global
   $,
   _,
-  ConversationController
+  ConversationController,
+  MessageController,
   extension,
   i18n,
   Signal,
@@ -23,6 +24,13 @@
     getAbsoluteTempPath,
     deleteTempFile,
   } = window.Signal.Migrations;
+  const {
+    getOlderMessagesByConversation,
+    getMessageMetricsForConversation,
+    getMessageById,
+    getMessagesBySentAt,
+    getNewerMessagesByConversation,
+  } = window.Signal.Data;
 
   Whisper.ExpiredToast = Whisper.ToastView.extend({
     render_attributes() {
@@ -91,14 +99,19 @@
       };
     },
     initialize(options) {
+      // Events on Conversation model
       this.listenTo(this.model, 'destroy', this.stopListening);
       this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'backgrounded', this.resetEmojiResults);
-      this.listenTo(this.model, 'prune', this.onPrune);
-      this.listenTo(this.model, 'unload', () => this.unload('model trigger'));
-      this.listenTo(this.model, 'typing-update', this.renderTypingBubble);
+      this.listenTo(this.model, 'scroll-to-message', this.scrollToMessage);
+      this.listenTo(this.model, 'unload', reason =>
+        this.unload(`model trigger - ${reason}`)
+      );
+
+      // Events on Message models - we still listen to these here because they
+      //   can be emitted by the non-reduxified MessageDetail pane
       this.listenTo(
         this.model.messageCollection,
         'show-identity',
@@ -106,34 +119,10 @@
       );
       this.listenTo(this.model.messageCollection, 'force-send', this.forceSend);
       this.listenTo(this.model.messageCollection, 'delete', this.deleteMessage);
-      this.listenTo(this.model.messageCollection, 'height-changed', () =>
-        this.view.scrollToBottomIfNeeded()
-      );
       this.listenTo(
         this.model.messageCollection,
-        'scroll-to-message',
-        this.scrollToMessage
-      );
-      this.listenTo(
-        this.model.messageCollection,
-        'reply',
-        this.setQuoteMessage
-      );
-      this.listenTo(this.model.messageCollection, 'retry', this.retrySend);
-      this.listenTo(
-        this.model.messageCollection,
-        'show-contact-detail',
-        this.showContactDetail
-      );
-      this.listenTo(
-        this.model.messageCollection,
-        'show-lightbox',
+        'show-visual-attachment',
         this.showLightbox
-      );
-      this.listenTo(
-        this.model.messageCollection,
-        'download',
-        this.downloadAttachment
       );
       this.listenTo(
         this.model.messageCollection,
@@ -142,23 +131,13 @@
       );
       this.listenTo(
         this.model.messageCollection,
-        'open-conversation',
-        this.openConversation
+        'navigate-to',
+        this.navigateTo
       );
-      this.listenTo(
-        this.model.messageCollection,
-        'show-message-detail',
-        this.showMessageDetail
-      );
-      this.listenTo(this.model.messageCollection, 'navigate-to', url => {
-        window.location = url;
-      });
       this.listenTo(
         this.model.messageCollection,
         'download-new-version',
-        () => {
-          window.location = 'https://signal.org/download';
-        }
+        this.downloadNewVersion
       );
 
       this.lazyUpdateVerified = _.debounce(
@@ -193,37 +172,21 @@
         this.onChooseAttachment
       );
       this.listenTo(this.fileInput, 'staged-attachments-changed', () => {
-        this.view.restoreBottomOffset();
         this.toggleMicrophone();
         if (this.fileInput.hasFiles()) {
           this.removeLinkPreview();
         }
       });
 
-      this.view = new Whisper.MessageListView({
-        collection: this.model.messageCollection,
-        window: this.window,
-      });
-      this.$('.discussion-container').append(this.view.el);
-      this.view.render();
-
-      this.onFocus = () => {
-        if (this.$el.css('display') !== 'none') {
-          this.markRead();
-        }
-      };
-      this.window.addEventListener('focus', this.onFocus);
-
       extension.windows.onClosed(() => {
         this.unload('windows closed');
       });
-
-      this.fetchMessages();
 
       this.$('.send-message').focus(this.focusBottomBar.bind(this));
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
       this.setupHeader();
+      this.setupTimeline();
       this.setupCompositionArea({ attachmentListEl: attachmentListEl[0] });
     },
 
@@ -232,15 +195,8 @@
       'click .composition-area-placeholder': 'onClickPlaceholder',
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
-      'click .module-scroll-down': 'scrollToBottom',
       'focus .send-message': 'focusBottomBar',
       'blur .send-message': 'unfocusBottomBar',
-      'loadMore .message-list': 'loadMoreMessages',
-      'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
-      'atBottom .message-list': 'removeScrollDownButton',
-      'farFromBottom .message-list': 'addScrollDownButton',
-      'lazyScroll .message-list': 'onLazyScroll',
-
       'click button.paperclip': 'onChooseAttachment',
       'change input.file-input': 'onChoseAttachment',
 
@@ -342,7 +298,6 @@
         onSubmit: message => this.sendMessage(message),
         onEditorStateChange: (msg, caretLocation) =>
           this.onEditorStateChange(msg, caretLocation),
-        onEditorSizeChange: rect => this.onEditorSizeChange(rect),
         micCellEl,
         attCellEl,
         attachmentListEl,
@@ -357,6 +312,387 @@
       this.$('.composition-area-placeholder').append(
         this.compositionAreaView.el
       );
+    },
+
+    setupTimeline() {
+      const { id } = this.model;
+
+      const replyToMessage = messageId => {
+        this.setQuoteMessage(messageId);
+      };
+      const retrySend = messageId => {
+        this.retrySend(messageId);
+      };
+      const deleteMessage = messageId => {
+        this.deleteMessage(messageId);
+      };
+      const showMessageDetail = messageId => {
+        this.showMessageDetail(messageId);
+      };
+      const openConversation = (conversationId, messageId) => {
+        this.openConversation(conversationId, messageId);
+      };
+      const showContactDetail = options => {
+        this.showContactDetail(options);
+      };
+      const showVisualAttachment = options => {
+        this.showLightbox(options);
+      };
+      const downloadAttachment = options => {
+        this.downloadAttachment(options);
+      };
+      const displayTapToViewMessage = messageId =>
+        this.displayTapToViewMessage(messageId);
+      const showIdentity = conversationId => {
+        this.showSafetyNumber(conversationId);
+      };
+      const openLink = url => {
+        this.navigateTo(url);
+      };
+      const downloadNewVersion = () => {
+        this.downloadNewVersion();
+      };
+      const scrollToQuotedMessage = async options => {
+        const { author, sentAt } = options;
+
+        const conversationId = this.model.id;
+        const messages = await getMessagesBySentAt(sentAt, {
+          MessageCollection: Whisper.MessageCollection,
+        });
+        const message = messages.find(
+          item =>
+            item.get('conversationId') === conversationId &&
+            item.getSource() === author
+        );
+
+        if (!message) {
+          const toast = new Whisper.OriginalNotFoundToast();
+          toast.$el.appendTo(this.$el);
+          toast.render();
+          return;
+        }
+
+        this.scrollToMessage(message.id);
+      };
+
+      const loadOlderMessages = async oldestMessageId => {
+        const {
+          messagesAdded,
+          setMessagesLoading,
+        } = window.reduxActions.conversations;
+        const conversationId = this.model.id;
+
+        setMessagesLoading(conversationId, true);
+        const finish = this.setInProgressFetch();
+
+        try {
+          const message = await getMessageById(oldestMessageId, {
+            Message: Whisper.Message,
+          });
+          if (!message) {
+            throw new Error(
+              `loadOlderMessages: failed to load message ${oldestMessageId}`
+            );
+          }
+
+          const receivedAt = message.get('received_at');
+          const models = await getOlderMessagesByConversation(conversationId, {
+            receivedAt,
+            limit: 500,
+            MessageCollection: Whisper.MessageCollection,
+          });
+
+          if (models.length < 1) {
+            window.log.warn(
+              'loadOlderMessages: requested, but loaded no messages'
+            );
+            return;
+          }
+
+          const cleaned = await this.cleanModels(models);
+          this.model.messageCollection.add(cleaned);
+
+          const isNewMessage = false;
+          messagesAdded(
+            id,
+            models.map(model => model.getReduxData()),
+            isNewMessage,
+            document.hasFocus()
+          );
+        } catch (error) {
+          setMessagesLoading(conversationId, true);
+          throw error;
+        } finally {
+          finish();
+        }
+      };
+      const loadNewerMessages = async newestMessageId => {
+        const {
+          messagesAdded,
+          setMessagesLoading,
+        } = window.reduxActions.conversations;
+        const conversationId = this.model.id;
+
+        setMessagesLoading(conversationId, true);
+        const finish = this.setInProgressFetch();
+
+        try {
+          const message = await getMessageById(newestMessageId, {
+            Message: Whisper.Message,
+          });
+          if (!message) {
+            throw new Error(
+              `loadNewerMessages: failed to load message ${newestMessageId}`
+            );
+          }
+
+          const receivedAt = message.get('received_at');
+          const models = await getNewerMessagesByConversation(this.model.id, {
+            receivedAt,
+            limit: 500,
+            MessageCollection: Whisper.MessageCollection,
+          });
+
+          if (models.length < 1) {
+            window.log.warn(
+              'loadNewerMessages: requested, but loaded no messages'
+            );
+            return;
+          }
+
+          const cleaned = await this.cleanModels(models);
+          this.model.messageCollection.add(cleaned);
+
+          const isNewMessage = false;
+          messagesAdded(
+            id,
+            models.map(model => model.getReduxData()),
+            isNewMessage,
+            document.hasFocus()
+          );
+        } catch (error) {
+          setMessagesLoading(conversationId, false);
+          throw error;
+        } finally {
+          finish();
+        }
+      };
+      const markMessageRead = async messageId => {
+        if (!document.hasFocus()) {
+          return;
+        }
+
+        const message = await getMessageById(messageId, {
+          Message: Whisper.Message,
+        });
+        if (!message) {
+          throw new Error(
+            `markMessageRead: failed to load message ${messageId}`
+          );
+        }
+
+        await this.model.markRead(message.get('received_at'));
+      };
+
+      this.timelineView = new Whisper.ReactWrapperView({
+        className: 'timeline-wrapper',
+        JSX: Signal.State.Roots.createTimeline(window.reduxStore, {
+          id,
+
+          deleteMessage,
+          displayTapToViewMessage,
+          downloadAttachment,
+          downloadNewVersion,
+          loadNewerMessages,
+          loadNewestMessages: this.loadNewestMessages.bind(this),
+          loadAndScroll: this.loadAndScroll.bind(this),
+          loadOlderMessages,
+          markMessageRead,
+          openConversation,
+          openLink,
+          replyToMessage,
+          retrySend,
+          scrollToQuotedMessage,
+          showContactDetail,
+          showIdentity,
+          showMessageDetail,
+          showVisualAttachment,
+        }),
+      });
+
+      this.$('.timeline-placeholder').append(this.timelineView.el);
+    },
+
+    async cleanModels(collection) {
+      const result = collection
+        .filter(message => Boolean(message.id))
+        .map(message => MessageController.register(message.id, message));
+
+      const eliminated = collection.length - result.length;
+      if (eliminated > 0) {
+        window.log.warn(
+          `cleanModels: Eliminated ${eliminated} messages without an id`
+        );
+      }
+
+      for (let max = result.length, i = 0; i < max; i += 1) {
+        const message = result[i];
+        const { attributes } = message;
+        const { schemaVersion } = attributes;
+
+        if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
+          // Yep, we really do want to wait for each of these
+          // eslint-disable-next-line no-await-in-loop
+          const upgradedMessage = await upgradeMessageSchema(attributes);
+          message.set(upgradedMessage);
+          // eslint-disable-next-line no-await-in-loop
+          await window.Signal.Data.saveMessage(upgradedMessage, {
+            Message: Whisper.Message,
+          });
+        }
+      }
+
+      return result;
+    },
+
+    async scrollToMessage(messageId) {
+      const message = await getMessageById(messageId, {
+        Message: Whisper.Message,
+      });
+      if (!message) {
+        throw new Error(`scrollToMessage: failed to load message ${messageId}`);
+      }
+
+      if (this.model.messageCollection.get(messageId)) {
+        const { scrollToMessage } = window.reduxActions.conversations;
+        scrollToMessage(this.model.id, messageId);
+        return;
+      }
+
+      this.loadAndScroll(messageId);
+    },
+
+    setInProgressFetch() {
+      let resolvePromise;
+      this.model.inProgressFetch = new Promise(resolve => {
+        resolvePromise = resolve;
+      });
+
+      const finish = () => {
+        resolvePromise();
+        this.model.inProgressFinish = null;
+      };
+
+      return finish;
+    },
+
+    async loadAndScroll(messageId, options) {
+      const { disableScroll } = options || {};
+      const {
+        messagesReset,
+        setMessagesLoading,
+      } = window.reduxActions.conversations;
+      const conversationId = this.model.id;
+
+      setMessagesLoading(conversationId, true);
+      const finish = this.setInProgressFetch();
+
+      try {
+        const message = await getMessageById(messageId, {
+          Message: Whisper.Message,
+        });
+        if (!message) {
+          throw new Error(
+            `loadMoreAndScroll: failed to load message ${messageId}`
+          );
+        }
+
+        const receivedAt = message.get('received_at');
+        const older = await getOlderMessagesByConversation(conversationId, {
+          limit: 250,
+          receivedAt,
+          MessageCollection: Whisper.MessageCollection,
+        });
+        const newer = await getNewerMessagesByConversation(conversationId, {
+          limit: 250,
+          receivedAt,
+          MessageCollection: Whisper.MessageCollection,
+        });
+        const metrics = await getMessageMetricsForConversation(conversationId);
+
+        const all = [...older.models, message, ...newer.models];
+
+        const cleaned = await this.cleanModels(all);
+        this.model.messageCollection.reset(cleaned);
+
+        messagesReset(
+          conversationId,
+          cleaned.map(model => model.getReduxData()),
+          metrics,
+          disableScroll ? undefined : messageId
+        );
+      } catch (error) {
+        setMessagesLoading(conversationId, false);
+        throw error;
+      } finally {
+        finish();
+      }
+    },
+
+    async loadNewestMessages(newestMessageId) {
+      const {
+        messagesReset,
+        setMessagesLoading,
+      } = window.reduxActions.conversations;
+      const conversationId = this.model.id;
+
+      setMessagesLoading(conversationId, true);
+      const finish = this.setInProgressFetch();
+
+      try {
+        let scrollToLatestUnread = true;
+
+        if (newestMessageId) {
+          const message = await getMessageById(newestMessageId, {
+            Message: Whisper.Message,
+          });
+          if (!message) {
+            window.log.warn(
+              `loadNewestMessages: did not find message ${newestMessageId}`
+            );
+          }
+
+          // If newest in-memory message is unread, scrolling down would mean going to
+          //   the very bottom, not the oldest unread.
+          scrollToLatestUnread = !message.isUnread();
+        }
+
+        const metrics = await getMessageMetricsForConversation(conversationId);
+
+        if (scrollToLatestUnread && metrics.oldestUnread) {
+          this.loadAndScroll(metrics.oldestUnread.id, { disableScroll: true });
+          return;
+        }
+
+        const messages = await getOlderMessagesByConversation(conversationId, {
+          limit: 500,
+          MessageCollection: Whisper.MessageCollection,
+        });
+
+        const cleaned = await this.cleanModels(messages);
+        this.model.messageCollection.reset(cleaned);
+
+        messagesReset(
+          conversationId,
+          cleaned.map(model => model.getReduxData()),
+          metrics
+        );
+      } catch (error) {
+        setMessagesLoading(conversationId, false);
+        throw error;
+      } finally {
+        finish();
+      }
     },
 
     // We need this, or clicking the reactified buttons will submit the form and send any
@@ -400,19 +736,6 @@
       this.fileInput.onPaste(e);
     },
 
-    onPrune() {
-      if (!this.model.messageCollection.length || !this.lastActivity) {
-        return;
-      }
-
-      const oneHourAgo = Date.now() - 60 * 60 * 1000;
-      if (this.isHidden() && this.lastActivity < oneHourAgo) {
-        this.unload('inactivity');
-      } else if (this.view.atBottom()) {
-        this.trim();
-      }
-    },
-
     unload(reason) {
       window.log.info(
         'unloading conversation',
@@ -421,16 +744,21 @@
         reason
       );
 
+      const { conversationUnloaded } = window.reduxActions.conversations;
+      if (conversationUnloaded) {
+        conversationUnloaded(this.model.id);
+      }
+
       this.fileInput.remove();
       this.titleView.remove();
+      this.timelineView.remove();
+
       if (this.stickerButtonView) {
         this.stickerButtonView.remove();
       }
-
       if (this.stickerPreviewModalView) {
         this.stickerPreviewModalView.remove();
       }
-
       if (this.captureAudioView) {
         this.captureAudioView.remove();
       }
@@ -461,45 +789,17 @@
 
       this.window.removeEventListener('focus', this.onFocus);
 
-      this.view.remove();
-
       this.remove();
 
-      this.model.messageCollection.forEach(model => {
-        model.trigger('unload');
-      });
       this.model.messageCollection.reset([]);
     },
 
-    trim() {
-      const MAX = 100;
-      const toRemove = this.model.messageCollection.length - MAX;
-      if (toRemove <= 0) {
-        return;
-      }
+    navigateTo(url) {
+      window.location = url;
+    },
 
-      const models = [];
-      for (let i = 0; i < toRemove; i += 1) {
-        const model = this.model.messageCollection.at(i);
-        models.push(model);
-      }
-
-      if (!models.length) {
-        return;
-      }
-
-      window.log.info(
-        'trimming conversation',
-        this.model.idForLogging(),
-        'of',
-        models.length,
-        'old messages'
-      );
-
-      this.model.messageCollection.remove(models);
-      _.forEach(models, model => {
-        model.trigger('unload');
-      });
+    downloadNewVersion() {
+      window.location = 'https://signal.org/download';
     },
 
     markAllAsVerifiedDefault(unverified) {
@@ -520,7 +820,7 @@
 
     openSafetyNumberScreens(unverified) {
       if (unverified.length === 1) {
-        this.showSafetyNumber(unverified.at(0));
+        this.showSafetyNumber(unverified.at(0).id);
         return;
       }
 
@@ -561,43 +861,6 @@
       } else if (this.banner) {
         this.banner.remove();
         this.banner = null;
-      }
-    },
-
-    renderTypingBubble() {
-      const timers = this.model.contactTypingTimers || {};
-      const records = _.values(timers);
-      const mostRecent = _.first(_.sortBy(records, 'timestamp'));
-
-      if (!mostRecent && this.typingBubbleView) {
-        this.typingBubbleView.remove();
-        this.typingBubbleView = null;
-      }
-      if (!mostRecent) {
-        return;
-      }
-
-      const { sender } = mostRecent;
-      const contact = ConversationController.getOrCreate(sender, 'private');
-      const props = {
-        ...contact.format(),
-        conversationType: this.model.isPrivate() ? 'direct' : 'group',
-      };
-
-      if (this.typingBubbleView) {
-        this.typingBubbleView.update(props);
-        return;
-      }
-
-      this.typingBubbleView = new Whisper.ReactWrapperView({
-        className: 'message-wrapper typing-bubble-wrapper',
-        Component: Signal.Components.TypingBubble,
-        props,
-      });
-      this.typingBubbleView.$el.appendTo(this.$('.typing-container'));
-
-      if (this.view.atBottom()) {
-        this.typingBubbleView.el.scrollIntoView();
       }
     },
 
@@ -657,40 +920,11 @@
       this.$('.bottom-bar form').addClass('active');
     },
 
-    onLazyScroll() {
-      // The in-progress fetch check is important, because while that happens, lots
-      //   of messages are added to the DOM, one by one, changing window size and
-      //   generating scroll events.
-      if (!this.isHidden() && window.isFocused() && !this.inProgressFetch) {
-        this.lastActivity = Date.now();
-        this.markRead();
-      }
-    },
-    updateUnread() {
-      this.resetLastSeenIndicator();
-      // Waiting for scrolling caused by resetLastSeenIndicator to settle down
-      setTimeout(this.markRead.bind(this), 1);
-    },
-
-    onLoaded() {
-      const view = this.loadingScreen;
-      if (view) {
-        const openDelta = Date.now() - this.openStart;
-        window.log.info(
-          'Conversation',
-          this.model.idForLogging(),
-          'took',
-          openDelta,
-          'milliseconds to load'
-        );
-        this.loadingScreen = null;
-        view.remove();
-      }
-    },
-
-    onOpened() {
+    async onOpened(messageId) {
       this.openStart = Date.now();
       this.lastActivity = Date.now();
+
+      this.focusMessageField();
 
       this.model.updateLastMessage();
 
@@ -705,61 +939,20 @@
         })
       );
 
-      // We schedule our catch-up decrypt right after any in-progress fetch of
-      //   messages from the database, then ensure that the loading screen is only
-      //   dismissed when that is complete.
-      const messagesLoaded = this.inProgressFetch || Promise.resolve();
+      if (messageId) {
+        const message = await getMessageById(messageId, {
+          Message: Whisper.Message,
+        });
 
-      // eslint-disable-next-line more/no-then
-      messagesLoaded.then(this.onLoaded.bind(this), this.onLoaded.bind(this));
+        if (message) {
+          this.loadAndScroll(messageId);
+          return;
+        }
 
-      this.view.resetScrollPosition();
-      this.focusMessageField();
-      this.renderTypingBubble();
-
-      if (this.inProgressFetch) {
-        // eslint-disable-next-line more/no-then
-        this.inProgressFetch.then(this.updateUnread.bind(this));
-      } else {
-        this.updateUnread();
+        window.log.warn(`onOpened: Did not find message ${messageId}`);
       }
-    },
 
-    addScrollDownButtonWithCount() {
-      this.updateScrollDownButton(1);
-    },
-
-    addScrollDownButton() {
-      if (!this.scrollDownButton) {
-        this.updateScrollDownButton();
-      }
-    },
-
-    updateScrollDownButton(count) {
-      if (this.scrollDownButton) {
-        this.scrollDownButton.increment(count);
-      } else {
-        this.scrollDownButton = new Whisper.ScrollDownButtonView({ count });
-        this.scrollDownButton.render();
-        const container = this.$('.discussion-container');
-        container.append(this.scrollDownButton.el);
-      }
-    },
-
-    removeScrollDownButton() {
-      if (this.scrollDownButton) {
-        const button = this.scrollDownButton;
-        this.scrollDownButton = null;
-        button.remove();
-      }
-    },
-
-    removeLastSeenIndicator() {
-      if (this.lastSeenIndicator) {
-        const indicator = this.lastSeenIndicator;
-        this.lastSeenIndicator = null;
-        indicator.remove();
-      }
+      this.loadNewestMessages();
     },
 
     async retrySend(messageId) {
@@ -768,77 +961,6 @@
         throw new Error(`retrySend: Did not find message for id ${messageId}`);
       }
       await message.retrySend();
-    },
-
-    async scrollToMessage(options = {}) {
-      const { author, sentAt, referencedMessageNotFound } = options;
-
-      // For simplicity's sake, we show the 'not found' toast no matter what if we were
-      //   not able to find the referenced message when the quote was received.
-      if (referencedMessageNotFound) {
-        const toast = new Whisper.OriginalNotFoundToast();
-        toast.$el.appendTo(this.$el);
-        toast.render();
-        return;
-      }
-
-      // Look for message in memory first, which would tell us if we could scroll to it
-      const targetMessage = this.model.messageCollection.find(item => {
-        const messageAuthor = item.getContact();
-
-        if (!messageAuthor || author !== messageAuthor.id) {
-          return false;
-        }
-        if (sentAt !== item.get('sent_at')) {
-          return false;
-        }
-
-        return true;
-      });
-
-      // If there's no message already in memory, we won't be scrolling. So we'll gather
-      //   some more information then show an informative toast to the user.
-      if (!targetMessage) {
-        const collection = await window.Signal.Data.getMessagesBySentAt(
-          sentAt,
-          {
-            MessageCollection: Whisper.MessageCollection,
-          }
-        );
-
-        const found = Boolean(
-          collection.find(item => {
-            const messageAuthor = item.getContact();
-            return messageAuthor && author === messageAuthor.id;
-          })
-        );
-
-        if (found) {
-          const toast = new Whisper.FoundButNotLoadedToast();
-          toast.$el.appendTo(this.$el);
-          toast.render();
-        } else {
-          const toast = new Whisper.OriginalNoLongerAvailableToast();
-          toast.$el.appendTo(this.$el);
-          toast.render();
-        }
-        return;
-      }
-
-      const databaseId = targetMessage.id;
-      const el = this.$(`#${databaseId}`);
-      if (!el || el.length === 0) {
-        const toast = new Whisper.OriginalNoLongerAvailableToast();
-        toast.$el.appendTo(this.$el);
-        toast.render();
-
-        window.log.info(
-          `Error: had target message ${targetMessage.idForLogging()} in messageCollection, but it was not in DOM`
-        );
-        return;
-      }
-
-      el[0].scrollIntoView();
     },
 
     async showAllMedia() {
@@ -990,67 +1112,6 @@
       this.listenBack(view);
     },
 
-    scrollToBottom() {
-      // If we're above the last seen indicator, we should scroll there instead
-      // Note: if we don't end up at the bottom of the conversation, button won't go away!
-      if (this.lastSeenIndicator) {
-        const location = this.lastSeenIndicator.$el.position().top;
-        if (location > 0) {
-          this.lastSeenIndicator.el.scrollIntoView();
-          return;
-        }
-        this.removeLastSeenIndicator();
-      }
-      this.view.scrollToBottom();
-    },
-
-    resetLastSeenIndicator(options = {}) {
-      _.defaults(options, { scroll: true });
-
-      let unreadCount = 0;
-      let oldestUnread = null;
-
-      // We need to iterate here because unseen non-messages do not contribute to
-      //   the badge number, but should be reflected in the indicator's count.
-      this.model.messageCollection.forEach(model => {
-        if (!model.get('unread')) {
-          return;
-        }
-
-        unreadCount += 1;
-        if (!oldestUnread) {
-          oldestUnread = model;
-        }
-      });
-
-      this.removeLastSeenIndicator();
-
-      if (oldestUnread) {
-        this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({
-          count: unreadCount,
-        });
-        const lastSeenEl = this.lastSeenIndicator.render().$el;
-
-        lastSeenEl.insertBefore(this.$(`#${oldestUnread.get('id')}`));
-
-        if (this.view.atBottom() || options.scroll) {
-          lastSeenEl[0].scrollIntoView();
-        }
-
-        // scrollIntoView is an async operation, but we have no way to listen for
-        //   completion of the resultant scroll.
-        setTimeout(() => {
-          if (!this.view.atBottom()) {
-            this.addScrollDownButtonWithCount(unreadCount);
-          }
-        }, 1);
-      } else if (this.view.atBottom()) {
-        // If we already thought we were at the bottom, then ensure that's the case.
-        //   Attempting to account for unpredictable completion of message rendering.
-        setTimeout(() => this.view.scrollToBottom(), 1);
-      }
-    },
-
     focusMessageField() {
       if (this.panels && this.panels.length) {
         return;
@@ -1080,63 +1141,7 @@
       this.compositionApi.current.resetEmojiResults(false);
     },
 
-    async loadMoreMessages() {
-      if (this.inProgressFetch) {
-        return;
-      }
-
-      this.view.measureScrollPosition();
-      const startingHeight = this.view.scrollHeight;
-
-      await this.fetchMessages();
-      // We delay this work to let scrolling/layout settle down first
-      setTimeout(() => {
-        this.view.measureScrollPosition();
-        const endingHeight = this.view.scrollHeight;
-        const delta = endingHeight - startingHeight;
-        const height = this.view.outerHeight;
-
-        const newScrollPosition = this.view.scrollPosition + delta - height;
-        this.view.$el.scrollTop(newScrollPosition);
-      }, 1);
-    },
-    fetchMessages() {
-      window.log.info('fetchMessages');
-      this.$('.bar-container').show();
-      if (this.inProgressFetch) {
-        window.log.warn('Multiple fetchMessage calls!');
-      }
-
-      // Avoiding await, since we want to capture the promise and make it available via
-      //   this.inProgressFetch
-      // eslint-disable-next-line more/no-then
-      this.inProgressFetch = this.model
-        .fetchContacts()
-        .then(() => this.model.fetchMessages())
-        .then(async () => {
-          this.$('.bar-container').hide();
-          await Promise.all(
-            this.model.messageCollection.where({ unread: 1 }).map(async m => {
-              const latest = await window.Signal.Data.getMessageById(m.id, {
-                Message: Whisper.Message,
-              });
-              m.merge(latest);
-            })
-          );
-          this.inProgressFetch = null;
-        })
-        .catch(error => {
-          window.log.error(
-            'fetchMessages error:',
-            error && error.stack ? error.stack : error
-          );
-          this.inProgressFetch = null;
-        });
-
-      return this.inProgressFetch;
-    },
-
-    addMessage(message) {
+    async addMessage(message) {
       // This is debounced, so it won't hit the database too often.
       this.lazyUpdateVerified();
 
@@ -1144,109 +1149,6 @@
       //   anything in it unless it has an associated view. This is so, when we
       //   fetch on open, it's clean.
       this.model.addSingleMessage(message);
-
-      if (message.isOutgoing()) {
-        this.removeLastSeenIndicator();
-      }
-      if (this.lastSeenIndicator) {
-        this.lastSeenIndicator.increment(1);
-      }
-
-      if (!this.isHidden() && !window.isFocused()) {
-        // The conversation is visible, but window is not focused
-        if (!this.lastSeenIndicator) {
-          this.resetLastSeenIndicator({ scroll: false });
-        } else if (
-          this.view.atBottom() &&
-          this.model.get('unreadCount') === this.lastSeenIndicator.getCount()
-        ) {
-          // The count check ensures that the last seen indicator is still in
-          //   sync with the real number of unread, so we can scroll to it.
-          //   We only do this if we're at the bottom, because that signals that
-          //   the user is okay with us changing scroll around so they see the
-          //   right unseen message first.
-          this.resetLastSeenIndicator({ scroll: true });
-        }
-      } else if (!this.isHidden() && window.isFocused()) {
-        // The conversation is visible and in focus
-        this.markRead();
-
-        // When we're scrolled up and we don't already have a last seen indicator
-        //   we add a new one.
-        if (!this.view.atBottom() && !this.lastSeenIndicator) {
-          this.resetLastSeenIndicator({ scroll: false });
-        }
-      }
-    },
-
-    onClick() {
-      // If there are sub-panels open, we don't want to respond to clicks
-      if (!this.panels || !this.panels.length) {
-        this.markRead();
-      }
-    },
-
-    findNewestVisibleUnread() {
-      const collection = this.model.messageCollection;
-      const { length } = collection;
-      const viewportBottom = this.view.outerHeight;
-      const unreadCount = this.model.get('unreadCount') || 0;
-
-      // Start with the most recent message, search backwards in time
-      let foundUnread = 0;
-      for (let i = length - 1; i >= 0; i -= 1) {
-        // Search the latest 30, then stop if we believe we've covered all known
-        //   unread messages. The unread should be relatively recent.
-        // Why? local notifications can be unread but won't be reflected the
-        //   conversation's unread count.
-        if (i > 30 && foundUnread >= unreadCount) {
-          return null;
-        }
-
-        const message = collection.at(i);
-        if (!message.get('unread')) {
-          // eslint-disable-next-line no-continue
-          continue;
-        }
-
-        foundUnread += 1;
-
-        const el = this.$(`#${message.id}`);
-        const position = el.position();
-        const { top } = position;
-
-        // We're fully below the viewport, continue searching up.
-        if (top > viewportBottom) {
-          // eslint-disable-next-line no-continue
-          continue;
-        }
-
-        // If the bottom fits on screen, we'll call it visible. Even if the
-        //   message is really tall.
-        const height = el.height();
-        const bottom = top + height;
-        if (bottom <= viewportBottom) {
-          return message;
-        }
-
-        // Continue searching up.
-      }
-
-      return null;
-    },
-
-    markRead() {
-      let unread;
-
-      if (this.view.atBottom()) {
-        unread = this.model.messageCollection.last();
-      } else {
-        unread = this.findNewestVisibleUnread();
-      }
-
-      if (unread) {
-        this.model.markRead(unread.get('received_at'));
-      }
     },
 
     async showMembers(e, providedMembers, options = {}) {
@@ -1671,8 +1573,8 @@
       try {
         await this.confirm(i18n('deleteConversationConfirmation'));
         try {
-          await this.model.destroyMessages();
           this.unload('delete messages');
+          await this.model.destroyMessages();
           this.model.updateLastMessage();
         } catch (error) {
           window.log.error(
@@ -1800,7 +1702,6 @@
         this.quoteView = null;
       }
       if (!this.quotedMessage) {
-        this.view.restoreBottomOffset();
         return;
       }
 
@@ -1813,7 +1714,9 @@
 
       const props = message.getPropsForQuote();
 
-      this.listenTo(message, 'scroll-to-message', this.scrollToMessage);
+      this.listenTo(message, 'scroll-to-message', () => {
+        this.scrollToMessage(message.quotedMessage.id);
+      });
 
       const contact = this.quotedMessage.getContact();
       if (contact) {
@@ -1831,9 +1734,6 @@
             this.setQuoteMessage(null);
           },
         }),
-        onInitialRender: () => {
-          this.view.restoreBottomOffset();
-        },
       });
     },
 
@@ -1863,7 +1763,6 @@
         return;
       }
 
-      this.removeLastSeenIndicator();
       this.model.clearTypingTimers();
 
       let toast;
@@ -1923,10 +1822,6 @@
     onEditorStateChange(messageText, caretLocation) {
       this.maybeBumpTyping(messageText);
       this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
-    },
-
-    onEditorSizeChange() {
-      this.view.scrollToBottomIfNeeded();
     },
 
     maybeGrabLinkPreview(message, caretLocation) {
@@ -2260,7 +2155,6 @@
         this.previewView = null;
       }
       if (!this.currentlyMatchedLink) {
-        this.view.restoreBottomOffset();
         return;
       }
 
@@ -2281,9 +2175,6 @@
         elCallback: el =>
           this.$(this.compositionApi.current.attSlotRef.current).prepend(el),
         props,
-        onInitialRender: () => {
-          this.view.restoreBottomOffset();
-        },
       });
     },
 
@@ -2316,13 +2207,6 @@
       if (messageText.length) {
         this.model.throttledBumpTyping();
       }
-    },
-
-    isHidden() {
-      return (
-        this.$el.css('display') === 'none' ||
-        this.$('.panel').css('display') === 'none'
-      );
     },
   });
 })();

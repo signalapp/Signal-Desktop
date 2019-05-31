@@ -23,7 +23,7 @@ export type PropsData = {
   unreadCount: number;
   isSelected: boolean;
 
-  isTyping: boolean;
+  typingContact?: Object;
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
@@ -134,8 +134,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderMessage() {
-    const { lastMessage, isTyping, unreadCount, i18n } = this.props;
-    if (!lastMessage && !isTyping) {
+    const { lastMessage, typingContact, unreadCount, i18n } = this.props;
+    if (!lastMessage && !typingContact) {
       return null;
     }
     const text = lastMessage && lastMessage.text ? lastMessage.text : '';
@@ -150,15 +150,22 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {isTyping ? (
+          {typingContact ? (
             <TypingAnimation i18n={i18n} />
           ) : (
-            <MessageBody
-              text={text}
-              disableJumbomoji={true}
-              disableLinks={true}
-              i18n={i18n}
-            />
+            <>
+              {shouldShowDraft ? (
+                <span className="module-conversation-list-item__message__draft-prefix">
+                  {i18n('ConversationListItem--draft-prefix')}
+                </span>
+              ) : null}
+              <MessageBody
+                text={text}
+                disableJumbomoji={true}
+                disableLinks={true}
+                i18n={i18n}
+              />
+            </>
           )}
         </div>
         {lastMessage && lastMessage.status ? (

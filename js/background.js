@@ -476,6 +476,12 @@
     const initialState = {
       conversations: {
         conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
+        messagesByConversation: {},
+        messagesLookup: {},
+        selectedConversation: null,
+        selectedMessage: null,
+        selectedMessageCounter: 0,
+        showArchived: false,
       },
       emojis: Signal.Emojis.getInitialState(),
       items: storage.getItemsState(),

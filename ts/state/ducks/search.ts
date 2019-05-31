@@ -1,18 +1,14 @@
-import { AnyAction } from 'redux';
 import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
 import { trigger } from '../../shims/events';
-// import { getMessageModel } from '../../shims/Whisper';
-// import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import {
-  searchConversations /*, searchMessages */,
-} from '../../../js/modules/data';
+import { cleanSearchTerm } from '../../util/cleanSearchTerm';
+import { searchConversations, searchMessages } from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
 
 import {
   ConversationType,
-  MessageExpiredActionType,
+  MessageDeletedActionType,
   MessageSearchResultType,
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
@@ -64,11 +60,10 @@ type ClearSearchActionType = {
 };
 
 export type SEARCH_TYPES =
-  | AnyAction
   | SearchResultsFulfilledActionType
   | UpdateSearchTermActionType
   | ClearSearchActionType
-  | MessageExpiredActionType
+  | MessageDeletedActionType
   | RemoveAllConversationsActionType
   | SelectedConversationChangedActionType;
 
@@ -101,9 +96,9 @@ async function doSearch(
 ): Promise<SearchResultsPayloadType> {
   const { regionCode, ourNumber, noteToSelf } = options;
 
-  const [discussions /*, messages */] = await Promise.all([
+  const [discussions, messages] = await Promise.all([
     queryConversationsAndContacts(query, { ourNumber, noteToSelf }),
-    // queryMessages(query),
+    queryMessages(query),
   ]);
   const { conversations, contacts } = discussions;
 
@@ -112,7 +107,7 @@ async function doSearch(
     normalizedPhoneNumber: normalize(query, { regionCode }),
     conversations,
     contacts,
-    messages: [], // getMessageProps(messages) || [],
+    messages,
   };
 }
 function clearSearch(): ClearSearchActionType {
@@ -146,29 +141,15 @@ function startNewConversation(
   };
 }
 
-// Helper functions for search
+async function queryMessages(query: string) {
+  try {
+    const normalized = cleanSearchTerm(query);
 
-// const getMessageProps = (messages: Array<MessageSearchResultType>) => {
-//   if (!messages || !messages.length) {
-//     return [];
-//   }
-
-//   return messages.map(message => {
-//     const model = getMessageModel(message);
-
-//     return model.propsForSearchResult;
-//   });
-// };
-
-// async function queryMessages(query: string) {
-//   try {
-//     const normalized = cleanSearchTerm(query);
-
-//     return searchMessages(normalized);
-//   } catch (e) {
-//     return [];
-//   }
-// }
+    return searchMessages(normalized);
+  } catch (e) {
+    return [];
+  }
+}
 
 async function queryConversationsAndContacts(
   providedQuery: string,
@@ -271,7 +252,7 @@ export function reducer(
     };
   }
 
-  if (action.type === 'MESSAGE_EXPIRED') {
+  if (action.type === 'MESSAGE_DELETED') {
     const { messages, messageLookup } = state;
     if (!messages.length) {
       return state;

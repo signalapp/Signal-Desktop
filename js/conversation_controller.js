@@ -18,7 +18,6 @@
         'add remove change:unreadCount',
         _.debounce(this.updateUnreadCount.bind(this), 1000)
       );
-      this.startPruning();
     },
     addActive(model) {
       if (model.get('active_at')) {
@@ -43,14 +42,6 @@
         window.document.title = window.getTitle();
       }
       window.updateTrayIcon(newUnreadCount);
-    },
-    startPruning() {
-      const halfHour = 30 * 60 * 1000;
-      this.interval = setInterval(() => {
-        this.forEach(conversation => {
-          conversation.trigger('prune');
-        });
-      }, halfHour);
     },
   }))();
 

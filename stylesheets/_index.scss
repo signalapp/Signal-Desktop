@@ -81,15 +81,6 @@
   height: 100%;
 }
 
-.conversation-stack {
-  .conversation {
-    display: none;
-  }
-  .conversation:first-child {
-    display: block;
-  }
-}
-
 .tool-bar {
   color: $color-light-90;
 

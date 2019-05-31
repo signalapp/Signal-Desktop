@@ -8,6 +8,22 @@
 
 // Module: Message
 
+// Note: this does the same thing as module-timeline__message-container but
+//   can be used outside tht Timeline contact more easily.
+.module-message-container {
+  width: 100%;
+  margin-top: 10px;
+
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
+
 .module-message {
   position: relative;
   display: inline-flex;
@@ -39,13 +55,17 @@
 
 // Spec: container < 438px
 .module-message--incoming {
-  margin-left: 0;
+  margin-left: 16px;
   margin-right: 32px;
 }
 .module-message--outgoing {
   float: right;
-  margin-right: 0;
+  margin-right: 16px;
   margin-left: 32px;
+}
+
+.module-message--incoming.module-message--group {
+  margin-left: 44px;
 }
 
 .module-message__buttons {
@@ -163,6 +183,37 @@
 
 .module-message__container--outgoing {
   background-color: $color-light-10;
+}
+
+.module-message__container__selection {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  border-radius: 16px;
+
+  background-color: $color-black;
+  opacity: 0;
+
+  animation: message--selected 1s ease-in-out;
+}
+
+@keyframes message--selected {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 // In case the color gets messed up
@@ -704,10 +755,10 @@
 
 .module-message__metadata__status-icon--sending {
   @include color-svg('../images/sending.svg', $color-gray-60);
-  animation: module-message__metdata__status-icon--spinning 4s linear infinite;
+  animation: module-message__metadata__status-icon--spinning 4s linear infinite;
 }
 
-@keyframes module-message__metdata__status-icon--spinning {
+@keyframes module-message__metadata__status-icon--spinning {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
@@ -842,6 +893,9 @@
 }
 
 .module-quote {
+  // To leave room for image thumbnail
+  min-height: 54px;
+
   position: relative;
   border-radius: 4px;
   border-top-left-radius: 10px;
@@ -1286,6 +1340,8 @@
 
 .module-group-notification {
   margin-top: 14px;
+  margin-left: 1em;
+  margin-right: 1em;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
@@ -2420,6 +2476,13 @@
   background-color: $color-black-02;
 }
 
+.module-image__border-overlay--selected {
+  background-color: $color-black;
+  opacity: 0;
+
+  animation: message--selected 1s ease-in-out;
+}
+
 .module-image__loading-placeholder {
   display: inline-flex;
   flex-direction: row;
@@ -2999,9 +3062,16 @@
 // In these --small and --mini sizes, we're exploding our @color-svg mixin so we don't
 //   have to duplicate our background colors for the dark/ios/size matrix.
 
+.module-spinner__container--small {
+  height: 24px;
+  width: 24px;
+}
+
 .module-spinner__circle--small {
   -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+  height: 24px;
+  width: 24px;
 }
 .module-spinner__arc--small {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
@@ -3023,6 +3093,8 @@
 .module-spinner__arc--mini {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+  height: 14px;
+  width: 14px;
 }
 
 .module-spinner__circle--incoming {
@@ -3030,6 +3102,13 @@
 }
 .module-spinner__arc--incoming {
   background-color: $color-white;
+}
+
+.module-spinner__circle--on-background {
+  background-color: $color-gray-05;
+}
+.module-spinner__arc--on-background {
+  background-color: $color-gray-60;
 }
 
 // Module: Highlighted Message Body
@@ -3306,10 +3385,31 @@
   font-size: 13px;
 }
 
+// Module: Timeline Loading Row
+
+.module-timeline-loading-row {
+  height: 48px;
+  padding: 12px;
+
+  display: flex;
+  flex-direction: columns;
+  justify-content: center;
+  align-items: center;
+
+  @include light-theme {
+    color: $color-gray-75;
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
 // Module: Timeline
 
 .module-timeline {
   height: 100%;
+  overflow: hidden;
 }
 
 .module-timeline__message-container {
@@ -4686,13 +4786,35 @@
 
 .module-countdown {
   display: block;
-  width: 100%;
+  width: 24px;
+  height: 24px;
 }
 
-.module-countdown__path {
+// Note: the colors here should match the module-spinner's on-background colors
+.module-countdown__front-path {
   fill-opacity: 0;
-  stroke: $color-white;
   stroke-width: 2;
+
+  @include light-theme {
+    stroke: $color-gray-60;
+  }
+
+  @include dark-theme {
+    stroke: $color-gray-25;
+  }
+}
+
+.module-countdown__back-path {
+  fill-opacity: 0;
+  stroke-width: 2;
+
+  @include light-theme {
+    stroke: $color-gray-05;
+  }
+
+  @include dark-theme {
+    stroke: $color-gray-75;
+  }
 }
 
 // Module: CompositionInput
@@ -4913,6 +5035,70 @@
   }
 }
 
+// Module: Last Seen Indicator
+
+.module-last-seen-indicator {
+  padding-top: 25px;
+  padding-bottom: 35px;
+  margin-left: 28px;
+  margin-right: 28px;
+}
+
+.module-last-seen-indicator__bar {
+  background-color: $color-light-60;
+  width: 100%;
+  height: 4px;
+}
+
+.module-last-seen-indicator__text {
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+
+  text-align: center;
+  color: $color-light-90;
+}
+
+// Module: Scroll Down Button
+
+.module-scroll-down {
+  z-index: 100;
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+}
+
+.module-scroll-down__button {
+  height: 44px;
+  width: 44px;
+  border-radius: 22px;
+  text-align: center;
+  background-color: $color-light-35;
+  border: none;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+  outline: none;
+
+  &:hover {
+    background-color: $color-light-45;
+  }
+}
+
+.module-scroll-down__button--new-messages {
+  background-color: $color-signal-blue;
+
+  &:hover {
+    background-color: #1472bd;
+  }
+}
+
+.module-scroll-down__icon {
+  @include color-svg('../images/down.svg', $color-white);
+  height: 100%;
+  width: 100%;
+}
+
 // Third-party module: react-contextmenu
 
 .react-contextmenu {
@@ -5016,11 +5202,9 @@
 
   // Spec: container < 438px
   .module-message--incoming {
-    margin-left: 0;
     margin-right: auto;
   }
   .module-message--outgoing {
-    margin-right: 0;
     margin-left: auto;
   }
 
@@ -5051,11 +5235,9 @@
   }
 
   .module-message--incoming {
-    margin-left: 0;
     margin-right: auto;
   }
   .module-message--outgoing {
-    margin-right: 0;
     margin-left: auto;
   }
 

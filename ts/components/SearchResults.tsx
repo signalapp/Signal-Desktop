@@ -3,10 +3,7 @@ import {
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
 } from './ConversationListItem';
-import {
-  MessageSearchResult,
-  PropsData as MessageSearchResultPropsType,
-} from './MessageSearchResult';
+import { MessageSearchResult } from './MessageSearchResult';
 import { StartNewConversation } from './StartNewConversation';
 
 import { LocalizerType } from '../types/Util';

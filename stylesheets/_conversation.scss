@@ -32,7 +32,7 @@
     }
 
     @include dark-theme() {
-      background-color: $color-black;
+      background-color: $color-gray-95;
     }
   }
 
@@ -66,24 +66,21 @@
   }
 
   .main.panel {
-    .discussion-container {
+    .timeline-placeholder {
       flex-grow: 1;
       position: relative;
       max-width: 100%;
       margin: 0;
+      margin-bottom: 10px;
 
-      .bar-container {
-        height: 5px;
-      }
-
-      .message-list {
+      .timeline-wrapper {
         -webkit-padding-start: 0px;
         position: absolute;
         top: 0;
         height: 100%;
         width: 100%;
         margin: 0;
-        padding: 10px 0 0 0;
+        padding: 0;
         overflow-y: auto;
         overflow-x: hidden;
       }
@@ -177,38 +174,6 @@
   }
 }
 
-.message-container,
-.message-list {
-  list-style: none;
-
-  .message-wrapper {
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
-  li {
-    margin-bottom: 10px;
-
-    &::after {
-      visibility: hidden;
-      display: block;
-      font-size: 0;
-      content: ' ';
-      clear: both;
-      height: 0;
-    }
-  }
-}
-
-.group {
-  .message-container,
-  .message-list {
-    .message-wrapper {
-      margin-left: 44px;
-    }
-  }
-}
-
 .typing-bubble-wrapper {
   margin-bottom: 20px;
 }
@@ -278,31 +243,6 @@
 
           @include color-svg('../images/play.svg', white);
         }
-      }
-    }
-  }
-
-  .attachment-previews {
-    padding: 0 36px;
-    margin-bottom: 3px;
-
-    .attachment-preview {
-      padding: 13px 10px 0;
-    }
-    img {
-      border: 2px solid #ddd;
-      border-radius: $border-radius;
-      max-height: 100px;
-    }
-
-    .close {
-      position: absolute;
-      top: 5px;
-      right: 2px;
-      background: #999;
-
-      &:hover {
-        background: $grey;
       }
     }
   }
@@ -461,64 +401,4 @@
       animation: loading 1500ms ease infinite 666ms;
     }
   }
-}
-
-.module-last-seen-indicator {
-  padding-top: 25px;
-  padding-bottom: 35px;
-  margin-left: 28px;
-  margin-right: 28px;
-}
-
-.module-last-seen-indicator__bar {
-  background-color: $color-light-60;
-  width: 100%;
-  height: 4px;
-}
-
-.module-last-seen-indicator__text {
-  margin-top: 3px;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-
-  text-align: center;
-  color: $color-light-90;
-}
-
-.module-scroll-down {
-  z-index: 100;
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-}
-
-.module-scroll-down__button {
-  height: 44px;
-  width: 44px;
-  border-radius: 22px;
-  text-align: center;
-  background-color: $color-light-35;
-  border: none;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-  outline: none;
-
-  &:hover {
-    background-color: $color-light-45;
-  }
-}
-
-.module-scroll-down__button--new-messages {
-  background-color: $color-signal-blue;
-
-  &:hover {
-    background-color: #1472bd;
-  }
-}
-
-.module-scroll-down__icon {
-  @include color-svg('../images/down.svg', $color-white);
-  height: 100%;
-  width: 100%;
 }

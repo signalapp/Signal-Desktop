@@ -1,5 +1,6 @@
 import { compact } from 'lodash';
 import { createSelector } from 'reselect';
+import { getSearchResultsProps } from '../../shims/Whisper';
 
 import { StateType } from '../reducer';
 
@@ -79,14 +80,16 @@ export const getSearchResults = createSelector(
       ),
       hideMessagesHeader: false,
       messages: state.messages.map(message => {
+        const props = getSearchResultsProps(message);
+
         if (message.id === selectedMessage) {
           return {
-            ...message,
+            ...props,
             isSelected: true,
           };
         }
 
-        return message;
+        return props;
       }),
       regionCode: regionCode,
       searchTerm: state.query,

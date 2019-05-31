@@ -4,7 +4,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -18,8 +18,8 @@
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -34,7 +34,7 @@
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -42,7 +42,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -56,8 +56,8 @@
         authorProfileName: 'OnFire',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -72,8 +72,8 @@
         authorProfileName: 'OnFire',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -88,8 +88,8 @@
         authorName: 'Mr. Fire',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -105,7 +105,7 @@
         authorName: 'Mr. Fire',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -113,7 +113,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -126,8 +126,8 @@
         authorName: 'Mr. 🔥Fire🔥',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -141,7 +141,7 @@
         authorName: 'Mr. 🔥Fire🔥',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -149,7 +149,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -163,8 +163,8 @@
         isFromMe: true,
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -179,7 +179,7 @@
         isFromMe: true,
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -187,7 +187,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} type="group" ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -203,8 +203,8 @@
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -221,7 +221,7 @@
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -232,7 +232,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -246,8 +246,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -262,8 +262,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -277,8 +277,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -293,8 +293,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -308,8 +308,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -324,8 +324,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -339,8 +339,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -355,8 +355,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -370,8 +370,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -386,8 +386,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -401,8 +401,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -417,8 +417,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -432,8 +432,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -448,8 +448,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -463,8 +463,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -479,8 +479,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -494,8 +494,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -510,8 +510,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -525,8 +525,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -541,8 +541,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -556,8 +556,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -572,8 +572,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -587,8 +587,8 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -603,7 +603,7 @@ messages the color is taken from the contact who wrote the quoted message.
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -611,7 +611,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -626,8 +626,8 @@ messages the color is taken from the contact who wrote the quoted message.
         referencedMessageNotFound: true,
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -643,8 +643,8 @@ messages the color is taken from the contact who wrote the quoted message.
         referencedMessageNotFound: true,
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -661,8 +661,8 @@ messages the color is taken from the contact who wrote the quoted message.
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -680,15 +680,15 @@ messages the color is taken from the contact who wrote the quoted message.
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Long names and context
 
 ```jsx
-<util.ConversationContext theme={util.theme} type="group" ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -704,8 +704,8 @@ messages the color is taken from the contact who wrote the quoted message.
           'Really really really really really really really really really long!',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -722,7 +722,7 @@ messages the color is taken from the contact who wrote the quoted message.
           'Really really really really really really really really really long!',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -730,7 +730,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -747,8 +747,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -766,7 +766,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -774,7 +774,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -795,8 +795,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -818,7 +818,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -826,7 +826,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -851,8 +851,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -878,7 +878,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -886,7 +886,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -907,8 +907,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -930,7 +930,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -938,7 +938,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -958,8 +958,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -980,7 +980,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -988,7 +988,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1004,8 +1004,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1023,7 +1023,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1031,7 +1031,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1047,8 +1047,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1066,7 +1066,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1074,7 +1074,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1095,8 +1095,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1118,7 +1118,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1126,7 +1126,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1146,8 +1146,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1168,7 +1168,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1176,7 +1176,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1195,8 +1195,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1216,7 +1216,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1224,7 +1224,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1241,8 +1241,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1260,7 +1260,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1268,7 +1268,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1284,8 +1284,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1302,7 +1302,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1310,7 +1310,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1329,8 +1329,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1348,7 +1348,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1356,7 +1356,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1373,8 +1373,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1392,8 +1392,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1411,8 +1411,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1431,7 +1431,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1439,7 +1439,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1455,8 +1455,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1473,7 +1473,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1483,7 +1483,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1503,8 +1503,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1525,7 +1525,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1533,7 +1533,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1552,8 +1552,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1573,7 +1573,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1581,7 +1581,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1600,8 +1600,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1621,7 +1621,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1629,7 +1629,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1653,8 +1653,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1679,7 +1679,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1687,7 +1687,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1704,8 +1704,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1723,7 +1723,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1731,7 +1731,7 @@ messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1749,8 +1749,8 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1769,7 +1769,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 

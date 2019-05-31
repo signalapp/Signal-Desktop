@@ -28,51 +28,25 @@ const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
-const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
-const {
-  EmbeddedContact,
-} = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
-const {
-  GroupNotification,
-} = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
-const { Message } = require('../../ts/components/conversation/Message');
-const { MessageBody } = require('../../ts/components/conversation/MessageBody');
 const {
   MessageDetail,
 } = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
 const {
-  ResetSessionNotification,
-} = require('../../ts/components/conversation/ResetSessionNotification');
-const {
-  SafetyNumberNotification,
-} = require('../../ts/components/conversation/SafetyNumberNotification');
-const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
-const {
-  TimerNotification,
-} = require('../../ts/components/conversation/TimerNotification');
-const {
-  TypingBubble,
-} = require('../../ts/components/conversation/TypingBubble');
-const {
-  UnsupportedMessage,
-} = require('../../ts/components/conversation/UnsupportedMessage');
-const {
-  VerificationNotification,
-} = require('../../ts/components/conversation/VerificationNotification');
 
 // State
+const { createTimeline } = require('../../ts/state/roots/createTimeline');
 const {
   createCompositionArea,
 } = require('../../ts/state/roots/createCompositionArea');
@@ -264,33 +238,23 @@ exports.setup = (options = {}) => {
     CaptionEditor,
     ContactDetail,
     ContactListItem,
-    ContactName,
     ConversationHeader,
-    EmbeddedContact,
     Emojify,
-    GroupNotification,
     Lightbox,
     LightboxGallery,
     MediaGallery,
-    Message,
-    MessageBody,
     MessageDetail,
     Quote,
-    ResetSessionNotification,
-    SafetyNumberNotification,
     StagedLinkPreview,
-    TimerNotification,
     Types: {
       Message: MediaGalleryMessage,
     },
-    TypingBubble,
-    UnsupportedMessage,
-    VerificationNotification,
   };
 
   const Roots = {
     createCompositionArea,
     createLeftPane,
+    createTimeline,
     createStickerManager,
     createStickerPreviewModal,
   };

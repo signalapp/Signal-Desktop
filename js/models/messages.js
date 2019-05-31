@@ -100,69 +100,67 @@
       this.on('expired', this.onExpired);
       this.setToExpire();
 
-      this.on('change', this.generateProps);
+      this.on('change', this.notifyRedux);
+    },
 
-      const applicableConversationChanges =
-        'change:color change:name change:number change:profileName change:profileAvatar';
+    notifyRedux() {
+      const { messageChanged } = window.reduxActions.conversations;
 
-      const conversation = this.getConversation();
-      const fromContact = this.getIncomingContact();
-
-      this.listenTo(
-        conversation,
-        applicableConversationChanges,
-        this.generateProps
-      );
-      if (fromContact) {
-        this.listenTo(
-          fromContact,
-          applicableConversationChanges,
-          this.generateProps
-        );
+      if (messageChanged) {
+        const conversationId = this.get('conversationId');
+        // Note: The clone is important for triggering a re-run of selectors
+        messageChanged(this.id, conversationId, _.clone(this.attributes));
       }
+    },
 
-      this.generateProps();
+    getReduxData() {
+      const contact = this.getPropsForEmbeddedContact();
+
+      return {
+        ...this.attributes,
+        // We need this in the reducer to detect if the message's height has changed
+        hasSignalAccount: contact ? Boolean(contact.signalAccount) : null,
+      };
     },
 
     // Top-level prop generation for the message bubble
-    generateProps() {
+    getPropsForBubble() {
       if (this.isUnsupportedMessage()) {
-        this.props = {
+        return {
           type: 'unsupportedMessage',
           data: this.getPropsForUnsupportedMessage(),
         };
       } else if (this.isExpirationTimerUpdate()) {
-        this.props = {
+        return {
           type: 'timerNotification',
           data: this.getPropsForTimerNotification(),
         };
       } else if (this.isKeyChange()) {
-        this.props = {
+        return {
           type: 'safetyNumberNotification',
           data: this.getPropsForSafetyNumberNotification(),
         };
       } else if (this.isVerifiedChange()) {
-        this.props = {
+        return {
           type: 'verificationNotification',
           data: this.getPropsForVerificationNotification(),
         };
       } else if (this.isGroupUpdate()) {
-        this.props = {
+        return {
           type: 'groupNotification',
           data: this.getPropsForGroupNotification(),
         };
       } else if (this.isEndSession()) {
-        this.props = {
+        return {
           type: 'resetSessionNotification',
           data: this.getPropsForResetSessionNotification(),
         };
-      } else {
-        this.propsForSearchResult = this.getPropsForSearchResult();
-        this.props = {
-          type: 'message',
-          data: this.getPropsForMessage(),
-        };
       }
+
+      return {
+        type: 'message',
+        data: this.getPropsForMessage(),
+      };
     },
 
     // Other top-level prop-generation
@@ -269,6 +267,21 @@
           disableScroll: true,
           // To ensure that group avatar doesn't show up
           conversationType: 'direct',
+          downloadNewVersion: () => {
+            this.trigger('download-new-version');
+          },
+          deleteMessage: messageId => {
+            this.trigger('delete', messageId);
+          },
+          showVisualAttachment: options => {
+            this.trigger('show-visual-attachment', options);
+          },
+          displayTapToViewMessage: messageId => {
+            this.trigger('display-tap-to-view-message', messageId);
+          },
+          openLink: url => {
+            this.trigger('navigate-to', url);
+          },
         },
         errors,
         contacts: sortedContacts,
@@ -290,7 +303,7 @@
       const flag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
       // eslint-disable-next-line no-bitwise
-      return !!(this.get('flags') & flag);
+      return Boolean(this.get('flags') & flag);
     },
     isKeyChange() {
       return this.get('type') === 'keychange';
@@ -353,12 +366,10 @@
       const conversation = this.getConversation();
       const isGroup = conversation && !conversation.isPrivate();
       const phoneNumber = this.get('key_changed');
-      const showIdentity = id => this.trigger('show-identity', id);
 
       return {
         isGroup,
         contact: this.findAndFormatContact(phoneNumber),
-        showIdentity,
       };
     },
     getPropsForVerificationNotification() {
@@ -498,28 +509,6 @@
         isTapToViewExpired: isTapToView && this.get('isErased'),
         isTapToViewError:
           isTapToView && this.isIncoming() && this.get('isTapToViewInvalid'),
-
-        replyToMessage: id => this.trigger('reply', id),
-        retrySend: id => this.trigger('retry', id),
-        deleteMessage: id => this.trigger('delete', id),
-        showMessageDetail: id => this.trigger('show-message-detail', id),
-
-        openConversation: conversationId =>
-          this.trigger('open-conversation', conversationId),
-        showContactDetail: contactOptions =>
-          this.trigger('show-contact-detail', contactOptions),
-
-        showVisualAttachment: lightboxOptions =>
-          this.trigger('show-lightbox', lightboxOptions),
-        downloadAttachment: downloadOptions =>
-          this.trigger('download', downloadOptions),
-        displayTapToViewMessage: messageId =>
-          this.trigger('display-tap-to-view-message', messageId),
-
-        openLink: url => this.trigger('navigate-to', url),
-        downloadNewVersion: () => this.trigger('download-new-version'),
-        scrollToMessage: scrollOptions =>
-          this.trigger('scroll-to-message', scrollOptions),
       };
     },
 
@@ -692,6 +681,7 @@
         authorName,
         authorColor,
         referencedMessageNotFound,
+        onClick: () => this.trigger('scroll-to-message'),
       };
     },
     getStatus(number) {
@@ -851,6 +841,8 @@
       this.cleanup();
     },
     async cleanup() {
+      const { messageDeleted } = window.reduxActions.conversations;
+      messageDeleted(this.id, this.get('conversationId'));
       MessageController.unregister(this.id);
       this.unload();
       await this.deleteData();
@@ -2192,75 +2184,6 @@
       }
 
       return (left.get('received_at') || 0) - (right.get('received_at') || 0);
-    },
-    initialize(models, options) {
-      if (options) {
-        this.conversation = options.conversation;
-      }
-    },
-    async destroyAll() {
-      await Promise.all(
-        this.models.map(message =>
-          window.Signal.Data.removeMessage(message.id, {
-            Message: Whisper.Message,
-          })
-        )
-      );
-      this.reset([]);
-    },
-
-    getLoadedUnreadCount() {
-      return this.reduce((total, model) => {
-        const unread = model.get('unread') && model.isIncoming();
-        return total + (unread ? 1 : 0);
-      }, 0);
-    },
-
-    async fetchConversation(conversationId, limit = 100, unreadCount = 0) {
-      const startingLoadedUnread =
-        unreadCount > 0 ? this.getLoadedUnreadCount() : 0;
-
-      // We look for older messages if we've fetched once already
-      const receivedAt =
-        this.length === 0 ? Number.MAX_VALUE : this.at(0).get('received_at');
-
-      const messages = await window.Signal.Data.getMessagesByConversation(
-        conversationId,
-        {
-          limit,
-          receivedAt,
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
-
-      const models = messages
-        .filter(message => Boolean(message.id))
-        .map(message => MessageController.register(message.id, message));
-      const eliminated = messages.length - models.length;
-      if (eliminated > 0) {
-        window.log.warn(
-          `fetchConversation: Eliminated ${eliminated} messages without an id`
-        );
-      }
-
-      this.add(models);
-
-      if (unreadCount <= 0) {
-        return;
-      }
-      const loadedUnread = this.getLoadedUnreadCount();
-      if (loadedUnread >= unreadCount) {
-        return;
-      }
-      if (startingLoadedUnread === loadedUnread) {
-        // that fetch didn't get us any more unread. stop fetching more.
-        return;
-      }
-
-      window.log.info(
-        'fetchConversation: doing another fetch to get all unread'
-      );
-      await this.fetchConversation(conversationId, limit, unreadCount);
     },
   });
 })();

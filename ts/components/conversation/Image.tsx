@@ -15,6 +15,7 @@ interface Props {
 
   overlayText?: string;
 
+  isSelected?: boolean;
   noBorder?: boolean;
   noBackground?: boolean;
   bottomOverlay?: boolean;
@@ -51,6 +52,7 @@ export class Image extends React.Component<Props> {
       darkOverlay,
       height,
       i18n,
+      isSelected,
       noBackground,
       noBorder,
       onClick,
@@ -118,7 +120,7 @@ export class Image extends React.Component<Props> {
             alt={i18n('imageCaptionIconAlt')}
           />
         ) : null}
-        {!noBorder ? (
+        {!noBorder || isSelected ? (
           <div
             className={classNames(
               'module-image__border-overlay',
@@ -128,7 +130,8 @@ export class Image extends React.Component<Props> {
               curveBottomRight ? 'module-image--curved-bottom-right' : null,
               smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
               softCorners ? 'module-image--soft-corners' : null,
-              darkOverlay ? 'module-image__border-overlay--dark' : null
+              darkOverlay ? 'module-image__border-overlay--dark' : null,
+              isSelected ? 'module-image__border-overlay--selected' : null
             )}
           />
         ) : null}

@@ -1509,6 +1509,13 @@ body.dark-theme {
     background-color: $color-gray-05;
   }
 
+  .module-spinner__circle--on-background {
+    background-color: $color-gray-75;
+  }
+  .module-spinner__arc--on-background {
+    background-color: $color-gray-25;
+  }
+
   // Module: Caption Editor
 
   .module-caption-editor {

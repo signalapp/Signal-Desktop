@@ -14,6 +14,10 @@ import { SmartMainHeader } from './MainHeader';
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 const FilteredSmartMainHeader = SmartMainHeader as any;
 
+function renderMainHeader(): JSX.Element {
+  return <FilteredSmartMainHeader />;
+}
+
 const mapStateToProps = (state: StateType) => {
   const showSearch = isSearching(state);
 
@@ -25,7 +29,7 @@ const mapStateToProps = (state: StateType) => {
     searchResults,
     showArchived: getShowArchived(state),
     i18n: getIntl(state),
-    renderMainHeader: () => <FilteredSmartMainHeader />,
+    renderMainHeader,
   };
 };
 

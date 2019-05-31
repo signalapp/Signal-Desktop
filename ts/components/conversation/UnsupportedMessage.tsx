@@ -18,12 +18,12 @@ export type PropsData = {
   contact: ContactType;
 };
 
-type PropsHousekeeping = {
-  i18n: LocalizerType;
-};
-
 export type PropsActions = {
   downloadNewVersion: () => unknown;
+};
+
+type PropsHousekeeping = {
+  i18n: LocalizerType;
 };
 
 type Props = PropsData & PropsHousekeeping & PropsActions;

@@ -2,7 +2,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -13,8 +13,8 @@
       expirationLength={10 * 1000}
       expirationTimestamp={Date.now() + 10 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       status="delivered"
@@ -25,8 +25,8 @@
       expirationLength={30 * 1000}
       expirationTimestamp={Date.now() + 30 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -37,8 +37,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 55 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -49,7 +49,7 @@
       expirationLength={5 * 60 * 1000}
       expirationTimestamp={Date.now() + 5 * 60 * 1000}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -57,7 +57,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="incoming"
@@ -67,8 +67,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 60 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -79,8 +79,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 60 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="incoming"
@@ -90,8 +90,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 55 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -102,8 +102,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 55 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="incoming"
@@ -113,8 +113,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 30 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -125,8 +125,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 30 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="incoming"
@@ -136,8 +136,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 5 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -148,8 +148,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 5 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="incoming"
@@ -159,8 +159,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now()}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -171,8 +171,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now()}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="incoming"
@@ -182,8 +182,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 120 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -194,8 +194,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() + 120 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="incoming"
@@ -205,8 +205,8 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() - 20 * 1000}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="blue"
       direction="outgoing"
@@ -217,6 +217,6 @@
       expirationLength={60 * 1000}
       expirationTimestamp={Date.now() - 20 * 1000}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```

@@ -19,7 +19,7 @@ function getDecember1159() {
 }
 
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -28,8 +28,8 @@ function getDecember1159() {
       text="500ms ago - all below 1 minute are 'now'"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -38,8 +38,8 @@ function getDecember1159() {
       text="Five seconds ago"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -48,8 +48,8 @@ function getDecember1159() {
       text="30 seconds ago"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -58,8 +58,8 @@ function getDecember1159() {
       text="One minute ago - in minutes"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -68,8 +68,8 @@ function getDecember1159() {
       text="30 minutes ago"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -78,8 +78,8 @@ function getDecember1159() {
       text="45 minutes ago (used to round up to 1 hour with moment)"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -88,8 +88,8 @@ function getDecember1159() {
       text="One hour ago - in hours"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -98,8 +98,8 @@ function getDecember1159() {
       text="12:01am today"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -108,8 +108,8 @@ function getDecember1159() {
       text="11:59pm yesterday - adds day name"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -118,8 +118,8 @@ function getDecember1159() {
       text="24 hours ago"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -128,8 +128,8 @@ function getDecember1159() {
       text="Two days ago"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -138,8 +138,8 @@ function getDecember1159() {
       text="Seven days ago - adds month"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -148,8 +148,8 @@ function getDecember1159() {
       text="Thirty days ago"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -158,8 +158,8 @@ function getDecember1159() {
       text="January 1st at 12:01am"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -168,8 +168,8 @@ function getDecember1159() {
       text="December 31st at 11:59pm - adds year"
       i18n={util.i18n}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       status="delivered"
@@ -178,6 +178,6 @@ function getDecember1159() {
       text="One year ago"
       i18n={util.i18n}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```

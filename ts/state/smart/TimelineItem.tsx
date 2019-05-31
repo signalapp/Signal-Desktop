@@ -14,9 +14,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id } = props;
 
   const messageSelector = getMessageSelector(state);
+  const item = messageSelector(id);
 
   return {
-    ...messageSelector(id),
+    item,
     i18n: getIntl(state),
   };
 };

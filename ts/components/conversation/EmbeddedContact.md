@@ -23,7 +23,7 @@ const contact = {
   signalAccount: '+12025550000',
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -31,8 +31,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -41,8 +41,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -51,8 +51,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -62,7 +62,7 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -89,7 +89,7 @@ const contact = {
   signalAccount: '+12025550000',
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -97,8 +97,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -107,7 +107,7 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -131,15 +131,15 @@ const contact = {
   },
 };
 <util.ConversationContext theme={util.theme}  ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
     authorColor="green"
     direction="incoming"
     i18n={util.i18n}
     timestamp={Date.now()}
     contact={contact}/>
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
   <Message
     authorColor="green"
     direction="outgoing"
@@ -147,7 +147,7 @@ const contact = {
     i18n={util.i18n}
     timestamp={Date.now()}
     contact={contact}/>
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -171,8 +171,8 @@ const contact = {
   },
   signalAccount: '+12025550000',
 };
-<util.ConversationContext theme={util.theme} type="group" ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       conversationType="group"
@@ -183,8 +183,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -195,8 +195,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -207,7 +207,7 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -231,7 +231,7 @@ const contact = {
   },
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -239,8 +239,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -249,8 +249,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -259,8 +259,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -270,7 +270,7 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -292,7 +292,7 @@ const contact = {
   },
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -300,8 +300,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -310,8 +310,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -320,8 +320,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -331,7 +331,7 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -356,7 +356,7 @@ const contact = {
   signalAccount: '+12025551000',
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -364,8 +364,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -374,8 +374,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -384,8 +384,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -395,7 +395,7 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -414,7 +414,7 @@ const contact = {
   ],
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -422,8 +422,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -432,8 +432,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -442,8 +442,8 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -453,7 +453,7 @@ const contact = {
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -462,7 +462,7 @@ const contact = {
 ```jsx
 const contact = {};
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -470,8 +470,8 @@ const contact = {};
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -480,8 +480,8 @@ const contact = {};
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="incoming"
@@ -490,8 +490,8 @@ const contact = {};
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       authorColor="green"
       direction="outgoing"
@@ -501,7 +501,7 @@ const contact = {};
       timestamp={Date.now()}
       contact={contact}
     />
-  </li>
+  </div>
 </util.ConversationContext>;
 ```
 
@@ -542,7 +542,7 @@ const contactWithoutAccount = {
   },
 };
 <util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+  <div className="module-message-container">
     <Message
       text="I want to introduce you to Someone..."
       authorColor="green"
@@ -551,8 +551,8 @@ const contactWithoutAccount = {
       timestamp={Date.now()}
       contact={contactWithAccount}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       text="I want to introduce you to Someone..."
       authorColor="green"
@@ -562,8 +562,8 @@ const contactWithoutAccount = {
       timestamp={Date.now()}
       contact={contactWithAccount}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       text="I want to introduce you to Someone..."
       authorColor="green"
@@ -572,8 +572,8 @@ const contactWithoutAccount = {
       timestamp={Date.now()}
       contact={contactWithAccount}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       text="I want to introduce you to Someone..."
       authorColor="green"
@@ -583,8 +583,8 @@ const contactWithoutAccount = {
       timestamp={Date.now()}
       contact={contactWithAccount}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       text="I want to introduce you to Someone..."
       authorColor="green"
@@ -594,31 +594,8 @@ const contactWithoutAccount = {
       timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
-  </li>
-  <li>
-    <Message
-      text="I want to introduce you to Someone..."
-      authorColor="green"
-      direction="outgoing"
-      collapseMetadata
-      status="delivered"
-      i18n={util.i18n}
-      timestamp={Date.now()}
-      contact={contactWithoutAccount}
-    />
-  </li>
-  <li>
-    <Message
-      text="I want to introduce you to Someone..."
-      authorColor="green"
-      direction="incoming"
-      collapseMetadata
-      i18n={util.i18n}
-      timestamp={Date.now()}
-      contact={contactWithoutAccount}
-    />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       text="I want to introduce you to Someone..."
       authorColor="green"
@@ -629,6 +606,29 @@ const contactWithoutAccount = {
       timestamp={Date.now()}
       contact={contactWithoutAccount}
     />
-  </li>
+  </div>
+  <div className="module-message-container">
+    <Message
+      text="I want to introduce you to Someone..."
+      authorColor="green"
+      direction="incoming"
+      collapseMetadata
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      contact={contactWithoutAccount}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      text="I want to introduce you to Someone..."
+      authorColor="green"
+      direction="outgoing"
+      collapseMetadata
+      status="delivered"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      contact={contactWithoutAccount}
+    />
+  </div>
 </util.ConversationContext>;
 ```

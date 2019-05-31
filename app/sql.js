@@ -16,6 +16,7 @@ const {
   isString,
   last,
   map,
+  pick,
 } = require('lodash');
 
 // To get long stack traces
@@ -93,9 +94,11 @@ module.exports = {
   getExpiredMessages,
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
-  getMessagesByConversation,
   getNextTapToViewMessageToAgeOut,
   getTapToViewMessagesNeedingErase,
+  getOlderMessagesByConversation,
+  getNewerMessagesByConversation,
+  getMessageMetricsForConversation,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -1840,7 +1843,7 @@ async function getUnreadByConversation(conversationId) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getMessagesByConversation(
+async function getOlderMessagesByConversation(
   conversationId,
   { limit = 100, receivedAt = Number.MAX_VALUE } = {}
 ) {
@@ -1857,7 +1860,117 @@ async function getMessagesByConversation(
     }
   );
 
+  return map(rows.reverse(), row => jsonToObject(row.json));
+}
+
+async function getNewerMessagesByConversation(
+  conversationId,
+  { limit = 100, receivedAt = 0 } = {}
+) {
+  const rows = await db.all(
+    `SELECT json FROM messages WHERE
+       conversationId = $conversationId AND
+       received_at > $received_at
+     ORDER BY received_at ASC
+     LIMIT $limit;`,
+    {
+      $conversationId: conversationId,
+      $received_at: receivedAt,
+      $limit: limit,
+    }
+  );
+
   return map(rows, row => jsonToObject(row.json));
+}
+async function getOldestMessageForConversation(conversationId) {
+  const row = await db.get(
+    `SELECT * FROM messages WHERE
+       conversationId = $conversationId
+     ORDER BY received_at ASC
+     LIMIT 1;`,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return row;
+}
+async function getNewestMessageForConversation(conversationId) {
+  const row = await db.get(
+    `SELECT * FROM messages WHERE
+       conversationId = $conversationId
+     ORDER BY received_at DESC
+     LIMIT 1;`,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return row;
+}
+async function getOldestUnreadMessageForConversation(conversationId) {
+  const row = await db.get(
+    `SELECT * FROM messages WHERE
+       conversationId = $conversationId AND
+       unread = 1
+     ORDER BY received_at ASC
+     LIMIT 1;`,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return row;
+}
+
+async function getTotalUnreadForConversation(conversationId) {
+  const row = await db.get(
+    `SELECT count(id) from messages WHERE
+       conversationId = $conversationId AND
+       unread = 1;
+    `,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    throw new Error('getTotalUnreadForConversation: Unable to get count');
+  }
+
+  return row['count(id)'];
+}
+
+async function getMessageMetricsForConversation(conversationId) {
+  const results = await Promise.all([
+    getOldestMessageForConversation(conversationId),
+    getNewestMessageForConversation(conversationId),
+    getOldestUnreadMessageForConversation(conversationId),
+    getTotalUnreadForConversation(conversationId),
+  ]);
+
+  const [oldest, newest, oldestUnread, totalUnread] = results;
+
+  return {
+    oldest: oldest ? pick(oldest, ['received_at', 'id']) : null,
+    newest: newest ? pick(newest, ['received_at', 'id']) : null,
+    oldestUnread: oldestUnread
+      ? pick(oldestUnread, ['received_at', 'id'])
+      : null,
+    totalUnread,
+  };
 }
 
 async function getMessagesBySentAt(sentAt) {

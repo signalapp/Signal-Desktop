@@ -71,19 +71,6 @@
     <div class='lightbox-container'></div>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
-    <button class='text module-scroll-down__button {{ buttonClass }}' alt='{{ moreBelow }}'>
-      <div class='module-scroll-down__icon'></div>
-    </button>
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
-    <div class='module-last-seen-indicator__bar'/>
-    <div class='module-last-seen-indicator__text'>
-      {{ unreadMessages }}
-    </div>
-  </script>
-
   <script type='text/x-tmpl-mustache' id='expired_alert'>
     <a target='_blank' href='https://signal.org/download/'>
       <button class='upgrade'>{{ upgrade }}</button>
@@ -106,12 +93,7 @@
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header'></div>
     <div class='main panel'>
-      <div class='discussion-container'>
-        <div class='bar-container hide'>
-          <div class='bar active progress-bar-striped progress-bar'></div>
-        </div>
-      </div>
-
+      <div class='timeline-placeholder'></div>
       <div class='bottom-bar' id='footer'>
         <div class='compose'>
           <form class='send clearfix file-input'>
@@ -488,15 +470,11 @@
 
   <script type='text/javascript' src='js/views/react_wrapper_view.js'></script>
   <script type='text/javascript' src='js/views/whisper_view.js'></script>
-  <script type='text/javascript' src='js/views/last_seen_indicator_view.js'></script>
-  <script type='text/javascript' src='js/views/scroll_down_button_view.js'></script>
   <script type='text/javascript' src='js/views/toast_view.js'></script>
   <script type='text/javascript' src='js/views/file_input_view.js'></script>
   <script type='text/javascript' src='js/views/list_view.js'></script>
   <script type='text/javascript' src='js/views/contact_list_view.js'></script>
-  <script type='text/javascript' src='js/views/message_view.js'></script>
   <script type='text/javascript' src='js/views/key_verification_view.js'></script>
-  <script type='text/javascript' src='js/views/message_list_view.js'></script>
   <script type='text/javascript' src='js/views/group_member_list_view.js'></script>
   <script type='text/javascript' src='js/views/recorder_view.js'></script>
   <script type='text/javascript' src='js/views/conversation_view.js'></script>

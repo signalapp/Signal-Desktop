@@ -6,12 +6,16 @@ import { LocalizerType } from '../../types/Util';
 import { StateType } from '../reducer';
 import {
   ConversationLookupType,
+  ConversationMessageType,
   ConversationsStateType,
   ConversationType,
   MessageLookupType,
   MessagesByConversationType,
   MessageType,
 } from '../ducks/conversations';
+import { getBubbleProps } from '../../shims/Whisper';
+import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
+import { TimelineItemType } from '../../components/conversation/TimelineItem';
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
 
@@ -29,6 +33,24 @@ export const getSelectedConversation = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
     return state.selectedConversation;
+  }
+);
+
+type SelectedMessageType = {
+  id: string;
+  counter: number;
+};
+export const getSelectedMessage = createSelector(
+  getConversations,
+  (state: ConversationsStateType): SelectedMessageType | undefined => {
+    if (!state.selectedMessage) {
+      return;
+    }
+
+    return {
+      id: state.selectedMessage,
+      counter: state.selectedMessageCounter,
+    };
   }
 );
 
@@ -160,9 +182,12 @@ export const getMe = createSelector(
 );
 
 // This is where we will put Conversation selector logic, replicating what
-//   is currently in models/conversation.getProps()
-//   Blockers:
-//     1) contactTypingTimers - that UI-only state needs to be moved to redux
+// is currently in models/conversation.getProps()
+// What needs to happen to pull that selector logic here?
+//   1) contactTypingTimers - that UI-only state needs to be moved to redux
+//   2) all of the message selectors need to be reselect-based; today those
+//      Backbone-based prop-generation functions expect to get Conversation information
+//      directly via ConversationController
 export function _conversationSelector(
   conversation: ConversationType
   // regionCode: string,
@@ -180,6 +205,8 @@ export const getCachedSelectorForConversation = createSelector(
   getRegionCode,
   getUserNumber,
   (): CachedConversationSelectorType => {
+    // Note: memoizee will check all parameters provided, and only run our selector
+    //   if any of them have changed.
     return memoizee(_conversationSelector, { max: 100 });
   }
 );
@@ -203,49 +230,200 @@ export const getConversationSelector = createSelector(
   }
 );
 
-// For now we pass through, as selector logic is still happening in the Backbone Model.
-//   Blockers:
-//     1) it's a lot of code to pull over - ~500 lines
-//     2) a couple places still rely on all that code - will need to move these to Roots:
-//       - quote compose
-//       - message details
+// For now we use a shim, as selector logic is still happening in the Backbone Model.
+// What needs to happen to pull that selector logic here?
+//   1) translate ~500 lines of selector logic into TypeScript
+//   2) other places still rely on that prop-gen code - need to put these under Roots:
+//     - quote compose
+//     - message details
 export function _messageSelector(
-  message: MessageType
-  // ourNumber: string,
-  // regionCode: string,
-  // conversation?: ConversationType,
-  // sender?: ConversationType,
-  // quoted?: ConversationType
-): MessageType {
-  return message;
+  message: MessageType,
+  // @ts-ignore
+  ourNumber: string,
+  // @ts-ignore
+  regionCode: string,
+  // @ts-ignore
+  conversation?: ConversationType,
+  // @ts-ignore
+  author?: ConversationType,
+  // @ts-ignore
+  quoted?: ConversationType,
+  selectedMessageId?: string,
+  selectedMessageCounter?: number
+): TimelineItemType {
+  // Note: We don't use all of those parameters here, but the shim we call does.
+  //   We want to call this function again if any of those parameters change.
+  const props = getBubbleProps(message);
+
+  if (selectedMessageId === message.id) {
+    return {
+      ...props,
+      data: {
+        ...props.data,
+        isSelected: true,
+        isSelectedCounter: selectedMessageCounter,
+      },
+    };
+  }
+
+  return props;
 }
 
 // A little optimization to reset our selector cache whenever high-level application data
 //   changes: regionCode and userNumber.
-type CachedMessageSelectorType = (message: MessageType) => MessageType;
+type CachedMessageSelectorType = (
+  message: MessageType,
+  ourNumber: string,
+  regionCode: string,
+  conversation?: ConversationType,
+  author?: ConversationType,
+  quoted?: ConversationType,
+  selectedMessageId?: string,
+  selectedMessageCounter?: number
+) => TimelineItemType;
 export const getCachedSelectorForMessage = createSelector(
   getRegionCode,
   getUserNumber,
   (): CachedMessageSelectorType => {
+    // Note: memoizee will check all parameters provided, and only run our selector
+    //   if any of them have changed.
     return memoizee(_messageSelector, { max: 500 });
   }
 );
 
-type GetMessageByIdType = (id: string) => MessageType | undefined;
+type GetMessageByIdType = (id: string) => TimelineItemType | undefined;
 export const getMessageSelector = createSelector(
   getCachedSelectorForMessage,
   getMessages,
+  getSelectedMessage,
+  getConversationSelector,
+  getRegionCode,
+  getUserNumber,
   (
-    selector: CachedMessageSelectorType,
-    lookup: MessageLookupType
+    messageSelector: CachedMessageSelectorType,
+    messageLookup: MessageLookupType,
+    selectedMessage: SelectedMessageType | undefined,
+    conversationSelector: GetConversationByIdType,
+    regionCode: string,
+    ourNumber: string
   ): GetMessageByIdType => {
     return (id: string) => {
-      const message = lookup[id];
+      const message = messageLookup[id];
       if (!message) {
         return;
       }
 
-      return selector(message);
+      const { conversationId, source, type, quote } = message;
+      const conversation = conversationSelector(conversationId);
+      let author: ConversationType | undefined;
+      let quoted: ConversationType | undefined;
+
+      if (type === 'incoming') {
+        author = conversationSelector(source);
+      } else if (type === 'outgoing') {
+        author = conversationSelector(ourNumber);
+      }
+
+      if (quote) {
+        quoted = conversationSelector(quote.author);
+      }
+
+      return messageSelector(
+        message,
+        ourNumber,
+        regionCode,
+        conversation,
+        author,
+        quoted,
+        selectedMessage ? selectedMessage.id : undefined,
+        selectedMessage ? selectedMessage.counter : undefined
+      );
+    };
+  }
+);
+
+export function _conversationMessagesSelector(
+  conversation: ConversationMessageType
+): TimelinePropsType {
+  const {
+    heightChangeMessageIds,
+    isLoadingMessages,
+    loadCountdownStart,
+    messageIds,
+    metrics,
+    resetCounter,
+    scrollToMessageId,
+    scrollToMessageCounter,
+  } = conversation;
+
+  const firstId = messageIds[0];
+  const lastId =
+    messageIds.length === 0 ? undefined : messageIds[messageIds.length - 1];
+
+  const { oldestUnread } = metrics;
+
+  const haveNewest = !metrics.newest || !lastId || lastId === metrics.newest.id;
+  const haveOldest =
+    !metrics.oldest || !firstId || firstId === metrics.oldest.id;
+
+  const items = messageIds;
+  const messageHeightChanges = Boolean(
+    heightChangeMessageIds && heightChangeMessageIds.length
+  );
+  const oldestUnreadIndex = oldestUnread
+    ? messageIds.findIndex(id => id === oldestUnread.id)
+    : undefined;
+  const scrollToIndex = scrollToMessageId
+    ? messageIds.findIndex(id => id === scrollToMessageId)
+    : undefined;
+  const { totalUnread } = metrics;
+
+  return {
+    haveNewest,
+    haveOldest,
+    isLoadingMessages,
+    loadCountdownStart,
+    items,
+    messageHeightChanges,
+    oldestUnreadIndex:
+      oldestUnreadIndex && oldestUnreadIndex >= 0
+        ? oldestUnreadIndex
+        : undefined,
+    resetCounter,
+    scrollToIndex:
+      scrollToIndex && scrollToIndex >= 0 ? scrollToIndex : undefined,
+    scrollToIndexCounter: scrollToMessageCounter,
+    totalUnread,
+  };
+}
+
+type CachedConversationMessagesSelectorType = (
+  conversation: ConversationMessageType
+) => TimelinePropsType;
+export const getCachedSelectorForConversationMessages = createSelector(
+  getRegionCode,
+  getUserNumber,
+  (): CachedConversationMessagesSelectorType => {
+    // Note: memoizee will check all parameters provided, and only run our selector
+    //   if any of them have changed.
+    return memoizee(_conversationMessagesSelector, { max: 50 });
+  }
+);
+
+export const getConversationMessagesSelector = createSelector(
+  getCachedSelectorForConversationMessages,
+  getMessagesByConversation,
+  (
+    conversationMessagesSelector: CachedConversationMessagesSelectorType,
+    messagesByConversation: MessagesByConversationType
+  ) => {
+    return (id: string): TimelinePropsType | undefined => {
+      const conversation = messagesByConversation[id];
+      if (!conversation) {
+        return;
+      }
+
+      return conversationMessagesSelector(conversation);
     };
   }
 );

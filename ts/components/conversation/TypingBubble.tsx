@@ -9,14 +9,14 @@ import { LocalizerType } from '../../types/Util';
 interface Props {
   avatarPath?: string;
   color: string;
-  name: string;
+  name?: string;
   phoneNumber: string;
-  profileName: string;
-  conversationType: string;
+  profileName?: string;
+  conversationType: 'group' | 'direct';
   i18n: LocalizerType;
 }
 
-export class TypingBubble extends React.Component<Props> {
+export class TypingBubble extends React.PureComponent<Props> {
   public renderAvatar() {
     const {
       avatarPath,
@@ -49,10 +49,17 @@ export class TypingBubble extends React.Component<Props> {
   }
 
   public render() {
-    const { i18n, color } = this.props;
+    const { i18n, color, conversationType } = this.props;
+    const isGroup = conversationType === 'group';
 
     return (
-      <div className={classNames('module-message', 'module-message--incoming')}>
+      <div
+        className={classNames(
+          'module-message',
+          'module-message--incoming',
+          isGroup ? 'module-message--group' : null
+        )}
+      >
         <div
           className={classNames(
             'module-message__container',

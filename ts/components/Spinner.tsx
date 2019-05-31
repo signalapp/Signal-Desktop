@@ -4,7 +4,7 @@ import classNames from 'classnames';
 interface Props {
   size?: string;
   svgSize: 'small' | 'normal';
-  direction?: string;
+  direction?: 'outgoing' | 'incoming' | 'on-background';
 }
 
 export class Spinner extends React.Component<Props> {

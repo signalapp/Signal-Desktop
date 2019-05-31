@@ -309,11 +309,6 @@
     "description":
       "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
-  "messageBelow": {
-    "message": "New message below",
-    "description":
-      "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-  },
   "messagesBelow": {
     "message": "New messages below",
     "description":

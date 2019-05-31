@@ -7,7 +7,6 @@ interface Props {
    */
   ios: boolean;
   theme: 'light-theme' | 'dark-theme';
-  type: 'private' | 'group';
 }
 
 /**
@@ -16,16 +15,17 @@ interface Props {
  */
 export class ConversationContext extends React.Component<Props> {
   public render() {
-    const { ios, theme, type } = this.props;
+    const { ios, theme } = this.props;
 
     return (
       <div
         className={classNames(theme || 'light-theme', ios ? 'ios-theme' : null)}
+        style={{
+          backgroundColor: theme === 'dark-theme' ? 'black' : undefined,
+        }}
       >
-        <div className={classNames('conversation', type || 'private')}>
-          <div className="discussion-container" style={{ padding: '0.5em' }}>
-            <ul className="message-list">{this.props.children}</ul>
-          </div>
+        <div className="timeline-placeholder">
+          <div className="timeline-wrapper">{this.props.children}</div>
         </div>
       </div>
     );
