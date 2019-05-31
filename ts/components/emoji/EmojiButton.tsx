@@ -13,13 +13,19 @@ export type OwnProps = {
 export type Props = OwnProps &
   Pick<
     EmojiPickerProps,
-    'onClose' | 'onPickEmoji' | 'skinTone' | 'onSetSkinTone' | 'recentEmojis'
+    | 'onClose'
+    | 'onForceSend'
+    | 'onPickEmoji'
+    | 'skinTone'
+    | 'onSetSkinTone'
+    | 'recentEmojis'
   >;
 
 export const EmojiButton = React.memo(
   ({
     i18n,
     onClose,
+    onForceSend,
     onPickEmoji,
     skinTone,
     onSetSkinTone,
@@ -98,6 +104,7 @@ export const EmojiButton = React.memo(
                     i18n={i18n}
                     style={style}
                     onPickEmoji={onPickEmoji}
+                    onForceSend={onForceSend}
                     onClose={handleClose}
                     skinTone={skinTone}
                     onSetSkinTone={onSetSkinTone}

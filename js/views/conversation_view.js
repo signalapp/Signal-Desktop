@@ -318,6 +318,9 @@
 
     setupEmojiPickerButton() {
       const props = {
+        onForceSend: () => {
+          this.sendMessage({});
+        },
         onPickEmoji: e => this.insertEmoji(e),
         onClose: () => {
           const textarea = this.$messageField[0];

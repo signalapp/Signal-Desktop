@@ -22,6 +22,7 @@ import { LocalizerType } from '../../types/Util';
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly onPickEmoji: (o: { skinTone: number; shortName: string }) => unknown;
+  readonly onForceSend: () => unknown;
   readonly skinTone: number;
   readonly onSetSkinTone: (tone: number) => unknown;
   readonly recentEmojis: Array<string>;
@@ -56,6 +57,7 @@ export const EmojiPicker = React.memo(
     (
       {
         i18n,
+        onForceSend,
         onPickEmoji,
         skinTone = 0,
         onSetSkinTone,
@@ -113,13 +115,24 @@ export const EmojiPicker = React.memo(
       );
 
       const handlePickEmoji = React.useCallback(
-        (e: React.MouseEvent<HTMLButtonElement>) => {
-          const { shortName } = e.currentTarget.dataset;
-          if (shortName) {
-            onPickEmoji({ skinTone: selectedTone, shortName });
+        (
+          e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLButtonElement>
+        ) => {
+          if ('key' in e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              onForceSend();
+            }
+          } else {
+            const { shortName } = e.currentTarget.dataset;
+            if (shortName) {
+              onPickEmoji({ skinTone: selectedTone, shortName });
+            }
           }
         },
-        [onClose, onPickEmoji, selectedTone]
+        [onClose, onForceSend, onPickEmoji, selectedTone]
       );
 
       // Handle escape key
@@ -229,6 +242,7 @@ export const EmojiPicker = React.memo(
               <button
                 className="module-emoji-picker__button"
                 onClick={handlePickEmoji}
+                onKeyDown={handlePickEmoji}
                 data-short-name={shortName}
                 title={shortName}
               >
