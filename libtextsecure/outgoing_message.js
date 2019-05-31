@@ -187,7 +187,9 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60 * 1000) {
     const pubKey = number;
     try {
+      // TODO: Make NUM_CONCURRENT_CONNECTIONS a global constant
       await lokiMessageAPI.sendMessage(
+        2,
         pubKey,
         data,
         timestamp,
