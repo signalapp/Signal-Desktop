@@ -12,6 +12,7 @@
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
+const NUM_SEND_CONNECTIONS = 2;
 
 function OutgoingMessage(
   server,
@@ -188,13 +189,16 @@ OutgoingMessage.prototype = {
     const pubKey = number;
     try {
       // TODO: Make NUM_CONCURRENT_CONNECTIONS a global constant
+      const options = {
+        numConnections: NUM_SEND_CONNECTIONS,
+        isPing: this.isPing,
+      }
       await lokiMessageAPI.sendMessage(
-        2,
         pubKey,
         data,
         timestamp,
         ttl,
-        this.isPing
+        options
       );
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
