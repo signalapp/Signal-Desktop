@@ -124,7 +124,17 @@ class LokiMessageAPI {
       promises.push(this.openSendConnection(params));
     }
 
-    const results = await Promise.all(promises);
+    let results;
+    try {
+      results = await Promise.all(promises);
+    } catch (e) {
+      if (e instanceof textsecure.WrongDifficultyError) {
+        // Force nonce recalculation
+        this.sendMessage(pubKey, data, messageTimeStamp, ttl, options);
+        return;
+      }
+      throw e;
+    }
     delete this.sendingSwarmNodes[timestamp];
     if (results.every(value => value === false)) {
       throw new window.textsecure.EmptySwarmError(
@@ -155,15 +165,17 @@ class LokiMessageAPI {
     while (successiveFailures < 3) {
       await sleepFor(successiveFailures * 500);
       try {
-        const result = await rpc(`http://${url}`, this.snodeServerPort, 'store', params);
+        const result = await rpc(
+          `http://${url}`,
+          this.snodeServerPort,
+          'store',
+          params
+        );
 
         // Make sure we aren't doing too much PoW
         const currentDifficulty = window.storage.get('PoWDifficulty', null);
         const newDifficulty = result.difficulty;
-        if (
-          !Number.isNaN(newDifficulty) &&
-          newDifficulty !== currentDifficulty
-        ) {
+        if (newDifficulty != null && newDifficulty !== currentDifficulty) {
           window.storage.put('PoWDifficulty', newDifficulty);
         }
         return true;
@@ -179,6 +191,7 @@ class LokiMessageAPI {
           if (!Number.isNaN(newDifficulty)) {
             window.storage.put('PoWDifficulty', newDifficulty);
           }
+          throw e;
         } else if (e instanceof textsecure.NotFoundError) {
           // TODO: Handle resolution error
           successiveFailures += 1;
