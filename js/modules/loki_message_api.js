@@ -31,10 +31,10 @@ const filterIncomingMessages = async messages => {
 };
 
 const calcNonce = (messageEventData, pubKey, data64, timestamp, ttl) => {
+  const difficulty = window.storage.get('PoWDifficulty', null);
   // Nonce is returned as a base64 string to include in header
   window.Whisper.events.trigger('calculatingPoW', messageEventData);
-  const development = window.getEnvironment() !== 'production';
-  return callWorker('calcPoW', timestamp, ttl, pubKey, data64, development);
+  return callWorker('calcPoW', timestamp, ttl, pubKey, data64, difficulty);
 };
 
 const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {

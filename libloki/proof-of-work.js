@@ -1,8 +1,7 @@
 /* global dcodeIO, crypto, JSBI */
 const NONCE_LEN = 8;
 // Modify this value for difficulty scaling
-const DEV_DIFFICULTY = 10;
-const PROD_DIFFICULTY = 100;
+const FALLBACK_DIFFICULTY = 10;
 
 const pow = {
   // Increment Uint8Array nonce by '_increment' with carrying
@@ -62,7 +61,6 @@ const pow = {
     ttl,
     pubKey,
     data,
-    development = false,
     _difficulty = null,
     increment = 1,
     startNonce = 0
@@ -74,8 +72,7 @@ const pow = {
       ).toArrayBuffer()
     );
 
-    const difficulty =
-      _difficulty || (development ? DEV_DIFFICULTY : PROD_DIFFICULTY);
+    const difficulty = _difficulty || FALLBACK_DIFFICULTY;
     const target = pow.calcTarget(ttl, payload.length, difficulty);
 
     let nonce = new Uint8Array(NONCE_LEN);
@@ -103,7 +100,7 @@ const pow = {
     return pow.bufferToBase64(nonce);
   },
 
-  calcTarget(ttl, payloadLen, difficulty = PROD_DIFFICULTY) {
+  calcTarget(ttl, payloadLen, difficulty = FALLBACK_DIFFICULTY) {
     // payloadLength + NONCE_LEN
     const totalLen = JSBI.add(JSBI.BigInt(payloadLen), JSBI.BigInt(NONCE_LEN));
     // ttl converted to seconds
