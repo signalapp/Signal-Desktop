@@ -8,7 +8,6 @@ const { rpc } = require('./loki_rpc');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SWARM_NODES = 1;
-const FAILURE_THRESHOLD = 3;
 
 const resolve4 = url =>
   new Promise((resolve, reject) => {
@@ -73,29 +72,10 @@ class LokiSnodeAPI {
 
   async unreachableNode(pubKey, nodeUrl) {
     if (pubKey === window.textsecure.storage.user.getNumber()) {
-      if (!this.ourSwarmNodes[nodeUrl]) {
-        this.ourSwarmNodes[nodeUrl] = {
-          failureCount: 1,
-        };
-      } else {
-        this.ourSwarmNodes[nodeUrl].failureCount += 1;
-      }
-      if (this.ourSwarmNodes[nodeUrl].failureCount < FAILURE_THRESHOLD) {
-        return false;
-      }
       delete this.ourSwarmNodes[nodeUrl];
-      return true;
+      return;
     }
-    if (!this.contactSwarmNodes[nodeUrl]) {
-      this.contactSwarmNodes[nodeUrl] = {
-        failureCount: 1,
-      };
-    } else {
-      this.contactSwarmNodes[nodeUrl].failureCount += 1;
-    }
-    if (this.contactSwarmNodes[nodeUrl].failureCount < FAILURE_THRESHOLD) {
-      return false;
-    }
+
     const conversation = ConversationController.get(pubKey);
     const swarmNodes = [...conversation.get('swarmNodes')];
     if (swarmNodes.includes(nodeUrl)) {
@@ -103,14 +83,12 @@ class LokiSnodeAPI {
       await conversation.updateSwarmNodes(filteredNodes);
       delete this.contactSwarmNodes[nodeUrl];
     }
-    return true;
   }
 
   async updateLastHash(nodeUrl, lastHash, expiresAt) {
     await window.Signal.Data.updateLastHash({ nodeUrl, lastHash, expiresAt });
     if (!this.ourSwarmNodes[nodeUrl]) {
       this.ourSwarmNodes[nodeUrl] = {
-        failureCount: 0,
         lastHash,
       };
     } else {
@@ -118,7 +96,7 @@ class LokiSnodeAPI {
     }
   }
 
-  async getSwarmNodesForPubKey(pubKey) {
+  getSwarmNodesForPubKey(pubKey) {
     try {
       const conversation = ConversationController.get(pubKey);
       const swarmNodes = [...conversation.get('swarmNodes')];
@@ -146,7 +124,6 @@ class LokiSnodeAPI {
     const ps = newNodes.map(async url => {
       const lastHash = await window.Signal.Data.getLastHashBySnode(url);
       this.ourSwarmNodes[url] = {
-        failureCount: 0,
         lastHash,
       };
     });
