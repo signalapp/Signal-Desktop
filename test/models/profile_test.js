@@ -72,13 +72,8 @@ describe('Profile', () => {
 
     it('saves the display name', async () => {
       await storage.setProfileName('hi there!');
-
-      const expected = {
-        displayName: 'hi there!',
-      };
       const profile = storage.getLocalProfile();
-      assert.exists(profile.name);
-      assert.deepEqual(expected, profile.name);
+      assert.deepEqual(profile.displayName, 'hi there!');
     });
 
     it('saves the display name without overwriting the other profile properties', async () => {
@@ -88,9 +83,7 @@ describe('Profile', () => {
 
       const expected = {
         ...profile,
-        name: {
-          displayName: 'hi there!',
-        },
+        displayName: 'hi there!',
       };
       assert.deepEqual(expected, storage.getLocalProfile());
     });
@@ -98,23 +91,18 @@ describe('Profile', () => {
     it('trims the display name', async () => {
       await storage.setProfileName('  in    middle  ');
       const profile = storage.getLocalProfile();
-      const name = {
-        displayName: 'in    middle',
-      };
-      assert.deepEqual(name, profile.name);
+      assert.deepEqual('in    middle', profile.displayName);
     });
 
-    it('unsets the name property if it is empty', async () => {
+    it('unsets the display name property if it is empty', async () => {
       const profile = {
-        name: {
-          displayName: 'HI THERE!',
-        },
+        displayName: 'HI THERE!',
       };
       await storage.put(PROFILE_ID, profile);
-      assert.exists(storage.getLocalProfile().name);
+      assert.exists(storage.getLocalProfile().displayName);
 
       await storage.setProfileName('');
-      assert.notExists(storage.getLocalProfile().name);
+      assert.notExists(storage.getLocalProfile().displayName);
     });
   });
 });

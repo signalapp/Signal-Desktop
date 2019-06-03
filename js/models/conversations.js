@@ -1978,7 +1978,7 @@
       // Prioritise nickname over the profile display name
       const nickname = this.getNickname();
       const profile = this.getLocalProfile();
-      const displayName = profile && profile.name && profile.name.displayName;
+      const displayName = profile && profile.displayName;
 
       const profileName = nickname || displayName || null;
       await this.setProfileName(profileName);
