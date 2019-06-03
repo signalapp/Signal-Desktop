@@ -30,7 +30,7 @@ const filterIncomingMessages = async messages => {
   return newMessages;
 };
 
-const calcNonce = async (messageEventData, pubKey, data64, timestamp, ttl) => {
+const calcNonce = (messageEventData, pubKey, data64, timestamp, ttl) => {
   // Nonce is returned as a base64 string to include in header
   window.Whisper.events.trigger('calculatingPoW', messageEventData);
   const development = window.getEnvironment() !== 'production';
