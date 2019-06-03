@@ -4424,7 +4424,7 @@
 }
 
 // Module: Emoji
-@mixin emoji-size($size, $emoji-sheet-columns: 51) {
+@mixin emoji-size($size, $emoji-sheet-columns: 52) {
   &--#{$size} {
     width: $size;
     height: $size;
