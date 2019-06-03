@@ -192,14 +192,8 @@ OutgoingMessage.prototype = {
       const options = {
         numConnections: NUM_SEND_CONNECTIONS,
         isPing: this.isPing,
-      }
-      await lokiMessageAPI.sendMessage(
-        pubKey,
-        data,
-        timestamp,
-        ttl,
-        options
-      );
+      };
+      await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
         // 409 and 410 should bubble and be handled by doSendMessage

@@ -8,7 +8,6 @@ const { rpc } = require('./loki_rpc');
 
 // Will be raised (to 3?) when we get more nodes
 const MINIMUM_SWARM_NODES = 1;
-const FAILURE_THRESHOLD = 3;
 
 const resolve4 = url =>
   new Promise((resolve, reject) => {

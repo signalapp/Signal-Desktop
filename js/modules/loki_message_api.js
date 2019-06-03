@@ -32,22 +32,10 @@ const filterIncomingMessages = async messages => {
 
 const calcNonce = async (messageEventData, pubKey, data64, timestamp, ttl) => {
   // Nonce is returned as a base64 string to include in header
-  try {
-    window.Whisper.events.trigger('calculatingPoW', messageEventData);
-    const development = window.getEnvironment() !== 'production';
-    return callWorker(
-      'calcPoW',
-      timestamp,
-      ttl,
-      pubKey,
-      data64,
-      development
-    );
-  } catch (err) {
-    // Something went horribly wrong
-    throw err;
-  }
-}
+  window.Whisper.events.trigger('calculatingPoW', messageEventData);
+  const development = window.getEnvironment() !== 'production';
+  return callWorker('calcPoW', timestamp, ttl, pubKey, data64, development);
+};
 
 const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
   const p2pDetails = lokiP2pAPI.getContactP2pDetails(pubKey);
@@ -78,7 +66,7 @@ const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
     log.warn('Failed to send P2P message, falling back to storage', e);
     return false;
   }
-}
+};
 
 class LokiMessageAPI {
   constructor({ snodeServerPort }) {
@@ -96,15 +84,28 @@ class LokiMessageAPI {
     };
 
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
-    const p2pSuccess = await trySendP2p(pubKey, data64, isPing, messageEventData);
+    const p2pSuccess = await trySendP2p(
+      pubKey,
+      data64,
+      isPing,
+      messageEventData
+    );
     if (p2pSuccess) {
       return;
     }
 
     const timestamp = Date.now();
-    const nonce = await calcNonce(messageEventData, pubKey, data64, timestamp, ttl);
+    const nonce = await calcNonce(
+      messageEventData,
+      pubKey,
+      data64,
+      timestamp,
+      ttl
+    );
     // Using timestamp as a unique identifier
-    this.sendingSwarmNodes[timestamp] = lokiSnodeAPI.getSwarmNodesForPubKey(pubKey);
+    this.sendingSwarmNodes[timestamp] = lokiSnodeAPI.getSwarmNodesForPubKey(
+      pubKey
+    );
     if (this.sendingSwarmNodes[timestamp].length < numConnections) {
       const freshNodes = await lokiSnodeAPI.getFreshSwarmNodes(pubKey);
       await lokiSnodeAPI.updateSwarmNodes(pubKey, freshNodes);
@@ -175,10 +176,7 @@ class LokiMessageAPI {
       }
     }
     log.error(`Failed to send to node: ${url}`);
-    await lokiSnodeAPI.unreachableNode(
-      params.pubKey,
-      url
-    );
+    await lokiSnodeAPI.unreachableNode(params.pubKey, url);
     return false;
   }
 
@@ -215,11 +213,7 @@ class LokiMessageAPI {
         await sleepFor(successiveFailures * 1000);
 
         try {
-          let messages = await this.retrieveNextMessages(
-            url,
-            nodeData,
-            ourKey
-          );
+          let messages = await this.retrieveNextMessages(url, nodeData, ourKey);
           successiveFailures = 0;
           if (messages.length) {
             const lastMessage = _.last(messages);
@@ -266,7 +260,6 @@ class LokiMessageAPI {
     // or if there is network issues (ENOUTFOUND due to lokinet)
     await Promise.all(promises);
   }
-
 }
 
 module.exports = LokiMessageAPI;
