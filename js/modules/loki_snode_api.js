@@ -32,13 +32,13 @@ const resolveCname = url =>
   });
 
 class LokiSnodeAPI {
-  constructor({ serverUrl, localUrl, snodeServerPort }) {
+  constructor({ serverUrl, localUrl }) {
     if (!is.string(serverUrl)) {
       throw new Error('WebAPI.initialize: Invalid server url');
     }
     this.serverUrl = serverUrl;
     this.localUrl = localUrl;
-    this.snodeServerPort = snodeServerPort ? `:${snodeServerPort}` : '';
+    this.randomSnodePool = [];
     this.swarmsPendingReplenish = {};
     this.ourSwarmNodes = {};
     this.contactSwarmNodes = {};
@@ -60,7 +60,7 @@ class LokiSnodeAPI {
     }
   }
 
-  async getMyLokiAddress() {
+  getMyLokiAddress() {
     /* resolve our local loki address */
     return resolveCname(this.localUrl);
   }

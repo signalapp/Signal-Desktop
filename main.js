@@ -154,7 +154,6 @@ function prepareURL(pathSegments, moreKeys) {
       serverUrl: config.get('serverUrl'),
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
-      snodeServerPort: config.get('snodeServerPort'),
       localServerPort: config.get('localServerPort'),
       defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
       certificateAuthority: config.get('certificateAuthority'),

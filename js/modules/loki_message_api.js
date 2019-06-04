@@ -43,9 +43,7 @@ const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
     return false;
   }
   try {
-    const port = p2pDetails.port ? `:${p2pDetails.port}` : '';
-
-    await rpc(p2pDetails.address, port, 'store', {
+    await rpc(p2pDetails.address, p2pDetails.port, 'store', {
       data: data64,
     });
     lokiP2pAPI.setContactOnline(pubKey);
@@ -68,9 +66,30 @@ const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
   }
 };
 
+const retrieveNextMessages = async (nodeUrl, nodeData, ourKey) => {
+  const params = {
+    pubKey: ourKey,
+    lastHash: nodeData.lastHash || '',
+  };
+  const options = {
+    timeout: 40000,
+    headers: {
+      [LOKI_LONGPOLL_HEADER]: true,
+    },
+  };
+
+  const result = await rpc(
+    `https://${nodeUrl}`,
+    nodeData.port,
+    'retrieve',
+    params,
+    options
+  );
+  return result.messages || [];
+}
+
 class LokiMessageAPI {
-  constructor({ snodeServerPort }) {
-    this.snodeServerPort = snodeServerPort ? `:${snodeServerPort}` : '';
+  constructor() {
     this.jobQueue = new window.JobQueue();
     this.sendingSwarmNodes = {};
   }
@@ -208,46 +227,24 @@ class LokiMessageAPI {
     return false;
   }
 
-  async retrieveNextMessages(nodeUrl, nodeData, ourKey) {
-    const params = {
-      pubKey: ourKey,
-      lastHash: nodeData.lastHash || '',
-    };
-    const options = {
-      timeout: 40000,
-      headers: {
-        [LOKI_LONGPOLL_HEADER]: true,
-      },
-    };
-
-    const result = await rpc(
-      `https://${nodeUrl}`,
-      this.snodeServerPort,
-      'retrieve',
-      params,
-      options
-    );
-    return result.messages || [];
-  }
-
   async openConnection(callback) {
     const ourKey = window.textsecure.storage.user.getNumber();
     while (!_.isEmpty(this.ourSwarmNodes)) {
-      const url = Object.keys(this.ourSwarmNodes)[0];
-      const nodeData = this.ourSwarmNodes[url];
-      delete this.ourSwarmNodes[url];
+      const address = Object.keys(this.ourSwarmNodes)[0];
+      const nodeData = this.ourSwarmNodes[address];
+      delete this.ourSwarmNodes[address];
       let successiveFailures = 0;
       while (successiveFailures < 3) {
         await sleepFor(successiveFailures * 1000);
 
         try {
-          let messages = await this.retrieveNextMessages(url, nodeData, ourKey);
+          let messages = await retrieveNextMessages(address, nodeData, ourKey);
           successiveFailures = 0;
           if (messages.length) {
             const lastMessage = _.last(messages);
             nodeData.lashHash = lastMessage.hash;
             lokiSnodeAPI.updateLastHash(
-              url,
+              address,
               lastMessage.hash,
               lastMessage.expiration
             );

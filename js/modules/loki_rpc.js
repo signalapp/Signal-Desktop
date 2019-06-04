@@ -103,7 +103,8 @@ const fetch = async (url, options = {}) => {
 // Wrapper for a JSON RPC request
 const rpc = (address, port, method, params, options = {}) => {
   const headers = options.headers || {};
-  const url = `${address}${port}${endpointBase}`;
+  const portString = port ? `:${port}` : '';
+  const url = `${address}${portString}${endpointBase}`;
   const body = {
     method,
     params,
