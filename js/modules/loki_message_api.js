@@ -170,8 +170,8 @@ class LokiMessageAPI {
 
   async openSendConnection(params) {
     while (!_.isEmpty(this.sendingSwarmNodes[params.timestamp])) {
-      const url = this.sendingSwarmNodes[params.timestamp].shift();
-      const successfulSend = await this.sendToNode(url, params);
+      const snode = this.sendingSwarmNodes[params.timestamp].shift();
+      const successfulSend = await this.sendToNode(snode.address, snode.port, params);
       if (successfulSend) {
         return true;
       }
@@ -179,14 +179,14 @@ class LokiMessageAPI {
     return false;
   }
 
-  async sendToNode(url, params) {
+  async sendToNode(address, port, params) {
     let successiveFailures = 0;
     while (successiveFailures < 3) {
       await sleepFor(successiveFailures * 500);
       try {
         const result = await rpc(
-          `https://${url}`,
-          this.snodeServerPort,
+          `https://${address}`,
+          port,
           'store',
           params
         );
@@ -222,8 +222,8 @@ class LokiMessageAPI {
         }
       }
     }
-    log.error(`Failed to send to node: ${url}`);
-    await lokiSnodeAPI.unreachableNode(params.pubKey, url);
+    log.error(`Failed to send to node: ${address}`);
+    await lokiSnodeAPI.unreachableNode(params.pubKey, address);
     return false;
   }
 

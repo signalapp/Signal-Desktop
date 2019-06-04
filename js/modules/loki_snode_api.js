@@ -65,9 +65,29 @@ class LokiSnodeAPI {
     return resolveCname(this.localUrl);
   }
 
-  getRandomSnodeAddress() {
+  async getRandomSnodeAddress() {
     /* resolve random snode */
-    return resolveCname(this.serverUrl);
+    if (this.randomSnodePool.length === 0) {
+      await this.initialiseRandomPool();
+    }
+    return this.randomSnodePool[Math.floor(Math.random() * this.randomSnodePool.length)];
+  }
+
+  async initialiseRandomPool() {
+    const result = await rpc(
+      `http://${window.seedNodeUrl}`,
+      window.seedNodePort,
+      'get_service_nodes',
+      {}, // Params
+      {}, // Options
+      true // Seed request
+    );
+    const snodes = result.result.service_node_states;
+    this.randomSnodePool = snodes.map(snode => ({
+        address: snode.public_ip,
+        port: snode.storage_port,
+      })
+    );
   }
 
   async unreachableNode(pubKey, nodeUrl) {
@@ -121,10 +141,11 @@ class LokiSnodeAPI {
 
   async updateOurSwarmNodes(newNodes) {
     this.ourSwarmNodes = {};
-    const ps = newNodes.map(async url => {
-      const lastHash = await window.Signal.Data.getLastHashBySnode(url);
-      this.ourSwarmNodes[url] = {
+    const ps = newNodes.map(async snode => {
+      const lastHash = await window.Signal.Data.getLastHashBySnode(snode.address);
+      this.ourSwarmNodes[snode.address] = {
         lastHash,
+        port: snode.port,
       };
     });
     await Promise.all(ps);
@@ -167,11 +188,11 @@ class LokiSnodeAPI {
 
   async getSwarmNodes(pubKey) {
     // TODO: Hit multiple random nodes and merge lists?
-    const nodeUrl = await this.getRandomSnodeAddress();
+    const { address, port } = await this.getRandomSnodeAddress();
 
     const result = await rpc(
-      `https://${nodeUrl}`,
-      this.snodeServerPort,
+      `https://${address}`,
+      port,
       'get_snodes_for_pubkey',
       {
         pubKey,
