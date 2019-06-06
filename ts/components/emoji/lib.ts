@@ -131,15 +131,15 @@ export function getSheetCoordinates(
 const fuse = new Fuse(data, {
   shouldSort: true,
   threshold: 0.3,
-  location: 0,
-  distance: 5,
-  maxPatternLength: 20,
+  location: 4,
+  distance: 10,
+  maxPatternLength: 32,
   minMatchCharLength: 1,
   keys: ['name', 'short_name', 'short_names'],
 });
 
 export function search(query: string) {
-  return fuse.search(query);
+  return fuse.search(query.substr(0, 32));
 }
 
 const shortNames = new Set([
