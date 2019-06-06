@@ -171,7 +171,8 @@ class LokiMessageAPI {
   async openSendConnection(params) {
     while (!_.isEmpty(this.sendingSwarmNodes[params.timestamp])) {
       const snode = this.sendingSwarmNodes[params.timestamp].shift();
-      const successfulSend = await this.sendToNode(snode.address, snode.port, params);
+      // TODO: Revert back to using snode address instead of IP
+      const successfulSend = await this.sendToNode(snode.ip, snode.port, params);
       if (successfulSend) {
         return true;
       }

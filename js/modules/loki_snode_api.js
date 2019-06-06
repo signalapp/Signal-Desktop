@@ -84,9 +84,9 @@ class LokiSnodeAPI {
     );
     const snodes = result.result.service_node_states;
     this.randomSnodePool = snodes.map(snode => ({
-        address: snode.public_ip,
-        port: snode.storage_port,
-      })
+      address: snode.public_ip,
+      port: snode.storage_port,
+    })
     );
   }
 
@@ -108,12 +108,9 @@ class LokiSnodeAPI {
   async updateLastHash(nodeUrl, lastHash, expiresAt) {
     await window.Signal.Data.updateLastHash({ nodeUrl, lastHash, expiresAt });
     if (!this.ourSwarmNodes[nodeUrl]) {
-      this.ourSwarmNodes[nodeUrl] = {
-        lastHash,
-      };
-    } else {
-      this.ourSwarmNodes[nodeUrl].lastHash = lastHash;
+      return;
     }
+    this.ourSwarmNodes[nodeUrl].lastHash = lastHash;
   }
 
   getSwarmNodesForPubKey(pubKey) {
@@ -146,6 +143,7 @@ class LokiSnodeAPI {
       this.ourSwarmNodes[snode.address] = {
         lastHash,
         port: snode.port,
+        ip: snode.ip,
       };
     });
     await Promise.all(ps);
