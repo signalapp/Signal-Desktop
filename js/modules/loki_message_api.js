@@ -239,7 +239,8 @@ class LokiMessageAPI {
         await sleepFor(successiveFailures * 1000);
 
         try {
-          let messages = await retrieveNextMessages(address, nodeData, ourKey);
+          // TODO: Revert back to using snode address instead of IP
+          let messages = await retrieveNextMessages(nodeData.ip, nodeData, ourKey);
           successiveFailures = 0;
           if (messages.length) {
             const lastMessage = _.last(messages);
