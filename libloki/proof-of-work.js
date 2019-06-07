@@ -1,8 +1,7 @@
 /* global dcodeIO, crypto, JSBI */
 const NONCE_LEN = 8;
 // Modify this value for difficulty scaling
-const DEV_NONCE_TRIALS = 10;
-const PROD_NONCE_TRIALS = 100;
+const FALLBACK_DIFFICULTY = 10;
 
 const pow = {
   // Increment Uint8Array nonce by '_increment' with carrying
@@ -62,8 +61,7 @@ const pow = {
     ttl,
     pubKey,
     data,
-    development = false,
-    _nonceTrials = null,
+    _difficulty = null,
     increment = 1,
     startNonce = 0
   ) {
@@ -74,9 +72,8 @@ const pow = {
       ).toArrayBuffer()
     );
 
-    const nonceTrials =
-      _nonceTrials || (development ? DEV_NONCE_TRIALS : PROD_NONCE_TRIALS);
-    const target = pow.calcTarget(ttl, payload.length, nonceTrials);
+    const difficulty = _difficulty || FALLBACK_DIFFICULTY;
+    const target = pow.calcTarget(ttl, payload.length, difficulty);
 
     let nonce = new Uint8Array(NONCE_LEN);
     nonce = pow.incrementNonce(nonce, startNonce); // initial value
@@ -103,7 +100,7 @@ const pow = {
     return pow.bufferToBase64(nonce);
   },
 
-  calcTarget(ttl, payloadLen, nonceTrials = PROD_NONCE_TRIALS) {
+  calcTarget(ttl, payloadLen, difficulty = FALLBACK_DIFFICULTY) {
     // payloadLength + NONCE_LEN
     const totalLen = JSBI.add(JSBI.BigInt(payloadLen), JSBI.BigInt(NONCE_LEN));
     // ttl converted to seconds
@@ -119,9 +116,9 @@ const pow = {
     const innerFrac = JSBI.divide(ttlMult, two16);
     // totalLen + innerFrac
     const lenPlusInnerFrac = JSBI.add(totalLen, innerFrac);
-    // nonceTrials * lenPlusInnerFrac
+    // difficulty * lenPlusInnerFrac
     const denominator = JSBI.multiply(
-      JSBI.BigInt(nonceTrials),
+      JSBI.BigInt(difficulty),
       lenPlusInnerFrac
     );
     // 2^64 - 1

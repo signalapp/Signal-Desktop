@@ -233,6 +233,11 @@
       window.libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
     });
 
+    const currentPoWDifficulty = storage.get('PoWDifficulty', null);
+    if (!currentPoWDifficulty) {
+      storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
+    }
+
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
