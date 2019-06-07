@@ -2019,7 +2019,9 @@
       return migrateColor(this.get('color'));
     },
     getAvatarPath() {
-      const avatar = this.get('avatar') || this.get('profileAvatar');
+      const avatar = this.isMe()
+        ? this.get('profileAvatar') || this.get('avatar')
+        : this.get('avatar') || this.get('profileAvatar');
 
       if (avatar && avatar.path) {
         return getAbsoluteAttachmentPath(avatar.path);
