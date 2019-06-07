@@ -170,7 +170,7 @@ class LokiSnodeAPI {
     const nodeUrl = await this.getRandomSnodeAddress();
 
     const result = await rpc(
-      `http://${nodeUrl}`,
+      `https://${nodeUrl}`,
       this.snodeServerPort,
       'get_snodes_for_pubkey',
       {
