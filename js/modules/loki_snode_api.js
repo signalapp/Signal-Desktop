@@ -70,7 +70,9 @@ class LokiSnodeAPI {
     if (this.randomSnodePool.length === 0) {
       await this.initialiseRandomPool();
     }
-    return this.randomSnodePool[Math.floor(Math.random() * this.randomSnodePool.length)];
+    return this.randomSnodePool[
+      Math.floor(Math.random() * this.randomSnodePool.length)
+    ];
   }
 
   async initialiseRandomPool() {
@@ -86,8 +88,7 @@ class LokiSnodeAPI {
     this.randomSnodePool = snodes.map(snode => ({
       address: snode.public_ip,
       port: snode.storage_port,
-    })
-    );
+    }));
   }
 
   async unreachableNode(pubKey, nodeUrl) {
@@ -139,7 +140,9 @@ class LokiSnodeAPI {
   async updateOurSwarmNodes(newNodes) {
     this.ourSwarmNodes = {};
     const ps = newNodes.map(async snode => {
-      const lastHash = await window.Signal.Data.getLastHashBySnode(snode.address);
+      const lastHash = await window.Signal.Data.getLastHashBySnode(
+        snode.address
+      );
       this.ourSwarmNodes[snode.address] = {
         lastHash,
         port: snode.port,

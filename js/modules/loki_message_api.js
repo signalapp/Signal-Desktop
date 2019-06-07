@@ -86,7 +86,7 @@ const retrieveNextMessages = async (nodeUrl, nodeData, ourKey) => {
     options
   );
   return result.messages || [];
-}
+};
 
 class LokiMessageAPI {
   constructor() {
@@ -172,7 +172,11 @@ class LokiMessageAPI {
     while (!_.isEmpty(this.sendingSwarmNodes[params.timestamp])) {
       const snode = this.sendingSwarmNodes[params.timestamp].shift();
       // TODO: Revert back to using snode address instead of IP
-      const successfulSend = await this.sendToNode(snode.ip, snode.port, params);
+      const successfulSend = await this.sendToNode(
+        snode.ip,
+        snode.port,
+        params
+      );
       if (successfulSend) {
         return true;
       }
@@ -185,12 +189,7 @@ class LokiMessageAPI {
     while (successiveFailures < 3) {
       await sleepFor(successiveFailures * 500);
       try {
-        const result = await rpc(
-          `https://${address}`,
-          port,
-          'store',
-          params
-        );
+        const result = await rpc(`https://${address}`, port, 'store', params);
 
         // Make sure we aren't doing too much PoW
         const currentDifficulty = window.storage.get('PoWDifficulty', null);
@@ -240,7 +239,11 @@ class LokiMessageAPI {
 
         try {
           // TODO: Revert back to using snode address instead of IP
-          let messages = await retrieveNextMessages(nodeData.ip, nodeData, ourKey);
+          let messages = await retrieveNextMessages(
+            nodeData.ip,
+            nodeData,
+            ourKey
+          );
           successiveFailures = 0;
           if (messages.length) {
             const lastMessage = _.last(messages);

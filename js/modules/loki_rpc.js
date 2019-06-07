@@ -102,7 +102,14 @@ const fetch = async (url, options = {}) => {
 };
 
 // Wrapper for a JSON RPC request
-const rpc = (address, port, method, params, options = {}, seedRequest = false) => {
+const rpc = (
+  address,
+  port,
+  method,
+  params,
+  options = {},
+  seedRequest = false
+) => {
   const headers = options.headers || {};
   const portString = port ? `:${port}` : '';
   const endpoint = seedRequest ? seedEndpointBase : endpointBase;
@@ -127,7 +134,6 @@ const rpc = (address, port, method, params, options = {}, seedRequest = false) =
 
   return fetch(url, fetchOptions);
 };
-
 
 module.exports = {
   rpc,
