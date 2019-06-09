@@ -205,6 +205,17 @@ async function setupSQLCipher(instance, { key }) {
 
   // Because foreign key support is not enabled by default!
   await instance.run('PRAGMA foreign_keys = ON;');
+
+  // Try to enable write-ahead logging for increased performance,
+  // see https://www.sqlite.org/wal.html for details.
+  // Note that this is a persistent setting in the database.
+  const row = await instance.get('PRAGMA journal_mode = WAL;');
+  if (row.journal_mode === 'wal') {
+    // synchronous = NORMAL is safe with WAL mode
+    await instance.run('PRAGMA synchronous = NORMAL;');
+  } else {
+    console.log('setupSQLCipher: not using WAL mode');
+  }
 }
 
 async function updateToSchemaVersion1(currentVersion, instance) {
