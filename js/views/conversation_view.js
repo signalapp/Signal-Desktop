@@ -144,6 +144,13 @@
       this.listenTo(this.model.messageCollection, 'navigate-to', url => {
         window.location = url;
       });
+      this.listenTo(
+        this.model.messageCollection,
+        'download-new-version',
+        () => {
+          window.location = 'https://signal.org/download';
+        }
+      );
 
       this.lazyUpdateVerified = _.debounce(
         this.model.updateVerified.bind(this.model),

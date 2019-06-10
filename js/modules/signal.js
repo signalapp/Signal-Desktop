@@ -66,6 +66,9 @@ const {
   TypingBubble,
 } = require('../../ts/components/conversation/TypingBubble');
 const {
+  UnsupportedMessage,
+} = require('../../ts/components/conversation/UnsupportedMessage');
+const {
   VerificationNotification,
 } = require('../../ts/components/conversation/VerificationNotification');
 
@@ -277,6 +280,7 @@ exports.setup = (options = {}) => {
       Message: MediaGalleryMessage,
     },
     TypingBubble,
+    UnsupportedMessage,
     VerificationNotification,
   };
 

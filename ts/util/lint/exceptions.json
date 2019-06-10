@@ -872,7 +872,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/message_view.js",
     "line": "      this.$el.append(this.childView.el);",
-    "lineNumber": 139,
+    "lineNumber": 144,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"

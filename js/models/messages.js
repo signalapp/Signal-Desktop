@@ -87,6 +87,10 @@
         );
       }
 
+      this.CURRENT_PROTOCOL_VERSION =
+        textsecure.protobuf.DataMessage.ProtocolVersion.CURRENT;
+      this.INITIAL_PROTOCOL_VERSION =
+        textsecure.protobuf.DataMessage.ProtocolVersion.INITIAL;
       this.OUR_NUMBER = textsecure.storage.user.getNumber();
 
       this.on('destroy', this.onDestroy);
@@ -122,7 +126,12 @@
 
     // Top-level prop generation for the message bubble
     generateProps() {
-      if (this.isExpirationTimerUpdate()) {
+      if (this.isUnsupportedMessage()) {
+        this.props = {
+          type: 'unsupportedMessage',
+          data: this.getPropsForUnsupportedMessage(),
+        };
+      } else if (this.isExpirationTimerUpdate()) {
         this.props = {
           type: 'timerNotification',
           data: this.getPropsForTimerNotification(),
@@ -267,6 +276,16 @@
     },
 
     // Bucketing messages
+    isUnsupportedMessage() {
+      const versionAtReceive = this.get('supportedVersionAtReceive');
+      const requiredVersion = this.get('requiredProtocolVersion');
+
+      return (
+        _.isNumber(versionAtReceive) &&
+        _.isNumber(requiredVersion) &&
+        versionAtReceive < requiredVersion
+      );
+    },
     isExpirationTimerUpdate() {
       const flag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
@@ -289,6 +308,16 @@
     },
 
     // Props for each message type
+    getPropsForUnsupportedMessage() {
+      const requiredVersion = this.get('requiredProtocolVersion');
+      const canProcessNow = this.CURRENT_PROTOCOL_VERSION >= requiredVersion;
+      const phoneNumber = this.getSource();
+
+      return {
+        canProcessNow,
+        contact: this.findAndFormatContact(phoneNumber),
+      };
+    },
     getPropsForTimerNotification() {
       const timerUpdate = this.get('expirationTimerUpdate');
       if (!timerUpdate) {
@@ -479,6 +508,7 @@
           this.trigger('download', downloadOptions),
 
         openLink: url => this.trigger('navigate-to', url),
+        downloadNewVersion: () => this.trigger('download-new-version'),
         scrollToMessage: scrollOptions =>
           this.trigger('scroll-to-message', scrollOptions),
       };
@@ -694,6 +724,9 @@
 
     // More display logic
     getDescription() {
+      if (this.isUnsupportedMessage()) {
+        return i18n('message--getDescription--unsupported-message');
+      }
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
         if (groupUpdate.left === 'You') {
@@ -1733,6 +1766,10 @@
             hasFileAttachments: dataMessage.hasFileAttachments,
             hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
             preview,
+            requiredProtocolVersion:
+              dataMessage.requiredProtocolVersion ||
+              this.INITIAL_PROTOCOL_VERSION,
+            supportedVersionAtReceive: this.CURRENT_PROTOCOL_VERSION,
             quote: dataMessage.quote,
             schemaVersion: dataMessage.schemaVersion,
             sticker: dataMessage.sticker,
@@ -1888,10 +1925,12 @@
           message.set({ id });
           MessageController.register(message.id, message);
 
-          // Note that this can save the message again, if jobs were queued. We need to
-          //   call it after we have an id for this message, because the jobs refer back
-          //   to their source message.
-          await message.queueAttachmentDownloads();
+          if (!message.isUnsupportedMessage()) {
+            // Note that this can save the message again, if jobs were queued. We need to
+            //   call it after we have an id for this message, because the jobs refer back
+            //   to their source message.
+            await message.queueAttachmentDownloads();
+          }
 
           await window.Signal.Data.updateConversation(
             conversationId,
