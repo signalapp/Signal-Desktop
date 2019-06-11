@@ -39,8 +39,8 @@ const PRODUCTION_STARTUP_WM_CLASS = 'Signal';
 const BETA_STARTUP_WM_CLASS = 'Signal Beta';
 
 const DESKTOP_NAME_PATH = 'desktopName';
-const PRODUCTION_DESKTOP_NAME = PRODUCTION_NAME + '.desktop';
-const BETA_DESKTOP_NAME = BETA_NAME + '.desktop';
+const PRODUCTION_DESKTOP_NAME = `${PRODUCTION_NAME}.desktop`;
+const BETA_DESKTOP_NAME = `${BETA_NAME}.desktop`;
 
 // -------
 
