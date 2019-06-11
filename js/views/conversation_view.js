@@ -188,6 +188,76 @@
         }
       });
 
+      this.view = new Whisper.MessageListView({
+        collection: this.model.messageCollection,
+        window: this.window,
+      });
+      this.$('.discussion-container').append(this.view.el);
+      this.view.render();
+
+      this.$messageField = this.$('.send-message');
+
+      this.onResize = this.forceUpdateMessageFieldSize.bind(this);
+      this.window.addEventListener('resize', this.onResize);
+
+      this.onFocus = () => {
+        if (this.$el.css('display') !== 'none') {
+          this.markRead();
+        }
+      };
+      this.window.addEventListener('focus', this.onFocus);
+
+      extension.windows.onClosed(() => {
+        this.unload('windows closed');
+      });
+
+      this.fetchMessages();
+
+      this.$('.send-message').focus(this.focusBottomBar.bind(this));
+      this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
+
+      this.setupHeader();
+      this.setupEmojiPickerButton();
+      this.setupStickerPickerButton();
+
+      this.lastSelectionStart = 0;
+      document.addEventListener(
+        'selectionchange',
+        this.updateLastSelectionStart.bind(this, undefined)
+      );
+    },
+
+    events: {
+      'submit .send': 'clickSend',
+      'input .send-message': 'updateMessageFieldSize',
+      'keydown .send-message': 'updateMessageFieldSize',
+      'keyup .send-message': 'onKeyUp',
+      click: 'onClick',
+      'click .emoji-button-placeholder': 'onClickPlaceholder',
+      'click .sticker-button-placeholder': 'onClickPlaceholder',
+      'click .bottom-bar': 'focusMessageField',
+      'click .capture-audio .microphone': 'captureAudio',
+      'click .module-scroll-down': 'scrollToBottom',
+      'focus .send-message': 'focusBottomBar',
+      'change .file-input': 'toggleMicrophone',
+      'blur .send-message': 'unfocusBottomBar',
+      'loadMore .message-list': 'loadMoreMessages',
+      'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
+      'atBottom .message-list': 'removeScrollDownButton',
+      'farFromBottom .message-list': 'addScrollDownButton',
+      'lazyScroll .message-list': 'onLazyScroll',
+      'force-resize': 'forceUpdateMessageFieldSize',
+
+      'click button.paperclip': 'onChooseAttachment',
+      'change input.file-input': 'onChoseAttachment',
+
+      dragover: 'onDragOver',
+      dragleave: 'onDragLeave',
+      drop: 'onDrop',
+      paste: 'onPaste',
+    },
+
+    setupHeader() {
       const getHeaderProps = () => {
         const expireTimer = this.model.get('expireTimer');
         const expirationSettingName = expireTimer
@@ -254,73 +324,6 @@
       this.updateHeader = () => this.titleView.update(getHeaderProps());
       this.listenTo(this.model, 'change', this.updateHeader);
       this.$('.conversation-header').append(this.titleView.el);
-
-      this.view = new Whisper.MessageListView({
-        collection: this.model.messageCollection,
-        window: this.window,
-      });
-      this.$('.discussion-container').append(this.view.el);
-      this.view.render();
-
-      this.$messageField = this.$('.send-message');
-
-      this.onResize = this.forceUpdateMessageFieldSize.bind(this);
-      this.window.addEventListener('resize', this.onResize);
-
-      this.onFocus = () => {
-        if (this.$el.css('display') !== 'none') {
-          this.markRead();
-        }
-      };
-      this.window.addEventListener('focus', this.onFocus);
-
-      extension.windows.onClosed(() => {
-        this.unload('windows closed');
-      });
-
-      this.fetchMessages();
-
-      this.$('.send-message').focus(this.focusBottomBar.bind(this));
-      this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
-
-      this.setupEmojiPickerButton();
-      this.setupStickerPickerButton();
-
-      this.lastSelectionStart = 0;
-      document.addEventListener(
-        'selectionchange',
-        this.updateLastSelectionStart.bind(this, undefined)
-      );
-    },
-
-    events: {
-      'submit .send': 'clickSend',
-      'input .send-message': 'updateMessageFieldSize',
-      'keydown .send-message': 'updateMessageFieldSize',
-      'keyup .send-message': 'onKeyUp',
-      click: 'onClick',
-      'click .emoji-button-placeholder': 'onClickPlaceholder',
-      'click .sticker-button-placeholder': 'onClickPlaceholder',
-      'click .bottom-bar': 'focusMessageField',
-      'click .capture-audio .microphone': 'captureAudio',
-      'click .module-scroll-down': 'scrollToBottom',
-      'focus .send-message': 'focusBottomBar',
-      'change .file-input': 'toggleMicrophone',
-      'blur .send-message': 'unfocusBottomBar',
-      'loadMore .message-list': 'loadMoreMessages',
-      'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
-      'atBottom .message-list': 'removeScrollDownButton',
-      'farFromBottom .message-list': 'addScrollDownButton',
-      'lazyScroll .message-list': 'onLazyScroll',
-      'force-resize': 'forceUpdateMessageFieldSize',
-
-      'click button.paperclip': 'onChooseAttachment',
-      'change input.file-input': 'onChoseAttachment',
-
-      dragover: 'onDragOver',
-      dragleave: 'onDragLeave',
-      drop: 'onDrop',
-      paste: 'onPaste',
     },
 
     setupEmojiPickerButton() {
