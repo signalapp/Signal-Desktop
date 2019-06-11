@@ -5,7 +5,6 @@ const { parse } = require('url');
 
 const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 const endpointBase = '/v1/storage_rpc';
-const seedEndpointBase = '/json_rpc';
 
 const decryptResponse = async (response, address) => {
   try {
@@ -108,11 +107,10 @@ const rpc = (
   method,
   params,
   options = {},
-  seedRequest = false
+  endpoint = endpointBase
 ) => {
   const headers = options.headers || {};
   const portString = port ? `:${port}` : '';
-  const endpoint = seedRequest ? seedEndpointBase : endpointBase;
   const url = `${address}${portString}${endpoint}`;
   // TODO: The jsonrpc and body field will be ignored on storage server
   const body = {

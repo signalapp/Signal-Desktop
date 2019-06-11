@@ -82,7 +82,7 @@ class LokiSnodeAPI {
       'get_service_nodes',
       {}, // Params
       {}, // Options
-      true // Seed request
+      '/json_rpc' // Seed request endpoint
     );
     const snodes = result.result.service_node_states;
     this.randomSnodePool = snodes.map(snode => ({
