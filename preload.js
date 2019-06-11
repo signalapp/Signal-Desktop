@@ -22,6 +22,7 @@ if (config.appInstance) {
 }
 
 window.platform = process.platform;
+window.getDefaultPoWDifficulty = () => config.defaultPoWDifficulty;
 window.getTitle = () => title;
 window.getEnvironment = () => config.environment;
 window.getAppInstance = () => config.appInstance;

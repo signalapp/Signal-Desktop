@@ -47,7 +47,7 @@ function calcPoW(
   pubKey,
   data,
   development,
-  nonceTrials = undefined,
+  difficulty = undefined,
   increment = 1,
   startNonce = 0
 ) {
@@ -57,7 +57,7 @@ function calcPoW(
     pubKey,
     data,
     development,
-    nonceTrials,
+    difficulty,
     increment,
     startNonce
   );

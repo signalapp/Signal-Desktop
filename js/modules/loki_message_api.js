@@ -31,10 +31,10 @@ const filterIncomingMessages = async messages => {
 };
 
 const calcNonce = (messageEventData, pubKey, data64, timestamp, ttl) => {
+  const difficulty = window.storage.get('PoWDifficulty', null);
   // Nonce is returned as a base64 string to include in header
   window.Whisper.events.trigger('calculatingPoW', messageEventData);
-  const development = window.getEnvironment() !== 'production';
-  return callWorker('calcPoW', timestamp, ttl, pubKey, data64, development);
+  return callWorker('calcPoW', timestamp, ttl, pubKey, data64, difficulty);
 };
 
 const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
@@ -124,7 +124,17 @@ class LokiMessageAPI {
       promises.push(this.openSendConnection(params));
     }
 
-    const results = await Promise.all(promises);
+    let results;
+    try {
+      results = await Promise.all(promises);
+    } catch (e) {
+      if (e instanceof textsecure.WrongDifficultyError) {
+        // Force nonce recalculation
+        this.sendMessage(pubKey, data, messageTimeStamp, ttl, options);
+        return;
+      }
+      throw e;
+    }
     delete this.sendingSwarmNodes[timestamp];
     if (results.every(value => value === false)) {
       throw new window.textsecure.EmptySwarmError(
@@ -155,7 +165,19 @@ class LokiMessageAPI {
     while (successiveFailures < 3) {
       await sleepFor(successiveFailures * 500);
       try {
-        await rpc(`https://${url}`, this.snodeServerPort, 'store', params);
+        const result = await rpc(
+          `https://${url}`,
+          this.snodeServerPort,
+          'store',
+          params
+        );
+
+        // Make sure we aren't doing too much PoW
+        const currentDifficulty = window.storage.get('PoWDifficulty', null);
+        const newDifficulty = result.difficulty;
+        if (newDifficulty != null && newDifficulty !== currentDifficulty) {
+          window.storage.put('PoWDifficulty', newDifficulty);
+        }
         return true;
       } catch (e) {
         log.warn('Loki send message:', e);
@@ -164,6 +186,12 @@ class LokiMessageAPI {
           await lokiSnodeAPI.updateSwarmNodes(params.pubKey, newSwarm);
           this.sendingSwarmNodes[params.timestamp] = newSwarm;
           return false;
+        } else if (e instanceof textsecure.WrongDifficultyError) {
+          const { newDifficulty } = e;
+          if (!Number.isNaN(newDifficulty)) {
+            window.storage.put('PoWDifficulty', newDifficulty);
+          }
+          throw e;
         } else if (e instanceof textsecure.NotFoundError) {
           // TODO: Handle resolution error
           successiveFailures += 1;
