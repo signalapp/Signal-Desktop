@@ -155,7 +155,7 @@ class LokiMessageAPI {
     while (successiveFailures < 3) {
       await sleepFor(successiveFailures * 500);
       try {
-        await rpc(`http://${url}`, this.snodeServerPort, 'store', params);
+        await rpc(`https://${url}`, this.snodeServerPort, 'store', params);
         return true;
       } catch (e) {
         log.warn('Loki send message:', e);
@@ -193,7 +193,7 @@ class LokiMessageAPI {
     };
 
     const result = await rpc(
-      `http://${nodeUrl}`,
+      `https://${nodeUrl}`,
       this.snodeServerPort,
       'retrieve',
       params,

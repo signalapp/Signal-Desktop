@@ -93,6 +93,7 @@
   function decodeSnodeAddressToPubKey(snodeAddress) {
     const snodeAddressClean = snodeAddress
       .replace('.snode', '')
+      .replace('https://', '')
       .replace('http://', '');
     return Multibase.decode(`${base32zCode}${snodeAddressClean}`);
   }
