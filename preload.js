@@ -48,6 +48,9 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
+// temporary clearnet fix
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 window.wrapDeferred = deferredToPromise;
 
 const ipc = electron.ipcRenderer;

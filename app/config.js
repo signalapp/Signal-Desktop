@@ -26,9 +26,6 @@ if (environment === 'production') {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
 }
 
-// temporary clearnet fix
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 // We load config after we've made our modifications to NODE_ENV
 const config = require('config');
 
