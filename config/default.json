@@ -4,8 +4,9 @@
   "cdnUrl": "random.snode",
   "contentProxyUrl": "random.snode",
   "localServerPort": "8081",
-  "snodeServerPort": "8080",
   "defaultPoWDifficulty": "100",
+  "seedNodeUrl": "3.104.19.14",
+  "seedNodePort": "22023",
   "disableAutoUpdate": false,
   "updatesUrl": "https://updates2.signal.org/desktop",
   "updatesPublicKey":

@@ -101,10 +101,21 @@ const fetch = async (url, options = {}) => {
 };
 
 // Wrapper for a JSON RPC request
-const rpc = (address, port, method, params, options = {}) => {
+const rpc = (
+  address,
+  port,
+  method,
+  params,
+  options = {},
+  endpoint = endpointBase
+) => {
   const headers = options.headers || {};
-  const url = `${address}${port}${endpointBase}`;
+  const portString = port ? `:${port}` : '';
+  const url = `${address}${portString}${endpoint}`;
+  // TODO: The jsonrpc and body field will be ignored on storage server
   const body = {
+    jsonrpc: '2.0',
+    id: '0',
     method,
     params,
   };

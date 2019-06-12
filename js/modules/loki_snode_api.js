@@ -32,13 +32,13 @@ const resolveCname = url =>
   });
 
 class LokiSnodeAPI {
-  constructor({ serverUrl, localUrl, snodeServerPort }) {
+  constructor({ serverUrl, localUrl }) {
     if (!is.string(serverUrl)) {
       throw new Error('WebAPI.initialize: Invalid server url');
     }
     this.serverUrl = serverUrl;
     this.localUrl = localUrl;
-    this.snodeServerPort = snodeServerPort ? `:${snodeServerPort}` : '';
+    this.randomSnodePool = [];
     this.swarmsPendingReplenish = {};
     this.ourSwarmNodes = {};
     this.contactSwarmNodes = {};
@@ -60,14 +60,35 @@ class LokiSnodeAPI {
     }
   }
 
-  async getMyLokiAddress() {
+  getMyLokiAddress() {
     /* resolve our local loki address */
     return resolveCname(this.localUrl);
   }
 
-  getRandomSnodeAddress() {
+  async getRandomSnodeAddress() {
     /* resolve random snode */
-    return resolveCname(this.serverUrl);
+    if (this.randomSnodePool.length === 0) {
+      await this.initialiseRandomPool();
+    }
+    return this.randomSnodePool[
+      Math.floor(Math.random() * this.randomSnodePool.length)
+    ];
+  }
+
+  async initialiseRandomPool() {
+    const result = await rpc(
+      `http://${window.seedNodeUrl}`,
+      window.seedNodePort,
+      'get_service_nodes',
+      {}, // Params
+      {}, // Options
+      '/json_rpc' // Seed request endpoint
+    );
+    const snodes = result.result.service_node_states;
+    this.randomSnodePool = snodes.map(snode => ({
+      address: snode.public_ip,
+      port: snode.storage_port,
+    }));
   }
 
   async unreachableNode(pubKey, nodeUrl) {
@@ -88,12 +109,9 @@ class LokiSnodeAPI {
   async updateLastHash(nodeUrl, lastHash, expiresAt) {
     await window.Signal.Data.updateLastHash({ nodeUrl, lastHash, expiresAt });
     if (!this.ourSwarmNodes[nodeUrl]) {
-      this.ourSwarmNodes[nodeUrl] = {
-        lastHash,
-      };
-    } else {
-      this.ourSwarmNodes[nodeUrl].lastHash = lastHash;
+      return;
     }
+    this.ourSwarmNodes[nodeUrl].lastHash = lastHash;
   }
 
   getSwarmNodesForPubKey(pubKey) {
@@ -121,10 +139,14 @@ class LokiSnodeAPI {
 
   async updateOurSwarmNodes(newNodes) {
     this.ourSwarmNodes = {};
-    const ps = newNodes.map(async url => {
-      const lastHash = await window.Signal.Data.getLastHashBySnode(url);
-      this.ourSwarmNodes[url] = {
+    const ps = newNodes.map(async snode => {
+      const lastHash = await window.Signal.Data.getLastHashBySnode(
+        snode.address
+      );
+      this.ourSwarmNodes[snode.address] = {
         lastHash,
+        port: snode.port,
+        ip: snode.ip,
       };
     });
     await Promise.all(ps);
@@ -167,11 +189,11 @@ class LokiSnodeAPI {
 
   async getSwarmNodes(pubKey) {
     // TODO: Hit multiple random nodes and merge lists?
-    const nodeUrl = await this.getRandomSnodeAddress();
+    const { address, port } = await this.getRandomSnodeAddress();
 
     const result = await rpc(
-      `https://${nodeUrl}`,
-      this.snodeServerPort,
+      `https://${address}`,
+      port,
       'get_snodes_for_pubkey',
       {
         pubKey,
