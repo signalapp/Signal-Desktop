@@ -77,9 +77,7 @@ const pow = {
 
     let nonce = new Uint8Array(NONCE_LEN);
     nonce = pow.incrementNonce(nonce, startNonce); // initial value
-    let trialValue = pow.bigIntToUint8Array(
-      JSBI.BigInt(Number.MAX_SAFE_INTEGER)
-    );
+    let trialValue = new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255]);
     const initialHash = new Uint8Array(
       await crypto.subtle.digest('SHA-512', payload)
     );
