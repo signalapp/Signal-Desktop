@@ -217,6 +217,11 @@
     }
   }
 
+  async function startLocalLokiServer() {
+    const pems = await window.getSelfSignedCert();
+    window.localLokiServer = new window.LocalLokiServer(pems);
+  }
+
   // We need this 'first' check because we don't want to start the app up any other time
   //   than the first time. And storage.fetch() will cause onready() to fire.
   let first = true;
@@ -225,6 +230,11 @@
       return;
     }
     first = false;
+
+    if (Whisper.Registration.isDone()) {
+      await startLocalLokiServer();
+    }
+
     window.lokiP2pAPI = new window.LokiP2pAPI(
       textsecure.storage.user.getNumber()
     );
@@ -309,6 +319,9 @@
       },
 
       shutdown: async () => {
+
+        await window.localLokiServer.close();
+
         // Stop background processing
         window.Signal.AttachmentDownloads.stop();
         if (idleDetector) {
@@ -535,8 +548,10 @@
     window.log.info('Cleanup: complete');
 
     window.log.info('listening for registration events');
-    Whisper.events.on('registration_done', () => {
+    Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');
+
+      await startLocalLokiServer();
 
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);

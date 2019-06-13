@@ -163,6 +163,22 @@
   }
   inherit(ReplayableError, DNSResolutionError);
 
+  function HolePunchingError(message, error) {
+    this.name = 'HolePunchingError';
+    this.message = message;
+    this.error = error;
+
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+
+    appendStack(this, error);
+  }
+
   function LokiIpError(message, resolutionError) {
     this.name = 'LokiIpError';
     this.message = message;
@@ -260,6 +276,7 @@
   window.textsecure.SeedNodeError = SeedNodeError;
   window.textsecure.DNSResolutionError = DNSResolutionError;
   window.textsecure.LokiIpError = LokiIpError;
+  window.textsecure.HolePunchingError = HolePunchingError;
   window.textsecure.HTTPError = HTTPError;
   window.textsecure.NotFoundError = NotFoundError;
   window.textsecure.WrongSwarmError = WrongSwarmError;

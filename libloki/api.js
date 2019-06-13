@@ -26,10 +26,16 @@
   }
 
   async function sendOnlineBroadcastMessage(pubKey, isPing = false) {
-    const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
+    if (!window.localLokiServer.isListening())
+      return;
+    // clearnet change: getMyLokiAddress -> getMyClearIP
+    // const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
+    const myLokiAddress = await window.lokiSnodeAPI.getMyClearIp();
+
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
-      p2pAddress: `http://${myLokiAddress}`,
-      p2pPort: parseInt(window.localServerPort, 10),
+      // clearnet change: http -> https
+      p2pAddress: `https://${myLokiAddress}`,
+      p2pPort: window.localLokiServer.getPublicPort(),
     });
     const content = new textsecure.protobuf.Content({
       lokiAddressMessage,

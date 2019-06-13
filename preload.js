@@ -3,6 +3,7 @@
 const path = require('path');
 const electron = require('electron');
 const semver = require('semver');
+const selfsigned = require('selfsigned');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 const { JobQueue } = require('./js/modules/job_queue');
@@ -50,6 +51,19 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 
 // temporary clearnet fix
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+window.getSelfSignedCert = () => {
+  let pems = window.storage.get('self-signed-certificate', null);
+  if (!pems) {
+    const pubKey = window.storage.get('number_id');
+    const attrs = [{ name: 'commonName', value: pubKey }];
+    pems = selfsigned.generate(attrs, { days: 365 * 10 });
+    window.storage.put('self-signed-certificate', pems);
+    window.log.info(`Created PEM for p2p:\n${pems}`);
+  } else {
+    window.log.info(`Found existing PEM for p2p:\n${pems}`);
+  }
+  return pems;
+};
 
 window.wrapDeferred = deferredToPromise;
 
@@ -304,10 +318,9 @@ window.LokiP2pAPI = require('./js/modules/loki_p2p_api');
 
 window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
-const LocalLokiServer = require('./libloki/modules/local_loki_server');
+window.LocalLokiServer = require('./libloki/modules/local_loki_server');
 
 window.localServerPort = config.localServerPort;
-window.localLokiServer = new LocalLokiServer();
 
 window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
@@ -319,7 +332,7 @@ window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
-  window.nodeSetImmediate(() => {});
+  window.nodeSetImmediate(() => { });
 }, 1000);
 
 const { autoOrientImage } = require('./js/modules/auto_orient_image');
@@ -384,8 +397,8 @@ contextMenu({
   shouldShowMenu: (event, params) =>
     Boolean(
       !params.isEditable &&
-        params.mediaType === 'none' &&
-        (params.linkURL || params.selectionText)
+      params.mediaType === 'none' &&
+      (params.linkURL || params.selectionText)
     ),
 });
 

@@ -1,5 +1,7 @@
-const http = require('http');
+/* global textsecure */
+const https = require('https');
 const EventEmitter = require('events');
+const natUpnp = require('nat-upnp');
 
 const STATUS = {
   OK: 200,
@@ -14,9 +16,14 @@ class LocalLokiServer extends EventEmitter {
    * Creates an instance of LocalLokiServer.
    * Sends out a `message` event when a new message is received.
    */
-  constructor() {
+  constructor(pems) {
     super();
-    this.server = http.createServer((req, res) => {
+    const options = {
+      key: pems.private,
+      cert: pems.cert,
+    };
+    this.upnpClient = natUpnp.createClient();
+    this.server = https.createServer(options, (req, res) => {
       let body = [];
 
       const sendResponse = (statusCode, message = null) => {
@@ -79,18 +86,73 @@ class LocalLokiServer extends EventEmitter {
 
     // Start a listening on new server
     return new Promise((res, rej) => {
-      this.server.listen(port, ip, err => {
+      this.server.listen(port, ip, async (err) => {
         if (err) {
           rej(err);
         } else {
-          res(this.server.address().port);
+          try{
+            const publicPort = await this.punchHole();
+            res(publicPort);
+          } catch(e) {
+            if (e instanceof textsecure.HolePunchingError)
+            await this.close();
+            rej(e);
+          }
         }
       });
     });
   }
 
+  async punchHole() {
+    const privatePort = this.server.address().port;
+    const portStart = 22100;
+    const portEnd = 22200;
+    const publicPortsInUse = await new Promise((resolve) => {
+      this.upnpClient.getMappings({ local: true }, (err, results) => {
+        if (err) {
+          resolve([]);
+        }
+        else {
+          resolve(results.map(entry => entry.public.port));
+        }
+      });
+    });
+
+    for (let publicPort = portStart; publicPort <= portEnd; publicPort += 1) {
+      if (publicPortsInUse.includes(publicPort))
+        // eslint-disable-next-line no-continue
+        continue;
+      const p = new Promise((resolve, reject) => {
+        this.upnpClient.portMapping({
+          public: publicPort,
+          private: privatePort,
+          ttl: 100000,
+        }, (err) => {
+          if (err)
+            reject(err);
+          else
+            resolve();
+        });
+      });
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await p;
+        this.publicPort = publicPort;
+        return publicPort;
+      } catch(e) {
+        // continue
+      }
+    }
+    throw new textsecure.HolePunchingError(`Could not punch hole. Public ports: ${portStart}-${portEnd}`);
+  }
   // Async wrapper for http server close
   close() {
+    if (this.publicPort) {
+      this.upnpClient.portUnmapping({
+        public: this.publicPort,
+      });
+      this.publicPort = null;
+    }
     if (this.server) {
       return new Promise(res => {
         this.server.close(() => res());
@@ -106,6 +168,14 @@ class LocalLokiServer extends EventEmitter {
     }
 
     return null;
+  }
+
+  getPublicPort() {
+    return this.publicPort;
+  }
+
+  isListening() {
+    return this.server.listening;
   }
 }
 
