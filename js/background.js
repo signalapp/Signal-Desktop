@@ -233,6 +233,8 @@
       window.libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
     });
 
+    window.lokiMessageAPI = new window.LokiMessageAPI();
+
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());

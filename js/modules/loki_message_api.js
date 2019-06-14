@@ -92,6 +92,7 @@ class LokiMessageAPI {
   constructor() {
     this.jobQueue = new window.JobQueue();
     this.sendingSwarmNodes = {};
+    this.ourKey = window.textsecure.storage.user.getNumber();
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
@@ -228,7 +229,6 @@ class LokiMessageAPI {
   }
 
   async openConnection(callback) {
-    const ourKey = window.textsecure.storage.user.getNumber();
     while (!_.isEmpty(this.ourSwarmNodes)) {
       const address = Object.keys(this.ourSwarmNodes)[0];
       const nodeData = this.ourSwarmNodes[address];
@@ -239,11 +239,7 @@ class LokiMessageAPI {
 
         try {
           // TODO: Revert back to using snode address instead of IP
-          let messages = await retrieveNextMessages(
-            nodeData.ip,
-            nodeData,
-            ourKey
-          );
+          let messages = await retrieveNextMessages(nodeData.ip, nodeData);
           successiveFailures = 0;
           if (messages.length) {
             const lastMessage = _.last(messages);
@@ -263,7 +259,15 @@ class LokiMessageAPI {
           log.warn('Loki retrieve messages:', e);
           if (e instanceof textsecure.WrongSwarmError) {
             const { newSwarm } = e;
-            await lokiSnodeAPI.updateOurSwarmNodes(newSwarm);
+            await lokiSnodeAPI.updateSwarmNodes(this.ourKey, newSwarm);
+            for (let i = 0; i < newSwarm.length; i += 1) {
+              const lastHash = await window.Signal.Data.getLastHashBySnode(
+                newSwarm[i]
+              );
+              this.ourSwarmnewSwarm[newSwarm[i]] = {
+                lastHash,
+              };
+            }
             // Try another snode
             break;
           } else if (e instanceof textsecure.NotFoundError) {
@@ -279,7 +283,18 @@ class LokiMessageAPI {
   }
 
   async startLongPolling(numConnections, callback) {
-    this.ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
+    this.ourSwarmNodes = {};
+    let nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey);
+    if (nodes.length < numConnections) {
+      await lokiSnodeAPI.refreshSwarmNodesForPubKey(this.ourKey);
+      nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey);
+    }
+    for (let i = 0; i < nodes.length; i += 1) {
+      const lastHash = await window.Signal.Data.getLastHashBySnode(nodes[i]);
+      this.ourSwarmNodes[nodes[i]] = {
+        lastHash,
+      };
+    }
 
     const promises = [];
 
