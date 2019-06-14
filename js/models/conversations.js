@@ -642,6 +642,8 @@
     async setFriendRequestStatus(newStatus) {
       // Ensure that the new status is a valid FriendStatusEnum value
       if (!(newStatus in Object.values(FriendRequestStatusEnum))) return;
+      const me = textsecure.storage.user.getNumber();
+      if (me === this.id && newStatus !== FriendRequestStatusEnum.friends) return;
       if (this.get('friendRequestStatus') !== newStatus) {
         this.set({ friendRequestStatus: newStatus });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
