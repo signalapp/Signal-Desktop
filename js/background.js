@@ -16,6 +16,8 @@
 (async function() {
   'use strict';
 
+  const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
+
   // Globally disable drag and drop
   document.body.addEventListener(
     'dragover',
@@ -806,21 +808,28 @@
       mySignalingKey,
       options
     );
-    messageReceiver.addEventListener('message', onMessageReceived);
-    messageReceiver.addEventListener('delivery', onDeliveryReceipt);
-    messageReceiver.addEventListener('contact', onContactReceived);
-    messageReceiver.addEventListener('group', onGroupReceived);
-    messageReceiver.addEventListener('sent', onSentMessage);
-    messageReceiver.addEventListener('readSync', onReadSync);
-    messageReceiver.addEventListener('read', onReadReceipt);
-    messageReceiver.addEventListener('verified', onVerified);
-    messageReceiver.addEventListener('error', onError);
-    messageReceiver.addEventListener('empty', onEmpty);
-    messageReceiver.addEventListener('reconnect', onReconnect);
-    messageReceiver.addEventListener('progress', onProgress);
-    messageReceiver.addEventListener('configuration', onConfiguration);
-    messageReceiver.addEventListener('typing', onTyping);
-    messageReceiver.addEventListener('sticker-pack', onStickerPack);
+
+    function addQueuedEventListener(name, handler) {
+      messageReceiver.addEventListener(name, (...args) =>
+        eventHandlerQueue.add(() => handler(...args))
+      );
+    }
+
+    addQueuedEventListener('message', onMessageReceived);
+    addQueuedEventListener('delivery', onDeliveryReceipt);
+    addQueuedEventListener('contact', onContactReceived);
+    addQueuedEventListener('group', onGroupReceived);
+    addQueuedEventListener('sent', onSentMessage);
+    addQueuedEventListener('readSync', onReadSync);
+    addQueuedEventListener('read', onReadReceipt);
+    addQueuedEventListener('verified', onVerified);
+    addQueuedEventListener('error', onError);
+    addQueuedEventListener('empty', onEmpty);
+    addQueuedEventListener('reconnect', onReconnect);
+    addQueuedEventListener('progress', onProgress);
+    addQueuedEventListener('configuration', onConfiguration);
+    addQueuedEventListener('typing', onTyping);
+    addQueuedEventListener('sticker-pack', onStickerPack);
 
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
