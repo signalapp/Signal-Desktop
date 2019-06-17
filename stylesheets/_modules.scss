@@ -4424,17 +4424,20 @@
 }
 
 // Module: Emoji
-@mixin emoji-size($size, $emoji-sheet-columns: 52) {
+@mixin emoji-size($size) {
   &--#{$size} {
     width: $size;
     height: $size;
-    background-size: $emoji-sheet-columns * $size;
+  }
+  &__image--#{$size} {
+    width: $size;
+    height: $size;
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .module-emoji {
   display: block;
-  background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets-256/64.png');
 
   @include emoji-size(16px);
   @include emoji-size(20px);

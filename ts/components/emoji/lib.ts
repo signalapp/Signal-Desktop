@@ -18,6 +18,21 @@ export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
 export type SkinToneKey = '1F3FB' | '1F3FC' | '1F3FD' | '1F3FE' | '1F3FF';
 
+export type EmojiSkinVariation = {
+  unified: string;
+  non_qualified: null;
+  image: string;
+  sheet_x: number;
+  sheet_y: number;
+  added_in: string;
+  has_img_apple: boolean;
+  has_img_google: boolean;
+  has_img_twitter: boolean;
+  has_img_emojione: boolean;
+  has_img_facebook: boolean;
+  has_img_messenger: boolean;
+};
+
 export type EmojiData = {
   name: string;
   unified: string;
@@ -43,24 +58,36 @@ export type EmojiData = {
   has_img_facebook: boolean;
   has_img_messenger: boolean;
   skin_variations?: {
-    [key: string]: {
-      unified: string;
-      non_qualified: null;
-      image: string;
-      sheet_x: number;
-      sheet_y: number;
-      added_in: string;
-      has_img_apple: boolean;
-      has_img_google: boolean;
-      has_img_twitter: boolean;
-      has_img_emojione: boolean;
-      has_img_facebook: boolean;
-      has_img_messenger: boolean;
-    };
+    [key: string]: EmojiSkinVariation;
   };
 };
 
-const data: Array<EmojiData> = untypedData;
+const data = (untypedData as Array<EmojiData>).filter(
+  emoji => emoji.has_img_apple
+);
+
+const makeImagePath = (src: string) => {
+  return `node_modules/emoji-datasource-apple/img/apple/64/${src}`;
+};
+
+export const images = new Set();
+
+// Preload images
+const preload = (src: string) => {
+  const img = new Image();
+  img.src = src;
+  images.add(img);
+};
+
+data.forEach(emoji => {
+  preload(makeImagePath(emoji.image));
+
+  if (emoji.skin_variations) {
+    Object.values(emoji.skin_variations).forEach(variation => {
+      preload(makeImagePath(variation.image));
+    });
+  }
+});
 
 export const dataByShortName = keyBy(data, 'short_name');
 
@@ -112,20 +139,28 @@ export const dataByCategory = mapValues(
   arr => sortBy(arr, 'sort_order')
 );
 
-export function getSheetCoordinates(
+export function getEmojiData(
   shortName: keyof typeof dataByShortName,
   skinTone?: SkinToneKey | number
-): [number, number] {
+): EmojiData | EmojiSkinVariation {
   const base = dataByShortName[shortName];
 
   if (skinTone && base.skin_variations) {
     const variation = isNumber(skinTone) ? skinTones[skinTone - 1] : skinTone;
-    const { sheet_x, sheet_y } = base.skin_variations[variation];
 
-    return [sheet_x, sheet_y];
+    return base.skin_variations[variation];
   }
 
-  return [base.sheet_x, base.sheet_y];
+  return base;
+}
+
+export function getImagePath(
+  shortName: keyof typeof dataByShortName,
+  skinTone?: SkinToneKey | number
+): string {
+  const { image } = getEmojiData(shortName, skinTone);
+
+  return makeImagePath(image);
 }
 
 const fuse = new Fuse(data, {

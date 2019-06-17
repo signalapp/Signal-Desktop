@@ -28,11 +28,18 @@ function getImageTag({
   const result = getReplacementData(match[0], match[1], match[2]);
 
   if (is.string(result)) {
-    return <span key={key}>{match[0]}</span>;
+    return match[0];
   }
 
   const img = findImage(result.value, result.variation);
   const title = getTitle(result.value);
+
+  if (
+    !img.path ||
+    !img.path.startsWith('node_modules/emoji-datasource-apple')
+  ) {
+    return match[0];
+  }
 
   return (
     // tslint:disable-next-line react-a11y-img-has-alt

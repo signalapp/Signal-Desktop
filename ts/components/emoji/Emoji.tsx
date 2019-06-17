@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { getSheetCoordinates, SkinToneKey } from './lib';
+import { getImagePath, SkinToneKey } from './lib';
 
 export type OwnProps = {
   inline?: boolean;
@@ -18,9 +18,7 @@ export const Emoji = React.memo(
       { style = {}, size = 28, shortName, skinTone, inline, className }: Props,
       ref
     ) => {
-      const [sheetX, sheetY] = getSheetCoordinates(shortName, skinTone);
-      const x = -(size * sheetX);
-      const y = -(size * sheetY);
+      const image = getImagePath(shortName, skinTone);
 
       return (
         <div
@@ -31,12 +29,14 @@ export const Emoji = React.memo(
             inline ? 'module-emoji--inline' : null,
             className
           )}
-          style={{
-            ...style,
-            backgroundPositionX: `${x}px`,
-            backgroundPositionY: `${y}px`,
-          }}
-        />
+          style={style}
+        >
+          <img
+            className={`module-emoji__image--${size}px`}
+            src={image}
+            alt={shortName}
+          />
+        </div>
       );
     }
   )
