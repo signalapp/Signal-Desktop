@@ -199,7 +199,7 @@ export class ConversationHeader extends React.Component<Props> {
       onDeleteContact,
       onResetSession,
       onSetDisappearingMessages,
-      onShowAllMedia,
+      // onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
       onArchive,
@@ -232,7 +232,7 @@ export class ConversationHeader extends React.Component<Props> {
             </MenuItem>
           ))}
         </SubMenu>
-        <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem>
+        {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
         {isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>
             {i18n('showMembers')}
