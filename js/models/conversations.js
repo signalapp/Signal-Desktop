@@ -167,6 +167,9 @@
 
       // Online status handling
       this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
+      if (this.id === this.ourNumber) {
+        this.set({ friendRequestStatus: FriendRequestStatusEnum.friends });
+      }
 
       this.messageSendQueue = new JobQueue();
 
@@ -643,6 +646,12 @@
     async setFriendRequestStatus(newStatus) {
       // Ensure that the new status is a valid FriendStatusEnum value
       if (!(newStatus in Object.values(FriendRequestStatusEnum))) return;
+      if (
+        this.ourNumber === this.id &&
+        newStatus !== FriendRequestStatusEnum.friends
+      ) {
+        return;
+      }
       if (this.get('friendRequestStatus') !== newStatus) {
         this.set({ friendRequestStatus: newStatus });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
