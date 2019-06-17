@@ -168,7 +168,7 @@
       // Online status handling
       this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
       if (this.id === this.ourNumber) {
-        this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
+        this.set({ friendRequestStatus: FriendRequestStatusEnum.friends });
       }
 
       this.messageSendQueue = new JobQueue();
