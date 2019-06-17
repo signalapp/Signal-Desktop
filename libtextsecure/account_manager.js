@@ -537,7 +537,6 @@
       // Update the conversation if we have it
       const newProfile = storage.getLocalProfile();
       await conversation.setProfile(newProfile);
-      await conversation.setFriendRequestStatus(window.friends.friendRequestStatusEnum.friends);
 
       this.dispatchEvent(new Event('registration'));
     },
