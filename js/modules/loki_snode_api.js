@@ -89,10 +89,8 @@ class LokiSnodeAPI {
   async unreachableNode(pubKey, nodeUrl) {
     const conversation = ConversationController.get(pubKey);
     const swarmNodes = [...conversation.get('swarmNodes')];
-    if (swarmNodes.includes(nodeUrl)) {
-      const filteredNodes = swarmNodes.filter(node => node !== nodeUrl);
-      await conversation.updateSwarmNodes(filteredNodes);
-    }
+    const filteredNodes = swarmNodes.filter(node => node.address !== nodeUrl);
+    await conversation.updateSwarmNodes(filteredNodes);
   }
 
   async updateLastHash(nodeUrl, lastHash, expiresAt) {
