@@ -76,11 +76,18 @@ class LokiSnodeAPI {
   }
 
   async initialiseRandomPool() {
+    const params = {
+      limit: 20,
+      fields: {
+        public_ip: true,
+        storage_port: true,
+      },
+    };
     const result = await rpc(
       `http://${window.seedNodeUrl}`,
       window.seedNodePort,
-      'get_service_nodes',
-      {}, // Params
+      'get_n_service_nodes',
+      params,
       {}, // Options
       '/json_rpc' // Seed request endpoint
     );
