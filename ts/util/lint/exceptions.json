@@ -2872,6 +2872,46 @@
     "updated": "2019-04-06T00:07:44.427Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
+    "line": "function load(input, options) {",
+    "lineNumber": 2557,
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2019-06-19T20:42:32.133Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
+    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
+    "lineNumber": 2580,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
+    "line": "function load(input, options) {",
+    "lineNumber": 1580,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
+    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
+    "lineNumber": 1603,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/dotenv-expand/lib/main.js",
     "line": "    var matches = env.match(/\\$([a-zA-Z0-9_]+)|\\${([a-zA-Z0-9_]+)}/g) || []",
@@ -4224,8 +4264,16 @@
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
+    "line": "  // Avoid code execution in load() via toString property",
+    "lineNumber": 1284,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "function load(input, options) {",
-    "lineNumber": 2557,
+    "lineNumber": 2572,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-03T00:52:04.925Z"
   },
@@ -4233,7 +4281,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2580,
+    "lineNumber": 2595,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-03T00:52:04.925Z"
   },
@@ -4247,8 +4295,16 @@
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/lib/js-yaml/loader.js",
+    "line": "  // Avoid code execution in load() via toString property",
+    "lineNumber": 307,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/js-yaml/lib/js-yaml/loader.js",
     "line": "function load(input, options) {",
-    "lineNumber": 1580,
+    "lineNumber": 1595,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-03T00:52:04.925Z"
   },
@@ -4256,7 +4312,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/lib/js-yaml/loader.js",
     "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 1603,
+    "lineNumber": 1618,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-03T00:52:04.925Z"
   },
@@ -5355,6 +5411,45 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.js",
+    "line": "function load(input, options) {",
+    "lineNumber": 2557,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.js",
+    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
+    "lineNumber": 2580,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/read-config-file/node_modules/js-yaml/lib/js-yaml/loader.js",
+    "line": "function load(input, options) {",
+    "lineNumber": 1580,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/read-config-file/node_modules/js-yaml/lib/js-yaml/loader.js",
+    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
+    "lineNumber": 1603,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
   },
   {
     "rule": "jQuery-$(",
