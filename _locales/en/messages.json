@@ -1895,7 +1895,7 @@
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
     "message":
-      "You’ve updated to the latest version of Signal and will now receive this message type on your device."
+      "Future messages like this will be synchronized now that you are using an up-to-date version of Signal."
   },
   "Message--update-signal": {
     "message": "Update Signal",
