@@ -6,9 +6,6 @@ const dns = require('dns');
 const process = require('process');
 const { rpc } = require('./loki_rpc');
 
-// Will be raised (to 3?) when we get more nodes
-const MINIMUM_SWARM_NODES = 1;
-
 const resolve4 = url =>
   new Promise((resolve, reject) => {
     dns.resolve4(url, (err, ip) => {
@@ -40,8 +37,6 @@ class LokiSnodeAPI {
     this.localUrl = localUrl;
     this.randomSnodePool = [];
     this.swarmsPendingReplenish = {};
-    this.ourSwarmNodes = {};
-    this.contactSwarmNodes = {};
     // When we package lokinet with messenger we can ensure this ip is correct
     if (process.platform === 'win32') {
       dns.setServers(['127.0.0.1']);
@@ -92,26 +87,14 @@ class LokiSnodeAPI {
   }
 
   async unreachableNode(pubKey, nodeUrl) {
-    if (pubKey === window.textsecure.storage.user.getNumber()) {
-      delete this.ourSwarmNodes[nodeUrl];
-      return;
-    }
-
     const conversation = ConversationController.get(pubKey);
     const swarmNodes = [...conversation.get('swarmNodes')];
-    if (swarmNodes.includes(nodeUrl)) {
-      const filteredNodes = swarmNodes.filter(node => node !== nodeUrl);
-      await conversation.updateSwarmNodes(filteredNodes);
-      delete this.contactSwarmNodes[nodeUrl];
-    }
+    const filteredNodes = swarmNodes.filter(node => node.address !== nodeUrl);
+    await conversation.updateSwarmNodes(filteredNodes);
   }
 
   async updateLastHash(nodeUrl, lastHash, expiresAt) {
     await window.Signal.Data.updateLastHash({ nodeUrl, lastHash, expiresAt });
-    if (!this.ourSwarmNodes[nodeUrl]) {
-      return;
-    }
-    this.ourSwarmNodes[nodeUrl].lastHash = lastHash;
   }
 
   getSwarmNodesForPubKey(pubKey) {
@@ -135,33 +118,6 @@ class LokiSnodeAPI {
         message: 'Could not get conversation',
       });
     }
-  }
-
-  async updateOurSwarmNodes(newNodes) {
-    this.ourSwarmNodes = {};
-    const ps = newNodes.map(async snode => {
-      const lastHash = await window.Signal.Data.getLastHashBySnode(
-        snode.address
-      );
-      this.ourSwarmNodes[snode.address] = {
-        lastHash,
-        port: snode.port,
-        ip: snode.ip,
-      };
-    });
-    await Promise.all(ps);
-  }
-
-  async getOurSwarmNodes() {
-    if (
-      !this.ourSwarmNodes ||
-      Object.keys(this.ourSwarmNodes).length < MINIMUM_SWARM_NODES
-    ) {
-      const ourKey = window.textsecure.storage.user.getNumber();
-      const nodeAddresses = await this.getSwarmNodes(ourKey);
-      await this.updateOurSwarmNodes(nodeAddresses);
-    }
-    return { ...this.ourSwarmNodes };
   }
 
   async refreshSwarmNodesForPubKey(pubKey) {

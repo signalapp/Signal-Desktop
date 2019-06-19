@@ -66,32 +66,11 @@ const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
   }
 };
 
-const retrieveNextMessages = async (nodeUrl, nodeData, ourKey) => {
-  const params = {
-    pubKey: ourKey,
-    lastHash: nodeData.lastHash || '',
-  };
-  const options = {
-    timeout: 40000,
-    headers: {
-      [LOKI_LONGPOLL_HEADER]: true,
-    },
-  };
-
-  const result = await rpc(
-    `https://${nodeUrl}`,
-    nodeData.port,
-    'retrieve',
-    params,
-    options
-  );
-  return result.messages || [];
-};
-
 class LokiMessageAPI {
   constructor() {
     this.jobQueue = new window.JobQueue();
     this.sendingSwarmNodes = {};
+    this.ourKey = window.textsecure.storage.user.getNumber();
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
@@ -227,8 +206,7 @@ class LokiMessageAPI {
     return false;
   }
 
-  async openConnection(callback) {
-    const ourKey = window.textsecure.storage.user.getNumber();
+  async openRetrieveConnection(callback) {
     while (!_.isEmpty(this.ourSwarmNodes)) {
       const address = Object.keys(this.ourSwarmNodes)[0];
       const nodeData = this.ourSwarmNodes[address];
@@ -239,16 +217,12 @@ class LokiMessageAPI {
 
         try {
           // TODO: Revert back to using snode address instead of IP
-          let messages = await retrieveNextMessages(
-            nodeData.ip,
-            nodeData,
-            ourKey
-          );
+          let messages = await this.retrieveNextMessages(nodeData.ip, nodeData);
           successiveFailures = 0;
           if (messages.length) {
             const lastMessage = _.last(messages);
-            nodeData.lashHash = lastMessage.hash;
-            lokiSnodeAPI.updateLastHash(
+            nodeData.lastHash = lastMessage.hash;
+            await lokiSnodeAPI.updateLastHash(
               address,
               lastMessage.hash,
               lastMessage.expiration
@@ -263,7 +237,15 @@ class LokiMessageAPI {
           log.warn('Loki retrieve messages:', e);
           if (e instanceof textsecure.WrongSwarmError) {
             const { newSwarm } = e;
-            await lokiSnodeAPI.updateOurSwarmNodes(newSwarm);
+            await lokiSnodeAPI.updateSwarmNodes(this.ourKey, newSwarm);
+            for (let i = 0; i < newSwarm.length; i += 1) {
+              const lastHash = await window.Signal.Data.getLastHashBySnode(
+                newSwarm[i]
+              );
+              this.ourSwarmNodes[newSwarm[i]] = {
+                lastHash,
+              };
+            }
             // Try another snode
             break;
           } else if (e instanceof textsecure.NotFoundError) {
@@ -275,16 +257,54 @@ class LokiMessageAPI {
           successiveFailures += 1;
         }
       }
+      if (successiveFailures >= 3) {
+        await lokiSnodeAPI.unreachableNode(this.ourKey, address);
+      }
     }
   }
 
+  async retrieveNextMessages(nodeUrl, nodeData) {
+    const params = {
+      pubKey: this.ourKey,
+      lastHash: nodeData.lastHash || '',
+    };
+    const options = {
+      timeout: 40000,
+      headers: {
+        [LOKI_LONGPOLL_HEADER]: true,
+      },
+    };
+
+    const result = await rpc(
+      `https://${nodeUrl}`,
+      nodeData.port,
+      'retrieve',
+      params,
+      options
+    );
+    return result.messages || [];
+  };
+
   async startLongPolling(numConnections, callback) {
-    this.ourSwarmNodes = await lokiSnodeAPI.getOurSwarmNodes();
+    this.ourSwarmNodes = {};
+    let nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey);
+    if (nodes.length < numConnections) {
+      await lokiSnodeAPI.refreshSwarmNodesForPubKey(this.ourKey);
+      nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey);
+    }
+    for (let i = 0; i < nodes.length; i += 1) {
+      const lastHash = await window.Signal.Data.getLastHashBySnode(nodes[i].address);
+      this.ourSwarmNodes[nodes[i].address] = {
+        lastHash,
+        ip: nodes[i].ip,
+        port: nodes[i].port,
+      };
+    }
 
     const promises = [];
 
     for (let i = 0; i < numConnections; i += 1)
-      promises.push(this.openConnection(callback));
+      promises.push(this.openRetrieveConnection(callback));
 
     // blocks until all snodes in our swarms have been removed from the list
     // or if there is network issues (ENOUTFOUND due to lokinet)
