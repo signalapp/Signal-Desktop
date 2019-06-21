@@ -936,16 +936,20 @@
         );
 
         // Unlike visual media, only one non-image attachment is supported
-        const documents = rawDocuments.map(message => {
-          const attachments = message.attachments || [];
-          const attachment = attachments[0];
-          return {
-            contentType: attachment.contentType,
-            index: 0,
-            attachment,
-            message,
-          };
-        });
+        const documents = rawDocuments
+          .filter(message =>
+            Boolean(message.attachments && message.attachments.length)
+          )
+          .map(message => {
+            const attachments = message.attachments || [];
+            const attachment = attachments[0];
+            return {
+              contentType: attachment.contentType,
+              index: 0,
+              attachment,
+              message,
+            };
+          });
 
         const saveAttachment = async ({ attachment, message } = {}) => {
           const timestamp = message.received_at;
