@@ -72,22 +72,24 @@ const makeImagePath = (src: string) => {
 
 export const images = new Set();
 
-// Preload images
-const preload = (src: string) => {
-  const img = new Image();
-  img.src = src;
-  images.add(img);
+export const preloadImages = () => {
+  // Preload images
+  const preload = (src: string) => {
+    const img = new Image();
+    img.src = src;
+    images.add(img);
+  };
+
+  data.forEach(emoji => {
+    preload(makeImagePath(emoji.image));
+
+    if (emoji.skin_variations) {
+      Object.values(emoji.skin_variations).forEach(variation => {
+        preload(makeImagePath(variation.image));
+      });
+    }
+  });
 };
-
-data.forEach(emoji => {
-  preload(makeImagePath(emoji.image));
-
-  if (emoji.skin_variations) {
-    Object.values(emoji.skin_variations).forEach(variation => {
-      preload(makeImagePath(variation.image));
-    });
-  }
-});
 
 export const dataByShortName = keyBy(data, 'short_name');
 
