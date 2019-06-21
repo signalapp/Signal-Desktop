@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global window, ConversationController */
+/* global window, ConversationController, _ */
 
 const is = require('@sindresorhus/is');
 const dns = require('dns');
@@ -65,25 +65,42 @@ class LokiSnodeAPI {
     if (this.randomSnodePool.length === 0) {
       await this.initialiseRandomPool();
     }
+    if (this.randomSnodePool.length === 0) {
+      throw new window.textsecure.SeedNodeError('Invalid seed node response');
+    }
     return this.randomSnodePool[
       Math.floor(Math.random() * this.randomSnodePool.length)
     ];
   }
 
   async initialiseRandomPool() {
-    const result = await rpc(
-      `http://${window.seedNodeUrl}`,
-      window.seedNodePort,
-      'get_service_nodes',
-      {}, // Params
-      {}, // Options
-      '/json_rpc' // Seed request endpoint
-    );
-    const snodes = result.result.service_node_states;
-    this.randomSnodePool = snodes.map(snode => ({
-      address: snode.public_ip,
-      port: snode.storage_port,
-    }));
+    const params = {
+      limit: 20,
+      fields: {
+        public_ip: true,
+        storage_port: true,
+      },
+    };
+    try {
+      const result = await rpc(
+        `http://${window.seedNodeUrl}`,
+        window.seedNodePort,
+        'get_n_service_nodes',
+        params,
+        {}, // Options
+        '/json_rpc' // Seed request endpoint
+      );
+      // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
+      const snodes = result.result.service_node_states.filter(
+        snode => snode.address !== '0.0.0.0'
+      );
+      this.randomSnodePool = snodes.map(snode => ({
+        address: snode.public_ip,
+        port: snode.storage_port,
+      }));
+    } catch (e) {
+      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
+    }
   }
 
   async unreachableNode(pubKey, nodeUrl) {
@@ -146,16 +163,23 @@ class LokiSnodeAPI {
   async getSwarmNodes(pubKey) {
     // TODO: Hit multiple random nodes and merge lists?
     const { address, port } = await this.getRandomSnodeAddress();
-
-    const result = await rpc(
-      `https://${address}`,
-      port,
-      'get_snodes_for_pubkey',
-      {
-        pubKey,
-      }
-    );
-    return result.snodes;
+    try {
+      const result = await rpc(
+        `https://${address}`,
+        port,
+        'get_snodes_for_pubkey',
+        {
+          pubKey,
+        }
+      );
+      return result.snodes;
+    } catch (e) {
+      this.randomSnodePool = _.without(
+        this.randomSnodePool,
+        _.find(this.randomSnodePool, { address })
+      );
+      return this.getSwarmNodes(pubKey);
+    }
   }
 }
 
