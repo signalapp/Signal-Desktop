@@ -1480,7 +1480,7 @@
         };
       }
 
-      let group = this.get('group');
+      let group = this.get('group_update');
       if (group && group.avatar) {
         group = {
           ...group,
