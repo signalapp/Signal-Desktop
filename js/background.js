@@ -1639,10 +1639,15 @@
         return;
       }
 
+      const id = await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
+      });
+      message.set({ id });
       await message.saveErrors(error || new Error('Error was null'));
-      const id = message.get('conversationId');
+
+      const conversationId = message.get('conversationId');
       const conversation = await ConversationController.getOrCreateAndWait(
-        id,
+        conversationId,
         'private'
       );
       conversation.set({
@@ -1663,9 +1668,13 @@
         ev.confirm();
       }
 
-      await window.Signal.Data.updateConversation(id, conversation.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await window.Signal.Data.updateConversation(
+        conversationId,
+        conversation.attributes,
+        {
+          Conversation: Whisper.Conversation,
+        }
+      );
     }
 
     throw error;
