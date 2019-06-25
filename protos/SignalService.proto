@@ -169,17 +169,25 @@ message DataMessage {
     optional AttachmentPointer data = 4;
   }
 
-  optional string             body        = 1;
-  repeated AttachmentPointer  attachments = 2;
-  optional GroupContext       group       = 3;
-  optional uint32             flags       = 4;
-  optional uint32             expireTimer = 5;
-  optional bytes              profileKey  = 6;
-  optional uint64             timestamp   = 7;
-  optional Quote              quote       = 8;
-  repeated Contact            contact     = 9;
-  repeated Preview            preview     = 10;
-  optional Sticker            sticker     = 11;
+  enum ProtocolVersion {
+    option allow_alias = true;
+
+    INITIAL = 0;
+    CURRENT = 0;
+  }
+
+  optional string             body                    = 1;
+  repeated AttachmentPointer  attachments             = 2;
+  optional GroupContext       group                   = 3;
+  optional uint32             flags                   = 4;
+  optional uint32             expireTimer             = 5;
+  optional bytes              profileKey              = 6;
+  optional uint64             timestamp               = 7;
+  optional Quote              quote                   = 8;
+  repeated Contact            contact                 = 9;
+  repeated Preview            preview                 = 10;
+  optional Sticker            sticker                 = 11;
+  optional uint32             requiredProtocolVersion = 12;
 }
 
 message NullMessage {

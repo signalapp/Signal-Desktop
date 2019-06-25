@@ -91,11 +91,11 @@ export const _getConversationComparator = (
     const leftTitle = getConversationTitle(left, {
       i18n,
       ourRegionCode,
-    }).toLowerCase();
+    });
     const rightTitle = getConversationTitle(right, {
       i18n,
       ourRegionCode,
-    }).toLowerCase();
+    });
 
     return collator.compare(leftTitle, rightTitle);
   };
@@ -114,15 +114,13 @@ export const _getLeftPaneLists = (
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
 } => {
-  const values = Object.values(lookup);
-  const sorted = values.sort(comparator);
-
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
 
-  const max = sorted.length;
+  const values = Object.values(lookup);
+  const max = values.length;
   for (let i = 0; i < max; i += 1) {
-    let conversation = sorted[i];
+    let conversation = values[i];
     if (!conversation.activeAt) {
       continue;
     }
@@ -140,6 +138,9 @@ export const _getLeftPaneLists = (
       conversations.push(conversation);
     }
   }
+
+  conversations.sort(comparator);
+  archivedConversations.sort(comparator);
 
   return { conversations, archivedConversations };
 };

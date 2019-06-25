@@ -1,6 +1,6 @@
 import is from '@sindresorhus/is';
 import moment from 'moment';
-import { padStart } from 'lodash';
+import { isNumber, padStart } from 'lodash';
 
 import * as MIME from './MIME';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
@@ -357,7 +357,7 @@ export const getSuggestedFilename = ({
   timestamp?: number | Date;
   index?: number;
 }): string => {
-  if (attachment.fileName) {
+  if (!isNumber(index) && attachment.fileName) {
     return attachment.fileName;
   }
 

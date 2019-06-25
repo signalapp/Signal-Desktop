@@ -16,6 +16,8 @@
 (async function() {
   'use strict';
 
+  const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
+
   // Globally disable drag and drop
   document.body.addEventListener(
     'dragover',
@@ -35,6 +37,7 @@
   );
 
   // Load these images now to ensure that they don't flicker on first use
+  window.Signal.EmojiLib.preloadImages();
   const images = [];
   function preload(list) {
     for (let index = 0, max = list.length; index < max; index += 1) {
@@ -806,21 +809,28 @@
       mySignalingKey,
       options
     );
-    messageReceiver.addEventListener('message', onMessageReceived);
-    messageReceiver.addEventListener('delivery', onDeliveryReceipt);
-    messageReceiver.addEventListener('contact', onContactReceived);
-    messageReceiver.addEventListener('group', onGroupReceived);
-    messageReceiver.addEventListener('sent', onSentMessage);
-    messageReceiver.addEventListener('readSync', onReadSync);
-    messageReceiver.addEventListener('read', onReadReceipt);
-    messageReceiver.addEventListener('verified', onVerified);
-    messageReceiver.addEventListener('error', onError);
-    messageReceiver.addEventListener('empty', onEmpty);
-    messageReceiver.addEventListener('reconnect', onReconnect);
-    messageReceiver.addEventListener('progress', onProgress);
-    messageReceiver.addEventListener('configuration', onConfiguration);
-    messageReceiver.addEventListener('typing', onTyping);
-    messageReceiver.addEventListener('sticker-pack', onStickerPack);
+
+    function addQueuedEventListener(name, handler) {
+      messageReceiver.addEventListener(name, (...args) =>
+        eventHandlerQueue.add(() => handler(...args))
+      );
+    }
+
+    addQueuedEventListener('message', onMessageReceived);
+    addQueuedEventListener('delivery', onDeliveryReceipt);
+    addQueuedEventListener('contact', onContactReceived);
+    addQueuedEventListener('group', onGroupReceived);
+    addQueuedEventListener('sent', onSentMessage);
+    addQueuedEventListener('readSync', onReadSync);
+    addQueuedEventListener('read', onReadReceipt);
+    addQueuedEventListener('verified', onVerified);
+    addQueuedEventListener('error', onError);
+    addQueuedEventListener('empty', onEmpty);
+    addQueuedEventListener('reconnect', onReconnect);
+    addQueuedEventListener('progress', onProgress);
+    addQueuedEventListener('configuration', onConfiguration);
+    addQueuedEventListener('typing', onTyping);
+    addQueuedEventListener('sticker-pack', onStickerPack);
 
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
@@ -1119,6 +1129,8 @@
           details.profileKey
         );
         conversation.setProfileKey(profileKey);
+      } else {
+        conversation.dropProfileKey();
       }
 
       if (typeof details.blocked !== 'undefined') {
@@ -1627,10 +1639,15 @@
         return;
       }
 
+      const id = await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
+      });
+      message.set({ id });
       await message.saveErrors(error || new Error('Error was null'));
-      const id = message.get('conversationId');
+
+      const conversationId = message.get('conversationId');
       const conversation = await ConversationController.getOrCreateAndWait(
-        id,
+        conversationId,
         'private'
       );
       conversation.set({
@@ -1651,9 +1668,13 @@
         ev.confirm();
       }
 
-      await window.Signal.Data.updateConversation(id, conversation.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await window.Signal.Data.updateConversation(
+        conversationId,
+        conversation.attributes,
+        {
+          Conversation: Whisper.Conversation,
+        }
+      );
     }
 
     throw error;

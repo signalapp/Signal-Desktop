@@ -7,6 +7,7 @@ const Data = require('./data');
 const Database = require('./database');
 const Emojis = require('./emojis');
 const Emoji = require('../../ts/util/emoji');
+const EmojiLib = require('../../ts/components/emoji/lib');
 const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
@@ -65,6 +66,9 @@ const {
 const {
   TypingBubble,
 } = require('../../ts/components/conversation/TypingBubble');
+const {
+  UnsupportedMessage,
+} = require('../../ts/components/conversation/UnsupportedMessage');
 const {
   VerificationNotification,
 } = require('../../ts/components/conversation/VerificationNotification');
@@ -277,6 +281,7 @@ exports.setup = (options = {}) => {
       Message: MediaGalleryMessage,
     },
     TypingBubble,
+    UnsupportedMessage,
     VerificationNotification,
   };
 
@@ -331,6 +336,7 @@ exports.setup = (options = {}) => {
     Database,
     Emojis,
     Emoji,
+    EmojiLib,
     IndexedDB,
     LinkPreviews,
     Metadata,

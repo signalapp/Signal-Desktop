@@ -50,7 +50,7 @@ export class SafetyNumberNotification extends React.Component<Props> {
                   name={contact.name}
                   profileName={contact.profileName}
                   phoneNumber={contact.phoneNumber}
-                  module="module-verification-notification__contact"
+                  module="module-safety-number-notification__contact"
                 />
               </span>,
             ]}
@@ -62,7 +62,7 @@ export class SafetyNumberNotification extends React.Component<Props> {
           onClick={() => {
             showIdentity(contact.id);
           }}
-          className="module-verification-notification__button"
+          className="module-safety-number-notification__button"
         >
           {i18n('verifyNewNumber')}
         </div>

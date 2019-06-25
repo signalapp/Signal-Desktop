@@ -1,6 +1,6 @@
 ### In group conversation
 
-```js
+```jsx
 <util.ConversationContext theme={util.theme}>
   <SafetyNumberNotification
     i18n={util.i18n}
@@ -13,7 +13,7 @@
 
 ### In one-on-one conversation
 
-```js
+```jsx
 <util.ConversationContext theme={util.theme}>
   <SafetyNumberNotification
     i18n={util.i18n}

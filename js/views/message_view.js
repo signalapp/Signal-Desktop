@@ -51,7 +51,12 @@
       const { Components } = window.Signal;
       const { type, data: props } = this.model.props;
 
-      if (type === 'timerNotification') {
+      if (type === 'unsupportedMessage') {
+        return {
+          Component: Components.UnsupportedMessage,
+          props,
+        };
+      } else if (type === 'timerNotification') {
         return {
           Component: Components.TimerNotification,
           props,

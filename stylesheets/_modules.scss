@@ -1200,7 +1200,7 @@
   font-weight: 300;
 }
 
-.module-verification-notification__button {
+.module-safety-number-notification__button {
   margin-top: 5px;
   display: inline-block;
   cursor: pointer;
@@ -4424,17 +4424,20 @@
 }
 
 // Module: Emoji
-@mixin emoji-size($size, $emoji-sheet-columns: 51) {
+@mixin emoji-size($size) {
   &--#{$size} {
     width: $size;
     height: $size;
-    background-size: $emoji-sheet-columns * $size;
+  }
+  &__image--#{$size} {
+    width: $size;
+    height: $size;
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .module-emoji {
   display: block;
-  background-image: url('../node_modules/emoji-datasource-apple/img/apple/sheets-256/64.png');
 
   @include emoji-size(16px);
   @include emoji-size(20px);
@@ -4445,6 +4448,79 @@
 
   &--inline {
     display: inline-block;
+  }
+}
+
+// Module: Unsupported Message
+
+.module-unsupported-message {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.module-unsupported-message__icon {
+  height: 24px;
+  width: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 7px;
+
+  @include light-theme {
+    @include color-svg('../images/error.svg', $color-gray-60);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/error.svg', $color-dark-30);
+  }
+}
+
+.module-unsupported-message__icon--can-process {
+  @include light-theme {
+    @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/check-circle-outline.svg', $color-dark-30);
+  }
+}
+
+.module-unsupported-message__text {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  max-width: 396px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-dark-30;
+  }
+}
+
+.module-unsupported-message__contact {
+  font-weight: 300;
+}
+
+.module-unsupported-message__button {
+  margin-top: 5px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 18px;
+  padding: 12px;
+  border-radius: 4px;
+
+  @include light-theme {
+    color: $color-signal-blue;
+    background-color: $color-light-02;
+  }
+  @include dark-theme {
+    color: $color-signal-blue;
+    background-color: $color-gray-75;
   }
 }
 
