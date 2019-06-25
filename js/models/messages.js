@@ -1646,6 +1646,7 @@
 
       let group = this.get('group_update');
       if (group && group.avatar) {
+        count += 1;
         group = {
           ...group,
           avatar: await window.Signal.AttachmentDownloads.addJob(group.avatar, {
@@ -1709,7 +1710,7 @@
           preview,
           contact,
           quote,
-          group,
+          group_update: group,
           sticker,
         });
 
