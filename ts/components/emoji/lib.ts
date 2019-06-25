@@ -167,11 +167,11 @@ export function getImagePath(
 
 const fuse = new Fuse(data, {
   shouldSort: true,
-  threshold: 0.3,
-  location: 4,
-  distance: 10,
+  threshold: 0.2,
   maxPatternLength: 32,
   minMatchCharLength: 1,
+  tokenize: true,
+  tokenSeparator: /[-_\s]+/,
   keys: ['name', 'short_name', 'short_names'],
 });
 
