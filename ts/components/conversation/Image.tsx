@@ -99,7 +99,7 @@ export class Image extends React.Component<Props> {
             }}
             // alt={i18n('loading')}
           >
-            <Spinner size="normal" />
+            <Spinner svgSize="normal" />
           </div>
         ) : (
           <img

@@ -750,6 +750,34 @@ MessageSender.prototype = {
 
     return Promise.resolve();
   },
+
+  async syncMessageTimerRead(sender, timestamp, options) {
+    const myNumber = textsecure.storage.user.getNumber();
+    const myDevice = textsecure.storage.user.getDeviceId();
+    if (myDevice === 1 || myDevice === '1') {
+      return null;
+    }
+
+    const syncMessage = this.createSyncMessage();
+
+    const messageTimerRead = new textsecure.protobuf.SyncMessage.MessageTimerRead();
+    messageTimerRead.sender = sender;
+    messageTimerRead.timestamp = timestamp;
+    syncMessage.messageTimerRead = messageTimerRead;
+
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      myNumber,
+      contentMessage,
+      Date.now(),
+      silent,
+      options
+    );
+  },
+
   async sendStickerPackSync(operations, options) {
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice === 1 || myDevice === '1') {
@@ -1238,6 +1266,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.getSticker = sender.getSticker.bind(sender);
   this.getStickerPackManifest = sender.getStickerPackManifest.bind(sender);
   this.sendStickerPackSync = sender.sendStickerPackSync.bind(sender);
+  this.syncMessageTimerRead = sender.syncMessageTimerRead.bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

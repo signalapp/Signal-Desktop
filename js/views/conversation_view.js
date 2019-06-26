@@ -133,6 +133,11 @@
       );
       this.listenTo(
         this.model.messageCollection,
+        'display-tap-to-view-message',
+        this.displayTapToViewMessage
+      );
+      this.listenTo(
+        this.model.messageCollection,
         'open-conversation',
         this.openConversation
       );
@@ -461,8 +466,8 @@
       if (this.quoteView) {
         this.quoteView.remove();
       }
-      if (this.lightBoxView) {
-        this.lightBoxView.remove();
+      if (this.lightboxView) {
+        this.lightboxView.remove();
       }
       if (this.lightboxGalleryView) {
         this.lightboxGalleryView.remove();
@@ -1342,6 +1347,66 @@
         getAbsolutePath: getAbsoluteAttachmentPath,
         timestamp,
       });
+    },
+
+    async displayTapToViewMessage(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `displayTapToViewMessage: Did not find message for id ${messageId}`
+        );
+      }
+
+      if (!message.isTapToView()) {
+        throw new Error(
+          `displayTapToViewMessage: Message ${message.idForLogging()} is not tap to view`
+        );
+      }
+
+      if (message.isTapToViewExpired()) {
+        return;
+      }
+
+      await message.startTapToViewTimer();
+
+      const closeLightbox = () => {
+        if (!this.lightboxView) {
+          return;
+        }
+
+        const { lightboxView } = this;
+        this.lightboxView = null;
+
+        this.stopListening(message);
+        Signal.Backbone.Views.Lightbox.hide();
+        lightboxView.remove();
+      };
+      this.listenTo(message, 'expired', closeLightbox);
+      this.listenTo(message, 'change', () => {
+        if (this.lightBoxView) {
+          this.lightBoxView.update(getProps());
+        }
+      });
+
+      const getProps = () => {
+        const firstAttachment = message.get('attachments')[0];
+        const { path, contentType } = firstAttachment;
+
+        return {
+          objectURL: getAbsoluteAttachmentPath(path),
+          contentType,
+          timerExpiresAt: message.get('messageTimerExpiresAt'),
+          timerDuration: message.get('messageTimer') * 1000,
+        };
+      };
+      this.lightboxView = new Whisper.ReactWrapperView({
+        className: 'lightbox-wrapper',
+        Component: Signal.Components.Lightbox,
+        props: getProps(),
+        onClose: closeLightbox,
+      });
+
+      Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
     },
 
     deleteMessage(messageId) {

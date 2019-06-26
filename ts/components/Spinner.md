@@ -1,32 +1,47 @@
-#### Large
+#### Normal, no size
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Spinner size="normal" />
+  <Spinner svgSize="normal" />
   <div style={{ backgroundColor: '#2090ea' }}>
-    <Spinner size="normal" />
+    <Spinner svgSize="normal" />
   </div>
 </util.ConversationContext>
 ```
 
-#### Small
+#### Normal, with size
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Spinner size="small" />
+  <Spinner svgSize="normal" size="100px" />
   <div style={{ backgroundColor: '#2090ea' }}>
-    <Spinner size="small" />
+    <Spinner svgSize="normal" size="100px" />
   </div>
 </util.ConversationContext>
 ```
 
-#### Mini
+#### Small, no size
 
 ```jsx
 <util.ConversationContext theme={util.theme}>
-  <Spinner size="mini" />
+  <Spinner svgSize="small" />
   <div style={{ backgroundColor: '#2090ea' }}>
-    <Spinner size="mini" />
+    <Spinner svgSize="small" />
+  </div>
+</util.ConversationContext>
+```
+
+#### Small, sizes
+
+```jsx
+<util.ConversationContext theme={util.theme}>
+  <Spinner svgSize="small" size="20px" />
+  <div style={{ backgroundColor: '#2090ea' }}>
+    <Spinner svgSize="small" size="20px" />
+  </div>
+  <Spinner svgSize="small" size="14px" />
+  <div style={{ backgroundColor: '#2090ea' }}>
+    <Spinner svgSize="small" size="14px" />
   </div>
 </util.ConversationContext>
 ```

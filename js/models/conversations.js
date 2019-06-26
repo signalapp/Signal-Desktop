@@ -857,11 +857,9 @@
         author: contact.id,
         id: quotedMessage.get('sent_at'),
         text: body || embeddedContactName,
-        attachments: await this.getQuoteAttachment(
-          attachments,
-          preview,
-          sticker
-        ),
+        attachments: quotedMessage.isTapToView()
+          ? [{ contentType: 'image/jpeg', fileName: null }]
+          : await this.getQuoteAttachment(attachments, preview, sticker),
       };
     },
 

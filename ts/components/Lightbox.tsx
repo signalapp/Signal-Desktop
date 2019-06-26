@@ -104,6 +104,9 @@ const styles = {
   saveButton: {
     marginTop: 10,
   },
+  countdownContainer: {
+    padding: 8,
+  },
   iconButtonPlaceholder: {
     // Dimensions match `.iconButton`:
     display: 'inline-block',
@@ -211,11 +214,11 @@ export class Lightbox extends React.Component<Props> {
     const {
       caption,
       contentType,
+      i18n,
       objectURL,
       onNext,
       onPrevious,
       onSave,
-      i18n,
     } = this.props;
 
     return (

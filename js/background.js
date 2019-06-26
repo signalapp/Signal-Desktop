@@ -652,6 +652,7 @@
 
     Whisper.WallClockListener.init(Whisper.events);
     Whisper.ExpiringMessagesListener.init(Whisper.events);
+    Whisper.TapToViewMessagesListener.init(Whisper.events);
 
     if (Whisper.Import.isIncomplete()) {
       window.log.info('Import was interrupted, showing import error screen');
@@ -836,6 +837,7 @@
     addQueuedEventListener('configuration', onConfiguration);
     addQueuedEventListener('typing', onTyping);
     addQueuedEventListener('sticker-pack', onStickerPack);
+    addQueuedEventListener('viewSync', onViewSync);
 
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
@@ -1683,6 +1685,22 @@
     }
 
     throw error;
+  }
+
+  async function onViewSync(ev) {
+    const { viewedAt, source, timestamp } = ev;
+    window.log.info(`view sync ${source} ${timestamp}, viewed at ${viewedAt}`);
+
+    const sync = Whisper.ViewSyncs.add({
+      source,
+      timestamp,
+      viewedAt,
+    });
+
+    sync.on('remove', ev.confirm);
+
+    // Calling this directly so we can wait for completion
+    return Whisper.ViewSyncs.onSync(sync);
   }
 
   function onReadReceipt(ev) {

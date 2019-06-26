@@ -39,7 +39,7 @@ function renderBody({ pack, i18n }: Props) {
   }
 
   if (!pack || pack.stickerCount === 0 || !isNumber(pack.stickerCount)) {
-    return <Spinner size="normal" />;
+    return <Spinner svgSize="normal" />;
   }
 
   return (
@@ -209,7 +209,7 @@ export const StickerPreviewModal = React.memo(
                     </div>
                     <div className="module-sticker-manager__preview-modal__container__meta-overlay__install">
                       {pack.status === 'pending' ? (
-                        <Spinner size="mini" />
+                        <Spinner svgSize="small" size="14px" />
                       ) : (
                         <StickerPackInstallButton
                           ref={focusRef}

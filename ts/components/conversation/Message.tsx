@@ -80,6 +80,11 @@ export type PropsData = {
   previews: Array<LinkPreviewType>;
   authorAvatarPath?: string;
   isExpired: boolean;
+
+  isTapToView?: boolean;
+  isTapToViewExpired?: boolean;
+  isTapToViewError?: boolean;
+
   expirationLength?: number;
   expirationTimestamp?: number;
 };
@@ -112,6 +117,7 @@ export type PropsActions = {
       isDangerous: boolean;
     }
   ) => void;
+  displayTapToViewMessage: (messageId: string) => unknown;
 
   openLink: (url: string) => void;
   scrollToMessage: (
@@ -227,6 +233,7 @@ export class Message extends React.PureComponent<Props, State> {
       expirationTimestamp,
       i18n,
       isSticker,
+      isTapToViewExpired,
       status,
       text,
       textPending,
@@ -274,6 +281,7 @@ export class Message extends React.PureComponent<Props, State> {
             direction={metadataDirection}
             withImageNoCaption={withImageNoCaption}
             withSticker={isSticker}
+            withTapToViewExpired={isTapToViewExpired}
             module="module-message__metadata__date"
           />
         )}
@@ -284,12 +292,13 @@ export class Message extends React.PureComponent<Props, State> {
             expirationTimestamp={expirationTimestamp}
             withImageNoCaption={withImageNoCaption}
             withSticker={isSticker}
+            withTapToViewExpired={isTapToViewExpired}
           />
         ) : null}
         <span className="module-message__metadata__spacer" />
         {textPending ? (
           <div className="module-message__metadata__spinner-container">
-            <Spinner size="mini" direction={direction} />
+            <Spinner svgSize="small" size="14px" direction={direction} />
           </div>
         ) : null}
         {!textPending && direction === 'outgoing' && status !== 'error' ? (
@@ -302,6 +311,9 @@ export class Message extends React.PureComponent<Props, State> {
                 : null,
               withImageNoCaption
                 ? 'module-message__metadata__status-icon--with-image-no-caption'
+                : null,
+              isTapToViewExpired
+                ? 'module-message__metadata__status-icon--with-tap-to-view-expired'
                 : null
             )}
           />
@@ -320,6 +332,8 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       isSticker,
+      isTapToView,
+      isTapToViewExpired,
     } = this.props;
 
     if (collapseMetadata) {
@@ -332,8 +346,13 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const suffix = isSticker ? '_with_sticker' : '';
-    const moduleName = `module-message__author${suffix}`;
+    const withTapToViewExpired = isTapToView && isTapToViewExpired;
+
+    const stickerSuffix = isSticker ? '_with_sticker' : '';
+    const tapToViewSuffix = withTapToViewExpired
+      ? '--with-tap-to-view-expired'
+      : '';
+    const moduleName = `module-message__author${stickerSuffix}${tapToViewSuffix}`;
 
     return (
       <div className={moduleName}>
@@ -452,7 +471,7 @@ export class Message extends React.PureComponent<Props, State> {
         >
           {pending ? (
             <div className="module-message__generic-attachment__spinner-container">
-              <Spinner size="small" direction={direction} />
+              <Spinner svgSize="small" size="24px" direction={direction} />
             </div>
           ) : (
             <div className="module-message__generic-attachment__icon-container">
@@ -805,6 +824,7 @@ export class Message extends React.PureComponent<Props, State> {
       downloadAttachment,
       id,
       isSticker,
+      isTapToView,
       replyToMessage,
       timestamp,
     } = this.props;
@@ -822,6 +842,7 @@ export class Message extends React.PureComponent<Props, State> {
     const downloadButton =
       !isSticker &&
       !multipleAttachments &&
+      !isTapToView &&
       firstAttachment &&
       !firstAttachment.pending ? (
         <div
@@ -886,15 +907,16 @@ export class Message extends React.PureComponent<Props, State> {
   public renderContextMenu(triggerId: string) {
     const {
       attachments,
+      deleteMessage,
       direction,
       downloadAttachment,
       i18n,
       id,
       isSticker,
-      deleteMessage,
-      showMessageDetail,
+      isTapToView,
       replyToMessage,
       retrySend,
+      showMessageDetail,
       status,
       timestamp,
     } = this.props;
@@ -907,7 +929,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     const menu = (
       <ContextMenu id={triggerId}>
-        {!isSticker && !multipleAttachments && attachments && attachments[0] ? (
+        {!isSticker &&
+        !multipleAttachments &&
+        !isTapToView &&
+        attachments &&
+        attachments[0] ? (
           <MenuItem
             attributes={{
               className: 'module-message__context__download',
@@ -1011,10 +1037,10 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public isShowingImage() {
-    const { attachments, previews } = this.props;
+    const { isTapToView, attachments, previews } = this.props;
     const { imageBroken } = this.state;
 
-    if (imageBroken) {
+    if (imageBroken || isTapToView) {
       return false;
     }
 
@@ -1042,17 +1068,153 @@ export class Message extends React.PureComponent<Props, State> {
     return false;
   }
 
+  public isAttachmentPending() {
+    const { attachments } = this.props;
+
+    if (!attachments || attachments.length < 1) {
+      return false;
+    }
+
+    const first = attachments[0];
+
+    return Boolean(first.pending);
+  }
+
+  public renderTapToViewIcon() {
+    const { direction, isTapToViewExpired } = this.props;
+    const isDownloadPending = this.isAttachmentPending();
+
+    return !isTapToViewExpired && isDownloadPending ? (
+      <div className="module-message__tap-to-view__spinner-container">
+        <Spinner svgSize="small" size="20px" direction={direction} />
+      </div>
+    ) : (
+      <div
+        className={classNames(
+          'module-message__tap-to-view__icon',
+          `module-message__tap-to-view__icon--${direction}`,
+          isTapToViewExpired
+            ? 'module-message__tap-to-view__icon--expired'
+            : null
+        )}
+      />
+    );
+  }
+
+  public renderTapToViewText() {
+    const {
+      direction,
+      i18n,
+      isTapToViewExpired,
+      isTapToViewError,
+    } = this.props;
+
+    const incomingString = isTapToViewExpired
+      ? i18n('Message--tap-to-view-expired')
+      : i18n('Message--tap-to-view--incoming');
+    const outgoingString = i18n('Message--tap-to-view--outgoing');
+    const isDownloadPending = this.isAttachmentPending();
+
+    if (isDownloadPending) {
+      return;
+    }
+
+    return isTapToViewError
+      ? i18n('incomingError')
+      : direction === 'outgoing'
+        ? outgoingString
+        : incomingString;
+  }
+
+  public renderTapToView() {
+    const {
+      collapseMetadata,
+      conversationType,
+      direction,
+      isTapToViewExpired,
+      isTapToViewError,
+    } = this.props;
+
+    const withContentBelow = !collapseMetadata;
+    const withContentAbove =
+      !collapseMetadata &&
+      conversationType === 'group' &&
+      direction === 'incoming';
+
+    return (
+      <div
+        className={classNames(
+          'module-message__tap-to-view',
+          withContentBelow
+            ? 'module-message__tap-to-view--with-content-below'
+            : null,
+          withContentAbove
+            ? 'module-message__tap-to-view--with-content-above'
+            : null
+        )}
+      >
+        {isTapToViewError ? null : this.renderTapToViewIcon()}
+        <div
+          className={classNames(
+            'module-message__tap-to-view__text',
+            `module-message__tap-to-view__text--${direction}`,
+            isTapToViewExpired
+              ? `module-message__tap-to-view__text--${direction}-expired`
+              : null,
+            isTapToViewError
+              ? `module-message__tap-to-view__text--${direction}-error`
+              : null
+          )}
+        >
+          {this.renderTapToViewText()}
+        </div>
+      </div>
+    );
+  }
+
+  public renderContents() {
+    const { isTapToView } = this.props;
+
+    if (isTapToView) {
+      return (
+        <>
+          {this.renderTapToView()}
+          {this.renderMetadata()}
+        </>
+      );
+    }
+
+    return (
+      <>
+        {this.renderQuote()}
+        {this.renderAttachment()}
+        {this.renderPreview()}
+        {this.renderEmbeddedContact()}
+        {this.renderText()}
+        {this.renderMetadata()}
+        {this.renderSendMessageButton()}
+      </>
+    );
+  }
+
+  // tslint:disable-next-line cyclomatic-complexity
   public render() {
     const {
       authorPhoneNumber,
       authorColor,
       attachments,
       direction,
+      displayTapToViewMessage,
       id,
       isSticker,
+      isTapToView,
+      isTapToViewExpired,
+      isTapToViewError,
       timestamp,
     } = this.props;
     const { expired, expiring, imageBroken } = this.state;
+    const isAttachmentPending = this.isAttachmentPending();
+    const isButton = isTapToView && !isTapToViewExpired && !isAttachmentPending;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
@@ -1068,6 +1230,8 @@ export class Message extends React.PureComponent<Props, State> {
 
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
+    const role = isButton ? 'button' : undefined;
+    const onClick = isButton ? () => displayTapToViewMessage(id) : undefined;
 
     return (
       <div
@@ -1084,22 +1248,31 @@ export class Message extends React.PureComponent<Props, State> {
             'module-message__container',
             isSticker ? 'module-message__container--with-sticker' : null,
             !isSticker ? `module-message__container--${direction}` : null,
+            isTapToView ? 'module-message__container--with-tap-to-view' : null,
+            isTapToView && isTapToViewExpired
+              ? 'module-message__container--with-tap-to-view-expired'
+              : null,
             !isSticker && direction === 'incoming'
               ? `module-message__container--incoming-${authorColor}`
+              : null,
+            isTapToView && isAttachmentPending && !isTapToViewExpired
+              ? 'module-message__container--with-tap-to-view-pending'
+              : null,
+            isTapToView && isAttachmentPending && !isTapToViewExpired
+              ? `module-message__container--${direction}-${authorColor}-tap-to-view-pending`
+              : null,
+            isTapToViewError
+              ? 'module-message__container--with-tap-to-view-error'
               : null
           )}
           style={{
             width: isShowingImage ? width : undefined,
           }}
+          role={role}
+          onClick={onClick}
         >
           {this.renderAuthor()}
-          {this.renderQuote()}
-          {this.renderAttachment()}
-          {this.renderPreview()}
-          {this.renderEmbeddedContact()}
-          {this.renderText()}
-          {this.renderMetadata()}
-          {this.renderSendMessageButton()}
+          {this.renderContents()}
           {this.renderAvatar()}
         </div>
         {this.renderError(direction === 'outgoing')}

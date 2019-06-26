@@ -204,6 +204,121 @@
   background-color: $color-conversation-blue_grey;
 }
 
+.module-message__container--with-tap-to-view {
+  min-width: 148px;
+  cursor: pointer;
+}
+
+.module-message__container--incoming--tap-to-view-pending {
+  background-color: $color-conversation-grey-shade;
+}
+.module-message__container--incoming-red-tap-to-view-pending {
+  background-color: $color-conversation-red-shade;
+}
+.module-message__container--incoming-deep_orange-tap-to-view-pending {
+  background-color: $color-conversation-deep_orange-shade;
+}
+.module-message__container--incoming-brown-tap-to-view-pending {
+  background-color: $color-conversation-brown-shade;
+}
+.module-message__container--incoming-pink-tap-to-view-pending {
+  background-color: $color-conversation-pink-shade;
+}
+.module-message__container--incoming-purple-tap-to-view-pending {
+  background-color: $color-conversation-purple-shade;
+}
+.module-message__container--incoming-indigo-tap-to-view-pending {
+  background-color: $color-conversation-indigo-shade;
+}
+.module-message__container--incoming-blue-tap-to-view-pending {
+  background-color: $color-conversation-blue-shade;
+}
+.module-message__container--incoming-teal-tap-to-view-pending {
+  background-color: $color-conversation-teal-shade;
+}
+.module-message__container--incoming-green-tap-to-view-pending {
+  background-color: $color-conversation-green-shade;
+}
+.module-message__container--incoming-light_green-tap-to-view-pending {
+  background-color: $color-conversation-light_green-shade;
+}
+.module-message__container--incoming-blue_grey-tap-to-view-pending {
+  background-color: $color-conversation-blue_grey-shade;
+}
+
+.module-message__container--with-tap-to-view-pending {
+  cursor: default;
+}
+
+.module-message__container--with-tap-to-view-expired {
+  cursor: default;
+  border: 1px solid $color-gray-15;
+  background-color: $color-white;
+}
+
+.module-message__container--with-tap-to-view-error {
+  background-color: $color-white;
+  border: 1px solid $color-core-red;
+  width: auto;
+  cursor: default;
+}
+
+.module-message__tap-to-view {
+  margin-top: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.module-message__tap-to-view--with-content-above {
+  margin-top: 8px;
+}
+.module-message__tap-to-view--with-content-below {
+  margin-bottom: 8px;
+}
+
+.module-message__tap-to-view__spinner-container {
+  margin-right: 6px;
+
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  width: 20px;
+  height: 20px;
+}
+
+.module-message__tap-to-view__icon {
+  margin-right: 6px;
+
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+
+  @include color-svg('../images/play-filled-24.svg', $color-white);
+}
+.module-message__tap-to-view__icon--outgoing {
+  background-color: $color-gray-75;
+}
+.module-message__tap-to-view__icon--expired {
+  @include color-svg('../images/play-outline-24.svg', $color-gray-75);
+}
+.module-message__tap-to-view__text {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 18px;
+
+  color: $color-gray-90;
+}
+.module-message__tap-to-view__text--incoming {
+  color: $color-white;
+}
+.module-message__tap-to-view__text--incoming-expired {
+  color: $color-gray-90;
+}
+.module-message__tap-to-view__text--incoming-error {
+  color: $color-gray-60;
+}
+
 .module-message__attachment-container {
   // To ensure that images are centered if they aren't full width of bubble
   text-align: center;
@@ -472,6 +587,22 @@
   }
 }
 
+.module-message__author--with-tap-to-view-expired {
+  color: $color-gray-75;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 18px;
+  height: 18px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &__profile-name {
+    font-style: italic;
+  }
+}
+
 .module-message__author_with_sticker {
   color: $color-gray-90;
   font-size: 13px;
@@ -554,6 +685,9 @@
 }
 .module-message__metadata__date--with-image-no-caption {
   color: $color-white;
+}
+.module-message__metadata__date--incoming-with-tap-to-view-expired {
+  color: $color-gray-75;
 }
 
 .module-message__metadata__spacer {
@@ -682,6 +816,9 @@
 
 .module-expire-timer--incoming {
   background-color: $color-white-08;
+}
+.module-expire-timer--incoming-with-tap-to-view-expired {
+  background-color: $color-gray-75;
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
@@ -2813,8 +2950,8 @@
 
   @include color-svg('../images/spinner-track-56.svg', $color-white-04);
   z-index: 2;
-  height: 56px;
-  width: 56px;
+  height: 100%;
+  width: 100%;
 }
 .module-spinner__arc {
   position: absolute;
@@ -2823,8 +2960,8 @@
 
   @include color-svg('../images/spinner-56.svg', $color-gray-60);
   z-index: 3;
-  height: 56px;
-  width: 56px;
+  height: 100%;
+  width: 100%;
 
   animation: spinner-arc-animation 1000ms linear infinite;
 }
@@ -2844,38 +2981,13 @@
 // In these --small and --mini sizes, we're exploding our @color-svg mixin so we don't
 //   have to duplicate our background colors for the dark/ios/size matrix.
 
-.module-spinner__container--small {
-  height: 24px;
-  width: 24px;
-}
 .module-spinner__circle--small {
   -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
-  height: 24px;
-  width: 24px;
 }
 .module-spinner__arc--small {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
-  height: 24px;
-  width: 24px;
-}
-
-.module-spinner__container--mini {
-  height: 14px;
-  width: 14px;
-}
-.module-spinner__circle--mini {
-  -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
-  -webkit-mask-size: 100%;
-  height: 14px;
-  width: 14px;
-}
-.module-spinner__arc--mini {
-  -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
-  -webkit-mask-size: 100%;
-  height: 14px;
-  width: 14px;
 }
 
 .module-spinner__circle--incoming {
@@ -4522,6 +4634,19 @@
     color: $color-signal-blue;
     background-color: $color-gray-75;
   }
+}
+
+// Module: Countdown
+
+.module-countdown {
+  display: block;
+  width: 100%;
+}
+
+.module-countdown__path {
+  fill-opacity: 0;
+  stroke: $color-white;
+  stroke-width: 2;
 }
 
 // Third-party module: react-contextmenu

@@ -13,6 +13,48 @@
     color: $color-gray-90;
   }
 
+  .module-message__container--with-tap-to-view-expired {
+    border: 1px solid $color-gray-15;
+    background-color: $color-white;
+  }
+
+  .module-message__container--with-tap-to-view-error {
+    background-color: $color-white;
+    border: 1px solid $color-deep-red;
+  }
+
+  .module-message__tap-to-view__icon {
+    background-color: $color-gray-90;
+  }
+  .module-message__tap-to-view__icon--outgoing {
+    background-color: $color-white;
+  }
+  .module-message__tap-to-view__icon--expired {
+    background-color: $color-gray-75;
+  }
+  .module-message__tap-to-view__text {
+    color: $color-gray-90;
+  }
+  .module-message__tap-to-view__text--incoming {
+    color: $color-gray-90;
+  }
+  .module-message__tap-to-view__text--outgoing {
+    color: $color-white;
+  }
+  .module-message__tap-to-view__text--outgoing-expired {
+    color: $color-gray-90;
+  }
+  .module-message__tap-to-view__text--incoming-expired {
+    color: $color-gray-90;
+  }
+  .module-message__tap-to-view__text--incoming-error {
+    color: $color-gray-60;
+  }
+
+  .module-message__container--with-tap-to-view-pending {
+    background-color: $color-gray-15;
+  }
+
   .module-message__author {
     color: $color-gray-90;
   }
@@ -46,19 +88,22 @@
   .module-message__metadata__date--with-sticker {
     color: $color-gray-60;
   }
+  .module-message__metadata__date--outgoing-with-tap-to-view-expired {
+    color: $color-gray-75;
+  }
 
   .module-message__metadata__status-icon--sending {
-    @include color-svg('../images/sending.svg', $color-white);
+    background-color: $color-white;
   }
 
   .module-message__metadata__status-icon--sent {
-    @include color-svg('../images/check-circle-outline.svg', $color-white-08);
+    background-color: $color-white-08;
   }
   .module-message__metadata__status-icon--delivered {
-    @include color-svg('../images/double-check.svg', $color-white-08);
+    background-color: $color-white-08;
   }
   .module-message__metadata__status-icon--read {
-    @include color-svg('../images/read.svg', $color-white-08);
+    background-color: $color-white-08;
   }
 
   .module-message__metadata__status-icon--with-image-no-caption {
@@ -66,6 +111,9 @@
   }
   .module-message__metadata__status-icon--with-sticker {
     background-color: $color-gray-60;
+  }
+  .module-message__metadata__status-icon--with-tap-to-view-expired {
+    background-color: $color-gray-75;
   }
 
   .module-message__generic-attachment__file-name {
@@ -92,6 +140,9 @@
   }
   .module-expire-timer--with-sticker {
     background-color: $color-gray-60;
+  }
+  .module-expire-timer--outgoing-with-tap-to-view-expired {
+    background-color: $color-gray-75;
   }
 
   .module-quote--outgoing {
@@ -167,6 +218,16 @@
       color: $color-gray-05;
     }
 
+    .module-message__container--with-tap-to-view-expired {
+      border: 1px solid $color-gray-60;
+      background-color: $color-black;
+    }
+
+    .module-message__container--with-tap-to-view-error {
+      background-color: $color-black;
+      border: 1px solid $color-deep-red;
+    }
+
     .module-message__author {
       color: $color-gray-05;
     }
@@ -180,17 +241,17 @@
     }
 
     .module-message__metadata__status-icon--sending {
-      @include color-svg('../images/sending.svg', $color-white);
+      background-color: $color-white;
     }
 
     .module-message__metadata__status-icon--sent {
-      @include color-svg('../images/check-circle-outline.svg', $color-white-08);
+      background-color: $color-white-08;
     }
     .module-message__metadata__status-icon--delivered {
-      @include color-svg('../images/double-check.svg', $color-white-08);
+      background-color: $color-white-08;
     }
     .module-message__metadata__status-icon--read {
-      @include color-svg('../images/read.svg', $color-white-08);
+      background-color: $color-white-08;
     }
 
     .module-message__metadata__date {

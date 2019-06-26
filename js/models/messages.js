@@ -470,6 +470,8 @@
       const isGroup = conversation && !conversation.isPrivate();
       const sticker = this.get('sticker');
 
+      const isTapToView = this.isTapToView();
+
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
         textPending: this.get('bodyPending'),
@@ -492,6 +494,12 @@
         expirationLength,
         expirationTimestamp,
 
+        isTapToView,
+        isTapToViewExpired:
+          isTapToView && (this.get('isErased') || this.isTapToViewExpired()),
+        isTapToViewError:
+          isTapToView && this.isIncoming() && this.get('isTapToViewInvalid'),
+
         replyToMessage: id => this.trigger('reply', id),
         retrySend: id => this.trigger('retry', id),
         deleteMessage: id => this.trigger('delete', id),
@@ -506,6 +514,8 @@
           this.trigger('show-lightbox', lightboxOptions),
         downloadAttachment: downloadOptions =>
           this.trigger('download', downloadOptions),
+        displayTapToViewMessage: messageId =>
+          this.trigger('display-tap-to-view-message', messageId),
 
         openLink: url => this.trigger('navigate-to', url),
         downloadNewVersion: () => this.trigger('download-new-version'),
@@ -727,6 +737,9 @@
       if (this.isUnsupportedMessage()) {
         return i18n('message--getDescription--unsupported-message');
       }
+      if (this.isTapToView()) {
+        return i18n('message--getDescription--disappearing-photo');
+      }
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
         if (groupUpdate.left === 'You') {
@@ -841,6 +854,9 @@
     async cleanup() {
       MessageController.unregister(this.id);
       this.unload();
+      await this.deleteData();
+    },
+    async deleteData() {
       await deleteExternalMessageFiles(this.attributes);
 
       const sticker = this.get('sticker');
@@ -852,6 +868,154 @@
       if (packId) {
         await deletePackReference(this.id, packId);
       }
+    },
+    isTapToView() {
+      return Boolean(this.get('messageTimer'));
+    },
+    isValidTapToView() {
+      const body = this.get('body');
+      if (body) {
+        return false;
+      }
+
+      const attachments = this.get('attachments');
+      if (!attachments || attachments.length !== 1) {
+        return false;
+      }
+
+      const firstAttachment = attachments[0];
+      if (
+        !window.Signal.Util.GoogleChrome.isImageTypeSupported(
+          firstAttachment.contentType
+        )
+      ) {
+        return false;
+      }
+
+      const quote = this.get('quote');
+      const sticker = this.get('sticker');
+      const contact = this.get('contact');
+      const preview = this.get('preview');
+
+      if (
+        quote ||
+        sticker ||
+        (contact && contact.length > 0) ||
+        (preview && preview.length > 0)
+      ) {
+        return false;
+      }
+
+      return true;
+    },
+    isTapToViewExpired() {
+      const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+      const now = Date.now();
+
+      const receivedAt = this.get('received_at');
+      if (now >= receivedAt + THIRTY_DAYS) {
+        return true;
+      }
+
+      const messageTimer = this.get('messageTimer');
+      const messageTimerStart = this.get('messageTimerStart');
+      if (!messageTimerStart) {
+        return false;
+      }
+
+      const expiresAt = messageTimerStart + messageTimer * 1000;
+      if (now >= expiresAt) {
+        return true;
+      }
+
+      return false;
+    },
+    async startTapToViewTimer(viewedAt, options) {
+      const { fromSync } = options || {};
+
+      if (this.get('unread')) {
+        await this.markRead();
+      }
+
+      const messageTimer = this.get('messageTimer');
+      if (!messageTimer) {
+        window.log.warn(
+          `startTapToViewTimer: Message ${this.idForLogging()} has no messageTimer!`
+        );
+        return;
+      }
+
+      const existingTimerStart = this.get('messageTimerStart');
+      const messageTimerStart = Math.min(
+        Date.now(),
+        viewedAt || Date.now(),
+        existingTimerStart || Date.now()
+      );
+      const messageTimerExpiresAt = messageTimerStart + messageTimer * 1000;
+
+      // Because we're not using Backbone-integrated saves, we need to manually
+      //   clear the changed fields here so our hasChanged() check below is useful.
+      this.changed = {};
+      this.set({
+        messageTimerStart,
+        messageTimerExpiresAt,
+      });
+
+      if (!this.hasChanged()) {
+        return;
+      }
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+
+      if (!fromSync) {
+        const sender = this.getSource();
+        const timestamp = this.get('sent_at');
+        const ourNumber = textsecure.storage.user.getNumber();
+        const { wrap, sendOptions } = ConversationController.prepareForSend(
+          ourNumber,
+          { syncMessage: true }
+        );
+
+        await wrap(
+          textsecure.messaging.syncMessageTimerRead(
+            sender,
+            timestamp,
+            sendOptions
+          )
+        );
+      }
+    },
+    async eraseContents() {
+      if (this.get('isErased')) {
+        return;
+      }
+
+      window.log.info(`Erasing data for message ${this.idForLogging()}`);
+
+      try {
+        await this.deleteData();
+      } catch (error) {
+        window.log.error(
+          `Error erasing data for message ${this.idForLogging()}:`,
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      this.set({
+        isErased: true,
+        body: '',
+        attachments: [],
+        quote: null,
+        contact: [],
+        sticker: null,
+        preview: [],
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
     },
     unload() {
       if (this.quotedMessage) {
@@ -1581,6 +1745,16 @@
         quote.referencedMessageNotFound = true;
         return message;
       }
+      if (found.isTapToView()) {
+        quote.text = null;
+        quote.attachments = [
+          {
+            contentType: 'image/jpeg',
+          },
+        ];
+
+        return message;
+      }
 
       const queryMessage = MessageController.register(found.id, found);
       quote.text = queryMessage.get('body');
@@ -1765,6 +1939,7 @@
             hasAttachments: dataMessage.hasAttachments,
             hasFileAttachments: dataMessage.hasFileAttachments,
             hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
+            messageTimer: dataMessage.messageTimer,
             preview,
             requiredProtocolVersion:
               dataMessage.requiredProtocolVersion ||
@@ -1925,7 +2100,34 @@
           message.set({ id });
           MessageController.register(message.id, message);
 
-          if (!message.isUnsupportedMessage()) {
+          if (message.isTapToView() && type === 'outgoing') {
+            await message.eraseContents();
+          }
+
+          if (
+            type === 'incoming' &&
+            message.isTapToView() &&
+            !message.isValidTapToView()
+          ) {
+            window.log.warn(
+              `Received tap to view message ${message.idForLogging()} with invalid data. Erasing contents.`
+            );
+            message.set({
+              isTapToViewInvalid: true,
+            });
+            await message.eraseContents();
+          }
+          // Check for out-of-order view syncs
+          if (type === 'incoming' && message.isTapToView()) {
+            const viewSync = Whisper.ViewSyncs.forMessage(message);
+            if (viewSync) {
+              await Whisper.ViewSyncs.onSync(viewSync);
+            }
+          }
+
+          if (message.isUnsupportedMessage()) {
+            await message.eraseContents();
+          } else {
             // Note that this can save the message again, if jobs were queued. We need to
             //   call it after we have an id for this message, because the jobs refer back
             //   to their source message.
@@ -2017,8 +2219,10 @@
     };
   };
 
-  Whisper.Message.refreshExpirationTimer = () =>
+  Whisper.Message.updateTimers = () => {
     Whisper.ExpiringMessagesListener.update();
+    Whisper.TapToViewMessagesListener.update();
+  };
 
   Whisper.MessageCollection = Backbone.Collection.extend({
     model: Whisper.Message,

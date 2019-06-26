@@ -579,6 +579,75 @@ body.dark-theme {
     background-color: $color-conversation-blue_grey;
   }
 
+  .module-message__container--incoming--tap-to-view-pending {
+    background-color: $color-conversation-grey-shade;
+  }
+  .module-message__container--incoming-red-tap-to-view-pending {
+    background-color: $color-conversation-red-shade;
+  }
+  .module-message__container--incoming-deep_orange-tap-to-view-pending {
+    background-color: $color-conversation-deep_orange-shade;
+  }
+  .module-message__container--incoming-brown-tap-to-view-pending {
+    background-color: $color-conversation-brown-shade;
+  }
+  .module-message__container--incoming-pink-tap-to-view-pending {
+    background-color: $color-conversation-pink-shade;
+  }
+  .module-message__container--incoming-purple-tap-to-view-pending {
+    background-color: $color-conversation-purple-shade;
+  }
+  .module-message__container--incoming-indigo-tap-to-view-pending {
+    background-color: $color-conversation-indigo-shade;
+  }
+  .module-message__container--incoming-blue-tap-to-view-pending {
+    background-color: $color-conversation-blue-shade;
+  }
+  .module-message__container--incoming-teal-tap-to-view-pending {
+    background-color: $color-conversation-teal-shade;
+  }
+  .module-message__container--incoming-green-tap-to-view-pending {
+    background-color: $color-conversation-green-shade;
+  }
+  .module-message__container--incoming-light_green-tap-to-view-pending {
+    background-color: $color-conversation-light_green-shade;
+  }
+  .module-message__container--incoming-blue_grey-tap-to-view-pending {
+    background-color: $color-conversation-blue_grey-shade;
+  }
+
+  .module-message__container--with-tap-to-view-expired {
+    border: 1px solid $color-gray-60;
+    background-color: $color-black;
+  }
+
+  .module-message__container--with-tap-to-view-error {
+    background-color: $color-gray-95;
+    border: 1px solid $color-deep-red;
+  }
+
+  .module-message__tap-to-view__icon {
+    background-color: $color-gray-05;
+  }
+  .module-message__tap-to-view__icon--outgoing {
+    background-color: $color-gray-05;
+  }
+  .module-message__tap-to-view__icon--expired {
+    background-color: $color-gray-05;
+  }
+  .module-message__tap-to-view__text {
+    color: $color-gray-05;
+  }
+  .module-message__tap-to-view__text--incoming {
+    color: $color-gray-05;
+  }
+  .module-message__tap-to-view__text--incoming-expired {
+    color: $color-gray-05;
+  }
+  .module-message__tap-to-view__text--incoming-error {
+    color: $color-gray-25;
+  }
+
   .module-message__attachment-container {
     background-color: $color-gray-95;
   }
@@ -671,6 +740,10 @@ body.dark-theme {
   }
 
   .module-message__author {
+    color: $color-white;
+  }
+
+  .module-message__author--with-tap-to-view-expired {
     color: $color-white;
   }
 
