@@ -74,7 +74,7 @@ describe('LocalLokiServer', () => {
       });
 
       try {
-        await axios.post('http://localhost:8001/v1/storage_rpc', messageData);
+        await axios.post('http://localhost:8001/storage_rpc/v1', messageData);
       } catch (error) {
         assert.isNotOk(error, 'Error occured');
       }
