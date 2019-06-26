@@ -50,7 +50,7 @@ class LocalLokiServer extends EventEmitter {
           }
 
           // Check endpoints here
-          if (req.url === '/v1/storage_rpc') {
+          if (req.url === '/storage_rpc/v1') {
             try {
               const bodyObject = JSON.parse(body);
               if (bodyObject.method !== 'store') {

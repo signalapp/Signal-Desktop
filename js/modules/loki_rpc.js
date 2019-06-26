@@ -4,7 +4,7 @@ const nodeFetch = require('node-fetch');
 const { parse } = require('url');
 
 const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
-const endpointBase = '/v1/storage_rpc';
+const endpointBase = '/storage_rpc/v1';
 
 const decryptResponse = async (response, address) => {
   try {
