@@ -90,12 +90,12 @@ class LocalLokiServer extends EventEmitter {
         if (err) {
           rej(err);
         } else {
-          try{
+          try {
             const publicPort = await this.punchHole();
             res(publicPort);
-          } catch(e) {
+          } catch (e) {
             if (e instanceof textsecure.HolePunchingError)
-            await this.close();
+              await this.close();
             rej(e);
           }
         }
@@ -139,7 +139,7 @@ class LocalLokiServer extends EventEmitter {
         await p;
         this.publicPort = publicPort;
         return publicPort;
-      } catch(e) {
+      } catch (e) {
         // continue
       }
     }

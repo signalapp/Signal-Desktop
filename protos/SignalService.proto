@@ -39,8 +39,13 @@ message Content {
 }
 
 message LokiAddressMessage {
+  enum Type {
+    HOST_REACHABLE = 0;
+    HOST_UNREACHABLE = 1;
+  }
   optional string p2pAddress    = 1;
   optional uint32 p2pPort       = 2;
+  optional Type   type          = 3;
 }
 
 message PreKeyBundleMessage {

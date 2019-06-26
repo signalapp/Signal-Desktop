@@ -1002,13 +1002,15 @@ MessageReceiver.prototype.extend({
     );
   },
   async handleLokiAddressMessage(envelope, lokiAddressMessage) {
-    const { p2pAddress, p2pPort } = lokiAddressMessage;
-    lokiP2pAPI.updateContactP2pDetails(
-      envelope.source,
-      p2pAddress,
-      p2pPort,
-      envelope.isP2p
-    );
+    const { p2pAddress, p2pPort, type } = lokiAddressMessage;
+    if (type === textsecure.protobuf.LokiAddressMessage.Type.HOST_REACHABLE) {
+      lokiP2pAPI.updateContactP2pDetails(
+        envelope.source,
+        p2pAddress,
+        p2pPort,
+        envelope.isP2p
+      );
+    }
     return this.removeFromCache(envelope);
   },
   handleDataMessage(envelope, msg) {
