@@ -1,4 +1,4 @@
-/* global window, Whisper, textsecure */
+/* global window, Whisper, textsecure, setTimeout */
 
 const { isFunction } = require('lodash');
 
@@ -142,11 +142,19 @@ async function migrateAllToSQLCipher({ writeNewAttachmentData, Views } = {}) {
 }
 
 async function doesDatabaseExist() {
+  window.log.info('Checking for the existence of IndexedDB data...');
   return new Promise((resolve, reject) => {
     const { id } = Whisper.Database;
     const req = window.indexedDB.open(id);
 
     let existed = true;
+
+    setTimeout(() => {
+      window.log.warn(
+        'doesDatabaseExist: Timed out attempting to check IndexedDB status'
+      );
+      return resolve(false);
+    }, 5000);
 
     req.onerror = reject;
     req.onsuccess = () => {

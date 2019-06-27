@@ -197,11 +197,15 @@
 
   const cancelInitializationMessage = Views.Initialization.setMessage();
 
-  const isIndexedDBPresent = await doesDatabaseExist();
-  if (isIndexedDBPresent) {
-    window.installStorage(window.legacyStorage);
-    window.log.info('Start IndexedDB migrations');
-    await runMigrations();
+  const version = await window.Signal.Data.getItemById('version');
+  let isIndexedDBPresent = false;
+  if (!version) {
+    isIndexedDBPresent = await doesDatabaseExist();
+    if (isIndexedDBPresent) {
+      window.installStorage(window.legacyStorage);
+      window.log.info('Start IndexedDB migrations');
+      await runMigrations();
+    }
   }
 
   window.log.info('Storage fetch');
@@ -327,6 +331,24 @@
       },
     };
 
+    if (isIndexedDBPresent) {
+      await mandatoryMessageUpgrade({ upgradeMessageSchema });
+      await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
+      await removeDatabase();
+      try {
+        await window.Signal.Data.removeIndexedDBFiles();
+      } catch (error) {
+        window.log.error(
+          'Failed to remove IndexedDB files:',
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      window.installStorage(window.newStorage);
+      await window.storage.fetch();
+      await storage.put('indexeddb-delete-needed', true);
+    }
+
     const currentVersion = window.getVersion();
     const lastVersion = storage.get('version');
     newVersion = !lastVersion || currentVersion !== lastVersion;
@@ -362,25 +384,8 @@
       if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
         await window.Signal.Logs.deleteAll();
         window.restart();
+        return;
       }
-    }
-
-    if (isIndexedDBPresent) {
-      await mandatoryMessageUpgrade({ upgradeMessageSchema });
-      await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
-      await removeDatabase();
-      try {
-        await window.Signal.Data.removeIndexedDBFiles();
-      } catch (error) {
-        window.log.error(
-          'Failed to remove IndexedDB files:',
-          error && error.stack ? error.stack : error
-        );
-      }
-
-      window.installStorage(window.newStorage);
-      await window.storage.fetch();
-      await storage.put('indexeddb-delete-needed', true);
     }
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
