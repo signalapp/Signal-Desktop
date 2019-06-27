@@ -11,6 +11,7 @@ import {
   sortBy,
 } from 'lodash';
 import Fuse from 'fuse.js';
+import PQueue from 'p-queue';
 
 export type ValuesOf<T extends Array<any>> = T[number];
 
@@ -70,25 +71,40 @@ const makeImagePath = (src: string) => {
   return `node_modules/emoji-datasource-apple/img/apple/64/${src}`;
 };
 
-export const images = new Set();
+const imageQueue = new PQueue({ concurrency: 10 });
+const images = new Set();
 
-export const preloadImages = () => {
+export const preloadImages = async () => {
   // Preload images
-  const preload = (src: string) => {
-    const img = new Image();
-    img.src = src;
-    images.add(img);
-  };
+  const preload = (src: string) =>
+    new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = resolve;
+      img.onerror = reject;
+      img.src = src;
+      images.add(img);
+      setTimeout(reject, 5000);
+    });
+
+  // tslint:disable-next-line no-console
+  console.log('Preloading emoji images');
+  const start = Date.now();
 
   data.forEach(emoji => {
-    preload(makeImagePath(emoji.image));
+    imageQueue.add(() => preload(makeImagePath(emoji.image)));
 
     if (emoji.skin_variations) {
       Object.values(emoji.skin_variations).forEach(variation => {
-        preload(makeImagePath(variation.image));
+        imageQueue.add(() => preload(makeImagePath(variation.image)));
       });
     }
   });
+
+  await imageQueue.onEmpty();
+
+  const end = Date.now();
+  // tslint:disable-next-line no-console
+  console.log(`Done preloading emoji images in ${end - start}ms`);
 };
 
 export const dataByShortName = keyBy(data, 'short_name');
