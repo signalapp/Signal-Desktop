@@ -45,7 +45,6 @@ export class GroupNotification extends React.Component<Props> {
               className="module-group-notification__contact"
             >
               <ContactName
-                i18n={i18n}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
                 name={contact.name}

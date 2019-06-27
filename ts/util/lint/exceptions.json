@@ -477,7 +477,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        let $el = this.$(`#${id}`);",
-    "lineNumber": 33,
+    "lineNumber": 34,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -486,7 +486,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        $el.prependTo(this.el);",
-    "lineNumber": 42,
+    "lineNumber": 43,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -495,7 +495,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 56,
+    "lineNumber": 61,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -504,7 +504,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 73,
+    "lineNumber": 78,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -513,7 +513,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 80,
+    "lineNumber": 85,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -522,7 +522,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 95,
+    "lineNumber": 100,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -531,7 +531,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 99,
+    "lineNumber": 104,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -540,7 +540,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 105,
+    "lineNumber": 110,
     "reasonCategory": "usageTrusted",
     "updated": "2019-05-10T00:25:51.515Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -549,7 +549,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 125,
+    "lineNumber": 130,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -558,7 +558,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 125,
+    "lineNumber": 130,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -567,7 +567,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 166,
+    "lineNumber": 171,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -576,7 +576,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 170,
+    "lineNumber": 175,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -585,7 +585,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 174,
+    "lineNumber": 179,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -594,7 +594,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 176,
+    "lineNumber": 181,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -603,7 +603,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 196,
+    "lineNumber": 201,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -612,7 +612,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 199,
+    "lineNumber": 204,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -2643,77 +2643,6 @@
     "updated": "2019-04-26T19:26:59.689Z"
   },
   {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "function createNodesFromMarkup(markup, handleScript) {",
-    "lineNumber": 51,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
-    "lineNumber": 53,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
-    "lineNumber": 58,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = markup;",
-    "lineNumber": 65,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
-    "lineNumber": 70,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "module.exports = createNodesFromMarkup;",
-    "lineNumber": 81,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<link />';",
-    "lineNumber": 83,
-    "reasonCategory": "falseMatch"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
-    "lineNumber": 85,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
     "rule": "jQuery-prepend(",
     "path": "node_modules/css/node_modules/source-map/lib/source-map/source-node.js",
     "line": "        this.prepend(aChunk[i]);",
@@ -2918,6 +2847,230 @@
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    var blockNode = ReactDOM.findDOMNode(this);",
+    "lineNumber": 3773,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    doc.documentElement.innerHTML = html;",
+    "lineNumber": 5535,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t      var editorNode = ReactDOM.findDOMNode(_this.editor);",
+    "lineNumber": 7047,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t      var editorNode = ReactDOM.findDOMNode(_this.editor);",
+    "lineNumber": 7081,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t   * Resetting innerHTML will move focus to the beginning of the editor,",
+    "lineNumber": 7570,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    var node = ReactDOM.findDOMNode(this);",
+    "lineNumber": 8140,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    var leafNode = ReactDOM.findDOMNode(this.leaf);",
+    "lineNumber": 8168,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    var node = ReactDOM.findDOMNode(this);",
+    "lineNumber": 8406,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t  var editorNode = ReactDOM.findDOMNode(editor.editorContainer);",
+    "lineNumber": 10608,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t  return anonymized.outerHTML;",
+    "lineNumber": 12689,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 16,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 18,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 19,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditor.react.js",
+    "line": "      var editorNode = ReactDOM.findDOMNode(_this.editor);",
+    "lineNumber": 82,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditor.react.js",
+    "line": "      var editorNode = ReactDOM.findDOMNode(_this.editor);",
+    "lineNumber": 116,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorBlock.react.js",
+    "line": "    var blockNode = ReactDOM.findDOMNode(this);",
+    "lineNumber": 92,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorBlockNode.react.js",
+    "line": "    var blockNode = ReactDOM.findDOMNode(this);",
+    "lineNumber": 215,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/lib/DraftEditorCompositionHandler.js",
+    "line": "   * Resetting innerHTML will move focus to the beginning of the editor,",
+    "lineNumber": 128,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorLeaf.react.js",
+    "line": "    var node = ReactDOM.findDOMNode(this);",
+    "lineNumber": 72,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorLeaf.react.js",
+    "line": "    var leafNode = ReactDOM.findDOMNode(this.leaf);",
+    "lineNumber": 100,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorTextNode.react.js",
+    "line": "    var node = ReactDOM.findDOMNode(this);",
+    "lineNumber": 84,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/editOnSelect.js",
+    "line": "  var editorNode = ReactDOM.findDOMNode(editor.editorContainer);",
+    "lineNumber": 28,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/lib/getSafeBodyFromHTML.js",
+    "line": "    doc.documentElement.innerHTML = html;",
+    "lineNumber": 33,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/draft-js/lib/setDraftEditorSelection.js",
+    "line": "  return anonymized.outerHTML;",
+    "lineNumber": 33,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/draft-js/node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/draft-js/node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3389,6 +3542,27 @@
     "lineNumber": 186,
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5002,6 +5176,78 @@
     "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "function createNodesFromMarkup(markup, handleScript) {",
+    "lineNumber": 51,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
+    "lineNumber": 58,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = markup;",
+    "lineNumber": 65,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
+    "lineNumber": 70,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "module.exports = createNodesFromMarkup;",
+    "lineNumber": 81,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<link />';",
+    "lineNumber": 83,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
+    "lineNumber": 85,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "eval",

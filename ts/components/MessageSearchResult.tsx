@@ -66,7 +66,6 @@ export class MessageSearchResult extends React.PureComponent<Props> {
         phoneNumber={from.phoneNumber}
         name={from.name}
         profileName={from.profileName}
-        i18n={i18n}
         module="module-message-search-result__header__name"
       />
     );
@@ -85,7 +84,6 @@ export class MessageSearchResult extends React.PureComponent<Props> {
               phoneNumber={to.phoneNumber}
               name={to.name}
               profileName={to.profileName}
-              i18n={i18n}
             />
           </span>
         </div>

@@ -9,6 +9,7 @@ import {
   map,
   mapValues,
   sortBy,
+  take,
 } from 'lodash';
 import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
@@ -194,8 +195,14 @@ const fuse = new Fuse(data, {
   keys: ['name', 'short_name', 'short_names'],
 });
 
-export function search(query: string) {
-  return fuse.search(query.substr(0, 32));
+export function search(query: string, count: number = 0) {
+  const results = fuse.search(query.substr(0, 32));
+
+  if (count) {
+    return take(results, count);
+  }
+
+  return results;
 }
 
 const shortNames = new Set([

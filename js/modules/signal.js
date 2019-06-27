@@ -74,11 +74,10 @@ const {
 } = require('../../ts/components/conversation/VerificationNotification');
 
 // State
-const { createEmojiButton } = require('../../ts/state/roots/createEmojiButton');
-const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
 const {
-  createStickerButton,
-} = require('../../ts/state/roots/createStickerButton');
+  createCompositionArea,
+} = require('../../ts/state/roots/createCompositionArea');
+const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
 const {
   createStickerManager,
 } = require('../../ts/state/roots/createStickerManager');
@@ -286,9 +285,8 @@ exports.setup = (options = {}) => {
   };
 
   const Roots = {
-    createEmojiButton,
+    createCompositionArea,
     createLeftPane,
-    createStickerButton,
     createStickerManager,
     createStickerPreviewModal,
   };

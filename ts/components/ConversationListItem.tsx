@@ -111,7 +111,6 @@ export class ConversationListItem extends React.PureComponent<Props> {
               phoneNumber={phoneNumber}
               name={name}
               profileName={profileName}
-              i18n={i18n}
             />
           )}
         </div>

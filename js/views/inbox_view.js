@@ -21,6 +21,7 @@
 
   Whisper.ConversationStack = Whisper.View.extend({
     className: 'conversation-stack',
+    lastConversation: null,
     open(conversation) {
       const id = `conversation-${conversation.cid}`;
       if (id !== this.el.firstChild.id) {
@@ -42,6 +43,10 @@
         $el.prependTo(this.el);
       }
       conversation.trigger('opened');
+      if (this.lastConversation) {
+        this.lastConversation.trigger('backgrounded');
+      }
+      this.lastConversation = conversation;
       // Make sure poppers are positioned properly
       window.dispatchEvent(new Event('resize'));
     },

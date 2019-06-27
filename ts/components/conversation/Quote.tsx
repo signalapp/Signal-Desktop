@@ -303,7 +303,6 @@ export class Quote extends React.Component<Props, State> {
             phoneNumber={authorPhoneNumber}
             name={authorName}
             profileName={authorProfileName}
-            i18n={i18n}
           />
         )}
       </div>

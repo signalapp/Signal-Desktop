@@ -101,12 +101,12 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <div className="module-conversation-header__title">
-        {name ? <Emojify text={name} i18n={i18n} /> : null}
+        {name ? <Emojify text={name} /> : null}
         {name && phoneNumber ? ' · ' : null}
         {phoneNumber ? phoneNumber : null}{' '}
         {profileName && !name ? (
           <span className="module-conversation-header__title__profile-name">
-            ~<Emojify text={profileName} i18n={i18n} />
+            ~<Emojify text={profileName} />
           </span>
         ) : null}
         {isVerified ? ' · ' : null}

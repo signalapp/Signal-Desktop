@@ -45,7 +45,6 @@ export class TimerNotification extends React.Component<Props> {
             id={changeKey}
             components={[
               <ContactName
-                i18n={i18n}
                 key="external-1"
                 phoneNumber={phoneNumber}
                 profileName={profileName}

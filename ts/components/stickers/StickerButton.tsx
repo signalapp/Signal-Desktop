@@ -4,6 +4,7 @@ import { noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 import { StickerPicker } from './StickerPicker';
+import { countStickers } from './lib';
 import { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import { LocalizerType } from '../../types/Util';
 
@@ -150,12 +151,14 @@ export const StickerButton = React.memo(
       [installedPack, clearInstalledStickerPack]
     );
 
-    const totalPacks =
-      knownPacks.length +
-      blessedPacks.length +
-      installedPacks.length +
-      receivedPacks.length;
-    if (totalPacks === 0) {
+    if (
+      countStickers({
+        knownPacks,
+        blessedPacks,
+        installedPacks,
+        receivedPacks,
+      }) === 0
+    ) {
       return null;
     }
 

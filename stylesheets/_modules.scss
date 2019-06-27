@@ -2988,6 +2988,23 @@
 .module-spinner__arc--small {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+  height: 24px;
+  width: 24px;
+}
+
+.module-spinner__container--mini {
+  height: 14px;
+  width: 14px;
+}
+.module-spinner__circle--mini {
+  -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
+  -webkit-mask-size: 100%;
+  height: 14px;
+  width: 14px;
+}
+.module-spinner__arc--mini {
+  -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
+  -webkit-mask-size: 100%;
 }
 
 .module-spinner__circle--incoming {
@@ -4540,6 +4557,11 @@
   &--#{$size} {
     width: $size;
     height: $size;
+    &--inline {
+      display: inline-block;
+      vertical-align: bottom;
+      background-size: $size $size;
+    }
   }
   &__image--#{$size} {
     width: $size;
@@ -4550,17 +4572,23 @@
 
 .module-emoji {
   display: block;
+  color: transparent;
+
+  @include light-theme() {
+    caret-color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    caret-color: $color-gray-05;
+  }
 
   @include emoji-size(16px);
+  @include emoji-size(18px);
   @include emoji-size(20px);
   @include emoji-size(28px);
   @include emoji-size(32px);
   @include emoji-size(64px);
   @include emoji-size(66px);
-
-  &--inline {
-    display: inline-block;
-  }
 }
 
 // Module: Unsupported Message
@@ -4647,6 +4675,147 @@
   fill-opacity: 0;
   stroke: $color-white;
   stroke-width: 2;
+}
+
+// Module: CompositionInput
+.module-composition-input {
+  &__input {
+    line-height: 20px;
+    border: 1px solid;
+    border-radius: 18px;
+    font-size: 14px;
+    font-family: Roboto;
+    overflow: hidden;
+    word-break: break-word;
+
+    &__scroller {
+      padding: 7px 12px;
+      min-height: 32px;
+      max-height: 80px;
+      overflow: auto;
+    }
+
+    @include light-theme() {
+      border-color: $color-gray-15;
+      background: $color-white;
+      color: $color-gray-90;
+    }
+
+    @include dark-theme() {
+      border-color: $color-gray-60;
+      background: $color-dark-85;
+      color: $color-gray-05;
+    }
+
+    &:focus-within {
+      @include light-theme() {
+        border-color: $color-signal-blue;
+      }
+
+      @include dark-theme() {
+        border-color: $color-signal-blue;
+      }
+    }
+
+    // Override draft.js styles
+    .public-DraftEditorPlaceholder-root {
+      @include light-theme() {
+        color: $color-gray-45;
+      }
+
+      @include dark-theme() {
+        color: $color-gray-45;
+      }
+    }
+  }
+
+  &__emoji-suggestions {
+    padding: 12px 0;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    z-index: 2;
+
+    @include popper-shadow();
+
+    @include light-theme() {
+      background: $color-white;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-75;
+    }
+
+    &__row {
+      height: 30px;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      background: none;
+      border: none;
+      width: 100%;
+      font-size: 13px;
+      font-family: Roboto;
+
+      @include light-theme() {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme() {
+        color: $color-gray-25;
+      }
+
+      &__short-name {
+        margin-left: 4px;
+      }
+
+      &--selected,
+      &:hover {
+        @include light-theme() {
+          background: $color-gray-10;
+          color: $color-gray-90;
+        }
+
+        @include dark-theme() {
+          background: $color-gray-60;
+          color: $color-gray-05;
+        }
+      }
+    }
+    stroke: $color-white;
+  }
+}
+
+// Module: CompositionArea
+.module-composition-area {
+  // Layout
+  display: flex;
+  flex-direction: row;
+
+  // Child Elements
+  &__button-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 100%;
+    flex-shrink: 0;
+    &--microphone-active {
+      width: 100px;
+    }
+  }
+  &__input {
+    flex-grow: 1;
+  }
+}
+
+.composition-area-placeholder {
+  flex-grow: 1;
+  margin: {
+    top: 3px;
+    bottom: 6px;
+  }
 }
 
 // Third-party module: react-contextmenu

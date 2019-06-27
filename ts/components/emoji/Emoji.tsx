@@ -6,7 +6,8 @@ export type OwnProps = {
   inline?: boolean;
   shortName: string;
   skinTone?: SkinToneKey | number;
-  size?: 16 | 20 | 28 | 32 | 64 | 66;
+  size?: 16 | 18 | 20 | 28 | 32 | 64 | 66;
+  children?: React.ReactNode;
 };
 
 export type Props = OwnProps &
@@ -15,28 +16,45 @@ export type Props = OwnProps &
 export const Emoji = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
     (
-      { style = {}, size = 28, shortName, skinTone, inline, className }: Props,
+      {
+        style = {},
+        size = 28,
+        shortName,
+        skinTone,
+        inline,
+        className,
+        children,
+      }: Props,
       ref
     ) => {
       const image = getImagePath(shortName, skinTone);
+      const backgroundStyle = inline
+        ? { backgroundImage: `url('${image}')` }
+        : {};
 
       return (
-        <div
+        <span
           ref={ref}
           className={classNames(
             'module-emoji',
             `module-emoji--${size}px`,
-            inline ? 'module-emoji--inline' : null,
+            inline ? `module-emoji--${size}px--inline` : null,
             className
           )}
-          style={style}
+          style={{ ...style, ...backgroundStyle }}
         >
-          <img
-            className={`module-emoji__image--${size}px`}
-            src={image}
-            alt={shortName}
-          />
-        </div>
+          {inline ? (
+            // When using this component as a draft.js decorator it is very
+            // important that these children are the only elements to render
+            children
+          ) : (
+            <img
+              className={`module-emoji__image--${size}px`}
+              src={image}
+              alt={shortName}
+            />
+          )}
+        </span>
       );
     }
   )

@@ -52,7 +52,6 @@ export class VerificationNotification extends React.Component<Props> {
         id={id}
         components={[
           <ContactName
-            i18n={i18n}
             key="external-1"
             name={contact.name}
             profileName={contact.profileName}

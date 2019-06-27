@@ -3,14 +3,14 @@ import { Provider } from 'react-redux';
 
 import { Store } from 'redux';
 
-import { SmartStickerButton } from '../smart/StickerButton';
+import { SmartCompositionArea } from '../smart/CompositionArea';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
-const FilteredStickerButton = SmartStickerButton as any;
+const FilteredCompositionArea = SmartCompositionArea as any;
 
-export const createStickerButton = (store: Store, props: Object) => (
+export const createCompositionArea = (store: Store, props: Object) => (
   <Provider store={store}>
-    <FilteredStickerButton {...props} />
+    <FilteredCompositionArea {...props} />
   </Provider>
 );

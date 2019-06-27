@@ -330,7 +330,6 @@ export class Message extends React.PureComponent<Props, State> {
       collapseMetadata,
       conversationType,
       direction,
-      i18n,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -361,7 +360,6 @@ export class Message extends React.PureComponent<Props, State> {
           name={authorName}
           profileName={authorProfileName}
           module={moduleName}
-          i18n={i18n}
         />
       </div>
     );

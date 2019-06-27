@@ -22,6 +22,7 @@
   <title>Signal</title>
   <link href='images/icon_128.png' rel='shortcut icon'>
   <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+  <link href="node_modules/draft-js/dist/Draft.css" rel="stylesheet" type="text/css" />
 
   <!--
     When making changes to these templates, be sure to update test/index.html as well
@@ -116,9 +117,7 @@
           <div class='compose'>
             <form class='send clearfix file-input'>
               <div class='flex'>
-                <div class='emoji-button-placeholder'></div>
-                <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
-                <div class='sticker-button-placeholder'></div>
+                <div class='composition-area-placeholder'></div>
                 <div class='capture-audio'>
                     <button class='microphone'></button>
                 </div>

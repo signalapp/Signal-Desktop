@@ -947,16 +947,6 @@
         "message": "Ikonë kartele",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
-    "emojiAlt": {
-        "message": "Figurë emoji e '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
     "installWelcome": {
         "message": "Mirë se vini te Signal Desktop",
         "description": "Welcome title on the install page"

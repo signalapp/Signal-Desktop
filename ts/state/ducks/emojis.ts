@@ -1,4 +1,5 @@
 import { take, uniq } from 'lodash';
+import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { updateEmojiUsage } from '../../../js/modules/data';
 
 // State
@@ -27,7 +28,7 @@ export const actions = {
   useEmoji,
 };
 
-function useEmoji(shortName: string): UseEmojiAction {
+function useEmoji({ shortName }: EmojiPickDataType): UseEmojiAction {
   return {
     type: 'emojis/USE_EMOJI',
     payload: doUseEmoji(shortName),

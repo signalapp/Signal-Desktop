@@ -60,7 +60,7 @@ export class ContactListItem extends React.Component<Props> {
     const profileElement =
       !isMe && profileName && !name ? (
         <span className="module-contact-list-item__text__profile-name">
-          ~<Emojify text={profileName} i18n={i18n} />
+          ~<Emojify text={profileName} />
         </span>
       ) : null;
 
@@ -79,7 +79,7 @@ export class ContactListItem extends React.Component<Props> {
         {this.renderAvatar()}
         <div className="module-contact-list-item__text">
           <div className="module-contact-list-item__text__name">
-            <Emojify text={displayName} i18n={i18n} /> {profileElement}
+            <Emojify text={displayName} /> {profileElement}
           </div>
           <div className="module-contact-list-item__text__additional-data">
             {showVerified ? (

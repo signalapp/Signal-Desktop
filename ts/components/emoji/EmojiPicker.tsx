@@ -19,10 +19,12 @@ import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
 import { LocalizerType } from '../../types/Util';
 
+export type EmojiPickDataType = { skinTone?: number; shortName: string };
+
 export type OwnProps = {
   readonly i18n: LocalizerType;
-  readonly onPickEmoji: (o: { skinTone: number; shortName: string }) => unknown;
-  readonly onForceSend: () => unknown;
+  readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
+  readonly doSend: () => unknown;
   readonly skinTone: number;
   readonly onSetSkinTone: (tone: number) => unknown;
   readonly recentEmojis: Array<string>;
@@ -57,7 +59,7 @@ export const EmojiPicker = React.memo(
     (
       {
         i18n,
-        onForceSend,
+        doSend,
         onPickEmoji,
         skinTone = 0,
         onSetSkinTone,
@@ -123,7 +125,7 @@ export const EmojiPicker = React.memo(
           if ('key' in e) {
             if (e.key === 'Enter') {
               e.preventDefault();
-              onForceSend();
+              doSend();
             }
           } else {
             const { shortName } = e.currentTarget.dataset;
@@ -132,7 +134,7 @@ export const EmojiPicker = React.memo(
             }
           }
         },
-        [onClose, onForceSend, onPickEmoji, selectedTone]
+        [doSend, onPickEmoji, selectedTone]
       );
 
       // Handle escape key
