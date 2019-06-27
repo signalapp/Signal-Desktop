@@ -76,13 +76,14 @@ const images = new Set();
 
 export const preloadImages = async () => {
   // Preload images
-  const preload = (src: string) =>
+  const preload = async (src: string) =>
     new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = resolve;
       img.onerror = reject;
       img.src = src;
       images.add(img);
+      // tslint:disable-next-line  no-string-based-set-timeout
       setTimeout(reject, 5000);
     });
 
@@ -91,10 +92,12 @@ export const preloadImages = async () => {
   const start = Date.now();
 
   data.forEach(emoji => {
+    // tslint:disable-next-line no-floating-promises promise-function-async
     imageQueue.add(() => preload(makeImagePath(emoji.image)));
 
     if (emoji.skin_variations) {
       Object.values(emoji.skin_variations).forEach(variation => {
+        // tslint:disable-next-line no-floating-promises promise-function-async
         imageQueue.add(() => preload(makeImagePath(variation.image)));
       });
     }
