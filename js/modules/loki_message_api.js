@@ -283,7 +283,7 @@ class LokiMessageAPI {
       options
     );
     return result.messages || [];
-  };
+  }
 
   async startLongPolling(numConnections, callback) {
     this.ourSwarmNodes = {};
@@ -293,7 +293,9 @@ class LokiMessageAPI {
       nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey);
     }
     for (let i = 0; i < nodes.length; i += 1) {
-      const lastHash = await window.Signal.Data.getLastHashBySnode(nodes[i].address);
+      const lastHash = await window.Signal.Data.getLastHashBySnode(
+        nodes[i].address
+      );
       this.ourSwarmNodes[nodes[i].address] = {
         lastHash,
         ip: nodes[i].ip,

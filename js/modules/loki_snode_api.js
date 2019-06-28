@@ -92,7 +92,7 @@ class LokiSnodeAPI {
       );
       // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
       const snodes = result.result.service_node_states.filter(
-        snode => snode.address !== '0.0.0.0'
+        snode => snode.public_ip !== '0.0.0.0'
       );
       this.randomSnodePool = snodes.map(snode => ({
         address: snode.public_ip,
@@ -172,7 +172,8 @@ class LokiSnodeAPI {
           pubKey,
         }
       );
-      return result.snodes;
+      const snodes = result.snodes.filter(snode => snode.ip !== '0.0.0.0');
+      return snodes;
     } catch (e) {
       this.randomSnodePool = _.without(
         this.randomSnodePool,
