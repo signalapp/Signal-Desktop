@@ -92,10 +92,10 @@ class LokiSnodeAPI {
       );
       // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
       const snodes = result.result.service_node_states.filter(
-        snode => snode.address !== '0.0.0.0'
+        snode => snode.public_ip !== '0.0.0.0'
       );
       this.randomSnodePool = snodes.map(snode => ({
-        address: snode.public_ip,
+        ip: snode.public_ip,
         port: snode.storage_port,
       }));
     } catch (e) {
@@ -162,21 +162,17 @@ class LokiSnodeAPI {
 
   async getSwarmNodes(pubKey) {
     // TODO: Hit multiple random nodes and merge lists?
-    const { address, port } = await this.getRandomSnodeAddress();
+    const { ip, port } = await this.getRandomSnodeAddress();
     try {
-      const result = await rpc(
-        `https://${address}`,
-        port,
-        'get_snodes_for_pubkey',
-        {
-          pubKey,
-        }
-      );
-      return result.snodes;
+      const result = await rpc(`https://${ip}`, port, 'get_snodes_for_pubkey', {
+        pubKey,
+      });
+      const snodes = result.snodes.filter(snode => snode.ip !== '0.0.0.0');
+      return snodes;
     } catch (e) {
       this.randomSnodePool = _.without(
         this.randomSnodePool,
-        _.find(this.randomSnodePool, { address })
+        _.find(this.randomSnodePool, { ip })
       );
       return this.getSwarmNodes(pubKey);
     }
