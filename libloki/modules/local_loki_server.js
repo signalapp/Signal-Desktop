@@ -107,6 +107,7 @@ class LocalLokiServer extends EventEmitter {
     const privatePort = this.server.address().port;
     const portStart = 22100;
     const portEnd = 22200;
+    const ttl = 60 * 15; // renew upnp every 15 minutes
     const publicPortsInUse = await new Promise((resolve, reject) => {
       this.upnpClient.getMappings({ local: true }, (err, results) => {
         if (err) {
@@ -114,7 +115,11 @@ class LocalLokiServer extends EventEmitter {
           reject(new textsecure.HolePunchingError('Could not get mapping from upnp. Upnp not available?', err));
         }
         else {
-          resolve(results.map(entry => entry.public.port));
+          // remove the current private port from the current mapping
+          // to allow reusing that port.
+          resolve(results
+            .filter(entry => entry.private.port !== privatePort)
+            .map(entry => entry.public.port));
         }
       });
     });
@@ -127,7 +132,7 @@ class LocalLokiServer extends EventEmitter {
         this.upnpClient.portMapping({
           public: publicPort,
           private: privatePort,
-          ttl: 100000,
+          ttl,
         }, (err) => {
           if (err)
             reject(err);
@@ -139,6 +144,13 @@ class LocalLokiServer extends EventEmitter {
         // eslint-disable-next-line no-await-in-loop
         await p;
         this.publicPort = publicPort;
+        setTimeout(() => {
+          try {
+            this.publicPort = this.punchHole();
+          } catch (e) {
+            this.close();
+          }
+        }, ttl);
         return publicPort;
       } catch (e) {
         throw new textsecure.HolePunchingError('Could not punch hole. Disabled upnp?', e);
