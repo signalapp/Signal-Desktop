@@ -107,10 +107,11 @@ class LocalLokiServer extends EventEmitter {
     const privatePort = this.server.address().port;
     const portStart = 22100;
     const portEnd = 22200;
-    const publicPortsInUse = await new Promise((resolve) => {
+    const publicPortsInUse = await new Promise((resolve, reject) => {
       this.upnpClient.getMappings({ local: true }, (err, results) => {
         if (err) {
-          resolve([]);
+          // We assume an error here means upnp not enabled
+          reject(new textsecure.HolePunchingError('Could not get mapping from upnp. Upnp not available?', err));
         }
         else {
           resolve(results.map(entry => entry.public.port));
@@ -140,10 +141,11 @@ class LocalLokiServer extends EventEmitter {
         this.publicPort = publicPort;
         return publicPort;
       } catch (e) {
-        // continue
+        throw new textsecure.HolePunchingError('Could not punch hole. Disabled upnp?', e);
       }
     }
-    throw new textsecure.HolePunchingError(`Could not punch hole. Public ports: ${portStart}-${portEnd}`);
+    const e = new Error();
+    throw new textsecure.HolePunchingError(`Could not punch hole: no available port. Public ports: ${portStart}-${portEnd}`, e);
   }
   // Async wrapper for http server close
   close() {
