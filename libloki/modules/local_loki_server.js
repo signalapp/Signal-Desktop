@@ -16,14 +16,21 @@ class LocalLokiServer extends EventEmitter {
    * Creates an instance of LocalLokiServer.
    * Sends out a `message` event when a new message is received.
    */
-  constructor(pems) {
+  constructor(pems, options) {
     super();
-    const options = {
+    const httpsOptions = {
       key: pems.private,
       cert: pems.cert,
     };
-    this.upnpClient = natUpnp.createClient();
-    this.server = https.createServer(options, (req, res) => {
+    // eslint-disable-next-line no-param-reassign
+    options = {
+      skipUpnp: false,
+      ...options,
+    };
+    if (!options.skipUpnp) {
+      this.upnpClient = natUpnp.createClient();
+    }
+    this.server = https.createServer(httpsOptions, (req, res) => {
       let body = [];
 
       const sendResponse = (statusCode, message = null) => {
@@ -89,7 +96,7 @@ class LocalLokiServer extends EventEmitter {
       this.server.listen(port, ip, async (err) => {
         if (err) {
           rej(err);
-        } else {
+        } else if (this.upnpClient) {
           try {
             const publicPort = await this.punchHole();
             res(publicPort);
@@ -98,6 +105,8 @@ class LocalLokiServer extends EventEmitter {
               await this.close();
             rej(e);
           }
+        } else {
+          res(port);
         }
       });
     });
@@ -144,13 +153,13 @@ class LocalLokiServer extends EventEmitter {
         // eslint-disable-next-line no-await-in-loop
         await p;
         this.publicPort = publicPort;
-        setTimeout(() => {
+        this.timerHandler = setTimeout(() => {
           try {
             this.publicPort = this.punchHole();
           } catch (e) {
             this.close();
           }
-        }, ttl);
+        }, ttl * 1000);
         return publicPort;
       } catch (e) {
         throw new textsecure.HolePunchingError('Could not punch hole. Disabled upnp?', e);
@@ -161,7 +170,8 @@ class LocalLokiServer extends EventEmitter {
   }
   // Async wrapper for http server close
   close() {
-    if (this.publicPort) {
+    clearInterval(this.timerHandler);
+    if (this.upnpClient) {
       this.upnpClient.portUnmapping({
         public: this.publicPort,
       });
