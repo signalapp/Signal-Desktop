@@ -153,9 +153,9 @@ class LocalLokiServer extends EventEmitter {
         // eslint-disable-next-line no-await-in-loop
         await p;
         this.publicPort = publicPort;
-        this.timerHandler = setTimeout(() => {
+        this.timerHandler = setTimeout(async () => {
           try {
-            this.publicPort = this.punchHole();
+            this.publicPort = await this.punchHole();
           } catch (e) {
             this.close();
           }
