@@ -305,8 +305,7 @@ window.WebAPI = initializeWebAPI({
   proxyUrl: config.proxyUrl,
 });
 
-window.seedNodeUrl = config.seedNodeUrl;
-window.seedNodePort = config.seedNodePort;
+window.seedNodeList = JSON.parse(config.seedNodeList);
 const LokiSnodeAPI = require('./js/modules/loki_snode_api');
 
 window.lokiSnodeAPI = new LokiSnodeAPI({

@@ -94,10 +94,11 @@ class LokiSnodeAPI {
         storage_port: true,
       },
     };
+    const seedNode = window.seedNodeList[Math.floor(Math.random() * window.seedNodeList.length)];
     try {
       const result = await rpc(
-        `http://${window.seedNodeUrl}`,
-        window.seedNodePort,
+        `http://${seedNode.ip}`,
+        seedNode.port,
         'get_n_service_nodes',
         params,
         {}, // Options
