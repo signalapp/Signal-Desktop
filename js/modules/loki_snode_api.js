@@ -5,6 +5,7 @@ const is = require('@sindresorhus/is');
 const dns = require('dns');
 const process = require('process');
 const { rpc } = require('./loki_rpc');
+const natUpnp = require('nat-upnp');
 
 const resolve4 = url =>
   new Promise((resolve, reject) => {
@@ -41,6 +42,18 @@ class LokiSnodeAPI {
     if (process.platform === 'win32') {
       dns.setServers(['127.0.0.1']);
     }
+  }
+
+  async getMyClearIp() {
+    const upnpClient = natUpnp.createClient();
+    return new Promise((resolve, reject) => {
+      upnpClient.externalIp((err, ip) => {
+        if (err) reject(err);
+        else {
+          resolve(ip);
+        }
+      });
+    });
   }
 
   async getMyLokiIp() {

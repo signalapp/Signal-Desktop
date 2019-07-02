@@ -26,10 +26,29 @@
   }
 
   async function sendOnlineBroadcastMessage(pubKey, isPing = false) {
-    const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
+    let p2pAddress = null;
+    let p2pPort = null;
+    let type;
+
+    if (!window.localLokiServer.isListening()) {
+      // Skip if server is not running AND we're not trying to ping a contact
+      if (!isPing)
+        return;
+
+      type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
+    } else {
+      // clearnet change: getMyLokiAddress -> getMyClearIP
+      // const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
+      const myIp = await window.lokiSnodeAPI.getMyClearIp();
+      p2pAddress = `https://${myIp}`;
+      p2pPort = window.localLokiServer.getPublicPort();
+      type = textsecure.protobuf.LokiAddressMessage.Type.HOST_REACHABLE;
+    }
+
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
-      p2pAddress: `http://${myLokiAddress}`,
-      p2pPort: parseInt(window.localServerPort, 10),
+      p2pAddress,
+      p2pPort,
+      type,
     });
     const content = new textsecure.protobuf.Content({
       lokiAddressMessage,
