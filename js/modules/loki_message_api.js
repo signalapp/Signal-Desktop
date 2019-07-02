@@ -67,10 +67,10 @@ const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
 };
 
 class LokiMessageAPI {
-  constructor() {
+  constructor(ourKey) {
     this.jobQueue = new window.JobQueue();
     this.sendingSwarmNodes = {};
-    this.ourKey = window.textsecure.storage.user.getNumber();
+    this.ourKey = ourKey;
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
