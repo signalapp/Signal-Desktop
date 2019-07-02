@@ -217,8 +217,8 @@
     }
   }
 
-  async function startLocalLokiServer() {
-    const pems = await window.getSelfSignedCert();
+  function startLocalLokiServer() {
+    const pems = window.getSelfSignedCert();
     window.localLokiServer = new window.LocalLokiServer(pems);
   }
 
@@ -232,7 +232,7 @@
     first = false;
 
     if (Whisper.Registration.isDone()) {
-      await startLocalLokiServer();
+      startLocalLokiServer();
     }
 
     window.lokiP2pAPI = new window.LokiP2pAPI(
@@ -551,7 +551,7 @@
     Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');
 
-      await startLocalLokiServer();
+      startLocalLokiServer();
 
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);

@@ -130,9 +130,10 @@ class LocalLokiServer extends EventEmitter {
     });
 
     for (let publicPort = portStart; publicPort <= portEnd; publicPort += 1) {
-      if (publicPortsInUse.includes(publicPort))
+      if (publicPortsInUse.includes(publicPort)) {
         // eslint-disable-next-line no-continue
         continue;
+      }
       const p = new Promise((resolve, reject) => {
         this.upnpClient.portMapping({
           public: publicPort,
