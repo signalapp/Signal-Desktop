@@ -16,16 +16,11 @@ class LocalLokiServer extends EventEmitter {
    * Creates an instance of LocalLokiServer.
    * Sends out a `message` event when a new message is received.
    */
-  constructor(pems, options) {
+  constructor(pems, options = {}) {
     super();
     const httpsOptions = {
       key: pems.private,
       cert: pems.cert,
-    };
-    // eslint-disable-next-line no-param-reassign
-    options = {
-      skipUpnp: false,
-      ...options,
     };
     if (!options.skipUpnp) {
       this.upnpClient = natUpnp.createClient();
@@ -101,8 +96,9 @@ class LocalLokiServer extends EventEmitter {
             const publicPort = await this.punchHole();
             res(publicPort);
           } catch (e) {
-            if (e instanceof textsecure.HolePunchingError)
+            if (e instanceof textsecure.HolePunchingError) {
               await this.close();
+            }
             rej(e);
           }
         } else {
