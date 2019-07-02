@@ -203,6 +203,18 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
+  const initAPIs = () => {
+    const ourKey = textsecure.storage.user.getNumber();
+    window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+    window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
+    window.lokiP2pAPI.on('pingContact', pubKey => {
+      const isPing = true;
+      window.libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
+    });
+    window.lokiP2pAPI.on('online', ConversationController._handleOnline);
+    window.lokiP2pAPI.on('offline', ConversationController._handleOffline);
+  };
+
   function mapOldThemeToNew(theme) {
     switch (theme) {
       case 'dark':
@@ -233,17 +245,8 @@
 
     if (Whisper.Registration.isDone()) {
       startLocalLokiServer();
+      initAPIs();
     }
-
-    window.lokiP2pAPI = new window.LokiP2pAPI(
-      textsecure.storage.user.getNumber()
-    );
-    window.lokiP2pAPI.on('pingContact', pubKey => {
-      const isPing = true;
-      window.libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
-    });
-
-    window.lokiMessageAPI = new window.LokiMessageAPI();
 
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
@@ -562,6 +565,7 @@
       //   logger: window.log,
       // });
 
+      initAPIs();
       connect(true);
     });
 

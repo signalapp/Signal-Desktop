@@ -165,10 +165,15 @@
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
 
-      // Online status handling
-      this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
       if (this.id === this.ourNumber) {
         this.set({ friendRequestStatus: FriendRequestStatusEnum.friends });
+      } else if (lokiP2pAPI) {
+        // Online status handling, only for contacts that aren't us
+        this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
+      } else {
+        window.log.warn(
+          'lokiP2pAPI not initialised when spawning conversation!'
+        );
       }
 
       this.messageSendQueue = new JobQueue();
