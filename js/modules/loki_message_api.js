@@ -5,7 +5,8 @@
 const _ = require('lodash');
 const { rpc } = require('./loki_rpc');
 
-const DEFAULT_CONNECTIONS = 2;
+const DEFAULT_CONNECTIONS = 3;
+const MAX_ACCEPTABLE_FAILURES = 1;
 const LOKI_LONGPOLL_HEADER = 'X-Loki-Long-Poll';
 
 function sleepFor(time) {
@@ -122,9 +123,27 @@ class LokiMessageAPI {
       promises.push(this.openSendConnection(params));
     }
 
-    let results;
+    // Taken from https://stackoverflow.com/questions/51160260/clean-way-to-wait-for-first-true-returned-by-promise
+    // The promise returned by this function will resolve true when the first promise
+    // in ps resolves true *or* it will resolve false when all of ps resolve false
+    const firstTrue = ps => {
+      const newPs = ps.map(
+        p =>
+          new Promise(
+            // eslint-disable-next-line more/no-then
+            (resolve, reject) => p.then(v => v && resolve(true), reject)
+          )
+      );
+      // eslint-disable-next-line more/no-then
+      newPs.push(Promise.all(ps).then(() => false));
+      return Promise.race(newPs);
+    };
+
+    let success;
     try {
-      results = await Promise.all(promises);
+      // eslint-disable-next-line more/no-then
+      Promise.all(promises).then(delete this.sendingSwarmNodes[timestamp]);
+      success = await firstTrue(promises);
     } catch (e) {
       if (e instanceof textsecure.WrongDifficultyError) {
         // Force nonce recalculation
@@ -133,18 +152,13 @@ class LokiMessageAPI {
       }
       throw e;
     }
-    delete this.sendingSwarmNodes[timestamp];
-    if (results.every(value => value === false)) {
+    if (!success) {
       throw new window.textsecure.EmptySwarmError(
         pubKey,
         'Ran out of swarm nodes to query'
       );
     }
-    if (results.every(value => value === true)) {
-      log.info(`Successful storage message to ${pubKey}`);
-    } else {
-      log.warn(`Partially successful storage message to ${pubKey}`);
-    }
+    log.info(`Successful storage message to ${pubKey}`);
   }
 
   async openSendConnection(params) {
@@ -165,7 +179,7 @@ class LokiMessageAPI {
 
   async sendToNode(address, port, params) {
     let successiveFailures = 0;
-    while (successiveFailures < 3) {
+    while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {
       await sleepFor(successiveFailures * 500);
       try {
         const result = await rpc(`https://${address}`, port, 'store', params);
@@ -212,7 +226,7 @@ class LokiMessageAPI {
       const nodeData = this.ourSwarmNodes[address];
       delete this.ourSwarmNodes[address];
       let successiveFailures = 0;
-      while (successiveFailures < 3) {
+      while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {
         await sleepFor(successiveFailures * 1000);
 
         try {
