@@ -548,7 +548,7 @@
     window.log.info('Cleanup: complete');
 
     window.log.info('listening for registration events');
-    Whisper.events.on('registration_done', async () => {
+    Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
 
       startLocalLokiServer();
