@@ -76,7 +76,7 @@ class LokiSnodeAPI {
   async getRandomSnodeAddress() {
     /* resolve random snode */
     if (this.randomSnodePool.length === 0) {
-      await this.initialiseRandomPool([...window.seedNodeList]);
+      await this.initialiseRandomPool();
     }
     if (this.randomSnodePool.length === 0) {
       throw new window.textsecure.SeedNodeError('Invalid seed node response');
@@ -86,7 +86,7 @@ class LokiSnodeAPI {
     ];
   }
 
-  async initialiseRandomPool(seedNodes) {
+  async initialiseRandomPool(seedNodes = [...window.seedNodeList]) {
     const params = {
       limit: 20,
       fields: {
