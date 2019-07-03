@@ -86,7 +86,7 @@ class LokiSnodeAPI {
     ];
   }
 
-  async initialiseRandomPool() {
+  async initialiseRandomPool(attempts = 0) {
     const params = {
       limit: 20,
       fields: {
@@ -113,7 +113,10 @@ class LokiSnodeAPI {
         port: snode.storage_port,
       }));
     } catch (e) {
-      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
+      if (attempts >= window.seedNodeList.length) {
+        throw new window.textsecure.SeedNodeError('Failed to contact seed node');
+      }
+      this.initialiseRandomPool(attempts + 1);
     }
   }
 
