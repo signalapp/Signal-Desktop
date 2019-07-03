@@ -607,7 +607,7 @@ MessageReceiver.prototype.extend({
     return promise.catch(error => {
       window.log.error(
         'queueEnvelope error handling envelope',
-        id,
+        this.getEnvelopeId(envelope),
         ':',
         error && error.stack ? error.stack : error
       );

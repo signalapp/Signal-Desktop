@@ -7,7 +7,6 @@
   window.Whisper = window.Whisper || {};
   const ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
   let timeout;
-  let scheduledTime;
 
   function scheduleNextRotation() {
     const now = Date.now();
@@ -15,18 +14,23 @@
     storage.put('nextSignedKeyRotationTime', nextTime);
   }
 
-  function run() {
+  function scheduleRotationForNow() {
+    const now = Date.now();
+    storage.put('nextSignedKeyRotationTime', now);
+  }
+
+  async function run() {
     window.log.info('Rotating signed prekey...');
-    getAccountManager()
-      .rotateSignedPreKey()
-      .catch(() => {
-        window.log.error(
-          'rotateSignedPrekey() failed. Trying again in five seconds'
-        );
-        setTimeout(runWhenOnline, 5000);
-      });
-    scheduleNextRotation();
-    setTimeoutForNextRun();
+    try {
+      await getAccountManager().rotateSignedPreKey();
+      scheduleNextRotation();
+      setTimeoutForNextRun();
+    } catch (error) {
+      window.log.error(
+        'rotateSignedPrekey() failed. Trying again in five seconds'
+      );
+      setTimeout(setTimeoutForNextRun, 5000);
+    }
   }
 
   function runWhenOnline() {
@@ -38,7 +42,7 @@
       );
       const listener = () => {
         window.removeEventListener('online', listener);
-        run();
+        setTimeoutForNextRun();
       };
       window.addEventListener('online', listener);
     }
@@ -48,14 +52,11 @@
     const now = Date.now();
     const time = storage.get('nextSignedKeyRotationTime', now);
 
-    if (scheduledTime !== time || !timeout) {
-      window.log.info(
-        'Next signed key rotation scheduled for',
-        new Date(time).toISOString()
-      );
-    }
+    window.log.info(
+      'Next signed key rotation scheduled for',
+      new Date(time).toISOString()
+    );
 
-    scheduledTime = time;
     let waitTime = time - now;
     if (waitTime < 0) {
       waitTime = 0;
@@ -75,7 +76,8 @@
       initComplete = true;
 
       if (newVersion) {
-        runWhenOnline();
+        scheduleRotationForNow();
+        setTimeoutForNextRun();
       } else {
         setTimeoutForNextRun();
       }
