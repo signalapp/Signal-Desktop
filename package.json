@@ -225,7 +225,7 @@
       "deleteAppDataOnUninstall": true
     },
     "linux": {
-      "category": "Network",
+      "category": "Network;InstantMessaging;Chat",
       "desktop": {
         "StartupWMClass": "Signal"
       },
