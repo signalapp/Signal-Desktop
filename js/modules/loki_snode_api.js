@@ -76,7 +76,7 @@ class LokiSnodeAPI {
   async getRandomSnodeAddress() {
     /* resolve random snode */
     if (this.randomSnodePool.length === 0) {
-      await this.initialiseRandomPool();
+      await this.initialiseRandomPool([...window.seedNodeList]);
     }
     if (this.randomSnodePool.length === 0) {
       throw new window.textsecure.SeedNodeError('Invalid seed node response');
@@ -86,7 +86,7 @@ class LokiSnodeAPI {
     ];
   }
 
-  async initialiseRandomPool(attempts = 0) {
+  async initialiseRandomPool(seedNodes) {
     const params = {
       limit: 20,
       fields: {
@@ -94,7 +94,7 @@ class LokiSnodeAPI {
         storage_port: true,
       },
     };
-    const seedNode = window.seedNodeList[Math.floor(Math.random() * window.seedNodeList.length)];
+    const seedNode = seedNodes.splice(Math.floor(Math.random() * seedNodes.length), 1)[0];
     try {
       const result = await rpc(
         `http://${seedNode.ip}`,
@@ -113,10 +113,10 @@ class LokiSnodeAPI {
         port: snode.storage_port,
       }));
     } catch (e) {
-      if (attempts >= window.seedNodeList.length) {
+      if (seedNodes.length === 0) {
         throw new window.textsecure.SeedNodeError('Failed to contact seed node');
       }
-      this.initialiseRandomPool(attempts + 1);
+      this.initialiseRandomPool(seedNodes);
     }
   }
 
