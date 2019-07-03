@@ -5,8 +5,20 @@
   "contentProxyUrl": "random.snode",
   "localServerPort": "8081",
   "defaultPoWDifficulty": "100",
-  "seedNodeUrl": "3.104.19.14",
-  "seedNodePort": "22023",
+  "seedNodeList": [
+    {
+      "ip": "3.104.19.14",
+      "port": "22023"
+    },
+    {
+      "ip": "13.238.53.205",
+      "port": "38157"
+    },
+    {
+      "ip": "imaginary.stream",
+      "port": "38157"
+    }
+  ],
   "disableAutoUpdate": false,
   "updatesUrl": "https://updates2.signal.org/desktop",
   "updatesPublicKey":

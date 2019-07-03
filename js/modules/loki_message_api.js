@@ -119,8 +119,15 @@ class LokiMessageAPI {
       data: data64,
     };
     const promises = [];
+    let completedConnections = 0;
     for (let i = 0; i < numConnections; i += 1) {
-      promises.push(this.openSendConnection(params));
+      const connectionPromise = this.openSendConnection(params).finally(() => {
+        completedConnections += 1;
+        if (completedConnections >= numConnections) {
+          delete this.sendingSwarmNodes[timestamp];
+        }
+      });
+      promises.push(connectionPromise);
     }
 
     // Taken from https://stackoverflow.com/questions/51160260/clean-way-to-wait-for-first-true-returned-by-promise
@@ -142,7 +149,6 @@ class LokiMessageAPI {
     let success;
     try {
       // eslint-disable-next-line more/no-then
-      Promise.all(promises).then(delete this.sendingSwarmNodes[timestamp]);
       success = await firstTrue(promises);
     } catch (e) {
       if (e instanceof textsecure.WrongDifficultyError) {
