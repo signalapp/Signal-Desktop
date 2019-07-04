@@ -12,7 +12,7 @@
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
-const NUM_SEND_CONNECTIONS = 2;
+const NUM_SEND_CONNECTIONS = 3;
 
 function OutgoingMessage(
   server,
