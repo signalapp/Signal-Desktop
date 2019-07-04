@@ -153,7 +153,11 @@ class LokiMessageAPI {
     } catch (e) {
       if (e instanceof textsecure.WrongDifficultyError) {
         // Force nonce recalculation
-        this.sendMessage(pubKey, data, messageTimeStamp, ttl, options);
+        // NOTE: Currently if there are snodes with conflicting difficulties we
+        // will send the message twice (or more). Won't affect client side but snodes
+        // could store the same message multiple times because they will have different
+        // timestamps (and therefore nonces)
+        await this.sendMessage(pubKey, data, messageTimeStamp, ttl, options);
         return;
       }
       throw e;
