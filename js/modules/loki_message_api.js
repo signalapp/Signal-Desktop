@@ -105,7 +105,7 @@ class LokiMessageAPI {
     const swarm = await lokiSnodeAPI.getSwarmNodesForPubKey(pubKey);
     this.sendingData[timestamp] = {
       swarm,
-      freshList: false,
+      hasFreshList: false,
     };
     if (this.sendingData[timestamp].swarm.length < numConnections) {
       await this.refreshSendingSwarm(pubKey, timestamp);
@@ -175,7 +175,7 @@ class LokiMessageAPI {
     const freshNodes = await lokiSnodeAPI.getFreshSwarmNodes(pubKey);
     await lokiSnodeAPI.updateSwarmNodes(pubKey, freshNodes);
     this.sendingData[timestamp].swarm = freshNodes;
-    this.sendingData[timestamp].freshList = true;
+    this.sendingData[timestamp].hasFreshList = true;
     return true;
   }
 
@@ -193,7 +193,7 @@ class LokiMessageAPI {
       }
     }
 
-    if (!this.sendingData[params.timestamp].freshList) {
+    if (!this.sendingData[params.timestamp].hasFreshList) {
       // Ensure that there is only a single refresh per outgoing message
       if (!this.sendingData[params.timestamp].refreshPromise) {
         this.sendingData[
@@ -230,7 +230,7 @@ class LokiMessageAPI {
           const { newSwarm } = e;
           await lokiSnodeAPI.updateSwarmNodes(params.pubKey, newSwarm);
           this.sendingData[params.timestamp].swarm = newSwarm;
-          this.sendingData[params.timestamp].freshList = true;
+          this.sendingData[params.timestamp].hasFreshList = true;
           return false;
         } else if (e instanceof textsecure.WrongDifficultyError) {
           const { newDifficulty } = e;
