@@ -331,7 +331,7 @@ window.callWorker = (fnName, ...args) => utilWorker.callWorker(fnName, ...args);
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
-  window.nodeSetImmediate(() => { });
+  window.nodeSetImmediate(() => {});
 }, 1000);
 
 const { autoOrientImage } = require('./js/modules/auto_orient_image');
@@ -396,8 +396,8 @@ contextMenu({
   shouldShowMenu: (event, params) =>
     Boolean(
       !params.isEditable &&
-      params.mediaType === 'none' &&
-      (params.linkURL || params.selectionText)
+        params.mediaType === 'none' &&
+        (params.linkURL || params.selectionText)
     ),
 });
 

@@ -31,8 +31,7 @@
 
     if (!window.localLokiServer.isListening()) {
       // Skip if server is not running AND we're not trying to ping a contact
-      if (!isPing)
-        return;
+      if (!isPing) return;
 
       type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
     } else {

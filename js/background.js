@@ -322,7 +322,6 @@
       },
 
       shutdown: async () => {
-
         await window.localLokiServer.close();
 
         // Stop background processing
