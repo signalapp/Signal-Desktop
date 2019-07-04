@@ -131,8 +131,7 @@ MessageReceiver.prototype.extend({
         window.log.warn(e.message);
         window.log.warn('Abdandoning starting p2p server.');
         return;
-      }
-      else if (e instanceof textsecure.LokiIpError) {
+      } else if (e instanceof textsecure.LokiIpError) {
         window.log.warn(
           'Failed to get my loki address to bind server to, will retry in 30 seconds'
         );
@@ -462,7 +461,7 @@ MessageReceiver.prototype.extend({
     if (envelope.source) {
       return `${envelope.source}.${
         envelope.sourceDevice
-        } ${envelope.timestamp.toNumber()} (${envelope.id})`;
+      } ${envelope.timestamp.toNumber()} (${envelope.id})`;
     }
 
     return envelope.id;
@@ -973,7 +972,7 @@ MessageReceiver.prototype.extend({
         const isMe = envelope.source === textsecure.storage.user.getNumber();
         const isLeavingGroup = Boolean(
           message.group &&
-          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -1036,7 +1035,7 @@ MessageReceiver.prototype.extend({
         const conversation = window.ConversationController.get(envelope.source);
         const isLeavingGroup = Boolean(
           message.group &&
-          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
         );
         const friendRequest =
           envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
@@ -1424,7 +1423,7 @@ MessageReceiver.prototype.extend({
     if (!size || size !== data.byteLength) {
       throw new Error(
         `downloadAttachment: Size ${size} did not match downloaded attachment size ${
-        data.byteLength
+          data.byteLength
         }`
       );
     }

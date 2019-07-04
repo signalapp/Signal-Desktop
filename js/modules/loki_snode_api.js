@@ -94,7 +94,10 @@ class LokiSnodeAPI {
         storage_port: true,
       },
     };
-    const seedNode = seedNodes.splice(Math.floor(Math.random() * seedNodes.length), 1)[0];
+    const seedNode = seedNodes.splice(
+      Math.floor(Math.random() * seedNodes.length),
+      1
+    )[0];
     try {
       const result = await rpc(
         `http://${seedNode.ip}`,
@@ -114,7 +117,9 @@ class LokiSnodeAPI {
       }));
     } catch (e) {
       if (seedNodes.length === 0) {
-        throw new window.textsecure.SeedNodeError('Failed to contact seed node');
+        throw new window.textsecure.SeedNodeError(
+          'Failed to contact seed node'
+        );
       }
       this.initialiseRandomPool(seedNodes);
     }
@@ -123,7 +128,9 @@ class LokiSnodeAPI {
   async unreachableNode(pubKey, nodeUrl) {
     const conversation = ConversationController.get(pubKey);
     const swarmNodes = [...conversation.get('swarmNodes')];
-    const filteredNodes = swarmNodes.filter(node => node.address !== nodeUrl);
+    const filteredNodes = swarmNodes.filter(
+      node => node.address !== nodeUrl && node.ip !== nodeUrl
+    );
     await conversation.updateSwarmNodes(filteredNodes);
   }
 

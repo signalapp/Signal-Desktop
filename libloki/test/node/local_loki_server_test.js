@@ -59,7 +59,9 @@ describe('LocalLokiServer', () => {
 
   it('should return 404 and a string if invalid enpoint is provided', async () => {
     try {
-      await this.axiosClient.post('https://localhost:8000/invalid', { name: 'Test' });
+      await this.axiosClient.post('https://localhost:8000/invalid', {
+        name: 'Test',
+      });
       assert.fail('Got a successful response');
     } catch (error) {
       if (error.response) {
@@ -95,7 +97,10 @@ describe('LocalLokiServer', () => {
       });
 
       try {
-        await this.axiosClient.post('https://localhost:8001/storage_rpc/v1', messageData);
+        await this.axiosClient.post(
+          'https://localhost:8001/storage_rpc/v1',
+          messageData
+        );
       } catch (error) {
         assert.isNotOk(error, 'Error occured');
       }
