@@ -746,8 +746,8 @@ app.on('ready', async () => {
 
   // Try to show the main window with the default key
   // If that fails then show the password window
-  const passwordSet = userConfig.get('passwordSet');
-  if (passwordSet) {
+  const dbHasPassword = userConfig.get('dbHasPassword');
+  if (dbHasPassword) {
     showPasswordWindow();
   } else {
     await showMainWindow(key);
@@ -1044,12 +1044,12 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
       const defaultKey = getDefaultSQLKey();
       await sql.setSQLPassword(defaultKey);
       await sql.removePasswordHash();
-      userConfig.set('passwordSet', false);
+      userConfig.set('dbHasPassword', false);
     } else {
       await sql.setSQLPassword(passPhrase);
       const newHash = passwordUtil.generateHash(passPhrase);
       await sql.savePasswordHash(newHash);
-      userConfig.set('passwordSet', true);
+      userConfig.set('dbHasPassword', true);
     }
 
     sendResponse();
