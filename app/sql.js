@@ -785,7 +785,7 @@ function _initializePaths(configDir) {
   filePath = path.join(dbDir, 'db.sqlite');
 }
 
-async function initialize({ configDir, key, messages }) {
+async function initialize({ configDir, key, messages, passwordAttempt }) {
   if (db) {
     throw new Error('Cannot initialize more than once!');
   }
@@ -828,6 +828,9 @@ async function initialize({ configDir, key, messages }) {
     // test database
     await getMessageCount();
   } catch (error) {
+    if (passwordAttempt) {
+      throw error;
+    }
     console.log('Database startup error:', error.stack);
     const buttonIndex = dialog.showMessageBox({
       buttons: [

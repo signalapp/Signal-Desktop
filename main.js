@@ -746,10 +746,11 @@ app.on('ready', async () => {
 
   // Try to show the main window with the default key
   // If that fails then show the password window
-  try {
-    await showMainWindow(key);
-  } catch (e) {
+  const dbHasPassword = userConfig.get('dbHasPassword');
+  if (dbHasPassword) {
     showPasswordWindow();
+  } else {
+    await showMainWindow(key);
   }
 });
 
@@ -779,13 +780,14 @@ async function removeDB() {
   }
 }
 
-async function showMainWindow(sqlKey) {
+async function showMainWindow(sqlKey, passwordAttempt = false) {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
   await sql.initialize({
     configDir: userDataPath,
     key: sqlKey,
     messages: locale.messages,
+    passwordAttempt,
   });
   await sqlChannels.initialize();
 
@@ -1009,7 +1011,8 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     event.sender.send('password-window-login-response', e);
 
   try {
-    await showMainWindow(passPhrase);
+    const passwordAttempt = true;
+    await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
     if (passwordWindow) {
       passwordWindow.close();
@@ -1041,10 +1044,12 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
       const defaultKey = getDefaultSQLKey();
       await sql.setSQLPassword(defaultKey);
       await sql.removePasswordHash();
+      userConfig.set('dbHasPassword', false);
     } else {
       await sql.setSQLPassword(passPhrase);
       const newHash = passwordUtil.generateHash(passPhrase);
       await sql.savePasswordHash(newHash);
+      userConfig.set('dbHasPassword', true);
     }
 
     sendResponse();
