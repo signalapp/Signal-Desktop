@@ -22,4 +22,9 @@ describe('replaceColons', () => {
     const unknownEmoji = replaceColons(':Unknown: :unknown:');
     assert.equal(unknownEmoji, ':Unknown: :unknown:');
   });
+
+  it('converts short names to lowercase before matching them', () => {
+    const emojiWithCaps = replaceColons('hello :Grinning:');
+    assert.equal(emojiWithCaps, 'hello 😀');
+  })
 });
