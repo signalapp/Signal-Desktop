@@ -26,5 +26,5 @@ describe('replaceColons', () => {
   it('converts short names to lowercase before matching them', () => {
     const emojiWithCaps = replaceColons('hello :Grinning:');
     assert.equal(emojiWithCaps, 'hello 😀');
-  })
+  });
 });
