@@ -1336,14 +1336,6 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer());",
-    "lineNumber": 145,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "libtextsecure/message_receiver.js",
-    "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));",
     "lineNumber": 147,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
@@ -1351,8 +1343,16 @@
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
+    "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));",
+    "lineNumber": 149,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 833,
+    "lineNumber": 805,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1360,7 +1360,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 858,
+    "lineNumber": 830,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },

@@ -736,23 +736,14 @@
     },
 
     queueJob(callback) {
-      const previous = this.pending || Promise.resolve();
+      this.jobQueue = this.jobQueue || new window.PQueue({ concurrency: 1 });
 
       const taskWithTimeout = textsecure.createTaskWithTimeout(
         callback,
         `conversation ${this.idForLogging()}`
       );
 
-      this.pending = previous.then(taskWithTimeout, taskWithTimeout);
-      const current = this.pending;
-
-      current.then(() => {
-        if (this.pending === current) {
-          delete this.pending;
-        }
-      });
-
-      return current;
+      return this.jobQueue.add(taskWithTimeout);
     },
 
     getRecipients() {

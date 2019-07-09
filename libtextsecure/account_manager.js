@@ -327,10 +327,11 @@
       });
     },
     queueTask(task) {
+      this.pendingQueue =
+        this.pendingQueue || new window.PQueue({ concurrency: 1 });
       const taskWithTimeout = textsecure.createTaskWithTimeout(task);
-      this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
-      return this.pending;
+      return this.pendingQueue.add(taskWithTimeout);
     },
     cleanSignedPreKeys() {
       const MINIMUM_KEYS = 3;

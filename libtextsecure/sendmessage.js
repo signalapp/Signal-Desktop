@@ -249,23 +249,17 @@ MessageSender.prototype = {
   },
 
   queueJobForNumber(number, runJob) {
+    this.pendingMessages[number] =
+      this.pendingMessages[number] || new window.PQueue({ concurrency: 1 });
+
+    const queue = this.pendingMessages[number];
+
     const taskWithTimeout = textsecure.createTaskWithTimeout(
       runJob,
       `queueJobForNumber ${number}`
     );
 
-    const runPrevious = this.pendingMessages[number] || Promise.resolve();
-    this.pendingMessages[number] = runPrevious.then(
-      taskWithTimeout,
-      taskWithTimeout
-    );
-
-    const runCurrent = this.pendingMessages[number];
-    runCurrent.then(() => {
-      if (this.pendingMessages[number] === runCurrent) {
-        delete this.pendingMessages[number];
-      }
-    });
+    queue.add(taskWithTimeout);
   },
 
   uploadAttachments(message) {
