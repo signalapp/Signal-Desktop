@@ -380,7 +380,7 @@
             limitKb = 100000;
             break;
         }
-        if ((blob.size / 1024).toFixed(4) >= limitKb) {
+        if ((blob.file.size / 1024).toFixed(4) >= limitKb) {
           const units = ['kB', 'MB', 'GB'];
           let u = -1;
           let limit = limitKb * 1000;
