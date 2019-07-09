@@ -240,15 +240,12 @@ class LokiMessageAPI {
           throw e;
         } else if (e instanceof textsecure.NotFoundError) {
           // TODO: Handle resolution error
-          successiveFailures += 1;
         } else if (e instanceof textsecure.HTTPError) {
           // TODO: Handle working connection but error response
           const body = await e.response.text();
           log.warn('HTTPError body:', body);
-          successiveFailures += 1;
-        } else {
-          successiveFailures += 1;
         }
+        successiveFailures += 1;
       }
     }
     log.error(`Failed to send to node: ${address}`);
@@ -307,7 +304,7 @@ class LokiMessageAPI {
           successiveFailures += 1;
         }
       }
-      if (successiveFailures >= 3) {
+      if (successiveFailures >= MAX_ACCEPTABLE_FAILURES) {
         await lokiSnodeAPI.unreachableNode(this.ourKey, address);
       }
     }

@@ -152,8 +152,9 @@ class LokiSnodeAPI {
 
   async updateSwarmNodes(pubKey, newNodes) {
     try {
+      const filteredNodes = newNodes.filter(snode => snode.ip !== '0.0.0.0');
       const conversation = ConversationController.get(pubKey);
-      await conversation.updateSwarmNodes(newNodes);
+      await conversation.updateSwarmNodes(filteredNodes);
     } catch (e) {
       throw new window.textsecure.ReplayableError({
         message: 'Could not get conversation',
