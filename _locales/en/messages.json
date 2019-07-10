@@ -300,7 +300,7 @@
       "Used as a label on a button allowing user to see more information"
   },
   "youLeftTheGroup": {
-    "message": "You left the group",
+    "message": "You can't send a message because you have left the group",
     "description":
       "Displayed when a user can't send a message because they have left the group"
   },
