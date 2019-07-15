@@ -255,6 +255,9 @@ class LokiMessageAPI {
 
   async openRetrieveConnection(stopPollingPromise, callback) {
     let stopPollingResult = false;
+    // When message_receiver restarts from onoffline/ononline events it closes
+    // http-resources, which will then resolve the stopPollingPromise with true. We then
+    // want to cancel these polling connections because new ones will be created
     // eslint-disable-next-line more/no-then
     stopPollingPromise.then(result => {
       stopPollingResult = result;
