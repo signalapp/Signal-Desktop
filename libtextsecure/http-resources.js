@@ -49,6 +49,11 @@
       handleRequest = request => request.respond(404, 'Not found');
     }
     let connected = true;
+    this.calledStop = false;
+    let resolveStopPolling;
+    const stopPolling = new Promise(res => {
+      resolveStopPolling = res;
+    });
 
     this.handleMessage = (message, options = {}) => {
       try {
@@ -83,16 +88,24 @@
       // This blocking call will return only when all attempts
       // at reaching snodes are exhausted or a DNS error occured
       try {
-        await server.startLongPolling(NUM_CONCURRENT_CONNECTIONS, messages => {
-          connected = true;
-          callback(connected);
-          messages.forEach(message => {
-            const { data } = message;
-            this.handleMessage(data);
-          });
-        });
+        await server.startLongPolling(
+          NUM_CONCURRENT_CONNECTIONS,
+          stopPolling,
+          messages => {
+            connected = true;
+            callback(connected);
+            messages.forEach(message => {
+              const { data } = message;
+              this.handleMessage(data);
+            });
+          }
+        );
       } catch (e) {
         // we'll try again anyway
+      }
+
+      if (this.calledStop) {
+        return;
       }
 
       connected = false;
@@ -104,6 +117,11 @@
 
     this.isConnected = function isConnected() {
       return connected;
+    };
+
+    this.close = () => {
+      this.calledStop = true;
+      resolveStopPolling(true);
     };
   };
 })();

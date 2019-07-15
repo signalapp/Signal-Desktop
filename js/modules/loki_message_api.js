@@ -253,13 +253,22 @@ class LokiMessageAPI {
     return false;
   }
 
-  async openRetrieveConnection(callback) {
-    while (!_.isEmpty(this.ourSwarmNodes)) {
+  async openRetrieveConnection(stopPollingPromise, callback) {
+    let stopPollingResult = false;
+    // eslint-disable-next-line more/no-then
+    stopPollingPromise.then(result => {
+      stopPollingResult = result;
+    });
+
+    while (!stopPollingResult && !_.isEmpty(this.ourSwarmNodes)) {
       const address = Object.keys(this.ourSwarmNodes)[0];
       const nodeData = this.ourSwarmNodes[address];
       delete this.ourSwarmNodes[address];
       let successiveFailures = 0;
-      while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {
+      while (
+        !stopPollingResult &&
+        successiveFailures < MAX_ACCEPTABLE_FAILURES
+      ) {
         await sleepFor(successiveFailures * 1000);
 
         try {
@@ -332,7 +341,7 @@ class LokiMessageAPI {
     return result.messages || [];
   }
 
-  async startLongPolling(numConnections, callback) {
+  async startLongPolling(numConnections, stopPolling, callback) {
     this.ourSwarmNodes = {};
     let nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey);
     if (nodes.length < numConnections) {
@@ -353,7 +362,7 @@ class LokiMessageAPI {
     const promises = [];
 
     for (let i = 0; i < numConnections; i += 1)
-      promises.push(this.openRetrieveConnection(callback));
+      promises.push(this.openRetrieveConnection(stopPolling, callback));
 
     // blocks until all snodes in our swarms have been removed from the list
     // or if there is network issues (ENOUTFOUND due to lokinet)
