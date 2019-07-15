@@ -74,7 +74,7 @@
     "jquery": "3.4.1",
     "js-yaml": "3.13.1",
     "linkify-it": "2.0.3",
-    "lodash": "4.17.11",
+    "lodash": "4.17.13",
     "memoizee": "0.4.14",
     "mkdirp": "0.5.1",
     "moment": "2.21.0",
