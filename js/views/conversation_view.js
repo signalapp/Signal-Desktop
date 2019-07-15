@@ -907,7 +907,7 @@
           });
 
         const saveAttachment = async ({ attachment, message } = {}) => {
-          const timestamp = message.received_at;
+          const timestamp = message.sent_at;
           Signal.Types.Attachment.save({
             attachment,
             document,
@@ -1467,7 +1467,10 @@
           objectURL: getAbsoluteAttachmentPath(path),
           contentType,
           caption: attachment.caption,
-          onSave: () => this.downloadAttachment({ attachment, message }),
+          onSave: () => {
+            const timestamp = message.get('sent_at');
+            this.downloadAttachment({ attachment, timestamp, message });
+          },
         };
         this.lightboxView = new Whisper.ReactWrapperView({
           className: 'lightbox-wrapper',
