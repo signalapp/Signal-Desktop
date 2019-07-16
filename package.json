@@ -112,6 +112,9 @@
     "uuid": "3.3.2",
     "websocket": "1.0.28"
   },
+  "resolutions": {
+    "fbjs/isomorphic-fetch/node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4"
+  },
   "devDependencies": {
     "@types/chai": "4.1.2",
     "@types/classnames": "2.2.3",
