@@ -1986,9 +1986,7 @@
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
               await conversation.onFriendRequestAccepted();
-              window.libloki.api.sendFriendRequestAccepted(
-                message.get('source')
-              );
+              window.libloki.api.sendBackgroundMessage(message.get('source'));
             } else {
               await conversation.onFriendRequestReceived();
             }

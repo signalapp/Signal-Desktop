@@ -101,6 +101,14 @@
       // Inbox
       const inboxCollection = getInboxCollection();
 
+      // ConversationCollection
+      const conversations = getConversations();
+      this.listenTo(conversations, 'remove', conversation => {
+        if (this.conversation_stack) {
+          this.conversation_stack.close(conversation);
+        }
+      });
+
       this.listenTo(inboxCollection, 'messageError', () => {
         if (this.networkStatusView) {
           this.networkStatusView.render();
