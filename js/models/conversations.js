@@ -167,7 +167,7 @@
 
       if (this.id === this.ourNumber) {
         this.set({ friendRequestStatus: FriendRequestStatusEnum.friends });
-      } else if (lokiP2pAPI) {
+      } else if (typeof lokiP2pAPI !== 'undefined') {
         // Online status handling, only for contacts that aren't us
         this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
       } else {
