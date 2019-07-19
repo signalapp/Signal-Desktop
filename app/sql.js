@@ -843,7 +843,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
 async function updateLokiSchema(instance) {
   const result = await instance.get(
-    "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema'"
+    "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';"
   );
   if (!result) {
     await createLokiSchemaTable(instance);
@@ -869,7 +869,8 @@ async function updateLokiSchema(instance) {
 
 async function getLokiSchemaVersion(instance) {
   const result = await instance.get(
-    'SELECT version FROM loki_schema WHERE version = (SELECT MAX(version) FROM loki_schema);'
+    `SELECT version FROM loki_schema WHERE version =
+    (SELECT MAX(version) FROM loki_schema);`
   );
   if (!result.version) {
     return 0;
