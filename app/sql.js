@@ -789,7 +789,11 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     sessionResetStatus: 0,
     swarmNodes: [],
     type: 'private',
-    profileName: 'Loki Public Chat',
+    profile: {
+      displayName: 'Loki Public Chat',
+    },
+    server: 'https://chat.lokinet.org',
+    channelId: '1',
     unlockTimestamp: null,
     unreadCount: 0,
     verified: 0,
