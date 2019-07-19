@@ -6034,7 +6034,7 @@ minipass@^2.2.1, minipass@^2.3.3:
     safe-buffer "^5.1.2"
     yallist "^3.0.0"
 
-minipass@^2.3.4:
+minipass@^2.3.4, minipass@^2.3.5:
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.3.5.tgz#cacebe492022497f656b0f0f51e2682a9ed2d848"
   integrity sha512-Gi1W4k059gyRbyVUZQ4mEqLm0YIUiGYfvxhF6SIlk3ui1WVxMTGfGdQ2SInh3PDrRTVvPKgULkpJtT4RH10+VA==
@@ -6052,6 +6052,13 @@ minizlib@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/minizlib/-/minizlib-1.1.1.tgz#6734acc045a46e61d596a43bb9d9cd326e19cc42"
   integrity sha512-TrfjCjk4jLhcJyGMYymBH6oTXcWjYbUAXTHDbtnWHjZC25h0cdajHuPE1zxb4DVmu8crfh+HwH/WMuyLG0nHBg==
+  dependencies:
+    minipass "^2.2.1"
+
+minizlib@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/minizlib/-/minizlib-1.2.1.tgz#dd27ea6136243c7c880684e8672bb3a45fd9b614"
+  integrity sha512-7+4oTUOWKg7AuL3vloEWekXY2/D20cevzsrNT2kGWm+39J9hGTCBv8VI5Pm5lXZ/o3/mdR4f8rflAPhnQb8mPA==
   dependencies:
     minipass "^2.2.1"
 
@@ -6282,7 +6289,6 @@ node-dir@^0.1.10:
 
 node-fetch@^1.0.1, "node-fetch@https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4":
   version "1.7.3"
-  uid "3e5f51e08c647ee5f20c43b15cf2d352d61c36b4"
   resolved "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4"
   dependencies:
     encoding "^0.1.11"
@@ -6292,7 +6298,24 @@ node-forge@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.1.tgz#9da611ea08982f4b94206b3beb4cc9665f20c300"
 
-node-gyp@3.8.0, node-gyp@^3.8.0:
+node-gyp@5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-5.0.3.tgz#80d64c23790244991b6d44532f0a351bedd3dd45"
+  integrity sha512-z/JdtkFGUm0QaQUusvloyYuGDub3nUbOo5de1Fz57cM++osBTvQatBUSTlF1k/w8vFHPxxXW6zxGvkxXSpaBkQ==
+  dependencies:
+    env-paths "^1.0.0"
+    glob "^7.0.3"
+    graceful-fs "^4.1.2"
+    mkdirp "^0.5.0"
+    nopt "2 || 3"
+    npmlog "0 || 1 || 2 || 3 || 4"
+    request "^2.87.0"
+    rimraf "2"
+    semver "~5.3.0"
+    tar "^4.4.8"
+    which "1"
+
+node-gyp@^3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-3.8.0.tgz#540304261c330e80d0d5edce253a68cb3964218c"
   integrity sha512-3g8lYefrRRzvGeSowdJKAKyks8oUpLEd/DyPV4eMhVlhJ0aNaZqIrNUIPuEWWTAoPqyFkfGrM67MC69baqn6vA==
@@ -9395,6 +9418,19 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
+tar@^4.4.8:
+  version "4.4.10"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.10.tgz#946b2810b9a5e0b26140cf78bea6b0b0d689eba1"
+  integrity sha512-g2SVs5QIxvo6OLp0GudTqEf05maawKUxXru104iaayWA09551tFCTI8f1Asb4lPfkBr91k07iL4c11XO3/b0tA==
+  dependencies:
+    chownr "^1.1.1"
+    fs-minipass "^1.2.5"
+    minipass "^2.3.5"
+    minizlib "^1.2.1"
+    mkdirp "^0.5.0"
+    safe-buffer "^5.1.2"
+    yallist "^3.0.3"
+
 temp-file@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/temp-file/-/temp-file-3.3.2.tgz#69b6daf1bbe23231d0a5d03844e3d96f3f531aaa"
@@ -10451,6 +10487,11 @@ yallist@^2.0.0, yallist@^2.1.2:
 yallist@^3.0.0, yallist@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.0.2.tgz#8452b4bb7e83c7c188d8041c1a837c773d6d8bb9"
+
+yallist@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.0.3.tgz#b4b049e314be545e3ce802236d6cd22cd91c3de9"
+  integrity sha512-S+Zk8DEWE6oKpV+vI3qWkaK+jSbIK86pCwe2IF/xwIpQ8jEuxpw9NyaGjmp9+BoJv5FV2piqCDcoCtStppiq2A==
 
 yargs-parser@^13.0.0:
   version "13.0.0"
