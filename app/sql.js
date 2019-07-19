@@ -869,10 +869,9 @@ async function updateLokiSchema(instance) {
 
 async function getLokiSchemaVersion(instance) {
   const result = await instance.get(
-    `SELECT version FROM loki_schema WHERE version =
-    (SELECT MAX(version) FROM loki_schema);`
+    'SELECT MAX(version) as version FROM loki_schema;'
   );
-  if (!result.version) {
+  if (!result || !result.version) {
     return 0;
   }
   return result.version;
