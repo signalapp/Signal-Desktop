@@ -1467,10 +1467,12 @@
       window.log.warn(
         `onSentMessage: Received update transcript, but no existing entry for message ${message.idForLogging()}. Dropping.`
       );
+      event.confirm();
     } else if (existing) {
       window.log.warn(
         `onSentMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
       );
+      event.confirm();
     } else {
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,

@@ -339,7 +339,7 @@
       return store.loadSignedPreKeys().then(allKeys => {
         allKeys.sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
         allKeys.reverse(); // we want the most recent first
-        let confirmed = allKeys.filter(key => key.confirmed);
+        const confirmed = allKeys.filter(key => key.confirmed);
         const unconfirmed = allKeys.filter(key => !key.confirmed);
 
         const recent = allKeys[0] ? allKeys[0].keyId : 'none';
@@ -357,7 +357,7 @@
         let confirmedCount = confirmed.length;
 
         // Keep MINIMUM_KEYS confirmed keys, then drop if older than a week
-        confirmed = confirmed.forEach((key, index) => {
+        confirmed.forEach((key, index) => {
           if (index < MINIMUM_KEYS) {
             return;
           }
@@ -369,7 +369,7 @@
               'Removing confirmed signed prekey:',
               key.keyId,
               'with timestamp:',
-              createdAt
+              new Date(createdAt).toJSON()
             );
             store.removeSignedPreKey(key.keyId);
             confirmedCount -= 1;
@@ -392,7 +392,7 @@
               'Removing unconfirmed signed prekey:',
               key.keyId,
               'with timestamp:',
-              createdAt
+              new Date(createdAt).toJSON()
             );
             store.removeSignedPreKey(key.keyId);
           }
