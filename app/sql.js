@@ -773,9 +773,7 @@ async function updateSchema(instance) {
   await updateLokiSchema(instance);
 }
 
-const LOKI_SCHEMA_VERSIONS = [
-  updateToLokiSchemaVersion1,
-];
+const LOKI_SCHEMA_VERSIONS = [updateToLokiSchemaVersion1];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
   if (currentVersion >= 1) {
@@ -798,13 +796,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     version: 2,
   };
 
-  const {
-    id,
-    type,
-    name,
-    friendRequestStatus,
-    profileName,
-  } = publicChatData;
+  const { id, type, name, friendRequestStatus, profileName } = publicChatData;
 
   await instance.run(
     `INSERT INTO conversations (
@@ -850,7 +842,9 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 }
 
 async function updateLokiSchema(instance) {
-  const result = await instance.get("SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema'");
+  const result = await instance.get(
+    "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema'"
+  );
   if (!result) {
     await createLokiSchemaTable(instance);
   }
@@ -860,7 +854,11 @@ async function updateLokiSchema(instance) {
     `Current loki schema version: ${lokiSchemaVersion};`,
     `Most recent schema version: ${LOKI_SCHEMA_VERSIONS.length};`
   );
-  for (let index = 0, max = LOKI_SCHEMA_VERSIONS.length; index < max; index += 1) {
+  for (
+    let index = 0, max = LOKI_SCHEMA_VERSIONS.length;
+    index < max;
+    index += 1
+  ) {
     const runSchemaUpdate = LOKI_SCHEMA_VERSIONS[index];
 
     // Yes, we really want to do this asynchronously, in order
@@ -870,7 +868,9 @@ async function updateLokiSchema(instance) {
 }
 
 async function getLokiSchemaVersion(instance) {
-  const result = await instance.get('SELECT version FROM loki_schema WHERE version = (SELECT MAX(version) FROM loki_schema);');
+  const result = await instance.get(
+    'SELECT version FROM loki_schema WHERE version = (SELECT MAX(version) FROM loki_schema);'
+  );
   if (!result.version) {
     return 0;
   }
