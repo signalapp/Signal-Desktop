@@ -190,6 +190,10 @@ MessageReceiver.prototype.extend({
       localLokiServer.close();
     }
 
+    if (this.httpPollingResource) {
+      this.httpPollingResource.close();
+    }
+
     return this.drain();
   },
   onopen() {
