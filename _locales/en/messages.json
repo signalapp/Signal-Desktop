@@ -435,7 +435,7 @@
   },
   "identityKeyErrorOnSend": {
     "message":
-      "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+      "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
     "description":
       "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
     "placeholders": {
