@@ -946,6 +946,7 @@ MessageSender.prototype = {
     if (options.publicEndpoint) {
       numbers = [groupId];
     }
+    const profile = textsecure.storage.impl.getLocalProfile();
     const attrs = {
       recipients: numbers,
       body: messageText,
@@ -956,6 +957,7 @@ MessageSender.prototype = {
       needsSync: true,
       expireTimer,
       profileKey,
+      profile,
       group: {
         id: groupId,
         type: textsecure.protobuf.GroupContext.Type.DELIVER,
