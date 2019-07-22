@@ -43,9 +43,17 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate, online, messageType, isPing } =
+  const {
+    numberInfo,
+    senderCertificate,
+    online,
+    messageType,
+    isPing,
+    publicEndpoint,
+  } =
     options || {};
   this.numberInfo = numberInfo;
+  this.publicEndpoint = publicEndpoint;
   this.senderCertificate = senderCertificate;
   this.online = online;
   this.messageType = messageType || 'outgoing';
@@ -193,6 +201,9 @@ OutgoingMessage.prototype = {
         numConnections: NUM_SEND_CONNECTIONS,
         isPing: this.isPing,
       };
+      if (this.publicEndpoint) {
+        options.publicEndpoint = this.publicEndpoint;
+      }
       await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
@@ -259,6 +270,21 @@ OutgoingMessage.prototype = {
   },
   doSendMessage(number, deviceIds, recurse) {
     const ciphers = {};
+    if (this.publicEndpoint) {
+      return this.transmitMessage(
+        number,
+        this.message.dataMessage,
+        this.timestamp,
+        0 // ttl
+      )
+        .then(() => {
+          this.successfulNumbers[this.successfulNumbers.length] = number;
+          this.numberCompleted();
+        })
+        .catch(error => {
+          throw error;
+        });
+    }
 
     /* Disabled because i'm not sure how senderCertificate works :thinking:
     const { numberInfo, senderCertificate } = this;

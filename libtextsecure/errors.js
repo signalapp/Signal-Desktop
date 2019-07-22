@@ -273,6 +273,18 @@
   }
   inherit(ReplayableError, TimestampError);
 
+  function PublicChatError(message) {
+    this.name = 'PublicChatError';
+    this.message = message;
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -292,4 +304,5 @@
   window.textsecure.WrongSwarmError = WrongSwarmError;
   window.textsecure.WrongDifficultyError = WrongDifficultyError;
   window.textsecure.TimestampError = TimestampError;
+  window.textsecure.PublicChatError = PublicChatError;
 })();

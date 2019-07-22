@@ -670,6 +670,7 @@
         expirationLength,
         expirationTimestamp,
         isP2p: !!this.get('isP2p'),
+        isPublic: !!this.get('isPublic'),
 
         onCopyText: () => this.copyText(),
         onReply: () => this.trigger('reply', this),
@@ -1232,6 +1233,17 @@
 
       this.set({
         isP2p: !!isP2p,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    async setIsPublic(isPublic) {
+      if (_.isEqual(this.get('isPublic'), isPublic)) return;
+
+      this.set({
+        isPublic: !!isPublic,
       });
 
       await window.Signal.Data.saveMessage(this.attributes, {

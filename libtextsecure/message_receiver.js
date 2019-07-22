@@ -13,6 +13,7 @@
 /* global GroupBuffer: false */
 /* global WebSocketResource: false */
 /* global localLokiServer: false */
+/* global lokiPublicChatAPI: false */
 /* global localServerPort: false */
 /* global lokiMessageAPI: false */
 /* global lokiP2pAPI: false */
@@ -75,6 +76,7 @@ MessageReceiver.prototype.extend({
     });
     this.httpPollingResource.pollServer();
     localLokiServer.on('message', this.handleP2pMessage.bind(this));
+    lokiPublicChatAPI.on('publicMessage', this.handlePublicMessage.bind(this));
     this.startLocalServer();
 
     // TODO: Rework this socket stuff to work with online messaging
@@ -141,6 +143,12 @@ MessageReceiver.prototype.extend({
       onFailure,
     };
     this.httpPollingResource.handleMessage(message, options);
+  },
+  handlePublicMessage({ message }) {
+    const ev = new Event('message');
+    ev.confirm = function confirmTerm() {};
+    ev.data = message;
+    this.dispatchAndWait(ev);
   },
   stopProcessing() {
     window.log.info('MessageReceiver: stopProcessing requested');

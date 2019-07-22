@@ -942,7 +942,10 @@ MessageSender.prototype = {
     options
   ) {
     const me = textsecure.storage.user.getNumber();
-    const numbers = groupNumbers.filter(number => number !== me);
+    let numbers = groupNumbers.filter(number => number !== me);
+    if (options.publicEndpoint) {
+      numbers = [groupId];
+    }
     const attrs = {
       recipients: numbers,
       body: messageText,

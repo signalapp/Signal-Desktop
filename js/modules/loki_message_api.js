@@ -4,6 +4,7 @@
 
 const _ = require('lodash');
 const { rpc } = require('./loki_rpc');
+const nodeFetch = require('node-fetch');
 
 const DEFAULT_CONNECTIONS = 3;
 const MAX_ACCEPTABLE_FAILURES = 1;
@@ -75,12 +76,56 @@ class LokiMessageAPI {
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
-    const { isPing = false, numConnections = DEFAULT_CONNECTIONS } = options;
+    const {
+      isPing = false,
+      numConnections = DEFAULT_CONNECTIONS,
+      publicEndpoint = null,
+    } = options;
     // Data required to identify a message in a conversation
     const messageEventData = {
       pubKey,
       timestamp: messageTimeStamp,
     };
+
+    // FIXME: should have public/sending(ish hint) in the option to make
+    // this more obvious...
+    if (publicEndpoint) {
+      // could we emit back to LokiPublicChannelAPI somehow?
+      const { profile } = data;
+      let displayName = 'Anonymous';
+      if (profile && profile.displayName) {
+        ({ displayName } = profile);
+      }
+      const payload = {
+        text: data.body,
+        annotations: [
+          {
+            type: 'network.loki.messenger.publicChat',
+            value: {
+              timestamp: messageTimeStamp,
+              from: displayName,
+              source: this.ourKey,
+            },
+          },
+        ],
+      };
+      try {
+        await nodeFetch(publicEndpoint, {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer loki',
+          },
+          body: JSON.stringify(payload),
+        });
+        window.Whisper.events.trigger('publicMessageSent', messageEventData);
+        return;
+      } catch (e) {
+        throw new window.textsecure.PublicChatError(
+          'Failed to send public chat message.'
+        );
+      }
+    }
 
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const p2pSuccess = await trySendP2p(

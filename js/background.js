@@ -204,9 +204,30 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
-  const initAPIs = () => {
+  const initAPIs = async () => {
     const ourKey = textsecure.storage.user.getNumber();
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+    window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
+    const publicConversations = await window.Signal.Data.getAllPublicConversations(
+      {
+        ConversationCollection: Whisper.ConversationCollection,
+      }
+    );
+    publicConversations.forEach(conversation => {
+      const settings = conversation.getPublicSource();
+      window.log.info(`Setting up public conversation for ${conversation.id}`);
+      const publicChatServer = window.lokiPublicChatAPI.findOrCreateServer(
+        settings.server
+      );
+      if (publicChatServer) {
+        publicChatServer.findOrCreateChannel(
+          settings.channel_id,
+          conversation.id
+        );
+      } else {
+        window.log.warn(`Could not set up channel for ${conversation.id}`);
+      }
+    });
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
       const isPing = true;
@@ -246,7 +267,7 @@
 
     if (Whisper.Registration.isDone()) {
       startLocalLokiServer();
-      initAPIs();
+      await initAPIs();
     }
 
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
@@ -726,6 +747,15 @@
         conversation.onP2pMessageSent(pubKey, timestamp);
       } catch (e) {
         window.log.error('Error setting p2p on message');
+      }
+    });
+
+    Whisper.events.on('publicMessageSent', ({ pubKey, timestamp }) => {
+      try {
+        const conversation = ConversationController.get(pubKey);
+        conversation.onPublicMessageSent(pubKey, timestamp);
+      } catch (e) {
+        window.log.error('Error setting public on message');
       }
     });
 
@@ -1245,6 +1275,18 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
+      const ourNumber = textsecure.storage.user.getNumber();
+      const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
+        messageDescriptor.id
+      );
+      if (
+        messageDescriptor.type === 'group' &&
+        descriptorId.match(/^publicChat:/) &&
+        data.source === ourNumber
+      ) {
+        // Remove public chat messages to ourselves
+        return event.confirm();
+      }
       const message = await createMessage(data);
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
@@ -1378,6 +1420,7 @@
       type: 'incoming',
       unread: 1,
       isP2p: data.isP2p,
+      isPublic: data.isPublic,
     };
 
     if (data.friendRequest) {

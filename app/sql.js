@@ -97,6 +97,7 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
+  getAllPublicConversations,
   getPubKeysWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -783,12 +784,12 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   await instance.run('BEGIN TRANSACTION;');
 
   const publicChatData = {
-    id: '06lokiPublicChat',
+    id: 'publicChat:1@chat.lokinet.org',
     friendRequestStatus: 4, // Friends
     sealedSender: 0,
     sessionResetStatus: 0,
     swarmNodes: [],
-    type: 'private',
+    type: 'group',
     profile: {
       displayName: 'Loki Public Chat',
     },
@@ -1598,6 +1599,17 @@ async function getAllPrivateConversations() {
   const rows = await db.all(
     `SELECT json FROM conversations WHERE
       type = 'private'
+     ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllPublicConversations() {
+  const rows = await db.all(
+    `SELECT json FROM conversations WHERE
+      type = 'group' AND
+      id LIKE 'publicChat:%'
      ORDER BY id ASC;`
   );
 
