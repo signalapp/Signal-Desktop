@@ -896,11 +896,26 @@ MessageReceiver.prototype.extend({
     }
 
     return promise
-      .then(plaintext => {
+      .then(async plaintext => {
         const { isMe, isBlocked } = plaintext || {};
         if (isMe || isBlocked) {
           this.removeFromCache(envelope);
           return null;
+        }
+        if (
+          envelope.type !== textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
+        ) {
+          // If we got here there is a valid session, which meants friend request
+          // is complete (if it wasn't already)
+          if (conversation) {
+            const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
+            if (isFriendRequestAccept) {
+              await conversation.notifyFriendRequest(
+                envelope.source,
+                'accepted'
+              );
+            }
+          }
         }
 
         this.updateCache(envelope, plaintext).catch(error => {
@@ -1067,21 +1082,6 @@ MessageReceiver.prototype.extend({
             )} ignored; destined for blocked group`
           );
           return this.removeFromCache(envelope);
-        }
-
-        if (!message.body) {
-          // Trigger conversation friend request event for empty message
-          if (conversation && !message.flags) {
-            const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
-            if (isFriendRequestAccept) {
-              await conversation.notifyFriendRequest(
-                envelope.source,
-                'accepted'
-              );
-            }
-          }
-          this.removeFromCache(envelope);
-          return null;
         }
 
         const ev = new Event('message');
