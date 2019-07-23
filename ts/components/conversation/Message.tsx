@@ -86,6 +86,7 @@ export interface Props {
   expirationLength?: number;
   expirationTimestamp?: number;
   isP2p?: boolean;
+  isPublic?: boolean;
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
@@ -203,6 +204,7 @@ export class Message extends React.PureComponent<Props, State> {
       textPending,
       timestamp,
       isP2p,
+      isPublic,
     } = this.props;
 
     if (collapseMetadata) {
@@ -212,6 +214,9 @@ export class Message extends React.PureComponent<Props, State> {
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
+    const hasBadge = isP2p || isPublic;
+    const badgeText = isPublic ? 'Public' : isP2p ? 'P2p' : '';
+    const badgeType = badgeText.toLowerCase();
 
     return (
       <div
@@ -244,14 +249,14 @@ export class Message extends React.PureComponent<Props, State> {
             module="module-message__metadata__date"
           />
         )}
-        {isP2p ? (
+        {hasBadge ? (
           <span
             className={classNames(
-              'module-message__metadata__p2p',
-              `module-message__metadata__p2p--${direction}`
+              `module-message__metadata__${badgeType}`,
+              `module-message__metadata__${badgeType}--${direction}`
             )}
           >
-            &nbsp;•&nbsp;P2P
+            &nbsp;•&nbsp;${badgeText}
           </span>
         ) : null}
         {expirationLength && expirationTimestamp ? (
