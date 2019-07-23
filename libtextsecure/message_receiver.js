@@ -17,6 +17,7 @@
 /* global localServerPort: false */
 /* global lokiMessageAPI: false */
 /* global lokiP2pAPI: false */
+/* global lokiRssAPI: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -77,6 +78,7 @@ MessageReceiver.prototype.extend({
     this.httpPollingResource.pollServer();
     localLokiServer.on('message', this.handleP2pMessage.bind(this));
     lokiPublicChatAPI.on('publicMessage', this.handlePublicMessage.bind(this));
+    lokiRssAPI.on('rssMessage', this.handlePublicMessage.bind(this));
     this.startLocalServer();
 
     // TODO: Rework this socket stuff to work with online messaging

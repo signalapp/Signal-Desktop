@@ -30,6 +30,7 @@ export type PropsData = {
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
+    isRss: boolean;
   };
 
   showFriendRequestIndicator?: boolean;
@@ -213,7 +214,13 @@ export class ConversationListItem extends React.PureComponent<Props> {
     if (!lastMessage && !isTyping) {
       return null;
     }
-    const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+    let text = lastMessage && lastMessage.text ? lastMessage.text : '';
+
+    // if coming from Rss feed
+    if (lastMessage && lastMessage.isRss) {
+      // strip any HTML
+      text = text.replace(/<[^>]*>?/gm, '');
+    }
 
     if (isEmpty(text)) {
       return null;

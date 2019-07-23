@@ -228,6 +228,7 @@
         window.log.warn(`Could not set up channel for ${conversation.id}`);
       }
     });
+    window.lokiRssAPI = new window.LokiRssAPI();
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
       const isPing = true;
@@ -1424,6 +1425,7 @@
       unread: 1,
       isP2p: data.isP2p,
       isPublic: data.isPublic,
+      isRss: data.isRss,
     };
 
     if (data.friendRequest) {

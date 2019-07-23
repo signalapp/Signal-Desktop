@@ -326,6 +326,8 @@ window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
+window.LokiRssAPI = require('./js/modules/loki_rss_api');
+
 window.LocalLokiServer = require('./libloki/modules/local_loki_server');
 
 window.localServerPort = config.localServerPort;

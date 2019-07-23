@@ -196,6 +196,9 @@
     isPublic() {
       return this.id.match(/^publicChat:/);
     },
+    isRss() {
+      return this.id.match(/^rss:/);
+    },
     isBlocked() {
       return BlockedNumberController.isBlocked(this.id);
     },
@@ -453,6 +456,7 @@
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
+          isRss: this.isRss(),
         },
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
@@ -642,6 +646,11 @@
       );
     },
     updateTextInputState() {
+      if (this.isRss()) {
+        // or if we're an rss conversation, disable it
+        this.trigger('disable:input', true);
+        return;
+      }
       switch (this.get('friendRequestStatus')) {
         case FriendRequestStatusEnum.none:
         case FriendRequestStatusEnum.requestExpired:
@@ -2083,6 +2092,20 @@
       const profileName = this.get('profileName');
       if (profileName !== name) {
         this.set({ profileName: name });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+    async setGroupNameAndAvatar(name, avatarPath) {
+      const currentName = this.get('name');
+      const profileAvatar = this.get('profileAvatar');
+      if (profileAvatar !== avatarPath || currentName !== name) {
+        // only update changed items
+        if (profileAvatar !== avatarPath)
+          this.set({ profileAvatar: avatarPath });
+        if (currentName !== name) this.set({ name });
+        // save
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
