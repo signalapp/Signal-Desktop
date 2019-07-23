@@ -16,7 +16,7 @@ import {
 } from 'draft-js';
 import Measure, { ContentRect } from 'react-measure';
 import { Manager, Popper, Reference } from 'react-popper';
-import { clamp, noop } from 'lodash';
+import { head, noop, trimEnd } from 'lodash';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import { Emoji } from './emoji/Emoji';
@@ -241,7 +241,18 @@ export const CompositionInput = ({
 
       // Update the state to indicate emojiable text at the current position.
       const newSearchText = match ? match.trim().substr(1) : '';
-      if (newSearchText.length >= 2 && focusRef.current) {
+      if (newSearchText.endsWith(':')) {
+        const bareText = trimEnd(newSearchText, ':');
+        const emoji = head(search(bareText));
+        if (emoji && bareText === emoji.short_name) {
+          handleEditorCommand('enter-emoji', newState, emoji);
+
+          // Prevent inserted colon from persisting to state
+          return;
+        } else {
+          resetEmojiResults();
+        }
+      } else if (newSearchText.length >= 2 && focusRef.current) {
         setEmojiResults(search(newSearchText, 10));
         setSearchText(newSearchText);
         setEmojiResultsIndex(0);
@@ -300,19 +311,31 @@ export const CompositionInput = ({
         }
 
         if (dir === 'next') {
-          setEmojiResultsIndex(
-            clamp(emojiResultsIndex + 1, 0, emojiResults.length - 1)
-          );
+          setEmojiResultsIndex(index => {
+            const next = index + 1;
+
+            if (next >= emojiResults.length) {
+              return 0;
+            }
+
+            return next;
+          });
         }
 
         if (dir === 'prev') {
-          setEmojiResultsIndex(
-            clamp(emojiResultsIndex - 1, 0, emojiResults.length - 1)
-          );
+          setEmojiResultsIndex(index => {
+            const next = index - 1;
+
+            if (next < 0) {
+              return emojiResults.length - 1;
+            }
+
+            return next;
+          });
         }
       }
     },
-    [setEmojiResultsIndex, emojiResultsIndex, emojiResults]
+    [emojiResultsIndex, emojiResults]
   );
 
   const handleEditorArrowKey = React.useCallback(
@@ -338,21 +361,18 @@ export const CompositionInput = ({
     [resetEmojiResults, emojiResults]
   );
 
-  const getWordAtCaret = React.useCallback(
-    () => {
-      const selection = editorState.getSelection();
-      const index = selection.getAnchorOffset();
+  const getWordAtCaret = React.useCallback((state = editorStateRef.current) => {
+    const selection = state.getSelection();
+    const index = selection.getAnchorOffset();
 
-      return getWordAtIndex(
-        editorState
-          .getCurrentContent()
-          .getBlockForKey(selection.getAnchorKey())
-          .getText(),
-        index
-      );
-    },
-    [editorState]
-  );
+    return getWordAtIndex(
+      state
+        .getCurrentContent()
+        .getBlockForKey(selection.getAnchorKey())
+        .getText(),
+      index
+    );
+  }, []);
 
   const insertEmoji = React.useCallback(
     (e: EmojiPickDataType, replaceWord: boolean = false) => {
@@ -409,14 +429,16 @@ export const CompositionInput = ({
   const handleEditorCommand = React.useCallback(
     (
       command: CompositionInputEditorCommand,
-      state: EditorState
+      state: EditorState,
+      emojiOverride?: EmojiData
     ): DraftHandleValue => {
       if (command === 'enter-emoji') {
-        const shortName = emojiResults[emojiResultsIndex].short_name;
+        const { short_name: shortName } =
+          emojiOverride || emojiResults[emojiResultsIndex];
 
         const content = state.getCurrentContent();
         const selection = state.getSelection();
-        const word = getWordAtCaret();
+        const word = getWordAtCaret(state);
         const emojiContent = convertShortName(shortName, skinTone);
         const emojiEntityKey = content
           .createEntity('emoji', 'IMMUTABLE', {
