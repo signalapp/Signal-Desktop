@@ -790,10 +790,8 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     sessionResetStatus: 0,
     swarmNodes: [],
     type: 'group',
-    profile: {
-      displayName: 'Loki Public Chat',
-    },
     server: 'https://chat.lokinet.org',
+    name: 'Loki Public Chat',
     channelId: '1',
     unlockTimestamp: null,
     unreadCount: 0,
@@ -801,7 +799,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     version: 2,
   };
 
-  const { id, type, name, friendRequestStatus, profileName } = publicChatData;
+  const { id, type, name, friendRequestStatus } = publicChatData;
 
   await instance.run(
     `INSERT INTO conversations (
@@ -811,8 +809,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     type,
     members,
     name,
-    friendRequestStatus,
-    profileName
+    friendRequestStatus
   ) values (
     $id,
     $json,
@@ -820,8 +817,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     $type,
     $members,
     $name,
-    $friendRequestStatus,
-    $profileName
+    $friendRequestStatus
   );`,
     {
       $id: id,
@@ -831,7 +827,6 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
       $members: null,
       $name: name,
       $friendRequestStatus: friendRequestStatus,
-      $profileName: profileName,
     }
   );
 

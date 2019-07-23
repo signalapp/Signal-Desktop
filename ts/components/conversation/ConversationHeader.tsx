@@ -96,7 +96,7 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const { phoneNumber, i18n, profileName, isKeysPending, isMe } = this.props;
+    const { phoneNumber, i18n, profileName, isKeysPending, isMe, name } = this.props;
 
     if (isMe) {
       return (
@@ -111,6 +111,7 @@ export class ConversationHeader extends React.Component<Props> {
         <ContactName
           phoneNumber={phoneNumber}
           profileName={profileName}
+          name={name}
           i18n={i18n}
         />
         {isKeysPending ? '(pending)' : null}
