@@ -2033,7 +2033,7 @@
       }
       return {
         server: this.get('server'),
-        channel_id: this.get('channelId'),
+        channelId: this.get('channelId'),
       };
     },
     // FIXME: remove or add public and/or "sending" hint to name...

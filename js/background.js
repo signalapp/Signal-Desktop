@@ -221,7 +221,7 @@
       );
       if (publicChatServer) {
         publicChatServer.findOrCreateChannel(
-          settings.channel_id,
+          settings.channelId,
           conversation.id
         );
       } else {
