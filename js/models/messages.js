@@ -357,6 +357,9 @@
     onDestroy() {
       this.cleanup();
     },
+    deleteMessage() {
+      this.trigger('delete', this);
+    },
     async cleanup() {
       MessageController.unregister(this.id);
       this.unload();
