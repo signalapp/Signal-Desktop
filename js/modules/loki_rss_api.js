@@ -17,7 +17,7 @@ function xml2json(xml) {
     if (xml.children.length > 0) {
       for (let i = 0; i < xml.children.length; i += 1) {
         const item = xml.children.item(i);
-        const { nodeName } = item.nodeName;
+        const { nodeName } = item;
 
         if (typeof obj[nodeName] === 'undefined') {
           obj[nodeName] = xml2json(item);
@@ -114,6 +114,11 @@ class LokiRssAPI extends EventEmitter {
     // make sure conversation is set up properly
     // (delay to after the network response intentionally)
     this.setupConversation();
+
+    if (!feedObj || !feedObj.rss || !feedObj.rss.channel) {
+      log.error('rsserror', feedObj, feedDOM, responseXML);
+      return;
+    }
 
     feedObj.rss.channel.item.reverse().forEach(item => {
       // log.debug('item', item)
