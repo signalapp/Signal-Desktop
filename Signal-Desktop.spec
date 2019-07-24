@@ -1,13 +1,17 @@
-%global     debug_package %{nil}
+%global debug_package %{nil}
 
-Name:		Signal-Desktop
-Version:	1.25.3
-Release:	2%{?dist}
-Summary:	Private messaging from your desktop
-License:	GPLv3
-URL:		https://signal.org/
+# Remove bundled libraries from requirements/provides
+%global __requires_exclude ^(libffmpeg\\.so.*|libEGL\\.so.*|libGLESv2\\.so.*|libVkICD_mock_icd\\.so\\..*)$
+%global __provides_exclude ^(lib.*\\.so.*)$
 
-Source0:	https://github.com/signalapp/%{name}/archive/v%{version}.tar.gz#/Signal-Desktop-%{version}.tar.gz
+Name:       Signal-Desktop
+Version:    1.25.3
+Release:    2%{?dist}
+Summary:    Private messaging from your desktop
+License:    GPLv3
+URL:        https://signal.org/
+
+Source0:    https://github.com/signalapp/%{name}/archive/v%{version}.tar.gz#/Signal-Desktop-%{version}.tar.gz
 # Declare as source and not patch as patching is done later in the process:
 Source1:    https://aur.archlinux.org/cgit/aur.git/plain/openssl-linking.patch?h=signal#/Signal-Desktop-openssl-linking.patch
 Source2:    %{name}.desktop
