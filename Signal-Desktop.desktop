@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Signal
+GenericName=Messenger
+Comment=Signal Private Messenger
+Icon=Signal-Desktop
+Exec=signal-desktop
+Categories=Network
+StartupNotify=true
