@@ -23,18 +23,21 @@ class LokiPublicChatAPI extends EventEmitter {
     return thisServer;
   }
   unregisterChannel(hostport, channelId) {
-    const thisServer = this.servers.find(server => server.server === hostport);
+    let thisServer;
+    let i = 0;
+    for (; i < this.servers.length; i += 1) {
+      if (this.servers[i].server === hostport) {
+        thisServer = this.servers[i];
+        break;
+      }
+    }
+
     if (!thisServer) {
       log.warn(`Tried to unregister from nonexistent server ${hostport}`);
       return;
     }
     thisServer.unregisterChannel(channelId);
-    if (thisServer.channels.length === 0) {
-      const index = this.servers.indexOf(thisServer);
-      if (index > -1) {
-        this.servers.splice(index, 1);
-      }
-    }
+    this.servers.splice(i, 1);
   }
 }
 
@@ -53,15 +56,19 @@ class LokiPublicServerAPI {
     return thisChannel;
   }
   unregisterChannel(channelId) {
-    const thisChannel = this.channels.find(channel => channel.channelId === channelId);
+    let thisChannel;
+    let i = 0;
+    for (; i < this.channels.length; i += 1) {
+      if (this.channels[i].channelId === channelId) {
+        thisChannel = this.channels[i];
+        break;
+      }
+    }
     if (!thisChannel) {
       return;
     }
+    this.channels.splice(i, 1);
     thisChannel.stopPolling = true;
-    const index = this.channels.indexOf(thisChannel);
-    if (index > -1) {
-      this.channels.splice(index, 1);
-    }
   }
 }
 
