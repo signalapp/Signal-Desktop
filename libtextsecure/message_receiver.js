@@ -1246,7 +1246,7 @@ MessageReceiver.prototype.extend({
       window.Signal.Crypto.base64ToArrayBuffer(digest)
     );
 
-    if (!size) {
+    if (!_.isNumber(size)) {
       throw new Error(
         `downloadAttachment: Size was not provided, actual size was ${
           data.byteLength
