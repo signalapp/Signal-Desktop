@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getSizeClass, SizeClassType } from '../../util/emoji';
+import { getSizeClass, SizeClassType } from '../emoji/lib';
 import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';

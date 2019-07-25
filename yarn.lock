@@ -2793,22 +2793,10 @@ emoji-datasource-apple@4.1.0:
   resolved "https://registry.yarnpkg.com/emoji-datasource-apple/-/emoji-datasource-apple-4.1.0.tgz#e6725311b115144a32fb60043416a755fea30bf5"
   integrity sha1-5nJTEbEVFEoy+2AENBanVf6jC/U=
 
-emoji-datasource@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-4.0.0.tgz#3fc9c0c2f4fb321d9291138819f6d100603d3e2f"
-  integrity sha1-P8nAwvT7Mh2SkROIGfbRAGA9Pi8=
-
 emoji-datasource@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-4.1.0.tgz#b44557f78a2dfac2f350393391b170a567ec28ad"
   integrity sha1-tEVX94ot+sLzUDkzkbFwpWfsKK0=
-
-emoji-js@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/emoji-js/-/emoji-js-3.4.0.tgz#dabdeda60c92d1948a5177e51ba9421d2029b052"
-  integrity sha1-2r3tpgyS0ZSKUXflG6lCHSApsFI=
-  dependencies:
-    emoji-datasource "4.0.0"
 
 emoji-regex@8.0.0:
   version "8.0.0"

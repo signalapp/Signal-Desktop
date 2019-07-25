@@ -231,7 +231,7 @@
     "rule": "jQuery-load(",
     "path": "js/modules/emojis.js",
     "line": "async function load() {",
-    "lineNumber": 17,
+    "lineNumber": 13,
     "reasonCategory": "falseMatch",
     "updated": "2019-05-23T22:27:53.554Z"
   },
@@ -3548,24 +3548,6 @@
     "lineNumber": 90,
     "reasonCategory": "otherUtilityCode",
     "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-js/lib/jquery.emoji.js",
-    "line": "\t\t$(this).html(function (i, oldHtml){",
-    "lineNumber": 5,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "node_modules/emoji-js/lib/jquery.emoji.js",
-    "line": "\t\t$(this).html(function (i, oldHtml){",
-    "lineNumber": 5,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "It's setting the html of the element to the previous HTML, just with the emoji replaced"
   },
   {
     "rule": "thenify-multiArgs",

@@ -1,16 +1,11 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import is from '@sindresorhus/is';
 
-import {
-  findImage,
-  getRegex,
-  getReplacementData,
-  SizeClassType,
-} from '../../util/emoji';
+import emojiRegex from 'emoji-regex';
 
 import { RenderTextCallbackType } from '../../types/Util';
+import { emojiToImage, SizeClassType } from '../emoji/lib';
 
 // Some of this logic taken from emoji-js/replacement
 function getImageTag({
@@ -22,18 +17,9 @@ function getImageTag({
   sizeClass?: SizeClassType;
   key: string | number;
 }) {
-  const result = getReplacementData(match[0], match[1], match[2]);
+  const img = emojiToImage(match[0]);
 
-  if (is.string(result)) {
-    return match[0];
-  }
-
-  const img = findImage(result.value, result.variation);
-
-  if (
-    !img.path ||
-    !img.path.startsWith('node_modules/emoji-datasource-apple')
-  ) {
+  if (!img) {
     return match[0];
   }
 
@@ -41,10 +27,9 @@ function getImageTag({
     // tslint:disable-next-line react-a11y-img-has-alt
     <img
       key={key}
-      src={img.path}
+      src={img}
       aria-label={match[0]}
       className={classNames('emoji', sizeClass)}
-      data-codepoints={img.full_idx}
       title={match[0]}
     />
   );
@@ -66,7 +51,7 @@ export class Emojify extends React.Component<Props> {
   public render() {
     const { text, sizeClass, renderNonEmoji } = this.props;
     const results: Array<any> = [];
-    const regex = getRegex();
+    const regex = emojiRegex();
 
     // We have to do this, because renderNonEmoji is not required in our Props object,
     //  but it is always provided via defaultProps.

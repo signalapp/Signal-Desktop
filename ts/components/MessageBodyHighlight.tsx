@@ -4,7 +4,7 @@ import { MessageBody } from './conversation/MessageBody';
 import { Emojify } from './conversation/Emojify';
 import { AddNewLines } from './conversation/AddNewLines';
 
-import { SizeClassType } from '../util/emoji';
+import { SizeClassType } from './emoji/lib';
 
 import { LocalizerType, RenderTextCallbackType } from '../types/Util';
 

@@ -6,7 +6,6 @@ const Crypto = require('./crypto');
 const Data = require('./data');
 const Database = require('./database');
 const Emojis = require('./emojis');
-const Emoji = require('../../ts/util/emoji');
 const EmojiLib = require('../../ts/components/emoji/lib');
 const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
@@ -333,7 +332,6 @@ exports.setup = (options = {}) => {
     Data,
     Database,
     Emojis,
-    Emoji,
     EmojiLib,
     IndexedDB,
     LinkPreviews,
