@@ -22,6 +22,9 @@
 
       this.loadKeys().then(() => {
         this.listenTo(this.model, 'change', this.render);
+        if (options.onLoad) {
+          options.onLoad();
+        }
       });
     },
     loadKeys() {

@@ -1,15 +1,56 @@
+@import './mixins';
+
+@keyframes panel--in {
+  from {
+    transform: translateX(500px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .conversation {
   background-color: $color-white;
   height: 100%;
   position: relative;
 
-  .panel,
-  .panel-wrapper {
+  .panel {
     height: calc(100% - #{$header-height});
     overflow-y: scroll;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 48px;
+    width: 100%;
+    height: calc(100% - 48px);
+
+    @include light-theme() {
+      background-color: $color-white;
+    }
+
+    @include dark-theme() {
+      background-color: $color-black;
+    }
   }
 
   .panel {
+    &:not(.main) {
+      animation: panel--in 250ms ease-out;
+    }
+
+    &--static {
+      animation: none;
+    }
+
+    &--remove {
+      transform: translateX(500px);
+      opacity: 0;
+      transition: all 250ms ease-out;
+    }
+
     .container {
       padding-top: 20px;
       max-width: 750px;
@@ -18,8 +59,7 @@
     }
   }
 
-  .main.panel,
-  .panel-wrapper {
+  .main.panel {
     display: flex;
     flex-direction: column;
     overflow: initial;

@@ -954,7 +954,7 @@
       };
 
       const view = new Whisper.ReactWrapperView({
-        className: 'panel-wrapper',
+        className: 'panel',
         Component: Signal.Components.MediaGallery,
         props: await getProps(),
         onClose: () => {
@@ -1537,7 +1537,7 @@
 
       const props = message.getPropsForMessageDetail();
       const view = new Whisper.ReactWrapperView({
-        className: 'message-detail-wrapper',
+        className: 'panel message-detail-wrapper',
         Component: Signal.Components.MessageDetail,
         props,
         onClose,
@@ -1597,11 +1597,11 @@
 
     listenBack(view) {
       this.panels = this.panels || [];
-      if (this.panels.length > 0) {
-        this.panels[0].$el.hide();
-      }
       this.panels.unshift(view);
-      view.$el.insertBefore(this.$('.panel').first());
+      view.$el.insertAfter(this.$('.panel').last());
+      view.$el.one('animationend', () => {
+        view.$el.addClass('panel--static');
+      });
     },
     resetPanel() {
       if (!this.panels || !this.panels.length) {
@@ -1611,14 +1611,15 @@
       const view = this.panels.shift();
 
       if (this.panels.length > 0) {
-        this.panels[0].$el.show();
+        this.panels[0].$el.fadeIn(250);
       }
-      view.remove();
-
-      if (this.panels.length === 0) {
-        // Make sure poppers are positioned properly
-        window.dispatchEvent(new Event('resize'));
-      }
+      view.$el.addClass('panel--remove').one('transitionend', () => {
+        view.remove();
+        if (this.panels.length === 0) {
+          // Make sure poppers are positioned properly
+          window.dispatchEvent(new Event('resize'));
+        }
+      });
     },
 
     endSession() {

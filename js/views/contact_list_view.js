@@ -16,6 +16,7 @@
       initialize(options) {
         this.ourNumber = textsecure.storage.user.getNumber();
         this.listenBack = options.listenBack;
+        this.loading = false;
 
         this.listenTo(this.model, 'change', this.render);
       },
@@ -39,19 +40,28 @@
             profileName: this.model.getProfileName(),
             verified: this.model.isVerified(),
             onClick: this.showIdentity.bind(this),
+            disabled: this.loading,
           },
         });
         this.$el.append(this.contactView.el);
         return this;
       },
       showIdentity() {
-        if (this.model.id === this.ourNumber) {
+        if (this.model.id === this.ourNumber || this.loading) {
           return;
         }
+
+        this.loading = true;
+        this.render();
+
         const view = new Whisper.KeyVerificationPanelView({
           model: this.model,
+          onLoad: () => {
+            this.loading = false;
+            this.listenBack(view);
+            this.render();
+          },
         });
-        this.listenBack(view);
       },
     }),
   });
