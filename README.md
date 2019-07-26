@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.org/loki-project/loki-messenger.svg?branch=development)](https://travis-ci.org/loki-project/loki-messenger)
 
-Loki Messenger allows for truly decentralized and end to end and private encrypted chats, Loki Messenger is built to handle both online and fully Asynchronous offline messages , Loki messenger implements the Signal protocol for message encryption, Our Client interface is a fork of [Signal Messenger](https://signal.org/). All communication that passes through Loki messenger is routed through [Lokinet](https://github.com/loki-project/loki-network).
+Loki Messenger allows for truly decentralized, end to end, and private encrypted chats. Loki Messenger is built to handle both online and fully Asynchronous offline messages. Loki messenger implements the Signal protocol for message encryption. Our Client interface is a fork of [Signal Messenger](https://signal.org/). All communication that passes through Loki messenger is routed through [Lokinet](https://github.com/loki-project/loki-network).
 
 ## Summary
 
-Loki messenger integrates directly with Loki Service Nodes, which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as both federated servers which store messages offline, and a set of nodes which allow for onion routing functionality obfuscating users IP Addresses. For a full understanding of how Loki messenger works, read the [Loki whitepaper](https://loki.network/whitepaper)
+Loki messenger integrates directly with Loki [Service Nodes](https://lokidocs.com/ServiceNodes/SNOverview/), which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as both federated servers which store messages offline, and a set of nodes which allow for onion routing functionality obfuscating users IP Addresses. For a full understanding of how Loki messenger works, read the [Loki whitepaper](https://loki.network/whitepaper).
 
 **Online Messages**
 
@@ -26,7 +26,7 @@ Please search for any [existing issues](https://github.com/loki-project/loki-mes
 
 ## Build instruction
 
-build instructions can be found in [CONTRIBUTING.md](CONTRIBUTING.md)
+Build instructions can be found in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
