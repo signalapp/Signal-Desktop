@@ -549,7 +549,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 130,
+    "lineNumber": 131,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -558,7 +558,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 130,
+    "lineNumber": 131,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -567,7 +567,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 171,
+    "lineNumber": 172,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -576,7 +576,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 175,
+    "lineNumber": 176,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -585,7 +585,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 179,
+    "lineNumber": 180,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -594,7 +594,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 181,
+    "lineNumber": 182,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -603,7 +603,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 201,
+    "lineNumber": 202,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -612,7 +612,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 204,
+    "lineNumber": 205,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"

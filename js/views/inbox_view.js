@@ -119,6 +119,7 @@
     },
     events: {
       click: 'onClick',
+      keyup: 'switchConversation',
     },
     setupLeftPane() {
       this.leftPaneView = new Whisper.ReactWrapperView({
@@ -205,6 +206,53 @@
     },
     onClick(e) {
       this.closeRecording(e);
+    },
+    // switches the conversation with ctrl/alt + up/down
+    switchConversation(e) {
+      const keyCode = e.which || e.keyCode;
+      const conversations = getInboxCollection().models;
+      const currentConversation =
+        this.conversation_stack.lastConversation || conversations[0];
+      let currentConversationIndex = -1;
+
+      if (!e.ctrlKey && !e.altKey) {
+        return;
+      }
+
+      function _compare(a, b) {
+        if (a.cachedProps.lastUpdated < b.cachedProps.lastUpdated) {
+          return 1;
+        } else if (a.cachedProps.lastUpdated > b.cachedProps.lastUpdated) {
+          return -1;
+        } else if (a.cachedProps.name < b.cachedProps.name) {
+          return -1;
+        } else if (a.cachedProps.name > b.cachedProps.name) {
+          return 1;
+        }
+        return 0;
+      }
+      conversations.sort(_compare);
+
+      currentConversationIndex = conversations.findIndex(
+        conversation => conversation.id === currentConversation.id
+      );
+
+      // down key
+      if (
+        keyCode === 40 &&
+        currentConversationIndex + 1 < conversations.length
+      ) {
+        this.openConversation(
+          conversations[currentConversationIndex + 1].id,
+          'Down key'
+        );
+        // up key
+      } else if (keyCode === 38 && currentConversationIndex > 0) {
+        this.openConversation(
+          conversations[currentConversationIndex - 1].id,
+          'Up key'
+        );
+      }
     },
   });
 
