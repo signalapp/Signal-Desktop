@@ -245,6 +245,42 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='beta-disclaimer-dialog'>
+    <div class="content">
+      <div class="betaDisclaimerView" style="display: none;">
+        <h2>
+          Thanks for testing Loki Messenger!
+        </h2>
+        <p>
+            Thanks for testing Loki Messenger! This software is a beta version of the full Loki Messenger software suite, and so is missing some of the features the full version will have.
+        </p>
+
+        <p>
+          <b>
+            This version of Loki Messenger provides no guarantees of metadata privacy.
+          </b>
+        </p>
+
+        <p>
+            While your messages are secured using end to end encryption, in this beta version of Loki messenger, <b>third parties (like your ISP or the Service Node network) can see who you’re talking to</b> and when you’re sending or receiving messages.
+        </p>
+
+        <p>
+            It is also possible that <b>third parties could correlate your public key to your IP address</b> and your real identity if they learn your public key.
+        </p>
+
+        <p>
+            However, no one except you and your intended recipients will be able to see the contents of your messages. We recommend using existing methods, like Tor or I2P to mask your IP address while using Loki Messenger beta version.
+        </p>
+
+        <p>
+            As a beta, this software is still experimental. When things aren't working for you, or you feel confused by the app, please let us know by filing an issue on <a href="https://github.com/loki-project/loki-messenger">Github</a> or making suggestions on <a href="https://discordapp.com/invite/67GXfD6">Discord</a>.
+        </p>
+
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='identicon-svg'>
       <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
          <circle cx='50' cy='50' r='40' fill='{{ color }}' />
@@ -648,6 +684,7 @@
   <script type='text/javascript' src='js/views/nickname_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/beta_release_disclaimer_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>
