@@ -2589,7 +2589,6 @@ async function removeAllConfiguration() {
 
   try {
     await Promise.all([
-      db.run('BEGIN TRANSACTION;'),
       db.run('DELETE FROM identityKeys;'),
       db.run('DELETE FROM items;'),
       db.run('DELETE FROM preKeys;'),
