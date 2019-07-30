@@ -2102,9 +2102,12 @@
       const profileAvatar = this.get('profileAvatar');
       if (profileAvatar !== avatarPath || currentName !== name) {
         // only update changed items
-        if (profileAvatar !== avatarPath)
+        if (profileAvatar !== avatarPath) {
           this.set({ profileAvatar: avatarPath });
-        if (currentName !== name) this.set({ name });
+        }
+        if (currentName !== name) {
+          this.set({ name });
+        }
         // save
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
