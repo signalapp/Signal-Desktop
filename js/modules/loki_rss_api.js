@@ -5,6 +5,8 @@
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 
+const friendRequestStatusEnum = require('./loki_friend_request_status');
+
 const RSS_FEED = 'https://loki.network/feed/';
 const CONVO_ID = 'rss://loki.network/feed/';
 const PER_MIN = 60 * 1000;
@@ -40,22 +42,6 @@ function xml2json(xml) {
   }
   return {};
 }
-
-// hate duplicating this here...
-const friendRequestStatusEnum = Object.freeze({
-  // New conversation, no messages sent or received
-  none: 0,
-  // This state is used to lock the input early while sending
-  pendingSend: 1,
-  // Friend request sent, awaiting response
-  requestSent: 2,
-  // Friend request received, awaiting user input
-  requestReceived: 3,
-  // We did it!
-  friends: 4,
-  // Friend Request sent but timed out
-  requestExpired: 5,
-});
 
 class LokiRssAPI extends EventEmitter {
   constructor() {
@@ -135,7 +121,7 @@ class LokiRssAPI extends EventEmitter {
         receivedAt,
         isRss: true,
         message: {
-          body: `<h2>${item.title}</h2>${item.description}`,
+          body: `<h2>${item.title} </h2>${item.description}`,
           attachments: [],
           group: {
             id: this.groupId,
