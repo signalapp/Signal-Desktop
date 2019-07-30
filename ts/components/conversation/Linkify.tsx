@@ -31,7 +31,10 @@ export class Linkify extends React.Component<Props> {
         <div
           dangerouslySetInnerHTML={{
             __html: text
-              .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+              .replace(
+                /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+                ''
+              )
               .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, ''),
           }}
         />
