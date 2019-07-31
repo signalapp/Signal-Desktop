@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import { Emojify } from './Emojify';
 import { Avatar } from '../Avatar';
@@ -72,7 +72,7 @@ export class ConversationHeader extends React.Component<Props> {
     return (
       <button
         onClick={onGoBack}
-        className={classnames(
+        className={classNames(
           'module-conversation-header__back-icon',
           showBackButton ? 'module-conversation-header__back-icon--show' : null
         )}
@@ -175,7 +175,7 @@ export class ConversationHeader extends React.Component<Props> {
       <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
         <button
           onClick={this.showMenuBound}
-          className={classnames(
+          className={classNames(
             'module-conversation-header__gear-icon',
             showBackButton
               ? null

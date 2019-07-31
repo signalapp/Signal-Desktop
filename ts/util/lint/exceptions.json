@@ -361,7 +361,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/contact_list_view.js",
     "line": "        this.$el.append(this.contactView.el);",
-    "lineNumber": 44,
+    "lineNumber": 46,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-02T21:18:39.026Z",
     "reasonDetail": "Operating on previously-existing DOM elements"
@@ -720,7 +720,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 36,
+    "lineNumber": 39,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -729,7 +729,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/views/key_verification_view.js",
     "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 37,
+    "lineNumber": 40,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -737,7 +737,7 @@
     "rule": "jQuery-insertBefore(",
     "path": "js/views/key_verification_view.js",
     "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 72,
+    "lineNumber": 75,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -746,7 +746,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 76,
+    "lineNumber": 79,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -755,7 +755,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 107,
+    "lineNumber": 110,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -7847,7 +7847,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
-    "lineNumber": 13,
+    "lineNumber": 14,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to trigger menu display"
@@ -7856,7 +7856,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 58,
+    "lineNumber": 59,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to trigger menu display"
