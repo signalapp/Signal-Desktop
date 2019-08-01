@@ -28,10 +28,12 @@ const Uint8ArrayToString = _call(new Uint8Array());
 
 function _getString(thing) {
   if (typeof thing !== 'string') {
-    if (_call(thing) === Uint8ArrayToString)
+    if (_call(thing) === Uint8ArrayToString) {
       return String.fromCharCode.apply(null, thing);
-    if (_call(thing) === ArrayBufferToString)
+    }
+    if (_call(thing) === ArrayBufferToString) {
       return _getString(new Uint8Array(thing));
+    }
   }
   return thing;
 }

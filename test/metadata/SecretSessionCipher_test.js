@@ -43,13 +43,15 @@ InMemorySignalProtocolStore.prototype = {
       value === undefined ||
       key === null ||
       value === null
-    )
+    ) {
       throw new Error('Tried to store undefined/null');
+    }
     this.store[key] = value;
   },
   get(key, defaultValue) {
-    if (key === null || key === undefined)
+    if (key === null || key === undefined) {
       throw new Error('Tried to get value for undefined/null key');
+    }
     if (key in this.store) {
       return this.store[key];
     }
@@ -57,8 +59,9 @@ InMemorySignalProtocolStore.prototype = {
     return defaultValue;
   },
   remove(key) {
-    if (key === null || key === undefined)
+    if (key === null || key === undefined) {
       throw new Error('Tried to remove value for undefined/null key');
+    }
     delete this.store[key];
   },
 

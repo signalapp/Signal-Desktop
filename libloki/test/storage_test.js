@@ -40,8 +40,9 @@ describe('Storage', () => {
         testKeyArray.byteLength,
         newBundle.signedKey.byteLength
       );
-      for (let i = 0; i !== testKeyArray.byteLength; i += 1)
+      for (let i = 0; i !== testKeyArray.byteLength; i += 1) {
         assert.strictEqual(testKeyArray[i], newBundle.signedKey[i]);
+      }
     });
 
     it('should return the same prekey bundle after creating a contact', async () => {

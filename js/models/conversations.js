@@ -1059,8 +1059,9 @@
 
       // Check if the pubkey length is 33 and leading with 05 or of length 32
       const len = this.id.length;
-      if ((len !== 33 * 2 || !/^05/.test(this.id)) && len !== 32 * 2)
+      if ((len !== 33 * 2 || !/^05/.test(this.id)) && len !== 32 * 2) {
         return 'Invalid Pubkey Format';
+      }
 
       this.set({ id: this.id });
       return null;
@@ -1421,8 +1422,9 @@
       messageType,
       success,
     }) {
-      if (success && messageType === 'friend-request')
+      if (success && messageType === 'friend-request') {
         await this.onFriendRequestSent();
+      }
       await Promise.all(
         (failoverNumbers || []).map(async number => {
           const conversation = ConversationController.get(number);
@@ -2342,8 +2344,9 @@
 
     notify(message) {
       if (message.isFriendRequest()) {
-        if (this.hasSentFriendRequest())
+        if (this.hasSentFriendRequest()) {
           return this.notifyFriendRequest(message.get('source'), 'accepted');
+        }
         return this.notifyFriendRequest(message.get('source'), 'requested');
       }
       if (!message.isIncoming()) return Promise.resolve();
@@ -2380,8 +2383,9 @@
     async notifyFriendRequest(source, type) {
       // Data validation
       if (!source) throw new Error('Invalid source');
-      if (!['accepted', 'requested'].includes(type))
+      if (!['accepted', 'requested'].includes(type)) {
         throw new Error('Type must be accepted or requested.');
+      }
 
       // Call the notification on the right conversation
       let conversation = this;

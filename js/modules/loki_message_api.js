@@ -364,8 +364,9 @@ class LokiMessageAPI {
 
     const promises = [];
 
-    for (let i = 0; i < numConnections; i += 1)
+    for (let i = 0; i < numConnections; i += 1) {
       promises.push(this.openRetrieveConnection(stopPolling, callback));
+    }
 
     // blocks until all snodes in our swarms have been removed from the list
     // or if there is network issues (ENOUTFOUND due to lokinet)

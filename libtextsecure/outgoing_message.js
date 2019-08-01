@@ -385,12 +385,13 @@ OutgoingMessage.prototype = {
           error.name === 'HTTPError' &&
           (error.code === 410 || error.code === 409)
         ) {
-          if (!recurse)
+          if (!recurse) {
             return this.registerError(
               number,
               'Hit retry limit attempting to reload device list',
               error
             );
+          }
 
           let p;
           if (error.code === 409) {
