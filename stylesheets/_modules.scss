@@ -2333,6 +2333,17 @@
   @include color-svg('../images/x-16.svg', $color-gray-60);
 }
 
+.module-main-header__search__copy-from-clipboard {
+  position: absolute;
+  right: 16px;
+  top: 5px;
+  width: 20px;
+  height: 22px;
+  opacity: 0.8;
+  cursor: pointer;
+  @include color-svg('../images/icon-paste.svg', $color-gray-60);
+}
+
 // Module: Image
 
 .module-image {

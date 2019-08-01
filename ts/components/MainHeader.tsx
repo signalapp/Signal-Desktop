@@ -13,6 +13,9 @@ import { ContactName } from './conversation/ContactName';
 
 import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { LocalizerType } from '../types/Util';
+import { clipboard } from 'electron';
+
+import { validateNumber } from '../types/PhoneNumber';
 
 interface MenuItem {
   id: string;
@@ -56,6 +59,7 @@ export class MainHeader extends React.Component<Props, any> {
     event: React.FormEvent<HTMLInputElement>
   ) => void;
   private readonly clearSearchBound: () => void;
+  private readonly copyFromClipboardBound: () => void;
   private readonly handleKeyUpBound: (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => void;
@@ -69,16 +73,23 @@ export class MainHeader extends React.Component<Props, any> {
     this.state = {
       expanded: false,
       hasPass: null,
+      clipboardText: '',
       menuItems: [],
     };
 
     this.updateSearchBound = this.updateSearch.bind(this);
     this.clearSearchBound = this.clearSearch.bind(this);
+    this.copyFromClipboardBound = this.copyFromClipboard.bind(this);
     this.handleKeyUpBound = this.handleKeyUp.bind(this);
     this.setFocusBound = this.setFocus.bind(this);
     this.inputRef = React.createRef();
 
     this.debouncedSearch = debounce(this.search.bind(this), 20);
+
+    setInterval(() => {
+      const clipboardText = clipboard.readText();
+      this.setState({ clipboardText });
+    }, 100);
   }
 
   public componentWillMount() {
@@ -134,6 +145,13 @@ export class MainHeader extends React.Component<Props, any> {
 
     clearSearch();
     this.setFocus();
+  }
+
+  public copyFromClipboard() {
+    const { clipboardText } = this.state;
+
+    this.props.updateSearchTerm(clipboardText);
+    this.debouncedSearch(clipboardText);
   }
 
   public handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -233,6 +251,15 @@ export class MainHeader extends React.Component<Props, any> {
     );
   }
 
+  private shouldShowPaste() {
+    const { searchTerm, i18n } = this.props;
+    const { clipboardText } = this.state;
+
+    const error = validateNumber(clipboardText, i18n);
+
+    return !searchTerm && !error;
+  }
+
   private renderSearch() {
     const { searchTerm, i18n } = this.props;
 
@@ -248,6 +275,13 @@ export class MainHeader extends React.Component<Props, any> {
           value={searchTerm}
           onChange={this.updateSearchBound}
         />
+        {this.shouldShowPaste() ? (
+          <span
+            role="button"
+            className="module-main-header__search__copy-from-clipboard"
+            onClick={this.copyFromClipboardBound}
+          />
+        ) : null}
         <span
           role="button"
           className="module-main-header__search__icon"
