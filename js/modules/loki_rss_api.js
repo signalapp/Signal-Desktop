@@ -7,11 +7,34 @@ const nodeFetch = require('node-fetch');
 
 const friendRequestStatusEnum = require('./loki_friend_request_status');
 
-const RSS_FEED = 'https://loki.network/feed/';
-const CONVO_ID = 'rss://loki.network/feed/';
+const RSS_FEED = 'https://loki.network/category/messenger-updates/feed/';
+const CONVO_ID = 'rss://loki.network/category/messenger-updates/feed/';
 const PER_MIN = 60 * 1000;
 const PER_HR = 60 * PER_MIN;
 const RSS_POLL_EVERY = 1 * PER_HR; // once an hour
+
+/*
+const dnsUtil = require('dns');
+// how do we get our local version?
+// how do we integrate with extensions.expired()
+const VERSION_HOST = 'lastreleasedate.messenger.loki.network';
+
+function getLastRelease(cb) {
+  // doesn't look to have a promise interface
+  dnsUtil.resolveTxt(VERSION_HOST, function handleResponse(err, records) {
+    if (err) {
+      console.error('getLastRelease error', err);
+      cb();
+      return;
+    }
+    if (records.length) {
+      cb();
+    }
+    // return first record...
+    cb(records[0]);
+  });
+}
+*/
 
 function xml2json(xml) {
   try {
@@ -105,7 +128,10 @@ class LokiRssAPI extends EventEmitter {
       log.error('rsserror', feedObj, feedDOM, responseXML);
       return;
     }
-
+    if (!feedObj.rss.channel.item) {
+      // no records
+      return;
+    }
     feedObj.rss.channel.item.reverse().forEach(item => {
       // log.debug('item', item)
 
