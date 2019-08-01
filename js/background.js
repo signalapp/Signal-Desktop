@@ -1411,6 +1411,7 @@
     const { isError } = options;
 
     let messageData = {
+      id: data.id,
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,

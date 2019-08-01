@@ -2014,9 +2014,18 @@
           } else {
             await conversation.onFriendRequestAccepted();
           }
-          const id = await window.Signal.Data.saveMessage(message.attributes, {
-            Message: Whisper.Message,
-          });
+          let id;
+          // Force save if the message already has an id, used for public channels
+          if (message.id) {
+            id = await window.Signal.Data.saveMessage(message.attributes, {
+              forceSave: true,
+              Message: Whisper.Message,
+            });
+          } else {
+            id = await window.Signal.Data.saveMessage(message.attributes, {
+              Message: Whisper.Message,
+            });
+          }
           message.set({ id });
           MessageController.register(message.id, message);
 
