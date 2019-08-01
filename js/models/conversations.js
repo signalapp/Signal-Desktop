@@ -305,6 +305,7 @@
     },
 
     async updateProfileAvatar() {
+      if (this.isRss()) return;
       const path = profileImages.getOrCreateImagePath(this.id);
       await this.setProfileAvatar(path);
     },
