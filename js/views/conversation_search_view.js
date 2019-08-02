@@ -100,8 +100,9 @@
             this.typeahead_view.collection.forEach(c => c.updateLastMessage());
 
             // Show the new contact view if we already have results
-            if (this.typeahead_view.collection.length === 0)
+            if (this.typeahead_view.collection.length === 0) {
               this.new_contact_view.$el.show();
+            }
           })
         );
         /* eslint-enable more/no-then */

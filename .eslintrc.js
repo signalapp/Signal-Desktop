@@ -21,6 +21,9 @@ module.exports = {
       },
     ],
 
+    // Enforce curlies always
+    curly: 'error',
+
     // prevents us from accidentally checking in exclusive tests (`.only`):
     'mocha/no-exclusive-tests': 'error',
 

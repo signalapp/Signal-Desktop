@@ -2047,9 +2047,9 @@
 
           if (message.get('unread')) {
             // Need to do this here because the conversation has already changed states
-            if (autoAccept)
+            if (autoAccept) {
               await conversation.notifyFriendRequest(source, 'accepted');
-            else await conversation.notify(message);
+            } else await conversation.notify(message);
           }
 
           confirm();

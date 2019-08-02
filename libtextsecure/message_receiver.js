@@ -1130,28 +1130,36 @@ MessageReceiver.prototype.extend({
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
 
-    if (content.preKeyBundleMessage)
+    if (content.preKeyBundleMessage) {
       await this.savePreKeyBundleMessage(
         envelope.source,
         content.preKeyBundleMessage
       );
-    if (content.lokiAddressMessage)
+    }
+    if (content.lokiAddressMessage) {
       return this.handleLokiAddressMessage(
         envelope,
         content.lokiAddressMessage
       );
-    if (content.syncMessage)
+    }
+    if (content.syncMessage) {
       return this.handleSyncMessage(envelope, content.syncMessage);
-    if (content.dataMessage)
+    }
+    if (content.dataMessage) {
       return this.handleDataMessage(envelope, content.dataMessage);
-    if (content.nullMessage)
+    }
+    if (content.nullMessage) {
       return this.handleNullMessage(envelope, content.nullMessage);
-    if (content.callMessage)
+    }
+    if (content.callMessage) {
       return this.handleCallMessage(envelope, content.callMessage);
-    if (content.receiptMessage)
+    }
+    if (content.receiptMessage) {
       return this.handleReceiptMessage(envelope, content.receiptMessage);
-    if (content.typingMessage)
+    }
+    if (content.typingMessage) {
       return this.handleTypingMessage(envelope, content.typingMessage);
+    }
 
     return null;
   },

@@ -15,12 +15,15 @@ const StaticArrayBufferProto = new ArrayBuffer().__proto__;
 const StaticUint8ArrayProto = new Uint8Array().__proto__;
 function getString(thing) {
   if (thing === Object(thing)) {
-    if (thing.__proto__ === StaticUint8ArrayProto)
+    if (thing.__proto__ === StaticUint8ArrayProto) {
       return String.fromCharCode.apply(null, thing);
-    if (thing.__proto__ === StaticArrayBufferProto)
+    }
+    if (thing.__proto__ === StaticArrayBufferProto) {
       return getString(new Uint8Array(thing));
-    if (thing.__proto__ === StaticByteBufferProto)
+    }
+    if (thing.__proto__ === StaticByteBufferProto) {
       return thing.toString('binary');
+    }
   }
   return thing;
 }
@@ -51,8 +54,9 @@ window.textsecure.utils = (() => {
     if (getStringable(thing)) return getString(thing);
     else if (thing instanceof Array) {
       const res = [];
-      for (let i = 0; i < thing.length; i += 1)
+      for (let i = 0; i < thing.length; i += 1) {
         res[i] = ensureStringed(thing[i]);
+      }
       return res;
     } else if (thing === Object(thing)) {
       const res = {};
