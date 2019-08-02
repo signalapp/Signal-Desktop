@@ -83,7 +83,7 @@ async function checkDownloadAndInstall(
     }
 
     const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
-    const verified = verifySignature(updateFilePath, version, publicKey);
+    const verified = await verifySignature(updateFilePath, version, publicKey);
     if (!verified) {
       // Note: We don't delete the cache here, because we don't want to continually
       //   re-download the broken release. We will download it only once per launch.
@@ -164,7 +164,7 @@ async function verifyAndInstall(
   logger: LoggerType
 ) {
   const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
-  const verified = verifySignature(updateFilePath, newVersion, publicKey);
+  const verified = await verifySignature(updateFilePath, newVersion, publicKey);
   if (!verified) {
     throw new Error(
       `Downloaded update did not pass signature verification (version: '${newVersion}'; fileName: '${fileName}')`

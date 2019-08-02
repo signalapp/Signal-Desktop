@@ -1,6 +1,12 @@
 import { assert } from 'chai';
 
-import { getUpdateFileName, getVersion } from '../../updater/common';
+import {
+  createTempDir,
+  getUpdateFileName,
+  getVersion,
+  isUpdateFileNameValid,
+  validatePath,
+} from '../../updater/common';
 
 describe('updater/signatures', () => {
   const windows = `version: 1.23.2
@@ -72,6 +78,50 @@ releaseDate: '2019-03-29T01:53:23.881Z'
         getUpdateFileName(macBeta),
         'signal-desktop-beta-mac-1.23.2-beta.1.zip'
       );
+    });
+  });
+
+  describe('#isUpdateFileNameValid', () => {
+    it('returns true for normal filenames', () => {
+      assert.strictEqual(
+        isUpdateFileNameValid('signal-desktop-win-1.23.2.exe'),
+        true
+      );
+      assert.strictEqual(
+        isUpdateFileNameValid('signal-desktop-mac-1.23.2-beta.1.zip'),
+        true
+      );
+    });
+    it('returns false for problematic names', () => {
+      assert.strictEqual(
+        isUpdateFileNameValid('../signal-desktop-win-1.23.2.exe'),
+        false
+      );
+      assert.strictEqual(
+        isUpdateFileNameValid('%signal-desktop-mac-1.23.2-beta.1.zip'),
+        false
+      );
+      assert.strictEqual(
+        isUpdateFileNameValid('@signal-desktop-mac-1.23.2-beta.1.zip'),
+        false
+      );
+    });
+  });
+
+  describe('#validatePath', () => {
+    it('succeeds for simple children', async () => {
+      const base = await createTempDir();
+      validatePath(base, `${base}/child`);
+      validatePath(base, `${base}/child/grandchild`);
+    });
+    it('returns false for problematic names', async () => {
+      const base = await createTempDir();
+      assert.throws(() => {
+        validatePath(base, `${base}/../child`);
+      });
+      assert.throws(() => {
+        validatePath(base, '/root');
+      });
     });
   });
 });

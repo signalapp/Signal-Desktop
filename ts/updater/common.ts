@@ -3,7 +3,7 @@ import {
   statSync,
   writeFile as writeFileCallback,
 } from 'fs';
-import { join } from 'path';
+import { join, normalize } from 'path';
 import { tmpdir } from 'os';
 
 // @ts-ignore
@@ -80,6 +80,16 @@ export async function checkForUpdates(
   return null;
 }
 
+export function validatePath(basePath: string, targetPath: string) {
+  const normalized = normalize(targetPath);
+
+  if (!normalized.startsWith(basePath)) {
+    throw new Error(
+      `validatePath: Path ${normalized} is not under base path ${basePath}`
+    );
+  }
+}
+
 export async function downloadUpdate(
   fileName: string,
   logger: LoggerType
@@ -95,6 +105,9 @@ export async function downloadUpdate(
     tempDir = await createTempDir();
     const targetUpdatePath = join(tempDir, fileName);
     const targetSignaturePath = join(tempDir, getSignatureFileName(fileName));
+
+    validatePath(tempDir, targetUpdatePath);
+    validatePath(tempDir, targetSignaturePath);
 
     logger.info(`downloadUpdate: Downloading ${signatureUrl}`);
     const { body } = await get(signatureUrl, getGotOptions());
@@ -228,14 +241,26 @@ export function getVersion(yaml: string): string | undefined {
   return;
 }
 
+const validFile = /^[A-Za-z0-9\.\-]+$/;
+export function isUpdateFileNameValid(name: string) {
+  return validFile.test(name);
+}
+
 export function getUpdateFileName(yaml: string) {
   const info = parseYaml(yaml);
 
-  if (info && info.path) {
-    return info.path;
+  if (!info || !info.path) {
+    throw new Error('getUpdateFileName: No path present in YAML file');
   }
 
-  return;
+  const path = info.path;
+  if (!isUpdateFileNameValid(path)) {
+    throw new Error(
+      `getUpdateFileName: Path '${path}' contains invalid characters`
+    );
+  }
+
+  return path;
 }
 
 function parseYaml(yaml: string): any {
