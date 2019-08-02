@@ -112,7 +112,7 @@ class LokiMessageAPI {
     }
 
     const params = {
-      pubKey,
+      pubKey: window.getEnvironment() === 'production' ? pubKey : pubKey.substring(0, pubKey.length - 2),
       ttl: ttl.toString(),
       nonce,
       timestamp: timestamp.toString(),
