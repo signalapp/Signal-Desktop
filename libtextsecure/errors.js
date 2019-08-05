@@ -263,6 +263,16 @@
     }
   }
 
+  function TimestampError(message) {
+    this.name = 'TimeStampError';
+
+    ReplayableError.call(this, {
+      name: 'TimestampError',
+      message,
+    });
+  }
+  inherit(ReplayableError, TimestampError);
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -281,4 +291,5 @@
   window.textsecure.NotFoundError = NotFoundError;
   window.textsecure.WrongSwarmError = WrongSwarmError;
   window.textsecure.WrongDifficultyError = WrongDifficultyError;
+  window.textsecure.TimestampError = TimestampError;
 })();
