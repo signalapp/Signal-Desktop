@@ -307,7 +307,7 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <div className="module-message__author">
         <ContactName
-          phoneNumber={authorPhoneNumber}
+          phoneNumber={`(...${authorPhoneNumber.substring(authorPhoneNumber.length - 6, authorPhoneNumber.length)})`}
           name={authorName}
           profileName={authorProfileName}
           module="module-message__author"
