@@ -240,6 +240,9 @@ class LokiMessageAPI {
           throw e;
         } else if (e instanceof textsecure.NotFoundError) {
           // TODO: Handle resolution error
+        } else if (e instanceof textsecure.TimestampError) {
+          log.warn('Timestamp is invalid');
+          throw e;
         } else if (e instanceof textsecure.HTTPError) {
           // TODO: Handle working connection but error response
           const body = await e.response.text();

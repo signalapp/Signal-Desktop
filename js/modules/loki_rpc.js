@@ -77,6 +77,12 @@ const fetch = async (url, options = {}) => {
       throw new textsecure.WrongDifficultyError(difficulty);
     }
 
+    if (response.status === 406) {
+      throw new textsecure.TimestampError(
+        'Invalid Timestamp (check your clock)'
+      );
+    }
+
     if (!response.ok) {
       throw new textsecure.HTTPError('Loki_rpc error', response);
     }
