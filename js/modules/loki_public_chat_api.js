@@ -48,7 +48,9 @@ class LokiPublicServerAPI {
     this.channels = [];
   }
   findOrCreateChannel(channelId, conversationId) {
-    let thisChannel = this.channels.find(channel => channel.channelId === channelId);
+    let thisChannel = this.channels.find(
+      channel => channel.channelId === channelId
+    );
     if (!thisChannel) {
       thisChannel = new LokiPublicChannelAPI(this, channelId, conversationId);
       this.channels.push(thisChannel);

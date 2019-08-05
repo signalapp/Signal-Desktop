@@ -15,22 +15,30 @@ interface Props {
 
 export class ContactName extends React.Component<Props> {
   public render() {
-    const { phoneNumber, name, profileName, i18n, module, boldProfileName } = this.props;
+    const {
+      phoneNumber,
+      name,
+      profileName,
+      i18n,
+      module,
+      boldProfileName,
+    } = this.props;
     const prefix = module ? module : 'module-contact-name';
 
     const title = name ? name : phoneNumber;
     const shouldShowProfile = Boolean(profileName && !name);
-    const profileElement = shouldShowProfile ?
-      (boldProfileName ? (
-        <span className={`${prefix}__profile-name`}>
-          <b><Emojify text={profileName || ''} i18n={i18n} /></b>
-        </span>
-      ) : (
-        <span className={`${prefix}__profile-name`}>
+    const styles = (boldProfileName
+      ? {
+          fontWeight: 'bold',
+        }
+      : {}) as React.CSSProperties;
+    const profileElement = shouldShowProfile ? (
+      <span style={styles} className={`${prefix}__profile-name`}>
+        <b>
           <Emojify text={profileName || ''} i18n={i18n} />
-        </span>
-      ))
-    : null;
+        </b>
+      </span>
+    ) : null;
 
     return (
       <span className={prefix} dir="auto">
