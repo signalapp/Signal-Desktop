@@ -33,3 +33,6 @@ ts/protobuf/*.d.ts
 
 # Swapfiles
 **/*.swp
+
+# Ctags
+tags
