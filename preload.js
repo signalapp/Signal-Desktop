@@ -185,6 +185,10 @@ installSetter('message-ttl', 'setMessageTTL');
 
 installGetter('read-receipt-setting', 'getReadReceiptSetting');
 installSetter('read-receipt-setting', 'setReadReceiptSetting');
+
+installGetter('typing-indicators-setting', 'getTypingIndicatorsSetting');
+installSetter('typing-indicators-setting', 'setTypingIndicatorsSetting');
+
 installGetter('notification-setting', 'getNotificationSetting');
 installSetter('notification-setting', 'setNotificationSetting');
 installGetter('audio-notification', 'getAudioNotification');

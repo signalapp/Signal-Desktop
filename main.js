@@ -1109,6 +1109,10 @@ installSettingsSetter('message-ttl');
 
 installSettingsGetter('read-receipt-setting');
 installSettingsSetter('read-receipt-setting');
+
+installSettingsGetter('typing-indicators-setting');
+installSettingsSetter('typing-indicators-setting');
+
 installSettingsGetter('notification-setting');
 installSettingsSetter('notification-setting');
 installSettingsGetter('audio-notification');

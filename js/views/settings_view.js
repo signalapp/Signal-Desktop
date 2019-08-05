@@ -94,6 +94,25 @@
     },
   });
 
+  const TypingIndicatorsSettingView = Whisper.View.extend({
+    initialize(options) {
+      this.value = options.value;
+      this.setFn = options.setFn;
+      this.populate();
+    },
+    events: {
+      change: 'change',
+    },
+    change(e) {
+      this.value = e.target.checked;
+      this.setFn(this.value);
+      window.log.info('typing-indicators-setting changed to', this.value);
+    },
+    populate() {
+      this.$('input').prop('checked', Boolean(this.value));
+    },
+  });
+
   const RadioButtonGroupView = Whisper.View.extend({
     initialize(options) {
       this.name = options.name;
@@ -174,6 +193,11 @@
         value: window.initialData.readReceiptSetting,
         setFn: window.setReadReceiptSetting,
       });
+      new TypingIndicatorsSettingView({
+        el: this.$('.typing-indicators-setting'),
+        value: window.initialData.typingIndicatorsSetting,
+        setFn: window.setTypingIndicatorsSetting,
+      });
       new MessageTTLSettingView({
         el: this.$('.message-ttl-setting'),
         value: window.initialData.messageTTL,
@@ -216,6 +240,9 @@
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         generalHeader: i18n('general'),
         readReceiptSettingDescription: i18n('readReceiptSettingDescription'),
+        typingIndicatorsSettingDescription: i18n(
+          'typingIndicatorsSettingDescription'
+        ),
         messageTTL: i18n('messageTTL'),
         messageTTLSettingDescription: i18n('messageTTLSettingDescription'),
         messageTTLSettingWarning: i18n('messageTTLSettingWarning'),

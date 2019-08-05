@@ -281,6 +281,11 @@
       setReadReceiptSetting: value =>
         storage.put('read-receipt-setting', value),
 
+      getTypingIndicatorsSetting: () =>
+        storage.get('typing-indicators-setting'),
+      setTypingIndicatorsSetting: value =>
+        storage.put('typing-indicators-setting', value),
+
       getLinkPreviewSetting: () => storage.get('linkPreviews', false),
       setLinkPreviewSetting: value => storage.put('linkPreviews', value),
 
@@ -999,7 +1004,7 @@
     }
 
     if (typingIndicators === true || typingIndicators === false) {
-      storage.put('typingIndicators', typingIndicators);
+      storage.put('typing-indicators-setting', typingIndicators);
     }
 
     if (linkPreviews === true || linkPreviews === false) {
@@ -1014,7 +1019,7 @@
     const { groupId, started } = typing || {};
 
     // We don't do anything with incoming typing messages if the setting is disabled
-    if (!storage.get('typingIndicators')) {
+    if (!storage.get('typing-indicators-setting')) {
       return;
     }
 

@@ -209,7 +209,7 @@
 
     bumpTyping() {
       // We don't send typing messages if the setting is disabled
-      if (!storage.get('typingIndicators')) {
+      if (!storage.get('typing-indicators-setting')) {
         return;
       }
 
@@ -274,6 +274,7 @@
       const groupNumbers = this.getRecipients();
 
       const sendOptions = this.getSendOptions();
+      sendOptions.messageType = 'typing';
       this.wrapSend(
         textsecure.messaging.sendTypingMessage(
           {

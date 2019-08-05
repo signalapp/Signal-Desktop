@@ -1259,6 +1259,10 @@
     "message": "Enable the sending and receiving of read receipts",
     "description": "Description of the read receipts setting"
   },
+  "typingIndicatorsSettingDescription": {
+    "message": "Enable the sending and receiving of typing indicators",
+    "description": "Description of the typing indicators setting"
+  },
   "messageTTL": {
     "message": "Message TTL",
     "description": "Title of the Message TTL setting"

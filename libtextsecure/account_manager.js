@@ -387,7 +387,8 @@
         textsecure.storage.remove('number_id'),
         textsecure.storage.remove('device_name'),
         textsecure.storage.remove('userAgent'),
-        textsecure.storage.remove('read-receipts-setting'),
+        textsecure.storage.remove('read-receipt-setting'),
+        textsecure.storage.remove('typing-indicators-setting'),
         textsecure.storage.remove('regionCode'),
       ]);
 
@@ -418,6 +419,9 @@
         'read-receipt-setting',
         Boolean(readReceipts)
       );
+
+      // Enable typing indicators by default
+      await textsecure.storage.put('typing-indicators-setting', Boolean(true));
 
       await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
       await textsecure.storage.put('regionCode', null);
