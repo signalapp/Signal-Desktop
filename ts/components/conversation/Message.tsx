@@ -312,6 +312,7 @@ export class Message extends React.PureComponent<Props, State> {
           profileName={authorProfileName}
           module="module-message__author"
           i18n={i18n}
+          boldProfileName={true}
         />
       </div>
     );
