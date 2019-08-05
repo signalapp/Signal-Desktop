@@ -96,7 +96,9 @@ class LokiMessageAPI {
     const timestamp = Date.now();
     const nonce = await calcNonce(
       messageEventData,
-      pubKey,
+      window.getEnvironment() === 'production'
+        ? pubKey
+        : pubKey.substring(0, pubKey.length - 2),
       data64,
       timestamp,
       ttl
@@ -112,7 +114,7 @@ class LokiMessageAPI {
     }
 
     const params = {
-      pubKey: window.getEnvironment() === 'production' ? pubKey : pubKey.substring(0, pubKey.length - 2),
+      pubKey,
       ttl: ttl.toString(),
       nonce,
       timestamp: timestamp.toString(),
@@ -214,8 +216,22 @@ class LokiMessageAPI {
     let successiveFailures = 0;
     while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {
       await sleepFor(successiveFailures * 500);
+      let result;
       try {
-        const result = await rpc(`https://${address}`, port, 'store', params);
+        if (window.getEnvironment() === 'production') {
+          result = await rpc(`https://${address}`, port, 'store', params);
+        } else {
+          const testnetParams = {
+            ...params,
+            pubKey: params.pubKey.substring(0, params.pubKey.length - 2),
+          };
+          result = await rpc(
+            `https://${address}`,
+            port,
+            'store',
+            testnetParams
+          );
+        }
 
         // Make sure we aren't doing too much PoW
         const currentDifficulty = window.storage.get('PoWDifficulty', null);
@@ -323,8 +339,12 @@ class LokiMessageAPI {
   }
 
   async retrieveNextMessages(nodeUrl, nodeData) {
+    let { ourKey } = this;
+    if (window.getEnvironment() !== 'production') {
+      ourKey = ourKey.substring(0, ourKey.length - 2);
+    }
     const params = {
-      pubKey: this.ourKey,
+      pubKey: ourKey,
       lastHash: nodeData.lastHash || '',
     };
     const options = {
