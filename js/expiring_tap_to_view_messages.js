@@ -52,22 +52,12 @@
     const toAgeOut = await window.Signal.Data.getNextTapToViewMessageToAgeOut({
       Message: Whisper.Message,
     });
-    const toExpire = await window.Signal.Data.getNextTapToViewMessageToExpire({
-      Message: Whisper.Message,
-    });
 
-    if (!toAgeOut && !toExpire) {
+    if (!toAgeOut) {
       return;
     }
 
-    const ageOutAt = toAgeOut
-      ? toAgeOut.get('received_at') + THIRTY_DAYS
-      : Number.MAX_VALUE;
-    const expireAt = toExpire
-      ? toExpire.get('messageTimerExpiresAt')
-      : Number.MAX_VALUE;
-
-    const nextCheck = Math.min(ageOutAt, expireAt);
+    const nextCheck = toAgeOut.get('received_at') + THIRTY_DAYS;
 
     Whisper.TapToViewMessagesListener.nextCheck = nextCheck;
     window.log.info(

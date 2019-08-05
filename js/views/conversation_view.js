@@ -19,6 +19,9 @@
   const {
     upgradeMessageSchema,
     getAbsoluteAttachmentPath,
+    copyIntoTempDirectory,
+    getAbsoluteTempPath,
+    deleteTempFile,
   } = window.Signal.Migrations;
 
   Whisper.ExpiredToast = Whisper.ToastView.extend({
@@ -1324,17 +1327,33 @@
 
       if (!message.isTapToView()) {
         throw new Error(
-          `displayTapToViewMessage: Message ${message.idForLogging()} is not tap to view`
+          `displayTapToViewMessage: Message ${message.idForLogging()} is not a tap to view message`
         );
       }
 
-      if (message.isTapToViewExpired()) {
-        return;
+      if (message.isErased()) {
+        throw new Error(
+          `displayTapToViewMessage: Message ${message.idForLogging()} is already erased`
+        );
       }
 
-      await message.startTapToViewTimer();
+      const firstAttachment = message.get('attachments')[0];
+      if (!firstAttachment || !firstAttachment.path) {
+        throw new Error(
+          `displayTapToViewMessage: Message ${message.idForLogging()} had no first attachment with path`
+        );
+      }
 
-      const closeLightbox = () => {
+      const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
+      const tempPath = await copyIntoTempDirectory(absolutePath);
+      const tempAttachment = {
+        ...firstAttachment,
+        path: tempPath,
+      };
+
+      await message.markViewed();
+
+      const closeLightbox = async () => {
         if (!this.lightboxView) {
           return;
         }
@@ -1345,6 +1364,8 @@
         this.stopListening(message);
         Signal.Backbone.Views.Lightbox.hide();
         lightboxView.remove();
+
+        await deleteTempFile(tempPath);
       };
       this.listenTo(message, 'expired', closeLightbox);
       this.listenTo(message, 'change', () => {
@@ -1354,14 +1375,11 @@
       });
 
       const getProps = () => {
-        const firstAttachment = message.get('attachments')[0];
-        const { path, contentType } = firstAttachment;
+        const { path, contentType } = tempAttachment;
 
         return {
-          objectURL: getAbsoluteAttachmentPath(path),
+          objectURL: getAbsoluteTempPath(path),
           contentType,
-          timerExpiresAt: message.get('messageTimerExpiresAt'),
-          timerDuration: message.get('messageTimer') * 1000,
         };
       };
       this.lightboxView = new Whisper.ReactWrapperView({

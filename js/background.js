@@ -1698,13 +1698,12 @@
   }
 
   async function onViewSync(ev) {
-    const { viewedAt, source, timestamp } = ev;
-    window.log.info(`view sync ${source} ${timestamp}, viewed at ${viewedAt}`);
+    const { source, timestamp } = ev;
+    window.log.info(`view sync ${source} ${timestamp}`);
 
     const sync = Whisper.ViewSyncs.add({
       source,
       timestamp,
-      viewedAt,
     });
 
     sync.on('remove', ev.confirm);

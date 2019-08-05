@@ -94,7 +94,6 @@ module.exports = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
-  getNextTapToViewMessageToExpire,
   getNextTapToViewMessageToAgeOut,
   getTapToViewMessagesNeedingErase,
 
@@ -952,6 +951,68 @@ async function updateToSchemaVersion16(currentVersion, instance) {
   }
 }
 
+async function updateToSchemaVersion17(currentVersion, instance) {
+  if (currentVersion >= 17) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion17: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  try {
+    await instance.run(
+      `ALTER TABLE messages
+      ADD COLUMN isViewOnce INTEGER;`
+    );
+
+    await instance.run('DROP INDEX messages_message_timer;');
+
+    await instance.run(`CREATE INDEX messages_view_once ON messages (
+      isErased
+    ) WHERE isViewOnce = 1;`);
+
+    // Updating full-text triggers to avoid anything with isViewOnce = 1
+
+    await instance.run('DROP TRIGGER messages_on_insert;');
+    await instance.run('DROP TRIGGER messages_on_update;');
+
+    await instance.run(`
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+      WHEN new.isViewOnce != 1
+      BEGIN
+        INSERT INTO messages_fts (
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
+    await instance.run(`
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN new.isViewOnce != 1
+      BEGIN
+        DELETE FROM messages_fts WHERE id = old.id;
+        INSERT INTO messages_fts(
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
+
+    await instance.run('PRAGMA schema_version = 17;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion17: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK;');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -969,6 +1030,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion14,
   updateToSchemaVersion15,
   updateToSchemaVersion16,
+  updateToSchemaVersion17,
 ];
 
 async function updateSchema(instance) {
@@ -1566,9 +1628,7 @@ async function saveMessage(data, { forceSave } = {}) {
     hasVisualMediaAttachments,
     id,
     isErased,
-    messageTimer,
-    messageTimerStart,
-    messageTimerExpiresAt,
+    isViewOnce,
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
@@ -1595,9 +1655,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $hasFileAttachments: hasFileAttachments,
     $hasVisualMediaAttachments: hasVisualMediaAttachments,
     $isErased: isErased,
-    $messageTimer: messageTimer,
-    $messageTimerStart: messageTimerStart,
-    $messageTimerExpiresAt: messageTimerExpiresAt,
+    $isViewOnce: isViewOnce,
     $received_at: received_at,
     $schemaVersion: schemaVersion,
     $sent_at: sent_at,
@@ -1622,9 +1680,7 @@ async function saveMessage(data, { forceSave } = {}) {
         hasFileAttachments = $hasFileAttachments,
         hasVisualMediaAttachments = $hasVisualMediaAttachments,
         isErased = $isErased,
-        messageTimer = $messageTimer,
-        messageTimerStart = $messageTimerStart,
-        messageTimerExpiresAt = $messageTimerExpiresAt,
+        isViewOnce = $isViewOnce,
         received_at = $received_at,
         schemaVersion = $schemaVersion,
         sent_at = $sent_at,
@@ -1658,9 +1714,7 @@ async function saveMessage(data, { forceSave } = {}) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     isErased,
-    messageTimer,
-    messageTimerStart,
-    messageTimerExpiresAt,
+    isViewOnce,
     received_at,
     schemaVersion,
     sent_at,
@@ -1681,9 +1735,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $hasFileAttachments,
     $hasVisualMediaAttachments,
     $isErased,
-    $messageTimer,
-    $messageTimerStart,
-    $messageTimerExpiresAt,
+    $isViewOnce,
     $received_at,
     $schemaVersion,
     $sent_at,
@@ -1862,31 +1914,11 @@ async function getNextExpiringMessage() {
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getNextTapToViewMessageToExpire() {
-  // Note: we avoid 'IS NOT NULL' here because it does seem to bypass our index
-  const rows = await db.all(`
-    SELECT json FROM messages
-    WHERE
-      messageTimer > 0
-      AND messageTimerExpiresAt > 0
-      AND (isErased IS NULL OR isErased != 1)
-    ORDER BY messageTimerExpiresAt ASC
-    LIMIT 1;
-  `);
-
-  if (!rows || rows.length < 1) {
-    return null;
-  }
-
-  return jsonToObject(rows[0].json);
-}
-
 async function getNextTapToViewMessageToAgeOut() {
-  // Note: we avoid 'IS NOT NULL' here because it does seem to bypass our index
   const rows = await db.all(`
     SELECT json FROM messages
     WHERE
-      messageTimer > 0
+      isViewOnce = 1
       AND (isErased IS NULL OR isErased != 1)
     ORDER BY received_at ASC
     LIMIT 1;
@@ -1903,18 +1935,12 @@ async function getTapToViewMessagesNeedingErase() {
   const THIRTY_DAYS_AGO = Date.now() - 30 * 24 * 60 * 60 * 1000;
   const NOW = Date.now();
 
-  // Note: we avoid 'IS NOT NULL' here because it does seem to bypass our index
   const rows = await db.all(
     `SELECT json FROM messages
     WHERE
-      messageTimer > 0
+      isViewOnce = 1
       AND (isErased IS NULL OR isErased != 1)
-      AND (
-        (messageTimerExpiresAt > 0
-        AND messageTimerExpiresAt <= $NOW)
-        OR
-        received_at <= $THIRTY_DAYS_AGO
-      )
+      AND received_at <= $THIRTY_DAYS_AGO
     ORDER BY received_at ASC;`,
     {
       $NOW: NOW,

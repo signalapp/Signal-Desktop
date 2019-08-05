@@ -16,7 +16,7 @@ export const initializeAttachmentMetadata = async (
   if (message.type === 'verified-change') {
     return message;
   }
-  if (message.messageTimer) {
+  if (message.messageTimer || message.isViewOnce) {
     return message;
   }
 

@@ -715,7 +715,7 @@ async function exportConversation(conversation, options = {}) {
       count += 1;
 
       // skip message if it is disappearing, no matter the amount of time left
-      if (message.expireTimer || message.messageTimer) {
+      if (message.expireTimer || message.messageTimer || message.isViewOnce) {
         // eslint-disable-next-line no-continue
         continue;
       }

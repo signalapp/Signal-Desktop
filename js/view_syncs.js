@@ -51,9 +51,7 @@
         }
 
         const message = MessageController.register(found.id, found);
-
-        const viewedAt = sync.get('viewedAt');
-        await message.startTapToViewTimer(viewedAt, { fromSync: true });
+        await message.markViewed({ fromSync: true });
 
         this.remove(sync);
       } catch (error) {

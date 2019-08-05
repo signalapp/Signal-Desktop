@@ -1090,11 +1090,8 @@ MessageReceiver.prototype.extend({
         envelope,
         syncMessage.stickerPackOperation
       );
-    } else if (syncMessage.messageTimerRead) {
-      return this.handleMessageTimerRead(
-        envelope,
-        syncMessage.messageTimerRead
-      );
+    } else if (syncMessage.viewOnceOpen) {
+      return this.handleViewOnceOpen(envelope, syncMessage.viewOnceOpen);
     }
     throw new Error('Got empty SyncMessage');
   },
@@ -1105,14 +1102,13 @@ MessageReceiver.prototype.extend({
     ev.configuration = configuration;
     return this.dispatchAndWait(ev);
   },
-  handleMessageTimerRead(envelope, sync) {
-    window.log.info('got message timer read sync message');
+  handleViewOnceOpen(envelope, sync) {
+    window.log.info('got view once open sync message');
 
     const ev = new Event('viewSync');
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.source = sync.sender;
     ev.timestamp = sync.timestamp ? sync.timestamp.toNumber() : null;
-    ev.viewedAt = envelope.timestamp;
 
     return this.dispatchAndWait(ev);
   },

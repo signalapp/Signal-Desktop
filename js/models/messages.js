@@ -495,8 +495,7 @@
         expirationTimestamp,
 
         isTapToView,
-        isTapToViewExpired:
-          isTapToView && (this.get('isErased') || this.isTapToViewExpired()),
+        isTapToViewExpired: isTapToView && this.get('isErased'),
         isTapToViewError:
           isTapToView && this.isIncoming() && this.get('isTapToViewInvalid'),
 
@@ -870,7 +869,7 @@
       }
     },
     isTapToView() {
-      return Boolean(this.get('messageTimer'));
+      return Boolean(this.get('isViewOnce') || this.get('messageTimer'));
     },
     isValidTapToView() {
       const body = this.get('body');
@@ -908,66 +907,27 @@
 
       return true;
     },
-    isTapToViewExpired() {
-      const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-      const now = Date.now();
-
-      const receivedAt = this.get('received_at');
-      if (now >= receivedAt + THIRTY_DAYS) {
-        return true;
-      }
-
-      const messageTimer = this.get('messageTimer');
-      const messageTimerStart = this.get('messageTimerStart');
-      if (!messageTimerStart) {
-        return false;
-      }
-
-      const expiresAt = messageTimerStart + messageTimer * 1000;
-      if (now >= expiresAt) {
-        return true;
-      }
-
-      return false;
-    },
-    async startTapToViewTimer(viewedAt, options) {
+    async markViewed(options) {
       const { fromSync } = options || {};
+
+      if (!this.isValidTapToView()) {
+        window.log.warn(
+          `markViewed: Message ${this.idForLogging()} is not a valid tap to view message!`
+        );
+        return;
+      }
+      if (this.isErased()) {
+        window.log.warn(
+          `markViewed: Message ${this.idForLogging()} is already erased!`
+        );
+        return;
+      }
 
       if (this.get('unread')) {
         await this.markRead();
       }
 
-      const messageTimer = this.get('messageTimer');
-      if (!messageTimer) {
-        window.log.warn(
-          `startTapToViewTimer: Message ${this.idForLogging()} has no messageTimer!`
-        );
-        return;
-      }
-
-      const existingTimerStart = this.get('messageTimerStart');
-      const messageTimerStart = Math.min(
-        Date.now(),
-        viewedAt || Date.now(),
-        existingTimerStart || Date.now()
-      );
-      const messageTimerExpiresAt = messageTimerStart + messageTimer * 1000;
-
-      // Because we're not using Backbone-integrated saves, we need to manually
-      //   clear the changed fields here so our hasChanged() check below is useful.
-      this.changed = {};
-      this.set({
-        messageTimerStart,
-        messageTimerExpiresAt,
-      });
-
-      if (!this.hasChanged()) {
-        return;
-      }
-
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      await this.eraseContents();
 
       if (!fromSync) {
         const sender = this.getSource();
@@ -979,13 +939,12 @@
         );
 
         await wrap(
-          textsecure.messaging.syncMessageTimerRead(
-            sender,
-            timestamp,
-            sendOptions
-          )
+          textsecure.messaging.syncViewOnceOpen(sender, timestamp, sendOptions)
         );
       }
+    },
+    isErased() {
+      return Boolean(this.get('isErased'));
     },
     async eraseContents() {
       if (this.get('isErased')) {
@@ -1940,7 +1899,7 @@
             hasAttachments: dataMessage.hasAttachments,
             hasFileAttachments: dataMessage.hasFileAttachments,
             hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
-            messageTimer: dataMessage.messageTimer,
+            isViewOnce: Boolean(dataMessage.isViewOnce),
             preview,
             requiredProtocolVersion:
               dataMessage.requiredProtocolVersion ||
