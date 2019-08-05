@@ -1,4 +1,4 @@
-/* global log, libloki, textsecure */
+/* global log, libloki, textsecure, getStoragePubKey */
 
 const nodeFetch = require('node-fetch');
 const { parse } = require('url');
@@ -113,6 +113,14 @@ const rpc = (
   const portString = port ? `:${port}` : '';
   const url = `${address}${portString}${endpoint}`;
   // TODO: The jsonrpc and body field will be ignored on storage server
+  if (params.pubKey) {
+    // Ensure we always take a copy
+    // eslint-disable-next-line no-param-reassign
+    params = {
+      ...params,
+      pubKey: getStoragePubKey(params.pubKey),
+    };
+  }
   const body = {
     jsonrpc: '2.0',
     id: '0',

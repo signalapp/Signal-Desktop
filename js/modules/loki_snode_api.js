@@ -190,10 +190,7 @@ class LokiSnodeAPI {
     const { ip, port } = await this.getRandomSnodeAddress();
     try {
       const result = await rpc(`https://${ip}`, port, 'get_snodes_for_pubkey', {
-        pubKey:
-          window.getEnvironment() === 'production'
-            ? pubKey
-            : pubKey.substring(0, pubKey.length - 2),
+        pubKey,
       });
       const snodes = result.snodes.filter(snode => snode.ip !== '0.0.0.0');
       return snodes;
