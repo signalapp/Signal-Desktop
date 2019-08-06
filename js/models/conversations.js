@@ -208,8 +208,8 @@
     },
 
     bumpTyping() {
-      // We don't send typing messages if the setting is disabled
-      if (!storage.get('typing-indicators-setting')) {
+      // We don't send typing messages if the setting is disabled or we aren't friends
+      if (!this.isFriend() || !storage.get('typing-indicators-setting')) {
         return;
       }
 
