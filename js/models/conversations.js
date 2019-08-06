@@ -1941,6 +1941,11 @@
       //      conversation is viewed, another error message shows up for the contact
       read = read.filter(item => !item.hasErrors);
 
+      // Do not send read receipt if not friends yet
+      if (!this.isFriend()) {
+        return;
+      }
+
       if (read.length && options.sendReadReceipts) {
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
