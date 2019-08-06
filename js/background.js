@@ -116,6 +116,7 @@
     'warning.svg',
     'x.svg',
     'x_white.svg',
+    'icon-paste.svg',
     'loki/loki_icon_text.png',
     'loki/loki_icon_128.png',
   ]);
