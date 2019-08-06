@@ -1958,7 +1958,7 @@
         return;
       }
 
-      if (read.length && options.sendReadReceipts) {
+      if (!this.isPublic() && read.length && options.sendReadReceipts) {
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
