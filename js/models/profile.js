@@ -27,7 +27,7 @@
     // If we get an empty name then unset the name property
     // Otherwise update it
     const profile = storage.getLocalProfile();
-    const newProfile = profile || {};
+    const newProfile = { ...profile };
     if (_.isEmpty(trimmed)) {
       delete newProfile.displayName;
     } else {
