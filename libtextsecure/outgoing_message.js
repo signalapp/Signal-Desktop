@@ -302,12 +302,13 @@ OutgoingMessage.prototype = {
         // Check if we need to attach the preKeys
         let sessionCipher;
         const isFriendRequest = this.messageType === 'friend-request';
+        this.fallBackEncryption = this.fallBackEncryption || isFriendRequest;
         const flags = this.message.dataMessage
           ? this.message.dataMessage.get_flags()
           : null;
         const isEndSession =
           flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
-        if (isFriendRequest || isEndSession) {
+        if (this.fallBackEncryption || isEndSession) {
           // Encrypt them with the fallback
           const pkb = await libloki.storage.getPreKeyBundleForContact(number);
           const preKeyBundleMessage = new textsecure.protobuf.PreKeyBundleMessage(
@@ -316,7 +317,7 @@ OutgoingMessage.prototype = {
           this.message.preKeyBundleMessage = preKeyBundleMessage;
           window.log.info('attaching prekeys to outgoing message');
         }
-        if (isFriendRequest) {
+        if (this.fallBackEncryption) {
           sessionCipher = fallBackCipher;
         } else {
           sessionCipher = new libsignal.SessionCipher(

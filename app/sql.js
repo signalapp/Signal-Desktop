@@ -72,6 +72,8 @@ module.exports = {
   removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
 
+  createOrUpdatePairingAuthorisation,
+
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -737,6 +739,28 @@ async function updateToSchemaVersion11(currentVersion, instance) {
   console.log('updateToSchemaVersion11: success!');
 }
 
+async function updateToSchemaVersion12(currentVersion, instance) {
+  if (currentVersion >= 12) {
+    return;
+  }
+  console.log('updateToSchemaVersion12: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `CREATE TABLE pairingAuthorisations(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      issuerPubKey VARCHAR(255),
+      secondaryDevicePubKey VARCHAR(255),
+      signature VARCHAR(255),
+      json TEXT
+    );`
+  );
+
+  await instance.run('PRAGMA schema_version = 12;');
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToSchemaVersion12: success!');
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -749,6 +773,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion9,
   updateToSchemaVersion10,
   updateToSchemaVersion11,
+  updateToSchemaVersion12,
 ];
 
 async function updateSchema(instance) {
@@ -1133,6 +1158,54 @@ async function removeSignedPreKeyById(id) {
 }
 async function removeAllSignedPreKeys() {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
+}
+
+const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
+async function getPairingAuthorisation(issuerPubKey, secondaryDevicePubKey) {
+  const row = await db.get(
+    `SELECT * FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE
+      issuerPubKey = $issuerPubKey AND secondaryDevicePubKey = $secondaryDevicePubKey
+      LIMIT 1;`,
+    {
+      $issuerPubKey: issuerPubKey,
+      $secondaryDevicePubKey: secondaryDevicePubKey,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function createOrUpdatePairingAuthorisation(data) {
+  const { issuerPubKey, secondaryDevicePubKey, signature } = data;
+
+  const existing = await getPairingAuthorisation(issuerPubKey, secondaryDevicePubKey);
+  // prevent adding duplicate entries
+  if (existing) {
+    return;
+  }
+
+  await db.run(
+    `INSERT INTO ${PAIRING_AUTHORISATIONS_TABLE} (
+      issuerPubKey,
+      secondaryDevicePubKey,
+      signature,
+      json
+    ) values (
+      $issuerPubKey,
+      $secondaryDevicePubKey,
+      $signature,
+      $json
+    )`,
+    {
+      $issuerPubKey: issuerPubKey,
+      $secondaryDevicePubKey: secondaryDevicePubKey,
+      $signature: signature,
+      $json: objectToJSON(data),
+    }
+  );
 }
 
 const ITEMS_TABLE = 'items';

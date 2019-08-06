@@ -158,6 +158,47 @@
     }
   }
 
+  async function generateSignatureForPairing(secondaryPubKey, type) {
+    const pubKeyArrayBuffer = StringView.hexToArrayBuffer(secondaryPubKey);
+    // Make sure the signature includes the pairing action (pairing or unpairing)
+    const len = pubKeyArrayBuffer.byteLength;
+    const data = new Uint8Array(len + 1);
+    data.set(new Uint8Array(pubKeyArrayBuffer), 0);
+    data[len] = type;
+
+    const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+    const signature = await libsignal.Curve.async.calculateSignature(
+      myKeyPair.privKey,
+      data.buffer
+    );
+    return new Uint8Array(signature);
+  }
+
+  async function verifyPairingAuthorisation(
+    issuerPubKey,
+    secondaryPubKey,
+    signature,
+    type
+  ) {
+    const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+    if (StringView.arrayBufferToHex(myKeyPair.pubKey) !== secondaryPubKey) {
+      throw new Error(
+        'Invalid pairing authorisation: we are not the recipient of the authorisation!'
+      );
+    }
+    const len = myKeyPair.pubKey.byteLength;
+    const data = new Uint8Array(len + 1);
+    data.set(new Uint8Array(myKeyPair.pubKey), 0);
+    data[len] = type;
+    const issuerPubKeyArrayBuffer = StringView.hexToArrayBuffer(issuerPubKey);
+    // Throws for invalid signature
+    await libsignal.Curve.async.verifySignature(
+      issuerPubKeyArrayBuffer,
+      data.buffer,
+      signature
+    );
+  }
+
   const snodeCipher = new LokiSnodeChannel();
 
   window.libloki.crypto = {
@@ -166,6 +207,8 @@
     FallBackSessionCipher,
     FallBackDecryptionError,
     snodeCipher,
+    generateSignatureForPairing,
+    verifyPairingAuthorisation,
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,
