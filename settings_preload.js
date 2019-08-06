@@ -47,6 +47,10 @@ window.setMessageTTL = makeSetter('message-ttl');
 
 window.getReadReceiptSetting = makeGetter('read-receipt-setting');
 window.setReadReceiptSetting = makeSetter('read-receipt-setting');
+
+window.getTypingIndicatorsSetting = makeGetter('typing-indicators-setting');
+window.setTypingIndicatorsSetting = makeSetter('typing-indicators-setting');
+
 window.getNotificationSetting = makeGetter('notification-setting');
 window.setNotificationSetting = makeSetter('notification-setting');
 window.getAudioNotification = makeGetter('audio-notification');

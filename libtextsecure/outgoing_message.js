@@ -347,6 +347,8 @@ OutgoingMessage.prototype = {
           ttl = 4 * 24 * 60 * 60 * 1000; // 4 days for friend request message
         } else if (this.messageType === 'onlineBroadcast') {
           ttl = 60 * 1000; // 1 minute for online broadcast message
+        } else if (this.messageType === 'typing') {
+          ttl = 60 * 1000; // 1 minute for typing indicators
         } else {
           const hours = window.getMessageTTL() || 24; // 1 day default for any other message
           ttl = hours * 60 * 60 * 1000;
