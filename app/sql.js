@@ -739,28 +739,6 @@ async function updateToSchemaVersion11(currentVersion, instance) {
   console.log('updateToSchemaVersion11: success!');
 }
 
-async function updateToSchemaVersion12(currentVersion, instance) {
-  if (currentVersion >= 12) {
-    return;
-  }
-  console.log('updateToSchemaVersion12: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run(
-    `CREATE TABLE pairingAuthorisations(
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      issuerPubKey VARCHAR(255),
-      secondaryDevicePubKey VARCHAR(255),
-      signature VARCHAR(255),
-      json TEXT
-    );`
-  );
-
-  await instance.run('PRAGMA schema_version = 12;');
-  await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToSchemaVersion12: success!');
-}
-
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -773,7 +751,6 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion9,
   updateToSchemaVersion10,
   updateToSchemaVersion11,
-  updateToSchemaVersion12,
 ];
 
 async function updateSchema(instance) {
@@ -795,6 +772,85 @@ async function updateSchema(instance) {
     // eslint-disable-next-line no-await-in-loop
     await runSchemaUpdate(schemaVersion, instance);
   }
+  await updateLokiSchema(instance);
+}
+
+const LOKI_SCHEMA_VERSIONS = [
+  updateToLokiSchemaVersion2,
+];
+
+async function updateToLokiSchemaVersion2(currentVersion, instance) {
+  if (currentVersion >= 2) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion2: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `CREATE TABLE pairingAuthorisations(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      issuerPubKey VARCHAR(255),
+      secondaryDevicePubKey VARCHAR(255),
+      signature VARCHAR(255),
+      json TEXT
+    );`
+  );
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        2
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion2: success!');
+}
+
+async function updateLokiSchema(instance) {
+  const result = await instance.get("SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema'");
+  if (!result) {
+    await createLokiSchemaTable(instance);
+  }
+  const lokiSchemaVersion = await getLokiSchemaVersion(instance);
+  console.log(
+    'updateLokiSchema:',
+    `Current loki schema version: ${lokiSchemaVersion};`,
+    `Most recent schema version: ${LOKI_SCHEMA_VERSIONS.length};`
+  );
+  for (let index = 0, max = LOKI_SCHEMA_VERSIONS.length; index < max; index += 1) {
+    const runSchemaUpdate = LOKI_SCHEMA_VERSIONS[index];
+
+    // Yes, we really want to do this asynchronously, in order
+    // eslint-disable-next-line no-await-in-loop
+    await runSchemaUpdate(lokiSchemaVersion, instance);
+  }
+}
+
+async function getLokiSchemaVersion(instance) {
+  const result = await instance.get('SELECT version FROM loki_schema WHERE version = (SELECT MAX(version) FROM loki_schema);');
+  if (!result.version) {
+    return 0;
+  }
+  return result.version;
+}
+
+async function createLokiSchemaTable(instance) {
+  await instance.run('BEGIN TRANSACTION;');
+  await instance.run(
+    `CREATE TABLE loki_schema(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      version INTEGER
+    );`
+  );
+  await instance.run(
+    `INSERT INTO loki_schema (
+      version
+    ) values (
+      0
+    );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
 }
 
 let db;
