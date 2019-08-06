@@ -111,16 +111,14 @@ a {
     opacity: 0.5;
     border: none;
     background: transparent;
-    margin-top: 2px;
 
     &:before {
-      margin-top: 4px;
       content: '';
       display: inline-block;
       width: $button-height;
       height: $button-height;
       @include color-svg('../images/paperclip.svg', $grey);
-      transform: rotateZ(-45deg);
+      transform: rotateZ(-45deg) translateY(-2px);
     }
 
     &:focus,

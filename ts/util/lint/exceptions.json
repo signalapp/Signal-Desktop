@@ -7885,5 +7885,23 @@
     "lineNumber": 60,
     "reasonCategory": "falseMatch",
     "updated": "2019-05-02T20:44:56.470Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "ts/components/CompositionArea.js",
+    "line": "    el.innerHTML = '';",
+    "lineNumber": 22,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-08-01T14:10:37.481Z",
+    "reasonDetail": "Our code, no user input, only clearing out the dom"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "ts/components/CompositionArea.tsx",
+    "line": "  el.innerHTML = '';",
+    "lineNumber": 64,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-08-01T14:10:37.481Z",
+    "reasonDetail": "Our code, no user input, only clearing out the dom"
   }
 ]

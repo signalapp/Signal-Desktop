@@ -34,6 +34,7 @@ const colonsRegex = /(?:^|\s):[a-z0-9-_+]+:?/gi;
 export type Props = {
   readonly i18n: LocalizerType;
   readonly disabled?: boolean;
+  readonly large?: boolean;
   readonly editorRef?: React.RefObject<Editor>;
   readonly inputApi?: React.MutableRefObject<InputApi | undefined>;
   readonly skinTone?: EmojiPickDataType['skinTone'];
@@ -144,6 +145,7 @@ const combineRefs = createSelector(
 export const CompositionInput = ({
   i18n,
   disabled,
+  large,
   editorRef,
   inputApi,
   onDirtyChange,
@@ -531,6 +533,10 @@ export const CompositionInput = ({
       }
 
       if (e.key === 'Enter' && !e.shiftKey) {
+        if (large && !(e.ctrlKey || e.metaKey)) {
+          return getDefaultKeyBinding(e);
+        }
+
         e.preventDefault();
 
         return 'submit';
@@ -562,7 +568,7 @@ export const CompositionInput = ({
 
       return getDefaultKeyBinding(e);
     },
-    [emojiResults]
+    [emojiResults, large]
   );
 
   // Create popper root
@@ -647,7 +653,14 @@ export const CompositionInput = ({
                 className="module-composition-input__input"
                 ref={combineRefs(popperRef, measureRef, rootElRef)}
               >
-                <div className="module-composition-input__input__scroller">
+                <div
+                  className={classNames(
+                    'module-composition-input__input__scroller',
+                    large
+                      ? 'module-composition-input__input__scroller--large'
+                      : null
+                  )}
+                >
                   <Editor
                     ref={editorRef}
                     editorState={editorRenderState}
