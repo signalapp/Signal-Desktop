@@ -123,7 +123,12 @@
       let generateKeypair;
       if (mnemonic) {
         generateKeypair = () => {
-          const seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
+          let seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
+          // handle shorter than 32 bytes seeds
+          if (seedHex.length !== 32 * 2) {
+            seedHex = seedHex.concat(seedHex);
+            seedHex = seedHex.substring(0, 32 * 2);
+          }
           const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
           const privKey = dcodeIO.ByteBuffer.wrap(
             privKeyHex,
@@ -517,8 +522,8 @@
       });
     },
     async generateMnemonic(language = 'english') {
-      const keys = await libsignal.KeyHelper.generateIdentityKeyPair();
-      const hex = StringView.arrayBufferToHex(keys.privKey);
+      const seed = window.Signal.Crypto.getRandomBytes(16);
+      const hex = StringView.arrayBufferToHex(seed);
       return mnemonic.mn_encode(hex, language);
     },
     getCurrentMnemonic() {
