@@ -13,7 +13,9 @@
       this.okText = options.okText || i18n('ok');
       this.render();
       this.$('.betaDisclaimerView').show();
-      this.$('.beta-disclaimer-dialog').bind('keyup', event => this.onKeyup(event));
+      this.$('.beta-disclaimer-dialog').bind('keyup', event =>
+        this.onKeyup(event)
+      );
     },
     events: {
       'click .ok': 'close',

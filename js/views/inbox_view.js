@@ -91,8 +91,7 @@
         model: { window: options.window },
       });
 
-      if (!window.storage.get('betaReleaseDisclaimerAccepted'))
-      {
+      if (!window.storage.get('betaReleaseDisclaimerAccepted')) {
         this.showBetaReleaseDisclaimer();
       }
 
