@@ -6,6 +6,8 @@
 
   window.Whisper = window.Whisper || {};
 
+  const DISCONNECTED_DELAY = 30000;
+
   Whisper.NetworkStatusView = Whisper.View.extend({
     className: 'network-status',
     templateName: 'networkStatus',
@@ -27,6 +29,7 @@
 
       this.model = new Backbone.Model();
       this.listenTo(this.model, 'change', this.onChange);
+      this.connectedTimer = null;
     },
     onReconnectTimer() {
       this.setSocketReconnectInterval(60000);
@@ -55,20 +58,34 @@
         case WebSocket.CONNECTING:
           message = i18n('connecting');
           this.setSocketReconnectInterval(null);
+          window.clearTimeout(this.connectedTimer);
+          this.connectedTimer = null;
           break;
         case WebSocket.OPEN:
           this.setSocketReconnectInterval(null);
+          window.clearTimeout(this.connectedTimer);
+          this.connectedTimer = null;
           break;
         case WebSocket.CLOSED:
-          message = i18n('disconnected');
-          instructions = i18n('checkNetworkConnection');
-          hasInterruption = true;
+          if (!this.connectedTimer) {
+            // Mark offline if disconnected for 30 seconds
+            this.connectedTimer = window.setTimeout(() => {
+              message = i18n('disconnected');
+              instructions = i18n('checkNetworkConnection');
+              hasInterruption = true;
+            }, DISCONNECTED_DELAY);
+          }
           break;
         case WebSocket.CLOSING:
         default:
-          message = i18n('disconnected');
-          instructions = i18n('checkNetworkConnection');
-          hasInterruption = true;
+          if (!this.connectedTimer) {
+            // Mark offline if disconnected for 30 seconds
+            this.connectedTimer = window.setTimeout(() => {
+              message = i18n('disconnected');
+              instructions = i18n('checkNetworkConnection');
+              hasInterruption = true;
+            }, DISCONNECTED_DELAY);
+          }
           break;
       }
 

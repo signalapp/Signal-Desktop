@@ -73,16 +73,7 @@ MessageReceiver.prototype.extend({
     this.httpPollingResource = new HttpResource(lokiMessageAPI, {
       handleRequest: this.handleRequest.bind(this),
     });
-    this.httpPollingResource.pollServer(connected => {
-      // Emulate receiving an 'empty' websocket messages from the server.
-      // This is required to update the internal logic that checks
-      // if we are connected to the server. Without this, for example,
-      // the loading screen would never disappear if the navigator
-      // detects internet connectivity but never receives an 'empty' signal.
-      if (connected) {
-        this.onEmpty();
-      }
-    });
+    this.httpPollingResource.pollServer();
     localLokiServer.on('message', this.handleP2pMessage.bind(this));
     this.startLocalServer();
 

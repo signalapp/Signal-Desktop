@@ -83,8 +83,7 @@
       }
     };
 
-    // Note: calling callback(false) is currently not necessary
-    this.pollServer = async callback => {
+    this.pollServer = async () => {
       // This blocking call will return only when all attempts
       // at reaching snodes are exhausted or a DNS error occured
       try {
@@ -93,7 +92,6 @@
           stopPolling,
           messages => {
             connected = true;
-            callback(connected);
             messages.forEach(message => {
               const { data } = message;
               this.handleMessage(data);
@@ -111,7 +109,7 @@
       connected = false;
       // Exhausted all our snodes urls, trying again later from scratch
       setTimeout(() => {
-        this.pollServer(callback);
+        this.pollServer();
       }, EXHAUSTED_SNODES_RETRY_DELAY);
     };
 
