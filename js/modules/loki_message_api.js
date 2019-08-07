@@ -96,7 +96,7 @@ class LokiMessageAPI {
     const timestamp = Date.now();
     const nonce = await calcNonce(
       messageEventData,
-      pubKey,
+      window.getStoragePubKey(pubKey),
       data64,
       timestamp,
       ttl

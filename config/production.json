@@ -1,1 +1,16 @@
-{}
+{
+  "seedNodeList": [
+    {
+      "ip": "storage.seed1.loki.network",
+      "port": "22023"
+    },
+    {
+      "ip": "storage.seed2.loki.network",
+      "port": "38157"
+    },
+    {
+      "ip": "imaginary.stream",
+      "port": "38157"
+    }
+  ]
+}

@@ -26,6 +26,7 @@ window.platform = process.platform;
 window.getDefaultPoWDifficulty = () => config.defaultPoWDifficulty;
 window.getTitle = () => title;
 window.getEnvironment = () => config.environment;
+window.isDev = () => config.environment === 'development';
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
 window.isImportMode = () => config.importMode;
@@ -36,6 +37,8 @@ window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 window.JobQueue = JobQueue;
+window.getStoragePubKey = key =>
+  window.isDev() ? key.substring(0, key.length - 2) : key;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
