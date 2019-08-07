@@ -5,8 +5,17 @@ const semver = require('semver');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
-const { app } = electron.remote;
-const { systemPreferences } = electron.remote.require('electron');
+const { remote } = electron;
+const { app } = remote;
+const { systemPreferences } = remote.require('electron');
+
+const browserWindow = remote.getCurrentWindow();
+let focusHandlers = [];
+browserWindow.on('focus', () => focusHandlers.forEach(handler => handler()));
+window.registerForFocus = handler => focusHandlers.push(handler);
+window.unregisterForFocus = handler => {
+  focusHandlers = focusHandlers.filter(item => item !== handler);
+};
 
 // Waiting for clients to implement changes on receive side
 window.ENABLE_STICKER_SEND = true;
@@ -308,6 +317,7 @@ const userDataPath = app.getPath('userData');
 window.baseAttachmentsPath = Attachments.getPath(userDataPath);
 window.baseStickersPath = Attachments.getStickersPath(userDataPath);
 window.baseTempPath = Attachments.getTempPath(userDataPath);
+window.baseDraftPath = Attachments.getDraftPath(userDataPath);
 window.Signal = Signal.setup({
   Attachments,
   userDataPath,

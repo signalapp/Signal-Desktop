@@ -23,6 +23,9 @@ export type PropsData = {
   unreadCount: number;
   isSelected: boolean;
 
+  draftPreview?: string;
+  shouldShowDraft?: boolean;
+
   typingContact?: Object;
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
@@ -134,11 +137,23 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderMessage() {
-    const { lastMessage, typingContact, unreadCount, i18n } = this.props;
+    const {
+      draftPreview,
+      i18n,
+      lastMessage,
+      shouldShowDraft,
+      typingContact,
+      unreadCount,
+    } = this.props;
     if (!lastMessage && !typingContact) {
       return null;
     }
-    const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+    const text =
+      shouldShowDraft && draftPreview
+        ? draftPreview
+        : lastMessage && lastMessage.text
+          ? lastMessage.text
+          : '';
 
     return (
       <div className="module-conversation-list-item__message">

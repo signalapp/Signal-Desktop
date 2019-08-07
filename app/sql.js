@@ -140,6 +140,7 @@ module.exports = {
 
   removeKnownAttachments,
   removeKnownStickers,
+  removeKnownDraftAttachments,
 };
 
 function generateUUID() {
@@ -2867,6 +2868,24 @@ function getExternalFilesForConversation(conversation) {
   return files;
 }
 
+function getExternalDraftFilesForConversation(conversation) {
+  const draftAttachments = conversation.draftAttachments || [];
+  const files = [];
+
+  forEach(draftAttachments, attachment => {
+    const { path: file, screenshotPath } = attachment;
+    if (file) {
+      files.push(file);
+    }
+
+    if (screenshotPath) {
+      files.push(screenshotPath);
+    }
+  });
+
+  return files;
+}
+
 async function removeKnownAttachments(allAttachments) {
   const lookup = fromPairs(map(allAttachments, file => [file, true]));
   const chunkSize = 50;
@@ -2996,6 +3015,57 @@ async function removeKnownStickers(allStickers) {
   }
 
   console.log(`removeKnownStickers: Done processing ${count} stickers`);
+
+  return Object.keys(lookup);
+}
+
+async function removeKnownDraftAttachments(allStickers) {
+  const lookup = fromPairs(map(allStickers, file => [file, true]));
+  const chunkSize = 50;
+
+  const total = await getConversationCount();
+  console.log(
+    `removeKnownDraftAttachments: About to iterate through ${total} conversations`
+  );
+
+  let complete = false;
+  let count = 0;
+  // Though conversations.id is a string, this ensures that, when coerced, this
+  //   value is still a string but it's smaller than every other string.
+  let id = 0;
+
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const rows = await db.all(
+      `SELECT json FROM conversations
+       WHERE id > $id
+       ORDER BY id ASC
+       LIMIT $chunkSize;`,
+      {
+        $id: id,
+        $chunkSize: chunkSize,
+      }
+    );
+
+    const conversations = map(rows, row => jsonToObject(row.json));
+    forEach(conversations, conversation => {
+      const externalFiles = getExternalDraftFilesForConversation(conversation);
+      forEach(externalFiles, file => {
+        delete lookup[file];
+      });
+    });
+
+    const lastMessage = last(conversations);
+    if (lastMessage) {
+      ({ id } = lastMessage);
+    }
+    complete = conversations.length < chunkSize;
+    count += conversations.length;
+  }
+
+  console.log(
+    `removeKnownDraftAttachments: Done processing ${count} conversations`
+  );
 
   return Object.keys(lookup);
 }

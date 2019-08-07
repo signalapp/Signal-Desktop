@@ -33,11 +33,12 @@ export type OwnProps = {
   readonly micCellEl?: HTMLElement;
   readonly attCellEl?: HTMLElement;
   readonly attachmentListEl?: HTMLElement;
+  onChooseAttachment(): unknown;
 };
 
 export type Props = Pick<
   CompositionInputProps,
-  'onSubmit' | 'onEditorSizeChange' | 'onEditorStateChange'
+  'onSubmit' | 'onEditorSizeChange' | 'onEditorStateChange' | 'startingText'
 > &
   Pick<
     EmojiButtonProps,
@@ -69,12 +70,13 @@ export const CompositionArea = ({
   i18n,
   attachmentListEl,
   micCellEl,
-  attCellEl,
+  onChooseAttachment,
   // CompositionInput
   onSubmit,
   compositionApi,
   onEditorSizeChange,
   onEditorStateChange,
+  startingText,
   // EmojiButton
   onPickEmoji,
   onSetSkinTone,
@@ -94,7 +96,7 @@ export const CompositionArea = ({
   clearShowPickerHint,
 }: Props) => {
   const [disabled, setDisabled] = React.useState(false);
-  const [showMic, setShowMic] = React.useState(true);
+  const [showMic, setShowMic] = React.useState(!startingText);
   const [micActive, setMicActive] = React.useState(false);
   const [dirty, setDirty] = React.useState(false);
   const [large, setLarge] = React.useState(false);
@@ -179,23 +181,17 @@ export const CompositionArea = ({
   // The following is a work-around to allow react to lay-out backbone-managed
   // dom nodes until those functions are in React
   const micCellRef = React.useRef<HTMLDivElement>(null);
-  const attCellRef = React.useRef<HTMLDivElement>(null);
   React.useLayoutEffect(
     () => {
       const { current: micCellContainer } = micCellRef;
-      const { current: attCellContainer } = attCellRef;
       if (micCellContainer && micCellEl) {
         emptyElement(micCellContainer);
         micCellContainer.appendChild(micCellEl);
       }
-      if (attCellContainer && attCellEl) {
-        emptyElement(attCellContainer);
-        attCellContainer.appendChild(attCellEl);
-      }
 
       return noop;
     },
-    [micCellRef, attCellRef, micCellEl, attCellEl, large, dirty, showMic]
+    [micCellRef, micCellEl, large, dirty, showMic]
   );
 
   React.useLayoutEffect(
@@ -235,8 +231,12 @@ export const CompositionArea = ({
     />
   ) : null;
 
-  const attButtonFragment = (
-    <div className="module-composition-area__button-cell" ref={attCellRef} />
+  const attButton = (
+    <div className="module-composition-area__button-cell">
+      <div className="choose-file">
+        <button className="paperclip thumbnail" onClick={onChooseAttachment} />
+      </div>
+    </div>
   );
 
   const sendButtonFragment = (
@@ -318,13 +318,14 @@ export const CompositionArea = ({
             onEditorStateChange={onEditorStateChange}
             onDirtyChange={setDirty}
             skinTone={skinTone}
+            startingText={startingText}
           />
         </div>
         {!large ? (
           <>
             {stickerButtonFragment}
             {!dirty ? micButtonFragment : null}
-            {attButtonFragment}
+            {attButton}
           </>
         ) : null}
       </div>
@@ -337,7 +338,7 @@ export const CompositionArea = ({
         >
           {emojiButtonFragment}
           {stickerButtonFragment}
-          {attButtonFragment}
+          {attButton}
           {!dirty ? micButtonFragment : null}
           {dirty || !showMic ? sendButtonFragment : null}
         </div>

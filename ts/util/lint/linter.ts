@@ -53,7 +53,6 @@ const excludedFiles = [
   '^js/models/messages.js',
   '^js/modules/crypto.js',
   '^js/views/conversation_view.js',
-  '^js/views/file_input_view.js',
   '^js/background.js',
 
   // Generated files

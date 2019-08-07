@@ -38,6 +38,7 @@ export type Props = {
   readonly editorRef?: React.RefObject<Editor>;
   readonly inputApi?: React.MutableRefObject<InputApi | undefined>;
   readonly skinTone?: EmojiPickDataType['skinTone'];
+  readonly startingText?: string;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(messageText: string, caretLocation: number): unknown;
   onEditorSizeChange?(rect: ContentRect): unknown;
@@ -141,6 +142,25 @@ const combineRefs = createSelector(
   }
 );
 
+const getInitialEditorState = (startingText?: string) => {
+  if (!startingText) {
+    return EditorState.createEmpty(compositeDecorator);
+  }
+
+  const end = startingText.length;
+  const state = EditorState.createWithContent(
+    ContentState.createFromText(startingText),
+    compositeDecorator
+  );
+  const selection = state.getSelection();
+  const selectionAtEnd = selection.merge({
+    anchorOffset: end,
+    focusOffset: end,
+  }) as SelectionState;
+
+  return EditorState.forceSelection(state, selectionAtEnd);
+};
+
 // tslint:disable-next-line max-func-body-length
 export const CompositionInput = ({
   i18n,
@@ -154,9 +174,10 @@ export const CompositionInput = ({
   onPickEmoji,
   onSubmit,
   skinTone,
+  startingText,
 }: Props) => {
   const [editorRenderState, setEditorRenderState] = React.useState(
-    EditorState.createEmpty(compositeDecorator)
+    getInitialEditorState(startingText)
   );
   const [searchText, setSearchText] = React.useState<string>('');
   const [emojiResults, setEmojiResults] = React.useState<Array<EmojiData>>([]);

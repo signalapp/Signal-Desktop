@@ -60,7 +60,7 @@ type PropsActionsType = {
   loadOlderMessages: (messageId: string) => unknown;
   loadNewerMessages: (messageId: string) => unknown;
   loadNewestMessages: (messageId: string) => unknown;
-  markMessageRead: (messageId: string) => unknown;
+  markMessageRead: (messageId: string, forceFocus?: boolean) => unknown;
 } & MessageActionsType &
   SafetyNumberActionsType;
 
@@ -397,7 +397,7 @@ export class Timeline extends React.PureComponent<Props, State> {
 
   // tslint:disable-next-line member-ordering cyclomatic-complexity
   public updateWithVisibleRows = debounce(
-    () => {
+    (forceFocus?: boolean) => {
       const {
         unreadCount,
         haveNewest,
@@ -421,7 +421,7 @@ export class Timeline extends React.PureComponent<Props, State> {
         return;
       }
 
-      markMessageRead(newest.id);
+      markMessageRead(newest.id, forceFocus);
 
       const rowCount = this.getRowCount();
 
@@ -699,6 +699,22 @@ export class Timeline extends React.PureComponent<Props, State> {
     }
   };
 
+  public componentDidMount() {
+    this.updateWithVisibleRows();
+    // @ts-ignore
+    window.registerForFocus(this.forceFocusVisibleRowUpdate);
+  }
+
+  public componentWillUnmount() {
+    // @ts-ignore
+    window.unregisterForFocus(this.forceFocusVisibleRowUpdate);
+  }
+
+  public forceFocusVisibleRowUpdate = () => {
+    const forceFocus = true;
+    this.updateWithVisibleRows(forceFocus);
+  };
+
   public componentDidUpdate(prevProps: Props) {
     const {
       id,
@@ -732,8 +748,6 @@ export class Timeline extends React.PureComponent<Props, State> {
       if (prevProps.items && prevProps.items.length > 0) {
         this.resizeAll();
       }
-
-      return;
     } else if (!typingContact && prevProps.typingContact) {
       this.resizeAll();
     } else if (oldestUnreadIndex !== prevProps.oldestUnreadIndex) {
@@ -784,6 +798,8 @@ export class Timeline extends React.PureComponent<Props, State> {
       clearChangedMessages(id);
     } else if (this.resizeAllFlag) {
       this.resizeAll();
+    } else {
+      this.updateWithVisibleRows();
     }
   }
 

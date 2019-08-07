@@ -9,7 +9,6 @@ const {
   isFunction,
   isObject,
   map,
-  merge,
   set,
 } = require('lodash');
 
@@ -29,6 +28,7 @@ const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
 const ERASE_STICKERS_KEY = 'erase-stickers';
 const ERASE_TEMP_KEY = 'erase-temp';
+const ERASE_DRAFTS_KEY = 'erase-drafts';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
 const _jobs = Object.create(null);
@@ -598,7 +598,10 @@ async function updateConversation(id, data, { Conversation }) {
     throw new Error(`Conversation ${id} does not exist!`);
   }
 
-  const merged = merge({}, existing.attributes, data);
+  const merged = {
+    ...existing.attributes,
+    ...data,
+  };
   await channels.updateConversation(merged);
 }
 
@@ -1007,6 +1010,7 @@ async function removeOtherData() {
     callChannel(ERASE_ATTACHMENTS_KEY),
     callChannel(ERASE_STICKERS_KEY),
     callChannel(ERASE_TEMP_KEY),
+    callChannel(ERASE_DRAFTS_KEY),
   ]);
 }
 

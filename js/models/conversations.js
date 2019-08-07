@@ -150,6 +150,34 @@
       return this.id === this.ourNumber;
     },
 
+    hasDraft() {
+      const draftAttachments = this.get('draftAttachments') || [];
+      return (
+        this.get('draft') ||
+        this.get('quotedMessageId') ||
+        draftAttachments.length > 0
+      );
+    },
+
+    getDraftPreview() {
+      const draft = this.get('draft');
+      if (draft) {
+        return draft;
+      }
+
+      const draftAttachments = this.get('draftAttachments') || [];
+      if (draftAttachments.length > 0) {
+        return i18n('Conversation--getDraftPreview--attachment');
+      }
+
+      const quotedMessageId = this.get('quotedMessageId');
+      if (quotedMessageId) {
+        return i18n('Conversation--getDraftPreview--quote');
+      }
+
+      return i18n('Conversation--getDraftPreview--draft');
+    },
+
     bumpTyping() {
       // We don't send typing messages if the setting is disabled
       if (!storage.get('typingIndicators')) {
@@ -327,6 +355,13 @@
         ? ConversationController.getOrCreate(typingMostRecent.sender, 'private')
         : null;
 
+      const timestamp = this.get('timestamp');
+      const draftTimestamp = this.get('draftTimestamp');
+      const draftPreview = this.getDraftPreview();
+      const draftText = this.get('draft');
+      const shouldShowDraft =
+        this.hasDraft() && draftTimestamp && draftTimestamp >= timestamp;
+
       const result = {
         id: this.id,
 
@@ -340,9 +375,13 @@
         lastUpdated: this.get('timestamp'),
         name: this.getName(),
         profileName: this.getProfileName(),
-        timestamp: this.get('timestamp'),
+        timestamp,
         title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
+
+        shouldShowDraft,
+        draftPreview,
+        draftText,
 
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
@@ -970,6 +1009,8 @@
           active_at: now,
           timestamp: now,
           isArchived: false,
+          draft: null,
+          draftTimestamp: null,
         });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
@@ -1226,6 +1267,15 @@
       );
 
       const lastMessageModel = messages.at(0);
+      if (
+        this.hasDraft() &&
+        this.get('draftTimestamp') &&
+        (!lastMessageModel ||
+          lastMessageModel.get('sent_at') < this.get('draftTimestamp'))
+      ) {
+        return;
+      }
+
       const lastMessageJSON = lastMessageModel
         ? lastMessageModel.toJSON()
         : null;

@@ -1720,6 +1720,12 @@
       }
     }
   },
+
+  "ConversationListItem--draft-prefix": {
+    "message": "Draft:",
+    "description":
+      "Prefix shown in italic in conversation view when a draft is saved"
+  },
   "message--getNotificationText--stickers": {
     "message": "Sticker message",
     "description":
@@ -1906,5 +1912,20 @@
     "message": "View Photo",
     "description":
       "Text shown on messages with with individual timers, before user has viewed it"
+  },
+  "Conversation--getDraftPreview--attachment": {
+    "message": "(attachment)",
+    "description":
+      "Text shown in left pane as preview for conversation with saved a saved draft message"
+  },
+  "Conversation--getDraftPreview--quote": {
+    "message": "(quote)",
+    "description":
+      "Text shown in left pane as preview for conversation with saved a saved draft message"
+  },
+  "Conversation--getDraftPreview--draft": {
+    "message": "(draft)",
+    "description":
+      "Text shown in left pane as preview for conversation with saved a saved draft message"
   }
 }

@@ -2,9 +2,10 @@
   $,
   _,
   ConversationController,
-  MessageController,
   extension,
   i18n,
+  loadImage,
+  MessageController,
   Signal,
   storage,
   textsecure,
@@ -16,13 +17,17 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
-  const { Message } = window.Signal.Types;
+  const { Message, MIME, VisualAttachment } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     getAbsoluteAttachmentPath,
+    getAbsoluteDraftPath,
     copyIntoTempDirectory,
     getAbsoluteTempPath,
+    deleteDraftFile,
     deleteTempFile,
+    readDraftData,
+    writeNewDraftData,
   } = window.Signal.Migrations;
   const {
     getOlderMessagesByConversation,
@@ -78,6 +83,35 @@
     render_attributes() {
       return { toastMessage: i18n('messageBodyTooLong') };
     },
+  });
+
+  Whisper.FileSizeToast = Whisper.ToastView.extend({
+    templateName: 'file-size-modal',
+    render_attributes() {
+      return {
+        'file-size-warning': i18n('fileSizeWarning'),
+        limit: this.model.limit,
+        units: this.model.units,
+      };
+    },
+  });
+  Whisper.UnableToLoadToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('unableToLoadAttachment') };
+    },
+  });
+
+  Whisper.DangerousFileTypeToast = Whisper.ToastView.extend({
+    template: i18n('dangerousFileType'),
+  });
+  Whisper.OneNonImageAtATimeToast = Whisper.ToastView.extend({
+    template: i18n('oneNonImageAtATimeToast'),
+  });
+  Whisper.CannotMixImageAndNonImageAttachmentsToast = Whisper.ToastView.extend({
+    template: i18n('cannotMixImageAdnNonImageAttachments'),
+  });
+  Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
+    template: i18n('maximumAttachments'),
   });
 
   Whisper.ConversationLoadingScreen = Whisper.View.extend({
@@ -152,6 +186,7 @@
         this.maybeGrabLinkPreview.bind(this),
         200
       );
+      this.debouncedSaveDraft = _.debounce(this.saveDraft.bind(this), 200);
 
       this.render();
 
@@ -163,27 +198,16 @@
       const attachmentListEl = $(
         '<div class="module-composition-area__attachment-list"></div>'
       );
-      this.fileInput = new Whisper.FileInputView({
+
+      this.attachmentListView = new Whisper.ReactWrapperView({
         el: attachmentListEl,
-      });
-      this.listenTo(
-        this.fileInput,
-        'choose-attachment',
-        this.onChooseAttachment
-      );
-      this.listenTo(this.fileInput, 'staged-attachments-changed', () => {
-        this.toggleMicrophone();
-        if (this.fileInput.hasFiles()) {
-          this.removeLinkPreview();
-        }
+        Component: window.Signal.Components.AttachmentList,
+        props: this.getPropsForAttachmentList(),
       });
 
       extension.windows.onClosed(() => {
         this.unload('windows closed');
       });
-
-      this.$('.send-message').focus(this.focusBottomBar.bind(this));
-      this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
       this.setupHeader();
       this.setupTimeline();
@@ -191,13 +215,9 @@
     },
 
     events: {
-      click: 'onClick',
       'click .composition-area-placeholder': 'onClickPlaceholder',
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
-      'focus .send-message': 'focusBottomBar',
-      'blur .send-message': 'unfocusBottomBar',
-      'click button.paperclip': 'onChooseAttachment',
       'change input.file-input': 'onChoseAttachment',
 
       dragover: 'onDragOver',
@@ -284,13 +304,9 @@
           <button class="microphone"></button>
         </div>
       `)[0];
-      const attCellEl = $(`
-        <div class="choose-file">
-          <button class="paperclip thumbnail"></button>
-        </div>
-      `)[0];
 
       const props = {
+        id: this.model.id,
         compositionApi,
         onClickAddPack: () => this.showStickerManager(),
         onPickSticker: (packId, stickerId) =>
@@ -298,8 +314,8 @@
         onSubmit: message => this.sendMessage(message),
         onEditorStateChange: (msg, caretLocation) =>
           this.onEditorStateChange(msg, caretLocation),
+        onChooseAttachment: this.onChooseAttachment.bind(this),
         micCellEl,
-        attCellEl,
         attachmentListEl,
       };
 
@@ -352,6 +368,7 @@
       const downloadNewVersion = () => {
         this.downloadNewVersion();
       };
+
       const scrollToQuotedMessage = async options => {
         const { author, sentAt } = options;
 
@@ -366,9 +383,7 @@
         );
 
         if (!message) {
-          const toast = new Whisper.OriginalNotFoundToast();
-          toast.$el.appendTo(this.$el);
-          toast.render();
+          this.showToast(Whisper.OriginalNotFoundToast);
           return;
         }
 
@@ -477,8 +492,10 @@
           finish();
         }
       };
-      const markMessageRead = async messageId => {
-        if (!document.hasFocus()) {
+      const markMessageRead = async (messageId, forceFocus) => {
+        // We need a forceFocus parameter because the BrowserWindow focus event fires
+        //   before the document realizes that it has focus.
+        if (!document.hasFocus() && !forceFocus) {
           return;
         }
 
@@ -521,6 +538,12 @@
       });
 
       this.$('.timeline-placeholder').append(this.timelineView.el);
+    },
+
+    showToast(ToastView) {
+      const toast = new ToastView();
+      toast.$el.appendTo(this.$el);
+      toast.render();
     },
 
     async cleanModels(collection) {
@@ -701,12 +724,7 @@
       e.preventDefault();
     },
 
-    onChooseAttachment(e) {
-      if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-
+    onChooseAttachment() {
       this.$('input.file-input').click();
     },
     async onChoseAttachment() {
@@ -716,24 +734,11 @@
       for (let i = 0, max = files.length; i < max; i += 1) {
         const file = files[i];
         // eslint-disable-next-line no-await-in-loop
-        await this.fileInput.maybeAddAttachment(file);
+        await this.maybeAddAttachment(file);
         this.toggleMicrophone();
       }
 
       fileField.val(null);
-    },
-
-    onDragOver(e) {
-      this.fileInput.onDragOver(e);
-    },
-    onDragLeave(e) {
-      this.fileInput.onDragLeave(e);
-    },
-    onDrop(e) {
-      this.fileInput.onDrop(e);
-    },
-    onPaste(e) {
-      this.fileInput.onPaste(e);
     },
 
     unload(reason) {
@@ -749,10 +754,15 @@
         conversationUnloaded(this.model.id);
       }
 
-      this.fileInput.remove();
       this.titleView.remove();
       this.timelineView.remove();
 
+      if (this.attachmentListView) {
+        this.attachmentListView.remove();
+      }
+      if (this.captionEditorView) {
+        this.captionEditorView.remove();
+      }
       if (this.stickerButtonView) {
         this.stickerButtonView.remove();
       }
@@ -787,8 +797,6 @@
         }
       }
 
-      this.window.removeEventListener('focus', this.onFocus);
-
       this.remove();
 
       this.model.messageCollection.reset([]);
@@ -800,6 +808,562 @@
 
     downloadNewVersion() {
       window.location = 'https://signal.org/download';
+    },
+
+    onDragOver(e) {
+      if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
+        return;
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+      this.$el.addClass('dropoff');
+    },
+
+    onDragLeave(e) {
+      if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
+        return;
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+    },
+
+    async onDrop(e) {
+      if (e.originalEvent.dataTransfer.types[0] !== 'Files') {
+        return;
+      }
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      const { files } = e.originalEvent.dataTransfer;
+      for (let i = 0, max = files.length; i < max; i += 1) {
+        const file = files[i];
+        // eslint-disable-next-line no-await-in-loop
+        await this.maybeAddAttachment(file);
+      }
+    },
+
+    onPaste(e) {
+      const { items } = e.originalEvent.clipboardData;
+      let imgBlob = null;
+      for (let i = 0; i < items.length; i += 1) {
+        if (items[i].type.split('/')[0] === 'image') {
+          imgBlob = items[i].getAsFile();
+        }
+      }
+      if (imgBlob !== null) {
+        const file = imgBlob;
+        this.maybeAddAttachment(file);
+
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    },
+
+    getPropsForAttachmentList() {
+      const draftAttachments = this.model.get('draftAttachments') || [];
+
+      return {
+        // In conversation model/redux
+        attachments: draftAttachments.map(attachment => ({
+          ...attachment,
+          url: attachment.screenshotPath
+            ? getAbsoluteDraftPath(attachment.screenshotPath)
+            : getAbsoluteDraftPath(attachment.path),
+        })),
+        // Passed in from ConversationView
+        onAddAttachment: this.onChooseAttachment.bind(this),
+        onClickAttachment: this.onClickAttachment.bind(this),
+        onCloseAttachment: this.onCloseAttachment.bind(this),
+        onClose: this.clearAttachments.bind(this),
+      };
+    },
+
+    onClickAttachment(attachment) {
+      const getProps = () => ({
+        url: attachment.url,
+        caption: attachment.caption,
+        attachment,
+        onSave,
+      });
+
+      const onSave = caption => {
+        // eslint-disable-next-line no-param-reassign
+        attachment.caption = caption;
+        this.captionEditorView.remove();
+        Signal.Backbone.Views.Lightbox.hide();
+        this.attachmentListView.update(this.getPropsForAttachmentList());
+      };
+
+      this.captionEditorView = new Whisper.ReactWrapperView({
+        className: 'attachment-list-wrapper',
+        Component: window.Signal.Components.CaptionEditor,
+        props: getProps(),
+        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+      });
+      Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
+    },
+
+    async deleteDraftAttachment(attachment) {
+      if (attachment.screenshotPath) {
+        await deleteDraftFile(attachment.screenshotPath);
+      }
+      if (attachment.path) {
+        await deleteDraftFile(attachment.path);
+      }
+    },
+
+    async saveModel() {
+      await window.Signal.Data.updateConversation(
+        this.model.id,
+        this.model.attributes,
+        {
+          Conversation: Whisper.Conversation,
+        }
+      );
+    },
+
+    async addAttachment(attachment) {
+      const onDisk = await this.writeDraftAttachment(attachment);
+
+      const draftAttachments = this.model.get('draftAttachments') || [];
+      this.model.set({
+        draftAttachments: [...draftAttachments, onDisk],
+        draftTimestamp: Date.now(),
+        timestamp: Date.now(),
+      });
+      await this.saveModel();
+
+      this.updateAttachmentsView();
+    },
+
+    async onCloseAttachment(attachment) {
+      const draftAttachments = this.model.get('draftAttachments') || [];
+
+      this.model.set({
+        draftAttachments: _.reject(
+          draftAttachments,
+          item => item.path === attachment.path
+        ),
+      });
+
+      this.updateAttachmentsView();
+
+      await this.saveModel();
+      await this.deleteDraftAttachment(attachment);
+
+      this.model.updateLastMessage();
+    },
+
+    async clearAttachments() {
+      this.voiceNoteAttachment = null;
+
+      const draftAttachments = this.model.get('draftAttachments') || [];
+      this.model.set({
+        draftAttachments: [],
+      });
+
+      this.updateAttachmentsView();
+
+      this.model.updateLastMessage();
+
+      // We're fine doing this all at once; at most it should be 32 attachments
+      await Promise.all([
+        this.saveModel(),
+        Promise.all(
+          draftAttachments.map(attachment =>
+            this.deleteDraftAttachment(attachment)
+          )
+        ),
+      ]);
+    },
+
+    hasFiles() {
+      const draftAttachments = this.model.get('draftAttachments') || [];
+      return draftAttachments.length > 0;
+    },
+
+    async getFiles() {
+      if (this.voiceNoteAttachment) {
+        // We don't need to pull these off disk; we return them as-is
+        return [this.voiceNoteAttachment];
+      }
+
+      const draftAttachments = this.model.get('draftAttachments') || [];
+      const files = _.compact(
+        await Promise.all(
+          draftAttachments.map(attachment => this.getFile(attachment))
+        )
+      );
+      return files;
+    },
+
+    async getFile(attachment) {
+      if (!attachment) {
+        return Promise.resolve();
+      }
+
+      const data = await readDraftData(attachment.path);
+      if (data.byteLength !== attachment.size) {
+        window.log.error(
+          `Attachment size from disk ${
+            data.byteLength
+          } did not match attachment size ${attachment.size}`
+        );
+        return null;
+      }
+
+      return {
+        ..._.pick(attachment, ['contentType', 'fileName', 'size']),
+        data,
+      };
+    },
+
+    arrayBufferFromFile(file) {
+      return new Promise((resolve, reject) => {
+        const FR = new FileReader();
+        FR.onload = e => {
+          resolve(e.target.result);
+        };
+        FR.onerror = reject;
+        FR.onabort = reject;
+        FR.readAsArrayBuffer(file);
+      });
+    },
+
+    showFileSizeError({ limit, units, u }) {
+      const toast = new Whisper.FileSizeToast({
+        model: { limit, units: units[u] },
+      });
+      toast.$el.insertAfter(this.$el);
+      toast.render();
+    },
+
+    updateAttachmentsView() {
+      this.attachmentListView.update(this.getPropsForAttachmentList());
+      this.toggleMicrophone();
+      if (this.hasFiles()) {
+        this.removeLinkPreview();
+      }
+    },
+
+    async writeDraftAttachment(attachment) {
+      let toWrite = attachment;
+
+      if (toWrite.data) {
+        const path = await writeNewDraftData(toWrite.data);
+        toWrite = {
+          ..._.omit(toWrite, ['data']),
+          path,
+        };
+      }
+      if (toWrite.screenshotData) {
+        const screenshotPath = await writeNewDraftData(toWrite.screenshotData);
+        toWrite = {
+          ..._.omit(toWrite, ['screenshotData']),
+          screenshotPath,
+        };
+      }
+
+      return toWrite;
+    },
+
+    async maybeAddAttachment(file) {
+      if (!file) {
+        return;
+      }
+
+      const MB = 1000 * 1024;
+      if (file.size > 100 * MB) {
+        this.showFileSizeError({ limit: 100, units: ['MB'], u: 0 });
+        return;
+      }
+
+      if (window.Signal.Util.isFileDangerous(file.name)) {
+        this.showToast(Whisper.DangerousFileTypeToast);
+        return;
+      }
+
+      const draftAttachments = this.model.get('draftAttachments') || [];
+      if (draftAttachments.length >= 32) {
+        this.showToast(Whisper.MaxAttachmentsToast);
+        return;
+      }
+
+      const haveNonImage = _.any(
+        draftAttachments,
+        attachment => !MIME.isImage(attachment.contentType)
+      );
+      // You can't add another attachment if you already have a non-image staged
+      if (haveNonImage) {
+        this.showToast(Whisper.OneNonImageAtATimeToast);
+        return;
+      }
+
+      // You can't add a non-image attachment if you already have attachments staged
+      if (!MIME.isImage(file.type) && draftAttachments.length > 0) {
+        this.showToast(Whisper.CannotMixImageAndNonImageAttachmentsToast);
+        return;
+      }
+
+      let attachment;
+
+      try {
+        if (Signal.Util.GoogleChrome.isImageTypeSupported(file.type)) {
+          attachment = await this.handleImageAttachment(file);
+        } else if (Signal.Util.GoogleChrome.isVideoTypeSupported(file.type)) {
+          attachment = await this.handleVideoAttachment(file);
+        } else {
+          const data = await this.arrayBufferFromFile(file);
+          attachment = {
+            data,
+            size: data.byteLength,
+            contentType: file.type,
+            fileName: file.name,
+          };
+        }
+      } catch (e) {
+        window.log.error(
+          `Was unable to generate thumbnail for file type ${file.type}`,
+          e && e.stack ? e.stack : e
+        );
+        const data = await this.arrayBufferFromFile(file);
+        attachment = {
+          data,
+          size: data.byteLength,
+          contentType: file.type,
+          fileName: file.name,
+        };
+      }
+
+      try {
+        if (!this.isSizeOkay(attachment)) {
+          return;
+        }
+      } catch (error) {
+        window.log.error(
+          'Error ensuring that image is properly sized:',
+          error && error.stack ? error.stack : error
+        );
+
+        this.showToast(Whisper.UnableToLoadToast);
+        return;
+      }
+
+      this.addAttachment(attachment);
+    },
+
+    isSizeOkay(attachment) {
+      let limitKb = 1000000;
+      const type =
+        attachment.contentType === 'image/gif'
+          ? 'gif'
+          : attachment.contentType.split('/')[0];
+
+      switch (type) {
+        case 'image':
+          limitKb = 6000;
+          break;
+        case 'gif':
+          limitKb = 25000;
+          break;
+        case 'audio':
+          limitKb = 100000;
+          break;
+        case 'video':
+          limitKb = 100000;
+          break;
+        default:
+          limitKb = 100000;
+          break;
+      }
+      if ((attachment.data.byteLength / 1024).toFixed(4) >= limitKb) {
+        const units = ['kB', 'MB', 'GB'];
+        let u = -1;
+        let limit = limitKb * 1000;
+        do {
+          limit /= 1000;
+          u += 1;
+        } while (limit >= 1000 && u < units.length - 1);
+        this.showFileSizeError({ limit, units, u });
+        return false;
+      }
+
+      return true;
+    },
+
+    async handleVideoAttachment(file) {
+      const objectUrl = URL.createObjectURL(file);
+      if (!objectUrl) {
+        throw new Error('Failed to create object url for video!');
+      }
+      try {
+        const screenshotContentType = 'image/png';
+        const screenshotBlob = await VisualAttachment.makeVideoScreenshot({
+          objectUrl,
+          contentType: screenshotContentType,
+          logger: window.log,
+        });
+        const screenshotData = await VisualAttachment.blobToArrayBuffer(
+          screenshotBlob
+        );
+        const data = await this.arrayBufferFromFile(file);
+
+        return {
+          fileName: file.name,
+          screenshotContentType,
+          screenshotData,
+          screenshotSize: screenshotData.byteLength,
+          contentType: file.type,
+          data,
+          size: data.byteLength,
+        };
+      } finally {
+        URL.revokeObjectURL(objectUrl);
+      }
+    },
+
+    async handleImageAttachment(file) {
+      if (MIME.isJPEG(file.type)) {
+        const rotatedDataUrl = await window.autoOrientImage(file);
+        const rotatedBlob = VisualAttachment.dataURLToBlobSync(rotatedDataUrl);
+        const { contentType, file: resizedBlob } = await this.autoScale({
+          contentType: file.type,
+          rotatedBlob,
+        });
+        const data = await await VisualAttachment.blobToArrayBuffer(
+          resizedBlob
+        );
+
+        return {
+          fileName: file.name,
+          contentType,
+          data,
+          size: data.byteLength,
+        };
+      }
+
+      const { contentType, file: resizedBlob } = await this.autoScale({
+        contentType: file.type,
+        file,
+      });
+      const data = await await VisualAttachment.blobToArrayBuffer(resizedBlob);
+      return {
+        fileName: file.name,
+        contentType,
+        data,
+        size: data.byteLength,
+      };
+    },
+
+    autoScale(attachment) {
+      const { contentType, file } = attachment;
+      if (
+        contentType.split('/')[0] !== 'image' ||
+        contentType === 'image/tiff'
+      ) {
+        // nothing to do
+        return Promise.resolve(attachment);
+      }
+
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = document.createElement('img');
+        img.onerror = reject;
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+
+          const maxSize = 6000 * 1024;
+          const maxHeight = 4096;
+          const maxWidth = 4096;
+          if (
+            img.naturalWidth <= maxWidth &&
+            img.naturalHeight <= maxHeight &&
+            file.size <= maxSize
+          ) {
+            resolve(attachment);
+            return;
+          }
+
+          const gifMaxSize = 25000 * 1024;
+          if (file.type === 'image/gif' && file.size <= gifMaxSize) {
+            resolve(attachment);
+            return;
+          }
+
+          if (file.type === 'image/gif') {
+            reject(new Error('GIF is too large'));
+            return;
+          }
+
+          const targetContentType = 'image/jpeg';
+          const canvas = loadImage.scale(img, {
+            canvas: true,
+            maxWidth,
+            maxHeight,
+          });
+
+          let quality = 0.95;
+          let i = 4;
+          let blob;
+          do {
+            i -= 1;
+            blob = window.dataURLToBlobSync(
+              canvas.toDataURL(targetContentType, quality)
+            );
+            quality = quality * maxSize / blob.size;
+            // NOTE: During testing with a large image, we observed the
+            // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
+            // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
+            if (quality < 0.5) {
+              quality = 0.5;
+            }
+          } while (i > 0 && blob.size > maxSize);
+
+          resolve({
+            ...attachment,
+            fileName: this.fixExtension(attachment.fileName, targetContentType),
+            contentType: targetContentType,
+            file: blob,
+          });
+        };
+        img.src = url;
+      });
+    },
+
+    getFileName(fileName) {
+      if (!fileName) {
+        return '';
+      }
+
+      if (!fileName.includes('.')) {
+        return fileName;
+      }
+
+      return fileName
+        .split('.')
+        .slice(0, -1)
+        .join('.');
+    },
+
+    getType(contentType) {
+      if (!contentType) {
+        return '';
+      }
+
+      if (!contentType.includes('/')) {
+        return contentType;
+      }
+
+      return contentType.split('/')[1];
+    },
+
+    fixExtension(fileName, contentType) {
+      const extension = this.getType(contentType);
+      const name = this.getFileName(fileName);
+      return `${name}.${extension}`;
     },
 
     markAllAsVerifiedDefault(unverified) {
@@ -865,16 +1429,14 @@
     },
 
     toggleMicrophone() {
-      this.compositionApi.current.setShowMic(!this.fileInput.hasFiles());
+      this.compositionApi.current.setShowMic(!this.hasFiles());
     },
 
     captureAudio(e) {
       e.preventDefault();
 
-      if (this.fileInput.hasFiles()) {
-        const toast = new Whisper.VoiceNoteMustBeOnlyAttachmentToast();
-        toast.$el.appendTo(this.$el);
-        toast.render();
+      if (this.hasFiles()) {
+        this.showToast(Whisper.VoiceNoteMustBeOnlyAttachmentToast);
         return;
       }
 
@@ -898,12 +1460,21 @@
       this.disableMessageField();
       this.$('.microphone').hide();
     },
-    handleAudioCapture(blob) {
-      this.fileInput.addAttachment({
+    async handleAudioCapture(blob) {
+      if (this.hasFiles()) {
+        throw new Error('A voice note cannot be sent with other attachments');
+      }
+
+      const data = await this.arrayBufferFromFile(blob);
+
+      // These aren't persisted to disk; they are meant to be sent immediately
+      this.voiceNoteAttachment = {
         contentType: blob.type,
-        file: blob,
-        isVoiceNote: true,
-      });
+        data,
+        size: data.byteLength,
+        flags: textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
+      };
+
       this.sendMessage();
     },
     endCaptureAudio() {
@@ -911,13 +1482,6 @@
       this.$('.microphone').show();
       this.captureAudioView = null;
       this.compositionApi.current.setMicActive(false);
-    },
-
-    unfocusBottomBar() {
-      this.$('.bottom-bar form').removeClass('active');
-    },
-    focusBottomBar() {
-      this.$('.bottom-bar form').addClass('active');
     },
 
     async onOpened(messageId) {
@@ -953,6 +1517,11 @@
       }
 
       this.loadNewestMessages();
+
+      const quotedMessageId = this.model.get('quotedMessageId');
+      if (quotedMessageId) {
+        this.setQuoteMessage(quotedMessageId);
+      }
     },
 
     async retrySend(messageId) {
@@ -1220,9 +1789,7 @@
 
     downloadAttachment({ attachment, timestamp, isDangerous }) {
       if (isDangerous) {
-        const toast = new Whisper.DangerousFileTypeToast();
-        toast.$el.appendTo(this.$el);
-        toast.render();
+        this.showToast(Whisper.DangerousFileTypeToast);
         return;
       }
 
@@ -1676,20 +2243,36 @@
       this.quote = null;
       this.quotedMessage = null;
 
+      const existing = this.model.get('quotedMessageId');
+      if (existing !== messageId) {
+        const timestamp = messageId ? Date.now() : null;
+        this.model.set({
+          quotedMessageId: messageId,
+          draftTimestamp: timestamp,
+          timestamp,
+        });
+        await this.saveModel();
+      }
+
       if (this.quoteHolder) {
         this.quoteHolder.unload();
         this.quoteHolder = null;
       }
 
-      const message = this.model.messageCollection.get(messageId);
-      if (message) {
-        this.quotedMessage = message;
+      if (messageId) {
+        const model = await getMessageById(messageId, {
+          Message: Whisper.Message,
+        });
+        if (model) {
+          const message = MessageController.register(model.id, model);
+          this.quotedMessage = message;
 
-        if (message) {
-          const quote = await this.model.makeQuote(this.quotedMessage);
-          this.quote = quote;
+          if (message) {
+            const quote = await this.model.makeQuote(this.quotedMessage);
+            this.quote = quote;
 
-          this.focusMessageFieldAndClearDisabled();
+            this.focusMessageFieldAndClearDisabled();
+          }
         }
       }
 
@@ -1765,36 +2348,35 @@
 
       this.model.clearTypingTimers();
 
-      let toast;
+      let ToastView;
       if (extension.expired()) {
-        toast = new Whisper.ExpiredToast();
+        ToastView = Whisper.ExpiredToast;
       }
       if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
-        toast = new Whisper.BlockedToast();
+        ToastView = Whisper.BlockedToast;
       }
       if (!this.model.isPrivate() && storage.isGroupBlocked(this.model.id)) {
-        toast = new Whisper.BlockedGroupToast();
+        ToastView = Whisper.BlockedGroupToast;
       }
       if (!this.model.isPrivate() && this.model.get('left')) {
-        toast = new Whisper.LeftGroupToast();
+        ToastView = Whisper.LeftGroupToast;
       }
       if (message.length > MAX_MESSAGE_BODY_LENGTH) {
-        toast = new Whisper.MessageBodyTooLongToast();
+        ToastView = Whisper.MessageBodyTooLongToast;
       }
 
-      if (toast) {
-        toast.$el.appendTo(this.$el);
-        toast.render();
+      if (ToastView) {
+        this.showToast(ToastView);
         this.focusMessageFieldAndClearDisabled();
         return;
       }
 
       try {
-        if (!message.length && !this.fileInput.hasFiles()) {
+        if (!message.length && !this.hasFiles() && !this.voiceNoteAttachment) {
           return;
         }
 
-        const attachments = await this.fileInput.getFiles();
+        const attachments = await this.getFiles();
         const sendDelta = Date.now() - this.sendStart;
         window.log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
@@ -1808,7 +2390,7 @@
         this.compositionApi.current.reset();
         this.setQuoteMessage(null);
         this.resetLinkPreview();
-        this.fileInput.clearAttachments();
+        this.clearAttachments();
       } catch (error) {
         window.log.error(
           'Error pulling attached files before send',
@@ -1821,7 +2403,30 @@
 
     onEditorStateChange(messageText, caretLocation) {
       this.maybeBumpTyping(messageText);
+      this.debouncedSaveDraft(messageText);
       this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
+    },
+
+    async saveDraft(messageText) {
+      if (
+        (this.model.get('draft') && !messageText) ||
+        messageText.length === 0
+      ) {
+        this.model.set({
+          draft: null,
+        });
+        await this.saveModel();
+
+        this.model.updateLastMessage();
+        return;
+      }
+
+      this.model.set({
+        draft: messageText,
+        draftTimestamp: Date.now(),
+        timestamp: Date.now(),
+      });
+      await this.saveModel();
     },
 
     maybeGrabLinkPreview(message, caretLocation) {
@@ -1834,7 +2439,7 @@
         return;
       }
       // If we have attachments, don't add link preview
-      if (this.fileInput.hasFiles()) {
+      if (this.hasFiles()) {
         return;
       }
       // If we're behind a user-configured proxy, we don't support link previews
@@ -2053,14 +2658,14 @@
 
           // Ensure that this file is either small enough or is resized to meet our
           //   requirements for attachments
-          const withBlob = await this.fileInput.autoScale({
+          const withBlob = await this.autoScale({
             contentType: data.contentType,
             file: new Blob([data.data], {
               type: data.contentType,
             }),
           });
 
-          const attachment = await this.fileInput.readFile(withBlob);
+          const attachment = await this.arrayBufferFromFile(withBlob);
           objectUrl = URL.createObjectURL(withBlob.file);
 
           const dimensions = await Signal.Types.VisualAttachment.getImageDimensions(

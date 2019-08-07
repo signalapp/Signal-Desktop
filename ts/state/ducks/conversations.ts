@@ -63,6 +63,10 @@ export type ConversationType = {
     phoneNumber: string;
     profileName?: string;
   };
+
+  shouldShowDraft?: boolean;
+  draftText?: string;
+  draftPreview?: string;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

@@ -103,20 +103,21 @@ function initializeMigrations({
     return null;
   }
   const {
+    createAbsolutePathGetter,
+    createReader,
+    createWriterForExisting,
+    createWriterForNew,
+    getDraftPath,
     getPath,
     getStickersPath,
     getTempPath,
-    createReader,
-    createAbsolutePathGetter,
-    createWriterForNew,
-    createWriterForExisting,
   } = Attachments;
   const {
-    makeObjectUrl,
-    revokeObjectUrl,
     getImageDimensions,
     makeImageThumbnail,
+    makeObjectUrl,
     makeVideoScreenshot,
+    revokeObjectUrl,
   } = VisualType;
 
   const attachmentsPath = getPath(userDataPath);
@@ -147,11 +148,18 @@ function initializeMigrations({
     tempPath
   );
 
+  const draftPath = getDraftPath(userDataPath);
+  const getAbsoluteDraftPath = createAbsolutePathGetter(draftPath);
+  const writeNewDraftData = createWriterForNew(draftPath);
+  const deleteDraftFile = Attachments.createDeleter(draftPath);
+  const readDraftData = createReader(draftPath);
+
   return {
     attachmentsPath,
     copyIntoAttachmentsDirectory,
     copyIntoTempDirectory,
     deleteAttachmentData: deleteOnDisk,
+    deleteDraftFile,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
       deleteAttachmentData: Type.deleteData(deleteOnDisk),
       deleteOnDisk,
@@ -159,6 +167,7 @@ function initializeMigrations({
     deleteSticker,
     deleteTempFile,
     getAbsoluteAttachmentPath,
+    getAbsoluteDraftPath,
     getAbsoluteStickerPath,
     getAbsoluteTempPath,
     getPlaceholderMigrations,
@@ -169,6 +178,7 @@ function initializeMigrations({
     loadQuoteData,
     loadStickerData,
     readAttachmentData,
+    readDraftData,
     readStickerData,
     readTempData,
     run,
@@ -218,6 +228,7 @@ function initializeMigrations({
       logger,
     }),
     writeNewAttachmentData: createWriterForNew(attachmentsPath),
+    writeNewDraftData,
   };
 }
 

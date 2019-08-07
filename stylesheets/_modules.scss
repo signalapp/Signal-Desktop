@@ -14,7 +14,7 @@
   width: 100%;
   margin-top: 10px;
 
-  &:after {
+  &::after {
     visibility: hidden;
     display: block;
     font-size: 0;
@@ -1689,7 +1689,7 @@
   padding-top: 20px;
   padding-bottom: 20px;
 
-  &:after {
+  &::after {
     content: '.';
     visibility: hidden;
     display: block;
@@ -2146,6 +2146,11 @@
   color: $color-gray-90;
 }
 
+.module-conversation-list-item__message__draft-prefix {
+  font-style: italic;
+  margin-right: 3px;
+}
+
 .module-conversation-list-item__message__status-icon {
   flex-shrink: 0;
 
@@ -2387,7 +2392,7 @@
   color: $color-gray-90;
   font-size: 14px;
 
-  &::placeholder {
+  &:placeholder {
     color: $color-gray-45;
   }
 
@@ -2898,7 +2903,7 @@
   padding-left: 12px;
   padding-right: 65px;
 
-  &::placeholder {
+  &:placeholder {
     color: $color-white-07;
   }
   &:focus {
@@ -3861,7 +3866,7 @@
       background: none;
       border: 0;
       &--menu {
-        &:after {
+        &::after {
           content: '';
           display: block;
           min-width: 24px;
@@ -4123,7 +4128,7 @@
     opacity: 1;
   }
 
-  &:after {
+  &::after {
     display: block;
     content: '';
     width: 24px;
@@ -4447,7 +4452,7 @@
             border-color: $color-signal-blue;
           }
 
-          &::placeholder {
+          &:placeholder {
             color: $color-gray-45;
           }
         }
@@ -4461,7 +4466,7 @@
             border-color: $color-signal-blue;
           }
 
-          &::placeholder {
+          &:placeholder {
             color: $color-gray-45;
           }
         }
@@ -4642,7 +4647,7 @@
     opacity: 1;
   }
 
-  &:after {
+  &::after {
     display: block;
     content: '';
     width: 24px;
@@ -4987,7 +4992,7 @@
     align-items: center;
     background: none;
     border: none;
-    &:after {
+    &::after {
       display: block;
       content: '';
       width: 24px;

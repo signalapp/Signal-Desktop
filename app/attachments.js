@@ -10,6 +10,7 @@ const { map, isArrayBuffer, isString } = require('lodash');
 const PATH = 'attachments.noindex';
 const STICKER_PATH = 'stickers.noindex';
 const TEMP_PATH = 'temp';
+const DRAFT_PATH = 'drafts.noindex';
 
 exports.getAllAttachments = async userDataPath => {
   const dir = exports.getPath(userDataPath);
@@ -21,6 +22,14 @@ exports.getAllAttachments = async userDataPath => {
 
 exports.getAllStickers = async userDataPath => {
   const dir = exports.getStickersPath(userDataPath);
+  const pattern = path.join(dir, '**', '*');
+
+  const files = await pify(glob)(pattern, { nodir: true });
+  return map(files, file => path.relative(dir, file));
+};
+
+exports.getAllDraftAttachments = async userDataPath => {
+  const dir = exports.getDraftPath(userDataPath);
   const pattern = path.join(dir, '**', '*');
 
   const files = await pify(glob)(pattern, { nodir: true });
@@ -49,6 +58,14 @@ exports.getTempPath = userDataPath => {
     throw new TypeError("'userDataPath' must be a string");
   }
   return path.join(userDataPath, TEMP_PATH);
+};
+
+//      getDraftPath :: AbsolutePath -> AbsolutePath
+exports.getDraftPath = userDataPath => {
+  if (!isString(userDataPath)) {
+    throw new TypeError("'userDataPath' must be a string");
+  }
+  return path.join(userDataPath, DRAFT_PATH);
 };
 
 //      clearTempPath :: AbsolutePath -> AbsolutePath
@@ -202,6 +219,20 @@ exports.deleteAllStickers = async ({ userDataPath, stickers }) => {
   }
 
   console.log(`deleteAllStickers: deleted ${stickers.length} files`);
+};
+
+exports.deleteAllDraftAttachments = async ({ userDataPath, stickers }) => {
+  const deleteFromDisk = exports.createDeleter(
+    exports.getDraftPath(userDataPath)
+  );
+
+  for (let index = 0, max = stickers.length; index < max; index += 1) {
+    const file = stickers[index];
+    // eslint-disable-next-line no-await-in-loop
+    await deleteFromDisk(file);
+  }
+
+  console.log(`deleteAllDraftAttachments: deleted ${stickers.length} files`);
 };
 
 //      createName :: Unit -> IO String
