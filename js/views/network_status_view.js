@@ -46,7 +46,7 @@
     getSocketStatus() {
       return window.getSocketStatus();
     },
-    getNetworkStatus() {
+    getNetworkStatus(shortCircuit = false) {
       let message = '';
       let instructions = '';
       let hasInterruption = false;
@@ -67,26 +67,28 @@
           this.connectedTimer = null;
           break;
         case WebSocket.CLOSED:
-          if (!this.connectedTimer) {
-            // Mark offline if disconnected for 30 seconds
-            this.connectedTimer = window.setTimeout(() => {
-              message = i18n('disconnected');
-              instructions = i18n('checkNetworkConnection');
-              hasInterruption = true;
-            }, DISCONNECTED_DELAY);
-          }
-          break;
+        // Intentional fallthrough
         case WebSocket.CLOSING:
-        default:
+        // Intentional fallthrough
+        default: {
+          const markOffline = () => {
+            message = i18n('disconnected');
+            instructions = i18n('checkNetworkConnection');
+            hasInterruption = true;
+          };
+          if (shortCircuit) {
+            // Used to skip the timer for testing
+            markOffline();
+            break;
+          }
           if (!this.connectedTimer) {
             // Mark offline if disconnected for 30 seconds
             this.connectedTimer = window.setTimeout(() => {
-              message = i18n('disconnected');
-              instructions = i18n('checkNetworkConnection');
-              hasInterruption = true;
+              markOffline();
             }, DISCONNECTED_DELAY);
           }
           break;
+        }
       }
 
       if (
