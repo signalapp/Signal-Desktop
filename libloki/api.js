@@ -77,7 +77,6 @@
       pairingAuthorisation,
     });
     const options = {};
-    // Send a empty message with information about how to contact us directly
     const outgoingMessage = new textsecure.OutgoingMessage(
       null, // server
       Date.now(), // timestamp,

@@ -563,23 +563,15 @@
       }
 
       // Validate pubKey
-      const c = new Whisper.Conversation({
-        id: secondaryDevicePubKey,
-        type: 'private',
-      });
+      const c = await ConversationController.getOrCreateAndWait(
+        secondaryDevicePubKey,
+        'private'
+      );
       const validationError = c.validateNumber();
       if (validationError) {
         throw new Error('Invalid secondary device pubkey provided');
       }
       // Ensure there is a conversation existing
-      try {
-        await ConversationController.getOrCreateAndWait(
-          secondaryDevicePubKey,
-          'private'
-        );
-      } catch (e) {
-        window.log.error(e);
-      }
       const signature = await libloki.crypto.generateSignatureForPairing(
         secondaryDevicePubKey,
         textsecure.protobuf.PairingAuthorisationMessage.Type.PAIRING_REQUEST
