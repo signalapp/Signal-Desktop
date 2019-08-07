@@ -3,7 +3,6 @@
   textsecure,
   libsignal,
   libloki,
-  Whisper,
   mnemonic,
   btoa,
   Signal,
