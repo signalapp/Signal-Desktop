@@ -523,7 +523,10 @@
       });
     },
     async generateMnemonic(language = 'english') {
-      const seed = window.Signal.Crypto.getRandomBytes(16);
+      // Note: 4 bytes are converted into 3 seed words, so length 12 seed words
+      // (13 - 1 checksum) are generated using 12 * 4 / 3 = 16 bytes.
+      const seedSize = 16;
+      const seed = window.Signal.Crypto.getRandomBytes(seedSize);
       const hex = StringView.arrayBufferToHex(seed);
       return mnemonic.mn_encode(hex, language);
     },
