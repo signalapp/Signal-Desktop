@@ -148,28 +148,30 @@ function mn_decode(str, wordset_name) {
   return out;
 }
 
-var mn_words = {
-  english: {
-    prefix_len: 3,
-    words: require('../../mnemonic_languages/english'),
-  },
-  electrum: {
-    prefix_len: 0,
-    words: require('../../mnemonic_languages/electrum'),
-  },
-  spanish: {
-    prefix_len: 4,
-    words: require('../../mnemonic_languages/spanish'),
-  },
-  portuguese: {
-    prefix_len: 4,
-    words: require('../../mnemonic_languages/portuguese'),
-  },
-  japanese: {
-    prefix_len: 3,
-    words: require('../../mnemonic_languages/japanese'),
-  },
+// Note: the value is the prefix_len
+const languages = {
+  chinese_simplified: 1,
+  dutch: 4,
+  electrum: 0,
+  english: 3,
+  esperanto: 4,
+  french: 4,
+  german: 4,
+  italian: 4,
+  japanese: 3,
+  lojban: 4,
+  portuguese: 4,
+  russian: 4,
+  spanish: 4,
 };
+
+let mn_words = {};
+for (let [language, prefix_len] of Object.entries(languages)) {
+  mn_words[language] = {
+    prefix_len,
+    words: require(`../../mnemonic_languages/${language}`),
+  };
+}
 
 function get_languages() {
   return Object.keys(mn_words);

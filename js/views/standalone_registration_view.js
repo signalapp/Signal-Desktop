@@ -30,11 +30,18 @@
       this.onGenerateMnemonic();
 
       const options = window.mnemonic.get_languages().map(language => {
-        const text = language.charAt(0).toUpperCase() + language.slice(1);
+        const text = language
+          // Split by whitespace or underscore
+          .split(/[\s_]+/)
+          // Capitalise each word
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
         return `<option value="${language}">${text}</option>`;
       });
       this.$('#mnemonic-language').append(options);
+      this.$('#mnemonic-language').val('english');
       this.$('#mnemonic-display-language').append(options);
+      this.$('#mnemonic-display-language').val('english');
 
       this.$passwordInput = this.$('#password');
       this.$passwordConfirmationInput = this.$('#password-confirmation');
