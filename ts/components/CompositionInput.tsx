@@ -153,7 +153,7 @@ export const CompositionInput = ({
   onSubmit,
   skinTone,
 }: Props) => {
-  const [editorState, setEditorState] = React.useState(
+  const [editorRenderState, setEditorRenderState] = React.useState(
     EditorState.createEmpty(compositeDecorator)
   );
   const [searchText, setSearchText] = React.useState<string>('');
@@ -165,7 +165,7 @@ export const CompositionInput = ({
   );
   const dirtyRef = React.useRef(false);
   const focusRef = React.useRef(false);
-  const editorStateRef = React.useRef<EditorState>(editorState);
+  const editorStateRef = React.useRef<EditorState>(editorRenderState);
   const rootElRef = React.useRef<HTMLDivElement>();
 
   // This function sets editorState and also keeps a reference to the newly set
@@ -173,17 +173,17 @@ export const CompositionInput = ({
   // excessive cleanup
   const setAndTrackEditorState = React.useCallback(
     (newState: EditorState) => {
-      setEditorState(newState);
+      setEditorRenderState(newState);
       editorStateRef.current = newState;
     },
-    [setEditorState, editorStateRef]
+    [setEditorRenderState, editorStateRef]
   );
 
   const updateExternalStateListeners = React.useCallback(
     (newState: EditorState) => {
       const plainText = newState.getCurrentContent().getPlainText();
       const currentBlockKey = newState.getSelection().getStartKey();
-      const currentBlockIndex = editorState
+      const currentBlockIndex = editorStateRef.current
         .getCurrentContent()
         .getBlockMap()
         .keySeq()
@@ -216,7 +216,7 @@ export const CompositionInput = ({
         onEditorStateChange(plainText, caretLocation);
       }
     },
-    [onDirtyChange, onEditorStateChange]
+    [onDirtyChange, onEditorStateChange, editorStateRef]
   );
 
   const resetEmojiResults = React.useCallback(
@@ -284,11 +284,12 @@ export const CompositionInput = ({
 
   const submit = React.useCallback(
     () => {
-      const text = editorState.getCurrentContent().getPlainText();
+      const { current: state } = editorStateRef;
+      const text = state.getCurrentContent().getPlainText();
       const emojidText = replaceColons(text);
       onSubmit(emojidText);
     },
-    [editorState, onSubmit]
+    [editorStateRef, onSubmit]
   );
 
   const handleEditorSizeChange = React.useCallback(
@@ -376,8 +377,9 @@ export const CompositionInput = ({
 
   const insertEmoji = React.useCallback(
     (e: EmojiPickDataType, replaceWord: boolean = false) => {
-      const selection = editorState.getSelection();
-      const oldContent = editorState.getCurrentContent();
+      const { current: state } = editorStateRef;
+      const selection = state.getSelection();
+      const oldContent = state.getCurrentContent();
       const emojiContent = convertShortName(e.shortName, e.skinTone);
       const emojiEntityKey = oldContent
         .createEntity('emoji', 'IMMUTABLE', {
@@ -416,14 +418,14 @@ export const CompositionInput = ({
       }
 
       const newState = EditorState.push(
-        editorState,
+        state,
         newContent,
         'insert-emoji' as EditorChangeType
       );
       setAndTrackEditorState(newState);
       resetEmojiResults();
     },
-    [editorState, setAndTrackEditorState, resetEmojiResults]
+    [editorStateRef, setAndTrackEditorState, resetEmojiResults]
   );
 
   const handleEditorCommand = React.useCallback(
@@ -515,9 +517,9 @@ export const CompositionInput = ({
       }
 
       e.preventDefault();
-      handleEditorCommand('enter-emoji', editorState);
+      handleEditorCommand('enter-emoji', editorStateRef.current);
     },
-    [emojiResults, editorState, handleEditorCommand, resetEmojiResults]
+    [emojiResults, editorStateRef, handleEditorCommand, resetEmojiResults]
   );
 
   const editorKeybindingFn = React.useCallback(
@@ -636,7 +638,7 @@ export const CompositionInput = ({
                 <div className="module-composition-input__input__scroller">
                   <Editor
                     ref={editorRef}
-                    editorState={editorState}
+                    editorState={editorRenderState}
                     onChange={handleEditorStateChange}
                     placeholder={i18n('sendMessage')}
                     onUpArrow={handleEditorArrowKey}
