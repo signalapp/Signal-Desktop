@@ -125,9 +125,10 @@
         generateKeypair = () => {
           let seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
           // handle shorter than 32 bytes seeds
-          if (seedHex.length !== 32 * 2) {
+          const privKeyHexLength = 32 * 2;
+          if (seedHex.length !== privKeyHexLength) {
             seedHex = seedHex.concat(seedHex);
-            seedHex = seedHex.substring(0, 32 * 2);
+            seedHex = seedHex.substring(0, privKeyHexLength);
           }
           const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
           const privKey = dcodeIO.ByteBuffer.wrap(
