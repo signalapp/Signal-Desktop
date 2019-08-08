@@ -97,6 +97,7 @@ export interface Props {
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
+  onCopyPubKey?: () => void;
   onShowDetail: () => void;
 }
 
@@ -826,6 +827,8 @@ export class Message extends React.PureComponent<Props, State> {
       onReply,
       onRetrySend,
       onShowDetail,
+      onCopyPubKey,
+      isPublic,
       i18n,
     } = this.props;
 
@@ -887,6 +890,9 @@ export class Message extends React.PureComponent<Props, State> {
           >
             {i18n('deleteMessage')}
           </MenuItem>
+        ) : null}
+        {isPublic ? (
+          <MenuItem onClick={onCopyPubKey}>{i18n('copyPublicKey')}</MenuItem>
         ) : null}
       </ContextMenu>
     );

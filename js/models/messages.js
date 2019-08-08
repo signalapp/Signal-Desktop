@@ -678,6 +678,7 @@
           this.getSource() === this.OUR_NUMBER,
 
         onCopyText: () => this.copyText(),
+        onCopyPubKey: () => this.copyPubKey(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
@@ -962,6 +963,17 @@
         errors,
         contacts: sortedContacts,
       };
+    },
+
+    copyPubKey() {
+      if (this.isIncoming()) {
+        clipboard.writeText(this.get('source'));
+      } else {
+        clipboard.writeText(this.OUR_NUMBER);
+      }
+      window.Whisper.events.trigger('showToast', {
+        message: i18n('copiedPublicKey'),
+      });
     },
 
     copyText() {
