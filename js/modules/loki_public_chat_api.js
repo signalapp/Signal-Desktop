@@ -157,7 +157,7 @@ class LokiPublicChannelAPI {
 
     if (success) {
       let receivedAt = new Date().getTime();
-      response.data.forEach(adnMessage => {
+      response.data.reverse().forEach(adnMessage => {
         let timestamp = new Date(adnMessage.created_at).getTime();
         let from = adnMessage.user.username;
         let source;
