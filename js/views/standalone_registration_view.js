@@ -90,7 +90,7 @@
     async register(mnemonic, language) {
       // Make sure the password is valid
       if (this.validatePassword()) {
-        this.showToast('Invalid password');
+        this.showToast(i18n('invalidPassword'));
         return;
       }
 
@@ -119,6 +119,16 @@
     registerWithMnemonic() {
       const mnemonic = this.$('#mnemonic').val();
       const language = this.$('#mnemonic-language').val();
+      try {
+        window.mnemonic.mn_decode(mnemonic, language);
+      } catch (error) {
+        this.$('#mnemonic').addClass('error-input');
+        this.$('#error').text(error);
+        this.$('#error').show();
+        return;
+      }
+      this.$('#error').hide();
+      this.$('#mnemonic').removeClass('error-input');
       if (!mnemonic) {
         this.log('Please provide a mnemonic word list');
       } else {
@@ -148,11 +158,7 @@
     onCopyMnemonic() {
       window.clipboard.writeText(this.$('#mnemonic-display').text());
 
-      const toast = new Whisper.MessageToastView({
-        message: i18n('copiedMnemonic'),
-      });
-      toast.$el.appendTo(this.$el);
-      toast.render();
+      this.showToast(i18n('copiedMnemonic'));
     },
     log(s) {
       window.log.info(s);

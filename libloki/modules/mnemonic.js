@@ -141,7 +141,7 @@ function mn_decode(str, wordset_name) {
       checksum_word.slice(0, wordset.prefix_len)
     ) {
       throw new MnemonicError(
-        'Your private key could not be verified, please try again'
+        'Your private key could not be verified, please verify the checksum word'
       );
     }
   }
