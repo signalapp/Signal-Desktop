@@ -80,7 +80,6 @@ class LokiMessageAPI {
       isPing = false,
       numConnections = DEFAULT_CONNECTIONS,
       publicEndpoint = null,
-      messageId = null,
     } = options;
     // Data required to identify a message in a conversation
     const messageEventData = {
@@ -106,7 +105,6 @@ class LokiMessageAPI {
               timestamp: messageTimeStamp,
               from: displayName,
               source: this.ourKey,
-              id: messageId,
             },
           },
         ],

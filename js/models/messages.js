@@ -2014,9 +2014,7 @@
           } else {
             await conversation.onFriendRequestAccepted();
           }
-          // Force save if the message already has an id, used for public channels
           const id = await window.Signal.Data.saveMessage(message.attributes, {
-            forceSave: !!message.id,
             Message: Whisper.Message,
           });
           message.set({ id });

@@ -161,14 +161,12 @@ class LokiPublicChannelAPI {
         let timestamp = new Date(adnMessage.created_at).getTime();
         let from = adnMessage.user.username;
         let source;
-        let id;
         if (adnMessage.annotations.length) {
           const noteValue = adnMessage.annotations[0].value;
-          ({ from, timestamp, source, id } = noteValue);
+          ({ from, timestamp, source } = noteValue);
         }
 
         const messageData = {
-          id,
           friendRequest: false,
           source,
           sourceDevice: 1,
