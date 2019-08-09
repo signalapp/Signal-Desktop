@@ -1945,10 +1945,13 @@ async function removeMessage(id) {
   );
 }
 
-async function getMessageByServerId(id) {
-  const row = await db.get('SELECT * FROM messages WHERE ServerId = $ServerId;', {
-    $ServerId: ServerId,
-  });
+async function getMessageByServerId(serverId) {
+  const row = await db.get(
+    'SELECT * FROM messages WHERE serverId = $serverId;',
+    {
+      $serverId: serverId,
+    }
+  );
 
   if (!row) {
     return null;

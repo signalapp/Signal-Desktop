@@ -368,9 +368,14 @@
       await Promise.all(messages.map(m => m.setIsP2p(true)));
     },
 
-    async onPublicMessageSent(pubKey, timestamp) {
+    async onPublicMessageSent(pubKey, timestamp, serverId) {
       const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
-      await Promise.all(messages.map(m => m.setIsPublic(true)));
+      await Promise.all(
+        messages.map(message => [
+          message.setIsPublic(true),
+          message.setServerId(serverId),
+        ])
+      );
     },
 
     async onNewMessage(message) {

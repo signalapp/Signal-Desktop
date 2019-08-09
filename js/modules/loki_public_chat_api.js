@@ -167,6 +167,7 @@ class LokiPublicChannelAPI {
         }
 
         const messageData = {
+          serverId: adnMessage.id,
           friendRequest: false,
           source,
           sourceDevice: 1,

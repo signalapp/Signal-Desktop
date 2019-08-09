@@ -110,7 +110,7 @@ class LokiMessageAPI {
         ],
       };
       try {
-        await nodeFetch(publicEndpoint, {
+        const result = await nodeFetch(publicEndpoint, {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -118,6 +118,8 @@ class LokiMessageAPI {
           },
           body: JSON.stringify(payload),
         });
+        const body = await result.json();
+        messageEventData.serverId = body.data.id;
         window.Whisper.events.trigger('publicMessageSent', messageEventData);
         return;
       } catch (e) {
