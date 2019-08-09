@@ -711,7 +711,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 39,
+    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Hardcoded selector"
@@ -720,7 +720,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/views/key_verification_view.js",
     "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 40,
+    "lineNumber": 43,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-31T00:19:18.696Z"
   },
@@ -728,7 +728,7 @@
     "rule": "jQuery-insertBefore(",
     "path": "js/views/key_verification_view.js",
     "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 75,
+    "lineNumber": 72,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -737,7 +737,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 79,
+    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Hardcoded selector"
@@ -746,7 +746,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 110,
+    "lineNumber": 107,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Hardcoded selector"
