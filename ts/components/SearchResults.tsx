@@ -6,6 +6,8 @@ import {
   List,
 } from 'react-virtualized';
 
+import { Intl } from './Intl';
+import { Emojify } from './conversation/Emojify';
 import {
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
@@ -19,6 +21,7 @@ export type PropsDataType = {
   noResults: boolean;
   regionCode: string;
   searchTerm: string;
+  searchConversationName?: string;
 };
 
 type StartNewConversationType = {
@@ -237,14 +240,33 @@ export class SearchResults extends React.Component<PropsType> {
   }
 
   public render() {
-    const { items, i18n, noResults, searchTerm } = this.props;
+    const {
+      i18n,
+      items,
+      noResults,
+      searchConversationName,
+      searchTerm,
+    } = this.props;
 
     if (noResults) {
       return (
         <div className="module-search-results">
-          <div className="module-search-results__no-results">
-            {i18n('noSearchResults', [searchTerm])}
-          </div>
+          {!searchConversationName || searchTerm ? (
+            <div className="module-search-results__no-results" key={searchTerm}>
+              {searchConversationName ? (
+                <Intl
+                  id="noSearchResultsInConversation"
+                  i18n={i18n}
+                  components={[
+                    searchTerm,
+                    <Emojify key="item-1" text={searchConversationName} />,
+                  ]}
+                />
+              ) : (
+                i18n('noSearchResults', [searchTerm])
+              )}
+            </div>
+          ) : null}
         </div>
       );
     }

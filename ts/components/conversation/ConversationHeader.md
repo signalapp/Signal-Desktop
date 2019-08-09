@@ -1,6 +1,6 @@
 ### Name variations, 1:1 conversation
 
-Note the five items in gear menu, and the second-level menu with disappearing messages options. Disappearing message set to 'off'.
+Note the five items in menu, and the second-level menu with disappearing messages options. Disappearing message set to 'off'.
 
 #### With name and profile, verified
 
@@ -24,6 +24,7 @@ Note the five items in gear menu, and the second-level menu with disappearing me
     onShowAllMedia={() => console.log('onShowAllMedia')}
     onShowGroupMembers={() => console.log('onShowGroupMembers')}
     onGoBack={() => console.log('onGoBack')}
+    onSearchInConversation={() => console.log('onSearchInConversation')}
   />
 </util.ConversationContext>
 ```

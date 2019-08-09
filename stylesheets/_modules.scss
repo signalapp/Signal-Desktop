@@ -1644,12 +1644,17 @@
   align-items: center;
   padding-left: 8px;
   padding-right: 8px;
+  transition: opacity 250ms ease-out;
+
+  &--hidden {
+    opacity: 0;
+  }
 }
 
 .module-conversation-header__expiration__clock-icon {
   @include color-svg('../images/timer.svg', $color-gray-60);
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   display: inline-block;
 }
 
@@ -1658,11 +1663,29 @@
   text-align: center;
 }
 
-.module-conversation-header__gear-icon {
-  @include color-svg('../images/gear.svg', $color-gray-60);
-  height: 20px;
-  width: 20px;
-  margin-left: 4px;
+.module-conversation-header__more-button {
+  @include color-svg('../images/more-h-24.svg', $color-gray-75);
+  height: 24px;
+  width: 24px;
+  margin-left: 12px;
+  border: none;
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &--show {
+    opacity: 1;
+  }
+}
+
+.module-conversation-header__search-button {
+  @include color-svg('../images/search-24.svg', $color-gray-75);
+  height: 24px;
+  width: 24px;
+  margin-left: 12px;
   border: none;
   opacity: 0;
   transition: opacity 250ms ease-out;
@@ -2402,6 +2425,10 @@
   }
 }
 
+.module-main-header__search__input--in-conversation {
+  padding-left: 50px;
+}
+
 .module-main-header__search__icon {
   position: absolute;
   left: 8px;
@@ -2411,6 +2438,41 @@
 
   cursor: text;
   @include color-svg('../images/search.svg', $color-gray-60);
+}
+
+.module-main-header__search__in-conversation-pill {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  bottom: 3px;
+
+  border-radius: 14px;
+  width: 42px;
+  background-color: $color-gray-05;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.module-main-header__search__in-conversation-pill__avatar-container {
+  margin-left: 4px;
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+
+  background-color: $color-signal-blue;
+}
+.module-main-header__search__in-conversation-pill__avatar {
+  height: 16px;
+  width: 16px;
+
+  @include color-svg('../images/profile-solid-16.svg', $color-white);
+}
+.module-main-header__search__in-conversation-pill__x-button {
+  margin-left: 2px;
+  @include color-svg('../images/x.svg', $color-gray-60);
+  height: 16px;
+  width: 16px;
 }
 
 .module-main-header__search__cancel-icon {
@@ -3142,8 +3204,24 @@
 
 .module-search-results__no-results {
   margin-top: 27px;
+  padding-left: 1em;
+  padding-right: 1em;
   width: 100%;
   text-align: center;
+
+  animation: delayed-fade-in 2s;
+}
+
+@keyframes delayed-fade-in {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .module-search-results__contacts-header {
@@ -3872,10 +3950,10 @@
           min-width: 24px;
           min-height: 24px;
           @include light-theme {
-            @include color-svg('../images/more-h.svg', $color-gray-60);
+            @include color-svg('../images/more-h-24.svg', $color-gray-60);
           }
           @include dark-theme {
-            @include color-svg('../images/more-h.svg', $color-gray-25);
+            @include color-svg('../images/more-h-24.svg', $color-gray-25);
           }
         }
       }

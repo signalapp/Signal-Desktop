@@ -40,12 +40,22 @@ export const getSelectedMessage = createSelector(
   (state: SearchStateType): string | undefined => state.selectedMessage
 );
 
+export const getSearchConversationId = createSelector(
+  getSearch,
+  (state: SearchStateType): string | undefined => state.searchConversationId
+);
+
+export const getSearchConversationName = createSelector(
+  getSearch,
+  (state: SearchStateType): string | undefined => state.searchConversationName
+);
+
 export const isSearching = createSelector(
   getSearch,
   (state: SearchStateType) => {
-    const { query } = state;
+    const { query, searchConversationId } = state;
 
-    return query && query.trim().length > 1;
+    return (query && query.trim().length > 1) || searchConversationId;
   }
 );
 
@@ -62,7 +72,12 @@ export const getSearchResults = createSelector(
     lookup: ConversationLookupType,
     selectedConversation?: string
   ): SearchResultsPropsType => {
-    const { conversations, contacts, messageIds } = state;
+    const {
+      contacts,
+      conversations,
+      messageIds,
+      searchConversationName,
+    } = state;
 
     const showStartNewConversation = Boolean(
       state.normalizedPhoneNumber && !lookup[state.normalizedPhoneNumber]
@@ -136,6 +151,7 @@ export const getSearchResults = createSelector(
       items,
       noResults,
       regionCode: regionCode,
+      searchConversationName,
       searchTerm: state.query,
     };
   }
@@ -151,6 +167,7 @@ export function _messageSearchResultSelector(
   sender?: ConversationType,
   // @ts-ignore
   recipient?: ConversationType,
+  searchConversationId?: string,
   selectedMessageId?: string
 ): MessageSearchResultPropsDataType {
   // Note: We don't use all of those parameters here, but the shim we call does.
@@ -158,6 +175,7 @@ export function _messageSearchResultSelector(
   return {
     ...getSearchResultsProps(message),
     isSelected: message.id === selectedMessageId,
+    isSearchingInConversation: Boolean(searchConversationId),
   };
 }
 
@@ -169,6 +187,7 @@ type CachedMessageSearchResultSelectorType = (
   regionCode: string,
   sender?: ConversationType,
   recipient?: ConversationType,
+  searchConversationId?: string,
   selectedMessageId?: string
 ) => MessageSearchResultPropsDataType;
 export const getCachedSelectorForMessageSearchResult = createSelector(
@@ -189,6 +208,7 @@ export const getMessageSearchResultSelector = createSelector(
   getMessageSearchResultLookup,
   getSelectedMessage,
   getConversationSelector,
+  getSearchConversationId,
   getRegionCode,
   getUserNumber,
   (
@@ -196,6 +216,7 @@ export const getMessageSearchResultSelector = createSelector(
     messageSearchResultLookup: MessageSearchResultLookupType,
     selectedMessage: string | undefined,
     conversationSelector: GetConversationByIdType,
+    searchConversationId: string | undefined,
     regionCode: string,
     ourNumber: string
   ): GetMessageSearchResultByIdType => {
@@ -223,6 +244,7 @@ export const getMessageSearchResultSelector = createSelector(
         regionCode,
         sender,
         recipient,
+        searchConversationId,
         selectedMessage
       );
     };

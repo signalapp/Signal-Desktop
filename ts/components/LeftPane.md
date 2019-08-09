@@ -418,3 +418,38 @@ const conversations = [
   />
 </util.LeftPaneContext>;
 ```
+
+#### Searching in conversation
+
+```jsx
+<util.LeftPaneContext theme={util.theme} style={{ height: '200px' }}>
+  <LeftPane
+    searchResults={{
+      searchConversationName: "Y'all 🌆",
+    }}
+    conversations={[]}
+    archivedConversations={[]}
+    showArchived={false}
+    startNewConversation={(query, options) =>
+      console.log('startNewConversation', query, options)
+    }
+    openConversationInternal={(id, messageId) =>
+      console.log('openConversation', id, messageId)
+    }
+    showArchivedConversations={() => console.log('showArchivedConversations')}
+    showInbox={() => console.log('showInbox')}
+    renderMainHeader={() => (
+      <MainHeader
+        searchTerm=""
+        search={result => console.log('search', result)}
+        searchConversationName="Y'all 🌆"
+        searchConversationId="group-id-1"
+        updateSearch={result => console.log('updateSearch', result)}
+        clearSearch={result => console.log('clearSearch', result)}
+        i18n={util.i18n}
+      />
+    )}
+    i18n={util.i18n}
+  />
+</util.LeftPaneContext>
+```

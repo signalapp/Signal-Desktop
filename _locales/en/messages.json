@@ -735,6 +735,17 @@
     "message": "Search",
     "description": "Placeholder text in the search input"
   },
+  "searchIn": {
+    "message": "Search in $conversationName$",
+    "description":
+      "Shown in the search box before text is entered when searching in a specific conversation",
+    "placeholders": {
+      "conversationName": {
+        "content": "$1",
+        "example": "Friends"
+      }
+    }
+  },
   "noSearchResults": {
     "message": "No results for \"$searchTerm$\"",
     "description": "Shown in the search left pane when no results were found",
@@ -742,6 +753,20 @@
       "searchTerm": {
         "content": "$1",
         "example": "dog"
+      }
+    }
+  },
+  "noSearchResultsInConversation": {
+    "message": "No results for \"$searchTerm$\" in $conversationName$",
+    "description": "Shown in the search left pane when no results were found",
+    "placeholders": {
+      "searchTerm": {
+        "content": "$1",
+        "example": "dog"
+      },
+      "searchTerm": {
+        "content": "$2",
+        "example": "Friends"
       }
     }
   },

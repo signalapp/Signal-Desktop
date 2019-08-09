@@ -727,6 +727,76 @@ const items = [
 </util.LeftPaneContext>
 ```
 
+#### With no results at all, searching in conversation
+
+```jsx
+<util.LeftPaneContext
+  theme={util.theme}
+  gutterStyle={{ height: '500px', display: 'flex', flexDirection: 'row' }}
+>
+  <SearchResults
+    items={[]}
+    noResults={true}
+    searchTerm="something"
+    searchInConversationName="Everyone 🔥"
+    i18n={util.i18n}
+    openConversationInternal={(...args) =>
+      console.log('openConversationInternal', args)
+    }
+    startNewConversation={(...args) =>
+      console.log('startNewConversation', args)
+    }
+    onStartNewConversation={(...args) =>
+      console.log('onStartNewConversation', args)
+    }
+    renderMessageSearchResult={id => (
+      <MessageSearchResult
+        {...messageLookup[id]}
+        i18n={util.i18n}
+        openConversationInternal={(...args) =>
+          console.log('openConversationInternal', args)
+        }
+      />
+    )}
+  />
+</util.LeftPaneContext>
+```
+
+#### Searching in conversation but no search term
+
+```jsx
+<util.LeftPaneContext
+  theme={util.theme}
+  gutterStyle={{ height: '500px', display: 'flex', flexDirection: 'row' }}
+>
+  <SearchResults
+    items={[]}
+    noResults={true}
+    searchTerm=""
+    searchInConversationName="Everyone 🔥"
+    i18n={util.i18n}
+    openConversationInternal={(...args) =>
+      console.log('openConversationInternal', args)
+    }
+    startNewConversation={(...args) =>
+      console.log('startNewConversation', args)
+    }
+    onStartNewConversation={(...args) =>
+      console.log('onStartNewConversation', args)
+    }
+    renderMessageSearchResult={id => (
+      <MessageSearchResult
+        {...messageLookup[id]}
+        i18n={util.i18n}
+        openConversationInternal={(...args) =>
+          console.log('openConversationInternal', args)
+        }
+      />
+    )}
+  />
+</util.LeftPaneContext>
+```
+
 #### With a lot of results
 
 ```jsx

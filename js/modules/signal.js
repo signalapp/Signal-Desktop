@@ -62,6 +62,7 @@ const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const emojisDuck = require('../../ts/state/ducks/emojis');
 const itemsDuck = require('../../ts/state/ducks/items');
+const searchDuck = require('../../ts/state/ducks/search');
 const stickersDuck = require('../../ts/state/ducks/stickers');
 const userDuck = require('../../ts/state/ducks/user');
 
@@ -274,6 +275,7 @@ exports.setup = (options = {}) => {
     emojis: emojisDuck,
     items: itemsDuck,
     user: userDuck,
+    search: searchDuck,
     stickers: stickersDuck,
   };
   const State = {

@@ -1,5 +1,9 @@
 export function searchMessages(query: string): Promise<Array<any>>;
 export function searchConversations(query: string): Promise<Array<any>>;
+export function searchMessagesInConversation(
+  query: string,
+  conversationId: string
+): Promise<Array<any>>;
 
 export function updateStickerLastUsed(
   packId: string,

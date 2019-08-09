@@ -3,7 +3,11 @@ import { omit, reject } from 'lodash';
 import { normalize } from '../../types/PhoneNumber';
 import { trigger } from '../../shims/events';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { searchConversations, searchMessages } from '../../../js/modules/data';
+import {
+  searchConversations,
+  searchMessages,
+  searchMessagesInConversation,
+} from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
 
 import {
@@ -25,6 +29,8 @@ export type MessageSearchResultLookupType = {
 };
 
 export type SearchStateType = {
+  searchConversationId?: string;
+  searchConversationName?: string;
   // We store just ids of conversations, since that data is always cached in memory
   contacts: Array<string>;
   conversations: Array<string>;
@@ -64,11 +70,24 @@ type ClearSearchActionType = {
   type: 'SEARCH_CLEAR';
   payload: null;
 };
+type ClearConversationSearchActionType = {
+  type: 'CLEAR_CONVERSATION_SEARCH';
+  payload: null;
+};
+type SearchInConversationActionType = {
+  type: 'SEARCH_IN_CONVERSATION';
+  payload: {
+    searchConversationId: string;
+    searchConversationName: string;
+  };
+};
 
 export type SEARCH_TYPES =
   | SearchResultsFulfilledActionType
   | UpdateSearchTermActionType
   | ClearSearchActionType
+  | ClearConversationSearchActionType
+  | SearchInConversationActionType
   | MessageDeletedActionType
   | RemoveAllConversationsActionType
   | SelectedConversationChangedActionType;
@@ -78,13 +97,20 @@ export type SEARCH_TYPES =
 export const actions = {
   search,
   clearSearch,
+  clearConversationSearch,
+  searchInConversation,
   updateSearchTerm,
   startNewConversation,
 };
 
 function search(
   query: string,
-  options: { regionCode: string; ourNumber: string; noteToSelf: string }
+  options: {
+    searchConversationId?: string;
+    regionCode: string;
+    ourNumber: string;
+    noteToSelf: string;
+  }
 ): SearchResultsKickoffActionType {
   return {
     type: 'SEARCH_RESULTS',
@@ -95,26 +121,40 @@ function search(
 async function doSearch(
   query: string,
   options: {
+    searchConversationId?: string;
     regionCode: string;
     ourNumber: string;
     noteToSelf: string;
   }
 ): Promise<SearchResultsPayloadType> {
-  const { regionCode, ourNumber, noteToSelf } = options;
+  const { regionCode, ourNumber, noteToSelf, searchConversationId } = options;
+  const normalizedPhoneNumber = normalize(query, { regionCode });
 
-  const [discussions, messages] = await Promise.all([
-    queryConversationsAndContacts(query, { ourNumber, noteToSelf }),
-    queryMessages(query),
-  ]);
-  const { conversations, contacts } = discussions;
+  if (searchConversationId) {
+    const messages = await queryMessages(query, searchConversationId);
 
-  return {
-    query,
-    normalizedPhoneNumber: normalize(query, { regionCode }),
-    conversations,
-    contacts,
-    messages,
-  };
+    return {
+      contacts: [],
+      conversations: [],
+      messages,
+      normalizedPhoneNumber,
+      query,
+    };
+  } else {
+    const [discussions, messages] = await Promise.all([
+      queryConversationsAndContacts(query, { ourNumber, noteToSelf }),
+      queryMessages(query),
+    ]);
+    const { conversations, contacts } = discussions;
+
+    return {
+      contacts,
+      conversations,
+      messages,
+      normalizedPhoneNumber,
+      query,
+    };
+  }
 }
 function clearSearch(): ClearSearchActionType {
   return {
@@ -122,6 +162,25 @@ function clearSearch(): ClearSearchActionType {
     payload: null,
   };
 }
+function clearConversationSearch(): ClearConversationSearchActionType {
+  return {
+    type: 'CLEAR_CONVERSATION_SEARCH',
+    payload: null,
+  };
+}
+function searchInConversation(
+  searchConversationId: string,
+  searchConversationName: string
+): SearchInConversationActionType {
+  return {
+    type: 'SEARCH_IN_CONVERSATION',
+    payload: {
+      searchConversationId,
+      searchConversationName,
+    },
+  };
+}
+
 function updateSearchTerm(query: string): UpdateSearchTermActionType {
   return {
     type: 'SEARCH_UPDATE',
@@ -147,9 +206,13 @@ function startNewConversation(
   };
 }
 
-async function queryMessages(query: string) {
+async function queryMessages(query: string, searchConversationId?: string) {
   try {
     const normalized = cleanSearchTerm(query);
+
+    if (searchConversationId) {
+      return searchMessagesInConversation(normalized, searchConversationId);
+    }
 
     return searchMessages(normalized);
   } catch (e) {
@@ -206,6 +269,7 @@ function getEmptyState(): SearchStateType {
   };
 }
 
+// tslint:disable-next-line max-func-body-length
 export function reducer(
   state: SearchStateType = getEmptyState(),
   action: SEARCH_TYPES
@@ -221,6 +285,30 @@ export function reducer(
     return {
       ...state,
       query,
+    };
+  }
+
+  if (action.type === 'SEARCH_IN_CONVERSATION') {
+    const { payload } = action;
+    const { searchConversationId, searchConversationName } = payload;
+
+    if (searchConversationId === state.searchConversationId) {
+      return state;
+    }
+
+    return {
+      ...getEmptyState(),
+      searchConversationId,
+      searchConversationName,
+    };
+  }
+  if (action.type === 'CLEAR_CONVERSATION_SEARCH') {
+    const { searchConversationId, searchConversationName } = state;
+
+    return {
+      ...getEmptyState(),
+      searchConversationId,
+      searchConversationName,
     };
   }
 
@@ -258,10 +346,11 @@ export function reducer(
 
   if (action.type === 'SELECTED_CONVERSATION_CHANGED') {
     const { payload } = action;
-    const { messageId } = payload;
+    const { id, messageId } = payload;
+    const { searchConversationId } = state;
 
-    if (!messageId) {
-      return state;
+    if (searchConversationId && searchConversationId !== id) {
+      return getEmptyState();
     }
 
     return {

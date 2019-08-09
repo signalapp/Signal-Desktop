@@ -10,6 +10,7 @@ import { LocalizerType } from '../types/Util';
 
 export type PropsDataType = {
   isSelected?: boolean;
+  isSearchingInConversation?: boolean;
 
   id: string;
   conversationId: string;
@@ -75,10 +76,10 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
   }
 
   public renderFrom() {
-    const { i18n, to } = this.props;
+    const { i18n, to, isSearchingInConversation } = this.props;
     const fromName = this.renderFromName();
 
-    if (!to.isMe) {
+    if (!to.isMe && !isSearchingInConversation) {
       return (
         <div className="module-message-search-result__header__from">
           {fromName} {i18n('to')}{' '}

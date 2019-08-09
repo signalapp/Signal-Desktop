@@ -1641,7 +1641,7 @@ async function searchMessages(query, { limit } = {}) {
   );
 
   return map(rows, row => ({
-    ...jsonToObject(row.json),
+    json: row.json,
     snippet: row.snippet,
   }));
 }
@@ -1670,7 +1670,7 @@ async function searchMessagesInConversation(
   );
 
   return map(rows, row => ({
-    ...jsonToObject(row.json),
+    json: row.json,
     snippet: row.snippet,
   }));
 }
@@ -1925,7 +1925,7 @@ async function getOlderMessagesByConversation(
     }
   );
 
-  return map(rows.reverse(), row => jsonToObject(row.json));
+  return rows.reverse();
 }
 
 async function getNewerMessagesByConversation(
@@ -1945,7 +1945,7 @@ async function getNewerMessagesByConversation(
     }
   );
 
-  return map(rows, row => jsonToObject(row.json));
+  return rows;
 }
 async function getOldestMessageForConversation(conversationId) {
   const row = await db.get(
