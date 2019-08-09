@@ -806,7 +806,8 @@ $loading-height: 16px;
     }
   }
 
-  .password-inputs {
+  .password-inputs,
+  .standalone-mnemonic-inputs {
     display: flex;
     flex-direction: column;
     justify-content: center;
