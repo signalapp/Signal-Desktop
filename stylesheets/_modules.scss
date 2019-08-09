@@ -3125,8 +3125,8 @@
 // Module: Search Results
 
 .module-search-results {
-  overflow-y: scroll;
-  max-height: 100%;
+  overflow: hidden;
+  flex-grow: 1;
 }
 
 .module-search-results__conversations-header {

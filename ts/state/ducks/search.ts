@@ -9,25 +9,31 @@ import { makeLookup } from '../../util/makeLookup';
 import {
   ConversationType,
   MessageDeletedActionType,
-  MessageSearchResultType,
+  MessageType,
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
 } from './conversations';
 
 // State
 
+export type MessageSearchResultType = MessageType & {
+  snippet: string;
+};
+
+export type MessageSearchResultLookupType = {
+  [id: string]: MessageSearchResultType;
+};
+
 export type SearchStateType = {
+  // We store just ids of conversations, since that data is always cached in memory
+  contacts: Array<string>;
+  conversations: Array<string>;
   query: string;
   normalizedPhoneNumber?: string;
-  // We need to store messages here, because they aren't anywhere else in state
-  messages: Array<MessageSearchResultType>;
+  messageIds: Array<string>;
+  // We do store message data to pass through the selector
+  messageLookup: MessageSearchResultLookupType;
   selectedMessage?: string;
-  messageLookup: {
-    [key: string]: MessageSearchResultType;
-  };
-  // For conversations we store just the id, and pull conversation props in the selector
-  conversations: Array<string>;
-  contacts: Array<string>;
 };
 
 // Actions
@@ -193,7 +199,7 @@ async function queryConversationsAndContacts(
 function getEmptyState(): SearchStateType {
   return {
     query: '',
-    messages: [],
+    messageIds: [],
     messageLookup: {},
     conversations: [],
     contacts: [],
@@ -220,16 +226,28 @@ export function reducer(
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, messages } = payload;
+    const {
+      contacts,
+      conversations,
+      messages,
+      normalizedPhoneNumber,
+      query,
+    } = payload;
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
     }
 
+    const messageIds = messages.map(message => message.id);
+
     return {
       ...state,
-      ...payload,
+      contacts,
+      conversations,
+      normalizedPhoneNumber,
+      query,
+      messageIds,
       messageLookup: makeLookup(messages, 'id'),
     };
   }
@@ -253,8 +271,8 @@ export function reducer(
   }
 
   if (action.type === 'MESSAGE_DELETED') {
-    const { messages, messageLookup } = state;
-    if (!messages.length) {
+    const { messageIds, messageLookup } = state;
+    if (!messageIds || messageIds.length < 1) {
       return state;
     }
 
@@ -263,7 +281,7 @@ export function reducer(
 
     return {
       ...state,
-      messages: reject(messages, message => id === message.id),
+      messageIds: reject(messageIds, messageId => id === messageId),
       messageLookup: omit(messageLookup, ['id']),
     };
   }

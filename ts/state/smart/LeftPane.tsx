@@ -9,13 +9,18 @@ import { getIntl } from '../selectors/user';
 import { getLeftPaneLists, getShowArchived } from '../selectors/conversations';
 
 import { SmartMainHeader } from './MainHeader';
+import { SmartMessageSearchResult } from './MessageSearchResult';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 const FilteredSmartMainHeader = SmartMainHeader as any;
+const FilteredSmartMessageSearchResult = SmartMessageSearchResult as any;
 
 function renderMainHeader(): JSX.Element {
   return <FilteredSmartMainHeader />;
+}
+function renderMessageSearchResult(id: string): JSX.Element {
+  return <FilteredSmartMessageSearchResult id={id} />;
 }
 
 const mapStateToProps = (state: StateType) => {
@@ -30,6 +35,7 @@ const mapStateToProps = (state: StateType) => {
     showArchived: getShowArchived(state),
     i18n: getIntl(state),
     renderMainHeader,
+    renderMessageSearchResult,
   };
 };
 

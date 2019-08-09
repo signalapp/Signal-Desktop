@@ -14,32 +14,6 @@ import { NoopActionType } from './noop';
 
 // State
 
-export type MessageSearchResultType = {
-  id: string;
-  conversationId: string;
-  receivedAt: number;
-
-  snippet: string;
-
-  from: {
-    phoneNumber: string;
-    isMe?: boolean;
-    name?: string;
-    color?: string;
-    profileName?: string;
-    avatarPath?: string;
-  };
-
-  to: {
-    groupName?: string;
-    phoneNumber: string;
-    isMe?: boolean;
-    name?: string;
-    profileName?: string;
-  };
-
-  isSelected?: boolean;
-};
 export type ConversationType = {
   id: string;
   name?: string;

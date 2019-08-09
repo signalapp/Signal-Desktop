@@ -207,11 +207,13 @@ export const getCachedSelectorForConversation = createSelector(
   (): CachedConversationSelectorType => {
     // Note: memoizee will check all parameters provided, and only run our selector
     //   if any of them have changed.
-    return memoizee(_conversationSelector, { max: 100 });
+    return memoizee(_conversationSelector, { max: 2000 });
   }
 );
 
-type GetConversationByIdType = (id: string) => ConversationType | undefined;
+export type GetConversationByIdType = (
+  id: string
+) => ConversationType | undefined;
 export const getConversationSelector = createSelector(
   getCachedSelectorForConversation,
   getConversationLookup,
@@ -287,7 +289,7 @@ export const getCachedSelectorForMessage = createSelector(
   (): CachedMessageSelectorType => {
     // Note: memoizee will check all parameters provided, and only run our selector
     //   if any of them have changed.
-    return memoizee(_messageSelector, { max: 500 });
+    return memoizee(_messageSelector, { max: 2000 });
   }
 );
 

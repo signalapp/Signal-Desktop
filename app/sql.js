@@ -1017,6 +1017,69 @@ async function updateToSchemaVersion17(currentVersion, instance) {
   }
 }
 
+async function updateToSchemaVersion18(currentVersion, instance) {
+  if (currentVersion >= 18) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion18: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  try {
+    // Delete and rebuild full-text search index to capture everything
+
+    await instance.run('DELETE FROM messages_fts;');
+    await instance.run(
+      "INSERT INTO messages_fts(messages_fts) VALUES('rebuild');"
+    );
+
+    await instance.run(`
+      INSERT INTO messages_fts(id, body)
+      SELECT id, body FROM messages WHERE isViewOnce IS NULL OR isViewOnce != 1;
+    `);
+
+    // Fixing full-text triggers
+
+    await instance.run('DROP TRIGGER messages_on_insert;');
+    await instance.run('DROP TRIGGER messages_on_update;');
+
+    await instance.run(`
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+      WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
+      BEGIN
+        INSERT INTO messages_fts (
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
+    await instance.run(`
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN new.isViewOnce IS NULL OR new.isViewOnce != 1
+      BEGIN
+        DELETE FROM messages_fts WHERE id = old.id;
+        INSERT INTO messages_fts(
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
+
+    await instance.run('PRAGMA schema_version = 18;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion18: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK;');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1035,6 +1098,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion15,
   updateToSchemaVersion16,
   updateToSchemaVersion17,
+  updateToSchemaVersion18,
 ];
 
 async function updateSchema(instance) {
@@ -1552,7 +1616,7 @@ async function searchConversations(query, { limit } = {}) {
       $id: `%${query}%`,
       $name: `%${query}%`,
       $profileName: `%${query}%`,
-      $limit: limit || 50,
+      $limit: limit || 100,
     }
   );
 
@@ -1572,7 +1636,7 @@ async function searchMessages(query, { limit } = {}) {
     LIMIT $limit;`,
     {
       $query: query,
-      $limit: limit || 100,
+      $limit: limit || 500,
     }
   );
 
