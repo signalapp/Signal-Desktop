@@ -141,6 +141,7 @@ module.exports = {
   removeAllMessagesInConversation,
 
   getMessageBySender,
+  getMessageByServerId,
   getMessageById,
   getAllMessages,
   getAllUnsentMessages,
@@ -873,6 +874,15 @@ async function removeMessage(id, { Message }) {
 // Note: this method will not clean up external files, just delete from SQL
 async function _removeMessages(ids) {
   await channels.removeMessage(ids);
+}
+
+async function getMessageByServerId(id, { Message }) {
+  const message = await channels.getMessageByServerId(id);
+  if (!message) {
+    return null;
+  }
+
+  return new Message(message);
 }
 
 async function getMessageById(id, { Message }) {

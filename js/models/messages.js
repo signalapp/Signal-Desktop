@@ -1242,6 +1242,17 @@
         Message: Whisper.Message,
       });
     },
+    async setServerId(serverId) {
+      if (_.isEqual(this.get('serverId'), serverId)) return;
+
+      this.set({
+        serverId,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
     async setIsPublic(isPublic) {
       if (_.isEqual(this.get('isPublic'), isPublic)) return;
 
