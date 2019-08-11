@@ -7,7 +7,7 @@ easily reviewed changes with clear and specific intentions. See below for more
 [guidelines on pull requests](#pull-requests).
 
 It's a good idea to gauge interest in your intended work by finding the current issue
-for it or creating a new one yourself. You can use also that issue as a place to signal
+for it or creating a new one yourself. You can also use that issue as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
 
 Once you've spent a little bit of time planning your solution, it's a good idea to go
