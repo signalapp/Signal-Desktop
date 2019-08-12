@@ -947,16 +947,6 @@
         "message": "آیکون فایل",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
-    "emojiAlt": {
-        "message": "تصویر ایموجی '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
     "installWelcome": {
         "message": "به Signal Desktop خوش‌آمدید",
         "description": "Welcome title on the install page"

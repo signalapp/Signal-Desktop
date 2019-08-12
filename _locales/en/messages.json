@@ -435,7 +435,7 @@
   },
   "identityKeyErrorOnSend": {
     "message":
-      "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+      "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
     "description":
       "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
     "placeholders": {
@@ -1066,16 +1066,6 @@
     "message": "File icon",
     "description":
       "Used in the media gallery documents tab to visually represent a file"
-  },
-  "emojiAlt": {
-    "message": "Emoji image of '$title$'",
-    "description": "Used in the alt tag of all emoji images",
-    "placeholders": {
-      "title": {
-        "content": "$1",
-        "example": "grinning"
-      }
-    }
   },
   "installWelcome": {
     "message": "Welcome to Signal Desktop",
@@ -1745,6 +1735,11 @@
     "description":
       "Shown in notifications and in the left pane when a message has features too new for this signal install."
   },
+  "message--getDescription--disappearing-photo": {
+    "message": "Disappearing photo",
+    "description":
+      "Shown in notifications and in the left pane when a message is a disappearing photo."
+  },
   "stickers--toast--InstallFailed": {
     "message": "Sticker pack could not be installed",
     "description":
@@ -1901,5 +1896,20 @@
     "message": "Update Signal",
     "description":
       "Text for a button which will take user to Signal download page"
+  },
+  "Message--tap-to-view-expired": {
+    "message": "Viewed",
+    "description":
+      "Text shown on messages with with individual timers, after user has viewed it"
+  },
+  "Message--tap-to-view--outgoing": {
+    "message": "Photo",
+    "description":
+      "Text shown on outgoing messages with with individual timers (inaccessble)"
+  },
+  "Message--tap-to-view--incoming": {
+    "message": "View Photo",
+    "description":
+      "Text shown on messages with with individual timers, before user has viewed it"
   }
 }

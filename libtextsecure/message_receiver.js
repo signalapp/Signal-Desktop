@@ -134,10 +134,12 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.number = address.getName();
   this.deviceId = address.getDeviceId();
 
-  this.pending = Promise.resolve();
+  this.pendingQueue = new window.PQueue({ concurrency: 1 });
+  this.incomingQueue = new window.PQueue({ concurrency: 1 });
+  this.appQueue = new window.PQueue({ concurrency: 1 });
 
   if (options.retryCached) {
-    this.pending = this.queueAllCached();
+    this.pendingQueue.add(() => this.queueAllCached());
   }
 }
 
@@ -187,10 +189,6 @@ MessageReceiver.prototype.extend({
     // Because sometimes the socket doesn't properly emit its close event
     this._onClose = this.onclose.bind(this);
     this.wsr.addEventListener('close', this._onClose);
-
-    // Ensures that an immediate 'empty' event from the websocket will fire only after
-    //   all cached envelopes are processed.
-    this.incoming = [this.pending];
   },
   stopProcessing() {
     window.log.info('MessageReceiver: stopProcessing requested');
@@ -229,11 +227,7 @@ MessageReceiver.prototype.extend({
     window.log.error('websocket error');
   },
   dispatchAndWait(event) {
-    const promise = this.appPromise || Promise.resolve();
-    const appJobPromise = Promise.all(this.dispatchEvent(event));
-    const job = () => appJobPromise;
-
-    this.appPromise = promise.then(job, job);
+    this.appQueue.add(() => Promise.all(this.dispatchEvent(event)));
 
     return Promise.resolve();
   },
@@ -268,9 +262,6 @@ MessageReceiver.prototype.extend({
       });
   },
   handleRequest(request) {
-    this.incoming = this.incoming || [];
-    const lastPromise = _.last(this.incoming);
-
     // We do the message decryption here, instead of in the ordered pending queue,
     // to avoid exposing the time it took us to process messages through the time-to-ack.
 
@@ -279,31 +270,33 @@ MessageReceiver.prototype.extend({
       request.respond(200, 'OK');
 
       if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
-        this.onEmpty();
+        this.incomingQueue.add(() => this.onEmpty());
       }
       return;
     }
 
-    let promise;
-    const headers = request.headers || [];
-    if (headers.includes('X-Signal-Key: true')) {
-      promise = textsecure.crypto.decryptWebsocketMessage(
-        request.body,
-        this.signalingKey
-      );
-    } else {
-      promise = Promise.resolve(request.body.toArrayBuffer());
-    }
+    const job = async () => {
+      let plaintext;
+      const headers = request.headers || [];
 
-    promise = promise
-      .then(plaintext => {
+      if (headers.includes('X-Signal-Key: true')) {
+        plaintext = await textsecure.crypto.decryptWebsocketMessage(
+          request.body,
+          this.signalingKey
+        );
+      } else {
+        plaintext = request.body.toArrayBuffer();
+      }
+
+      try {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
         // After this point, decoding errors are not the server's
         //   fault, and we should handle them gracefully and tell the
         //   user they received an invalid message
 
         if (this.isBlocked(envelope.source)) {
-          return request.respond(200, 'OK');
+          request.respond(200, 'OK');
+          return;
         }
 
         envelope.id = envelope.serverGuid || window.getGuid();
@@ -311,24 +304,18 @@ MessageReceiver.prototype.extend({
           ? envelope.serverTimestamp.toNumber()
           : null;
 
-        return this.addToCache(envelope, plaintext).then(
-          async () => {
-            request.respond(200, 'OK');
-
-            // To ensure that we queue in the same order we receive messages
-            await lastPromise;
-            this.queueEnvelope(envelope);
-          },
-          error => {
-            request.respond(500, 'Failed to cache message');
-            window.log.error(
-              'handleRequest error trying to add message to cache:',
-              error && error.stack ? error.stack : error
-            );
-          }
-        );
-      })
-      .catch(e => {
+        try {
+          await this.addToCache(envelope, plaintext);
+          request.respond(200, 'OK');
+          this.queueEnvelope(envelope);
+        } catch (error) {
+          request.respond(500, 'Failed to cache message');
+          window.log.error(
+            'handleRequest error trying to add message to cache:',
+            error && error.stack ? error.stack : error
+          );
+        }
+      } catch (e) {
         request.respond(500, 'Bad encrypted websocket message');
         window.log.error(
           'Error handling incoming message:',
@@ -336,75 +323,60 @@ MessageReceiver.prototype.extend({
         );
         const ev = new Event('error');
         ev.error = e;
-        return this.dispatchAndWait(ev);
-      });
-
-    this.incoming.push(promise);
-  },
-  addToQueue(task) {
-    this.count += 1;
-    this.pending = this.pending.then(task, task);
-
-    const { count, pending } = this;
-
-    const cleanup = () => {
-      this.updateProgress(count);
-      // We want to clear out the promise chain whenever possible because it could
-      //   lead to large memory usage over time:
-      //   https://github.com/nodejs/node/issues/6673#issuecomment-244331609
-      if (this.pending === pending) {
-        this.pending = Promise.resolve();
+        await this.dispatchAndWait(ev);
       }
     };
 
-    pending.then(cleanup, cleanup);
+    this.incomingQueue.add(job);
+  },
+  addToQueue(task) {
+    this.count += 1;
 
-    return pending;
+    const promise = this.pendingQueue.add(task);
+
+    const { count } = this;
+
+    const update = () => {
+      this.updateProgress(count);
+    };
+
+    promise.then(update, update);
+
+    return promise;
   },
   onEmpty() {
-    const { incoming } = this;
-    this.incoming = [];
-
     const emitEmpty = () => {
       window.log.info("MessageReceiver: emitting 'empty' event");
       const ev = new Event('empty');
       this.dispatchAndWait(ev);
     };
 
-    const waitForApplication = async () => {
+    const waitForPendingQueue = () => {
       window.log.info(
         "MessageReceiver: finished processing messages after 'empty', now waiting for application"
       );
-      const promise = this.appPromise || Promise.resolve();
-      this.appPromise = Promise.resolve();
 
-      // We don't await here because we don't this to gate future message processing
-      promise.then(emitEmpty, emitEmpty);
+      // We don't await here because we don't want this to gate future message processing
+      this.appQueue.add(emitEmpty);
     };
 
-    const waitForEmptyQueue = () => {
-      // resetting count to zero so everything queued after this starts over again
+    const waitForIncomingQueue = () => {
+      this.addToQueue(waitForPendingQueue);
+
+      // Note: this.count is used in addToQueue
+      // Resetting count so everything from the websocket after this starts at zero
       this.count = 0;
-
-      this.addToQueue(waitForApplication);
     };
 
-    // We first wait for all recently-received messages (this.incoming) to be queued,
-    //   then we queue a task to wait for the application to finish its processing, then
-    //   finally we emit the 'empty' event to the queue.
-    Promise.all(incoming).then(waitForEmptyQueue, waitForEmptyQueue);
+    this.incomingQueue.add(waitForIncomingQueue);
   },
   drain() {
-    const { incoming } = this;
-    this.incoming = [];
-
-    const queueDispatch = () =>
+    const waitForIncomingQueue = () =>
       this.addToQueue(() => {
         window.log.info('drained');
       });
 
-    // This promise will resolve when there are no more messages to be processed.
-    return Promise.all(incoming).then(queueDispatch, queueDispatch);
+    return this.incomingQueue.add(waitForIncomingQueue);
   },
   updateProgress(count) {
     // count by 10s
@@ -607,7 +579,7 @@ MessageReceiver.prototype.extend({
     return promise.catch(error => {
       window.log.error(
         'queueEnvelope error handling envelope',
-        id,
+        this.getEnvelopeId(envelope),
         ':',
         error && error.stack ? error.stack : error
       );
@@ -1110,11 +1082,16 @@ MessageReceiver.prototype.extend({
       return this.handleVerified(envelope, syncMessage.verified);
     } else if (syncMessage.configuration) {
       return this.handleConfiguration(envelope, syncMessage.configuration);
-    } else if (syncMessage.stickerPackOperation) {
+    } else if (
+      syncMessage.stickerPackOperation &&
+      syncMessage.stickerPackOperation.length > 0
+    ) {
       return this.handleStickerPackOperation(
         envelope,
         syncMessage.stickerPackOperation
       );
+    } else if (syncMessage.viewOnceOpen) {
+      return this.handleViewOnceOpen(envelope, syncMessage.viewOnceOpen);
     }
     throw new Error('Got empty SyncMessage');
   },
@@ -1123,6 +1100,16 @@ MessageReceiver.prototype.extend({
     const ev = new Event('configuration');
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.configuration = configuration;
+    return this.dispatchAndWait(ev);
+  },
+  handleViewOnceOpen(envelope, sync) {
+    window.log.info('got view once open sync message');
+
+    const ev = new Event('viewSync');
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.source = sync.sender;
+    ev.timestamp = sync.timestamp ? sync.timestamp.toNumber() : null;
+
     return this.dispatchAndWait(ev);
   },
   handleStickerPackOperation(envelope, operations) {
@@ -1259,7 +1246,7 @@ MessageReceiver.prototype.extend({
       window.Signal.Crypto.base64ToArrayBuffer(digest)
     );
 
-    if (!size) {
+    if (!_.isNumber(size)) {
       throw new Error(
         `downloadAttachment: Size was not provided, actual size was ${
           data.byteLength

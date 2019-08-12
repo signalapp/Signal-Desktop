@@ -4,7 +4,7 @@ import { MessageBody } from './conversation/MessageBody';
 import { Emojify } from './conversation/Emojify';
 import { AddNewLines } from './conversation/AddNewLines';
 
-import { SizeClassType } from '../util/emoji';
+import { SizeClassType } from './emoji/lib';
 
 import { LocalizerType, RenderTextCallbackType } from '../types/Util';
 
@@ -18,7 +18,6 @@ const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
 );
 
 const renderEmoji = ({
-  i18n,
   text,
   key,
   sizeClass,
@@ -31,7 +30,6 @@ const renderEmoji = ({
   renderNonEmoji: RenderTextCallbackType;
 }) => (
   <Emojify
-    i18n={i18n}
     key={key}
     text={text}
     sizeClass={sizeClass}

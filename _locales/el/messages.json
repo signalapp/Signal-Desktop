@@ -947,16 +947,6 @@
         "message": "Εικονίδιο αρχείου",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
-    "emojiAlt": {
-        "message": "Εικόνα emoji '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
     "installWelcome": {
         "message": "Καλώς ορίσατε στο Signal Desktop",
         "description": "Welcome title on the install page"

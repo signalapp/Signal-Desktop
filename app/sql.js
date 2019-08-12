@@ -94,6 +94,8 @@ module.exports = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getNextTapToViewMessageToAgeOut,
+  getTapToViewMessagesNeedingErase,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -868,6 +870,149 @@ async function updateToSchemaVersion15(currentVersion, instance) {
   }
 }
 
+async function updateToSchemaVersion16(currentVersion, instance) {
+  if (currentVersion >= 16) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion16: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  try {
+    await instance.run(
+      `ALTER TABLE messages
+      ADD COLUMN messageTimer INTEGER;`
+    );
+    await instance.run(
+      `ALTER TABLE messages
+      ADD COLUMN messageTimerStart INTEGER;`
+    );
+    await instance.run(
+      `ALTER TABLE messages
+      ADD COLUMN messageTimerExpiresAt INTEGER;`
+    );
+    await instance.run(
+      `ALTER TABLE messages
+      ADD COLUMN isErased INTEGER;`
+    );
+
+    await instance.run(`CREATE INDEX messages_message_timer ON messages (
+      messageTimer,
+      messageTimerStart,
+      messageTimerExpiresAt,
+      isErased
+    ) WHERE messageTimer IS NOT NULL;`);
+
+    // Updating full-text triggers to avoid anything with a messageTimer set
+
+    await instance.run('DROP TRIGGER messages_on_insert;');
+    await instance.run('DROP TRIGGER messages_on_delete;');
+    await instance.run('DROP TRIGGER messages_on_update;');
+
+    await instance.run(`
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+      WHEN new.messageTimer IS NULL
+      BEGIN
+        INSERT INTO messages_fts (
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
+    await instance.run(`
+      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+        DELETE FROM messages_fts WHERE id = old.id;
+      END;
+    `);
+    await instance.run(`
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN new.messageTimer IS NULL
+      BEGIN
+        DELETE FROM messages_fts WHERE id = old.id;
+        INSERT INTO messages_fts(
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
+
+    await instance.run('PRAGMA schema_version = 16;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion16: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK;');
+    throw error;
+  }
+}
+
+async function updateToSchemaVersion17(currentVersion, instance) {
+  if (currentVersion >= 17) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion17: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  try {
+    await instance.run(
+      `ALTER TABLE messages
+      ADD COLUMN isViewOnce INTEGER;`
+    );
+
+    await instance.run('DROP INDEX messages_message_timer;');
+
+    await instance.run(`CREATE INDEX messages_view_once ON messages (
+      isErased
+    ) WHERE isViewOnce = 1;`);
+
+    // Updating full-text triggers to avoid anything with isViewOnce = 1
+
+    await instance.run('DROP TRIGGER messages_on_insert;');
+    await instance.run('DROP TRIGGER messages_on_update;');
+
+    await instance.run(`
+      CREATE TRIGGER messages_on_insert AFTER INSERT ON messages
+      WHEN new.isViewOnce != 1
+      BEGIN
+        INSERT INTO messages_fts (
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
+    await instance.run(`
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN new.isViewOnce != 1
+      BEGIN
+        DELETE FROM messages_fts WHERE id = old.id;
+        INSERT INTO messages_fts(
+          id,
+          body
+        ) VALUES (
+          new.id,
+          new.body
+        );
+      END;
+    `);
+
+    await instance.run('PRAGMA schema_version = 17;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion17: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK;');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -884,6 +1029,8 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion13,
   updateToSchemaVersion14,
   updateToSchemaVersion15,
+  updateToSchemaVersion16,
+  updateToSchemaVersion17,
 ];
 
 async function updateSchema(instance) {
@@ -1480,6 +1627,8 @@ async function saveMessage(data, { forceSave } = {}) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     id,
+    isErased,
+    isViewOnce,
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
@@ -1505,6 +1654,8 @@ async function saveMessage(data, { forceSave } = {}) {
     $hasAttachments: hasAttachments,
     $hasFileAttachments: hasFileAttachments,
     $hasVisualMediaAttachments: hasVisualMediaAttachments,
+    $isErased: isErased,
+    $isViewOnce: isViewOnce,
     $received_at: received_at,
     $schemaVersion: schemaVersion,
     $sent_at: sent_at,
@@ -1517,7 +1668,9 @@ async function saveMessage(data, { forceSave } = {}) {
   if (id && !forceSave) {
     await db.run(
       `UPDATE messages SET
+        id = $id,
         json = $json,
+
         body = $body,
         conversationId = $conversationId,
         expirationStartTimestamp = $expirationStartTimestamp,
@@ -1526,7 +1679,8 @@ async function saveMessage(data, { forceSave } = {}) {
         hasAttachments = $hasAttachments,
         hasFileAttachments = $hasFileAttachments,
         hasVisualMediaAttachments = $hasVisualMediaAttachments,
-        id = $id,
+        isErased = $isErased,
+        isViewOnce = $isViewOnce,
         received_at = $received_at,
         schemaVersion = $schemaVersion,
         sent_at = $sent_at,
@@ -1559,6 +1713,8 @@ async function saveMessage(data, { forceSave } = {}) {
     hasAttachments,
     hasFileAttachments,
     hasVisualMediaAttachments,
+    isErased,
+    isViewOnce,
     received_at,
     schemaVersion,
     sent_at,
@@ -1578,6 +1734,8 @@ async function saveMessage(data, { forceSave } = {}) {
     $hasAttachments,
     $hasFileAttachments,
     $hasVisualMediaAttachments,
+    $isErased,
+    $isViewOnce,
     $received_at,
     $schemaVersion,
     $sent_at,
@@ -1752,6 +1910,43 @@ async function getNextExpiringMessage() {
     ORDER BY expires_at ASC
     LIMIT 1;
   `);
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getNextTapToViewMessageToAgeOut() {
+  const rows = await db.all(`
+    SELECT json FROM messages
+    WHERE
+      isViewOnce = 1
+      AND (isErased IS NULL OR isErased != 1)
+    ORDER BY received_at ASC
+    LIMIT 1;
+  `);
+
+  if (!rows || rows.length < 1) {
+    return null;
+  }
+
+  return jsonToObject(rows[0].json);
+}
+
+async function getTapToViewMessagesNeedingErase() {
+  const THIRTY_DAYS_AGO = Date.now() - 30 * 24 * 60 * 60 * 1000;
+  const NOW = Date.now();
+
+  const rows = await db.all(
+    `SELECT json FROM messages
+    WHERE
+      isViewOnce = 1
+      AND (isErased IS NULL OR isErased != 1)
+      AND received_at <= $THIRTY_DAYS_AGO
+    ORDER BY received_at ASC;`,
+    {
+      $NOW: NOW,
+      $THIRTY_DAYS_AGO: THIRTY_DAYS_AGO,
+    }
+  );
 
   return map(rows, row => jsonToObject(row.json));
 }
@@ -2420,7 +2615,6 @@ async function removeAllConfiguration() {
 
   try {
     await Promise.all([
-      db.run('BEGIN TRANSACTION;'),
       db.run('DELETE FROM identityKeys;'),
       db.run('DELETE FROM items;'),
       db.run('DELETE FROM preKeys;'),

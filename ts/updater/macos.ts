@@ -7,6 +7,7 @@ import { v4 as getGuid } from 'uuid';
 import { app, autoUpdater, BrowserWindow, dialog } from 'electron';
 import { get as getFromConfig } from 'config';
 import { gt } from 'semver';
+import got from 'got';
 
 import {
   checkForUpdates,
@@ -79,7 +80,7 @@ async function checkDownloadAndInstall(
     }
 
     const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
-    const verified = verifySignature(updateFilePath, version, publicKey);
+    const verified = await verifySignature(updateFilePath, version, publicKey);
     if (!verified) {
       // Note: We don't delete the cache here, because we don't want to continually
       //   re-download the broken release. We will download it only once per launch.
@@ -148,6 +149,7 @@ async function handToAutoUpdate(
   logger: LoggerType
 ): Promise<void> {
   return new Promise((resolve, reject) => {
+    const token = getGuid();
     const updateFileUrl = generateFileUrl();
     const server = createServer();
     let serverUrl: string;
@@ -173,6 +175,12 @@ async function handToAutoUpdate(
           return;
         }
 
+        if (url === '/token') {
+          writeTokenResponse(token, response);
+
+          return;
+        }
+
         if (!url || !url.startsWith(updateFileUrl)) {
           write404(url, response, logger);
 
@@ -183,24 +191,37 @@ async function handToAutoUpdate(
       }
     );
 
-    server.listen(0, '127.0.0.1', () => {
-      serverUrl = getServerUrl(server);
+    server.listen(0, '127.0.0.1', async () => {
+      try {
+        serverUrl = getServerUrl(server);
 
-      autoUpdater.on('error', (error: Error) => {
-        logger.error('autoUpdater: error', getPrintableError(error));
+        autoUpdater.on('error', (error: Error) => {
+          logger.error('autoUpdater: error', getPrintableError(error));
+          reject(error);
+        });
+        autoUpdater.on('update-downloaded', () => {
+          logger.info('autoUpdater: update-downloaded event fired');
+          shutdown(server, logger);
+          resolve();
+        });
+
+        const response = await got.get(`${serverUrl}/token`);
+        if (JSON.parse(response.body).token !== token) {
+          throw new Error(
+            'autoUpdater: did not receive token back from updates server'
+          );
+        }
+
+        autoUpdater.setFeedURL({
+          url: serverUrl,
+          headers: { 'Cache-Control': 'no-cache' },
+        });
+        autoUpdater.checkForUpdates();
+      } catch (error) {
         reject(error);
-      });
-      autoUpdater.on('update-downloaded', () => {
-        logger.info('autoUpdater: update-downloaded event fired');
-        shutdown(server, logger);
-        resolve();
-      });
 
-      autoUpdater.setFeedURL({
-        url: serverUrl,
-        headers: { 'Cache-Control': 'no-cache' },
-      });
-      autoUpdater.checkForUpdates();
+        return;
+      }
     });
   });
 }
@@ -245,6 +266,19 @@ function writeJSONResponse(url: string, response: ServerResponse) {
   const data = Buffer.from(
     JSON.stringify({
       url,
+    })
+  );
+  response.writeHead(200, {
+    'Content-Type': 'application/json',
+    'Content-Length': data.byteLength,
+  });
+  response.end(data);
+}
+
+function writeTokenResponse(token: string, response: ServerResponse) {
+  const data = Buffer.from(
+    JSON.stringify({
+      token,
     })
   );
   response.writeHead(200, {

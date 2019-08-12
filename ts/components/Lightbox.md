@@ -1,6 +1,6 @@
 ## Image
 
-```js
+```jsx
 const noop = () => {};
 
 <div style={{ position: 'relative', width: '100%', height: 500 }}>
@@ -15,7 +15,7 @@ const noop = () => {};
 
 ## Image with caption
 
-```js
+```jsx
 const noop = () => {};
 
 <div style={{ position: 'relative', width: '100%', height: 500 }}>
@@ -29,9 +29,27 @@ const noop = () => {};
 </div>;
 ```
 
+## Image with timer
+
+```jsx
+const noop = () => {};
+
+<div style={{ position: 'relative', width: '100%', height: 500 }}>
+  <Lightbox
+    objectURL="https://placekitten.com/800/600"
+    contentType="image/jpeg"
+    timerExpiresAt={Date.now() + 10 * 1000}
+    timerDuration={30 * 1000}
+    onSave={null}
+    close={() => console.log('close')}
+    i18n={util.i18n}
+  />
+</div>;
+```
+
 ## Image (unsupported format)
 
-```js
+```jsx
 const noop = () => {};
 
 <div style={{ position: 'relative', width: '100%', height: 500 }}>
@@ -46,7 +64,7 @@ const noop = () => {};
 
 ## Video (supported format)
 
-```js
+```jsx
 const noop = () => {};
 
 <div style={{ position: 'relative', width: '100%', height: 500 }}>
@@ -61,7 +79,7 @@ const noop = () => {};
 
 ## Video (unsupported format)
 
-```js
+```jsx
 const noop = () => {};
 
 <div style={{ position: 'relative', width: '100%', height: 500 }}>
@@ -76,7 +94,7 @@ const noop = () => {};
 
 ## Unsupported file format
 
-```js
+```jsx
 const noop = () => {};
 
 <div style={{ position: 'relative', width: '100%', height: 600 }}>

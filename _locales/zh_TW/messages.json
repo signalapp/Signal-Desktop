@@ -947,16 +947,6 @@
         "message": "檔案圖示",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
-    "emojiAlt": {
-        "message": " '$title$' 的表情符號圖片",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
     "installWelcome": {
         "message": "歡迎來到 Signal Desktop版",
         "description": "Welcome title on the install page"

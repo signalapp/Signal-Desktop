@@ -3,8 +3,14 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
-import { EmojiPicker, Props as EmojiPickerProps } from './EmojiPicker';
+import {
+  EmojiPickDataType,
+  EmojiPicker,
+  Props as EmojiPickerProps,
+} from './EmojiPicker';
 import { LocalizerType } from '../../types/Util';
+
+export type EmojiPickDataType = EmojiPickDataType;
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -14,22 +20,22 @@ export type Props = OwnProps &
   Pick<
     EmojiPickerProps,
     | 'onClose'
-    | 'onForceSend'
+    | 'doSend'
     | 'onPickEmoji'
-    | 'skinTone'
     | 'onSetSkinTone'
     | 'recentEmojis'
+    | 'skinTone'
   >;
 
 export const EmojiButton = React.memo(
   ({
     i18n,
-    onClose,
-    onForceSend,
+    doSend,
     onPickEmoji,
     skinTone,
     onSetSkinTone,
     recentEmojis,
+    onClose,
   }: Props) => {
     const [open, setOpen] = React.useState(false);
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
@@ -49,8 +55,8 @@ export const EmojiButton = React.memo(
 
     const handleClose = React.useCallback(
       () => {
-        onClose();
         setOpen(false);
+        onClose();
       },
       [setOpen, onClose]
     );
@@ -65,6 +71,7 @@ export const EmojiButton = React.memo(
           const handleOutsideClick = ({ target }: MouseEvent) => {
             if (!root.contains(target as Node)) {
               setOpen(false);
+              onClose();
             }
           };
           document.addEventListener('click', handleOutsideClick);
@@ -104,7 +111,7 @@ export const EmojiButton = React.memo(
                     i18n={i18n}
                     style={style}
                     onPickEmoji={onPickEmoji}
-                    onForceSend={onForceSend}
+                    doSend={doSend}
                     onClose={handleClose}
                     skinTone={skinTone}
                     onSetSkinTone={onSetSkinTone}

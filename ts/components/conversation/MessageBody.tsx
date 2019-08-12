@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getSizeClass, SizeClassType } from '../../util/emoji';
+import { getSizeClass, SizeClassType } from '../emoji/lib';
 import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
@@ -23,7 +23,6 @@ const renderNewLines: RenderTextCallbackType = ({
 }) => <AddNewLines key={key} text={textWithNewLines} />;
 
 const renderEmoji = ({
-  i18n,
   text,
   key,
   sizeClass,
@@ -36,7 +35,6 @@ const renderEmoji = ({
   renderNonEmoji: RenderTextCallbackType;
 }) => (
   <Emojify
-    i18n={i18n}
     key={key}
     text={text}
     sizeClass={sizeClass}

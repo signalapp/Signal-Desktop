@@ -62,6 +62,11 @@ module.exports = {
           type: 'text/css',
           href: '/stylesheets/manifest.css',
         },
+        {
+          rel: 'stylesheet',
+          type: 'text/css',
+          href: '/node_modules/draft-js/dist/Draft.css',
+        },
       ],
     },
   },

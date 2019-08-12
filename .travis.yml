@@ -4,6 +4,8 @@ node_js:
 os:
   - linux
 dist: trusty
+before_install:
+  - npm install -g yarn@1.17.3
 install:
   - yarn install --frozen-lockfile
 script:

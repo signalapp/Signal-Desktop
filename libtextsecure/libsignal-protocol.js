@@ -36486,14 +36486,10 @@ Internal.SessionLock = {};
 var jobQueue = {};
 
 Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJob) {
-     var runPrevious = jobQueue[number] || Promise.resolve();
-     var runCurrent = jobQueue[number] = runPrevious.then(runJob, runJob);
-     runCurrent.then(function() {
-         if (jobQueue[number] === runCurrent) {
-             delete jobQueue[number];
-         }
-     });
-     return runCurrent;
+     jobQueue[number] = jobQueue[number] || new window.PQueue({ concurrency: 1 });
+     var queue = jobQueue[number];
+
+     return queue.add(runJob);
 };
 
 })();

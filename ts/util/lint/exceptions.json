@@ -231,7 +231,7 @@
     "rule": "jQuery-load(",
     "path": "js/modules/emojis.js",
     "line": "async function load() {",
-    "lineNumber": 17,
+    "lineNumber": 13,
     "reasonCategory": "falseMatch",
     "updated": "2019-05-23T22:27:53.554Z"
   },
@@ -361,7 +361,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/contact_list_view.js",
     "line": "        this.$el.append(this.contactView.el);",
-    "lineNumber": 44,
+    "lineNumber": 46,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-02T21:18:39.026Z",
     "reasonDetail": "Operating on previously-existing DOM elements"
@@ -477,7 +477,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        let $el = this.$(`#${id}`);",
-    "lineNumber": 33,
+    "lineNumber": 34,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -486,7 +486,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        $el.prependTo(this.el);",
-    "lineNumber": 42,
+    "lineNumber": 43,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -495,7 +495,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 56,
+    "lineNumber": 61,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -504,7 +504,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 73,
+    "lineNumber": 78,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -513,7 +513,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 80,
+    "lineNumber": 85,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -522,7 +522,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 95,
+    "lineNumber": 100,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -531,7 +531,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 99,
+    "lineNumber": 104,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -540,7 +540,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 105,
+    "lineNumber": 110,
     "reasonCategory": "usageTrusted",
     "updated": "2019-05-10T00:25:51.515Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -549,7 +549,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 125,
+    "lineNumber": 130,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -558,7 +558,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 125,
+    "lineNumber": 130,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -567,7 +567,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 166,
+    "lineNumber": 171,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -576,7 +576,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 170,
+    "lineNumber": 175,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -585,7 +585,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 174,
+    "lineNumber": 179,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -594,7 +594,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 176,
+    "lineNumber": 181,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -603,7 +603,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 196,
+    "lineNumber": 201,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -612,7 +612,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 199,
+    "lineNumber": 204,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -720,7 +720,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 36,
+    "lineNumber": 39,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -729,7 +729,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/views/key_verification_view.js",
     "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 37,
+    "lineNumber": 40,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -737,7 +737,7 @@
     "rule": "jQuery-insertBefore(",
     "path": "js/views/key_verification_view.js",
     "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 72,
+    "lineNumber": 75,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -746,7 +746,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 76,
+    "lineNumber": 79,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -755,7 +755,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 107,
+    "lineNumber": 110,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1336,14 +1336,6 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer());",
-    "lineNumber": 145,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "libtextsecure/message_receiver.js",
-    "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));",
     "lineNumber": 147,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
@@ -1351,8 +1343,16 @@
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
+    "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));",
+    "lineNumber": 149,
+    "reasonCategory": "falseMatch",
+    "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 833,
+    "lineNumber": 805,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1360,7 +1360,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 858,
+    "lineNumber": 830,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1452,6 +1452,197 @@
     "lineNumber": 204,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
+    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 2228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
+    "line": "  function before(n, func) {",
+    "lineNumber": 2231,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
+    "line": "    return before(2, func);",
+    "lineNumber": 2381,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
+    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 3483,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/core.min.js",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
+    "line": "  function wrap(name, func, placeholder) {",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
+    "line": "    return wrap(name, func, defaultHolder);",
+    "lineNumber": 521,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
+    "line": "        pairs.push([key, wrap(key, func, _)]);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/iteratee.js",
+    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
+    "line": "     * var done = _.after(saves.length, function() {",
+    "lineNumber": 9983,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
+    "line": "    function after(n, func) {",
+    "lineNumber": 9992,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
+    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 10041,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
+    "line": "    function before(n, func) {",
+    "lineNumber": 10044,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
+    "line": "      return before(2, func);",
+    "lineNumber": 10619,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
+    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 10950,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
+    "line": "    function wrap(value, wrapper) {",
+    "lineNumber": 10957,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
+    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 15518,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/wrap.js",
+    "line": " * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver-utils/node_modules/lodash/wrap.js",
+    "line": "function wrap(value, wrapper) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-append(",
@@ -1585,6 +1776,197 @@
     "lineNumber": 42,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/archiver/node_modules/lodash/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/archiver/node_modules/lodash/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/core.js",
+    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 2228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/core.js",
+    "line": "  function before(n, func) {",
+    "lineNumber": 2231,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/core.js",
+    "line": "    return before(2, func);",
+    "lineNumber": 2381,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/core.js",
+    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 3483,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/archiver/node_modules/lodash/core.min.js",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
+    "line": "  function wrap(name, func, placeholder) {",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
+    "line": "    return wrap(name, func, defaultHolder);",
+    "lineNumber": 521,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
+    "line": "        pairs.push([key, wrap(key, func, _)]);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/iteratee.js",
+    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
+    "line": "     * var done = _.after(saves.length, function() {",
+    "lineNumber": 9983,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
+    "line": "    function after(n, func) {",
+    "lineNumber": 9992,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
+    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 10041,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
+    "line": "    function before(n, func) {",
+    "lineNumber": 10044,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
+    "line": "      return before(2, func);",
+    "lineNumber": 10619,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
+    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 10950,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
+    "line": "    function wrap(value, wrapper) {",
+    "lineNumber": 10957,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
+    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 15518,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/archiver/node_modules/lodash/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/wrap.js",
+    "line": " * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/archiver/node_modules/lodash/wrap.js",
+    "line": "function wrap(value, wrapper) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -1807,7 +2189,7 @@
     "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
     "line": "    toFastProperties: toFastProperties,",
     "lineNumber": 3752,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "ruleNeeded",
     "updated": "2019-03-22T19:15:12.445Z",
     "reasonDetail": "Exposing a dangerous function"
   },
@@ -1816,7 +2198,7 @@
     "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
     "line": "if (ret.isNode) ret.toFastProperties(process);",
     "lineNumber": 3775,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2019-03-22T19:15:12.445Z",
     "reasonDetail": "process is a known global"
   },
@@ -2643,77 +3025,6 @@
     "updated": "2019-04-26T19:26:59.689Z"
   },
   {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "function createNodesFromMarkup(markup, handleScript) {",
-    "lineNumber": 51,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
-    "lineNumber": 53,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
-    "lineNumber": 58,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = markup;",
-    "lineNumber": 65,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
-    "lineNumber": 70,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "module.exports = createNodesFromMarkup;",
-    "lineNumber": 81,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<link />';",
-    "lineNumber": 83,
-    "reasonCategory": "falseMatch"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
-    "lineNumber": 85,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
     "rule": "jQuery-prepend(",
     "path": "node_modules/css/node_modules/source-map/lib/source-map/source-node.js",
     "line": "        this.prepend(aChunk[i]);",
@@ -2876,9 +3187,8 @@
     "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
     "line": "function load(input, options) {",
     "lineNumber": 2557,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2019-06-19T20:42:32.133Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-19T20:42:32.133Z"
   },
   {
     "rule": "jQuery-load(",
@@ -2918,6 +3228,230 @@
     "lineNumber": 5,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    var blockNode = ReactDOM.findDOMNode(this);",
+    "lineNumber": 3773,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    doc.documentElement.innerHTML = html;",
+    "lineNumber": 5535,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t      var editorNode = ReactDOM.findDOMNode(_this.editor);",
+    "lineNumber": 7047,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t      var editorNode = ReactDOM.findDOMNode(_this.editor);",
+    "lineNumber": 7081,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t   * Resetting innerHTML will move focus to the beginning of the editor,",
+    "lineNumber": 7570,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    var node = ReactDOM.findDOMNode(this);",
+    "lineNumber": 8140,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    var leafNode = ReactDOM.findDOMNode(this.leaf);",
+    "lineNumber": 8168,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t    var node = ReactDOM.findDOMNode(this);",
+    "lineNumber": 8406,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t  var editorNode = ReactDOM.findDOMNode(editor.editorContainer);",
+    "lineNumber": 10608,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/draft-js/dist/Draft.js",
+    "line": "\t  return anonymized.outerHTML;",
+    "lineNumber": 12689,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 16,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 18,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/draft-js/dist/Draft.min.js",
+    "lineNumber": 19,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditor.react.js",
+    "line": "      var editorNode = ReactDOM.findDOMNode(_this.editor);",
+    "lineNumber": 82,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditor.react.js",
+    "line": "      var editorNode = ReactDOM.findDOMNode(_this.editor);",
+    "lineNumber": 116,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorBlock.react.js",
+    "line": "    var blockNode = ReactDOM.findDOMNode(this);",
+    "lineNumber": 92,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorBlockNode.react.js",
+    "line": "    var blockNode = ReactDOM.findDOMNode(this);",
+    "lineNumber": 215,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/lib/DraftEditorCompositionHandler.js",
+    "line": "   * Resetting innerHTML will move focus to the beginning of the editor,",
+    "lineNumber": 128,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorLeaf.react.js",
+    "line": "    var node = ReactDOM.findDOMNode(this);",
+    "lineNumber": 72,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorLeaf.react.js",
+    "line": "    var leafNode = ReactDOM.findDOMNode(this.leaf);",
+    "lineNumber": 100,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/DraftEditorTextNode.react.js",
+    "line": "    var node = ReactDOM.findDOMNode(this);",
+    "lineNumber": 84,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/draft-js/lib/editOnSelect.js",
+    "line": "  var editorNode = ReactDOM.findDOMNode(editor.editorContainer);",
+    "lineNumber": 28,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/draft-js/lib/getSafeBodyFromHTML.js",
+    "line": "    doc.documentElement.innerHTML = html;",
+    "lineNumber": 33,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/draft-js/lib/setDraftEditorSelection.js",
+    "line": "  return anonymized.outerHTML;",
+    "lineNumber": 33,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/draft-js/node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/draft-js/node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3014,24 +3548,6 @@
     "lineNumber": 90,
     "reasonCategory": "otherUtilityCode",
     "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/emoji-js/lib/jquery.emoji.js",
-    "line": "\t\t$(this).html(function (i, oldHtml){",
-    "lineNumber": 5,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "node_modules/emoji-js/lib/jquery.emoji.js",
-    "line": "\t\t$(this).html(function (i, oldHtml){",
-    "lineNumber": 5,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "It's setting the html of the element to the previous HTML, just with the emoji replaced"
   },
   {
     "rule": "thenify-multiArgs",
@@ -3389,6 +3905,218 @@
     "lineNumber": 186,
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/immutable/dist/immutable.min.js",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/inquirer/node_modules/lodash/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/inquirer/node_modules/lodash/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/core.js",
+    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 2228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/core.js",
+    "line": "  function before(n, func) {",
+    "lineNumber": 2231,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/core.js",
+    "line": "    return before(2, func);",
+    "lineNumber": 2381,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/core.js",
+    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 3483,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/inquirer/node_modules/lodash/core.min.js",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/fp/_baseConvert.js",
+    "line": "  function wrap(name, func, placeholder) {",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/fp/_baseConvert.js",
+    "line": "    return wrap(name, func, defaultHolder);",
+    "lineNumber": 521,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/fp/_baseConvert.js",
+    "line": "        pairs.push([key, wrap(key, func, _)]);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/iteratee.js",
+    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
+    "line": "     * var done = _.after(saves.length, function() {",
+    "lineNumber": 9983,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
+    "line": "    function after(n, func) {",
+    "lineNumber": 9992,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
+    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 10041,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
+    "line": "    function before(n, func) {",
+    "lineNumber": 10044,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
+    "line": "      return before(2, func);",
+    "lineNumber": 10619,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
+    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 10950,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
+    "line": "    function wrap(value, wrapper) {",
+    "lineNumber": 10957,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
+    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 15518,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/inquirer/node_modules/lodash/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/wrap.js",
+    "line": " * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/inquirer/node_modules/lodash/wrap.js",
+    "line": "function wrap(value, wrapper) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-$(",
@@ -4439,41 +5167,41 @@
     "rule": "jQuery-after(",
     "path": "node_modules/lodash/lodash.js",
     "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-11-27T01:59:02.018Z"
+    "lineNumber": 9981,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/lodash/lodash.js",
     "line": "    function after(n, func) {",
-    "lineNumber": 9992,
+    "lineNumber": 9990,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:59:02.018Z"
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/lodash.js",
     "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-11-27T01:59:02.018Z"
+    "lineNumber": 10039,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/lodash.js",
     "line": "    function before(n, func) {",
-    "lineNumber": 10044,
+    "lineNumber": 10042,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:59:02.018Z"
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/lodash/lodash.js",
     "line": "      return before(2, func);",
-    "lineNumber": 10619,
+    "lineNumber": 10618,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:59:02.018Z"
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-before(",
@@ -4548,6 +5276,158 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Getting the value, not setting it"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/ajv.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/ajv.min.js",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/mksnapshot/node_modules/form-data/lib/form_data.js",
+    "line": "  append(header);",
+    "lineNumber": 67,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/mksnapshot/node_modules/form-data/lib/form_data.js",
+    "line": "  append(footer);",
+    "lineNumber": 69,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/mksnapshot/node_modules/request/lib/multipart.js",
+    "line": "    return chunked ? body.append(part) : body.push(Buffer.from(part))",
+    "lineNumber": 75,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/mksnapshot/node_modules/request/request.js",
+    "line": "        requestForm.append(key, value.value, value.options)",
+    "lineNumber": 324,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/mksnapshot/node_modules/request/request.js",
+    "line": "        requestForm.append(key, value)",
+    "lineNumber": 326,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
   },
   {
     "rule": "jQuery-append(",
@@ -4690,33 +5570,161 @@
     "rule": "jQuery-$(",
     "path": "node_modules/node-gyp/lib/configure.js",
     "line": "        !gyp.opts.nodedir ? '<(target_arch)' : '$(Configuration)',",
-    "lineNumber": 296,
+    "lineNumber": 299,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/ajv.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/ajv.min.js",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/nugget/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/lib/multipart.js",
+    "path": "node_modules/nugget/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 4,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/nugget/node_modules/form-data/lib/form_data.js",
+    "line": "  append(header);",
+    "lineNumber": 67,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/nugget/node_modules/form-data/lib/form_data.js",
+    "line": "  append(footer);",
+    "lineNumber": 69,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/nugget/node_modules/request/lib/multipart.js",
     "line": "    return chunked ? body.append(part) : body.push(Buffer.from(part))",
-    "lineNumber": 74,
+    "lineNumber": 75,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-07-19T17:16:02.404Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/request.js",
+    "path": "node_modules/nugget/node_modules/request/request.js",
     "line": "        requestForm.append(key, value.value, value.options)",
     "lineNumber": 324,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-07-19T17:16:02.404Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/node-gyp/node_modules/request/request.js",
+    "path": "node_modules/nugget/node_modules/request/request.js",
     "line": "        requestForm.append(key, value)",
     "lineNumber": 326,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-07-19T17:16:02.404Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -5002,6 +6010,78 @@
     "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "function createNodesFromMarkup(markup, handleScript) {",
+    "lineNumber": 51,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
+    "lineNumber": 58,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = markup;",
+    "lineNumber": 65,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
+    "lineNumber": 70,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "module.exports = createNodesFromMarkup;",
+    "lineNumber": 81,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<link />';",
+    "lineNumber": 83,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
+    "lineNumber": 85,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "eval",
@@ -5517,137 +6597,9 @@
     "rule": "jQuery-append(",
     "path": "node_modules/request/lib/multipart.js",
     "line": "    return chunked ? body.append(part) : body.push(Buffer.from(part))",
-    "lineNumber": 75,
+    "lineNumber": 74,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/request/node_modules/ajv/dist/ajv.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/request/node_modules/ajv/dist/ajv.min.js",
-    "lineNumber": 5,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/request/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/request/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 3,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/request/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 4,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/request/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 4,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/request/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 7,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 6,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 7,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 9,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 10,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 10,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/request/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/request/node_modules/form-data/lib/form_data.js",
-    "line": "  append(header);",
-    "lineNumber": 67,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/request/node_modules/form-data/lib/form_data.js",
-    "line": "  append(footer);",
-    "lineNumber": 69,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-07-19T17:16:02.404Z"
   },
   {
     "rule": "jQuery-append(",
@@ -5804,12 +6756,394 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-after(",
+    "path": "node_modules/string-similarity/node_modules/lodash/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/string-similarity/node_modules/lodash/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/core.js",
+    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 2228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/core.js",
+    "line": "  function before(n, func) {",
+    "lineNumber": 2231,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/core.js",
+    "line": "    return before(2, func);",
+    "lineNumber": 2381,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/core.js",
+    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 3483,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/string-similarity/node_modules/lodash/core.min.js",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/fp/_baseConvert.js",
+    "line": "  function wrap(name, func, placeholder) {",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/fp/_baseConvert.js",
+    "line": "    return wrap(name, func, defaultHolder);",
+    "lineNumber": 521,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/fp/_baseConvert.js",
+    "line": "        pairs.push([key, wrap(key, func, _)]);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/iteratee.js",
+    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/string-similarity/node_modules/lodash/lodash.js",
+    "line": "     * var done = _.after(saves.length, function() {",
+    "lineNumber": 9983,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/string-similarity/node_modules/lodash/lodash.js",
+    "line": "    function after(n, func) {",
+    "lineNumber": 9992,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/lodash.js",
+    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 10041,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/lodash.js",
+    "line": "    function before(n, func) {",
+    "lineNumber": 10044,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/lodash.js",
+    "line": "      return before(2, func);",
+    "lineNumber": 10619,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/lodash.js",
+    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 10950,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/lodash.js",
+    "line": "    function wrap(value, wrapper) {",
+    "lineNumber": 10957,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/lodash.js",
+    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 15518,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/string-similarity/node_modules/lodash/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/wrap.js",
+    "line": " * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/string-similarity/node_modules/lodash/wrap.js",
+    "line": "function wrap(value, wrapper) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/table/dist/createStream.js",
     "line": "        return append(row, columnWidthIndex, config);",
     "lineNumber": 153,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/table/node_modules/lodash/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/table/node_modules/lodash/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/core.js",
+    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 2228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/core.js",
+    "line": "  function before(n, func) {",
+    "lineNumber": 2231,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/core.js",
+    "line": "    return before(2, func);",
+    "lineNumber": 2381,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/core.js",
+    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 3483,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/table/node_modules/lodash/core.min.js",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/fp/_baseConvert.js",
+    "line": "  function wrap(name, func, placeholder) {",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/fp/_baseConvert.js",
+    "line": "    return wrap(name, func, defaultHolder);",
+    "lineNumber": 521,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/fp/_baseConvert.js",
+    "line": "        pairs.push([key, wrap(key, func, _)]);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/iteratee.js",
+    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/table/node_modules/lodash/lodash.js",
+    "line": "     * var done = _.after(saves.length, function() {",
+    "lineNumber": 9983,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/table/node_modules/lodash/lodash.js",
+    "line": "    function after(n, func) {",
+    "lineNumber": 9992,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/lodash.js",
+    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 10041,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/lodash.js",
+    "line": "    function before(n, func) {",
+    "lineNumber": 10044,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/lodash.js",
+    "line": "      return before(2, func);",
+    "lineNumber": 10619,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/lodash.js",
+    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 10950,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/lodash.js",
+    "line": "    function wrap(value, wrapper) {",
+    "lineNumber": 10957,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/lodash.js",
+    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 15518,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/table/node_modules/lodash/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/wrap.js",
+    "line": " * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/lodash/wrap.js",
+    "line": "function wrap(value, wrapper) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-append(",
@@ -6014,6 +7348,197 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-after(",
+    "path": "node_modules/xml2js/node_modules/lodash/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/xml2js/node_modules/lodash/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/core.js",
+    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 2228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/core.js",
+    "line": "  function before(n, func) {",
+    "lineNumber": 2231,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/core.js",
+    "line": "    return before(2, func);",
+    "lineNumber": 2381,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/core.js",
+    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 3483,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/xml2js/node_modules/lodash/core.min.js",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
+    "line": "  function wrap(name, func, placeholder) {",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
+    "line": "    return wrap(name, func, defaultHolder);",
+    "lineNumber": 521,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
+    "line": "        pairs.push([key, wrap(key, func, _)]);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/iteratee.js",
+    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
+    "line": "     * var done = _.after(saves.length, function() {",
+    "lineNumber": 9983,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
+    "line": "    function after(n, func) {",
+    "lineNumber": 9992,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
+    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 10041,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
+    "line": "    function before(n, func) {",
+    "lineNumber": 10044,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
+    "line": "      return before(2, func);",
+    "lineNumber": 10619,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
+    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 10950,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
+    "line": "    function wrap(value, wrapper) {",
+    "lineNumber": 10957,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
+    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 15518,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/xml2js/node_modules/lodash/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/wrap.js",
+    "line": " * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/xml2js/node_modules/lodash/wrap.js",
+    "line": "function wrap(value, wrapper) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/xregexp/xregexp-all.js",
     "line": "        replacementToken = /\\$(?:{([\\w$]+)}|(\\d\\d?|[\\s\\S]))/g,",
@@ -6036,6 +7561,197 @@
     "lineNumber": 643,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/zip-stream/node_modules/lodash/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/zip-stream/node_modules/lodash/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/core.js",
+    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 2228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/core.js",
+    "line": "  function before(n, func) {",
+    "lineNumber": 2231,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/core.js",
+    "line": "    return before(2, func);",
+    "lineNumber": 2381,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/core.js",
+    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 3483,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/zip-stream/node_modules/lodash/core.min.js",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/fp/_baseConvert.js",
+    "line": "  function wrap(name, func, placeholder) {",
+    "lineNumber": 468,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/fp/_baseConvert.js",
+    "line": "    return wrap(name, func, defaultHolder);",
+    "lineNumber": 521,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/fp/_baseConvert.js",
+    "line": "        pairs.push([key, wrap(key, func, _)]);",
+    "lineNumber": 531,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/iteratee.js",
+    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
+    "line": "     * var done = _.after(saves.length, function() {",
+    "lineNumber": 9983,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
+    "line": "    function after(n, func) {",
+    "lineNumber": 9992,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
+    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 10041,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
+    "line": "    function before(n, func) {",
+    "lineNumber": 10044,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
+    "line": "      return before(2, func);",
+    "lineNumber": 10619,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
+    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 10950,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
+    "line": "    function wrap(value, wrapper) {",
+    "lineNumber": 10957,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
+    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
+    "lineNumber": 15518,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/zip-stream/node_modules/lodash/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/wrap.js",
+    "line": " * var p = _.wrap(_.escape, function(func, text) {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/zip-stream/node_modules/lodash/wrap.js",
+    "line": "function wrap(value, wrapper) {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -6095,7 +7811,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 180,
+    "lineNumber": 183,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used to auto-start playback on videos"
@@ -6104,7 +7820,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.tsx",
     "line": "    this.videoRef = React.createRef();",
-    "lineNumber": 176,
+    "lineNumber": 179,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used to auto-start playback on videos"
@@ -6131,7 +7847,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
-    "lineNumber": 13,
+    "lineNumber": 14,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to trigger menu display"
@@ -6140,7 +7856,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 58,
+    "lineNumber": 59,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to trigger menu display"

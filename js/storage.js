@@ -46,7 +46,10 @@
 
   async function remove(key) {
     if (!ready) {
-      window.log.warn('Called storage.get before storage is ready. key:', key);
+      window.log.warn(
+        'Called storage.remove before storage is ready. key:',
+        key
+      );
     }
 
     delete items[key];

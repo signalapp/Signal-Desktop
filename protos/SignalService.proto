@@ -173,7 +173,9 @@ message DataMessage {
     option allow_alias = true;
 
     INITIAL = 0;
-    CURRENT = 0;
+    MESSAGE_TIMERS = 1;
+    VIEW_ONCE = 2;
+    CURRENT = 2;
   }
 
   optional string             body                    = 1;
@@ -188,6 +190,7 @@ message DataMessage {
   repeated Preview            preview                 = 10;
   optional Sticker            sticker                 = 11;
   optional uint32             requiredProtocolVersion = 12;
+  optional bool               isViewOnce              = 14;
 }
 
 message NullMessage {
@@ -291,6 +294,11 @@ message SyncMessage {
     optional Type  type    = 3;
   }
 
+  message ViewOnceOpen {
+    optional string sender    = 1;
+    optional uint64 timestamp = 2;
+  }
+
   optional Sent                 sent                 = 1;
   optional Contacts             contacts             = 2;
   optional Groups               groups               = 3;
@@ -301,6 +309,7 @@ message SyncMessage {
   optional Configuration        configuration        = 9;
   optional bytes                padding              = 8;
   repeated StickerPackOperation stickerPackOperation = 10;
+  optional ViewOnceOpen         viewOnceOpen         = 11;
 }
 
 message AttachmentPointer {

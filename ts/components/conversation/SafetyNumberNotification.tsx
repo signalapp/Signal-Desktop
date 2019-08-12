@@ -46,7 +46,6 @@ export class SafetyNumberNotification extends React.Component<Props> {
                 className="module-safety-number-notification__contact"
               >
                 <ContactName
-                  i18n={i18n}
                   name={contact.name}
                   profileName={contact.profileName}
                   phoneNumber={contact.phoneNumber}

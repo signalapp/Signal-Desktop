@@ -947,16 +947,6 @@
         "message": "Fájl ikon",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
-    "emojiAlt": {
-        "message": "'$title$'-t ábrázoló emoji",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
     "installWelcome": {
         "message": "Üdvözöl a Signal Desktop!",
         "description": "Welcome title on the install page"

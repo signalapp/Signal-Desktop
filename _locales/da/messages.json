@@ -947,16 +947,6 @@
         "message": "Filikon",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
-    "emojiAlt": {
-        "message": "Emoji billede af '$title$'",
-        "description": "Used in the alt tag of all emoji images",
-        "placeholders": {
-            "title": {
-                "content": "$1",
-                "example": "grinning"
-            }
-        }
-    },
     "installWelcome": {
         "message": "Velkommen til Signal Desktop",
         "description": "Welcome title on the install page"

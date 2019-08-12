@@ -1,15 +1,11 @@
 const { take } = require('lodash');
 const { getRecentEmojis } = require('./data');
-const {
-  replaceColons,
-  hasVariation,
-} = require('../../ts/components/emoji/lib');
+const { replaceColons } = require('../../ts/components/emoji/lib');
 
 module.exports = {
   getInitialState,
   load,
   replaceColons,
-  hasVariation,
 };
 
 let initialState = null;

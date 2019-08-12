@@ -25,12 +25,17 @@ export function renderAvatar({
   const avatarPath = avatar && avatar.avatar && avatar.avatar.path;
   const pending = avatar && avatar.avatar && avatar.avatar.pending;
   const name = getName(contact) || '';
-  const spinnerSize = size < 50 ? 'small' : 'normal';
+  const spinnerSvgSize = size < 50 ? 'small' : 'normal';
+  const spinnerSize = size < 50 ? '24px' : undefined;
 
   if (pending) {
     return (
       <div className="module-embedded-contact__spinner-container">
-        <Spinner size={spinnerSize} direction={direction} />
+        <Spinner
+          svgSize={spinnerSvgSize}
+          size={spinnerSize}
+          direction={direction}
+        />
       </div>
     );
   }

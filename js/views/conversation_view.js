@@ -19,6 +19,9 @@
   const {
     upgradeMessageSchema,
     getAbsoluteAttachmentPath,
+    copyIntoTempDirectory,
+    getAbsoluteTempPath,
+    deleteTempFile,
   } = window.Signal.Migrations;
 
   Whisper.ExpiredToast = Whisper.ToastView.extend({
@@ -92,6 +95,7 @@
       this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
+      this.listenTo(this.model, 'backgrounded', this.resetEmojiResults);
       this.listenTo(this.model, 'prune', this.onPrune);
       this.listenTo(this.model, 'unload', () => this.unload('model trigger'));
       this.listenTo(this.model, 'typing-update', this.renderTypingBubble);
@@ -130,6 +134,11 @@
         this.model.messageCollection,
         'download',
         this.downloadAttachment
+      );
+      this.listenTo(
+        this.model.messageCollection,
+        'display-tap-to-view-message',
+        this.displayTapToViewMessage
       );
       this.listenTo(
         this.model.messageCollection,
@@ -195,11 +204,6 @@
       this.$('.discussion-container').append(this.view.el);
       this.view.render();
 
-      this.$messageField = this.$('.send-message');
-
-      this.onResize = this.forceUpdateMessageFieldSize.bind(this);
-      this.window.addEventListener('resize', this.onResize);
-
       this.onFocus = () => {
         if (this.$el.css('display') !== 'none') {
           this.markRead();
@@ -217,36 +221,22 @@
       this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
 
       this.setupHeader();
-      this.setupEmojiPickerButton();
-      this.setupStickerPickerButton();
-
-      this.lastSelectionStart = 0;
-      document.addEventListener(
-        'selectionchange',
-        this.updateLastSelectionStart.bind(this, undefined)
-      );
+      this.setupCompositionArea();
     },
 
     events: {
-      'submit .send': 'clickSend',
-      'input .send-message': 'updateMessageFieldSize',
-      'keydown .send-message': 'updateMessageFieldSize',
-      'keyup .send-message': 'onKeyUp',
       click: 'onClick',
-      'click .emoji-button-placeholder': 'onClickPlaceholder',
-      'click .sticker-button-placeholder': 'onClickPlaceholder',
+      'click .composition-area-placeholder': 'onClickPlaceholder',
       'click .bottom-bar': 'focusMessageField',
       'click .capture-audio .microphone': 'captureAudio',
       'click .module-scroll-down': 'scrollToBottom',
       'focus .send-message': 'focusBottomBar',
-      'change .file-input': 'toggleMicrophone',
       'blur .send-message': 'unfocusBottomBar',
       'loadMore .message-list': 'loadMoreMessages',
       'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
       'atBottom .message-list': 'removeScrollDownButton',
       'farFromBottom .message-list': 'addScrollDownButton',
       'lazyScroll .message-list': 'onLazyScroll',
-      'force-resize': 'forceUpdateMessageFieldSize',
 
       'click button.paperclip': 'onChooseAttachment',
       'change input.file-input': 'onChoseAttachment',
@@ -326,52 +316,31 @@
       this.$('.conversation-header').append(this.titleView.el);
     },
 
-    setupEmojiPickerButton() {
-      const props = {
-        onForceSend: () => {
-          this.sendMessage({});
-        },
-        onPickEmoji: e => this.insertEmoji(e),
-        onClose: () => {
-          const textarea = this.$messageField[0];
-
-          textarea.focus();
-
-          const newPos = textarea.value.length;
-          textarea.selectionStart = newPos;
-          textarea.selectionEnd = newPos;
-
-          this.forceUpdateLastSelectionStart(newPos);
-        },
-      };
-
-      this.emojiButtonView = new Whisper.ReactWrapperView({
-        className: 'emoji-button-wrapper',
-        JSX: Signal.State.Roots.createEmojiButton(window.reduxStore, props),
-      });
-
-      // Finally, add it to the DOM
-      this.$('.emoji-button-placeholder').append(this.emojiButtonView.el);
-    },
-
-    setupStickerPickerButton() {
-      if (!window.ENABLE_STICKER_SEND) {
-        return;
-      }
+    setupCompositionArea() {
+      const compositionApi = { current: null };
+      this.compositionApi = compositionApi;
 
       const props = {
+        compositionApi,
         onClickAddPack: () => this.showStickerManager(),
         onPickSticker: (packId, stickerId) =>
           this.sendStickerMessage({ packId, stickerId }),
+        onSubmit: message => this.sendMessage(message),
+        onDirtyChange: dirty => this.toggleMicrophone(dirty),
+        onEditorStateChange: (msg, caretLocation) =>
+          this.onEditorStateChange(msg, caretLocation),
+        onEditorSizeChange: rect => this.onEditorSizeChange(rect),
       };
 
-      this.stickerButtonView = new Whisper.ReactWrapperView({
-        className: 'sticker-button-wrapper',
-        JSX: Signal.State.Roots.createStickerButton(window.reduxStore, props),
+      this.compositionAreaView = new Whisper.ReactWrapperView({
+        className: 'composition-area-wrapper',
+        JSX: Signal.State.Roots.createCompositionArea(window.reduxStore, props),
       });
 
       // Finally, add it to the DOM
-      this.$('.sticker-button-placeholder').append(this.stickerButtonView.el);
+      this.$('.composition-area-placeholder').append(
+        this.compositionAreaView.el
+      );
     },
 
     // We need this, or clicking the reactified buttons will submit the form and send any
@@ -461,8 +430,8 @@
       if (this.quoteView) {
         this.quoteView.remove();
       }
-      if (this.lightBoxView) {
-        this.lightBoxView.remove();
+      if (this.lightboxView) {
+        this.lightboxView.remove();
       }
       if (this.lightboxGalleryView) {
         this.lightboxGalleryView.remove();
@@ -474,14 +443,7 @@
         }
       }
 
-      this.window.removeEventListener('resize', this.onResize);
       this.window.removeEventListener('focus', this.onFocus);
-      document.removeEventListener(
-        'selectionchange',
-        this.updateLastSelectionStart
-      );
-
-      window.autosize.destroy(this.$messageField);
 
       this.view.remove();
 
@@ -623,11 +585,8 @@
       }
     },
 
-    toggleMicrophone() {
-      if (
-        this.$('.send-message').val().length > 0 ||
-        this.fileInput.hasFiles()
-      ) {
+    toggleMicrophone(dirty = false) {
+      if (dirty || this.fileInput.hasFiles()) {
         this.$('.capture-audio').hide();
       } else {
         this.$('.capture-audio').show();
@@ -659,7 +618,7 @@
       view.on('closed', this.endCaptureAudio.bind(this));
       view.$el.appendTo(this.$('.capture-audio'));
 
-      this.$('.send-message').attr('disabled', true);
+      this.disableMessageField();
       this.$('.microphone').hide();
     },
     handleAudioCapture(blob) {
@@ -668,10 +627,10 @@
         file: blob,
         isVoiceNote: true,
       });
-      this.$('.bottom-bar form').submit();
+      this.sendMessage();
     },
     endCaptureAudio() {
-      this.$('.send-message').removeAttr('disabled');
+      this.enableMessageField();
       this.$('.microphone').show();
       this.captureAudioView = null;
     },
@@ -740,7 +699,6 @@
       messagesLoaded.then(this.onLoaded.bind(this), this.onLoaded.bind(this));
 
       this.view.resetScrollPosition();
-      this.$el.trigger('force-resize');
       this.focusMessageField();
       this.renderTypingBubble();
 
@@ -952,7 +910,7 @@
           });
 
         const saveAttachment = async ({ attachment, message } = {}) => {
-          const timestamp = message.received_at;
+          const timestamp = message.sent_at;
           Signal.Types.Attachment.save({
             attachment,
             document,
@@ -999,7 +957,7 @@
       };
 
       const view = new Whisper.ReactWrapperView({
-        className: 'panel-wrapper',
+        className: 'panel',
         Component: Signal.Components.MediaGallery,
         props: await getProps(),
         onClose: () => {
@@ -1083,13 +1041,28 @@
         return;
       }
 
-      this.$messageField.focus();
+      const { compositionApi } = this;
+
+      if (compositionApi && compositionApi.current) {
+        compositionApi.current.focusInput();
+      }
     },
 
     focusMessageFieldAndClearDisabled() {
-      this.$messageField.removeAttr('disabled');
-      this.$messageField.focus();
-      this.updateLastSelectionStart();
+      this.compositionApi.current.setDisabled(false);
+      this.focusMessageField();
+    },
+
+    disableMessageField() {
+      this.compositionApi.current.setDisabled(true);
+    },
+
+    enableMessageField() {
+      this.compositionApi.current.setDisabled(false);
+    },
+
+    resetEmojiResults() {
+      this.compositionApi.current.resetEmojiResults(false);
     },
 
     async loadMoreMessages() {
@@ -1344,6 +1317,81 @@
       });
     },
 
+    async displayTapToViewMessage(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `displayTapToViewMessage: Did not find message for id ${messageId}`
+        );
+      }
+
+      if (!message.isTapToView()) {
+        throw new Error(
+          `displayTapToViewMessage: Message ${message.idForLogging()} is not a tap to view message`
+        );
+      }
+
+      if (message.isErased()) {
+        throw new Error(
+          `displayTapToViewMessage: Message ${message.idForLogging()} is already erased`
+        );
+      }
+
+      const firstAttachment = message.get('attachments')[0];
+      if (!firstAttachment || !firstAttachment.path) {
+        throw new Error(
+          `displayTapToViewMessage: Message ${message.idForLogging()} had no first attachment with path`
+        );
+      }
+
+      const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
+      const tempPath = await copyIntoTempDirectory(absolutePath);
+      const tempAttachment = {
+        ...firstAttachment,
+        path: tempPath,
+      };
+
+      await message.markViewed();
+
+      const closeLightbox = async () => {
+        if (!this.lightboxView) {
+          return;
+        }
+
+        const { lightboxView } = this;
+        this.lightboxView = null;
+
+        this.stopListening(message);
+        Signal.Backbone.Views.Lightbox.hide();
+        lightboxView.remove();
+
+        await deleteTempFile(tempPath);
+      };
+      this.listenTo(message, 'expired', closeLightbox);
+      this.listenTo(message, 'change', () => {
+        if (this.lightBoxView) {
+          this.lightBoxView.update(getProps());
+        }
+      });
+
+      const getProps = () => {
+        const { path, contentType } = tempAttachment;
+
+        return {
+          objectURL: getAbsoluteTempPath(path),
+          contentType,
+        };
+      };
+      this.lightboxView = new Whisper.ReactWrapperView({
+        className: 'lightbox-wrapper',
+        Component: Signal.Components.Lightbox,
+        props: getProps(),
+        onClose: closeLightbox,
+      });
+
+      Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+    },
+
     deleteMessage(messageId) {
       const message = this.model.messageCollection.get(messageId);
       if (!message) {
@@ -1437,7 +1485,10 @@
           objectURL: getAbsoluteAttachmentPath(path),
           contentType,
           caption: attachment.caption,
-          onSave: () => this.downloadAttachment({ attachment, message }),
+          onSave: () => {
+            const timestamp = message.get('sent_at');
+            this.downloadAttachment({ attachment, timestamp, message });
+          },
         };
         this.lightboxView = new Whisper.ReactWrapperView({
           className: 'lightbox-wrapper',
@@ -1504,7 +1555,7 @@
 
       const props = message.getPropsForMessageDetail();
       const view = new Whisper.ReactWrapperView({
-        className: 'message-detail-wrapper',
+        className: 'panel message-detail-wrapper',
         Component: Signal.Components.MessageDetail,
         props,
         onClose,
@@ -1564,11 +1615,11 @@
 
     listenBack(view) {
       this.panels = this.panels || [];
-      if (this.panels.length > 0) {
-        this.panels[0].$el.hide();
-      }
       this.panels.unshift(view);
-      view.$el.insertBefore(this.$('.panel').first());
+      view.$el.insertAfter(this.$('.panel').last());
+      view.$el.one('animationend', () => {
+        view.$el.addClass('panel--static');
+      });
     },
     resetPanel() {
       if (!this.panels || !this.panels.length) {
@@ -1578,15 +1629,15 @@
       const view = this.panels.shift();
 
       if (this.panels.length > 0) {
-        this.panels[0].$el.show();
+        this.panels[0].$el.fadeIn(250);
       }
-      view.remove();
-
-      if (this.panels.length === 0) {
-        this.$el.trigger('force-resize');
-        // Make sure poppers are positioned properly
-        window.dispatchEvent(new Event('resize'));
-      }
+      view.$el.addClass('panel--remove').one('transitionend', () => {
+        view.remove();
+        if (this.panels.length === 0) {
+          // Make sure poppers are positioned properly
+          window.dispatchEvent(new Event('resize'));
+        }
+      });
     },
 
     endSession() {
@@ -1651,36 +1702,6 @@
       });
     },
 
-    async clickSend(e, options) {
-      e.preventDefault();
-
-      this.sendStart = Date.now();
-      this.$messageField.attr('disabled', true);
-
-      try {
-        const contacts = await this.getUntrustedContacts(options);
-
-        if (contacts && contacts.length) {
-          const sendAnyway = await this.showSendAnywayDialog(contacts);
-          if (sendAnyway) {
-            this.clickSend(e, { force: true });
-            return;
-          }
-
-          this.focusMessageFieldAndClearDisabled();
-          return;
-        }
-
-        this.sendMessage(e);
-      } catch (error) {
-        this.focusMessageFieldAndClearDisabled();
-        window.log.error(
-          'clickSend error:',
-          error && error.stack ? error.stack : error
-        );
-      }
-    },
-
     async sendStickerMessage(options = {}) {
       try {
         const contacts = await this.getUntrustedContacts(options);
@@ -1734,34 +1755,6 @@
       return null;
     },
 
-    insertEmoji({ shortName, skinTone }) {
-      const skinReplacement = window.Signal.Emojis.hasVariation(
-        shortName,
-        skinTone
-      )
-        ? `:skin-tone-${skinTone}:`
-        : '';
-
-      const colons = `:${shortName}:${skinReplacement}`;
-
-      const textarea = this.$messageField[0];
-      const hasFocus = document.activeElement === textarea;
-      const startPos = hasFocus
-        ? textarea.selectionStart
-        : this.lastSelectionStart;
-      const endPos = hasFocus ? textarea.selectionEnd : this.lastSelectionStart;
-
-      textarea.value =
-        textarea.value.substring(0, startPos) +
-        colons +
-        textarea.value.substring(endPos, textarea.value.length);
-      const newPos = startPos + colons.length;
-      textarea.selectionStart = newPos;
-      textarea.selectionEnd = newPos;
-      this.forceUpdateLastSelectionStart(newPos);
-      this.forceUpdateMessageFieldSize({});
-    },
-
     async setQuoteMessage(messageId) {
       this.quote = null;
       this.quotedMessage = null;
@@ -1793,7 +1786,6 @@
       }
       if (!this.quotedMessage) {
         this.view.restoreBottomOffset();
-        this.updateMessageFieldSize({});
         return;
       }
 
@@ -1825,17 +1817,38 @@
         }),
         onInitialRender: () => {
           this.view.restoreBottomOffset();
-          this.updateMessageFieldSize({});
         },
       });
     },
 
-    async sendMessage(e) {
+    async sendMessage(message = '', options = {}) {
+      this.sendStart = Date.now();
+
+      try {
+        const contacts = await this.getUntrustedContacts(options);
+        this.disableMessageField();
+
+        if (contacts && contacts.length) {
+          const sendAnyway = await this.showSendAnywayDialog(contacts);
+          if (sendAnyway) {
+            this.sendMessage(message, { force: true });
+            return;
+          }
+
+          this.focusMessageFieldAndClearDisabled();
+          return;
+        }
+      } catch (error) {
+        this.focusMessageFieldAndClearDisabled();
+        window.log.error(
+          'sendMessage error:',
+          error && error.stack ? error.stack : error
+        );
+        return;
+      }
+
       this.removeLastSeenIndicator();
       this.model.clearTypingTimers();
-
-      const input = this.$messageField;
-      const message = window.Signal.Emojis.replaceColons(input.val()).trim();
 
       let toast;
       if (extension.expired()) {
@@ -1877,11 +1890,9 @@
           this.getLinkPreview()
         );
 
-        input.val('');
+        this.compositionApi.current.reset();
         this.setQuoteMessage(null);
         this.resetLinkPreview();
-        this.focusMessageFieldAndClearDisabled();
-        this.forceUpdateMessageFieldSize(e);
         this.fileInput.clearAttachments();
       } catch (error) {
         window.log.error(
@@ -1893,24 +1904,16 @@
       }
     },
 
-    onKeyUp() {
-      this.maybeBumpTyping();
-      this.debouncedMaybeGrabLinkPreview();
+    onEditorStateChange(messageText, caretLocation) {
+      this.maybeBumpTyping(messageText);
+      this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
     },
 
-    updateLastSelectionStart(newPos) {
-      if (document.activeElement === this.$messageField[0]) {
-        this.forceUpdateLastSelectionStart(newPos);
-      }
+    onEditorSizeChange() {
+      this.view.scrollToBottomIfNeeded();
     },
 
-    forceUpdateLastSelectionStart(
-      newPos = this.$messageField[0].selectionStart
-    ) {
-      this.lastSelectionStart = newPos;
-    },
-
-    maybeGrabLinkPreview() {
+    maybeGrabLinkPreview(message, caretLocation) {
       // Don't generate link previews if user has turned them off
       if (!storage.get('linkPreviews', false)) {
         return;
@@ -1928,10 +1931,7 @@
         return;
       }
 
-      const messageText = this.$messageField.val().trim();
-      const caretLocation = this.$messageField.get(0).selectionStart;
-
-      if (!messageText) {
+      if (!message) {
         this.resetLinkPreview();
         return;
       }
@@ -1940,7 +1940,7 @@
       }
 
       const links = window.Signal.LinkPreviews.findLinks(
-        messageText,
+        message,
         caretLocation
       );
       const { currentlyMatchedLink } = this;
@@ -2245,7 +2245,6 @@
       }
       if (!this.currentlyMatchedLink) {
         this.view.restoreBottomOffset();
-        this.updateMessageFieldSize({});
         return;
       }
 
@@ -2267,7 +2266,6 @@
         props,
         onInitialRender: () => {
           this.view.restoreBottomOffset();
-          this.updateMessageFieldSize({});
         },
       });
     },
@@ -2297,57 +2295,10 @@
 
     // Called whenever the user changes the message composition field. But only
     //   fires if there's content in the message field after the change.
-    maybeBumpTyping() {
-      const messageText = this.$messageField.val();
+    maybeBumpTyping(messageText) {
       if (messageText.length) {
         this.model.throttledBumpTyping();
       }
-    },
-
-    updateMessageFieldSize(event) {
-      const keyCode = event.which || event.keyCode;
-
-      if (
-        keyCode === 13 &&
-        !event.altKey &&
-        !event.shiftKey &&
-        !event.ctrlKey
-      ) {
-        // enter pressed - submit the form now
-        event.preventDefault();
-        this.$('.bottom-bar form').submit();
-        return;
-      }
-      this.toggleMicrophone();
-
-      this.view.measureScrollPosition();
-      window.autosize(this.$messageField);
-
-      const $attachmentPreviews = this.$('.attachment-previews');
-      const $bottomBar = this.$('.bottom-bar');
-      const includeMargin = true;
-      const quoteHeight = this.quoteView
-        ? this.quoteView.$el.outerHeight(includeMargin)
-        : 0;
-
-      const height =
-        this.$messageField.outerHeight() +
-        $attachmentPreviews.outerHeight() +
-        quoteHeight +
-        parseInt($bottomBar.css('min-height'), 10);
-
-      $bottomBar.outerHeight(height);
-
-      this.view.scrollToBottomIfNeeded();
-    },
-
-    forceUpdateMessageFieldSize(event) {
-      if (this.isHidden()) {
-        return;
-      }
-      this.view.scrollToBottomIfNeeded();
-      window.autosize.update(this.$messageField);
-      this.updateMessageFieldSize(event);
     },
 
     isHidden() {

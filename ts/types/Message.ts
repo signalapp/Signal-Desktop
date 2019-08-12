@@ -18,6 +18,8 @@ export type IncomingMessage = Readonly<
     decrypted_at?: number;
     errors?: Array<any>;
     expireTimer?: number;
+    messageTimer?: number; // deprecated
+    isViewOnce?: number;
     flags?: number;
     source?: string;
     sourceDevice?: number;
@@ -46,6 +48,8 @@ export type OutgoingMessage = Readonly<
     body?: string;
     expires_at?: number;
     expireTimer?: number;
+    messageTimer?: number; // deprecated
+    isViewOnce?: number;
     recipients?: Array<string>; // Array<PhoneNumber>
     synced: boolean;
   } & SharedMessageProperties &

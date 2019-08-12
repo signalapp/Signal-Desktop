@@ -4,6 +4,7 @@ import { noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 import { StickerPicker } from './StickerPicker';
+import { countStickers } from './lib';
 import { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import { LocalizerType } from '../../types/Util';
 
@@ -115,7 +116,18 @@ export const StickerButton = React.memo(
           setPopperRoot(root);
           document.body.appendChild(root);
           const handleOutsideClick = ({ target }: MouseEvent) => {
-            if (!root.contains(target as Node)) {
+            const targetElement = target as HTMLElement;
+            const className = targetElement
+              ? targetElement.className || ''
+              : '';
+
+            // We need to special-case sticker picker header buttons, because they can
+            //   disappear after being clicked, which breaks the .contains() check below.
+            const isMissingButtonClass =
+              !className ||
+              className.indexOf('module-sticker-picker__header__button') < 0;
+
+            if (!root.contains(targetElement) && isMissingButtonClass) {
               setOpen(false);
             }
           };
@@ -150,12 +162,14 @@ export const StickerButton = React.memo(
       [installedPack, clearInstalledStickerPack]
     );
 
-    const totalPacks =
-      knownPacks.length +
-      blessedPacks.length +
-      installedPacks.length +
-      receivedPacks.length;
-    if (totalPacks === 0) {
+    if (
+      countStickers({
+        knownPacks,
+        blessedPacks,
+        installedPacks,
+        receivedPacks,
+      }) === 0
+    ) {
       return null;
     }
 

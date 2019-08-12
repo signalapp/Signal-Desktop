@@ -3565,6 +3565,440 @@ Sticker link previews are forced to use the small link preview form, no matter t
 </util.ConversationContext>
 ```
 
+### Tap to view
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="pink"
+      conversationType="direct"
+      authorPhoneNumber="(202) 555-0003"
+      isTapToViewExpired={false}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId1"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="blue"
+      isTapToViewExpired={true}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      conversationType="direct"
+      i18n={util.i18n}
+      id="messageId2"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      conversationType="group"
+      authorPhoneNumber="(202) 555-0003"
+      isTapToViewExpired={false}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId3"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorPhoneNumber="(202) 555-0003"
+      authorColor="blue"
+      isTapToViewExpired={true}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      conversationType="group"
+      i18n={util.i18n}
+      id="messageId4"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorPhoneNumber="(202) 555-0003"
+      authorProfileName="A very long profile name which cannot be shown in its entirety, or maybe it can!"
+      authorColor="blue"
+      isTapToViewExpired={true}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      conversationType="group"
+      i18n={util.i18n}
+      id="messageId4"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      collapseMetadata={true}
+      authorColor="blue"
+      isTapToViewExpired={true}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      conversationType="direct"
+      i18n={util.i18n}
+      id="messageId5"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      authorColor="red"
+      status="delivered"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorName="Not shown"
+      isTapToViewExpired={false}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId6"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      authorColor="green"
+      status="read"
+      collapseMetadata={true}
+      timestamp={Date.now()}
+      isTapToViewExpired={false}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId8"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      authorColor="red"
+      status="delivered"
+      timestamp={Date.now()}
+      conversationType="group"
+      authorName="Not shown"
+      isTapToViewExpired={true}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId6"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      authorColor="green"
+      status="read"
+      collapseMetadata={true}
+      timestamp={Date.now()}
+      isTapToViewExpired={true}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId8"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      isTapToViewExpired={false}
+      isTapToView={true}
+      expirationLength={5 * 60 * 1000}
+      expirationTimestamp={Date.now() + 5 * 60 * 1000}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId3"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="blue"
+      isTapToViewExpired={true}
+      isTapToView={true}
+      expirationLength={5 * 60 * 1000}
+      expirationTimestamp={Date.now() + 5 * 60 * 1000}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId4"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      authorColor="red"
+      status="delivered"
+      timestamp={Date.now()}
+      isTapToViewExpired={false}
+      isTapToView={true}
+      expirationLength={5 * 60 * 1000}
+      expirationTimestamp={Date.now() + 5 * 60 * 1000}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId6"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      authorColor="red"
+      status="delivered"
+      timestamp={Date.now()}
+      isTapToViewExpired={true}
+      isTapToView={true}
+      expirationLength={5 * 60 * 1000}
+      expirationTimestamp={Date.now() + 5 * 60 * 1000}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId6"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      authorColor="red"
+      status="delivered"
+      timestamp={Date.now()}
+      isTapToViewExpired={false}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          pending: true,
+          contentType: 'image/gif',
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId6"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      authorColor="red"
+      status="delivered"
+      timestamp={Date.now()}
+      isTapToViewExpired={true}
+      isTapToView={true}
+      isTapToViewError={true}
+      text="This should not be shown"
+      attachments={[]}
+      i18n={util.i18n}
+      id="messageId6"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+  <li>
+    <Message
+      direction="incoming"
+      authorColor="red"
+      status="delivered"
+      conversationType="group"
+      timestamp={Date.now()}
+      isTapToViewExpired={true}
+      isTapToView={true}
+      isTapToViewError={true}
+      text="This should not be shown"
+      attachments={[]}
+      i18n={util.i18n}
+      id="messageId6"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </li>
+</util.ConversationContext>
+```
+
 ### In a group conversation
 
 Note that the author avatar goes away if `collapseMetadata` is set.

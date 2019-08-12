@@ -68,7 +68,7 @@ function isStickerPack(link) {
   return (link || '').startsWith('https://signal.org/addstickers/');
 }
 
-const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg.com|cdninstagram.com|redd.it|imgur.com|fbcdn.net|pinimg.com)$/i;
+const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg\.com|cdninstagram\.com|redd\.it|imgur\.com|fbcdn\.net|pinimg\.com)$/i;
 function isMediaLinkInWhitelist(link) {
   try {
     const url = new URL(link);

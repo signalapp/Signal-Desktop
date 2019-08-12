@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { Emojify } from './Emojify';
 import { Avatar } from '../Avatar';
@@ -49,7 +50,7 @@ interface Props {
 }
 
 export class ConversationHeader extends React.Component<Props> {
-  public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
+  public showMenuBound: (event: React.MouseEvent<HTMLButtonElement>) => void;
   public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
@@ -59,7 +60,7 @@ export class ConversationHeader extends React.Component<Props> {
     this.showMenuBound = this.showMenu.bind(this);
   }
 
-  public showMenu(event: React.MouseEvent<HTMLDivElement>) {
+  public showMenu(event: React.MouseEvent<HTMLButtonElement>) {
     if (this.menuTriggerRef.current) {
       this.menuTriggerRef.current.handleContextClick(event);
     }
@@ -68,15 +69,14 @@ export class ConversationHeader extends React.Component<Props> {
   public renderBackButton() {
     const { onGoBack, showBackButton } = this.props;
 
-    if (!showBackButton) {
-      return null;
-    }
-
     return (
-      <div
+      <button
         onClick={onGoBack}
-        role="button"
-        className="module-conversation-header__back-icon"
+        className={classNames(
+          'module-conversation-header__back-icon',
+          showBackButton ? 'module-conversation-header__back-icon--show' : null
+        )}
+        disabled={!showBackButton}
       />
     );
   }
@@ -101,12 +101,12 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <div className="module-conversation-header__title">
-        {name ? <Emojify text={name} i18n={i18n} /> : null}
+        {name ? <Emojify text={name} /> : null}
         {name && phoneNumber ? ' · ' : null}
         {phoneNumber ? phoneNumber : null}{' '}
         {profileName && !name ? (
           <span className="module-conversation-header__title__profile-name">
-            ~<Emojify text={profileName} i18n={i18n} />
+            ~<Emojify text={profileName} />
           </span>
         ) : null}
         {isVerified ? ' · ' : null}
@@ -171,16 +171,17 @@ export class ConversationHeader extends React.Component<Props> {
   public renderGear(triggerId: string) {
     const { showBackButton } = this.props;
 
-    if (showBackButton) {
-      return null;
-    }
-
     return (
       <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
-        <div
-          role="button"
+        <button
           onClick={this.showMenuBound}
-          className="module-conversation-header__gear-icon"
+          className={classNames(
+            'module-conversation-header__gear-icon',
+            showBackButton
+              ? null
+              : 'module-conversation-header__gear-icon--show'
+          )}
+          disabled={showBackButton}
         />
       </ContextMenuTrigger>
     );

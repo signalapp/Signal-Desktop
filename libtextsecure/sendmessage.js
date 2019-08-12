@@ -249,23 +249,17 @@ MessageSender.prototype = {
   },
 
   queueJobForNumber(number, runJob) {
+    this.pendingMessages[number] =
+      this.pendingMessages[number] || new window.PQueue({ concurrency: 1 });
+
+    const queue = this.pendingMessages[number];
+
     const taskWithTimeout = textsecure.createTaskWithTimeout(
       runJob,
       `queueJobForNumber ${number}`
     );
 
-    const runPrevious = this.pendingMessages[number] || Promise.resolve();
-    this.pendingMessages[number] = runPrevious.then(
-      taskWithTimeout,
-      taskWithTimeout
-    );
-
-    const runCurrent = this.pendingMessages[number];
-    runCurrent.then(() => {
-      if (this.pendingMessages[number] === runCurrent) {
-        delete this.pendingMessages[number];
-      }
-    });
+    queue.add(taskWithTimeout);
   },
 
   uploadAttachments(message) {
@@ -750,6 +744,34 @@ MessageSender.prototype = {
 
     return Promise.resolve();
   },
+
+  async syncViewOnceOpen(sender, timestamp, options) {
+    const myNumber = textsecure.storage.user.getNumber();
+    const myDevice = textsecure.storage.user.getDeviceId();
+    if (myDevice === 1 || myDevice === '1') {
+      return null;
+    }
+
+    const syncMessage = this.createSyncMessage();
+
+    const viewOnceOpen = new textsecure.protobuf.SyncMessage.ViewOnceOpen();
+    viewOnceOpen.sender = sender;
+    viewOnceOpen.timestamp = timestamp;
+    syncMessage.viewOnceOpen = viewOnceOpen;
+
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      myNumber,
+      contentMessage,
+      Date.now(),
+      silent,
+      options
+    );
+  },
+
   async sendStickerPackSync(operations, options) {
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice === 1 || myDevice === '1') {
@@ -1238,6 +1260,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.getSticker = sender.getSticker.bind(sender);
   this.getStickerPackManifest = sender.getStickerPackManifest.bind(sender);
   this.sendStickerPackSync = sender.sendStickerPackSync.bind(sender);
+  this.syncViewOnceOpen = sender.syncViewOnceOpen.bind(sender);
 };
 
 textsecure.MessageSender.prototype = {
