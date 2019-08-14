@@ -16,7 +16,7 @@ import {
 } from 'draft-js';
 import Measure, { ContentRect } from 'react-measure';
 import { Manager, Popper, Reference } from 'react-popper';
-import { head, noop, trimEnd } from 'lodash';
+import { get, head, noop, trimEnd } from 'lodash';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import { Emoji } from './emoji/Emoji';
@@ -546,6 +546,18 @@ export const CompositionInput = ({
         e.preventDefault();
 
         return 'prev-emoji';
+      }
+
+      // Get rid of default draft.js ctrl-m binding which interferes with Windows minimize
+      if (e.key === 'm' && e.ctrlKey) {
+        return null;
+      }
+
+      if (get(window, 'platform') === 'linux') {
+        // Get rid of default draft.js shift-del binding which interferes with Linux cut
+        if (e.key === 'Delete' && e.shiftKey) {
+          return null;
+        }
       }
 
       return getDefaultKeyBinding(e);
