@@ -1,4 +1,5 @@
 import memoizee from 'memoizee';
+import { isNumber } from 'lodash';
 import { createSelector } from 'reselect';
 import { format } from '../../types/PhoneNumber';
 
@@ -388,7 +389,7 @@ export function _conversationMessagesSelector(
     items,
     messageHeightChanges,
     oldestUnreadIndex:
-      oldestUnreadIndex && oldestUnreadIndex >= 0
+      isNumber(oldestUnreadIndex) && oldestUnreadIndex >= 0
         ? oldestUnreadIndex
         : undefined,
     resetCounter,

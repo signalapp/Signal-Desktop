@@ -494,6 +494,10 @@ export class Timeline extends React.PureComponent<Props, State> {
       renderTypingBubble,
     } = this.props;
 
+    const styleWithWidth = {
+      ...style,
+      width: `${this.mostRecentWidth}px`,
+    };
     const row = index;
     const oldestUnreadRow = this.getLastSeenIndicatorRow();
     const typingBubbleRow = this.getTypingBubbleRow();
@@ -501,13 +505,13 @@ export class Timeline extends React.PureComponent<Props, State> {
 
     if (!haveOldest && row === 0) {
       rowContents = (
-        <div data-row={row} style={style}>
+        <div data-row={row} style={styleWithWidth}>
           {renderLoadingRow(id)}
         </div>
       );
     } else if (oldestUnreadRow === row) {
       rowContents = (
-        <div data-row={row} style={style}>
+        <div data-row={row} style={styleWithWidth}>
           {renderLastSeenIndicator(id)}
         </div>
       );
@@ -516,7 +520,7 @@ export class Timeline extends React.PureComponent<Props, State> {
         <div
           data-row={row}
           className="module-timeline__message-container"
-          style={style}
+          style={styleWithWidth}
         >
           {renderTypingBubble(id)}
         </div>
@@ -534,7 +538,7 @@ export class Timeline extends React.PureComponent<Props, State> {
           id={messageId}
           data-row={row}
           className="module-timeline__message-container"
-          style={style}
+          style={styleWithWidth}
         >
           {renderItem(messageId, this.props)}
         </div>
@@ -715,6 +719,7 @@ export class Timeline extends React.PureComponent<Props, State> {
     this.updateWithVisibleRows(forceFocus);
   };
 
+  // tslint:disable-next-line cyclomatic-complexity
   public componentDidUpdate(prevProps: Props) {
     const {
       id,
@@ -763,35 +768,48 @@ export class Timeline extends React.PureComponent<Props, State> {
         const oldFirstIndex = 0;
         const oldFirstId = prevProps.items[oldFirstIndex];
 
-        const newIndex = items.findIndex(item => item === oldFirstId);
-        if (newIndex < 0) {
+        const newFirstIndex = items.findIndex(item => item === oldFirstId);
+        if (newFirstIndex < 0) {
           this.resizeAll();
 
           return;
         }
 
-        const newRow = this.fromItemIndexToRow(newIndex);
+        const newRow = this.fromItemIndexToRow(newFirstIndex);
+        const delta = newFirstIndex - oldFirstIndex;
+        if (delta > 0) {
+          // We're loading more new messages at the top; we want to stay at the top
+          this.resizeAll();
+          this.setState({ oneTimeScrollRow: newRow });
+
+          return;
+        }
+      }
+
+      // We continue on after our atTop check; because if we're not loading new messages
+      //   we still have to check for all the other situations which might require a
+      //   resize.
+
+      const oldLastIndex = prevProps.items.length - 1;
+      const oldLastId = prevProps.items[oldLastIndex];
+
+      const newLastIndex = items.findIndex(item => item === oldLastId);
+      if (newLastIndex < 0) {
         this.resizeAll();
-        this.setState({ oneTimeScrollRow: newRow });
-      } else {
-        const oldLastIndex = prevProps.items.length - 1;
-        const oldLastId = prevProps.items[oldLastIndex];
 
-        const newIndex = items.findIndex(item => item === oldLastId);
-        if (newIndex < 0) {
-          this.resizeAll();
+        return;
+      }
 
-          return;
-        }
+      const indexDelta = newLastIndex - oldLastIndex;
 
-        const indexDelta = newIndex - oldLastIndex;
-
-        // If we've just added to the end of the list, then the index of the last id's
-        //   index won't have changed, and we can rely on List's detection that items is
-        //   different for the necessary re-render.
-        if (indexDelta !== 0) {
-          this.resizeAll();
-        }
+      // If we've just added to the end of the list, then the index of the last id's
+      //   index won't have changed, and we can rely on List's detection that items is
+      //   different for the necessary re-render.
+      if (indexDelta !== 0) {
+        this.resizeAll();
+      } else if (typingContact && prevProps.typingContact) {
+        // The last row will be off, because it was previously the typing indicator
+        this.resizeAll();
       }
     } else if (messageHeightChanges) {
       this.resizeAll();

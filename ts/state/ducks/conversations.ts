@@ -857,6 +857,30 @@ export function reducer(
       totalUnread,
     } = existingConversation.metrics;
 
+    if (messages.length < 1) {
+      return state;
+    }
+
+    const lookup = fromPairs(
+      existingConversation.messageIds.map(id => [id, messagesLookup[id]])
+    );
+    messages.forEach(message => {
+      lookup[message.id] = message;
+    });
+
+    const sorted = orderBy(values(lookup), ['received_at'], ['ASC']);
+    const messageIds = sorted.map(message => message.id);
+
+    const first = sorted[0];
+    const last = sorted[sorted.length - 1];
+
+    if (!newest) {
+      newest = pick(first, ['id', 'received_at']);
+    }
+    if (!oldest) {
+      oldest = pick(last, ['id', 'received_at']);
+    }
+
     const existingTotal = existingConversation.messageIds.length;
     if (isNewMessage && existingTotal > 0) {
       const lastMessageId = existingConversation.messageIds[existingTotal - 1];
@@ -869,27 +893,6 @@ export function reducer(
       }
     }
 
-    const newIds = messages.map(message => message.id);
-    const newChanges = intersection(newIds, existingConversation.messageIds);
-    const heightChangeMessageIds = uniq([
-      ...newChanges,
-      ...existingConversation.heightChangeMessageIds,
-    ]);
-
-    const lookup = fromPairs(
-      existingConversation.messageIds.map(id => [id, messagesLookup[id]])
-    );
-
-    messages.forEach(message => {
-      lookup[message.id] = message;
-    });
-
-    const sorted = orderBy(values(lookup), ['received_at'], ['ASC']);
-    const messageIds = sorted.map(message => message.id);
-
-    const first = sorted[0];
-    const last = sorted.length > 0 ? sorted[sorted.length - 1] : null;
-
     if (first && oldest && first.received_at < oldest.received_at) {
       oldest = pick(first, ['id', 'received_at']);
     }
@@ -897,6 +900,7 @@ export function reducer(
       newest = pick(last, ['id', 'received_at']);
     }
 
+    const newIds = messages.map(message => message.id);
     const newMessageIds = difference(newIds, existingConversation.messageIds);
     const { isNearBottom } = existingConversation;
 
@@ -923,6 +927,12 @@ export function reducer(
       }, 0);
       totalUnread = (totalUnread || 0) + newUnread;
     }
+
+    const changedIds = intersection(newIds, existingConversation.messageIds);
+    const heightChangeMessageIds = uniq([
+      ...changedIds,
+      ...existingConversation.heightChangeMessageIds,
+    ]);
 
     return {
       ...state,
