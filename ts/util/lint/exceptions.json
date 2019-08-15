@@ -513,7 +513,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 97,
+    "lineNumber": 99,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -522,7 +522,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 101,
+    "lineNumber": 103,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -531,7 +531,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 107,
+    "lineNumber": 109,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -540,7 +540,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 126,
+    "lineNumber": 129,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -549,7 +549,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 126,
+    "lineNumber": 129,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -558,7 +558,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 167,
+    "lineNumber": 172,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -567,7 +567,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 171,
+    "lineNumber": 176,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Hardcoded selector"
@@ -576,7 +576,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 175,
+    "lineNumber": 180,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Hardcoded selector"
@@ -585,7 +585,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 177,
+    "lineNumber": 182,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Hardcoded selector"
@@ -594,7 +594,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 197,
+    "lineNumber": 202,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -603,7 +603,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 200,
+    "lineNumber": 205,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Hardcoded selector"
@@ -1228,7 +1228,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer());",
-    "lineNumber": 147,
+    "lineNumber": 148,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1236,7 +1236,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));",
-    "lineNumber": 149,
+    "lineNumber": 150,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1244,7 +1244,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 805,
+    "lineNumber": 827,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1252,7 +1252,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 830,
+    "lineNumber": 852,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },

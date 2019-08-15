@@ -81,6 +81,8 @@
         this.appLoadingScreen.render();
         this.appLoadingScreen.$el.prependTo(this.el);
         this.startConnectionListener();
+      } else {
+        this.setupLeftPane();
       }
 
       const inboxCollection = getInboxCollection();
@@ -107,8 +109,6 @@
         toast.$el.appendTo(this.$el);
         toast.render();
       });
-
-      this.setupLeftPane();
     },
     render_attributes: {
       welcomeToSignal: i18n('welcomeToSignal'),
@@ -118,6 +118,9 @@
       click: 'onClick',
     },
     setupLeftPane() {
+      if (this.leftPaneView) {
+        return;
+      }
       this.leftPaneView = new Whisper.ReactWrapperView({
         className: 'left-pane-wrapper',
         JSX: Signal.State.Roots.createLeftPane(window.reduxStore),
@@ -151,6 +154,8 @@
       }, 1000);
     },
     onEmpty() {
+      this.setupLeftPane();
+
       const view = this.appLoadingScreen;
       if (view) {
         this.appLoadingScreen = null;
