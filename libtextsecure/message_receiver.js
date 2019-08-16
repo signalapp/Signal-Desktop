@@ -14,6 +14,7 @@
 /* eslint-disable more/no-then */
 
 const WORKER_TIMEOUT = 60 * 1000; // one minute
+const RETRY_TIMEOUT = 2 * 60 * 1000;
 
 const _utilWorker = new Worker('js/util_worker.js');
 const _jobs = Object.create(null);
@@ -167,6 +168,7 @@ MessageReceiver.prototype.extend({
       this.dispatchEvent(ev);
     }
 
+    this.isEmptied = false;
     this.hasConnected = true;
 
     if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
@@ -217,6 +219,8 @@ MessageReceiver.prototype.extend({
     if (this.wsr) {
       this.wsr.close(3000, 'called close');
     }
+
+    this.clearRetryTimeout();
 
     return this.drain();
   },
@@ -308,6 +312,9 @@ MessageReceiver.prototype.extend({
           await this.addToCache(envelope, plaintext);
           request.respond(200, 'OK');
           this.queueEnvelope(envelope);
+
+          this.clearRetryTimeout();
+          this.maybeScheduleRetryTimeout();
         } catch (error) {
           request.respond(500, 'Failed to cache message');
           window.log.error(
@@ -349,6 +356,8 @@ MessageReceiver.prototype.extend({
       window.log.info("MessageReceiver: emitting 'empty' event");
       const ev = new Event('empty');
       this.dispatchAndWait(ev);
+      this.isEmptied = true;
+      this.maybeScheduleRetryTimeout();
     };
 
     const waitForPendingQueue = () => {
@@ -464,6 +473,19 @@ MessageReceiver.prototype.extend({
     }
 
     return envelope.id;
+  },
+  clearRetryTimeout() {
+    if (this.retryCachedTimeout) {
+      clearInterval(this.retryCachedTimeout);
+      this.retryCachedTimeout = null;
+    }
+  },
+  maybeScheduleRetryTimeout() {
+    if (this.isEmptied) {
+      this.retryCachedTimeout = setTimeout(() => {
+        this.pendingQueue.add(() => this.queueAllCached());
+      }, RETRY_TIMEOUT);
+    }
   },
   async getAllFromCache() {
     window.log.info('getAllFromCache');

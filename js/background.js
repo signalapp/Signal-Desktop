@@ -17,6 +17,10 @@
   'use strict';
 
   const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
+  const deliveryReceiptQueue = new window.PQueue({
+    concurrency: 1,
+  });
+  deliveryReceiptQueue.pause();
 
   // Globally disable drag and drop
   document.body.addEventListener(
@@ -824,6 +828,7 @@
       serverTrustRoot: window.getServerTrustRoot(),
     };
 
+    deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
     Whisper.Notifications.disable(); // avoid notification flood until empty
 
     // initialize the socket and start listening for messages
@@ -996,6 +1001,7 @@
       }
     }, 500);
 
+    deliveryReceiptQueue.start();
     Whisper.Notifications.enable();
   }
   function onReconnect() {
@@ -1003,6 +1009,7 @@
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
+    deliveryReceiptQueue.pause();
     Whisper.Notifications.disable();
   }
   function onProgress(ev) {
@@ -1545,25 +1552,27 @@
       return message;
     }
 
-    try {
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        data.source
-      );
-      await wrap(
-        textsecure.messaging.sendDeliveryReceipt(
-          data.source,
-          data.timestamp,
-          sendOptions
-        )
-      );
-    } catch (error) {
-      window.log.error(
-        `Failed to send delivery receipt to ${data.source} for message ${
-          data.timestamp
-        }:`,
-        error && error.stack ? error.stack : error
-      );
-    }
+    deliveryReceiptQueue.add(async () => {
+      try {
+        const { wrap, sendOptions } = ConversationController.prepareForSend(
+          data.source
+        );
+        await wrap(
+          textsecure.messaging.sendDeliveryReceipt(
+            data.source,
+            data.timestamp,
+            sendOptions
+          )
+        );
+      } catch (error) {
+        window.log.error(
+          `Failed to send delivery receipt to ${data.source} for message ${
+            data.timestamp
+          }:`,
+          error && error.stack ? error.stack : error
+        );
+      }
+    });
 
     return message;
   }
