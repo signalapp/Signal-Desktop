@@ -5,8 +5,8 @@
 %global __provides_exclude ^(lib.*\\.so.*)$
 
 Name:       Signal-Desktop
-Version:    1.25.3
-Release:    2%{?dist}
+Version:    1.26.2
+Release:    1%{?dist}
 Summary:    Private messaging from your desktop
 License:    GPLv3
 URL:        https://signal.org/
@@ -79,5 +79,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_libdir}/%{name}
 
 %changelog
+* Mon Aug 19 2019 Simone Caronni <negativo17@gmail.com> - 1.26.2-1
+- Update to 1.26.2.
+
 * Wed Jul 24 2019 Simone Caronni <negativo17@gmail.com> - 1.25.3-2
 - First build based on ArchLinux AUR.
