@@ -118,6 +118,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getMessageBySender,
+  getMessageByServerId,
   getMessageById,
   getAllMessages,
   getAllMessageIds,
@@ -800,6 +801,11 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   };
 
   const { id, type, name, friendRequestStatus } = publicChatData;
+
+  await instance.run(
+    `ALTER TABLE messages
+     ADD COLUMN serverId STRING;`
+  );
 
   await instance.run(
     `INSERT INTO conversations (
@@ -1718,6 +1724,7 @@ async function saveMessage(data, { forceSave } = {}) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     id,
+    serverId,
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
@@ -1736,6 +1743,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $id: id,
     $json: objectToJSON(data),
 
+    $serverId: serverId,
     $body: body,
     $conversationId: conversationId,
     $expirationStartTimestamp: expirationStartTimestamp,
@@ -1758,6 +1766,7 @@ async function saveMessage(data, { forceSave } = {}) {
     await db.run(
       `UPDATE messages SET
         json = $json,
+        serverId = $serverId,
         body = $body,
         conversationId = $conversationId,
         expirationStartTimestamp = $expirationStartTimestamp,
@@ -1792,6 +1801,7 @@ async function saveMessage(data, { forceSave } = {}) {
     id,
     json,
 
+    serverId,
     body,
     conversationId,
     expirationStartTimestamp,
@@ -1812,6 +1822,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $id,
     $json,
 
+    $serverId,
     $body,
     $conversationId,
     $expirationStartTimestamp,
@@ -1932,6 +1943,21 @@ async function removeMessage(id) {
     `DELETE FROM messages WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
     id
   );
+}
+
+async function getMessageByServerId(serverId) {
+  const row = await db.get(
+    'SELECT * FROM messages WHERE serverId = $serverId;',
+    {
+      $serverId: serverId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
 }
 
 async function getMessageById(id) {

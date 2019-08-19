@@ -1242,6 +1242,17 @@
         Message: Whisper.Message,
       });
     },
+    async setServerId(serverId) {
+      if (_.isEqual(this.get('serverId'), serverId)) return;
+
+      this.set({
+        serverId,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
     async setIsPublic(isPublic) {
       if (_.isEqual(this.get('isPublic'), isPublic)) return;
 
@@ -2014,9 +2025,7 @@
           } else {
             await conversation.onFriendRequestAccepted();
           }
-          // Force save if the message already has an id, used for public channels
           const id = await window.Signal.Data.saveMessage(message.attributes, {
-            forceSave: !!message.id,
             Message: Whisper.Message,
           });
           message.set({ id });

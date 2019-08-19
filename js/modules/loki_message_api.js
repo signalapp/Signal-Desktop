@@ -80,7 +80,6 @@ class LokiMessageAPI {
       isPing = false,
       numConnections = DEFAULT_CONNECTIONS,
       publicEndpoint = null,
-      messageId = null,
     } = options;
     // Data required to identify a message in a conversation
     const messageEventData = {
@@ -106,13 +105,12 @@ class LokiMessageAPI {
               timestamp: messageTimeStamp,
               from: displayName,
               source: this.ourKey,
-              id: messageId,
             },
           },
         ],
       };
       try {
-        await nodeFetch(publicEndpoint, {
+        const result = await nodeFetch(publicEndpoint, {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -120,6 +118,8 @@ class LokiMessageAPI {
           },
           body: JSON.stringify(payload),
         });
+        const body = await result.json();
+        messageEventData.serverId = body.data.id;
         window.Whisper.events.trigger('publicMessageSent', messageEventData);
         return;
       } catch (e) {

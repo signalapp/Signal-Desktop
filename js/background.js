@@ -750,14 +750,17 @@
       }
     });
 
-    Whisper.events.on('publicMessageSent', ({ pubKey, timestamp }) => {
-      try {
-        const conversation = ConversationController.get(pubKey);
-        conversation.onPublicMessageSent(pubKey, timestamp);
-      } catch (e) {
-        window.log.error('Error setting public on message');
+    Whisper.events.on(
+      'publicMessageSent',
+      ({ pubKey, timestamp, serverId }) => {
+        try {
+          const conversation = ConversationController.get(pubKey);
+          conversation.onPublicMessageSent(pubKey, timestamp, serverId);
+        } catch (e) {
+          window.log.error('Error setting public on message');
+        }
       }
-    });
+    );
 
     Whisper.events.on('password-updated', () => {
       if (appView && appView.inboxView) {
@@ -1411,7 +1414,6 @@
     const { isError } = options;
 
     let messageData = {
-      id: data.id,
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
