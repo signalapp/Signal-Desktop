@@ -103,6 +103,7 @@ const excludedFiles = [
   '^node_modules/degenerator/*',
   '^node_modules/detect-port-alt/*',
   '^node_modules/electron-builder/*',
+  '^node_modules/electron-mocha/',
   '^node_modules/electron-icon-maker/*',
   '^node_modules/electron-osx-sign/*',
   '^node_modules/electron-publish/*',
@@ -182,6 +183,7 @@ const excludedFiles = [
   '^node_modules/xmlbuilder/*',
   '^node_modules/xmldom/*',
   '^node_modules/xml-parse-from-string/*',
+  '^node_modules/yargs-unparser/',
 ];
 
 function setupRules(allRules: Array<RuleType>) {

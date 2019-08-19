@@ -1392,6 +1392,22 @@
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/ansi-colors/index.js",
+    "line": "    return typeof style === 'function' ? style(input) : style.wrap(input, newline);",
+    "lineNumber": 33,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/ansi-colors/index.js",
+    "line": "    while (n-- > 0) str = wrap(colors.styles[stack[n]], str, nl);",
+    "lineNumber": 46,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z"
+  },
+  {
     "rule": "jQuery-after(",
     "path": "node_modules/archiver-utils/node_modules/lodash/after.js",
     "line": " * var done = _.after(saves.length, function() {",
@@ -5569,6 +5585,24 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/object.getownpropertydescriptors/node_modules/es-abstract/operations/getOps.js",
+    "line": "var root = $(specHTML);",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z",
+    "reasonDetail": "$ in this case is cheerio"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/object.getownpropertydescriptors/node_modules/es-abstract/operations/getOps.js",
+    "line": "  var op = $(x);",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z",
+    "reasonDetail": "$ in this case is cheerio"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/optionator/lib/help.js",
     "line": "      return namesString + \"\" + typeSeparatorString + wrap(type).replace(/^\\s+/, '');",
@@ -6663,6 +6697,14 @@
     "updated": "2019-07-16T21:56:03.429Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/svg2png/node_modules/yargs/yargs.js",
+    "line": "    usage.wrap(cols)",
+    "lineNumber": 643,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/table/dist/createStream.js",
     "line": "        return append(row, columnWidthIndex, config);",
@@ -7136,12 +7178,44 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/yargs/lib/completion-templates.js",
+    "line": "    type_list=$({{app_path}} --get-yargs-completions \"\\${args[@]}\")",
+    "lineNumber": 17,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T21:47:42.627Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/yargs/lib/completion-templates.js",
+    "line": "    COMPREPLY=( $(compgen -W \"\\${type_list}\" -- \\${cur_word}) )",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T21:47:42.627Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/yargs/lib/completion-templates.js",
+    "line": "  IFS=$'\\n' reply=($(COMP_CWORD=\"$((CURRENT-1))\" COMP_LINE=\"$BUFFER\" COMP_POINT=\"$CURSOR\" {{app_path}} --get-yargs-completions \"\\${words[@]}\"))",
+    "lineNumber": 43,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T21:47:42.627Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/yargs/node_modules/cliui/index.js",
+    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), { hard: true }).split('\\n')",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T21:47:42.627Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/yargs/yargs.js",
     "line": "    usage.wrap(cols)",
-    "lineNumber": 643,
+    "lineNumber": 756,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-08-19T18:03:38.741Z"
   },
   {
     "rule": "jQuery-after(",

@@ -58,7 +58,6 @@
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
-      const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const numNotifications = this.length;
       const userSetting = this.getUserSetting();
 
@@ -70,13 +69,6 @@
         numNotifications,
         userSetting,
       });
-
-      window.log.info(
-        'Update notifications:',
-        Object.assign({}, status, {
-          isNotificationGroupingSupported,
-        })
-      );
 
       if (status.type !== 'ok') {
         if (status.shouldClearNotifications) {

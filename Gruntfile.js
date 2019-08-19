@@ -160,16 +160,12 @@ module.exports = grunt => {
         archive: `mac/${
           packageJson.productName
         }.app/Contents/Resources/app.asar`,
-        appUpdateYML: `mac/${
-          packageJson.productName
-        }.app/Contents/Resources/app-update.yml`,
         exe: `mac/${packageJson.productName}.app/Contents/MacOS/${
           packageJson.productName
         }`,
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
-        appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
         exe: `mas/${packageJson.productName}.app/Contents/MacOS/${
           packageJson.productName
         }`,
@@ -180,7 +176,6 @@ module.exports = grunt => {
       },
       win: {
         archive: 'win-unpacked/resources/app.asar',
-        appUpdateYML: 'win-unpacked/resources/app-update.yml',
         exe: `win-unpacked/${packageJson.productName}.exe`,
       },
     },

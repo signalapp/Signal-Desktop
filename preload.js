@@ -2,6 +2,7 @@
 
 const electron = require('electron');
 const semver = require('semver');
+const curve = require('curve25519-n');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 
@@ -324,6 +325,90 @@ window.Signal = Signal.setup({
   getRegionCode: () => window.storage.get('regionCode'),
   logger: window.log,
 });
+
+function wrapWithPromise(fn) {
+  return (...args) => Promise.resolve(fn(...args));
+}
+function typedArrayToArrayBuffer(typedArray) {
+  const { buffer, byteOffset, byteLength } = typedArray;
+  return buffer.slice(byteOffset, byteLength + byteOffset);
+}
+const externalCurve = {
+  generateKeyPair: () => {
+    const { privKey, pubKey } = curve.generateKeyPair();
+
+    return {
+      privKey: typedArrayToArrayBuffer(privKey),
+      pubKey: typedArrayToArrayBuffer(pubKey),
+    };
+  },
+  createKeyPair: incomingKey => {
+    const incomingKeyBuffer = Buffer.from(incomingKey);
+    const { privKey, pubKey } = curve.createKeyPair(incomingKeyBuffer);
+
+    return {
+      privKey: typedArrayToArrayBuffer(privKey),
+      pubKey: typedArrayToArrayBuffer(pubKey),
+    };
+  },
+  calculateAgreement: (pubKey, privKey) => {
+    const pubKeyBuffer = Buffer.from(pubKey);
+    const privKeyBuffer = Buffer.from(privKey);
+
+    const buffer = curve.calculateAgreement(pubKeyBuffer, privKeyBuffer);
+
+    return typedArrayToArrayBuffer(buffer);
+  },
+  verifySignature: (pubKey, message, signature) => {
+    const pubKeyBuffer = Buffer.from(pubKey);
+    const messageBuffer = Buffer.from(message);
+    const signatureBuffer = Buffer.from(signature);
+
+    const result = curve.verifySignature(
+      pubKeyBuffer,
+      messageBuffer,
+      signatureBuffer
+    );
+
+    return result;
+  },
+  calculateSignature: (privKey, message) => {
+    const privKeyBuffer = Buffer.from(privKey);
+    const messageBuffer = Buffer.from(message);
+
+    const buffer = curve.calculateSignature(privKeyBuffer, messageBuffer);
+
+    return typedArrayToArrayBuffer(buffer);
+  },
+  validatePubKeyFormat: pubKey => {
+    const pubKeyBuffer = Buffer.from(pubKey);
+
+    return curve.validatePubKeyFormat(pubKeyBuffer);
+  },
+};
+externalCurve.ECDHE = externalCurve.calculateAgreement;
+externalCurve.Ed25519Sign = externalCurve.calculateSignature;
+externalCurve.Ed25519Verify = externalCurve.verifySignature;
+const externalCurveAsync = {
+  generateKeyPair: wrapWithPromise(externalCurve.generateKeyPair),
+  createKeyPair: wrapWithPromise(externalCurve.createKeyPair),
+  calculateAgreement: wrapWithPromise(externalCurve.calculateAgreement),
+  verifySignature: async (...args) => {
+    // The async verifySignature function has a different signature than the sync function
+    const verifyFailed = externalCurve.verifySignature(...args);
+    if (verifyFailed) {
+      throw new Error('Invalid signature');
+    }
+  },
+  calculateSignature: wrapWithPromise(externalCurve.calculateSignature),
+  validatePubKeyFormat: wrapWithPromise(externalCurve.validatePubKeyFormat),
+  ECDHE: wrapWithPromise(externalCurve.ECDHE),
+  Ed25519Sign: wrapWithPromise(externalCurve.Ed25519Sign),
+  Ed25519Verify: wrapWithPromise(externalCurve.Ed25519Verify),
+};
+window.libsignal = window.libsignal || {};
+window.libsignal.externalCurve = externalCurve;
+window.libsignal.externalCurveAsync = externalCurveAsync;
 
 // Pulling these in separately since they access filesystem, electron
 window.Signal.Backup = require('./js/modules/backup');

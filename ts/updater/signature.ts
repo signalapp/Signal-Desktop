@@ -8,7 +8,7 @@ import { basename, dirname, join, resolve as resolvePath } from 'path';
 
 import pify from 'pify';
 
-import { BinaryType, sign, verify } from './curve';
+import { sign, verify } from './curve';
 
 const readFile = pify(readFileCallback);
 const writeFile = pify(writeFileCallback);
@@ -27,7 +27,7 @@ export async function generateSignature(
 export async function verifySignature(
   updatePackagePath: string,
   version: string,
-  publicKey: BinaryType
+  publicKey: Buffer
 ): Promise<boolean> {
   const signaturePath = getSignaturePath(updatePackagePath);
   const signature = await loadHexFromPath(signaturePath);
@@ -41,7 +41,7 @@ export async function verifySignature(
 async function generateMessage(
   updatePackagePath: string,
   version: string
-): Promise<BinaryType> {
+): Promise<Buffer> {
   const hash = await _getFileHash(updatePackagePath);
   const messageString = `${Buffer.from(hash).toString('hex')}-${version}`;
 
@@ -62,9 +62,7 @@ export async function writeSignature(
   await writeHexToPath(signaturePath, signature);
 }
 
-export async function _getFileHash(
-  updatePackagePath: string
-): Promise<BinaryType> {
+export async function _getFileHash(updatePackagePath: string): Promise<Buffer> {
   const hash = createHash('sha256');
   const stream = createReadStream(updatePackagePath);
 
@@ -93,20 +91,20 @@ export function getSignaturePath(updatePackagePath: string): string {
   return join(updateDir, getSignatureFileName(updateFileName));
 }
 
-export function hexToBinary(target: string): BinaryType {
+export function hexToBinary(target: string): Buffer {
   return Buffer.from(target, 'hex');
 }
 
-export function binaryToHex(data: BinaryType): string {
+export function binaryToHex(data: Buffer): string {
   return Buffer.from(data).toString('hex');
 }
 
-export async function loadHexFromPath(target: string): Promise<BinaryType> {
+export async function loadHexFromPath(target: string): Promise<Buffer> {
   const hexString = await readFile(target, 'utf8');
 
   return hexToBinary(hexString);
 }
 
-export async function writeHexToPath(target: string, data: BinaryType) {
+export async function writeHexToPath(target: string, data: Buffer) {
   await writeFile(target, binaryToHex(data));
 }

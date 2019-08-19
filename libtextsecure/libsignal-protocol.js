@@ -1,6 +1,6 @@
 ;(function(){
 var Internal = {};
-window.libsignal = {};
+window.libsignal = window.libsignal || {};
 // The Module object: Our interface to the outside world. We import
 // and export values on it, and do the work to get that through
 // closure compiler if necessary. There are various ways Module can be used:
@@ -35194,9 +35194,19 @@ Curve25519Worker.prototype = {
     }
 
     Internal.wrapCurve = wrapCurve;
-    libsignal.Curve       = wrapCurve(Internal.Curve);
-    libsignal.Curve.async = wrapCurve(Internal.Curve.async);
+    if (libsignal.externalCurve) {
+      libsignal.Curve = libsignal.externalCurve;
+      Internal.Curve = libsignal.externalCurve;
+    } else {
+      libsignal.Curve = wrapCurve(Internal.Curve);
+    }
 
+    if (libsignal.externalCurveAsync) {
+      libsignal.Curve.async = libsignal.externalCurveAsync;
+      Internal.Curve.async = libsignal.externalCurveAsync;
+    } else {
+      libsignal.Curve.async = wrapCurve(Internal.Curve.async);
+    }
 })();
 
 /*
