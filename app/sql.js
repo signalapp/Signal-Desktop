@@ -199,6 +199,15 @@ async function getSQLCipherVersion(instance) {
   }
 }
 
+async function getSQLIntegrityCheck(instance) {
+  const row = await instance.get('PRAGMA cipher_integrity_check;');
+  if (row) {
+    return row.cipher_integrity_check;
+  }
+
+  return null;
+}
+
 const INVALID_KEY = /[^0-9A-Fa-f]/;
 async function setupSQLCipher(instance, { key }) {
   const match = INVALID_KEY.exec(key);
@@ -208,6 +217,9 @@ async function setupSQLCipher(instance, { key }) {
 
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
   await instance.run(`PRAGMA key = "x'${key}'";`);
+
+  // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
+  await instance.run('PRAGMA cipher_migrate;');
 
   // Because foreign key support is not enabled by default!
   await instance.run('PRAGMA foreign_keys = ON;');
@@ -1162,15 +1174,23 @@ async function initialize({ configDir, key, messages }) {
     // });
 
     await setupSQLCipher(promisified, { key });
+
     await updateSchema(promisified);
 
     db = promisified;
 
     // test database
+
+    const result = await getSQLIntegrityCheck(db);
+    if (result) {
+      console.log('Database integrity check failed:', result);
+      throw new Error(`Integrity check failed: ${result}`);
+    }
+
     await getMessageCount();
   } catch (error) {
     console.log('Database startup error:', error.stack);
-    const buttonIndex = dialog.showMessageBox({
+    const buttonIndex = dialog.showMessageBoxSync({
       buttons: [
         messages.copyErrorAndQuit.message,
         messages.deleteAndRestart.message,

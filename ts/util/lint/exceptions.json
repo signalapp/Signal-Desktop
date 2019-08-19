@@ -1313,6 +1313,13 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@develar/schema-utils/node_modules/ajv/dist/ajv.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-15T17:10:42.360Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/@protobufjs/inquire/index.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -3074,93 +3081,6 @@
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 2557,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2580,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 1580,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 1603,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/dotenv-expand/lib/main.js",
-    "line": "    var matches = env.match(/\\$([a-zA-Z0-9_]+)|\\${([a-zA-Z0-9_]+)}/g) || []",
-    "lineNumber": 5,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
     "rule": "React-findDOMNode",
     "path": "node_modules/draft-js/dist/Draft.js",
     "line": "\t    var blockNode = ReactDOM.findDOMNode(this);",
@@ -3420,17 +3340,17 @@
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 2039,
+    "lineNumber": 2137,
     "reasonCategory": "falseMatch",
-    "updated": "2019-05-28T20:54:46.198Z"
+    "updated": "2019-08-15T17:10:42.360Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3443,
+    "lineNumber": 3748,
     "reasonCategory": "falseMatch",
-    "updated": "2019-05-28T20:54:46.198Z"
+    "updated": "2019-08-15T17:10:42.360Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -5167,6 +5087,21 @@
     "updated": "2018-09-19T18:06:35.446Z"
   },
   {
+    "rule": "jQuery-html(",
+    "path": "node_modules/marked/lib/marked.js",
+    "line": "      return this.renderer.html(this.token.text);",
+    "lineNumber": 1285,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-15T17:10:42.360Z"
+  },
+  {
+    "rule": "jQuery-html(",
+    "path": "node_modules/marked/marked.min.js",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-15T17:10:42.360Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
     "line": "        } else if (elem.innerHTML) {",
@@ -5794,86 +5729,6 @@
     "updated": "2018-09-19T18:06:35.446Z"
   },
   {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\tthis.insertBefore(newChild,oldChild);",
-    "lineNumber": 2749,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\treturn this.insertBefore(newChild,null);",
-    "lineNumber": 2758,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\t\t\tthis.insertBefore(child,refChild);",
-    "lineNumber": 2995,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\t\treturn this.insertBefore(newChild,null);",
-    "lineNumber": 3157,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\t\tthis.parentNode.insertBefore(newNode, this.nextSibling);",
-    "lineNumber": 3273,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\tthis.insertBefore(newChild,oldChild);",
-    "lineNumber": 5476,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\treturn this.insertBefore(newChild,null);",
-    "lineNumber": 5485,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\t\t\tthis.insertBefore(child,refChild);",
-    "lineNumber": 5722,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\t\treturn this.insertBefore(newChild,null);",
-    "lineNumber": 5884,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\t\tthis.parentNode.insertBefore(newNode, this.nextSibling);",
-    "lineNumber": 6000,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/pluralize/pluralize.js",
     "line": "    return str.replace(/\\$(\\d{1,2})/g, function (match, index) {",
@@ -6398,52 +6253,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 2557,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2580,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 1580,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 1603,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/read-config-file/node_modules/uri-js/dist/es5/uri.all.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7309,197 +7118,6 @@
     "lineNumber": 366,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/xml2js/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/xml2js/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9992,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10044,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10619,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-$(",

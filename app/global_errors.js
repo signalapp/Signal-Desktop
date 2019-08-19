@@ -14,7 +14,7 @@ function handleError(prefix, error) {
 
   if (app.isReady()) {
     // title field is not shown on macOS, so we don't use it
-    const buttonIndex = dialog.showMessageBox({
+    const buttonIndex = dialog.showMessageBoxSync({
       buttons: [quitText, copyErrorAndQuitText],
       defaultId: 0,
       detail: redactAll(error.stack),

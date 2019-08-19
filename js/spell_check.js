@@ -141,17 +141,11 @@ const dummyChecker = {
 window.spellChecker = simpleChecker;
 window.disableSpellCheck = () => {
   window.removeEventListener('contextmenu', spellCheckHandler);
-  webFrame.setSpellCheckProvider('en-US', false, dummyChecker);
+  webFrame.setSpellCheckProvider('en-US', dummyChecker);
 };
 
 window.enableSpellCheck = () => {
-  webFrame.setSpellCheckProvider(
-    'en-US',
-    // Not sure what this parameter (`autoCorrectWord`) does: https://github.com/atom/electron/issues/4371
-    // The documentation for `webFrame.setSpellCheckProvider` passes `true` so we do too.
-    true,
-    simpleChecker
-  );
+  webFrame.setSpellCheckProvider('en-US', simpleChecker);
   window.addEventListener('contextmenu', spellCheckHandler);
 };
 
