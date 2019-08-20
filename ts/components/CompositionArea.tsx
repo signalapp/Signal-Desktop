@@ -274,6 +274,30 @@ export const CompositionArea = ({
     </div>
   ) : null;
 
+  // Listen for cmd/ctrl-shift-x to toggle large composition mode
+  React.useEffect(
+    () => {
+      const handler = (e: KeyboardEvent) => {
+        const { key, shiftKey, ctrlKey, metaKey } = e;
+        // When using the ctrl key, `key` is `'X'`. When using the cmd key, `key` is `'x'`
+        const xKey = key === 'x' || key === 'X';
+        const cmdOrCtrl = ctrlKey || metaKey;
+        // cmd/ctrl-shift-x
+        if (xKey && shiftKey && cmdOrCtrl) {
+          e.preventDefault();
+          setLarge(x => !x);
+        }
+      };
+
+      document.addEventListener('keydown', handler);
+
+      return () => {
+        document.removeEventListener('keydown', handler);
+      };
+    },
+    [setLarge]
+  );
+
   return (
     <div className="module-composition-area">
       <div
