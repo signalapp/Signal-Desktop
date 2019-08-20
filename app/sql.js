@@ -190,6 +190,21 @@ async function getSchemaVersion(instance) {
   return row.schema_version;
 }
 
+async function setUserVersion(instance, version) {
+  if (!isNumber(version)) {
+    throw new Error(`setUserVersion: version ${version} is not a number`);
+  }
+  await instance.get(`PRAGMA user_version = ${version};`);
+}
+async function keyDatabase(instance, key) {
+  // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
+  await instance.run(`PRAGMA key = "x'${key}'";`);
+}
+async function getUserVersion(instance) {
+  const row = await instance.get('PRAGMA user_version;');
+  return row.user_version;
+}
+
 async function getSQLCipherVersion(instance) {
   const row = await instance.get('PRAGMA cipher_version;');
   try {
@@ -208,21 +223,74 @@ async function getSQLIntegrityCheck(instance) {
   return null;
 }
 
+async function migrateSchemaVersion(instance) {
+  const userVersion = await getUserVersion(instance);
+  if (userVersion > 0) {
+    return;
+  }
+
+  const schemaVersion = await getSchemaVersion(instance);
+  const newUserVersion = schemaVersion > 18 ? 16 : schemaVersion;
+  console.log(
+    `migrateSchemaVersion: Migrating from schema_version ${schemaVersion} to user_version ${newUserVersion}`
+  );
+
+  await setUserVersion(instance, newUserVersion);
+}
+
+async function openAndMigrateDatabase(filePath, key) {
+  let promisified;
+
+  // First, we try to open the database without any cipher changes
+  try {
+    const instance = await openDatabase(filePath);
+    promisified = promisify(instance);
+    keyDatabase(promisified, key);
+
+    await migrateSchemaVersion(promisified);
+
+    return promisified;
+  } catch (error) {
+    if (promisified) {
+      await promisified.close();
+    }
+    console.log('migrateDatabase: Migration without cipher change failed');
+  }
+
+  // If that fails, we try to open the database with 3.x compatibility to extract the
+  //   user_version (previously stored in schema_version, blown away by cipher_migrate).
+  const instance = await openDatabase(filePath);
+  promisified = promisify(instance);
+  keyDatabase(promisified, key);
+
+  // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
+  await promisified.run('PRAGMA cipher_compatibility = 3;');
+  await migrateSchemaVersion(promisified);
+  await promisified.close();
+
+  // After migrating user_version -> schema_version, we reopen database, because we can't
+  //   migrate to the latest ciphers after we've modified the defaults.
+  const instance2 = await openDatabase(filePath);
+  promisified = promisify(instance2);
+  keyDatabase(promisified, key);
+
+  await promisified.run('PRAGMA cipher_migrate;');
+  return promisified;
+}
+
 const INVALID_KEY = /[^0-9A-Fa-f]/;
-async function setupSQLCipher(instance, { key }) {
+async function openAndSetUpSQLCipher(filePath, { key }) {
   const match = INVALID_KEY.exec(key);
   if (match) {
     throw new Error(`setupSQLCipher: key '${key}' is not valid`);
   }
 
-  // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-  await instance.run(`PRAGMA key = "x'${key}'";`);
-
-  // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
-  await instance.run('PRAGMA cipher_migrate;');
+  const instance = await openAndMigrateDatabase(filePath, key);
 
   // Because foreign key support is not enabled by default!
   await instance.run('PRAGMA foreign_keys = ON;');
+
+  return instance;
 }
 
 async function updateToSchemaVersion1(currentVersion, instance) {
@@ -305,7 +373,7 @@ async function updateToSchemaVersion1(currentVersion, instance) {
     timestamp
   );`);
 
-    await instance.run('PRAGMA schema_version = 1;');
+    await instance.run('PRAGMA user_version = 1;');
     await instance.run('COMMIT TRANSACTION;');
 
     console.log('updateToSchemaVersion1: success!');
@@ -353,7 +421,7 @@ async function updateToSchemaVersion2(currentVersion, instance) {
       type = json_extract(json, '$.type');`
     );
 
-    await instance.run('PRAGMA schema_version = 2;');
+    await instance.run('PRAGMA user_version = 2;');
     await instance.run('COMMIT TRANSACTION;');
 
     console.log('updateToSchemaVersion2: success!');
@@ -388,7 +456,7 @@ async function updateToSchemaVersion3(currentVersion, instance) {
     ) WHERE unread IS NOT NULL;`);
 
     await instance.run('ANALYZE;');
-    await instance.run('PRAGMA schema_version = 3;');
+    await instance.run('PRAGMA user_version = 3;');
     await instance.run('COMMIT TRANSACTION;');
 
     console.log('updateToSchemaVersion3: success!');
@@ -429,7 +497,7 @@ async function updateToSchemaVersion4(currentVersion, instance) {
       type
     ) WHERE type IS NOT NULL;`);
 
-    await instance.run('PRAGMA schema_version = 4;');
+    await instance.run('PRAGMA user_version = 4;');
     await instance.run('COMMIT TRANSACTION;');
 
     console.log('updateToSchemaVersion4: success!');
@@ -494,7 +562,7 @@ async function updateToSchemaVersion6(currentVersion, instance) {
     );`
     );
 
-    await instance.run('PRAGMA schema_version = 6;');
+    await instance.run('PRAGMA user_version = 6;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion6: success!');
   } catch (error) {
@@ -535,7 +603,7 @@ async function updateToSchemaVersion7(currentVersion, instance) {
 
     await instance.run('DROP TABLE sessions_old;');
 
-    await instance.run('PRAGMA schema_version = 7;');
+    await instance.run('PRAGMA user_version = 7;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion7: success!');
   } catch (error) {
@@ -605,7 +673,7 @@ async function updateToSchemaVersion8(currentVersion, instance) {
     //   https://sqlite.org/fts5.html#the_highlight_function
     //   https://sqlite.org/fts5.html#the_snippet_function
 
-    await instance.run('PRAGMA schema_version = 8;');
+    await instance.run('PRAGMA user_version = 8;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion8: success!');
   } catch (error) {
@@ -638,7 +706,7 @@ async function updateToSchemaVersion9(currentVersion, instance) {
       pending
   ) WHERE pending != 0;`);
 
-    await instance.run('PRAGMA schema_version = 9;');
+    await instance.run('PRAGMA user_version = 9;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion9: success!');
   } catch (error) {
@@ -703,7 +771,7 @@ async function updateToSchemaVersion10(currentVersion, instance) {
 
     await instance.run('DROP TABLE unprocessed_old;');
 
-    await instance.run('PRAGMA schema_version = 10;');
+    await instance.run('PRAGMA user_version = 10;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion10: success!');
   } catch (error) {
@@ -722,7 +790,7 @@ async function updateToSchemaVersion11(currentVersion, instance) {
   try {
     await instance.run('DROP TABLE groups;');
 
-    await instance.run('PRAGMA schema_version = 11;');
+    await instance.run('PRAGMA user_version = 11;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion11: success!');
   } catch (error) {
@@ -787,7 +855,7 @@ async function updateToSchemaVersion12(currentVersion, instance) {
       ON DELETE CASCADE
   );`);
 
-    await instance.run('PRAGMA schema_version = 12;');
+    await instance.run('PRAGMA user_version = 12;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion12: success!');
   } catch (error) {
@@ -809,7 +877,7 @@ async function updateToSchemaVersion13(currentVersion, instance) {
       'ALTER TABLE sticker_packs ADD COLUMN attemptedStatus STRING;'
     );
 
-    await instance.run('PRAGMA schema_version = 13;');
+    await instance.run('PRAGMA user_version = 13;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion13: success!');
   } catch (error) {
@@ -837,7 +905,7 @@ async function updateToSchemaVersion14(currentVersion, instance) {
       lastUsage
   );`);
 
-    await instance.run('PRAGMA schema_version = 14;');
+    await instance.run('PRAGMA user_version = 14;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion14: success!');
   } catch (error) {
@@ -877,7 +945,7 @@ async function updateToSchemaVersion15(currentVersion, instance) {
 
     await instance.run('DROP TABLE emojis_old;');
 
-    await instance.run('PRAGMA schema_version = 15;');
+    await instance.run('PRAGMA user_version = 15;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion15: success!');
   } catch (error) {
@@ -958,7 +1026,7 @@ async function updateToSchemaVersion16(currentVersion, instance) {
       END;
     `);
 
-    await instance.run('PRAGMA schema_version = 16;');
+    await instance.run('PRAGMA user_version = 16;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion16: success!');
   } catch (error) {
@@ -976,13 +1044,26 @@ async function updateToSchemaVersion17(currentVersion, instance) {
   await instance.run('BEGIN TRANSACTION;');
 
   try {
-    await instance.run(
-      `ALTER TABLE messages
-      ADD COLUMN isViewOnce INTEGER;`
-    );
+    try {
+      await instance.run(
+        `ALTER TABLE messages
+        ADD COLUMN isViewOnce INTEGER;`
+      );
 
-    await instance.run('DROP INDEX messages_message_timer;');
+      await instance.run('DROP INDEX messages_message_timer;');
+    } catch (error) {
+      console.log(
+        'updateToSchemaVersion17: Message table already had isViewOnce column'
+      );
+    }
 
+    try {
+      await instance.run('DROP INDEX messages_view_once;');
+    } catch (error) {
+      console.log(
+        'updateToSchemaVersion17: Index messages_view_once did not already exist'
+      );
+    }
     await instance.run(`CREATE INDEX messages_view_once ON messages (
       isErased
     ) WHERE isViewOnce = 1;`);
@@ -1020,7 +1101,7 @@ async function updateToSchemaVersion17(currentVersion, instance) {
       END;
     `);
 
-    await instance.run('PRAGMA schema_version = 17;');
+    await instance.run('PRAGMA user_version = 17;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion17: success!');
   } catch (error) {
@@ -1083,7 +1164,7 @@ async function updateToSchemaVersion18(currentVersion, instance) {
       END;
     `);
 
-    await instance.run('PRAGMA schema_version = 18;');
+    await instance.run('PRAGMA user_version = 18;');
     await instance.run('COMMIT TRANSACTION;');
     console.log('updateToSchemaVersion18: success!');
   } catch (error) {
@@ -1115,14 +1196,17 @@ const SCHEMA_VERSIONS = [
 
 async function updateSchema(instance) {
   const sqliteVersion = await getSQLiteVersion(instance);
+  const sqlcipherVersion = await getSQLCipherVersion(instance);
+  const userVersion = await getUserVersion(instance);
   const schemaVersion = await getSchemaVersion(instance);
-  const cipherVersion = await getSQLCipherVersion(instance);
+
   console.log(
-    'updateSchema:',
-    `Current schema version: ${schemaVersion};`,
-    `Most recent schema version: ${SCHEMA_VERSIONS.length};`,
-    `SQLite version: ${sqliteVersion};`,
-    `SQLCipher version: ${cipherVersion};`
+    'updateSchema:\n',
+    ` Current user_version: ${userVersion};\n`,
+    ` Most recent db schema: ${SCHEMA_VERSIONS.length};\n`,
+    ` SQLite version: ${sqliteVersion};\n`,
+    ` SQLCipher version: ${sqlcipherVersion};\n`,
+    ` (deprecated) schema_version: ${schemaVersion};\n`
   );
 
   for (let index = 0, max = SCHEMA_VERSIONS.length; index < max; index += 1) {
@@ -1130,7 +1214,7 @@ async function updateSchema(instance) {
 
     // Yes, we really want to do this asynchronously, in order
     // eslint-disable-next-line no-await-in-loop
-    await runSchemaUpdate(schemaVersion, instance);
+    await runSchemaUpdate(userVersion, instance);
   }
 }
 
@@ -1163,8 +1247,7 @@ async function initialize({ configDir, key, messages }) {
   let promisified;
 
   try {
-    const sqlInstance = await openDatabase(filePath);
-    promisified = promisify(sqlInstance);
+    promisified = await openAndSetUpSQLCipher(filePath, { key });
 
     // promisified.on('trace', async statement => {
     //   if (!db || statement.startsWith('--')) {
@@ -1174,8 +1257,6 @@ async function initialize({ configDir, key, messages }) {
     //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
     //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
     // });
-
-    await setupSQLCipher(promisified, { key });
 
     await updateSchema(promisified);
 
