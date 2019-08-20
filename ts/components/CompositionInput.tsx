@@ -80,7 +80,7 @@ function getWordAtIndex(str: string, index: number) {
     .slice(0, index + 1)
     .replace(/\s+$/, '')
     .search(/\S+$/);
-  const end = str.slice(index).search(/(?:\s|$)/) + index;
+  const end = str.slice(index).search(/(?:[^a-z0-9-_+]|$)/) + index;
 
   return {
     start,
