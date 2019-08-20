@@ -8,9 +8,11 @@
   outline: inherit;
 }
 
-@mixin color-svg($svg, $color) {
+@mixin color-svg($svg, $color, $stretch: true) {
   -webkit-mask: url($svg) no-repeat center;
-  -webkit-mask-size: 100%;
+  @if $stretch {
+    -webkit-mask-size: 100%;
+  }
   background-color: $color;
 }
 
