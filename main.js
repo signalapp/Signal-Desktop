@@ -313,10 +313,6 @@ function createWindow() {
   mainWindow.on('resize', debouncedCaptureStats);
   mainWindow.on('move', debouncedCaptureStats);
 
-  mainWindow.on('focus', () => {
-    mainWindow.flashFrame(false);
-  });
-
   // Ingested in preload.js via a sendSync call
   ipc.on('locale-data', event => {
     // eslint-disable-next-line no-param-reassign
@@ -892,16 +888,6 @@ ipc.on('add-setup-menu-items', () => {
   setupMenu({
     includeSetup: true,
   });
-});
-
-ipc.on('draw-attention', () => {
-  if (process.platform === 'darwin') {
-    app.dock.bounce();
-  } else if (process.platform === 'win32') {
-    mainWindow.flashFrame(true);
-  } else if (process.platform === 'linux') {
-    mainWindow.flashFrame(true);
-  }
 });
 
 ipc.on('restart', () => {
