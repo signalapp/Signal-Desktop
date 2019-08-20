@@ -197,15 +197,15 @@ export class MainHeader extends React.Component<PropsType> {
         />
         <div className="module-main-header__search">
           {searchConversationId ? (
-            <div className="module-main-header__search__in-conversation-pill">
+            <button
+              className="module-main-header__search__in-conversation-pill"
+              onClick={this.clearSearch}
+            >
               <div className="module-main-header__search__in-conversation-pill__avatar-container">
                 <div className="module-main-header__search__in-conversation-pill__avatar" />
               </div>
-              <button
-                className="module-main-header__search__in-conversation-pill__x-button"
-                onClick={this.clearSearch}
-              />
-            </div>
+              <div className="module-main-header__search__in-conversation-pill__x-button" />
+            </button>
           ) : (
             <button
               className="module-main-header__search__icon"
@@ -217,6 +217,9 @@ export class MainHeader extends React.Component<PropsType> {
             ref={this.inputRef}
             className={classNames(
               'module-main-header__search__input',
+              searchTerm
+                ? 'module-main-header__search__input--with-text'
+                : null,
               searchConversationId
                 ? 'module-main-header__search__input--in-conversation'
                 : null

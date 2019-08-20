@@ -186,7 +186,7 @@
         this.maybeGrabLinkPreview.bind(this),
         200
       );
-      this.debouncedSaveDraft = _.debounce(this.saveDraft.bind(this), 200);
+      this.debouncedSaveDraft = _.debounce(this.saveDraft.bind(this), 2000);
 
       this.render();
 
@@ -2149,6 +2149,7 @@
         try {
           this.unload('delete messages');
           await this.model.destroyMessages();
+          Whisper.events.trigger('unloadConversation', this.model.id);
           this.model.updateLastMessage();
         } catch (error) {
           window.log.error(
@@ -2421,10 +2422,10 @@
     },
 
     async saveDraft(messageText) {
-      if (
-        (this.model.get('draft') && !messageText) ||
-        messageText.length === 0
-      ) {
+      const trimmed =
+        messageText && messageText.length > 0 ? messageText.trim() : '';
+
+      if ((this.model.get('draft') && !messageText) || trimmed.length === 0) {
         this.model.set({
           draft: null,
         });

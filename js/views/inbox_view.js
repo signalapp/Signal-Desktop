@@ -47,6 +47,11 @@
       // Make sure poppers are positioned properly
       window.dispatchEvent(new Event('resize'));
     },
+    onUnload(conversationId) {
+      if (this.lastConversation.id === conversationId) {
+        this.lastConversation = null;
+      }
+    },
   });
 
   Whisper.AppLoadingScreen = Whisper.View.extend({
@@ -74,6 +79,9 @@
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
         model: { window: options.window },
+      });
+      Whisper.events.on('unloadConversation', conversationId => {
+        this.conversation_stack.onUnload(conversationId);
       });
 
       if (!options.initialLoadComplete) {

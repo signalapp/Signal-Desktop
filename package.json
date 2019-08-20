@@ -202,7 +202,8 @@
         }
       ],
       "target": [
-        "zip", "dmg"
+        "zip",
+        "dmg"
       ],
       "bundleVersion": "1"
     },

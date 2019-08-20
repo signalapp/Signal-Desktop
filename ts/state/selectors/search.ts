@@ -53,9 +53,9 @@ export const getSearchConversationName = createSelector(
 export const isSearching = createSelector(
   getSearch,
   (state: SearchStateType) => {
-    const { query, searchConversationId } = state;
+    const { query } = state;
 
-    return (query && query.trim().length > 1) || searchConversationId;
+    return query && query.trim().length > 1;
   }
 );
 
@@ -71,7 +71,7 @@ export const getSearchResults = createSelector(
     regionCode: string,
     lookup: ConversationLookupType,
     selectedConversation?: string
-  ): SearchResultsPropsType => {
+  ): SearchResultsPropsType | undefined => {
     const {
       contacts,
       conversations,

@@ -578,10 +578,7 @@ export class Timeline extends React.PureComponent<Props, State> {
   public getRowCount() {
     const { haveOldest, oldestUnreadIndex, typingContact } = this.props;
     const { items } = this.props;
-
-    if (!items || items.length < 1) {
-      return 0;
-    }
+    const itemsCount = items && items.length ? items.length : 0;
 
     let extraRows = 0;
 
@@ -597,7 +594,7 @@ export class Timeline extends React.PureComponent<Props, State> {
       extraRows += 1;
     }
 
-    return items.length + extraRows;
+    return itemsCount + extraRows;
   }
 
   public fromRowToItemIndex(row: number): number | undefined {
@@ -848,12 +845,12 @@ export class Timeline extends React.PureComponent<Props, State> {
       areUnreadBelowCurrentPosition,
     } = this.state;
 
-    if (!items || items.length < 1) {
-      return null;
-    }
-
     const rowCount = this.getRowCount();
     const scrollToIndex = this.getScrollTarget();
+
+    if (!items || rowCount === 0) {
+      return null;
+    }
 
     return (
       <div className="module-timeline">

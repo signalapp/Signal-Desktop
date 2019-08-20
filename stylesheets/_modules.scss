@@ -2410,7 +2410,7 @@
   border: solid 1px $color-gray-15;
 
   padding-left: 30px;
-  padding-right: 30px;
+  padding-right: 5px;
 
   color: $color-gray-90;
   font-size: 14px;
@@ -2423,6 +2423,10 @@
     border: solid 1px blue;
     outline: none;
   }
+}
+
+.module-main-header__search__input--with-text {
+  padding-right: 30px;
 }
 
 .module-main-header__search__input--in-conversation {
@@ -2453,6 +2457,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  // Overriding some default button styling
+  border: none;
+  padding: 0;
 }
 .module-main-header__search__in-conversation-pill__avatar-container {
   margin-left: 4px;

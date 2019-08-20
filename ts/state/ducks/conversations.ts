@@ -11,6 +11,11 @@ import {
 } from 'lodash';
 import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
+import {
+  AttachmentType,
+  isImageAttachment,
+  isVideoAttachment,
+} from '../../types/attachment';
 
 // State
 
@@ -53,6 +58,7 @@ export type MessageType = {
   quote?: { author: string };
   received_at: number;
   hasSignalAccount?: boolean;
+  attachments: Array<AttachmentType>;
 
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
@@ -511,10 +517,22 @@ function hasMessageHeightChanged(
   message: MessageType,
   previous: MessageType
 ): Boolean {
-  return (
+  const visualAttachmentNoLongerPending =
+    previous.attachments &&
+    previous.attachments[0] &&
+    previous.attachments[0].pending &&
+    message.attachments &&
+    message.attachments.length === 1 &&
+    message.attachments[0] &&
+    (isImageAttachment(message.attachments[0]) ||
+      isVideoAttachment(message.attachments[0])) &&
+    !message.attachments[0].pending;
+
+  const signalAccountChanged =
     Boolean(message.hasSignalAccount || previous.hasSignalAccount) &&
-    message.hasSignalAccount !== previous.hasSignalAccount
-  );
+    message.hasSignalAccount !== previous.hasSignalAccount;
+
+  return visualAttachmentNoLongerPending || signalAccountChanged;
 }
 
 // tslint:disable-next-line cyclomatic-complexity max-func-body-length
