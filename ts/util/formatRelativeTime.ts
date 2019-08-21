@@ -12,13 +12,6 @@ const getShortFormats = (i18n: LocalizerType) => ({
   d: 'ddd',
 });
 
-function isToday(timestamp: moment.Moment) {
-  const today = moment().format('ddd');
-  const targetDay = moment(timestamp).format('ddd');
-
-  return today === targetDay;
-}
-
 function isYear(timestamp: moment.Moment) {
   const year = moment().format('YYYY');
   const targetYear = moment(timestamp).format('YYYY');
@@ -41,17 +34,7 @@ export function formatRelativeTime(
     return timestamp.format(formats.y);
   } else if (diff.months() >= 1 || diff.days() > 6) {
     return timestamp.format(formats.M);
-  } else if (diff.days() >= 1 || !isToday(timestamp)) {
-    return timestamp.format(formats.d);
-  } else if (diff.hours() >= 1) {
-    const key = extended ? 'hoursAgo' : 'hoursAgoShort';
-
-    return i18n(key, [String(diff.hours())]);
-  } else if (diff.minutes() >= 1) {
-    const key = extended ? 'minutesAgo' : 'minutesAgoShort';
-
-    return i18n(key, [String(diff.minutes())]);
   }
 
-  return i18n('justNow');
+  return timestamp.format(formats.d);
 }
