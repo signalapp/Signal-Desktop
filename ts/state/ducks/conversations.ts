@@ -15,7 +15,7 @@ import {
   AttachmentType,
   isImageAttachment,
   isVideoAttachment,
-} from '../../types/attachment';
+} from '../../types/Attachment';
 
 // State
 
