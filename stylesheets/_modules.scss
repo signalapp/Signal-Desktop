@@ -12,7 +12,8 @@
 //   can be used outside tht Timeline contact more easily.
 .module-message-container {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 
   &::after {
     visibility: hidden;
@@ -65,7 +66,7 @@
 }
 
 .module-message--incoming.module-message--group {
-  margin-left: 44px;
+  margin-left: 48px;
 }
 
 .module-message__buttons {
@@ -175,6 +176,14 @@
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 0px;
+
+  @include light-theme {
+    border: 1px solid $color-white;
+  }
+
+  @include dark-theme {
+    border: 1px solid $color-gray-95;
+  }
 }
 
 .module-message__container--with-sticker {
@@ -185,34 +194,23 @@
   background-color: $color-light-10;
 }
 
-.module-message__container__selection {
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  border-radius: 16px;
-
-  background-color: $color-black;
-  opacity: 0;
-
-  animation: message--selected 1s ease-in-out;
+.module-message__container--selected {
+  // cubic-bezier taken from https://easings.net/en#easeOutExpo
+  animation: message--selected 1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 @keyframes message--selected {
   0% {
-    opacity: 0;
+    box-shadow: 0 0 0 5px transparent;
   }
-  20% {
-    opacity: 0.3;
+  10% {
+    box-shadow: 0 0 0 5px $color-signal-blue;
   }
-  80% {
-    opacity: 0.3;
+  70% {
+    box-shadow: 0 0 0 5px $color-signal-blue;
   }
   100% {
-    opacity: 0;
+    box-shadow: 0 0 0 5px transparent;
   }
 }
 
@@ -806,7 +804,7 @@
 .module-message__author-avatar {
   position: absolute;
   bottom: 0px;
-  right: calc(100% + 4px);
+  right: calc(100% + 8px);
 }
 
 .module-message__typing-container {
@@ -2420,7 +2418,7 @@
   }
 
   &:focus {
-    border: solid 1px blue;
+    border: solid 1px $color-signal-blue;
     outline: none;
   }
 }
@@ -2496,7 +2494,6 @@
 // Module: Image
 
 .module-image {
-  overflow: hidden;
   position: relative;
   display: inline-block;
   margin: 1px;
@@ -2537,6 +2534,18 @@
   border-top-left-radius: 10px;
 }
 
+.module-image--selection--selected {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 1px;
+  right: 1px;
+  border-radius: 10px;
+
+  // cubic-bezier taken from https://easings.net/en#easeOutExpo
+  animation: message--selected 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
 .module-image__border-overlay {
   position: absolute;
   top: 0;
@@ -2549,13 +2558,6 @@
 
 .module-image__border-overlay--dark {
   background-color: $color-black-02;
-}
-
-.module-image__border-overlay--selected {
-  background-color: $color-black;
-  opacity: 0;
-
-  animation: message--selected 1s ease-in-out;
 }
 
 .module-image__loading-placeholder {
@@ -3504,7 +3506,8 @@
 }
 
 .module-timeline__message-container {
-  padding-top: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .ReactVirtualized__List {

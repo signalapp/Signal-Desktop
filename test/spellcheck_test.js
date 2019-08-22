@@ -1,6 +1,15 @@
 describe('spellChecker', () => {
   it('should work', () => {
-    assert(window.spellChecker.spellCheck('correct'));
-    assert(!window.spellChecker.spellCheck('fhqwgads'));
+    let result = null;
+
+    window.spellChecker.spellCheck(['correct'], answer => {
+      result = answer;
+    });
+    assert.deepEqual(result, []);
+
+    window.spellChecker.spellCheck(['fhqwgads'], answer => {
+      result = answer;
+    });
+    assert.deepEqual(result, ['fhqwgads']);
   });
 });

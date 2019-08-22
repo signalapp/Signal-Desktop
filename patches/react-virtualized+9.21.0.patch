@@ -24,7 +24,7 @@ index d9716a0..e7a9f9f 100644
          }
        }
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
-index e1b959a..1e3a269 100644
+index e1b959a..18f8f1d 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 +++ b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 @@ -132,6 +132,9 @@ var Grid = function (_React$PureComponent) {
@@ -104,11 +104,27 @@ index e1b959a..1e3a269 100644
        });
  
        this._maybeCallOnScrollbarPresenceChange();
-@@ -584,6 +611,51 @@ var Grid = function (_React$PureComponent) {
+@@ -584,6 +611,59 @@ var Grid = function (_React$PureComponent) {
          }
        }
  
-+      if (scrollToColumn >= 0) {
++      // We reset our hasScrolled flags if our target has changed, or if target is not longer set
++      if (scrollToColumn !== prevProps.scrollToColumn || scrollToColumn == null || scrollToColumn < 0) {
++        this._hasScrolledToColumnTarget = false;
++      }
++      if (scrollToRow !== prevProps.scrollToRow || scrollToRow == null || scrollToRow < 0) {
++        this._hasScrolledToRowTarget = false;
++      }
++
++      // We deactivate our forced scrolling if the user scrolls
++      if (scrollLeft !== prevState.scrollLeft && scrollToColumn >= 0 && scrollPositionChangeReason === SCROLL_POSITION_CHANGE_REASONS.OBSERVED) {
++        this._hasScrolledToColumnTarget = true;
++      }
++      if (scrollTop !== prevState.scrollTop && scrollToRow >= 0 && scrollPositionChangeReason === SCROLL_POSITION_CHANGE_REASONS.OBSERVED) {
++        this._hasScrolledToRowTarget = true;
++      }
++
++      if (scrollToColumn >= 0 && !this._hasScrolledToColumnTarget) {
 +        const scrollRight = scrollLeft + width;
 +        const targetColumn = instanceProps.columnSizeAndPositionManager.getSizeAndPositionOfCell(scrollToColumn);
 +
@@ -124,13 +140,9 @@ index e1b959a..1e3a269 100644
 +          const totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
 +          const maxScroll = totalColumnsWidth - width;
 +          this._hasScrolledToColumnTarget = (scrollLeft >= maxScroll || targetColumn.offset === scrollLeft);
-+        } else if (scrollToColumn !== prevProps.scrollToColumn) {
-+          this._hasScrolledToColumnTarget = false;
 +        }
-+      } else {
-+        this._hasScrolledToColumnTarget = false;
 +      }
-+      if (scrollToRow >= 0) {
++      if (scrollToRow >= 0 && !this._hasScrolledToRowTarget) {
 +        const scrollBottom = scrollTop + height;
 +        const targetRow = instanceProps.rowSizeAndPositionManager.getSizeAndPositionOfCell(scrollToRow);
 +
@@ -146,17 +158,13 @@ index e1b959a..1e3a269 100644
 +          const totalRowsHeight = instanceProps.rowSizeAndPositionManager.getTotalSize();
 +          const maxScroll = totalRowsHeight - height;
 +          this._hasScrolledToRowTarget = (scrollTop >= maxScroll || targetRow.offset === scrollTop);
-+        } else if (scrollToRow !== prevProps.scrollToRow) {
-+          this._hasScrolledToRowTarget = false;
 +        }
-+      } else {
-+        this._hasScrolledToRowTarget = false;
 +      }
 +
        // Special case where the previous size was 0:
        // In this case we don't show any windowed cells at all.
        // So we should always recalculate offset afterwards.
-@@ -594,6 +666,8 @@ var Grid = function (_React$PureComponent) {
+@@ -594,6 +674,8 @@ var Grid = function (_React$PureComponent) {
        if (this._recomputeScrollLeftFlag) {
          this._recomputeScrollLeftFlag = false;
          this._updateScrollLeftForScrollToColumn(this.props);
@@ -165,7 +173,7 @@ index e1b959a..1e3a269 100644
        } else {
          (0, _updateScrollIndexHelper2.default)({
            cellSizeAndPositionManager: instanceProps.columnSizeAndPositionManager,
-@@ -616,6 +690,8 @@ var Grid = function (_React$PureComponent) {
+@@ -616,6 +698,8 @@ var Grid = function (_React$PureComponent) {
        if (this._recomputeScrollTopFlag) {
          this._recomputeScrollTopFlag = false;
          this._updateScrollTopForScrollToRow(this.props);
@@ -174,7 +182,7 @@ index e1b959a..1e3a269 100644
        } else {
          (0, _updateScrollIndexHelper2.default)({
            cellSizeAndPositionManager: instanceProps.rowSizeAndPositionManager,
-@@ -630,11 +706,56 @@ var Grid = function (_React$PureComponent) {
+@@ -630,11 +714,56 @@ var Grid = function (_React$PureComponent) {
            size: height,
            sizeJustIncreasedFromZero: sizeJustIncreasedFromZero,
            updateScrollIndexCallback: function updateScrollIndexCallback() {
@@ -232,7 +240,7 @@ index e1b959a..1e3a269 100644
        // Update onRowsRendered callback if start/stop indices have changed
        this._invokeOnGridRenderedHelper();
  
-@@ -647,7 +768,11 @@ var Grid = function (_React$PureComponent) {
+@@ -647,7 +776,11 @@ var Grid = function (_React$PureComponent) {
            scrollLeft: scrollLeft,
            scrollTop: scrollTop,
            totalColumnsWidth: totalColumnsWidth,
@@ -245,7 +253,7 @@ index e1b959a..1e3a269 100644
          });
        }
  
-@@ -962,7 +1087,11 @@ var Grid = function (_React$PureComponent) {
+@@ -962,7 +1095,11 @@ var Grid = function (_React$PureComponent) {
        var scrollLeft = _ref6.scrollLeft,
            scrollTop = _ref6.scrollTop,
            totalColumnsWidth = _ref6.totalColumnsWidth,
@@ -258,7 +266,7 @@ index e1b959a..1e3a269 100644
  
        this._onScrollMemoizer({
          callback: function callback(_ref7) {
-@@ -973,19 +1102,26 @@ var Grid = function (_React$PureComponent) {
+@@ -973,19 +1110,26 @@ var Grid = function (_React$PureComponent) {
                onScroll = _props7.onScroll,
                width = _props7.width;
  
@@ -289,7 +297,7 @@ index e1b959a..1e3a269 100644
        });
      }
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/accessibilityOverscanIndicesGetter.js b/node_modules/react-virtualized/dist/commonjs/Grid/accessibilityOverscanIndicesGetter.js
-index 70b0abe..2f04448 100644
+index 70b0abe..8e12ffc 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/accessibilityOverscanIndicesGetter.js
 +++ b/node_modules/react-virtualized/dist/commonjs/Grid/accessibilityOverscanIndicesGetter.js
 @@ -32,15 +32,8 @@ function defaultOverscanIndicesGetter(_ref) {
@@ -312,8 +320,9 @@ index 70b0abe..2f04448 100644
 +    overscanStopIndex: Math.min(cellCount - 1, stopIndex + overscanCellsCount),
 +  };
  }
+\ No newline at end of file
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/defaultOverscanIndicesGetter.js b/node_modules/react-virtualized/dist/commonjs/Grid/defaultOverscanIndicesGetter.js
-index d5f6d04..e01e69a 100644
+index d5f6d04..c4b3d84 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/defaultOverscanIndicesGetter.js
 +++ b/node_modules/react-virtualized/dist/commonjs/Grid/defaultOverscanIndicesGetter.js
 @@ -27,15 +27,8 @@ function defaultOverscanIndicesGetter(_ref) {
@@ -336,6 +345,7 @@ index d5f6d04..e01e69a 100644
 +    overscanStopIndex: Math.min(cellCount - 1, stopIndex + overscanCellsCount),
 +  };
  }
+\ No newline at end of file
 diff --git a/node_modules/react-virtualized/dist/commonjs/List/List.js b/node_modules/react-virtualized/dist/commonjs/List/List.js
 index b5ad0eb..efb2cd7 100644
 --- a/node_modules/react-virtualized/dist/commonjs/List/List.js

@@ -90,6 +90,9 @@ export class Image extends React.Component<Props> {
           softCorners ? 'module-image--soft-corners' : null
         )}
       >
+        {isSelected ? (
+          <div className="module-image--selection--selected" />
+        ) : null}
         {pending ? (
           <div
             className="module-image__loading-placeholder"
@@ -120,7 +123,7 @@ export class Image extends React.Component<Props> {
             alt={i18n('imageCaptionIconAlt')}
           />
         ) : null}
-        {!noBorder || isSelected ? (
+        {!noBorder ? (
           <div
             className={classNames(
               'module-image__border-overlay',
@@ -130,8 +133,7 @@ export class Image extends React.Component<Props> {
               curveBottomRight ? 'module-image--curved-bottom-right' : null,
               smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
               softCorners ? 'module-image--soft-corners' : null,
-              darkOverlay ? 'module-image__border-overlay--dark' : null,
-              isSelected ? 'module-image__border-overlay--selected' : null
+              darkOverlay ? 'module-image__border-overlay--dark' : null
             )}
           />
         ) : null}

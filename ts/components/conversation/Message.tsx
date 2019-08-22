@@ -1243,17 +1243,6 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSelectionHighlight() {
-    const { isSticker } = this.props;
-    const { isSelected } = this.state;
-
-    if (!isSelected || isSticker) {
-      return;
-    }
-
-    return <div className="module-message__container__selection" />;
-  }
-
   // tslint:disable-next-line cyclomatic-complexity
   public render() {
     const {
@@ -1270,7 +1259,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewError,
       timestamp,
     } = this.props;
-    const { expired, expiring, imageBroken } = this.state;
+    const { expired, expiring, imageBroken, isSelected } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
     const isButton = isTapToView && !isTapToViewExpired && !isAttachmentPending;
@@ -1306,6 +1295,9 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__container',
+            isSelected && !isSticker
+              ? 'module-message__container--selected'
+              : null,
             isSticker ? 'module-message__container--with-sticker' : null,
             !isSticker ? `module-message__container--${direction}` : null,
             isTapToView ? 'module-message__container--with-tap-to-view' : null,
@@ -1333,7 +1325,6 @@ export class Message extends React.PureComponent<Props, State> {
         >
           {this.renderAuthor()}
           {this.renderContents()}
-          {this.renderSelectionHighlight()}
           {this.renderAvatar()}
         </div>
         {this.renderError(direction === 'outgoing')}

@@ -96,11 +96,12 @@ if (process.platform === 'linux') {
 }
 
 const simpleChecker = {
-  spellCheck(text) {
-    return !this.isMisspelled(text);
+  spellCheck(words, callback) {
+    const mispelled = words.filter(word => this.isMisspelled(word));
+    callback(mispelled);
   },
-  isMisspelled(text) {
-    const misspelled = spellchecker.isMisspelled(text);
+  isMisspelled(word) {
+    const misspelled = spellchecker.isMisspelled(word);
 
     // The idea is to make this as fast as possible. For the many, many calls which
     //   don't result in the red squiggly, we minimize the number of checks.
@@ -109,7 +110,7 @@ const simpleChecker = {
     }
 
     // Only if we think we've found an error do we check the locale and skip list.
-    if (locale.match(EN_VARIANT) && _.contains(ENGLISH_SKIP_WORDS, text)) {
+    if (locale.match(EN_VARIANT) && _.contains(ENGLISH_SKIP_WORDS, word)) {
       return false;
     }
 
@@ -118,14 +119,14 @@ const simpleChecker = {
   getSuggestions(text) {
     return spellchecker.getCorrectionsForMisspelling(text);
   },
-  add(text) {
-    spellchecker.add(text);
+  add(word) {
+    spellchecker.add(word);
   },
 };
 
 const dummyChecker = {
-  spellCheck() {
-    return true;
+  spellCheck(words, callback) {
+    callback([]);
   },
   isMisspelled() {
     return false;

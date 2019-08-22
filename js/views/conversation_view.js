@@ -186,7 +186,7 @@
         this.maybeGrabLinkPreview.bind(this),
         200
       );
-      this.debouncedSaveDraft = _.debounce(this.saveDraft.bind(this), 2000);
+      this.debouncedSaveDraft = _.debounce(this.saveDraft.bind(this), 500);
 
       this.render();
 
@@ -2668,18 +2668,18 @@
             );
           }
 
-          const data = await this.makeChunkedRequest(imageUrl);
+          const chunked = await this.makeChunkedRequest(imageUrl);
 
           // Ensure that this file is either small enough or is resized to meet our
           //   requirements for attachments
           const withBlob = await this.autoScale({
-            contentType: data.contentType,
-            file: new Blob([data.data], {
-              type: data.contentType,
+            contentType: chunked.contentType,
+            file: new Blob([chunked.data], {
+              type: chunked.contentType,
             }),
           });
 
-          const attachment = await this.arrayBufferFromFile(withBlob);
+          const data = await this.arrayBufferFromFile(withBlob.file);
           objectUrl = URL.createObjectURL(withBlob.file);
 
           const dimensions = await Signal.Types.VisualAttachment.getImageDimensions(
@@ -2690,7 +2690,8 @@
           );
 
           image = {
-            ...attachment,
+            data,
+            size: data.byteLength,
             ...dimensions,
             contentType: withBlob.file.type,
           };
