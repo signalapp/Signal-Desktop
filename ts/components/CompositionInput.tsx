@@ -30,6 +30,7 @@ import {
 import { LocalizerType } from '../types/Util';
 
 const colonsRegex = /(?:^|\s):[a-z0-9-_+]+:?/gi;
+const triggerEmojiRegex = /^(?:[-+]\d|[a-z]{2})/i;
 
 export type Props = {
   readonly i18n: LocalizerType;
@@ -276,7 +277,7 @@ export const CompositionInput = ({
         } else {
           resetEmojiResults();
         }
-      } else if (newSearchText.length >= 2 && focusRef.current) {
+      } else if (triggerEmojiRegex.test(newSearchText) && focusRef.current) {
         setEmojiResults(search(newSearchText, 10));
         setSearchText(newSearchText);
         setEmojiResultsIndex(0);
