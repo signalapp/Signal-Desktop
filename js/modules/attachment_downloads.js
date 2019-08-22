@@ -406,7 +406,12 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
       throw new Error("_addAttachmentToMessage: sticker didn't exist");
     }
 
-    _replaceAttachment(sticker, 'data', attachment, logPrefix);
+    message.set({
+      sticker: {
+        ...sticker,
+        data: attachment,
+      },
+    });
     return;
   }
 
