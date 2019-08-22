@@ -205,23 +205,23 @@ export const CompositionInput = ({
   const updateExternalStateListeners = React.useCallback(
     (newState: EditorState) => {
       const plainText = newState.getCurrentContent().getPlainText();
-      const currentBlockKey = newState.getSelection().getStartKey();
-      const currentBlockIndex = editorStateRef.current
+      const cursorBlockKey = newState.getSelection().getStartKey();
+      const cursorBlockIndex = editorStateRef.current
         .getCurrentContent()
         .getBlockMap()
         .keySeq()
-        .findIndex(key => key === currentBlockKey);
+        .findIndex(key => key === cursorBlockKey);
       const caretLocation = newState
         .getCurrentContent()
         .getBlockMap()
         .valueSeq()
         .toArray()
-        .reduce((sum: number, block: ContentBlock, index: number) => {
-          if (currentBlockIndex < index) {
+        .reduce((sum: number, block: ContentBlock, currentIndex: number) => {
+          if (currentIndex < cursorBlockIndex) {
             return sum + block.getText().length + 1; // +1 for newline
           }
 
-          if (currentBlockIndex === index) {
+          if (currentIndex === cursorBlockIndex) {
             return sum + newState.getSelection().getStartOffset();
           }
 
@@ -235,6 +235,7 @@ export const CompositionInput = ({
           onDirtyChange(isDirty);
         }
       }
+
       if (onEditorStateChange) {
         onEditorStateChange(plainText, caretLocation);
       }
