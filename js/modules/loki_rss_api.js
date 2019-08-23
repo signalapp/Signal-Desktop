@@ -7,8 +7,6 @@ const nodeFetch = require('node-fetch');
 
 const friendRequestStatusEnum = require('./loki_friend_request_status');
 
-const RSS_FEED = 'https://loki.network/category/messenger-updates/feed/';
-const CONVO_ID = 'rss://loki.network/category/messenger-updates/feed/';
 const PER_MIN = 60 * 1000;
 const PER_HR = 60 * PER_MIN;
 const RSS_POLL_EVERY = 1 * PER_HR; // once an hour
@@ -67,10 +65,14 @@ function xml2json(xml) {
 }
 
 class LokiRssAPI extends EventEmitter {
-  constructor() {
+  constructor(settings) {
     super();
     // properties
-    this.groupId = CONVO_ID;
+    this.feedUrl = settings.RSS_FEED;
+    this.groupId = settings.CONVO_ID;
+    this.feedTitle = settings.title;
+    this.closeable = settings.closeable;
+    // non configureable options
     this.feedTimer = null;
     this.conversationSetup = false;
     // initial set up
@@ -88,7 +90,7 @@ class LokiRssAPI extends EventEmitter {
       );
       conversation.setFriendRequestStatus(friendRequestStatusEnum.friends);
       conversation.setGroupNameAndAvatar(
-        'Loki.network News',
+        this.feedTitle, //'Loki.network News',
         'images/loki/loki_icon.png'
       );
       conversation.updateTextInputState();
@@ -100,7 +102,7 @@ class LokiRssAPI extends EventEmitter {
     let response;
     let success = true;
     try {
-      response = await nodeFetch(RSS_FEED);
+      response = await nodeFetch(this.feedUrl);
     } catch (e) {
       log.error('fetcherror', e);
       success = false;
