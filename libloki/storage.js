@@ -113,16 +113,33 @@
     }
   }
 
-  async function savePairingAuthorisation(
-    issuerPubKey,
+  function savePairingAuthorisation({
+    primaryDevicePubKey,
     secondaryDevicePubKey,
-    signature
-  ) {
-    return textsecure.storage.protocol.storePairingAuthorisation(
-      issuerPubKey,
+    requestSignature,
+    grantSignature,
+  }) {
+    return window.Signal.Data.createOrUpdatePairingAuthorisation({
+      primaryDevicePubKey,
       secondaryDevicePubKey,
-      signature
-    );
+      requestSignature,
+      grantSignature,
+    });
+  }
+
+  function getGrantAuthorisationForSecondaryPubKey(secondaryPubKey) {
+    return window.Signal.Data.getGrantAuthorisationForPubKey(secondaryPubKey);
+  }
+
+  function getAuthorisationForSecondaryPubKey(secondaryPubKey) {
+    return window.Signal.Data.getAuthorisationForPubKey(secondaryPubKey);
+  }
+
+  async function getAllDevicePubKeysForPrimaryPubKey(primaryDevicePubKey) {
+    const secondaryPubKeys =
+      (await window.Signal.Data.getSecondaryDevicesFor(primaryDevicePubKey)) ||
+      [];
+    return secondaryPubKeys.concat(primaryDevicePubKey);
   }
 
   window.libloki.storage = {
@@ -131,6 +148,9 @@
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
     savePairingAuthorisation,
+    getGrantAuthorisationForSecondaryPubKey,
+    getAuthorisationForSecondaryPubKey,
+    getAllDevicePubKeysForPrimaryPubKey,
   };
 
   // Libloki protocol store
@@ -256,15 +276,4 @@
   store.clearContactSignedPreKeysStore = async () => {
     await window.Signal.Data.removeAllContactSignedPreKeys();
   };
-
-  store.storePairingAuthorisation = (
-    issuerPubKey,
-    secondaryDevicePubKey,
-    signature
-  ) =>
-    window.Signal.Data.createOrUpdatePairingAuthorisation({
-      issuerPubKey,
-      secondaryDevicePubKey,
-      signature,
-    });
 })();

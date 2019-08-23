@@ -63,30 +63,70 @@
     await outgoingMessage.sendToNumber(pubKey);
   }
 
-  async function sendPairingAuthorisation(secondaryDevicePubKey, signature) {
-    const pairingAuthorisation = new textsecure.protobuf.PairingAuthorisationMessage(
-      {
-        signature,
-        primaryDevicePubKey: textsecure.storage.user.getNumber(),
-        secondaryDevicePubKey,
-        type:
-          textsecure.protobuf.PairingAuthorisationMessage.Type.PAIRING_REQUEST,
-      }
+  function createPairingAuthorisationProtoMessage({
+    primaryDevicePubKey,
+    secondaryDevicePubKey,
+    requestSignature,
+    grantSignature,
+    type,
+  }) {
+    if (
+      !primaryDevicePubKey ||
+      !secondaryDevicePubKey ||
+      type === undefined ||
+      type === null
+    ) {
+      throw new Error(
+        'createPairingAuthorisationProtoMessage: pubkeys or type is not set'
+      );
+    }
+    if (requestSignature.constructor !== ArrayBuffer) {
+      throw new Error(
+        'createPairingAuthorisationProtoMessage expects a signature as ArrayBuffer'
+      );
+    }
+    if (grantSignature && grantSignature.constructor !== ArrayBuffer) {
+      throw new Error(
+        'createPairingAuthorisationProtoMessage expects a signature as ArrayBuffer'
+      );
+    }
+    return new textsecure.protobuf.PairingAuthorisationMessage({
+      requestSignature: new Uint8Array(requestSignature),
+      grantSignature: grantSignature ? new Uint8Array(grantSignature) : null,
+      primaryDevicePubKey,
+      secondaryDevicePubKey,
+      type,
+    });
+  }
+
+  async function sendPairingAuthorisation(authorisation, recipientPubKey) {
+    const pairingAuthorisation = createPairingAuthorisationProtoMessage(
+      authorisation
     );
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
     });
     const options = {};
-    const outgoingMessage = new textsecure.OutgoingMessage(
-      null, // server
-      Date.now(), // timestamp,
-      [secondaryDevicePubKey], // numbers
-      content, // message
-      true, // silent
-      () => null, // callback
-      options
-    );
-    await outgoingMessage.sendToNumber(secondaryDevicePubKey);
+    const p = new Promise((resolve, reject) => {
+      const outgoingMessage = new textsecure.OutgoingMessage(
+        null, // server
+        Date.now(), // timestamp,
+        [recipientPubKey], // numbers
+        content, // message
+        true, // silent
+        result => {
+          // callback
+          if (result.errors.length > 0) {
+            reject(result.errors[0]);
+          } else {
+            resolve();
+          }
+        },
+        options
+      );
+      outgoingMessage.sendToNumber(recipientPubKey);
+    });
+    return p;
   }
 
   window.libloki.api = {
@@ -94,5 +134,6 @@
     sendOnlineBroadcastMessage,
     broadcastOnlineStatus,
     sendPairingAuthorisation,
+    createPairingAuthorisationProtoMessage,
   };
 })();

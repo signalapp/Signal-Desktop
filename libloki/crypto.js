@@ -171,32 +171,38 @@
       myKeyPair.privKey,
       data.buffer
     );
-    return new Uint8Array(signature);
+    return signature;
   }
 
   async function verifyPairingAuthorisation(
-    issuerPubKey,
+    primaryDevicePubKey,
     secondaryPubKey,
     signature,
     type
   ) {
-    const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
-    if (StringView.arrayBufferToHex(myKeyPair.pubKey) !== secondaryPubKey) {
-      throw new Error(
-        'Invalid pairing authorisation: we are not the recipient of the authorisation!'
-      );
-    }
-    const len = myKeyPair.pubKey.byteLength;
-    const data = new Uint8Array(len + 1);
-    data.set(new Uint8Array(myKeyPair.pubKey), 0);
-    data[len] = type;
-    const issuerPubKeyArrayBuffer = StringView.hexToArrayBuffer(issuerPubKey);
-    // Throws for invalid signature
-    await libsignal.Curve.async.verifySignature(
-      issuerPubKeyArrayBuffer,
-      data.buffer,
-      signature
+    const secondaryPubKeyArrayBuffer = StringView.hexToArrayBuffer(
+      secondaryPubKey
     );
+    const primaryDevicePubKeyArrayBuffer = StringView.hexToArrayBuffer(
+      primaryDevicePubKey
+    );
+    const len = secondaryPubKeyArrayBuffer.byteLength;
+    const data = new Uint8Array(len + 1);
+    // For REQUEST type message, the secondary device signs the primary device pubkey
+    // For GRANT type message, the primary device signs the secondary device pubkey
+    let issuer;
+    if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT) {
+      data.set(new Uint8Array(secondaryPubKeyArrayBuffer));
+      issuer = primaryDevicePubKeyArrayBuffer;
+    } else if (
+      type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
+    ) {
+      data.set(new Uint8Array(primaryDevicePubKeyArrayBuffer));
+      issuer = secondaryPubKeyArrayBuffer;
+    }
+    data[len] = type;
+    // Throws for invalid signature
+    await libsignal.Curve.async.verifySignature(issuer, data.buffer, signature);
   }
 
   const snodeCipher = new LokiSnodeChannel();
