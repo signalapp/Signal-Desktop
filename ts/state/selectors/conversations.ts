@@ -1,5 +1,5 @@
 import memoizee from 'memoizee';
-import { isNumber } from 'lodash';
+import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';
 import { format } from '../../types/PhoneNumber';
 
@@ -370,9 +370,15 @@ export function _conversationMessagesSelector(
     !metrics.oldest || !firstId || firstId === metrics.oldest.id;
 
   const items = messageIds;
-  const messageHeightChanges = Boolean(
+
+  const messageHeightChangeLookup =
     heightChangeMessageIds && heightChangeMessageIds.length
-  );
+      ? fromPairs(heightChangeMessageIds.map(id => [id, true]))
+      : null;
+  const messageHeightChangeIndex = messageHeightChangeLookup
+    ? messageIds.findIndex(id => messageHeightChangeLookup[id])
+    : undefined;
+
   const oldestUnreadIndex = oldestUnread
     ? messageIds.findIndex(id => id === oldestUnread.id)
     : undefined;
@@ -387,14 +393,17 @@ export function _conversationMessagesSelector(
     isLoadingMessages,
     loadCountdownStart,
     items,
-    messageHeightChanges,
+    messageHeightChangeIndex:
+      isNumber(messageHeightChangeIndex) && messageHeightChangeIndex >= 0
+        ? messageHeightChangeIndex
+        : undefined,
     oldestUnreadIndex:
       isNumber(oldestUnreadIndex) && oldestUnreadIndex >= 0
         ? oldestUnreadIndex
         : undefined,
     resetCounter,
     scrollToIndex:
-      scrollToIndex && scrollToIndex >= 0 ? scrollToIndex : undefined,
+      isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : undefined,
     scrollToIndexCounter: scrollToMessageCounter,
     totalUnread,
   };

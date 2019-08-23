@@ -27,7 +27,7 @@ export type PropsDataType = {
   isLoadingMessages: boolean;
   items: Array<string>;
   loadCountdownStart?: number;
-  messageHeightChanges: boolean;
+  messageHeightChangeIndex?: number;
   oldestUnreadIndex?: number;
   resetCounter: number;
   scrollToIndex?: number;
@@ -123,7 +123,7 @@ export class Timeline extends React.PureComponent<Props, State> {
   public mostRecentWidth = 0;
   public mostRecentHeight = 0;
   public offsetFromBottom: number | undefined = 0;
-  public resizeAllFlag = false;
+  public resizeFlag = false;
   public listRef = React.createRef<any>();
   public visibleRows: VisibleRowsType | undefined;
   public loadCountdownTimeout: any;
@@ -229,13 +229,17 @@ export class Timeline extends React.PureComponent<Props, State> {
     grid.scrollToPosition({ scrollTop: scrollContainer.scrollTop + delta });
   };
 
-  public resizeAll = () => {
+  public resize = (row?: number) => {
     this.offsetFromBottom = undefined;
-    this.resizeAllFlag = false;
-    this.cellSizeCache.clearAll();
+    this.resizeFlag = false;
+    if (isNumber(row) && row > 0) {
+      // @ts-ignore
+      this.cellSizeCache.clearPlus(row, 0);
+    } else {
+      this.cellSizeCache.clearAll();
+    }
 
-    const rowCount = this.getRowCount();
-    this.recomputeRowHeights(rowCount - 1);
+    this.recomputeRowHeights(row || 0);
   };
 
   public onScroll = (data: OnScrollParamsType) => {
@@ -255,8 +259,6 @@ export class Timeline extends React.PureComponent<Props, State> {
     //  pop the user back down to the bottom.
     const { clientHeight, scrollHeight, scrollTop } = data;
     if (scrollTop + clientHeight > scrollHeight) {
-      this.resizeAll();
-
       return;
     }
 
@@ -597,8 +599,8 @@ export class Timeline extends React.PureComponent<Props, State> {
     return itemsCount + extraRows;
   }
 
-  public fromRowToItemIndex(row: number): number | undefined {
-    const { haveOldest, items } = this.props;
+  public fromRowToItemIndex(row: number, props?: Props): number | undefined {
+    const { haveOldest, items } = props || this.props;
 
     let subtraction = 0;
 
@@ -619,8 +621,8 @@ export class Timeline extends React.PureComponent<Props, State> {
     return index;
   }
 
-  public getLastSeenIndicatorRow() {
-    const { oldestUnreadIndex } = this.props;
+  public getLastSeenIndicatorRow(props?: Props) {
+    const { oldestUnreadIndex } = props || this.props;
     if (!isNumber(oldestUnreadIndex)) {
       return;
     }
@@ -716,24 +718,26 @@ export class Timeline extends React.PureComponent<Props, State> {
     this.updateWithVisibleRows(forceFocus);
   };
 
-  // tslint:disable-next-line cyclomatic-complexity
+  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   public componentDidUpdate(prevProps: Props) {
     const {
       id,
       clearChangedMessages,
       items,
-      messageHeightChanges,
+      messageHeightChangeIndex,
       oldestUnreadIndex,
       resetCounter,
       scrollToIndex,
       typingContact,
     } = this.props;
 
-    // There are a number of situations which can necessitate that we drop our row height
-    //   cache and start over. It can cause the scroll position to do weird things, so we
-    //   try to minimize those situations. In some cases we could reset a smaller set
-    //   of cached row data, but we currently don't have an API for that. We'd need to
-    //   create it.
+    // There are a number of situations which can necessitate that we forget about row
+    //   heights previously calculated. We reset the minimum number of rows to minimize
+    //   unexpected changes to the scroll position. Those changes happen because
+    //   react-virtualized doesn't know what to expect (variable row heights) when it
+    //   renders, so it does have a fixed row it's attempting to scroll to, and you ask it
+    //   to render a given point it space, it will do pretty random things.
+
     if (
       !prevProps.items ||
       prevProps.items.length === 0 ||
@@ -748,13 +752,13 @@ export class Timeline extends React.PureComponent<Props, State> {
       });
 
       if (prevProps.items && prevProps.items.length > 0) {
-        this.resizeAll();
+        this.resize();
       }
-    } else if (!typingContact && prevProps.typingContact) {
-      this.resizeAll();
-    } else if (oldestUnreadIndex !== prevProps.oldestUnreadIndex) {
-      this.resizeAll();
-    } else if (
+
+      return;
+    }
+
+    if (
       items &&
       items.length > 0 &&
       prevProps.items &&
@@ -767,7 +771,7 @@ export class Timeline extends React.PureComponent<Props, State> {
 
         const newFirstIndex = items.findIndex(item => item === oldFirstId);
         if (newFirstIndex < 0) {
-          this.resizeAll();
+          this.resize();
 
           return;
         }
@@ -776,7 +780,7 @@ export class Timeline extends React.PureComponent<Props, State> {
         const delta = newFirstIndex - oldFirstIndex;
         if (delta > 0) {
           // We're loading more new messages at the top; we want to stay at the top
-          this.resizeAll();
+          this.resize();
           this.setState({ oneTimeScrollRow: newRow });
 
           return;
@@ -792,7 +796,7 @@ export class Timeline extends React.PureComponent<Props, State> {
 
       const newLastIndex = items.findIndex(item => item === oldLastId);
       if (newLastIndex < 0) {
-        this.resizeAll();
+        this.resize();
 
         return;
       }
@@ -802,20 +806,59 @@ export class Timeline extends React.PureComponent<Props, State> {
       // If we've just added to the end of the list, then the index of the last id's
       //   index won't have changed, and we can rely on List's detection that items is
       //   different for the necessary re-render.
-      if (indexDelta !== 0) {
-        this.resizeAll();
-      } else if (typingContact && prevProps.typingContact) {
-        // The last row will be off, because it was previously the typing indicator
-        this.resizeAll();
+      if (indexDelta === 0) {
+        if (typingContact || prevProps.typingContact) {
+          // The last row will be off, because it was previously the typing indicator
+          const rowCount = this.getRowCount();
+          this.resize(rowCount - 2);
+        }
+
+        // no resize because we just add to the end
+        return;
       }
-    } else if (messageHeightChanges) {
-      this.resizeAll();
-      clearChangedMessages(id);
-    } else if (this.resizeAllFlag) {
-      this.resizeAll();
-    } else {
-      this.updateWithVisibleRows();
+
+      this.resize();
+
+      return;
     }
+
+    if (this.resizeFlag) {
+      this.resize();
+
+      return;
+    }
+
+    if (oldestUnreadIndex !== prevProps.oldestUnreadIndex) {
+      const prevRow = this.getLastSeenIndicatorRow(prevProps);
+      const newRow = this.getLastSeenIndicatorRow();
+      const rowCount = this.getRowCount();
+      const lastRow = rowCount - 1;
+
+      const targetRow = Math.min(
+        isNumber(prevRow) ? prevRow : lastRow,
+        isNumber(newRow) ? newRow : lastRow
+      );
+      this.resize(targetRow);
+
+      return;
+    }
+
+    if (isNumber(messageHeightChangeIndex)) {
+      const rowIndex = this.fromItemIndexToRow(messageHeightChangeIndex);
+      this.resize(rowIndex);
+      clearChangedMessages(id);
+
+      return;
+    }
+
+    if (Boolean(typingContact) !== Boolean(prevProps.typingContact)) {
+      const rowCount = this.getRowCount();
+      this.resize(rowCount - 2);
+
+      return;
+    }
+
+    this.updateWithVisibleRows();
   }
 
   public getScrollTarget = () => {
@@ -857,9 +900,9 @@ export class Timeline extends React.PureComponent<Props, State> {
         <AutoSizer>
           {({ height, width }) => {
             if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-              this.resizeAllFlag = true;
+              this.resizeFlag = true;
 
-              setTimeout(this.resizeAll, 0);
+              setTimeout(this.resize, 0);
             } else if (
               this.mostRecentHeight &&
               this.mostRecentHeight !== height

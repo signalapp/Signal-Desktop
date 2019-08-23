@@ -23,8 +23,54 @@ index d9716a0..e7a9f9f 100644
            });
          }
        }
+diff --git a/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js b/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
+index 262776b..95d6a80 100644
+--- a/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
++++ b/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
+@@ -65,6 +65,7 @@ var CellMeasurerCache = function () {
+         minWidth = params.minWidth;
+ 
+ 
++    this._highWaterMark = 0;
+     this._hasFixedHeight = fixedHeight === true;
+     this._hasFixedWidth = fixedWidth === true;
+     this._minHeight = minHeight || 0;
+@@ -101,6 +102,24 @@ var CellMeasurerCache = function () {
+ 
+       this._updateCachedColumnAndRowSizes(rowIndex, columnIndex);
+     }
++  }, {
++    key: 'clearPlus',
++    value: function clearPlus(rowIndex) {
++      var columnIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
++
++      if (this._highWaterMark <= rowIndex) {
++        this.clear(rowIndex, columnIndex);
++        return;
++      }
++
++      for (let i = rowIndex, max = this._highWaterMark; i <= max; i += 1) {
++        var key = this._keyMapper(i, columnIndex);
++        delete this._cellHeightCache[key];
++        delete this._cellWidthCache[key];
++      }
++
++      this._highWaterMark = Math.max(0, rowIndex - 1);
++    }
+   }, {
+     key: 'clearAll',
+     value: function clearAll() {
+@@ -168,6 +187,8 @@ var CellMeasurerCache = function () {
+         this._rowCount = rowIndex + 1;
+       }
+ 
++      this._highWaterMark = Math.max(this._highWaterMark, rowIndex);
++
+       // Size is cached per cell so we don't have to re-measure if cells are re-ordered.
+       this._cellHeightCache[key] = height;
+       this._cellWidthCache[key] = width;
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
-index e1b959a..18f8f1d 100644
+index e1b959a..31f3b56 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 +++ b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 @@ -132,6 +132,9 @@ var Grid = function (_React$PureComponent) {
@@ -50,17 +96,21 @@ index e1b959a..18f8f1d 100644
        });
      }
  
-@@ -362,6 +369,9 @@ var Grid = function (_React$PureComponent) {
-     value: function invalidateCellSizeAfterRender(_ref3) {
+@@ -363,6 +370,13 @@ var Grid = function (_React$PureComponent) {
        var columnIndex = _ref3.columnIndex,
            rowIndex = _ref3.rowIndex;
-+      if (!this._disableCellUpdates) {
-+        this._cellUpdates.push(_ref3);
-+      }
  
++      if (columnIndex < this._lastColumnStartIndex) {
++        this._cellUpdates.push({ columnIndex, widthChange: _ref3.widthChange });
++      }
++      if (rowIndex < this._lastRowStartIndex) {
++        this._cellUpdates.push({ rowIndex, heightChange: _ref3.heightChange });
++      }
++
        this._deferredInvalidateColumnIndex = typeof this._deferredInvalidateColumnIndex === 'number' ? Math.min(this._deferredInvalidateColumnIndex, columnIndex) : columnIndex;
        this._deferredInvalidateRowIndex = typeof this._deferredInvalidateRowIndex === 'number' ? Math.min(this._deferredInvalidateRowIndex, rowIndex) : rowIndex;
-@@ -381,8 +391,12 @@ var Grid = function (_React$PureComponent) {
+     }
+@@ -381,8 +395,12 @@ var Grid = function (_React$PureComponent) {
            rowCount = _props2.rowCount;
        var instanceProps = this.state.instanceProps;
  
@@ -75,23 +125,24 @@ index e1b959a..18f8f1d 100644
      }
  
      /**
-@@ -415,6 +429,15 @@ var Grid = function (_React$PureComponent) {
+@@ -415,6 +433,16 @@ var Grid = function (_React$PureComponent) {
        this._recomputeScrollLeftFlag = scrollToColumn >= 0 && (this.state.scrollDirectionHorizontal === _defaultOverscanIndicesGetter.SCROLL_DIRECTION_FORWARD ? columnIndex <= scrollToColumn : columnIndex >= scrollToColumn);
        this._recomputeScrollTopFlag = scrollToRow >= 0 && (this.state.scrollDirectionVertical === _defaultOverscanIndicesGetter.SCROLL_DIRECTION_FORWARD ? rowIndex <= scrollToRow : rowIndex >= scrollToRow);
  
++      // Important to ensure that when we, say, change the width of the viewport,
++      //   we don't re-render, capture deltas, and move the scroll location around.
++      if (rowIndex === 0 && columnIndex === 0) {
++        this._disableCellUpdates = true;
++      }
++
 +      // Global notification that we should retry our scroll to props-requested indices
 +      this._hasScrolledToColumnTarget = false;
 +      this._hasScrolledToRowTarget = false;
 +
-+      // Disable cell updates for global reset
-+      if (rowIndex >= this.props.rowCount - 1 || columnIndex >= this.props.columnCount - 1) {
-+        this._disableCellUpdates = true;
-+      }
-+
        // Clear cell cache in case we are scrolling;
        // Invalid row heights likely mean invalid cached content as well.
        this._styleCache = {};
-@@ -526,7 +549,11 @@ var Grid = function (_React$PureComponent) {
+@@ -526,7 +554,11 @@ var Grid = function (_React$PureComponent) {
          scrollLeft: scrollLeft || 0,
          scrollTop: scrollTop || 0,
          totalColumnsWidth: instanceProps.columnSizeAndPositionManager.getTotalSize(),
@@ -104,10 +155,13 @@ index e1b959a..18f8f1d 100644
        });
  
        this._maybeCallOnScrollbarPresenceChange();
-@@ -584,6 +611,59 @@ var Grid = function (_React$PureComponent) {
+@@ -584,6 +616,60 @@ var Grid = function (_React$PureComponent) {
          }
        }
  
++      var totalRowsHeight = instanceProps.rowSizeAndPositionManager.getTotalSize();
++      var totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
++
 +      // We reset our hasScrolled flags if our target has changed, or if target is not longer set
 +      if (scrollToColumn !== prevProps.scrollToColumn || scrollToColumn == null || scrollToColumn < 0) {
 +        this._hasScrolledToColumnTarget = false;
@@ -137,7 +191,6 @@ index e1b959a..18f8f1d 100644
 +        }
 +
 +        if (isVisible) {
-+          const totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
 +          const maxScroll = totalColumnsWidth - width;
 +          this._hasScrolledToColumnTarget = (scrollLeft >= maxScroll || targetColumn.offset === scrollLeft);
 +        }
@@ -155,7 +208,6 @@ index e1b959a..18f8f1d 100644
 +        }
 +
 +        if (isVisible) {
-+          const totalRowsHeight = instanceProps.rowSizeAndPositionManager.getTotalSize();
 +          const maxScroll = totalRowsHeight - height;
 +          this._hasScrolledToRowTarget = (scrollTop >= maxScroll || targetRow.offset === scrollTop);
 +        }
@@ -164,7 +216,7 @@ index e1b959a..18f8f1d 100644
        // Special case where the previous size was 0:
        // In this case we don't show any windowed cells at all.
        // So we should always recalculate offset afterwards.
-@@ -594,6 +674,8 @@ var Grid = function (_React$PureComponent) {
+@@ -594,6 +680,8 @@ var Grid = function (_React$PureComponent) {
        if (this._recomputeScrollLeftFlag) {
          this._recomputeScrollLeftFlag = false;
          this._updateScrollLeftForScrollToColumn(this.props);
@@ -173,7 +225,7 @@ index e1b959a..18f8f1d 100644
        } else {
          (0, _updateScrollIndexHelper2.default)({
            cellSizeAndPositionManager: instanceProps.columnSizeAndPositionManager,
-@@ -616,6 +698,8 @@ var Grid = function (_React$PureComponent) {
+@@ -616,6 +704,8 @@ var Grid = function (_React$PureComponent) {
        if (this._recomputeScrollTopFlag) {
          this._recomputeScrollTopFlag = false;
          this._updateScrollTopForScrollToRow(this.props);
@@ -182,7 +234,7 @@ index e1b959a..18f8f1d 100644
        } else {
          (0, _updateScrollIndexHelper2.default)({
            cellSizeAndPositionManager: instanceProps.rowSizeAndPositionManager,
-@@ -630,11 +714,56 @@ var Grid = function (_React$PureComponent) {
+@@ -630,24 +720,55 @@ var Grid = function (_React$PureComponent) {
            size: height,
            sizeJustIncreasedFromZero: sizeJustIncreasedFromZero,
            updateScrollIndexCallback: function updateScrollIndexCallback() {
@@ -192,40 +244,25 @@ index e1b959a..18f8f1d 100644
          });
        }
  
-+      this._disableCellUpdates = false;
-+      if (scrollPositionChangeReason !== SCROLL_POSITION_CHANGE_REASONS.OBSERVED) {
++
++      if (this._disableCellUpdates) {
 +        this._cellUpdates = [];
 +      }
-+      if (this._cellUpdates.length) {
-+        const currentScrollTop = this.state.scrollTop;
-+        const currentScrollBottom = currentScrollTop + height;
-+        const currentScrollLeft = this.state.scrollLeft;
-+        const currentScrollRight = currentScrollLeft + width;
-+
++      this._disableCellUpdates = false;
++      if (this.props.scrollToRow >= 0 && !this._hasScrolledToRowTarget) {
++        this._cellUpdates = [];
++      }
++      if (this.props.scrollToColumn >= 0 && !this._hasScrolledToColumnTarget) {
++        this._cellUpdates = [];
++      }
++      if (this._cellUpdates.length && scrollPositionChangeReason === SCROLL_POSITION_CHANGE_REASONS.OBSERVED) {
 +        let item;
 +        let verticalDelta = 0;
 +        let horizontalDelta = 0;
 +
 +        while (item = this._cellUpdates.shift()) {
-+          const rowData = instanceProps.rowSizeAndPositionManager.getSizeAndPositionOfCell(item.rowIndex);
-+          const columnData = instanceProps.columnSizeAndPositionManager.getSizeAndPositionOfCell(item.columnIndex);
-+
-+          const bottomOfItem = rowData.offset + rowData.size;
-+          const rightSideOfItem = columnData.offset + columnData.size;
-+
-+          if (bottomOfItem < currentScrollBottom) {
-+            verticalDelta += item.heightChange;
-+          }
-+          if (rightSideOfItem < currentScrollRight) {
-+            horizontalDelta += item.widthChange;
-+          }
-+        }
-+
-+        if (this.props.scrollToRow >= 0 && !this._hasScrolledToRowTarget) {
-+          verticalDelta = 0;
-+        }
-+        if (this.props.scrollToColumn >= 0 && !this._hasScrolledToColumnTarget) {
-+          horizontalDelta = 0;
++          verticalDelta += item.heightChange || 0;
++          horizontalDelta += item.widthChange || 0;
 +        }
 +
 +        if (verticalDelta !== 0 || horizontalDelta !== 0) {
@@ -240,7 +277,12 @@ index e1b959a..18f8f1d 100644
        // Update onRowsRendered callback if start/stop indices have changed
        this._invokeOnGridRenderedHelper();
  
-@@ -647,7 +776,11 @@ var Grid = function (_React$PureComponent) {
+       // Changes to :scrollLeft or :scrollTop should also notify :onScroll listeners
+       if (scrollLeft !== prevState.scrollLeft || scrollTop !== prevState.scrollTop) {
+-        var totalRowsHeight = instanceProps.rowSizeAndPositionManager.getTotalSize();
+-        var totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
+-
+         this._invokeOnScrollMemoizer({
            scrollLeft: scrollLeft,
            scrollTop: scrollTop,
            totalColumnsWidth: totalColumnsWidth,
@@ -253,7 +295,19 @@ index e1b959a..18f8f1d 100644
          });
        }
  
-@@ -962,7 +1095,11 @@ var Grid = function (_React$PureComponent) {
+@@ -909,6 +1030,11 @@ var Grid = function (_React$PureComponent) {
+           visibleRowIndices: visibleRowIndices
+         });
+ 
++        this._lastColumnStartIndex = this._columnStartIndex;
++        this._lastColumnStopIndex = this._columnStopIndex;
++        this._lastRowStartIndex = this._rowStartIndex;
++        this._lastRowStopIndex = this._rowStopIndex;
++
+         // update the indices
+         this._columnStartIndex = columnStartIndex;
+         this._columnStopIndex = columnStopIndex;
+@@ -962,7 +1088,11 @@ var Grid = function (_React$PureComponent) {
        var scrollLeft = _ref6.scrollLeft,
            scrollTop = _ref6.scrollTop,
            totalColumnsWidth = _ref6.totalColumnsWidth,
@@ -266,7 +320,7 @@ index e1b959a..18f8f1d 100644
  
        this._onScrollMemoizer({
          callback: function callback(_ref7) {
-@@ -973,19 +1110,26 @@ var Grid = function (_React$PureComponent) {
+@@ -973,19 +1103,26 @@ var Grid = function (_React$PureComponent) {
                onScroll = _props7.onScroll,
                width = _props7.width;
  

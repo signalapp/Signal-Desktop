@@ -228,9 +228,7 @@ export class SearchResults extends React.Component<PropsType> {
 
   public resizeAll = () => {
     this.cellSizeCache.clearAll();
-
-    const rowCount = this.getRowCount();
-    this.recomputeRowHeights(rowCount - 1);
+    this.recomputeRowHeights(0);
   };
 
   public getRowCount() {
