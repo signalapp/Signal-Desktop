@@ -90,7 +90,7 @@ class LokiRssAPI extends EventEmitter {
       );
       conversation.setFriendRequestStatus(friendRequestStatusEnum.friends);
       conversation.setGroupNameAndAvatar(
-        this.feedTitle, //'Loki.network News',
+        this.feedTitle,
         'images/loki/loki_icon.png'
       );
       conversation.updateTextInputState();

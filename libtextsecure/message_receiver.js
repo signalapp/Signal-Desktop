@@ -81,7 +81,7 @@ MessageReceiver.prototype.extend({
     // set up pollers for any RSS feeds
     feeds.forEach(feed => {
       feed.on('rssMessage', this.handleRssMessage.bind(this));
-    })
+    });
     this.startLocalServer();
 
     // TODO: Rework this socket stuff to work with online messaging

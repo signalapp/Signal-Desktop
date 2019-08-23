@@ -228,13 +228,15 @@
         window.log.warn(`Could not set up channel for ${conversation.id}`);
       }
     });
-    window.feeds = []
-    window.feeds.push(new window.LokiRssAPI({
-      RSS_FEED: 'https://loki.network/category/messenger-updates/feed/',
-      CONVO_ID: 'rss://loki.network/category/messenger-updates/feed/',
-      title: 'Messenger updates',
-      closeable: false
-    }));
+    window.feeds = [];
+    window.feeds.push(
+      new window.LokiRssAPI({
+        RSS_FEED: 'https://loki.network/category/messenger-updates/feed/',
+        CONVO_ID: 'rss://loki.network/category/messenger-updates/feed/',
+        title: 'Messenger updates',
+        closeable: false,
+      })
+    );
     /*
     window.feeds.push(new window.LokiRssAPI({
       RSS_FEED: 'https://loki.network/feed/',
