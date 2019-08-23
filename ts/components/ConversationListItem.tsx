@@ -21,6 +21,7 @@ export type PropsData = {
   type: 'group' | 'direct';
   avatarPath?: string;
   isMe: boolean;
+  isClosable?: boolean;
 
   lastUpdated: number;
   unreadCount: number;
@@ -163,6 +164,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       i18n,
       isBlocked,
       isMe,
+      isClosable,
       hasNickname,
       onDeleteContact,
       onDeleteMessages,
@@ -191,7 +193,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         ) : null}
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe ? (
+        {!isMe && isClosable ? (
           <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
         ) : null}
       </ContextMenu>

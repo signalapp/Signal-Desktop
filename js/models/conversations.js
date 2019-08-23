@@ -196,6 +196,9 @@
     isPublic() {
       return this.id.match(/^publicChat:/);
     },
+    isClosable() {
+      return !this.isRss() || this.get('closable');
+    },
     isRss() {
       return this.id && this.id.match(/^rss:/);
     },
@@ -441,6 +444,7 @@
         color,
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
+        isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
         name: this.getName(),
