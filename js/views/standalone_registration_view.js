@@ -26,6 +26,7 @@
       this.$('#error').hide();
 
       this.$('.standalone-mnemonic').hide();
+      this.$('.standalone-secondary-device').hide();
 
       this.onGenerateMnemonic();
 
@@ -49,6 +50,7 @@
 
       this.registrationParams = {};
       this.$pages = this.$('.page');
+      this.pairingTimeout = null;
       this.showRegisterPage();
 
       this.onValidatePassword();
@@ -60,6 +62,7 @@
       'change #code': 'onChangeCode',
       'click #register': 'registerWithoutMnemonic',
       'click #register-mnemonic': 'registerWithMnemonic',
+      'click #register-secondary-device': 'registerSecondaryDevice',
       'click #back-button': 'onBack',
       'click #save-button': 'onSaveProfile',
       'change #mnemonic': 'onChangeMnemonic',
@@ -122,6 +125,38 @@
       const mnemonic = this.$('#mnemonic-display').text();
       const language = this.$('#mnemonic-display-language').val();
       this.showProfilePage(mnemonic, language);
+    },
+    async registerSecondaryDevice() {
+      const mnemonic = this.$('#mnemonic-display').text();
+      const language = this.$('#mnemonic-display-language').val();
+      const primaryPubKey = this.$('#primary-pubkey').val();
+      this.$('.standalone-secondary-device #error').hide();
+      Whisper.events.on('secondaryDeviceRegistration', () => {
+        // Ensure the left menu is updated
+        Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
+        this.$el.trigger('openInbox');
+      });
+      clearTimeout(this.pairingTimeout);
+      this.pairingTimeout = setTimeout(() => {
+        this.$('.standalone-secondary-device #error').text(
+          'The primary device has not responded within 1 minute. Ensure it is connected.'
+        );
+        this.$('.standalone-secondary-device #error').show();
+      }, 60000);
+      textsecure.storage.put('secondaryDeviceStatus', 'ongoing');
+      try {
+        await this.accountManager.registerSingleDevice(
+          mnemonic,
+          language,
+          'John Smith'
+        );
+        await this.accountManager.requestPairing(primaryPubKey);
+      } catch (e) {
+        textsecure.storage.remove('secondaryDeviceStatus');
+        this.$('.standalone-secondary-device #error').text(e);
+        this.$('.standalone-secondary-device #error').show();
+        clearTimeout(this.pairingTimeout);
+      }
     },
     registerWithMnemonic() {
       const mnemonic = this.$('#mnemonic').val();

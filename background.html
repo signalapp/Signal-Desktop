@@ -574,21 +574,7 @@
 
           <!-- Registration -->
           <div class='page'>
-            <h4 class='section-toggle'>Restore using seed</h4>
-            <div class='standalone-mnemonic section-content'>
-              <div class='standalone-mnemonic-inputs'>
-                <input class='form-control' type='text' id='mnemonic' placeholder='Mnemonic Seed' autocomplete='off' spellcheck='false' />
-              </div>
-              <div id='error' class='collapse'></div>
-              <div class='restore standalone-register-language'>
-                <span>Language:</span>
-                <div class='select-container'>
-                  <select id='mnemonic-language'></select>
-                </div>
-              </div>
-              <a class='button' id='register-mnemonic'>Restore</a>
-              <div id=status></div>
-            </div>
+            <!-- New account -->
             <h4 class='section-toggle section-toggle-visible'>Register a new account</h4>
             <div class='standalone-register section-content'>
               <div class='standalone-register-warning'>
@@ -608,6 +594,38 @@
                 <a class='button grey' id='copy-mnemonic'>Copy Seed</a>
                 <a class='button' id='register' data-loading-text='Please wait...'>Register</a>
               </div>
+            </div>
+            <!-- Restore using seed -->
+            <h4 class='section-toggle'>Restore using seed</h4>
+            <div class='standalone-mnemonic section-content'>
+              <div class='standalone-mnemonic-inputs'>
+                <input class='form-control' type='text' id='mnemonic' placeholder='Mnemonic Seed' autocomplete='off' spellcheck='false' />
+              </div>
+              <div id='error' class='collapse'></div>
+              <div class='restore standalone-register-language'>
+                <span>Language:</span>
+                <div class='select-container'>
+                  <select id='mnemonic-language'></select>
+                </div>
+              </div>
+              <a class='button' id='register-mnemonic'>Restore</a>
+              <div id=status></div>
+            </div>
+            <!-- Link device to an existing account -->
+            <h4 class='section-toggle'>Link device to an existing account</h4>
+            <div class='standalone-secondary-device section-content'>
+              <p class='standalone-register-warning'>
+                You will need your Primary Device handy during this step.
+                </br>
+                Open the Loki Messenger App on your Primary Device
+              </br>
+                and select "Pair New Device" in the main menu.
+              </p>
+              <div class='standalone-secondary-device-inputs'>
+                <input class='form-control' type='text' id='primary-pubkey' placeholder='Primary Account Public Key' autocomplete='off' spellcheck='false' />
+              </div>
+              <div id='error' class='collapse'></div>
+              <a class='button' id='register-secondary-device'>Link</a>
             </div>
           </div>
 
