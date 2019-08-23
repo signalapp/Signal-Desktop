@@ -113,11 +113,24 @@
     }
   }
 
+  async function savePairingAuthorisation(
+    issuerPubKey,
+    secondaryDevicePubKey,
+    signature
+  ) {
+    return textsecure.storage.protocol.storePairingAuthorisation(
+      issuerPubKey,
+      secondaryDevicePubKey,
+      signature
+    );
+  }
+
   window.libloki.storage = {
     getPreKeyBundleForContact,
     saveContactPreKeyBundle,
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
+    savePairingAuthorisation,
   };
 
   // Libloki protocol store
@@ -243,4 +256,15 @@
   store.clearContactSignedPreKeysStore = async () => {
     await window.Signal.Data.removeAllContactSignedPreKeys();
   };
+
+  store.storePairingAuthorisation = (
+    issuerPubKey,
+    secondaryDevicePubKey,
+    signature
+  ) =>
+    window.Signal.Data.createOrUpdatePairingAuthorisation({
+      issuerPubKey,
+      secondaryDevicePubKey,
+      signature,
+    });
 })();

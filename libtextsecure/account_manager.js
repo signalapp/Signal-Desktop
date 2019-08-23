@@ -2,6 +2,7 @@
   window,
   textsecure,
   libsignal,
+  libloki,
   mnemonic,
   btoa,
   Signal,
@@ -552,6 +553,32 @@
       await conversation.setProfile(newProfile);
 
       this.dispatchEvent(new Event('registration'));
+    },
+    async authoriseSecondaryDevice(secondaryDevicePubKey) {
+      if (secondaryDevicePubKey === textsecure.storage.user.getNumber()) {
+        throw new Error(
+          'Cannot register primary device pubkey as secondary device'
+        );
+      }
+
+      // Validate pubKey
+      const c = await ConversationController.getOrCreateAndWait(
+        secondaryDevicePubKey,
+        'private'
+      );
+      const validationError = c.validateNumber();
+      if (validationError) {
+        throw new Error('Invalid secondary device pubkey provided');
+      }
+      // Ensure there is a conversation existing
+      const signature = await libloki.crypto.generateSignatureForPairing(
+        secondaryDevicePubKey,
+        textsecure.protobuf.PairingAuthorisationMessage.Type.PAIRING_REQUEST
+      );
+      await libloki.api.sendPairingAuthorisation(
+        secondaryDevicePubKey,
+        signature
+      );
     },
   });
   textsecure.AccountManager = AccountManager;

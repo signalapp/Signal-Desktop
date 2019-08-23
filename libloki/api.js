@@ -63,9 +63,36 @@
     await outgoingMessage.sendToNumber(pubKey);
   }
 
+  async function sendPairingAuthorisation(secondaryDevicePubKey, signature) {
+    const pairingAuthorisation = new textsecure.protobuf.PairingAuthorisationMessage(
+      {
+        signature,
+        primaryDevicePubKey: textsecure.storage.user.getNumber(),
+        secondaryDevicePubKey,
+        type:
+          textsecure.protobuf.PairingAuthorisationMessage.Type.PAIRING_REQUEST,
+      }
+    );
+    const content = new textsecure.protobuf.Content({
+      pairingAuthorisation,
+    });
+    const options = {};
+    const outgoingMessage = new textsecure.OutgoingMessage(
+      null, // server
+      Date.now(), // timestamp,
+      [secondaryDevicePubKey], // numbers
+      content, // message
+      true, // silent
+      () => null, // callback
+      options
+    );
+    await outgoingMessage.sendToNumber(secondaryDevicePubKey);
+  }
+
   window.libloki.api = {
     sendBackgroundMessage,
     sendOnlineBroadcastMessage,
     broadcastOnlineStatus,
+    sendPairingAuthorisation,
   };
 })();

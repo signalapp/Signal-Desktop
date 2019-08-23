@@ -1022,6 +1022,49 @@ MessageReceiver.prototype.extend({
     }
     return this.removeFromCache(envelope);
   },
+  async handlePairingAuthorisationMessage(envelope, pairingAuthorisation) {
+    const {
+      type,
+      primaryDevicePubKey,
+      secondaryDevicePubKey,
+      signature,
+    } = pairingAuthorisation;
+    const sigArrayBuffer = dcodeIO.ByteBuffer.wrap(signature).toArrayBuffer();
+    if (
+      type ===
+      textsecure.protobuf.PairingAuthorisationMessage.Type.PAIRING_REQUEST
+    ) {
+      window.log.info(
+        `Received pairing authorisation from ${primaryDevicePubKey}`
+      );
+      let validAuthorisation = false;
+      try {
+        await libloki.crypto.verifyPairingAuthorisation(
+          primaryDevicePubKey,
+          secondaryDevicePubKey,
+          sigArrayBuffer,
+          type
+        );
+        validAuthorisation = true;
+      } catch (e) {
+        window.log.error(e);
+      }
+      if (validAuthorisation) {
+        await libloki.storage.savePairingAuthorisation(
+          primaryDevicePubKey,
+          secondaryDevicePubKey,
+          sigArrayBuffer
+        );
+      } else {
+        window.log.warn(
+          'Could not verify pairing authorisation signature. Ignoring message.'
+        );
+      }
+    } else {
+      window.log.warn('Unimplemented pairing authorisation message type');
+    }
+    return this.removeFromCache(envelope);
+  },
   handleDataMessage(envelope, msg) {
     if (!envelope.isP2p) {
       const timestamp = envelope.timestamp.toNumber();
@@ -1131,6 +1174,12 @@ MessageReceiver.prototype.extend({
       return this.handleLokiAddressMessage(
         envelope,
         content.lokiAddressMessage
+      );
+    }
+    if (content.pairingAuthorisation) {
+      return this.handlePairingAuthorisationMessage(
+        envelope,
+        content.pairingAuthorisation
       );
     }
     if (content.syncMessage) {

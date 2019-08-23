@@ -12,6 +12,7 @@ const {
   merge,
   set,
   omit,
+  isArrayBuffer,
 } = require('lodash');
 
 const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
@@ -87,6 +88,8 @@ module.exports = {
   bulkAddContactSignedPreKeys,
   removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
+
+  createOrUpdatePairingAuthorisation,
 
   createOrUpdateItem,
   getItemById,
@@ -568,6 +571,23 @@ async function removeContactSignedPreKeyByIdentityKey(id) {
 }
 async function removeAllContactSignedPreKeys() {
   await channels.removeAllContactSignedPreKeys();
+}
+
+async function createOrUpdatePairingAuthorisation(data) {
+  let sig;
+  if (isArrayBuffer(data.signature)) {
+    sig = arrayBufferToBase64(data.signature);
+  } else if (typeof signature === 'string') {
+    sig = data.signature;
+  } else {
+    throw new Error(
+      'Invalid signature provided in createOrUpdatePairingAuthorisation. Needs to be either ArrayBuffer or string.'
+    );
+  }
+  return channels.createOrUpdatePairingAuthorisation({
+    ...data,
+    signature: sig,
+  });
 }
 
 // Items
