@@ -97,6 +97,7 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
+  getAllRssFeedConversations,
   getAllPublicConversations,
   getPubKeysWithFriendStatus,
   getAllConversationIds,
@@ -784,57 +785,84 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion1: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-  const publicChatData = {
-    id: 'publicChat:1@chat.lokinet.org',
-    friendRequestStatus: 4, // Friends
-    sealedSender: 0,
-    sessionResetStatus: 0,
-    swarmNodes: [],
-    type: 'group',
-    server: 'https://chat.lokinet.org',
-    name: 'Loki Public Chat',
-    channelId: '1',
-    unlockTimestamp: null,
-    unreadCount: 0,
-    verified: 0,
-    version: 2,
-  };
-
-  const { id, type, name, friendRequestStatus } = publicChatData;
-
   await instance.run(
     `ALTER TABLE messages
      ADD COLUMN serverId STRING;`
   );
 
-  await instance.run(
-    `INSERT INTO conversations (
-    id,
-    json,
+  const initConversation = async (data) => {
+    let { id, type, name, friendRequestStatus } = data;
+    await instance.run(
+      `INSERT INTO conversations (
+      id,
+      json,
 
-    type,
-    members,
-    name,
-    friendRequestStatus
-  ) values (
-    $id,
-    $json,
+      type,
+      members,
+      name,
+      friendRequestStatus
+    ) values (
+      $id,
+      $json,
 
-    $type,
-    $members,
-    $name,
-    $friendRequestStatus
-  );`,
-    {
-      $id: id,
-      $json: objectToJSON(publicChatData),
+      $type,
+      $members,
+      $name,
+      $friendRequestStatus
+    );`,
+      {
+        $id: id,
+        $json: objectToJSON(data),
 
-      $type: type,
-      $members: null,
-      $name: name,
-      $friendRequestStatus: friendRequestStatus,
-    }
-  );
+        $type: type,
+        $members: null,
+        $name: name,
+        $friendRequestStatus: friendRequestStatus,
+      }
+    );
+  }
+
+  const baseData = {
+    friendRequestStatus: 4, // Friends
+    sealedSender: 0,
+    sessionResetStatus: 0,
+    swarmNodes: [],
+    type: 'group',
+    unlockTimestamp: null,
+    unreadCount: 0,
+    verified: 0,
+    version: 2,
+  }
+
+  const publicChatData = {
+    ...baseData,
+    id: 'publicChat:1@chat.lokinet.org',
+    server: 'https://chat.lokinet.org',
+    name: 'Loki Public Chat',
+    channelId: '1',
+  };
+
+  const newsRssFeedData = {
+    ...baseData,
+    id: 'rss://loki.network/feed/',
+    rssFeed: 'https://loki.network/feed/',
+    closable: true,
+    name: 'Loki.network News',
+    profileAvatar: 'images/loki/loki_icon.png',
+  };
+
+  const updatesRssFeedData = {
+    ...baseData,
+    id: 'rss://loki.network/category/messenger-updates/feed/',
+    rssFeed: 'https://loki.network/category/messenger-updates/feed/',
+    closable: false,
+    name: 'Messenger updates',
+    profileAvatar: 'images/loki/loki_icon.png',
+  };
+
+  await initConversation(publicChatData);
+  await initConversation(newsRssFeedData);
+  await initConversation(updatesRssFeedData);
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -1600,6 +1628,17 @@ async function getAllPrivateConversations() {
   const rows = await db.all(
     `SELECT json FROM conversations WHERE
       type = 'private'
+     ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllRssFeedConversations() {
+  const rows = await db.all(
+    `SELECT json FROM conversations WHERE
+      type = 'group' AND
+      id LIKE 'rss://%'
      ORDER BY id ASC;`
   );
 

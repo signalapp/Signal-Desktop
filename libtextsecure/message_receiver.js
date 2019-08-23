@@ -77,10 +77,10 @@ MessageReceiver.prototype.extend({
     });
     this.httpPollingResource.pollServer();
     localLokiServer.on('message', this.handleP2pMessage.bind(this));
-    lokiPublicChatAPI.on('publicMessage', this.handlePublicMessage.bind(this));
+    lokiPublicChatAPI.on('publicMessage', this.handleUnencryptedMessage.bind(this));
     // set up pollers for any RSS feeds
     feeds.forEach(feed => {
-      feed.on('rssMessage', this.handleRssMessage.bind(this));
+      feed.on('rssMessage', this.handleUnencryptedMessage.bind(this));
     });
     this.startLocalServer();
 
@@ -149,7 +149,7 @@ MessageReceiver.prototype.extend({
     };
     this.httpPollingResource.handleMessage(message, options);
   },
-  handlePublicMessage({ message }) {
+  handleUnencryptedMessage({ message }) {
     const ev = new Event('message');
     ev.confirm = function confirmTerm() {};
     ev.data = message;

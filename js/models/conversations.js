@@ -2041,6 +2041,17 @@
     getNickname() {
       return this.get('nickname');
     },
+    getRssSettings() {
+      if (!this.isRss()) {
+        return null;
+      }
+      return {
+        RSS_FEED: this.get('rssFeed'),
+        CONVO_ID: this.id,
+        title: this.get('name'),
+        closeable: this.get('closable'),
+      };
+    },
     // maybe "Backend" instead of "Source"?
     getPublicSource() {
       if (!this.isPublic()) {

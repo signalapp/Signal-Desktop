@@ -79,25 +79,6 @@ class LokiRssAPI extends EventEmitter {
     this.getFeed();
   }
 
-  setupConversation() {
-    // only run once
-    if (this.conversationSetup) return;
-    // wait until conversations are loaded
-    if (ConversationController._initialFetchComplete) {
-      const conversation = ConversationController.getOrCreate(
-        this.groupId,
-        'group'
-      );
-      conversation.setFriendRequestStatus(friendRequestStatusEnum.friends);
-      conversation.setGroupNameAndAvatar(
-        this.feedTitle,
-        'images/loki/loki_icon.png'
-      );
-      conversation.updateTextInputState();
-      this.conversationSetup = true; // prevent running again
-    }
-  }
-
   async getFeed() {
     let response;
     let success = true;
@@ -121,10 +102,6 @@ class LokiRssAPI extends EventEmitter {
     if (!success) return;
     const feedObj = xml2json(feedDOM);
     let receivedAt = new Date().getTime();
-
-    // make sure conversation is set up properly
-    // (delay to after the network response intentionally)
-    this.setupConversation();
 
     if (!feedObj || !feedObj.rss || !feedObj.rss.channel) {
       log.error('rsserror', feedObj, feedDOM, responseXML);
