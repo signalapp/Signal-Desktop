@@ -213,9 +213,7 @@
     );
     window.feeds = [];
     rssFeedConversations.forEach(conversation => {
-      window.feeds.push(
-        new window.LokiRssAPI(conversation.getRssSettings())
-      );
+      window.feeds.push(new window.LokiRssAPI(conversation.getRssSettings()));
     });
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);

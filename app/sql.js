@@ -790,8 +790,8 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
      ADD COLUMN serverId STRING;`
   );
 
-  const initConversation = async (data) => {
-    let { id, type, name, friendRequestStatus } = data;
+  const initConversation = async data => {
+    const { id, type, name, friendRequestStatus } = data;
     await instance.run(
       `INSERT INTO conversations (
       id,
@@ -820,7 +820,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
         $friendRequestStatus: friendRequestStatus,
       }
     );
-  }
+  };
 
   const baseData = {
     friendRequestStatus: 4, // Friends
@@ -832,7 +832,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     unreadCount: 0,
     verified: 0,
     version: 2,
-  }
+  };
 
   const publicChatData = {
     ...baseData,

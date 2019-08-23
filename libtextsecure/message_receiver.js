@@ -77,7 +77,10 @@ MessageReceiver.prototype.extend({
     });
     this.httpPollingResource.pollServer();
     localLokiServer.on('message', this.handleP2pMessage.bind(this));
-    lokiPublicChatAPI.on('publicMessage', this.handleUnencryptedMessage.bind(this));
+    lokiPublicChatAPI.on(
+      'publicMessage',
+      this.handleUnencryptedMessage.bind(this)
+    );
     // set up pollers for any RSS feeds
     feeds.forEach(feed => {
       feed.on('rssMessage', this.handleUnencryptedMessage.bind(this));
