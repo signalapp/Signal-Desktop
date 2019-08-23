@@ -13,7 +13,8 @@
   log,
   storage,
   Event,
-  ConversationController
+  ConversationController,
+  Whisper
 */
 
 /* eslint-disable more/no-then */
@@ -555,22 +556,20 @@
       this.dispatchEvent(new Event('registration'));
     },
     async authoriseSecondaryDevice(secondaryDevicePubKey) {
-      if (secondaryDevicePubKey === textsecure.storage.user.getNumber()) {
+      const ourPubKey = textsecure.storage.user.getNumber();
+      if (secondaryDevicePubKey === ourPubKey) {
         throw new Error(
           'Cannot register primary device pubkey as secondary device'
         );
       }
 
-      // Validate pubKey
-      const c = await ConversationController.getOrCreateAndWait(
+      // throws if invalid
+      this.validatePubKeyHex(secondaryDevicePubKey);
+      // we need a conversation for sending a message
+      await ConversationController.getOrCreateAndWait(
         secondaryDevicePubKey,
         'private'
       );
-      const validationError = c.validateNumber();
-      if (validationError) {
-        throw new Error('Invalid secondary device pubkey provided');
-      }
-      // Ensure there is a conversation existing
       const signature = await libloki.crypto.generateSignatureForPairing(
         secondaryDevicePubKey,
         textsecure.protobuf.PairingAuthorisationMessage.Type.PAIRING_REQUEST
@@ -579,6 +578,16 @@
         secondaryDevicePubKey,
         signature
       );
+    },
+    validatePubKeyHex(pubKey) {
+      const c = new Whisper.Conversation({
+        id: pubKey,
+        type: 'private',
+      });
+      const validationError = c.validateNumber();
+      if (validationError) {
+        throw new Error(validationError);
+      }
     },
   });
   textsecure.AccountManager = AccountManager;
