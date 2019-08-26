@@ -196,5 +196,18 @@
       const dialog = new Whisper.SeedDialogView({ seed });
       this.el.append(dialog.el);
     },
+    showDevicePairingDialog() {
+      const dialog = new Whisper.DevicePairingDialogView();
+      // remove all listeners for this events is fine since the
+      // only listener is right below.
+      Whisper.events.off('devicePairingRequestReceived');
+      Whisper.events.on('devicePairingRequestReceived', pubKey =>
+        dialog.requestReceived(pubKey)
+      );
+      dialog.once('devicePairingRequestAccepted', (pubKey, cb) =>
+        Whisper.events.trigger('devicePairingRequestAccepted', pubKey, cb)
+      );
+      this.el.append(dialog.el);
+    },
   });
 })();
