@@ -555,6 +555,35 @@
 
       this.dispatchEvent(new Event('registration'));
     },
+    async requestPairing(primaryDevicePubKey) {
+      // throws if invalid
+      this.validatePubKeyHex(primaryDevicePubKey);
+      // we need a conversation for sending a message
+      await ConversationController.getOrCreateAndWait(
+        primaryDevicePubKey,
+        'private'
+      );
+      const ourPubKey = textsecure.storage.user.getNumber();
+      if (primaryDevicePubKey === ourPubKey) {
+        throw new Error('Cannot request to pair with ourselves');
+      }
+      const requestType =
+        textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST;
+      const requestSignature = await libloki.crypto.generateSignatureForPairing(
+        primaryDevicePubKey,
+        requestType
+      );
+      const authorisation = {
+        primaryDevicePubKey,
+        secondaryDevicePubKey: ourPubKey,
+        requestSignature,
+        type: requestType,
+      };
+      await libloki.api.sendPairingAuthorisation(
+        authorisation,
+        primaryDevicePubKey
+      );
+    },
     async authoriseSecondaryDevice(secondaryDevicePubKey) {
       const ourPubKey = textsecure.storage.user.getNumber();
       if (secondaryDevicePubKey === ourPubKey) {
@@ -570,13 +599,33 @@
         secondaryDevicePubKey,
         'private'
       );
-      const signature = await libloki.crypto.generateSignatureForPairing(
+      const grantType =
+        textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT;
+      const grantSignature = await libloki.crypto.generateSignatureForPairing(
         secondaryDevicePubKey,
-        textsecure.protobuf.PairingAuthorisationMessage.Type.PAIRING_REQUEST
+        grantType
       );
-      await libloki.api.sendPairingAuthorisation(
+      const existingAuthorisation = await libloki.storage.getAuthorisationForSecondaryPubKey(
+        secondaryDevicePubKey
+      );
+      if (!existingAuthorisation) {
+        throw new Error(
+          'authoriseSecondaryDevice: request signature missing from database!'
+        );
+      }
+      const { requestSignature } = existingAuthorisation;
+      const authorisation = {
+        primaryDevicePubKey: ourPubKey,
         secondaryDevicePubKey,
-        signature
+        requestSignature,
+        grantSignature,
+        type: grantType,
+      };
+      // Update authorisation in database with the new grant signature
+      await libloki.storage.savePairingAuthorisation(authorisation);
+      await libloki.api.sendPairingAuthorisation(
+        authorisation,
+        secondaryDevicePubKey
       );
     },
     validatePubKeyHex(pubKey) {
