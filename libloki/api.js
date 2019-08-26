@@ -73,8 +73,8 @@
     if (
       !primaryDevicePubKey ||
       !secondaryDevicePubKey ||
-      type === undefined ||
-      type === null
+      !requestSignature ||
+      typeof type !== 'number'
     ) {
       throw new Error(
         'createPairingAuthorisationProtoMessage: pubkeys or type is not set'
