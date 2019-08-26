@@ -16,6 +16,7 @@
 /* global localServerPort: false */
 /* global lokiMessageAPI: false */
 /* global lokiP2pAPI: false */
+/* global Whisper: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -1022,46 +1023,139 @@ MessageReceiver.prototype.extend({
     }
     return this.removeFromCache(envelope);
   },
-  async handlePairingAuthorisationMessage(envelope, pairingAuthorisation) {
+  async validateAuthorisation(authorisation) {
     const {
       type,
       primaryDevicePubKey,
       secondaryDevicePubKey,
-      signature,
-    } = pairingAuthorisation;
-    const sigArrayBuffer = dcodeIO.ByteBuffer.wrap(signature).toArrayBuffer();
-    if (
-      type ===
-      textsecure.protobuf.PairingAuthorisationMessage.Type.PAIRING_REQUEST
-    ) {
-      window.log.info(
-        `Received pairing authorisation from ${primaryDevicePubKey}`
+      requestSignature,
+      grantSignature,
+    } = authorisation;
+    const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
+    const ourPubKey = textsecure.storage.user.getNumber();
+    const isRequest =
+      type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST;
+    const isGrant =
+      type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT;
+    if (!primaryDevicePubKey || !secondaryDevicePubKey) {
+      window.log.warn(
+        'Received a pairing request with missing pubkeys. Ignored.'
       );
-      let validAuthorisation = false;
+      return false;
+    } else if (!requestSignature) {
+      window.log.warn(
+        'Received a pairing request with missing request signature. Ignored.'
+      );
+      return false;
+    } else if (isRequest && alreadySecondaryDevice) {
+      window.log.warn(
+        'Received a pairing request while being a secondary device. Ignored.'
+      );
+      return false;
+    } else if (isRequest && authorisation.primaryDevicePubKey !== ourPubKey) {
+      window.log.warn(
+        'Received a pairing request addressed to another pubkey. Ignored.'
+      );
+      return false;
+    } else if (authorisation.secondaryDevicePubKey === ourPubKey) {
+      window.log.warn('Received a pairing request from ourselves. Ignored.');
+      return false;
+    }
+    try {
+      await libloki.crypto.verifyPairingAuthorisation(
+        primaryDevicePubKey,
+        secondaryDevicePubKey,
+        dcodeIO.ByteBuffer.wrap(requestSignature).toArrayBuffer(),
+        type
+      );
+    } catch (e) {
+      window.log.warn(
+        'Could not verify pairing request authorisation signature. Ignoring message.'
+      );
+      window.log.error(e);
+      return false;
+    }
+    if (isGrant) {
       try {
         await libloki.crypto.verifyPairingAuthorisation(
           primaryDevicePubKey,
           secondaryDevicePubKey,
-          sigArrayBuffer,
+          dcodeIO.ByteBuffer.wrap(grantSignature).toArrayBuffer(),
           type
         );
-        validAuthorisation = true;
       } catch (e) {
-        window.log.error(e);
-      }
-      if (validAuthorisation) {
-        await libloki.storage.savePairingAuthorisation(
-          primaryDevicePubKey,
-          secondaryDevicePubKey,
-          sigArrayBuffer
-        );
-      } else {
         window.log.warn(
-          'Could not verify pairing authorisation signature. Ignoring message.'
+          'Could not verify pairing grant authorisation signature. Ignoring message.'
         );
+        window.log.error(e);
+        return false;
       }
+    }
+    return true;
+  },
+  async handlePairingRequest(pairingRequest) {
+    const valid = await this.validateAuthorisation(pairingRequest);
+    if (!valid) {
+      return;
+    }
+    await window.libloki.storage.savePairingAuthorisation(pairingRequest);
+    Whisper.events.trigger(
+      'devicePairingRequestReceived',
+      pairingRequest.secondaryDevicePubKey
+    );
+  },
+  async handleAuthorisationForSelf(pairingAuthorisation) {
+    const valid = await this.validateAuthorisation(pairingAuthorisation);
+    if (!valid) {
+      return;
+    }
+    const { type, primaryDevicePubKey } = pairingAuthorisation;
+    if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT) {
+      // Authorisation received to become a secondary device
+      window.log.info(
+        `Received pairing authorisation from ${primaryDevicePubKey}`
+      );
+      const alreadySecondaryDevice = window.storage.get('isSecondaryDevice');
+      if (alreadySecondaryDevice) {
+        window.log.warn(
+          'Received an unexpected pairing authorisation (device is already paired as secondary device). Ignoring.'
+        );
+        return;
+      }
+      await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
+      // Set current device as secondary.
+      // This will ensure the authorisation is sent
+      // along with each friend request.
+      window.storage.remove('secondaryDeviceStatus');
+      window.storage.put('isSecondaryDevice', true);
+      Whisper.events.trigger('secondaryDeviceRegistration');
     } else {
       window.log.warn('Unimplemented pairing authorisation message type');
+    }
+  },
+  async handleAuthorisationForContact(pairingAuthorisation) {
+    const valid = await this.validateAuthorisation(pairingAuthorisation);
+    if (!valid) {
+      return;
+    }
+    const { primaryDevicePubKey, secondaryDevicePubKey } = pairingAuthorisation;
+    // ensure the primary device is a friend
+    const c = window.ConversationController.get(primaryDevicePubKey);
+    if (!c || !c.isFriend()) {
+      return;
+    }
+    await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
+    // send friend accept?
+    window.libloki.api.sendBackgroundMessage(secondaryDevicePubKey);
+  },
+  async handlePairingAuthorisationMessage(envelope, pairingAuthorisation) {
+    const { type, secondaryDevicePubKey } = pairingAuthorisation;
+    if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST) {
+      await this.handlePairingRequest(pairingAuthorisation);
+    } else if (secondaryDevicePubKey === textsecure.storage.user.getNumber()) {
+      await this.handleAuthorisationForSelf(pairingAuthorisation);
+    } else {
+      await this.handleAuthorisationForContact(pairingAuthorisation);
     }
     return this.removeFromCache(envelope);
   },
