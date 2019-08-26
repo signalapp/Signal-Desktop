@@ -126,16 +126,25 @@
       const language = this.$('#mnemonic-display-language').val();
       this.showProfilePage(mnemonic, language);
     },
+    onSecondaryDeviceRegistered() {
+      // Ensure the left menu is updated
+      Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
+      this.$el.trigger('openInbox');
+    },
     async registerSecondaryDevice() {
       const mnemonic = this.$('#mnemonic-display').text();
       const language = this.$('#mnemonic-display-language').val();
       const primaryPubKey = this.$('#primary-pubkey').val();
       this.$('.standalone-secondary-device #error').hide();
-      Whisper.events.on('secondaryDeviceRegistration', () => {
-        // Ensure the left menu is updated
-        Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
-        this.$el.trigger('openInbox');
-      });
+      // Ensure only one listener
+      Whisper.events.off(
+        'secondaryDeviceRegistration',
+        this.onSecondaryDeviceRegistered
+      );
+      Whisper.events.once(
+        'secondaryDeviceRegistration',
+        this.onSecondaryDeviceRegistered
+      );
       clearTimeout(this.pairingTimeout);
       this.pairingTimeout = setTimeout(() => {
         this.$('.standalone-secondary-device #error').text(
