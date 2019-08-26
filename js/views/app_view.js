@@ -196,5 +196,15 @@
       const dialog = new Whisper.SeedDialogView({ seed });
       this.el.append(dialog.el);
     },
+    showDevicePairingDialog() {
+      const dialog = new Whisper.DevicePairingDialogView();
+      Whisper.events.on('devicePairingRequestReceived', pubKey =>
+        dialog.requestReceived(pubKey)
+      );
+      dialog.on('devicePairingRequestAccepted', (pubKey, cb) =>
+        Whisper.events.trigger('devicePairingRequestAccepted', pubKey, cb)
+      );
+      this.el.append(dialog.el);
+    },
   });
 })();

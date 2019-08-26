@@ -245,6 +245,40 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='device-pairing-dialog'>
+    <div class="content">
+      <!-- Waiting for request -->
+      <div class="waitingForRequestView">
+        <h4>{{ waitingForRequestTitle }}</h4>
+        <div class='buttons'>
+          <button class="cancel">{{ cancelText }}</button>
+        </div>
+      </div>
+
+      <!-- Request Received -->
+      <div class="requestReceivedView" style="display: none;">
+        <h4>{{ requestReceivedTitle }}</h4>
+        Please verify that the pubkey shown here is your secondary device pubkey!
+        <p class="secondaryPubKey"></p>
+        <div class='buttons'>
+          <button class="skip">{{ skipText }}</button>
+          <button id="allowPairing">{{ allowPairingText }}</button>
+        </div>
+      </div>
+
+      <!-- Request accepted -->
+      <div class="requestAcceptedView" style="display: none;">
+        <h4>{{ requestAcceptedTitle }}</h4>
+        Sending pairing authorisation to:
+        <p class="secondaryPubKey"></p>
+        <p class="transmissionStatus">Please be patient...</p>
+        <div class='buttons'>
+          <button class="ok" style="display: none;">{{ okText }}</button>
+        </div>
+      </div>
+    </div>
+  </script>
+
   <script type='text/x-tmpl-mustache' id='beta-disclaimer-dialog'>
     <div class="content">
       <div class="betaDisclaimerView" style="display: none;">
@@ -693,6 +727,7 @@
   <script type='text/javascript' src='js/views/app_view.js'></script>
   <script type='text/javascript' src='js/views/import_view.js'></script>
   <script type='text/javascript' src='js/views/clear_data_view.js'></script>
+  <script type='text/javascript' src='js/views/device_pairing_dialog_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
