@@ -73,6 +73,8 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
+  getAuthorisationForPubKey,
+  getSecondaryDevicesFor,
 
   createOrUpdateItem,
   getItemById,
@@ -787,12 +789,16 @@ async function updateToLokiSchemaVersion2(currentVersion, instance) {
   await instance.run(
     `CREATE TABLE pairingAuthorisations(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      issuerPubKey VARCHAR(255),
+      primaryDevicePubKey VARCHAR(255),
       secondaryDevicePubKey VARCHAR(255),
-      signature VARCHAR(255),
+      isGranted BOOLEAN,
       json TEXT
     );`
   );
+
+  await instance.run(`CREATE UNIQUE INDEX pairing_authorisations_secondary_device_pubkey ON pairingAuthorisations (
+    secondaryDevicePubKey
+  );`);
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -1223,14 +1229,16 @@ async function removeAllSignedPreKeys() {
 }
 
 const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
-async function getPairingAuthorisation(issuerPubKey, secondaryDevicePubKey) {
+async function getAuthorisationForPubKey(pubKey, options) {
+  const granted = options && options.granted;
+  let filter = '';
+  if (granted) {
+    filter = 'AND isGranted = 1';
+  }
   const row = await db.get(
-    `SELECT * FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE
-      issuerPubKey = $issuerPubKey AND secondaryDevicePubKey = $secondaryDevicePubKey
-      LIMIT 1;`,
+    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey ${filter};`,
     {
-      $issuerPubKey: issuerPubKey,
-      $secondaryDevicePubKey: secondaryDevicePubKey,
+      $secondaryDevicePubKey: pubKey,
     }
   );
 
@@ -1240,37 +1248,39 @@ async function getPairingAuthorisation(issuerPubKey, secondaryDevicePubKey) {
 
   return jsonToObject(row.json);
 }
-async function createOrUpdatePairingAuthorisation(data) {
-  const { issuerPubKey, secondaryDevicePubKey, signature } = data;
 
-  const existing = await getPairingAuthorisation(
-    issuerPubKey,
-    secondaryDevicePubKey
-  );
-  // prevent adding duplicate entries
-  if (existing) {
-    return;
-  }
+async function createOrUpdatePairingAuthorisation(data) {
+  const { primaryDevicePubKey, secondaryDevicePubKey, grantSignature } = data;
 
   await db.run(
-    `INSERT INTO ${PAIRING_AUTHORISATIONS_TABLE} (
-      issuerPubKey,
+    `INSERT OR REPLACE INTO ${PAIRING_AUTHORISATIONS_TABLE} (
+      primaryDevicePubKey,
       secondaryDevicePubKey,
-      signature,
+      isGranted,
       json
     ) values (
-      $issuerPubKey,
+      $primaryDevicePubKey,
       $secondaryDevicePubKey,
-      $signature,
+      $isGranted,
       $json
     )`,
     {
-      $issuerPubKey: issuerPubKey,
+      $primaryDevicePubKey: primaryDevicePubKey,
       $secondaryDevicePubKey: secondaryDevicePubKey,
-      $signature: signature,
+      $isGranted: Boolean(grantSignature),
       $json: objectToJSON(data),
     }
   );
+}
+
+async function getSecondaryDevicesFor(primaryDevicePubKey) {
+  const rows = await db.all(
+    `SELECT secondaryDevicePubKey FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $primaryDevicePubKey AND isGranted = 1 ORDER BY secondaryDevicePubKey ASC;`,
+    {
+      $primaryDevicePubKey: primaryDevicePubKey,
+    }
+  );
+  return map(rows, row => row.secondaryDevicePubKey);
 }
 
 const ITEMS_TABLE = 'items';

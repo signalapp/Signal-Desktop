@@ -1,4 +1,4 @@
-/* global window, setTimeout, IDBKeyRange */
+/* global window, setTimeout, IDBKeyRange, dcodeIO */
 
 const electron = require('electron');
 
@@ -90,6 +90,9 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
+  getGrantAuthorisationForPubKey,
+  getAuthorisationForPubKey,
+  getSecondaryDevicesFor,
 
   createOrUpdateItem,
   getItemById,
@@ -573,21 +576,57 @@ async function removeAllContactSignedPreKeys() {
   await channels.removeAllContactSignedPreKeys();
 }
 
-async function createOrUpdatePairingAuthorisation(data) {
-  let sig;
-  if (isArrayBuffer(data.signature)) {
-    sig = arrayBufferToBase64(data.signature);
-  } else if (typeof signature === 'string') {
-    sig = data.signature;
-  } else {
-    throw new Error(
-      'Invalid signature provided in createOrUpdatePairingAuthorisation. Needs to be either ArrayBuffer or string.'
-    );
+function signatureToBase64(signature) {
+  if (signature.constructor === dcodeIO.ByteBuffer) {
+    return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
+  } else if (isArrayBuffer(signature)) {
+    return arrayBufferToBase64(signature);
   }
+  throw new Error(
+    'Invalid signature provided in createOrUpdatePairingAuthorisation. Needs to be either ArrayBuffer or ByteBuffer.'
+  );
+}
+
+async function createOrUpdatePairingAuthorisation(data) {
+  const { requestSignature, grantSignature } = data;
+
   return channels.createOrUpdatePairingAuthorisation({
     ...data,
-    signature: sig,
+    requestSignature: signatureToBase64(requestSignature),
+    grantSignature: grantSignature ? signatureToBase64(grantSignature) : null,
   });
+}
+
+async function getGrantAuthorisationForPubKey(pubKey) {
+  const authorisation = await channels.getAuthorisationForPubKey(pubKey, {
+    granted: true,
+  });
+  if (!authorisation) {
+    return null;
+  }
+  return {
+    ...authorisation,
+    requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
+    grantSignature: base64ToArrayBuffer(authorisation.grantSignature),
+  };
+}
+
+async function getAuthorisationForPubKey(pubKey) {
+  const authorisation = await channels.getAuthorisationForPubKey(pubKey);
+  if (!authorisation) {
+    return null;
+  }
+  return {
+    ...authorisation,
+    requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
+    grantSignature: authorisation.grantSignature
+      ? base64ToArrayBuffer(authorisation.grantSignature)
+      : null,
+  };
+}
+
+function getSecondaryDevicesFor(primareyDevicePubKey) {
+  return channels.getSecondaryDevicesFor(primareyDevicePubKey);
 }
 
 // Items
