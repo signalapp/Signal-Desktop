@@ -1094,17 +1094,19 @@ MessageReceiver.prototype.extend({
     return true;
   },
   async handlePairingRequest(pairingRequest) {
-    if (!this.validateAuthorisation(pairingRequest)) {
+    const valid = await this.validateAuthorisation(pairingRequest);
+    if (!valid) {
       return;
     }
-    window.libloki.storage.savePairingAuthorisation(pairingRequest);
+    await window.libloki.storage.savePairingAuthorisation(pairingRequest);
     Whisper.events.trigger(
       'devicePairingRequestReceived',
       pairingRequest.secondaryDevicePubKey
     );
   },
   async handleAuthorisationForSelf(pairingAuthorisation) {
-    if (!this.validateAuthorisation(pairingAuthorisation)) {
+    const valid = await this.validateAuthorisation(pairingAuthorisation);
+    if (!valid) {
       return;
     }
     const { type, primaryDevicePubKey } = pairingAuthorisation;
@@ -1132,7 +1134,8 @@ MessageReceiver.prototype.extend({
     }
   },
   async handleAuthorisationForContact(pairingAuthorisation) {
-    if (!this.validateAuthorisation(pairingAuthorisation)) {
+    const valid = this.validateAuthorisation(pairingAuthorisation);
+    if (!valid) {
       return;
     }
     const { primaryDevicePubKey, secondaryDevicePubKey } = pairingAuthorisation;
