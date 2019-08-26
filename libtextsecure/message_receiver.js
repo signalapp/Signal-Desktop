@@ -1134,7 +1134,7 @@ MessageReceiver.prototype.extend({
     }
   },
   async handleAuthorisationForContact(pairingAuthorisation) {
-    const valid = this.validateAuthorisation(pairingAuthorisation);
+    const valid = await this.validateAuthorisation(pairingAuthorisation);
     if (!valid) {
       return;
     }
