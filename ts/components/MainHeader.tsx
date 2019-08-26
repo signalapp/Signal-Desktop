@@ -89,7 +89,9 @@ export class MainHeader extends React.Component<Props, any> {
 
     setInterval(() => {
       const clipboardText = clipboard.readText();
-      this.setState({ clipboardText });
+      if (this.state.clipboardText !== clipboardText) {
+        this.setState({ clipboardText });
+      }
     }, 100);
   }
 
