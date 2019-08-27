@@ -1057,7 +1057,7 @@ MessageReceiver.prototype.extend({
         'Received a pairing request addressed to another pubkey. Ignored.'
       );
       return false;
-    } else if (authorisation.secondaryDevicePubKey === ourPubKey) {
+    } else if (isRequest && authorisation.secondaryDevicePubKey === ourPubKey) {
       window.log.warn('Received a pairing request from ourselves. Ignored.');
       return false;
     }
@@ -1066,7 +1066,7 @@ MessageReceiver.prototype.extend({
         primaryDevicePubKey,
         secondaryDevicePubKey,
         dcodeIO.ByteBuffer.wrap(requestSignature).toArrayBuffer(),
-        type
+        textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
       );
     } catch (e) {
       window.log.warn(
@@ -1081,7 +1081,7 @@ MessageReceiver.prototype.extend({
           primaryDevicePubKey,
           secondaryDevicePubKey,
           dcodeIO.ByteBuffer.wrap(grantSignature).toArrayBuffer(),
-          type
+          textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT
         );
       } catch (e) {
         window.log.warn(
