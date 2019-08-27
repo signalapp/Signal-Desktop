@@ -1016,7 +1016,7 @@
     ev.confirm();
   }
 
-  function onTyping(ev) {
+  async function onTyping(ev) {
     const { typing, sender, senderDevice } = ev;
     const { groupId, started } = typing || {};
 
@@ -1025,7 +1025,17 @@
       return;
     }
 
-    const conversation = ConversationController.get(groupId || sender);
+    let primaryDevice = null;
+    const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+      sender
+    );
+    if (authorisation) {
+      primaryDevice = authorisation.primaryDevicePubKey;
+    }
+
+    const conversation = ConversationController.get(
+      groupId || primaryDevice || sender
+    );
 
     if (conversation) {
       conversation.notifyTyping({
@@ -1238,6 +1248,14 @@
       const { data, confirm } = event;
 
       const messageDescriptor = getMessageDescriptor(data);
+
+      // Funnel messages to primary device conversation if multi-device
+      const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        messageDescriptor.id
+      );
+      if (authorisation) {
+        messageDescriptor.id = authorisation.primaryDevicePubKey;
+      }
 
       const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
       // eslint-disable-next-line no-bitwise

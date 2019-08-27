@@ -10,7 +10,8 @@
   Signal,
   textsecure,
   Whisper,
-  clipboard
+  clipboard,
+  libloki,
 */
 
 /* eslint-disable more/no-then */
@@ -1697,7 +1698,7 @@
       return message;
     },
 
-    handleDataMessage(initialMessage, confirm) {
+    async handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
       //   2. on a sent message sync'd from another device
@@ -1707,9 +1708,15 @@
       const source = message.get('source');
       const type = message.get('type');
       let conversationId = message.get('conversationId');
+      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        source
+      );
       if (initialMessage.group) {
         conversationId = initialMessage.group.id;
+      } else if (authorisation) {
+        conversationId = authorisation.primaryDevicePubKey;
       }
+
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
