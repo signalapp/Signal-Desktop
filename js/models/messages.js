@@ -912,6 +912,7 @@
       //   that contact. Otherwise, it will be a standalone entry.
       const errors = _.reject(allErrors, error => Boolean(error.number));
       const errorsGroupedById = _.groupBy(allErrors, 'number');
+      const primaryDevicePubKey = this.get('conversationId');
       const finalContacts = (phoneNumbers || []).map(id => {
         const errorsForContact = errorsGroupedById[id];
         const isOutgoingKeyError = Boolean(
@@ -921,12 +922,20 @@
           storage.get('unidentifiedDeliveryIndicators') &&
           this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
+        const isPrimaryDevice = id === primaryDevicePubKey;
+
+        const contact = this.findAndFormatContact(id);
+        const profileName = isPrimaryDevice
+          ? contact.profileName
+          : `${contact.profileName} (Secondary Device)`;
         return {
-          ...this.findAndFormatContact(id),
+          ...contact,
           status: this.getStatus(id),
           errors: errorsForContact,
           isOutgoingKeyError,
           isUnidentifiedDelivery,
+          isPrimaryDevice,
+          profileName,
           onSendAnyway: () =>
             this.trigger('force-send', {
               contact: this.findContact(id),
@@ -941,7 +950,8 @@
       //   first; otherwise it's alphabetical
       const sortedContacts = _.sortBy(
         finalContacts,
-        contact => `${contact.errors ? '0' : '1'}${contact.title}`
+        contact =>
+          `${contact.isPrimaryDevice ? '0' : '1'}${contact.phoneNumber}`
       );
 
       return {
