@@ -39,6 +39,9 @@ const calcNonce = (messageEventData, pubKey, data64, timestamp, ttl) => {
 };
 
 const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
+  if (typeof lokiP2pAPI === 'undefined') {
+    return false;
+  }
   const p2pDetails = lokiP2pAPI.getContactP2pDetails(pubKey);
   if (!p2pDetails || (!isPing && !p2pDetails.isOnline)) {
     return false;
