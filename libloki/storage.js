@@ -113,18 +113,8 @@
     }
   }
 
-  function savePairingAuthorisation({
-    primaryDevicePubKey,
-    secondaryDevicePubKey,
-    requestSignature,
-    grantSignature,
-  }) {
-    return window.Signal.Data.createOrUpdatePairingAuthorisation({
-      primaryDevicePubKey,
-      secondaryDevicePubKey,
-      requestSignature,
-      grantSignature,
-    });
+  function savePairingAuthorisation(authorisation) {
+    return window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
   }
 
   function getGrantAuthorisationForSecondaryPubKey(secondaryPubKey) {

@@ -86,18 +86,20 @@ OutgoingMessage.prototype = {
   },
   reloadDevicesAndSend(number, recurse) {
     return () =>
-      textsecure.storage.protocol.getDeviceIds(number).then(deviceIds => {
-        if (deviceIds.length === 0) {
-          // eslint-disable-next-line no-param-reassign
-          deviceIds = [1];
-          // return this.registerError(
-          //   number,
-          //   'Got empty device list when loading device keys',
-          //   null
-          // );
-        }
-        return this.doSendMessage(number, deviceIds, recurse);
-      });
+      libloki.storage
+        .getAllDevicePubKeysForPrimaryPubKey(number)
+        .then(devicesPubKeys => {
+          if (devicesPubKeys.length === 0) {
+            // eslint-disable-next-line no-param-reassign
+            devicesPubKeys = [number];
+            // return this.registerError(
+            //   number,
+            //   'Got empty device list when loading device keys',
+            //   null
+            // );
+          }
+          return this.doSendMessage(number, devicesPubKeys, recurse);
+        });
   },
 
   getKeysForNumber(number, updateDevices) {
@@ -257,8 +259,10 @@ OutgoingMessage.prototype = {
     const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer());
     return bytes;
   },
-  doSendMessage(number, deviceIds, recurse) {
+  async doSendMessage(number, devicesPubKeys, recurse) {
     const ciphers = {};
+
+    this.numbers = devicesPubKeys;
 
     /* Disabled because i'm not sure how senderCertificate works :thinking:
     const { numberInfo, senderCertificate } = this;
@@ -291,8 +295,14 @@ OutgoingMessage.prototype = {
     */
 
     return Promise.all(
-      deviceIds.map(async deviceId => {
-        const address = new libsignal.SignalProtocolAddress(number, deviceId);
+      devicesPubKeys.map(async devicePubKey => {
+        // Loki Messenger doesn't use the deviceId scheme, it's always 1.
+        // Instead, there are multiple device public keys.
+        const deviceId = 1;
+        const address = new libsignal.SignalProtocolAddress(
+          devicePubKey,
+          deviceId
+        );
         const ourKey = textsecure.storage.user.getNumber();
         const options = {};
         const fallBackCipher = new libloki.crypto.FallBackSessionCipher(
@@ -302,6 +312,23 @@ OutgoingMessage.prototype = {
         // Check if we need to attach the preKeys
         let sessionCipher;
         const isFriendRequest = this.messageType === 'friend-request';
+        const isSecondaryDevice = !!window.storage.get('isSecondaryDevice');
+        if (isFriendRequest && isSecondaryDevice) {
+          // Attach authorisation from primary device ONLY FOR FRIEND REQUEST
+          const ourPubKeyHex = textsecure.storage.user.getNumber();
+          const pairingAuthorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+            ourPubKeyHex
+          );
+          if (pairingAuthorisation) {
+            this.message.pairingAuthorisation = libloki.api.createPairingAuthorisationProtoMessage(
+              pairingAuthorisation
+            );
+          } else {
+            window.log.error(
+              'Could not find authorisation for our own pubkey while being secondary device.'
+            );
+          }
+        }
         this.fallBackEncryption = this.fallBackEncryption || isFriendRequest;
         const flags = this.message.dataMessage
           ? this.message.dataMessage.get_flags()
@@ -362,20 +389,46 @@ OutgoingMessage.prototype = {
           sourceDevice: 1,
           destinationRegistrationId: ciphertext.registrationId,
           content: ciphertext.body,
+          number: devicePubKey,
         };
       })
     )
       .then(async outgoingObjects => {
         // TODO: handle multiple devices/messages per transmit
-        const outgoingObject = outgoingObjects[0];
-        const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
-        await this.transmitMessage(
-          number,
-          socketMessage,
-          this.timestamp,
-          outgoingObject.ttl
-        );
-        this.successfulNumbers[this.successfulNumbers.length] = number;
+        let counter = 0;
+        const promises = outgoingObjects.map(async outgoingObject => {
+          const destination = outgoingObject.number;
+          try {
+            counter += 1;
+            if (counter > 1) {
+              throw new Error(`Error for device ${counter}`);
+            }
+            const socketMessage = await this.wrapInWebsocketMessage(
+              outgoingObject
+            );
+            await this.transmitMessage(
+              destination,
+              socketMessage,
+              this.timestamp,
+              outgoingObject.ttl
+            );
+            this.successfulNumbers.push(destination);
+          } catch (e) {
+            e.number = destination;
+            this.errors.push(e);
+          }
+        });
+        await Promise.all(promises);
+        // TODO: the retrySend should only send to the devices
+        // for which the transmission failed.
+
+        // ensure numberCompleted() will execute the callback
+        this.numbersCompleted +=
+          this.errors.length + this.successfulNumbers.length;
+        // Absorb errors if message sent to at least 1 device
+        if (this.successfulNumbers.length > 0) {
+          this.errors = [];
+        }
         this.numberCompleted();
       })
       .catch(error => {
@@ -431,7 +484,7 @@ OutgoingMessage.prototype = {
           window.log.error(
             'Got "key changed" error from encrypt - no identityKey for application layer',
             number,
-            deviceIds
+            devicesPubKeys
           );
           throw error;
         } else {
