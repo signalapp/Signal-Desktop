@@ -31,9 +31,14 @@ const SUPPORTED_DOMAINS = [
   'imgur.com',
   'www.imgur.com',
   'm.imgur.com',
+  'i.imgur.com',
   'instagram.com',
   'www.instagram.com',
   'm.instagram.com',
+  'tenor.com',
+  'gph.is',
+  'giphy.com',
+  'media.giphy.com',
 ];
 function isLinkInWhitelist(link) {
   try {
@@ -58,7 +63,7 @@ function isLinkInWhitelist(link) {
   }
 }
 
-const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg.com|cdninstagram.com|redd.it|imgur.com|fbcdn.net)$/i;
+const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg.com|cdninstagram.com|redd.it|imgur.com|fbcdn.net|giphy.com|tenor.com)$/i;
 function isMediaLinkInWhitelist(link) {
   try {
     const url = new URL(link);
@@ -81,8 +86,8 @@ function isMediaLinkInWhitelist(link) {
   }
 }
 
-const META_TITLE = /<meta\s+property="og:title"\s+content="([\s\S]+?)"\s*\/?\s*>/im;
-const META_IMAGE = /<meta\s+property="og:image"\s+content="([\s\S]+?)"\s*\/?\s*>/im;
+const META_TITLE = /<meta\s+(?:class="dynamic"\s+)?property="og:title"\s+content="([\s\S]+?)"\s*\/?\s*>/im;
+const META_IMAGE = /<meta\s+(?:class="dynamic"\s+)?property="og:image"\s+content="([\s\S]+?)"\s*\/?\s*>/im;
 function _getMetaTag(html, regularExpression) {
   const match = regularExpression.exec(html);
   if (match && match[1]) {
@@ -96,7 +101,8 @@ function getTitleMetaTag(html) {
   return _getMetaTag(html, META_TITLE);
 }
 function getImageMetaTag(html) {
-  return _getMetaTag(html, META_IMAGE);
+  const tag = _getMetaTag(html, META_IMAGE);
+  return typeof tag === 'string' ? tag.replace('http://', 'https://') : tag;
 }
 
 function findLinks(text, caretLocation) {
