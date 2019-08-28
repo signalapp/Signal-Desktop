@@ -158,6 +158,27 @@
     }
   }
 
+  async function decryptToken(ivAndCipherText64, serverPubKey64) {
+    const ivAndCipherText = new Uint8Array(
+      dcodeIO.ByteBuffer.fromBase64(ivAndCipherText64).toArrayBuffer()
+    );
+    const iv = ivAndCipherText.slice(0, IV_LENGTH);
+    const cipherText = ivAndCipherText.slice(IV_LENGTH);
+
+    const serverPubKey = new Uint8Array(
+      dcodeIO.ByteBuffer.fromBase64(serverPubKey64).toArrayBuffer()
+    );
+    const { privKey } = await textsecure.storage.protocol.getIdentityKeyPair();
+    const symmetricKey = libsignal.Curve.calculateAgreement(
+      serverPubKey,
+      privKey
+    );
+
+    const token = await libsignal.crypto.decrypt(symmetricKey, cipherText, iv);
+    const tokenString = dcodeIO.ByteBuffer.wrap(token).toString('utf8');
+    return tokenString;
+  }
+
   const snodeCipher = new LokiSnodeChannel();
 
   window.libloki.crypto = {
@@ -166,6 +187,7 @@
     FallBackSessionCipher,
     FallBackDecryptionError,
     snodeCipher,
+    decryptToken,
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,

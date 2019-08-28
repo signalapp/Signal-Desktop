@@ -263,6 +263,16 @@
     }
   }
 
+  function PublicTokenError(message) {
+    this.name = 'PublicTokenError';
+
+    ReplayableError.call(this, {
+      name: 'PublicTokenError',
+      message,
+    });
+  }
+  inherit(ReplayableError, PublicTokenError);
+
   function TimestampError(message) {
     this.name = 'TimeStampError';
 
@@ -305,4 +315,5 @@
   window.textsecure.WrongDifficultyError = WrongDifficultyError;
   window.textsecure.TimestampError = TimestampError;
   window.textsecure.PublicChatError = PublicChatError;
+  window.textsecure.PublicTokenError = PublicTokenError;
 })();
