@@ -21,6 +21,9 @@
         storage.get('chromiumRegistrationDone') === ''
       );
     },
+    ongoingSecondaryDeviceRegistration() {
+      return storage.get('secondaryDeviceStatus') === 'ongoing';
+    },
     remove() {
       storage.remove('chromiumRegistrationDone');
     },
