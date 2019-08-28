@@ -224,18 +224,11 @@
     );
     publicConversations.forEach(conversation => {
       const settings = conversation.getPublicSource();
-      window.log.info(`Setting up public conversation for ${conversation.id}`);
-      const publicChatServer = window.lokiPublicChatAPI.findOrCreateServer(
-        settings.server
+      window.lokiPublicChatAPI.registerChannel(
+        settings.server,
+        settings.channelId,
+        conversation.id
       );
-      if (publicChatServer) {
-        publicChatServer.findOrCreateChannel(
-          settings.channelId,
-          conversation.id
-        );
-      } else {
-        window.log.warn(`Could not set up channel for ${conversation.id}`);
-      }
     });
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
