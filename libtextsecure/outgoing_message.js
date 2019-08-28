@@ -259,7 +259,7 @@ OutgoingMessage.prototype = {
     const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer());
     return bytes;
   },
-  async doSendMessage(number, devicesPubKeys, recurse) {
+  doSendMessage(number, devicesPubKeys, recurse) {
     const ciphers = {};
 
     this.numbers = devicesPubKeys;
@@ -389,20 +389,15 @@ OutgoingMessage.prototype = {
           sourceDevice: 1,
           destinationRegistrationId: ciphertext.registrationId,
           content: ciphertext.body,
-          number: devicePubKey,
+          pubKey: devicePubKey,
         };
       })
     )
       .then(async outgoingObjects => {
         // TODO: handle multiple devices/messages per transmit
-        let counter = 0;
         const promises = outgoingObjects.map(async outgoingObject => {
-          const destination = outgoingObject.number;
+          const destination = outgoingObject.pubKey;
           try {
-            counter += 1;
-            if (counter > 1) {
-              throw new Error(`Error for device ${counter}`);
-            }
             const socketMessage = await this.wrapInWebsocketMessage(
               outgoingObject
             );
