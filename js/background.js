@@ -206,6 +206,15 @@
 
   const initAPIs = async () => {
     const ourKey = textsecure.storage.user.getNumber();
+    const rssFeedConversations = await window.Signal.Data.getAllRssFeedConversations(
+      {
+        ConversationCollection: Whisper.ConversationCollection,
+      }
+    );
+    window.feeds = [];
+    rssFeedConversations.forEach(conversation => {
+      window.feeds.push(new window.LokiRssAPI(conversation.getRssSettings()));
+    });
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
     const publicConversations = await window.Signal.Data.getAllPublicConversations(
@@ -577,7 +586,7 @@
     window.log.info('Cleanup: complete');
 
     window.log.info('listening for registration events');
-    Whisper.events.on('registration_done', () => {
+    Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');
 
       startLocalLokiServer();
@@ -591,7 +600,7 @@
       //   logger: window.log,
       // });
 
-      initAPIs();
+      await initAPIs();
       connect(true);
     });
 
@@ -1424,6 +1433,7 @@
       unread: 1,
       isP2p: data.isP2p,
       isPublic: data.isPublic,
+      isRss: data.isRss,
     };
 
     if (data.friendRequest) {

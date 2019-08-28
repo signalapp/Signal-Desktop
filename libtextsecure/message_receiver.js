@@ -17,6 +17,7 @@
 /* global localServerPort: false */
 /* global lokiMessageAPI: false */
 /* global lokiP2pAPI: false */
+/* global feeds: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -76,7 +77,14 @@ MessageReceiver.prototype.extend({
     });
     this.httpPollingResource.pollServer();
     localLokiServer.on('message', this.handleP2pMessage.bind(this));
-    lokiPublicChatAPI.on('publicMessage', this.handlePublicMessage.bind(this));
+    lokiPublicChatAPI.on(
+      'publicMessage',
+      this.handleUnencryptedMessage.bind(this)
+    );
+    // set up pollers for any RSS feeds
+    feeds.forEach(feed => {
+      feed.on('rssMessage', this.handleUnencryptedMessage.bind(this));
+    });
     this.startLocalServer();
 
     // TODO: Rework this socket stuff to work with online messaging
@@ -144,7 +152,7 @@ MessageReceiver.prototype.extend({
     };
     this.httpPollingResource.handleMessage(message, options);
   },
-  handlePublicMessage({ message }) {
+  handleUnencryptedMessage({ message }) {
     const ev = new Event('message');
     ev.confirm = function confirmTerm() {};
     ev.data = message;

@@ -9,6 +9,7 @@ const linkify = LinkifyIt();
 
 interface Props {
   text: string;
+  isRss?: boolean;
   /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
   renderNonLink?: RenderTextCallbackType;
 }
@@ -22,9 +23,28 @@ export class Linkify extends React.Component<Props> {
   };
 
   public render() {
-    const { text, renderNonLink } = this.props;
-    const matchData = linkify.match(text) || [];
+    const { text, renderNonLink, isRss } = this.props;
     const results: Array<any> = [];
+
+    if (isRss && text.indexOf('</') !== -1) {
+      results.push(
+        <div
+          dangerouslySetInnerHTML={{
+            __html: text
+              .replace(
+                /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+                ''
+              )
+              .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, ''),
+          }}
+        />
+      );
+      // should already have links
+
+      return results;
+    }
+
+    const matchData = linkify.match(text) || [];
     let last = 0;
     let count = 1;
 

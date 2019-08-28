@@ -26,6 +26,7 @@ interface Props {
 
   isVerified: boolean;
   isMe: boolean;
+  isClosable?: boolean;
   isGroup: boolean;
   isArchived: boolean;
 
@@ -201,6 +202,7 @@ export class ConversationHeader extends React.Component<Props> {
       i18n,
       isBlocked,
       isMe,
+      isClosable,
       isGroup,
       isArchived,
       onDeleteMessages,
@@ -275,7 +277,7 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
         )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe ? (
+        {!isMe && isClosable ? (
           <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
         ) : null}
       </ContextMenu>

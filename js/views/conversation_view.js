@@ -201,6 +201,7 @@
           isVerified: this.model.isVerified(),
           isKeysPending: !this.model.isFriend(),
           isMe: this.model.isMe(),
+          isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
           isOnline: this.model.isOnline(),
