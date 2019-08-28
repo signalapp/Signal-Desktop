@@ -1374,8 +1374,9 @@
 
         const options = this.getSendOptions();
         options.messageType = message.get('type');
+        options.isPublic = this.isPublic();
         if (this.isPublic()) {
-          options.publicEndpoint = this.getEndpoint();
+          options.channelSettings = this.getPublicSource();
         }
 
         const groupNumbers = this.getRecipients();
@@ -2064,17 +2065,8 @@
       return {
         server: this.get('server'),
         channelId: this.get('channelId'),
+        conversationId: this.get('id'),
       };
-    },
-    // FIXME: remove or add public and/or "sending" hint to name...
-    getEndpoint() {
-      if (!this.isPublic()) {
-        return null;
-      }
-      const server = this.get('server');
-      const channelId = this.get('channelId');
-      const endpoint = `${server}/channels/${channelId}/messages`;
-      return endpoint;
     },
 
     // SIGNAL PROFILES

@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, textsecure */
+/* global log, dcodeIO, window, callWorker,
+          lokiP2pAPI, lokiSnodeAPI, lokiPublicChatAPI, textsecure */
 
 const _ = require('lodash');
 const { rpc } = require('./loki_rpc');
@@ -78,8 +79,9 @@ class LokiMessageAPI {
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
     const {
       isPing = false,
+      isPublic = false,
       numConnections = DEFAULT_CONNECTIONS,
-      publicEndpoint = null,
+      channelSettings = null,
     } = options;
     // Data required to identify a message in a conversation
     const messageEventData = {
@@ -87,10 +89,22 @@ class LokiMessageAPI {
       timestamp: messageTimeStamp,
     };
 
-    // FIXME: should have public/sending(ish hint) in the option to make
-    // this more obvious...
-    if (publicEndpoint) {
+    if (isPublic) {
       // could we emit back to LokiPublicChannelAPI somehow?
+      const { server, channelId, conversationId } = channelSettings;
+      const serverAPI = lokiPublicChatAPI.findOrCreateServer(server);
+      const token = await serverAPI.getServerToken();
+      if (!token) {
+        throw new window.textsecure.PublicChatError(
+          `Failed to retrieve valid token for ${conversationId}`
+        );
+      }
+      const channelAPI = serverAPI.findOrCreateChannel(
+        channelId,
+        conversationId
+      );
+      const publicEndpoint = channelAPI.getEndpoint(conversationId);
+
       const { profile } = data;
       let displayName = 'Anonymous';
       if (profile && profile.displayName) {
@@ -109,24 +123,34 @@ class LokiMessageAPI {
           },
         ],
       };
+      let result;
       try {
-        const result = await nodeFetch(publicEndpoint, {
+        result = await nodeFetch(publicEndpoint, {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer loki',
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(payload),
         });
-        const body = await result.json();
-        messageEventData.serverId = body.data.id;
-        window.Whisper.events.trigger('publicMessageSent', messageEventData);
-        return;
       } catch (e) {
         throw new window.textsecure.PublicChatError(
-          'Failed to send public chat message.'
+          `Failed to send public chat message: ${e}`
         );
       }
+      const body = await result.json();
+      if (!result.ok) {
+        if (result.status === 401) {
+          // TODO: Handle token timeout
+        }
+        const error = body.meta.error_message;
+        throw new window.textsecure.PublicChatError(
+          `Failed to send public chat message: ${error}`
+        );
+      }
+      messageEventData.serverId = body.data.id;
+      window.Whisper.events.trigger('publicMessageSent', messageEventData);
+      return;
     }
 
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
