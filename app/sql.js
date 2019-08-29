@@ -790,7 +790,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   await instance.run(
     `ALTER TABLE messages
-     ADD COLUMN serverId STRING;`
+     ADD COLUMN serverId INTEGER;`
   );
 
   await instance.run(
@@ -2060,11 +2060,14 @@ async function removeMessage(id) {
   );
 }
 
-async function getMessageByServerId(serverId) {
+async function getMessageByServerId(serverId, conversationId) {
   const row = await db.get(
-    'SELECT * FROM messages WHERE serverId = $serverId;',
+    `SELECT * FROM messages WHERE
+      serverId = $serverId AND
+      conversationId = $conversationId;`,
     {
       $serverId: serverId,
+      $conversationId: conversationId,
     }
   );
 
