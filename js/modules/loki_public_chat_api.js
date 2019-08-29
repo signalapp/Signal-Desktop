@@ -50,7 +50,6 @@ class LokiPublicServerAPI {
     this.chatAPI = chatAPI;
     this.server = hostport;
     this.channels = [];
-    this.tokenPending = false;
     this.tokenPromise = null;
     this.baseServerUrl = `https://${this.server}`;
   }
@@ -80,10 +79,10 @@ class LokiPublicServerAPI {
     thisChannel.stopPolling = true;
   }
 
-  async getServerToken() {
+  async getOrRefreshServerToken() {
     let token = await Signal.Data.getPublicServerTokenByServerName(this.server);
     if (!token) {
-      token = await this.getNewToken();
+      token = await this.refreshServerToken();
       if (token) {
         await Signal.Data.savePublicServerToken({
           server: this.server,
@@ -94,9 +93,8 @@ class LokiPublicServerAPI {
     return token;
   }
 
-  async getNewToken() {
-    if (!this.tokenPending) {
-      this.tokenPending = true;
+  async refreshServerToken() {
+    if (this.tokenPromise === null) {
       this.tokenPromise = new Promise(async res => {
         const token = await this.requestToken();
         if (!token) {
@@ -112,7 +110,7 @@ class LokiPublicServerAPI {
       });
     }
     const token = await this.tokenPromise;
-    this.tokenPending = false;
+    this.tokenPromise = null;
     return token;
   }
 
@@ -133,11 +131,7 @@ class LokiPublicServerAPI {
       return null;
     }
     const body = await res.json();
-    const { cipherText64, serverPubKey64 } = body;
-    const token = await libloki.crypto.decryptToken(
-      cipherText64,
-      serverPubKey64
-    );
+    const token = await libloki.crypto.decryptToken(body);
     return token;
   }
 
@@ -153,18 +147,15 @@ class LokiPublicServerAPI {
       }),
     };
 
-    let res;
-    let success = true;
     try {
-      res = await nodeFetch(
+      const res = await nodeFetch(
         `${this.baseServerUrl}/loki/v1/submit_challenge`,
         options
       );
-      success = res.ok;
+      return res.ok;
     } catch (e) {
       return false;
     }
-    return success;
   }
 }
 
