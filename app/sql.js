@@ -794,7 +794,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   );
 
   await instance.run(
-    `CREATE TABLE server_tokens(
+    `CREATE TABLE servers(
       server STRING PRIMARY KEY ASC,
       token TEXT
     );`
@@ -851,8 +851,8 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   const publicChatData = {
     ...baseData,
-    id: 'publicChat:1@chat.lokinet.org',
-    server: 'chat.lokinet.org',
+    id: `publicChat:1@${lokiPublicServerData.server}`,
+    server: lokiPublicServerData.server,
     name: 'Loki Public Chat',
     channelId: '1',
   };
@@ -860,7 +860,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   const { server, token } = lokiPublicServerData;
 
   await instance.run(
-    `INSERT INTO server_tokens (
+    `INSERT INTO servers (
     server,
     token
   ) values (
@@ -1624,7 +1624,7 @@ async function removeConversation(id) {
 async function savePublicServerToken(data) {
   const { server, token } = data;
   await db.run(
-    `INSERT OR REPLACE INTO server_tokens (
+    `INSERT OR REPLACE INTO servers (
     server,
     token
   ) values (
@@ -1640,7 +1640,7 @@ async function savePublicServerToken(data) {
 
 async function getPublicServerTokenByServerName(server) {
   const row = await db.get(
-    'SELECT * FROM server_tokens WHERE server = $server;',
+    'SELECT * FROM servers WHERE server = $server;',
     {
       $server: server,
     }
