@@ -122,7 +122,7 @@ module.exports = {
   getAllPublicConversations,
   getPublicConversationsByServer,
   savePublicServerToken,
-  getPublicServerTokenByServerName,
+  getPublicServerTokenByServerUrl,
   getAllGroupsInvolvingId,
 
   searchConversations,
@@ -773,8 +773,8 @@ async function savePublicServerToken(data) {
   await channels.savePublicServerToken(data);
 }
 
-async function getPublicServerTokenByServerName(server) {
-  const token = await channels.getPublicServerTokenByServerName(server);
+async function getPublicServerTokenByServerUrl(serverUrl) {
+  const token = await channels.getPublicServerTokenByServerUrl(serverUrl);
   return token;
 }
 

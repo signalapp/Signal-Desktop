@@ -50,12 +50,12 @@ function OutgoingMessage(
     messageType,
     isPing,
     isPublic,
-    channelSettings,
+    publicSendData,
   } =
     options || {};
   this.numberInfo = numberInfo;
   this.isPublic = isPublic;
-  this.channelSettings = channelSettings;
+  this.publicSendData = publicSendData;
   this.senderCertificate = senderCertificate;
   this.online = online;
   this.messageType = messageType || 'outgoing';
@@ -205,7 +205,7 @@ OutgoingMessage.prototype = {
       };
       options.isPublic = this.isPublic;
       if (this.isPublic) {
-        options.channelSettings = this.channelSettings;
+        options.publicSendData = this.publicSendData;
       }
       await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {

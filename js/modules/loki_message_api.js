@@ -1,7 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker,
-          lokiP2pAPI, lokiSnodeAPI, lokiPublicChatAPI, textsecure */
+/* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, textsecure */
 
 const _ = require('lodash');
 const { rpc } = require('./loki_rpc');
@@ -81,7 +80,7 @@ class LokiMessageAPI {
       isPing = false,
       isPublic = false,
       numConnections = DEFAULT_CONNECTIONS,
-      channelSettings = null,
+      publicSendData = null,
     } = options;
     // Data required to identify a message in a conversation
     const messageEventData = {
@@ -90,20 +89,12 @@ class LokiMessageAPI {
     };
 
     if (isPublic) {
-      // could we emit back to LokiPublicChannelAPI somehow?
-      const { server, channelId, conversationId } = channelSettings;
-      const serverAPI = lokiPublicChatAPI.findOrCreateServer(server);
-      const token = await serverAPI.getServerToken();
+      const { token, publicEndpoint } = publicSendData;
       if (!token) {
         throw new window.textsecure.PublicChatError(
-          `Failed to retrieve valid token for ${conversationId}`
+          `Failed to retrieve valid token for ${publicEndpoint}`
         );
       }
-      const channelAPI = serverAPI.findOrCreateChannel(
-        channelId,
-        conversationId
-      );
-      const publicEndpoint = channelAPI.getEndpoint(conversationId);
 
       const { profile } = data;
       let displayName = 'Anonymous';

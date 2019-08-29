@@ -11,6 +11,7 @@
   clipboard,
   BlockedNumberController,
   lokiP2pAPI,
+  lokiPublicChatAPI,
   JobQueue
 */
 
@@ -1376,7 +1377,7 @@
         options.messageType = message.get('type');
         options.isPublic = this.isPublic();
         if (this.isPublic()) {
-          options.channelSettings = this.getPublicSource();
+          options.publicSendData = await this.getPublicSendData();
         }
 
         const groupNumbers = this.getRecipients();
@@ -2066,6 +2067,22 @@
         server: this.get('server'),
         channelId: this.get('channelId'),
         conversationId: this.get('id'),
+      };
+    },
+    async getPublicSendData() {
+      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      // Can be null if fails
+      const token = await serverAPI.getOrRefreshServerToken();
+      const channelAPI = serverAPI.findOrCreateChannel(
+        this.get('channelId'),
+        this.id
+      );
+      const publicEndpoint = channelAPI.getEndpoint();
+      return {
+        publicEndpoint,
+        token,
       };
     },
 
