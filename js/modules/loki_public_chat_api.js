@@ -46,12 +46,11 @@ class LokiPublicChatAPI extends EventEmitter {
 }
 
 class LokiPublicServerAPI {
-  constructor(chatAPI, hostport) {
+  constructor(chatAPI, url) {
     this.chatAPI = chatAPI;
-    this.server = hostport;
     this.channels = [];
     this.tokenPromise = null;
-    this.baseServerUrl = `https://${this.server}`;
+    this.baseServerUrl = url;
   }
   findOrCreateChannel(channelId, conversationId) {
     let thisChannel = this.channels.find(
@@ -80,12 +79,14 @@ class LokiPublicServerAPI {
   }
 
   async getOrRefreshServerToken() {
-    let token = await Signal.Data.getPublicServerTokenByServerName(this.server);
+    let token = await Signal.Data.getPublicServerTokenByServerUrl(
+      this.baseServerUrl
+    );
     if (!token) {
       token = await this.refreshServerToken();
       if (token) {
         await Signal.Data.savePublicServerToken({
-          server: this.server,
+          serverUrl: this.baseServerUrl,
           token,
         });
       }
@@ -176,7 +177,7 @@ class LokiPublicChannelAPI {
   }
 
   getEndpoint() {
-    const endpoint = `https://${this.serverAPI.server}/channels/${
+    const endpoint = `${this.serverAPI.baseServerUrl}/channels/${
       this.channelId
     }/messages`;
     return endpoint;
@@ -255,7 +256,10 @@ class LokiPublicChannelAPI {
         let timestamp = new Date(adnMessage.created_at).getTime();
         let from = adnMessage.user.username;
         let source;
-        if (adnMessage.annotations.length) {
+        if (adnMessage.is_deleted) {
+          return;
+        }
+        if (adnMessage.annotations !== []) {
           const noteValue = adnMessage.annotations[0].value;
           ({ from, timestamp, source } = noteValue);
         }

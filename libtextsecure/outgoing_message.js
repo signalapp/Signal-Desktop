@@ -49,11 +49,13 @@ function OutgoingMessage(
     online,
     messageType,
     isPing,
-    publicEndpoint,
+    isPublic,
+    publicSendData,
   } =
     options || {};
   this.numberInfo = numberInfo;
-  this.publicEndpoint = publicEndpoint;
+  this.isPublic = isPublic;
+  this.publicSendData = publicSendData;
   this.senderCertificate = senderCertificate;
   this.online = online;
   this.messageType = messageType || 'outgoing';
@@ -201,8 +203,9 @@ OutgoingMessage.prototype = {
         numConnections: NUM_SEND_CONNECTIONS,
         isPing: this.isPing,
       };
-      if (this.publicEndpoint) {
-        options.publicEndpoint = this.publicEndpoint;
+      options.isPublic = this.isPublic;
+      if (this.isPublic) {
+        options.publicSendData = this.publicSendData;
       }
       await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {
@@ -270,7 +273,7 @@ OutgoingMessage.prototype = {
   },
   doSendMessage(number, deviceIds, recurse) {
     const ciphers = {};
-    if (this.publicEndpoint) {
+    if (this.isPublic) {
       return this.transmitMessage(
         number,
         this.message.dataMessage,

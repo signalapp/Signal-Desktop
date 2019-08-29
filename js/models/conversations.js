@@ -11,6 +11,7 @@
   clipboard,
   BlockedNumberController,
   lokiP2pAPI,
+  lokiPublicChatAPI,
   JobQueue
 */
 
@@ -1374,8 +1375,9 @@
 
         const options = this.getSendOptions();
         options.messageType = message.get('type');
+        options.isPublic = this.isPublic();
         if (this.isPublic()) {
-          options.publicEndpoint = this.getEndpoint();
+          options.publicSendData = await this.getPublicSendData();
         }
 
         const groupNumbers = this.getRecipients();
@@ -2064,17 +2066,24 @@
       return {
         server: this.get('server'),
         channelId: this.get('channelId'),
+        conversationId: this.get('id'),
       };
     },
-    // FIXME: remove or add public and/or "sending" hint to name...
-    getEndpoint() {
-      if (!this.isPublic()) {
-        return null;
-      }
-      const server = this.get('server');
-      const channelId = this.get('channelId');
-      const endpoint = `${server}/channels/${channelId}/messages`;
-      return endpoint;
+    async getPublicSendData() {
+      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      // Can be null if fails
+      const token = await serverAPI.getOrRefreshServerToken();
+      const channelAPI = serverAPI.findOrCreateChannel(
+        this.get('channelId'),
+        this.id
+      );
+      const publicEndpoint = channelAPI.getEndpoint();
+      return {
+        publicEndpoint,
+        token,
+      };
     },
 
     // SIGNAL PROFILES

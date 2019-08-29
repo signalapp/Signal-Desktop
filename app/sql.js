@@ -95,7 +95,7 @@ module.exports = {
   saveConversations,
   getConversationById,
   savePublicServerToken,
-  getPublicServerTokenByServerName,
+  getPublicServerTokenByServerUrl,
   updateConversation,
   removeConversation,
   getAllConversations,
@@ -795,7 +795,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   await instance.run(
     `CREATE TABLE servers(
-      server STRING PRIMARY KEY ASC,
+      serverUrl STRING PRIMARY KEY ASC,
       token TEXT
     );`
   );
@@ -833,7 +833,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   };
 
   const lokiPublicServerData = {
-    server: 'chat.lokinet.org',
+    serverUrl: 'https://chat.lokinet.org',
     token: null,
   };
 
@@ -851,24 +851,24 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   const publicChatData = {
     ...baseData,
-    id: `publicChat:1@${lokiPublicServerData.server}`,
-    server: lokiPublicServerData.server,
+    id: 'publicChat:1@chat.lokinet.org',
+    server: lokiPublicServerData.serverUrl,
     name: 'Loki Public Chat',
     channelId: '1',
   };
 
-  const { server, token } = lokiPublicServerData;
+  const { serverUrl, token } = lokiPublicServerData;
 
   await instance.run(
     `INSERT INTO servers (
-    server,
+    serverUrl,
     token
   ) values (
-    $server,
+    $serverUrl,
     $token
   );`,
     {
-      $server: server,
+      $serverUrl: serverUrl,
       $token: token,
     }
   );
@@ -1622,27 +1622,27 @@ async function removeConversation(id) {
 }
 
 async function savePublicServerToken(data) {
-  const { server, token } = data;
+  const { serverUrl, token } = data;
   await db.run(
     `INSERT OR REPLACE INTO servers (
-    server,
+    serverUrl,
     token
   ) values (
-    $server,
+    $serverUrl,
     $token
   )`,
     {
-      $server: server,
+      $serverUrl: serverUrl,
       $token: token,
     }
   );
 }
 
-async function getPublicServerTokenByServerName(server) {
+async function getPublicServerTokenByServerUrl(serverUrl) {
   const row = await db.get(
-    'SELECT * FROM servers WHERE server = $server;',
+    'SELECT * FROM servers WHERE serverUrl = $serverUrl;',
     {
-      $server: server,
+      $serverUrl: serverUrl,
     }
   );
 

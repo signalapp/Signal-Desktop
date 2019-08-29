@@ -943,7 +943,7 @@ MessageSender.prototype = {
   ) {
     const me = textsecure.storage.user.getNumber();
     let numbers = groupNumbers.filter(number => number !== me);
-    if (options.publicEndpoint) {
+    if (options.isPublic) {
       numbers = [groupId];
     }
     const profile = textsecure.storage.impl.getLocalProfile();
