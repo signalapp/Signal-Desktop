@@ -94,11 +94,14 @@ module.exports = {
   saveConversation,
   saveConversations,
   getConversationById,
+  savePublicServerToken,
+  getPublicServerTokenByServerName,
   updateConversation,
   removeConversation,
   getAllConversations,
   getAllRssFeedConversations,
   getAllPublicConversations,
+  getPublicConversationsByServer,
   getPubKeysWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -790,6 +793,13 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
      ADD COLUMN serverId STRING;`
   );
 
+  await instance.run(
+    `CREATE TABLE servers(
+      server STRING PRIMARY KEY ASC,
+      token TEXT
+    );`
+  );
+
   const initConversation = async data => {
     const { id, type, name, friendRequestStatus } = data;
     await instance.run(
@@ -822,6 +832,11 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     );
   };
 
+  const lokiPublicServerData = {
+    server: 'chat.lokinet.org',
+    token: null,
+  };
+
   const baseData = {
     friendRequestStatus: 4, // Friends
     sealedSender: 0,
@@ -836,11 +851,27 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   const publicChatData = {
     ...baseData,
-    id: 'publicChat:1@chat.lokinet.org',
-    server: 'https://chat.lokinet.org',
+    id: `publicChat:1@${lokiPublicServerData.server}`,
+    server: lokiPublicServerData.server,
     name: 'Loki Public Chat',
     channelId: '1',
   };
+
+  const { server, token } = lokiPublicServerData;
+
+  await instance.run(
+    `INSERT INTO servers (
+    server,
+    token
+  ) values (
+    $server,
+    $token
+  );`,
+    {
+      $server: server,
+      $token: token,
+    }
+  );
 
   const newsRssFeedData = {
     ...baseData,
@@ -1590,6 +1621,38 @@ async function removeConversation(id) {
   );
 }
 
+async function savePublicServerToken(data) {
+  const { server, token } = data;
+  await db.run(
+    `INSERT OR REPLACE INTO servers (
+    server,
+    token
+  ) values (
+    $server,
+    $token
+  )`,
+    {
+      $server: server,
+      $token: token,
+    }
+  );
+}
+
+async function getPublicServerTokenByServerName(server) {
+  const row = await db.get(
+    'SELECT * FROM servers WHERE server = $server;',
+    {
+      $server: server,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return row.token;
+}
+
 async function getConversationById(id) {
   const row = await db.get('SELECT * FROM conversations WHERE id = $id;', {
     $id: id,
@@ -1651,6 +1714,19 @@ async function getAllPublicConversations() {
       type = 'group' AND
       id LIKE 'publicChat:%'
      ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getPublicConversationsByServer(server) {
+  const rows = await db.all(
+    `SELECT * FROM conversations WHERE
+      server = $server
+     ORDER BY id ASC;`,
+    {
+      $server: server,
+    }
   );
 
   return map(rows, row => jsonToObject(row.json));

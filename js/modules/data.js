@@ -120,6 +120,9 @@ module.exports = {
   getAllPrivateConversations,
   getAllRssFeedConversations,
   getAllPublicConversations,
+  getPublicConversationsByServer,
+  savePublicServerToken,
+  getPublicServerTokenByServerName,
   getAllGroupsInvolvingId,
 
   searchConversations,
@@ -760,6 +763,26 @@ async function getAllPublicConversations({ ConversationCollection }) {
 
 async function getAllPrivateConversations({ ConversationCollection }) {
   const conversations = await channels.getAllPrivateConversations();
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
+async function savePublicServerToken(data) {
+  await channels.savePublicServerToken(data);
+}
+
+async function getPublicServerTokenByServerName(server) {
+  const token = await channels.getPublicServerTokenByServerName(server);
+  return token;
+}
+
+async function getPublicConversationsByServer(
+  server,
+  { ConversationCollection }
+) {
+  const conversations = await channels.getPublicConversationsByServer(server);
 
   const collection = new ConversationCollection();
   collection.add(conversations);
