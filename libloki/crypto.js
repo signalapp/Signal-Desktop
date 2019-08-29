@@ -158,7 +158,7 @@
     }
   }
 
-  async function decryptToken(ivAndCipherText64, serverPubKey64) {
+  async function decryptToken({ ivAndCipherText64, serverPubKey64 }) {
     const ivAndCipherText = new Uint8Array(
       dcodeIO.ByteBuffer.fromBase64(ivAndCipherText64).toArrayBuffer()
     );
