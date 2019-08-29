@@ -1990,7 +1990,7 @@
           } else if (dataMessage.profile) {
             ConversationController.getOrCreateAndWait(source, 'private').then(
               sender => {
-                sender.setProfile(dataMessage.profile);
+                sender.setLokiProfile(dataMessage.profile);
               }
             );
           }

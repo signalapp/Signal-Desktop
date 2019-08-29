@@ -671,25 +671,21 @@
       }
     });
 
-    Whisper.events.on('onEditProfile', () => {
+    Whisper.events.on('onEditProfile', async () => {
       const ourNumber = textsecure.storage.user.getNumber();
-      const profile = storage.getLocalProfile();
+      const conversation = await ConversationController.getOrCreateAndWait(
+        ourNumber,
+        'private'
+      );
+      const profile = conversation.getLokiProfile();
       const displayName = profile && profile.displayName;
       if (appView) {
         appView.showNicknameDialog({
           title: window.i18n('editProfileTitle'),
           message: window.i18n('editProfileDisplayNameWarning'),
           nickname: displayName,
-          onOk: async newName => {
-            await storage.setProfileName(newName);
-
-            // Update the conversation if we have it
-            const conversation = ConversationController.get(ourNumber);
-            if (conversation) {
-              const newProfile = storage.getLocalProfile();
-              conversation.setProfile(newProfile);
-            }
-          },
+          onOk: newName =>
+            conversation.setLokiProfile({ displayName: newName }),
         });
       }
     });
