@@ -1977,6 +1977,12 @@
                 }
               );
             }
+          } else if (dataMessage.profile) {
+            ConversationController.getOrCreateAndWait(source, 'private').then(
+              sender => {
+                sender.setLokiProfile(dataMessage.profile);
+              }
+            );
           }
 
           let autoAccept = false;

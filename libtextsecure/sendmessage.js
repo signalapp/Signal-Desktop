@@ -819,7 +819,18 @@ MessageSender.prototype = {
     return message.toArrayBuffer();
   },
 
-  sendMessageToNumber(
+  getOurProfile() {
+    try {
+      const ourNumber = textsecure.storage.user.getNumber();
+      const conversation = window.ConversationController.get(ourNumber);
+      return conversation.getLokiProfile();
+    } catch (e) {
+      window.log.error(`Failed to get our profile: ${e}`);
+      return null;
+    }
+  },
+
+  async sendMessageToNumber(
     number,
     messageText,
     attachments,
@@ -830,7 +841,7 @@ MessageSender.prototype = {
     profileKey,
     options
   ) {
-    const profile = textsecure.storage.impl.getLocalProfile();
+    const profile = this.getOurProfile();
     return this.sendMessage(
       {
         recipients: [number],
@@ -942,7 +953,11 @@ MessageSender.prototype = {
     options
   ) {
     const me = textsecure.storage.user.getNumber();
-    const numbers = groupNumbers.filter(number => number !== me);
+    let numbers = groupNumbers.filter(number => number !== me);
+    if (options.isPublic) {
+      numbers = [groupId];
+    }
+    const profile = this.getOurProfile();
     const attrs = {
       recipients: numbers,
       body: messageText,
@@ -953,6 +968,7 @@ MessageSender.prototype = {
       needsSync: true,
       expireTimer,
       profileKey,
+      profile,
       group: {
         id: groupId,
         type: textsecure.protobuf.GroupContext.Type.DELIVER,

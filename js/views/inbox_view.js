@@ -303,7 +303,7 @@
       }
 
       if (conversation) {
-        conversation.updateProfile();
+        conversation.updateProfileName();
       }
 
       this.conversation_stack.open(conversation);

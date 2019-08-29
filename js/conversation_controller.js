@@ -238,7 +238,7 @@
             }
 
             promises.concat([
-              conversation.updateProfile(),
+              conversation.updateProfileName(),
               conversation.updateProfileAvatar(),
               conversation.resetPendingSend(),
               conversation.setFriendRequestExpiryTimeout(),
