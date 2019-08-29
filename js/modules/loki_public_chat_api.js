@@ -1,9 +1,10 @@
-/* global log, textsecure, libloki, Signal */
+/* global log, textsecure, libloki, Signal, Whisper */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 
 const GROUPCHAT_POLL_EVERY = 1000; // 1 second
+const DELETION_POLL_EVERY = 60000; // 1 minute
 
 // singleton to relay events to libtextsecure/message_receiver
 class LokiPublicChatAPI extends EventEmitter {
@@ -174,6 +175,7 @@ class LokiPublicChannelAPI {
     log.info(`registered LokiPublicChannel ${channelId}`);
     // start polling
     this.pollForMessages();
+    this.pollForDeletions();
   }
 
   getEndpoint() {
@@ -206,20 +208,56 @@ class LokiPublicChannelAPI {
     // read all messages from 0 to current
     // delete local copies if server state has changed to delete
     // run every minute
-    const url = new URL(this.baseChannelUrl);
-    let res;
-    let success = true;
-    try {
-      res = await nodeFetch(url);
-    } catch (e) {
-      success = false;
-    }
+    const pollAgain = () => {
+      setTimeout(() => {
+        this.pollForDeletions();
+      }, DELETION_POLL_EVERY);
+    };
 
-    const response = await res.json();
-    if (response.meta.code !== 200) {
-      success = false;
+    let numChecked = 0;
+    const url = new URL(`${this.baseChannelUrl}/messages`);
+    const params = {
+      include_annotations: 1,
+      count: -200,
+    };
+    let beforeId = 0;
+
+    while (numChecked < 2000) {
+      params.before_id = beforeId;
+      url.search = new URLSearchParams(params);
+      let res;
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        res = await nodeFetch(url);
+      } catch (e) {
+        pollAgain();
+        return;
+      }
+
+      // eslint-disable-next-line no-await-in-loop
+      const response = await res.json();
+      if (response.meta.code !== 200) {
+        pollAgain();
+        return;
+      }
+      numChecked += response.data.length;
+      // eslint-disable-next-line no-loop-func
+      response.data.reverse().forEach(adnMessage => {
+        if (beforeId === 0 || adnMessage.id < beforeId) {
+          beforeId = adnMessage.id;
+        }
+        if (adnMessage.is_deleted) {
+          Whisper.events.trigger('deletePublicMessage', {
+            messageServerId: adnMessage.id,
+            conversationId: this.conversationId,
+          });
+        }
+      });
+      if (response.data.length < 200) {
+        break;
+      }
     }
-    return success;
+    pollAgain();
   }
 
   async pollForMessages() {
@@ -227,6 +265,7 @@ class LokiPublicChannelAPI {
     const params = {
       include_annotations: 1,
       count: -20,
+      include_deleted: false,
     };
     if (this.lastGot) {
       params.since_id = this.lastGot;
@@ -262,6 +301,16 @@ class LokiPublicChannelAPI {
         if (adnMessage.annotations !== []) {
           const noteValue = adnMessage.annotations[0].value;
           ({ from, timestamp, source } = noteValue);
+        }
+
+        if (
+          !from ||
+          !timestamp ||
+          !source ||
+          !adnMessage.id ||
+          !adnMessage.text
+        ) {
+          return; // Invalid message
         }
 
         const messageData = {
