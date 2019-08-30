@@ -487,6 +487,28 @@
     }
   });
 
+  Whisper.events.on(
+    'deleteLocalPublicMessage',
+    async ({ messageServerId, conversationId }) => {
+      const message = await window.Signal.Data.getMessageByServerId(
+        messageServerId,
+        conversationId,
+        {
+          Message: Whisper.Message,
+        }
+      );
+      if (message) {
+        const conversation = ConversationController.get(conversationId);
+        if (conversation) {
+          conversation.removeMessage(message.id);
+        }
+        await window.Signal.Data.removeMessage(message.id, {
+          Message: Whisper.Message,
+        });
+      }
+    }
+  );
+
   Whisper.events.on('setupAsNewDevice', () => {
     const { appView } = window.owsDesktopApp;
     if (appView) {
@@ -1418,6 +1440,7 @@
     let messageData = {
       source: data.source,
       sourceDevice: data.sourceDevice,
+      serverId: data.serverId,
       sent_at: data.timestamp,
       received_at: data.receivedAt || Date.now(),
       conversationId: data.source,

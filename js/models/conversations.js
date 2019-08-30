@@ -2288,6 +2288,31 @@
       });
     },
 
+    async deletePublicMessage(message) {
+      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      const channelAPI = serverAPI.findOrCreateChannel(
+        this.get('channelId'),
+        this.id
+      );
+      const success = await channelAPI.deleteMessage(message.getServerId());
+      if (success) {
+        this.removeMessage(message.id);
+      }
+      return success;
+    },
+
+    removeMessage(messageId) {
+      const message = this.messageCollection.models.find(
+        msg => msg.id === messageId
+      );
+      if (message) {
+        message.trigger('unload');
+        this.messageCollection.remove(messageId);
+      }
+    },
+
     deleteMessages() {
       Whisper.events.trigger('showConfirmationDialog', {
         message: i18n('deleteConversationConfirmation'),
