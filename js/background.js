@@ -488,7 +488,7 @@
   });
 
   Whisper.events.on(
-    'deletePublicMessage',
+    'deleteLocalPublicMessage',
     async ({ messageServerId, conversationId }) => {
       const message = await window.Signal.Data.getMessageByServerId(
         messageServerId,
