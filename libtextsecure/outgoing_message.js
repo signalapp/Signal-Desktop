@@ -370,7 +370,7 @@ OutgoingMessage.prototype = {
             dcodeIO.ByteBuffer.wrap(ciphertext.body, 'binary').toArrayBuffer()
           );
         }
-        const getTTL = (type) => {
+        const getTTL = type => {
           switch (type) {
             case 'friend-request':
               return 4 * 24 * 60 * 60 * 1000; // 4 days for friend request message
@@ -383,7 +383,7 @@ OutgoingMessage.prototype = {
             default:
               return (window.getMessageTTL() || 24) * 60 * 60 * 1000; // 1 day default for any other message
           }
-        }
+        };
         const ttl = getTTL(this.messageType);
 
         return {
