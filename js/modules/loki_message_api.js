@@ -4,7 +4,6 @@
 
 const _ = require('lodash');
 const { rpc } = require('./loki_rpc');
-const nodeFetch = require('node-fetch');
 
 const DEFAULT_CONNECTIONS = 3;
 const MAX_ACCEPTABLE_FAILURES = 1;
@@ -89,57 +88,23 @@ class LokiMessageAPI {
     };
 
     if (isPublic) {
-      const { token, publicEndpoint } = publicSendData;
-      if (!token) {
-        throw new window.textsecure.PublicChatError(
-          `Failed to retrieve valid token for ${publicEndpoint}`
-        );
-      }
-
       const { profile } = data;
       let displayName = 'Anonymous';
       if (profile && profile.displayName) {
         ({ displayName } = profile);
       }
-      const payload = {
-        text: data.body,
-        annotations: [
-          {
-            type: 'network.loki.messenger.publicChat',
-            value: {
-              timestamp: messageTimeStamp,
-              from: displayName,
-              source: this.ourKey,
-            },
-          },
-        ],
-      };
-      let result;
-      try {
-        result = await nodeFetch(publicEndpoint, {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        });
-      } catch (e) {
+      const res = await publicSendData.sendMessage(
+        data.body,
+        messageTimeStamp,
+        displayName,
+        this.ourKey
+      );
+      if (res === false) {
         throw new window.textsecure.PublicChatError(
-          `Failed to send public chat message: ${e}`
+          'Failed to send public chat message'
         );
       }
-      const body = await result.json();
-      if (!result.ok) {
-        if (result.status === 401) {
-          // TODO: Handle token timeout
-        }
-        const error = body.meta.error_message;
-        throw new window.textsecure.PublicChatError(
-          `Failed to send public chat message: ${error}`
-        );
-      }
-      messageEventData.serverId = body.data.id;
+      messageEventData.serverId = res;
       window.Whisper.events.trigger('publicMessageSent', messageEventData);
       return;
     }
