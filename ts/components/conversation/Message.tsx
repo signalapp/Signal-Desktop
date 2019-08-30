@@ -257,7 +257,7 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message__metadata__${badgeType}--${direction}`
             )}
           >
-            &nbsp;•&nbsp;${badgeText}
+            &nbsp;•&nbsp;{badgeText}
           </span>
         ) : null}
         {expirationLength && expirationTimestamp ? (
