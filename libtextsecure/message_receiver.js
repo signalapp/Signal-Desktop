@@ -1104,7 +1104,7 @@ MessageReceiver.prototype.extend({
       pairingRequest.secondaryDevicePubKey
     );
   },
-  async handleAuthorisationForSelf(pairingAuthorisation) {
+  async handleAuthorisationForSelf(pairingAuthorisation, dataMessage) {
     const valid = await this.validateAuthorisation(pairingAuthorisation);
     if (!valid) {
       return;
@@ -1115,7 +1115,7 @@ MessageReceiver.prototype.extend({
       window.log.info(
         `Received pairing authorisation from ${primaryDevicePubKey}`
       );
-      const alreadySecondaryDevice = window.storage.get('isSecondaryDevice');
+      const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
       if (alreadySecondaryDevice) {
         window.log.warn(
           'Received an unexpected pairing authorisation (device is already paired as secondary device). Ignoring.'
@@ -1129,6 +1129,17 @@ MessageReceiver.prototype.extend({
       window.storage.remove('secondaryDeviceStatus');
       window.storage.put('isSecondaryDevice', true);
       Whisper.events.trigger('secondaryDeviceRegistration');
+      // Update profile name
+      if (dataMessage) {
+        const { profile } = dataMessage;
+        if (profile) {
+          const ourNumber = textsecure.storage.user.getNumber();
+          const me = window.ConversationController.get(ourNumber);
+          if (me) {
+            me.setLokiProfile(profile);
+          }
+        }
+      }
     } else {
       window.log.warn('Unimplemented pairing authorisation message type');
     }
@@ -1148,12 +1159,15 @@ MessageReceiver.prototype.extend({
     // send friend accept?
     window.libloki.api.sendBackgroundMessage(secondaryDevicePubKey);
   },
-  async handlePairingAuthorisationMessage(envelope, pairingAuthorisation) {
+  async handlePairingAuthorisationMessage(
+    envelope,
+    { pairingAuthorisation, dataMessage }
+  ) {
     const { type, secondaryDevicePubKey } = pairingAuthorisation;
     if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST) {
       await this.handlePairingRequest(pairingAuthorisation);
     } else if (secondaryDevicePubKey === textsecure.storage.user.getNumber()) {
-      await this.handleAuthorisationForSelf(pairingAuthorisation);
+      await this.handleAuthorisationForSelf(pairingAuthorisation, dataMessage);
     } else {
       await this.handleAuthorisationForContact(pairingAuthorisation);
     }
@@ -1271,10 +1285,7 @@ MessageReceiver.prototype.extend({
       );
     }
     if (content.pairingAuthorisation) {
-      return this.handlePairingAuthorisationMessage(
-        envelope,
-        content.pairingAuthorisation
-      );
+      return this.handlePairingAuthorisationMessage(envelope, content);
     }
     if (content.syncMessage) {
       return this.handleSyncMessage(envelope, content.syncMessage);
