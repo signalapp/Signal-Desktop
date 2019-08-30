@@ -13,6 +13,8 @@
     className: 'full-screen-flow standalone-fullscreen',
     initialize() {
       this.accountManager = getAccountManager();
+      // Clean status in case the app closed unexpectedly
+      textsecure.storage.remove('secondaryDeviceStatus');
 
       this.render();
 
@@ -50,12 +52,14 @@
 
       this.registrationParams = {};
       this.$pages = this.$('.page');
-      this.pairingTimeout = null;
+      this.pairingInterval = null;
       this.showRegisterPage();
 
       this.onValidatePassword();
 
-      this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(this);
+      this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(
+        this
+      );
     },
     events: {
       'validation input.number': 'onValidation',
@@ -108,6 +112,9 @@
 
       const input = this.trim(this.$passwordInput.val());
 
+      // Ensure we clear the secondary device registration status
+      textsecure.storage.remove('secondaryDeviceStatus');
+
       try {
         await window.setPassword(input);
         await this.accountManager.registerSingleDevice(
@@ -129,11 +136,19 @@
       this.showProfilePage(mnemonic, language);
     },
     onSecondaryDeviceRegistered() {
+      clearInterval(this.pairingInterval);
       // Ensure the left menu is updated
       Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
       this.$el.trigger('openInbox');
     },
     async registerSecondaryDevice() {
+      if (textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
+        return;
+      }
+      textsecure.storage.put('secondaryDeviceStatus', 'ongoing');
+      this.$('#register-secondary-device')
+        .attr('disabled', 'disabled')
+        .text('Sending...');
       const mnemonic = this.$('#mnemonic-display').text();
       const language = this.$('#mnemonic-display-language').val();
       const primaryPubKey = this.$('#primary-pubkey').val();
@@ -147,26 +162,57 @@
         'secondaryDeviceRegistration',
         this.onSecondaryDeviceRegistered
       );
-      clearTimeout(this.pairingTimeout);
-      this.pairingTimeout = setTimeout(() => {
-        this.$('.standalone-secondary-device #error').text(
-          'The primary device has not responded within 1 minute. Ensure it is connected.'
+      clearInterval(this.pairingInterval);
+      let countDown = 60;
+      const onError = async error => {
+        clearInterval(this.pairingInterval);
+        this.$('.standalone-secondary-device #error')
+          .text(error)
+          .show();
+        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+        // If the registration started, ensure it's finished
+        while (
+          textsecure.storage.protocol.getIdentityKeyPair() &&
+          !Whisper.Registration.isDone()
+        ) {
+          // eslint-disable-next-line no-await-in-loop
+          await sleep(100);
+        }
+        Whisper.Registration.remove();
+        Whisper.RotateSignedPreKeyListener.stop();
+        textsecure.storage.remove('secondaryDeviceStatus');
+        window.ConversationController.reset();
+        this.$('#register-secondary-device')
+          .removeAttr('disabled')
+          .text('Link');
+      };
+      const countDownCallBack = () => {
+        if (countDown > 0) {
+          this.$('#register-secondary-device').text(
+            `Waiting for Primary Device... (${countDown})`
+          );
+          countDown -= 1;
+          return;
+        }
+        onError(
+          'The primary device has not responded within 1 minute. Ensure that you accept the pairing on the primary device.'
         );
-        this.$('.standalone-secondary-device #error').show();
-      }, 60000);
-      textsecure.storage.put('secondaryDeviceStatus', 'ongoing');
+      };
       try {
         await this.accountManager.registerSingleDevice(
           mnemonic,
           language,
-          'John Smith'
+          null
         );
         await this.accountManager.requestPairing(primaryPubKey);
+        countDownCallBack();
+        this.pairingInterval = setInterval(countDownCallBack, 1000);
+        const pubkey = textsecure.storage.user.getNumber();
+        this.$('.standalone-secondary-device #pubkey').text(
+          `Here is your pubkey:\n${pubkey}`
+        );
       } catch (e) {
-        textsecure.storage.remove('secondaryDeviceStatus');
-        this.$('.standalone-secondary-device #error').text(e);
-        this.$('.standalone-secondary-device #error').show();
-        clearTimeout(this.pairingTimeout);
+        onError(e);
       }
     },
     registerWithMnemonic() {
