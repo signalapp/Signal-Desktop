@@ -673,7 +673,9 @@
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
         isDeletable:
-          !this.get('isPublic') || this.getConversation().getModStatus(),
+          !this.get('isPublic') ||
+          this.getConversation().getModStatus() ||
+          this.getSource() === this.OUR_NUMBER,
 
         onCopyText: () => this.copyText(),
         onReply: () => this.trigger('reply', this),
