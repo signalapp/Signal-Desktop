@@ -2085,6 +2085,23 @@
         token,
       };
     },
+    getModStatus() {
+      if (!this.isPublic()) {
+        return false;
+      }
+      return this.get('modStatus');
+    },
+    async setModStatus(newStatus) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.get('modStatus') !== newStatus) {
+        this.set({ modStatus: newStatus });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
 
     // SIGNAL PROFILES
 
@@ -2286,6 +2303,21 @@
         message: i18n('deleteContactConfirmation'),
         onOk: () => ConversationController.deleteContact(this.id),
       });
+    },
+
+    async deletePublicMessage(message) {
+      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      const channelAPI = serverAPI.findOrCreateChannel(
+        this.get('channelId'),
+        this.id
+      );
+      const success = await channelAPI.deleteMessage(message.getServerId());
+      if (success) {
+        this.removeMessage(message.id);
+      }
+      return success;
     },
 
     removeMessage(messageId) {

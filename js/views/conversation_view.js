@@ -1291,6 +1291,29 @@
     },
 
     deleteMessage(message) {
+      if (this.model.isPublic()) {
+        const dialog = new Whisper.ConfirmationDialogView({
+          message: i18n('deletePublicWarning'),
+          okText: i18n('delete'),
+          resolve: async () => {
+            const success = await this.model.deletePublicMessage(message);
+            if (!success) {
+              // Message failed to delete from server, show error?
+              return;
+            }
+            await window.Signal.Data.removeMessage(message.id, {
+              Message: Whisper.Message,
+            });
+            message.trigger('unload');
+            this.resetPanel();
+            this.updateHeader();
+          },
+        });
+
+        this.$el.prepend(dialog.el);
+        dialog.focusCancel();
+        return;
+      }
       const dialog = new Whisper.ConfirmationDialogView({
         message: i18n('deleteWarning'),
         okText: i18n('delete'),

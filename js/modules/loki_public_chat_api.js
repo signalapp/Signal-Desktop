@@ -1,4 +1,4 @@
-/* global log, textsecure, libloki, Signal, Whisper, Headers */
+/* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -12,35 +12,35 @@ class LokiPublicChatAPI extends EventEmitter {
   constructor(ourKey) {
     super();
     this.ourKey = ourKey;
-    this.lastGot = {};
     this.servers = [];
   }
-  findOrCreateServer(hostport) {
-    let thisServer = this.servers.find(server => server.server === hostport);
+  findOrCreateServer(serverUrl) {
+    let thisServer = this.servers.find(
+      server => server.baseServerUrl === serverUrl
+    );
     if (!thisServer) {
-      log.info(`LokiPublicChatAPI creating ${hostport}`);
-      thisServer = new LokiPublicServerAPI(this, hostport);
+      log.info(`LokiPublicChatAPI creating ${serverUrl}`);
+      thisServer = new LokiPublicServerAPI(this, serverUrl);
       this.servers.push(thisServer);
     }
     return thisServer;
   }
-  // rename to findOrCreateChannel?
-  registerChannel(hostport, channelId, conversationId) {
-    const server = this.findOrCreateServer(hostport);
+  findOrCreateChannel(serverUrl, channelId, conversationId) {
+    const server = this.findOrCreateServer(serverUrl);
     return server.findOrCreateChannel(channelId, conversationId);
   }
-  unregisterChannel(hostport, channelId) {
+  unregisterChannel(serverUrl, channelId) {
     let thisServer;
     let i = 0;
     for (; i < this.servers.length; i += 1) {
-      if (this.servers[i].server === hostport) {
+      if (this.servers[i].server === serverUrl) {
         thisServer = this.servers[i];
         break;
       }
     }
 
     if (!thisServer) {
-      log.warn(`Tried to unregister from nonexistent server ${hostport}`);
+      log.warn(`Tried to unregister from nonexistent server ${serverUrl}`);
       return;
     }
     thisServer.unregisterChannel(channelId);
@@ -88,6 +88,9 @@ class LokiPublicServerAPI {
   }
 
   async getOrRefreshServerToken() {
+    if (this.token) {
+      return this.token;
+    }
     let token = await Signal.Data.getPublicServerTokenByServerUrl(
       this.baseServerUrl
     );
@@ -100,6 +103,7 @@ class LokiPublicServerAPI {
         });
       }
     }
+    this.token = token;
     return token;
   }
 
@@ -171,6 +175,7 @@ class LokiPublicServerAPI {
 
 class LokiPublicChannelAPI {
   constructor(serverAPI, channelId, conversationId) {
+    // properties
     this.serverAPI = serverAPI;
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
@@ -178,24 +183,21 @@ class LokiPublicChannelAPI {
     this.conversationId = conversationId;
     this.lastGot = 0;
     this.stopPolling = false;
+    this.modStatus = false;
+    this.deleteLastId = 1;
+    // end properties
+
     log.info(`registered LokiPublicChannel ${channelId}`);
     // start polling
     this.pollForMessages();
-    this.deleteLastId = 1;
     this.pollForDeletions();
   }
 
-  getEndpoint() {
-    const endpoint = `${this.serverAPI.baseServerUrl}/${
-      this.baseChannelUrl
-    }/messages`;
-    return endpoint;
-  }
-
-  // we'll pass token for now
-  async serverRequest(endpoint, params, method) {
+  async serverRequest(endpoint, options = {}) {
     const url = new URL(`${this.serverAPI.baseServerUrl}/${endpoint}`);
-    url.search = new URLSearchParams(params);
+    if (options.params) {
+      url.search = new URLSearchParams(params);
+    }
     let res;
     let { token } = this.serverAPI;
     if (!token) {
@@ -208,10 +210,84 @@ class LokiPublicChannelAPI {
       }
     }
     try {
+      const fetchOptions = {
+        headers: new Headers({
+          Authorization: `Bearer ${this.serverAPI.token}`,
+        }),
+      };
+      if (options.method) {
+        fetchOptions.method = options.method;
+      }
+      res = await nodeFetch(url, fetchOptions || undefined);
+    } catch (e) {
+      log.info(`e ${e}`);
+      return {
+        err: e,
+      };
+    }
+    const response = await res.json();
+
+    // if it's a response style with a meta
+    if (res.status !== 200) {
+      return {
+        err: 'statusCode',
+        response,
+      };
+    }
+    return {
+      statusCode: res.status,
+      response,
+    };
+  }
+
+  async refreshModStatus() {
+    const res = serverRequest('/loki/v1/user_info');
+    // if no problems and we have data
+    if (!res.err && res.response && res.response.data) {
+      this.modStatus = res.response.data.moderator_status;
+    }
+
+    const conversation = ConversationController.get(this.conversationId);
+    await conversation.setModStatus(this.modStatus);
+  }
+
+  async deleteMessage(serverId) {
+    const res = await this.serverRequest(
+      this.modStatus?`loki/v1/moderation/message/${messageServerId}`:`${this.baseChannelUrl}/messages/${serverId}`,
+      { method: 'DELETE' }
+    );
+    if (!res.err && res.response) {
+      log.info(`deleted ${serverId} on ${this.baseChannelUrl}`);
+      return true;
+    }
+    log.warn(`failed to delete ${serverId} on ${this.baseChannelUrl}`);
+    return false;
+  }
+
+  getEndpoint() {
+    const endpoint = `${this.serverAPI.baseServerUrl}/${
+      this.baseChannelUrl
+    }/messages`;
+    return endpoint;
+  }
+
+  // update room details
+  async pollForChannel(source, endpoint) {
+    // groupName will be loaded from server
+    const url = new URL(this.baseChannelUrl);
+    let res;
+    const token = await this.serverAPI.getOrRefreshServerToken();
+    if (!token) {
+      log.error('NO TOKEN');
+      return {
+        err: 'noToken',
+      };
+    }
+    try {
       // eslint-disable-next-line no-await-in-loop
       const options = {
         headers: new Headers({
-          Authorization: `Bearer ${this.serverAPI.token}`,
+          Authorization: `Bearer ${token}`,
         }),
       };
       if (method) {
@@ -237,79 +313,52 @@ class LokiPublicChannelAPI {
     };
   }
 
-  async pollForChannel(source, endpoint) {
-    // groupName will be loaded from server
-    const url = new URL(this.baseChannelUrl);
-    let res;
-    let success = true;
-    try {
-      res = await nodeFetch(url);
-    } catch (e) {
-      success = false;
-    }
-
-    const response = await res.json();
-    if (response.meta.code !== 200) {
-      success = false;
-    }
-    // update this.groupId
-    return endpoint || success;
-  }
-
+  // get moderation actions
   async pollForDeletions() {
-    // read all messages from 0 to current
-    // delete local copies if server state has changed to delete
-    // run every minute
-    const pollAgain = () => {
-      setTimeout(() => {
-        this.pollForDeletions();
-      }, DELETION_POLL_EVERY);
-    };
-
+    // grab the last 200 deletions
     const params = {
       count: 200,
     };
 
-    // full scan
+    // start loop
     let more = true;
+    // eslint-disable-next-line no-await-in-loop
     while (more) {
+      // set params to from where we last checked
       params.since_id = this.deleteLastId;
+
+      // grab the next 200 deletions from where we last checked
       const res = await this.serverRequest(
         `loki/v1/channel/${this.channelId}/deletes`,
-        params
+        { params }
       );
 
-      // eslint-disable-next-line no-loop-func
+      // Process rresult
       res.response.data.reverse().forEach(deleteEntry => {
+        // Escalate it up to the subsystem that can check to see if this has been processsed
         Whisper.events.trigger('deleteLocalPublicMessage', {
           messageServerId: deleteEntry.message_id,
           conversationId: this.conversationId,
         });
       });
+
+      // if we had a problem break the loop
       if (res.response.data.length < 200) {
         break;
       }
+
+      // update where we last checked
       this.deleteLastId = res.response.meta.max_id;
       ({ more } = res.response);
     }
-    pollAgain();
+
+    // set up next poll
+    setTimeout(() => {
+      this.pollForDeletions();
+    }, DELETION_POLL_EVERY);
   }
 
-  async deleteMessage(serverId) {
-    const params = {};
-    const res = await this.serverRequest(
-      `${this.baseChannelUrl}/messages/${serverId}`,
-      params,
-      'DELETE'
-    );
-    if (!res.err && res.response) {
-      log.info(`deleted ${serverId} on ${this.baseChannelUrl}`);
-      return true;
-    }
-    log.warn(`failed to delete ${serverId} on ${this.baseChannelUrl}`);
-    return false;
-  }
-
+  // get channel messages
   async pollForMessages() {
     const params = {
       include_annotations: 1,
@@ -321,7 +370,7 @@ class LokiPublicChannelAPI {
     }
     const res = await this.serverRequest(
       `${this.baseChannelUrl}/messages`,
-      params
+      { params }
     );
 
     if (!res.err && res.response) {
