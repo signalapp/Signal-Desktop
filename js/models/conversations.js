@@ -1376,7 +1376,7 @@
         const options = this.getSendOptions();
         options.messageType = message.get('type');
         options.isPublic = this.isPublic();
-        if (this.isPublic()) {
+        if (options.isPublic) {
           options.publicSendData = await this.getPublicSendData();
         }
 
@@ -2073,17 +2073,11 @@
       const serverAPI = lokiPublicChatAPI.findOrCreateServer(
         this.get('server')
       );
-      // Can be null if fails
-      const token = await serverAPI.getOrRefreshServerToken();
       const channelAPI = serverAPI.findOrCreateChannel(
         this.get('channelId'),
         this.id
       );
-      const publicEndpoint = channelAPI.getEndpoint();
-      return {
-        publicEndpoint,
-        token,
-      };
+      return channelAPI;
     },
     getModStatus() {
       if (!this.isPublic()) {
