@@ -14,6 +14,8 @@ class LokiPublicChatAPI extends EventEmitter {
     this.ourKey = ourKey;
     this.servers = [];
   }
+
+  // server getter/factory
   findOrCreateServer(serverUrl) {
     let thisServer = this.servers.find(
       server => server.baseServerUrl === serverUrl
@@ -25,10 +27,14 @@ class LokiPublicChatAPI extends EventEmitter {
     }
     return thisServer;
   }
+
+  // channel getter/factory
   findOrCreateChannel(serverUrl, channelId, conversationId) {
     const server = this.findOrCreateServer(serverUrl);
     return server.findOrCreateChannel(channelId, conversationId);
   }
+
+  // deallocate resources server uses
   unregisterChannel(serverUrl, channelId) {
     let thisServer;
     let i = 0;
@@ -60,6 +66,8 @@ class LokiPublicServerAPI {
       log.info(`set token ${ref.token}`);
     })();
   }
+
+  // channel getter/factory
   findOrCreateChannel(channelId, conversationId) {
     let thisChannel = this.channels.find(
       channel => channel.channelId === channelId
@@ -71,6 +79,8 @@ class LokiPublicServerAPI {
     }
     return thisChannel;
   }
+
+  // deallocate resources channel uses
   unregisterChannel(channelId) {
     let thisChannel;
     let i = 0;
@@ -87,13 +97,17 @@ class LokiPublicServerAPI {
     thisChannel.stopPolling = true;
   }
 
-  async getOrRefreshServerToken() {
-    if (this.token) {
-      return this.token;
+  // get active token for this server
+  async getOrRefreshServerToken(forceRefresh = false) {
+    let token;
+    if (!forceRefresh) {
+      if (this.token) {
+        return this.token;
+      }
+      token = await Signal.Data.getPublicServerTokenByServerUrl(
+        this.baseServerUrl
+      );
     }
-    let token = await Signal.Data.getPublicServerTokenByServerUrl(
-      this.baseServerUrl
-    );
     if (!token) {
       token = await this.refreshServerToken();
       if (token) {
@@ -107,27 +121,36 @@ class LokiPublicServerAPI {
     return token;
   }
 
+  // get active token from server (but only allow one request at a time)
   async refreshServerToken() {
+    // if currently not in progress
     if (this.tokenPromise === null) {
+      // set lock
       this.tokenPromise = new Promise(async res => {
+        // request the oken
         const token = await this.requestToken();
         if (!token) {
           res(null);
           return;
         }
+        // activate the token
         const registered = await this.submitToken(token);
         if (!registered) {
           res(null);
           return;
         }
+        // resolve promise to release lock
         res(token);
       });
     }
+    // wait until we have it set
     const token = await this.tokenPromise;
+    // clear lock
     this.tokenPromise = null;
     return token;
   }
 
+  // request an token from the server
   async requestToken() {
     const url = new URL(`${this.baseServerUrl}/loki/v1/get_challenge`);
     const params = {
@@ -149,6 +172,7 @@ class LokiPublicServerAPI {
     return token;
   }
 
+  // activate token
   async submitToken(token) {
     const options = {
       method: 'POST',
@@ -193,12 +217,14 @@ class LokiPublicChannelAPI {
     this.pollForDeletions();
   }
 
+  // make a request to the server
   async serverRequest(endpoint, options = {}) {
+    const { params = {}, method, objBody, forceFreshToken = false } = options;
     const url = new URL(`${this.serverAPI.baseServerUrl}/${endpoint}`);
-    if (options.params) {
+    if (params) {
       url.search = new URLSearchParams(params);
     }
-    let res;
+    let result;
     let { token } = this.serverAPI;
     if (!token) {
       token = await this.serverAPI.getOrRefreshServerToken();
@@ -210,38 +236,61 @@ class LokiPublicChannelAPI {
       }
     }
     try {
-      const fetchOptions = {
-        headers: new Headers({
-          Authorization: `Bearer ${this.serverAPI.token}`,
-        }),
+      const fetchOptions = {};
+      const headers = {
+        Authorization: `Bearer ${this.serverAPI.token}`,
       };
-      if (options.method) {
-        fetchOptions.method = options.method;
+      if (method) {
+        fetchOptions.method = method;
       }
-      res = await nodeFetch(url, fetchOptions || undefined);
+      if (objBody) {
+        headers['Content-Type'] = 'application/json';
+        fetchOptions.body = JSON.stringify(objBody);
+      }
+      fetchOptions.headers = new Headers(headers);
+      result = await nodeFetch(url, fetchOptions || undefined);
     } catch (e) {
       log.info(`e ${e}`);
       return {
         err: e,
       };
     }
-    const response = await res.json();
+    let response = null;
+    try {
+      response = await result.json();
+    } catch (e) {
+      log.info(`serverRequest json arpse ${e}`);
+      return {
+        err: e,
+        statusCode: result.status,
+      };
+    }
 
     // if it's a response style with a meta
-    if (res.status !== 200) {
+    if (result.status !== 200) {
+      if (!forceFreshToken && response.meta.code === 401) {
+        // copy options because lint complains if we modify this directly
+        const updatedOptions = options;
+        // force it this time
+        updatedOptions.forceFreshToken = true;
+        // retry with updated options
+        return this.serverRequest(endpoint, updatedOptions);
+      }
       return {
         err: 'statusCode',
+        statusCode: result.status,
         response,
       };
     }
     return {
-      statusCode: res.status,
+      statusCode: result.status,
       response,
     };
   }
 
+  // get moderator status
   async refreshModStatus() {
-    const res = serverRequest('/loki/v1/user_info');
+    const res = this.serverRequest('loki/v1/user_info');
     // if no problems and we have data
     if (!res.err && res.response && res.response.data) {
       this.modStatus = res.response.data.moderator_status;
@@ -251,9 +300,12 @@ class LokiPublicChannelAPI {
     await conversation.setModStatus(this.modStatus);
   }
 
+  // delete a message on the server
   async deleteMessage(serverId) {
     const res = await this.serverRequest(
-      this.modStatus?`loki/v1/moderation/message/${messageServerId}`:`${this.baseChannelUrl}/messages/${serverId}`,
+      this.modStatus
+        ? `loki/v1/moderation/message/${serverId}`
+        : `${this.baseChannelUrl}/messages/${serverId}`,
       { method: 'DELETE' }
     );
     if (!res.err && res.response) {
@@ -264,6 +316,7 @@ class LokiPublicChannelAPI {
     return false;
   }
 
+  // used for sending messages
   getEndpoint() {
     const endpoint = `${this.serverAPI.baseServerUrl}/${
       this.baseChannelUrl
@@ -272,7 +325,7 @@ class LokiPublicChannelAPI {
   }
 
   // update room details
-  async pollForChannel(source, endpoint) {
+  async pollForChannel() {
     // groupName will be loaded from server
     const url = new URL(this.baseChannelUrl);
     let res;
@@ -290,9 +343,6 @@ class LokiPublicChannelAPI {
           Authorization: `Bearer ${token}`,
         }),
       };
-      if (method) {
-        options.method = method;
-      }
       res = await nodeFetch(url, options || undefined);
     } catch (e) {
       log.info(`e ${e}`);
@@ -322,20 +372,21 @@ class LokiPublicChannelAPI {
 
     // start loop
     let more = true;
-    // eslint-disable-next-line no-await-in-loop
     while (more) {
       // set params to from where we last checked
       params.since_id = this.deleteLastId;
 
       // grab the next 200 deletions from where we last checked
+      // eslint-disable-next-line no-await-in-loop
       const res = await this.serverRequest(
         `loki/v1/channel/${this.channelId}/deletes`,
         { params }
       );
 
-      // Process rresult
+      // Process results
       res.response.data.reverse().forEach(deleteEntry => {
-        // Escalate it up to the subsystem that can check to see if this has been processsed
+        // Escalate it up to the subsystem that can check to see if this has
+        // been processed
         Whisper.events.trigger('deleteLocalPublicMessage', {
           messageServerId: deleteEntry.message_id,
           conversationId: this.conversationId,
@@ -368,10 +419,9 @@ class LokiPublicChannelAPI {
     if (this.lastGot) {
       params.since_id = this.lastGot;
     }
-    const res = await this.serverRequest(
-      `${this.baseChannelUrl}/messages`,
-      { params }
-    );
+    const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
+      params,
+    });
 
     if (!res.err && res.response) {
       let receivedAt = new Date().getTime();
@@ -441,6 +491,33 @@ class LokiPublicChannelAPI {
     setTimeout(() => {
       this.pollForMessages();
     }, GROUPCHAT_POLL_EVERY);
+  }
+
+  // create a message in the channel
+  async sendMessage(text, messageTimeStamp, displayName, pubKey) {
+    const payload = {
+      text,
+      annotations: [
+        {
+          type: 'network.loki.messenger.publicChat',
+          value: {
+            timestamp: messageTimeStamp,
+            // will deprecated
+            from: displayName,
+            // will deprecated
+            source: pubKey,
+          },
+        },
+      ],
+    };
+    const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
+      method: 'POST',
+      objBody: payload,
+    });
+    if (!res.err && res.response) {
+      return res.response.data.id;
+    }
+    return false;
   }
 }
 
