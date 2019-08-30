@@ -357,9 +357,6 @@
     onDestroy() {
       this.cleanup();
     },
-    deleteMessage() {
-      this.trigger('delete', this);
-    },
     async cleanup() {
       MessageController.unregister(this.id);
       this.unload();
@@ -1242,6 +1239,9 @@
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
+    },
+    getServerId() {
+      return this.get('serverId');
     },
     async setServerId(serverId) {
       if (_.isEqual(this.get('serverId'), serverId)) return;
