@@ -2085,6 +2085,23 @@
         token,
       };
     },
+    getModStatus() {
+      if (!this.isPublic()) {
+        return false;
+      }
+      return this.get('modStatus');
+    },
+    async setModStatus(newStatus) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.get('modStatus') !== newStatus) {
+        this.set({ modStatus: newStatus });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
 
     // SIGNAL PROFILES
 
