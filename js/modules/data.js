@@ -908,8 +908,8 @@ async function _removeMessages(ids) {
   await channels.removeMessage(ids);
 }
 
-async function getMessageByServerId(id, { Message }) {
-  const message = await channels.getMessageByServerId(id);
+async function getMessageByServerId(serverId, conversationId, { Message }) {
+  const message = await channels.getMessageByServerId(serverId, conversationId);
   if (!message) {
     return null;
   }

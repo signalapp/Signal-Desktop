@@ -48,6 +48,7 @@ interface LinkPreviewType {
 
 export interface Props {
   disableMenu?: boolean;
+  isDeletable: boolean;
   text?: string;
   textPending?: boolean;
   id?: string;
@@ -257,7 +258,7 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message__metadata__${badgeType}--${direction}`
             )}
           >
-            &nbsp;•&nbsp;${badgeText}
+            &nbsp;•&nbsp;{badgeText}
           </span>
         ) : null}
         {expirationLength && expirationTimestamp ? (
@@ -819,6 +820,7 @@ export class Message extends React.PureComponent<Props, State> {
       onCopyText,
       direction,
       status,
+      isDeletable,
       onDelete,
       onDownload,
       onReply,
@@ -876,14 +878,16 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('retrySend')}
           </MenuItem>
         ) : null}
-        <MenuItem
-          attributes={{
-            className: 'module-message__context__delete-message',
-          }}
-          onClick={onDelete}
-        >
-          {i18n('deleteMessage')}
-        </MenuItem>
+        {isDeletable ? (
+          <MenuItem
+            attributes={{
+              className: 'module-message__context__delete-message',
+            }}
+            onClick={onDelete}
+          >
+            {i18n('deleteMessage')}
+          </MenuItem>
+        ) : null}
       </ContextMenu>
     );
   }

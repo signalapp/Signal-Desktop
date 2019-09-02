@@ -357,9 +357,6 @@
     onDestroy() {
       this.cleanup();
     },
-    deleteMessage() {
-      this.trigger('delete', this);
-    },
     async cleanup() {
       MessageController.unregister(this.id);
       this.unload();
@@ -675,6 +672,10 @@
         isP2p: !!this.get('isP2p'),
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
+        isDeletable:
+          !this.get('isPublic') ||
+          this.getConversation().getModStatus() ||
+          this.getSource() === this.OUR_NUMBER,
 
         onCopyText: () => this.copyText(),
         onReply: () => this.trigger('reply', this),
@@ -1242,6 +1243,9 @@
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
+    },
+    getServerId() {
+      return this.get('serverId');
     },
     async setServerId(serverId) {
       if (_.isEqual(this.get('serverId'), serverId)) return;

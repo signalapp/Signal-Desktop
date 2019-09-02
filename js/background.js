@@ -224,11 +224,12 @@
     );
     publicConversations.forEach(conversation => {
       const settings = conversation.getPublicSource();
-      window.lokiPublicChatAPI.registerChannel(
+      const channel = window.lokiPublicChatAPI.findOrCreateChannel(
         settings.server,
         settings.channelId,
         conversation.id
       );
+      channel.refreshModStatus();
     });
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
@@ -486,6 +487,28 @@
       appView.openImporter();
     }
   });
+
+  Whisper.events.on(
+    'deleteLocalPublicMessage',
+    async ({ messageServerId, conversationId }) => {
+      const message = await window.Signal.Data.getMessageByServerId(
+        messageServerId,
+        conversationId,
+        {
+          Message: Whisper.Message,
+        }
+      );
+      if (message) {
+        const conversation = ConversationController.get(conversationId);
+        if (conversation) {
+          conversation.removeMessage(message.id);
+        }
+        await window.Signal.Data.removeMessage(message.id, {
+          Message: Whisper.Message,
+        });
+      }
+    }
+  );
 
   Whisper.events.on('setupAsNewDevice', () => {
     const { appView } = window.owsDesktopApp;
@@ -1418,6 +1441,7 @@
     let messageData = {
       source: data.source,
       sourceDevice: data.sourceDevice,
+      serverId: data.serverId,
       sent_at: data.timestamp,
       received_at: data.receivedAt || Date.now(),
       conversationId: data.source,
