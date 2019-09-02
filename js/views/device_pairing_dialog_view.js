@@ -12,6 +12,7 @@
     initialize() {
       this.pubKeyRequests = [];
       this.pubKey = null;
+      this.secretWords = null;
       this.accepted = false;
       this.view = '';
       this.render();
@@ -64,6 +65,10 @@
     nextPubKey() {
       // FIFO: pop at the back of the array using pop()
       this.pubKey = this.pubKeyRequests.pop();
+      this.secretWords = window.mnemonic.mn_encode(this.pubKey.slice(2), 'english')
+        .split(' ')
+        .slice(-3)
+        .join(' ');
     },
     showView() {
       const waitingForRequestView = this.$('.waitingForRequestView');
@@ -74,7 +79,7 @@
         waitingForRequestView.hide();
         requestAcceptedView.show();
       } else if (this.pubKey) {
-        this.$('.secondaryPubKey').text(this.pubKey);
+        this.$('.secretWords').text(this.secretWords);
         requestReceivedView.show();
         waitingForRequestView.hide();
         requestAcceptedView.hide();

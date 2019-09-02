@@ -258,8 +258,8 @@
       <!-- Request Received -->
       <div class="requestReceivedView" style="display: none;">
         <h4>{{ requestReceivedTitle }}</h4>
-        Please verify that the pubkey shown here is your secondary device pubkey!
-        <p class="secondaryPubKey"></p>
+        Please verify that the secret words shown below matches the ones on your other device!
+        <p class="secretWords"></p>
         <div class='buttons'>
           <button class="skip">{{ skipText }}</button>
           <button id="allowPairing">{{ allowPairingText }}</button>
@@ -270,7 +270,7 @@
       <div class="requestAcceptedView" style="display: none;">
         <h4>{{ requestAcceptedTitle }}</h4>
         Sending pairing authorisation to:
-        <p class="secondaryPubKey"></p>
+        <p class="secretWords"></p>
         <p class="transmissionStatus">Please be patient...</p>
         <div class='buttons'>
           <button class="ok" style="display: none;">{{ okText }}</button>
