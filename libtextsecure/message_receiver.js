@@ -1074,7 +1074,7 @@ MessageReceiver.prototype.extend({
           }
 
           // Update the conversation
-          await conversation.setProfile(profile);
+          await conversation.setLokiProfile(profile);
         }
 
         if (friendRequest && isMe) {

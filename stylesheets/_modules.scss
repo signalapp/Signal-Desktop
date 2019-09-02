@@ -3264,6 +3264,7 @@
 .module-left-pane__list {
   flex-grow: 1;
   flex-shrink: 1;
+  overflow-y: auto;
 }
 
 .module-left-pane__virtual-list {

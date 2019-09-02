@@ -2020,9 +2020,9 @@
         Conversation: Whisper.Conversation,
       });
 
-      await this.updateProfile();
+      await this.updateProfileName();
     },
-    async setProfile(profile) {
+    async setLokiProfile(profile) {
       if (!_.isEqual(this.get('profile'), profile)) {
         this.set({ profile });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -2030,18 +2030,18 @@
         });
       }
 
-      await this.updateProfile();
+      await this.updateProfileName();
     },
-    async updateProfile() {
+    async updateProfileName() {
       // Prioritise nickname over the profile display name
       const nickname = this.getNickname();
-      const profile = this.getLocalProfile();
+      const profile = this.getLokiProfile();
       const displayName = profile && profile.displayName;
 
       const profileName = nickname || displayName || null;
       await this.setProfileName(profileName);
     },
-    getLocalProfile() {
+    getLokiProfile() {
       return this.get('profile');
     },
     getNickname() {
@@ -2140,7 +2140,7 @@
       const c = await ConversationController.getOrCreateAndWait(id, 'private');
 
       // We only need to update the profile as they are all stored inside the conversation
-      await c.updateProfile();
+      await c.updateProfileName();
     },
     async setProfileName(name) {
       const profileName = this.get('profileName');

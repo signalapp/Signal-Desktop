@@ -10,7 +10,6 @@
   dcodeIO,
   StringView,
   log,
-  storage,
   Event,
   ConversationController
 */
@@ -536,7 +535,7 @@
     saveMnemonic(mnemonic) {
       return textsecure.storage.put('mnemonic', mnemonic);
     },
-    async registrationDone(number, profileName) {
+    async registrationDone(number, displayName) {
       window.log.info('registration done');
 
       // Ensure that we always have a conversation for ourself
@@ -544,12 +543,7 @@
         number,
         'private'
       );
-
-      await storage.setProfileName(profileName);
-
-      // Update the conversation if we have it
-      const newProfile = storage.getLocalProfile();
-      await conversation.setProfile(newProfile);
+      await conversation.setLokiProfile({ displayName });
 
       this.dispatchEvent(new Event('registration'));
     },
