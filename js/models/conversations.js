@@ -2079,6 +2079,24 @@
       );
       return channelAPI;
     },
+    getLastRetrievedMessage() {
+      if (!this.isPublic()) {
+        return null;
+      }
+      const lastMessageId = this.get('lastPublicMessage') || 0;
+      return lastMessageId;
+    },
+    async setLastRetrievedMessage(newLastMessageId) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.get('lastPublicMessage') !== newLastMessageId) {
+        this.set({ lastPublicMessage: newLastMessageId });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
     isModerator() {
       if (!this.isPublic()) {
         return false;

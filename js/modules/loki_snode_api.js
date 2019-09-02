@@ -89,6 +89,7 @@ class LokiSnodeAPI {
   async initialiseRandomPool(seedNodes = [...window.seedNodeList]) {
     const params = {
       limit: 20,
+      active_only: true,
       fields: {
         public_ip: true,
         storage_port: true,

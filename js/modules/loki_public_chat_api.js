@@ -205,7 +205,7 @@ class LokiPublicChannelAPI {
     this.baseChannelUrl = `channels/${this.channelId}`;
     this.groupName = 'unknown';
     this.conversationId = conversationId;
-    this.lastGot = 0;
+    this.lastGot = null;
     this.stopPolling = false;
     this.modStatus = false;
     this.deleteLastId = 1;
@@ -416,9 +416,14 @@ class LokiPublicChannelAPI {
       count: -20,
       include_deleted: false,
     };
-    if (this.lastGot) {
-      params.since_id = this.lastGot;
+    const conversation = ConversationController.get(this.conversationId);
+    if (!conversation) {
+      log.warn('Trying to poll for non-existing public conversation');
+      this.lastGot = 0;
+    } else if (!this.lastGot) {
+      this.lastGot = conversation.getLastRetrievedMessage();
     }
+    params.since_id = this.lastGot;
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
       params,
     });
@@ -485,6 +490,7 @@ class LokiPublicChannelAPI {
         this.lastGot = !this.lastGot
           ? adnMessage.id
           : Math.max(this.lastGot, adnMessage.id);
+        conversation.setLastRetrievedMessage(this.lastGot);
       });
     }
 
