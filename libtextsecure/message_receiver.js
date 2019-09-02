@@ -1130,14 +1130,11 @@ MessageReceiver.prototype.extend({
       window.storage.put('isSecondaryDevice', true);
       Whisper.events.trigger('secondaryDeviceRegistration');
       // Update profile name
-      if (dataMessage) {
-        const { profile } = dataMessage;
-        if (profile) {
-          const ourNumber = textsecure.storage.user.getNumber();
-          const me = window.ConversationController.get(ourNumber);
-          if (me) {
-            me.setLokiProfile(profile);
-          }
+      if (dataMessage && dataMessage.profile) {
+        const ourNumber = textsecure.storage.user.getNumber();
+        const me = window.ConversationController.get(ourNumber);
+        if (me) {
+          me.setLokiProfile(dataMessage.profile);
         }
       }
     } else {
