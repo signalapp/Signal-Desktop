@@ -748,6 +748,13 @@
       }
     });
 
+    Whisper.events.on('showQRDialog', async () => {
+      if (appView) {
+        const ourNumber = textsecure.storage.user.getNumber();
+        appView.showQRDialog(ourNumber);
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);

@@ -1920,6 +1920,10 @@
     "description":
       "Button action that the user can click to view their unique seed"
   },
+  "showQRCode": {
+    "message": "Show QR code",
+    "description": "Button action that the user can click to view their QR code"
+  },
 
   "seedViewTitle": {
     "message":

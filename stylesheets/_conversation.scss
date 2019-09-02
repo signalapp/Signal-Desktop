@@ -383,6 +383,7 @@
     border: 1px solid $color-loki-green;
     color: white;
     outline: none;
+    user-select: none;
 
     &:hover,
     &:disabled {
