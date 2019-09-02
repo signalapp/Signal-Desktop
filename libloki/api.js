@@ -103,8 +103,20 @@
     const pairingAuthorisation = createPairingAuthorisationProtoMessage(
       authorisation
     );
+    // Send profile name to secondary device
+    const ourNumber = textsecure.storage.user.getNumber();
+    const conversation = await window.ConversationController.getOrCreateAndWait(
+      ourNumber,
+      'private'
+    );
+    const lokiProfile = conversation.getLokiProfile();
+    const profile = new textsecure.protobuf.DataMessage.LokiProfile(lokiProfile);
+    const dataMessage = new textsecure.protobuf.DataMessage({
+      profile,
+    });
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
+      dataMessage,
     });
     const options = { messageType: 'pairing-request' };
     const p = new Promise((resolve, reject) => {
