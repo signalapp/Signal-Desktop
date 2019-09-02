@@ -49,7 +49,6 @@ class LokiRssAPI extends EventEmitter {
     this.closeable = settings.closeable;
     // non configureable options
     this.feedTimer = null;
-    this.conversationSetup = false;
     // initial set up
     this.getFeed();
   }

@@ -227,7 +227,7 @@
       );
       channel.refreshModStatus();
     });
-  }
+  };
 
   const initAPIs = async () => {
     const ourKey = textsecure.storage.user.getNumber();
