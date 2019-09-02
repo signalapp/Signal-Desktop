@@ -247,17 +247,6 @@
               conversation.resetPendingSend(),
               conversation.setFriendRequestExpiryTimeout(),
             ]);
-            if (conversation.isPublic()) {
-              const settings = conversation.getPublicSource();
-              const channel = window.lokiPublicChatAPI.findOrCreateChannel(
-                settings.server,
-                settings.channelId,
-                conversation.id
-              );
-              promises.push(channel.refreshModStatus());
-            } else if (conversation.isRss()) {
-              window.feeds.push(new window.LokiRssAPI(conversation.getRssSettings()));
-            }
           });
           await Promise.all(promises);
 

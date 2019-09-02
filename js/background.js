@@ -204,6 +204,31 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
+  const initSpecialConversations = async () => {
+    const rssFeedConversations = await window.Signal.Data.getAllRssFeedConversations(
+      {
+        ConversationCollection: Whisper.ConversationCollection,
+      }
+    );
+    rssFeedConversations.forEach(conversation => {
+      window.feeds.push(new window.LokiRssAPI(conversation.getRssSettings()));
+    });
+    const publicConversations = await window.Signal.Data.getAllPublicConversations(
+      {
+        ConversationCollection: Whisper.ConversationCollection,
+      }
+    );
+    publicConversations.forEach(conversation => {
+      const settings = conversation.getPublicSource();
+      const channel = window.lokiPublicChatAPI.findOrCreateChannel(
+        settings.server,
+        settings.channelId,
+        conversation.id
+      );
+      channel.refreshModStatus();
+    });
+  }
+
   const initAPIs = async () => {
     const ourKey = textsecure.storage.user.getNumber();
     window.feeds = [];
@@ -245,11 +270,6 @@
       return;
     }
     first = false;
-
-    if (Whisper.Registration.isDone()) {
-      startLocalLokiServer();
-      await initAPIs();
-    }
 
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
@@ -583,8 +603,6 @@
     Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');
 
-      startLocalLokiServer();
-
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
       // window.Signal.RefreshSenderCertificate.initialize({
@@ -594,7 +612,6 @@
       //   logger: window.log,
       // });
 
-      await initAPIs();
       connect(true);
     });
 
@@ -868,6 +885,9 @@
     Whisper.Notifications.disable(); // avoid notification flood until empty
 
     // initialize the socket and start listening for messages
+    startLocalLokiServer();
+    await initAPIs();
+    await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver(
       USERNAME,
       PASSWORD,
