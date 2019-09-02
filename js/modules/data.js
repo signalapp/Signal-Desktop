@@ -177,6 +177,7 @@ module.exports = {
 
   removeAll,
   removeAllConfiguration,
+  removeAllConversations,
 
   removeOtherData,
   cleanupOrphanedAttachments,
@@ -1112,6 +1113,10 @@ async function removeAll() {
 
 async function removeAllConfiguration() {
   await channels.removeAllConfiguration();
+}
+
+async function removeAllConversations() {
+  await channels.removeAllConversations();
 }
 
 async function cleanupOrphanedAttachments() {

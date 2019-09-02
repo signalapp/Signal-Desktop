@@ -8,6 +8,7 @@
   const ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
   let timeout;
   let scheduledTime;
+  let shouldStop = false;
 
   function scheduleNextRotation() {
     const now = Date.now();
@@ -16,6 +17,9 @@
   }
 
   function run() {
+    if (shouldStop) {
+      return;
+    }
     window.log.info('Rotating signed prekey...');
     getAccountManager()
       .rotateSignedPreKey()
@@ -64,7 +68,11 @@
     clearTimeout(timeout);
     timeout = setTimeout(runWhenOnline, waitTime);
   }
-
+  function onTimeTravel() {
+    if (Whisper.Registration.isDone()) {
+      setTimeoutForNextRun();
+    }
+  }
   let initComplete;
   Whisper.RotateSignedPreKeyListener = {
     init(events, newVersion) {
@@ -73,6 +81,7 @@
         return;
       }
       initComplete = true;
+      shouldStop = false;
 
       if (newVersion) {
         runWhenOnline();
@@ -80,11 +89,13 @@
         setTimeoutForNextRun();
       }
 
-      events.on('timetravel', () => {
-        if (Whisper.Registration.isDone()) {
-          setTimeoutForNextRun();
-        }
-      });
+      events.on('timetravel', onTimeTravel);
+    },
+    stop(events) {
+      initComplete = false;
+      shouldStop = true;
+      events.off('timetravel', onTimeTravel);
+      clearTimeout(timeout);
     },
   };
 })();

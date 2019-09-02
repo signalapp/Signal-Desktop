@@ -105,6 +105,7 @@ module.exports = {
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
+  removeAllConversations,
 
   searchConversations,
   searchMessages,
@@ -1449,12 +1450,13 @@ async function getSwarmNodesByPubkey(pubkey) {
   return jsonToObject(row.json).swarmNodes;
 }
 
+const CONVERSATIONS_TABLE = 'conversations';
 async function getConversationCount() {
-  const row = await db.get('SELECT count(*) from conversations;');
+  const row = await db.get(`SELECT count(*) from ${CONVERSATIONS_TABLE};`);
 
   if (!row) {
     throw new Error(
-      'getConversationCount: Unable to get count of conversations'
+      `getConversationCount: Unable to get count of ${CONVERSATIONS_TABLE}`
     );
   }
 
@@ -1474,7 +1476,7 @@ async function saveConversation(data) {
   } = data;
 
   await db.run(
-    `INSERT INTO conversations (
+    `INSERT INTO ${CONVERSATIONS_TABLE} (
     id,
     json,
 
@@ -1538,7 +1540,7 @@ async function updateConversation(data) {
   } = data;
 
   await db.run(
-    `UPDATE conversations SET
+    `UPDATE ${CONVERSATIONS_TABLE} SET
     json = $json,
 
     active_at = $active_at,
@@ -1564,7 +1566,7 @@ async function updateConversation(data) {
 
 async function removeConversation(id) {
   if (!Array.isArray(id)) {
-    await db.run('DELETE FROM conversations WHERE id = $id;', { $id: id });
+    await db.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, { $id: id });
     return;
   }
 
@@ -1574,7 +1576,7 @@ async function removeConversation(id) {
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
   await db.run(
-    `DELETE FROM conversations WHERE id IN ( ${id
+    `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN ( ${id
       .map(() => '?')
       .join(', ')} );`,
     id
@@ -1582,7 +1584,7 @@ async function removeConversation(id) {
 }
 
 async function getConversationById(id) {
-  const row = await db.get('SELECT * FROM conversations WHERE id = $id;', {
+  const row = await db.get(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
     $id: id,
   });
 
@@ -1594,13 +1596,13 @@ async function getConversationById(id) {
 }
 
 async function getAllConversations() {
-  const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
+  const rows = await db.all(`SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`);
   return map(rows, row => jsonToObject(row.json));
 }
 
 async function getPubKeysWithFriendStatus(status) {
   const rows = await db.all(
-    `SELECT id FROM conversations WHERE
+    `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
       friendRequestStatus = $status
     ORDER BY id ASC;`,
     {
@@ -1611,13 +1613,13 @@ async function getPubKeysWithFriendStatus(status) {
 }
 
 async function getAllConversationIds() {
-  const rows = await db.all('SELECT id FROM conversations ORDER BY id ASC;');
+  const rows = await db.all(`SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`);
   return map(rows, row => row.id);
 }
 
 async function getAllPrivateConversations() {
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'private'
      ORDER BY id ASC;`
   );
@@ -1627,7 +1629,7 @@ async function getAllPrivateConversations() {
 
 async function getAllGroupsInvolvingId(id) {
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       members LIKE $id
      ORDER BY id ASC;`,
@@ -1641,7 +1643,7 @@ async function getAllGroupsInvolvingId(id) {
 
 async function searchConversations(query, { limit } = {}) {
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       (
         id LIKE $id OR
         name LIKE $name OR
@@ -2364,6 +2366,10 @@ async function removeAllConfiguration() {
   });
 
   await promise;
+}
+
+async function removeAllConversations() {
+  await removeAllFromTable(CONVERSATIONS_TABLE);
 }
 
 async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
