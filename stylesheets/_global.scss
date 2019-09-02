@@ -714,6 +714,11 @@ $loading-height: 16px;
   .button {
     background: $color-loki-green-gradient;
     border-radius: 100px;
+
+    &:disabled, &:disabled:hover {
+      background: $color-loki-dark-gray;
+      cursor: default;
+    }
   }
 
   #mnemonic-display {
