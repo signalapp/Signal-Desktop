@@ -2079,7 +2079,7 @@
       );
       return channelAPI;
     },
-    getModStatus() {
+    isModerator() {
       if (!this.isPublic()) {
         return false;
       }

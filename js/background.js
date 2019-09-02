@@ -206,31 +206,9 @@
 
   const initAPIs = async () => {
     const ourKey = textsecure.storage.user.getNumber();
-    const rssFeedConversations = await window.Signal.Data.getAllRssFeedConversations(
-      {
-        ConversationCollection: Whisper.ConversationCollection,
-      }
-    );
     window.feeds = [];
-    rssFeedConversations.forEach(conversation => {
-      window.feeds.push(new window.LokiRssAPI(conversation.getRssSettings()));
-    });
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
-    const publicConversations = await window.Signal.Data.getAllPublicConversations(
-      {
-        ConversationCollection: Whisper.ConversationCollection,
-      }
-    );
-    publicConversations.forEach(conversation => {
-      const settings = conversation.getPublicSource();
-      const channel = window.lokiPublicChatAPI.findOrCreateChannel(
-        settings.server,
-        settings.channelId,
-        conversation.id
-      );
-      channel.refreshModStatus();
-    });
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
       const isPing = true;
