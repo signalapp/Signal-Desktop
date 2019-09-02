@@ -290,7 +290,7 @@ class LokiPublicChannelAPI {
 
   // get moderator status
   async refreshModStatus() {
-    const res = this.serverRequest('loki/v1/user_info');
+    const res = await this.serverRequest('loki/v1/user_info');
     // if no problems and we have data
     if (!res.err && res.response && res.response.data) {
       this.modStatus = res.response.data.moderator_status;
