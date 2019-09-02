@@ -860,3 +860,18 @@ $loading-height: 16px;
 .inbox {
   position: relative;
 }
+
+.qr-dialog {
+
+  .content {
+    width: 300px !important;
+    max-width: none !important;
+    min-width: auto !important;
+  }
+
+  #qr {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1em;
+  }
+}

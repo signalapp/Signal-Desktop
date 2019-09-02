@@ -196,5 +196,9 @@
       const dialog = new Whisper.SeedDialogView({ seed });
       this.el.append(dialog.el);
     },
+    showQRDialog(string) {
+      const dialog = new Whisper.QRDialogView({ string });
+      this.el.append(dialog.el);
+    },
   });
 })();
