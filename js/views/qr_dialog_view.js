@@ -19,7 +19,9 @@
       );
 
       if (options.string) {
-        this.qr = new QRCode(this.$('#qr')[0]).makeCode(options.string);
+        this.qr = new QRCode(this.$('#qr')[0], {
+          correctLevel: QRCode.CorrectLevel.L,
+        }).makeCode(options.string);
         this.$('#qr').addClass('ready');
       }
     },
