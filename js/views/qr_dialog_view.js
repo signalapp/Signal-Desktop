@@ -14,9 +14,7 @@
     initialize(options = {}) {
       this.okText = options.okText || i18n('ok');
       this.render();
-      this.$('.qr-dialog').bind('keyup', event =>
-        this.onKeyup(event)
-      );
+      this.$('.qr-dialog').bind('keyup', event => this.onKeyup(event));
 
       if (options.string) {
         this.qr = new QRCode(this.$('#qr')[0], {

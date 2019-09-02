@@ -402,16 +402,16 @@ window.Signal.Logs = require('./js/modules/logs');
 // Add right-click listener for selected text and urls
 const contextMenu = require('electron-context-menu');
 
-const isQR = (params) => params.mediaType === 'image' && params.titleText === 'Scan me!';
+const isQR = params =>
+  params.mediaType === 'image' && params.titleText === 'Scan me!';
 
 // QR saving doesn't work so we just disable it
 contextMenu({
   showInspectElement: false,
   shouldShowMenu: (event, params) => {
-    const isRegular = params.mediaType === 'none' && (params.linkURL || params.selectionText);
-    return Boolean(
-      !params.isEditable && (isQR(params) || isRegular)
-    )
+    const isRegular =
+      params.mediaType === 'none' && (params.linkURL || params.selectionText);
+    return Boolean(!params.isEditable && (isQR(params) || isRegular));
   },
   menu: (actions, params) => {
     // If it's not a QR then show the default options

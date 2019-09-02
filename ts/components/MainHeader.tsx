@@ -333,7 +333,7 @@ export class MainHeader extends React.Component<Props, any> {
         onClick: () => {
           trigger('showQRDialog');
         },
-      }
+      },
     ];
 
     const passItem = (type: string) => ({
