@@ -25,10 +25,12 @@ export class Linkify extends React.Component<Props> {
   public render() {
     const { text, renderNonLink, isRss } = this.props;
     const results: Array<any> = [];
+    let count = 1;
 
     if (isRss && text.indexOf('</') !== -1) {
       results.push(
         <div
+          key={count++}
           dangerouslySetInnerHTML={{
             __html: text
               .replace(
@@ -46,7 +48,6 @@ export class Linkify extends React.Component<Props> {
 
     const matchData = linkify.match(text) || [];
     let last = 0;
-    let count = 1;
 
     // We have to do this, because renderNonLink is not required in our Props object,
     //  but it is always provided via defaultProps.

@@ -86,6 +86,10 @@ class LokiRssAPI extends EventEmitter {
       // no records
       return;
     }
+    if (feedObj.rss.channel.item.constructor !== Array) {
+      // Treat single record as array for consistency
+      feedObj.rss.channel.item = [feedObj.rss.channel.item];
+    }
     feedObj.rss.channel.item.reverse().forEach(item => {
       // log.debug('item', item)
 
