@@ -55,7 +55,9 @@
 
       this.onValidatePassword();
 
-      this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(this);
+      this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(
+        this
+      );
     },
     events: {
       'validation input.number': 'onValidation',

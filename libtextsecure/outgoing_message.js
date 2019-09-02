@@ -370,17 +370,21 @@ OutgoingMessage.prototype = {
             dcodeIO.ByteBuffer.wrap(ciphertext.body, 'binary').toArrayBuffer()
           );
         }
-        let ttl;
-        if (this.messageType === 'friend-request') {
-          ttl = 4 * 24 * 60 * 60 * 1000; // 4 days for friend request message
-        } else if (this.messageType === 'onlineBroadcast') {
-          ttl = 60 * 1000; // 1 minute for online broadcast message
-        } else if (this.messageType === 'typing') {
-          ttl = 60 * 1000; // 1 minute for typing indicators
-        } else {
-          const hours = window.getMessageTTL() || 24; // 1 day default for any other message
-          ttl = hours * 60 * 60 * 1000;
-        }
+        const getTTL = type => {
+          switch (type) {
+            case 'friend-request':
+              return 4 * 24 * 60 * 60 * 1000; // 4 days for friend request message
+            case 'onlineBroadcast':
+              return 60 * 1000; // 1 minute for online broadcast message
+            case 'typing':
+              return 60 * 1000; // 1 minute for typing indicators
+            case 'pairing-request':
+              return 2 * 60 * 1000; // 2 minutes for pairing requests
+            default:
+              return (window.getMessageTTL() || 24) * 60 * 60 * 1000; // 1 day default for any other message
+          }
+        };
+        const ttl = getTTL(this.messageType);
 
         return {
           type: ciphertext.type, // FallBackSessionCipher sets this to FRIEND_REQUEST

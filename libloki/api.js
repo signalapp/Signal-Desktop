@@ -106,7 +106,7 @@
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
     });
-    const options = {};
+    const options = { messageType: 'pairing-request' };
     const p = new Promise((resolve, reject) => {
       const outgoingMessage = new textsecure.OutgoingMessage(
         null, // server
