@@ -715,12 +715,9 @@ $loading-height: 16px;
     background: $color-loki-green-gradient;
     border-radius: 100px;
 
-    &[disabled='disabled'] {
-      &,
-      &:hover {
-        background: $color-loki-dark-gray;
-        cursor: default;
-      }
+    &:disabled, &:disabled:hover {
+      background: $color-loki-dark-gray;
+      cursor: default;
     }
   }
 
