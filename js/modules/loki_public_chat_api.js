@@ -490,8 +490,8 @@ class LokiPublicChannelAPI {
         this.lastGot = !this.lastGot
           ? adnMessage.id
           : Math.max(this.lastGot, adnMessage.id);
-        conversation.setLastRetrievedMessage(this.lastGot);
       });
+      conversation.setLastRetrievedMessage(this.lastGot);
     }
 
     setTimeout(() => {
