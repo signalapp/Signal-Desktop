@@ -26,6 +26,7 @@ interface Props {
 
   isVerified: boolean;
   isMe: boolean;
+  isClosable?: boolean;
   isGroup: boolean;
   isArchived: boolean;
 
@@ -96,7 +97,14 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const { phoneNumber, i18n, profileName, isKeysPending, isMe } = this.props;
+    const {
+      phoneNumber,
+      i18n,
+      profileName,
+      isKeysPending,
+      isMe,
+      name,
+    } = this.props;
 
     if (isMe) {
       return (
@@ -111,6 +119,7 @@ export class ConversationHeader extends React.Component<Props> {
         <ContactName
           phoneNumber={phoneNumber}
           profileName={profileName}
+          name={name}
           i18n={i18n}
         />
         {isKeysPending ? '(pending)' : null}
@@ -193,6 +202,7 @@ export class ConversationHeader extends React.Component<Props> {
       i18n,
       isBlocked,
       isMe,
+      isClosable,
       isGroup,
       isArchived,
       onDeleteMessages,
@@ -267,7 +277,7 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
         )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe ? (
+        {!isMe && isClosable ? (
           <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
         ) : null}
       </ContextMenu>

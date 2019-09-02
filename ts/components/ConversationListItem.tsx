@@ -21,6 +21,7 @@ export type PropsData = {
   type: 'group' | 'direct';
   avatarPath?: string;
   isMe: boolean;
+  isClosable?: boolean;
 
   lastUpdated: number;
   unreadCount: number;
@@ -30,6 +31,7 @@ export type PropsData = {
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
+    isRss: boolean;
   };
 
   showFriendRequestIndicator?: boolean;
@@ -162,6 +164,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       i18n,
       isBlocked,
       isMe,
+      isClosable,
       hasNickname,
       onDeleteContact,
       onDeleteMessages,
@@ -190,7 +193,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         ) : null}
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe ? (
+        {!isMe && isClosable ? (
           <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
         ) : null}
       </ContextMenu>
@@ -213,7 +216,13 @@ export class ConversationListItem extends React.PureComponent<Props> {
     if (!lastMessage && !isTyping) {
       return null;
     }
-    const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+    let text = lastMessage && lastMessage.text ? lastMessage.text : '';
+
+    // if coming from Rss feed
+    if (lastMessage && lastMessage.isRss) {
+      // strip any HTML
+      text = text.replace(/<[^>]*>?/gm, '');
+    }
 
     if (isEmpty(text)) {
       return null;

@@ -34,8 +34,8 @@
 
   async function DHDecrypt(symmetricKey, ivAndCiphertext) {
     const iv = ivAndCiphertext.slice(0, IV_LENGTH);
-    const cipherText = ivAndCiphertext.slice(IV_LENGTH);
-    return libsignal.crypto.decrypt(symmetricKey, cipherText, iv);
+    const ciphertext = ivAndCiphertext.slice(IV_LENGTH);
+    return libsignal.crypto.decrypt(symmetricKey, ciphertext, iv);
   }
 
   class FallBackSessionCipher {
@@ -131,18 +131,18 @@
       return this._ephemeralPubKeyHex;
     }
 
-    async decrypt(snodeAddress, ivAndCipherTextBase64) {
-      const ivAndCipherText = dcodeIO.ByteBuffer.wrap(
-        ivAndCipherTextBase64,
+    async decrypt(snodeAddress, ivAndCiphertextBase64) {
+      const ivAndCiphertext = dcodeIO.ByteBuffer.wrap(
+        ivAndCiphertextBase64,
         'base64'
       ).toArrayBuffer();
       const symmetricKey = await this._getSymmetricKey(snodeAddress);
       try {
-        const decrypted = await DHDecrypt(symmetricKey, ivAndCipherText);
+        const decrypted = await DHDecrypt(symmetricKey, ivAndCiphertext);
         const decoder = new TextDecoder();
         return decoder.decode(decrypted);
       } catch (e) {
-        return ivAndCipherText;
+        return ivAndCiphertext;
       }
     }
 
@@ -153,9 +153,29 @@
         plainText = textEncoder.encode(plainText);
       }
       const symmetricKey = await this._getSymmetricKey(snodeAddress);
-      const cipherText = await DHEncrypt(symmetricKey, plainText);
-      return dcodeIO.ByteBuffer.wrap(cipherText).toString('base64');
+      const ciphertext = await DHEncrypt(symmetricKey, plainText);
+      return dcodeIO.ByteBuffer.wrap(ciphertext).toString('base64');
     }
+  }
+
+  async function decryptToken({ cipherText64, serverPubKey64 }) {
+    const ivAndCiphertext = new Uint8Array(
+      dcodeIO.ByteBuffer.fromBase64(cipherText64).toArrayBuffer()
+    );
+
+    const serverPubKey = new Uint8Array(
+      dcodeIO.ByteBuffer.fromBase64(serverPubKey64).toArrayBuffer()
+    );
+    const { privKey } = await textsecure.storage.protocol.getIdentityKeyPair();
+    const symmetricKey = libsignal.Curve.calculateAgreement(
+      serverPubKey,
+      privKey
+    );
+
+    const token = await DHDecrypt(symmetricKey, ivAndCiphertext);
+
+    const tokenString = dcodeIO.ByteBuffer.wrap(token).toString('utf8');
+    return tokenString;
   }
 
   const snodeCipher = new LokiSnodeChannel();
@@ -166,6 +186,7 @@
     FallBackSessionCipher,
     FallBackDecryptionError,
     snodeCipher,
+    decryptToken,
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,

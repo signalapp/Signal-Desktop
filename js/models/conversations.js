@@ -11,6 +11,7 @@
   clipboard,
   BlockedNumberController,
   lokiP2pAPI,
+  lokiPublicChatAPI,
   JobQueue
 */
 
@@ -167,7 +168,7 @@
 
       if (this.id === this.ourNumber) {
         this.set({ friendRequestStatus: FriendRequestStatusEnum.friends });
-      } else if (lokiP2pAPI) {
+      } else if (typeof lokiP2pAPI !== 'undefined') {
         // Online status handling, only for contacts that aren't us
         this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
       } else {
@@ -192,6 +193,15 @@
 
     isMe() {
       return this.id === this.ourNumber;
+    },
+    isPublic() {
+      return this.id.match(/^publicChat:/);
+    },
+    isClosable() {
+      return !this.isRss() || this.get('closable');
+    },
+    isRss() {
+      return this.id && this.id.match(/^rss:/);
     },
     isBlocked() {
       return BlockedNumberController.isBlocked(this.id);
@@ -299,6 +309,7 @@
     },
 
     async updateProfileAvatar() {
+      if (this.isRss()) return;
       const path = profileImages.getOrCreateImagePath(this.id);
       await this.setProfileAvatar(path);
     },
@@ -365,6 +376,16 @@
       await Promise.all(messages.map(m => m.setIsP2p(true)));
     },
 
+    async onPublicMessageSent(pubKey, timestamp, serverId) {
+      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
+      await Promise.all(
+        messages.map(message => [
+          message.setIsPublic(true),
+          message.setServerId(serverId),
+        ])
+      );
+    },
+
     async onNewMessage(message) {
       await this.updateLastMessage();
 
@@ -424,6 +445,7 @@
         color,
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
+        isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
         name: this.getName(),
@@ -440,6 +462,7 @@
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
+          isRss: this.isRss(),
         },
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
@@ -629,6 +652,11 @@
       );
     },
     updateTextInputState() {
+      if (this.isRss()) {
+        // or if we're an rss conversation, disable it
+        this.trigger('disable:input', true);
+        return;
+      }
       switch (this.get('friendRequestStatus')) {
         case FriendRequestStatusEnum.none:
         case FriendRequestStatusEnum.requestExpired:
@@ -1347,6 +1375,10 @@
 
         const options = this.getSendOptions();
         options.messageType = message.get('type');
+        options.isPublic = this.isPublic();
+        if (options.isPublic) {
+          options.publicSendData = await this.getPublicSendData();
+        }
 
         const groupNumbers = this.getRecipients();
 
@@ -1946,7 +1978,7 @@
         return;
       }
 
-      if (read.length && options.sendReadReceipts) {
+      if (!this.isPublic() && read.length && options.sendReadReceipts) {
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
@@ -2015,6 +2047,73 @@
     getNickname() {
       return this.get('nickname');
     },
+    getRssSettings() {
+      if (!this.isRss()) {
+        return null;
+      }
+      return {
+        RSS_FEED: this.get('rssFeed'),
+        CONVO_ID: this.id,
+        title: this.get('name'),
+        closeable: this.get('closable'),
+      };
+    },
+    // maybe "Backend" instead of "Source"?
+    getPublicSource() {
+      if (!this.isPublic()) {
+        return null;
+      }
+      return {
+        server: this.get('server'),
+        channelId: this.get('channelId'),
+        conversationId: this.get('id'),
+      };
+    },
+    async getPublicSendData() {
+      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      const channelAPI = serverAPI.findOrCreateChannel(
+        this.get('channelId'),
+        this.id
+      );
+      return channelAPI;
+    },
+    getLastRetrievedMessage() {
+      if (!this.isPublic()) {
+        return null;
+      }
+      const lastMessageId = this.get('lastPublicMessage') || 0;
+      return lastMessageId;
+    },
+    async setLastRetrievedMessage(newLastMessageId) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.get('lastPublicMessage') !== newLastMessageId) {
+        this.set({ lastPublicMessage: newLastMessageId });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+    isModerator() {
+      if (!this.isPublic()) {
+        return false;
+      }
+      return this.get('modStatus');
+    },
+    async setModStatus(newStatus) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.get('modStatus') !== newStatus) {
+        this.set({ modStatus: newStatus });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
 
     // SIGNAL PROFILES
 
@@ -2047,6 +2146,23 @@
       const profileName = this.get('profileName');
       if (profileName !== name) {
         this.set({ profileName: name });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+    async setGroupNameAndAvatar(name, avatarPath) {
+      const currentName = this.get('name');
+      const profileAvatar = this.get('profileAvatar');
+      if (profileAvatar !== avatarPath || currentName !== name) {
+        // only update changed items
+        if (profileAvatar !== avatarPath) {
+          this.set({ profileAvatar: avatarPath });
+        }
+        if (currentName !== name) {
+          this.set({ name });
+        }
+        // save
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
@@ -2199,6 +2315,31 @@
         message: i18n('deleteContactConfirmation'),
         onOk: () => ConversationController.deleteContact(this.id),
       });
+    },
+
+    async deletePublicMessage(message) {
+      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      const channelAPI = serverAPI.findOrCreateChannel(
+        this.get('channelId'),
+        this.id
+      );
+      const success = await channelAPI.deleteMessage(message.getServerId());
+      if (success) {
+        this.removeMessage(message.id);
+      }
+      return success;
+    },
+
+    removeMessage(messageId) {
+      const message = this.messageCollection.models.find(
+        msg => msg.id === messageId
+      );
+      if (message) {
+        message.trigger('unload');
+        this.messageCollection.remove(messageId);
+      }
     },
 
     deleteMessages() {

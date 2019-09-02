@@ -48,6 +48,7 @@ interface LinkPreviewType {
 
 export interface Props {
   disableMenu?: boolean;
+  isDeletable: boolean;
   text?: string;
   textPending?: boolean;
   id?: string;
@@ -86,6 +87,8 @@ export interface Props {
   expirationLength?: number;
   expirationTimestamp?: number;
   isP2p?: boolean;
+  isPublic?: boolean;
+  isRss?: boolean;
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
@@ -94,6 +97,7 @@ export interface Props {
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
+  onCopyPubKey?: () => void;
   onShowDetail: () => void;
 }
 
@@ -203,6 +207,7 @@ export class Message extends React.PureComponent<Props, State> {
       textPending,
       timestamp,
       isP2p,
+      isPublic,
     } = this.props;
 
     if (collapseMetadata) {
@@ -212,6 +217,9 @@ export class Message extends React.PureComponent<Props, State> {
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
+    const hasBadge = isP2p || isPublic;
+    const badgeText = isPublic ? 'Public' : isP2p ? 'P2p' : '';
+    const badgeType = badgeText.toLowerCase();
 
     return (
       <div
@@ -244,14 +252,14 @@ export class Message extends React.PureComponent<Props, State> {
             module="module-message__metadata__date"
           />
         )}
-        {isP2p ? (
+        {hasBadge ? (
           <span
             className={classNames(
-              'module-message__metadata__p2p',
-              `module-message__metadata__p2p--${direction}`
+              `module-message__metadata__${badgeType}`,
+              `module-message__metadata__${badgeType}--${direction}`
             )}
           >
-            &nbsp;•&nbsp;P2P
+            &nbsp;•&nbsp;{badgeText}
           </span>
         ) : null}
         {expirationLength && expirationTimestamp ? (
@@ -302,11 +310,14 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <div className="module-message__author">
         <ContactName
-          phoneNumber={authorPhoneNumber}
+          phoneNumber={`(...${authorPhoneNumber.substring(
+            authorPhoneNumber.length - 6
+          )})`}
           name={authorName}
           profileName={authorProfileName}
           module="module-message__author"
           i18n={i18n}
+          boldProfileName={true}
         />
       </div>
     );
@@ -668,7 +679,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderText() {
-    const { text, textPending, i18n, direction, status } = this.props;
+    const { text, textPending, i18n, direction, status, isRss } = this.props;
 
     const contents =
       direction === 'incoming' && status === 'error'
@@ -692,6 +703,7 @@ export class Message extends React.PureComponent<Props, State> {
       >
         <MessageBody
           text={contents || ''}
+          isRss={isRss}
           i18n={i18n}
           textPending={textPending}
         />
@@ -809,11 +821,14 @@ export class Message extends React.PureComponent<Props, State> {
       onCopyText,
       direction,
       status,
+      isDeletable,
       onDelete,
       onDownload,
       onReply,
       onRetrySend,
       onShowDetail,
+      onCopyPubKey,
+      isPublic,
       i18n,
     } = this.props;
 
@@ -866,14 +881,19 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('retrySend')}
           </MenuItem>
         ) : null}
-        <MenuItem
-          attributes={{
-            className: 'module-message__context__delete-message',
-          }}
-          onClick={onDelete}
-        >
-          {i18n('deleteMessage')}
-        </MenuItem>
+        {isDeletable ? (
+          <MenuItem
+            attributes={{
+              className: 'module-message__context__delete-message',
+            }}
+            onClick={onDelete}
+          >
+            {i18n('deleteMessage')}
+          </MenuItem>
+        ) : null}
+        {isPublic ? (
+          <MenuItem onClick={onCopyPubKey}>{i18n('copyPublicKey')}</MenuItem>
+        ) : null}
       </ContextMenu>
     );
   }

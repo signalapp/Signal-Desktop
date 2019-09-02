@@ -670,8 +670,15 @@
         expirationLength,
         expirationTimestamp,
         isP2p: !!this.get('isP2p'),
+        isPublic: !!this.get('isPublic'),
+        isRss: !!this.get('isRss'),
+        isDeletable:
+          !this.get('isPublic') ||
+          this.getConversation().isModerator() ||
+          this.getSource() === this.OUR_NUMBER,
 
         onCopyText: () => this.copyText(),
+        onCopyPubKey: () => this.copyPubKey(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
@@ -958,6 +965,17 @@
       };
     },
 
+    copyPubKey() {
+      if (this.isIncoming()) {
+        clipboard.writeText(this.get('source'));
+      } else {
+        clipboard.writeText(this.OUR_NUMBER);
+      }
+      window.Whisper.events.trigger('showToast', {
+        message: i18n('copiedPublicKey'),
+      });
+    },
+
     copyText() {
       clipboard.writeText(this.get('body'));
       window.Whisper.events.trigger('showToast', {
@@ -1232,6 +1250,31 @@
 
       this.set({
         isP2p: !!isP2p,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    getServerId() {
+      return this.get('serverId');
+    },
+    async setServerId(serverId) {
+      if (_.isEqual(this.get('serverId'), serverId)) return;
+
+      this.set({
+        serverId,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    async setIsPublic(isPublic) {
+      if (_.isEqual(this.get('isPublic'), isPublic)) return;
+
+      this.set({
+        isPublic: !!isPublic,
       });
 
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1960,6 +2003,12 @@
                 }
               );
             }
+          } else if (dataMessage.profile) {
+            ConversationController.getOrCreateAndWait(source, 'private').then(
+              sender => {
+                sender.setProfile(dataMessage.profile);
+              }
+            );
           }
 
           let autoAccept = false;

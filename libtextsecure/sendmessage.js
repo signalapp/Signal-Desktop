@@ -942,7 +942,11 @@ MessageSender.prototype = {
     options
   ) {
     const me = textsecure.storage.user.getNumber();
-    const numbers = groupNumbers.filter(number => number !== me);
+    let numbers = groupNumbers.filter(number => number !== me);
+    if (options.isPublic) {
+      numbers = [groupId];
+    }
+    const profile = textsecure.storage.impl.getLocalProfile();
     const attrs = {
       recipients: numbers,
       body: messageText,
@@ -953,6 +957,7 @@ MessageSender.prototype = {
       needsSync: true,
       expireTimer,
       profileKey,
+      profile,
       group: {
         id: groupId,
         type: textsecure.protobuf.GroupContext.Type.DELIVER,

@@ -948,6 +948,10 @@
   "delete": {
     "message": "Delete"
   },
+  "deletePublicWarning": {
+    "message":
+      "Are you sure? Clicking 'delete' will permanently remove this message for everyone in this channel."
+  },
   "deleteWarning": {
     "message":
       "Are you sure? Clicking 'delete' will permanently remove this message from this device only."

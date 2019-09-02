@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage, textsecure, libsignal */
+/* global _, Whisper, Backbone, storage, textsecure, libsignal, lokiPublicChatAPI */
 
 /* eslint-disable more/no-then */
 
@@ -158,6 +158,10 @@
       const conversation = conversations.get(id);
       if (!conversation) {
         return;
+      }
+      if (conversation.isPublic()) {
+        const server = conversation.getPublicSource();
+        lokiPublicChatAPI.unregisterChannel(server.server, server.channelId);
       }
       await conversation.destroyMessages();
       const deviceIds = await textsecure.storage.protocol.getDeviceIds(id);

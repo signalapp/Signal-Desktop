@@ -40,10 +40,12 @@ export type ConversationType = {
   lastMessage?: {
     status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
     text: string;
+    isRss: boolean;
   };
   phoneNumber: string;
   type: 'direct' | 'group';
   isMe: boolean;
+  isClosable?: boolean;
   lastUpdated: number;
   unreadCount: number;
   isSelected: boolean;
