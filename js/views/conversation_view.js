@@ -186,7 +186,7 @@
         this.maybeGrabLinkPreview.bind(this),
         200
       );
-      this.debouncedSaveDraft = _.debounce(this.saveDraft.bind(this), 500);
+      this.debouncedSaveDraft = _.debounce(this.saveDraft.bind(this), 200);
 
       this.render();
 
@@ -761,6 +761,20 @@
         conversationUnloaded(this.model.id);
       }
 
+      if (this.model.hasDraft()) {
+        this.model.set({
+          draftTimestamp: Date.now(),
+          timestamp: Date.now(),
+        });
+
+        this.model.updateLastMessage();
+
+        // We don't wait here; we need to take down the view
+        this.saveModel();
+      } else {
+        this.model.updateLastMessage();
+      }
+
       this.titleView.remove();
       this.timelineView.remove();
 
@@ -938,8 +952,6 @@
       const draftAttachments = this.model.get('draftAttachments') || [];
       this.model.set({
         draftAttachments: [...draftAttachments, onDisk],
-        draftTimestamp: Date.now(),
-        timestamp: Date.now(),
       });
       await this.saveModel();
 
@@ -960,8 +972,6 @@
 
       await this.saveModel();
       await this.deleteDraftAttachment(attachment);
-
-      this.model.updateLastMessage();
     },
 
     async clearAttachments() {
@@ -973,8 +983,6 @@
       });
 
       this.updateAttachmentsView();
-
-      this.model.updateLastMessage();
 
       // We're fine doing this all at once; at most it should be 32 attachments
       await Promise.all([
@@ -1496,6 +1504,7 @@
       this.lastActivity = Date.now();
 
       this.focusMessageField();
+      this.model.updateLastMessage();
 
       const statusPromise = this.throttledGetProfiles();
       // eslint-disable-next-line more/no-then
@@ -1527,8 +1536,6 @@
       if (quotedMessageId) {
         this.setQuoteMessage(quotedMessageId);
       }
-
-      this.model.updateLastMessage();
     },
 
     async retrySend(messageId) {
@@ -2257,14 +2264,6 @@
           quotedMessageId: messageId,
         });
 
-        if (messageId) {
-          const timestamp = Date.now();
-          this.model.set({
-            draftTimestamp: timestamp,
-            timestamp,
-          });
-        }
-
         await this.saveModel();
       }
 
@@ -2431,14 +2430,11 @@
         });
         await this.saveModel();
 
-        this.model.updateLastMessage();
         return;
       }
 
       this.model.set({
         draft: messageText,
-        draftTimestamp: Date.now(),
-        timestamp: Date.now(),
       });
       await this.saveModel();
     },
