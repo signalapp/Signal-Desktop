@@ -365,6 +365,17 @@ class LokiPublicChannelAPI {
 
   // get moderation actions
   async pollForDeletions() {
+    try {
+      await this.pollOnceForDeletions();
+    } catch (e) {
+      log.warn(`Error while polling for public chat deletions: ${e}`);
+    }
+    setTimeout(() => {
+      this.pollForDeletions();
+    }, DELETION_POLL_EVERY);
+  }
+
+  async pollOnceForDeletions() {
     // grab the last 200 deletions
     const params = {
       count: 200,
@@ -402,15 +413,21 @@ class LokiPublicChannelAPI {
       this.deleteLastId = res.response.meta.max_id;
       ({ more } = res.response);
     }
-
-    // set up next poll
-    setTimeout(() => {
-      this.pollForDeletions();
-    }, DELETION_POLL_EVERY);
   }
 
   // get channel messages
   async pollForMessages() {
+    try {
+      await this.pollOnceForMessages();
+    } catch (e) {
+      log.warn(`Error while polling for public chat messages: ${e}`);
+    }
+    setTimeout(() => {
+      this.pollForMessages();
+    }, GROUPCHAT_POLL_EVERY);
+  }
+
+  async pollOnceForMessages() {
     const params = {
       include_annotations: 1,
       count: -20,
@@ -437,7 +454,10 @@ class LokiPublicChannelAPI {
         if (adnMessage.is_deleted) {
           return;
         }
-        if (adnMessage.annotations !== []) {
+        if (
+          Array.isArray(adnMessage.annotations) &&
+          adnMessage.annotations.length !== 0
+        ) {
           const noteValue = adnMessage.annotations[0].value;
           ({ from, timestamp, source } = noteValue);
         }
@@ -493,10 +513,6 @@ class LokiPublicChannelAPI {
       });
       conversation.setLastRetrievedMessage(this.lastGot);
     }
-
-    setTimeout(() => {
-      this.pollForMessages();
-    }, GROUPCHAT_POLL_EVERY);
   }
 
   // create a message in the channel
