@@ -4,8 +4,9 @@ const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 
 // Can't be less than 1200 if we have unauth'd requests
-const GROUPCHAT_POLL_EVERY = 1500; // 1.5s
-const DELETION_POLL_EVERY = 5000; // 1 second
+const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
+const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
+const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 1 second
 
 // singleton to relay events to libtextsecure/message_receiver
 class LokiPublicChatAPI extends EventEmitter {
@@ -203,18 +204,20 @@ class LokiPublicChannelAPI {
     this.serverAPI = serverAPI;
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
-    this.groupName = 'unknown';
-    this.conversationId = conversationId;
+    this.conversation = ConversationController.get(conversationId);
     this.lastGot = null;
     this.stopPolling = false;
     this.modStatus = false;
     this.deleteLastId = 1;
+    this.timers = {};
     // end properties
 
     log.info(`registered LokiPublicChannel ${channelId}`);
     // start polling
     this.pollForMessages();
     this.pollForDeletions();
+    this.pollForChannel();
+    this.refreshModStatus();
   }
 
   // make a request to the server
@@ -290,14 +293,45 @@ class LokiPublicChannelAPI {
 
   // get moderator status
   async refreshModStatus() {
+    // get moderator status
     const res = await this.serverRequest('loki/v1/user_info');
     // if no problems and we have data
     if (!res.err && res.response && res.response.data) {
       this.modStatus = res.response.data.moderator_status;
     }
+    // if problems, we won't drop moderator status
 
-    const conversation = ConversationController.get(this.conversationId);
-    await conversation.setModStatus(this.modStatus);
+    await this.conversation.setModStatus(this.modStatus);
+
+    // get token info
+    const tokenRes = await this.serverRequest('token');
+    // if no problems and we have data
+    if (
+      !tokenRes.err &&
+      tokenRes.response &&
+      tokenRes.response.data &&
+      tokenRes.response.data.user
+    ) {
+      // get our profile name and write it to the network
+      const ourNumber = textsecure.storage.user.getNumber();
+      const profileConvo = ConversationController.get(ourNumber);
+      const profileName = profileConvo.getProfileName();
+
+      if (tokenRes.response.data.user.name !== profileName) {
+        if (profileName) {
+          await this.serverRequest('users/me', {
+            method: 'PATCH',
+            objBody: {
+              name: profileName,
+            },
+          });
+          // no big deal if it fails...
+          // } else {
+          // should we update the local from the server?
+          // guessing no because there will be multiple servers
+        }
+      }
+    }
   }
 
   // delete a message on the server
@@ -312,8 +346,11 @@ class LokiPublicChannelAPI {
       log.info(`deleted ${serverId} on ${this.baseChannelUrl}`);
       return true;
     }
+    // fire an alert
     log.warn(`failed to delete ${serverId} on ${this.baseChannelUrl}`);
-    return false;
+    throw new textsecure.PublicChatError(
+      'Failed to delete public chat message'
+    );
   }
 
   // used for sending messages
@@ -326,41 +363,36 @@ class LokiPublicChannelAPI {
 
   // update room details
   async pollForChannel() {
-    // groupName will be loaded from server
-    const url = new URL(this.baseChannelUrl);
-    let res;
-    const token = await this.serverAPI.getOrRefreshServerToken();
-    if (!token) {
-      log.error('NO TOKEN');
-      return {
-        err: 'noToken',
-      };
+    const res = await this.serverRequest(`${this.baseChannelUrl}`, {
+      params: {
+        include_annotations: 1,
+      },
+    });
+    if (!res.err && res.response) {
+      if (
+        res.response.data.annotations &&
+        res.response.data.annotations.length
+      ) {
+        res.response.data.annotations.forEach(note => {
+          if (note.type === 'net.patter-app.settings') {
+            // note.value.description only needed for directory
+            // this.conversation.setGroupNameAndAvatar(note.value.name,
+            // note.value.avatar);
+            if (note.value && note.value.name) {
+              this.conversation.setProfileName(note.value.name);
+            }
+            if (note.value && note.value.avatar) {
+              this.conversation.setProfileAvatar(note.value.avatar);
+            }
+            // else could set a default in case of server problems...
+          }
+        });
+      }
     }
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      const options = {
-        headers: new Headers({
-          Authorization: `Bearer ${token}`,
-        }),
-      };
-      res = await nodeFetch(url, options || undefined);
-    } catch (e) {
-      log.info(`e ${e}`);
-      return {
-        err: e,
-      };
-    }
-    // eslint-disable-next-line no-await-in-loop
-    const response = await res.json();
-    if (response.meta.code !== 200) {
-      return {
-        err: 'statusCode',
-        response,
-      };
-    }
-    return {
-      response,
-    };
+    // set up next poll
+    this.timers.channel = setTimeout(() => {
+      this.pollForChannel();
+    }, PUBLICCHAT_CHAN_POLL_EVERY);
   }
 
   // get moderation actions
@@ -404,9 +436,9 @@ class LokiPublicChannelAPI {
     }
 
     // set up next poll
-    setTimeout(() => {
+    this.timers.delete = setTimeout(() => {
       this.pollForDeletions();
-    }, DELETION_POLL_EVERY);
+    }, PUBLICCHAT_DELETION_POLL_EVERY);
   }
 
   // get channel messages
@@ -416,12 +448,11 @@ class LokiPublicChannelAPI {
       count: -20,
       include_deleted: false,
     };
-    const conversation = ConversationController.get(this.conversationId);
-    if (!conversation) {
+    if (!this.conversation) {
       log.warn('Trying to poll for non-existing public conversation');
       this.lastGot = 0;
     } else if (!this.lastGot) {
-      this.lastGot = conversation.getLastRetrievedMessage();
+      this.lastGot = this.conversation.getLastRetrievedMessage();
     }
     params.since_id = this.lastGot;
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
@@ -432,21 +463,28 @@ class LokiPublicChannelAPI {
       let receivedAt = new Date().getTime();
       res.response.data.reverse().forEach(adnMessage => {
         let timestamp = new Date(adnMessage.created_at).getTime();
-        let from = adnMessage.user.username;
-        let source;
+        // pubKey lives in the username field
+        let from = adnMessage.user.name;
         if (adnMessage.is_deleted) {
           return;
         }
-        if (adnMessage.annotations !== []) {
+        if (adnMessage.annotations && adnMessage.annotations.length) {
           const noteValue = adnMessage.annotations[0].value;
-          ({ from, timestamp, source } = noteValue);
+          ({ timestamp } = noteValue);
+
+          // if user doesn't have a name set, fallback to annotation
+          // pubkeys are already there in v1 (first release)
+          if (!from) {
+            ({ from } = noteValue);
+          }
         }
 
         if (
           !from ||
           !timestamp ||
-          !source ||
           !adnMessage.id ||
+          !adnMessage.user ||
+          !adnMessage.user.username ||
           !adnMessage.text
         ) {
           return; // Invalid message
@@ -455,7 +493,7 @@ class LokiPublicChannelAPI {
         const messageData = {
           serverId: adnMessage.id,
           friendRequest: false,
-          source,
+          source: adnMessage.user.username,
           sourceDevice: 1,
           timestamp,
           serverTimestamp: timestamp,
@@ -491,12 +529,12 @@ class LokiPublicChannelAPI {
           ? adnMessage.id
           : Math.max(this.lastGot, adnMessage.id);
       });
-      conversation.setLastRetrievedMessage(this.lastGot);
+      this.conversation.setLastRetrievedMessage(this.lastGot);
     }
 
-    setTimeout(() => {
+    this.timers.message = setTimeout(() => {
       this.pollForMessages();
-    }, GROUPCHAT_POLL_EVERY);
+    }, PUBLICCHAT_MSG_POLL_EVERY);
   }
 
   // create a message in the channel
