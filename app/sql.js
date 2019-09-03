@@ -1616,6 +1616,7 @@ async function saveConversations(arrayOfConversations) {
     throw error;
   }
 }
+saveConversations.needsSerial = true;
 
 async function updateConversation(data) {
   // eslint-disable-next-line camelcase
@@ -1943,6 +1944,7 @@ async function saveMessages(arrayOfMessages, { forceSave } = {}) {
     throw error;
   }
 }
+saveMessages.needsSerial = true;
 
 async function removeMessage(id) {
   if (!Array.isArray(id)) {
@@ -2144,6 +2146,7 @@ async function getMessageMetricsForConversation(conversationId) {
     totalUnread,
   };
 }
+getMessageMetricsForConversation.needsSerial = true;
 
 async function getMessagesBySentAt(sentAt) {
   const rows = await db.all(
@@ -2304,6 +2307,7 @@ async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
     throw error;
   }
 }
+saveUnprocesseds.needsSerial = true;
 
 async function updateUnprocessedAttempts(id, attempts) {
   await db.run('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;', {
@@ -2745,6 +2749,8 @@ async function deleteStickerPackReference(messageId, packId) {
     throw error;
   }
 }
+deleteStickerPackReference.needsSerial = true;
+
 async function deleteStickerPack(packId) {
   if (!packId) {
     throw new Error(
@@ -2783,6 +2789,8 @@ async function deleteStickerPack(packId) {
     throw error;
   }
 }
+deleteStickerPack.needsSerial = true;
+
 async function getStickerCount() {
   const row = await db.get('SELECT count(*) from stickers;');
 
@@ -2854,6 +2862,7 @@ async function updateEmojiUsage(shortName, timeUsed = Date.now()) {
     throw error;
   }
 }
+updateEmojiUsage.needsSerial = true;
 
 async function getRecentEmojis(limit = 32) {
   const rows = await db.all(
@@ -2893,6 +2902,7 @@ async function removeAll() {
     throw error;
   }
 }
+removeAll.needsSerial = true;
 
 // Anything that isn't user-visible data
 async function removeAllConfiguration() {
@@ -2914,6 +2924,7 @@ async function removeAllConfiguration() {
     throw error;
   }
 }
+removeAllConfiguration.needsSerial = true;
 
 async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
   const rows = await db.all(
