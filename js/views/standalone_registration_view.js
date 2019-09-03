@@ -208,7 +208,8 @@
         countDownCallBack();
         this.pairingInterval = setInterval(countDownCallBack, 1000);
         const pubkey = textsecure.storage.user.getNumber();
-        const words = window.mnemonic.mn_encode(pubkey.slice(2), 'english')
+        const words = window.mnemonic
+          .mn_encode(pubkey.slice(2), 'english')
           .split(' ')
           .slice(-3)
           .join(' ');
