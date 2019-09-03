@@ -45,6 +45,7 @@ export type ConversationType = {
   phoneNumber: string;
   type: 'direct' | 'group';
   isMe: boolean;
+  isPublic?: boolean;
   isClosable?: boolean;
   lastUpdated: number;
   unreadCount: number;

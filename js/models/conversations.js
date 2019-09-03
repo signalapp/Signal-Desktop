@@ -445,6 +445,7 @@
         color,
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
+        isPublic: this.isPublic(),
         isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
@@ -2311,10 +2312,17 @@
     },
 
     deleteContact() {
-      Whisper.events.trigger('showConfirmationDialog', {
-        message: i18n('deleteContactConfirmation'),
-        onOk: () => ConversationController.deleteContact(this.id),
-      });
+      if (this.isPublic()) {
+        Whisper.events.trigger('showConfirmationDialog', {
+          message: i18n('deletePublicChannelConfirmation'),
+          onOk: () => ConversationController.deleteContact(this.id),
+        });
+      } else {
+        Whisper.events.trigger('showConfirmationDialog', {
+          message: i18n('deleteContactConfirmation'),
+          onOk: () => ConversationController.deleteContact(this.id),
+        });
+      }
     },
 
     async deletePublicMessage(message) {
@@ -2343,10 +2351,17 @@
     },
 
     deleteMessages() {
-      Whisper.events.trigger('showConfirmationDialog', {
-        message: i18n('deleteConversationConfirmation'),
-        onOk: () => this.destroyMessages(),
-      });
+      if (this.isPublic()) {
+        Whisper.events.trigger('showConfirmationDialog', {
+          message: i18n('deletePublicConversationConfirmation'),
+          onOk: () => ConversationController.deleteContact(this.id),
+        });
+      } else {
+        Whisper.events.trigger('showConfirmationDialog', {
+          message: i18n('deleteContactConfirmation'),
+          onOk: () => ConversationController.deleteContact(this.id),
+        });
+      }
     },
 
     async destroyMessages() {

@@ -29,6 +29,7 @@ interface Props {
   isClosable?: boolean;
   isGroup: boolean;
   isArchived: boolean;
+  isPublic: boolean;
 
   expirationSettingName?: string;
   showBackButton: boolean;
@@ -205,6 +206,7 @@ export class ConversationHeader extends React.Component<Props> {
       isClosable,
       isGroup,
       isArchived,
+      isPublic,
       onDeleteMessages,
       onDeleteContact,
       onResetSession,
@@ -230,55 +232,63 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <ContextMenu id={triggerId}>
-        <SubMenu title={disappearingTitle}>
-          {(timerOptions || []).map(item => (
-            <MenuItem
-              key={item.value}
-              onClick={() => {
-                onSetDisappearingMessages(item.value);
-              }}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </SubMenu>
+        {!isPublic ? (
+          <SubMenu title={disappearingTitle}>
+            {(timerOptions || []).map(item => (
+              <MenuItem
+                key={item.value}
+                onClick={() => {
+                  onSetDisappearingMessages(item.value);
+                }}
+              >
+                {item.name}
+              </MenuItem>
+            ))}
+          </SubMenu>
+        ) : null}
         {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
-        {isGroup ? (
+        {!isPublic && isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>
             {i18n('showMembers')}
           </MenuItem>
         ) : null}
-        {!isGroup && !isMe ? (
+        {!isPublic && !isGroup && !isMe ? (
           <MenuItem onClick={onShowSafetyNumber}>
             {i18n('showSafetyNumber')}
           </MenuItem>
         ) : null}
-        {!isGroup ? (
+        {!isPublic && !isGroup ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
         {/* Only show the block on other conversations */}
-        {!isMe ? (
+        {!isPublic && !isMe ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
-        {!isMe ? (
+        {!isPublic && !isMe ? (
           <MenuItem onClick={onChangeNickname}>
             {i18n('changeNickname')}
           </MenuItem>
         ) : null}
-        {!isMe && hasNickname ? (
+        {!isPublic && !isMe && hasNickname ? (
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
-        {isArchived ? (
-          <MenuItem onClick={onMoveToInbox}>
-            {i18n('moveConversationToInbox')}
-          </MenuItem>
-        ) : (
-          <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
-        )}
+        {!isPublic ? (
+          isArchived ? (
+            <MenuItem onClick={onMoveToInbox}>
+              {i18n('moveConversationToInbox')}
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+          )
+        ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {!isMe && isClosable ? (
-          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+          !isPublic ? (
+            <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+          ) : (
+            <MenuItem onClick={onDeleteContact}>{i18n('deletePublicChannel')}</MenuItem>
+          )
         ) : null}
       </ContextMenu>
     );
