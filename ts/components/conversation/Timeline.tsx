@@ -25,6 +25,7 @@ export type PropsDataType = {
   haveNewest: boolean;
   haveOldest: boolean;
   isLoadingMessages: boolean;
+  isNearBottom?: boolean;
   items: Array<string>;
   loadCountdownStart?: number;
   messageHeightChangeIndex?: number;
@@ -323,7 +324,9 @@ export class Timeline extends React.PureComponent<Props, State> {
         setLoadCountdownStart(id, loadCountdownStart);
       }
 
-      setIsNearBottom(id, isNearBottom);
+      if (isNearBottom !== this.props.isNearBottom) {
+        setIsNearBottom(id, isNearBottom);
+      }
 
       this.setState({
         atBottom,

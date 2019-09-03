@@ -351,6 +351,7 @@ export function _conversationMessagesSelector(
   const {
     heightChangeMessageIds,
     isLoadingMessages,
+    isNearBottom,
     loadCountdownStart,
     messageIds,
     metrics,
@@ -393,6 +394,7 @@ export function _conversationMessagesSelector(
     isLoadingMessages,
     loadCountdownStart,
     items,
+    isNearBottom,
     messageHeightChangeIndex:
       isNumber(messageHeightChangeIndex) && messageHeightChangeIndex >= 0
         ? messageHeightChangeIndex
