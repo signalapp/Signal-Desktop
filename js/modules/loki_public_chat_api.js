@@ -411,6 +411,16 @@ class LokiPublicChannelAPI {
 
   // get channel messages
   async pollForMessages() {
+    try {
+      await this.pollOnceForMessages();
+    } finally {
+      setTimeout(() => {
+        this.pollForMessages();
+      }, GROUPCHAT_POLL_EVERY);
+    }
+  }
+
+  async pollOnceForMessages() {
     const params = {
       include_annotations: 1,
       count: -20,
@@ -437,7 +447,10 @@ class LokiPublicChannelAPI {
         if (adnMessage.is_deleted) {
           return;
         }
-        if (adnMessage.annotations !== []) {
+        if (
+          Array.isArray(adnMessage.annotations) &&
+          adnMessage.annotations.length !== 0
+        ) {
           const noteValue = adnMessage.annotations[0].value;
           ({ from, timestamp, source } = noteValue);
         }
@@ -493,10 +506,6 @@ class LokiPublicChannelAPI {
       });
       conversation.setLastRetrievedMessage(this.lastGot);
     }
-
-    setTimeout(() => {
-      this.pollForMessages();
-    }, GROUPCHAT_POLL_EVERY);
   }
 
   // create a message in the channel
