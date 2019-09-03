@@ -588,7 +588,7 @@
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
     } else if (
-      Whisper.Registration.everDone() &&
+      Whisper.Registration.isDone() &&
       !Whisper.Registration.ongoingSecondaryDeviceRegistration()
     ) {
       // listeners
@@ -711,6 +711,12 @@
       }
     });
 
+    Whisper.events.on('showDevicePairingDialog', async () => {
+      if (appView) {
+        appView.showDevicePairingDialog();
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
@@ -732,6 +738,15 @@
     Whisper.events.on('password-updated', () => {
       if (appView && appView.inboxView) {
         appView.inboxView.trigger('password-updated');
+      }
+    });
+
+    Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
+      try {
+        await getAccountManager().authoriseSecondaryDevice(pubKey);
+        cb(null);
+      } catch (e) {
+        cb(e);
       }
     });
   }

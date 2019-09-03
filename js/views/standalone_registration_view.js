@@ -116,6 +116,8 @@
       textsecure.storage.remove('secondaryDeviceStatus');
 
       try {
+        await this.resetRegistration();
+
         await window.setPassword(input);
         await this.accountManager.registerSingleDevice(
           mnemonic,
@@ -141,10 +143,25 @@
       Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
       this.$el.trigger('openInbox');
     },
+    async resetRegistration() {
+      await window.Signal.Data.removeAllIdentityKeys();
+      await window.Signal.Data.removeAllPreKeys();
+      await window.Signal.Data.removeAllSignedPreKeys();
+      await window.Signal.Data.removeAllConversations();
+      Whisper.Registration.remove();
+      // Do not remove all items since they are only set
+      // at startup.
+      textsecure.storage.remove('identityKey')
+      textsecure.storage.remove('secondaryDeviceStatus');
+      window.ConversationController.reset();
+      await window.ConversationController.load();
+      Whisper.RotateSignedPreKeyListener.stop(Whisper.events);
+    },
     async registerSecondaryDevice() {
       if (textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
         return;
       }
+      await this.resetRegistration();
       textsecure.storage.put('secondaryDeviceStatus', 'ongoing');
       this.$('#register-secondary-device')
         .attr('disabled', 'disabled')
@@ -169,19 +186,7 @@
         this.$('.standalone-secondary-device #error')
           .text(error)
           .show();
-        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-        // If the registration started, ensure it's finished
-        while (
-          textsecure.storage.protocol.getIdentityKeyPair() &&
-          !Whisper.Registration.isDone()
-        ) {
-          // eslint-disable-next-line no-await-in-loop
-          await sleep(100);
-        }
-        Whisper.Registration.remove();
-        Whisper.RotateSignedPreKeyListener.stop();
-        textsecure.storage.remove('secondaryDeviceStatus');
-        window.ConversationController.reset();
+        await this.resetRegistration();
         this.$('#register-secondary-device')
           .removeAttr('disabled')
           .text('Link');
@@ -198,6 +203,15 @@
           'The primary device has not responded within 1 minute. Ensure that you accept the pairing on the primary device.'
         );
       };
+      const c = new Whisper.Conversation({
+        id: primaryPubKey,
+        type: 'private',
+      });
+      const validationError = c.validateNumber();
+      if (validationError) {
+        onError('Invalid public key');
+        return;
+      }
       try {
         await this.accountManager.registerSingleDevice(
           mnemonic,
