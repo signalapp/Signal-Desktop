@@ -318,6 +318,7 @@ class LokiPublicChannelAPI {
       const profileConvo = ConversationController.get(ourNumber);
       const profileName = profileConvo.getProfileName();
 
+      // update profile name as needed
       if (tokenRes.response.data.user.name !== profileName) {
         if (profileName) {
           await this.serverRequest('users/me', {
@@ -331,6 +332,7 @@ class LokiPublicChannelAPI {
           // should we update the local from the server?
           // guessing no because there will be multiple servers
         }
+        // update our avatar if needed
       }
     }
   }
@@ -349,9 +351,7 @@ class LokiPublicChannelAPI {
     }
     // fire an alert
     log.warn(`failed to delete ${serverId} on ${this.baseChannelUrl}`);
-    throw new textsecure.PublicChatError(
-      'Failed to delete public chat message'
-    );
+    return false;
   }
 
   // used for sending messages
@@ -369,26 +369,23 @@ class LokiPublicChannelAPI {
         include_annotations: 1,
       },
     });
-    if (!res.err && res.response) {
-      if (
-        res.response.data.annotations &&
+    if (!res.err && res.response && res.response.data.annotations &&
         res.response.data.annotations.length
       ) {
-        res.response.data.annotations.forEach(note => {
-          if (note.type === 'net.patter-app.settings') {
-            // note.value.description only needed for directory
-            // this.conversation.setGroupNameAndAvatar(note.value.name,
-            // note.value.avatar);
-            if (note.value && note.value.name) {
-              this.conversation.setProfileName(note.value.name);
-            }
-            if (note.value && note.value.avatar) {
-              this.conversation.setProfileAvatar(note.value.avatar);
-            }
-            // else could set a default in case of server problems...
+      res.response.data.annotations.forEach(note => {
+        if (note.type === 'net.patter-app.settings') {
+          // note.value.description only needed for directory
+          // this.conversation.setGroupNameAndAvatar(note.value.name,
+          // note.value.avatar);
+          if (note.value && note.value.name) {
+            this.conversation.setProfileName(note.value.name);
           }
-        });
-      }
+          if (note.value && note.value.avatar) {
+            this.conversation.setProfileAvatar(note.value.avatar);
+          }
+          // else could set a default in case of server problems...
+        }
+      });
     }
     // set up next poll
     this.timers.channel = setTimeout(() => {
@@ -526,6 +523,10 @@ class LokiPublicChannelAPI {
         this.serverAPI.chatAPI.emit('publicMessage', {
           message: messageData,
         });
+
+        // now process any user meta data updates
+        // - update their conversation with a potentially new avatar
+
         this.lastGot = !this.lastGot
           ? adnMessage.id
           : Math.max(this.lastGot, adnMessage.id);
