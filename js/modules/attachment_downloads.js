@@ -258,9 +258,6 @@ async function _finishJob(message, id) {
 
       if (fromConversation && message !== fromConversation) {
         fromConversation.set(message.attributes);
-        fromConversation.trigger('change', fromConversation);
-      } else {
-        message.trigger('change', message);
       }
     }
   }
@@ -308,7 +305,13 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
         `_addAttachmentToMessage: attachments didn't exist or ${index} was too large`
       );
     }
-    _replaceAttachment(attachments, index, attachment, logPrefix);
+    _checkOldAttachment(attachments, index, attachment, logPrefix);
+
+    const newAttachments = [...attachments];
+    newAttachments[index] = attachment;
+
+    message.set({ attachments: newAttachments });
+
     return;
   }
 
@@ -323,7 +326,17 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
     if (!item) {
       throw new Error(`_addAttachmentToMessage: preview ${index} was falsey`);
     }
-    _replaceAttachment(item, 'image', attachment, logPrefix);
+
+    _checkOldAttachment(item, 'image', attachment, logPrefix);
+
+    const newPreview = [...preview];
+    newPreview[index] = {
+      ...preview[index],
+      image: attachment,
+    };
+
+    message.set({ preview: newPreview });
+
     return;
   }
 
@@ -336,7 +349,18 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
     }
     const item = contact[index];
     if (item && item.avatar && item.avatar.avatar) {
-      _replaceAttachment(item.avatar, 'avatar', attachment, logPrefix);
+      _checkOldAttachment(item.avatar, 'avatar', attachment, logPrefix);
+
+      const newContact = [...contact];
+      newContact[index] = {
+        ...contact[index],
+        avatar: {
+          ...contact[index].avatar,
+          avatar: attachment,
+        },
+      };
+
+      message.set({ contact: newContact });
     } else {
       logger.warn(
         `_addAttachmentToMessage: Couldn't update contact with avatar attachment for message ${message.idForLogging()}`
@@ -361,10 +385,25 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
     const item = attachments[index];
     if (!item) {
       throw new Error(
-        `_addAttachmentToMessage: attachment ${index} was falsey`
+        `_addAttachmentToMessage: quote attachment ${index} was falsey`
       );
     }
-    _replaceAttachment(item, 'thumbnail', attachment, logPrefix);
+
+    _checkOldAttachment(item, 'thumbnail', attachment, logPrefix);
+
+    const newAttachments = [...attachments];
+    newAttachments[index] = {
+      ...attachments[index],
+      thumbnail: attachment,
+    };
+
+    const newQuote = {
+      ...quote,
+      attachments: newAttachments,
+    };
+
+    message.set({ quote: newQuote });
+
     return;
   }
 
@@ -420,14 +459,14 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
   );
 }
 
-function _replaceAttachment(object, key, newAttachment, logPrefix) {
+function _checkOldAttachment(object, key, newAttachment, logPrefix) {
   const oldAttachment = object[key];
   if (oldAttachment && oldAttachment.path) {
-    logger.warn(
-      `_replaceAttachment: ${logPrefix} - old attachment already had path, not replacing`
+    logger.error(
+      `_checkOldAttachment: ${logPrefix} - old attachment already had path, not replacing`
+    );
+    throw new Error(
+      '_checkOldAttachment: old attachment already had path, not replacing'
     );
   }
-
-  // eslint-disable-next-line no-param-reassign
-  object[key] = newAttachment;
 }
