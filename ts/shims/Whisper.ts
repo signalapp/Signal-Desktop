@@ -11,12 +11,3 @@ export function getBubbleProps(attributes: any) {
 
   return model.getPropsForBubble();
 }
-
-export function isVoiceFlag(flags: any): boolean {
-  // @ts-ignore
-  const protoFlags = window.textsecure.protobuf.AttachmentPointer.Flags;
-  const VOICE_MESSAGE_FLAG = protoFlags.VOICE_MESSAGE;
-
-  // tslint:disable-next-line no-bitwise
-  return Boolean(flags && flags & VOICE_MESSAGE_FLAG);
-}

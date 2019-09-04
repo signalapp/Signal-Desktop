@@ -10,13 +10,8 @@ import {
   without,
 } from 'lodash';
 import { trigger } from '../../shims/events';
-import { isVoiceFlag } from '../../shims/Whisper';
 import { NoopActionType } from './noop';
-import {
-  AttachmentType,
-  isImageAttachment,
-  isVideoAttachment,
-} from '../../types/Attachment';
+import { AttachmentType } from '../../types/Attachment';
 
 // State
 
@@ -536,16 +531,12 @@ function hasMessageHeightChanged(
     return true;
   }
 
-  const singleVisualAttachmentNoLongerPending =
-    messageAttachments.length === 1 &&
+  const firstAttachmentNoLongerPending =
     previousAttachments[0] &&
     previousAttachments[0].pending &&
     messageAttachments[0] &&
-    (isImageAttachment(messageAttachments[0]) ||
-      isVideoAttachment(messageAttachments[0]) ||
-      isVoiceFlag(messageAttachments[0].flags)) &&
     !messageAttachments[0].pending;
-  if (singleVisualAttachmentNoLongerPending) {
+  if (firstAttachmentNoLongerPending) {
     return true;
   }
 
