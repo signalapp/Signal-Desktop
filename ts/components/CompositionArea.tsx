@@ -300,17 +300,13 @@ export const CompositionArea = ({
 
   return (
     <div className="module-composition-area">
-      <div
-        className={classNames(
-          'module-composition-area__row',
-          'module-composition-area__row--center',
-          'module-composition-area__row--show-on-focus'
-        )}
-      >
+      <div className="module-composition-area__toggle-large">
         <button
           className={classNames(
-            'module-composition-area__toggle-large',
-            large ? 'module-composition-area__toggle-large--large-active' : null
+            'module-composition-area__toggle-large__button',
+            large
+              ? 'module-composition-area__toggle-large__button--large-active'
+              : null
           )}
           onClick={handleToggleLarge}
         />

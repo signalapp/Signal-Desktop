@@ -5023,6 +5023,10 @@
 
 // Module: CompositionArea
 .module-composition-area {
+  position: relative;
+  min-height: 48px;
+  padding-top: 12px;
+
   &__row {
     display: flex;
     flex-direction: row;
@@ -5037,18 +5041,6 @@
     }
     &--column {
       flex-direction: column;
-    }
-    &--show-on-focus {
-      opacity: 0;
-      transition: opacity 250ms ease-out;
-    }
-  }
-
-  $this: &;
-  &:focus-within,
-  &:hover {
-    #{$this}__row--show-on-focus {
-      opacity: 1;
     }
   }
 
@@ -5087,34 +5079,59 @@
   &__input {
     flex-grow: 1;
   }
+  $comp-area: &;
   &__toggle-large {
     width: 48px;
     height: 24px;
-    border: none;
+    position: absolute;
+    left: calc(50% - 24px);
+    top: -24px;
+    border-radius: 12px 12px 0 0;
+
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+
+    #{$comp-area}:hover & {
+      opacity: 1;
+    }
 
     @include light-theme() {
-      @include color-svg('../images/expand-up.svg', $color-gray-45, false);
+      background-color: $color-white;
     }
 
     @include dark-theme() {
-      @include color-svg('../images/expand-up.svg', $color-gray-45, false);
+      background-color: $color-gray-95;
     }
 
-    &--large-active {
+    &__button {
+      width: 48px;
+      height: 24px;
+      border: none;
+
       @include light-theme() {
-        @include color-svg(
-          '../images/collapse-down.svg',
-          $color-gray-45,
-          false
-        );
+        @include color-svg('../images/expand-up.svg', $color-gray-45, false);
       }
 
       @include dark-theme() {
-        @include color-svg(
-          '../images/collapse-down.svg',
-          $color-gray-45,
-          false
-        );
+        @include color-svg('../images/expand-up.svg', $color-gray-45, false);
+      }
+
+      &--large-active {
+        @include light-theme() {
+          @include color-svg(
+            '../images/collapse-down.svg',
+            $color-gray-45,
+            false
+          );
+        }
+
+        @include dark-theme() {
+          @include color-svg(
+            '../images/collapse-down.svg',
+            $color-gray-45,
+            false
+          );
+        }
       }
     }
   }
