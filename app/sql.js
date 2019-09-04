@@ -854,7 +854,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   const publicChatData = {
     ...baseData,
-    id: 'publicChat:1@' + lokiPublicServerData.serverUrl.replace(/^https?\:\/\//i, ''),
+    id: `publicChat:1@${lokiPublicServerData.serverUrl.replace(/^https?\:\/\//i, '')}`,
     server: lokiPublicServerData.serverUrl,
     name: 'Loki Public Chat',
     channelId: '1',
