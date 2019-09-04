@@ -1378,7 +1378,7 @@
         options.messageType = message.get('type');
         options.isPublic = this.isPublic();
         if (options.isPublic) {
-          options.publicSendData = await this.getPublicSendData();
+          options.publicSendData = this.getPublicSendData();
         }
 
         const groupNumbers = this.getRecipients();
@@ -2070,7 +2070,7 @@
         conversationId: this.get('id'),
       };
     },
-    async getPublicSendData() {
+    getPublicSendData() {
       const serverAPI = lokiPublicChatAPI.findOrCreateServer(
         this.get('server')
       );
@@ -2312,27 +2312,24 @@
     },
 
     deleteContact() {
-      if (this.isPublic()) {
-        Whisper.events.trigger('showConfirmationDialog', {
-          message: i18n('deletePublicChannelConfirmation'),
-          onOk: () => ConversationController.deleteContact(this.id),
-        });
-      } else {
-        Whisper.events.trigger('showConfirmationDialog', {
-          message: i18n('deleteContactConfirmation'),
-          onOk: () => ConversationController.deleteContact(this.id),
-        });
-      }
+      const message = this.isPublic()
+        ? i18n('deletePublicChannelConfirmation')
+        : i18n('deleteContactConfirmation');
+
+      Whisper.events.trigger('showConfirmationDialog', {
+        message,
+        onOk: () => {
+          ConversationController.deleteContact(this.id);
+          if (this.isPublic()) {
+            const channelAPI = this.getPublicSendData();
+            channelAPI.stop();
+          }
+        },
+      });
     },
 
     async deletePublicMessage(message) {
-      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
-        this.get('server')
-      );
-      const channelAPI = serverAPI.findOrCreateChannel(
-        this.get('channelId'),
-        this.id
-      );
+      const channelAPI = this.getPublicSendData();
       const success = await channelAPI.deleteMessage(message.getServerId());
       if (success) {
         this.removeMessage(message.id);
