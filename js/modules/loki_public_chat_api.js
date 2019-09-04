@@ -212,6 +212,7 @@ class LokiPublicChannelAPI {
     this.modStatus = false;
     this.deleteLastId = 1;
     this.timers = {};
+    this.stop = false;
     // end properties
 
     log.info(`registered LokiPublicChannel ${channelId}`);
@@ -223,6 +224,7 @@ class LokiPublicChannelAPI {
   }
 
   stop() {
+    this.stop = true;
     if (this.timers.channel) {
       clearTimeout(this.timers.channel);
     }
@@ -387,9 +389,11 @@ class LokiPublicChannelAPI {
     } catch (e) {
       log.warn(`Error while polling for public chat deletions: ${e}`);
     }
-    this.timers.channel = setTimeout(() => {
-      this.pollForChannelOnce();
-    }, PUBLICCHAT_CHAN_POLL_EVERY);
+    if (!this.stop) {
+      this.timers.channel = setTimeout(() => {
+        this.pollForChannelOnce();
+      }, PUBLICCHAT_CHAN_POLL_EVERY);
+    }
   }
 
   // update room details
@@ -408,10 +412,8 @@ class LokiPublicChannelAPI {
       res.response.data.annotations.forEach(note => {
         if (note.type === 'net.patter-app.settings') {
           // note.value.description only needed for directory
-          // this.conversation.setGroupNameAndAvatar(note.value.name,
-          // note.value.avatar);
           if (note.value && note.value.name) {
-            this.conversation.setProfileName(note.value.name);
+            this.conversation.setGroupName(note.value.name);
           }
           if (note.value && note.value.avatar) {
             this.conversation.setProfileAvatar(note.value.avatar);
@@ -429,9 +431,11 @@ class LokiPublicChannelAPI {
     } catch (e) {
       log.warn(`Error while polling for public chat deletions: ${e}`);
     }
-    this.timers.delete = setTimeout(() => {
-      this.pollForDeletions();
-    }, PUBLICCHAT_DELETION_POLL_EVERY);
+    if (!this.stop) {
+      this.timers.delete = setTimeout(() => {
+        this.pollForDeletions();
+      }, PUBLICCHAT_DELETION_POLL_EVERY);
+    }
   }
 
   async pollOnceForDeletions() {
@@ -481,9 +485,11 @@ class LokiPublicChannelAPI {
     } catch (e) {
       log.warn(`Error while polling for public chat messages: ${e}`);
     }
-    setTimeout(() => {
-      this.timers.message = this.pollForMessages();
-    }, PUBLICCHAT_MSG_POLL_EVERY);
+    if (!this.stop) {
+      setTimeout(() => {
+        this.timers.message = this.pollForMessages();
+      }, PUBLICCHAT_MSG_POLL_EVERY);
+    }
   }
 
   async pollOnceForMessages() {
