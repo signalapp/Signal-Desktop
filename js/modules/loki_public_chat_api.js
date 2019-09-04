@@ -204,6 +204,7 @@ class LokiPublicChannelAPI {
     this.serverAPI = serverAPI;
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
+    this.conversationId = conversationId;
     this.conversation = ConversationController.get(conversationId);
     this.lastGot = null;
     this.stopPolling = false;
