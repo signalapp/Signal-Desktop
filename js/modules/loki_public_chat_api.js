@@ -1,4 +1,5 @@
-/* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController */
+/* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
+clearTimeout */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -221,6 +222,18 @@ class LokiPublicChannelAPI {
     this.refreshModStatus();
   }
 
+  stop() {
+    if (this.timers.channel) {
+      clearTimeout(this.timers.channel);
+    }
+    if (this.timers.delete) {
+      clearTimeout(this.timers.delete);
+    }
+    if (this.timers.message) {
+      clearTimeout(this.timers.message);
+    }
+  }
+
   // make a request to the server
   async serverRequest(endpoint, options = {}) {
     const { params = {}, method, objBody, forceFreshToken = false } = options;
@@ -338,7 +351,7 @@ class LokiPublicChannelAPI {
   }
 
   // delete a message on the server
-  async deleteMessage(serverId) {
+  async deleteMessage(serverId, canThrow = false) {
     const res = await this.serverRequest(
       this.modStatus
         ? `loki/v1/moderation/message/${serverId}`
@@ -351,6 +364,11 @@ class LokiPublicChannelAPI {
     }
     // fire an alert
     log.warn(`failed to delete ${serverId} on ${this.baseChannelUrl}`);
+    if (canThrow) {
+      throw new textsecure.PublicChatError(
+        'Failed to delete public chat message'
+      );
+    }
     return false;
   }
 
@@ -362,8 +380,20 @@ class LokiPublicChannelAPI {
     return endpoint;
   }
 
-  // update room details
+  // get moderation actions
   async pollForChannel() {
+    try {
+      await this.pollForChannelOnce();
+    } catch (e) {
+      log.warn(`Error while polling for public chat deletions: ${e}`);
+    }
+    this.timers.channel = setTimeout(() => {
+      this.pollForChannelOnce();
+    }, PUBLICCHAT_CHAN_POLL_EVERY);
+  }
+
+  // update room details
+  async pollForChannelOnce() {
     const res = await this.serverRequest(`${this.baseChannelUrl}`, {
       params: {
         include_annotations: 1,
@@ -390,10 +420,6 @@ class LokiPublicChannelAPI {
         }
       });
     }
-    // set up next poll
-    this.timers.channel = setTimeout(() => {
-      this.pollForChannel();
-    }, PUBLICCHAT_CHAN_POLL_EVERY);
   }
 
   // get moderation actions
@@ -403,7 +429,7 @@ class LokiPublicChannelAPI {
     } catch (e) {
       log.warn(`Error while polling for public chat deletions: ${e}`);
     }
-    setTimeout(() => {
+    this.timers.delete = setTimeout(() => {
       this.pollForDeletions();
     }, PUBLICCHAT_DELETION_POLL_EVERY);
   }
@@ -456,7 +482,7 @@ class LokiPublicChannelAPI {
       log.warn(`Error while polling for public chat messages: ${e}`);
     }
     setTimeout(() => {
-      this.pollForMessages();
+      this.timers.message = this.pollForMessages();
     }, PUBLICCHAT_MSG_POLL_EVERY);
   }
 
