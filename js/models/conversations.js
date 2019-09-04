@@ -2151,6 +2151,15 @@
         });
       }
     },
+    async setGroupName(name) {
+      const profileName = this.get('name');
+      if (profileName !== name) {
+        this.set({ name });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
     async setGroupNameAndAvatar(name, avatarPath) {
       const currentName = this.get('name');
       const profileAvatar = this.get('profileAvatar');
