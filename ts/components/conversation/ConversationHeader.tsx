@@ -29,6 +29,7 @@ interface Props {
   isClosable?: boolean;
   isGroup: boolean;
   isArchived: boolean;
+  isPublic: boolean;
 
   expirationSettingName?: string;
   showBackButton: boolean;
@@ -200,85 +201,29 @@ export class ConversationHeader extends React.Component<Props> {
   public renderMenu(triggerId: string) {
     const {
       i18n,
-      isBlocked,
       isMe,
       isClosable,
-      isGroup,
-      isArchived,
+      isPublic,
       onDeleteMessages,
       onDeleteContact,
-      onResetSession,
-      onSetDisappearingMessages,
-      // onShowAllMedia,
-      onShowGroupMembers,
-      onShowSafetyNumber,
-      onArchive,
-      onMoveToInbox,
-      timerOptions,
-      onBlockUser,
-      onUnblockUser,
-      hasNickname,
-      onClearNickname,
-      onChangeNickname,
       onCopyPublicKey,
     } = this.props;
 
-    const disappearingTitle = i18n('disappearingMessages') as any;
-
-    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
-    const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
-
     return (
       <ContextMenu id={triggerId}>
-        <SubMenu title={disappearingTitle}>
-          {(timerOptions || []).map(item => (
-            <MenuItem
-              key={item.value}
-              onClick={() => {
-                onSetDisappearingMessages(item.value);
-              }}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </SubMenu>
-        {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
-        {isGroup ? (
-          <MenuItem onClick={onShowGroupMembers}>
-            {i18n('showMembers')}
-          </MenuItem>
-        ) : null}
-        {!isGroup && !isMe ? (
-          <MenuItem onClick={onShowSafetyNumber}>
-            {i18n('showSafetyNumber')}
-          </MenuItem>
-        ) : null}
-        {!isGroup ? (
-          <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
-        ) : null}
-        {/* Only show the block on other conversations */}
-        {!isMe ? (
-          <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
-        ) : null}
-        {!isMe ? (
-          <MenuItem onClick={onChangeNickname}>
-            {i18n('changeNickname')}
-          </MenuItem>
-        ) : null}
-        {!isMe && hasNickname ? (
-          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
-        ) : null}
+        {this.renderPublicMenuItems()}
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
-        {isArchived ? (
-          <MenuItem onClick={onMoveToInbox}>
-            {i18n('moveConversationToInbox')}
-          </MenuItem>
-        ) : (
-          <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
-        )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {!isMe && isClosable ? (
-          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+          !isPublic ? (
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deleteContact')}
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deletePublicChannel')}
+            </MenuItem>
+          )
         ) : null}
       </ContextMenu>
     );
@@ -301,6 +246,97 @@ export class ConversationHeader extends React.Component<Props> {
         {this.renderGear(triggerId)}
         {this.renderMenu(triggerId)}
       </div>
+    );
+  }
+
+  private renderPublicMenuItems() {
+    const {
+      i18n,
+      isBlocked,
+      isMe,
+      isGroup,
+      isArchived,
+      isPublic,
+      onResetSession,
+      onSetDisappearingMessages,
+      // onShowAllMedia,
+      onShowGroupMembers,
+      onShowSafetyNumber,
+      onArchive,
+      onMoveToInbox,
+      timerOptions,
+      onBlockUser,
+      onUnblockUser,
+      hasNickname,
+      onClearNickname,
+      onChangeNickname,
+    } = this.props;
+
+    if (isPublic) {
+      return null;
+    }
+
+    const disappearingTitle = i18n('disappearingMessages') as any;
+
+    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
+    const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
+
+    const disappearingMessagesMenuItem = (
+      <SubMenu title={disappearingTitle}>
+        {(timerOptions || []).map(item => (
+          <MenuItem
+            key={item.value}
+            onClick={() => {
+              onSetDisappearingMessages(item.value);
+            }}
+          >
+            {item.name}
+          </MenuItem>
+        ))}
+      </SubMenu>
+    );
+    const showMembersMenuItem = isGroup && (
+      <MenuItem onClick={onShowGroupMembers}>{i18n('showMembers')}</MenuItem>
+    );
+    const showSafetyNumberMenuItem = !isGroup &&
+      !isMe && (
+        <MenuItem onClick={onShowSafetyNumber}>
+          {i18n('showSafetyNumber')}
+        </MenuItem>
+      );
+    const resetSessionMenuItem = !isGroup && (
+      <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+    );
+    const blockHandlerMenuItem = !isMe && (
+      <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+    );
+    const changeNicknameMenuItem = !isMe && (
+      <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+    );
+    const clearNicknameMenuItem = !isMe &&
+      hasNickname && (
+        <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
+      );
+    const archiveConversationMenuItem = isArchived ? (
+      <MenuItem onClick={onMoveToInbox}>
+        {i18n('moveConversationToInbox')}
+      </MenuItem>
+    ) : (
+      <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+    );
+
+    return (
+      <React.Fragment>
+        {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
+        {disappearingMessagesMenuItem}
+        {showMembersMenuItem}
+        {showSafetyNumberMenuItem}
+        {resetSessionMenuItem}
+        {blockHandlerMenuItem}
+        {changeNicknameMenuItem}
+        {clearNicknameMenuItem}
+        {archiveConversationMenuItem}
+      </React.Fragment>
     );
   }
 }

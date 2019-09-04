@@ -206,6 +206,7 @@
           isGroup: !this.model.isPrivate(),
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
+          isPublic: this.model.isPublic(),
 
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
@@ -1510,20 +1511,37 @@
     },
 
     destroyMessages() {
-      Whisper.events.trigger('showConfirmationDialog', {
-        message: i18n('deleteConversationConfirmation'),
-        onOk: async () => {
-          try {
-            await this.model.destroyMessages();
-            this.unload('delete messages');
-          } catch (error) {
-            window.log.error(
-              'destroyMessages: Failed to successfully delete conversation',
-              error && error.stack ? error.stack : error
-            );
-          }
-        },
-      });
+      if (this.model.isPublic()) {
+        Whisper.events.trigger('showConfirmationDialog', {
+          message: i18n('deletePublicConversationConfirmation'),
+          onOk: async () => {
+            try {
+              await this.model.destroyMessages();
+              this.unload('delete messages');
+            } catch (error) {
+              window.log.error(
+                'destroyMessages: Failed to successfully delete conversation',
+                error && error.stack ? error.stack : error
+              );
+            }
+          },
+        });
+      } else {
+        Whisper.events.trigger('showConfirmationDialog', {
+          message: i18n('deleteConversationConfirmation'),
+          onOk: async () => {
+            try {
+              await this.model.destroyMessages();
+              this.unload('delete messages');
+            } catch (error) {
+              window.log.error(
+                'destroyMessages: Failed to successfully delete conversation',
+                error && error.stack ? error.stack : error
+              );
+            }
+          },
+        });
+      }
     },
 
     showSendConfirmationDialog(e, contacts) {

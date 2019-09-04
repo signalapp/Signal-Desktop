@@ -21,6 +21,7 @@ export type PropsData = {
   type: 'group' | 'direct';
   avatarPath?: string;
   isMe: boolean;
+  isPublic?: boolean;
   isClosable?: boolean;
 
   lastUpdated: number;
@@ -165,6 +166,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isBlocked,
       isMe,
       isClosable,
+      isPublic,
       hasNickname,
       onDeleteContact,
       onDeleteMessages,
@@ -180,21 +182,31 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
     return (
       <ContextMenu id={triggerId}>
-        {!isMe ? (
+        {!isPublic && !isMe ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
-        {!isMe ? (
+        {!isPublic && !isMe ? (
           <MenuItem onClick={onChangeNickname}>
             {i18n('changeNickname')}
           </MenuItem>
         ) : null}
-        {!isMe && hasNickname ? (
+        {!isPublic && !isMe && hasNickname ? (
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
-        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        {!isPublic ? (
+          <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {!isMe && isClosable ? (
-          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+          !isPublic ? (
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deleteContact')}
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deletePublicChannel')}
+            </MenuItem>
+          )
         ) : null}
       </ContextMenu>
     );
