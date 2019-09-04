@@ -415,7 +415,7 @@ class LokiPublicChannelAPI {
           // this.conversation.setGroupNameAndAvatar(note.value.name,
           // note.value.avatar);
           if (note.value && note.value.name) {
-            this.conversation.setProfileName(note.value.name);
+            this.conversation.setGroupName(note.value.name);
           }
           if (note.value && note.value.avatar) {
             this.conversation.setProfileAvatar(note.value.avatar);
