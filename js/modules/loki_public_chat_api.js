@@ -41,7 +41,7 @@ class LokiPublicChatAPI extends EventEmitter {
     let thisServer;
     let i = 0;
     for (; i < this.servers.length; i += 1) {
-      if (this.servers[i].server === serverUrl) {
+      if (this.servers[i].baseServerUrl === serverUrl) {
         thisServer = this.servers[i];
         break;
       }
@@ -95,8 +95,8 @@ class LokiPublicServerAPI {
     if (!thisChannel) {
       return;
     }
+    thisChannel.stop();
     this.channels.splice(i, 1);
-    thisChannel.stopPolling = true;
   }
 
   // get active token for this server
@@ -208,11 +208,10 @@ class LokiPublicChannelAPI {
     this.conversationId = conversationId;
     this.conversation = ConversationController.get(conversationId);
     this.lastGot = null;
-    this.stopPolling = false;
     this.modStatus = false;
     this.deleteLastId = 1;
     this.timers = {};
-    this.stop = false;
+    this.running = true;
     // end properties
 
     log.info(`registered LokiPublicChannel ${channelId}`);
@@ -224,7 +223,7 @@ class LokiPublicChannelAPI {
   }
 
   stop() {
-    this.stop = true;
+    this.running = false;
     if (this.timers.channel) {
       clearTimeout(this.timers.channel);
     }
@@ -389,7 +388,7 @@ class LokiPublicChannelAPI {
     } catch (e) {
       log.warn(`Error while polling for public chat deletions: ${e}`);
     }
-    if (!this.stop) {
+    if (this.running) {
       this.timers.channel = setTimeout(() => {
         this.pollForChannelOnce();
       }, PUBLICCHAT_CHAN_POLL_EVERY);
@@ -431,7 +430,7 @@ class LokiPublicChannelAPI {
     } catch (e) {
       log.warn(`Error while polling for public chat deletions: ${e}`);
     }
-    if (!this.stop) {
+    if (this.running) {
       this.timers.delete = setTimeout(() => {
         this.pollForDeletions();
       }, PUBLICCHAT_DELETION_POLL_EVERY);
@@ -485,7 +484,7 @@ class LokiPublicChannelAPI {
     } catch (e) {
       log.warn(`Error while polling for public chat messages: ${e}`);
     }
-    if (!this.stop) {
+    if (this.running) {
       setTimeout(() => {
         this.timers.message = this.pollForMessages();
       }, PUBLICCHAT_MSG_POLL_EVERY);
@@ -495,7 +494,6 @@ class LokiPublicChannelAPI {
   async pollOnceForMessages() {
     const params = {
       include_annotations: 1,
-      count: -20,
       include_deleted: false,
     };
     if (!this.conversation) {
@@ -505,6 +503,8 @@ class LokiPublicChannelAPI {
       this.lastGot = this.conversation.getLastRetrievedMessage();
     }
     params.since_id = this.lastGot;
+    // Just grab the most recent 100 messages if you don't have a valid lastGot
+    params.count = this.lastGot === 0 ? -100 : 20;
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
       params,
     });

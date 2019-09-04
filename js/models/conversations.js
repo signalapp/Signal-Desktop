@@ -2327,13 +2327,7 @@
 
       Whisper.events.trigger('showConfirmationDialog', {
         message,
-        onOk: () => {
-          ConversationController.deleteContact(this.id);
-          if (this.isPublic()) {
-            const channelAPI = this.getPublicSendData();
-            channelAPI.stop();
-          }
-        },
+        onOk: () => ConversationController.deleteContact(this.id),
       });
     },
 
