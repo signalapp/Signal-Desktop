@@ -1292,38 +1292,27 @@
     },
 
     deleteMessage(message) {
-      if (this.model.isPublic()) {
-        const dialog = new Whisper.ConfirmationDialogView({
-          message: i18n('deletePublicWarning'),
-          okText: i18n('delete'),
-          resolve: async () => {
+      const warningMessage = this.model.isPublic()
+        ? i18n('deletePublicWarning')
+        : i18n('deleteWarning');
+
+      const dialog = new Whisper.ConfirmationDialogView({
+        message: warningMessage,
+        okText: i18n('delete'),
+        resolve: async () => {
+          if (this.model.isPublic()) {
             const success = await this.model.deletePublicMessage(message);
             if (!success) {
               // Message failed to delete from server, show error?
               return;
             }
-            await window.Signal.Data.removeMessage(message.id, {
-              Message: Whisper.Message,
-            });
-            message.trigger('unload');
-            this.resetPanel();
-            this.updateHeader();
-          },
-        });
-
-        this.$el.prepend(dialog.el);
-        dialog.focusCancel();
-        return;
-      }
-      const dialog = new Whisper.ConfirmationDialogView({
-        message: i18n('deleteWarning'),
-        okText: i18n('delete'),
-        resolve: () => {
-          window.Signal.Data.removeMessage(message.id, {
+          } else {
+            this.model.messageCollection.remove(message.id);
+          }
+          await window.Signal.Data.removeMessage(message.id, {
             Message: Whisper.Message,
           });
           message.trigger('unload');
-          this.model.messageCollection.remove(message.id);
           this.resetPanel();
           this.updateHeader();
         },
@@ -1511,37 +1500,24 @@
     },
 
     destroyMessages() {
-      if (this.model.isPublic()) {
-        Whisper.events.trigger('showConfirmationDialog', {
-          message: i18n('deletePublicConversationConfirmation'),
-          onOk: async () => {
-            try {
-              await this.model.destroyMessages();
-              this.unload('delete messages');
-            } catch (error) {
-              window.log.error(
-                'destroyMessages: Failed to successfully delete conversation',
-                error && error.stack ? error.stack : error
-              );
-            }
-          },
-        });
-      } else {
-        Whisper.events.trigger('showConfirmationDialog', {
-          message: i18n('deleteConversationConfirmation'),
-          onOk: async () => {
-            try {
-              await this.model.destroyMessages();
-              this.unload('delete messages');
-            } catch (error) {
-              window.log.error(
-                'destroyMessages: Failed to successfully delete conversation',
-                error && error.stack ? error.stack : error
-              );
-            }
-          },
-        });
-      }
+      const message = this.model.isPublic()
+        ? i18n('deletePublicConversationConfirmation')
+        : i18n('deleteConversationConfirmation');
+
+      Whisper.events.trigger('showConfirmationDialog', {
+        message,
+        onOk: async () => {
+          try {
+            await this.model.destroyMessages();
+            this.unload('delete messages');
+          } catch (error) {
+            window.log.error(
+              'destroyMessages: Failed to successfully delete conversation',
+              error && error.stack ? error.stack : error
+            );
+          }
+        },
+      });
     },
 
     showSendConfirmationDialog(e, contacts) {
