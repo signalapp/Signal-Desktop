@@ -1396,7 +1396,7 @@ body.dark-theme {
     }
 
     &:focus {
-      border: solid 1px blue;
+      border: solid 1px $color-signal-blue;
       outline: none;
     }
   }

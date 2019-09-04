@@ -63,7 +63,6 @@ export const getMessageSearchResultLookup = createSelector(
   getSearch,
   (state: SearchStateType) => state.messageLookup
 );
-
 export const getSearchResults = createSelector(
   [getSearch, getRegionCode, getConversationLookup, getSelectedConversation],
   (
@@ -71,11 +70,14 @@ export const getSearchResults = createSelector(
     regionCode: string,
     lookup: ConversationLookupType,
     selectedConversation?: string
+    // tslint:disable-next-line max-func-body-length
   ): SearchResultsPropsType | undefined => {
     const {
       contacts,
       conversations,
+      discussionsLoading,
       messageIds,
+      messagesLoading,
       searchConversationName,
     } = state;
 
@@ -86,6 +88,8 @@ export const getSearchResults = createSelector(
     const haveContacts = contacts && contacts.length;
     const haveMessages = messageIds && messageIds.length;
     const noResults =
+      !discussionsLoading &&
+      !messagesLoading &&
       !showStartNewConversation &&
       !haveConversations &&
       !haveContacts &&
@@ -114,6 +118,15 @@ export const getSearchResults = createSelector(
             isSelected: Boolean(data && id === selectedConversation),
           },
         });
+      });
+    } else if (discussionsLoading) {
+      items.push({
+        type: 'conversations-header',
+        data: undefined,
+      });
+      items.push({
+        type: 'spinner',
+        data: undefined,
       });
     }
 
@@ -145,10 +158,21 @@ export const getSearchResults = createSelector(
           data: messageId,
         });
       });
+    } else if (messagesLoading) {
+      items.push({
+        type: 'messages-header',
+        data: undefined,
+      });
+      items.push({
+        type: 'spinner',
+        data: undefined,
+      });
     }
 
     return {
+      discussionsLoading,
       items,
+      messagesLoading,
       noResults,
       regionCode: regionCode,
       searchConversationName,

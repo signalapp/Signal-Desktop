@@ -8,6 +8,7 @@ import {
 
 import { Intl } from './Intl';
 import { Emojify } from './conversation/Emojify';
+import { Spinner } from './Spinner';
 import {
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
@@ -17,11 +18,13 @@ import { StartNewConversation } from './StartNewConversation';
 import { LocalizerType } from '../types/Util';
 
 export type PropsDataType = {
+  discussionsLoading: boolean;
   items: Array<SearchResultRowType>;
+  messagesLoading: boolean;
   noResults: boolean;
   regionCode: string;
-  searchTerm: string;
   searchConversationName?: string;
+  searchTerm: string;
 };
 
 type StartNewConversationType = {
@@ -52,6 +55,10 @@ type MessageType = {
   type: 'message';
   data: string;
 };
+type SpinnerType = {
+  type: 'spinner';
+  data: undefined;
+};
 
 export type SearchResultRowType =
   | StartNewConversationType
@@ -60,7 +67,8 @@ export type SearchResultRowType =
   | MessagesHeaderType
   | ConversationType
   | ContactsType
-  | MessageType;
+  | MessageType
+  | SpinnerType;
 
 type PropsHousekeepingType = {
   i18n: LocalizerType;
@@ -89,7 +97,7 @@ export class SearchResults extends React.Component<PropsType> {
   public mostRecentWidth = 0;
   public mostRecentHeight = 0;
   public cellSizeCache = new CellMeasurerCache({
-    defaultHeight: 36,
+    defaultHeight: 80,
     fixedWidth: true,
   });
   public listRef = React.createRef<any>();
@@ -160,6 +168,12 @@ export class SearchResults extends React.Component<PropsType> {
       const { data } = row;
 
       return renderMessageSearchResult(data);
+    } else if (row.type === 'spinner') {
+      return (
+        <div className="module-search-results__spinner-container">
+          <Spinner size="24px" svgSize="small" />
+        </div>
+      );
     } else {
       throw new Error(
         'SearchResults.renderRowContents: Encountered unknown row type'
@@ -194,14 +208,24 @@ export class SearchResults extends React.Component<PropsType> {
   };
 
   public componentDidUpdate(prevProps: PropsType) {
-    const { items } = this.props;
+    const {
+      items,
+      searchTerm,
+      discussionsLoading,
+      messagesLoading,
+    } = this.props;
 
-    if (
+    if (searchTerm !== prevProps.searchTerm) {
+      this.resizeAll();
+    } else if (
+      discussionsLoading !== prevProps.discussionsLoading ||
+      messagesLoading !== prevProps.messagesLoading
+    ) {
+      this.resizeAll();
+    } else if (
       items &&
-      items.length > 0 &&
       prevProps.items &&
-      prevProps.items.length > 0 &&
-      items !== prevProps.items
+      prevProps.items.length !== items.length
     ) {
       this.resizeAll();
     }
@@ -270,7 +294,7 @@ export class SearchResults extends React.Component<PropsType> {
     }
 
     return (
-      <div className="module-search-results" key={searchTerm}>
+      <div className="module-search-results">
         <AutoSizer>
           {({ height, width }) => {
             this.mostRecentWidth = width;

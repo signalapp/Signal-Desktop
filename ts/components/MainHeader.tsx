@@ -25,11 +25,16 @@ export interface PropsType {
 
   i18n: LocalizerType;
   updateSearchTerm: (searchTerm: string) => void;
-  search: (
+  searchMessages: (
     query: string,
     options: {
       searchConversationId?: string;
       regionCode: string;
+    }
+  ) => void;
+  searchDiscussions: (
+    query: string,
+    options: {
       ourNumber: string;
       noteToSelf: string;
     }
@@ -66,15 +71,21 @@ export class MainHeader extends React.Component<PropsType> {
       i18n,
       ourNumber,
       regionCode,
-      search,
+      searchDiscussions,
+      searchMessages,
       searchConversationId,
     } = this.props;
 
-    if (search) {
-      search(searchTerm, {
-        searchConversationId,
+    if (searchDiscussions) {
+      searchDiscussions(searchTerm, {
         noteToSelf: i18n('noteToSelf').toLowerCase(),
         ourNumber,
+      });
+    }
+
+    if (searchMessages) {
+      searchMessages(searchTerm, {
+        searchConversationId,
         regionCode,
       });
     }

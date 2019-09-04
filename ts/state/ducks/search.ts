@@ -4,8 +4,8 @@ import { normalize } from '../../types/PhoneNumber';
 import { trigger } from '../../shims/events';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import {
-  searchConversations,
-  searchMessages,
+  searchConversations as dataSearchConversations,
+  searchMessages as dataSearchMessages,
   searchMessagesInConversation,
 } from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
@@ -40,25 +40,48 @@ export type SearchStateType = {
   // We do store message data to pass through the selector
   messageLookup: MessageSearchResultLookupType;
   selectedMessage?: string;
+  // Loading state
+  discussionsLoading: boolean;
+  messagesLoading: boolean;
 };
 
 // Actions
 
-type SearchResultsPayloadType = {
+type SearchResultsBaseType = {
   query: string;
   normalizedPhoneNumber?: string;
+};
+type SearchMessagesResultsPayloadType = SearchResultsBaseType & {
   messages: Array<MessageSearchResultType>;
+};
+type SearchDiscussionsResultsPayloadType = SearchResultsBaseType & {
   conversations: Array<string>;
   contacts: Array<string>;
 };
-
-type SearchResultsKickoffActionType = {
-  type: 'SEARCH_RESULTS';
-  payload: Promise<SearchResultsPayloadType>;
+type SearchMessagesResultsKickoffActionType = {
+  type: 'SEARCH_MESSAGES_RESULTS';
+  payload: Promise<SearchMessagesResultsPayloadType>;
 };
-type SearchResultsFulfilledActionType = {
-  type: 'SEARCH_RESULTS_FULFILLED';
-  payload: SearchResultsPayloadType;
+type SearchDiscussionsResultsKickoffActionType = {
+  type: 'SEARCH_DISCUSSIONS_RESULTS';
+  payload: Promise<SearchDiscussionsResultsPayloadType>;
+};
+
+type SearchMessagesResultsPendingActionType = {
+  type: 'SEARCH_MESSAGES_RESULTS_PENDING';
+  payload: SearchMessagesResultsPayloadType;
+};
+type SearchDiscussionsResultsPendingActionType = {
+  type: 'SEARCH_DISCUSSIONS_RESULTS_PENDING';
+  payload: SearchDiscussionsResultsPayloadType;
+};
+type SearchMessagesResultsFulfilledActionType = {
+  type: 'SEARCH_MESSAGES_RESULTS_FULFILLED';
+  payload: SearchMessagesResultsPayloadType;
+};
+type SearchDiscussionsResultsFulfilledActionType = {
+  type: 'SEARCH_DISCUSSIONS_RESULTS_FULFILLED';
+  payload: SearchDiscussionsResultsPayloadType;
 };
 type UpdateSearchTermActionType = {
   type: 'SEARCH_UPDATE';
@@ -83,7 +106,12 @@ type SearchInConversationActionType = {
 };
 
 export type SEARCH_TYPES =
-  | SearchResultsFulfilledActionType
+  | SearchMessagesResultsKickoffActionType
+  | SearchDiscussionsResultsKickoffActionType
+  | SearchMessagesResultsPendingActionType
+  | SearchDiscussionsResultsPendingActionType
+  | SearchMessagesResultsFulfilledActionType
+  | SearchDiscussionsResultsFulfilledActionType
   | UpdateSearchTermActionType
   | ClearSearchActionType
   | ClearConversationSearchActionType
@@ -95,7 +123,8 @@ export type SEARCH_TYPES =
 // Action Creators
 
 export const actions = {
-  search,
+  searchMessages,
+  searchDiscussions,
   clearSearch,
   clearConversationSearch,
   searchInConversation,
@@ -103,59 +132,73 @@ export const actions = {
   startNewConversation,
 };
 
-function search(
+function searchMessages(
   query: string,
   options: {
-    searchConversationId?: string;
     regionCode: string;
-    ourNumber: string;
-    noteToSelf: string;
   }
-): SearchResultsKickoffActionType {
+): SearchMessagesResultsKickoffActionType {
   return {
-    type: 'SEARCH_RESULTS',
-    payload: doSearch(query, options),
+    type: 'SEARCH_MESSAGES_RESULTS',
+    payload: doSearchMessages(query, options),
   };
 }
 
-async function doSearch(
+function searchDiscussions(
+  query: string,
+  options: {
+    ourNumber: string;
+    noteToSelf: string;
+  }
+): SearchDiscussionsResultsKickoffActionType {
+  return {
+    type: 'SEARCH_DISCUSSIONS_RESULTS',
+    payload: doSearchDiscussions(query, options),
+  };
+}
+
+async function doSearchMessages(
   query: string,
   options: {
     searchConversationId?: string;
     regionCode: string;
+  }
+): Promise<SearchMessagesResultsPayloadType> {
+  const { regionCode, searchConversationId } = options;
+  const normalizedPhoneNumber = normalize(query, { regionCode });
+
+  const messages = await queryMessages(query, searchConversationId);
+
+  return {
+    messages,
+    normalizedPhoneNumber,
+    query,
+  };
+}
+
+async function doSearchDiscussions(
+  query: string,
+  options: {
     ourNumber: string;
     noteToSelf: string;
   }
-): Promise<SearchResultsPayloadType> {
-  const { regionCode, ourNumber, noteToSelf, searchConversationId } = options;
-  const normalizedPhoneNumber = normalize(query, { regionCode });
+): Promise<SearchDiscussionsResultsPayloadType> {
+  const { ourNumber, noteToSelf } = options;
+  const { conversations, contacts } = await queryConversationsAndContacts(
+    query,
+    {
+      ourNumber,
+      noteToSelf,
+    }
+  );
 
-  if (searchConversationId) {
-    const messages = await queryMessages(query, searchConversationId);
-
-    return {
-      contacts: [],
-      conversations: [],
-      messages,
-      normalizedPhoneNumber,
-      query,
-    };
-  } else {
-    const [discussions, messages] = await Promise.all([
-      queryConversationsAndContacts(query, { ourNumber, noteToSelf }),
-      queryMessages(query),
-    ]);
-    const { conversations, contacts } = discussions;
-
-    return {
-      contacts,
-      conversations,
-      messages,
-      normalizedPhoneNumber,
-      query,
-    };
-  }
+  return {
+    conversations,
+    contacts,
+    query,
+  };
 }
+
 function clearSearch(): ClearSearchActionType {
   return {
     type: 'SEARCH_CLEAR',
@@ -214,7 +257,7 @@ async function queryMessages(query: string, searchConversationId?: string) {
       return searchMessagesInConversation(normalized, searchConversationId);
     }
 
-    return searchMessages(normalized);
+    return dataSearchMessages(normalized);
   } catch (e) {
     return [];
   }
@@ -227,7 +270,7 @@ async function queryConversationsAndContacts(
   const { ourNumber, noteToSelf } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
-  const searchResults: Array<ConversationType> = await searchConversations(
+  const searchResults: Array<ConversationType> = await dataSearchConversations(
     query
   );
 
@@ -266,6 +309,8 @@ function getEmptyState(): SearchStateType {
     messageLookup: {},
     conversations: [],
     contacts: [],
+    discussionsLoading: false,
+    messagesLoading: false,
   };
 }
 
@@ -312,15 +357,27 @@ export function reducer(
     };
   }
 
-  if (action.type === 'SEARCH_RESULTS_FULFILLED') {
+  if (action.type === 'SEARCH_MESSAGES_RESULTS_PENDING') {
+    return {
+      ...state,
+      messageIds: [],
+      messageLookup: {},
+      messagesLoading: true,
+    };
+  }
+
+  if (action.type === 'SEARCH_DISCUSSIONS_RESULTS_PENDING') {
+    return {
+      ...state,
+      contacts: [],
+      conversations: [],
+      discussionsLoading: true,
+    };
+  }
+
+  if (action.type === 'SEARCH_MESSAGES_RESULTS_FULFILLED') {
     const { payload } = action;
-    const {
-      contacts,
-      conversations,
-      messages,
-      normalizedPhoneNumber,
-      query,
-    } = payload;
+    const { messages, normalizedPhoneNumber, query } = payload;
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
@@ -331,12 +388,23 @@ export function reducer(
 
     return {
       ...state,
-      contacts,
-      conversations,
       normalizedPhoneNumber,
       query,
       messageIds,
       messageLookup: makeLookup(messages, 'id'),
+      messagesLoading: false,
+    };
+  }
+
+  if (action.type === 'SEARCH_DISCUSSIONS_RESULTS_FULFILLED') {
+    const { payload } = action;
+    const { contacts, conversations } = payload;
+
+    return {
+      ...state,
+      contacts,
+      conversations,
+      discussionsLoading: false,
     };
   }
 

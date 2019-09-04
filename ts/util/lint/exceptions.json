@@ -7502,7 +7502,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 83,
+    "lineNumber": 87,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
@@ -7511,7 +7511,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 48,
+    "lineNumber": 53,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
@@ -7520,7 +7520,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SearchResults.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 21,
+    "lineNumber": 22,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T00:44:31.008Z",
     "reasonDetail": "SearchResults needs to interact with its child List directly"

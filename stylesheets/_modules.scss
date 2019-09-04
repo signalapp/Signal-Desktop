@@ -3219,20 +3219,6 @@
   padding-right: 1em;
   width: 100%;
   text-align: center;
-
-  animation: delayed-fade-in 2s;
-}
-
-@keyframes delayed-fade-in {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .module-search-results__contacts-header {
@@ -3255,6 +3241,13 @@
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 0;
+}
+
+.module-search-results__spinner-container {
+  width: 100%;
+  padding: 10px;
+
+  text-align: center;
 }
 
 // Module: Message Search Result
