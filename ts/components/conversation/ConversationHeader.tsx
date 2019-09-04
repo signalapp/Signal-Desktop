@@ -272,6 +272,10 @@ export class ConversationHeader extends React.Component<Props> {
       onChangeNickname,
     } = this.props;
 
+    if (isPublic) {
+      return null;
+    }
+
     const disappearingTitle = i18n('disappearingMessages') as any;
 
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
@@ -322,19 +326,17 @@ export class ConversationHeader extends React.Component<Props> {
     );
 
     return (
-      !isPublic && (
-        <React.Fragment>
-          {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
-          {disappearingMessagesMenuItem}
-          {showMembersMenuItem}
-          {showSafetyNumberMenuItem}
-          {resetSessionMenuItem}
-          {blockHandlerMenuItem}
-          {changeNicknameMenuItem}
-          {clearNicknameMenuItem}
-          {archiveConversationMenuItem}
-        </React.Fragment>
-      )
+      <React.Fragment>
+        {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
+        {disappearingMessagesMenuItem}
+        {showMembersMenuItem}
+        {showSafetyNumberMenuItem}
+        {resetSessionMenuItem}
+        {blockHandlerMenuItem}
+        {changeNicknameMenuItem}
+        {clearNicknameMenuItem}
+        {archiveConversationMenuItem}
+      </React.Fragment>
     );
   }
 }
