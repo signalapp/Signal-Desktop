@@ -127,8 +127,9 @@ class LokiRssAPI extends EventEmitter {
         message: messageData,
       });
     });
+    const ref = this;
     function callTimer() {
-      this.getFeed();
+      ref.getFeed();
     }
     this.feedTimer = setTimeout(callTimer, RSS_POLL_EVERY);
   }

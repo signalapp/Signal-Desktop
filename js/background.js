@@ -219,13 +219,8 @@
       }
     );
     publicConversations.forEach(conversation => {
-      const settings = conversation.getPublicSource();
-      const channel = window.lokiPublicChatAPI.findOrCreateChannel(
-        settings.server,
-        settings.channelId,
-        conversation.id
-      );
-      channel.refreshModStatus();
+      // weird but create the object and does everything we need
+      conversation.getPublicSendData();
     });
   };
 

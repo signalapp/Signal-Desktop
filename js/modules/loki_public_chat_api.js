@@ -1,11 +1,13 @@
-/* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController */
+/* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
+clearTimeout */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 
 // Can't be less than 1200 if we have unauth'd requests
-const GROUPCHAT_POLL_EVERY = 1500; // 1.5s
-const DELETION_POLL_EVERY = 5000; // 1 second
+const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
+const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
+const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 1 second
 
 // singleton to relay events to libtextsecure/message_receiver
 class LokiPublicChatAPI extends EventEmitter {
@@ -203,18 +205,33 @@ class LokiPublicChannelAPI {
     this.serverAPI = serverAPI;
     this.channelId = channelId;
     this.baseChannelUrl = `channels/${this.channelId}`;
-    this.groupName = 'unknown';
     this.conversationId = conversationId;
+    this.conversation = ConversationController.get(conversationId);
     this.lastGot = null;
     this.stopPolling = false;
     this.modStatus = false;
     this.deleteLastId = 1;
+    this.timers = {};
     // end properties
 
     log.info(`registered LokiPublicChannel ${channelId}`);
     // start polling
     this.pollForMessages();
     this.pollForDeletions();
+    this.pollForChannel();
+    this.refreshModStatus();
+  }
+
+  stop() {
+    if (this.timers.channel) {
+      clearTimeout(this.timers.channel);
+    }
+    if (this.timers.delete) {
+      clearTimeout(this.timers.delete);
+    }
+    if (this.timers.message) {
+      clearTimeout(this.timers.message);
+    }
   }
 
   // make a request to the server
@@ -290,18 +307,51 @@ class LokiPublicChannelAPI {
 
   // get moderator status
   async refreshModStatus() {
+    // get moderator status
     const res = await this.serverRequest('loki/v1/user_info');
     // if no problems and we have data
     if (!res.err && res.response && res.response.data) {
       this.modStatus = res.response.data.moderator_status;
     }
+    // if problems, we won't drop moderator status
 
-    const conversation = ConversationController.get(this.conversationId);
-    await conversation.setModStatus(this.modStatus);
+    await this.conversation.setModStatus(this.modStatus);
+
+    // get token info
+    const tokenRes = await this.serverRequest('token');
+    // if no problems and we have data
+    if (
+      !tokenRes.err &&
+      tokenRes.response &&
+      tokenRes.response.data &&
+      tokenRes.response.data.user
+    ) {
+      // get our profile name and write it to the network
+      const ourNumber = textsecure.storage.user.getNumber();
+      const profileConvo = ConversationController.get(ourNumber);
+      const profileName = profileConvo.getProfileName();
+
+      // update profile name as needed
+      if (tokenRes.response.data.user.name !== profileName) {
+        if (profileName) {
+          await this.serverRequest('users/me', {
+            method: 'PATCH',
+            objBody: {
+              name: profileName,
+            },
+          });
+          // no big deal if it fails...
+          // } else {
+          // should we update the local from the server?
+          // guessing no because there will be multiple servers
+        }
+        // update our avatar if needed
+      }
+    }
   }
 
   // delete a message on the server
-  async deleteMessage(serverId) {
+  async deleteMessage(serverId, canThrow = false) {
     const res = await this.serverRequest(
       this.modStatus
         ? `loki/v1/moderation/message/${serverId}`
@@ -312,7 +362,13 @@ class LokiPublicChannelAPI {
       log.info(`deleted ${serverId} on ${this.baseChannelUrl}`);
       return true;
     }
+    // fire an alert
     log.warn(`failed to delete ${serverId} on ${this.baseChannelUrl}`);
+    if (canThrow) {
+      throw new textsecure.PublicChatError(
+        'Failed to delete public chat message'
+      );
+    }
     return false;
   }
 
@@ -324,43 +380,46 @@ class LokiPublicChannelAPI {
     return endpoint;
   }
 
-  // update room details
+  // get moderation actions
   async pollForChannel() {
-    // groupName will be loaded from server
-    const url = new URL(this.baseChannelUrl);
-    let res;
-    const token = await this.serverAPI.getOrRefreshServerToken();
-    if (!token) {
-      log.error('NO TOKEN');
-      return {
-        err: 'noToken',
-      };
-    }
     try {
-      // eslint-disable-next-line no-await-in-loop
-      const options = {
-        headers: new Headers({
-          Authorization: `Bearer ${token}`,
-        }),
-      };
-      res = await nodeFetch(url, options || undefined);
+      await this.pollForChannelOnce();
     } catch (e) {
-      log.info(`e ${e}`);
-      return {
-        err: e,
-      };
+      log.warn(`Error while polling for public chat deletions: ${e}`);
     }
-    // eslint-disable-next-line no-await-in-loop
-    const response = await res.json();
-    if (response.meta.code !== 200) {
-      return {
-        err: 'statusCode',
-        response,
-      };
+    this.timers.channel = setTimeout(() => {
+      this.pollForChannelOnce();
+    }, PUBLICCHAT_CHAN_POLL_EVERY);
+  }
+
+  // update room details
+  async pollForChannelOnce() {
+    const res = await this.serverRequest(`${this.baseChannelUrl}`, {
+      params: {
+        include_annotations: 1,
+      },
+    });
+    if (
+      !res.err &&
+      res.response &&
+      res.response.data.annotations &&
+      res.response.data.annotations.length
+    ) {
+      res.response.data.annotations.forEach(note => {
+        if (note.type === 'net.patter-app.settings') {
+          // note.value.description only needed for directory
+          // this.conversation.setGroupNameAndAvatar(note.value.name,
+          // note.value.avatar);
+          if (note.value && note.value.name) {
+            this.conversation.setProfileName(note.value.name);
+          }
+          if (note.value && note.value.avatar) {
+            this.conversation.setProfileAvatar(note.value.avatar);
+          }
+          // else could set a default in case of server problems...
+        }
+      });
     }
-    return {
-      response,
-    };
   }
 
   // get moderation actions
@@ -370,9 +429,9 @@ class LokiPublicChannelAPI {
     } catch (e) {
       log.warn(`Error while polling for public chat deletions: ${e}`);
     }
-    setTimeout(() => {
+    this.timers.delete = setTimeout(() => {
       this.pollForDeletions();
-    }, DELETION_POLL_EVERY);
+    }, PUBLICCHAT_DELETION_POLL_EVERY);
   }
 
   async pollOnceForDeletions() {
@@ -423,8 +482,8 @@ class LokiPublicChannelAPI {
       log.warn(`Error while polling for public chat messages: ${e}`);
     }
     setTimeout(() => {
-      this.pollForMessages();
-    }, GROUPCHAT_POLL_EVERY);
+      this.timers.message = this.pollForMessages();
+    }, PUBLICCHAT_MSG_POLL_EVERY);
   }
 
   async pollOnceForMessages() {
@@ -433,12 +492,11 @@ class LokiPublicChannelAPI {
       count: -20,
       include_deleted: false,
     };
-    const conversation = ConversationController.get(this.conversationId);
-    if (!conversation) {
+    if (!this.conversation) {
       log.warn('Trying to poll for non-existing public conversation');
       this.lastGot = 0;
     } else if (!this.lastGot) {
-      this.lastGot = conversation.getLastRetrievedMessage();
+      this.lastGot = this.conversation.getLastRetrievedMessage();
     }
     params.since_id = this.lastGot;
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
@@ -449,8 +507,8 @@ class LokiPublicChannelAPI {
       let receivedAt = new Date().getTime();
       res.response.data.reverse().forEach(adnMessage => {
         let timestamp = new Date(adnMessage.created_at).getTime();
-        let from = adnMessage.user.username;
-        let source;
+        // pubKey lives in the username field
+        let from = adnMessage.user.name;
         if (adnMessage.is_deleted) {
           return;
         }
@@ -459,14 +517,21 @@ class LokiPublicChannelAPI {
           adnMessage.annotations.length !== 0
         ) {
           const noteValue = adnMessage.annotations[0].value;
-          ({ from, timestamp, source } = noteValue);
+          ({ timestamp } = noteValue);
+
+          // if user doesn't have a name set, fallback to annotation
+          // pubkeys are already there in v1 (first release)
+          if (!from) {
+            ({ from } = noteValue);
+          }
         }
 
         if (
           !from ||
           !timestamp ||
-          !source ||
           !adnMessage.id ||
+          !adnMessage.user ||
+          !adnMessage.user.username ||
           !adnMessage.text
         ) {
           return; // Invalid message
@@ -475,7 +540,7 @@ class LokiPublicChannelAPI {
         const messageData = {
           serverId: adnMessage.id,
           friendRequest: false,
-          source,
+          source: adnMessage.user.username,
           sourceDevice: 1,
           timestamp,
           serverTimestamp: timestamp,
@@ -507,11 +572,15 @@ class LokiPublicChannelAPI {
         this.serverAPI.chatAPI.emit('publicMessage', {
           message: messageData,
         });
+
+        // now process any user meta data updates
+        // - update their conversation with a potentially new avatar
+
         this.lastGot = !this.lastGot
           ? adnMessage.id
           : Math.max(this.lastGot, adnMessage.id);
       });
-      conversation.setLastRetrievedMessage(this.lastGot);
+      this.conversation.setLastRetrievedMessage(this.lastGot);
     }
   }
 
