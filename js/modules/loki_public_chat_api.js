@@ -412,8 +412,6 @@ class LokiPublicChannelAPI {
       res.response.data.annotations.forEach(note => {
         if (note.type === 'net.patter-app.settings') {
           // note.value.description only needed for directory
-          // this.conversation.setGroupNameAndAvatar(note.value.name,
-          // note.value.avatar);
           if (note.value && note.value.name) {
             this.conversation.setGroupName(note.value.name);
           }
