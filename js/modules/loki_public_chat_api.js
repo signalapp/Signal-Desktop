@@ -369,9 +369,12 @@ class LokiPublicChannelAPI {
         include_annotations: 1,
       },
     });
-    if (!res.err && res.response && res.response.data.annotations &&
-        res.response.data.annotations.length
-      ) {
+    if (
+      !res.err &&
+      res.response &&
+      res.response.data.annotations &&
+      res.response.data.annotations.length
+    ) {
       res.response.data.annotations.forEach(note => {
         if (note.type === 'net.patter-app.settings') {
           // note.value.description only needed for directory
@@ -402,7 +405,7 @@ class LokiPublicChannelAPI {
     }
     setTimeout(() => {
       this.pollForDeletions();
-    }, DELETION_POLL_EVERY);
+    }, PUBLICCHAT_DELETION_POLL_EVERY);
   }
 
   async pollOnceForDeletions() {
@@ -454,7 +457,7 @@ class LokiPublicChannelAPI {
     }
     setTimeout(() => {
       this.pollForMessages();
-    }, GROUPCHAT_POLL_EVERY);
+    }, PUBLICCHAT_MSG_POLL_EVERY);
   }
 
   async pollOnceForMessages() {
