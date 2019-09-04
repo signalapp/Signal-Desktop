@@ -10,6 +10,7 @@ import {
   without,
 } from 'lodash';
 import { trigger } from '../../shims/events';
+import { isVoiceFlag } from '../../shims/Whisper';
 import { NoopActionType } from './noop';
 import {
   AttachmentType,
@@ -541,7 +542,8 @@ function hasMessageHeightChanged(
     previousAttachments[0].pending &&
     messageAttachments[0] &&
     (isImageAttachment(messageAttachments[0]) ||
-      isVideoAttachment(messageAttachments[0])) &&
+      isVideoAttachment(messageAttachments[0]) ||
+      isVoiceFlag(messageAttachments[0].flags)) &&
     !messageAttachments[0].pending;
   if (singleVisualAttachmentNoLongerPending) {
     return true;

@@ -38,6 +38,7 @@ export interface AttachmentType {
     url: string;
     contentType: MIME.MIMEType;
   };
+  flags?: number;
   thumbnail?: {
     height: number;
     width: number;
