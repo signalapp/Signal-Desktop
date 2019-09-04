@@ -195,7 +195,7 @@
       return this.id === this.ourNumber;
     },
     isPublic() {
-      return this.id.match(/^publicChat:/);
+      return this.id && this.id.match(/^publicChat:/);
     },
     isClosable() {
       return !this.isRss() || this.get('closable');

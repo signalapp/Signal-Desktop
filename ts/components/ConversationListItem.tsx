@@ -199,9 +199,13 @@ export class ConversationListItem extends React.PureComponent<Props> {
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {!isMe && isClosable ? (
           !isPublic ? (
-            <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deleteContact')}
+            </MenuItem>
           ) : (
-            <MenuItem onClick={onDeleteContact}>{i18n('deletePublicChannel')}</MenuItem>
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deletePublicChannel')}
+            </MenuItem>
           )
         ) : null}
       </ContextMenu>
