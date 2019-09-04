@@ -5025,7 +5025,7 @@
 .module-composition-area {
   position: relative;
   min-height: 48px;
-  padding-top: 12px;
+  padding-top: 6px;
 
   &__row {
     display: flex;
@@ -5085,7 +5085,7 @@
     height: 24px;
     position: absolute;
     left: calc(50% - 24px);
-    top: -24px;
+    top: -18px;
     border-radius: 12px 12px 0 0;
 
     opacity: 0;
@@ -5142,9 +5142,6 @@
 
 .composition-area-placeholder {
   flex-grow: 1;
-  margin: {
-    bottom: 6px;
-  }
 }
 
 // Module: Last Seen Indicator
