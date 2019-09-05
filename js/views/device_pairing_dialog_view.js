@@ -74,7 +74,12 @@
         waitingForRequestView.hide();
         requestAcceptedView.show();
       } else if (this.pubKey) {
-        this.$('.secondaryPubKey').text(this.pubKey);
+        const secretWords = window.mnemonic
+          .mn_encode(this.pubKey.slice(2), 'english')
+          .split(' ')
+          .slice(-3)
+          .join(' ');
+        this.$('.secretWords').text(secretWords);
         requestReceivedView.show();
         waitingForRequestView.hide();
         requestAcceptedView.hide();

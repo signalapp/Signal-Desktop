@@ -110,7 +110,9 @@
       'private'
     );
     const lokiProfile = conversation.getLokiProfile();
-    const profile = new textsecure.protobuf.DataMessage.LokiProfile(lokiProfile);
+    const profile = new textsecure.protobuf.DataMessage.LokiProfile(
+      lokiProfile
+    );
     const dataMessage = new textsecure.protobuf.DataMessage({
       profile,
     });

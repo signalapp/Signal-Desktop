@@ -222,8 +222,14 @@
         countDownCallBack();
         this.pairingInterval = setInterval(countDownCallBack, 1000);
         const pubkey = textsecure.storage.user.getNumber();
+        const words = window.mnemonic
+          .mn_encode(pubkey.slice(2), 'english')
+          .split(' ')
+          .slice(-3)
+          .join(' ');
+
         this.$('.standalone-secondary-device #pubkey').text(
-          `Here is your pubkey:\n${pubkey}`
+          `Here is your secret:\n${words}`
         );
       } catch (e) {
         onError(e);
