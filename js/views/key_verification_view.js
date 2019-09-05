@@ -25,7 +25,7 @@
 
       this.render();
       if (options.onLoad) {
-        options.onLoad();
+        options.onLoad(this);
       }
 
       this.loadKeys().then(() => {
