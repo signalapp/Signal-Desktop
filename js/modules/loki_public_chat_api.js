@@ -458,7 +458,7 @@ class LokiPublicChannelAPI {
 
       // if any problems, abort out
       if (res.err || !res.response) {
-        if (res.err) log.error('Error '+res.err);
+        if (res.err) log.error(`Error ${res.err}`);
         break;
       }
 
