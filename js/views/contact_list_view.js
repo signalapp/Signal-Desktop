@@ -54,9 +54,9 @@
         this.loading = true;
         this.render();
 
-        const view = new Whisper.KeyVerificationPanelView({
+        this.panelView = new Whisper.KeyVerificationPanelView({
           model: this.model,
-          onLoad: () => {
+          onLoad: view => {
             this.loading = false;
             this.listenBack(view);
             this.render();
