@@ -299,13 +299,16 @@ describe('SecretSessionCipher', () => {
 
     try {
       await bobCipher.decrypt(
-        createCertificateValidator(trustRoot.puKey),
+        createCertificateValidator(trustRoot.pubKey),
         ciphertext,
         31335
       );
       throw new Error('It did not fail!');
     } catch (error) {
-      assert.strictEqual(error.message, 'Invalid public key');
+      assert.strictEqual(
+        error.message,
+        "Sender's certificate key does not match key used in message"
+      );
     }
   });
 

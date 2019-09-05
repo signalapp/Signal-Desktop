@@ -37,6 +37,7 @@ interface Props {
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
+  onSearchInConversation: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -152,14 +153,21 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderExpirationLength() {
-    const { expirationSettingName } = this.props;
+    const { expirationSettingName, showBackButton } = this.props;
 
     if (!expirationSettingName) {
       return null;
     }
 
     return (
-      <div className="module-conversation-header__expiration">
+      <div
+        className={classNames(
+          'module-conversation-header__expiration',
+          showBackButton
+            ? 'module-conversation-header__expiration--hidden'
+            : null
+        )}
+      >
         <div className="module-conversation-header__expiration__clock-icon" />
         <div className="module-conversation-header__expiration__setting">
           {expirationSettingName}
@@ -168,7 +176,7 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderGear(triggerId: string) {
+  public renderMoreButton(triggerId: string) {
     const { showBackButton } = this.props;
 
     return (
@@ -176,14 +184,31 @@ export class ConversationHeader extends React.Component<Props> {
         <button
           onClick={this.showMenuBound}
           className={classNames(
-            'module-conversation-header__gear-icon',
+            'module-conversation-header__more-button',
             showBackButton
               ? null
-              : 'module-conversation-header__gear-icon--show'
+              : 'module-conversation-header__more-button--show'
           )}
           disabled={showBackButton}
         />
       </ContextMenuTrigger>
+    );
+  }
+
+  public renderSearchButton() {
+    const { onSearchInConversation, showBackButton } = this.props;
+
+    return (
+      <button
+        onClick={onSearchInConversation}
+        className={classNames(
+          'module-conversation-header__search-button',
+          showBackButton
+            ? null
+            : 'module-conversation-header__search-button--show'
+        )}
+        disabled={showBackButton}
+      />
     );
   }
 
@@ -260,7 +285,8 @@ export class ConversationHeader extends React.Component<Props> {
           </div>
         </div>
         {this.renderExpirationLength()}
-        {this.renderGear(triggerId)}
+        {this.renderSearchButton()}
+        {this.renderMoreButton(triggerId)}
         {this.renderMenu(triggerId)}
       </div>
     );

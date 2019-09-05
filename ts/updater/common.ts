@@ -160,26 +160,15 @@ export async function showUpdateDialog(
     cancelId: RESTART_BUTTON,
   };
 
-  return new Promise(resolve => {
-    dialog.showMessageBox(mainWindow, options, response => {
-      if (response === RESTART_BUTTON) {
-        // It's key to delay any install calls here because they don't seem to work inside this
-        //   callback - but only if the message box has a parent window.
-        // Fixes this: https://github.com/signalapp/Signal-Desktop/issues/1864
-        resolve(true);
+  const { response } = await dialog.showMessageBox(mainWindow, options);
 
-        return;
-      }
-
-      resolve(false);
-    });
-  });
+  return response === RESTART_BUTTON;
 }
 
 export async function showCannotUpdateDialog(
   mainWindow: BrowserWindow,
   messages: MessagesType
-): Promise<boolean> {
+): Promise<any> {
   const options = {
     type: 'error',
     buttons: [messages.ok.message],
@@ -187,11 +176,7 @@ export async function showCannotUpdateDialog(
     message: messages.cannotUpdateDetail.message,
   };
 
-  return new Promise(resolve => {
-    dialog.showMessageBox(mainWindow, options, () => {
-      resolve();
-    });
-  });
+  await dialog.showMessageBox(mainWindow, options);
 }
 
 // Helper functions

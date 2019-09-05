@@ -17,6 +17,10 @@
   'use strict';
 
   const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
+  const deliveryReceiptQueue = new window.PQueue({
+    concurrency: 1,
+  });
+  deliveryReceiptQueue.pause();
 
   // Globally disable drag and drop
   document.body.addEventListener(
@@ -159,8 +163,6 @@
   window.owsDesktopApp = {};
   window.document.title = window.getTitle();
 
-  // start a background worker for ecc
-  textsecure.startWorker('js/libsignal-protocol-worker.js');
   Whisper.KeyChangeListener.init(textsecure.storage.protocol);
   textsecure.storage.protocol.on('removePreKey', () => {
     getAccountManager().refreshPreKeys();
@@ -476,6 +478,12 @@
     const initialState = {
       conversations: {
         conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
+        messagesByConversation: {},
+        messagesLookup: {},
+        selectedConversation: null,
+        selectedMessage: null,
+        selectedMessageCounter: 0,
+        showArchived: false,
       },
       emojis: Signal.Emojis.getInitialState(),
       items: storage.getItemsState(),
@@ -512,6 +520,10 @@
     );
     actions.user = Signal.State.bindActionCreators(
       Signal.State.Ducks.user.actions,
+      store.dispatch
+    );
+    actions.search = Signal.State.bindActionCreators(
+      Signal.State.Ducks.search.actions,
       store.dispatch
     );
     actions.stickers = Signal.State.bindActionCreators(
@@ -814,6 +826,7 @@
       serverTrustRoot: window.getServerTrustRoot(),
     };
 
+    deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
     Whisper.Notifications.disable(); // avoid notification flood until empty
 
     // initialize the socket and start listening for messages
@@ -986,6 +999,7 @@
       }
     }, 500);
 
+    deliveryReceiptQueue.start();
     Whisper.Notifications.enable();
   }
   function onReconnect() {
@@ -993,6 +1007,7 @@
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
+    deliveryReceiptQueue.pause();
     Whisper.Notifications.disable();
   }
   function onProgress(ev) {
@@ -1535,25 +1550,27 @@
       return message;
     }
 
-    try {
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        data.source
-      );
-      await wrap(
-        textsecure.messaging.sendDeliveryReceipt(
-          data.source,
-          data.timestamp,
-          sendOptions
-        )
-      );
-    } catch (error) {
-      window.log.error(
-        `Failed to send delivery receipt to ${data.source} for message ${
-          data.timestamp
-        }:`,
-        error && error.stack ? error.stack : error
-      );
-    }
+    deliveryReceiptQueue.add(async () => {
+      try {
+        const { wrap, sendOptions } = ConversationController.prepareForSend(
+          data.source
+        );
+        await wrap(
+          textsecure.messaging.sendDeliveryReceipt(
+            data.source,
+            data.timestamp,
+            sendOptions
+          )
+        );
+      } catch (error) {
+        window.log.error(
+          `Failed to send delivery receipt to ${data.source} for message ${
+            data.timestamp
+          }:`,
+          error && error.stack ? error.stack : error
+        );
+      }
+    });
 
     return message;
   }

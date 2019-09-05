@@ -1,13 +1,14 @@
 import React from 'react';
+import classNames from 'classnames';
 import { debounce } from 'lodash';
 
 import { Avatar } from './Avatar';
-
-import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { LocalizerType } from '../types/Util';
 
-export interface Props {
+export interface PropsType {
   searchTerm: string;
+  searchConversationName?: string;
+  searchConversationId?: string;
 
   // To be used as an ID
   ourNumber: string;
@@ -24,58 +25,87 @@ export interface Props {
 
   i18n: LocalizerType;
   updateSearchTerm: (searchTerm: string) => void;
-  search: (
+  searchMessages: (
     query: string,
     options: {
+      searchConversationId?: string;
       regionCode: string;
+    }
+  ) => void;
+  searchDiscussions: (
+    query: string,
+    options: {
       ourNumber: string;
       noteToSelf: string;
     }
   ) => void;
+
+  clearConversationSearch: () => void;
   clearSearch: () => void;
 }
 
-export class MainHeader extends React.Component<Props> {
-  private readonly updateSearchBound: (
-    event: React.FormEvent<HTMLInputElement>
-  ) => void;
-  private readonly clearSearchBound: () => void;
-  private readonly handleKeyUpBound: (
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) => void;
-  private readonly setFocusBound: () => void;
+export class MainHeader extends React.Component<PropsType> {
   private readonly inputRef: React.RefObject<HTMLInputElement>;
-  private readonly debouncedSearch: (searchTerm: string) => void;
 
-  constructor(props: Props) {
+  constructor(props: PropsType) {
     super(props);
 
-    this.updateSearchBound = this.updateSearch.bind(this);
-    this.clearSearchBound = this.clearSearch.bind(this);
-    this.handleKeyUpBound = this.handleKeyUp.bind(this);
-    this.setFocusBound = this.setFocus.bind(this);
     this.inputRef = React.createRef();
-
-    this.debouncedSearch = debounce(this.search.bind(this), 20);
   }
 
-  public search() {
-    const { searchTerm, search, i18n, ourNumber, regionCode } = this.props;
-    if (search) {
-      search(searchTerm, {
-        noteToSelf: i18n('noteToSelf').toLowerCase(),
-        ourNumber,
-        regionCode,
-      });
+  public componentDidUpdate(prevProps: PropsType) {
+    const { searchConversationId } = this.props;
+
+    // When user chooses to search in a given conversation we focus the field for them
+    if (
+      searchConversationId &&
+      searchConversationId !== prevProps.searchConversationId
+    ) {
+      this.setFocus();
     }
   }
 
-  public updateSearch(event: React.FormEvent<HTMLInputElement>) {
-    const { updateSearchTerm, clearSearch } = this.props;
+  // tslint:disable-next-line member-ordering
+  public search = debounce((searchTerm: string) => {
+    const {
+      i18n,
+      ourNumber,
+      regionCode,
+      searchDiscussions,
+      searchMessages,
+      searchConversationId,
+    } = this.props;
+
+    if (searchDiscussions && !searchConversationId) {
+      searchDiscussions(searchTerm, {
+        noteToSelf: i18n('noteToSelf').toLowerCase(),
+        ourNumber,
+      });
+    }
+
+    if (searchMessages) {
+      searchMessages(searchTerm, {
+        searchConversationId,
+        regionCode,
+      });
+    }
+  }, 200);
+
+  public updateSearch = (event: React.FormEvent<HTMLInputElement>) => {
+    const {
+      updateSearchTerm,
+      clearConversationSearch,
+      clearSearch,
+      searchConversationId,
+    } = this.props;
     const searchTerm = event.currentTarget.value;
 
     if (!searchTerm) {
-      clearSearch();
+      if (searchConversationId) {
+        clearConversationSearch();
+      } else {
+        clearSearch();
+      }
 
       return;
     }
@@ -88,46 +118,81 @@ export class MainHeader extends React.Component<Props> {
       return;
     }
 
-    const cleanedTerm = cleanSearchTerm(searchTerm);
-    if (!cleanedTerm) {
-      return;
-    }
+    this.search(searchTerm);
+  };
 
-    this.debouncedSearch(cleanedTerm);
-  }
-
-  public clearSearch() {
+  public clearSearch = () => {
     const { clearSearch } = this.props;
 
     clearSearch();
     this.setFocus();
-  }
+  };
 
-  public handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
-    const { clearSearch } = this.props;
+  public clearConversationSearch = () => {
+    const { clearConversationSearch } = this.props;
 
-    if (event.key === 'Escape') {
+    clearConversationSearch();
+    this.setFocus();
+  };
+
+  public handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const {
+      clearConversationSearch,
+      clearSearch,
+      searchConversationId,
+      searchTerm,
+    } = this.props;
+
+    if (event.key !== 'Escape') {
+      return;
+    }
+
+    if (searchConversationId && searchTerm) {
+      clearConversationSearch();
+    } else {
       clearSearch();
     }
-  }
+  };
 
-  public setFocus() {
+  public handleXButton = () => {
+    const {
+      searchConversationId,
+      clearConversationSearch,
+      clearSearch,
+    } = this.props;
+
+    if (searchConversationId) {
+      clearConversationSearch();
+    } else {
+      clearSearch();
+    }
+
+    this.setFocus();
+  };
+
+  public setFocus = () => {
     if (this.inputRef.current) {
       // @ts-ignore
       this.inputRef.current.focus();
     }
-  }
+  };
 
   public render() {
     const {
-      searchTerm,
       avatarPath,
-      i18n,
       color,
+      i18n,
       name,
       phoneNumber,
       profileName,
+      searchConversationId,
+      searchConversationName,
+      searchTerm,
     } = this.props;
+
+    const placeholder = searchConversationName
+      ? i18n('searchIn', [searchConversationName])
+      : i18n('search');
 
     return (
       <div className="module-main-header">
@@ -142,26 +207,45 @@ export class MainHeader extends React.Component<Props> {
           size={28}
         />
         <div className="module-main-header__search">
-          <div
-            role="button"
-            className="module-main-header__search__icon"
-            onClick={this.setFocusBound}
-          />
+          {searchConversationId ? (
+            <button
+              className="module-main-header__search__in-conversation-pill"
+              onClick={this.clearSearch}
+            >
+              <div className="module-main-header__search__in-conversation-pill__avatar-container">
+                <div className="module-main-header__search__in-conversation-pill__avatar" />
+              </div>
+              <div className="module-main-header__search__in-conversation-pill__x-button" />
+            </button>
+          ) : (
+            <button
+              className="module-main-header__search__icon"
+              onClick={this.setFocus}
+            />
+          )}
           <input
             type="text"
             ref={this.inputRef}
-            className="module-main-header__search__input"
-            placeholder={i18n('search')}
+            className={classNames(
+              'module-main-header__search__input',
+              searchTerm
+                ? 'module-main-header__search__input--with-text'
+                : null,
+              searchConversationId
+                ? 'module-main-header__search__input--in-conversation'
+                : null
+            )}
+            placeholder={placeholder}
             dir="auto"
-            onKeyUp={this.handleKeyUpBound}
+            onKeyUp={this.handleKeyUp}
             value={searchTerm}
-            onChange={this.updateSearchBound}
+            onChange={this.updateSearch}
           />
           {searchTerm ? (
             <div
               role="button"
               className="module-main-header__search__cancel-icon"
-              onClick={this.clearSearchBound}
+              onClick={this.handleXButton}
             />
           ) : null}
         </div>

@@ -309,11 +309,6 @@
     "description":
       "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
-  "messageBelow": {
-    "message": "New message below",
-    "description":
-      "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-  },
   "messagesBelow": {
     "message": "New messages below",
     "description":
@@ -740,6 +735,17 @@
     "message": "Search",
     "description": "Placeholder text in the search input"
   },
+  "searchIn": {
+    "message": "Search in $conversationName$",
+    "description":
+      "Shown in the search box before text is entered when searching in a specific conversation",
+    "placeholders": {
+      "conversationName": {
+        "content": "$1",
+        "example": "Friends"
+      }
+    }
+  },
   "noSearchResults": {
     "message": "No results for \"$searchTerm$\"",
     "description": "Shown in the search left pane when no results were found",
@@ -747,6 +753,20 @@
       "searchTerm": {
         "content": "$1",
         "example": "dog"
+      }
+    }
+  },
+  "noSearchResultsInConversation": {
+    "message": "No results for \"$searchTerm$\" in $conversationName$",
+    "description": "Shown in the search left pane when no results were found",
+    "placeholders": {
+      "searchTerm": {
+        "content": "$1",
+        "example": "dog"
+      },
+      "searchTerm": {
+        "content": "$2",
+        "example": "Friends"
       }
     }
   },
@@ -1725,6 +1745,12 @@
       }
     }
   },
+
+  "ConversationListItem--draft-prefix": {
+    "message": "Draft:",
+    "description":
+      "Prefix shown in italic in conversation view when a draft is saved"
+  },
   "message--getNotificationText--stickers": {
     "message": "Sticker message",
     "description":
@@ -1911,5 +1937,20 @@
     "message": "View Photo",
     "description":
       "Text shown on messages with with individual timers, before user has viewed it"
+  },
+  "Conversation--getDraftPreview--attachment": {
+    "message": "(attachment)",
+    "description":
+      "Text shown in left pane as preview for conversation with saved a saved draft message"
+  },
+  "Conversation--getDraftPreview--quote": {
+    "message": "(quote)",
+    "description":
+      "Text shown in left pane as preview for conversation with saved a saved draft message"
+  },
+  "Conversation--getDraftPreview--draft": {
+    "message": "(draft)",
+    "description":
+      "Text shown in left pane as preview for conversation with saved a saved draft message"
   }
 }

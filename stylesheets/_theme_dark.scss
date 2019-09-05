@@ -1148,7 +1148,7 @@ body.dark-theme {
   }
 
   .module-conversation-header__back-icon {
-    @include color-svg('../images/back.svg', $color-dark-05);
+    background-color: $color-dark-05;
   }
 
   .module-conversation-header__title {
@@ -1160,15 +1160,19 @@ body.dark-theme {
   }
 
   .module-conversation-header__title__verified-icon {
-    @include color-svg('../images/verified-check.svg', $color-dark-05);
+    background-color: $color-dark-05;
   }
 
   .module-conversation-header__expiration__clock-icon {
-    @include color-svg('../images/timer.svg', $color-dark-30);
+    background-color: $color-gray-25;
   }
 
-  .module-conversation-header__gear-icon {
-    @include color-svg('../images/gear.svg', $color-dark-30);
+  .module-conversation-header__more-button {
+    background-color: $color-gray-15;
+  }
+
+  .module-conversation-header__search-button {
+    background-color: $color-gray-15;
   }
 
   // Module: Message Detail
@@ -1392,17 +1396,30 @@ body.dark-theme {
     }
 
     &:focus {
-      border: solid 1px blue;
+      border: solid 1px $color-signal-blue;
       outline: none;
     }
   }
 
   .module-main-header__search__icon {
-    @include color-svg('../images/search.svg', $color-gray-25);
+    background-color: $color-gray-25;
   }
 
   .module-main-header__search__cancel-icon {
-    @include color-svg('../images/x-16.svg', $color-gray-25);
+    background-color: $color-gray-25;
+  }
+
+  .module-main-header__search__in-conversation-pill {
+    background-color: $color-gray-75;
+  }
+  .module-main-header__search__in-conversation-pill__avatar-container {
+    background-color: $color-signal-blue;
+  }
+  .module-main-header__search__in-conversation-pill__avatar {
+    background-color: $color-gray-05;
+  }
+  .module-main-header__search__in-conversation-pill__x-button {
+    background-color: $color-gray-25;
   }
 
   // Module: Image
@@ -1432,10 +1449,6 @@ body.dark-theme {
   }
 
   // Module: Attachments
-
-  .module-attachments {
-    border-top: 1px solid $color-gray-75;
-  }
 
   .module-attachments__close-button {
     @include color-svg('../images/x-16.svg', $color-gray-45);
@@ -1513,6 +1526,13 @@ body.dark-theme {
     background-color: $color-gray-05;
   }
 
+  .module-spinner__circle--on-background {
+    background-color: $color-gray-75;
+  }
+  .module-spinner__arc--on-background {
+    background-color: $color-gray-25;
+  }
+
   // Module: Caption Editor
 
   .module-caption-editor {
@@ -1581,7 +1601,7 @@ body.dark-theme {
   }
 
   .module-message-search-result__body {
-    color: $color-gray-05;
+    color: $color-gray-15;
   }
 
   // Module: Left Pane
@@ -1694,8 +1714,6 @@ body.dark-theme {
     }
   }
   .recorder {
-    background: $color-black;
-
     .finish {
       background: lighten($color-core-green, 20%);
       border: 1px solid $color-core-green;

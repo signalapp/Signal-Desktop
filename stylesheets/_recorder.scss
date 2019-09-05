@@ -2,14 +2,13 @@
   text-align: center;
 
   .microphone {
-    height: 36px;
-    width: 36px;
+    height: 32px;
+    width: 32px;
     text-align: center;
     opacity: 0.5;
     background: transparent;
     padding: 0;
     border: none;
-    margin-top: 2px;
 
     &:focus,
     &:hover {
@@ -26,18 +25,15 @@
   }
 }
 .recorder {
-  background: $color-white;
-
   button {
     float: right;
-    width: 36px;
-    height: 36px;
-    border-radius: 36px;
+    width: 32px;
+    height: 32px;
+    border-radius: 32px;
     margin-left: 5px;
     opacity: 0.5;
     text-align: center;
     padding: 0;
-    margin-top: 5px;
 
     &:focus,
     &:hover {
@@ -74,6 +70,7 @@
     float: right;
     line-height: 36px;
     padding: 0 10px;
+    transform: translateY(-2px);
 
     @keyframes pulse {
       0% {

@@ -25,7 +25,11 @@ describe('state/selectors/conversations', () => {
           lastUpdated: Date.now(),
           unreadCount: 1,
           isSelected: false,
-          isTyping: false,
+          typingContact: {
+            name: 'Someone There',
+            color: 'blue',
+            phoneNumber: '+18005551111',
+          },
         },
         id2: {
           id: 'id2',
@@ -40,7 +44,11 @@ describe('state/selectors/conversations', () => {
           lastUpdated: Date.now(),
           unreadCount: 1,
           isSelected: false,
-          isTyping: false,
+          typingContact: {
+            name: 'Someone There',
+            color: 'blue',
+            phoneNumber: '+18005551111',
+          },
         },
         id3: {
           id: 'id3',
@@ -55,7 +63,11 @@ describe('state/selectors/conversations', () => {
           lastUpdated: Date.now(),
           unreadCount: 1,
           isSelected: false,
-          isTyping: false,
+          typingContact: {
+            name: 'Someone There',
+            color: 'blue',
+            phoneNumber: '+18005551111',
+          },
         },
         id4: {
           id: 'id4',
@@ -70,7 +82,11 @@ describe('state/selectors/conversations', () => {
           lastUpdated: Date.now(),
           unreadCount: 1,
           isSelected: false,
-          isTyping: false,
+          typingContact: {
+            name: 'Someone There',
+            color: 'blue',
+            phoneNumber: '+18005551111',
+          },
         },
         id5: {
           id: 'id5',
@@ -85,7 +101,11 @@ describe('state/selectors/conversations', () => {
           lastUpdated: Date.now(),
           unreadCount: 1,
           isSelected: false,
-          isTyping: false,
+          typingContact: {
+            name: 'Someone There',
+            color: 'blue',
+            phoneNumber: '+18005551111',
+          },
         },
       };
       const comparator = _getConversationComparator(i18n, regionCode);

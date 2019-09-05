@@ -73,16 +73,25 @@ export class Countdown extends React.Component<Props, State> {
     const strokeDashoffset = ratio * CIRCUMFERENCE;
 
     return (
-      <svg className="module-countdown" viewBox="0 0 24 24">
-        <path
-          d="M12,1 A11,11,0,1,1,1,12,11.013,11.013,0,0,1,12,1Z"
-          className="module-countdown__path"
-          style={{
-            strokeDasharray: `${CIRCUMFERENCE}, ${CIRCUMFERENCE}`,
-            strokeDashoffset,
-          }}
-        />
-      </svg>
+      <div className="module-countdown">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12,1 A11,11,0,1,1,1,12,11.013,11.013,0,0,1,12,1Z"
+            className="module-countdown__back-path"
+            style={{
+              strokeDasharray: `${CIRCUMFERENCE}, ${CIRCUMFERENCE}`,
+            }}
+          />
+          <path
+            d="M12,1 A11,11,0,1,1,1,12,11.013,11.013,0,0,1,12,1Z"
+            className="module-countdown__front-path"
+            style={{
+              strokeDasharray: `${CIRCUMFERENCE}, ${CIRCUMFERENCE}`,
+              strokeDashoffset,
+            }}
+          />
+        </svg>
+      </div>
     );
   }
 }

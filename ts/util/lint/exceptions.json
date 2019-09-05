@@ -164,17 +164,17 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 178,
+    "lineNumber": 169,
     "reasonCategory": "falseMatch",
-    "updated": "2018-10-02T21:00:44.007Z"
+    "updated": "2019-07-31T00:19:18.696Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 213,
+    "lineNumber": 204,
     "reasonCategory": "falseMatch",
-    "updated": "2018-10-02T21:00:44.007Z"
+    "updated": "2019-07-31T00:19:18.696Z"
   },
   {
     "rule": "jQuery-$(",
@@ -363,8 +363,8 @@
     "line": "        this.$el.append(this.contactView.el);",
     "lineNumber": 46,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-10-02T21:18:39.026Z",
-    "reasonDetail": "Operating on previously-existing DOM elements"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
@@ -474,148 +474,139 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "jQuery-$(",
+    "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
-    "line": "        let $el = this.$(`#${id}`);",
-    "lineNumber": 34,
+    "line": "        view.$el.appendTo(this.el);",
+    "lineNumber": 32,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-prependTo(",
-    "path": "js/views/inbox_view.js",
-    "line": "        $el.prependTo(this.el);",
-    "lineNumber": 43,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 61,
+    "lineNumber": 63,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 78,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 85,
+    "lineNumber": 90,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 100,
+    "lineNumber": 107,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 104,
+    "lineNumber": 111,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 110,
+    "lineNumber": 117,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-05-10T00:25:51.515Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 130,
+    "lineNumber": 137,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 130,
+    "lineNumber": 137,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 171,
+    "lineNumber": 180,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 175,
+    "lineNumber": 184,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 179,
+    "lineNumber": 188,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 181,
+    "lineNumber": 190,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 201,
+    "lineNumber": 210,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 204,
+    "lineNumber": 213,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
@@ -720,45 +711,45 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 39,
+    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "js/views/key_verification_view.js",
     "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 40,
+    "lineNumber": 43,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-07-31T00:19:18.696Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "js/views/key_verification_view.js",
     "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 75,
+    "lineNumber": 72,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 79,
+    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 110,
+    "lineNumber": 107,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-append(",
@@ -777,105 +768,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Hard-coded value"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/message_list_view.js",
-    "line": "    template: $('#message-list').html(),",
-    "lineNumber": 13,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "Parameter is a hard-coded string"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/message_list_view.js",
-    "line": "    template: $('#message-list').html(),",
-    "lineNumber": 13,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "This is run at JS load time, which means we control the contents of the target element"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/message_list_view.js",
-    "line": "      this.$messages = this.$('.messages');",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "Parameter is a hard-coded string"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/message_list_view.js",
-    "line": "        this.$messages.append(view.el);",
-    "lineNumber": 111,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "view.el is a known DOM element"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "js/views/message_list_view.js",
-    "line": "        this.$messages.prepend(view.el);",
-    "lineNumber": 114,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "view.el is a known DOM element"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/message_list_view.js",
-    "line": "        const next = this.$(`#${this.collection.at(index + 1).id}`);",
-    "lineNumber": 117,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "Message ids are GUIDs, and therefore the resultant string for $() is an id"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/message_list_view.js",
-    "line": "          view.$el.insertBefore(next);",
-    "lineNumber": 120,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "next is a known DOM element"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "js/views/message_list_view.js",
-    "line": "          view.$el.insertAfter(prev);",
-    "lineNumber": 122,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "prev is a known DOM element"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/message_list_view.js",
-    "line": "                view.$el.insertBefore(elements[i]);",
-    "lineNumber": 131,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "elements[i] is a known DOM element"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/message_list_view.js",
-    "line": "            this.$messages.append(view.el);",
-    "lineNumber": 136,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-11-14T18:51:15.180Z",
-    "reasonDetail": "view.el is a known DOM element"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/message_view.js",
-    "line": "      this.$el.append(this.childView.el);",
-    "lineNumber": 144,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
@@ -1336,7 +1228,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer());",
-    "lineNumber": 147,
+    "lineNumber": 148,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1344,7 +1236,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));",
-    "lineNumber": 149,
+    "lineNumber": 150,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1352,7 +1244,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 805,
+    "lineNumber": 827,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1360,7 +1252,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 830,
+    "lineNumber": 852,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1421,6 +1313,13 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@develar/schema-utils/node_modules/ajv/dist/ajv.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-15T17:10:42.360Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/@protobufjs/inquire/index.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -1452,6 +1351,61 @@
     "lineNumber": 204,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/@yarnpkg/lockfile/index.js",
+    "lineNumber": 6546,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@yarnpkg/lockfile/index.js",
+    "line": "function load() {",
+    "lineNumber": 8470,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@yarnpkg/lockfile/index.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 8488,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@yarnpkg/lockfile/index.js",
+    "line": "function load() {",
+    "lineNumber": 8689,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@yarnpkg/lockfile/index.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 8713,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/ansi-colors/index.js",
+    "line": "    return typeof style === 'function' ? style(input) : style.wrap(input, newline);",
+    "lineNumber": 33,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/ansi-colors/index.js",
+    "line": "    while (n-- > 0) str = wrap(colors.styles[stack[n]], str, nl);",
+    "lineNumber": 46,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z"
   },
   {
     "rule": "jQuery-after(",
@@ -3143,93 +3097,6 @@
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-06T00:07:44.427Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 2557,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2580,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/dist/js-yaml.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 1580,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/dmg-builder/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 1603,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/dotenv-expand/lib/main.js",
-    "line": "    var matches = env.match(/\\$([a-zA-Z0-9_]+)|\\${([a-zA-Z0-9_]+)}/g) || []",
-    "lineNumber": 5,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
     "rule": "React-findDOMNode",
     "path": "node_modules/draft-js/dist/Draft.js",
     "line": "\t    var blockNode = ReactDOM.findDOMNode(this);",
@@ -3489,17 +3356,17 @@
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 2039,
+    "lineNumber": 2137,
     "reasonCategory": "falseMatch",
-    "updated": "2019-05-28T20:54:46.198Z"
+    "updated": "2019-08-15T17:10:42.360Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3443,
+    "lineNumber": 3748,
     "reasonCategory": "falseMatch",
-    "updated": "2019-05-28T20:54:46.198Z"
+    "updated": "2019-08-15T17:10:42.360Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3590,20 +3457,36 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/extglob/index.js",
-    "line": "    o[id] = wrap(inner, prefix, opts.escape);",
-    "lineNumber": 85,
+    "rule": "jQuery-load(",
+    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-07-31T00:19:18.696Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/extglob/index.js",
-    "line": "function wrap(inner, prefix, esc) {",
-    "lineNumber": 119,
+    "rule": "jQuery-load(",
+    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extglob/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extglob/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -5220,44 +5103,19 @@
     "updated": "2018-09-19T18:06:35.446Z"
   },
   {
-    "rule": "jQuery-before(",
-    "path": "node_modules/micromatch/node_modules/braces/index.js",
-    "line": "        str = tokens.before(str, es6Regex());",
-    "lineNumber": 92,
+    "rule": "jQuery-html(",
+    "path": "node_modules/marked/lib/marked.js",
+    "line": "      return this.renderer.html(this.token.text);",
+    "lineNumber": 1285,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-08-15T17:10:42.360Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/micromatch/node_modules/braces/index.js",
-    "line": "      return braces(str.replace(outter, wrap(segs, '|')), opts);",
-    "lineNumber": 121,
+    "rule": "jQuery-html(",
+    "path": "node_modules/marked/marked.min.js",
+    "lineNumber": 6,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/micromatch/node_modules/braces/index.js",
-    "line": "      segs[0] = wrap(segs[0], '\\\\');",
-    "lineNumber": 126,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/micromatch/node_modules/braces/index.js",
-    "line": "      arr.push(es6 ? tokens.after(val) : val);",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/micromatch/node_modules/braces/index.js",
-    "line": "function wrap(val, ch) {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-08-15T17:10:42.360Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -5727,6 +5585,24 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/object.getownpropertydescriptors/node_modules/es-abstract/operations/getOps.js",
+    "line": "var root = $(specHTML);",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z",
+    "reasonDetail": "$ in this case is cheerio"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/object.getownpropertydescriptors/node_modules/es-abstract/operations/getOps.js",
+    "line": "  var op = $(x);",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z",
+    "reasonDetail": "$ in this case is cheerio"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/optionator/lib/help.js",
     "line": "      return namesString + \"\" + typeSeparatorString + wrap(type).replace(/^\\s+/, '');",
@@ -5885,86 +5761,6 @@
     "lineNumber": 35,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\tthis.insertBefore(newChild,oldChild);",
-    "lineNumber": 2749,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\treturn this.insertBefore(newChild,null);",
-    "lineNumber": 2758,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\t\t\tthis.insertBefore(child,refChild);",
-    "lineNumber": 2995,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\t\treturn this.insertBefore(newChild,null);",
-    "lineNumber": 3157,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist-parse.js",
-    "line": "\t\t\tthis.parentNode.insertBefore(newNode, this.nextSibling);",
-    "lineNumber": 3273,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\tthis.insertBefore(newChild,oldChild);",
-    "lineNumber": 5476,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\treturn this.insertBefore(newChild,null);",
-    "lineNumber": 5485,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\t\t\tthis.insertBefore(child,refChild);",
-    "lineNumber": 5722,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\t\treturn this.insertBefore(newChild,null);",
-    "lineNumber": 5884,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/plist/dist/plist.js",
-    "line": "\t\t\tthis.parentNode.insertBefore(newNode, this.nextSibling);",
-    "lineNumber": 6000,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6493,52 +6289,6 @@
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 2557,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2580,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/dist/js-yaml.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "function load(input, options) {",
-    "lineNumber": 1580,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/read-config-file/node_modules/js-yaml/lib/js-yaml/loader.js",
-    "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 1603,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/read-config-file/node_modules/uri-js/dist/es5/uri.all.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/redux/node_modules/js-tokens/index.js",
     "lineNumber": 10,
@@ -6947,6 +6697,14 @@
     "updated": "2019-07-16T21:56:03.429Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/svg2png/node_modules/yargs/yargs.js",
+    "line": "    usage.wrap(cols)",
+    "lineNumber": 643,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T18:03:38.741Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/table/dist/createStream.js",
     "line": "        return append(row, columnWidthIndex, config);",
@@ -7162,6 +6920,62 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-before(",
+    "path": "node_modules/test-exclude/node_modules/braces/index.js",
+    "line": "        str = tokens.before(str, es6Regex());",
+    "lineNumber": 92,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/test-exclude/node_modules/braces/index.js",
+    "line": "      return braces(str.replace(outter, wrap(segs, '|')), opts);",
+    "lineNumber": 121,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/test-exclude/node_modules/braces/index.js",
+    "line": "      segs[0] = wrap(segs[0], '\\\\');",
+    "lineNumber": 126,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/test-exclude/node_modules/braces/index.js",
+    "line": "      arr.push(es6 ? tokens.after(val) : val);",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/test-exclude/node_modules/braces/index.js",
+    "line": "function wrap(val, ch) {",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/test-exclude/node_modules/extglob/index.js",
+    "line": "    o[id] = wrap(inner, prefix, opts.escape);",
+    "lineNumber": 85,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/test-exclude/node_modules/extglob/index.js",
+    "line": "function wrap(inner, prefix, esc) {",
+    "lineNumber": 119,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-07-31T00:19:18.696Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/thenify/index.js",
     "line": "  return eval(createWrapper($$__fn__$$.name, options))",
@@ -7348,197 +7162,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-after(",
-    "path": "node_modules/xml2js/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/xml2js/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/xml2js/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9992,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10044,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10619,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/xml2js/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/xml2js/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/xregexp/xregexp-all.js",
     "line": "        replacementToken = /\\$(?:{([\\w$]+)}|(\\d\\d?|[\\s\\S]))/g,",
@@ -7555,12 +7178,44 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/yargs/lib/completion-templates.js",
+    "line": "    type_list=$({{app_path}} --get-yargs-completions \"\\${args[@]}\")",
+    "lineNumber": 17,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T21:47:42.627Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/yargs/lib/completion-templates.js",
+    "line": "    COMPREPLY=( $(compgen -W \"\\${type_list}\" -- \\${cur_word}) )",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T21:47:42.627Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/yargs/lib/completion-templates.js",
+    "line": "  IFS=$'\\n' reply=($(COMP_CWORD=\"$((CURRENT-1))\" COMP_LINE=\"$BUFFER\" COMP_POINT=\"$CURSOR\" {{app_path}} --get-yargs-completions \"\\${words[@]}\"))",
+    "lineNumber": 43,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T21:47:42.627Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/yargs/node_modules/cliui/index.js",
+    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), { hard: true }).split('\\n')",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-08-19T21:47:42.627Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/yargs/yargs.js",
     "line": "    usage.wrap(cols)",
-    "lineNumber": 643,
+    "lineNumber": 756,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-08-19T18:03:38.741Z"
   },
   {
     "rule": "jQuery-after(",
@@ -7808,10 +7463,28 @@
     "reasonDetail": "Used only to set focus"
   },
   {
+    "rule": "DOM-innerHTML",
+    "path": "ts/components/CompositionArea.js",
+    "line": "    el.innerHTML = '';",
+    "lineNumber": 22,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-08-01T14:10:37.481Z",
+    "reasonDetail": "Our code, no user input, only clearing out the dom"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "ts/components/CompositionArea.tsx",
+    "line": "  el.innerHTML = '';",
+    "lineNumber": 65,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-08-01T14:10:37.481Z",
+    "reasonDetail": "Our code, no user input, only clearing out the dom"
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 183,
+    "lineNumber": 185,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used to auto-start playback on videos"
@@ -7820,7 +7493,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.tsx",
     "line": "    this.videoRef = React.createRef();",
-    "lineNumber": 179,
+    "lineNumber": 181,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used to auto-start playback on videos"
@@ -7829,19 +7502,28 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 17,
+    "lineNumber": 87,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
+    "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 57,
+    "lineNumber": 53,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
+    "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/SearchResults.js",
+    "line": "        this.listRef = react_1.default.createRef();",
+    "lineNumber": 22,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-08-09T00:44:31.008Z",
+    "reasonDetail": "SearchResults needs to interact with its child List directly"
   },
   {
     "rule": "React-createRef",
@@ -7849,26 +7531,26 @@
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
     "lineNumber": 14,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used only to trigger menu display"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Used to reference popup menu"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 59,
+    "lineNumber": 60,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used only to trigger menu display"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Used to reference popup menu"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 17,
+    "lineNumber": 27,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-04-17T18:44:33.207Z",
-    "reasonDetail": "Necessary to interact with child react-virtualized/List"
+    "updated": "2019-07-31T00:19:18.696Z",
+    "reasonDetail": "Timeline needs to interact with its child List directly"
   },
   {
     "rule": "jQuery-wrap(",

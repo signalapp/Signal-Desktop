@@ -13,6 +13,7 @@ let initialized = false;
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
 const ERASE_STICKERS_KEY = 'erase-stickers';
 const ERASE_TEMP_KEY = 'erase-temp';
+const ERASE_DRAFTS_KEY = 'erase-drafts';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
 async function initialize({ configDir, cleanupOrphanedAttachments }) {
@@ -24,6 +25,7 @@ async function initialize({ configDir, cleanupOrphanedAttachments }) {
   const attachmentsDir = Attachments.getPath(configDir);
   const stickersDir = Attachments.getStickersPath(configDir);
   const tempDir = Attachments.getTempPath(configDir);
+  const draftDir = Attachments.getDraftPath(configDir);
 
   ipcMain.on(ERASE_TEMP_KEY, event => {
     try {
@@ -55,6 +57,17 @@ async function initialize({ configDir, cleanupOrphanedAttachments }) {
       const errorForDisplay = error && error.stack ? error.stack : error;
       console.log(`erase stickers error: ${errorForDisplay}`);
       event.sender.send(`${ERASE_STICKERS_KEY}-done`, error);
+    }
+  });
+
+  ipcMain.on(ERASE_DRAFTS_KEY, event => {
+    try {
+      rimraf.sync(draftDir);
+      event.sender.send(`${ERASE_DRAFTS_KEY}-done`);
+    } catch (error) {
+      const errorForDisplay = error && error.stack ? error.stack : error;
+      console.log(`erase drafts error: ${errorForDisplay}`);
+      event.sender.send(`${ERASE_DRAFTS_KEY}-done`, error);
     }
   });
 

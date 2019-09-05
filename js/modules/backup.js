@@ -696,7 +696,7 @@ async function exportConversation(conversation, options = {}) {
 
   while (!complete) {
     // eslint-disable-next-line no-await-in-loop
-    const collection = await window.Signal.Data.getMessagesByConversation(
+    const collection = await window.Signal.Data.getOlderMessagesByConversation(
       conversation.id,
       {
         limit: CHUNK_SIZE,

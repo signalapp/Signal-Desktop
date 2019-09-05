@@ -72,22 +72,6 @@ describe('Conversation', () => {
     assert.strictEqual(convo.contactCollection.at('2').get('name'), 'C');
   });
 
-  it('contains its own messages', async () => {
-    const convo = new Whisper.ConversationCollection().add({
-      id: '+18085555555',
-    });
-    await convo.fetchMessages();
-    assert.notEqual(convo.messageCollection.length, 0);
-  });
-
-  it('contains only its own messages', async () => {
-    const convo = new Whisper.ConversationCollection().add({
-      id: '+18085556666',
-    });
-    await convo.fetchMessages();
-    assert.strictEqual(convo.messageCollection.length, 0);
-  });
-
   it('adds conversation to message collection upon leaving group', async () => {
     const convo = new Whisper.ConversationCollection().add({
       type: 'group',

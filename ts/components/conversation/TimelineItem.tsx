@@ -7,6 +7,11 @@ import {
   PropsData as MessageProps,
 } from './Message';
 import {
+  PropsActions as UnsupportedMessageActionsType,
+  PropsData as UnsupportedMessageProps,
+  UnsupportedMessage,
+} from './UnsupportedMessage';
+import {
   PropsData as TimerNotificationProps,
   TimerNotification,
 } from './TimerNotification';
@@ -29,6 +34,10 @@ type MessageType = {
   type: 'message';
   data: MessageProps;
 };
+type UnsupportedMessageType = {
+  type: 'unsupportedMessage';
+  data: UnsupportedMessageProps;
+};
 type TimerNotificationType = {
   type: 'timerNotification';
   data: TimerNotificationProps;
@@ -49,22 +58,26 @@ type ResetSessionNotificationType = {
   type: 'resetSessionNotification';
   data: null;
 };
+export type TimelineItemType =
+  | MessageType
+  | UnsupportedMessageType
+  | TimerNotificationType
+  | SafetyNumberNotificationType
+  | VerificationNotificationType
+  | ResetSessionNotificationType
+  | GroupNotificationType;
 
 type PropsData = {
-  item:
-    | MessageType
-    | TimerNotificationType
-    | SafetyNumberNotificationType
-    | VerificationNotificationType
-    | ResetSessionNotificationType
-    | GroupNotificationType;
+  item?: TimelineItemType;
 };
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
 };
 
-type PropsActions = MessageActionsType & SafetyNumberActionsType;
+type PropsActions = MessageActionsType &
+  UnsupportedMessageActionsType &
+  SafetyNumberActionsType;
 
 type Props = PropsData & PropsHousekeeping & PropsActions;
 
@@ -73,11 +86,17 @@ export class TimelineItem extends React.PureComponent<Props> {
     const { item, i18n } = this.props;
 
     if (!item) {
-      throw new Error('TimelineItem: Item was not provided!');
+      // tslint:disable-next-line:no-console
+      console.warn('TimelineItem: item provided was falsey');
+
+      return null;
     }
 
     if (item.type === 'message') {
       return <Message {...this.props} {...item.data} i18n={i18n} />;
+    }
+    if (item.type === 'unsupportedMessage') {
+      return <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />;
     }
     if (item.type === 'timerNotification') {
       return <TimerNotification {...this.props} {...item.data} i18n={i18n} />;

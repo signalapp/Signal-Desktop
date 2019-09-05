@@ -8,6 +8,23 @@
 
 // Module: Message
 
+// Note: this does the same thing as module-timeline__message-container but
+//   can be used outside tht Timeline contact more easily.
+.module-message-container {
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 4px;
+
+  &::after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
+
 .module-message {
   position: relative;
   display: inline-flex;
@@ -39,13 +56,17 @@
 
 // Spec: container < 438px
 .module-message--incoming {
-  margin-left: 0;
+  margin-left: 16px;
   margin-right: 32px;
 }
 .module-message--outgoing {
   float: right;
-  margin-right: 0;
+  margin-right: 16px;
   margin-left: 32px;
+}
+
+.module-message--incoming.module-message--group {
+  margin-left: 48px;
 }
 
 .module-message__buttons {
@@ -155,6 +176,14 @@
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 0px;
+
+  @include light-theme {
+    border: 1px solid $color-white;
+  }
+
+  @include dark-theme {
+    border: 1px solid $color-gray-95;
+  }
 }
 
 .module-message__container--with-sticker {
@@ -163,6 +192,26 @@
 
 .module-message__container--outgoing {
   background-color: $color-light-10;
+}
+
+.module-message__container--selected {
+  // cubic-bezier taken from https://easings.net/en#easeOutExpo
+  animation: message--selected 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@keyframes message--selected {
+  0% {
+    box-shadow: 0 0 0 5px transparent;
+  }
+  10% {
+    box-shadow: 0 0 0 5px $color-signal-blue;
+  }
+  70% {
+    box-shadow: 0 0 0 5px $color-signal-blue;
+  }
+  100% {
+    box-shadow: 0 0 0 5px transparent;
+  }
 }
 
 // In case the color gets messed up
@@ -512,6 +561,7 @@
   margin-bottom: 5px;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
+  overflow: hidden;
 }
 
 .module-message__link-preview--with-content-above {
@@ -704,10 +754,10 @@
 
 .module-message__metadata__status-icon--sending {
   @include color-svg('../images/sending.svg', $color-gray-60);
-  animation: module-message__metdata__status-icon--spinning 4s linear infinite;
+  animation: module-message__metadata__status-icon--spinning 4s linear infinite;
 }
 
-@keyframes module-message__metdata__status-icon--spinning {
+@keyframes module-message__metadata__status-icon--spinning {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
@@ -755,7 +805,7 @@
 .module-message__author-avatar {
   position: absolute;
   bottom: 0px;
-  right: calc(100% + 4px);
+  right: calc(100% + 8px);
 }
 
 .module-message__typing-container {
@@ -829,10 +879,12 @@
 // Module: Quoted Reply
 
 .module-quote-container {
-  margin-left: -6px;
-  margin-right: -6px;
-  margin-top: -4px;
-  margin-bottom: 5px;
+  margin: {
+    left: -6px;
+    right: -6px;
+    top: -4px;
+    bottom: 5px;
+  }
 }
 
 .module-quote-container--with-content-above {
@@ -840,6 +892,9 @@
 }
 
 .module-quote {
+  // To leave room for image thumbnail
+  min-height: 54px;
+
   position: relative;
   border-radius: 4px;
   border-top-left-radius: 10px;
@@ -1284,6 +1339,8 @@
 
 .module-group-notification {
   margin-top: 14px;
+  margin-left: 1em;
+  margin-right: 1em;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
@@ -1586,12 +1643,17 @@
   align-items: center;
   padding-left: 8px;
   padding-right: 8px;
+  transition: opacity 250ms ease-out;
+
+  &--hidden {
+    opacity: 0;
+  }
 }
 
 .module-conversation-header__expiration__clock-icon {
   @include color-svg('../images/timer.svg', $color-gray-60);
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   display: inline-block;
 }
 
@@ -1600,11 +1662,29 @@
   text-align: center;
 }
 
-.module-conversation-header__gear-icon {
-  @include color-svg('../images/gear.svg', $color-gray-60);
-  height: 20px;
-  width: 20px;
-  margin-left: 4px;
+.module-conversation-header__more-button {
+  @include color-svg('../images/more-h-24.svg', $color-gray-75);
+  height: 24px;
+  width: 24px;
+  margin-left: 12px;
+  border: none;
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &--show {
+    opacity: 1;
+  }
+}
+
+.module-conversation-header__search-button {
+  @include color-svg('../images/search-24.svg', $color-gray-75);
+  height: 24px;
+  width: 24px;
+  margin-left: 12px;
   border: none;
   opacity: 0;
   transition: opacity 250ms ease-out;
@@ -1631,7 +1711,7 @@
   padding-top: 20px;
   padding-bottom: 20px;
 
-  &:after {
+  &::after {
     content: '.';
     visibility: hidden;
     display: block;
@@ -2088,6 +2168,11 @@
   color: $color-gray-90;
 }
 
+.module-conversation-list-item__message__draft-prefix {
+  font-style: italic;
+  margin-right: 3px;
+}
+
 .module-conversation-list-item__message__status-icon {
   flex-shrink: 0;
 
@@ -2324,19 +2409,27 @@
   border: solid 1px $color-gray-15;
 
   padding-left: 30px;
-  padding-right: 30px;
+  padding-right: 5px;
 
   color: $color-gray-90;
   font-size: 14px;
 
-  &::placeholder {
+  &:placeholder {
     color: $color-gray-45;
   }
 
   &:focus {
-    border: solid 1px blue;
+    border: solid 1px $color-signal-blue;
     outline: none;
   }
+}
+
+.module-main-header__search__input--with-text {
+  padding-right: 30px;
+}
+
+.module-main-header__search__input--in-conversation {
+  padding-left: 50px;
 }
 
 .module-main-header__search__icon {
@@ -2348,6 +2441,45 @@
 
   cursor: text;
   @include color-svg('../images/search.svg', $color-gray-60);
+}
+
+.module-main-header__search__in-conversation-pill {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  bottom: 3px;
+
+  border-radius: 14px;
+  width: 42px;
+  background-color: $color-gray-05;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  // Overriding some default button styling
+  border: none;
+  padding: 0;
+}
+.module-main-header__search__in-conversation-pill__avatar-container {
+  margin-left: 4px;
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+
+  background-color: $color-signal-blue;
+}
+.module-main-header__search__in-conversation-pill__avatar {
+  height: 16px;
+  width: 16px;
+
+  @include color-svg('../images/profile-solid-16.svg', $color-white);
+}
+.module-main-header__search__in-conversation-pill__x-button {
+  margin-left: 2px;
+  @include color-svg('../images/x.svg', $color-gray-60);
+  height: 16px;
+  width: 16px;
 }
 
 .module-main-header__search__cancel-icon {
@@ -2363,7 +2495,6 @@
 // Module: Image
 
 .module-image {
-  overflow: hidden;
   position: relative;
   display: inline-block;
   margin: 1px;
@@ -2402,6 +2533,18 @@
 }
 .module-image--small-curved-top-left {
   border-top-left-radius: 10px;
+}
+
+.module-image--selection--selected {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 1px;
+  right: 1px;
+  border-radius: 10px;
+
+  // cubic-bezier taken from https://easings.net/en#easeOutExpo
+  animation: message--selected 1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .module-image__border-overlay {
@@ -2630,10 +2773,6 @@
 
 // Module: Attachments
 
-.module-attachments {
-  border-top: 1px solid $color-black-015;
-}
-
 .module-attachments__header {
   height: 24px;
   position: relative;
@@ -2654,8 +2793,8 @@
 
 .module-attachments__rail {
   margin-top: 12px;
-  margin-left: 16px;
-  padding-right: 16px;
+  margin-left: 12px;
+  padding-right: 12px;
   overflow-x: scroll;
   max-height: 142px;
   white-space: nowrap;
@@ -2837,7 +2976,7 @@
   padding-left: 12px;
   padding-right: 65px;
 
-  &::placeholder {
+  &:placeholder {
     color: $color-white-07;
   }
   &:focus {
@@ -3001,9 +3140,16 @@
 // In these --small and --mini sizes, we're exploding our @color-svg mixin so we don't
 //   have to duplicate our background colors for the dark/ios/size matrix.
 
+.module-spinner__container--small {
+  height: 24px;
+  width: 24px;
+}
+
 .module-spinner__circle--small {
   -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+  height: 24px;
+  width: 24px;
 }
 .module-spinner__arc--small {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
@@ -3025,6 +3171,8 @@
 .module-spinner__arc--mini {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+  height: 14px;
+  width: 14px;
 }
 
 .module-spinner__circle--incoming {
@@ -3032,6 +3180,13 @@
 }
 .module-spinner__arc--incoming {
   background-color: $color-white;
+}
+
+.module-spinner__circle--on-background {
+  background-color: $color-gray-05;
+}
+.module-spinner__arc--on-background {
+  background-color: $color-gray-60;
 }
 
 // Module: Highlighted Message Body
@@ -3043,8 +3198,8 @@
 // Module: Search Results
 
 .module-search-results {
-  overflow-y: scroll;
-  max-height: 100%;
+  overflow: hidden;
+  flex-grow: 1;
 }
 
 .module-search-results__conversations-header {
@@ -3060,6 +3215,8 @@
 
 .module-search-results__no-results {
   margin-top: 27px;
+  padding-left: 1em;
+  padding-right: 1em;
   width: 100%;
   text-align: center;
 }
@@ -3084,6 +3241,13 @@
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 0;
+}
+
+.module-search-results__spinner-container {
+  width: 100%;
+  padding: 10px;
+
+  text-align: center;
 }
 
 // Module: Message Search Result
@@ -3308,14 +3472,36 @@
   font-size: 13px;
 }
 
+// Module: Timeline Loading Row
+
+.module-timeline-loading-row {
+  height: 48px;
+  padding: 12px;
+
+  display: flex;
+  flex-direction: columns;
+  justify-content: center;
+  align-items: center;
+
+  @include light-theme {
+    color: $color-gray-75;
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
 // Module: Timeline
 
 .module-timeline {
   height: 100%;
+  overflow: hidden;
 }
 
 .module-timeline__message-container {
-  padding-top: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .ReactVirtualized__List {
@@ -3763,16 +3949,16 @@
       background: none;
       border: 0;
       &--menu {
-        &:after {
+        &::after {
           content: '';
           display: block;
           min-width: 24px;
           min-height: 24px;
           @include light-theme {
-            @include color-svg('../images/more-h.svg', $color-gray-60);
+            @include color-svg('../images/more-h-24.svg', $color-gray-60);
           }
           @include dark-theme {
-            @include color-svg('../images/more-h.svg', $color-gray-25);
+            @include color-svg('../images/more-h-24.svg', $color-gray-25);
           }
         }
       }
@@ -4025,7 +4211,7 @@
     opacity: 1;
   }
 
-  &:after {
+  &::after {
     display: block;
     content: '';
     width: 24px;
@@ -4349,7 +4535,7 @@
             border-color: $color-signal-blue;
           }
 
-          &::placeholder {
+          &:placeholder {
             color: $color-gray-45;
           }
         }
@@ -4363,7 +4549,7 @@
             border-color: $color-signal-blue;
           }
 
-          &::placeholder {
+          &:placeholder {
             color: $color-gray-45;
           }
         }
@@ -4544,7 +4730,7 @@
     opacity: 1;
   }
 
-  &:after {
+  &::after {
     display: block;
     content: '';
     width: 24px;
@@ -4688,13 +4874,35 @@
 
 .module-countdown {
   display: block;
-  width: 100%;
+  width: 24px;
+  height: 24px;
 }
 
-.module-countdown__path {
+// Note: the colors here should match the module-spinner's on-background colors
+.module-countdown__front-path {
   fill-opacity: 0;
-  stroke: $color-white;
   stroke-width: 2;
+
+  @include light-theme {
+    stroke: $color-gray-60;
+  }
+
+  @include dark-theme {
+    stroke: $color-gray-25;
+  }
+}
+
+.module-countdown__back-path {
+  fill-opacity: 0;
+  stroke-width: 2;
+
+  @include light-theme {
+    stroke: $color-gray-05;
+  }
+
+  @include dark-theme {
+    stroke: $color-gray-75;
+  }
 }
 
 // Module: CompositionInput
@@ -4712,6 +4920,13 @@
       min-height: 32px;
       max-height: 80px;
       overflow: auto;
+      &--large {
+        max-height: 227px;
+        height: 227px;
+        .DraftEditor-root {
+          height: 227px - 2 * 7px; // subtract padding
+        }
+      }
     }
 
     @include light-theme() {
@@ -4808,11 +5023,27 @@
 
 // Module: CompositionArea
 .module-composition-area {
-  // Layout
-  display: flex;
-  flex-direction: row;
+  position: relative;
+  min-height: 42px;
+  padding-top: 6px;
 
-  // Child Elements
+  &__row {
+    display: flex;
+    flex-direction: row;
+    &--center {
+      justify-content: center;
+    }
+    &--padded {
+      padding: 0 12px;
+    }
+    &--control-row {
+      margin-top: 8px;
+    }
+    &--column {
+      flex-direction: column;
+    }
+  }
+
   &__button-cell {
     display: flex;
     justify-content: center;
@@ -4820,21 +5051,164 @@
     width: 44px;
     height: 100%;
     flex-shrink: 0;
-    &--microphone-active {
-      width: 100px;
+    &--mic-active {
+      width: 141px;
+      margin-right: 12px;
+    }
+    &--large-right {
+      margin-left: auto;
+    }
+  }
+  &__send-button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    &::after {
+      display: block;
+      content: '';
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      @include color-svg('../images/send.svg', $color-signal-blue);
     }
   }
   &__input {
     flex-grow: 1;
+  }
+  $comp-area: &;
+  &__toggle-large {
+    width: 48px;
+    height: 24px;
+    position: absolute;
+    left: calc(50% - 24px);
+    top: -18px;
+    border-radius: 12px 12px 0 0;
+
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+
+    #{$comp-area}:hover & {
+      opacity: 1;
+    }
+
+    @include light-theme() {
+      background-color: $color-white;
+    }
+
+    @include dark-theme() {
+      background-color: $color-gray-95;
+    }
+
+    &__button {
+      width: 48px;
+      height: 24px;
+      border: none;
+
+      @include light-theme() {
+        @include color-svg('../images/expand-up.svg', $color-gray-45, false);
+      }
+
+      @include dark-theme() {
+        @include color-svg('../images/expand-up.svg', $color-gray-45, false);
+      }
+
+      &--large-active {
+        @include light-theme() {
+          @include color-svg(
+            '../images/collapse-down.svg',
+            $color-gray-45,
+            false
+          );
+        }
+
+        @include dark-theme() {
+          @include color-svg(
+            '../images/collapse-down.svg',
+            $color-gray-45,
+            false
+          );
+        }
+      }
+    }
+  }
+  &__attachment-list {
+    width: 100%;
   }
 }
 
 .composition-area-placeholder {
   flex-grow: 1;
   margin: {
-    top: 3px;
     bottom: 6px;
   }
+}
+
+// Module: Last Seen Indicator
+
+.module-last-seen-indicator {
+  padding-top: 25px;
+  padding-bottom: 35px;
+  margin-left: 28px;
+  margin-right: 28px;
+}
+
+.module-last-seen-indicator__bar {
+  background-color: $color-light-60;
+  width: 100%;
+  height: 4px;
+}
+
+.module-last-seen-indicator__text {
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+
+  text-align: center;
+  color: $color-light-90;
+}
+
+// Module: Scroll Down Button
+
+.module-scroll-down {
+  z-index: 100;
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+}
+
+.module-scroll-down__button {
+  height: 44px;
+  width: 44px;
+  border-radius: 22px;
+  text-align: center;
+  background-color: $color-light-35;
+  border: none;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+  outline: none;
+
+  &:hover {
+    background-color: $color-light-45;
+  }
+}
+
+.module-scroll-down__button--new-messages {
+  background-color: $color-signal-blue;
+
+  &:hover {
+    background-color: #1472bd;
+  }
+}
+
+.module-scroll-down__icon {
+  @include color-svg('../images/down.svg', $color-white);
+  height: 100%;
+  width: 100%;
 }
 
 // Third-party module: react-contextmenu
@@ -4940,11 +5314,9 @@
 
   // Spec: container < 438px
   .module-message--incoming {
-    margin-left: 0;
     margin-right: auto;
   }
   .module-message--outgoing {
-    margin-right: 0;
     margin-left: auto;
   }
 
@@ -4975,11 +5347,9 @@
   }
 
   .module-message--incoming {
-    margin-left: 0;
     margin-right: auto;
   }
   .module-message--outgoing {
-    margin-right: 0;
     margin-left: auto;
   }
 

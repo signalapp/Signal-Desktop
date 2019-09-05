@@ -220,6 +220,7 @@ function createWindow() {
         config.environment === 'test' || config.environment === 'test-lib'
           ? '#ffffff' // Tests should always be rendered on a white background
           : '#2090EA',
+      vibrancy: 'appearance-based',
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
@@ -311,10 +312,6 @@ function createWindow() {
   const debouncedCaptureStats = _.debounce(captureAndSaveWindowStats, 500);
   mainWindow.on('resize', debouncedCaptureStats);
   mainWindow.on('move', debouncedCaptureStats);
-
-  mainWindow.on('focus', () => {
-    mainWindow.flashFrame(false);
-  });
 
   // Ingested in preload.js via a sendSync call
   ipc.on('locale-data', event => {
@@ -472,6 +469,7 @@ function showAbout() {
     autoHideMenuBar: true,
     backgroundColor: '#2090EA',
     show: false,
+    vibrancy: 'appearance-based',
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
@@ -517,6 +515,7 @@ async function showSettingsWindow() {
     backgroundColor: '#FFFFFF',
     show: false,
     modal: true,
+    vibrancy: 'appearance-based',
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
@@ -562,6 +561,7 @@ async function showDebugLogWindow() {
     backgroundColor: '#FFFFFF',
     show: false,
     modal: true,
+    vibrancy: 'appearance-based',
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
@@ -610,6 +610,7 @@ async function showPermissionsPopupWindow() {
     backgroundColor: '#FFFFFF',
     show: false,
     modal: true,
+    vibrancy: 'appearance-based',
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
@@ -723,6 +724,17 @@ app.on('ready', async () => {
     await attachments.deleteAllStickers({
       userDataPath,
       stickers: orphanedStickers,
+    });
+
+    const allDraftAttachments = await attachments.getAllDraftAttachments(
+      userDataPath
+    );
+    const orphanedDraftAttachments = await sql.removeKnownDraftAttachments(
+      allDraftAttachments
+    );
+    await attachments.deleteAllDraftAttachments({
+      userDataPath,
+      stickers: orphanedDraftAttachments,
     });
   }
 
@@ -876,16 +888,6 @@ ipc.on('add-setup-menu-items', () => {
   setupMenu({
     includeSetup: true,
   });
-});
-
-ipc.on('draw-attention', () => {
-  if (process.platform === 'darwin') {
-    app.dock.bounce();
-  } else if (process.platform === 'win32') {
-    mainWindow.flashFrame(true);
-  } else if (process.platform === 'linux') {
-    mainWindow.flashFrame(true);
-  }
 });
 
 ipc.on('restart', () => {

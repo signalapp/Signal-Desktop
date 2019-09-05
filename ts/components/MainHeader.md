@@ -63,3 +63,38 @@ if the parent of this component feeds the updated `searchTerm` back.
   />
 </util.LeftPaneContext>
 ```
+
+#### Searching within conversation
+
+```jsx
+<util.LeftPaneContext theme={util.theme}>
+  <MainHeader
+    name="John Smith"
+    color="purple"
+    searchConversationId="group-id-1"
+    searchConversationName="Everyone 🔥"
+    search={(...args) => console.log('search', args)}
+    updateSearchTerm={(...args) => console.log('updateSearchTerm', args)}
+    clearSearch={(...args) => console.log('clearSearch', args)}
+    i18n={util.i18n}
+  />
+</util.LeftPaneContext>
+```
+
+#### Searching within conversation, with search term
+
+```jsx
+<util.LeftPaneContext theme={util.theme}>
+  <MainHeader
+    name="John Smith"
+    color="purple"
+    searchConversationId="group-id-1"
+    searchConversationName="Everyone 🔥"
+    searchTerm="address"
+    search={(...args) => console.log('search', args)}
+    updateSearchTerm={(...args) => console.log('updateSearchTerm', args)}
+    clearSearch={(...args) => console.log('clearSearch', args)}
+    i18n={util.i18n}
+  />
+</util.LeftPaneContext>
+```

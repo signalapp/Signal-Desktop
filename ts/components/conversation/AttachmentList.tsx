@@ -85,6 +85,9 @@ export class AttachmentList extends React.Component<Props> {
                   closeButton={true}
                   onClick={clickCallback}
                   onClickClose={onCloseAttachment}
+                  onError={() => {
+                    onCloseAttachment(attachment);
+                  }}
                 />
               );
             }

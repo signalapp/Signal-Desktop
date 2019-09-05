@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal-desktop.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "1.26.2",
+  "version": "1.27.1-beta.9",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
@@ -12,12 +12,12 @@
   },
   "main": "main.js",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "start": "electron .",
     "grunt": "grunt",
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
     "generate": "yarn icon-gen && yarn grunt",
-    "build": "build  --config.extraMetadata.environment=$SIGNAL_ENV",
+    "build": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build-release": "SIGNAL_ENV=production npm run build -- --config.directories.output=release",
     "sign-release": "node ts/updater/generateSignature.js",
     "build-module-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
@@ -29,7 +29,7 @@
     "publish-to-apt": "NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
     "test": "yarn test-node && yarn test-electron",
     "test-electron": "yarn grunt test",
-    "test-node": "mocha --recursive test/app test/modules ts/test",
+    "test-node": "electron-mocha --recursive test/app test/modules ts/test",
     "test-node-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/app test/modules ts/test",
     "eslint": "eslint .",
     "lint": "yarn format --list-different && yarn lint-windows",
@@ -44,7 +44,7 @@
     "ready": "yarn clean-transpile && yarn grunt && yarn lint && yarn test-node && yarn test-electron && yarn lint-deps"
   },
   "dependencies": {
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#2e28733b61640556b0272a3bfc78b0357daf71e6",
+    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#00fd0f8a6623c6683280976d2a92b41d09c744bc",
     "@sindresorhus/is": "0.8.0",
     "backbone": "1.3.3",
     "blob-util": "1.3.0",
@@ -53,10 +53,12 @@
     "bunyan": "1.8.12",
     "classnames": "2.2.5",
     "config": "1.28.1",
+    "curve25519-n": "https://github.com/scottnonnenberg-signal/node-curve25519.git#1bd0580843dcf836284dee7f1c4dfb4c698f7969",
     "draft-js": "0.10.5",
     "electron-context-menu": "0.11.0",
     "electron-editor-context-menu": "1.1.1",
     "electron-is-dev": "0.3.0",
+    "electron-mocha": "8.1.1",
     "emoji-datasource": "4.1.0",
     "emoji-datasource-apple": "4.1.0",
     "emoji-regex": "8.0.0",
@@ -80,7 +82,6 @@
     "mustache": "2.3.0",
     "node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4",
     "node-gyp": "5.0.3",
-    "node-sass": "4.9.3",
     "os-locale": "2.1.0",
     "p-map": "2.1.0",
     "p-queue": "5.0.0",
@@ -102,7 +103,7 @@
     "reselect": "4.0.0",
     "rimraf": "2.6.2",
     "semver": "5.4.1",
-    "spellchecker": "3.5.1",
+    "spellchecker": "3.7.0",
     "tar": "4.4.8",
     "testcheck": "1.0.0-rc.2",
     "tmp": "0.0.33",
@@ -147,8 +148,8 @@
     "bower": "1.8.2",
     "chai": "4.1.2",
     "dashdash": "1.14.1",
-    "electron": "4.2.2",
-    "electron-builder": "20.39.0",
+    "electron": "6.0.1",
+    "electron-builder": "21.2.0",
     "electron-icon-maker": "0.0.3",
     "eslint": "4.14.0",
     "eslint-config-airbnb-base": "12.1.0",
@@ -165,10 +166,13 @@
     "grunt-exec": "3.0.0",
     "grunt-gitinfo": "0.1.7",
     "grunt-sass": "3.0.1",
+    "jsdoc": "3.6.2",
     "mocha": "4.1.0",
     "mocha-testcheck": "1.0.0-rc.0",
+    "node-sass": "4.12.0",
     "node-sass-import-once": "1.2.0",
     "nyc": "11.4.1",
+    "patch-package": "6.1.2",
     "prettier": "1.12.0",
     "react-docgen-typescript": "1.2.6",
     "react-styleguidist": "7.0.1",
@@ -182,7 +186,7 @@
     "webpack": "4.4.1"
   },
   "engines": {
-    "node": "10.13.0"
+    "node": "12.4.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
@@ -198,7 +202,8 @@
         }
       ],
       "target": [
-        "zip"
+        "zip",
+        "dmg"
       ],
       "bundleVersion": "1"
     },
@@ -294,6 +299,7 @@
       "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node",
+      "node_modules/curve25519-n/build/Release/*.node",
       "node_modules/socks/build/*.js",
       "node_modules/socks/build/common/*.js",
       "node_modules/socks/build/client/*.js",

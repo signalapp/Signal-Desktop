@@ -20,18 +20,21 @@
         this.theirKey = options.newKey;
       }
 
+      this.loadTheirKey();
+      this.loadOurKey();
+
+      this.render();
+      if (options.onLoad) {
+        options.onLoad();
+      }
+
       this.loadKeys().then(() => {
         this.listenTo(this.model, 'change', this.render);
-        if (options.onLoad) {
-          options.onLoad();
-        }
       });
     },
-    loadKeys() {
-      return Promise.all([this.loadTheirKey(), this.loadOurKey()])
-        .then(this.generateSecurityNumber.bind(this))
-        .then(this.render.bind(this));
-      // .then(this.makeQRCode.bind(this));
+    async loadKeys() {
+      await this.generateSecurityNumber();
+      this.render();
     },
     makeQRCode() {
       // Per Lilia: We can't turn this on until it generates a Latin1 string, as is
@@ -41,18 +44,12 @@
       );
     },
     loadTheirKey() {
-      return textsecure.storage.protocol
-        .loadIdentityKey(this.model.id)
-        .then(theirKey => {
-          this.theirKey = theirKey;
-        });
+      const item = textsecure.storage.protocol.identityKeys[this.model.id];
+      this.theirKey = item ? item.publicKey : null;
     },
     loadOurKey() {
-      return textsecure.storage.protocol
-        .loadIdentityKey(this.ourNumber)
-        .then(ourKey => {
-          this.ourKey = ourKey;
-        });
+      const item = textsecure.storage.protocol.identityKeys[this.ourNumber];
+      this.ourKey = item ? item.publicKey : null;
     },
     generateSecurityNumber() {
       return new libsignal.FingerprintGenerator(5200)
@@ -113,8 +110,14 @@
     render_attributes() {
       const s = this.securityNumber;
       const chunks = [];
-      for (let i = 0; i < s.length; i += 5) {
-        chunks.push(s.substring(i, i + 5));
+      if (s) {
+        for (let i = 0; i < s.length; i += 5) {
+          chunks.push(s.substring(i, i + 5));
+        }
+      } else {
+        for (let i = 0; i < 12; i += 1) {
+          chunks.push('XXXXX');
+        }
       }
       const name = this.model.getTitle();
       const yourSafetyNumberWith = i18n(

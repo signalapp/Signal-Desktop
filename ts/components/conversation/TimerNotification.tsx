@@ -5,8 +5,6 @@ import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
-import { missingCaseError } from '../../util/missingCaseError';
-
 export type PropsData = {
   type: 'fromOther' | 'fromMe' | 'fromSync';
   phoneNumber: string;
@@ -63,7 +61,9 @@ export class TimerNotification extends React.Component<Props> {
           ? i18n('disappearingMessagesDisabled')
           : i18n('timerSetOnSync', [timespan]);
       default:
-        throw missingCaseError(type);
+        console.warn('TimerNotification: unsupported type provided:', type);
+
+        return null;
     }
   }
 

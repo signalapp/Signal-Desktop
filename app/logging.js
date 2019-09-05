@@ -18,6 +18,8 @@ const { app, ipcMain: ipc } = electron;
 const LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'];
 let logger;
 
+const isRunningFromConsole = Boolean(process.stdout.isTTY);
+
 module.exports = {
   initialize,
   getLogger,
@@ -40,14 +42,9 @@ function initialize() {
 
   return cleanupLogs(logPath).then(() => {
     const logFile = path.join(logPath, 'log.log');
-
-    logger = bunyan.createLogger({
+    const loggerOptions = {
       name: 'log',
       streams: [
-        {
-          level: 'debug',
-          stream: process.stdout,
-        },
         {
           type: 'rotating-file',
           path: logFile,
@@ -55,7 +52,16 @@ function initialize() {
           count: 3,
         },
       ],
-    });
+    };
+
+    if (isRunningFromConsole) {
+      loggerOptions.streams.push({
+        level: 'debug',
+        stream: process.stdout,
+      });
+    }
+
+    logger = bunyan.createLogger(loggerOptions);
 
     LEVELS.forEach(level => {
       ipc.on(`log-${level}`, (first, ...rest) => {
@@ -260,7 +266,7 @@ function logAtLevel(level, ...args) {
       return item;
     });
     logger[level](redactAll(str.join(' ')));
-  } else {
+  } else if (isRunningFromConsole) {
     console._log(...args);
   }
 }

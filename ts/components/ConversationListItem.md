@@ -152,7 +152,9 @@
       conversationType={'direct'}
       unreadCount={4}
       lastUpdated={Date.now() - 5 * 60 * 1000}
-      isTyping={true}
+      typingContact={{
+        name: 'Someone Here',
+      }}
       onClick={result => console.log('onClick', result)}
       i18n={util.i18n}
     />
@@ -164,7 +166,9 @@
       conversationType={'direct'}
       unreadCount={4}
       lastUpdated={Date.now() - 5 * 60 * 1000}
-      isTyping={true}
+      typingContact={{
+        name: 'Someone Here',
+      }}
       lastMessage={{
         status: 'read',
       }}

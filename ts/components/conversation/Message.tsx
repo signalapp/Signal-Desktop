@@ -40,6 +40,7 @@ interface Trigger {
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
 const STICKER_SIZE = 128;
+const SELECTED_TIMEOUT = 1000;
 
 interface LinkPreviewType {
   title: string;
@@ -54,6 +55,8 @@ export type PropsData = {
   text?: string;
   textPending?: boolean;
   isSticker: boolean;
+  isSelected: boolean;
+  isSelectedCounter: number;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
@@ -97,6 +100,8 @@ type PropsHousekeeping = {
 };
 
 export type PropsActions = {
+  clearSelectedMessage: () => unknown;
+
   replyToMessage: (id: string) => void;
   retrySend: (id: string) => void;
   deleteMessage: (id: string) => void;
@@ -120,11 +125,10 @@ export type PropsActions = {
   displayTapToViewMessage: (messageId: string) => unknown;
 
   openLink: (url: string) => void;
-  scrollToMessage: (
+  scrollToQuotedMessage: (
     options: {
       author: string;
       sentAt: number;
-      referencedMessageNotFound: boolean;
     }
   ) => void;
 };
@@ -135,6 +139,9 @@ interface State {
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
+
+  isSelected: boolean;
+  prevSelectedCounter: number;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -148,6 +155,7 @@ export class Message extends React.PureComponent<Props, State> {
   public menuTriggerRef: Trigger | undefined;
   public expirationCheckInterval: any;
   public expiredTimeout: any;
+  public selectedTimeout: any;
 
   public constructor(props: Props) {
     super(props);
@@ -160,10 +168,30 @@ export class Message extends React.PureComponent<Props, State> {
       expiring: false,
       expired: false,
       imageBroken: false,
+
+      isSelected: props.isSelected,
+      prevSelectedCounter: props.isSelectedCounter,
     };
   }
 
+  public static getDerivedStateFromProps(props: Props, state: State): State {
+    if (
+      props.isSelected &&
+      props.isSelectedCounter !== state.prevSelectedCounter
+    ) {
+      return {
+        ...state,
+        isSelected: props.isSelected,
+        prevSelectedCounter: props.isSelectedCounter,
+      };
+    }
+
+    return state;
+  }
+
   public componentDidMount() {
+    this.startSelectedTimer();
+
     const { expirationLength } = this.props;
     if (!expirationLength) {
       return;
@@ -180,6 +208,9 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public componentWillUnmount() {
+    if (this.selectedTimeout) {
+      clearInterval(this.selectedTimeout);
+    }
     if (this.expirationCheckInterval) {
       clearInterval(this.expirationCheckInterval);
     }
@@ -189,7 +220,24 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public componentDidUpdate() {
+    this.startSelectedTimer();
+
     this.checkExpired();
+  }
+
+  public startSelectedTimer() {
+    const { isSelected } = this.state;
+    if (!isSelected) {
+      return;
+    }
+
+    if (!this.selectedTimeout) {
+      this.selectedTimeout = setTimeout(() => {
+        this.selectedTimeout = undefined;
+        this.setState({ isSelected: false });
+        this.props.clearSelectedMessage();
+      }, SELECTED_TIMEOUT);
+    }
   }
 
   public checkExpired() {
@@ -379,7 +427,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       text,
     } = this.props;
-    const { imageBroken } = this.state;
+    const { imageBroken, isSelected } = this.state;
 
     if (!attachments || !attachments[0]) {
       return null;
@@ -422,6 +470,7 @@ export class Message extends React.PureComponent<Props, State> {
             withContentAbove={isSticker || withContentAbove}
             withContentBelow={isSticker || withContentBelow}
             isSticker={isSticker}
+            isSelected={isSticker && isSelected}
             stickerSize={STICKER_SIZE}
             bottomOverlay={bottomOverlay}
             i18n={i18n}
@@ -622,7 +671,7 @@ export class Message extends React.PureComponent<Props, State> {
       disableScroll,
       i18n,
       quote,
-      scrollToMessage,
+      scrollToQuotedMessage,
     } = this.props;
 
     if (!quote) {
@@ -633,15 +682,14 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType === 'group' && direction === 'incoming';
     const quoteColor =
       direction === 'incoming' ? authorColor : quote.authorColor;
-
     const { referencedMessageNotFound } = quote;
+
     const clickHandler = disableScroll
       ? undefined
       : () => {
-          scrollToMessage({
+          scrollToQuotedMessage({
             author: quote.authorId,
             sentAt: quote.sentAt,
-            referencedMessageNotFound,
           });
         };
 
@@ -1201,6 +1249,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorColor,
       attachments,
+      conversationType,
       direction,
       displayTapToViewMessage,
       id,
@@ -1210,7 +1259,8 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewError,
       timestamp,
     } = this.props;
-    const { expired, expiring, imageBroken } = this.state;
+    const { expired, expiring, imageBroken, isSelected } = this.state;
+
     const isAttachmentPending = this.isAttachmentPending();
     const isButton = isTapToView && !isTapToViewExpired && !isAttachmentPending;
 
@@ -1236,7 +1286,8 @@ export class Message extends React.PureComponent<Props, State> {
         className={classNames(
           'module-message',
           `module-message--${direction}`,
-          expiring ? 'module-message--expired' : null
+          expiring ? 'module-message--expired' : null,
+          conversationType === 'group' ? 'module-message--group' : null
         )}
       >
         {this.renderError(direction === 'incoming')}
@@ -1244,6 +1295,9 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__container',
+            isSelected && !isSticker
+              ? 'module-message__container--selected'
+              : null,
             isSticker ? 'module-message__container--with-sticker' : null,
             !isSticker ? `module-message__container--${direction}` : null,
             isTapToView ? 'module-message__container--with-tap-to-view' : null,

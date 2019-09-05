@@ -82,6 +82,47 @@
 </util.LeftPaneContext>
 ```
 
+#### Searching within conversation
+
+```jsx
+<util.LeftPaneContext theme={util.theme}>
+  <MessageSearchResult
+    isSearchingInConversation={true}
+    from={{
+      name: 'Someone 🔥',
+      phoneNumber: '(202) 555-0011',
+      avatarPath: util.gifObjectUrl,
+    }}
+    to={{
+      name: 'Everyone 🔥',
+    }}
+    snippet="What's <<left>>going<<right>> on?"
+    id="messageId1"
+    conversationId="conversationId1"
+    receivedAt={Date.now() - 3 * 60 * 1000}
+    onClick={result => console.log('onClick', result)}
+    i18n={util.i18n}
+  />
+  <MessageSearchResult
+    isSearchingInConversation={true}
+    from={{
+      name: 'Someone 🔥',
+      phoneNumber: '(202) 555-0011',
+      avatarPath: util.gifObjectUrl,
+    }}
+    to={{
+      name: 'Everyone 🔥',
+    }}
+    snippet="How is everyone? <<left>>Going<<right>> well?"
+    id="messageId2"
+    conversationId="conversationId2"
+    receivedAt={Date.now() - 27 * 60 * 1000}
+    onClick={result => console.log('onClick', result)}
+    i18n={util.i18n}
+  />
+</util.LeftPaneContext>
+```
+
 #### From you and to you
 
 ```jsx

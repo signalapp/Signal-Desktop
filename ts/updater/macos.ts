@@ -350,9 +350,5 @@ export async function showReadOnlyDialog(
     message: messages.readOnlyVolume.message,
   };
 
-  return new Promise(resolve => {
-    dialog.showMessageBox(mainWindow, options, () => {
-      resolve();
-    });
-  });
+  await dialog.showMessageBox(mainWindow, options);
 }

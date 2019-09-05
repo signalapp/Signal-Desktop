@@ -22,33 +22,35 @@
   Whisper.ConversationStack = Whisper.View.extend({
     className: 'conversation-stack',
     lastConversation: null,
-    open(conversation) {
+    open(conversation, messageId) {
       const id = `conversation-${conversation.cid}`;
-      if (id !== this.el.firstChild.id) {
-        this.$el
-          .first()
-          .find('video, audio')
-          .each(function pauseMedia() {
-            this.pause();
-          });
-        let $el = this.$(`#${id}`);
-        if ($el === null || $el.length === 0) {
-          const view = new Whisper.ConversationView({
-            model: conversation,
-            window: this.model.window,
-          });
-          // eslint-disable-next-line prefer-destructuring
-          $el = view.$el;
+      if (id !== this.el.lastChild.id) {
+        const view = new Whisper.ConversationView({
+          model: conversation,
+          window: this.model.window,
+        });
+        view.$el.appendTo(this.el);
+
+        if (this.lastConversation) {
+          this.lastConversation.trigger(
+            'unload',
+            'opened another conversation'
+          );
         }
-        $el.prependTo(this.el);
+
+        this.lastConversation = conversation;
+        conversation.trigger('opened', messageId);
+      } else if (messageId) {
+        conversation.trigger('scroll-to-message', messageId);
       }
-      conversation.trigger('opened');
-      if (this.lastConversation) {
-        this.lastConversation.trigger('backgrounded');
-      }
-      this.lastConversation = conversation;
+
       // Make sure poppers are positioned properly
       window.dispatchEvent(new Event('resize'));
+    },
+    onUnload(conversationId) {
+      if (this.lastConversation.id === conversationId) {
+        this.lastConversation = null;
+      }
     },
   });
 
@@ -78,12 +80,17 @@
         el: this.$('.conversation-stack'),
         model: { window: options.window },
       });
+      Whisper.events.on('unloadConversation', conversationId => {
+        this.conversation_stack.onUnload(conversationId);
+      });
 
       if (!options.initialLoadComplete) {
         this.appLoadingScreen = new Whisper.AppLoadingScreen();
         this.appLoadingScreen.render();
         this.appLoadingScreen.$el.prependTo(this.el);
         this.startConnectionListener();
+      } else {
+        this.setupLeftPane();
       }
 
       const inboxCollection = getInboxCollection();
@@ -110,8 +117,6 @@
         toast.$el.appendTo(this.$el);
         toast.render();
       });
-
-      this.setupLeftPane();
     },
     render_attributes: {
       welcomeToSignal: i18n('welcomeToSignal'),
@@ -121,12 +126,14 @@
       click: 'onClick',
     },
     setupLeftPane() {
+      if (this.leftPaneView) {
+        return;
+      }
       this.leftPaneView = new Whisper.ReactWrapperView({
-        JSX: Signal.State.Roots.createLeftPane(window.reduxStore),
         className: 'left-pane-wrapper',
+        JSX: Signal.State.Roots.createLeftPane(window.reduxStore),
       });
 
-      // Finally, add it to the DOM
       this.$('.left-pane-placeholder').append(this.leftPaneView.el);
     },
     startConnectionListener() {
@@ -155,6 +162,8 @@
       }, 1000);
     },
     onEmpty() {
+      this.setupLeftPane();
+
       const view = this.appLoadingScreen;
       if (view) {
         this.appLoadingScreen = null;
@@ -194,7 +203,7 @@
         openConversationExternal(id, messageId);
       }
 
-      this.conversation_stack.open(conversation);
+      this.conversation_stack.open(conversation, messageId);
       this.focusConversation();
     },
     closeRecording(e) {

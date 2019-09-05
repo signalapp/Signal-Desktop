@@ -15,6 +15,7 @@ interface Props {
 
   overlayText?: string;
 
+  isSelected?: boolean;
   noBorder?: boolean;
   noBackground?: boolean;
   bottomOverlay?: boolean;
@@ -51,6 +52,7 @@ export class Image extends React.Component<Props> {
       darkOverlay,
       height,
       i18n,
+      isSelected,
       noBackground,
       noBorder,
       onClick,
@@ -88,6 +90,9 @@ export class Image extends React.Component<Props> {
           softCorners ? 'module-image--soft-corners' : null
         )}
       >
+        {isSelected ? (
+          <div className="module-image--selection--selected" />
+        ) : null}
         {pending ? (
           <div
             className="module-image__loading-placeholder"

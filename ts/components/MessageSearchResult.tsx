@@ -8,7 +8,10 @@ import { ContactName } from './conversation/ContactName';
 
 import { LocalizerType } from '../types/Util';
 
-export type PropsData = {
+export type PropsDataType = {
+  isSelected?: boolean;
+  isSearchingInConversation?: boolean;
+
   id: string;
   conversationId: string;
   receivedAt: number;
@@ -33,16 +36,17 @@ export type PropsData = {
   };
 };
 
-type PropsHousekeeping = {
-  isSelected?: boolean;
-
+type PropsHousekeepingType = {
   i18n: LocalizerType;
-  onClick: (conversationId: string, messageId?: string) => void;
+  openConversationInternal: (
+    conversationId: string,
+    messageId?: string
+  ) => void;
 };
 
-type Props = PropsData & PropsHousekeeping;
+type PropsType = PropsDataType & PropsHousekeepingType;
 
-export class MessageSearchResult extends React.PureComponent<Props> {
+export class MessageSearchResult extends React.PureComponent<PropsType> {
   public renderFromName() {
     const { from, i18n, to } = this.props;
 
@@ -72,10 +76,10 @@ export class MessageSearchResult extends React.PureComponent<Props> {
   }
 
   public renderFrom() {
-    const { i18n, to } = this.props;
+    const { i18n, to, isSearchingInConversation } = this.props;
     const fromName = this.renderFromName();
 
-    if (!to.isMe) {
+    if (!to.isMe && !isSearchingInConversation) {
       return (
         <div className="module-message-search-result__header__from">
           {fromName} {i18n('to')}{' '}
@@ -123,7 +127,7 @@ export class MessageSearchResult extends React.PureComponent<Props> {
       id,
       isSelected,
       conversationId,
-      onClick,
+      openConversationInternal,
       receivedAt,
       snippet,
       to,
@@ -137,8 +141,8 @@ export class MessageSearchResult extends React.PureComponent<Props> {
       <div
         role="button"
         onClick={() => {
-          if (onClick) {
-            onClick(conversationId, id);
+          if (openConversationInternal) {
+            openConversationInternal(conversationId, id);
           }
         }}
         className={classNames(

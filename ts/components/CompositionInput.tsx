@@ -30,13 +30,16 @@ import {
 import { LocalizerType } from '../types/Util';
 
 const colonsRegex = /(?:^|\s):[a-z0-9-_+]+:?/gi;
+const triggerEmojiRegex = /^(?:[-+]\d|[a-z]{2})/i;
 
 export type Props = {
   readonly i18n: LocalizerType;
   readonly disabled?: boolean;
+  readonly large?: boolean;
   readonly editorRef?: React.RefObject<Editor>;
   readonly inputApi?: React.MutableRefObject<InputApi | undefined>;
   readonly skinTone?: EmojiPickDataType['skinTone'];
+  readonly startingText?: string;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(messageText: string, caretLocation: number): unknown;
   onEditorSizeChange?(rect: ContentRect): unknown;
@@ -80,7 +83,7 @@ function getWordAtIndex(str: string, index: number) {
     .slice(0, index + 1)
     .replace(/\s+$/, '')
     .search(/\S+$/);
-  const end = str.slice(index).search(/(?:\s|$)/) + index;
+  const end = str.slice(index).search(/(?:[^a-z0-9-_+]|$)/) + index;
 
   return {
     start,
@@ -140,10 +143,30 @@ const combineRefs = createSelector(
   }
 );
 
+const getInitialEditorState = (startingText?: string) => {
+  if (!startingText) {
+    return EditorState.createEmpty(compositeDecorator);
+  }
+
+  const end = startingText.length;
+  const state = EditorState.createWithContent(
+    ContentState.createFromText(startingText),
+    compositeDecorator
+  );
+  const selection = state.getSelection();
+  const selectionAtEnd = selection.merge({
+    anchorOffset: end,
+    focusOffset: end,
+  }) as SelectionState;
+
+  return EditorState.forceSelection(state, selectionAtEnd);
+};
+
 // tslint:disable-next-line max-func-body-length
 export const CompositionInput = ({
   i18n,
   disabled,
+  large,
   editorRef,
   inputApi,
   onDirtyChange,
@@ -152,9 +175,10 @@ export const CompositionInput = ({
   onPickEmoji,
   onSubmit,
   skinTone,
+  startingText,
 }: Props) => {
   const [editorRenderState, setEditorRenderState] = React.useState(
-    EditorState.createEmpty(compositeDecorator)
+    getInitialEditorState(startingText)
   );
   const [searchText, setSearchText] = React.useState<string>('');
   const [emojiResults, setEmojiResults] = React.useState<Array<EmojiData>>([]);
@@ -182,23 +206,23 @@ export const CompositionInput = ({
   const updateExternalStateListeners = React.useCallback(
     (newState: EditorState) => {
       const plainText = newState.getCurrentContent().getPlainText();
-      const currentBlockKey = newState.getSelection().getStartKey();
-      const currentBlockIndex = editorStateRef.current
+      const cursorBlockKey = newState.getSelection().getStartKey();
+      const cursorBlockIndex = editorStateRef.current
         .getCurrentContent()
         .getBlockMap()
         .keySeq()
-        .findIndex(key => key === currentBlockKey);
+        .findIndex(key => key === cursorBlockKey);
       const caretLocation = newState
         .getCurrentContent()
         .getBlockMap()
         .valueSeq()
         .toArray()
-        .reduce((sum: number, block: ContentBlock, index: number) => {
-          if (currentBlockIndex < index) {
+        .reduce((sum: number, block: ContentBlock, currentIndex: number) => {
+          if (currentIndex < cursorBlockIndex) {
             return sum + block.getText().length + 1; // +1 for newline
           }
 
-          if (currentBlockIndex === index) {
+          if (currentIndex === cursorBlockIndex) {
             return sum + newState.getSelection().getStartOffset();
           }
 
@@ -212,6 +236,7 @@ export const CompositionInput = ({
           onDirtyChange(isDirty);
         }
       }
+
       if (onEditorStateChange) {
         onEditorStateChange(plainText, caretLocation);
       }
@@ -252,7 +277,7 @@ export const CompositionInput = ({
         } else {
           resetEmojiResults();
         }
-      } else if (newSearchText.length >= 2 && focusRef.current) {
+      } else if (triggerEmojiRegex.test(newSearchText) && focusRef.current) {
         setEmojiResults(search(newSearchText, 10));
         setSearchText(newSearchText);
         setEmojiResultsIndex(0);
@@ -531,6 +556,10 @@ export const CompositionInput = ({
       }
 
       if (e.key === 'Enter' && !e.shiftKey) {
+        if (large && !(e.ctrlKey || e.metaKey)) {
+          return getDefaultKeyBinding(e);
+        }
+
         e.preventDefault();
 
         return 'submit';
@@ -562,7 +591,7 @@ export const CompositionInput = ({
 
       return getDefaultKeyBinding(e);
     },
-    [emojiResults]
+    [emojiResults, large]
   );
 
   // Create popper root
@@ -647,7 +676,14 @@ export const CompositionInput = ({
                 className="module-composition-input__input"
                 ref={combineRefs(popperRef, measureRef, rootElRef)}
               >
-                <div className="module-composition-input__input__scroller">
+                <div
+                  className={classNames(
+                    'module-composition-input__input__scroller',
+                    large
+                      ? 'module-composition-input__input__scroller--large'
+                      : null
+                  )}
+                >
                   <Editor
                     ref={editorRef}
                     editorState={editorRenderState}

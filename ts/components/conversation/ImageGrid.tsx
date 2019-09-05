@@ -21,6 +21,7 @@ interface Props {
   withContentBelow?: boolean;
   bottomOverlay?: boolean;
   isSticker?: boolean;
+  isSelected?: boolean;
   stickerSize?: number;
 
   i18n: LocalizerType;
@@ -37,6 +38,7 @@ export class ImageGrid extends React.Component<Props> {
       bottomOverlay,
       i18n,
       isSticker,
+      isSelected,
       stickerSize,
       onError,
       onClick,
@@ -83,6 +85,7 @@ export class ImageGrid extends React.Component<Props> {
             curveBottomRight={curveBottomRight}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
+            isSelected={isSelected}
             height={finalHeight}
             width={finalWidth}
             url={getUrl(attachments[0])}

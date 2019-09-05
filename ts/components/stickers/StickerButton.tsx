@@ -23,6 +23,7 @@ export type OwnProps = {
   readonly clearShowIntroduction: () => unknown;
   readonly showPickerHint: boolean;
   readonly clearShowPickerHint: () => unknown;
+  readonly position?: 'top-end' | 'top-start';
 };
 
 export type Props = OwnProps;
@@ -44,6 +45,7 @@ export const StickerButton = React.memo(
     clearShowIntroduction,
     showPickerHint,
     clearShowPickerHint,
+    position = 'top-end',
   }: Props) => {
     const [open, setOpen] = React.useState(false);
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
@@ -188,7 +190,7 @@ export const StickerButton = React.memo(
           )}
         </Reference>
         {!open && !showIntroduction && installedPack ? (
-          <Popper placement="top-end" key={installedPack.id}>
+          <Popper placement={position} key={installedPack.id}>
             {({ ref, style, placement, arrowProps }) => (
               <div
                 ref={ref}
@@ -225,7 +227,7 @@ export const StickerButton = React.memo(
           </Popper>
         ) : null}
         {!open && showIntroduction ? (
-          <Popper placement="top-end">
+          <Popper placement={position}>
             {({ ref, style, placement, arrowProps }) => (
               <div
                 ref={ref}
@@ -267,7 +269,7 @@ export const StickerButton = React.memo(
         ) : null}
         {open && popperRoot
           ? createPortal(
-              <Popper placement="top-end">
+              <Popper placement={position}>
                 {({ ref, style }) => (
                   <StickerPicker
                     ref={ref}

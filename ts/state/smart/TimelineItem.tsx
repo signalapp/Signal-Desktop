@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
+
 import { mapDispatchToProps } from '../actions';
-import { TimelineItem } from '../../components/conversation/TimelineItem';
 import { StateType } from '../reducer';
 
+import { TimelineItem } from '../../components/conversation/TimelineItem';
 import { getIntl } from '../selectors/user';
 import { getMessageSelector } from '../selectors/conversations';
 
@@ -14,9 +15,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id } = props;
 
   const messageSelector = getMessageSelector(state);
+  const item = messageSelector(id);
 
   return {
-    ...messageSelector(id),
+    item,
     i18n: getIntl(state),
   };
 };

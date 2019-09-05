@@ -6,12 +6,12 @@ import {
   PropsData as ConversationListItemPropsType,
 } from './ConversationListItem';
 import {
-  PropsData as SearchResultsProps,
+  PropsDataType as SearchResultsProps,
   SearchResults,
 } from './SearchResults';
 import { LocalizerType } from '../types/Util';
 
-export interface Props {
+export interface PropsType {
   conversations?: Array<ConversationListItemPropsType>;
   archivedConversations?: Array<ConversationListItemPropsType>;
   searchResults?: SearchResultsProps;
@@ -30,6 +30,7 @@ export interface Props {
 
   // Render Props
   renderMainHeader: () => JSX.Element;
+  renderMessageSearchResult: (id: string) => JSX.Element;
 }
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
@@ -42,7 +43,7 @@ type RowRendererParamsType = {
   style: Object;
 };
 
-export class LeftPane extends React.Component<Props> {
+export class LeftPane extends React.Component<PropsType> {
   public renderRow = ({
     index,
     key,
@@ -125,6 +126,7 @@ export class LeftPane extends React.Component<Props> {
       i18n,
       conversations,
       openConversationInternal,
+      renderMessageSearchResult,
       startNewConversation,
       searchResults,
       showArchived,
@@ -134,8 +136,9 @@ export class LeftPane extends React.Component<Props> {
       return (
         <SearchResults
           {...searchResults}
-          openConversation={openConversationInternal}
+          openConversationInternal={openConversationInternal}
           startNewConversation={startNewConversation}
+          renderMessageSearchResult={renderMessageSearchResult}
           i18n={i18n}
         />
       );

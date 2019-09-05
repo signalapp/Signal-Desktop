@@ -27,13 +27,7 @@
   };
 
   const { Util } = window.Signal;
-  const {
-    Conversation,
-    Contact,
-    Errors,
-    Message,
-    PhoneNumber,
-  } = window.Signal.Types;
+  const { Conversation, Contact, Message, PhoneNumber } = window.Signal.Types;
   const {
     deleteAttachmentData,
     getAbsoluteAttachmentPath,
@@ -154,6 +148,34 @@
 
     isMe() {
       return this.id === this.ourNumber;
+    },
+
+    hasDraft() {
+      const draftAttachments = this.get('draftAttachments') || [];
+      return (
+        this.get('draft') ||
+        this.get('quotedMessageId') ||
+        draftAttachments.length > 0
+      );
+    },
+
+    getDraftPreview() {
+      const draft = this.get('draft');
+      if (draft) {
+        return draft;
+      }
+
+      const draftAttachments = this.get('draftAttachments') || [];
+      if (draftAttachments.length > 0) {
+        return i18n('Conversation--getDraftPreview--attachment');
+      }
+
+      const quotedMessageId = this.get('quotedMessageId');
+      if (quotedMessageId) {
+        return i18n('Conversation--getDraftPreview--quote');
+      }
+
+      return i18n('Conversation--getDraftPreview--draft');
     },
 
     bumpTyping() {
@@ -277,6 +299,7 @@
 
         this.messageCollection.remove(id);
         existing.trigger('expired');
+        existing.cleanup();
       };
 
       // If a fetch is in progress, then we need to wait until that's complete to
@@ -288,18 +311,33 @@
     },
 
     async onNewMessage(message) {
-      await this.updateLastMessage();
-
       // Clear typing indicator for a given contact if we receive a message from them
       const identifier = message.get
         ? `${message.get('source')}.${message.get('sourceDevice')}`
         : `${message.source}.${message.sourceDevice}`;
       this.clearContactTypingTimer(identifier);
+
+      await this.updateLastMessage();
     },
 
     addSingleMessage(message) {
+      const { id } = message;
+      const existing = this.messageCollection.get(id);
+
       const model = this.messageCollection.add(message, { merge: true });
       model.setToExpire();
+
+      if (!existing) {
+        const { messagesAdded } = window.reduxActions.conversations;
+        const isNewMessage = true;
+        messagesAdded(
+          this.id,
+          [model.getReduxData()],
+          isNewMessage,
+          document.hasFocus()
+        );
+      }
+
       return model;
     },
 
@@ -310,7 +348,19 @@
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
       const color = this.getColor();
-      const typingKeys = Object.keys(this.contactTypingTimers || {});
+
+      const typingValues = _.values(this.contactTypingTimers || {});
+      const typingMostRecent = _.first(_.sortBy(typingValues, 'timestamp'));
+      const typingContact = typingMostRecent
+        ? ConversationController.getOrCreate(typingMostRecent.sender, 'private')
+        : null;
+
+      const timestamp = this.get('timestamp');
+      const draftTimestamp = this.get('draftTimestamp');
+      const draftPreview = this.getDraftPreview();
+      const draftText = this.get('draft');
+      const shouldShowDraft =
+        this.hasDraft() && draftTimestamp && draftTimestamp >= timestamp;
 
       const result = {
         id: this.id,
@@ -321,13 +371,17 @@
         color,
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
-        isTyping: typingKeys.length > 0,
+        typingContact: typingContact ? typingContact.format() : null,
         lastUpdated: this.get('timestamp'),
         name: this.getName(),
         profileName: this.getProfileName(),
-        timestamp: this.get('timestamp'),
+        timestamp,
         title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
+
+        shouldShowDraft,
+        draftPreview,
+        draftText,
 
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
@@ -894,6 +948,9 @@
     sendMessage(body, attachments, quote, preview, sticker) {
       this.clearTypingTimers();
 
+      const { clearUnreadMetrics } = window.reduxActions.conversations;
+      clearUnreadMetrics(this.id);
+
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
@@ -952,6 +1009,8 @@
           active_at: now,
           timestamp: now,
           isArchived: false,
+          draft: null,
+          draftTimestamp: null,
         });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
@@ -1202,12 +1261,21 @@
         return;
       }
 
-      const messages = await window.Signal.Data.getMessagesByConversation(
+      const messages = await window.Signal.Data.getOlderMessagesByConversation(
         this.id,
         { limit: 1, MessageCollection: Whisper.MessageCollection }
       );
 
       const lastMessageModel = messages.at(0);
+      if (
+        this.hasDraft() &&
+        this.get('draftTimestamp') &&
+        (!lastMessageModel ||
+          lastMessageModel.get('sent_at') < this.get('draftTimestamp'))
+      ) {
+        return;
+      }
+
       const lastMessageJSON = lastMessageModel
         ? lastMessageModel.toJSON()
         : null;
@@ -1310,7 +1378,7 @@
       model.set({ id });
 
       const message = MessageController.register(id, model);
-      this.messageCollection.add(message);
+      this.addSingleMessage(message);
 
       // if change was made remotely, don't send it to the number/group
       if (receivedAt) {
@@ -1373,7 +1441,7 @@
     async endSession() {
       if (this.isPrivate()) {
         const now = Date.now();
-        const message = this.messageCollection.add({
+        const model = new Whisper.Message({
           conversationId: this.id,
           type: 'outgoing',
           sent_at: now,
@@ -1383,10 +1451,13 @@
           flags: textsecure.protobuf.DataMessage.Flags.END_SESSION,
         });
 
-        const id = await window.Signal.Data.saveMessage(message.attributes, {
+        const id = await window.Signal.Data.saveMessage(model.attributes, {
           Message: Whisper.Message,
         });
-        message.set({ id });
+        model.set({ id });
+
+        const message = MessageController.register(model.id, model);
+        this.addSingleMessage(message);
 
         const options = this.getSendOptions();
         message.send(
@@ -1407,7 +1478,7 @@
         groupUpdate = this.pick(['name', 'avatar', 'members']);
       }
       const now = Date.now();
-      const message = this.messageCollection.add({
+      const model = new Whisper.Message({
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
@@ -1415,10 +1486,14 @@
         group_update: groupUpdate,
       });
 
-      const id = await window.Signal.Data.saveMessage(message.attributes, {
+      const id = await window.Signal.Data.saveMessage(model.attributes, {
         Message: Whisper.Message,
       });
-      message.set({ id });
+
+      model.set({ id });
+
+      const message = MessageController.register(model.id, model);
+      this.addSingleMessage(message);
 
       const options = this.getSendOptions();
       message.send(
@@ -1443,7 +1518,7 @@
           Conversation: Whisper.Conversation,
         });
 
-        const message = this.messageCollection.add({
+        const model = new Whisper.Message({
           group_update: { left: 'You' },
           conversationId: this.id,
           type: 'outgoing',
@@ -1451,10 +1526,13 @@
           received_at: now,
         });
 
-        const id = await window.Signal.Data.saveMessage(message.attributes, {
+        const id = await window.Signal.Data.saveMessage(model.attributes, {
           Message: Whisper.Message,
         });
-        message.set({ id });
+        model.set({ id });
+
+        const message = MessageController.register(model.id, model);
+        this.addSingleMessage(message);
 
         const options = this.getSendOptions();
         message.send(
@@ -1830,57 +1908,6 @@
       this.set({ accessKey });
     },
 
-    async upgradeMessages(messages) {
-      for (let max = messages.length, i = 0; i < max; i += 1) {
-        const message = messages.at(i);
-        const { attributes } = message;
-        const { schemaVersion } = attributes;
-
-        if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
-          // Yep, we really do want to wait for each of these
-          // eslint-disable-next-line no-await-in-loop
-          const upgradedMessage = await upgradeMessageSchema(attributes);
-          message.set(upgradedMessage);
-          // eslint-disable-next-line no-await-in-loop
-          await window.Signal.Data.saveMessage(upgradedMessage, {
-            Message: Whisper.Message,
-          });
-        }
-      }
-    },
-
-    async fetchMessages() {
-      if (!this.id) {
-        throw new Error('This conversation has no id!');
-      }
-      if (this.inProgressFetch) {
-        window.log.warn('Attempting to start a parallel fetchMessages() call');
-        return;
-      }
-
-      this.inProgressFetch = this.messageCollection.fetchConversation(
-        this.id,
-        undefined,
-        this.get('unreadCount')
-      );
-
-      await this.inProgressFetch;
-
-      try {
-        // We are now doing the work to upgrade messages before considering the load from
-        //   the database complete. Note that we do save messages back, so it is a
-        //   one-time hit. We do this so we have guarantees about message structure.
-        await this.upgradeMessages(this.messageCollection);
-      } catch (error) {
-        window.log.error(
-          'fetchMessages: failed to upgrade messages',
-          Errors.toLogFormat(error)
-        );
-      }
-
-      this.inProgressFetch = null;
-    },
-
     hasMember(number) {
       return _.contains(this.get('members'), number);
     },
@@ -1908,10 +1935,6 @@
     },
 
     async destroyMessages() {
-      await window.Signal.Data.removeAllMessagesInConversation(this.id, {
-        MessageCollection: Whisper.MessageCollection,
-      });
-
       this.messageCollection.reset([]);
 
       this.set({
@@ -1921,6 +1944,10 @@
       });
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
+      });
+
+      await window.Signal.Data.removeAllMessagesInConversation(this.id, {
+        MessageCollection: Whisper.MessageCollection,
       });
     },
 
@@ -2067,11 +2094,6 @@
           const messageId = message.id;
           const isExpiringMessage = Message.hasExpiration(messageJSON);
 
-          window.log.info('Add notification', {
-            conversationId: this.idForLogging(),
-            isExpiringMessage,
-            messageSentAt,
-          });
           Whisper.Notifications.add({
             conversationId,
             iconUrl,
@@ -2102,10 +2124,6 @@
         clearTimeout(record.timer);
       }
 
-      // Note: We trigger two events because:
-      //   'typing-update' is a surgical update ConversationView does for in-convo bubble
-      //   'change' causes a re-render of this conversation's list item in the left pane
-
       if (isTyping) {
         this.contactTypingTimers[identifier] = this.contactTypingTimers[
           identifier
@@ -2121,14 +2139,12 @@
         );
         if (!record) {
           // User was not previously typing before. State change!
-          this.trigger('typing-update');
           this.trigger('change', this);
         }
       } else {
         delete this.contactTypingTimers[identifier];
         if (record) {
           // User was previously typing, and is no longer. State change!
-          this.trigger('typing-update');
           this.trigger('change', this);
         }
       }
@@ -2143,7 +2159,6 @@
         delete this.contactTypingTimers[identifier];
 
         // User was previously typing, but timed out or we received message. State change!
-        this.trigger('typing-update');
         this.trigger('change', this);
       }
     },
@@ -2154,17 +2169,6 @@
 
     comparator(m) {
       return -m.get('timestamp');
-    },
-
-    async destroyAll() {
-      await Promise.all(
-        this.models.map(conversation =>
-          window.Signal.Data.removeConversation(conversation.id, {
-            Conversation: Whisper.Conversation,
-          })
-        )
-      );
-      this.reset([]);
     },
   });
 

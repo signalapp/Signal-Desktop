@@ -7,6 +7,7 @@ interface Props {
    */
   theme: 'light-theme' | 'dark-theme';
   style: any;
+  gutterStyle: any;
 }
 
 /**
@@ -15,11 +16,13 @@ interface Props {
  */
 export class LeftPaneContext extends React.Component<Props> {
   public render() {
-    const { style, theme } = this.props;
+    const { gutterStyle, style, theme } = this.props;
 
     return (
       <div style={style} className={classNames(theme || 'light-theme')}>
-        <div className="gutter">{this.props.children}</div>
+        <div className="gutter" style={gutterStyle}>
+          {this.props.children}
+        </div>
       </div>
     );
   }
