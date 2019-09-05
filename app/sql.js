@@ -1718,7 +1718,7 @@ async function searchConversations(query, { limit } = {}) {
         name LIKE $name OR
         profileName LIKE $profileName
       )
-     ORDER BY id ASC
+     ORDER BY active_at DESC
      LIMIT $limit`,
     {
       $id: `%${query}%`,

@@ -76,7 +76,7 @@ export class MainHeader extends React.Component<PropsType> {
       searchConversationId,
     } = this.props;
 
-    if (searchDiscussions) {
+    if (searchDiscussions && !searchConversationId) {
       searchDiscussions(searchTerm, {
         noteToSelf: i18n('noteToSelf').toLowerCase(),
         ourNumber,
@@ -89,7 +89,7 @@ export class MainHeader extends React.Component<PropsType> {
         regionCode,
       });
     }
-  }, 50);
+  }, 200);
 
   public updateSearch = (event: React.FormEvent<HTMLInputElement>) => {
     const {

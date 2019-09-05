@@ -67,14 +67,6 @@ type SearchDiscussionsResultsKickoffActionType = {
   payload: Promise<SearchDiscussionsResultsPayloadType>;
 };
 
-type SearchMessagesResultsPendingActionType = {
-  type: 'SEARCH_MESSAGES_RESULTS_PENDING';
-  payload: SearchMessagesResultsPayloadType;
-};
-type SearchDiscussionsResultsPendingActionType = {
-  type: 'SEARCH_DISCUSSIONS_RESULTS_PENDING';
-  payload: SearchDiscussionsResultsPayloadType;
-};
 type SearchMessagesResultsFulfilledActionType = {
   type: 'SEARCH_MESSAGES_RESULTS_FULFILLED';
   payload: SearchMessagesResultsPayloadType;
@@ -108,8 +100,6 @@ type SearchInConversationActionType = {
 export type SEARCH_TYPES =
   | SearchMessagesResultsKickoffActionType
   | SearchDiscussionsResultsKickoffActionType
-  | SearchMessagesResultsPendingActionType
-  | SearchDiscussionsResultsPendingActionType
   | SearchMessagesResultsFulfilledActionType
   | SearchDiscussionsResultsFulfilledActionType
   | UpdateSearchTermActionType
@@ -327,9 +317,22 @@ export function reducer(
     const { payload } = action;
     const { query } = payload;
 
+    const hasQuery = Boolean(query && query.length >= 2);
+    const isWithinConversation = Boolean(state.searchConversationId);
+
     return {
       ...state,
       query,
+      messagesLoading: hasQuery,
+      ...(hasQuery
+        ? {
+            messageIds: [],
+            messageLookup: {},
+            discussionsLoading: !isWithinConversation,
+            contacts: [],
+            conversations: [],
+          }
+        : {}),
     };
   }
 
@@ -354,24 +357,6 @@ export function reducer(
       ...getEmptyState(),
       searchConversationId,
       searchConversationName,
-    };
-  }
-
-  if (action.type === 'SEARCH_MESSAGES_RESULTS_PENDING') {
-    return {
-      ...state,
-      messageIds: [],
-      messageLookup: {},
-      messagesLoading: true,
-    };
-  }
-
-  if (action.type === 'SEARCH_DISCUSSIONS_RESULTS_PENDING') {
-    return {
-      ...state,
-      contacts: [],
-      conversations: [],
-      discussionsLoading: true,
     };
   }
 
