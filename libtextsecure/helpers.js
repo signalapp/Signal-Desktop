@@ -51,8 +51,9 @@ window.textsecure.utils = (() => {
    *** JSON'ing Utilities ***
    ************************* */
   function ensureStringed(thing) {
-    if (getStringable(thing)) return getString(thing);
-    else if (thing instanceof Array) {
+    if (getStringable(thing)) {
+      return getString(thing);
+    } else if (thing instanceof Array) {
       const res = [];
       for (let i = 0; i < thing.length; i += 1) {
         res[i] = ensureStringed(thing[i]);
@@ -60,7 +61,9 @@ window.textsecure.utils = (() => {
       return res;
     } else if (thing === Object(thing)) {
       const res = {};
-      for (const key in thing) res[key] = ensureStringed(thing[key]);
+      for (const key in thing) {
+        res[key] = ensureStringed(thing[key]);
+      }
       return res;
     } else if (thing === null) {
       return null;

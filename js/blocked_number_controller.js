@@ -42,7 +42,9 @@
       storage.addBlockedNumber(number);
 
       // Make sure we don't add duplicates
-      if (blockedNumbers.getModel(number)) return;
+      if (blockedNumbers.getModel(number)) {
+        return;
+      }
 
       blockedNumbers.add({ number });
     },

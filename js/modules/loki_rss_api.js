@@ -73,7 +73,9 @@ class LokiRssAPI extends EventEmitter {
       log.error('xmlerror', e);
       success = false;
     }
-    if (!success) return;
+    if (!success) {
+      return;
+    }
     const feedObj = xml2json(feedDOM);
     let receivedAt = new Date().getTime();
 

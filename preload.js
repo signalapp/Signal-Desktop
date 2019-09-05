@@ -415,7 +415,9 @@ contextMenu({
   },
   menu: (actions, params) => {
     // If it's not a QR then show the default options
-    if (!isQR(params)) return actions;
+    if (!isQR(params)) {
+      return actions;
+    }
 
     return [actions.copyImage()];
   },

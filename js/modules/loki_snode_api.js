@@ -48,8 +48,9 @@ class LokiSnodeAPI {
     const upnpClient = natUpnp.createClient();
     return new Promise((resolve, reject) => {
       upnpClient.externalIp((err, ip) => {
-        if (err) reject(err);
-        else {
+        if (err) {
+          reject(err);
+        } else {
           resolve(ip);
         }
       });

@@ -309,7 +309,9 @@
     },
 
     async updateProfileAvatar() {
-      if (this.isRss()) return;
+      if (this.isRss()) {
+        return;
+      }
       const path = profileImages.getOrCreateImagePath(this.id);
       await this.setProfileAvatar(path);
     },
@@ -358,7 +360,9 @@
 
     // Get messages with the given timestamp
     _getMessagesWithTimestamp(pubKey, timestamp) {
-      if (this.id !== pubKey) return [];
+      if (this.id !== pubKey) {
+        return [];
+      }
 
       // Go through our messages and find the one that we need to update
       return this.messageCollection.models.filter(
@@ -414,7 +418,9 @@
       // Get the pending friend requests that match the direction
       // If no direction is supplied then return all pending friend requests
       return messages.models.filter(m => {
-        if (!status.includes(m.get('friendStatus'))) return false;
+        if (!status.includes(m.get('friendStatus'))) {
+          return false;
+        }
         return direction === null || m.get('direction') === direction;
       });
     },
@@ -424,7 +430,9 @@
 
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
-      if (setToExpire) model.setToExpire();
+      if (setToExpire) {
+        model.setToExpire();
+      }
       return model;
     },
     format() {
@@ -680,7 +688,9 @@
     },
     async setFriendRequestStatus(newStatus) {
       // Ensure that the new status is a valid FriendStatusEnum value
-      if (!(newStatus in Object.values(FriendRequestStatusEnum))) return;
+      if (!(newStatus in Object.values(FriendRequestStatusEnum))) {
+        return;
+      }
       if (
         this.ourNumber === this.id &&
         newStatus !== FriendRequestStatusEnum.friends
@@ -698,11 +708,15 @@
     async respondToAllFriendRequests(options) {
       const { response, status, direction = null } = options;
       // Ignore if no response supplied
-      if (!response) return;
+      if (!response) {
+        return;
+      }
       const pending = await this.getFriendRequests(direction, status);
       await Promise.all(
         pending.map(async request => {
-          if (request.hasErrors()) return;
+          if (request.hasErrors()) {
+            return;
+          }
 
           request.set({ friendStatus: response });
           await window.Signal.Data.saveMessage(request.attributes, {
@@ -736,7 +750,9 @@
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest() {
-      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+      if (this.unlockTimer) {
+        clearTimeout(this.unlockTimer);
+      }
       if (this.hasReceivedFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
         await this.respondToAllFriendRequests({
@@ -752,7 +768,9 @@
       if (this.isFriend()) {
         return false;
       }
-      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+      if (this.unlockTimer) {
+        clearTimeout(this.unlockTimer);
+      }
       if (this.hasSentFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
         await this.respondToAllFriendRequests({
@@ -766,9 +784,13 @@
     },
     async onFriendRequestTimeout() {
       // Unset the timer
-      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+      if (this.unlockTimer) {
+        clearTimeout(this.unlockTimer);
+      }
       this.unlockTimer = null;
-      if (this.isFriend()) return;
+      if (this.isFriend()) {
+        return;
+      }
 
       // Set the unlock timestamp to null
       if (this.get('unlockTimestamp')) {
@@ -822,7 +844,9 @@
       await this.setFriendRequestStatus(FriendRequestStatusEnum.requestSent);
     },
     setFriendRequestExpiryTimeout() {
-      if (this.isFriend()) return;
+      if (this.isFriend()) {
+        return;
+      }
       const unlockTimestamp = this.get('unlockTimestamp');
       if (unlockTimestamp && !this.unlockTimer) {
         const delta = Math.max(unlockTimestamp - Date.now(), 0);
@@ -1080,12 +1104,18 @@
     },
 
     validateNumber() {
-      if (!this.id) return 'Invalid ID';
-      if (!this.isPrivate()) return null;
+      if (!this.id) {
+        return 'Invalid ID';
+      }
+      if (!this.isPrivate()) {
+        return null;
+      }
 
       // Check if it's hex
       const isHex = this.id.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
-      if (!isHex) return 'Invalid Hex ID';
+      if (!isHex) {
+        return 'Invalid Hex ID';
+      }
 
       // Check if the pubkey length is 33 and leading with 05 or of length 32
       const len = this.id.length;
@@ -1216,7 +1246,9 @@
 
     async sendMessage(body, attachments, quote, preview) {
       // Input should be blocked if there is a pending friend request
-      if (this.isPendingFriendRequest()) return;
+      if (this.isPendingFriendRequest()) {
+        return;
+      }
 
       this.clearTypingTimers();
 
@@ -1277,7 +1309,9 @@
 
             // If the requests didn't error then don't add a new friend request
             // because one of them was sent successfully
-            if (friendRequestSent) return null;
+            if (friendRequestSent) {
+              return null;
+            }
           }
           await this.setFriendRequestStatus(
             FriendRequestStatusEnum.pendingSend
@@ -1762,7 +1796,9 @@
     },
     async setSessionResetStatus(newStatus) {
       // Ensure that the new status is a valid SessionResetEnum value
-      if (!(newStatus in Object.values(SessionResetEnum))) return;
+      if (!(newStatus in Object.values(SessionResetEnum))) {
+        return;
+      }
       if (this.get('sessionResetStatus') !== newStatus) {
         this.set({ sessionResetStatus: newStatus });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -2014,7 +2050,9 @@
 
     async setNickname(nickname) {
       const trimmed = nickname && nickname.trim();
-      if (this.get('nickname') === trimmed) return;
+      if (this.get('nickname') === trimmed) {
+        return;
+      }
 
       this.set({ nickname: trimmed });
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -2467,7 +2505,9 @@
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
       if (avatar) {
-        if (avatar.path) return getAbsoluteAttachmentPath(avatar.path);
+        if (avatar.path) {
+          return getAbsoluteAttachmentPath(avatar.path);
+        }
         return avatar;
       }
 
@@ -2511,7 +2551,9 @@
         }
         return this.notifyFriendRequest(message.get('source'), 'requested');
       }
-      if (!message.isIncoming()) return Promise.resolve();
+      if (!message.isIncoming()) {
+        return Promise.resolve();
+      }
       const conversationId = this.id;
 
       return ConversationController.getOrCreateAndWait(
@@ -2544,7 +2586,9 @@
     // Notification for friend request received
     async notifyFriendRequest(source, type) {
       // Data validation
-      if (!source) throw new Error('Invalid source');
+      if (!source) {
+        throw new Error('Invalid source');
+      }
       if (!['accepted', 'requested'].includes(type)) {
         throw new Error('Type must be accepted or requested.');
       }

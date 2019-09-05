@@ -730,9 +730,13 @@ MessageReceiver.prototype.extend({
     }
     const getCurrentSessionBaseKey = async () => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record) return null;
+      if (!record) {
+        return null;
+      }
       const openSession = record.getOpenSession();
-      if (!openSession) return null;
+      if (!openSession) {
+        return null;
+      }
       const { baseKey } = openSession.indexInfo;
       return baseKey;
     };
@@ -741,7 +745,9 @@ MessageReceiver.prototype.extend({
     };
     const restoreActiveSession = async () => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record) return;
+      if (!record) {
+        return;
+      }
       record.archiveCurrentState();
       const sessionToRestore = record.sessions[this.activeSessionBaseKey];
       record.promoteState(sessionToRestore);
@@ -753,7 +759,9 @@ MessageReceiver.prototype.extend({
     };
     const deleteAllSessionExcept = async sessionBaseKey => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record) return;
+      if (!record) {
+        return;
+      }
       const sessionToKeep = record.sessions[sessionBaseKey];
       record.sessions = {};
       record.updateSessionState(sessionToKeep);

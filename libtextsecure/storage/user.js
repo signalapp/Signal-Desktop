@@ -18,13 +18,17 @@
 
     getNumber() {
       const numberId = textsecure.storage.get('number_id');
-      if (numberId === undefined) return undefined;
+      if (numberId === undefined) {
+        return undefined;
+      }
       return textsecure.utils.unencodeNumber(numberId)[0];
     },
 
     getDeviceId() {
       const numberId = textsecure.storage.get('number_id');
-      if (numberId === undefined) return undefined;
+      if (numberId === undefined) {
+        return undefined;
+      }
       return textsecure.utils.unencodeNumber(numberId)[1];
     },
 
