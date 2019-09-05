@@ -39,6 +39,21 @@
     return false;
   }
 
+  function convertVerifiedStatusToProtoState(status) {
+    switch (status) {
+      case VerifiedStatus.VERIFIED:
+        return textsecure.protobuf.Verified.State.VERIFIED;
+
+      case VerifiedStatus.UNVERIFIED:
+        return textsecure.protobuf.Verified.State.VERIFIED;
+
+      case VerifiedStatus.DEFAULT:
+      // intentional fallthrough
+      default:
+        return textsecure.protobuf.Verified.State.DEFAULT;
+    }
+  }
+
   const StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
   const StaticArrayBufferProto = new ArrayBuffer().__proto__;
   const StaticUint8ArrayProto = new Uint8Array().__proto__;
@@ -913,4 +928,5 @@
   window.SignalProtocolStore = SignalProtocolStore;
   window.SignalProtocolStore.prototype.Direction = Direction;
   window.SignalProtocolStore.prototype.VerifiedStatus = VerifiedStatus;
+  window.SignalProtocolStore.prototype.convertVerifiedStatusToProtoState = convertVerifiedStatusToProtoState;
 })();

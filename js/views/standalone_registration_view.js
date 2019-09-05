@@ -151,7 +151,7 @@
       Whisper.Registration.remove();
       // Do not remove all items since they are only set
       // at startup.
-      textsecure.storage.remove('identityKey')
+      textsecure.storage.remove('identityKey');
       textsecure.storage.remove('secondaryDeviceStatus');
       window.ConversationController.reset();
       await window.ConversationController.load();
