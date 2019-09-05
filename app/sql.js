@@ -5,6 +5,7 @@ const sql = require('@journeyapps/sqlcipher');
 const { app, dialog, clipboard } = require('electron');
 const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
+const config = require('./config');
 
 const pify = require('pify');
 const uuidv4 = require('uuid/v4');
@@ -833,9 +834,11 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   };
 
   const lokiPublicServerData = {
-    serverUrl: 'https://chat.lokinet.org',
+    // make sure we don't have a trailing slash just in case
+    serverUrl: config.get('defaultPublicChatServer').replace(/\/*$/, ''),
     token: null,
   };
+  console.log('lokiPublicServerData', lokiPublicServerData);
 
   const baseData = {
     friendRequestStatus: 4, // Friends
@@ -851,7 +854,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   const publicChatData = {
     ...baseData,
-    id: 'publicChat:1@chat.lokinet.org',
+    id: `publicChat:1@${lokiPublicServerData.serverUrl.replace(/^https?\:\/\//i, '')}`,
     server: lokiPublicServerData.serverUrl,
     name: 'Loki Public Chat',
     channelId: '1',

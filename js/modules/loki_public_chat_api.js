@@ -456,6 +456,12 @@ class LokiPublicChannelAPI {
         { params }
       );
 
+      // if any problems, abort out
+      if (res.err || !res.response) {
+        if (res.err) log.error('Error '+res.err);
+        break;
+      }
+
       // Process results
       res.response.data.reverse().forEach(deleteEntry => {
         // Escalate it up to the subsystem that can check to see if this has
