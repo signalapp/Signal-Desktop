@@ -22,7 +22,8 @@ module.exports = {
     ],
 
     // Enforce curlies always
-    curly: 'error',
+    curly: ['error', 'all'],
+    'brace-style': ['error', '1tbs'],
 
     // prevents us from accidentally checking in exclusive tests (`.only`):
     'mocha/no-exclusive-tests': 'error',

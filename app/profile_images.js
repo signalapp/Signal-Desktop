@@ -15,7 +15,9 @@ const hasImage = pubKey => fs.existsSync(getImagePath(pubKey));
 const getImagePath = pubKey => `${PATH}/${pubKey}.png`;
 const getOrCreateImagePath = pubKey => {
   // If the image doesn't exist then create it
-  if (!hasImage(pubKey)) return generateImage(pubKey);
+  if (!hasImage(pubKey)) {
+    return generateImage(pubKey);
+  }
 
   return getImagePath(pubKey);
 };

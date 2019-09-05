@@ -39,7 +39,9 @@
     },
     onUnblock() {
       const number = this.$('select option:selected').val();
-      if (!number) return;
+      if (!number) {
+        return;
+      }
 
       if (BlockedNumberController.isBlocked(number)) {
         BlockedNumberController.unblock(number);
@@ -73,7 +75,9 @@
     },
     truncate(string, limit) {
       // Make sure an element and number of items to truncate is provided
-      if (!string || !limit) return string;
+      if (!string || !limit) {
+        return string;
+      }
 
       // Get the inner content of the element
       let content = string.trim();
@@ -84,7 +88,9 @@
 
       // Convert the array of words back into a string
       // If there's content to add after it, add it
-      if (string.length > limit) content = `${content}...`;
+      if (string.length > limit) {
+        content = `${content}...`;
+      }
 
       return content;
     },

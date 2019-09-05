@@ -322,7 +322,9 @@
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
-        if (this.isFriendRequest()) return `Friend Request: ${description}`;
+        if (this.isFriendRequest()) {
+          return `Friend Request: ${description}`;
+        }
         return description;
       }
       if (this.get('attachments').length > 0) {
@@ -432,7 +434,9 @@
     },
 
     async acceptFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') return;
+      if (this.get('friendStatus') !== 'pending') {
+        return;
+      }
       const conversation = this.getConversation();
 
       this.set({ friendStatus: 'accepted' });
@@ -442,7 +446,9 @@
       conversation.onAcceptFriendRequest();
     },
     async declineFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') return;
+      if (this.get('friendStatus') !== 'pending') {
+        return;
+      }
       const conversation = this.getConversation();
 
       this.set({ friendStatus: 'declined' });
@@ -591,7 +597,9 @@
         return 'sent';
       }
       const calculatingPoW = this.get('calculatingPoW');
-      if (calculatingPoW) return 'pow';
+      if (calculatingPoW) {
+        return 'pow';
+      }
 
       return 'sending';
     },
@@ -1235,7 +1243,9 @@
       return null;
     },
     async setCalculatingPoW() {
-      if (this.calculatingPoW) return;
+      if (this.calculatingPoW) {
+        return;
+      }
 
       this.set({
         calculatingPoW: true,
@@ -1246,7 +1256,9 @@
       });
     },
     async setIsP2p(isP2p) {
-      if (_.isEqual(this.get('isP2p'), isP2p)) return;
+      if (_.isEqual(this.get('isP2p'), isP2p)) {
+        return;
+      }
 
       this.set({
         isP2p: !!isP2p,
@@ -1260,7 +1272,9 @@
       return this.get('serverId');
     },
     async setServerId(serverId) {
-      if (_.isEqual(this.get('serverId'), serverId)) return;
+      if (_.isEqual(this.get('serverId'), serverId)) {
+        return;
+      }
 
       this.set({
         serverId,
@@ -1271,7 +1285,9 @@
       });
     },
     async setIsPublic(isPublic) {
-      if (_.isEqual(this.get('isPublic'), isPublic)) return;
+      if (_.isEqual(this.get('isPublic'), isPublic)) {
+        return;
+      }
 
       this.set({
         isPublic: !!isPublic,
@@ -2098,7 +2114,9 @@
             // Need to do this here because the conversation has already changed states
             if (autoAccept) {
               await conversation.notifyFriendRequest(source, 'accepted');
-            } else await conversation.notify(message);
+            } else {
+              await conversation.notify(message);
+            }
           }
 
           confirm();
