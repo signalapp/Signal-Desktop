@@ -890,6 +890,12 @@ ipc.on('add-setup-menu-items', () => {
   });
 });
 
+ipc.on('draw-attention', () => {
+  if (process.platform === 'win32' && mainWindow) {
+    mainWindow.flashFrame(true);
+  }
+});
+
 ipc.on('restart', () => {
   app.relaunch();
   app.quit();

@@ -1,6 +1,7 @@
 /* global Signal:false */
 /* global Backbone: false */
 
+/* global drawAttention: false */
 /* global i18n: false */
 /* global isFocused: false */
 /* global Signal: false */
@@ -134,6 +135,8 @@
       if (shouldHideExpiringMessageBody) {
         message = i18n('newMessage');
       }
+
+      drawAttention();
 
       this.lastNotification = new Notification(title, {
         body: window.platform === 'linux' ? filter(message) : message,

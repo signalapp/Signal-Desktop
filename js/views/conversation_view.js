@@ -178,10 +178,12 @@
         this.model.updateVerified.bind(this.model),
         1000 // one second
       );
-      this.throttledGetProfiles = _.throttle(
-        this.model.getProfiles.bind(this.model),
-        1000 * 60 * 5 // five minutes
-      );
+      this.model.throttledGetProfiles =
+        this.model.throttledGetProfiles ||
+        _.throttle(
+          this.model.getProfiles.bind(this.model),
+          1000 * 60 * 5 // five minutes
+        );
       this.debouncedMaybeGrabLinkPreview = _.debounce(
         this.maybeGrabLinkPreview.bind(this),
         200
@@ -1500,23 +1502,6 @@
     },
 
     async onOpened(messageId) {
-      this.openStart = Date.now();
-      this.lastActivity = Date.now();
-
-      this.focusMessageField();
-      this.model.updateLastMessage();
-
-      const statusPromise = this.throttledGetProfiles();
-      // eslint-disable-next-line more/no-then
-      this.statusFetch = statusPromise.then(() =>
-        // eslint-disable-next-line more/no-then
-        this.model.updateVerified().then(() => {
-          this.onVerifiedChange();
-          this.statusFetch = null;
-          window.log.info('done with status fetch');
-        })
-      );
-
       if (messageId) {
         const message = await getMessageById(messageId, {
           Message: Whisper.Message,
@@ -1532,10 +1517,24 @@
 
       this.loadNewestMessages();
 
+      this.focusMessageField();
+
       const quotedMessageId = this.model.get('quotedMessageId');
       if (quotedMessageId) {
         this.setQuoteMessage(quotedMessageId);
       }
+
+      this.model.updateLastMessage();
+
+      const statusPromise = this.model.throttledGetProfiles();
+      // eslint-disable-next-line more/no-then
+      this.statusFetch = statusPromise.then(() =>
+        // eslint-disable-next-line more/no-then
+        this.model.updateVerified().then(() => {
+          this.onVerifiedChange();
+          this.statusFetch = null;
+        })
+      );
     },
 
     async retrySend(messageId) {
@@ -2424,7 +2423,7 @@
       const trimmed =
         messageText && messageText.length > 0 ? messageText.trim() : '';
 
-      if ((this.model.get('draft') && !messageText) || trimmed.length === 0) {
+      if (this.model.get('draft') && (!messageText || trimmed.length === 0)) {
         this.model.set({
           draft: null,
         });
