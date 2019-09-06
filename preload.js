@@ -90,6 +90,10 @@ window.open = () => null;
 // eslint-disable-next-line no-eval, no-multi-assign
 window.eval = global.eval = () => null;
 
+window.drawAttention = () => {
+  window.log.info('draw attention');
+  ipc.send('draw-attention');
+};
 window.showWindow = () => {
   window.log.info('show window');
   ipc.send('show-window');
