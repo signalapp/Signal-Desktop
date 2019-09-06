@@ -94,12 +94,7 @@ export class JazzIcon extends React.PureComponent<Props> {
   private hueShift(colors: Array<string>, generator: RNG) {
     const amount = generator.random() * 30 - wobble / 2;
 
-    return colors.map(hex => {
-      const color = Color(hex);
-      color.rotate(amount);
-
-      return color.hex();
-    });
+    return colors.map(hex => Color(hex).rotate(amount).hex());
   }
 
   private genShape(
