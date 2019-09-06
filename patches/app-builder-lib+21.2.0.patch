@@ -1,0 +1,13 @@
+diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
+index b4533a9..13241f5 100644
+--- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
++++ b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
+@@ -129,7 +129,7 @@ class LinuxTargetHelper {
+         exec = `"${exec}"`;
+       }
+ 
+-      exec += " %U";
++      exec += " --no-sandbox %U";
+     }
+ 
+     const desktopMeta = Object.assign({
