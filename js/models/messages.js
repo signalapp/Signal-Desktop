@@ -516,7 +516,7 @@
     findAndFormatContact(phoneNumber) {
       const contactModel = this.findContact(phoneNumber);
       if (contactModel) {
-        return contactModel.getProps();
+        return contactModel.format();
       }
 
       const { format } = PhoneNumber;
