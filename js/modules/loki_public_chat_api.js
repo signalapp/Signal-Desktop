@@ -521,6 +521,7 @@ class LokiPublicChannelAPI {
         let timestamp = new Date(adnMessage.created_at).getTime();
         // pubKey lives in the username field
         let from = adnMessage.user.name;
+        let quote = null;
         if (adnMessage.is_deleted) {
           return;
         }
@@ -529,7 +530,11 @@ class LokiPublicChannelAPI {
           adnMessage.annotations.length !== 0
         ) {
           const noteValue = adnMessage.annotations[0].value;
-          ({ timestamp } = noteValue);
+          ({ timestamp, quote } = noteValue);
+
+          if (quote) {
+            quote.attachments = [];
+          }
 
           // if user doesn't have a name set, fallback to annotation
           // pubkeys are already there in v1 (first release)
@@ -571,7 +576,7 @@ class LokiPublicChannelAPI {
             timestamp,
             received_at: receivedAt,
             sent_at: timestamp,
-            quote: null,
+            quote,
             contact: [],
             preview: [],
             profile: {
@@ -597,7 +602,7 @@ class LokiPublicChannelAPI {
   }
 
   // create a message in the channel
-  async sendMessage(text, messageTimeStamp, displayName, pubKey) {
+  async sendMessage(text, quote, messageTimeStamp, displayName, pubKey) {
     const payload = {
       text,
       annotations: [
@@ -609,6 +614,7 @@ class LokiPublicChannelAPI {
             from: displayName,
             // will deprecated
             source: pubKey,
+            quote,
           },
         },
       ],
