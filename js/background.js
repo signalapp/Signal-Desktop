@@ -1303,15 +1303,17 @@
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
+      let message;
       if (
         messageDescriptor.type === 'group' &&
         descriptorId.match(/^publicChat:/) &&
         data.source === ourNumber
       ) {
-        // Remove public chat messages to ourselves
-        return event.confirm();
+        // Public chat messages from ourselves should be outgoing
+        message = await createSentMessage(data);
+      } else {
+        message = await createMessage(data);
       }
-      const message = await createMessage(data);
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
         window.log.warn('Received duplicate message', message.idForLogging());
@@ -1396,10 +1398,10 @@
 
     return new Whisper.Message({
       source: textsecure.storage.user.getNumber(),
-      sourceDevice: data.device,
+      sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
       sent_to: sentTo,
-      received_at: now,
+      received_at: data.isPublic ? data.receivedAt : now,
       conversationId: data.destination,
       type: 'outgoing',
       sent: true,
