@@ -5,6 +5,7 @@
 | Name                 | Values                                       |
 | -------------------- | -------------------------------------------- |
 | text                 | string                                       |
+| timestamp            | number                                       |
 | direction            | 'outgoing' \| 'incoming                      |
 | status               | 'sending' \| 'sent' \| 'read' \| 'delivered' |
 | friendStatus         | 'pending' \| 'accepted' \| 'declined'        |
@@ -21,6 +22,7 @@
   <li>
     <FriendRequest
       text="This is my friend request message!"
+      timestamp={1567994022804}
       direction="outgoing"
       status="sending"
       friendStatus="pending"
