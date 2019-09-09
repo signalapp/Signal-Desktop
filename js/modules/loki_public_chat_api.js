@@ -474,14 +474,9 @@ class LokiPublicChannelAPI {
         });
       });
 
-      // if we had a problem break the loop
-      if (res.response.data.length < 200) {
-        break;
-      }
-
       // update where we last checked
       this.deleteLastId = res.response.meta.max_id;
-      ({ more } = res.response);
+      more = res.response.more && res.response.data.length >= params.count;
     }
   }
 
