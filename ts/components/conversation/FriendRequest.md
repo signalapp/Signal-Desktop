@@ -5,7 +5,7 @@
 | Name                 | Values                                       |
 | -------------------- | -------------------------------------------- |
 | text                 | string                                       |
-| timstamp             | number                                       |
+| timestamp            | number                                       |
 | direction            | 'outgoing' \| 'incoming                      |
 | status               | 'sending' \| 'sent' \| 'read' \| 'delivered' |
 | friendStatus         | 'pending' \| 'accepted' \| 'declined'        |
