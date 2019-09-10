@@ -207,7 +207,7 @@
       dialog.once('devicePairingRequestAccepted', (pubKey, cb) =>
         Whisper.events.trigger('devicePairingRequestAccepted', pubKey, cb)
       );
-      dialog.on('devicePairingRequestRejected', (pubKey, cb) =>
+      dialog.on('devicePairingRequestRejected', pubKey =>
         Whisper.events.trigger('devicePairingRequestRejected', pubKey)
       );
       dialog.once('close', () => {
