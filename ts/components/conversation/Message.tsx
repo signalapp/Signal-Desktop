@@ -48,6 +48,7 @@ interface LinkPreviewType {
 
 export interface Props {
   disableMenu?: boolean;
+  isModerator?: boolean;
   isDeletable: boolean;
   text?: string;
   textPending?: boolean;
@@ -648,6 +649,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
+      isModerator,
       authorColor,
       conversationType,
       direction,
@@ -661,6 +663,9 @@ export class Message extends React.PureComponent<Props, State> {
     ) {
       return;
     }
+
+    // TODO: Render mod icon?
+    console.log(isModerator);
 
     return (
       <div className="module-message__author-avatar">

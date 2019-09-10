@@ -2136,18 +2136,19 @@
         });
       }
     },
-    isModerator() {
+    isModerator(pubKey) {
       if (!this.isPublic()) {
         return false;
       }
-      return this.get('modStatus');
+      return this.get('moderators').includes(pubKey);
     },
-    async setModStatus(newStatus) {
+    async setModerators(moderators) {
       if (!this.isPublic()) {
         return;
       }
-      if (this.get('modStatus') !== newStatus) {
-        this.set({ modStatus: newStatus });
+      // TODO: compare array properly
+      if (!_.isEqual(this.get('moderators'), moderators)) {
+        this.set({ moderators });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
