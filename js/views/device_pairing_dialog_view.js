@@ -58,6 +58,7 @@
       this.$('.requestAcceptedView .ok').show();
     },
     skipDevice() {
+      this.trigger('devicePairingRequestRejected', this.pubKey);
       this.nextPubKey();
       this.showView();
     },
@@ -91,6 +92,10 @@
     },
     close() {
       this.remove();
+      if (this.pubKey && !this.accepted) {
+        this.trigger('devicePairingRequestRejected', this.pubKey);
+      }
+      this.trigger('close');
     },
   });
 })();

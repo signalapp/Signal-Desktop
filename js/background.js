@@ -171,6 +171,8 @@
     return -1;
   };
   Whisper.events = _.clone(Backbone.Events);
+  Whisper.events.isListenedTo = eventName =>
+    Whisper.events._events ? !!Whisper.events._events[eventName] : false;
   let accountManager;
   window.getAccountManager = () => {
     if (!accountManager) {
@@ -756,6 +758,10 @@
       } catch (e) {
         cb(e);
       }
+    });
+
+    Whisper.events.on('devicePairingRequestRejected', async pubKey => {
+      await window.libloki.storage.removeContactPreKeyBundle(pubKey);
     });
   }
 

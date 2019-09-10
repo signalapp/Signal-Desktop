@@ -1095,10 +1095,18 @@ MessageReceiver.prototype.extend({
   },
   async handlePairingRequest(envelope, pairingRequest) {
     const valid = await this.validateAuthorisation(pairingRequest);
-    if (valid) {
-      await window.libloki.storage.savePairingAuthorisation(pairingRequest);
+    if (!valid) {
+      return this.removeFromCache(envelope);
+    }
+    await window.libloki.storage.savePairingAuthorisation(pairingRequest);
+    if (Whisper.events.isListenedTo('devicePairingRequestReceived')) {
       Whisper.events.trigger(
         'devicePairingRequestReceived',
+        pairingRequest.secondaryDevicePubKey
+      );
+    } else {
+      Whisper.events.trigger(
+        'devicePairingRequestRejected',
         pairingRequest.secondaryDevicePubKey
       );
     }

@@ -145,8 +145,6 @@
     },
     async resetRegistration() {
       await window.Signal.Data.removeAllIdentityKeys();
-      await window.Signal.Data.removeAllPreKeys();
-      await window.Signal.Data.removeAllSignedPreKeys();
       await window.Signal.Data.removeAllConversations();
       Whisper.Registration.remove();
       // Do not remove all items since they are only set
