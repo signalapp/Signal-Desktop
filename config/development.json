@@ -1,4 +1,11 @@
 {
   "storageProfile": "development",
-  "openDevTools": true
+  "seedNodeList": [
+    {
+      "ip": "storage.testnetseed1.loki.network",
+      "port": "38157"
+    }
+  ],
+  "openDevTools": true,
+  "defaultPublicChatServer": "https://chat-dev.lokinet.org/"
 }
