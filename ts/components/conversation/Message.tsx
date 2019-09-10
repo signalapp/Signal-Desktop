@@ -664,9 +664,6 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    // TODO: Render mod icon?
-    console.log(isModerator);
-
     return (
       <div className="module-message__author-avatar">
         <Avatar
@@ -679,6 +676,11 @@ export class Message extends React.PureComponent<Props, State> {
           profileName={authorProfileName}
           size={36}
         />
+        {isModerator &&
+          <div className="module-avatar__icon--crown-wrapper">
+            <div className="module-avatar__icon--crown" />
+          </div>
+        }
       </div>
     );
   }

@@ -2063,6 +2063,22 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.module-avatar__icon--crown-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 21px;
+    width: 21px;
+    background-color: #ff7500;
+    border-radius: 9px;
+    padding: 2px;
+}
+
+.module-avatar__icon--crown {
+  @include color-svg('../images/crown.svg', $color-white);
+  height: 100%;
+  width: 100%;
+}
 
 .module-avatar__icon--group {
   @include color-svg('../images/profile-group.svg', $color-white);

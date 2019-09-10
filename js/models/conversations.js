@@ -2140,7 +2140,8 @@
       if (!this.isPublic()) {
         return false;
       }
-      return this.get('moderators').includes(pubKey);
+      const moderators = this.get('moderators');
+      return Array.isArray(moderators) && moderators.includes(pubKey);
     },
     async setModerators(moderators) {
       if (!this.isPublic()) {
