@@ -122,6 +122,7 @@ module.exports = {
 
   getAllConversations,
   getPubKeysWithFriendStatus,
+  getConversationsWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -782,8 +783,20 @@ async function _removeConversations(ids) {
   await channels.removeConversation(ids);
 }
 
+async function getConversationsWithFriendStatus(
+  status,
+  { ConversationCollection }
+) {
+  const conversations = await channels.getConversationsWithFriendStatus(status);
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
 async function getPubKeysWithFriendStatus(status) {
-  return channels.getPubKeysWithFriendStatus(status);
+  const conversations = await getConversationsWithFriendStatus(status);
+  return conversations.map(row => row.id);
 }
 
 async function getAllConversations({ ConversationCollection }) {

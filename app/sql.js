@@ -101,7 +101,7 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
-  getPubKeysWithFriendStatus,
+  getConversationsWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -1566,7 +1566,9 @@ async function updateConversation(data) {
 
 async function removeConversation(id) {
   if (!Array.isArray(id)) {
-    await db.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, { $id: id });
+    await db.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
+      $id: id,
+    });
     return;
   }
 
@@ -1584,9 +1586,12 @@ async function removeConversation(id) {
 }
 
 async function getConversationById(id) {
-  const row = await db.get(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
-    $id: id,
-  });
+  const row = await db.get(
+    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
+    {
+      $id: id,
+    }
+  );
 
   if (!row) {
     return null;
@@ -1596,24 +1601,29 @@ async function getConversationById(id) {
 }
 
 async function getAllConversations() {
-  const rows = await db.all(`SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`);
+  const rows = await db.all(
+    `SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
+  );
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getPubKeysWithFriendStatus(status) {
+async function getConversationsWithFriendStatus(status) {
   const rows = await db.all(
-    `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
+    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
       friendRequestStatus = $status
+      AND type = 'private'
     ORDER BY id ASC;`,
     {
       $status: status,
     }
   );
-  return map(rows, row => row.id);
+  return map(rows, row => jsonToObject(row.json));
 }
 
 async function getAllConversationIds() {
-  const rows = await db.all(`SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`);
+  const rows = await db.all(
+    `SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
+  );
   return map(rows, row => row.id);
 }
 

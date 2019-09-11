@@ -1113,11 +1113,18 @@
         }
       }
 
+      // Do not set name to allow working with lokiProfile and nicknames
       conversation.set({
-        name: details.name,
+        // name: details.name,
         color: details.color,
         active_at: activeAt,
       });
+
+      await conversation.setLokiProfile({ displayName: details.name });
+
+      if (details.nickname) {
+        await conversation.setNickname(details.nickname);
+      }
 
       // Update the conversation avatar only if new avatar exists and hash differs
       const { avatar } = details;
