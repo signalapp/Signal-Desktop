@@ -2069,13 +2069,11 @@
     left: 0;
     height: 21px;
     width: 21px;
-    background-color: #ff7500;
-    border-radius: 9px;
-    padding: 2px;
+    filter: drop-shadow(1px 1px 4px rgba(0,0,0,0.3));
 }
 
 .module-avatar__icon--crown {
-  @include color-svg('../images/crown.svg', $color-white);
+  @include color-svg('../images/crown.svg', #ffb000);
   height: 100%;
   width: 100%;
 }
