@@ -309,11 +309,15 @@
     },
 
     async updateProfileAvatar() {
-      if (this.isRss()) {
+      if (this.isRss() || this.isPublic()) {
         return;
       }
-      const path = profileImages.getOrCreateImagePath(this.id);
-      await this.setProfileAvatar(path);
+
+      // Remove old identicons
+      if (profileImages.hasImage(this.id)) {
+        profileImages.removeImage(this.id);
+        await this.setProfileAvatar(null);
+      }
     },
 
     async updateAndMerge(message) {

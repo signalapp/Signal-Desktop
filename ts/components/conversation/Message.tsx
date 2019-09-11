@@ -209,6 +209,7 @@ export class Message extends React.PureComponent<Props, State> {
       timestamp,
       isP2p,
       isPublic,
+      isModerator,
     } = this.props;
 
     if (collapseMetadata) {
@@ -218,9 +219,23 @@ export class Message extends React.PureComponent<Props, State> {
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
-    const hasBadge = isP2p || isPublic;
-    const badgeText = isPublic ? 'Public' : isP2p ? 'P2p' : '';
-    const badgeType = badgeText.toLowerCase();
+
+    const badges = [isPublic && 'Public', isP2p && 'P2p', isModerator && 'Mod'].map(badgeText => {
+      if (typeof badgeText !== 'string') return null;
+      return (
+        <span
+          className={classNames(
+            `module-message__metadata__badge`,
+            `module-message__metadata__badge--${direction}`,
+            `module-message__metadata__badge--${badgeText.toLowerCase()}`,
+            `module-message__metadata__badge--${badgeText.toLowerCase()}--${direction}`
+          )}
+          key={badgeText}
+        >
+          &nbsp;•&nbsp;{badgeText}
+        </span>
+      )
+    }).filter(i => !!i);
 
     return (
       <div
@@ -253,16 +268,7 @@ export class Message extends React.PureComponent<Props, State> {
             module="module-message__metadata__date"
           />
         )}
-        {hasBadge ? (
-          <span
-            className={classNames(
-              `module-message__metadata__${badgeType}`,
-              `module-message__metadata__${badgeType}--${direction}`
-            )}
-          >
-            &nbsp;•&nbsp;{badgeText}
-          </span>
-        ) : null}
+        {badges}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
             direction={direction}
@@ -676,11 +682,11 @@ export class Message extends React.PureComponent<Props, State> {
           profileName={authorProfileName}
           size={36}
         />
-        {isModerator &&
+        {isModerator && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
           </div>
-        }
+        )}
       </div>
     );
   }

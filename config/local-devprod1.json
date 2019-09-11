@@ -1,0 +1,5 @@
+{
+  "storageProfile": "devprod1Profile",
+  "localServerPort": "8082",
+  "openDevTools": true
+}

@@ -483,6 +483,7 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
+        timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
         direction,
         friendStatus,

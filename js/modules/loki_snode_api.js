@@ -136,8 +136,8 @@ class LokiSnodeAPI {
     await conversation.updateSwarmNodes(filteredNodes);
   }
 
-  async updateLastHash(nodeUrl, lastHash, expiresAt) {
-    await window.Signal.Data.updateLastHash({ nodeUrl, lastHash, expiresAt });
+  async updateLastHash(snode, hash, expiresAt) {
+    await window.Signal.Data.updateLastHash({ snode, hash, expiresAt });
   }
 
   getSwarmNodesForPubKey(pubKey) {

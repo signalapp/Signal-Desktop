@@ -95,6 +95,7 @@ class LokiMessageAPI {
       }
       const res = await publicSendData.sendMessage(
         data.body,
+        data.quote,
         messageTimeStamp,
         displayName,
         this.ourKey

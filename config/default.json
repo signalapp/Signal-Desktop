@@ -7,11 +7,19 @@
   "defaultPoWDifficulty": "1",
   "seedNodeList": [
     {
-      "ip": "storage.testnetseed1.loki.network",
+      "ip": "storage.seed1.loki.network",
+      "port": "22023"
+    },
+    {
+      "ip": "storage.seed2.loki.network",
+      "port": "38157"
+    },
+    {
+      "ip": "imaginary.stream",
       "port": "38157"
     }
   ],
-  "disableAutoUpdate": false,
+  "disableAutoUpdate": true,
   "updatesUrl": "https://updates2.signal.org/desktop",
   "updatesPublicKey":
     "fd7dd3de7149dc0a127909fee7de0f7620ddd0de061b37a2c303e37de802a401",
