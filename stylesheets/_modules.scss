@@ -2054,16 +2054,16 @@
 }
 
 .module-avatar__icon--crown-wrapper {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 21px;
-    width: 21px;
-    transform: translate(25%, 25%);
-    padding: 9%;
-    background-color: $color-white;
-    border-radius: 50%;
-    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 21px;
+  width: 21px;
+  transform: translate(25%, 25%);
+  padding: 9%;
+  background-color: $color-white;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
 }
 
 .module-avatar__icon--crown {

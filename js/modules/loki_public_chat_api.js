@@ -324,17 +324,20 @@ class LokiPublicChannelAPI {
   // get moderator status
   async pollOnceForModerators() {
     // get moderator status
-    const res = await this.serverRequest(`loki/v1/channel/${this.channelId}/get_moderators`);
+    const res = await this.serverRequest(
+      `loki/v1/channel/${this.channelId}/get_moderators`
+    );
     const ourNumber = textsecure.storage.user.getNumber();
-    // if no problems and we have data
-    let moderators;
-    if (!res.err && res.response && res.response.moderators) {
-      moderators = res.response.moderators;
+
+    // Get the list of moderators if no errors occurred
+    const moderators = !res.err && res.response && res.response.moderators;
+
+    // if we encountered problems then we'll keep the old mod status
+    if (moderators) {
       this.modStatus = moderators.includes(ourNumber);
     }
-    // if problems, we won't drop moderator status
 
-    await this.conversation.setModerators(moderators);
+    await this.conversation.setModerators(moderators || []);
 
     // get token info
     const tokenRes = await this.serverRequest('token');
