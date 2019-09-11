@@ -8,7 +8,7 @@ const { URL, URLSearchParams } = require('url');
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
 const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
 const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
-const PUBLICCHAT_MOD_POLL_EVERY = 5 * 1000; // 1 second
+const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 
 // singleton to relay events to libtextsecure/message_receiver
 class LokiPublicChatAPI extends EventEmitter {
@@ -228,6 +228,9 @@ class LokiPublicChannelAPI {
     if (this.timers.channel) {
       clearTimeout(this.timers.channel);
     }
+    if (this.timers.moderator) {
+      clearTimeout(this.timers.moderator);
+    }
     if (this.timers.delete) {
       clearTimeout(this.timers.delete);
     }
@@ -315,7 +318,7 @@ class LokiPublicChannelAPI {
       log.warn(`Error while polling for public chat moderators: ${e}`);
     }
     if (this.running) {
-      this.timers.channel = setTimeout(() => {
+      this.timers.moderator = setTimeout(() => {
         this.pollForModerators();
       }, PUBLICCHAT_MOD_POLL_EVERY);
     }
