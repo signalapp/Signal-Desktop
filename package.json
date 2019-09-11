@@ -60,6 +60,7 @@
     "buffer-crc32": "0.2.13",
     "bunyan": "1.8.12",
     "classnames": "2.2.5",
+    "color": "^3.1.2",
     "config": "1.28.1",
     "electron-context-menu": "^0.15.0",
     "electron-editor-context-menu": "1.1.1",
@@ -76,7 +77,6 @@
     "google-libphonenumber": "3.2.2",
     "got": "8.2.0",
     "he": "1.2.0",
-    "identicon.js": "2.3.3",
     "intl-tel-input": "12.1.15",
     "jquery": "3.3.1",
     "js-sha512": "0.8.0",
@@ -122,6 +122,7 @@
   "devDependencies": {
     "@types/chai": "4.1.2",
     "@types/classnames": "2.2.3",
+    "@types/color": "^3.0.0",
     "@types/config": "0.0.34",
     "@types/filesize": "3.6.0",
     "@types/fs-extra": "5.0.5",
