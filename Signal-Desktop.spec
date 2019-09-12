@@ -37,8 +37,9 @@ iOS.
 %prep
 %autosetup
 
-# Allow higher node versions:
-sed -i 's/"node": "/&^/' package.json
+# Use distribution nodejs version:
+%define nsjver %(node --version | sed -e 's/^v//g')
+sed -i 's/"node": ".*/"node": "%{nsjver}"/' package.json
 
 %build
 # Clean if not starting from scratch
