@@ -2020,7 +2020,10 @@
                 }
               );
             }
-          } else if (dataMessage.profile) {
+          } else if (
+            source !== textsecure.storage.user.getNumber() &&
+            dataMessage.profile
+          ) {
             ConversationController.getOrCreateAndWait(source, 'private').then(
               sender => {
                 sender.setLokiProfile(dataMessage.profile);

@@ -1337,6 +1337,10 @@
 
         if (this.isPrivate()) {
           messageWithSchema.destination = destination;
+        } else if (this.isPublic()) {
+          // Public chats require this data to detect duplicates
+          messageWithSchema.source = textsecure.storage.user.getNumber();
+          messageWithSchema.sourceDevice = 1;
         }
         const attributes = {
           ...messageWithSchema,
