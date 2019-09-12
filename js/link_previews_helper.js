@@ -79,7 +79,16 @@
     }
 
     // Start the request
-    const promise = _getPreview(url);
+    const promise = _getPreview(url).catch(e => {
+      window.log.error(e);
+
+      // If we get an error then we can purge the cache
+      if (url in previewCache) {
+        delete previewCache[url];
+      }
+
+      return null;
+    });
     previewCache[url] = promise;
 
     return promise;
@@ -91,7 +100,7 @@
       html = await textsecure.messaging.makeProxiedRequest(url);
     } catch (error) {
       if (error.code >= 300) {
-        return null;
+        throw new Error(`Failed to fetch html: ${error}`);
       }
     }
 
