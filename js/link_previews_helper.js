@@ -13,6 +13,9 @@
   window.Signal = window.Signal || {};
   window.Signal.LinkPreviews = window.Signal.LinkPreviews || {};
 
+  // A cache mapping url to fetched previews
+  const previewCache = {};
+
   async function makeChunkedRequest(url) {
     const PARALLELISM = 3;
     const size = await textsecure.messaging.getProxiedSize(url);
@@ -68,13 +71,36 @@
     return StringView.arrayBufferToHex(digest);
   }
 
-  async function getPreview(url) {
+  // Wrapper function which utilizes cache
+  async function getPreview(url, skipCache = false) {
+    // If we have a request cached then use that
+    if (!skipCache && url in previewCache) {
+      return previewCache[url];
+    }
+
+    // Start the request
+    const promise = _getPreview(url).catch(e => {
+      window.log.error(e);
+
+      // If we get an error then we can purge the cache
+      if (url in previewCache) {
+        delete previewCache[url];
+      }
+
+      return null;
+    });
+    previewCache[url] = promise;
+
+    return promise;
+  }
+
+  async function _getPreview(url) {
     let html;
     try {
       html = await textsecure.messaging.makeProxiedRequest(url);
     } catch (error) {
       if (error.code >= 300) {
-        return null;
+        throw new Error(`Failed to fetch html: ${error}`);
       }
     }
 
