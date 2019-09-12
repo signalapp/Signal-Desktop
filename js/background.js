@@ -55,6 +55,7 @@
     'check.svg',
     'clock.svg',
     'close-circle.svg',
+    'crown.svg',
     'delete.svg',
     'dots-horizontal.svg',
     'double-check.svg',

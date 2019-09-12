@@ -7,7 +7,8 @@ const { URL, URLSearchParams } = require('url');
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
 const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
-const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 1 second
+const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
+const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 
 // singleton to relay events to libtextsecure/message_receiver
 class LokiPublicChatAPI extends EventEmitter {
@@ -219,13 +220,16 @@ class LokiPublicChannelAPI {
     this.pollForMessages();
     this.pollForDeletions();
     this.pollForChannel();
-    this.refreshModStatus();
+    this.pollForModerators();
   }
 
   stop() {
     this.running = false;
     if (this.timers.channel) {
       clearTimeout(this.timers.channel);
+    }
+    if (this.timers.moderator) {
+      clearTimeout(this.timers.moderator);
     }
     if (this.timers.delete) {
       clearTimeout(this.timers.delete);
@@ -306,17 +310,37 @@ class LokiPublicChannelAPI {
     };
   }
 
-  // get moderator status
-  async refreshModStatus() {
-    // get moderator status
-    const res = await this.serverRequest('loki/v1/user_info');
-    // if no problems and we have data
-    if (!res.err && res.response && res.response.data) {
-      this.modStatus = res.response.data.moderator_status;
+  // get moderation actions
+  async pollForModerators() {
+    try {
+      await this.pollOnceForModerators();
+    } catch (e) {
+      log.warn(`Error while polling for public chat moderators: ${e}`);
     }
-    // if problems, we won't drop moderator status
+    if (this.running) {
+      this.timers.moderator = setTimeout(() => {
+        this.pollForModerators();
+      }, PUBLICCHAT_MOD_POLL_EVERY);
+    }
+  }
 
-    await this.conversation.setModStatus(this.modStatus);
+  // get moderator status
+  async pollOnceForModerators() {
+    // get moderator status
+    const res = await this.serverRequest(
+      `loki/v1/channel/${this.channelId}/get_moderators`
+    );
+    const ourNumber = textsecure.storage.user.getNumber();
+
+    // Get the list of moderators if no errors occurred
+    const moderators = !res.err && res.response && res.response.moderators;
+
+    // if we encountered problems then we'll keep the old mod status
+    if (moderators) {
+      this.modStatus = moderators.includes(ourNumber);
+    }
+
+    await this.conversation.setModerators(moderators || []);
 
     // get token info
     const tokenRes = await this.serverRequest('token');
@@ -328,7 +352,6 @@ class LokiPublicChannelAPI {
       tokenRes.response.data.user
     ) {
       // get our profile name and write it to the network
-      const ourNumber = textsecure.storage.user.getNumber();
       const profileConvo = ConversationController.get(ourNumber);
       const profileName = profileConvo.getProfileName();
 
@@ -386,11 +409,11 @@ class LokiPublicChannelAPI {
     try {
       await this.pollForChannelOnce();
     } catch (e) {
-      log.warn(`Error while polling for public chat deletions: ${e}`);
+      log.warn(`Error while polling for public chat room details: ${e}`);
     }
     if (this.running) {
       this.timers.channel = setTimeout(() => {
-        this.pollForChannelOnce();
+        this.pollForChannel();
       }, PUBLICCHAT_CHAN_POLL_EVERY);
     }
   }

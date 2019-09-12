@@ -681,9 +681,12 @@
         isP2p: !!this.get('isP2p'),
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
+        isModerator:
+          !!this.get('isPublic') &&
+          this.getConversation().isModerator(this.getSource()),
         isDeletable:
           !this.get('isPublic') ||
-          this.getConversation().isModerator() ||
+          this.getConversation().isModerator(this.OUR_NUMBER) ||
           this.getSource() === this.OUR_NUMBER,
 
         onCopyText: () => this.copyText(),

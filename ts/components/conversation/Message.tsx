@@ -48,6 +48,7 @@ interface LinkPreviewType {
 
 export interface Props {
   disableMenu?: boolean;
+  isModerator?: boolean;
   isDeletable: boolean;
   text?: string;
   textPending?: boolean;
@@ -195,6 +196,34 @@ export class Message extends React.PureComponent<Props, State> {
     });
   }
 
+  public renderMetadataBadges() {
+    const { direction, isP2p, isPublic, isModerator } = this.props;
+
+    const badges = [isPublic && 'Public', isP2p && 'P2p', isModerator && 'Mod'];
+
+    return badges
+      .map(badgeText => {
+        if (typeof badgeText !== 'string') {
+          return null;
+        }
+
+        return (
+          <span
+            className={classNames(
+              'module-message__metadata__badge',
+              `module-message__metadata__badge--${direction}`,
+              `module-message__metadata__badge--${badgeText.toLowerCase()}`,
+              `module-message__metadata__badge--${badgeText.toLowerCase()}--${direction}`
+            )}
+            key={badgeText}
+          >
+            &nbsp;•&nbsp;{badgeText}
+          </span>
+        );
+      })
+      .filter(i => !!i);
+  }
+
   public renderMetadata() {
     const {
       collapseMetadata,
@@ -206,8 +235,6 @@ export class Message extends React.PureComponent<Props, State> {
       text,
       textPending,
       timestamp,
-      isP2p,
-      isPublic,
     } = this.props;
 
     if (collapseMetadata) {
@@ -217,9 +244,6 @@ export class Message extends React.PureComponent<Props, State> {
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
-    const hasBadge = isP2p || isPublic;
-    const badgeText = isPublic ? 'Public' : isP2p ? 'P2p' : '';
-    const badgeType = badgeText.toLowerCase();
 
     return (
       <div
@@ -252,16 +276,7 @@ export class Message extends React.PureComponent<Props, State> {
             module="module-message__metadata__date"
           />
         )}
-        {hasBadge ? (
-          <span
-            className={classNames(
-              `module-message__metadata__${badgeType}`,
-              `module-message__metadata__${badgeType}--${direction}`
-            )}
-          >
-            &nbsp;•&nbsp;{badgeText}
-          </span>
-        ) : null}
+        {this.renderMetadataBadges()}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
             direction={direction}
@@ -648,6 +663,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
+      isModerator,
       authorColor,
       conversationType,
       direction,
@@ -674,6 +690,11 @@ export class Message extends React.PureComponent<Props, State> {
           profileName={authorProfileName}
           size={36}
         />
+        {isModerator && (
+          <div className="module-avatar__icon--crown-wrapper">
+            <div className="module-avatar__icon--crown" />
+          </div>
+        )}
       </div>
     );
   }
