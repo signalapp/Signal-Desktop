@@ -75,6 +75,8 @@ module.exports = {
   createOrUpdatePairingAuthorisation,
   getAuthorisationForPubKey,
   getSecondaryDevicesFor,
+  getPrimaryDeviceFor,
+  getPairedDevicesFor,
 
   createOrUpdateItem,
   getItemById,
@@ -1282,6 +1284,43 @@ async function getSecondaryDevicesFor(primaryDevicePubKey) {
     }
   );
   return map(rows, row => row.secondaryDevicePubKey);
+}
+
+async function getPrimaryDeviceFor(secondaryDevicePubKey) {
+  const row = await db.get(
+    `SELECT primaryDevicePubKey FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey AND isGranted = 1;`,
+    {
+      $secondaryDevicePubKey: secondaryDevicePubKey,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return row.primaryDevicePubKey;
+}
+
+// Return all the paired pubkeys for a specific pubkey (excluded),
+// irrespective of their Primary or Secondary status.
+async function getPairedDevicesFor(pubKey) {
+  let results = [];
+
+  // get primary pubkey (only works if the pubkey is a secondary pubkey)
+  const primaryPubKey = await getPrimaryDeviceFor(pubKey);
+  if (primaryPubKey) {
+    results.push(primaryPubKey);
+  }
+  // get secondary pubkeys (only works if the pubkey is a primary pubkey)
+  const secondaryPubKeys = await getSecondaryDevicesFor(
+    primaryPubKey || pubKey
+  );
+  results = results.concat(secondaryPubKeys);
+
+  // ensure the input pubkey is not in the results
+  results = results.filter(x => x !== pubKey);
+
+  return results;
 }
 
 const ITEMS_TABLE = 'items';
