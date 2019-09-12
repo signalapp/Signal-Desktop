@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout */
+clearTimeout, MessageController */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -639,6 +639,25 @@ class LokiPublicChannelAPI {
         },
       ],
     };
+    if (quote.id) {
+      // copied from model/message.js copyFromQuotedMessage
+      const collection = await Signal.Data.getMessagesBySentAt(quote.id, {
+        MessageCollection: Whisper.MessageCollection,
+      });
+      const found = collection.find(item => {
+        const messageAuthor = item.getContact();
+
+        return messageAuthor && quote.author === messageAuthor.id;
+      });
+
+      if (found) {
+        const queryMessage = MessageController.register(found.id, found);
+        const replyTo = queryMessage.get('serverId');
+        if (replyTo) {
+          payload.reply_to = replyTo;
+        }
+      }
+    }
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
       method: 'POST',
       objBody: payload,
