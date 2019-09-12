@@ -205,7 +205,11 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
+  let initialisedAPI = false;
   const initAPIs = () => {
+    if (initialisedAPI) {
+      return;
+    }
     const ourKey = textsecure.storage.user.getNumber();
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
@@ -215,6 +219,7 @@
     });
     window.lokiP2pAPI.on('online', ConversationController._handleOnline);
     window.lokiP2pAPI.on('offline', ConversationController._handleOffline);
+    initialisedAPI = true;
   };
 
   function mapOldThemeToNew(theme) {
@@ -232,6 +237,9 @@
   }
 
   function startLocalLokiServer() {
+    if (window.localLokiServer) {
+      return;
+    }
     const pems = window.getSelfSignedCert();
     window.localLokiServer = new window.LocalLokiServer(pems);
   }
