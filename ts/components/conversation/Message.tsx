@@ -590,6 +590,10 @@ export class Message extends React.PureComponent<Props, State> {
     const quoteColor =
       direction === 'incoming' ? authorColor : quote.authorColor;
 
+    const shortenedPubkey = `(...${quote.authorPhoneNumber.substring(
+      quote.authorPhoneNumber.length - 6
+    )})`;
+
     return (
       <Quote
         i18n={i18n}
@@ -597,7 +601,7 @@ export class Message extends React.PureComponent<Props, State> {
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
-        authorPhoneNumber={quote.authorPhoneNumber}
+        authorPhoneNumber={shortenedPubkey}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
         authorColor={quoteColor}
