@@ -639,7 +639,7 @@ class LokiPublicChannelAPI {
         },
       ],
     };
-    if (quote.id) {
+    if (quote && quote.id) {
       // copied from model/message.js copyFromQuotedMessage
       const collection = await Signal.Data.getMessagesBySentAt(quote.id, {
         MessageCollection: Whisper.MessageCollection,
