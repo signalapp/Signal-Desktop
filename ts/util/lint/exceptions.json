@@ -164,7 +164,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 169,
+    "lineNumber": 171,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-31T00:19:18.696Z"
   },
@@ -172,7 +172,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 204,
+    "lineNumber": 219,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-31T00:19:18.696Z"
   },
@@ -7475,7 +7475,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 65,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-01T14:10:37.481Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"

@@ -323,6 +323,7 @@
         onSubmit: message => this.sendMessage(message),
         onEditorStateChange: (msg, caretLocation) =>
           this.onEditorStateChange(msg, caretLocation),
+        onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
         onChooseAttachment: this.onChooseAttachment.bind(this),
         micCellEl,
         attachmentListEl,

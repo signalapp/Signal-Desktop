@@ -29,6 +29,7 @@ import {
 } from './emoji/lib';
 import { LocalizerType } from '../types/Util';
 
+const MAX_LENGTH = 64 * 1024;
 const colonsRegex = /(?:^|\s):[a-z0-9-_+]+:?/gi;
 const triggerEmojiRegex = /^(?:[-+]\d|[a-z]{2})/i;
 
@@ -43,6 +44,7 @@ export type Props = {
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(messageText: string, caretLocation: number): unknown;
   onEditorSizeChange?(rect: ContentRect): unknown;
+  onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
   onSubmit(message: string): unknown;
 };
@@ -76,6 +78,43 @@ function getTrimmedMatchAtIndex(str: string, index: number, pattern: RegExp) {
   }
 
   return null;
+}
+
+function getLengthOfSelectedText(state: EditorState): number {
+  const currentSelection = state.getSelection();
+  let length = 0;
+
+  const currentContent = state.getCurrentContent();
+  const startKey = currentSelection.getStartKey();
+  const endKey = currentSelection.getEndKey();
+  const startBlock = currentContent.getBlockForKey(startKey);
+  const isStartAndEndBlockAreTheSame = startKey === endKey;
+  const startBlockTextLength = startBlock.getLength();
+  const startSelectedTextLength =
+    startBlockTextLength - currentSelection.getStartOffset();
+  const endSelectedTextLength = currentSelection.getEndOffset();
+  const keyAfterEnd = currentContent.getKeyAfter(endKey);
+
+  if (isStartAndEndBlockAreTheSame) {
+    length +=
+      currentSelection.getEndOffset() - currentSelection.getStartOffset();
+  } else {
+    let currentKey = startKey;
+
+    while (currentKey && currentKey !== keyAfterEnd) {
+      if (currentKey === startKey) {
+        length += startSelectedTextLength + 1;
+      } else if (currentKey === endKey) {
+        length += endSelectedTextLength;
+      } else {
+        length += currentContent.getBlockForKey(currentKey).getLength() + 1;
+      }
+
+      currentKey = currentContent.getKeyAfter(currentKey);
+    }
+  }
+
+  return length;
 }
 
 function getWordAtIndex(str: string, index: number) {
@@ -172,6 +211,7 @@ export const CompositionInput = ({
   onDirtyChange,
   onEditorStateChange,
   onEditorSizeChange,
+  onTextTooLong,
   onPickEmoji,
   onSubmit,
   skinTone,
@@ -296,6 +336,51 @@ export const CompositionInput = ({
       setSearchText,
       setEmojiResults,
     ]
+  );
+
+  const handleBeforeInput = React.useCallback(
+    (): DraftHandleValue => {
+      if (!editorStateRef.current) {
+        return 'not-handled';
+      }
+
+      const editorState = editorStateRef.current;
+      const plainText = editorState.getCurrentContent().getPlainText();
+      const selectedTextLength = getLengthOfSelectedText(editorState);
+
+      if (plainText.length - selectedTextLength > MAX_LENGTH - 1) {
+        onTextTooLong();
+
+        return 'handled';
+      }
+
+      return 'not-handled';
+    },
+    [onTextTooLong, editorStateRef]
+  );
+
+  const handlePastedText = React.useCallback(
+    (pastedText: string): DraftHandleValue => {
+      if (!editorStateRef.current) {
+        return 'not-handled';
+      }
+
+      const editorState = editorStateRef.current;
+      const plainText = editorState.getCurrentContent().getPlainText();
+      const selectedTextLength = getLengthOfSelectedText(editorState);
+
+      if (
+        plainText.length + pastedText.length - selectedTextLength >
+        MAX_LENGTH
+      ) {
+        onTextTooLong();
+
+        return 'handled';
+      }
+
+      return 'not-handled';
+    },
+    [onTextTooLong, editorStateRef]
   );
 
   const resetEditorState = React.useCallback(
@@ -694,6 +779,8 @@ export const CompositionInput = ({
                     onEscape={handleEscapeKey}
                     onTab={onTab}
                     handleKeyCommand={handleEditorCommand}
+                    handleBeforeInput={handleBeforeInput}
+                    handlePastedText={handlePastedText}
                     keyBindingFn={editorKeybindingFn}
                     spellCheck={true}
                     stripPastedStyles={true}
