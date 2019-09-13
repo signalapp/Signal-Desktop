@@ -3356,7 +3356,7 @@
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 2137,
+    "lineNumber": 2134,
     "reasonCategory": "falseMatch",
     "updated": "2019-08-15T17:10:42.360Z"
   },
@@ -3364,7 +3364,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3748,
+    "lineNumber": 3745,
     "reasonCategory": "falseMatch",
     "updated": "2019-08-15T17:10:42.360Z"
   },
