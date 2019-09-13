@@ -322,12 +322,18 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const shortenedPubkey = `(...${authorPhoneNumber.substring(
+      authorPhoneNumber.length - 6
+    )})`;
+
+    const displayedPubkey = authorProfileName
+      ? shortenedPubkey
+      : authorPhoneNumber;
+
     return (
       <div className="module-message__author">
         <ContactName
-          phoneNumber={`(...${authorPhoneNumber.substring(
-            authorPhoneNumber.length - 6
-          )})`}
+          phoneNumber={displayedPubkey}
           name={authorName}
           profileName={authorProfileName}
           module="module-message__author"
@@ -594,6 +600,10 @@ export class Message extends React.PureComponent<Props, State> {
       quote.authorPhoneNumber.length - 6
     )})`;
 
+    const displayedPubkey = quote.authorProfileName
+      ? shortenedPubkey
+      : quote.authorPhoneNumber;
+
     return (
       <Quote
         i18n={i18n}
@@ -601,7 +611,7 @@ export class Message extends React.PureComponent<Props, State> {
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
-        authorPhoneNumber={shortenedPubkey}
+        authorPhoneNumber={displayedPubkey}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
         authorColor={quoteColor}
