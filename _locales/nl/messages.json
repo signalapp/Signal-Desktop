@@ -8,7 +8,7 @@
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Databasefout",
+        "message": "Databankfout",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
@@ -104,7 +104,7 @@
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zoomen",
+        "message": "Maximaliseren",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
@@ -210,7 +210,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Dien een debuglog in als deze methode niet werkt (Weergave -> Foutopsporingslogboek), zodat we je kunnen helpen bij de migratie!",
+        "message": "Dien een foutopsporingslog in als deze methode niet werkt (Weergave -> Foutopsporingslog), zodat we je kunnen helpen bij de migratie!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -234,7 +234,7 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "De database wordt opgewaardeerd. Dit kan even duren…",
+        "message": "De databank wordt opgewaardeerd. Dit kan even duren…",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
@@ -256,16 +256,12 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Je hebt de groep verlaten",
+        "message": "Je kunt geen berichten verzenden omdat je de groep hebt verlaten",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Scroll naar de onderkant van het gesprek",
+        "message": "Scroll naar de bodem van het gesprek",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nieuw bericht hieronder",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
         "message": "Nieuwe berichten hieronder",
@@ -396,11 +392,11 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Deze log zal online publiek beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
+        "message": "Dit logbestand wordt publiekelijk beschikbaar gesteld op internet zodat de ontwikkelaars en vrijwilligers het kunnen bestuderen. Je kunt het bekijken en aanpassen voor je het verzendt.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Er is iets misgegaan bij het uploaden. Voeg het logbestand handmatig toe aan het foutrapport.",
+        "message": "Er is iets misgegaan bij het uploaden. Voeg het logbestand handmatig toe aan een foutrapport op Github.",
         "description": ""
     },
     "reportIssue": {
@@ -596,11 +592,11 @@
         }
     },
     "submitDebugLog": {
-        "message": "Foutopsporingslogboek",
+        "message": "Foutopsporingslog",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Foutopsporingslogboek",
+        "message": "Foutopsporingslog",
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
@@ -651,6 +647,16 @@
         "message": "Zoeken",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Zoeken in ‘$conversationName$’",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "Geen resultaten voor ‘$searchTerm$’",
         "description": "Shown in the search left pane when no results were found",
@@ -658,6 +664,16 @@
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "Geen resultaten voor “$searchTerm$” in ‘$conversationName$’",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -696,7 +712,7 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Bericht verzenden",
+        "message": "Bericht zenden",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
@@ -712,7 +728,7 @@
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "email",
+        "message": "e-mail",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
@@ -794,15 +810,15 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "Kan niet bijwerken",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop kon niet bijwerken, maar er is een nieuwe versie beschikbaar. Ga naar https://signal.org/download en installeer handmatig de nieuwe versie. Neem vervolgens contact op met de ondersteuningsdienst, of dien een foutmelding in over dit probleem.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "Signal Desktop bevindt zich waarschijnlijk in een quarantaine van macOS en zal in dat geval niet automatisch bijgewerkt kunnen worden. Probeer Signal.app te verplaatsen naar /Applications met Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
@@ -1064,11 +1080,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Naam van afzender en berichtinhoud",
+        "message": "Zowel naam van afzender als berichtinhoud",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Naam van afzender noch berichtinhoud",
+        "message": "Noch de naam van de afzender noch berichtinhoud",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1124,7 +1140,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Nummer is niet geregistreerd",
+        "message": "Telefoonnummer is niet geregistreerd",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
@@ -1210,6 +1226,10 @@
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "messageBodyTooLong": {
+        "message": "Berichtinhoud is te lang",
+        "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
         "message": "Deblokkeer dit contact om een bericht te verzenden.",
@@ -1421,6 +1441,10 @@
         "message": "Donker",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "Systeem",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
         "message": "Notitie aan mezelf",
         "description": "Name for the conversation with your own phone number"
@@ -1454,7 +1478,7 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update voor Signal beschikbaar",
+        "message": "Nieuwe versie van Signal beschikbaar",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -1526,6 +1550,180 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Concept:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Stickerbericht",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Niet-ondersteund bericht",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Zelf-wissende foto",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "Stickerpakket kon niet worden geïnstalleerd",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Geïnstalleerde stickers",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "Geen stickers geïnstalleerd",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Signal-kunstenaarserie",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "Geen Signal-kunstenaarstickers beschikbaar",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Ontvangen stickers",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Stickers uit binnenkomende berichten zullen hier verschijnen",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Installeren",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Verwijderen",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "Je kunt dit stickerpakket mogelijk niet opnieuw installeren als je het bronbericht niet langer bezit.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "We introduceren stickers",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Waarom zou je woorden gebruiken als je ook stickers kunt gebruiken?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "Sommige stickers konden niet worden gedownload.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "Stickerpakket wordt geïnstalleerd…",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "Geen stickers gevonden",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "Vanuit je berichten zijn er nieuwe stickerpakketten beschikbaar om te installeren",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "Geen stickerpakketten gevonden",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Recent gebruikte stickers verschijnen hier.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Stickerpakket",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Fout bij het openen van stickerpakket. Controleer je internetverbinding en probeer het opnieuw.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "Geen emoji gevonden",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Emoji zoeken",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "Huidskleur $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Annuleren",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "Je hebt een bericht ontvangen van $contact$ die niet kan worden verwerkt of niet kan worden weeggegeven omdat het gebruik maakt van een nieuwe functie van Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "Je kunt $contact$ vragen om dit bericht opnieuw te verzenden nudat je een actuele versie van Signal gebruikt.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "Een van je apparaten heeft een bericht verstuurd welke niet kan worden verwerkt of niet kan worden weergegeven omdat dat bericht gebruik maakt van een nieuwe funcie van Signal.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Toekomstige berichten zoals dit bericht zullen worden gesynchroniseerd nudat je een actuele versie van Signal gebruikt.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Signal bijwerken",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Gezien",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Foto",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Foto weergeven",
+        "description": "Text shown on messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(bijlage)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(aanhaling)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(Concept)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
         "message": "Gebruiksvoorwaarden & privacybeleid",

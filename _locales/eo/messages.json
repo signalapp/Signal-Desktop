@@ -144,7 +144,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
-        "message": "Ŝargante…",
+        "message": "Ŝargado...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -202,7 +202,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Ŝargante kontaktojn kaj mesaĝojn",
+        "message": "Ŝargo de kontaktoj kaj mesaĝoj",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -238,7 +238,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Ŝargante mesaĝojn. $count$ ĝis nun…",
+        "message": "Ŝargo de mesaĝoj. $count$ ĝis nun…",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -262,10 +262,6 @@
     "scrollDown": {
         "message": "Rulumi al interparola malsupro",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nova mesaĝo suben",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
         "message": "Novaj mesaĝoj suben",
@@ -516,11 +512,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Ŝargante antaŭrigardon...",
+        "message": "Ŝargo de antaŭrigardo...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Preparante miniaturan antaŭrigardon de ligilo pri $domain$",
+        "message": "Preparado de miniatura antaŭrigardo de ligilo pri $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -540,7 +536,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Preparante bildan kunsendaĵon: $path$",
+        "message": "Preparado de bilda kunsendaĵo: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -574,7 +570,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Konektante",
+        "message": "Konektado",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
@@ -651,6 +647,16 @@
         "message": "Serĉi",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Serĉi en $conversationName$",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "Neniu rezulto pri „$searchTerm$“",
         "description": "Shown in the search left pane when no results were found",
@@ -658,6 +664,16 @@
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "Neniu rezulto pri „$searchTerm$“ en $conversationName$",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -794,15 +810,15 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "La ĝisdatigo ne eblas",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop ne sukcesis ĝisdatiĝi, sed nova versio disponeblas. Bv. iri al https://signal.org/download kaj instali la novan version permane; poste, kontaktu helpservon, aŭ raportu problemon pri tio.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "Signal Desktop probable estas en macOS-a kvaranteno kaj ne eblos ĝisdatiĝi. Bv. provi movi Signal.app al /Applications (dosierujo Aplikaĵoj trovebla en la radika dosierujo de via disko) pere de Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
@@ -1048,7 +1064,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Malkonektante kaj forigante ĉiujn datumojn",
+        "message": "Malkonektado kaj forigado de ĉiuj datumoj",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
@@ -1144,7 +1160,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importante…",
+        "message": "Importado…",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
@@ -1210,6 +1226,10 @@
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "messageBodyTooLong": {
+        "message": "La mesaĝokorpo estas tro longa.",
+        "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
         "message": "Malbloki tiun kontakton por sendi mesaĝon.",
@@ -1421,6 +1441,10 @@
         "message": "Malhela",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "Sistema",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
         "message": "Noto al mi mem",
         "description": "Name for the conversation with your own phone number"
@@ -1526,6 +1550,180 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Malneto:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Glumarka mesaĝo",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Nesubtenata mesaĝo",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Memviŝonta foto",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "Glumarkaro ne eblis instaliĝi",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Instalitaj glumarkaroj",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "Neniu glumarkaro instalita",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Artista serio de Signal",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "Neniu artista glumarkaro disponebla",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Glumarkaroj, kiujn vi ricevis",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Glumarkoj el envenaj mesaĝoj aperos ĉi tie",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Instali",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Malinstali",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "Vi eble ne povos reinstali tiun glumarkaro, se vi ne plu havas la fontmesaĝon.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "Enkonduko de la glumarkoj",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Kial uzi vortojn, kiam vi povas uzi glumarkojn?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "Kelkaj glumarkaj ne eblis elŝutiĝi.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "Instalado de glumarkaro...",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "Neniu glumarko trovita",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "Novaj glumarkaroj el viaj mesaĝoj disponeblas por instaliĝi",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "Neniu glumarkaro trovita",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Laste uzitaj glumarkoj aperos ĉi tie.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Glumarkaro",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Eraro dum malfermo de glumarkaro. Kontrolu vian retkonekton kaj reprovu.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "Neniu emoĝio trovita",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Serĉi emoĝion",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "Haŭtkoloro $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Nuligi",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ sendis al vi mesaĝon ne montreblan, ĉar ĝi uzas novan Signal-an trajton.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "Vi povas peti al $contact$resendi tiun mesaĝon, ĉar vi nun uzas ĝisdatan version de Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "Unu el viaj aparatoj sendis mesaĝon ne montreblan, ĉar ĝi uzas novan Signal-an trajton.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Venontaj tiaj mesaĝoj sinkroniĝos, ĉar vi nun uzas ĝisdatan version de SIgnal.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Ĝisdatigi Signal-on",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Vidita",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Foto",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Vidi foton",
+        "description": "Text shown on messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(kunsendaĵo)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(quote)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(malneto)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
         "message": "Kondiĉoj de uzo kaj regularo pri privateco",
