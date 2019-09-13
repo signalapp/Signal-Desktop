@@ -499,7 +499,7 @@ class LokiPublicChannelAPI {
 
       // update where we last checked
       this.deleteLastId = res.response.meta.max_id;
-      more = res.response.more && res.response.data.length >= params.count;
+      more = res.response.meta.more && res.response.data.length >= params.count;
     }
   }
 
