@@ -213,6 +213,10 @@ class LokiPublicChannelAPI {
     this.deleteLastId = 1;
     this.timers = {};
     this.running = true;
+
+    // Cache for duplicate checking
+    this.lastMessagesCache = [];
+
     // end properties
 
     log.info(`registered LokiPublicChannel ${channelId}`);
@@ -573,6 +577,32 @@ class LokiPublicChannelAPI {
         ) {
           return; // Invalid message
         }
+
+        // Duplicate check
+        const isDuplicate = message => {
+          const sameUsername = message.username === adnMessage.user.username;
+          const sameText = message.text === adnMessage.text;
+          // Don't filter out messages that are too far apart from each other
+          const timestampsSimilar =
+            Math.abs(message.timestamp - timestamp) <= 10000;
+
+          return sameUsername && sameText && timestampsSimilar;
+        };
+
+        // Filter out any messages that we got previously
+        if (this.lastMessagesCache.some(isDuplicate)) {
+          return; // Duplicate message
+        }
+
+        // Add the message to the lastMessage cache and keep the last 5 recent messages
+        this.lastMessagesCache = [
+          ...this.lastMessagesCache,
+          {
+            username: adnMessage.user.username,
+            text: adnMessage.text,
+            timestamp,
+          },
+        ].splice(-5);
 
         const messageData = {
           serverId: adnMessage.id,
