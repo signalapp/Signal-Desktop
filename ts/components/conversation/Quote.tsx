@@ -304,6 +304,7 @@ export class Quote extends React.Component<Props, State> {
             name={authorName}
             profileName={authorProfileName}
             i18n={i18n}
+            compact={true}
           />
         )}
       </div>

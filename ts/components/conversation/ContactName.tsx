@@ -11,6 +11,7 @@ interface Props {
   i18n: LocalizerType;
   module?: string;
   boldProfileName?: Boolean;
+  compact?: Boolean;
 }
 
 export class ContactName extends React.Component<Props> {
@@ -22,6 +23,7 @@ export class ContactName extends React.Component<Props> {
       i18n,
       module,
       boldProfileName,
+      compact,
     } = this.props;
     const prefix = module ? module : 'module-contact-name';
 
@@ -39,7 +41,7 @@ export class ContactName extends React.Component<Props> {
     ) : null;
 
     return (
-      <span className={prefix} dir="auto">
+      <span className={classNames(prefix, compact && 'compact')} dir="auto">
         {profileElement}
         {shouldShowProfile ? ' ' : null}
         <span
