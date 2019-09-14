@@ -764,17 +764,23 @@
         conversationUnloaded(this.model.id);
       }
 
-      if (this.model.hasDraft()) {
-        this.model.set({
-          draftTimestamp: Date.now(),
-          timestamp: Date.now(),
-        });
-
-        this.model.updateLastMessage();
+      if (this.model.get('draftChanged')) {
+        if (this.model.hasDraft()) {
+          this.model.set({
+            draftChanged: false,
+            draftTimestamp: Date.now(),
+            timestamp: Date.now(),
+          });
+        } else {
+          this.model.set({
+            draftChanged: false,
+            draftTimestamp: null,
+          });
+        }
 
         // We don't wait here; we need to take down the view
         this.saveModel();
-      } else {
+
         this.model.updateLastMessage();
       }
 
@@ -955,6 +961,7 @@
       const draftAttachments = this.model.get('draftAttachments') || [];
       this.model.set({
         draftAttachments: [...draftAttachments, onDisk],
+        draftChanged: true,
       });
       await this.saveModel();
 
@@ -969,6 +976,7 @@
           draftAttachments,
           item => item.path === attachment.path
         ),
+        draftChanged: true,
       });
 
       this.updateAttachmentsView();
@@ -983,6 +991,7 @@
       const draftAttachments = this.model.get('draftAttachments') || [];
       this.model.set({
         draftAttachments: [],
+        draftChanged: true,
       });
 
       this.updateAttachmentsView();
@@ -2262,6 +2271,7 @@
       if (existing !== messageId) {
         this.model.set({
           quotedMessageId: messageId,
+          draftChanged: true,
         });
 
         await this.saveModel();
@@ -2427,16 +2437,20 @@
       if (this.model.get('draft') && (!messageText || trimmed.length === 0)) {
         this.model.set({
           draft: null,
+          draftChanged: true,
         });
         await this.saveModel();
 
         return;
       }
 
-      this.model.set({
-        draft: messageText,
-      });
-      await this.saveModel();
+      if (messageText !== this.model.get('draft')) {
+        this.model.set({
+          draft: messageText,
+          draftChanged: true,
+        });
+        await this.saveModel();
+      }
     },
 
     maybeGrabLinkPreview(message, caretLocation) {
