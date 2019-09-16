@@ -580,6 +580,7 @@ class LokiPublicChannelAPI {
 
         // Duplicate check
         const isDuplicate = message => {
+          // The username in this case is the users pubKey
           const sameUsername = message.username === adnMessage.user.username;
           const sameText = message.text === adnMessage.text;
           // Don't filter out messages that are too far apart from each other
