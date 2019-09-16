@@ -1147,6 +1147,7 @@ MessageReceiver.prototype.extend({
           // This call already removes the envelope from the cache
           await this.handleContacts(envelope, syncMessage.contacts);
           removedFromCache = true;
+          await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
         }
       } else {
         window.log.warn('Unimplemented pairing authorisation message type');
@@ -1155,6 +1156,31 @@ MessageReceiver.prototype.extend({
     if (!removedFromCache) {
       await this.removeFromCache(envelope);
     }
+  },
+  async sendFriendRequestsToSyncContacts(contacts) {
+    const attachmentPointer = await this.handleAttachment(contacts);
+    const contactBuffer = new ContactBuffer(attachmentPointer.data);
+    let contactDetails = contactBuffer.next();
+    // Extract just the pubkeys
+    const friendPubKeys = []
+    while (contactDetails !== undefined) {
+      friendPubKeys.push(contactDetails.number);
+      contactDetails = contactBuffer.next();
+    }
+    return Promise.all(
+      friendPubKeys.map(async pubKey => {
+        const c = await window.ConversationController.getOrCreateAndWait(pubKey, 'private');
+        if (!c) {
+          return null;
+        }
+        const attachments = [];
+        const quote = null;
+        const linkPreview = null;
+        // Send an empty message, the underlying logic will know
+        // it should send a friend request
+        return c.sendMessage('', attachments, quote, linkPreview);
+      })
+    );
   },
   async handleAuthorisationForContact(envelope, pairingAuthorisation) {
     const valid = await this.validateAuthorisation(pairingAuthorisation);
