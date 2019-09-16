@@ -125,10 +125,13 @@
     return window.Signal.Data.getAuthorisationForPubKey(secondaryPubKey);
   }
 
+  function getSecondaryDevicesFor(primaryDevicePubKey) {
+    return window.Signal.Data.getSecondaryDevicesFor(primaryDevicePubKey);
+  }
+
   async function getAllDevicePubKeysForPrimaryPubKey(primaryDevicePubKey) {
     const secondaryPubKeys =
-      (await window.Signal.Data.getSecondaryDevicesFor(primaryDevicePubKey)) ||
-      [];
+      (await getSecondaryDevicesFor(primaryDevicePubKey)) || [];
     return secondaryPubKeys.concat(primaryDevicePubKey);
   }
 
@@ -141,6 +144,7 @@
     getGrantAuthorisationForSecondaryPubKey,
     getAuthorisationForSecondaryPubKey,
     getAllDevicePubKeysForPrimaryPubKey,
+    getSecondaryDevicesFor,
   };
 
   // Libloki protocol store
