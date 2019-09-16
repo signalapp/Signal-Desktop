@@ -93,6 +93,8 @@ module.exports = {
   getGrantAuthorisationForPubKey,
   getAuthorisationForPubKey,
   getSecondaryDevicesFor,
+  getPrimaryDeviceFor,
+  getPairedDevicesFor,
 
   createOrUpdateItem,
   getItemById,
@@ -627,8 +629,16 @@ async function getAuthorisationForPubKey(pubKey) {
   };
 }
 
-function getSecondaryDevicesFor(primareyDevicePubKey) {
-  return channels.getSecondaryDevicesFor(primareyDevicePubKey);
+function getSecondaryDevicesFor(primaryDevicePubKey) {
+  return channels.getSecondaryDevicesFor(primaryDevicePubKey);
+}
+
+function getPrimaryDeviceFor(secondaryDevicePubKey) {
+  return channels.getPrimaryDeviceFor(secondaryDevicePubKey);
+}
+
+function getPairedDevicesFor(pubKey) {
+  return channels.getPairedDevicesFor(pubKey);
 }
 
 // Items

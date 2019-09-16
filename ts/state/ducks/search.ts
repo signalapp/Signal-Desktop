@@ -1,10 +1,12 @@
 import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
+import { SearchOptions } from '../../types/Search';
 import { trigger } from '../../shims/events';
 // import { getMessageModel } from '../../shims/Whisper';
 // import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import {
+  getPrimaryDeviceFor,
   searchConversations /*, searchMessages */,
 } from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
@@ -81,7 +83,7 @@ export const actions = {
 
 function search(
   query: string,
-  options: { regionCode: string; ourNumber: string; noteToSelf: string }
+  options: SearchOptions
 ): SearchResultsKickoffActionType {
   return {
     type: 'SEARCH_RESULTS',
@@ -91,16 +93,12 @@ function search(
 
 async function doSearch(
   query: string,
-  options: {
-    regionCode: string;
-    ourNumber: string;
-    noteToSelf: string;
-  }
+  options: SearchOptions
 ): Promise<SearchResultsPayloadType> {
-  const { regionCode, ourNumber, noteToSelf } = options;
+  const { regionCode } = options;
 
   const [discussions /*, messages */] = await Promise.all([
-    queryConversationsAndContacts(query, { ourNumber, noteToSelf }),
+    queryConversationsAndContacts(query, options),
     // queryMessages(query),
   ]);
   const { conversations, contacts } = discussions;
@@ -170,13 +168,26 @@ function startNewConversation(
 
 async function queryConversationsAndContacts(
   providedQuery: string,
-  options: { ourNumber: string; noteToSelf: string }
+  options: SearchOptions
 ) {
-  const { ourNumber, noteToSelf } = options;
+  const { ourNumber, noteToSelf, isSecondaryDevice } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
   const searchResults: Array<ConversationType> = await searchConversations(
     query
+  );
+
+  const ourPrimaryDevice = isSecondaryDevice
+    ? await getPrimaryDeviceFor(ourNumber)
+    : ourNumber;
+
+  const resultPrimaryDevices: Array<string | null> = await Promise.all(
+    searchResults.map(
+      async conversation =>
+        conversation.id === ourPrimaryDevice
+          ? Promise.resolve(ourPrimaryDevice)
+          : getPrimaryDeviceFor(conversation.id)
+    )
   );
 
   // Split into two groups - active conversations and items just from address book
@@ -185,8 +196,18 @@ async function queryConversationsAndContacts(
   const max = searchResults.length;
   for (let i = 0; i < max; i += 1) {
     const conversation = searchResults[i];
+    const primaryDevice = resultPrimaryDevices[i];
 
-    if (conversation.type === 'direct' && !Boolean(conversation.lastMessage)) {
+    if (primaryDevice) {
+      if (isSecondaryDevice && primaryDevice === ourPrimaryDevice) {
+        conversations.push(ourNumber);
+      } else {
+        conversations.push(primaryDevice);
+      }
+    } else if (
+      conversation.type === 'direct' &&
+      !Boolean(conversation.lastMessage)
+    ) {
       contacts.push(conversation.id);
     } else {
       conversations.push(conversation.id);
