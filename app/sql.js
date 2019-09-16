@@ -1171,7 +1171,7 @@ async function getContactSignedPreKeyById(id) {
 }
 async function getContactSignedPreKeyByIdentityKey(key) {
   const row = await db.get(
-    `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
+    `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString ORDER BY keyId DESC;`,
     {
       $identityKeyString: key,
     }

@@ -1096,11 +1096,15 @@ MessageReceiver.prototype.extend({
   async handlePairingRequest(envelope, pairingRequest) {
     const valid = await this.validateAuthorisation(pairingRequest);
     if (valid) {
-      await window.libloki.storage.savePairingAuthorisation(pairingRequest);
-      Whisper.events.trigger(
-        'devicePairingRequestReceived',
-        pairingRequest.secondaryDevicePubKey
-      );
+      // Pairing dialog is open and is listening
+      if (Whisper.events.isListenedTo('devicePairingRequestReceived')) {
+        await window.libloki.storage.savePairingAuthorisation(pairingRequest);
+        Whisper.events.trigger(
+          'devicePairingRequestReceived',
+          pairingRequest.secondaryDevicePubKey
+        );
+      }
+      // Ignore requests if the dialog is closed
     }
     return this.removeFromCache(envelope);
   },
