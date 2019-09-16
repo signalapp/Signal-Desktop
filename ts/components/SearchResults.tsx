@@ -306,7 +306,7 @@ export class SearchResults extends React.Component<PropsType> {
     }
 
     return (
-      <div className="module-search-results">
+      <div className="module-search-results" aria-live="polite">
         <AutoSizer>
           {({ height, width }) => {
             this.mostRecentWidth = width;
