@@ -277,6 +277,9 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  if (windowOptions.maximized) {
+    mainWindow.maximize();
+  }
 
   function captureAndSaveWindowStats() {
     if (!mainWindow) {
