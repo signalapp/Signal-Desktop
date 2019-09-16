@@ -510,13 +510,13 @@ export class Timeline extends React.PureComponent<Props, State> {
 
     if (!haveOldest && row === 0) {
       rowContents = (
-        <div data-row={row} style={styleWithWidth}>
+        <div data-row={row} style={styleWithWidth} role="row">
           {renderLoadingRow(id)}
         </div>
       );
     } else if (oldestUnreadRow === row) {
       rowContents = (
-        <div data-row={row} style={styleWithWidth}>
+        <div data-row={row} style={styleWithWidth} role="row">
           {renderLastSeenIndicator(id)}
         </div>
       );
@@ -526,6 +526,7 @@ export class Timeline extends React.PureComponent<Props, State> {
           data-row={row}
           className="module-timeline__message-container"
           style={styleWithWidth}
+          role="row"
         >
           {renderTypingBubble(id)}
         </div>
@@ -544,6 +545,7 @@ export class Timeline extends React.PureComponent<Props, State> {
           data-row={row}
           className="module-timeline__message-container"
           style={styleWithWidth}
+          role="row"
         >
           {renderItem(messageId, this.props)}
         </div>
