@@ -14,7 +14,9 @@
     );
     await Promise.all(
       friendKeys.map(async pubKey => {
-        if (pubKey === textsecure.storage.user.getNumber()) return;
+        if (pubKey === textsecure.storage.user.getNumber()) {
+          return;
+        }
         try {
           await sendOnlineBroadcastMessage(pubKey);
         } catch (e) {

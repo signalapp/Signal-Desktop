@@ -20,6 +20,10 @@
   font-style: italic;
 }
 
+.module-contact-name.compact {
+  display: block;
+}
+
 // Module: Message
 
 .module-message {
@@ -510,23 +514,25 @@
 }
 
 .module-message__metadata__date,
-.module-message__metadata__p2p {
+.module-message__metadata__badge {
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
   color: $color-gray-60;
   text-transform: uppercase;
 }
-.module-message__metadata__date--incoming,
-.module-message__metadata__p2p--incoming {
-  color: $color-white-08;
-}
-.module-message__metadata__date--with-image-no-caption {
-  color: $color-white;
+
+.module-message__metadata__badge {
+  font-weight: bold;
 }
 
-.module-message__metadata__p2p {
-  font-weight: bold;
+.module-message__metadata__date--incoming,
+.module-message__metadata__badge--incoming {
+  color: $color-white-08;
+}
+
+.module-message__metadata__date--with-image-no-caption {
+  color: $color-white;
 }
 
 .module-message__metadata__spacer {
@@ -2051,6 +2057,25 @@
   transform: translate(-50%, -50%);
 }
 
+.module-avatar__icon--crown-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 21px;
+  width: 21px;
+  transform: translate(25%, 25%);
+  padding: 9%;
+  background-color: $color-white;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+}
+
+.module-avatar__icon--crown {
+  @include color-svg('../images/crown.svg', #ffb000);
+  height: 100%;
+  width: 100%;
+}
+
 .module-avatar__icon--group {
   @include color-svg('../images/profile-group.svg', $color-white);
 }
@@ -3251,6 +3276,7 @@
 .module-left-pane__list {
   flex-grow: 1;
   flex-shrink: 1;
+  overflow-y: auto;
 }
 
 .module-left-pane__virtual-list {

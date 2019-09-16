@@ -56,7 +56,7 @@ export class MessageDetail extends React.Component<Props> {
   public renderDeleteButton() {
     const { i18n, message } = this.props;
 
-    return (
+    return message.isDeletable ? (
       <div className="module-message-detail__delete-button-container">
         <button
           onClick={message.onDelete}
@@ -65,7 +65,7 @@ export class MessageDetail extends React.Component<Props> {
           {i18n('deleteThisMessage')}
         </button>
       </div>
-    );
+    ) : null;
   }
 
   public renderContact(contact: Contact) {

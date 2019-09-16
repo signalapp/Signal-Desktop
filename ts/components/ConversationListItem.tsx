@@ -21,6 +21,8 @@ export type PropsData = {
   type: 'group' | 'direct';
   avatarPath?: string;
   isMe: boolean;
+  isPublic?: boolean;
+  isClosable?: boolean;
 
   lastUpdated: number;
   unreadCount: number;
@@ -30,6 +32,7 @@ export type PropsData = {
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
+    isRss: boolean;
   };
 
   showFriendRequestIndicator?: boolean;
@@ -162,6 +165,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
       i18n,
       isBlocked,
       isMe,
+      isClosable,
+      isPublic,
       hasNickname,
       onDeleteContact,
       onDeleteMessages,
@@ -177,21 +182,31 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
     return (
       <ContextMenu id={triggerId}>
-        {!isMe ? (
+        {!isPublic && !isMe ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
-        {!isMe ? (
+        {!isPublic && !isMe ? (
           <MenuItem onClick={onChangeNickname}>
             {i18n('changeNickname')}
           </MenuItem>
         ) : null}
-        {!isMe && hasNickname ? (
+        {!isPublic && !isMe && hasNickname ? (
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
-        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        {!isPublic ? (
+          <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe ? (
-          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+        {!isMe && isClosable ? (
+          !isPublic ? (
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deleteContact')}
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deletePublicChannel')}
+            </MenuItem>
+          )
         ) : null}
       </ContextMenu>
     );
@@ -213,7 +228,13 @@ export class ConversationListItem extends React.PureComponent<Props> {
     if (!lastMessage && !isTyping) {
       return null;
     }
-    const text = lastMessage && lastMessage.text ? lastMessage.text : '';
+    let text = lastMessage && lastMessage.text ? lastMessage.text : '';
+
+    // if coming from Rss feed
+    if (lastMessage && lastMessage.isRss) {
+      // strip any HTML
+      text = text.replace(/<[^>]*>?/gm, '');
+    }
 
     if (isEmpty(text)) {
       return null;

@@ -323,7 +323,9 @@
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
-        if (this.isFriendRequest()) return `Friend Request: ${description}`;
+        if (this.isFriendRequest()) {
+          return `Friend Request: ${description}`;
+        }
         return description;
       }
       if (this.get('attachments').length > 0) {
@@ -433,7 +435,9 @@
     },
 
     async acceptFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') return;
+      if (this.get('friendStatus') !== 'pending') {
+        return;
+      }
       const conversation = this.getConversation();
 
       this.set({ friendStatus: 'accepted' });
@@ -443,7 +447,9 @@
       conversation.onAcceptFriendRequest();
     },
     async declineFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') return;
+      if (this.get('friendStatus') !== 'pending') {
+        return;
+      }
       const conversation = this.getConversation();
 
       this.set({ friendStatus: 'declined' });
@@ -478,6 +484,7 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
+        timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
         direction,
         friendStatus,
@@ -592,7 +599,9 @@
         return 'sent';
       }
       const calculatingPoW = this.get('calculatingPoW');
-      if (calculatingPoW) return 'pow';
+      if (calculatingPoW) {
+        return 'pow';
+      }
 
       return 'sending';
     },
@@ -671,8 +680,18 @@
         expirationLength,
         expirationTimestamp,
         isP2p: !!this.get('isP2p'),
+        isPublic: !!this.get('isPublic'),
+        isRss: !!this.get('isRss'),
+        isModerator:
+          !!this.get('isPublic') &&
+          this.getConversation().isModerator(this.getSource()),
+        isDeletable:
+          !this.get('isPublic') ||
+          this.getConversation().isModerator(this.OUR_NUMBER) ||
+          this.getSource() === this.OUR_NUMBER,
 
         onCopyText: () => this.copyText(),
+        onCopyPubKey: () => this.copyPubKey(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
@@ -969,6 +988,17 @@
       };
     },
 
+    copyPubKey() {
+      if (this.isIncoming()) {
+        clipboard.writeText(this.get('source'));
+      } else {
+        clipboard.writeText(this.OUR_NUMBER);
+      }
+      window.Whisper.events.trigger('showToast', {
+        message: i18n('copiedPublicKey'),
+      });
+    },
+
     copyText() {
       clipboard.writeText(this.get('body'));
       window.Whisper.events.trigger('showToast', {
@@ -1228,7 +1258,9 @@
       return null;
     },
     async setCalculatingPoW() {
-      if (this.calculatingPoW) return;
+      if (this.calculatingPoW) {
+        return;
+      }
 
       this.set({
         calculatingPoW: true,
@@ -1239,10 +1271,41 @@
       });
     },
     async setIsP2p(isP2p) {
-      if (_.isEqual(this.get('isP2p'), isP2p)) return;
+      if (_.isEqual(this.get('isP2p'), isP2p)) {
+        return;
+      }
 
       this.set({
         isP2p: !!isP2p,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    getServerId() {
+      return this.get('serverId');
+    },
+    async setServerId(serverId) {
+      if (_.isEqual(this.get('serverId'), serverId)) {
+        return;
+      }
+
+      this.set({
+        serverId,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    async setIsPublic(isPublic) {
+      if (_.isEqual(this.get('isPublic'), isPublic)) {
+        return;
+      }
+
+      this.set({
+        isPublic: !!isPublic,
       });
 
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -2072,7 +2135,9 @@
             // Need to do this here because the conversation has already changed states
             if (autoAccept) {
               await conversation.notifyFriendRequest(source, 'accepted');
-            } else await conversation.notify(message);
+            } else {
+              await conversation.notify(message);
+            }
           }
 
           confirm();

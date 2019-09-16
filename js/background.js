@@ -55,6 +55,7 @@
     'check.svg',
     'clock.svg',
     'close-circle.svg',
+    'crown.svg',
     'delete.svg',
     'dots-horizontal.svg',
     'double-check.svg',
@@ -206,14 +207,41 @@
 
   window.log.info('Storage fetch');
   storage.fetch();
+ 
+  let specialConvInited = false;
+  const initSpecialConversations = async () => {
+    if (specialConvInited) {
+      return
+    }
+    const rssFeedConversations = await window.Signal.Data.getAllRssFeedConversations(
+      {
+        ConversationCollection: Whisper.ConversationCollection,
+      }
+    );
+    rssFeedConversations.forEach(conversation => {
+      window.feeds.push(new window.LokiRssAPI(conversation.getRssSettings()));
+    });
+    const publicConversations = await window.Signal.Data.getAllPublicConversations(
+      {
+        ConversationCollection: Whisper.ConversationCollection,
+      }
+    );
+    publicConversations.forEach(conversation => {
+      // weird but create the object and does everything we need
+      conversation.getPublicSendData();
+    });
+    specialConvInited = true;
+  };
 
   let initialisedAPI = false;
-  const initAPIs = () => {
+  const initAPIs = async () => {
     if (initialisedAPI) {
       return;
     }
     const ourKey = textsecure.storage.user.getNumber();
+    window.feeds = [];
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+    window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
       const isPing = true;
@@ -254,11 +282,6 @@
       return;
     }
     first = false;
-
-    if (Whisper.Registration.isDone()) {
-      startLocalLokiServer();
-      initAPIs();
-    }
 
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
@@ -475,6 +498,28 @@
     }
   });
 
+  Whisper.events.on(
+    'deleteLocalPublicMessage',
+    async ({ messageServerId, conversationId }) => {
+      const message = await window.Signal.Data.getMessageByServerId(
+        messageServerId,
+        conversationId,
+        {
+          Message: Whisper.Message,
+        }
+      );
+      if (message) {
+        const conversation = ConversationController.get(conversationId);
+        if (conversation) {
+          conversation.removeMessage(message.id);
+        }
+        await window.Signal.Data.removeMessage(message.id, {
+          Message: Whisper.Message,
+        });
+      }
+    }
+  );
+
   Whisper.events.on('setupAsNewDevice', () => {
     const { appView } = window.owsDesktopApp;
     if (appView) {
@@ -567,10 +612,8 @@
     window.log.info('Cleanup: complete');
 
     window.log.info('listening for registration events');
-    Whisper.events.on('registration_done', () => {
+    Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');
-
-      startLocalLokiServer();
 
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
@@ -581,7 +624,6 @@
       //   logger: window.log,
       // });
 
-      initAPIs();
       connect(true);
     });
 
@@ -721,6 +763,13 @@
       }
     });
 
+    Whisper.events.on('showQRDialog', async () => {
+      if (appView) {
+        const ourNumber = textsecure.storage.user.getNumber();
+        appView.showQRDialog(ourNumber);
+      }
+    });
+ 
     Whisper.events.on('showDevicePairingDialog', async () => {
       if (appView) {
         appView.showDevicePairingDialog();
@@ -744,6 +793,18 @@
         window.log.error('Error setting p2p on message');
       }
     });
+
+    Whisper.events.on(
+      'publicMessageSent',
+      ({ pubKey, timestamp, serverId }) => {
+        try {
+          const conversation = ConversationController.get(pubKey);
+          conversation.onPublicMessageSent(pubKey, timestamp, serverId);
+        } catch (e) {
+          window.log.error('Error setting public on message');
+        }
+      }
+    );
 
     Whisper.events.on('password-updated', () => {
       if (appView && appView.inboxView) {
@@ -861,6 +922,9 @@
     Whisper.Notifications.disable(); // avoid notification flood until empty
 
     // initialize the socket and start listening for messages
+    startLocalLokiServer();
+    await initAPIs();
+    await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver(
       USERNAME,
       PASSWORD,
@@ -1299,7 +1363,21 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const message = await createMessage(data);
+      const ourNumber = textsecure.storage.user.getNumber();
+      const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
+        messageDescriptor.id
+      );
+      let message;
+      if (
+        messageDescriptor.type === 'group' &&
+        descriptorId.match(/^publicChat:/) &&
+        data.source === ourNumber
+      ) {
+        // Public chat messages from ourselves should be outgoing
+        message = await createSentMessage(data);
+      } else {
+        message = await createMessage(data);
+      }
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
         window.log.warn('Received duplicate message', message.idForLogging());
@@ -1384,10 +1462,10 @@
 
     return new Whisper.Message({
       source: textsecure.storage.user.getNumber(),
-      sourceDevice: data.device,
+      sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
       sent_to: sentTo,
-      received_at: now,
+      received_at: data.isPublic ? data.receivedAt : now,
       conversationId: data.destination,
       type: 'outgoing',
       sent: true,
@@ -1425,6 +1503,7 @@
     let messageData = {
       source: data.source,
       sourceDevice: data.sourceDevice,
+      serverId: data.serverId,
       sent_at: data.timestamp,
       received_at: data.receivedAt || Date.now(),
       conversationId: data.source,
@@ -1432,6 +1511,8 @@
       type: 'incoming',
       unread: 1,
       isP2p: data.isP2p,
+      isPublic: data.isPublic,
+      isRss: data.isRss,
     };
 
     if (data.friendRequest) {

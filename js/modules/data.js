@@ -127,6 +127,11 @@ module.exports = {
   getConversationsWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
+  getAllRssFeedConversations,
+  getAllPublicConversations,
+  getPublicConversationsByServer,
+  savePublicServerToken,
+  getPublicServerTokenByServerUrl,
   getAllGroupsInvolvingId,
 
   searchConversations,
@@ -149,6 +154,7 @@ module.exports = {
   removeAllMessagesInConversation,
 
   getMessageBySender,
+  getMessageByServerId,
   getMessageById,
   getAllMessages,
   getAllUnsentMessages,
@@ -728,7 +734,9 @@ async function getAllSessions(id) {
 // Conversation
 
 function setifyProperty(data, propertyName) {
-  if (!data) return data;
+  if (!data) {
+    return data;
+  }
   const returnData = { ...data };
   if (Array.isArray(returnData[propertyName])) {
     returnData[propertyName] = new Set(returnData[propertyName]);
@@ -822,8 +830,44 @@ async function getAllConversationIds() {
   return ids;
 }
 
+async function getAllRssFeedConversations({ ConversationCollection }) {
+  const conversations = await channels.getAllRssFeedConversations();
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
+async function getAllPublicConversations({ ConversationCollection }) {
+  const conversations = await channels.getAllPublicConversations();
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
 async function getAllPrivateConversations({ ConversationCollection }) {
   const conversations = await channels.getAllPrivateConversations();
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
+async function savePublicServerToken(data) {
+  await channels.savePublicServerToken(data);
+}
+
+async function getPublicServerTokenByServerUrl(serverUrl) {
+  const token = await channels.getPublicServerTokenByServerUrl(serverUrl);
+  return token;
+}
+
+async function getPublicConversationsByServer(
+  server,
+  { ConversationCollection }
+) {
+  const conversations = await channels.getPublicConversationsByServer(server);
 
   const collection = new ConversationCollection();
   collection.add(conversations);
@@ -947,6 +991,15 @@ async function removeMessage(id, { Message }) {
 // Note: this method will not clean up external files, just delete from SQL
 async function _removeMessages(ids) {
   await channels.removeMessage(ids);
+}
+
+async function getMessageByServerId(serverId, conversationId, { Message }) {
+  const message = await channels.getMessageByServerId(serverId, conversationId);
+  if (!message) {
+    return null;
+  }
+
+  return new Message(message);
 }
 
 async function getMessageById(id, { Message }) {

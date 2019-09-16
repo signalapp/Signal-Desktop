@@ -201,10 +201,12 @@
           isVerified: this.model.isVerified(),
           isKeysPending: !this.model.isFriend(),
           isMe: this.model.isMe(),
+          isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
+          isPublic: this.model.isPublic(),
 
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
@@ -389,7 +391,9 @@
     },
 
     onChangePlaceholder(type) {
-      if (!this.$messageField) return;
+      if (!this.$messageField) {
+        return;
+      }
       let placeholder;
       switch (type) {
         case 'friend-request':
@@ -1290,15 +1294,27 @@
     },
 
     deleteMessage(message) {
+      const warningMessage = this.model.isPublic()
+        ? i18n('deletePublicWarning')
+        : i18n('deleteWarning');
+
       const dialog = new Whisper.ConfirmationDialogView({
-        message: i18n('deleteWarning'),
+        message: warningMessage,
         okText: i18n('delete'),
-        resolve: () => {
-          window.Signal.Data.removeMessage(message.id, {
+        resolve: async () => {
+          if (this.model.isPublic()) {
+            const success = await this.model.deletePublicMessage(message);
+            if (!success) {
+              // Message failed to delete from server, show error?
+              return;
+            }
+          } else {
+            this.model.messageCollection.remove(message.id);
+          }
+          await window.Signal.Data.removeMessage(message.id, {
             Message: Whisper.Message,
           });
           message.trigger('unload');
-          this.model.messageCollection.remove(message.id);
           this.resetPanel();
           this.updateHeader();
         },
@@ -1486,8 +1502,12 @@
     },
 
     destroyMessages() {
+      const message = this.model.isPublic()
+        ? i18n('deletePublicConversationConfirmation')
+        : i18n('deleteConversationConfirmation');
+
       Whisper.events.trigger('showConfirmationDialog', {
-        message: i18n('deleteConversationConfirmation'),
+        message,
         onOk: async () => {
           try {
             await this.model.destroyMessages();

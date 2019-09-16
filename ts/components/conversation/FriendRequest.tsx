@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { LocalizerType } from '../../types/Util';
 import { MessageBody } from './MessageBody';
+import { Timestamp } from './Timestamp';
 
 interface Props {
   text: string;
@@ -11,6 +12,7 @@ interface Props {
   friendStatus: 'pending' | 'accepted' | 'declined' | 'expired';
   i18n: LocalizerType;
   isBlocked: boolean;
+  timestamp: number;
   onAccept: () => void;
   onDecline: () => void;
   onDeleteConversation: () => void;
@@ -142,13 +144,23 @@ export class FriendRequest extends React.Component<Props> {
 
   // Renders 'sending', 'read' icons
   public renderStatusIndicator() {
-    const { direction, status } = this.props;
-    if (direction !== 'outgoing' || status === 'error') {
+    const { direction, status, i18n, text, timestamp } = this.props;
+    if (status === 'error') {
       return null;
     }
 
+    const withImageNoCaption = Boolean(!text);
+
     return (
       <div className="module-message__metadata">
+        <Timestamp
+          i18n={i18n}
+          timestamp={timestamp}
+          extended={true}
+          direction={direction}
+          withImageNoCaption={withImageNoCaption}
+          module="module-message__metadata__date"
+        />
         <span className="module-message__metadata__spacer" />
         <div
           className={classNames(

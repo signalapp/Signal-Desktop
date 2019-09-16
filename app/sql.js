@@ -5,6 +5,7 @@ const sql = require('@journeyapps/sqlcipher');
 const { app, dialog, clipboard } = require('electron');
 const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
+const config = require('./config');
 
 const pify = require('pify');
 const uuidv4 = require('uuid/v4');
@@ -100,10 +101,15 @@ module.exports = {
   saveConversation,
   saveConversations,
   getConversationById,
+  savePublicServerToken,
+  getPublicServerTokenByServerUrl,
   updateConversation,
   removeConversation,
   getAllConversations,
   getConversationsWithFriendStatus,
+  getAllRssFeedConversations,
+  getAllPublicConversations,
+  getPublicConversationsByServer,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -124,6 +130,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getMessageBySender,
+  getMessageByServerId,
   getMessageById,
   getAllMessages,
   getAllMessageIds,
@@ -780,7 +787,140 @@ async function updateSchema(instance) {
   await updateLokiSchema(instance);
 }
 
-const LOKI_SCHEMA_VERSIONS = [updateToLokiSchemaVersion2];
+const LOKI_SCHEMA_VERSIONS = [
+  updateToLokiSchemaVersion1,
+  updateToLokiSchemaVersion2,
+];
+
+async function updateToLokiSchemaVersion1(currentVersion, instance) {
+  if (currentVersion >= 1) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion1: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `ALTER TABLE messages
+     ADD COLUMN serverId INTEGER;`
+  );
+
+  await instance.run(
+    `CREATE TABLE servers(
+      serverUrl STRING PRIMARY KEY ASC,
+      token TEXT
+    );`
+  );
+
+  const initConversation = async data => {
+    const { id, type, name, friendRequestStatus } = data;
+    await instance.run(
+      `INSERT INTO conversations (
+      id,
+      json,
+
+      type,
+      members,
+      name,
+      friendRequestStatus
+    ) values (
+      $id,
+      $json,
+
+      $type,
+      $members,
+      $name,
+      $friendRequestStatus
+    );`,
+      {
+        $id: id,
+        $json: objectToJSON(data),
+
+        $type: type,
+        $members: null,
+        $name: name,
+        $friendRequestStatus: friendRequestStatus,
+      }
+    );
+  };
+
+  const lokiPublicServerData = {
+    // make sure we don't have a trailing slash just in case
+    serverUrl: config.get('defaultPublicChatServer').replace(/\/*$/, ''),
+    token: null,
+  };
+  console.log('lokiPublicServerData', lokiPublicServerData);
+
+  const baseData = {
+    friendRequestStatus: 4, // Friends
+    sealedSender: 0,
+    sessionResetStatus: 0,
+    swarmNodes: [],
+    type: 'group',
+    unlockTimestamp: null,
+    unreadCount: 0,
+    verified: 0,
+    version: 2,
+  };
+
+  const publicChatData = {
+    ...baseData,
+    id: `publicChat:1@${lokiPublicServerData.serverUrl.replace(
+      /^https?:\/\//i,
+      ''
+    )}`,
+    server: lokiPublicServerData.serverUrl,
+    name: 'Loki Public Chat',
+    channelId: '1',
+  };
+
+  const { serverUrl, token } = lokiPublicServerData;
+
+  await instance.run(
+    `INSERT INTO servers (
+    serverUrl,
+    token
+  ) values (
+    $serverUrl,
+    $token
+  );`,
+    {
+      $serverUrl: serverUrl,
+      $token: token,
+    }
+  );
+
+  const newsRssFeedData = {
+    ...baseData,
+    id: 'rss://loki.network/feed/',
+    rssFeed: 'https://loki.network/feed/',
+    closable: true,
+    name: 'Loki.network News',
+    profileAvatar: 'images/loki/loki_icon.png',
+  };
+
+  const updatesRssFeedData = {
+    ...baseData,
+    id: 'rss://loki.network/category/messenger-updates/feed/',
+    rssFeed: 'https://loki.network/category/messenger-updates/feed/',
+    closable: false,
+    name: 'Messenger updates',
+    profileAvatar: 'images/loki/loki_icon.png',
+  };
+
+  await initConversation(publicChatData);
+  await initConversation(newsRssFeedData);
+  await initConversation(updatesRssFeedData);
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        1
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion1: success!');
+}
 
 async function updateToLokiSchemaVersion2(currentVersion, instance) {
   if (currentVersion >= 2) {
@@ -799,10 +939,6 @@ async function updateToLokiSchemaVersion2(currentVersion, instance) {
     );`
   );
 
-  await instance.run(`CREATE UNIQUE INDEX pairing_authorisations_secondary_device_pubkey ON pairingAuthorisations (
-    secondaryDevicePubKey
-  );`);
-
   await instance.run(
     `INSERT INTO loki_schema (
         version
@@ -816,7 +952,7 @@ async function updateToLokiSchemaVersion2(currentVersion, instance) {
 
 async function updateLokiSchema(instance) {
   const result = await instance.get(
-    "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema'"
+    "SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';"
   );
   if (!result) {
     await createLokiSchemaTable(instance);
@@ -842,9 +978,9 @@ async function updateLokiSchema(instance) {
 
 async function getLokiSchemaVersion(instance) {
   const result = await instance.get(
-    'SELECT version FROM loki_schema WHERE version = (SELECT MAX(version) FROM loki_schema);'
+    'SELECT MAX(version) as version FROM loki_schema;'
   );
-  if (!result.version) {
+  if (!result || !result.version) {
     return 0;
   }
   return result.version;
@@ -1624,6 +1760,38 @@ async function removeConversation(id) {
   );
 }
 
+async function savePublicServerToken(data) {
+  const { serverUrl, token } = data;
+  await db.run(
+    `INSERT OR REPLACE INTO servers (
+    serverUrl,
+    token
+  ) values (
+    $serverUrl,
+    $token
+  )`,
+    {
+      $serverUrl: serverUrl,
+      $token: token,
+    }
+  );
+}
+
+async function getPublicServerTokenByServerUrl(serverUrl) {
+  const row = await db.get(
+    'SELECT * FROM servers WHERE serverUrl = $serverUrl;',
+    {
+      $serverUrl: serverUrl,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return row.token;
+}
+
 async function getConversationById(id) {
   const row = await db.get(
     `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
@@ -1671,6 +1839,41 @@ async function getAllPrivateConversations() {
     `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'private'
      ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllRssFeedConversations() {
+  const rows = await db.all(
+    `SELECT json FROM conversations WHERE
+      type = 'group' AND
+      id LIKE 'rss://%'
+     ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getAllPublicConversations() {
+  const rows = await db.all(
+    `SELECT json FROM conversations WHERE
+      type = 'group' AND
+      id LIKE 'publicChat:%'
+     ORDER BY id ASC;`
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getPublicConversationsByServer(server) {
+  const rows = await db.all(
+    `SELECT * FROM conversations WHERE
+      server = $server
+     ORDER BY id ASC;`,
+    {
+      $server: server,
+    }
   );
 
   return map(rows, row => jsonToObject(row.json));
@@ -1783,6 +1986,7 @@ async function saveMessage(data, { forceSave } = {}) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     id,
+    serverId,
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
@@ -1801,6 +2005,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $id: id,
     $json: objectToJSON(data),
 
+    $serverId: serverId,
     $body: body,
     $conversationId: conversationId,
     $expirationStartTimestamp: expirationStartTimestamp,
@@ -1823,6 +2028,7 @@ async function saveMessage(data, { forceSave } = {}) {
     await db.run(
       `UPDATE messages SET
         json = $json,
+        serverId = $serverId,
         body = $body,
         conversationId = $conversationId,
         expirationStartTimestamp = $expirationStartTimestamp,
@@ -1857,6 +2063,7 @@ async function saveMessage(data, { forceSave } = {}) {
     id,
     json,
 
+    serverId,
     body,
     conversationId,
     expirationStartTimestamp,
@@ -1877,6 +2084,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $id,
     $json,
 
+    $serverId,
     $body,
     $conversationId,
     $expirationStartTimestamp,
@@ -1997,6 +2205,24 @@ async function removeMessage(id) {
     `DELETE FROM messages WHERE id IN ( ${id.map(() => '?').join(', ')} );`,
     id
   );
+}
+
+async function getMessageByServerId(serverId, conversationId) {
+  const row = await db.get(
+    `SELECT * FROM messages WHERE
+      serverId = $serverId AND
+      conversationId = $conversationId;`,
+    {
+      $serverId: serverId,
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
 }
 
 async function getMessageById(id) {

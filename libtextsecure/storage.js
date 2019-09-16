@@ -14,13 +14,17 @@
      *** Base Storage Routines ***
      **************************** */
     put(key, value) {
-      if (value === undefined) throw new Error('Tried to store undefined');
+      if (value === undefined) {
+        throw new Error('Tried to store undefined');
+      }
       localStorage.setItem(`${key}`, textsecure.utils.jsonThing(value));
     },
 
     get(key, defaultValue) {
       const value = localStorage.getItem(`${key}`);
-      if (value === null) return defaultValue;
+      if (value === null) {
+        return defaultValue;
+      }
       return JSON.parse(value);
     },
 

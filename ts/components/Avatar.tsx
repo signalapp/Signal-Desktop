@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { JazzIcon } from './JazzIcon';
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
 
@@ -22,7 +23,7 @@ interface State {
   imageBroken: boolean;
 }
 
-export class Avatar extends React.Component<Props, State> {
+export class Avatar extends React.PureComponent<Props, State> {
   public handleImageErrorBound: () => void;
 
   public constructor(props: Props) {
@@ -41,6 +42,22 @@ export class Avatar extends React.Component<Props, State> {
     this.setState({
       imageBroken: true,
     });
+  }
+
+  public renderIdenticon() {
+    const { phoneNumber, borderColor, borderWidth, size } = this.props;
+
+    if (!phoneNumber) {
+      return this.renderNoImage();
+    }
+
+    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
+
+    // Generate the seed
+    const hash = phoneNumber.substring(0, 12);
+    const seed = parseInt(hash, 16) || 1234;
+
+    return <JazzIcon seed={seed} diameter={size} paperStyles={borderStyle} />;
   }
 
   public renderImage() {
@@ -129,10 +146,18 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public render() {
-    const { avatarPath, color, size, noteToSelf } = this.props;
+    const {
+      avatarPath,
+      color,
+      size,
+      noteToSelf,
+      conversationType,
+    } = this.props;
     const { imageBroken } = this.state;
 
-    const hasImage = !noteToSelf && avatarPath && !imageBroken;
+    // If it's a direct conversation then we must have an identicon
+    const hasAvatar = avatarPath || conversationType === 'direct';
+    const hasImage = !noteToSelf && hasAvatar && !imageBroken;
 
     if (size !== 28 && size !== 36 && size !== 48 && size !== 80) {
       throw new Error(`Size ${size} is not supported!`);
@@ -147,9 +172,20 @@ export class Avatar extends React.Component<Props, State> {
           !hasImage ? `module-avatar--${color}` : null
         )}
       >
-        {hasImage ? this.renderImage() : this.renderNoImage()}
+        {hasImage ? this.renderAvatarOrIdenticon() : this.renderNoImage()}
       </div>
     );
+  }
+
+  private renderAvatarOrIdenticon() {
+    const { avatarPath, conversationType } = this.props;
+
+    // If it's a direct conversation then we must have an identicon
+    const hasAvatar = avatarPath || conversationType === 'direct';
+
+    return hasAvatar && avatarPath
+      ? this.renderImage()
+      : this.renderIdenticon();
   }
 
   private getBorderStyle(color?: string, width?: number) {

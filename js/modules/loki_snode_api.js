@@ -48,8 +48,9 @@ class LokiSnodeAPI {
     const upnpClient = natUpnp.createClient();
     return new Promise((resolve, reject) => {
       upnpClient.externalIp((err, ip) => {
-        if (err) reject(err);
-        else {
+        if (err) {
+          reject(err);
+        } else {
           resolve(ip);
         }
       });
@@ -89,6 +90,7 @@ class LokiSnodeAPI {
   async initialiseRandomPool(seedNodes = [...window.seedNodeList]) {
     const params = {
       limit: 20,
+      active_only: true,
       fields: {
         public_ip: true,
         storage_port: true,
@@ -134,8 +136,8 @@ class LokiSnodeAPI {
     await conversation.updateSwarmNodes(filteredNodes);
   }
 
-  async updateLastHash(nodeUrl, lastHash, expiresAt) {
-    await window.Signal.Data.updateLastHash({ nodeUrl, lastHash, expiresAt });
+  async updateLastHash(snode, hash, expiresAt) {
+    await window.Signal.Data.updateLastHash({ snode, hash, expiresAt });
   }
 
   getSwarmNodesForPubKey(pubKey) {

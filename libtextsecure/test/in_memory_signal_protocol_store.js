@@ -171,7 +171,9 @@ SignalProtocolStore.prototype = {
   async loadPreKeyForContact(contactPubKey) {
     return new Promise(resolve => {
       const key = this.get(`25519KeypreKey${contactPubKey}`);
-      if (!key) resolve(undefined);
+      if (!key) {
+        resolve(undefined);
+      }
       resolve({
         pubKey: key.publicKey,
         privKey: key.privateKey,

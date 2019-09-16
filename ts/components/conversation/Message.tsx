@@ -48,6 +48,8 @@ interface LinkPreviewType {
 
 export interface Props {
   disableMenu?: boolean;
+  isModerator?: boolean;
+  isDeletable: boolean;
   text?: string;
   textPending?: boolean;
   id?: string;
@@ -86,6 +88,8 @@ export interface Props {
   expirationLength?: number;
   expirationTimestamp?: number;
   isP2p?: boolean;
+  isPublic?: boolean;
+  isRss?: boolean;
 
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
@@ -94,6 +98,7 @@ export interface Props {
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
+  onCopyPubKey?: () => void;
   onShowDetail: () => void;
 }
 
@@ -191,6 +196,34 @@ export class Message extends React.PureComponent<Props, State> {
     });
   }
 
+  public renderMetadataBadges() {
+    const { direction, isP2p, isPublic, isModerator } = this.props;
+
+    const badges = [isPublic && 'Public', isP2p && 'P2p', isModerator && 'Mod'];
+
+    return badges
+      .map(badgeText => {
+        if (typeof badgeText !== 'string') {
+          return null;
+        }
+
+        return (
+          <span
+            className={classNames(
+              'module-message__metadata__badge',
+              `module-message__metadata__badge--${direction}`,
+              `module-message__metadata__badge--${badgeText.toLowerCase()}`,
+              `module-message__metadata__badge--${badgeText.toLowerCase()}--${direction}`
+            )}
+            key={badgeText}
+          >
+            &nbsp;•&nbsp;{badgeText}
+          </span>
+        );
+      })
+      .filter(i => !!i);
+  }
+
   public renderMetadata() {
     const {
       collapseMetadata,
@@ -202,7 +235,6 @@ export class Message extends React.PureComponent<Props, State> {
       text,
       textPending,
       timestamp,
-      isP2p,
     } = this.props;
 
     if (collapseMetadata) {
@@ -244,16 +276,7 @@ export class Message extends React.PureComponent<Props, State> {
             module="module-message__metadata__date"
           />
         )}
-        {isP2p ? (
-          <span
-            className={classNames(
-              'module-message__metadata__p2p',
-              `module-message__metadata__p2p--${direction}`
-            )}
-          >
-            &nbsp;•&nbsp;P2P
-          </span>
-        ) : null}
+        {this.renderMetadataBadges()}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
             direction={direction}
@@ -299,14 +322,23 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const shortenedPubkey = `(...${authorPhoneNumber.substring(
+      authorPhoneNumber.length - 6
+    )})`;
+
+    const displayedPubkey = authorProfileName
+      ? shortenedPubkey
+      : authorPhoneNumber;
+
     return (
       <div className="module-message__author">
         <ContactName
-          phoneNumber={authorPhoneNumber}
+          phoneNumber={displayedPubkey}
           name={authorName}
           profileName={authorProfileName}
           module="module-message__author"
           i18n={i18n}
+          boldProfileName={true}
         />
       </div>
     );
@@ -564,6 +596,14 @@ export class Message extends React.PureComponent<Props, State> {
     const quoteColor =
       direction === 'incoming' ? authorColor : quote.authorColor;
 
+    const shortenedPubkey = `(...${quote.authorPhoneNumber.substring(
+      quote.authorPhoneNumber.length - 6
+    )})`;
+
+    const displayedPubkey = quote.authorProfileName
+      ? shortenedPubkey
+      : quote.authorPhoneNumber;
+
     return (
       <Quote
         i18n={i18n}
@@ -571,7 +611,7 @@ export class Message extends React.PureComponent<Props, State> {
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
-        authorPhoneNumber={quote.authorPhoneNumber}
+        authorPhoneNumber={displayedPubkey}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
         authorColor={quoteColor}
@@ -637,6 +677,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
+      isModerator,
       authorColor,
       conversationType,
       direction,
@@ -663,12 +704,17 @@ export class Message extends React.PureComponent<Props, State> {
           profileName={authorProfileName}
           size={36}
         />
+        {isModerator && (
+          <div className="module-avatar__icon--crown-wrapper">
+            <div className="module-avatar__icon--crown" />
+          </div>
+        )}
       </div>
     );
   }
 
   public renderText() {
-    const { text, textPending, i18n, direction, status } = this.props;
+    const { text, textPending, i18n, direction, status, isRss } = this.props;
 
     const contents =
       direction === 'incoming' && status === 'error'
@@ -692,6 +738,7 @@ export class Message extends React.PureComponent<Props, State> {
       >
         <MessageBody
           text={contents || ''}
+          isRss={isRss}
           i18n={i18n}
           textPending={textPending}
         />
@@ -809,11 +856,14 @@ export class Message extends React.PureComponent<Props, State> {
       onCopyText,
       direction,
       status,
+      isDeletable,
       onDelete,
       onDownload,
       onReply,
       onRetrySend,
       onShowDetail,
+      onCopyPubKey,
+      isPublic,
       i18n,
     } = this.props;
 
@@ -866,14 +916,19 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('retrySend')}
           </MenuItem>
         ) : null}
-        <MenuItem
-          attributes={{
-            className: 'module-message__context__delete-message',
-          }}
-          onClick={onDelete}
-        >
-          {i18n('deleteMessage')}
-        </MenuItem>
+        {isDeletable ? (
+          <MenuItem
+            attributes={{
+              className: 'module-message__context__delete-message',
+            }}
+            onClick={onDelete}
+          >
+            {i18n('deleteMessage')}
+          </MenuItem>
+        ) : null}
+        {isPublic ? (
+          <MenuItem onClick={onCopyPubKey}>{i18n('copyPublicKey')}</MenuItem>
+        ) : null}
       </ContextMenu>
     );
   }

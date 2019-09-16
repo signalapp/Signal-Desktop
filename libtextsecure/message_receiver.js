@@ -13,9 +13,11 @@
 /* global GroupBuffer: false */
 /* global WebSocketResource: false */
 /* global localLokiServer: false */
+/* global lokiPublicChatAPI: false */
 /* global localServerPort: false */
 /* global lokiMessageAPI: false */
 /* global lokiP2pAPI: false */
+/* global feeds: false */
 /* global Whisper: false */
 
 /* eslint-disable more/no-then */
@@ -76,6 +78,14 @@ MessageReceiver.prototype.extend({
     });
     this.httpPollingResource.pollServer();
     localLokiServer.on('message', this.handleP2pMessage.bind(this));
+    lokiPublicChatAPI.on(
+      'publicMessage',
+      this.handleUnencryptedMessage.bind(this)
+    );
+    // set up pollers for any RSS feeds
+    feeds.forEach(feed => {
+      feed.on('rssMessage', this.handleUnencryptedMessage.bind(this));
+    });
     this.startLocalServer();
 
     // TODO: Rework this socket stuff to work with online messaging
@@ -142,6 +152,12 @@ MessageReceiver.prototype.extend({
       onFailure,
     };
     this.httpPollingResource.handleMessage(message, options);
+  },
+  handleUnencryptedMessage({ message }) {
+    const ev = new Event('message');
+    ev.confirm = function confirmTerm() {};
+    ev.data = message;
+    this.dispatchAndWait(ev);
   },
   stopProcessing() {
     window.log.info('MessageReceiver: stopProcessing requested');
@@ -715,9 +731,13 @@ MessageReceiver.prototype.extend({
     }
     const getCurrentSessionBaseKey = async () => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record) return null;
+      if (!record) {
+        return null;
+      }
       const openSession = record.getOpenSession();
-      if (!openSession) return null;
+      if (!openSession) {
+        return null;
+      }
       const { baseKey } = openSession.indexInfo;
       return baseKey;
     };
@@ -726,7 +746,9 @@ MessageReceiver.prototype.extend({
     };
     const restoreActiveSession = async () => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record) return;
+      if (!record) {
+        return;
+      }
       record.archiveCurrentState();
       const sessionToRestore = record.sessions[this.activeSessionBaseKey];
       record.promoteState(sessionToRestore);
@@ -738,7 +760,9 @@ MessageReceiver.prototype.extend({
     };
     const deleteAllSessionExcept = async sessionBaseKey => {
       const record = await sessionCipher.getRecord(address.toString());
-      if (!record) return;
+      if (!record) {
+        return;
+      }
       const sessionToKeep = record.sessions[sessionBaseKey];
       record.sessions = {};
       record.updateSessionState(sessionToKeep);

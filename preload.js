@@ -324,6 +324,10 @@ window.LokiP2pAPI = require('./js/modules/loki_p2p_api');
 
 window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
+window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
+
+window.LokiRssAPI = require('./js/modules/loki_rss_api');
+
 window.LocalLokiServer = require('./libloki/modules/local_loki_server');
 
 window.localServerPort = config.localServerPort;
@@ -398,14 +402,25 @@ window.Signal.Logs = require('./js/modules/logs');
 // Add right-click listener for selected text and urls
 const contextMenu = require('electron-context-menu');
 
+const isQR = params =>
+  params.mediaType === 'image' && params.titleText === 'Scan me!';
+
+// QR saving doesn't work so we just disable it
 contextMenu({
   showInspectElement: false,
-  shouldShowMenu: (event, params) =>
-    Boolean(
-      !params.isEditable &&
-        params.mediaType === 'none' &&
-        (params.linkURL || params.selectionText)
-    ),
+  shouldShowMenu: (event, params) => {
+    const isRegular =
+      params.mediaType === 'none' && (params.linkURL || params.selectionText);
+    return Boolean(!params.isEditable && (isQR(params) || isRegular));
+  },
+  menu: (actions, params) => {
+    // If it's not a QR then show the default options
+    if (!isQR(params)) {
+      return actions;
+    }
+
+    return [actions.copyImage()];
+  },
 });
 
 // We pull this in last, because the native module involved appears to be sensitive to

@@ -148,8 +148,11 @@ class LocalLokiServer extends EventEmitter {
             ttl,
           },
           err => {
-            if (err) reject(err);
-            else resolve();
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
           }
         );
       });

@@ -43,9 +43,19 @@ function OutgoingMessage(
   this.failoverNumbers = [];
   this.unidentifiedDeliveries = [];
 
-  const { numberInfo, senderCertificate, online, messageType, isPing } =
+  const {
+    numberInfo,
+    senderCertificate,
+    online,
+    messageType,
+    isPing,
+    isPublic,
+    publicSendData,
+  } =
     options || {};
   this.numberInfo = numberInfo;
+  this.isPublic = isPublic;
+  this.publicSendData = publicSendData;
   this.senderCertificate = senderCertificate;
   this.online = online;
   this.messageType = messageType || 'outgoing';
@@ -195,6 +205,10 @@ OutgoingMessage.prototype = {
         numConnections: NUM_SEND_CONNECTIONS,
         isPing: this.isPing,
       };
+      options.isPublic = this.isPublic;
+      if (this.isPublic) {
+        options.publicSendData = this.publicSendData;
+      }
       await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {
       if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
@@ -261,6 +275,21 @@ OutgoingMessage.prototype = {
   },
   doSendMessage(number, devicesPubKeys, recurse) {
     const ciphers = {};
+    if (this.isPublic) {
+      return this.transmitMessage(
+        number,
+        this.message.dataMessage,
+        this.timestamp,
+        0 // ttl
+      )
+        .then(() => {
+          this.successfulNumbers[this.successfulNumbers.length] = number;
+          this.numberCompleted();
+        })
+        .catch(error => {
+          throw error;
+        });
+    }
 
     this.numbers = devicesPubKeys;
 

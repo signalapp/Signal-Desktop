@@ -78,12 +78,40 @@ class LokiMessageAPI {
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
-    const { isPing = false, numConnections = DEFAULT_CONNECTIONS } = options;
+    const {
+      isPing = false,
+      isPublic = false,
+      numConnections = DEFAULT_CONNECTIONS,
+      publicSendData = null,
+    } = options;
     // Data required to identify a message in a conversation
     const messageEventData = {
       pubKey,
       timestamp: messageTimeStamp,
     };
+
+    if (isPublic) {
+      const { profile } = data;
+      let displayName = 'Anonymous';
+      if (profile && profile.displayName) {
+        ({ displayName } = profile);
+      }
+      const res = await publicSendData.sendMessage(
+        data.body,
+        data.quote,
+        messageTimeStamp,
+        displayName,
+        this.ourKey
+      );
+      if (res === false) {
+        throw new window.textsecure.PublicChatError(
+          'Failed to send public chat message'
+        );
+      }
+      messageEventData.serverId = res;
+      window.Whisper.events.trigger('publicMessageSent', messageEventData);
+      return;
+    }
 
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
     const p2pSuccess = await trySendP2p(

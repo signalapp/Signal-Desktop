@@ -70,7 +70,9 @@ class LokiP2pAPI extends EventEmitter {
   }
 
   getContactP2pDetails(pubKey) {
-    if (!this.contactP2pDetails[pubKey]) return null;
+    if (!this.contactP2pDetails[pubKey]) {
+      return null;
+    }
     return { ...this.contactP2pDetails[pubKey] };
   }
 
