@@ -9,6 +9,7 @@ const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
 const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
 const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
+const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
 // singleton to relay events to libtextsecure/message_receiver
 class LokiPublicChatAPI extends EventEmitter {
@@ -585,7 +586,8 @@ class LokiPublicChannelAPI {
           const sameText = message.text === adnMessage.text;
           // Don't filter out messages that are too far apart from each other
           const timestampsSimilar =
-            Math.abs(message.timestamp - timestamp) <= 10000;
+            Math.abs(message.timestamp - timestamp) <=
+            PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
 
           return sameUsername && sameText && timestampsSimilar;
         };
