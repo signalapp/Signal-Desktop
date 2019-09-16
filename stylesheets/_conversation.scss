@@ -14,8 +14,11 @@
 
 .conversation {
   background-color: $color-white;
-  height: 100%;
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 
   .panel {
     height: calc(100% - #{$header-height});
