@@ -204,25 +204,25 @@
     // Throws for invalid signature
     await libsignal.Curve.async.verifySignature(issuer, data.buffer, signature);
   }
- async function decryptToken({ cipherText64, serverPubKey64 }) {
- const ivAndCiphertext = new Uint8Array(
-                                        dcodeIO.ByteBuffer.fromBase64(cipherText64).toArrayBuffer()
-                                        );
- 
- const serverPubKey = new Uint8Array(
-                                     dcodeIO.ByteBuffer.fromBase64(serverPubKey64).toArrayBuffer()
-                                     );
- const { privKey } = await textsecure.storage.protocol.getIdentityKeyPair();
- const symmetricKey = libsignal.Curve.calculateAgreement(
-                                                         serverPubKey,
-                                                         privKey
-                                                         );
- 
- const token = await DHDecrypt(symmetricKey, ivAndCiphertext);
- 
- const tokenString = dcodeIO.ByteBuffer.wrap(token).toString('utf8');
- return tokenString;
- }
+  async function decryptToken({ cipherText64, serverPubKey64 }) {
+    const ivAndCiphertext = new Uint8Array(
+      dcodeIO.ByteBuffer.fromBase64(cipherText64).toArrayBuffer()
+    );
+
+    const serverPubKey = new Uint8Array(
+      dcodeIO.ByteBuffer.fromBase64(serverPubKey64).toArrayBuffer()
+    );
+    const { privKey } = await textsecure.storage.protocol.getIdentityKeyPair();
+    const symmetricKey = libsignal.Curve.calculateAgreement(
+      serverPubKey,
+      privKey
+    );
+
+    const token = await DHDecrypt(symmetricKey, ivAndCiphertext);
+
+    const tokenString = dcodeIO.ByteBuffer.wrap(token).toString('utf8');
+    return tokenString;
+  }
   const snodeCipher = new LokiSnodeChannel();
 
   window.libloki.crypto = {
@@ -231,7 +231,7 @@
     FallBackSessionCipher,
     FallBackDecryptionError,
     snodeCipher,
-    decryptToken,
+    decryptToken,
     generateSignatureForPairing,
     verifyPairingAuthorisation,
     // for testing

@@ -1190,14 +1190,17 @@ MessageReceiver.prototype.extend({
     const contactBuffer = new ContactBuffer(attachmentPointer.data);
     let contactDetails = contactBuffer.next();
     // Extract just the pubkeys
-    const friendPubKeys = []
+    const friendPubKeys = [];
     while (contactDetails !== undefined) {
       friendPubKeys.push(contactDetails.number);
       contactDetails = contactBuffer.next();
     }
     return Promise.all(
       friendPubKeys.map(async pubKey => {
-        const c = await window.ConversationController.getOrCreateAndWait(pubKey, 'private');
+        const c = await window.ConversationController.getOrCreateAndWait(
+          pubKey,
+          'private'
+        );
         if (!c) {
           return null;
         }

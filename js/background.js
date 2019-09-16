@@ -207,11 +207,11 @@
 
   window.log.info('Storage fetch');
   storage.fetch();
- 
+
   let specialConvInited = false;
   const initSpecialConversations = async () => {
     if (specialConvInited) {
-      return
+      return;
     }
     const rssFeedConversations = await window.Signal.Data.getAllRssFeedConversations(
       {
@@ -769,7 +769,7 @@
         appView.showQRDialog(ourNumber);
       }
     });
- 
+
     Whisper.events.on('showDevicePairingDialog', async () => {
       if (appView) {
         appView.showDevicePairingDialog();
