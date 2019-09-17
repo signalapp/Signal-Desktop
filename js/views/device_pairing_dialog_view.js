@@ -82,7 +82,7 @@
       // FIFO: pop at the back of the array using pop()
       this.pubKey = this.pubKeyRequests.pop();
     },
-    showView() {
+    async showView() {
       const defaultView = this.$('.defaultView');
       const waitingForRequestView = this.$('.waitingForRequestView');
       const requestReceivedView = this.$('.requestReceivedView');
@@ -93,15 +93,13 @@
         requestReceivedView.hide();
         waitingForRequestView.hide();
         requestAcceptedView.hide();
-        // eslint-disable-next-line more/no-then
-        libloki.storage.getSecondaryDevicesFor(ourPubKey).then(pubKeys => {
-          if (pubKeys && pubKeys.length > 0) {
-            this.$('#pairedPubKeys').empty();
-            pubKeys.forEach(x => {
-              this.$('#pairedPubKeys').append(`<li>${x}</li>`);
-            });
-          }
-        });
+        const pubKeys = await libloki.storage.getSecondaryDevicesFor(ourPubKey);
+        if (pubKeys && pubKeys.length > 0) {
+          this.$('#pairedPubKeys').empty();
+          pubKeys.forEach(x => {
+            this.$('#pairedPubKeys').append(`<li>${x}</li>`);
+          });
+        }
       } else if (this.accepted) {
         defaultView.hide();
         requestReceivedView.hide();
