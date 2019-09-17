@@ -280,6 +280,13 @@
       this.$('.discussion-container').append(this.view.el);
       this.view.render();
 
+      this.memberView = new Whisper.MemberListView({
+        el: this.$('.member-list-container'),
+        onClicked: this.selectMember.bind(this),
+      });
+
+      this.memberView.render();
+
       this.$messageField = this.$('.send-message');
 
       this.onResize = this.forceUpdateMessageFieldSize.bind(this);
@@ -307,9 +314,9 @@
 
     events: {
       keydown: 'onKeyDown',
-      'submit .send': 'checkUnverifiedSendMessage',
-      'input .send-message': 'updateMessageFieldSize',
-      'keydown .send-message': 'updateMessageFieldSize',
+      'submit .send': 'handleSubmitPressed',
+      'input .send-message': 'handleInputEvent',
+      'keydown .send-message': 'handleInputEvent',
       'keyup .send-message': 'onKeyUp',
       click: 'onClick',
       'click .bottom-bar': 'focusMessageField',
@@ -1556,6 +1563,34 @@
       dialog.focusCancel();
     },
 
+    selectMember(member) {
+      const stripQuery = input => {
+        const pos = input.lastIndexOf('@');
+
+        // This should never happen, but we check just in case
+        if (pos === -1) {
+          return input;
+        }
+
+        return input.substr(0, pos);
+      };
+
+      const prev = stripQuery(this.$messageField.val());
+      const result = `${prev}@${member.authorPhoneNumber} `;
+
+      this.$messageField.val(result);
+      this.$messageField.trigger('input');
+    },
+
+    async handleSubmitPressed(e, options = {}) {
+      if (this.memberView.members_shown()) {
+        const member = this.memberView.selectedMember();
+        this.selectMember(member);
+      } else {
+        await this.checkUnverifiedSendMessage(e, options);
+      }
+    },
+
     async checkUnverifiedSendMessage(e, options = {}) {
       e.preventDefault();
       this.sendStart = Date.now();
@@ -2112,7 +2147,10 @@
       }
     },
 
-    updateMessageFieldSize(event) {
+    // Note: not only input, but keypresses too (rename?)
+    handleInputEvent(event) {
+      this.maybeShowMembers(event);
+
       const keyCode = event.which || event.keyCode;
 
       if (
@@ -2126,6 +2164,41 @@
         this.$('.bottom-bar form').submit();
         return;
       }
+
+      const keyPressedLeft = keyCode === 37;
+      const keyPressedUp = keyCode === 38;
+      const keyPressedRight = keyCode === 39;
+      const keyPressedDown = keyCode === 40;
+      const keyPressedTab = keyCode === 9;
+
+      const preventDefault = keyPressedUp || keyPressedDown || keyPressedTab;
+
+      if (this.memberView.members_shown() && preventDefault) {
+        if (keyPressedDown) {
+          this.memberView.selectDown();
+        } else if (keyPressedUp) {
+          this.memberView.selectUp();
+        } else if (keyPressedTab) {
+          // Tab is treated as Enter in this context
+          this.handleSubmitPressed();
+        }
+
+        const $selected = this.$('.member-selected');
+        if ($selected.length) {
+          $selected[0].scrollIntoView({ behavior: 'smooth' });
+        }
+        event.preventDefault();
+        return;
+      }
+
+      if (keyPressedLeft || keyPressedRight) {
+        this.$messageField.trigger('input');
+      }
+
+      this.updateMessageFieldSize();
+    },
+
+    updateMessageFieldSize() {
       this.toggleMicrophone();
 
       this.view.measureScrollPosition();
@@ -2148,6 +2221,66 @@
       $bottomBar.outerHeight(height);
 
       this.view.scrollToBottomIfNeeded();
+    },
+
+    maybeShowMembers(event) {
+      const filterMembers = (caseSensitiveQuery, member) => {
+        const { authorPhoneNumber, authorProfileName } = member;
+
+        const profileName = authorProfileName
+          ? authorProfileName.toLowerCase()
+          : '';
+        const query = caseSensitiveQuery.toLowerCase();
+
+        if (
+          authorPhoneNumber.indexOf(query) !== -1 ||
+          profileName.indexOf(query) !== -1
+        ) {
+          return true;
+        }
+        return false;
+      };
+
+      const getQuery = input => {
+        const atPos = input.lastIndexOf('@');
+        if (atPos === -1) {
+          return null;
+        }
+
+        // Whitespace is required right before @
+        if (atPos > 0 && /\w/.test(input.substr(atPos - 1, 1))) {
+          return null;
+        }
+
+        const query = input.substr(atPos + 1);
+
+        // No whitespaces allowed in a query
+        if (/\s/.test(query)) {
+          return null;
+        }
+
+        return query;
+      };
+
+      const query = getQuery(event.target.value);
+
+      // TODO: for now, extract members from the conversation,
+      // but change to use a server endpoint in the future
+      let allMembers = this.model.messageCollection.models.map(
+        d => d.propsForMessage
+      );
+      allMembers = allMembers.filter(d => !!d);
+      allMembers = _.uniq(allMembers, true, d => d.authorPhoneNumber);
+
+      let membersToShow = [];
+      if (query === null) {
+        // do nothing
+      } else if (query !== '') {
+        membersToShow = allMembers.filter(filterMembers.bind(null, query));
+      } else {
+        membersToShow = allMembers;
+      }
+      this.memberView.update_members(membersToShow);
     },
 
     forceUpdateMessageFieldSize(event) {
