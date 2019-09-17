@@ -302,6 +302,15 @@
       }
 
       if (conversation) {
+        if (conversation.isRss()) {
+          window.mixpanel.track('RSS Feed Opened');
+        }
+        if (conversation.isPublic()) {
+          window.mixpanel.track('Loki Public Chat Opened');
+        }
+        if (conversation.isPrivate()) {
+          window.mixpanel.track('Conversation Opened');
+        }
         conversation.updateProfileName();
       }
 

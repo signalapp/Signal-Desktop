@@ -4,6 +4,9 @@
 
 const _ = require('lodash');
 const { rpc } = require('./loki_rpc');
+const LokiMixpanelAPI = require('./loki_mixpanel.js');
+
+const Mixpanel = new LokiMixpanelAPI();
 
 const DEFAULT_CONNECTIONS = 3;
 const MAX_ACCEPTABLE_FAILURES = 1;
@@ -178,6 +181,7 @@ class LokiMessageAPI {
     try {
       // eslint-disable-next-line more/no-then
       success = await firstTrue(promises);
+      Mixpanel.track('Sent Message Using Swarm API');
     } catch (e) {
       if (e instanceof textsecure.WrongDifficultyError) {
         // Force nonce recalculation
@@ -191,6 +195,7 @@ class LokiMessageAPI {
       throw e;
     }
     if (!success) {
+      Mixpanel.track('Failed to Send Message Using Swarm API');
       throw new window.textsecure.EmptySwarmError(
         pubKey,
         'Ran out of swarm nodes to query'
@@ -255,6 +260,7 @@ class LokiMessageAPI {
       } catch (e) {
         log.warn('Loki send message:', e);
         if (e instanceof textsecure.WrongSwarmError) {
+          Mixpanel.track('Migrated Snode');
           const { newSwarm } = e;
           await lokiSnodeAPI.updateSwarmNodes(params.pubKey, newSwarm);
           this.sendingData[params.timestamp].swarm = newSwarm;

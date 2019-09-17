@@ -27,6 +27,8 @@
   function AccountManager(username, password) {
     // this.server = window.WebAPI.connect({ username, password });
     this.pending = Promise.resolve();
+    // set up mixpanel
+    window.mixpanel = new window.LokiMixpanelAPI();
   }
 
   function getNumber(numberId) {
@@ -136,8 +138,10 @@
           ).toArrayBuffer();
           return libsignal.Curve.async.createKeyPair(privKey);
         };
+        window.mixpanel.track('Seed Restored');
       } else {
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
+        window.mixpanel.track('Seed Created');
       }
       return this.queueTask(() =>
         generateKeypair().then(async identityKeyPair =>
