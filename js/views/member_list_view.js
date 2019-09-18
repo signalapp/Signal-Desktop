@@ -11,8 +11,7 @@
       this.member_list = [];
       this.selected_idx = 0;
       this.onClicked = options.onClicked;
-
-      this.listenTo(this.model, 'change', this.render);
+      this.render();
     },
     render() {
       if (this.memberView) {
