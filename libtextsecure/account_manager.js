@@ -22,13 +22,14 @@
 (function() {
   window.textsecure = window.textsecure || {};
 
+  // set up mixpanel
+  window.mixpanel = window.mixpanel || new window.LokiMixpanelAPI();
+
   const ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
 
   function AccountManager(username, password) {
     // this.server = window.WebAPI.connect({ username, password });
     this.pending = Promise.resolve();
-    // set up mixpanel
-    window.mixpanel = new window.LokiMixpanelAPI();
   }
 
   function getNumber(numberId) {

@@ -230,7 +230,8 @@
     window.feeds = [];
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
-    window.mixpanel = new window.LokiMixpanelAPI();
+    // set up mixpanel
+    window.mixpanel = window.mixpanel || new window.LokiMixpanelAPI(); // incase account manager already set it up
     // window.mixpanel.track("Desktop boot");
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
