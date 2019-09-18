@@ -35,7 +35,7 @@
     handleMemberClicked(member) {
       this.onClicked(member);
     },
-    update_members(members) {
+    updateMembers(members) {
       if (!_.isEqual(this.member_list, members)) {
         // Whenever the list is updated, we reset the selection
         this.selected_idx = 0;
@@ -43,7 +43,7 @@
         this.render();
       }
     },
-    members_shown() {
+    membersShown() {
       return this.member_list.length !== 0;
     },
     selectUp() {

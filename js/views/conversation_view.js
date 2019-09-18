@@ -1583,7 +1583,7 @@
     },
 
     async handleSubmitPressed(e, options = {}) {
-      if (this.memberView.members_shown()) {
+      if (this.memberView.membersShown()) {
         const member = this.memberView.selectedMember();
         this.selectMember(member);
       } else {
@@ -2173,7 +2173,7 @@
 
       const preventDefault = keyPressedUp || keyPressedDown || keyPressedTab;
 
-      if (this.memberView.members_shown() && preventDefault) {
+      if (this.memberView.membersShown() && preventDefault) {
         if (keyPressedDown) {
           this.memberView.selectDown();
         } else if (keyPressedUp) {
@@ -2232,10 +2232,7 @@
           : '';
         const query = caseSensitiveQuery.toLowerCase();
 
-        if (
-          authorPhoneNumber.indexOf(query) !== -1 ||
-          profileName.indexOf(query) !== -1
-        ) {
+        if (authorPhoneNumber.includes(query) || profileName.includes(query)) {
           return true;
         }
         return false;
@@ -2273,14 +2270,14 @@
       allMembers = _.uniq(allMembers, true, d => d.authorPhoneNumber);
 
       let membersToShow = [];
-      if (query === null) {
-        // do nothing
-      } else if (query !== '') {
-        membersToShow = allMembers.filter(filterMembers.bind(null, query));
-      } else {
-        membersToShow = allMembers;
+      if (query) {
+        membersToShow =
+          query !== ''
+            ? allMembers.filter(m => filterMembers(query, m))
+            : allMembers;
       }
-      this.memberView.update_members(membersToShow);
+
+      this.memberView.updateMembers(membersToShow);
     },
 
     forceUpdateMessageFieldSize(event) {
