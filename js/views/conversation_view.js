@@ -1179,7 +1179,7 @@
         return;
       }
 
-      this.addAttachment(attachment);
+      await this.addAttachment(attachment);
     },
 
     isSizeOkay(attachment) {
@@ -1256,29 +1256,37 @@
       if (MIME.isJPEG(file.type)) {
         const rotatedDataUrl = await window.autoOrientImage(file);
         const rotatedBlob = VisualAttachment.dataURLToBlobSync(rotatedDataUrl);
-        const { contentType, file: resizedBlob } = await this.autoScale({
+        const {
+          contentType,
+          file: resizedBlob,
+          fileName,
+        } = await this.autoScale({
           contentType: file.type,
-          rotatedBlob,
+          fileName: file.name,
+          file: rotatedBlob,
         });
         const data = await await VisualAttachment.blobToArrayBuffer(
           resizedBlob
         );
 
         return {
-          fileName: file.name,
+          fileName: fileName || file.name,
           contentType,
           data,
           size: data.byteLength,
         };
       }
 
-      const { contentType, file: resizedBlob } = await this.autoScale({
-        contentType: file.type,
-        file,
-      });
+      const { contentType, file: resizedBlob, fileName } = await this.autoScale(
+        {
+          contentType: file.type,
+          fileName: file.name,
+          file,
+        }
+      );
       const data = await await VisualAttachment.blobToArrayBuffer(resizedBlob);
       return {
-        fileName: file.name,
+        fileName: fileName || file.name,
         contentType,
         data,
         size: data.byteLength,
@@ -1286,7 +1294,7 @@
     },
 
     autoScale(attachment) {
-      const { contentType, file } = attachment;
+      const { contentType, file, fileName } = attachment;
       if (
         contentType.split('/')[0] !== 'image' ||
         contentType === 'image/tiff'
@@ -1351,7 +1359,7 @@
 
           resolve({
             ...attachment,
-            fileName: this.fixExtension(attachment.fileName, targetContentType),
+            fileName: this.fixExtension(fileName, targetContentType),
             contentType: targetContentType,
             file: blob,
           });
