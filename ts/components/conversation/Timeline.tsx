@@ -61,7 +61,7 @@ type PropsActionsType = {
   loadOlderMessages: (messageId: string) => unknown;
   loadNewerMessages: (messageId: string) => unknown;
   loadNewestMessages: (messageId: string) => unknown;
-  markMessageRead: (messageId: string, forceFocus?: boolean) => unknown;
+  markMessageRead: (messageId: string) => unknown;
 } & MessageActionsType &
   SafetyNumberActionsType;
 
@@ -402,7 +402,7 @@ export class Timeline extends React.PureComponent<Props, State> {
 
   // tslint:disable-next-line member-ordering cyclomatic-complexity
   public updateWithVisibleRows = debounce(
-    (forceFocus?: boolean) => {
+    () => {
       const {
         unreadCount,
         haveNewest,
@@ -426,7 +426,7 @@ export class Timeline extends React.PureComponent<Props, State> {
         return;
       }
 
-      markMessageRead(newest.id, forceFocus);
+      markMessageRead(newest.id);
 
       const rowCount = this.getRowCount();
 
@@ -710,18 +710,13 @@ export class Timeline extends React.PureComponent<Props, State> {
   public componentDidMount() {
     this.updateWithVisibleRows();
     // @ts-ignore
-    window.registerForFocus(this.forceFocusVisibleRowUpdate);
+    window.registerForActive(this.updateWithVisibleRows);
   }
 
   public componentWillUnmount() {
     // @ts-ignore
-    window.unregisterForFocus(this.forceFocusVisibleRowUpdate);
+    window.unregisterForActive(this.updateWithVisibleRows);
   }
-
-  public forceFocusVisibleRowUpdate = () => {
-    const forceFocus = true;
-    this.updateWithVisibleRows(forceFocus);
-  };
 
   // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   public componentDidUpdate(prevProps: Props) {

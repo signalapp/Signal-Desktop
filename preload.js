@@ -10,14 +10,6 @@ const { remote } = electron;
 const { app } = remote;
 const { systemPreferences } = remote.require('electron');
 
-const browserWindow = remote.getCurrentWindow();
-let focusHandlers = [];
-browserWindow.on('focus', () => focusHandlers.forEach(handler => handler()));
-window.registerForFocus = handler => focusHandlers.push(handler);
-window.unregisterForFocus = handler => {
-  focusHandlers = focusHandlers.filter(item => item !== handler);
-};
-
 // Waiting for clients to implement changes on receive side
 window.ENABLE_STICKER_SEND = true;
 window.TIMESTAMP_VALIDATION = false;

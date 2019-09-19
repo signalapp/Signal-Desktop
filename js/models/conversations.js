@@ -334,7 +334,7 @@
           this.id,
           [model.getReduxData()],
           isNewMessage,
-          document.hasFocus()
+          window.isActive()
         );
       }
 

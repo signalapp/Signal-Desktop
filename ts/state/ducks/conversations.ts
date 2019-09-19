@@ -160,7 +160,7 @@ export type MessagesAddedActionType = {
     conversationId: string;
     messages: Array<MessageType>;
     isNewMessage: boolean;
-    isFocused: boolean;
+    isActive: boolean;
   };
 };
 export type MessagesResetActionType = {
@@ -357,7 +357,7 @@ function messagesAdded(
   conversationId: string,
   messages: Array<MessageType>,
   isNewMessage: boolean,
-  isFocused: boolean
+  isActive: boolean
 ): MessagesAddedActionType {
   return {
     type: 'MESSAGES_ADDED',
@@ -365,7 +365,7 @@ function messagesAdded(
       conversationId,
       messages,
       isNewMessage,
-      isFocused,
+      isActive,
     },
   };
 }
@@ -870,12 +870,7 @@ export function reducer(
     };
   }
   if (action.type === 'MESSAGES_ADDED') {
-    const {
-      conversationId,
-      isFocused,
-      isNewMessage,
-      messages,
-    } = action.payload;
+    const { conversationId, isActive, isNewMessage, messages } = action.payload;
     const { messagesByConversation, messagesLookup } = state;
 
     const existingConversation = messagesByConversation[conversationId];
@@ -937,7 +932,7 @@ export function reducer(
     const newMessageIds = difference(newIds, existingConversation.messageIds);
     const { isNearBottom } = existingConversation;
 
-    if ((!isNearBottom || !isFocused) && !oldestUnread) {
+    if ((!isNearBottom || !isActive) && !oldestUnread) {
       const oldestId = newMessageIds.find(messageId => {
         const message = lookup[messageId];
 

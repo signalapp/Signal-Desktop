@@ -442,7 +442,7 @@
             id,
             models.map(model => model.getReduxData()),
             isNewMessage,
-            document.hasFocus()
+            window.isActive()
           );
         } catch (error) {
           setMessagesLoading(conversationId, true);
@@ -493,7 +493,7 @@
             id,
             models.map(model => model.getReduxData()),
             isNewMessage,
-            document.hasFocus()
+            window.isActive()
           );
         } catch (error) {
           setMessagesLoading(conversationId, false);
@@ -502,10 +502,8 @@
           finish();
         }
       };
-      const markMessageRead = async (messageId, forceFocus) => {
-        // We need a forceFocus parameter because the BrowserWindow focus event fires
-        //   before the document realizes that it has focus.
-        if (!document.hasFocus() && !forceFocus) {
+      const markMessageRead = async messageId => {
+        if (!window.isActive()) {
           return;
         }
 

@@ -40,6 +40,43 @@
     false
   );
 
+  // Idle timer - you're active for ACTIVE_TIMEOUT after one of these events
+  const ACTIVE_TIMEOUT = 15 * 1000;
+  const ACTIVE_EVENTS = [
+    'click',
+    'keypress',
+    'mousedown',
+    'mousemove',
+    // 'scroll', // this is triggered by Timeline re-renders, can't use
+    'touchstart',
+    'wheel',
+  ];
+
+  const LISTENER_DEBOUNCE = 5 * 1000;
+  let activeHandlers = [];
+  let activeTimestamp = Date.now();
+
+  window.resetActiveTimer = _.throttle(() => {
+    const previouslyActive = window.isActive();
+    activeTimestamp = Date.now();
+    if (!previouslyActive) {
+      activeHandlers.forEach(handler => handler());
+    }
+  }, LISTENER_DEBOUNCE);
+
+  ACTIVE_EVENTS.forEach(name => {
+    document.addEventListener(name, window.resetActiveTimer, true);
+  });
+
+  window.isActive = () => {
+    const now = Date.now();
+    return now <= activeTimestamp + ACTIVE_TIMEOUT;
+  };
+  window.registerForActive = handler => activeHandlers.push(handler);
+  window.unregisterForActive = handler => {
+    activeHandlers = activeHandlers.filter(item => item !== handler);
+  };
+
   // Load these images now to ensure that they don't flicker on first use
   window.Signal.EmojiLib.preloadImages();
   const images = [];
@@ -712,7 +749,7 @@
       }
     });
 
-    window.addEventListener('focus', () => Whisper.Notifications.clear());
+    window.registerForActive(() => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
     Whisper.events.on('showConversation', (id, messageId) => {
