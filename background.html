@@ -247,8 +247,21 @@
   </script>
   <script type='text/x-tmpl-mustache' id='device-pairing-dialog'>
     <div class="content">
+
+      <!-- Default view -->
+      <div class="defaultView">
+        <h4>{{ defaultTitle }}</h4>
+        <ul id="pairedPubKeys">
+          <li>No paired devices</li>
+        </ul>
+        <div class='buttons'>
+          <button id='close' tabindex='2'>{{ closeText }}</button>
+          <button id="startPairing" tabindex='1'>{{ startPairingText }}</button>
+        </div>
+      </div>
+
       <!-- Waiting for request -->
-      <div class="waitingForRequestView">
+      <div class="waitingForRequestView" style="display: none;">
         <h4>{{ waitingForRequestTitle }}</h4>
         <div class='buttons'>
           <button class="cancel">{{ cancelText }}</button>
@@ -269,7 +282,6 @@
       <!-- Request accepted -->
       <div class="requestAcceptedView" style="display: none;">
         <h4>{{ requestAcceptedTitle }}</h4>
-        Sending pairing authorisation to:
         <p class="secretWords"></p>
         <p class="transmissionStatus">Please be patient...</p>
         <div class='buttons'>
@@ -660,7 +672,7 @@
                 </br>
                 Open the Loki Messenger App on your Primary Device
               </br>
-                and select "Pair New Device" in the main menu.
+                and select "Device Pairing" in the main menu.
               </p>
               <div class='standalone-secondary-device-inputs'>
                 <input class='form-control' type='text' id='primary-pubkey' placeholder='Primary Account Public Key' autocomplete='off' spellcheck='false' />

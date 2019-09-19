@@ -369,7 +369,7 @@ export class MainHeader extends React.Component<Props, any> {
     if (!isSecondaryDevice) {
       menuItems.push({
         id: 'pairNewDevice',
-        name: 'Pair new Device',
+        name: 'Device Pairing',
         onClick: () => {
           trigger('showDevicePairingDialog');
         },
