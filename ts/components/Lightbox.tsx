@@ -71,6 +71,7 @@ const styles = {
     maxWidth: '100%',
     maxHeight: '100%',
     objectFit: 'contain',
+    outline: 'none',
   } as React.CSSProperties,
   caption: {
     position: 'absolute',
@@ -171,12 +172,9 @@ const Icon = ({
 export class Lightbox extends React.Component<Props> {
   private readonly containerRef: React.RefObject<HTMLDivElement>;
   private readonly videoRef: React.RefObject<HTMLVideoElement>;
-  private readonly playVideoBound: () => void;
 
   constructor(props: Props) {
     super(props);
-
-    this.playVideoBound = this.playVideo.bind(this);
 
     this.videoRef = React.createRef();
     this.containerRef = React.createRef();
@@ -292,7 +290,6 @@ export class Lightbox extends React.Component<Props> {
         <video
           role="button"
           ref={this.videoRef}
-          onClick={this.playVideoBound}
           controls={true}
           style={styles.object}
           key={objectURL}
