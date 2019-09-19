@@ -10,8 +10,7 @@ const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
 const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 
-// singleton to relay events to libtextsecure/message_receiver
-class LokiPublicChatAPI extends EventEmitter {
+class LokiAppDotNetAPI extends EventEmitter {
   constructor(ourKey) {
     super();
     this.ourKey = ourKey;
@@ -24,8 +23,8 @@ class LokiPublicChatAPI extends EventEmitter {
       server => server.baseServerUrl === serverUrl
     );
     if (!thisServer) {
-      log.info(`LokiPublicChatAPI creating ${serverUrl}`);
-      thisServer = new LokiPublicServerAPI(this, serverUrl);
+      log.info(`LokiAppDotNetAPI creating ${serverUrl}`);
+      thisServer = new LokiAppDotNetServerAPI(this, serverUrl);
       this.servers.push(thisServer);
     }
     return thisServer;
@@ -57,7 +56,7 @@ class LokiPublicChatAPI extends EventEmitter {
   }
 }
 
-class LokiPublicServerAPI {
+class LokiAppDotNetServerAPI {
   constructor(chatAPI, url) {
     this.chatAPI = chatAPI;
     this.channels = [];
@@ -76,7 +75,7 @@ class LokiPublicServerAPI {
       channel => channel.channelId === channelId
     );
     if (!thisChannel) {
-      log.info(`LokiPublicChatAPI creating channel ${conversationId}`);
+      log.info(`LokiAppDotNetAPI creating channel ${conversationId}`);
       thisChannel = new LokiPublicChannelAPI(this, channelId, conversationId);
       this.channels.push(thisChannel);
     }
@@ -198,6 +197,131 @@ class LokiPublicServerAPI {
       return false;
     }
   }
+
+
+  // make a request to the server
+  async serverRequest(endpoint, options = {}) {
+    const { params = {}, method, objBody, forceFreshToken = false } = options;
+    const url = new URL(`${this.baseServerUrl}/${endpoint}`);
+    if (params) {
+      url.search = new URLSearchParams(params);
+    }
+    let result;
+    let { token } = this;
+    if (!token) {
+      token = await this.getOrRefreshServerToken();
+      if (!token) {
+        log.error('NO TOKEN');
+        return {
+          err: 'noToken',
+        };
+      }
+    }
+    try {
+      const fetchOptions = {};
+      const headers = {
+        Authorization: `Bearer ${this.token}`,
+      };
+      if (method) {
+        fetchOptions.method = method;
+      }
+      if (objBody) {
+        headers['Content-Type'] = 'application/json';
+        fetchOptions.body = JSON.stringify(objBody);
+      }
+      fetchOptions.headers = new Headers(headers);
+      result = await nodeFetch(url, fetchOptions || undefined);
+    } catch (e) {
+      log.info(`e ${e}`);
+      return {
+        err: e,
+      };
+    }
+    let response = null;
+    try {
+      response = await result.json();
+    } catch (e) {
+      log.warn(`serverRequest json arpse ${e}`);
+      return {
+        err: e,
+        statusCode: result.status,
+      };
+    }
+
+    // if it's a response style with a meta
+    if (result.status !== 200) {
+      if (!forceFreshToken && response.meta.code === 401) {
+        // copy options because lint complains if we modify this directly
+        const updatedOptions = options;
+        // force it this time
+        updatedOptions.forceFreshToken = true;
+        // retry with updated options
+        return this.serverRequest(endpoint, updatedOptions);
+      }
+      return {
+        err: 'statusCode',
+        statusCode: result.status,
+        response,
+      };
+    }
+    return {
+      statusCode: result.status,
+      response,
+    };
+  }
+
+  async getUserAnnotations(pubKey) {
+    if (!pubKey){
+      log.warn('No pubkey provided to getUserAnnotations!');
+      return [];
+    }
+    const res = await this.serverRequest(`users/@${pubKey}`, {
+      method: 'GET',
+      params: {
+        include_user_annotations: 1,
+      },
+    });
+
+    if (res.err || !res.response || !res.response.data) {
+      if (res.err) {
+        log.error(`Error ${res.err}`);
+      }
+      return [];
+    }
+
+    return res.response.data.annotations || [];
+  }
+
+  // Only one annotation at a time
+  async setSelfAnnotation(type, value) {
+    let annotation;
+    const doDelete = !value;
+
+    if (doDelete) {
+      // to delete annotation, omit the "value" field
+      annotation = {
+        type,
+      };
+    } else {
+      annotation = {
+        type,
+        value,
+      };
+    }
+
+    const res = await this.serverRequest('users/me', {
+      method: 'PATCH',
+      objBody: {
+        annotations: [annotation],
+      },
+    });
+
+    if (!res.err && res.response) {
+      return res.response;
+    }
+
+    return false;
+  }
 }
 
 class LokiPublicChannelAPI {
@@ -239,75 +363,8 @@ class LokiPublicChannelAPI {
     }
   }
 
-  // make a request to the server
-  async serverRequest(endpoint, options = {}) {
-    const { params = {}, method, objBody, forceFreshToken = false } = options;
-    const url = new URL(`${this.serverAPI.baseServerUrl}/${endpoint}`);
-    if (params) {
-      url.search = new URLSearchParams(params);
-    }
-    let result;
-    let { token } = this.serverAPI;
-    if (!token) {
-      token = await this.serverAPI.getOrRefreshServerToken();
-      if (!token) {
-        log.error('NO TOKEN');
-        return {
-          err: 'noToken',
-        };
-      }
-    }
-    try {
-      const fetchOptions = {};
-      const headers = {
-        Authorization: `Bearer ${this.serverAPI.token}`,
-      };
-      if (method) {
-        fetchOptions.method = method;
-      }
-      if (objBody) {
-        headers['Content-Type'] = 'application/json';
-        fetchOptions.body = JSON.stringify(objBody);
-      }
-      fetchOptions.headers = new Headers(headers);
-      result = await nodeFetch(url, fetchOptions || undefined);
-    } catch (e) {
-      log.info(`e ${e}`);
-      return {
-        err: e,
-      };
-    }
-    let response = null;
-    try {
-      response = await result.json();
-    } catch (e) {
-      log.info(`serverRequest json arpse ${e}`);
-      return {
-        err: e,
-        statusCode: result.status,
-      };
-    }
-
-    // if it's a response style with a meta
-    if (result.status !== 200) {
-      if (!forceFreshToken && response.meta.code === 401) {
-        // copy options because lint complains if we modify this directly
-        const updatedOptions = options;
-        // force it this time
-        updatedOptions.forceFreshToken = true;
-        // retry with updated options
-        return this.serverRequest(endpoint, updatedOptions);
-      }
-      return {
-        err: 'statusCode',
-        statusCode: result.status,
-        response,
-      };
-    }
-    return {
-      statusCode: result.status,
-      response,
-    };
+  serverRequest(endpoint, options = {}) {
+    return this.serverAPI.serverRequest(endpoint, options);
   }
 
   // get moderation actions
@@ -669,4 +726,4 @@ class LokiPublicChannelAPI {
   }
 }
 
-module.exports = LokiPublicChatAPI;
+module.exports = LokiAppDotNetAPI;
