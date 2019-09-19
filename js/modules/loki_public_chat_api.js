@@ -577,16 +577,13 @@ class LokiPublicChannelAPI {
           adnMessage.annotations.length !== 0
         ) {
           const noteValue = adnMessage.annotations[0].value;
-          ({ timestamp, quote } = noteValue);
+          ({ timestamp } = noteValue);
 
-          if (quote) {
-            quote.attachments = [];
-          }
-
-          // if user doesn't have a name set, fallback to annotation
-          // pubkeys are already there in v1 (first release)
-          if (!from) {
-            ({ from } = noteValue);
+          if (noteValue.quote) {
+            ({ quote } = noteValue);
+            if (quote) {
+              quote.attachments = [];
+            }
           }
 
           if (noteValue.sig) {
@@ -723,16 +720,13 @@ class LokiPublicChannelAPI {
           type: 'network.loki.messenger.publicChat',
           value: {
             timestamp: messageTimeStamp,
-            // will deprecated
-            from: displayName,
-            // will deprecated
-            source: pubKey,
-            quote,
           },
         },
       ],
     };
     if (quote && quote.id) {
+      payload.annoations[0].value.quote = quote;
+
       // copied from model/message.js copyFromQuotedMessage
       const collection = await Signal.Data.getMessagesBySentAt(quote.id, {
         MessageCollection: Whisper.MessageCollection,
