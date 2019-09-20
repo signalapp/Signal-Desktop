@@ -292,9 +292,7 @@
       $target.toggleClass('section-toggle-visible');
     },
     async openConversation(id, messageId) {
-      const conversationExists = await ConversationController.getConversation(
-        id
-      );
+      const conversationExists = await ConversationController.get(id);
       const conversation = await ConversationController.getOrCreateAndWait(
         id,
         'private'
