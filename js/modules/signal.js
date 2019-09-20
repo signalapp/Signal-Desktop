@@ -43,6 +43,7 @@ const {
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const { MainHeader } = require('../../ts/components/MainHeader');
+const { MemberList } = require('../../ts/components/conversation/MemberList');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
@@ -217,6 +218,7 @@ exports.setup = (options = {}) => {
     Lightbox,
     LightboxGallery,
     MainHeader,
+    MemberList,
     MediaGallery,
     Message,
     MessageBody,
