@@ -309,7 +309,11 @@
           window.mixpanel.track('Loki Public Chat Opened');
         }
         if (conversation.isPrivate()) {
-          window.mixpanel.track('Conversation Opened');
+          if (conversation.isMe()) {
+            window.mixpanel.track('Note To Self Opened');
+          } else {
+            window.mixpanel.track('Conversation Opened');
+          }
         }
         conversation.updateProfileName();
       }
