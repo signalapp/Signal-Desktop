@@ -1,4 +1,3 @@
-const EventEmitter = require('events');
 const Mixpanel = require('mixpanel');
 
 class LokiMixpanelAPI {

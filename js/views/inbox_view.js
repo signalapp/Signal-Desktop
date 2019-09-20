@@ -292,6 +292,9 @@
       $target.toggleClass('section-toggle-visible');
     },
     async openConversation(id, messageId) {
+      const conversationExists = await ConversationController.getConversation(
+        id
+      );
       const conversation = await ConversationController.getOrCreateAndWait(
         id,
         'private'
@@ -311,7 +314,7 @@
         if (conversation.isPrivate()) {
           if (conversation.isMe()) {
             window.mixpanel.track('Note To Self Opened');
-          } else {
+          } else if (conversationExists) {
             window.mixpanel.track('Conversation Opened');
           }
         }
