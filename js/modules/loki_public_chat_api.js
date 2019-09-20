@@ -3,9 +3,6 @@ clearTimeout, MessageController */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
-const LokiMixpanelAPI = require('./loki_mixpanel.js');
-
-const Mixpanel = new LokiMixpanelAPI();
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -666,12 +663,12 @@ class LokiPublicChannelAPI {
       objBody: payload,
     });
     if (!res.err && res.response) {
-      Mixpanel.track('Public Message Sent');
+      window.mixpanel.track('Public Message Sent');
       return res.response.data.id;
     }
     // there's no retry on desktop
     // this is supposed to be after retries
-    Mixpanel.track('Failed to Send Public Message');
+    window.mixpanel.track('Failed to Send Public Message');
     return false;
   }
 }

@@ -6,9 +6,6 @@ const dns = require('dns');
 const process = require('process');
 const { rpc } = require('./loki_rpc');
 const natUpnp = require('nat-upnp');
-const LokiMixpanelAPI = require('./loki_mixpanel.js');
-
-const Mixpanel = new LokiMixpanelAPI();
 
 const resolve4 = url =>
   new Promise((resolve, reject) => {
@@ -121,7 +118,7 @@ class LokiSnodeAPI {
         port: snode.storage_port,
       }));
     } catch (e) {
-      Mixpanel.track('Seed Node Failed');
+      window.mixpanel.track('Seed Node Failed');
       if (seedNodes.length === 0) {
         throw new window.textsecure.SeedNodeError(
           'Failed to contact seed node'
@@ -137,7 +134,7 @@ class LokiSnodeAPI {
     const filteredNodes = swarmNodes.filter(
       node => node.address !== nodeUrl && node.ip !== nodeUrl
     );
-    Mixpanel.track('Unreachable Snode');
+    window.mixpanel.track('Unreachable Snode');
     await conversation.updateSwarmNodes(filteredNodes);
   }
 

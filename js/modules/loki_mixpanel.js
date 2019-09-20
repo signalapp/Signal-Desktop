@@ -1,12 +1,8 @@
-/* eslint-disable class-methods-use-this */
-
 const EventEmitter = require('events');
 const Mixpanel = require('mixpanel');
-// require('setimmediate');
 
-class LokiMixpanelAPI extends EventEmitter {
+class LokiMixpanelAPI {
   constructor() {
-    super();
     this.mixpanel = Mixpanel.init('736cd9a854a157591153efacd1164e9a');
   }
   track(label) {
