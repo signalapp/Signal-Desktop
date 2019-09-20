@@ -88,17 +88,10 @@ class LokiMessageAPI {
     };
 
     if (isPublic) {
-      const { profile } = data;
-      let displayName = 'Anonymous';
-      if (profile && profile.displayName) {
-        ({ displayName } = profile);
-      }
       const res = await publicSendData.sendMessage(
         data.body,
         data.quote,
-        messageTimeStamp,
-        displayName,
-        this.ourKey
+        messageTimeStamp
       );
       if (res === false) {
         throw new window.textsecure.PublicChatError(

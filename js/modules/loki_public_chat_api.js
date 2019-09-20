@@ -566,7 +566,7 @@ class LokiPublicChannelAPI {
       res.response.data.reverse().forEach(async adnMessage => {
         let timestamp = new Date(adnMessage.created_at).getTime();
         // pubKey lives in the username field
-        let from = adnMessage.user.name;
+        const from = adnMessage.user.name;
         let sigValid;
         let quote = null;
         if (adnMessage.is_deleted) {
@@ -712,7 +712,7 @@ class LokiPublicChannelAPI {
   }
 
   // create a message in the channel
-  async sendMessage(text, quote, messageTimeStamp, displayName, pubKey) {
+  async sendMessage(text, quote, messageTimeStamp) {
     const payload = {
       text,
       annotations: [
