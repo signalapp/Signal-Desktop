@@ -823,6 +823,7 @@
 
     Whisper.events.on('devicePairingRequestRejected', async pubKey => {
       await window.libloki.storage.removeContactPreKeyBundle(pubKey);
+      await window.libloki.storage.removePairingAuthorisationForSecondaryPubKey(pubKey);
     });
   }
 

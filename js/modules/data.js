@@ -90,6 +90,7 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
+  removePairingAuthorisationForSecondaryPubKey,
   getGrantAuthorisationForPubKey,
   getAuthorisationForPubKey,
   getSecondaryDevicesFor,
@@ -605,6 +606,13 @@ async function createOrUpdatePairingAuthorisation(data) {
     requestSignature: signatureToBase64(requestSignature),
     grantSignature: grantSignature ? signatureToBase64(grantSignature) : null,
   });
+}
+
+async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
+  if (!pubKey){
+    return;
+  }
+  await channels.removePairingAuthorisationForSecondaryPubKey(pubKey);
 }
 
 async function getGrantAuthorisationForPubKey(pubKey) {

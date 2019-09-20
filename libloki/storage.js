@@ -117,6 +117,10 @@
     return window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
   }
 
+  function removePairingAuthorisationForSecondaryPubKey(pubKey) {
+    return window.Signal.Data.removePairingAuthorisationForSecondaryPubKey(pubKey);
+  }
+
   function getGrantAuthorisationForSecondaryPubKey(secondaryPubKey) {
     return window.Signal.Data.getGrantAuthorisationForPubKey(secondaryPubKey);
   }
@@ -141,6 +145,7 @@
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
     savePairingAuthorisation,
+    removePairingAuthorisationForSecondaryPubKey,
     getGrantAuthorisationForSecondaryPubKey,
     getAuthorisationForSecondaryPubKey,
     getAllDevicePubKeysForPrimaryPubKey,

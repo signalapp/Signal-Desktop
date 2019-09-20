@@ -74,6 +74,7 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
+  removePairingAuthorisationForSecondaryPubKey,
   getAuthorisationForPubKey,
   getSecondaryDevicesFor,
   getPrimaryDeviceFor,
@@ -1408,6 +1409,15 @@ async function createOrUpdatePairingAuthorisation(data) {
       $secondaryDevicePubKey: secondaryDevicePubKey,
       $isGranted: Boolean(grantSignature),
       $json: objectToJSON(data),
+    }
+  );
+}
+
+async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
+  await db.run(
+    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey;`,
+    {
+      $secondaryDevicePubKey: pubKey,
     }
   );
 }
