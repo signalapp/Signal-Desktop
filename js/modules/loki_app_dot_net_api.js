@@ -198,7 +198,6 @@ class LokiAppDotNetServerAPI {
     }
   }
 
-
   // make a request to the server
   async serverRequest(endpoint, options = {}) {
     const { params = {}, method, objBody, forceFreshToken = false } = options;
@@ -271,7 +270,7 @@ class LokiAppDotNetServerAPI {
   }
 
   async getUserAnnotations(pubKey) {
-    if (!pubKey){
+    if (!pubKey) {
       log.warn('No pubkey provided to getUserAnnotations!');
       return [];
     }

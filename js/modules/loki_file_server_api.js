@@ -1,7 +1,3 @@
-/* global storage: false */
-/* global libloki: false */
-/* global Signal: false */
-
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
 const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
