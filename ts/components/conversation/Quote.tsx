@@ -19,6 +19,7 @@ interface Props {
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
+  isPublic?: boolean;
   withContentAbove: boolean;
   onClick?: () => void;
   onClose?: () => void;
@@ -214,7 +215,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText() {
-    const { i18n, text, attachment, isIncoming } = this.props;
+    const { i18n, text, attachment, isIncoming, isPublic } = this.props;
 
     if (text) {
       return (
@@ -225,7 +226,12 @@ export class Quote extends React.Component<Props, State> {
             isIncoming ? 'module-quote__primary__text--incoming' : null
           )}
         >
-          <MessageBody text={text} disableLinks={true} i18n={i18n} />
+          <MessageBody
+            isPublic={isPublic}
+            text={text}
+            disableLinks={true}
+            i18n={i18n}
+          />
         </div>
       );
     }

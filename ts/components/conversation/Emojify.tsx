@@ -56,15 +56,17 @@ interface Props {
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallbackType;
   i18n: LocalizerType;
+  isPublic?: boolean;
 }
 
 export class Emojify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
     renderNonEmoji: ({ text }) => text || '',
+    isPublic: false,
   };
 
   public render() {
-    const { text, sizeClass, renderNonEmoji, i18n } = this.props;
+    const { text, sizeClass, renderNonEmoji, i18n, isPublic } = this.props;
     const results: Array<any> = [];
     const regex = getRegex();
 
@@ -79,13 +81,15 @@ export class Emojify extends React.Component<Props> {
     let count = 1;
 
     if (!match) {
-      return renderNonEmoji({ text, key: 0 });
+      return renderNonEmoji({ text, key: 0, isPublic });
     }
 
     while (match) {
       if (last < match.index) {
         const textWithNoEmoji = text.slice(last, match.index);
-        results.push(renderNonEmoji({ text: textWithNoEmoji, key: count++ }));
+        results.push(
+          renderNonEmoji({ text: textWithNoEmoji, key: count++, isPublic })
+        );
       }
 
       results.push(getImageTag({ match, sizeClass, key: count++, i18n }));
@@ -95,7 +99,9 @@ export class Emojify extends React.Component<Props> {
     }
 
     if (last < text.length) {
-      results.push(renderNonEmoji({ text: text.slice(last), key: count++ }));
+      results.push(
+        renderNonEmoji({ text: text.slice(last), key: count++, isPublic })
+      );
     }
 
     return results;

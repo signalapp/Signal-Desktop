@@ -310,6 +310,26 @@
 
       this.$emojiPanelContainer = this.$('.emoji-panel-container');
       this.model.updateTextInputState();
+
+      this.selectMember = this.selectMember.bind(this);
+
+      const updateMemberList = async () => {
+        const allMessages = await window.Signal.Data.getMessagesByConversation(
+          this.model.id,
+          {
+            limit: Number.MAX_SAFE_INTEGER,
+            MessageCollection: Whisper.MessageCollection,
+          }
+        );
+
+        const allMembers = allMessages.models.map(d => d.propsForMessage);
+        window.lokiPublicChatAPI.setListOfMembers(allMembers);
+      };
+
+      if (this.model.id === 'publicChat:1@chat-dev.lokinet.org') {
+        updateMemberList();
+        setInterval(updateMemberList, 10000);
+      }
     },
 
     events: {
@@ -1563,22 +1583,41 @@
       dialog.focusCancel();
     },
 
+    stripQuery(text, cursorPos) {
+      const end = text.slice(cursorPos).search(/[^a-fA-F0-9]/);
+      const mentionEnd = end === -1 ? text.length : cursorPos + end;
+
+      const stripped = text.substr(0, mentionEnd);
+
+      const mentionStart = stripped.lastIndexOf('@');
+
+      const query = stripped.substr(mentionStart, mentionEnd - mentionStart);
+
+      return [stripped.substr(0, mentionStart), query, text.substr(mentionEnd)];
+    },
+
     selectMember(member) {
-      const stripQuery = input => {
-        const pos = input.lastIndexOf('@');
+      const cursorPos = this.$messageField[0].selectionStart;
+      // Note: skipping the middle value here
+      const [prev, , end] = this.stripQuery(
+        this.$messageField.val(),
+        cursorPos
+      );
+      let firstHalf = `${prev}@${member.authorPhoneNumber}`;
+      let newCursorPos = firstHalf.length;
 
-        // This should never happen, but we check just in case
-        if (pos === -1) {
-          return input;
-        }
+      const needExtraWhitespace =
+        end.length === 0 || /[a-fA-F0-9@]/.test(end[0]);
+      if (needExtraWhitespace) {
+        firstHalf += ' ';
+        newCursorPos += 1;
+      }
 
-        return input.substr(0, pos);
-      };
-
-      const prev = stripQuery(this.$messageField.val());
-      const result = `${prev}@${member.authorPhoneNumber} `;
+      const result = firstHalf + end;
 
       this.$messageField.val(result);
+      this.$messageField[0].selectionStart = newCursorPos;
+      this.$messageField[0].selectionEnd = newCursorPos;
       this.$messageField.trigger('input');
     },
 
@@ -2149,7 +2188,10 @@
 
     // Note: not only input, but keypresses too (rename?)
     handleInputEvent(event) {
-      this.maybeShowMembers(event);
+      // Note: schedule the member list handler shortly afterwards, so
+      // that the input element has time to update its cursor position to
+      // what the user would expect
+      window.requestAnimationFrame(this.maybeShowMembers.bind(this, event));
 
       const keyCode = event.which || event.keyCode;
 
@@ -2238,13 +2280,19 @@
         return false;
       };
 
-      const getQuery = input => {
+      // This is not quite the same as stripQuery
+      // as this one searches until the current
+      // cursor position
+      const getQuery = (srcLine, cursorPos) => {
+        const input = srcLine.substr(0, cursorPos);
+
         const atPos = input.lastIndexOf('@');
         if (atPos === -1) {
           return null;
         }
 
-        // Whitespace is required right before @
+        // Whitespace is required right before @ unless
+        // the beginning of line
         if (atPos > 0 && /\w/.test(input.substr(atPos - 1, 1))) {
           return null;
         }
@@ -2259,24 +2307,28 @@
         return query;
       };
 
-      const query = getQuery(event.target.value);
-
-      // TODO: for now, extract members from the conversation,
-      // but change to use a server endpoint in the future
-      let allMembers = this.model.messageCollection.models.map(
-        d => d.propsForMessage
-      );
+      let allMembers = window.lokiPublicChatAPI.getListOfMembers();
       allMembers = allMembers.filter(d => !!d);
       allMembers = _.uniq(allMembers, true, d => d.authorPhoneNumber);
 
+      const cursorPos = event.target.selectionStart;
+
+      // can't use pubkeyPattern here, as we are matching incomplete
+      // pubkeys (including the single @)
+      const query = getQuery(event.target.value, cursorPos);
+
       let membersToShow = [];
-      if (query) {
+      if (query !== null) {
         membersToShow =
           query !== ''
             ? allMembers.filter(m => filterMembers(query, m))
             : allMembers;
       }
-
+      membersToShow = membersToShow.map(m => ({
+        authorPhoneNumber: m.authorPhoneNumber,
+        authorProfileName: m.authorProfileName,
+        id: m.id,
+      }));
       this.memberView.updateMembers(membersToShow);
     },
 
