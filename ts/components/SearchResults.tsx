@@ -11,6 +11,8 @@ import { StartNewConversation } from './StartNewConversation';
 
 import { LocalizerType } from '../types/Util';
 
+declare var mixpanel: any;
+
 export type PropsData = {
   contacts: Array<ConversationListItemPropsType>;
   friends: Array<ConversationListItemPropsType>;
@@ -36,7 +38,7 @@ type Props = PropsData & PropsHousekeeping;
 export class SearchResults extends React.Component<Props> {
   public handleStartNewConversation = () => {
     const { regionCode, searchTerm, startNewConversation } = this.props;
-
+    mixpanel.track('New Conversation Started');
     startNewConversation(searchTerm, { regionCode });
   };
 

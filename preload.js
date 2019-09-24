@@ -333,6 +333,10 @@ window.LokiFileServerAPI = LokiFileServerAPIWrapper(config.defaultFileServer);
 
 window.LokiRssAPI = require('./js/modules/loki_rss_api');
 
+const LokiMixpanelAPI = require('./js/modules/loki_mixpanel.js');
+
+window.mixpanel = new LokiMixpanelAPI();
+
 window.LocalLokiServer = require('./libloki/modules/local_loki_server');
 
 window.localServerPort = config.localServerPort;

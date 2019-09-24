@@ -233,6 +233,8 @@
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
     // singleton to interface the File server
     window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
+    // are there limits on tracking, is this unneeded?
+    // window.mixpanel.track("Desktop boot");
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
       const isPing = true;
