@@ -230,6 +230,8 @@
     window.feeds = [];
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
+    // are there limits on tracking, is this unneeded?
+    // window.mixpanel.track("Desktop boot");
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
       const isPing = true;

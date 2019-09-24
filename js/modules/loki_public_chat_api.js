@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController */
+clearTimeout, MessageController, window */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -696,8 +696,12 @@ class LokiPublicChannelAPI {
       objBody: payload,
     });
     if (!res.err && res.response) {
+      window.mixpanel.track('Public Message Sent');
       return res.response.data.id;
     }
+    // there's no retry on desktop
+    // this is supposed to be after retries
+    window.mixpanel.track('Failed to Send Public Message');
     return false;
   }
 }
