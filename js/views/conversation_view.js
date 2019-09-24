@@ -326,7 +326,7 @@
         window.lokiPublicChatAPI.setListOfMembers(allMembers);
       };
 
-      if (this.model.id === 'publicChat:1@chat-dev.lokinet.org') {
+      if (this.model.isPublic()) {
         updateMemberList();
         setInterval(updateMemberList, 10000);
       }
@@ -2324,11 +2324,11 @@
             ? allMembers.filter(m => filterMembers(query, m))
             : allMembers;
       }
-      membersToShow = membersToShow.map(m => ({
-        authorPhoneNumber: m.authorPhoneNumber,
-        authorProfileName: m.authorProfileName,
-        id: m.id,
-      }));
+
+      membersToShow = membersToShow.map(m =>
+        _.pick(m, ['authorPhoneNumber', 'authorProfileName', 'id'])
+      );
+
       this.memberView.updateMembers(membersToShow);
     },
 

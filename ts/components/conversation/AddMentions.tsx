@@ -21,6 +21,7 @@ interface MentionState {
 }
 
 class Mention extends React.Component<MentionProps, MentionState> {
+  private intervalHandle: any = null;
   constructor(props: any) {
     super(props);
 
@@ -33,12 +34,11 @@ class Mention extends React.Component<MentionProps, MentionState> {
 
     this.tryRenameMention();
     // TODO: give up after some period of time?
-    const intervalHandle = setInterval(this.tryRenameMention, 30000);
-    this.clearOurInterval = this.clearOurInterval.bind(this, intervalHandle);
+    this.intervalHandle = setInterval(this.tryRenameMention, 30000);
   }
 
   public componentWillUnmount() {
-    this.clearOurInterval(null);
+    this.clearOurInterval();
   }
 
   public render() {
@@ -51,9 +51,11 @@ class Mention extends React.Component<MentionProps, MentionState> {
         us && 'mention-profile-name-us'
       );
 
-      return (
-        <span className={className}>{this.state.found.authorProfileName}</span>
-      );
+      const profileName = this.state.found.authorProfileName;
+      const displayedName =
+        profileName && profileName.length > 0 ? profileName : 'Anonymous';
+
+      return <span className={className}>{displayedName}</span>;
     } else {
       return (
         <span className="mention-profile-name">
@@ -63,15 +65,15 @@ class Mention extends React.Component<MentionProps, MentionState> {
     }
   }
 
-  private clearOurInterval(handle: any) {
-    clearInterval(handle);
+  private clearOurInterval() {
+    clearInterval(this.intervalHandle);
   }
 
   private tryRenameMention() {
     const found = this.findMember(this.props.text.slice(1));
     if (found) {
       this.setState({ found });
-      this.clearOurInterval(null);
+      this.clearOurInterval();
     }
   }
 
