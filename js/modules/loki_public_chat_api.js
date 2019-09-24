@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView */
+clearTimeout, MessageController, libsignal, StringView, window */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -9,6 +9,7 @@ const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
 const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
 const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
+const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
 // singleton to relay events to libtextsecure/message_receiver
 class LokiPublicChatAPI extends EventEmitter {
@@ -223,6 +224,10 @@ class LokiPublicChannelAPI {
     this.timers = {};
     this.running = true;
     this.logMop = {};
+
+    // Cache for duplicate checking
+    this.lastMessagesCache = [];
+
     // end properties
 
     log.info(`registered LokiPublicChannel ${channelId}`);
@@ -663,6 +668,34 @@ class LokiPublicChannelAPI {
           return; // Invalid message
         }
 
+        // Duplicate check
+        const isDuplicate = message => {
+          // The username in this case is the users pubKey
+          const sameUsername = message.username === adnMessage.user.username;
+          const sameText = message.text === adnMessage.text;
+          // Don't filter out messages that are too far apart from each other
+          const timestampsSimilar =
+            Math.abs(message.timestamp - timestamp) <=
+            PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
+
+          return sameUsername && sameText && timestampsSimilar;
+        };
+
+        // Filter out any messages that we got previously
+        if (this.lastMessagesCache.some(isDuplicate)) {
+          return; // Duplicate message
+        }
+
+        // Add the message to the lastMessage cache and keep the last 5 recent messages
+        this.lastMessagesCache = [
+          ...this.lastMessagesCache,
+          {
+            username: adnMessage.user.username,
+            text: adnMessage.text,
+            timestamp,
+          },
+        ].splice(-5);
+
         const messageData = {
           serverId: adnMessage.id,
           clientVerified: sigValid,
@@ -765,8 +798,12 @@ class LokiPublicChannelAPI {
       objBody: payload,
     });
     if (!res.err && res.response) {
+      window.mixpanel.track('Public Message Sent');
       return res.response.data.id;
     }
+    // there's no retry on desktop
+    // this is supposed to be after retries
+    window.mixpanel.track('Failed to Send Public Message');
     return false;
   }
 }
