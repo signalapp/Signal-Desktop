@@ -294,19 +294,11 @@ class LokiAppDotNetServerAPI {
 
   // Only one annotation at a time
   async setSelfAnnotation(type, value) {
-    let annotation;
-    const doDelete = !value;
+    const annotation = { type };
 
-    if (doDelete) {
-      // to delete annotation, omit the "value" field
-      annotation = {
-        type,
-      };
-    } else {
-      annotation = {
-        type,
-        value,
-      };
+    // to delete annotation, omit the "value" field
+    if (value) {
+      annotation.value = value;
     }
 
     const res = await this.serverRequest('users/me', {
