@@ -559,7 +559,9 @@ class LokiPublicChannelAPI {
 
     // try to verify signature
     const { sig, sigver } = noteValue;
-    const annoCopy = _.omit(adnMessage.annotations, ['value.sig', 'value.sigver']);
+    const annoCopy = [ ...adnMessage.annotations ];
+    delete annoCopy[0].value.sig;
+    delete annoCopy[0].value.sigver;
     const verifyObj = {
       text: adnMessage.text,
       version: sigver,
@@ -602,6 +604,9 @@ class LokiPublicChannelAPI {
         // we now only accept valid messages into the public chat
         return false;
       }
+      // any error should cause problem
+      log.error(`Unhandled message signature validation error ${e.message}`);
+      return false;
     }
  
     return {
