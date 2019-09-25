@@ -167,7 +167,7 @@
 .module-message__container {
   position: relative;
   display: inline-block;
-  border-radius: 16px;
+  border-radius: $message-container-border-radius;
   padding-right: 12px;
   padding-left: 12px;
   padding-top: 10px;

@@ -30,6 +30,26 @@
   }
 }
 
+.mention-profile-name {
+  color: rgb(194, 244, 255);
+  background-color: rgb(66, 121, 150);
+  text-decoration: underline;
+  border-radius: 4px;
+  margin: 2px;
+  padding: 2px;
+  user-select: none;
+}
+
+.mention-profile-name-us {
+  background-color: rgba(255, 197, 50, 1);
+  color: black;
+}
+
+.message-highlighted {
+  border-radius: $message-container-border-radius;
+  background-color: rgba(255, 197, 50, 0.2);
+}
+
 .dark-theme {
   .member-list-container {
     .member-item {

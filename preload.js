@@ -452,3 +452,7 @@ if (config.environment === 'test') {
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
 }
+
+window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
+
+window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;

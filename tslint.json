@@ -137,6 +137,7 @@
     "prefer-type-cast": false,
     // We use || and && shortcutting because we're javascript programmers
     "strict-boolean-expressions": false,
+    "no-suspicious-comment": false,
     "react-no-dangerous-html": [
       true,
       {
