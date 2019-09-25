@@ -229,7 +229,10 @@
     const ourKey = textsecure.storage.user.getNumber();
     window.feeds = [];
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+    // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
+    // singleton to interface the File server
+    window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
     // are there limits on tracking, is this unneeded?
     // window.mixpanel.track("Desktop boot");
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
