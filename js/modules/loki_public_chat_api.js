@@ -560,8 +560,8 @@ class LokiPublicChannelAPI {
     // try to verify signature
     const { sig, sigver } = noteValue;
     const annoCopy = [ ...adnMessage.annotations ];
-    delete annoCopy[0].value.sig;
-    delete annoCopy[0].value.sigver;
+    // strip out sig and sigver
+    annoCopy[0] = _.omit(annoCopy[0], ['value.sig', 'value.sigver']);
     const verifyObj = {
       text: adnMessage.text,
       version: sigver,
@@ -802,7 +802,7 @@ class LokiPublicChannelAPI {
       JSON.stringify(objToSign)
     );
     payload.annotations[0].value.sig = StringView.arrayBufferToHex(sig);
-    payload.annotations[0].value.sigver = 1;
+    payload.annotations[0].value.sigver = objToSign.version;
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
       method: 'POST',
       objBody: payload,
