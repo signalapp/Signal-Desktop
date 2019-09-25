@@ -594,18 +594,21 @@ class LokiPublicChannelAPI {
       more = res.response.meta.more && res.response.data.length >= params.count;
     }
   }
-  
+
   async getMessengerData(adnMessage) {
-    if (!Array.isArray(adnMessage.annotations) || adnMessage.annotations.length === 0) {
+    if (
+      !Array.isArray(adnMessage.annotations) ||
+      adnMessage.annotations.length === 0
+    ) {
       return false;
     }
     const noteValue = adnMessage.annotations[0].value;
-    
+
     // signatures now required
     if (!noteValue.sig || typeof noteValue.sig !== 'string') {
       return false;
     }
-    
+
     // timestamp is the only required field we've had since the first deployed version
     const { timestamp, quote } = noteValue;
 
@@ -615,7 +618,7 @@ class LokiPublicChannelAPI {
 
     // try to verify signature
     const { sig, sigver } = noteValue;
-    const annoCopy = [ ...adnMessage.annotations ];
+    const annoCopy = [...adnMessage.annotations];
     // strip out sig and sigver
     annoCopy[0] = _.omit(annoCopy[0], ['value.sig', 'value.sigver']);
     const verifyObj = {
@@ -626,10 +629,8 @@ class LokiPublicChannelAPI {
     if (adnMessage.reply_to) {
       verifyObj.reply_to = adnMessage.reply_to;
     }
-    
-    const pubKeyBin = StringView.hexToArrayBuffer(
-      adnMessage.user.username
-    );
+
+    const pubKeyBin = StringView.hexToArrayBuffer(adnMessage.user.username);
     const sigBin = StringView.hexToArrayBuffer(sig);
     try {
       await libsignal.Curve.async.verifySignature(
@@ -664,12 +665,12 @@ class LokiPublicChannelAPI {
       log.error(`Unhandled message signature validation error ${e.message}`);
       return false;
     }
- 
+
     return {
       timestamp,
       quote,
-    }
- }
+    };
+  }
 
   // get channel messages
   async pollForMessages() {
@@ -706,7 +707,6 @@ class LokiPublicChannelAPI {
     if (!res.err && res.response) {
       let receivedAt = new Date().getTime();
       res.response.data.reverse().forEach(async adnMessage => {
-
         // still update our last received if deleted, not signed or not valid
         this.lastGot = !this.lastGot
           ? adnMessage.id
@@ -722,7 +722,7 @@ class LokiPublicChannelAPI {
         ) {
           return; // Invalid or delete message
         }
-                
+
         const messengerData = await this.getMessengerData(adnMessage);
         if (messengerData === false) {
           return;
@@ -732,7 +732,7 @@ class LokiPublicChannelAPI {
         if (!timestamp) {
           return; // Invalid message
         }
-        
+
         // Duplicate check
         const isDuplicate = message => {
           // The username in this case is the users pubKey
@@ -760,9 +760,9 @@ class LokiPublicChannelAPI {
             timestamp,
           },
         ].splice(-5);
-                
+
         const from = adnMessage.user.name; // profileName
-        
+
         const messageData = {
           serverId: adnMessage.id,
           clientVerified: true,
@@ -802,7 +802,6 @@ class LokiPublicChannelAPI {
 
         // now process any user meta data updates
         // - update their conversation with a potentially new avatar
-
       });
       this.conversation.setLastRetrievedMessage(this.lastGot);
     }
