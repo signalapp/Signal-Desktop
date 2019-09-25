@@ -540,7 +540,7 @@ class LokiPublicChannelAPI {
     const noteValue = adnMessage.annotations[0].value;
     
     // signatures now required
-    if (!noteValue.sig!) {
+    if (!noteValue.sig) {
       return false;
     }
     
@@ -558,7 +558,7 @@ class LokiPublicChannelAPI {
     }
 
     // try to verify signature
-    let { sig, sigver } = noteValue;
+    const { sig, sigver } = noteValue;
     const annoCopy = _.omit(adnMessage.annotations, ['value.sig', 'value.sigver']);
     const verifyObj = {
       text: adnMessage.text,
