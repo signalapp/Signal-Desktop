@@ -223,6 +223,7 @@ class LokiPublicChannelAPI {
     this.deleteLastId = 1;
     this.timers = {};
     this.running = true;
+    // can escalated to SQL if it start uses too much memory
     this.logMop = {};
 
     // Cache for duplicate checking
@@ -572,8 +573,16 @@ class LokiPublicChannelAPI {
         let timestamp = new Date(adnMessage.created_at).getTime();
         // pubKey lives in the username field
         const from = adnMessage.user.name;
-        let sigValid;
+        let sigValid = false;
+        let sig = false;
+        let sigvar = false;
         let quote = null;
+
+        // still update our last received if deleted, not signed or not valid
+        this.lastGot = !this.lastGot
+          ? adnMessage.id
+          : Math.max(this.lastGot, adnMessage.id);
+        
         if (adnMessage.is_deleted) {
           return;
         }
@@ -593,8 +602,8 @@ class LokiPublicChannelAPI {
 
           if (noteValue.sig) {
             // try to verify signature
-            const { sig, sigver } = noteValue;
-            const annoCopy = JSON.parse(JSON.stringify(adnMessage.annotations));
+            { sig, sigver } = noteValue;
+            const annoCopy = { ...adnMessage.annotations };
             delete annoCopy[0].value.sig;
             delete annoCopy[0].value.sigver;
             const verifyObj = {
@@ -623,19 +632,9 @@ class LokiPublicChannelAPI {
             }
           }
         }
-
+        
         // we now only accept valid messages into the public chat
         if (sigValid !== true) {
-          let sig;
-          let sigver;
-          if (
-            Array.isArray(adnMessage.annotations) &&
-            adnMessage.annotations.length !== 0
-          ) {
-            if (adnMessage.annotations[0].value.sig) {
-              ({ sig, sigver } = adnMessage.annotations[0].value);
-            }
-          }
           // keep noise out of the logs, once per start up is enough
           if (this.logMop[adnMessage.id] === undefined) {
             log.warn(
@@ -736,9 +735,6 @@ class LokiPublicChannelAPI {
         // now process any user meta data updates
         // - update their conversation with a potentially new avatar
 
-        this.lastGot = !this.lastGot
-          ? adnMessage.id
-          : Math.max(this.lastGot, adnMessage.id);
       });
       this.conversation.setLastRetrievedMessage(this.lastGot);
     }
