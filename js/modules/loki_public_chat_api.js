@@ -667,7 +667,7 @@ class LokiPublicChannelAPI {
           return; // Invalid or delete message
         }
                 
-        const messengerData = this.getMessengerData(adnMessage);
+        const messengerData = await this.getMessengerData(adnMessage);
         if (messengerData === false) {
           return;
         }
