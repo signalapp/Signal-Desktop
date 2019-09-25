@@ -758,7 +758,7 @@ class LokiPublicChannelAPI {
       ],
     };
     if (quote && quote.id) {
-      payload.annoations[0].value.quote = quote;
+      payload.annotations[0].value.quote = quote;
 
       // copied from model/message.js copyFromQuotedMessage
       const collection = await Signal.Data.getMessagesBySentAt(quote.id, {
