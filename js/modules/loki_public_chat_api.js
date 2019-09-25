@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window */
+clearTimeout, MessageController, libsignal, StringView, window, _ */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -547,7 +547,7 @@ class LokiPublicChannelAPI {
     }
     
     // timestamp is the only required field we've had since the first deployed version
-    let { timestamp, quote } = noteValue;
+    const { timestamp, quote } = noteValue;
 
     if (quote) {
       quote.attachments = [];
