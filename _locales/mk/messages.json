@@ -80,7 +80,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Delete",
+        "message": "Избриши",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -144,7 +144,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
-        "message": "Loading...",
+        "message": "Се вчитува...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -178,7 +178,7 @@
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
-        "message": "Choose folder",
+        "message": "Одберете фолдер",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
@@ -198,7 +198,7 @@
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Something went wrong!",
+        "message": "Нешто отиде погрешно!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
@@ -218,7 +218,7 @@
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Success!",
+        "message": "Успешно! ",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
@@ -248,31 +248,27 @@
         }
     },
     "me": {
-        "message": "Me",
+        "message": "Јас",
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "View",
+        "message": "Преглед",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group",
+        "message": " Вие ја напуштивте групата. ",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
         "message": "Scroll to bottom of conversation",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
-    "messageBelow": {
-        "message": "New message below",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "Нови пораки подолу",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 Unread Message",
+        "message": "1 не прочитана порака",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
@@ -368,7 +364,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -404,7 +400,7 @@
         "description": ""
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Пријави проблем",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -416,7 +412,7 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Прифати ",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
@@ -448,11 +444,11 @@
         }
     },
     "verified": {
-        "message": "Verified",
+        "message": "Потвррден",
         "description": ""
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "Нов сигурносен број",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
@@ -472,7 +468,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Документи",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
@@ -480,11 +476,11 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Today",
+        "message": "Денес",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "Вчера",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
@@ -492,7 +488,7 @@
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Овој месец",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -508,7 +504,7 @@
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Гласовна порака ",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
@@ -574,11 +570,11 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "Се поврзува ",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Offline",
+        "message": "Неприклучен ",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
@@ -632,7 +628,7 @@
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Show",
+        "message": "Прикажи",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
@@ -651,6 +647,16 @@
         "message": "Барај",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Search in $conversationName$",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "No results for \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
@@ -658,6 +664,16 @@
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -670,7 +686,7 @@
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Messages",
+        "message": "Пораки",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
@@ -696,7 +712,7 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Send Message",
+        "message": "Испрати порака",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
@@ -740,11 +756,11 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "Оригиналната порака не е пронајдена",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "Оригиналната порака не е повеќе достапна",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
@@ -782,15 +798,15 @@
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Аудио",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "Видео",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Photo",
+        "message": "Слика",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
@@ -826,7 +842,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "Избриши",
         "description": ""
     },
     "deleteWarning": {
@@ -834,11 +850,11 @@
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Delete this message",
+        "message": "Избриши ја оваа порака",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Од",
         "description": "Label for the sender of a message"
     },
     "to": {
@@ -862,7 +878,7 @@
         "description": ""
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "Прикажи членови",
         "description": ""
     },
     "resetSession": {
@@ -870,7 +886,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "View safety number",
+        "message": "Види сигурносен број",
         "description": ""
     },
     "viewAllMedia": {
@@ -900,7 +916,7 @@
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "Избриши порака",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -948,11 +964,11 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Добредојдовте во Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Приватноста е можна. Signal ја прави лесна.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -1000,7 +1016,7 @@
         "description": ""
     },
     "settings": {
-        "message": "Settings",
+        "message": "Поставки",
         "description": "Menu item and header for global settings"
     },
     "theme": {
@@ -1052,7 +1068,7 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Известувања ",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
@@ -1060,7 +1076,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Оневозможи известувања ",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -1076,11 +1092,11 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Нова порака",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Нови пораки",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
@@ -1100,11 +1116,11 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Details",
+        "message": "Детали",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Сокриј детали",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
@@ -1120,15 +1136,15 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Медиа порака ",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Бројот не е регистриран",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Контакти",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1152,15 +1168,15 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "сега",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 минута",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 час",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgoShort": {
@@ -1204,12 +1220,16 @@
         }
     },
     "justNow": {
-        "message": "now",
+        "message": "сега",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "messageBodyTooLong": {
+        "message": "Message body is too long.",
+        "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
         "message": "Unblock this contact to send a message.",
@@ -1258,19 +1278,19 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 секунди",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 секунди",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 секунди",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minute",
+        "message": "1 минута",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
@@ -1282,7 +1302,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 hour",
+        "message": "1 час",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
@@ -1294,15 +1314,15 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 ден",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 недела",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Пораки што исчезнуваат",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
@@ -1354,7 +1374,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "Пораки што исчезнуваат се оневозможени",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
@@ -1421,8 +1441,12 @@
         "message": "Dark",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "System",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
-        "message": "Note to Self",
+        "message": "Забелешка за себе",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
@@ -1438,7 +1462,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "Погрешен број ",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
@@ -1526,6 +1550,180 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Скица:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Sticker message",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Unsupported message",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Исчезнувачка слика",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "Sticker pack could not be installed",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Инсталирани стикери",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "Нема стикери инсталирано",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Signal Artist Series",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "No Signal Artist stickers available",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Стикери што сте ги примиле",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Stickers from incoming messages will appear here",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Инсталирај",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Uninstall",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "You may not be able to re-install this sticker pack if you no longer have the source message.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "Introducing Stickers",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Why use words when you can use stickers?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "Some stickers could not be downloaded.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "Installing sticker pack...",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "No stickers found",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "New sticker packs from your messages are available to install",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "No sticker packs found",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Recently used stickers will appear here.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Sticker Pack",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Error opening sticker pack. Check your internet connection and try again.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "No emoji found",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Search Emoji",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "Skin tone $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Откажи",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Update Signal",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Видено",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Слика",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Види Слика",
+        "description": "Text shown on messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(attachment)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(quote)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(draft)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
         "message": "Terms & Privacy Policy",

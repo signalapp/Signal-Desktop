@@ -1,158 +1,158 @@
 {
     "copyErrorAndQuit": {
-        "message": "Copy error and quit",
+        "message": "오류 복사 후 종료",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownGroup": {
-        "message": "Unknown group",
+        "message": "알 수 없는 그룹",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Database Error",
+        "message": "데이터베이스 오류",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Delete all data and restart",
+        "message": "모든 데이터 삭제 후 재시작",
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
-        "message": "&File",
+        "message": "파일 (&F)",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Edit",
+        "message": "수정 (&E)",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&View",
+        "message": "보기 (&V)",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "&Window",
+        "message": "윈도우 (&W)",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "&Help",
+        "message": "도움말 (&H)",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Preferences…",
+        "message": "설정…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Hide",
+        "message": "숨기기",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Hide Others",
+        "message": "다른 창 숨기기",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Show All",
+        "message": "모두 보이기",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Quit Signal",
+        "message": "Signal 종료",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "실행 취소",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "다시 실행",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Cut",
+        "message": "자르기",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Copy",
+        "message": "복사하기",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Paste",
+        "message": "붙여넣기",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "텍스트만 복사",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Delete",
+        "message": "삭제",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Select All",
+        "message": "모두 선택",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "말하기 시작",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "말하기 종료",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Close Window",
+        "message": "창 닫기",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimize",
+        "message": "최소화",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zoom",
+        "message": "확대",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
+        "message": "모두 앞으로",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Actual Size",
+        "message": "실제 크기",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "확대",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "축소",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
+        "message": "전체 화면 전환",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
+        "message": "개발자 도구 전환",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Set Up with Import",
+        "message": "가져오기로 설정",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
+        "message": "새 기기로 설정",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Set Up as Standalone Device",
+        "message": "독립 실행형 기기로 설정",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
-        "message": "Loading...",
+        "message": "불러오는 중",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "어플리케이션 최적화 중...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimizing messages... $status$ complete.",
+        "message": "메시지 최적화 중... $status$개 완료.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -162,83 +162,83 @@
         }
     },
     "archivedConversations": {
-        "message": "Archived Conversations",
+        "message": "보관된 대화",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
+        "message": "이 대화들은 보관 처리되었으며 새 메시지를 받을 때에만 받은 메시지에 표시됩니다.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archive Conversation",
+        "message": "보관된 대화",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Move Conversation to Inbox",
+        "message": "대화를 받은 메시지로 이동",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
-        "message": "Choose folder",
+        "message": "폴더 선택",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Choose file",
+        "message": "파일 선택",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Load your data",
+        "message": "데이터 불러오기",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "내보내기 단계를 완료했으며 이 컴퓨터에 연락처와 메시지를 불러왔습니다. Signal 데이터를 저장하고 있는 폴더를 선택하세요.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "내보낸 데이터가 있는 디렉터리 선택",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Something went wrong!",
+        "message": "오류가 발생했습니다!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Loading contacts and messages",
+        "message": "연락처와 메시지 불러오는 중",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Signal 데이터가 있는 올바른 디렉터리를 선택하세요. 'Signal Export'로 시작하는 폴더입니다. Chrome 앱에서 새로운 데이터 복사본을 가져와 저장할 수도 있습니다.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "만약 가져오기가 제대로 동작하지 않는다면, 디버그 로그(보기 -> 디버그 로그)를 보내주세요!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Choose folder and try again",
+        "message": "폴더를 선택한 후 다시 시도하세요",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Success!",
+        "message": "성공!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Start using Signal Desktop",
+        "message": "Signal Desktop 시작하기",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Link this device to your phone",
+        "message": "이 기기를 휴대전화와 연결하기",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "선택한 경로",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Upgrading database. This may take some time...",
+        "message": "데이터베이스 업그레이드 중입니다. 시간이 다소 소요됩니다…",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Loading messages. $count$ so far...",
+        "message": "메시지를 불러오는 중입니다. 현재 $count$개 처리됨…",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -248,35 +248,31 @@
         }
     },
     "me": {
-        "message": "Me",
+        "message": "나",
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "View",
+        "message": "보기",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group",
+        "message": "그룹에서 나갔습니다",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Scroll to bottom of conversation",
+        "message": "대화 맨 아래로 스크롤",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
-    "messageBelow": {
-        "message": "New message below",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "새 메시지",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 Unread Message",
+        "message": "읽지 않은 메시지 1개",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ Unread Messages",
+        "message": "읽지 않은 메시지 $count$개",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -286,7 +282,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "$name$와의 안전 번호를 검증 상태로 표시했습니다",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -296,7 +292,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "$name$와의 안전 번호를 미검증 상태로 표시했습니다",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -306,7 +302,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "$name$와의 안전 번호를 다른 기기에서 검증 상태로 표시했습니다",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -316,7 +312,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "$name$와의 안전 번호를 다른 기기에서 미검증 상태로 표시했습니다",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -326,15 +322,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "이 그룹 멤버와의 안전 번호가 마지막으로 검증된 이후 변경되었습니다. 그룹 멤버를 클릭해 새 안전 번호를 확인하세요.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "여러 그룹 멤버와의 안전 번호가 마지막으로 검증된 이후 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "$name$와의 안전 번호가 마지막으로 검증된 이후 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 $name$(이)가 Signal을 다시 설치한 것일 수도 있습니다.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +340,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "검증하려는 안전 번호가 변경되었습니다. $name$와의 안전 번호를 다시 한번 확인하세요. 누군가가 연결을 가로채려 시도하고 있거나 단순히 $name$(이)가 Signal을 다시 설치한 것일 수도 있습니다.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +350,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "여러 그룹 멤버와의 안전 번호가 최근에 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "$name$와의 안전 번호가 최근에 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 $name$(이)가 Signal을 다시 설치한 것일 수도 있습니다.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +364,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -378,11 +374,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Send Anyway",
+        "message": "무시하고 보내기",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "$name$와의 안전 번호가 변경되었으며 검증이 취소되었습니다. 클릭하여 자세히 알아보세요.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -392,43 +388,43 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "여러 그룹 멤버의 안전 번호가 변경되었으며 검증이 취소되었습니다. 클릭하여 자세히 알아보세요.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "해당 로그가 열람을 위해 온라인에 게시됩니다. 제출하기 전 로그를 보고 수정할 수 있습니다.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "업로드 중 오류가 발생했습니다! 버그가 발생한 로그를 수동으로 첨부해보세요.",
         "description": ""
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "오류 보고",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "확인",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Submit",
+        "message": "제출",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "수락",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Mark as verified",
+        "message": "검증으로 표시",
         "description": ""
     },
     "unverify": {
-        "message": "Mark as not verified",
+        "message": "미검증으로 표시",
         "description": ""
     },
     "isVerified": {
-        "message": "You have verified your safety number with $name$.",
+        "message": "$name$와의 안전 번호를 검증했습니다.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -438,7 +434,7 @@
         }
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "$name$와의 안전 번호를 검증하지 않았습니다.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -448,79 +444,79 @@
         }
     },
     "verified": {
-        "message": "Verified",
+        "message": "검증됨",
         "description": ""
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "새 안전 번호",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "이 연락처와의 안전 번호가 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다. 새 안전 번호가 서로 일치하는지 확인해보세요.",
         "description": ""
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "받은 메시지 처리 중 오류 발생",
         "description": ""
     },
     "media": {
-        "message": "Media",
+        "message": "미디어",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
+        "message": "이 대화에 미디어가 없습니다",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Documents",
+        "message": "ㅜㄴ서",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
+        "message": "이 대화에 문서가 없습니다",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Today",
+        "message": "오늘",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "어제",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "이번주",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "이번달",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "지원하지 않는 첨부 파일 유형입니다. 클릭하여 저장",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "클릭하여 저장",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "이름 없는 파일",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "보이스 메시지",
+        "message": "음성 메시지",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Attachment type not allowed for security reasons",
+        "message": "보안상 이유로 첨부 파일 유형이 허용되지 않음",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Loading Preview...",
+        "message": "미리보기 불러오는 중…",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "$domain$의 섬네일 링크 미리보기 초안",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -530,7 +526,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "$domain$의 섬네일 링크 미리보기",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -540,7 +536,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "이미지 첨부 초안: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -550,43 +546,43 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "message": "이미지 이외의 첨부 파일은 메시지당 하나만 허용됩니다.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "You cannot mix non-image and image attachments in one message.",
+        "message": "이미지 및 이미지가 아닌 첨부 파일을 한 메시지에 동시에 첨부할 수 없습니다.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "You cannot add any more attachments to this message.",
+        "message": "이 메시지에 더 이상 첨부할 수 없습니다.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Unable to load selected attachment.",
+        "message": "선택된 첨부 파일을 불러올 수 없습니다.",
         "description": ""
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "연결 끊김",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "연결 중",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Offline",
+        "message": "오프라인",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "네트워크 연결을 확인하세요.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "$reconnect_duration_in_seconds$초 후 재연결 시도",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -596,51 +592,51 @@
         }
     },
     "submitDebugLog": {
-        "message": "Debug log",
+        "message": "디버그 로그",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Debug Log",
+        "message": "디버그 로그",
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Go to Release Notes",
+        "message": "릴리스 노트로",
         "description": ""
     },
     "goToForums": {
-        "message": "Go to Forums",
+        "message": "포럼으로",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Go to Support Page",
+        "message": "지원 페이지로",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Report an Issue",
+        "message": "오류 보고",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "Signal Desktop 설정",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "About Signal Desktop",
+        "message": "Signal Desktop에 대하여",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Speech",
+        "message": "말하기",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Show",
+        "message": "보이기",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Hide",
+        "message": "숨기기",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Quit",
+        "message": "종료",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -651,13 +647,33 @@
         "message": "검색",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Search in $conversationName$",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
-        "message": "No results for \"$searchTerm$\"",
+        "message": "\"$searchTerm$\" 검색 결과 없음",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -670,23 +686,23 @@
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Messages",
+        "message": "메시지",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Signal에 오신 것을 환영합니다",
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "연락처 또는 그룹을 선택해 대화를 시작하세요.",
         "description": ""
     },
     "typingAlt": {
-        "message": "Typing animation for this conversation",
+        "message": "이 대화의 입력 애니메이션",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "$name$ 연락처의 아바타",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -700,31 +716,31 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "home",
+        "message": "집",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "work",
+        "message": "회사",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobile",
+        "message": "모바일",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "email",
+        "message": "이메일",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "phone",
+        "message": "휴대전화",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "address",
+        "message": "주소",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "사서함",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
@@ -732,35 +748,35 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "첨부 파일 다운로드",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "메시지 답장",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "원본 메시지를 찾을 수 없음",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "원본 메시지를 더 이상 이용할 수 없음",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Original message found, but not loaded. Scroll up to load it.",
+        "message": "원본 메시지를 찾았으나 불러오지 못했습니다. 위로 스크롤하여 불러올 수 있습니다.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice note must be the only attachment included in a message.",
+        "message": "하나의 메시지에는 하나의 음성 메모만 첨부할 수 있습니다.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
-        "message": "You",
+        "message": "나",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "$name$에게 답장",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -770,115 +786,115 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "Signal Desktop에서 음성 메시지를 보내려면 마이크 권한이 필요합니다.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Allow Access",
+        "message": "권한 허용",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Show Settings",
+        "message": "설정 보이기",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "오디오",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "비디오",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Photo",
+        "message": "사진",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "업데이트할 수 없음",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop의 업데이트에 실패했으나 새로운 버전이 있습니다. https://signal.org/download 페이지에서 새 버전을 수동으로 설치하세요. 이후 고객지원에 연락하거나 버그를 제보할 수 있습니다.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "Signal Desktop이 macOS 검역소에 있는 것 같습니다. 파인더에서 Signal.app을 /Applications로 이동하세요.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
-        "message": "OK",
+        "message": "확인",
         "description": ""
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "취소",
         "description": ""
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "일부 수신자에게 송신을 실패했습니다. 네트워크 연결을 확인하세요.",
         "description": ""
     },
     "error": {
-        "message": "에러",
+        "message": "오류",
         "description": ""
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "메시지 세부 정보",
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "삭제",
         "description": ""
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only.",
+        "message": "'삭제'를 클릭하면 이 기기의 메시지만 삭제합니다. 삭제하시겠습니까?",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Delete this message",
+        "message": "이 메시지 삭제",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "보낸이:",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "to",
+        "message": "받는이:",
         "description": "Label for the receiver of a message"
     },
     "sent": {
-        "message": "Sent",
+        "message": "보낸 시간:",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Received",
+        "message": "받은 시간:",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "메세지를 보내다",
+        "message": "메시지 보내기",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Group members",
+        "message": "그룹 멤버",
         "description": ""
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "멤버 보이기",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "세션 초기화",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "View safety number",
+        "message": "안전 번호 보기",
         "description": ""
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "모든 미디어 보이기",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "$name$와의 단대단 암호화 보안을 검증하고 싶다면 이 번호가 일치하는지 서로 비교해보세요.",
         "description": "",
         "placeholders": {
             "name": {
@@ -888,55 +904,55 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "아직 이 연락처와 메시지를 주고받은 적이 없습니다. 안전 번호는 첫 번째 메시지를 주거나 받은 이후 이용 가능합니다.",
         "description": ""
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "더 보기…",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "다시 보내기",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "메시지 삭제",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "메시지 삭제",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "이 대화를 영구히 삭제하시겠습니까?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "보안 세션 초기화",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "인용된 메시지의 이미지 섬네일",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "메시지에 첨부된 이미지",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "메시지에 첨부된 비디오의 스크린샷",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Image sent in conversation",
+        "message": "대화에 첨부된 이미지",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Icon showing that this image has a caption",
+        "message": "이 이미지가 자막이 있다는 아이콘",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Add a caption...",
+        "message": "자막 추가...",
         "description": ""
     },
     "save": {
@@ -944,75 +960,75 @@
         "description": ""
     },
     "fileIconAlt": {
-        "message": "File icon",
+        "message": "파일 아이콘",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Signal Desktop에 오신 것을 환영합니다",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "개인정보 지키기, Signal과 함께라면 아주 쉽습니다.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
+        "message": "휴대전화와 Signal Desktop 연결하기",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Signal Settings",
+        "message": "Signal 설정",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Linked Devices",
+        "message": "연결된 기기",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+' Button",
+        "message": "'+' 버튼",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Link New Device",
+        "message": "새 기기 연결",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Device name",
+        "message": "기기 이름",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Choose this device's name",
+        "message": "기기 이름을 선택하세요",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "휴대전화 연결 완료",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Syncing contacts and groups",
+        "message": "연락처와 그룹 동기화 중",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "서버에 연결할 수 없습니다.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "죄송합니다, 이미 연결된 기기가 많습니다. 안 쓰는 기기를 제거해보세요.",
         "description": ""
     },
     "settings": {
-        "message": "Settings",
+        "message": "설정",
         "description": "Menu item and header for global settings"
     },
     "theme": {
-        "message": "Theme",
+        "message": "테마",
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Permissions",
+        "message": "권한",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
+        "message": "카메라와 마이크 권한 허용",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1020,151 +1036,151 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "메시지 작성 박스에 입력된 텍스트의 맞춤법 검사를 허용",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "데이터 비우기",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "모든 메시지와 저장된 계정 정보를 포함한 애플리케이션의 모든 데이터를 삭제합니다.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "데이터 비우기",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "모든 데이터를 삭제하시겠습니까?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "이 애플리케이션에 저장된 계정 정보, 모든 연락처와 모든 메시지를 지우려 합니다. 모바일 기기를 다시 연결할 수 있으나 지워진 메시지는 복구할 수 없습니다.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "모든 데이터 삭제",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "연결 해제 및 모든 데이터 삭제 중",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "알림",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "메시지가 도착할 때 다음 알림 보이기:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "알림 끄기",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "발신인과 메시지 모두 보기",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "발신인과 메시지 모두 보이지 않기",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "발신인만",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "새 메시지",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "새 메시지",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Most recent from:",
+        "message": "최근 메시지:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "From:",
+        "message": "보낸이:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Most recent:",
+        "message": "최근 메시지:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "보내기 실패",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Details",
+        "message": "세부 정보",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "세부 정보 숨기기",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "안전 번호 검증에 대해 자세히 알아보기",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "이 버전의 Signal Desktop이 만료되었습니다. 계속 메시지를 보내려면 최신 버전으로 업데이트하세요.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "업그레이드",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "미디어 메시지",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "번호가 등록되지 않음",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "연락처",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "모바일 기기의 Signal 그룹과 연락처를 가져옵니다.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Last import at",
+        "message": "마지막으로 가져온 시간:",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "지금 가져오기",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "가져오는 중…",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "가져오기에 실패했습니다. 컴퓨터와 휴대전화가 인터넷에 연결되어 있는지 확인하세요.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "지금",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1분",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1시간",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgoShort": {
-        "message": "$hours$ hr",
+        "message": "$hours$시간",
         "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "hours": {
@@ -1174,7 +1190,7 @@
         }
     },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "$hours$시간 전",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1184,7 +1200,7 @@
         }
     },
     "minutesAgoShort": {
-        "message": "$minutes$ min",
+        "message": "$minutes$분",
         "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
         "placeholders": {
             "minutes": {
@@ -1194,7 +1210,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "$minutes$분 전",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1204,23 +1220,27 @@
         }
     },
     "justNow": {
-        "message": "now",
+        "message": "지금",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "월 일",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "messageBodyTooLong": {
+        "message": "메시지 본문이 너무 깁니다.",
+        "description": "Shown if the user tries to send more than 64kb of text"
+    },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "메시지를 보내려면 이 연락처를 차단 해제하세요.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Unblock this group to send a message.",
+        "message": "메시지를 보내려면 이 그룹을 차단 해제하세요.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "사라지는 메시지 시간을 $time$(으)로 설정함",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1230,7 +1250,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "사라지는 메시지 시간을 $time$(으)로 업데이트함",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1240,7 +1260,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$(이)가 사라지는 메시지 시간을 $time$(으)로 설정함",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1254,111 +1274,111 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "끄기",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5초",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10초",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30초",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minute",
+        "message": "1분",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutes",
+        "message": "5분",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutes",
+        "message": "30분",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 hour",
+        "message": "1시간",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 hours",
+        "message": "6시간",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 hours",
+        "message": "12시간",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1일",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1주",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "사라지는 메시지",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "끄기",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5초",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10초",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30초",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1분",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5분",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30분",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1시간",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6시간",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12시간",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1일",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1주",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "사라지는 메시지 기능 꺼짐",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$(이)가 사라지는 메시지 기능을 끔",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1368,11 +1388,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
+        "message": "사라지는 메시지 기능을 끔",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "시간이 $time$(으)로 설정됨",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1382,15 +1402,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "오디오 알림 재생",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "안전 번호 변경됨",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "$name$와의 안전 번호가 변경됨",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1400,11 +1420,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verify Safety Number",
+        "message": "안전 번호 검증",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$:",
+        "message": "$name$와의 안전 번호:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1414,67 +1434,71 @@
         }
     },
     "themeLight": {
-        "message": "Light",
+        "message": "밝게",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "어둡게",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "시스템",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
-        "message": "Note to Self",
+        "message": "개인 메모",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
-        "message": "Hide menu bar",
+        "message": "메뉴 바 숨기기",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Start new conversation…",
+        "message": "새 대화 시작…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "연락처를 추가하려면 전화번호를 입력하세요.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "잘못된 번호",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "계속 메시지를 보내려면 모바일 기기와 Signal Desktop을 다시 연결하세요.",
         "description": ""
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "연결 해제됨",
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "재연결",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Signal 업데이트 가능",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "새 Signal 버전을 이용 가능합니다.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "Signal을 다시 시작하여 업데이트를 적용하세요.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "Signal 재시작",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "나중에",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$(이)가 그룹에서 나감",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1484,7 +1508,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$(이)가 그룹에서 나감",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1494,11 +1518,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "그룹 업데이트됨",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "제목이 '$name$'(으)로 변경됨",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1508,7 +1532,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$(이)가 그룹에 참여함",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1518,7 +1542,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$(이)가 그룹에 참여함",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1527,8 +1551,182 @@
             }
         }
     },
+    "ConversationListItem--draft-prefix": {
+        "message": "임시보관:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "스티커 메시지",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Unsupported message",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Disappearing photo",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "스티커 팩을 설치할 수 없음",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "설치된 스티커",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "설치된 스티커 없음",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Signal 아티스트 시리즈",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "이용 가능한 Signal 아티스트 스티커가 없음",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "받은 스티커",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "받은 메시지의 스티커가 여기에 표시됩니다",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "설치",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "제거",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "원본 메시지가 없을 경우 이 스티커 팩을 다시 설치할 수 없게 됩니다.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "스티커를 소개합니다",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "스티커를 쓸 수 있는데 왜 일일이 글을 입력해야 하죠?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "일부 스티커를 다운로드할 수 없습니다.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "스티커 팩 설치 중…",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "스티커 없음",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "나의 메시지에서 쓰인 새 스티커 팩이 설치 가능함",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "스티커 팩 없음",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "최근 사용한 스티커가 여기에 표시됩니다.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "스티커 팩",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "스티커 팩을 열 수 없습니다. 인터넷 연결을 확인 후 다시 시도하세요.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "이모지 없음",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "이모지 검색",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "스킨 톤: $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "취소",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Update Signal",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Viewed",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "사진",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "View Photo",
+        "description": "Text shown on messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(attachment)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(quote)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(draft)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "이용약관 및 개인정보 처리방침",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

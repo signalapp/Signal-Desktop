@@ -126,7 +126,11 @@ export class SearchResults extends React.Component<PropsType> {
       );
     } else if (row.type === 'conversations-header') {
       return (
-        <div className="module-search-results__conversations-header">
+        <div
+          className="module-search-results__conversations-header"
+          role="heading"
+          aria-level={1}
+        >
           {i18n('conversationsHeader')}
         </div>
       );
@@ -143,7 +147,11 @@ export class SearchResults extends React.Component<PropsType> {
       );
     } else if (row.type === 'contacts-header') {
       return (
-        <div className="module-search-results__contacts-header">
+        <div
+          className="module-search-results__contacts-header"
+          role="heading"
+          aria-level={1}
+        >
           {i18n('contactsHeader')}
         </div>
       );
@@ -160,7 +168,11 @@ export class SearchResults extends React.Component<PropsType> {
       );
     } else if (row.type === 'messages-header') {
       return (
-        <div className="module-search-results__messages-header">
+        <div
+          className="module-search-results__messages-header"
+          role="heading"
+          aria-level={1}
+        >
           {i18n('messagesHeader')}
         </div>
       );
@@ -192,7 +204,7 @@ export class SearchResults extends React.Component<PropsType> {
     const row = items[index];
 
     return (
-      <div key={key} style={style}>
+      <div role="row" key={key} style={style}>
         <CellMeasurer
           cache={this.cellSizeCache}
           columnIndex={0}
@@ -294,7 +306,7 @@ export class SearchResults extends React.Component<PropsType> {
     }
 
     return (
-      <div className="module-search-results">
+      <div className="module-search-results" aria-live="polite">
         <AutoSizer>
           {({ height, width }) => {
             this.mostRecentWidth = width;

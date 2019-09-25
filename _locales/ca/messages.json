@@ -260,12 +260,8 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Vés al final de la conversa",
+        "message": "Ves al final de la conversa",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Missatge nou a continuació",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
         "message": "Missatges nous a continuació",
@@ -604,15 +600,15 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Vés a les notes de versió",
+        "message": "Ves a les notes de versió",
         "description": ""
     },
     "goToForums": {
-        "message": "Vés als fòrums",
+        "message": "Ves als fòrums",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Vés a la pàgina de suport",
+        "message": "Ves a la pàgina de suport",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
@@ -651,6 +647,16 @@
         "message": "Cerca",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Cerca a $conversationName$",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "No hi ha cap resultat per a \"$searchTerm$\".",
         "description": "Shown in the search left pane when no results were found",
@@ -658,6 +664,16 @@
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "No hi ha resultats per a \"$searchTerm$\" a $conversationName$",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -794,15 +810,15 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "No es pot actualitzar.",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "El Signal Desktop no es pot actualitzar, però n'hi ha una versió nova disponible. Si us plau, aneu a https://signal.org/download i instal·leu-ne la nova versió manualment. Després o bé contacteu amb el personal de suport o bé feu un informe d'error sobre aquest problema.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "El Signal Desktop es troba probablement en una quarentena de macOS i no es podrà actualitzar automàticament. Si us plau, proveu de moure Signal.app a /Aplicacions amb el Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
@@ -1211,6 +1227,10 @@
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "messageBodyTooLong": {
+        "message": "El cos del missatge és massa llarg.",
+        "description": "Shown if the user tries to send more than 64kb of text"
+    },
     "unblockToSend": {
         "message": "Desbloca aquest contacte per a enviar-li un missatge.",
         "description": "Brief message shown when trying to message a blocked number"
@@ -1421,6 +1441,10 @@
         "message": "Fosc",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "Sistema",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
         "message": "Notifica-m'ho",
         "description": "Name for the conversation with your own phone number"
@@ -1526,6 +1550,180 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Esborrany:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Missatge adhesiu",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Missatge no compatible",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Fotografia efímera",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "No s'ha pogut instal·lar el paquet d'adhesius.",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Adhesius instal·lats",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "No hi ha adhesius instal·lats.",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Sèries d'artistes de Signal",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "No hi ha adhesius d'artistes de Signal disponibles.",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Adhesius que heu rebut",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Els adhesius dels missatges d'entrada apareixeran aquí.",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Instal·la",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Desinstal·la",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "Potser no podreu reinstal·lar aquest paquet d'adhesius si ja no teniu el missatge original.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "S'introdueixen els adhesius.",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Per què usar paraules quan podeu fer servir adhesius?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "No s'han pogut baixar alguns adhesius.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "S'instal·la el paquet d'adhesius...",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "No s'ha trobat cap adhesiu.",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "Hi ha paquets d'adhesius nous procedents dels missatges per instal·lar.",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "No s'ha trobat cap paquet d'adhesius.",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Els adhesius usats recentment apareixeran aquí.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Paquet d'adhesius",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Error en processar el paquet d'adhesius. Comproveu la connexió a Internet i torneu-ho a provar.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "No s'ha trobat cap emoticona.",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Cerca una emoticona",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "To de la pell $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Cancel·la",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ us ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "Podeu demanar a $contact$ que torni a enviar aquest missatge ara que useu una versió actualitzada del Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "Un dels vostres dispositius ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Missatges futurs com aquest se sincronitzaran ara que useu una versió actualitzada del Signal.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Actualitza el Signal",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Vista",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Foto",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Mostra la fotografia",
+        "description": "Text shown on messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(adjunt)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(citació)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(esborrany)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
         "message": "Condicions de servei i política de privadesa",

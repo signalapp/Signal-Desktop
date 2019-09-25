@@ -164,7 +164,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 169,
+    "lineNumber": 171,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-31T00:19:18.696Z"
   },
@@ -172,7 +172,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 204,
+    "lineNumber": 219,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-31T00:19:18.696Z"
   },
@@ -1244,7 +1244,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 827,
+    "lineNumber": 829,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1252,7 +1252,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 852,
+    "lineNumber": 854,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -3356,7 +3356,7 @@
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 2137,
+    "lineNumber": 2134,
     "reasonCategory": "falseMatch",
     "updated": "2019-08-15T17:10:42.360Z"
   },
@@ -3364,7 +3364,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3748,
+    "lineNumber": 3745,
     "reasonCategory": "falseMatch",
     "updated": "2019-08-15T17:10:42.360Z"
   },
@@ -7475,7 +7475,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 65,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-01T14:10:37.481Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -7493,7 +7493,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.tsx",
     "line": "    this.videoRef = React.createRef();",
-    "lineNumber": 181,
+    "lineNumber": 179,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used to auto-start playback on videos"

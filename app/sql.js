@@ -214,10 +214,19 @@ async function getSQLCipherVersion(instance) {
   }
 }
 
-async function getSQLIntegrityCheck(instance) {
+async function getSQLCipherIntegrityCheck(instance) {
   const row = await instance.get('PRAGMA cipher_integrity_check;');
   if (row) {
     return row.cipher_integrity_check;
+  }
+
+  return null;
+}
+
+async function getSQLIntegrityCheck(instance) {
+  const row = await instance.get('PRAGMA integrity_check;');
+  if (row && row.integrity_check !== 'ok') {
+    return row.integrity_check;
   }
 
   return null;
@@ -1262,10 +1271,20 @@ async function initialize({ configDir, key, messages }) {
 
     // test database
 
-    const result = await getSQLIntegrityCheck(promisified);
-    if (result) {
-      console.log('Database integrity check failed:', result);
-      throw new Error(`Integrity check failed: ${result}`);
+    const cipherIntegrityResult = await getSQLCipherIntegrityCheck(promisified);
+    if (cipherIntegrityResult) {
+      console.log(
+        'Database cipher integrity check failed:',
+        cipherIntegrityResult
+      );
+      throw new Error(
+        `Cipher integrity check failed: ${cipherIntegrityResult}`
+      );
+    }
+    const integrityResult = await getSQLIntegrityCheck(promisified);
+    if (integrityResult) {
+      console.log('Database integrity check failed:', integrityResult);
+      throw new Error(`Integrity check failed: ${integrityResult}`);
     }
 
     // At this point we can allow general access to the database

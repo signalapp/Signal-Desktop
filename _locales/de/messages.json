@@ -210,7 +210,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Falls diese Schritte nicht helfen, übermittle bitte ein Diagnoseprotokoll (Ansicht >> Diagnoseprotokoll), sodass wir dir bei der Datenmigration helfen können!",
+        "message": "Falls diese Schritte nicht helfen, übermittle bitte ein Diagnoseprotokoll (Ansicht → Diagnoseprotokoll), sodass wir dir bei der Datenmigration helfen können!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -262,10 +262,6 @@
     "scrollDown": {
         "message": "Zum Ende der Unterhaltung scrollen",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Neue Nachricht weiter unten",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
         "message": "Neue Nachrichten weiter unten",
@@ -651,6 +647,16 @@
         "message": "Suchen",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "In $conversationName$ suchen",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "Keine Ergebnisse für »$searchTerm$«",
         "description": "Shown in the search left pane when no results were found",
@@ -658,6 +664,16 @@
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "Keine Ergebnisse für »$searchTerm$« in $conversationName$",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -794,15 +810,15 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "Aktualisieren nicht möglich",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop konnte nicht aktualisiert werden, obwohl eine neue Version verfügbar ist. Bitte besuche https://signal.org/download und installiere die neue Version manuell. Kontaktiere danach den Support oder lege einen Fehlerbericht zu diesem Problem an.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "macOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und kann daher nicht automatisch aktualisiert werden. Bitte versuche, »Signal.app« mit Finder in den Ordner »/Applikationen« zu verschieben.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
@@ -1028,7 +1044,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Dies wird alle Benutzerdaten der Anwendung löschen, d. h. alle Nachrichten und gespeicherten Benutzerkontoinformationen.",
+        "message": "Dies wird alle Benutzerdaten der Anwendung löschen, d. h. alle Nachrichten und gespeicherten Kontoinformationen",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1132,7 +1148,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Alle Signal-Gruppen und -Kontakte von deinem Mobilgerät importieren.",
+        "message": "Alle Signal-Gruppen und -Kontakte von deinem Mobilgerät importieren",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1210,6 +1226,10 @@
     "timestampFormat_M": {
         "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "messageBodyTooLong": {
+        "message": "Nachricht ist zu lang.",
+        "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
         "message": "Gib die Blockierung dieses Kontakts frei, um eine Nachricht zu senden.",
@@ -1421,6 +1441,10 @@
         "message": "Dunkel",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "System",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
         "message": "Notiz an mich",
         "description": "Name for the conversation with your own phone number"
@@ -1526,6 +1550,180 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Entwurf:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Sticker-Nachricht",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Nicht unterstützte Nachricht",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Verschwindendes Foto",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "Sticker-Set konnte nicht installiert werden",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Installierte Sticker",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "Keine Sticker installiert",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Signal-Artist-Serie",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "Keine Signal-Artist-Sticker verfügbar",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Empfangene Sticker",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Hier werden Sticker eingehender Nachrichten erscheinen",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Installieren",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Deinstallieren",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "Du wirst dieses Sticker-Set evtl. nicht erneut installieren können, falls du die Quellnachricht nicht mehr hast.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "Einführung von Stickern",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Warum Worte, wenn du auch Sticker benutzen kannst?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "Einige Sticker konnten nicht heruntergeladen werden.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "Sticker-Set wird installiert …",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "Keine Sticker gefunden",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "Deine Nachrichten enthalten neue, installierbare Sticker-Sets",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "Keine Sticker-Sets gefunden",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Hier werden die zuletzt verwendeten Sticker erscheinen.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Sticker-Set",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Fehler beim Öffnen des Sticker-Sets. Überprüfe deine Internetverbindung und versuche es erneut.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "Keine Emojis gefunden",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Emojis suchen",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "Hautfarbe $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Abbrechen",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ hat dir eine Nachricht gesendet, die nicht verarbeitet oder angezeigt werden kann, da sie ein neues Signal-Feature nutzt.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "Da du nun eine aktuelle Version von Signal verwendest, kannst du $contact$ bitten, diese Nachricht erneut zu senden.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "Eines deiner Geräte hat eine Nachricht gesendet, die nicht verarbeitet oder angezeigt werden kann, da sie ein neues Signal-Feature nutzt.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Da du nun eine aktuelle Version von Signal verwendest, werden zukünftige Nachrichten wie diese synchronisiert werden.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Signal aktualisieren",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Angesehen",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Foto",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Foto ansehen",
+        "description": "Text shown on messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(Anhang)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(Zitat)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(Entwurf)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
         "message": "Bedingungen & Datenschutzerklärung",

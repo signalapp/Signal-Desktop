@@ -38,7 +38,11 @@ export type OwnProps = {
 
 export type Props = Pick<
   CompositionInputProps,
-  'onSubmit' | 'onEditorSizeChange' | 'onEditorStateChange' | 'startingText'
+  | 'onSubmit'
+  | 'onEditorSizeChange'
+  | 'onEditorStateChange'
+  | 'onTextTooLong'
+  | 'startingText'
 > &
   Pick<
     EmojiButtonProps,
@@ -76,6 +80,7 @@ export const CompositionArea = ({
   compositionApi,
   onEditorSizeChange,
   onEditorStateChange,
+  onTextTooLong,
   startingText,
   // EmojiButton
   onPickEmoji,
@@ -336,6 +341,7 @@ export const CompositionArea = ({
             onSubmit={handleSubmit}
             onEditorSizeChange={onEditorSizeChange}
             onEditorStateChange={onEditorStateChange}
+            onTextTooLong={onTextTooLong}
             onDirtyChange={setDirty}
             skinTone={skinTone}
             startingText={startingText}

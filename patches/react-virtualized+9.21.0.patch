@@ -24,7 +24,7 @@ index d9716a0..e7a9f9f 100644
          }
        }
 diff --git a/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js b/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
-index 262776b..95d6a80 100644
+index 262776b..156cf0f 100644
 --- a/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
 +++ b/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
 @@ -65,6 +65,7 @@ var CellMeasurerCache = function () {
@@ -70,7 +70,7 @@ index 262776b..95d6a80 100644
        this._cellHeightCache[key] = height;
        this._cellWidthCache[key] = width;
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
-index e1b959a..31f3b56 100644
+index e1b959a..89163a5 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 +++ b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 @@ -132,6 +132,9 @@ var Grid = function (_React$PureComponent) {
@@ -155,7 +155,7 @@ index e1b959a..31f3b56 100644
        });
  
        this._maybeCallOnScrollbarPresenceChange();
-@@ -584,6 +616,60 @@ var Grid = function (_React$PureComponent) {
+@@ -584,6 +616,65 @@ var Grid = function (_React$PureComponent) {
          }
        }
  
@@ -198,25 +198,30 @@ index e1b959a..31f3b56 100644
 +      if (scrollToRow >= 0 && !this._hasScrolledToRowTarget) {
 +        const scrollBottom = scrollTop + height;
 +        const targetRow = instanceProps.rowSizeAndPositionManager.getSizeAndPositionOfCell(scrollToRow);
++        const maxScroll = totalRowsHeight - height;
 +
-+        let isVisible = false;
-+        if (targetRow.size <= height) {
-+          const targetRowBottom = targetRow.offset + targetRow.size;
-+          isVisible = (targetRow.offset >= scrollTop && targetRowBottom <= scrollBottom);
++        // When scrolling to bottom row, we want to go all the way to the bottom
++        if (scrollToRow === rowCount - 1) {
++          this._hasScrolledToRowTarget = scrollTop >= maxScroll;
 +        } else {
-+          isVisible = (targetRow.offset >= scrollTop && targetRow.offset <= scrollBottom);
-+        }
++          let isVisible = false;
++          if (targetRow.size <= height) {
++            const targetRowBottom = targetRow.offset + targetRow.size;
++            isVisible = (targetRow.offset >= scrollTop && targetRowBottom <= scrollBottom);
++          } else {
++            isVisible = (targetRow.offset >= scrollTop && targetRow.offset <= scrollBottom);
++          }
 +
-+        if (isVisible) {
-+          const maxScroll = totalRowsHeight - height;
-+          this._hasScrolledToRowTarget = (scrollTop >= maxScroll || targetRow.offset === scrollTop);
++          if (isVisible) {
++            this._hasScrolledToRowTarget = (scrollTop >= maxScroll || targetRow.offset === scrollTop);
++          }
 +        }
 +      }
 +
        // Special case where the previous size was 0:
        // In this case we don't show any windowed cells at all.
        // So we should always recalculate offset afterwards.
-@@ -594,6 +680,8 @@ var Grid = function (_React$PureComponent) {
+@@ -594,6 +685,8 @@ var Grid = function (_React$PureComponent) {
        if (this._recomputeScrollLeftFlag) {
          this._recomputeScrollLeftFlag = false;
          this._updateScrollLeftForScrollToColumn(this.props);
@@ -225,7 +230,7 @@ index e1b959a..31f3b56 100644
        } else {
          (0, _updateScrollIndexHelper2.default)({
            cellSizeAndPositionManager: instanceProps.columnSizeAndPositionManager,
-@@ -616,6 +704,8 @@ var Grid = function (_React$PureComponent) {
+@@ -616,6 +709,8 @@ var Grid = function (_React$PureComponent) {
        if (this._recomputeScrollTopFlag) {
          this._recomputeScrollTopFlag = false;
          this._updateScrollTopForScrollToRow(this.props);
@@ -234,13 +239,7 @@ index e1b959a..31f3b56 100644
        } else {
          (0, _updateScrollIndexHelper2.default)({
            cellSizeAndPositionManager: instanceProps.rowSizeAndPositionManager,
-@@ -630,24 +720,55 @@ var Grid = function (_React$PureComponent) {
-           size: height,
-           sizeJustIncreasedFromZero: sizeJustIncreasedFromZero,
-           updateScrollIndexCallback: function updateScrollIndexCallback() {
--            return _this2._updateScrollTopForScrollToRow(_this2.props);
-+            _this2._updateScrollLeftForScrollToColumn(_this2.props);
-           }
+@@ -635,19 +730,50 @@ var Grid = function (_React$PureComponent) {
          });
        }
  
@@ -295,7 +294,7 @@ index e1b959a..31f3b56 100644
          });
        }
  
-@@ -909,6 +1030,11 @@ var Grid = function (_React$PureComponent) {
+@@ -909,6 +1035,11 @@ var Grid = function (_React$PureComponent) {
            visibleRowIndices: visibleRowIndices
          });
  
@@ -307,7 +306,7 @@ index e1b959a..31f3b56 100644
          // update the indices
          this._columnStartIndex = columnStartIndex;
          this._columnStopIndex = columnStopIndex;
-@@ -962,7 +1088,11 @@ var Grid = function (_React$PureComponent) {
+@@ -962,7 +1093,11 @@ var Grid = function (_React$PureComponent) {
        var scrollLeft = _ref6.scrollLeft,
            scrollTop = _ref6.scrollTop,
            totalColumnsWidth = _ref6.totalColumnsWidth,
@@ -320,7 +319,7 @@ index e1b959a..31f3b56 100644
  
        this._onScrollMemoizer({
          callback: function callback(_ref7) {
-@@ -973,19 +1103,26 @@ var Grid = function (_React$PureComponent) {
+@@ -973,19 +1108,26 @@ var Grid = function (_React$PureComponent) {
                onScroll = _props7.onScroll,
                width = _props7.width;
  
@@ -350,6 +349,22 @@ index e1b959a..31f3b56 100644
          }
        });
      }
+@@ -1325,6 +1467,15 @@ var Grid = function (_React$PureComponent) {
+         var totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
+         var scrollBarSize = instanceProps.scrollbarSizeMeasured && totalColumnsWidth > width ? instanceProps.scrollbarSize : 0;
+ 
++        // If we're scrolling to the last row, then we scroll as far as we can,
++        //   even if we can't see the entire row. We need to be at the bottom.
++        if (targetIndex === finalRow) {
++          const totalHeight = instanceProps.rowSizeAndPositionManager.getTotalSize();
++          const maxScroll = totalHeight - height;
++
++          return maxScroll;
++        }
++
+         return instanceProps.rowSizeAndPositionManager.getUpdatedOffsetForIndex({
+           align: scrollToAlignment,
+           containerSize: height - scrollBarSize,
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/accessibilityOverscanIndicesGetter.js b/node_modules/react-virtualized/dist/commonjs/Grid/accessibilityOverscanIndicesGetter.js
 index 70b0abe..8e12ffc 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/accessibilityOverscanIndicesGetter.js

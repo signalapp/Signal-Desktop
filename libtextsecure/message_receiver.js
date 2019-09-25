@@ -809,6 +809,8 @@ MessageReceiver.prototype.extend({
           return null;
         }
 
+        // Note: this is an out of band update; there are cases where the item in the
+        //   cache has already been deleted by the time this runs. That's okay.
         this.updateCache(envelope, plaintext).catch(error => {
           window.log.error(
             'decrypt failed to save decrypted message contents to cache:',

@@ -53,7 +53,7 @@
 
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
-      <div class='network-status-container'></div>
+      <div class='network-status-container' aria-live='assertive'></div>
       <div class='left-pane-placeholder'></div>
     </div>
     <div class='conversation-stack'>
@@ -93,7 +93,7 @@
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header'></div>
     <div class='main panel'>
-      <div class='timeline-placeholder'></div>
+      <div class='timeline-placeholder' aria-live='polite'></div>
       <div class='bottom-bar' id='footer'>
         <div class='compose'>
           <form class='send clearfix file-input'>
@@ -449,7 +449,6 @@
   <script type='text/javascript' src='js/signal_protocol_store.js'></script>
   <script type='text/javascript' src='js/libtextsecure.js'></script>
 
-  <script type='text/javascript' src='js/focus_listener.js'></script>
   <script type='text/javascript' src='js/notifications.js'></script>
   <script type='text/javascript' src='js/delivery_receipts.js'></script>
   <script type='text/javascript' src='js/read_receipts.js'></script>

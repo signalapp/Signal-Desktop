@@ -81,6 +81,10 @@ exports.makeVideoScreenshot = ({
   new Promise((resolve, reject) => {
     const video = document.createElement('video');
 
+    function seek() {
+      video.currentTime = 1.0;
+    }
+
     function capture() {
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
@@ -91,12 +95,15 @@ exports.makeVideoScreenshot = ({
 
       const image = dataURLToBlobSync(canvas.toDataURL(contentType));
 
-      video.removeEventListener('canplay', capture);
+      video.addEventListener('loadeddata', seek);
+      video.removeEventListener('seeked', capture);
 
       resolve(image);
     }
 
-    video.addEventListener('canplay', capture);
+    video.addEventListener('loadeddata', seek);
+    video.addEventListener('seeked', capture);
+
     video.addEventListener('error', error => {
       logger.error('makeVideoScreenshot error', toLogFormat(error));
       reject(error);

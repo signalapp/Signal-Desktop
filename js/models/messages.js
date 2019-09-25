@@ -109,7 +109,7 @@
       if (messageChanged) {
         const conversationId = this.get('conversationId');
         // Note: The clone is important for triggering a re-run of selectors
-        messageChanged(this.id, conversationId, _.clone(this.attributes));
+        messageChanged(this.id, conversationId, this.getReduxData());
       }
     },
 
@@ -580,14 +580,13 @@
       return 'sending';
     },
     getPropsForEmbeddedContact() {
-      const regionCode = storage.get('regionCode');
-      const { contactSelector } = Contact;
-
       const contacts = this.get('contact');
       if (!contacts || !contacts.length) {
         return null;
       }
 
+      const regionCode = storage.get('regionCode');
+      const { contactSelector } = Contact;
       const contact = contacts[0];
       const firstNumber =
         contact.number && contact.number[0] && contact.number[0].value;

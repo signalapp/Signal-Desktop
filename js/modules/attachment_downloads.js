@@ -146,7 +146,12 @@ async function _maybeStartJob() {
   const jobs = nextJobs.slice(0, Math.min(needed, nextJobs.length));
   for (let i = 0, max = jobs.length; i < max; i += 1) {
     const job = jobs[i];
-    _activeAttachmentDownloadJobs[job.id] = _runJob(job);
+    const existing = _activeAttachmentDownloadJobs[job.id];
+    if (existing) {
+      logger.warn(`_maybeStartJob: Job ${job.id} is already running`);
+    } else {
+      _activeAttachmentDownloadJobs[job.id] = _runJob(job);
+    }
   }
 }
 

@@ -171,7 +171,7 @@ export class LeftPane extends React.Component<PropsType> {
     //   it re-renders when our conversation data changes. Otherwise it would just render
     //   on startup and scroll.
     const list = (
-      <div className="module-left-pane__list" key={listKey}>
+      <div className="module-left-pane__list" key={listKey} aria-live="polite">
         <AutoSizer>
           {({ height, width }) => (
             <List

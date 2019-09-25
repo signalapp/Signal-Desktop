@@ -166,7 +166,7 @@
       if (!$.contains(this.el, this.inboxView.el)) {
         this.openView(this.inboxView);
       }
-      window.focus(); // FIXME
+
       return Promise.resolve();
     },
     onEmpty() {

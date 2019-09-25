@@ -190,7 +190,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Jūs ką tik perėjote per eksportavimo procesą ir jūsų kontaktai bei žinutės kantriai laukia jūsų kompiuteryje. Pasirinkite aplanką, kuriame yra jūsų įrašyti Signal duomenys.",
+        "message": "Jūs ką tik perėjote per eksportavimo procesą ir jūsų adresatai bei žinutės kantriai laukia jūsų kompiuteryje. Pasirinkite aplanką, kuriame yra jūsų įrašyti Signal duomenys.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -202,7 +202,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Įkeliami kontaktai ir žinutės",
+        "message": "Įkeliami adresatai ir žinutės",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -262,10 +262,6 @@
     "scrollDown": {
         "message": "Slinkti į pokalbio apačią",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nauja žinutė žemiau",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
         "message": "Naujos žinutės žemiau",
@@ -368,7 +364,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Jūsų saugumo numeris su $name$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti saugumo numerį su šiuo kontaktu.",
+        "message": "Jūsų saugumo numeris su $name$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti savo saugumo numerį su šiuo adresatu.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -456,7 +452,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Jūsų saugumo numeris su šiuo kontaktu pasikeitė. Tai gali reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis kontaktas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naują saugumo numerį.",
+        "message": "Jūsų saugumo numeris su šiuo adresatu pasikeitė. Tai gali reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis adresatas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naują saugumo numerį.",
         "description": ""
     },
     "incomingError": {
@@ -651,6 +647,16 @@
         "message": "Ieškoti",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Ieškoti pokalbyje $conversationName$",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "\"$searchTerm$\" negrąžino jokių rezultatų",
         "description": "Shown in the search left pane when no results were found",
@@ -661,12 +667,22 @@
             }
         }
     },
+    "noSearchResultsInConversation": {
+        "message": "Užklausa \"$searchTerm$\", pokalbyje $conversationName$, negrąžino jokių rezultatų",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
+            }
+        }
+    },
     "conversationsHeader": {
         "message": "Pokalbiai",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Kontaktai",
+        "message": "Adresatai",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -678,7 +694,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Pasirinkite kontaktą ar grupę, kad pradėtumėte pokalbį.",
+        "message": "Pasirinkite adresatą ar grupę, kad pradėtumėte pokalbį.",
         "description": ""
     },
     "typingAlt": {
@@ -794,15 +810,15 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "Nepavyksta atnaujinti",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Nepavyko atnaujinti Signal Desktop, tačiau yra prieinama nauja versija. Apsilankykite https://signal.org/download ir įdiekite naująją versiją rankiniu būdu, o tuomet arba susisiekite su programos palaikymo komanda, arba praneškite apie šią problemą.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "Tikriausiai, Signal Desktop yra macOS karantine ir negalės būti automatiškai atnaujinta. Pabandykite, naudodami Finder, perkelti Signal.app į /Applications.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
@@ -888,7 +904,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Jūs su šiuo kontaktu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",
+        "message": "Jūs su šiuo adresatu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",
         "description": ""
     },
     "moreInfo": {
@@ -988,7 +1004,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Sinchronizuojami kontaktai ir grupės",
+        "message": "Sinchronizuojami adresatai ir grupės",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1004,7 +1020,7 @@
         "description": "Menu item and header for global settings"
     },
     "theme": {
-        "message": "Tema",
+        "message": "Apipavidalinimas",
         "description": "Header for theme settings"
     },
     "permissions": {
@@ -1040,7 +1056,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Jūs ketinate ištrinti visą įrašytą šios programos paskyros informaciją, įskaitant visus kontaktus ir visas žinutes. Jūs visada ir vėl galite susieti programą su savo mobiliuoju įrenginiu, tačiau tai neatkurs ištrintų žinučių.",
+        "message": "Jūs ketinate ištrinti visą įrašytą šios programos paskyros informaciją, įskaitant visus adresatus ir visas žinutes. Jūs visada ir vėl galite susieti programą su savo mobiliuoju įrenginiu, tačiau tai neatkurs ištrintų žinučių.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1128,11 +1144,11 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontaktai",
+        "message": "Adresatai",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importuoti visas Signal grupes ir kontaktus iš jūsų mobiliojo įrenginio.",
+        "message": "Importuoti visas Signal grupes ir adresatus iš jūsų mobiliojo įrenginio.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1211,8 +1227,12 @@
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "messageBodyTooLong": {
+        "message": "Žinutės turinys yra per ilgas.",
+        "description": "Shown if the user tries to send more than 64kb of text"
+    },
     "unblockToSend": {
-        "message": "Atblokuokite šį kontaktą, kad išsiųstumėte žinutę.",
+        "message": "Atblokuokite šį adresatą, kad išsiųstumėte žinutę.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
@@ -1421,6 +1441,10 @@
         "message": "Tamsi",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "Sisteminis",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
         "message": "Pastabos sau",
         "description": "Name for the conversation with your own phone number"
@@ -1434,7 +1458,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Įveskite kontakto, kurį norite pridėti, numerį.",
+        "message": "Įveskite adresato, kurį norite pridėti, numerį.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
@@ -1526,6 +1550,180 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Juodraštis:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Lipduko žinutė",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Nepalaikoma žinutė",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Išnykstanti nuotrauka",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "Nepavyko įdiegti lipdukų paketo",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Įdiegti lipdukai",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "Nėra jokių įdiegtų lipdukų",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Signal menininkų serija",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "Nėra prieinami jokie Signal menininkų lipdukai",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Jūsų gauti lipdukai",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Čia bus rodomi lipdukai iš gaunamų žinučių",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Įdiegti",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Pašalinti",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "Jei neturite pradinės žinutės, gali būti, kad negalėsite iš naujo įdiegti šio lipdukų paketo.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "Pristatome lipdukus",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Kam naudoti žodžius, kai galima naudoti lipdukus?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "Kai kurių lipdukų atsisiųsti nepavyko.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "Įdiegiamas lipdukų paketas...",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "Nerasta jokių lipdukų",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "Yra prieinami įdiegti nauji lipdukų paketai iš jūsų žinučių",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "Nerasta jokių lipdukų paketų",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Čia bus rodomi paskiausiai naudoti lipdukai.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Lipdukų paketas",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Klaida atveriant lipdukų paketą. Patikrinkite savo interneto ryšį ir bandykite dar kartą.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "Nerasta jokių šypsenėlių",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Ieškoti šypsenėlių",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "Odos atspalvis $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Atsisakyti",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ išsiuntė jums žinutę, kurios nepavyksta apdoroti ar parodyti, nes žinutė naudoja naująją Signal ypatybę.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "Dabar, kai naudojate atnaujintą Signal versiją, galite paprašyti, kad $contact$ jums iš naujo išsiųstų šią žinutę.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "Vienas iš jūsų įrenginių išsiuntė žinutę, kurios nepavyksta apdoroti ar parodyti, nes žinutė naudoja naująją Signal ypatybę.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Dabar, kai naudojate atnaujintą Signal versiją, būsimos žinutės, tokios kaip ši, bus sinchronizuojamos.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Atnaujinti Signal",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Peržiūrėta",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Nuotrauka",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Žiūrėti nuotrauką",
+        "description": "Text shown on messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(priedas)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(citata)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(juodraštis)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
         "message": "Sąlygos ir Privatumo politika",
