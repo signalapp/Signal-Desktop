@@ -379,14 +379,14 @@ class LokiPublicChannelAPI {
           const privKey = await this.serverAPI.chatAPI.getPrivateKey();
           // we might need an annotation that sets the homeserver for media
           // better to include this with each attachment...
-          const ObjToSign = {
+          const objToSign = {
             name: profileName,
             version: 1,
             annotations: [],
           };
           const sig = await libsignal.Curve.async.calculateSignature(
             privKey,
-            JSON.stringify(ObjToSign)
+            JSON.stringify(objToSign)
           );
           */
 
@@ -534,6 +534,81 @@ class LokiPublicChannelAPI {
       more = res.response.meta.more && res.response.data.length >= params.count;
     }
   }
+  
+  async getMessengerData(adnMessage) {
+    if (!Array.isArray(adnMessage.annotations) || adnMessage.annotations.length === 0) return false;
+    const noteValue = adnMessage.annotations[0].value;
+    
+    // signatures now required
+    if (!noteValue.sig!) {
+      return false;
+    }
+    
+    let timetstamp = 0;
+    let quote = null;
+
+    // timestamp is the only required field we've had since the first deployed version
+    ({ timestamp } = noteValue);
+
+    if (noteValue.quote) {
+      ({ quote } = noteValue);
+      if (quote) {
+        quote.attachments = [];
+      }
+    }
+
+    // try to verify signature
+    let { sig, sigver } = noteValue;
+    const annoCopy = _.omit(adnMessage.annotations, ['value.sig', 'value.sigver']);
+    const verifyObj = {
+      text: adnMessage.text,
+      version: sigver,
+      annotations: annoCopy,
+    };
+    if (adnMessage.reply_to) {
+      verifyObj.reply_to = adnMessage.reply_to;
+    }
+    
+    const pubKeyBin = StringView.hexToArrayBuffer(
+      adnMessage.user.username
+    );
+    const sigBin = StringView.hexToArrayBuffer(sig);
+    try {
+      await libsignal.Curve.async.verifySignature(
+        pubKeyBin,
+        JSON.stringify(verifyObj),
+        sigBin
+      );
+    } catch (e) {
+      if (e.message === 'Invalid signature') {
+        // keep noise out of the logs, once per start up is enough
+        if (this.logMop[adnMessage.id] === undefined) {
+          log.warn(
+            'Invalid or missing signature on ',
+            this.serverAPI.baseServerUrl,
+            this.channelId,
+            adnMessage.id,
+            'says',
+            adnMessage.text,
+            'from',
+            adnMessage.user.username,
+            'signature',
+            sig,
+            'signature version',
+            sigver
+          );
+          this.logMop[adnMessage.id] = true;
+        }
+        // we now only accept valid messages into the public chat
+        return false;
+      }
+    }
+ 
+    return {
+      timestamp,
+      quote
+    }
+ }
 
   // get channel messages
   async pollForMessages() {
@@ -570,103 +645,33 @@ class LokiPublicChannelAPI {
     if (!res.err && res.response) {
       let receivedAt = new Date().getTime();
       res.response.data.reverse().forEach(async adnMessage => {
-        let timestamp = new Date(adnMessage.created_at).getTime();
-        // pubKey lives in the username field
-        const from = adnMessage.user.name;
-        let sigValid = false;
-        let sig = false;
-        let sigvar = false;
-        let quote = null;
 
         // still update our last received if deleted, not signed or not valid
         this.lastGot = !this.lastGot
           ? adnMessage.id
           : Math.max(this.lastGot, adnMessage.id);
-        
-        if (adnMessage.is_deleted) {
-          return;
-        }
-        if (
-          Array.isArray(adnMessage.annotations) &&
-          adnMessage.annotations.length !== 0
-        ) {
-          const noteValue = adnMessage.annotations[0].value;
-          ({ timestamp } = noteValue);
-
-          if (noteValue.quote) {
-            ({ quote } = noteValue);
-            if (quote) {
-              quote.attachments = [];
-            }
-          }
-
-          if (noteValue.sig) {
-            // try to verify signature
-            { sig, sigver } = noteValue;
-            const annoCopy = { ...adnMessage.annotations };
-            delete annoCopy[0].value.sig;
-            delete annoCopy[0].value.sigver;
-            const verifyObj = {
-              text: adnMessage.text,
-              version: sigver,
-              annotations: annoCopy,
-            };
-            if (adnMessage.reply_to) {
-              verifyObj.reply_to = adnMessage.reply_to;
-            }
-            const pubKeyBin = StringView.hexToArrayBuffer(
-              adnMessage.user.username
-            );
-            const sigBin = StringView.hexToArrayBuffer(sig);
-            try {
-              await libsignal.Curve.async.verifySignature(
-                pubKeyBin,
-                JSON.stringify(verifyObj),
-                sigBin
-              );
-              sigValid = true;
-            } catch (e) {
-              if (e.message === 'Invalid signature') {
-                sigValid = false;
-              }
-            }
-          }
-        }
-        
-        // we now only accept valid messages into the public chat
-        if (sigValid !== true) {
-          // keep noise out of the logs, once per start up is enough
-          if (this.logMop[adnMessage.id] === undefined) {
-            log.warn(
-              'Invalid or missing signature on ',
-              this.serverAPI.baseServerUrl,
-              this.channelId,
-              adnMessage.id,
-              'says',
-              adnMessage.text,
-              'from',
-              adnMessage.user.username,
-              'signature',
-              sig,
-              'signature version',
-              sigver
-            );
-            this.logMop[adnMessage.id] = true;
-          }
-          return; // Invalid signature
-        }
 
         if (
-          !from ||
-          !timestamp ||
           !adnMessage.id ||
           !adnMessage.user ||
-          !adnMessage.user.username ||
-          !adnMessage.text
+          !adnMessage.user.username || // pubKey lives in the username field
+          !adnMessage.user.name || // profileName lives in the name field
+          !adnMessage.text ||
+          adnMessage.is_deleted
         ) {
-          return; // Invalid message
+          return; // Invalid or delete message
+        }
+                
+        const messengerData = this.getMessengerData(adnMessage);
+        if (messengerData === false) {
+          return;
         }
 
+        const timestamp = messengerData.timestamp;
+        if (!timestamp) {
+          return; // Invalid message
+        }
+        
         // Duplicate check
         const isDuplicate = message => {
           // The username in this case is the users pubKey
@@ -694,7 +699,11 @@ class LokiPublicChannelAPI {
             timestamp,
           },
         ].splice(-5);
-
+        
+        
+        const quote = messengerData.quote;
+        const from = adnMessage.user.name; // profileName
+        
         const messageData = {
           serverId: adnMessage.id,
           clientVerified: sigValid,
@@ -775,17 +784,17 @@ class LokiPublicChannelAPI {
       }
     }
     const privKey = await this.serverAPI.chatAPI.getPrivateKey();
-    const ObjToSign = {
+    const objToSign = {
       version: 1,
       text,
       annotations: payload.annotations,
     };
     if (payload.reply_to) {
-      ObjToSign.reply_to = payload.reply_to;
+      objToSign.reply_to = payload.reply_to;
     }
     const sig = await libsignal.Curve.async.calculateSignature(
       privKey,
-      JSON.stringify(ObjToSign)
+      JSON.stringify(objToSign)
     );
     payload.annotations[0].value.sig = StringView.arrayBufferToHex(sig);
     payload.annotations[0].value.sigver = 1;
