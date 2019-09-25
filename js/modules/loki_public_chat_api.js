@@ -536,7 +536,9 @@ class LokiPublicChannelAPI {
   }
   
   async getMessengerData(adnMessage) {
-    if (!Array.isArray(adnMessage.annotations) || adnMessage.annotations.length === 0) return false;
+    if (!Array.isArray(adnMessage.annotations) || adnMessage.annotations.length === 0) {
+      return false;
+    }
     const noteValue = adnMessage.annotations[0].value;
     
     // signatures now required
@@ -544,17 +546,11 @@ class LokiPublicChannelAPI {
       return false;
     }
     
-    let timetstamp = 0;
-    let quote = null;
-
     // timestamp is the only required field we've had since the first deployed version
-    ({ timestamp } = noteValue);
+    let { timestamp, quote } = noteValue;
 
-    if (noteValue.quote) {
-      ({ quote } = noteValue);
-      if (quote) {
-        quote.attachments = [];
-      }
+    if (quote) {
+      quote.attachments = [];
     }
 
     // try to verify signature
@@ -611,7 +607,7 @@ class LokiPublicChannelAPI {
  
     return {
       timestamp,
-      quote
+      quote,
     }
  }
 
@@ -672,7 +668,7 @@ class LokiPublicChannelAPI {
           return;
         }
 
-        const timestamp = messengerData.timestamp;
+        const { timestamp, quote } = messengerData;
         if (!timestamp) {
           return; // Invalid message
         }
@@ -704,14 +700,12 @@ class LokiPublicChannelAPI {
             timestamp,
           },
         ].splice(-5);
-        
-        
-        const quote = messengerData.quote;
+                
         const from = adnMessage.user.name; // profileName
         
         const messageData = {
           serverId: adnMessage.id,
-          clientVerified: sigValid,
+          clientVerified: true,
           friendRequest: false,
           source: adnMessage.user.username,
           sourceDevice: 1,
