@@ -602,7 +602,7 @@ class LokiPublicChannelAPI {
     const noteValue = adnMessage.annotations[0].value;
     
     // signatures now required
-    if (!noteValue.sig) {
+    if (!noteValue.sig || typeof noteValue.sig !== 'string') {
       return false;
     }
     
