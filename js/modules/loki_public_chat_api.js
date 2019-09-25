@@ -56,6 +56,16 @@ class LokiPublicChatAPI extends EventEmitter {
     thisServer.unregisterChannel(channelId);
     this.servers.splice(i, 1);
   }
+
+  getListOfMembers() {
+    return this.allMembers;
+  }
+
+  // TODO: make this private (or remove altogether) when
+  // we switch to polling the server for group members
+  setListOfMembers(members) {
+    this.allMembers = members;
+  }
 }
 
 class LokiPublicServerAPI {
@@ -226,6 +236,8 @@ class LokiPublicChannelAPI {
     this.pollForDeletions();
     this.pollForChannel();
     this.pollForModerators();
+
+    // TODO: poll for group members here?
   }
 
   stop() {

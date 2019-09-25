@@ -32,6 +32,12 @@ import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
+declare global {
+  interface Window {
+    shortenPubkey: any;
+  }
+}
+
 interface Trigger {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
@@ -322,9 +328,7 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const shortenedPubkey = `(...${authorPhoneNumber.substring(
-      authorPhoneNumber.length - 6
-    )})`;
+    const shortenedPubkey = window.shortenPubkey(authorPhoneNumber);
 
     const displayedPubkey = authorProfileName
       ? shortenedPubkey
@@ -585,6 +589,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
       quote,
+      isPublic,
     } = this.props;
 
     if (!quote) {
@@ -596,9 +601,7 @@ export class Message extends React.PureComponent<Props, State> {
     const quoteColor =
       direction === 'incoming' ? authorColor : quote.authorColor;
 
-    const shortenedPubkey = `(...${quote.authorPhoneNumber.substring(
-      quote.authorPhoneNumber.length - 6
-    )})`;
+    const shortenedPubkey = window.shortenPubkey(quote.authorPhoneNumber);
 
     const displayedPubkey = quote.authorProfileName
       ? shortenedPubkey
@@ -611,6 +614,7 @@ export class Message extends React.PureComponent<Props, State> {
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
+        isPublic={isPublic}
         authorPhoneNumber={displayedPubkey}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
@@ -741,6 +745,7 @@ export class Message extends React.PureComponent<Props, State> {
           isRss={isRss}
           i18n={i18n}
           textPending={textPending}
+          isPublic={this.props.isPublic}
         />
       </div>
     );
@@ -1020,8 +1025,21 @@ export class Message extends React.PureComponent<Props, State> {
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
 
+    // We parse the message later, but we still need to do an early check
+    // to see if the message mentions us, so we can display the entire
+    // message differently
+    const mentions = this.props.text
+      ? this.props.text.match(window.pubkeyPattern)
+      : [];
+    const mentionMe =
+      mentions &&
+      mentions.some(m => m.slice(1) === window.lokiPublicChatAPI.ourKey);
+    const shouldHightlight =
+      mentionMe && direction === 'incoming' && this.props.isPublic;
+    const divClass = shouldHightlight ? 'message-highlighted' : '';
+
     return (
-      <div>
+      <div className={divClass}>
         <ContextMenuTrigger id={rightClickTriggerId}>
           <div
             className={classNames(
