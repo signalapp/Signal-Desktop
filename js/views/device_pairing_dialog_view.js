@@ -11,12 +11,14 @@
     templateName: 'device-pairing-dialog',
     initialize() {
       this.pubKeyRequests = [];
+      this.reset();
+      this.render();
+      this.showView();
+    },
+    reset() {
       this.pubKey = null;
       this.accepted = false;
       this.isListening = false;
-      this.view = '';
-      this.render();
-      this.showView();
     },
     events: {
       'click #startPairing': 'startReceivingRequests',
@@ -47,7 +49,7 @@
     },
     stopReceivingRequests() {
       this.trigger('stopReceivingRequests');
-      this.isListening = false;
+      this.reset();
       this.showView();
     },
     requestReceived(secondaryDevicePubKey) {
