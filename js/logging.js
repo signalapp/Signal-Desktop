@@ -8,6 +8,7 @@ const _ = require('lodash');
 
 const debuglogs = require('./modules/debuglogs');
 const Privacy = require('./modules/privacy');
+const { createBatcher } = require('../ts/util/batcher');
 
 const ipc = electron.ipcRenderer;
 
@@ -98,13 +99,31 @@ const publish = debuglogs.upload;
 
 // A modern logging interface for the browser
 
+const env = window.getEnvironment();
+const IS_PRODUCTION = env === 'production';
+
+const ipcBatcher = createBatcher({
+  wait: 500,
+  size: 20,
+  processBatch: items => {
+    ipc.send('batch-log', items);
+  },
+});
+
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
 function logAtLevel(level, prefix, ...args) {
-  console._log(prefix, now(), ...args);
+  if (!IS_PRODUCTION) {
+    console._log(prefix, now(), ...args);
+  }
 
   const str = cleanArgsForIPC(args);
   const logText = Privacy.redactAll(str);
-  ipc.send(`log-${level}`, logText);
+
+  ipcBatcher.add({
+    timestamp: Date.now(),
+    level,
+    logText,
+  });
 }
 
 window.log = {

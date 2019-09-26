@@ -9,112 +9,10 @@
 /* global _: false */
 /* global ContactBuffer: false */
 /* global GroupBuffer: false */
-/* global Worker: false */
 
 /* eslint-disable more/no-then */
 
-const WORKER_TIMEOUT = 60 * 1000; // one minute
 const RETRY_TIMEOUT = 2 * 60 * 1000;
-
-const _utilWorker = new Worker('js/util_worker.js');
-const _jobs = Object.create(null);
-const _DEBUG = false;
-let _jobCounter = 0;
-
-function _makeJob(fnName) {
-  _jobCounter += 1;
-  const id = _jobCounter;
-
-  if (_DEBUG) {
-    window.log.info(`Worker job ${id} (${fnName}) started`);
-  }
-  _jobs[id] = {
-    fnName,
-    start: Date.now(),
-  };
-
-  return id;
-}
-
-function _updateJob(id, data) {
-  const { resolve, reject } = data;
-  const { fnName, start } = _jobs[id];
-
-  _jobs[id] = {
-    ..._jobs[id],
-    ...data,
-    resolve: value => {
-      _removeJob(id);
-      const end = Date.now();
-      window.log.info(
-        `Worker job ${id} (${fnName}) succeeded in ${end - start}ms`
-      );
-      return resolve(value);
-    },
-    reject: error => {
-      _removeJob(id);
-      const end = Date.now();
-      window.log.info(
-        `Worker job ${id} (${fnName}) failed in ${end - start}ms`
-      );
-      return reject(error);
-    },
-  };
-}
-
-function _removeJob(id) {
-  if (_DEBUG) {
-    _jobs[id].complete = true;
-  } else {
-    delete _jobs[id];
-  }
-}
-
-function _getJob(id) {
-  return _jobs[id];
-}
-
-async function callWorker(fnName, ...args) {
-  const jobId = _makeJob(fnName);
-
-  return new Promise((resolve, reject) => {
-    _utilWorker.postMessage([jobId, fnName, ...args]);
-
-    _updateJob(jobId, {
-      resolve,
-      reject,
-      args: _DEBUG ? args : null,
-    });
-
-    setTimeout(
-      () => reject(new Error(`Worker job ${jobId} (${fnName}) timed out`)),
-      WORKER_TIMEOUT
-    );
-  });
-}
-
-_utilWorker.onmessage = e => {
-  const [jobId, errorForDisplay, result] = e.data;
-
-  const job = _getJob(jobId);
-  if (!job) {
-    throw new Error(
-      `Received worker reply to job ${jobId}, but did not have it in our registry!`
-    );
-  }
-
-  const { resolve, reject, fnName } = job;
-
-  if (errorForDisplay) {
-    return reject(
-      new Error(
-        `Error received from worker job ${jobId} (${fnName}): ${errorForDisplay}`
-      )
-    );
-  }
-
-  return resolve(result);
-};
 
 function MessageReceiver(username, password, signalingKey, options = {}) {
   this.count = 0;
@@ -135,9 +33,25 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.number = address.getName();
   this.deviceId = address.getDeviceId();
 
-  this.pendingQueue = new window.PQueue({ concurrency: 1 });
   this.incomingQueue = new window.PQueue({ concurrency: 1 });
+  this.pendingQueue = new window.PQueue({ concurrency: 1 });
   this.appQueue = new window.PQueue({ concurrency: 1 });
+
+  this.cacheAddBatcher = window.Signal.Util.createBatcher({
+    wait: 200,
+    maxSize: 30,
+    processBatch: this.cacheAndQueueBatch.bind(this),
+  });
+  this.cacheUpdateBatcher = window.Signal.Util.createBatcher({
+    wait: 500,
+    maxSize: 30,
+    processBatch: this.cacheUpdateBatch.bind(this),
+  });
+  this.cacheRemoveBatcher = window.Signal.Util.createBatcher({
+    wait: 500,
+    maxSize: 30,
+    processBatch: this.cacheRemoveBatch.bind(this),
+  });
 
   if (options.retryCached) {
     this.pendingQueue.add(() => this.queueAllCached());
@@ -145,14 +59,13 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
 }
 
 MessageReceiver.stringToArrayBuffer = string =>
-  Promise.resolve(dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer());
+  dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
 MessageReceiver.arrayBufferToString = arrayBuffer =>
-  Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));
-
+  dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');
 MessageReceiver.stringToArrayBufferBase64 = string =>
-  callWorker('stringToArrayBufferBase64', string);
+  dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
 MessageReceiver.arrayBufferToStringBase64 = arrayBuffer =>
-  callWorker('arrayBufferToStringBase64', arrayBuffer);
+  dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
 
 MessageReceiver.prototype = new textsecure.EventTarget();
 MessageReceiver.prototype.extend({
@@ -196,6 +109,12 @@ MessageReceiver.prototype.extend({
     window.log.info('MessageReceiver: stopProcessing requested');
     this.stoppingProcessing = true;
     return this.close();
+  },
+  unregisterBatchers() {
+    window.log.info('MessageReceiver: unregister batchers');
+    this.cacheAddBatcher.unregister();
+    this.cacheUpdateBatcher.unregister();
+    this.cacheRemoveBatcher.unregister();
   },
   shutdown() {
     if (this.socket) {
@@ -308,20 +227,7 @@ MessageReceiver.prototype.extend({
           ? envelope.serverTimestamp.toNumber()
           : null;
 
-        try {
-          await this.addToCache(envelope, plaintext);
-          request.respond(200, 'OK');
-          this.queueEnvelope(envelope);
-
-          this.clearRetryTimeout();
-          this.maybeScheduleRetryTimeout();
-        } catch (error) {
-          request.respond(500, 'Failed to cache message');
-          window.log.error(
-            'handleRequest error trying to add message to cache:',
-            error && error.stack ? error.stack : error
-          );
-        }
+        this.cacheAndQueue(envelope, plaintext, request);
       } catch (e) {
         request.respond(500, 'Bad encrypted websocket message');
         window.log.error(
@@ -377,7 +283,12 @@ MessageReceiver.prototype.extend({
       this.count = 0;
     };
 
-    this.incomingQueue.add(waitForIncomingQueue);
+    const waitForCacheAddBatcher = async () => {
+      await this.cacheAddBatcher.onIdle();
+      this.incomingQueue.add(waitForIncomingQueue);
+    };
+
+    waitForCacheAddBatcher();
   },
   drain() {
     const waitForIncomingQueue = () =>
@@ -408,13 +319,13 @@ MessageReceiver.prototype.extend({
       let envelopePlaintext = item.envelope;
 
       if (item.version === 2) {
-        envelopePlaintext = await MessageReceiver.stringToArrayBufferBase64(
+        envelopePlaintext = MessageReceiver.stringToArrayBufferBase64(
           envelopePlaintext
         );
       }
 
       if (typeof envelopePlaintext === 'string') {
-        envelopePlaintext = await MessageReceiver.stringToArrayBuffer(
+        envelopePlaintext = MessageReceiver.stringToArrayBuffer(
           envelopePlaintext
         );
       }
@@ -430,13 +341,13 @@ MessageReceiver.prototype.extend({
         let payloadPlaintext = decrypted;
 
         if (item.version === 2) {
-          payloadPlaintext = await MessageReceiver.stringToArrayBufferBase64(
+          payloadPlaintext = MessageReceiver.stringToArrayBufferBase64(
             payloadPlaintext
           );
         }
 
         if (typeof payloadPlaintext === 'string') {
-          payloadPlaintext = await MessageReceiver.stringToArrayBuffer(
+          payloadPlaintext = MessageReceiver.stringToArrayBuffer(
             payloadPlaintext
           );
         }
@@ -530,44 +441,61 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  async addToCache(envelope, plaintext) {
+  async cacheAndQueueBatch(items) {
+    const dataArray = items.map(item => item.data);
+    try {
+      await textsecure.storage.unprocessed.batchAdd(dataArray);
+      items.forEach(item => {
+        item.request.respond(200, 'OK');
+        this.queueEnvelope(item.envelope);
+      });
+
+      this.clearRetryTimeout();
+      this.maybeScheduleRetryTimeout();
+    } catch (error) {
+      items.forEach(item => {
+        item.request.respond(500, 'Failed to cache message');
+      });
+      window.log.error(
+        'cacheAndQueue error trying to add messages to cache:',
+        error && error.stack ? error.stack : error
+      );
+    }
+  },
+  cacheAndQueue(envelope, plaintext, request) {
     const { id } = envelope;
     const data = {
       id,
       version: 2,
-      envelope: await MessageReceiver.arrayBufferToStringBase64(plaintext),
+      envelope: MessageReceiver.arrayBufferToStringBase64(plaintext),
       timestamp: Date.now(),
       attempts: 1,
     };
-    return textsecure.storage.unprocessed.add(data);
+    this.cacheAddBatcher.add({
+      request,
+      envelope,
+      data,
+    });
   },
-  async updateCache(envelope, plaintext) {
+  async cacheUpdateBatch(items) {
+    await textsecure.storage.unprocessed.addDecryptedDataToList(items);
+  },
+  updateCache(envelope, plaintext) {
     const { id } = envelope;
-    const item = await textsecure.storage.unprocessed.get(id);
-    if (!item) {
-      window.log.error(
-        `updateCache: Didn't find item ${id} in cache to update`
-      );
-      return null;
-    }
-
-    item.source = envelope.source;
-    item.sourceDevice = envelope.sourceDevice;
-    item.serverTimestamp = envelope.serverTimestamp;
-
-    if (item.version === 2) {
-      item.decrypted = await MessageReceiver.arrayBufferToStringBase64(
-        plaintext
-      );
-    } else {
-      item.decrypted = await MessageReceiver.arrayBufferToString(plaintext);
-    }
-
-    return textsecure.storage.unprocessed.addDecryptedData(item.id, item);
+    const data = {
+      source: envelope.source,
+      sourceDevice: envelope.sourceDevice,
+      serverTimestamp: envelope.serverTimestamp,
+      decrypted: MessageReceiver.arrayBufferToStringBase64(plaintext),
+    };
+    this.cacheUpdateBatcher.add({ id, data });
+  },
+  async cacheRemoveBatch(items) {
+    await textsecure.storage.unprocessed.remove(items);
   },
   removeFromCache(envelope) {
     const { id } = envelope;
-    return textsecure.storage.unprocessed.remove(id);
+    this.cacheRemoveBatcher.add(id);
   },
   queueDecryptedEnvelope(envelope, plaintext) {
     const id = this.getEnvelopeId(envelope);
@@ -811,12 +739,7 @@ MessageReceiver.prototype.extend({
 
         // Note: this is an out of band update; there are cases where the item in the
         //   cache has already been deleted by the time this runs. That's okay.
-        this.updateCache(envelope, plaintext).catch(error => {
-          window.log.error(
-            'decrypt failed to save decrypted message contents to cache:',
-            error && error.stack ? error.stack : error
-          );
-        });
+        this.updateCache(envelope, plaintext);
 
         return plaintext;
       })
@@ -1497,6 +1420,9 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
     messageReceiver
   );
   this.stopProcessing = messageReceiver.stopProcessing.bind(messageReceiver);
+  this.unregisterBatchers = messageReceiver.unregisterBatchers.bind(
+    messageReceiver
+  );
 
   messageReceiver.connect();
 };

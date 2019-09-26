@@ -493,6 +493,7 @@
 
       const regionCode = libphonenumber.util.getRegionCodeForNumber(number);
       await textsecure.storage.put('regionCode', regionCode);
+      await textsecure.storage.protocol.hydrateCaches();
     },
     async clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;

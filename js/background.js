@@ -21,6 +21,38 @@
     concurrency: 1,
   });
   deliveryReceiptQueue.pause();
+  const deliveryReceiptBatcher = window.Signal.Util.createBatcher({
+    wait: 500,
+    maxSize: 500,
+    processBatch: async items => {
+      const bySource = _.groupBy(items, item => item.source);
+      const sources = Object.keys(bySource);
+
+      for (let i = 0, max = sources.length; i < max; i += 1) {
+        const source = sources[i];
+        const timestamps = bySource[source].map(item => item.timestamp);
+
+        try {
+          const { wrap, sendOptions } = ConversationController.prepareForSend(
+            source
+          );
+          // eslint-disable-next-line no-await-in-loop
+          await wrap(
+            textsecure.messaging.sendDeliveryReceipt(
+              source,
+              timestamps,
+              sendOptions
+            )
+          );
+        } catch (error) {
+          window.log.error(
+            `Failed to send delivery receipt to ${source} for timestamps ${timestamps}:`,
+            error && error.stack ? error.stack : error
+          );
+        }
+      }
+    },
+  });
 
   // Globally disable drag and drop
   document.body.addEventListener(
@@ -78,7 +110,6 @@
   };
 
   // Load these images now to ensure that they don't flicker on first use
-  window.Signal.EmojiLib.preloadImages();
   const images = [];
   function preload(list) {
     for (let index = 0, max = list.length; index < max; index += 1) {
@@ -341,8 +372,19 @@
         // Stop processing incoming messages
         if (messageReceiver) {
           await messageReceiver.stopProcessing();
+
+          await window.waitForAllBatchers();
+          messageReceiver.unregisterBatchers();
+
           messageReceiver = null;
         }
+
+        // A number of still-to-queue database queries might be waiting inside batchers.
+        //   We wait for these to empty first, and then shut down the data interface.
+        await Promise.all([
+          window.waitForAllBatchers(),
+          window.waitForAllWaitBatchers(),
+        ]);
 
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
@@ -850,7 +892,12 @@
     }
 
     if (messageReceiver) {
-      messageReceiver.close();
+      await messageReceiver.stopProcessing();
+
+      await window.waitForAllBatchers();
+      messageReceiver.unregisterBatchers();
+
+      messageReceiver = null;
     }
 
     const USERNAME = storage.get('number_id');
@@ -1022,7 +1069,12 @@
       view.applyTheme();
     }
   }
-  function onEmpty() {
+  async function onEmpty() {
+    await Promise.all([
+      window.waitForAllBatchers(),
+      window.waitForAllWaitBatchers(),
+    ]);
+    window.log.info('onEmpty: All outstanding database requests complete');
     initialLoadComplete = true;
 
     window.readyForUpdates();
@@ -1057,6 +1109,8 @@
     }
   }
   function onConfiguration(ev) {
+    ev.confirm();
+
     const { configuration } = ev;
     const {
       readReceipts,
@@ -1084,11 +1138,11 @@
     if (linkPreviews === true || linkPreviews === false) {
       storage.put('linkPreviews', linkPreviews);
     }
-
-    ev.confirm();
   }
 
   function onTyping(ev) {
+    // Note: this type of message is automatically removed from cache in MessageReceiver
+
     const { typing, sender, senderDevice } = ev;
     const { groupId, started } = typing || {};
 
@@ -1118,6 +1172,8 @@
   }
 
   async function onStickerPack(ev) {
+    ev.confirm();
+
     const packs = ev.stickerPacks || [];
 
     packs.forEach(pack => {
@@ -1149,8 +1205,6 @@
         }
       }
     });
-
-    ev.confirm();
   }
 
   async function onContactReceived(ev) {
@@ -1228,9 +1282,7 @@
         conversation.set(newAttributes);
       }
 
-      await window.Signal.Data.updateConversation(id, conversation.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      window.Signal.Data.updateConversation(id, conversation.attributes);
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
@@ -1312,9 +1364,7 @@
       conversation.set(newAttributes);
     }
 
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
+    window.Signal.Data.updateConversation(id, conversation.attributes);
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (!isValidExpireTimer) {
@@ -1375,19 +1425,30 @@
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
-      return handleMessageReceivedProfileUpdate({
+      await handleMessageReceivedProfileUpdate({
         data,
         confirm,
         messageDescriptor,
       });
+      return;
     }
 
-    const message = await initIncomingMessage(data);
-    const isDuplicate = await isMessageDuplicate(message);
+    const isDuplicate = await isMessageDuplicate({
+      source: data.source,
+      sourceDevice: data.sourceDevice,
+      sent_at: data.timestamp,
+    });
     if (isDuplicate) {
-      window.log.warn('Received duplicate message', message.idForLogging());
-      return event.confirm();
+      window.log.warn(
+        'Received duplicate message',
+        `${data.source}.${data.sourceDevice} ${data.timestamp}`
+      );
+      confirm();
+      return;
     }
+
+    // We do this after the duplicate check because it might send a delivery receipt
+    const message = await initIncomingMessage(data);
 
     const ourNumber = textsecure.storage.user.getNumber();
     const isGroupUpdate =
@@ -1406,7 +1467,8 @@
       window.log.warn(
         `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
       );
-      return event.confirm();
+      confirm();
+      return;
     }
 
     await ConversationController.getOrCreateAndWait(
@@ -1414,7 +1476,8 @@
       messageDescriptor.type
     );
 
-    return message.handleDataMessage(data.message, event.confirm, {
+    // Don't wait for handleDataMessage, as it has its own per-conversation queueing
+    message.handleDataMessage(data.message, event.confirm, {
       initialLoadComplete,
     });
   }
@@ -1433,9 +1496,7 @@
     );
 
     conversation.set({ profileSharing: true });
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
+    window.Signal.Data.updateConversation(id, conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
     const ourNumber = textsecure.storage.user.getNumber();
@@ -1496,7 +1557,7 @@
     }
 
     const message = await createSentMessage(data);
-    const existing = await getExistingMessage(message);
+    const existing = await getExistingMessage(message.attributes);
     const isUpdate = Boolean(data.isRecipientUpdate);
 
     if (isUpdate && existing) {
@@ -1538,16 +1599,17 @@
         messageDescriptor.id,
         messageDescriptor.type
       );
-      await message.handleDataMessage(data.message, event.confirm, {
+
+      // Don't wait for handleDataMessage, as it has its own per-conversation queueing
+      message.handleDataMessage(data.message, event.confirm, {
         initialLoadComplete,
       });
     }
   }
 
-  async function getExistingMessage(message) {
+  async function getExistingMessage(data) {
     try {
-      const { attributes } = message;
-      const result = await window.Signal.Data.getMessageBySender(attributes, {
+      const result = await window.Signal.Data.getMessageBySender(data, {
         Message: Whisper.Message,
       });
 
@@ -1562,8 +1624,8 @@
     }
   }
 
-  async function isMessageDuplicate(message) {
-    const result = await getExistingMessage(message);
+  async function isMessageDuplicate(data) {
+    const result = await getExistingMessage(data);
     return Boolean(result);
   }
 
@@ -1587,26 +1649,14 @@
       return message;
     }
 
-    deliveryReceiptQueue.add(async () => {
-      try {
-        const { wrap, sendOptions } = ConversationController.prepareForSend(
-          data.source
-        );
-        await wrap(
-          textsecure.messaging.sendDeliveryReceipt(
-            data.source,
-            data.timestamp,
-            sendOptions
-          )
-        );
-      } catch (error) {
-        window.log.error(
-          `Failed to send delivery receipt to ${data.source} for message ${
-            data.timestamp
-          }:`,
-          error && error.stack ? error.stack : error
-        );
-      }
+    // Note: We both queue and batch because we want to wait until we are done processing
+    //   incoming messages to start sending outgoing delivery receipts. The queue can be
+    //   paused easily.
+    deliveryReceiptQueue.add(() => {
+      deliveryReceiptBatcher.add({
+        source: data.source,
+        timestamp: data.timestamp,
+      });
     });
 
     return message;
@@ -1625,6 +1675,10 @@
 
       if (messageReceiver) {
         await messageReceiver.stopProcessing();
+
+        await window.waitForAllBatchers();
+        messageReceiver.unregisterBatchers();
+
         messageReceiver = null;
       }
 
@@ -1701,7 +1755,7 @@
       }
       const envelope = ev.proto;
       const message = await initIncomingMessage(envelope, { isError: true });
-      const isDuplicate = await isMessageDuplicate(message);
+      const isDuplicate = await isMessageDuplicate(message.attributes);
       if (isDuplicate) {
         ev.confirm();
         window.log.warn(
@@ -1710,48 +1764,62 @@
         return;
       }
 
-      const id = await window.Signal.Data.saveMessage(message.attributes, {
-        Message: Whisper.Message,
-      });
-      message.set({ id });
-      await message.saveErrors(error || new Error('Error was null'));
-
       const conversationId = message.get('conversationId');
       const conversation = await ConversationController.getOrCreateAndWait(
         conversationId,
         'private'
       );
-      conversation.set({
-        active_at: Date.now(),
-        unreadCount: conversation.get('unreadCount') + 1,
-      });
 
-      const conversationTimestamp = conversation.get('timestamp');
-      const messageTimestamp = message.get('timestamp');
-      if (!conversationTimestamp || messageTimestamp > conversationTimestamp) {
-        conversation.set({ timestamp: message.get('sent_at') });
-      }
+      // This matches the queueing behavior used in Message.handleDataMessage
+      conversation.queueJob(async () => {
+        const model = new Whisper.Message({
+          ...message.attributes,
+          id: window.getGuid(),
+        });
+        await model.saveErrors(error || new Error('Error was null'), {
+          skipSave: true,
+        });
 
-      conversation.trigger('newmessage', message);
-      conversation.notify(message);
+        MessageController.register(model.id, model);
+        await window.Signal.Data.saveMessage(model.attributes, {
+          Message: Whisper.Message,
+          forceSave: true,
+        });
 
-      if (ev.confirm) {
-        ev.confirm();
-      }
+        conversation.set({
+          active_at: Date.now(),
+          unreadCount: conversation.get('unreadCount') + 1,
+        });
 
-      await window.Signal.Data.updateConversation(
-        conversationId,
-        conversation.attributes,
-        {
-          Conversation: Whisper.Conversation,
+        const conversationTimestamp = conversation.get('timestamp');
+        const messageTimestamp = model.get('timestamp');
+        if (
+          !conversationTimestamp ||
+          messageTimestamp > conversationTimestamp
+        ) {
+          conversation.set({ timestamp: model.get('sent_at') });
         }
-      );
+
+        conversation.trigger('newmessage', model);
+        conversation.notify(model);
+
+        if (ev.confirm) {
+          ev.confirm();
+        }
+
+        window.Signal.Data.updateConversation(
+          conversationId,
+          conversation.attributes
+        );
+      });
     }
 
     throw error;
   }
 
   async function onViewSync(ev) {
+    ev.confirm();
+
     const { source, timestamp } = ev;
     window.log.info(`view sync ${source} ${timestamp}`);
 
@@ -1760,10 +1828,7 @@
       timestamp,
     });
 
-    sync.on('remove', ev.confirm);
-
-    // Calling this directly so we can wait for completion
-    return Whisper.ViewSyncs.onSync(sync);
+    Whisper.ViewSyncs.onSync(sync);
   }
 
   function onReadReceipt(ev) {
@@ -1772,8 +1837,10 @@
     const { reader } = ev.read;
     window.log.info('read receipt', reader, timestamp);
 
+    ev.confirm();
+
     if (!storage.get('read-receipt-setting')) {
-      return ev.confirm();
+      return;
     }
 
     const receipt = Whisper.ReadReceipts.add({
@@ -1782,10 +1849,8 @@
       read_at: readAt,
     });
 
-    receipt.on('remove', ev.confirm);
-
-    // Calling this directly so we can wait for completion
-    return Whisper.ReadReceipts.onReceipt(receipt);
+    // Note: We do not wait for completion here
+    Whisper.ReadReceipts.onReceipt(receipt);
   }
 
   function onReadSync(ev) {
@@ -1802,7 +1867,8 @@
 
     receipt.on('remove', ev.confirm);
 
-    // Calling this directly so we can wait for completion
+    // Note: Here we wait, because we want read states to be in the database
+    //   before we move on.
     return Whisper.ReadSyncs.onReceipt(receipt);
   }
 
@@ -1810,6 +1876,10 @@
     const number = ev.verified.destination;
     const key = ev.verified.identityKey;
     let state;
+
+    if (ev.confirm) {
+      ev.confirm();
+    }
 
     const c = new Whisper.Conversation({
       id: number,
@@ -1861,10 +1931,6 @@
     } else {
       await contact.setUnverified(options);
     }
-
-    if (ev.confirm) {
-      ev.confirm();
-    }
   }
 
   function onDeliveryReceipt(ev) {
@@ -1875,14 +1941,14 @@
       deliveryReceipt.timestamp
     );
 
+    ev.confirm();
+
     const receipt = Whisper.DeliveryReceipts.add({
       timestamp: deliveryReceipt.timestamp,
       source: deliveryReceipt.source,
     });
 
-    ev.confirm();
-
-    // Calling this directly so we can wait for completion
-    return Whisper.DeliveryReceipts.onReceipt(receipt);
+    // Note: We don't wait for completion here
+    Whisper.DeliveryReceipts.onReceipt(receipt);
   }
 })();

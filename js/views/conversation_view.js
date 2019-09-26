@@ -944,7 +944,7 @@
     },
 
     async saveModel() {
-      await window.Signal.Data.updateConversation(
+      window.Signal.Data.updateConversation(
         this.model.id,
         this.model.attributes,
         {

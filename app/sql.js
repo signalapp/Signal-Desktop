@@ -19,10 +19,6 @@ const {
   pick,
 } = require('lodash');
 
-// To get long stack traces
-//   https://github.com/mapbox/node-sqlite3/wiki/API#sqlite3verbose
-sql.verbose();
-
 module.exports = {
   initialize,
   close,
@@ -58,6 +54,7 @@ module.exports = {
   removeAllItems,
 
   createOrUpdateSession,
+  createOrUpdateSessions,
   getSessionById,
   getSessionsByNumber,
   bulkAddSessions,
@@ -71,6 +68,7 @@ module.exports = {
   saveConversations,
   getConversationById,
   updateConversation,
+  updateConversations,
   removeConversation,
   getAllConversations,
   getAllConversationIds,
@@ -105,6 +103,7 @@ module.exports = {
   saveUnprocessed,
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
+  updateUnprocessedsWithData,
   getUnprocessedById,
   saveUnprocesseds,
   removeUnprocessed,
@@ -1259,10 +1258,20 @@ async function initialize({ configDir, key, messages }) {
     promisified = await openAndSetUpSQLCipher(filePath, { key });
 
     // promisified.on('trace', async statement => {
-    //   if (!db || statement.startsWith('--')) {
-    //     console._log(statement);
+    //   if (
+    //     !db ||
+    //     statement.startsWith('--') ||
+    //     statement.includes('COMMIT') ||
+    //     statement.includes('BEGIN') ||
+    //     statement.includes('ROLLBACK')
+    //   ) {
     //     return;
     //   }
+
+    //   // Note that this causes problems when attempting to commit transactions - this
+    //   //   statement is running, and we get at SQLITE_BUSY error. So we delay.
+    //   await new Promise(resolve => setTimeout(resolve, 1000));
+
     //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
     //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
     // });
@@ -1469,6 +1478,19 @@ async function createOrUpdateSession(data) {
     }
   );
 }
+async function createOrUpdateSessions(array) {
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([...map(array, item => createOrUpdateSession(item))]);
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
+}
+createOrUpdateSessions.needsSerial = true;
+
 async function getSessionById(id) {
   return getById(SESSIONS_TABLE, id);
 }
@@ -1663,6 +1685,18 @@ async function updateConversation(data) {
     }
   );
 }
+async function updateConversations(array) {
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([...map(array, item => updateConversation(item))]);
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
+}
+updateConversations.needsSerial = true;
 
 async function removeConversation(id) {
   if (!Array.isArray(id)) {
@@ -2353,6 +2387,23 @@ async function updateUnprocessedWithData(id, data = {}) {
     }
   );
 }
+async function updateUnprocessedsWithData(arrayOfUnprocessed) {
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([
+      ...map(arrayOfUnprocessed, ({ id, data }) =>
+        updateUnprocessedWithData(id, data)
+      ),
+    ]);
+
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
+}
+updateUnprocessedsWithData.needsSerial = true;
 
 async function getUnprocessedById(id) {
   const row = await db.get('SELECT * FROM unprocessed WHERE id = $id;', {
