@@ -341,23 +341,6 @@ OutgoingMessage.prototype = {
         // Check if we need to attach the preKeys
         let sessionCipher;
         const isFriendRequest = this.messageType === 'friend-request';
-        const isSecondaryDevice = !!window.storage.get('isSecondaryDevice');
-        if (isFriendRequest && isSecondaryDevice) {
-          // Attach authorisation from primary device ONLY FOR FRIEND REQUEST
-          const ourPubKeyHex = textsecure.storage.user.getNumber();
-          const pairingAuthorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-            ourPubKeyHex
-          );
-          if (pairingAuthorisation) {
-            this.message.pairingAuthorisation = libloki.api.createPairingAuthorisationProtoMessage(
-              pairingAuthorisation
-            );
-          } else {
-            window.log.error(
-              'Could not find authorisation for our own pubkey while being secondary device.'
-            );
-          }
-        }
         this.fallBackEncryption = this.fallBackEncryption || isFriendRequest;
         const flags = this.message.dataMessage
           ? this.message.dataMessage.get_flags()
