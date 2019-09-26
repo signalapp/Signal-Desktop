@@ -115,6 +115,7 @@ module.exports = {
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
   removeAllConversations,
+  removeAllPrivateConversations,
 
   searchConversations,
   searchMessages,
@@ -2655,6 +2656,10 @@ async function removeAllConfiguration() {
 
 async function removeAllConversations() {
   await removeAllFromTable(CONVERSATIONS_TABLE);
+}
+
+async function removeAllPrivateConversations() {
+  await db.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE type = 'private'`);
 }
 
 async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
