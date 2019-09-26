@@ -174,7 +174,78 @@
     return signature;
   }
 
-  async function verifyPairingAuthorisation(
+  async function validateAuthorisation(authorisation) {
+    const {
+      type,
+      primaryDevicePubKey,
+      secondaryDevicePubKey,
+      requestSignature,
+      grantSignature,
+    } = authorisation;
+    const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
+    const ourPubKey = textsecure.storage.user.getNumber();
+    const isRequest =
+      type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST;
+    const isGrant =
+      type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT;
+    if (!primaryDevicePubKey || !secondaryDevicePubKey) {
+      window.log.warn(
+        'Received a pairing request with missing pubkeys. Ignored.'
+      );
+      return false;
+    } else if (!requestSignature) {
+      window.log.warn(
+        'Received a pairing request with missing request signature. Ignored.'
+      );
+      return false;
+    } else if (isRequest && alreadySecondaryDevice) {
+      window.log.warn(
+        'Received a pairing request while being a secondary device. Ignored.'
+      );
+      return false;
+    } else if (isRequest && authorisation.primaryDevicePubKey !== ourPubKey) {
+      window.log.warn(
+        'Received a pairing request addressed to another pubkey. Ignored.'
+      );
+      return false;
+    } else if (isRequest && authorisation.secondaryDevicePubKey === ourPubKey) {
+      window.log.warn('Received a pairing request from ourselves. Ignored.');
+      return false;
+    }
+    try {
+      await this.verifyPairingSignature(
+        primaryDevicePubKey,
+        secondaryDevicePubKey,
+        dcodeIO.ByteBuffer.wrap(requestSignature).toArrayBuffer(),
+        textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
+      );
+    } catch (e) {
+      window.log.warn(
+        'Could not verify pairing request authorisation signature. Ignoring message.'
+      );
+      window.log.error(e);
+      return false;
+    }
+    if (isGrant) {
+      try {
+        await this.verifyPairingSignature(
+          primaryDevicePubKey,
+          secondaryDevicePubKey,
+          dcodeIO.ByteBuffer.wrap(grantSignature).toArrayBuffer(),
+          textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT
+        );
+      } catch (e) {
+        window.log.warn(
+          'Could not verify pairing grant authorisation signature. Ignoring message.'
+        );
+        window.log.error(e);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  async function verifyPairingSignature(
     primaryDevicePubKey,
     secondaryPubKey,
     signature,
@@ -233,7 +304,8 @@
     snodeCipher,
     decryptToken,
     generateSignatureForPairing,
-    verifyPairingAuthorisation,
+    verifyPairingSignature,
+    validateAuthorisation,
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,

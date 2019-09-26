@@ -1047,78 +1047,8 @@ MessageReceiver.prototype.extend({
     }
     return this.removeFromCache(envelope);
   },
-  async validateAuthorisation(authorisation) {
-    const {
-      type,
-      primaryDevicePubKey,
-      secondaryDevicePubKey,
-      requestSignature,
-      grantSignature,
-    } = authorisation;
-    const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
-    const ourPubKey = textsecure.storage.user.getNumber();
-    const isRequest =
-      type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST;
-    const isGrant =
-      type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT;
-    if (!primaryDevicePubKey || !secondaryDevicePubKey) {
-      window.log.warn(
-        'Received a pairing request with missing pubkeys. Ignored.'
-      );
-      return false;
-    } else if (!requestSignature) {
-      window.log.warn(
-        'Received a pairing request with missing request signature. Ignored.'
-      );
-      return false;
-    } else if (isRequest && alreadySecondaryDevice) {
-      window.log.warn(
-        'Received a pairing request while being a secondary device. Ignored.'
-      );
-      return false;
-    } else if (isRequest && authorisation.primaryDevicePubKey !== ourPubKey) {
-      window.log.warn(
-        'Received a pairing request addressed to another pubkey. Ignored.'
-      );
-      return false;
-    } else if (isRequest && authorisation.secondaryDevicePubKey === ourPubKey) {
-      window.log.warn('Received a pairing request from ourselves. Ignored.');
-      return false;
-    }
-    try {
-      await libloki.crypto.verifyPairingAuthorisation(
-        primaryDevicePubKey,
-        secondaryDevicePubKey,
-        dcodeIO.ByteBuffer.wrap(requestSignature).toArrayBuffer(),
-        textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
-      );
-    } catch (e) {
-      window.log.warn(
-        'Could not verify pairing request authorisation signature. Ignoring message.'
-      );
-      window.log.error(e);
-      return false;
-    }
-    if (isGrant) {
-      try {
-        await libloki.crypto.verifyPairingAuthorisation(
-          primaryDevicePubKey,
-          secondaryDevicePubKey,
-          dcodeIO.ByteBuffer.wrap(grantSignature).toArrayBuffer(),
-          textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT
-        );
-      } catch (e) {
-        window.log.warn(
-          'Could not verify pairing grant authorisation signature. Ignoring message.'
-        );
-        window.log.error(e);
-        return false;
-      }
-    }
-    return true;
-  },
   async handlePairingRequest(envelope, pairingRequest) {
-    const valid = await this.validateAuthorisation(pairingRequest);
+    const valid = await libloki.crypto.validateAuthorisation(pairingRequest);
     if (valid) {
       // Pairing dialog is open and is listening
       if (Whisper.events.isListenedTo('devicePairingRequestReceived')) {
@@ -1137,7 +1067,7 @@ MessageReceiver.prototype.extend({
     pairingAuthorisation,
     { dataMessage, syncMessage }
   ) {
-    const valid = await this.validateAuthorisation(pairingAuthorisation);
+    const valid = await libloki.crypto.validateAuthorisation(pairingAuthorisation);
     const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
     let removedFromCache = false;
     if (alreadySecondaryDevice) {
