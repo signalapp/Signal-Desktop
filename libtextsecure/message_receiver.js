@@ -1213,25 +1213,8 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  async handleAuthorisationForContact(envelope, pairingAuthorisation) {
-    const valid = await this.validateAuthorisation(pairingAuthorisation);
-    if (!valid) {
-      window.log.warn(
-        'Received invalid pairing authorisation for self. Could not verify signature. Ignoring.'
-      );
-    } else {
-      const {
-        primaryDevicePubKey,
-        secondaryDevicePubKey,
-      } = pairingAuthorisation;
-      // ensure the primary device is a friend
-      const c = window.ConversationController.get(primaryDevicePubKey);
-      if (c && c.isFriend()) {
-        await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
-        // send friend accept?
-        window.libloki.api.sendBackgroundMessage(secondaryDevicePubKey);
-      }
-    }
+  async handleAuthorisationForContact(envelope) {
+    window.log.error('Unexpected pairing request/authorisation received, ignoring.');
     return this.removeFromCache(envelope);
   },
   async handlePairingAuthorisationMessage(envelope, content) {
@@ -1246,7 +1229,7 @@ MessageReceiver.prototype.extend({
         content
       );
     }
-    return this.handleAuthorisationForContact(envelope, pairingAuthorisation);
+    return this.handleAuthorisationForContact(envelope);
   },
   handleDataMessage(envelope, msg) {
     if (!envelope.isP2p) {
