@@ -3,6 +3,7 @@
   textsecure,
   libsignal,
   libloki,
+  lokiFileServerAPI,
   mnemonic,
   btoa,
   Signal,
@@ -622,6 +623,7 @@
       };
       // Update authorisation in database with the new grant signature
       await libloki.storage.savePairingAuthorisation(authorisation);
+      await lokiFileServerAPI.updateOurDeviceMapping();
       await libloki.api.sendPairingAuthorisation(
         authorisation,
         secondaryDevicePubKey
