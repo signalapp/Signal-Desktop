@@ -166,6 +166,7 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       importMode: importMode ? true : undefined, // for stringify()
       serverTrustRoot: config.get('serverTrustRoot'),
+      defaultFileServer: config.get('defaultFileServer'),
       ...moreKeys,
     },
   });

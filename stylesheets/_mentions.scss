@@ -1,0 +1,69 @@
+.member-list-container {
+  margin: 0;
+  padding: 0;
+
+  max-height: 240px;
+  overflow-y: scroll;
+
+  .member-item {
+    padding: 4px;
+    user-select: none;
+
+    &:hover:not(.member-selected) {
+      background-color: $color-light-20;
+    }
+
+    background-color: $color-light-10;
+
+    .name-part {
+      font-weight: 300;
+      margin-left: 6px;
+    }
+
+    .pubkey-part {
+      margin-left: 6px;
+    }
+  }
+
+  .member-selected {
+    background-color: $color-light-35;
+  }
+}
+
+.mention-profile-name {
+  color: rgb(194, 244, 255);
+  background-color: rgb(66, 121, 150);
+  text-decoration: underline;
+  border-radius: 4px;
+  margin: 2px;
+  padding: 2px;
+  user-select: none;
+}
+
+.mention-profile-name-us {
+  background-color: rgba(255, 197, 50, 1);
+  color: black;
+}
+
+.message-highlighted {
+  border-radius: $message-container-border-radius;
+  background-color: rgba(255, 197, 50, 0.2);
+}
+
+.dark-theme {
+  .member-list-container {
+    .member-item {
+      &:hover:not(.member-selected) {
+        background-color: $color-dark-55;
+      }
+
+      background-color: $color-dark-70;
+
+      color: white;
+    }
+
+    .member-selected {
+      background-color: $color-dark-60;
+    }
+  }
+}

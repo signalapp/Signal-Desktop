@@ -280,6 +280,13 @@
       this.$('.discussion-container').append(this.view.el);
       this.view.render();
 
+      this.memberView = new Whisper.MemberListView({
+        el: this.$('.member-list-container'),
+        onClicked: this.selectMember.bind(this),
+      });
+
+      this.memberView.render();
+
       this.$messageField = this.$('.send-message');
 
       this.onResize = this.forceUpdateMessageFieldSize.bind(this);
@@ -303,13 +310,33 @@
 
       this.$emojiPanelContainer = this.$('.emoji-panel-container');
       this.model.updateTextInputState();
+
+      this.selectMember = this.selectMember.bind(this);
+
+      const updateMemberList = async () => {
+        const allMessages = await window.Signal.Data.getMessagesByConversation(
+          this.model.id,
+          {
+            limit: Number.MAX_SAFE_INTEGER,
+            MessageCollection: Whisper.MessageCollection,
+          }
+        );
+
+        const allMembers = allMessages.models.map(d => d.propsForMessage);
+        window.lokiPublicChatAPI.setListOfMembers(allMembers);
+      };
+
+      if (this.model.isPublic()) {
+        updateMemberList();
+        setInterval(updateMemberList, 10000);
+      }
     },
 
     events: {
       keydown: 'onKeyDown',
-      'submit .send': 'checkUnverifiedSendMessage',
-      'input .send-message': 'updateMessageFieldSize',
-      'keydown .send-message': 'updateMessageFieldSize',
+      'submit .send': 'handleSubmitPressed',
+      'input .send-message': 'handleInputEvent',
+      'keydown .send-message': 'handleInputEvent',
       'keyup .send-message': 'onKeyUp',
       click: 'onClick',
       'click .bottom-bar': 'focusMessageField',
@@ -1556,6 +1583,53 @@
       dialog.focusCancel();
     },
 
+    stripQuery(text, cursorPos) {
+      const end = text.slice(cursorPos).search(/[^a-fA-F0-9]/);
+      const mentionEnd = end === -1 ? text.length : cursorPos + end;
+
+      const stripped = text.substr(0, mentionEnd);
+
+      const mentionStart = stripped.lastIndexOf('@');
+
+      const query = stripped.substr(mentionStart, mentionEnd - mentionStart);
+
+      return [stripped.substr(0, mentionStart), query, text.substr(mentionEnd)];
+    },
+
+    selectMember(member) {
+      const cursorPos = this.$messageField[0].selectionStart;
+      // Note: skipping the middle value here
+      const [prev, , end] = this.stripQuery(
+        this.$messageField.val(),
+        cursorPos
+      );
+      let firstHalf = `${prev}@${member.authorPhoneNumber}`;
+      let newCursorPos = firstHalf.length;
+
+      const needExtraWhitespace =
+        end.length === 0 || /[a-fA-F0-9@]/.test(end[0]);
+      if (needExtraWhitespace) {
+        firstHalf += ' ';
+        newCursorPos += 1;
+      }
+
+      const result = firstHalf + end;
+
+      this.$messageField.val(result);
+      this.$messageField[0].selectionStart = newCursorPos;
+      this.$messageField[0].selectionEnd = newCursorPos;
+      this.$messageField.trigger('input');
+    },
+
+    async handleSubmitPressed(e, options = {}) {
+      if (this.memberView.membersShown()) {
+        const member = this.memberView.selectedMember();
+        this.selectMember(member);
+      } else {
+        await this.checkUnverifiedSendMessage(e, options);
+      }
+    },
+
     async checkUnverifiedSendMessage(e, options = {}) {
       e.preventDefault();
       this.sendStart = Date.now();
@@ -2112,7 +2186,13 @@
       }
     },
 
-    updateMessageFieldSize(event) {
+    // Note: not only input, but keypresses too (rename?)
+    handleInputEvent(event) {
+      // Note: schedule the member list handler shortly afterwards, so
+      // that the input element has time to update its cursor position to
+      // what the user would expect
+      window.requestAnimationFrame(this.maybeShowMembers.bind(this, event));
+
       const keyCode = event.which || event.keyCode;
 
       if (
@@ -2126,6 +2206,41 @@
         this.$('.bottom-bar form').submit();
         return;
       }
+
+      const keyPressedLeft = keyCode === 37;
+      const keyPressedUp = keyCode === 38;
+      const keyPressedRight = keyCode === 39;
+      const keyPressedDown = keyCode === 40;
+      const keyPressedTab = keyCode === 9;
+
+      const preventDefault = keyPressedUp || keyPressedDown || keyPressedTab;
+
+      if (this.memberView.membersShown() && preventDefault) {
+        if (keyPressedDown) {
+          this.memberView.selectDown();
+        } else if (keyPressedUp) {
+          this.memberView.selectUp();
+        } else if (keyPressedTab) {
+          // Tab is treated as Enter in this context
+          this.handleSubmitPressed();
+        }
+
+        const $selected = this.$('.member-selected');
+        if ($selected.length) {
+          $selected[0].scrollIntoView({ behavior: 'smooth' });
+        }
+        event.preventDefault();
+        return;
+      }
+
+      if (keyPressedLeft || keyPressedRight) {
+        this.$messageField.trigger('input');
+      }
+
+      this.updateMessageFieldSize();
+    },
+
+    updateMessageFieldSize() {
       this.toggleMicrophone();
 
       this.view.measureScrollPosition();
@@ -2148,6 +2263,73 @@
       $bottomBar.outerHeight(height);
 
       this.view.scrollToBottomIfNeeded();
+    },
+
+    maybeShowMembers(event) {
+      const filterMembers = (caseSensitiveQuery, member) => {
+        const { authorPhoneNumber, authorProfileName } = member;
+
+        const profileName = authorProfileName
+          ? authorProfileName.toLowerCase()
+          : '';
+        const query = caseSensitiveQuery.toLowerCase();
+
+        if (authorPhoneNumber.includes(query) || profileName.includes(query)) {
+          return true;
+        }
+        return false;
+      };
+
+      // This is not quite the same as stripQuery
+      // as this one searches until the current
+      // cursor position
+      const getQuery = (srcLine, cursorPos) => {
+        const input = srcLine.substr(0, cursorPos);
+
+        const atPos = input.lastIndexOf('@');
+        if (atPos === -1) {
+          return null;
+        }
+
+        // Whitespace is required right before @ unless
+        // the beginning of line
+        if (atPos > 0 && /\w/.test(input.substr(atPos - 1, 1))) {
+          return null;
+        }
+
+        const query = input.substr(atPos + 1);
+
+        // No whitespaces allowed in a query
+        if (/\s/.test(query)) {
+          return null;
+        }
+
+        return query;
+      };
+
+      let allMembers = window.lokiPublicChatAPI.getListOfMembers();
+      allMembers = allMembers.filter(d => !!d);
+      allMembers = _.uniq(allMembers, true, d => d.authorPhoneNumber);
+
+      const cursorPos = event.target.selectionStart;
+
+      // can't use pubkeyPattern here, as we are matching incomplete
+      // pubkeys (including the single @)
+      const query = getQuery(event.target.value, cursorPos);
+
+      let membersToShow = [];
+      if (query !== null) {
+        membersToShow =
+          query !== ''
+            ? allMembers.filter(m => filterMembers(query, m))
+            : allMembers;
+      }
+
+      membersToShow = membersToShow.map(m =>
+        _.pick(m, ['authorPhoneNumber', 'authorProfileName', 'id'])
+      );
+
+      this.memberView.updateMembers(membersToShow);
     },
 
     forceUpdateMessageFieldSize(event) {

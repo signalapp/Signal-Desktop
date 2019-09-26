@@ -4466,7 +4466,7 @@ https-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
-https-proxy-agent@^2.2.1:
+https-proxy-agent@2.2.1, https-proxy-agent@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-2.2.1.tgz#51552970fa04d723e04c56d04178c3f92592bbc0"
   integrity sha512-HPCTS1LW51bcyMYbxUIOO4HEOlQ1/1qRaFWcyxvwaqUS9TY88aoEuHUY33kuAh1YhVVaDQhLZsnPd+XNARWZlQ==
@@ -6021,6 +6021,13 @@ mixin-deep@^1.2.0:
   dependencies:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
+
+mixpanel@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/mixpanel/-/mixpanel-0.10.2.tgz#10ff6cd76034b262d469094ad3d8c99039345376"
+  integrity sha512-+zbBQGd/Q5LLRooqJ2iyEDzKz2/ly4TipH5tE9te0BDMJpROxUMGffPulyHbh4FtMcbJuPmIUSIfy//JhhnlnA==
+  dependencies:
+    https-proxy-agent "2.2.1"
 
 mkdirp@0.5.0:
   version "0.5.0"

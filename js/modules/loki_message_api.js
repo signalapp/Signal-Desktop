@@ -91,17 +91,10 @@ class LokiMessageAPI {
     };
 
     if (isPublic) {
-      const { profile } = data;
-      let displayName = 'Anonymous';
-      if (profile && profile.displayName) {
-        ({ displayName } = profile);
-      }
       const res = await publicSendData.sendMessage(
         data.body,
         data.quote,
-        messageTimeStamp,
-        displayName,
-        this.ourKey
+        messageTimeStamp
       );
       if (res === false) {
         throw new window.textsecure.PublicChatError(
@@ -181,6 +174,7 @@ class LokiMessageAPI {
     try {
       // eslint-disable-next-line more/no-then
       success = await firstTrue(promises);
+      window.mixpanel.track('Sent Message Using Swarm API');
     } catch (e) {
       if (e instanceof textsecure.WrongDifficultyError) {
         // Force nonce recalculation
@@ -194,6 +188,7 @@ class LokiMessageAPI {
       throw e;
     }
     if (!success) {
+      window.mixpanel.track('Failed to Send Message Using Swarm API');
       throw new window.textsecure.EmptySwarmError(
         pubKey,
         'Ran out of swarm nodes to query'
@@ -258,6 +253,7 @@ class LokiMessageAPI {
       } catch (e) {
         log.warn('Loki send message:', e);
         if (e instanceof textsecure.WrongSwarmError) {
+          window.mixpanel.track('Migrated Snode');
           const { newSwarm } = e;
           await lokiSnodeAPI.updateSwarmNodes(params.pubKey, newSwarm);
           this.sendingData[params.timestamp].swarm = newSwarm;
