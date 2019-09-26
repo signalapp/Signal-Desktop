@@ -19,6 +19,7 @@
 /* global lokiP2pAPI: false */
 /* global feeds: false */
 /* global Whisper: false */
+/* global lokiFileServerAPI: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -1248,6 +1249,48 @@ MessageReceiver.prototype.extend({
     }
     return this.handleAuthorisationForContact(envelope, pairingAuthorisation);
   },
+
+  async handleSecondaryDeviceFriendRequest(pubKey, deviceMapping) {
+    if (!deviceMapping) {
+      return false;
+    }
+    // Only handle secondary pubkeys
+    if (deviceMapping.isPrimary === '1' || !deviceMapping.authorisations) {
+      return false;
+    }
+    const { authorisations } = deviceMapping;
+    // Secondary devices should only have 1 authorisation from a primary device
+    if (authorisations.length !== 1) {
+      return false;
+    }
+    const authorisation = authorisations[0];
+    if (!authorisation) {
+      return false;
+    }
+    if (!authorisation.grantSignature) {
+      return false;
+    }
+    const isValid = await libloki.crypto.validateAuthorisation(authorisation);
+    if (!isValid) {
+      return false;
+    }
+    const correctSender = pubKey === authorisation.secondaryDevicePubKey;
+    if (!correctSender) {
+      return false;
+    }
+    const { primaryDevicePubKey } = authorisation;
+    // ensure the primary device is a friend
+    const c = window.ConversationController.get(primaryDevicePubKey);
+    if (!c || !c.isFriend()) {
+      return false;
+    }
+    await libloki.storage.savePairingAuthorisation(authorisation);
+    // sending a message back = accepting friend request
+    window.libloki.api.sendBackgroundMessage(pubKey);
+
+    return true;
+  },
+
   handleDataMessage(envelope, msg) {
     if (!envelope.isP2p) {
       const timestamp = envelope.timestamp.toNumber();
@@ -1287,9 +1330,20 @@ MessageReceiver.prototype.extend({
           await conversation.setLokiProfile(profile);
         }
 
-        if (friendRequest && isMe) {
-          window.log.info('refusing to add a friend request to ourselves');
-          throw new Error('Cannot add a friend request for ourselves!');
+        if (friendRequest) {
+          if (isMe) {
+            window.log.info('refusing to add a friend request to ourselves');
+            throw new Error('Cannot add a friend request for ourselves!');
+          } else {
+            const senderPubKey = envelope.source;
+            // fetch the device mapping from the server
+            const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(senderPubKey);
+            // auto-accept friend request if the device is paired to one of our friend
+            const autoAccepted = await this.handleSecondaryDeviceFriendRequest(senderPubKey, deviceMapping);
+            if (autoAccepted) {
+              return this.removeFromCache(envelope);
+            }
+          }
         }
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
