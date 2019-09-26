@@ -1,4 +1,11 @@
-/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil, _, lokiFileServerAPI */
+/* global Whisper,
+ $,
+ getAccountManager,
+ textsecure,
+ i18n,
+ passwordUtil,
+ _,
+ lokiFileServerAPI */
 
 /* eslint-disable more/no-then */
 
