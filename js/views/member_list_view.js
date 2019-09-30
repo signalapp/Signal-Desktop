@@ -9,6 +9,7 @@
   Whisper.MemberListView = Whisper.View.extend({
     initialize(options) {
       this.member_list = [];
+      this.memberMapping = {};
       this.selected_idx = 0;
       this.onClicked = options.onClicked;
       this.render();
@@ -43,6 +44,31 @@
         this.render();
       }
     },
+    replaceMentions(message) {
+      let result = message;
+
+      // Sort keys from long to short, so we don't have to
+      // worry about one key being a substring of another
+      const keys = _.sortBy(_.keys(this.memberMapping), d => -d.length);
+
+      keys.forEach(key => {
+        const pubkey = this.memberMapping[key];
+        result = result.split(key).join(`@${pubkey}`);
+      });
+
+      return result;
+    },
+    pendingMentions() {
+      return this.memberMapping;
+    },
+    deleteMention(mention) {
+      if (mention) {
+        delete this.memberMapping[mention];
+      } else {
+        // Delete all mentions if no argument is passed
+        this.memberMapping = {};
+      }
+    },
     membersShown() {
       return this.member_list.length !== 0;
     },
@@ -59,6 +85,22 @@
     },
     selectedMember() {
       return this.member_list[this.selected_idx];
+    },
+    addPubkeyMapping(name, pubkey) {
+      let handle = `@${name}`;
+      let chars = 4;
+
+      while (
+        _.has(this.memberMapping, handle) &&
+        this.memberMapping[handle] !== pubkey
+      ) {
+        const shortenedPubkey = pubkey.substr(pubkey.length - chars);
+        handle = `@${name}(..${shortenedPubkey})`;
+        chars += 1;
+      }
+
+      this.memberMapping[handle] = pubkey;
+      return handle;
     },
   });
 })();

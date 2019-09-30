@@ -1603,11 +1603,16 @@
         this.$messageField.val(),
         cursorPos
       );
-      let firstHalf = `${prev}@${member.authorPhoneNumber}`;
+
+      const handle = this.memberView.addPubkeyMapping(
+        member.authorProfileName,
+        member.authorPhoneNumber
+      );
+
+      let firstHalf = `${prev}${handle}`;
       let newCursorPos = firstHalf.length;
 
-      const needExtraWhitespace =
-        end.length === 0 || /[a-fA-F0-9@]/.test(end[0]);
+      const needExtraWhitespace = end.length === 0 || /\b/.test(end[0]);
       if (needExtraWhitespace) {
         firstHalf += ' ';
         newCursorPos += 1;
@@ -1810,7 +1815,9 @@
       this.model.clearTypingTimers();
 
       const input = this.$messageField;
-      const message = window.Signal.Emoji.replaceColons(input.val()).trim();
+
+      let message = this.memberView.replaceMentions(input.val());
+      message = window.Signal.Emoji.replaceColons(message).trim();
 
       let toast;
       if (extension.expired()) {
@@ -1853,6 +1860,7 @@
         );
 
         input.val('');
+        this.memberView.deleteMention();
         this.setQuoteMessage(null);
         this.resetLinkPreview();
         this.focusMessageFieldAndClearDisabled();
@@ -2186,12 +2194,183 @@
       }
     },
 
+    handleDeleteOrBackspace(event, isDelete) {
+      const $input = this.$messageField[0];
+      const text = this.$messageField.val();
+
+      // Only handle the case when nothing is selected
+      if ($input.selectionDirection !== 'none') {
+        // Note: if this ends up deleting a handle, we should
+        // (ideally) check if we need to update the mapping in
+        // `this.memberView`, but that's not vital as we already
+        // reset it on every 'send'
+        return;
+      }
+
+      const mentions = this.memberView.pendingMentions();
+
+      const _ = window.Lodash; // no underscore.js please
+      const predicate = isDelete ? _.startsWith : _.endsWith;
+
+      const pos = $input.selectionStart;
+      const part = isDelete ? text.substr(pos) : text.substr(0, pos);
+
+      let curMention = null;
+      _.forEach(mentions, (val, key) => {
+        let shouldContinue = true;
+        if (predicate(part, key)) {
+          curMention = key;
+          shouldContinue = false;
+        }
+        return shouldContinue;
+      });
+
+      if (!curMention) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const beforeMention = isDelete
+        ? text.substr(0, pos)
+        : text.substr(0, pos - curMention.length);
+      const afterMention = isDelete
+        ? text.substr(pos + curMention.length)
+        : text.substr(pos);
+
+      const resText = beforeMention + afterMention;
+      this.$messageField.val(resText);
+      $input.selectionStart = pos;
+      $input.selectionEnd = pos;
+
+      this.memberView.deleteMention(curMention);
+    },
+
+    handleLeftRight(event, isLeft) {
+      // Return next cursor position candidate before we take
+      // various modifier keys into account
+      const nextPos = (text, cursorPos, isLeft2, isAltPressed) => {
+        // If the next char is ' ', skip it if Alt is pressed
+        let pos = cursorPos;
+        if (isAltPressed) {
+          const nextChar = isLeft2
+            ? text.substr(pos - 1, 1)
+            : text.substr(pos, 1);
+          if (nextChar === ' ') {
+            pos = isLeft2 ? pos - 1 : pos + 1;
+          }
+        }
+
+        const part = isLeft2 ? text.substr(0, pos) : text.substr(pos);
+
+        const mentions = this.memberView.pendingMentions();
+
+        const predicate = isLeft2
+          ? window.Lodash.endsWith
+          : window.Lodash.startsWith;
+
+        let curMention = null;
+        _.forEach(mentions, (val, key) => {
+          let shouldContinue = true;
+          if (predicate(part, key)) {
+            curMention = key;
+            shouldContinue = false;
+          }
+          return shouldContinue;
+        });
+
+        const offset = curMention ? curMention.length : 1;
+
+        const resPos = isLeft2 ? Math.max(0, pos - offset) : pos + offset;
+
+        return resPos;
+      };
+
+      event.preventDefault();
+
+      const $input = this.$messageField[0];
+
+      const posStart = $input.selectionStart;
+      const posEnd = $input.selectionEnd;
+
+      const text = this.$messageField.val();
+
+      const posToChange =
+        $input.selectionDirection === 'forward' ? posEnd : posStart;
+
+      let newPos = nextPos(text, posToChange, isLeft, event.altKey);
+
+      // If command (macos) key is pressed, go to the beginning/end
+      // (this shouldn't affect Windows, but we should double check that)
+      if (event.metaKey) {
+        newPos = isLeft ? 0 : text.length;
+      }
+
+      // Alt would normally make the cursor go until the next whitespace,
+      // but we need to take the presence of a mention into account
+      if (event.altKey) {
+        const searchFrom = isLeft ? posToChange - 1 : posToChange + 1;
+        const toSearch = isLeft
+          ? text.substr(0, searchFrom)
+          : text.substr(searchFrom);
+
+        // Note: we don't seem to support tabs etc, thus no /\s/
+        let nextAltPos = isLeft
+          ? toSearch.lastIndexOf(' ')
+          : toSearch.indexOf(' ');
+
+        if (nextAltPos === -1) {
+          nextAltPos = isLeft ? 0 : text.length;
+        } else if (isLeft) {
+          nextAltPos += 1;
+        }
+
+        if (isLeft) {
+          newPos = Math.min(newPos, nextAltPos);
+        } else {
+          newPos = Math.max(newPos, nextAltPos + searchFrom);
+        }
+      }
+
+      // ==== Handle selection business ====
+      let newPosStart = newPos;
+      let newPosEnd = newPos;
+
+      let direction = $input.selectionDirection;
+
+      if (event.shiftKey) {
+        if (direction === 'none') {
+          if (isLeft) {
+            direction = 'backward';
+          } else {
+            direction = 'forward';
+          }
+        }
+      } else {
+        direction = 'none';
+      }
+
+      if (direction === 'forward') {
+        newPosStart = posStart;
+      } else if (direction === 'backward') {
+        newPosEnd = posEnd;
+      }
+
+      if (newPosStart === newPosEnd) {
+        direction = 'none';
+      }
+
+      $input.setSelectionRange(newPosStart, newPosEnd, direction);
+    },
+
     // Note: not only input, but keypresses too (rename?)
     handleInputEvent(event) {
       // Note: schedule the member list handler shortly afterwards, so
       // that the input element has time to update its cursor position to
       // what the user would expect
-      window.requestAnimationFrame(this.maybeShowMembers.bind(this, event));
+      if (this.model.isPublic()) {
+        window.requestAnimationFrame(this.maybeShowMembers.bind(this, event));
+      }
 
       const keyCode = event.which || event.keyCode;
 
@@ -2235,6 +2414,20 @@
 
       if (keyPressedLeft || keyPressedRight) {
         this.$messageField.trigger('input');
+        this.handleLeftRight(event, keyPressedLeft);
+
+        return;
+      }
+
+      const keyPressedDelete = keyCode === 46;
+      const keyPressedBackspace = keyCode === 8;
+
+      if (keyPressedDelete) {
+        this.handleDeleteOrBackspace(event, true);
+      }
+
+      if (keyPressedBackspace) {
+        this.handleDeleteOrBackspace(event, false);
       }
 
       this.updateMessageFieldSize();
@@ -2309,6 +2502,7 @@
 
       let allMembers = window.lokiPublicChatAPI.getListOfMembers();
       allMembers = allMembers.filter(d => !!d);
+      allMembers = allMembers.filter(d => d.authorProfileName !== 'Anonymous');
       allMembers = _.uniq(allMembers, true, d => d.authorPhoneNumber);
 
       const cursorPos = event.target.selectionStart;
