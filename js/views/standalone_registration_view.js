@@ -141,6 +141,8 @@
       clearInterval(this.pairingInterval);
       // Ensure the left menu is updated
       Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
+      // will re-run the background initialisation
+      Whisper.events.trigger('registration_done');
       this.$el.trigger('openInbox');
     },
     async resetRegistration() {

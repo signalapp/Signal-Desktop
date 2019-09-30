@@ -875,14 +875,14 @@
     );
   }
 
-  function disconnect() {
+  async function disconnect() {
     window.log.info('disconnect');
 
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
 
     if (messageReceiver) {
-      messageReceiver.close();
+      await messageReceiver.close();
     }
     window.Signal.AttachmentDownloads.stop();
   }
@@ -912,7 +912,7 @@
     }
 
     if (messageReceiver) {
-      messageReceiver.close();
+      await messageReceiver.close();
     }
 
     const USERNAME = storage.get('number_id');
@@ -926,6 +926,26 @@
     };
 
     Whisper.Notifications.disable(); // avoid notification flood until empty
+
+    if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
+      const ourKey = textsecure.storage.user.getNumber();
+      window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+      window.localLokiServer = null;
+      window.lokiPublicChatAPI = null;
+      window.feeds = [];
+      messageReceiver = new textsecure.MessageReceiver(
+        USERNAME,
+        PASSWORD,
+        mySignalingKey,
+        options
+      );
+      messageReceiver.addEventListener('message', onMessageReceived);
+      window.textsecure.messaging = new textsecure.MessageSender(
+        USERNAME,
+        PASSWORD
+      );
+      return;
+    }
 
     // initialize the socket and start listening for messages
     startLocalLokiServer();
