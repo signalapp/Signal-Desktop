@@ -34,7 +34,9 @@ class LokiFileServerAPI {
       );
     } else {
       authorisations = [
-        await libloki.storage.getGrantAuthorisationForSecondaryPubKey(this.ourKey),
+        await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+          this.ourKey
+        ),
       ];
     }
     return this._setOurDeviceMapping(authorisations, isPrimary);

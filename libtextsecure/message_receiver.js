@@ -1068,7 +1068,9 @@ MessageReceiver.prototype.extend({
     pairingAuthorisation,
     { dataMessage, syncMessage }
   ) {
-    const valid = await libloki.crypto.validateAuthorisation(pairingAuthorisation);
+    const valid = await libloki.crypto.validateAuthorisation(
+      pairingAuthorisation
+    );
     const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
     let removedFromCache = false;
     if (alreadySecondaryDevice) {
@@ -1145,7 +1147,9 @@ MessageReceiver.prototype.extend({
     );
   },
   async handleAuthorisationForContact(envelope) {
-    window.log.error('Unexpected pairing request/authorisation received, ignoring.');
+    window.log.error(
+      'Unexpected pairing request/authorisation received, ignoring.'
+    );
     return this.removeFromCache(envelope);
   },
   async handlePairingAuthorisationMessage(envelope, content) {
@@ -1250,9 +1254,14 @@ MessageReceiver.prototype.extend({
           } else {
             const senderPubKey = envelope.source;
             // fetch the device mapping from the server
-            const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(senderPubKey);
+            const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(
+              senderPubKey
+            );
             // auto-accept friend request if the device is paired to one of our friend
-            const autoAccepted = await this.handleSecondaryDeviceFriendRequest(senderPubKey, deviceMapping);
+            const autoAccepted = await this.handleSecondaryDeviceFriendRequest(
+              senderPubKey,
+              deviceMapping
+            );
             if (autoAccepted) {
               return this.removeFromCache(envelope);
             }
