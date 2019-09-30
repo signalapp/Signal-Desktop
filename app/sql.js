@@ -815,12 +815,13 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   );
 
   const initConversation = async data => {
-    const { id, type, name, friendRequestStatus } = data;
+    // eslint-disable-next-line camelcase
+    const { id, active_at, type, name, friendRequestStatus } = data;
     await instance.run(
       `INSERT INTO conversations (
       id,
       json,
-
+      active_at,
       type,
       members,
       name,
@@ -828,7 +829,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     ) values (
       $id,
       $json,
-
+      $active_at,
       $type,
       $members,
       $name,
@@ -837,7 +838,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
       {
         $id: id,
         $json: objectToJSON(data),
-
+        $active_at: active_at,
         $type: type,
         $members: null,
         $name: name,
@@ -854,6 +855,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   console.log('lokiPublicServerData', lokiPublicServerData);
 
   const baseData = {
+    active_at: Date.now(),
     friendRequestStatus: 4, // Friends
     sealedSender: 0,
     sessionResetStatus: 0,
