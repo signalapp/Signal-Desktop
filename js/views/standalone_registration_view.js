@@ -1,4 +1,11 @@
-/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil, _ */
+/* global Whisper,
+ $,
+ getAccountManager,
+ textsecure,
+ i18n,
+ passwordUtil,
+ _,
+ lokiFileServerAPI */
 
 /* eslint-disable more/no-then */
 
@@ -137,8 +144,9 @@
       const language = this.$('#mnemonic-display-language').val();
       this.showProfilePage(mnemonic, language);
     },
-    onSecondaryDeviceRegistered() {
+    async onSecondaryDeviceRegistered() {
       clearInterval(this.pairingInterval);
+      await lokiFileServerAPI.updateOurDeviceMapping();
       // Ensure the left menu is updated
       Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
       this.$el.trigger('openInbox');
