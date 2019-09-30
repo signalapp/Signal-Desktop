@@ -75,7 +75,8 @@ module.exports = {
 
   createOrUpdatePairingAuthorisation,
   removePairingAuthorisationForSecondaryPubKey,
-  getAuthorisationForPubKey,
+  getAuthorisationForSecondaryPubKey,
+  getGrantAuthorisationsForPrimaryPubKey,
   getSecondaryDevicesFor,
   getPrimaryDeviceFor,
   getPairedDevicesFor,
@@ -1369,7 +1370,7 @@ async function removeAllSignedPreKeys() {
 }
 
 const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
-async function getAuthorisationForPubKey(pubKey, options) {
+async function getAuthorisationForSecondaryPubKey(pubKey, options) {
   const granted = options && options.granted;
   let filter = '';
   if (granted) {
@@ -1387,6 +1388,16 @@ async function getAuthorisationForPubKey(pubKey, options) {
   }
 
   return jsonToObject(row.json);
+}
+
+async function getGrantAuthorisationsForPrimaryPubKey(primaryDevicePubKey) {
+  const rows = await db.all(
+    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $primaryDevicePubKey AND isGranted = 1 ORDER BY secondaryDevicePubKey ASC;`,
+    {
+      $primaryDevicePubKey: primaryDevicePubKey,
+    }
+  );
+  return map(rows, row => jsonToObject(row.json));
 }
 
 async function createOrUpdatePairingAuthorisation(data) {
@@ -1423,13 +1434,10 @@ async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
 }
 
 async function getSecondaryDevicesFor(primaryDevicePubKey) {
-  const rows = await db.all(
-    `SELECT secondaryDevicePubKey FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $primaryDevicePubKey AND isGranted = 1 ORDER BY secondaryDevicePubKey ASC;`,
-    {
-      $primaryDevicePubKey: primaryDevicePubKey,
-    }
+  const authorisations = await getGrantAuthorisationsForPrimaryPubKey(
+    primaryDevicePubKey
   );
-  return map(rows, row => row.secondaryDevicePubKey);
+  return map(authorisations, row => row.secondaryDevicePubKey);
 }
 
 async function getPrimaryDeviceFor(secondaryDevicePubKey) {

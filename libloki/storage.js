@@ -1,4 +1,4 @@
-/* global window, libsignal, textsecure */
+/* global window, libsignal, textsecure, Signal */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -118,15 +118,47 @@
   }
 
   function removePairingAuthorisationForSecondaryPubKey(pubKey) {
-    return window.Signal.Data.removePairingAuthorisationForSecondaryPubKey(pubKey);
+    return window.Signal.Data.removePairingAuthorisationForSecondaryPubKey(
+      pubKey
+    );
   }
 
-  function getGrantAuthorisationForSecondaryPubKey(secondaryPubKey) {
-    return window.Signal.Data.getGrantAuthorisationForPubKey(secondaryPubKey);
+  // Transforms signatures from base64 to ArrayBuffer!
+  async function getGrantAuthorisationForSecondaryPubKey(secondaryPubKey) {
+    const authorisation = await window.Signal.Data.getGrantAuthorisationForSecondaryPubKey(
+      secondaryPubKey
+    );
+    if (!authorisation) {
+      return null;
+    }
+    return {
+      ...authorisation,
+      requestSignature: Signal.Crypto.base64ToArrayBuffer(
+        authorisation.requestSignature
+      ),
+      grantSignature: Signal.Crypto.base64ToArrayBuffer(
+        authorisation.grantSignature
+      ),
+    };
   }
 
-  function getAuthorisationForSecondaryPubKey(secondaryPubKey) {
-    return window.Signal.Data.getAuthorisationForPubKey(secondaryPubKey);
+  // Transforms signatures from base64 to ArrayBuffer!
+  async function getAuthorisationForSecondaryPubKey(secondaryPubKey) {
+    const authorisation = await window.Signal.Data.getAuthorisationForSecondaryPubKey(
+      secondaryPubKey
+    );
+    if (!authorisation) {
+      return null;
+    }
+    return {
+      ...authorisation,
+      requestSignature: Signal.Crypto.base64ToArrayBuffer(
+        authorisation.requestSignature
+      ),
+      grantSignature: authorisation.grantSignature
+        ? Signal.Crypto.base64ToArrayBuffer(authorisation.grantSignature)
+        : null,
+    };
   }
 
   function getSecondaryDevicesFor(primaryDevicePubKey) {

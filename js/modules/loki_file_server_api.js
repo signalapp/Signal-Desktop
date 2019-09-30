@@ -1,3 +1,7 @@
+/* global storage: false */
+/* global libloki: false */
+/* global Signal: false */
+
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
 const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
@@ -21,7 +25,22 @@ class LokiFileServerAPI {
     );
   }
 
-  setOurDeviceMapping(authorisations, isPrimary) {
+  async updateOurDeviceMapping() {
+    const isPrimary = !storage.get('isSecondaryDevice');
+    let authorisations;
+    if (isPrimary) {
+      authorisations = await Signal.Data.getGrantAuthorisationsForPrimaryPubKey(
+        this.ourKey
+      );
+    } else {
+      authorisations = [
+        await libloki.storage.getGrantAuthorisationForSecondaryPubKey(this.ourKey),
+      ];
+    }
+    return this._setOurDeviceMapping(authorisations, isPrimary);
+  }
+
+  _setOurDeviceMapping(authorisations, isPrimary) {
     const content = {
       isPrimary: isPrimary ? '1' : '0',
       authorisations,

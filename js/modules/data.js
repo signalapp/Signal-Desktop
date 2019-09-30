@@ -91,8 +91,9 @@ module.exports = {
 
   createOrUpdatePairingAuthorisation,
   removePairingAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationForPubKey,
-  getAuthorisationForPubKey,
+  getGrantAuthorisationForSecondaryPubKey,
+  getAuthorisationForSecondaryPubKey,
+  getGrantAuthorisationsForPrimaryPubKey,
   getSecondaryDevicesFor,
   getPrimaryDeviceFor,
   getPairedDevicesFor,
@@ -609,38 +610,24 @@ async function createOrUpdatePairingAuthorisation(data) {
 }
 
 async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
-  if (!pubKey){
+  if (!pubKey) {
     return;
   }
   await channels.removePairingAuthorisationForSecondaryPubKey(pubKey);
 }
 
-async function getGrantAuthorisationForPubKey(pubKey) {
-  const authorisation = await channels.getAuthorisationForPubKey(pubKey, {
+async function getGrantAuthorisationForSecondaryPubKey(pubKey) {
+  return channels.getAuthorisationForSecondaryPubKey(pubKey, {
     granted: true,
   });
-  if (!authorisation) {
-    return null;
-  }
-  return {
-    ...authorisation,
-    requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
-    grantSignature: base64ToArrayBuffer(authorisation.grantSignature),
-  };
 }
 
-async function getAuthorisationForPubKey(pubKey) {
-  const authorisation = await channels.getAuthorisationForPubKey(pubKey);
-  if (!authorisation) {
-    return null;
-  }
-  return {
-    ...authorisation,
-    requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
-    grantSignature: authorisation.grantSignature
-      ? base64ToArrayBuffer(authorisation.grantSignature)
-      : null,
-  };
+async function getGrantAuthorisationsForPrimaryPubKey(pubKey) {
+  return channels.getGrantAuthorisationsForPrimaryPubKey(pubKey);
+}
+
+function getAuthorisationForSecondaryPubKey(pubKey) {
+  return channels.getAuthorisationForSecondaryPubKey(pubKey);
 }
 
 function getSecondaryDevicesFor(primaryDevicePubKey) {
