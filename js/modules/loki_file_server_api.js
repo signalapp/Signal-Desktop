@@ -21,6 +21,11 @@ class LokiFileServerAPI {
     );
   }
 
+  async getDeviceMappingForUsers(pubKeys) {
+    const users = await this._server.getUsersAnnotations(pubKeys);
+    return users
+  }
+
   setOurDeviceMapping(authorisations, isPrimary) {
     const content = {
       isPrimary: isPrimary ? '1' : '0',
