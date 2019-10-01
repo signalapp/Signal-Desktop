@@ -140,6 +140,55 @@ class LokiAppDotNetServerAPI {
       }
     }
     this.token = token;
+
+    // verify token info
+    const tokenRes = await this.serverRequest('token');
+    // if no problems and we have data
+    if (
+      !tokenRes.err &&
+      tokenRes.response &&
+      tokenRes.response.data &&
+      tokenRes.response.data.user
+    ) {
+      // get our profile name and write it to the network
+      const ourNumber = textsecure.storage.user.getNumber();
+      const profileConvo = ConversationController.get(ourNumber);
+      const profileName = profileConvo.getProfileName();
+
+      // update profile name as needed
+      if (tokenRes.response.data.user.name !== profileName) {
+        if (profileName) {
+          // will need this when we add an annotation
+          /*
+          const privKey = await this.serverAPI.chatAPI.getPrivateKey();
+          // we might need an annotation that sets the homeserver for media
+          // better to include this with each attachment...
+          const objToSign = {
+            name: profileName,
+            version: 1,
+            annotations: [],
+          };
+          const sig = await libsignal.Curve.async.calculateSignature(
+            privKey,
+            JSON.stringify(objToSign)
+          );
+          */
+
+          await this.serverRequest('users/me', {
+            method: 'PATCH',
+            objBody: {
+              name: profileName,
+            },
+          });
+          // no big deal if it fails...
+          // } else {
+          // should we update the local from the server?
+          // guessing no because there will be multiple servers
+        }
+        // update our avatar if needed
+      }
+    }
+
     return token;
   }
 
@@ -311,6 +360,37 @@ class LokiAppDotNetServerAPI {
     return res.response.data.annotations || [];
   }
 
+  async getUsersAnnotations(pubKeys) {
+    if (!pubKeys) {
+      log.warn('No pubKeys provided to getUsersAnnotations!');
+      return [];
+    }
+    if (!pubKeys.length) {
+      log.warn('No pubKeys given to getUsersAnnotations!');
+      return [];
+    }
+    if (pubKeys.length > 200) {
+      log.warn('Too many pubKeys given to getUsersAnnotations!');
+    }
+    console.log('getUsersAnnotations', pubKeys)
+    const res = await this.serverRequest(`users`, {
+      method: 'GET',
+      params: {
+        ids: pubKeys.join(','),
+        include_user_annotations: 1,
+      },
+    });
+
+    if (res.err || !res.response || !res.response.data) {
+      if (res.err) {
+        log.error(`Error ${res.err}`);
+      }
+      return [];
+    }
+
+    return res.response.data || [];
+  }
+
   // Only one annotation at a time
   async setSelfAnnotation(type, value) {
     const annotation = { type };
@@ -417,53 +497,6 @@ class LokiPublicChannelAPI {
     }
 
     await this.conversation.setModerators(moderators || []);
-
-    // get token info
-    const tokenRes = await this.serverRequest('token');
-    // if no problems and we have data
-    if (
-      !tokenRes.err &&
-      tokenRes.response &&
-      tokenRes.response.data &&
-      tokenRes.response.data.user
-    ) {
-      // get our profile name and write it to the network
-      const profileConvo = ConversationController.get(ourNumber);
-      const profileName = profileConvo.getProfileName();
-
-      // update profile name as needed
-      if (tokenRes.response.data.user.name !== profileName) {
-        if (profileName) {
-          // will need this when we add an annotation
-          /*
-          const privKey = await this.serverAPI.chatAPI.getPrivateKey();
-          // we might need an annotation that sets the homeserver for media
-          // better to include this with each attachment...
-          const objToSign = {
-            name: profileName,
-            version: 1,
-            annotations: [],
-          };
-          const sig = await libsignal.Curve.async.calculateSignature(
-            privKey,
-            JSON.stringify(objToSign)
-          );
-          */
-
-          await this.serverRequest('users/me', {
-            method: 'PATCH',
-            objBody: {
-              name: profileName,
-            },
-          });
-          // no big deal if it fails...
-          // } else {
-          // should we update the local from the server?
-          // guessing no because there will be multiple servers
-        }
-        // update our avatar if needed
-      }
-    }
   }
 
   // delete a message on the server
@@ -706,6 +739,8 @@ class LokiPublicChannelAPI {
 
     if (!res.err && res.response) {
       let receivedAt = new Date().getTime();
+      const pubKeys = []
+      const pendingMessages = []
       res.response.data.reverse().forEach(async adnMessage => {
         // still update our last received if deleted, not signed or not valid
         this.lastGot = !this.lastGot
@@ -751,6 +786,7 @@ class LokiPublicChannelAPI {
           return; // Duplicate message
         }
 
+        // FIXME: maybe move after the de-multidev-decode
         // Add the message to the lastMessage cache and keep the last 5 recent messages
         this.lastMessagesCache = [
           ...this.lastMessagesCache,
@@ -762,6 +798,12 @@ class LokiPublicChannelAPI {
         ].splice(-5);
 
         const from = adnMessage.user.name; // profileName
+        console.log('checking', adnMessage.user.username, 'in', pubKeys)
+        if (pubKeys.indexOf(adnMessage.user.username) == -1) {
+          console.log('pushing pubkey', adnMessage.user.username)
+          pubKeys.push(adnMessage.user.username)
+          console.log('pubKeys', pubKeys)
+        }
 
         const messageData = {
           serverId: adnMessage.id,
@@ -796,14 +838,60 @@ class LokiPublicChannelAPI {
         };
         receivedAt += 1; // Ensure different arrival times
 
+        /*
         this.serverAPI.chatAPI.emit('publicMessage', {
           message: messageData,
         });
+        */
+        console.log('pushing back message from', adnMessage.user.username)
+        pendingMessages.push(messageData)
 
         // now process any user meta data updates
         // - update their conversation with a potentially new avatar
       });
       this.conversation.setLastRetrievedMessage(this.lastGot);
+
+      //
+      console.log('pendingMessages', pendingMessages.length)
+      if (pendingMessages.length) {
+        const slavePrimaryMap = {};
+
+        console.log('premultiDeviceResults', pubKeys)
+        if (pubKeys.length) {
+          const multiDeviceResults = await lokiFileServerAPI.getDeviceMappingForUsers(pubKeys);
+          console.log('multiDeviceResults', multiDeviceResults)
+          // no user or isPrimary means not multidevice, send event now
+
+
+          const primaryPubKeys = [];
+          // go through multiDeviceResults and get primary Pubkey
+          // verify secondary sig
+          // add map to slavePrimaryMap
+
+          const verifiedPrimaryPKs = [];
+          // get a list of all of primary pubKeys to verify the secondaryDevice
+          const primaryDeviceResults = await lokiFileServerAPI.getDeviceMappingForUsers(primaryPubKeys);
+          // go through primaryDeviceResults and verify primary sig
+          // if not verified remove from slavePrimaryMap
+
+          // get final list of verified chat server profile names
+          const verifiedDeviceResults = await this.getDeviceMappingForUsers(verifiedPrimaryPKs);
+          // go through verifiedDeviceResults
+          // find messages for original slave key using slavePrimaryMap
+        }
+
+        pendingMessages.forEach(messageData => {
+          if (slavePrimaryMap[messageData.source]) {
+            // rewrite source, profile
+            messageData.source = slavePrimaryMap.username
+            messageData.message.profile.displayName = slavePrimaryMap.name
+          }
+          this.serverAPI.chatAPI.emit('publicMessage', {
+            message: messageData,
+          });
+        })
+        pendingMessages = []
+      }
     }
   }
 
