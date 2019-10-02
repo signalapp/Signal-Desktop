@@ -430,6 +430,15 @@
       await storage.put('indexeddb-delete-needed', true);
     }
 
+    const currentStartup = Date.now();
+    const lastStartup = storage.get('lastStartup');
+    await storage.put('lastStartup', currentStartup);
+    const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+
+    if (lastStartup > 0 && currentStartup - lastStartup > THIRTY_DAYS) {
+      await unlinkAndDisconnect();
+    }
+
     const currentVersion = window.getVersion();
     const lastVersion = storage.get('version');
     newVersion = !lastVersion || currentVersion !== lastVersion;
@@ -1662,6 +1671,65 @@
     return message;
   }
 
+  async function unlinkAndDisconnect() {
+    Whisper.events.trigger('unauthorized');
+
+    if (messageReceiver) {
+      await messageReceiver.stopProcessing();
+
+      await window.waitForAllBatchers();
+      messageReceiver.unregisterBatchers();
+
+      messageReceiver = null;
+    }
+
+    onEmpty();
+
+    window.log.warn(
+      'Client is no longer authorized; deleting local configuration'
+    );
+    Whisper.Registration.remove();
+
+    const NUMBER_ID_KEY = 'number_id';
+    const VERSION_KEY = 'version';
+    const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
+    const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
+
+    const previousNumberId = textsecure.storage.get(NUMBER_ID_KEY);
+    const lastProcessedIndex = textsecure.storage.get(LAST_PROCESSED_INDEX_KEY);
+    const isMigrationComplete = textsecure.storage.get(
+      IS_MIGRATION_COMPLETE_KEY
+    );
+
+    try {
+      await textsecure.storage.protocol.removeAllConfiguration();
+
+      // These two bits of data are important to ensure that the app loads up
+      //   the conversation list, instead of showing just the QR code screen.
+      Whisper.Registration.markEverDone();
+      textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+
+      // These two are important to ensure we don't rip through every message
+      //   in the database attempting to upgrade it after starting up again.
+      textsecure.storage.put(
+        IS_MIGRATION_COMPLETE_KEY,
+        isMigrationComplete || false
+      );
+      textsecure.storage.put(
+        LAST_PROCESSED_INDEX_KEY,
+        lastProcessedIndex || null
+      );
+      textsecure.storage.put(VERSION_KEY, window.getVersion());
+
+      window.log.info('Successfully cleared local configuration');
+    } catch (eraseError) {
+      window.log.error(
+        'Something went wrong clearing local configuration',
+        eraseError && eraseError.stack ? eraseError.stack : eraseError
+      );
+    }
+  }
+
   async function onError(ev) {
     const { error } = ev;
     window.log.error('background onError:', Errors.toLogFormat(error));
@@ -1671,65 +1739,7 @@
       error.name === 'HTTPError' &&
       (error.code === 401 || error.code === 403)
     ) {
-      Whisper.events.trigger('unauthorized');
-
-      if (messageReceiver) {
-        await messageReceiver.stopProcessing();
-
-        await window.waitForAllBatchers();
-        messageReceiver.unregisterBatchers();
-
-        messageReceiver = null;
-      }
-
-      onEmpty();
-
-      window.log.warn(
-        'Client is no longer authorized; deleting local configuration'
-      );
-      Whisper.Registration.remove();
-
-      const NUMBER_ID_KEY = 'number_id';
-      const VERSION_KEY = 'version';
-      const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
-      const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
-
-      const previousNumberId = textsecure.storage.get(NUMBER_ID_KEY);
-      const lastProcessedIndex = textsecure.storage.get(
-        LAST_PROCESSED_INDEX_KEY
-      );
-      const isMigrationComplete = textsecure.storage.get(
-        IS_MIGRATION_COMPLETE_KEY
-      );
-
-      try {
-        await textsecure.storage.protocol.removeAllConfiguration();
-
-        // These two bits of data are important to ensure that the app loads up
-        //   the conversation list, instead of showing just the QR code screen.
-        Whisper.Registration.markEverDone();
-        textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
-
-        // These two are important to ensure we don't rip through every message
-        //   in the database attempting to upgrade it after starting up again.
-        textsecure.storage.put(
-          IS_MIGRATION_COMPLETE_KEY,
-          isMigrationComplete || false
-        );
-        textsecure.storage.put(
-          LAST_PROCESSED_INDEX_KEY,
-          lastProcessedIndex || null
-        );
-        textsecure.storage.put(VERSION_KEY, window.getVersion());
-
-        window.log.info('Successfully cleared local configuration');
-      } catch (eraseError) {
-        window.log.error(
-          'Something went wrong clearing local configuration',
-          eraseError && eraseError.stack ? eraseError.stack : eraseError
-        );
-      }
-
+      await unlinkAndDisconnect();
       return;
     }
 
