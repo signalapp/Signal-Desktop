@@ -19,6 +19,10 @@ class LokiAppDotNetAPI extends EventEmitter {
     this.myPrivateKey = false;
   }
 
+  async close() {
+    await Promise.all(this.servers.map(server => server.close()));
+  }
+
   async getPrivateKey() {
     if (!this.myPrivateKey) {
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
@@ -87,6 +91,13 @@ class LokiAppDotNetServerAPI {
       ref.token = await ref.getOrRefreshServerToken();
       log.info(`set token ${ref.token}`);
     })();
+  }
+
+  async close() {
+    this.channels.forEach(channel => channel.stop());
+    if (this.tokenPromise) {
+      await this.tokenPromise;
+    }
   }
 
   // channel getter/factory

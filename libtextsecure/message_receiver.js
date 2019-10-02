@@ -78,11 +78,15 @@ MessageReceiver.prototype.extend({
       handleRequest: this.handleRequest.bind(this),
     });
     this.httpPollingResource.pollServer();
-    localLokiServer.on('message', this.handleP2pMessage.bind(this));
-    lokiPublicChatAPI.on(
-      'publicMessage',
-      this.handleUnencryptedMessage.bind(this)
-    );
+    if (localLokiServer) {
+      localLokiServer.on('message', this.handleP2pMessage.bind(this));
+    }
+    if (lokiPublicChatAPI) {
+      lokiPublicChatAPI.on(
+        'publicMessage',
+        this.handleUnencryptedMessage.bind(this)
+      );
+    }
     // set up pollers for any RSS feeds
     feeds.forEach(feed => {
       feed.on('rssMessage', this.handleUnencryptedMessage.bind(this));
@@ -119,6 +123,9 @@ MessageReceiver.prototype.extend({
     this.incoming = [this.pending];
   },
   async startLocalServer() {
+    if (!localLokiServer) {
+      return;
+    }
     try {
       // clearnet change: getMyLokiIp -> getMyClearIp
       // const myLokiIp = await window.lokiSnodeAPI.getMyLokiIp();
@@ -185,7 +192,7 @@ MessageReceiver.prototype.extend({
       );
     }
   },
-  close() {
+  async close() {
     window.log.info('MessageReceiver.close()');
     this.calledClose = true;
 
@@ -197,6 +204,10 @@ MessageReceiver.prototype.extend({
 
     if (localLokiServer) {
       localLokiServer.close();
+    }
+
+    if (lokiPublicChatAPI) {
+      await lokiPublicChatAPI.close();
     }
 
     if (this.httpPollingResource) {
