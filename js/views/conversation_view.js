@@ -2215,15 +2215,7 @@
       const pos = $input.selectionStart;
       const part = isDelete ? text.substr(pos) : text.substr(0, pos);
 
-      let curMention = null;
-      _.forEach(mentions, (val, key) => {
-        let shouldContinue = true;
-        if (predicate(part, key)) {
-          curMention = key;
-          shouldContinue = false;
-        }
-        return shouldContinue;
-      });
+      const curMention = _.keys(mentions).find(key => predicate(part, key));
 
       if (!curMention) {
         return;
@@ -2239,9 +2231,14 @@
         : text.substr(pos);
 
       const resText = beforeMention + afterMention;
+      // NOTE: this doesn't work well with undo/redo, perhaps
+      // we should fix it one day
       this.$messageField.val(resText);
-      $input.selectionStart = pos;
-      $input.selectionEnd = pos;
+
+      const nextPos = isDelete ? pos : pos - curMention.length;
+
+      $input.selectionStart = nextPos;
+      $input.selectionEnd = nextPos;
 
       this.memberView.deleteMention(curMention);
     },
@@ -2269,15 +2266,7 @@
           ? window.Lodash.endsWith
           : window.Lodash.startsWith;
 
-        let curMention = null;
-        _.forEach(mentions, (val, key) => {
-          let shouldContinue = true;
-          if (predicate(part, key)) {
-            curMention = key;
-            shouldContinue = false;
-          }
-          return shouldContinue;
-        });
+        const curMention = _.keys(mentions).find(key => predicate(part, key));
 
         const offset = curMention ? curMention.length : 1;
 
