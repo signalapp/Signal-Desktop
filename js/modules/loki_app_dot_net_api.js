@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _ */
+clearTimeout, MessageController, libsignal, StringView, window, _, dcodeIO */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -595,6 +595,22 @@ class LokiPublicChannelAPI {
     }
   }
 
+  getSigData(sigVer, noteValue, adnMessage) {
+    let sigString = '';
+    sigString += adnMessage.text.trim();
+    sigString += noteValue.timestamp;
+    if (noteValue.quote) {
+      sigString += noteValue.quote.id;
+      sigString += noteValue.quote.author;
+      sigString += noteValue.quote.text.trim();
+      if (adnMessage.reply_to) {
+        sigString += adnMessage.reply_to;
+      }
+    }
+    sigString += sigVer;
+    return dcodeIO.ByteBuffer.wrap(sigString, 'utf8').toArrayBuffer();
+  }
+
   async getMessengerData(adnMessage) {
     if (
       !Array.isArray(adnMessage.annotations) ||
@@ -629,15 +645,12 @@ class LokiPublicChannelAPI {
     if (adnMessage.reply_to) {
       verifyObj.reply_to = adnMessage.reply_to;
     }
+    const sigData = this.getSigData(sigver, noteValue, adnMessage);
 
     const pubKeyBin = StringView.hexToArrayBuffer(adnMessage.user.username);
     const sigBin = StringView.hexToArrayBuffer(sig);
     try {
-      await libsignal.Curve.async.verifySignature(
-        pubKeyBin,
-        JSON.stringify(verifyObj),
-        sigBin
-      );
+      await libsignal.Curve.async.verifySignature(pubKeyBin, sigData, sigBin);
     } catch (e) {
       if (e.message === 'Invalid signature') {
         // keep noise out of the logs, once per start up is enough
@@ -842,20 +855,22 @@ class LokiPublicChannelAPI {
       }
     }
     const privKey = await this.serverAPI.chatAPI.getPrivateKey();
-    const objToSign = {
-      version: 1,
-      text,
-      annotations: payload.annotations,
-    };
+    const sigVer = 1;
+    let mockAdnMessage = { text };
     if (payload.reply_to) {
-      objToSign.reply_to = payload.reply_to;
+      mockAdnMessage.reply_to = payload.reply_to;
     }
+    const sigData = this.getSigData(
+      sigVer,
+      payload.annotations[0].value,
+      mockAdnMessage
+    );
     const sig = await libsignal.Curve.async.calculateSignature(
       privKey,
-      JSON.stringify(objToSign)
+      sigData
     );
     payload.annotations[0].value.sig = StringView.arrayBufferToHex(sig);
-    payload.annotations[0].value.sigver = objToSign.version;
+    payload.annotations[0].value.sigver = sigVer;
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
       method: 'POST',
       objBody: payload,
