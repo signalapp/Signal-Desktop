@@ -12,7 +12,6 @@
   Whisper,
   clipboard,
   libloki,
-  lokiFileServerAPI,
 */
 
 /* eslint-disable more/no-then */
