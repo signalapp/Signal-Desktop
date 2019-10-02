@@ -8,9 +8,9 @@
 
   window.Whisper = window.Whisper || {};
 
-  const registerIndex = 0;
-  const profileIndex = 1;
-  let currentPageIndex = registerIndex;
+  const REGISTER_INDEX = 0;
+  const PROFILE_INDEX = 1;
+  let currentPageIndex = REGISTER_INDEX;
 
   Whisper.StandaloneRegistrationView = Whisper.View.extend({
     templateName: 'standalone',
@@ -104,7 +104,7 @@
     },
     async showRegisterPage() {
       this.registrationParams = {};
-      this.showPage(registerIndex);
+      this.showPage(REGISTER_INDEX);
     },
     async showProfilePage(mnemonic, language) {
       this.registrationParams = {
@@ -114,11 +114,11 @@
       this.$passwordInput.val('');
       this.$passwordConfirmationInput.val('');
       this.onValidatePassword();
-      this.showPage(profileIndex);
+      this.showPage(PROFILE_INDEX);
       this.$('#display-name').focus();
     },
     onKeyup(event) {
-      if (currentPageIndex !== profileIndex) {
+      if (currentPageIndex !== PROFILE_INDEX) {
         // Only want enter/escape keys to work on profile page
         return;
       }
