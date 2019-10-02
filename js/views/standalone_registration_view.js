@@ -76,6 +76,7 @@
       'click #register': 'registerWithoutMnemonic',
       'click #register-mnemonic': 'registerWithMnemonic',
       'click #register-secondary-device': 'registerSecondaryDevice',
+      'click #cancel-secondary-device': 'cancelSecondaryDevice',
       'click #back-button': 'onBack',
       'click #save-button': 'onSaveProfile',
       'change #mnemonic': 'onChangeMnemonic',
@@ -163,6 +164,18 @@
       await window.ConversationController.load();
       Whisper.RotateSignedPreKeyListener.stop(Whisper.events);
     },
+    async cancelSecondaryDevice() {
+      Whisper.events.off(
+        'secondaryDeviceRegistration',
+        this.onSecondaryDeviceRegistered
+      );
+      this.$('#register-secondary-device')
+        .removeAttr('disabled')
+        .text('Link');
+      this.$('#cancel-secondary-device').hide();
+      this.$('.standalone-secondary-device #pubkey').text('');
+      await this.resetRegistration();
+    },
     async registerSecondaryDevice() {
       if (textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
         return;
@@ -172,6 +185,7 @@
       this.$('#register-secondary-device')
         .attr('disabled', 'disabled')
         .text('Sending...');
+      this.$('#cancel-secondary-device').show();
       const mnemonic = this.$('#mnemonic-display').text();
       const language = this.$('#mnemonic-display-language').val();
       const primaryPubKey = this.$('#primary-pubkey').val();
@@ -185,10 +199,7 @@
         'secondaryDeviceRegistration',
         this.onSecondaryDeviceRegistered
       );
-      clearInterval(this.pairingInterval);
-      let countDown = 60;
       const onError = async error => {
-        clearInterval(this.pairingInterval);
         this.$('.standalone-secondary-device #error')
           .text(error)
           .show();
@@ -196,18 +207,7 @@
         this.$('#register-secondary-device')
           .removeAttr('disabled')
           .text('Link');
-      };
-      const countDownCallBack = () => {
-        if (countDown > 0) {
-          this.$('#register-secondary-device').text(
-            `Waiting for Primary Device... (${countDown})`
-          );
-          countDown -= 1;
-          return;
-        }
-        onError(
-          'The primary device has not responded within 1 minute. Ensure that you accept the pairing on the primary device.'
-        );
+        this.$('#cancel-secondary-device').hide();
       };
       const c = new Whisper.Conversation({
         id: primaryPubKey,
@@ -225,8 +225,6 @@
           null
         );
         await this.accountManager.requestPairing(primaryPubKey);
-        countDownCallBack();
-        this.pairingInterval = setInterval(countDownCallBack, 1000);
         const pubkey = textsecure.storage.user.getNumber();
         const words = window.mnemonic
           .mn_encode(pubkey.slice(2), 'english')
