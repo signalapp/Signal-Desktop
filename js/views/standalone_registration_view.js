@@ -5,7 +5,7 @@
  i18n,
  passwordUtil,
  _,
- lokiFileServerAPI */
+*/
 
 /* eslint-disable more/no-then */
 
