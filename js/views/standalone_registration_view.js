@@ -146,7 +146,6 @@
     },
     async onSecondaryDeviceRegistered() {
       clearInterval(this.pairingInterval);
-      await lokiFileServerAPI.updateOurDeviceMapping();
       // Ensure the left menu is updated
       Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
       // will re-run the background initialisation
