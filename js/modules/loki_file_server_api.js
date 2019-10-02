@@ -1,5 +1,4 @@
 /* global storage: false */
-/* global libloki: false */
 /* global Signal: false */
 
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
@@ -34,9 +33,7 @@ class LokiFileServerAPI {
       );
     } else {
       authorisations = [
-        await Signal.Data.getGrantAuthorisationForSecondaryPubKey(
-          this.ourKey
-        ),
+        await Signal.Data.getGrantAuthorisationForSecondaryPubKey(this.ourKey),
       ];
     }
     return this._setOurDeviceMapping(authorisations, isPrimary);
