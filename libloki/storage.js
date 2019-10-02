@@ -1,4 +1,4 @@
-/* global window, libsignal, textsecure, Signal */
+/* global window, libsignal, textsecure, Signal, lokiFileServerAPI */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -113,6 +113,33 @@
     }
   }
 
+  // fetches device mappings from server.
+  // if the device is a secondary device,
+  // fetch the device mappings for its primary device
+  async function saveAllPairingAuthorisationsFor(pubKey) {
+    const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(pubKey);
+    let { authorisations } = deviceMapping || {};
+    if (deviceMapping) {
+      if (deviceMapping.isPrimary !== '1') {
+        const { primaryDevicePubKey } =
+          authorisations.find(
+            authorisation => authorisation.secondaryDevicePubKey === pubKey
+          ) || {};
+        if (primaryDevicePubKey) {
+          ({ authorisations } =
+            (await lokiFileServerAPI.getUserDeviceMapping(
+              primaryDevicePubKey
+            )) || {});
+        }
+        await Promise.all(
+          authorisations.map(authorisation =>
+            savePairingAuthorisation(authorisation)
+          )
+        );
+      }
+    }
+  }
+
   function savePairingAuthorisation(authorisation) {
     return window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
   }
@@ -177,6 +204,7 @@
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
     savePairingAuthorisation,
+    saveAllPairingAuthorisationsFor,
     removePairingAuthorisationForSecondaryPubKey,
     getGrantAuthorisationForSecondaryPubKey,
     getAuthorisationForSecondaryPubKey,

@@ -12,6 +12,7 @@
   Whisper,
   clipboard,
   libloki,
+  lokiFileServerAPI,
 */
 
 /* eslint-disable more/no-then */
@@ -444,6 +445,8 @@
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
+      const pubKey = this.get('conversationId');
+      await libloki.storage.saveAllPairingAuthorisationsFor(pubKey);
       conversation.onAcceptFriendRequest();
     },
     async declineFriendRequest() {

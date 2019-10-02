@@ -176,7 +176,6 @@
 
   async function validateAuthorisation(authorisation) {
     const {
-      type,
       primaryDevicePubKey,
       secondaryDevicePubKey,
       requestSignature,
@@ -184,10 +183,8 @@
     } = authorisation;
     const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
     const ourPubKey = textsecure.storage.user.getNumber();
-    const isRequest =
-      type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST;
-    const isGrant =
-      type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT;
+    const isRequest = !grantSignature;
+    const isGrant = !!grantSignature;
     if (!primaryDevicePubKey || !secondaryDevicePubKey) {
       window.log.warn(
         'Received a pairing request with missing pubkeys. Ignored.'
@@ -212,11 +209,18 @@
       window.log.warn('Received a pairing request from ourselves. Ignored.');
       return false;
     }
-    try {
+    const verify = async (signature, signatureType) => {
+      const encoding = typeof signature === 'string' ? 'base64' : undefined;
       await this.verifyPairingSignature(
         primaryDevicePubKey,
         secondaryDevicePubKey,
-        dcodeIO.ByteBuffer.wrap(requestSignature).toArrayBuffer(),
+        dcodeIO.ByteBuffer.wrap(signature, encoding).toArrayBuffer(),
+        signatureType
+      );
+    };
+    try {
+      await verify(
+        requestSignature,
         textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
       );
     } catch (e) {
@@ -228,10 +232,8 @@
     }
     if (isGrant) {
       try {
-        await this.verifyPairingSignature(
-          primaryDevicePubKey,
-          secondaryDevicePubKey,
-          dcodeIO.ByteBuffer.wrap(grantSignature).toArrayBuffer(),
+        await verify(
+          grantSignature,
           textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT
         );
       } catch (e) {

@@ -594,6 +594,9 @@ function signatureToBase64(signature) {
     return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
   } else if (isArrayBuffer(signature)) {
     return arrayBufferToBase64(signature);
+  } else if (typeof signature === 'string') {
+    // assume it's already base64
+    return signature;
   }
   throw new Error(
     'Invalid signature provided in createOrUpdatePairingAuthorisation. Needs to be either ArrayBuffer or ByteBuffer.'
