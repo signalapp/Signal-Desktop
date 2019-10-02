@@ -34,7 +34,7 @@ class LokiFileServerAPI {
       );
     } else {
       authorisations = [
-        await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        await Signal.Data.getGrantAuthorisationForSecondaryPubKey(
           this.ourKey
         ),
       ];
