@@ -49,6 +49,7 @@ export type ConversationType = {
   isClosable?: boolean;
   lastUpdated: number;
   unreadCount: number;
+  mentionedUs: boolean;
   isSelected: boolean;
   isTyping: boolean;
   isFriend?: boolean;

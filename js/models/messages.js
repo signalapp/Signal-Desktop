@@ -1969,6 +1969,12 @@
                 c.onReadMessage(message);
               }
             } else {
+              const ourNumber = textsecure.storage.user.getNumber();
+
+              if (message.attributes.body.indexOf(`@${ourNumber}`) !== -1) {
+                conversation.set({ mentionedUs: true });
+              }
+
               conversation.set({
                 unreadCount: conversation.get('unreadCount') + 1,
                 isArchived: false,
