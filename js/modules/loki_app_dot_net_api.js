@@ -725,11 +725,14 @@ class LokiPublicChannelAPI {
           ? adnMessage.id
           : Math.max(this.lastGot, adnMessage.id);
 
+        if (!adnMessage.user.name) {
+          adnMessage.user.name = 'Anonymous';
+        }
+
         if (
           !adnMessage.id ||
           !adnMessage.user ||
           !adnMessage.user.username || // pubKey lives in the username field
-          !adnMessage.user.name || // profileName lives in the name field
           !adnMessage.text ||
           adnMessage.is_deleted
         ) {
