@@ -5,7 +5,7 @@
  i18n,
  passwordUtil,
  _,
- lokiFileServerAPI */
+*/
 
 /* eslint-disable more/no-then */
 
@@ -147,7 +147,6 @@
     },
     async onSecondaryDeviceRegistered() {
       clearInterval(this.pairingInterval);
-      await lokiFileServerAPI.updateOurDeviceMapping();
       // Ensure the left menu is updated
       Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
       // will re-run the background initialisation

@@ -255,6 +255,10 @@
     window.lokiP2pAPI.on('online', ConversationController._handleOnline);
     window.lokiP2pAPI.on('offline', ConversationController._handleOffline);
     initialisedAPI = true;
+
+    if (storage.get('isSecondaryDevice')) {
+      window.lokiFileServerAPI.updateOurDeviceMapping();
+    }
   };
 
   function mapOldThemeToNew(theme) {
