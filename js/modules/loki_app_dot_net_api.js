@@ -595,7 +595,7 @@ class LokiPublicChannelAPI {
     }
   }
 
-  getSigData(sigVer, noteValue, adnMessage) {
+  static getSigData(sigVer, noteValue, adnMessage) {
     let sigString = '';
     sigString += adnMessage.text.trim();
     sigString += noteValue.timestamp;
@@ -637,15 +637,11 @@ class LokiPublicChannelAPI {
     const annoCopy = [...adnMessage.annotations];
     // strip out sig and sigver
     annoCopy[0] = _.omit(annoCopy[0], ['value.sig', 'value.sigver']);
-    const verifyObj = {
-      text: adnMessage.text,
-      version: sigver,
-      annotations: annoCopy,
-    };
-    if (adnMessage.reply_to) {
-      verifyObj.reply_to = adnMessage.reply_to;
-    }
-    const sigData = this.getSigData(sigver, noteValue, adnMessage);
+    const sigData = LokiPublicChannelAPI.getSigData(
+      sigver,
+      noteValue,
+      adnMessage
+    );
 
     const pubKeyBin = StringView.hexToArrayBuffer(adnMessage.user.username);
     const sigBin = StringView.hexToArrayBuffer(sig);
@@ -725,10 +721,6 @@ class LokiPublicChannelAPI {
           ? adnMessage.id
           : Math.max(this.lastGot, adnMessage.id);
 
-        if (!adnMessage.user.name) {
-          adnMessage.user.name = 'Anonymous';
-        }
-
         if (
           !adnMessage.id ||
           !adnMessage.user ||
@@ -777,7 +769,7 @@ class LokiPublicChannelAPI {
           },
         ].splice(-5);
 
-        const from = adnMessage.user.name; // profileName
+        const from = adnMessage.user.name || 'Anonymous'; // profileName
 
         const messageData = {
           serverId: adnMessage.id,
@@ -859,11 +851,11 @@ class LokiPublicChannelAPI {
     }
     const privKey = await this.serverAPI.chatAPI.getPrivateKey();
     const sigVer = 1;
-    let mockAdnMessage = { text };
+    const mockAdnMessage = { text };
     if (payload.reply_to) {
       mockAdnMessage.reply_to = payload.reply_to;
     }
-    const sigData = this.getSigData(
+    const sigData = LokiPublicChannelAPI.getSigData(
       sigVer,
       payload.annotations[0].value,
       mockAdnMessage
