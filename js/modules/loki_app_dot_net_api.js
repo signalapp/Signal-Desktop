@@ -860,6 +860,7 @@ class LokiPublicChannelAPI {
 
       if (pendingMessages.length) {
         const newSlavePrimaryMap = {};
+        const checkSigs = {};
 
         // console.log('premultiDeviceResults', pubKeys)
         if (pubKeys.length) {
@@ -878,6 +879,10 @@ class LokiPublicChannelAPI {
                     const { authorisations } = note.value;
                     if (Array.isArray(authorisations)) {
                       authorisations.forEach(auth => {
+                        if (auth.secondaryDevicePubKey !== user.username) {
+                          // this is not the authorization we're looking for
+                          return;
+                        }
                         // console.log('auth', auth);
                         try {
                           // request (secondary wants to be paired with this primary)
@@ -907,6 +912,7 @@ class LokiPublicChannelAPI {
                             );
                             return;
                           }
+                          checkSigs[user.username] = auth;
                           newSlavePrimaryMap[user.username] =
                             auth.primaryDevicePubKey;
                         } catch (e) {
@@ -956,68 +962,85 @@ class LokiPublicChannelAPI {
           pendingMessages = []; // free memory
 
           const verifiedPrimaryPKs = [];
-          // get a list of all of primary pubKeys to verify the secondaryDevice
-          const primaryDeviceResults = await lokiFileServerAPI.getDeviceMappingForUsers(
-            primaryPubKeys
-          );
-          // go through primaryDeviceResults
-          primaryDeviceResults.forEach(user => {
-            let found = false;
-            if (user.annotations) {
-              user.annotations.forEach(note => {
-                if (note.type === 'network.loki.messenger.devicemapping') {
-                  if (note.value.isPrimary) {
-                    const { authorisations } = note.value;
-                    if (Array.isArray(authorisations)) {
-                      authorisations.forEach(auth => {
-                        try {
-                          // grant (primary approves this secondary)
-                          window.libloki.crypto.verifyPairingSignature(
-                            auth.primaryDevicePubKey,
-                            auth.secondaryDevicePubKey,
-                            dcodeIO.ByteBuffer.wrap(
-                              auth.grantSignature,
-                              'base64'
-                            ).toArrayBuffer(),
-                            textsecure.protobuf.PairingAuthorisationMessage.Type
-                              .GRANT
-                          );
-                          if (
-                            verifiedPrimaryPKs.indexOf(
-                              `@${auth.primaryDevicePubKey}`
-                            ) === -1
-                          ) {
-                            verifiedPrimaryPKs.push(
-                              `@${auth.primaryDevicePubKey}`
+          if (primaryPubKeys.length) {
+            // get a list of all of primary pubKeys to verify the secondaryDevice
+            const primaryDeviceResults = await lokiFileServerAPI.getDeviceMappingForUsers(
+              primaryPubKeys
+            );
+            // go through primaryDeviceResults
+            primaryDeviceResults.forEach(user => {
+              let found = false;
+              if (user.annotations) {
+                user.annotations.forEach(note => {
+                  if (note.type === 'network.loki.messenger.devicemapping') {
+                    if (note.value.isPrimary) {
+                      const { authorisations } = note.value;
+                      if (Array.isArray(authorisations)) {
+                        authorisations.forEach(auth => {
+                          try {
+                            // grant (primary approves this secondary)
+                            window.libloki.crypto.verifyPairingSignature(
+                              auth.primaryDevicePubKey,
+                              auth.secondaryDevicePubKey,
+                              dcodeIO.ByteBuffer.wrap(
+                                auth.grantSignature,
+                                'base64'
+                              ).toArrayBuffer(),
+                              textsecure.protobuf.PairingAuthorisationMessage.Type
+                                .GRANT
+                            );
+                            if (
+                              verifiedPrimaryPKs.indexOf(
+                                `@${auth.primaryDevicePubKey}`
+                              ) === -1
+                            ) {
+                              verifiedPrimaryPKs.push(
+                                `@${auth.primaryDevicePubKey}`
+                              );
+                            }
+                            // assuming both are ordered
+                            // make sure our secondary and primary authorization match
+                            if (
+                              JSON.stringify(
+                                checkSigs[auth.secondaryDevicePubKey]
+                              ) !== JSON.stringify(auth)
+                            ) {
+                              // should hopefully never happen
+                              log.warn(
+                                `Valid authorizations from ${
+                                  auth.secondaryDevicePubKey
+                                } does not match ${auth.primaryDevicePubKey}`
+                              );
+                              return;
+                            }
+                            found = true;
+                          } catch (e) {
+                            log.warn(
+                              `Invalid grant signature on PrimaryPubKey ${
+                                auth.primaryDevicePubKey
+                              }`
                             );
                           }
-                          found = true;
-                        } catch (e) {
-                          log.warn(
-                            `Invalid grant signature on PrimaryPubKey ${
-                              auth.primaryDevicePubKey
-                            }`
-                          );
-                        }
-                      });
+                        });
+                      }
                     }
                   }
+                });
+              }
+              if (found) {
+                return;
+              }
+              // if not verified remove this user pubkey from newSlavePrimaryMap
+              Object.keys(newSlavePrimaryMap).forEach(slaveKey => {
+                if (newSlavePrimaryMap[slaveKey] === user.username) {
+                  log.warn(
+                    `removing unverifible ${slaveKey} to ${user.username} mapping`
+                  );
+                  delete newSlavePrimaryMap[slaveKey];
                 }
               });
-            }
-            if (found) {
-              return;
-            }
-            // if not verified remove this user pubkey from newSlavePrimaryMap
-            Object.keys(newSlavePrimaryMap).forEach(slaveKey => {
-              if (newSlavePrimaryMap[slaveKey] === user.username) {
-                log.warn(
-                  `removing unverifible ${slaveKey} to ${user.username} mapping`
-                );
-                delete newSlavePrimaryMap[slaveKey];
-              }
             });
-          });
+          }
 
           // update this.slavePrimaryMap live with updated map
           this.slavePrimaryMap = newSlavePrimaryMap;
@@ -1025,19 +1048,22 @@ class LokiPublicChannelAPI {
             `Updated device mappings ${JSON.stringify(this.slavePrimaryMap)}`
           );
 
-          // get final list of verified chat server profile names
-          const verifiedDeviceResults = await this.serverAPI.getUsersAnnotations(
-            pubKeys
-          );
-          // console.log('verifiedDeviceResults', verifiedDeviceResults)
+          // if we have verified primaryKeys then update them
+          if (verifiedPrimaryPKs.length) {
+            // get final list of verified chat server profile names
+            const verifiedDeviceResults = await this.serverAPI.getUsersAnnotations(
+              verifiedPrimaryPKs
+            );
+            // console.log('verifiedDeviceResults', verifiedDeviceResults)
 
-          // go through verifiedDeviceResults
-          const newPrimaryUserProfileName = {};
-          verifiedDeviceResults.forEach(user => {
-            newPrimaryUserProfileName[user.username] = user.name;
-          });
-          // replace whole
-          this.primaryUserProfileName = newPrimaryUserProfileName;
+            // go through verifiedDeviceResults
+            const newPrimaryUserProfileName = {};
+            verifiedDeviceResults.forEach(user => {
+              newPrimaryUserProfileName[user.username] = user.name;
+            });
+            // replace whole
+            this.primaryUserProfileName = newPrimaryUserProfileName;
+          }
 
           // process remaining messages
           const ourNumber = textsecure.storage.user.getNumber();
