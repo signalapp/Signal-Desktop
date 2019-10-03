@@ -399,7 +399,14 @@ ipc.on('show-window', () => {
   showWindow();
 });
 
-ipc.once('ready-for-updates', async () => {
+let isReadyForUpdates = false;
+async function readyForUpdates() {
+  if (isReadyForUpdates) {
+    return;
+  }
+
+  isReadyForUpdates = true;
+
   // First, install requested sticker pack
   if (process.argv.length > 1) {
     const [incomingUrl] = process.argv;
@@ -417,7 +424,12 @@ ipc.once('ready-for-updates', async () => {
       error && error.stack ? error.stack : error
     );
   }
-});
+}
+
+ipc.once('ready-for-updates', readyForUpdates);
+
+const TEN_MINUTES = 10 * 60 * 1000;
+setTimeout(readyForUpdates, TEN_MINUTES);
 
 function openReleaseNotes() {
   shell.openExternal(

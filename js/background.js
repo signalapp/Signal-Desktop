@@ -391,6 +391,11 @@
       },
 
       showStickerPack: async (packId, key) => {
+        // We can get these events even if the user has never linked this instance.
+        if (Whisper.Import.isIncomplete() || !Whisper.Registration.everDone()) {
+          return;
+        }
+
         // Kick off the download
         window.Signal.Stickers.downloadEphemeralPack(packId, key);
 
