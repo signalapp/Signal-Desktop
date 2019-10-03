@@ -73,6 +73,14 @@ module.exports = {
   removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
 
+  createOrUpdatePairingAuthorisation,
+  removePairingAuthorisationForSecondaryPubKey,
+  getAuthorisationForSecondaryPubKey,
+  getGrantAuthorisationsForPrimaryPubKey,
+  getSecondaryDevicesFor,
+  getPrimaryDeviceFor,
+  getPairedDevicesFor,
+
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -100,13 +108,15 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
+  getConversationsWithFriendStatus,
   getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
-  getPubKeysWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
+  removeAllConversations,
+  removeAllPrivateConversations,
 
   searchConversations,
   searchMessages,
@@ -780,7 +790,10 @@ async function updateSchema(instance) {
   await updateLokiSchema(instance);
 }
 
-const LOKI_SCHEMA_VERSIONS = [updateToLokiSchemaVersion1];
+const LOKI_SCHEMA_VERSIONS = [
+  updateToLokiSchemaVersion1,
+  updateToLokiSchemaVersion2,
+];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
   if (currentVersion >= 1) {
@@ -912,6 +925,34 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
   );
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion1: success!');
+}
+
+async function updateToLokiSchemaVersion2(currentVersion, instance) {
+  if (currentVersion >= 2) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion2: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `CREATE TABLE pairingAuthorisations(
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      primaryDevicePubKey VARCHAR(255),
+      secondaryDevicePubKey VARCHAR(255),
+      isGranted BOOLEAN,
+      json TEXT
+    );`
+  );
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        2
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion2: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -1271,7 +1312,7 @@ async function getContactSignedPreKeyById(id) {
 }
 async function getContactSignedPreKeyByIdentityKey(key) {
   const row = await db.get(
-    `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString;`,
+    `SELECT * FROM ${CONTACT_SIGNED_PRE_KEYS_TABLE} WHERE identityKeyString = $identityKeyString ORDER BY keyId DESC;`,
     {
       $identityKeyString: key,
     }
@@ -1329,6 +1370,114 @@ async function removeSignedPreKeyById(id) {
 }
 async function removeAllSignedPreKeys() {
   return removeAllFromTable(SIGNED_PRE_KEYS_TABLE);
+}
+
+const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
+async function getAuthorisationForSecondaryPubKey(pubKey, options) {
+  const granted = options && options.granted;
+  let filter = '';
+  if (granted) {
+    filter = 'AND isGranted = 1';
+  }
+  const row = await db.get(
+    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey ${filter};`,
+    {
+      $secondaryDevicePubKey: pubKey,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+
+async function getGrantAuthorisationsForPrimaryPubKey(primaryDevicePubKey) {
+  const rows = await db.all(
+    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $primaryDevicePubKey AND isGranted = 1 ORDER BY secondaryDevicePubKey ASC;`,
+    {
+      $primaryDevicePubKey: primaryDevicePubKey,
+    }
+  );
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function createOrUpdatePairingAuthorisation(data) {
+  const { primaryDevicePubKey, secondaryDevicePubKey, grantSignature } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${PAIRING_AUTHORISATIONS_TABLE} (
+      primaryDevicePubKey,
+      secondaryDevicePubKey,
+      isGranted,
+      json
+    ) values (
+      $primaryDevicePubKey,
+      $secondaryDevicePubKey,
+      $isGranted,
+      $json
+    )`,
+    {
+      $primaryDevicePubKey: primaryDevicePubKey,
+      $secondaryDevicePubKey: secondaryDevicePubKey,
+      $isGranted: Boolean(grantSignature),
+      $json: objectToJSON(data),
+    }
+  );
+}
+
+async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
+  await db.run(
+    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey;`,
+    {
+      $secondaryDevicePubKey: pubKey,
+    }
+  );
+}
+
+async function getSecondaryDevicesFor(primaryDevicePubKey) {
+  const authorisations = await getGrantAuthorisationsForPrimaryPubKey(
+    primaryDevicePubKey
+  );
+  return map(authorisations, row => row.secondaryDevicePubKey);
+}
+
+async function getPrimaryDeviceFor(secondaryDevicePubKey) {
+  const row = await db.get(
+    `SELECT primaryDevicePubKey FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey AND isGranted = 1;`,
+    {
+      $secondaryDevicePubKey: secondaryDevicePubKey,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return row.primaryDevicePubKey;
+}
+
+// Return all the paired pubkeys for a specific pubkey (excluded),
+// irrespective of their Primary or Secondary status.
+async function getPairedDevicesFor(pubKey) {
+  let results = [];
+
+  // get primary pubkey (only works if the pubkey is a secondary pubkey)
+  const primaryPubKey = await getPrimaryDeviceFor(pubKey);
+  if (primaryPubKey) {
+    results.push(primaryPubKey);
+  }
+  // get secondary pubkeys (only works if the pubkey is a primary pubkey)
+  const secondaryPubKeys = await getSecondaryDevicesFor(
+    primaryPubKey || pubKey
+  );
+  results = results.concat(secondaryPubKeys);
+
+  // ensure the input pubkey is not in the results
+  results = results.filter(x => x !== pubKey);
+
+  return results;
 }
 
 const ITEMS_TABLE = 'items';
@@ -1497,12 +1646,13 @@ async function getSwarmNodesByPubkey(pubkey) {
   return jsonToObject(row.json).swarmNodes;
 }
 
+const CONVERSATIONS_TABLE = 'conversations';
 async function getConversationCount() {
-  const row = await db.get('SELECT count(*) from conversations;');
+  const row = await db.get(`SELECT count(*) from ${CONVERSATIONS_TABLE};`);
 
   if (!row) {
     throw new Error(
-      'getConversationCount: Unable to get count of conversations'
+      `getConversationCount: Unable to get count of ${CONVERSATIONS_TABLE}`
     );
   }
 
@@ -1522,7 +1672,7 @@ async function saveConversation(data) {
   } = data;
 
   await db.run(
-    `INSERT INTO conversations (
+    `INSERT INTO ${CONVERSATIONS_TABLE} (
     id,
     json,
 
@@ -1586,7 +1736,7 @@ async function updateConversation(data) {
   } = data;
 
   await db.run(
-    `UPDATE conversations SET
+    `UPDATE ${CONVERSATIONS_TABLE} SET
     json = $json,
 
     active_at = $active_at,
@@ -1612,7 +1762,9 @@ async function updateConversation(data) {
 
 async function removeConversation(id) {
   if (!Array.isArray(id)) {
-    await db.run('DELETE FROM conversations WHERE id = $id;', { $id: id });
+    await db.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`, {
+      $id: id,
+    });
     return;
   }
 
@@ -1622,7 +1774,7 @@ async function removeConversation(id) {
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
   await db.run(
-    `DELETE FROM conversations WHERE id IN ( ${id
+    `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id IN ( ${id
       .map(() => '?')
       .join(', ')} );`,
     id
@@ -1662,9 +1814,12 @@ async function getPublicServerTokenByServerUrl(serverUrl) {
 }
 
 async function getConversationById(id) {
-  const row = await db.get('SELECT * FROM conversations WHERE id = $id;', {
-    $id: id,
-  });
+  const row = await db.get(
+    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
+    {
+      $id: id,
+    }
+  );
 
   if (!row) {
     return null;
@@ -1674,30 +1829,35 @@ async function getConversationById(id) {
 }
 
 async function getAllConversations() {
-  const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
+  const rows = await db.all(
+    `SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
+  );
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getPubKeysWithFriendStatus(status) {
+async function getConversationsWithFriendStatus(status) {
   const rows = await db.all(
-    `SELECT id FROM conversations WHERE
+    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
       friendRequestStatus = $status
+      AND type = 'private'
     ORDER BY id ASC;`,
     {
       $status: status,
     }
   );
-  return map(rows, row => row.id);
+  return map(rows, row => jsonToObject(row.json));
 }
 
 async function getAllConversationIds() {
-  const rows = await db.all('SELECT id FROM conversations ORDER BY id ASC;');
+  const rows = await db.all(
+    `SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
+  );
   return map(rows, row => row.id);
 }
 
 async function getAllPrivateConversations() {
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'private'
      ORDER BY id ASC;`
   );
@@ -1742,7 +1902,7 @@ async function getPublicConversationsByServer(server) {
 
 async function getAllGroupsInvolvingId(id) {
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       members LIKE $id
      ORDER BY id ASC;`,
@@ -1756,7 +1916,7 @@ async function getAllGroupsInvolvingId(id) {
 
 async function searchConversations(query, { limit } = {}) {
   const rows = await db.all(
-    `SELECT json FROM conversations WHERE
+    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       (
         id LIKE $id OR
         name LIKE $name OR
@@ -2502,6 +2662,14 @@ async function removeAllConfiguration() {
   });
 
   await promise;
+}
+
+async function removeAllConversations() {
+  await removeAllFromTable(CONVERSATIONS_TABLE);
+}
+
+async function removeAllPrivateConversations() {
+  await db.run(`DELETE FROM ${CONVERSATIONS_TABLE} WHERE type = 'private'`);
 }
 
 async function getMessagesNeedingUpgrade(limit, { maxVersion }) {

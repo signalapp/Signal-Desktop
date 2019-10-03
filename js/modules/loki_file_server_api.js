@@ -1,3 +1,6 @@
+/* global storage: false */
+/* global Signal: false */
+
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
 const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
@@ -16,17 +19,33 @@ class LokiFileServerAPI {
 
   async getUserDeviceMapping(pubKey) {
     const annotations = await this._server.getUserAnnotations(pubKey);
-    return annotations.find(
+    const deviceMapping = annotations.find(
       annotation => annotation.type === DEVICE_MAPPING_ANNOTATION_KEY
     );
+    return deviceMapping ? deviceMapping.value : null;
+  }
+
+  async updateOurDeviceMapping() {
+    const isPrimary = !storage.get('isSecondaryDevice');
+    let authorisations;
+    if (isPrimary) {
+      authorisations = await Signal.Data.getGrantAuthorisationsForPrimaryPubKey(
+        this.ourKey
+      );
+    } else {
+      authorisations = [
+        await Signal.Data.getGrantAuthorisationForSecondaryPubKey(this.ourKey),
+      ];
+    }
+    return this._setOurDeviceMapping(authorisations, isPrimary);
   }
 
   async getDeviceMappingForUsers(pubKeys) {
     const users = await this._server.getUsersAnnotations(pubKeys);
-    return users
+    return users;
   }
 
-  setOurDeviceMapping(authorisations, isPrimary) {
+  _setOurDeviceMapping(authorisations, isPrimary) {
     const content = {
       isPrimary: isPrimary ? '1' : '0',
       authorisations,

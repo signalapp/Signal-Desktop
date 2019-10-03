@@ -10,7 +10,8 @@
   Signal,
   textsecure,
   Whisper,
-  clipboard
+  clipboard,
+  libloki,
 */
 
 /* eslint-disable more/no-then */
@@ -443,6 +444,8 @@
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
+      const pubKey = this.get('conversationId');
+      await libloki.storage.saveAllPairingAuthorisationsFor(pubKey);
       conversation.onAcceptFriendRequest();
     },
     async declineFriendRequest() {
@@ -931,6 +934,7 @@
       //   that contact. Otherwise, it will be a standalone entry.
       const errors = _.reject(allErrors, error => Boolean(error.number));
       const errorsGroupedById = _.groupBy(allErrors, 'number');
+      const primaryDevicePubKey = this.get('conversationId');
       const finalContacts = (phoneNumbers || []).map(id => {
         const errorsForContact = errorsGroupedById[id];
         const isOutgoingKeyError = Boolean(
@@ -940,12 +944,20 @@
           storage.get('unidentifiedDeliveryIndicators') &&
           this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
+        const isPrimaryDevice = id === primaryDevicePubKey;
+
+        const contact = this.findAndFormatContact(id);
+        const profileName = isPrimaryDevice
+          ? contact.profileName
+          : `${contact.profileName} (Secondary Device)`;
         return {
-          ...this.findAndFormatContact(id),
+          ...contact,
           status: this.getStatus(id),
           errors: errorsForContact,
           isOutgoingKeyError,
           isUnidentifiedDelivery,
+          isPrimaryDevice,
+          profileName,
           onSendAnyway: () =>
             this.trigger('force-send', {
               contact: this.findContact(id),
@@ -960,7 +972,8 @@
       //   first; otherwise it's alphabetical
       const sortedContacts = _.sortBy(
         finalContacts,
-        contact => `${contact.errors ? '0' : '1'}${contact.title}`
+        contact =>
+          `${contact.isPrimaryDevice ? '0' : '1'}${contact.phoneNumber}`
       );
 
       return {
@@ -1760,7 +1773,7 @@
       return message;
     },
 
-    handleDataMessage(initialMessage, confirm) {
+    async handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
       //   2. on a sent message sync'd from another device
@@ -1770,9 +1783,15 @@
       const source = message.get('source');
       const type = message.get('type');
       let conversationId = message.get('conversationId');
+      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        source
+      );
       if (initialMessage.group) {
         conversationId = initialMessage.group.id;
+      } else if (authorisation) {
+        conversationId = authorisation.primaryDevicePubKey;
       }
+
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
@@ -2023,10 +2042,7 @@
                 }
               );
             }
-          } else if (
-            source !== textsecure.storage.user.getNumber() &&
-            dataMessage.profile
-          ) {
+          } else if (dataMessage.profile) {
             ConversationController.getOrCreateAndWait(source, 'private').then(
               sender => {
                 sender.setLokiProfile(dataMessage.profile);

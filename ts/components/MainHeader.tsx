@@ -13,6 +13,7 @@ import { ContactName } from './conversation/ContactName';
 
 import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { LocalizerType } from '../types/Util';
+import { SearchOptions } from '../types/Search';
 import { clipboard } from 'electron';
 
 import { validateNumber } from '../types/PhoneNumber';
@@ -37,17 +38,11 @@ export interface Props {
   verified: boolean;
   profileName?: string;
   avatarPath?: string;
+  isSecondaryDevice: boolean;
 
   i18n: LocalizerType;
   updateSearchTerm: (searchTerm: string) => void;
-  search: (
-    query: string,
-    options: {
-      regionCode: string;
-      ourNumber: string;
-      noteToSelf: string;
-    }
-  ) => void;
+  search: (query: string, options: SearchOptions) => void;
   clearSearch: () => void;
 
   onClick?: () => void;
@@ -88,7 +83,9 @@ export class MainHeader extends React.Component<Props, any> {
 
     setInterval(() => {
       const clipboardText = clipboard.readText();
-      this.setState({ clipboardText });
+      if (this.state.clipboardText !== clipboardText) {
+        this.setState({ clipboardText });
+      }
     }, 100);
   }
 
@@ -98,18 +95,29 @@ export class MainHeader extends React.Component<Props, any> {
   }
 
   public componentDidUpdate(_prevProps: Props, prevState: any) {
-    if (prevState.hasPass !== this.state.hasPass) {
+    if (
+      prevState.hasPass !== this.state.hasPass ||
+      _prevProps.isSecondaryDevice !== this.props.isSecondaryDevice
+    ) {
       this.updateMenuItems();
     }
   }
 
   public search() {
-    const { searchTerm, search, i18n, ourNumber, regionCode } = this.props;
+    const {
+      searchTerm,
+      search,
+      i18n,
+      ourNumber,
+      regionCode,
+      isSecondaryDevice,
+    } = this.props;
     if (search) {
       search(searchTerm, {
         noteToSelf: i18n('noteToSelf').toLowerCase(),
         ourNumber,
         regionCode,
+        isSecondaryDevice,
       });
     }
   }
@@ -304,7 +312,7 @@ export class MainHeader extends React.Component<Props, any> {
   }
 
   private updateMenuItems() {
-    const { i18n, onCopyPublicKey } = this.props;
+    const { i18n, onCopyPublicKey, isSecondaryDevice } = this.props;
     const { hasPass } = this.state;
 
     const menuItems = [
@@ -356,6 +364,16 @@ export class MainHeader extends React.Component<Props, any> {
       menuItems.push(passItem('change'), passItem('remove'));
     } else {
       menuItems.push(passItem('set'));
+    }
+
+    if (!isSecondaryDevice) {
+      menuItems.push({
+        id: 'pairNewDevice',
+        name: 'Device Pairing',
+        onClick: () => {
+          trigger('showDevicePairingDialog');
+        },
+      });
     }
 
     this.setState({ menuItems });

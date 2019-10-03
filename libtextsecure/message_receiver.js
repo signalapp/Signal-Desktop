@@ -18,6 +18,8 @@
 /* global lokiMessageAPI: false */
 /* global lokiP2pAPI: false */
 /* global feeds: false */
+/* global Whisper: false */
+/* global lokiFileServerAPI: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -76,11 +78,15 @@ MessageReceiver.prototype.extend({
       handleRequest: this.handleRequest.bind(this),
     });
     this.httpPollingResource.pollServer();
-    localLokiServer.on('message', this.handleP2pMessage.bind(this));
-    lokiPublicChatAPI.on(
-      'publicMessage',
-      this.handleUnencryptedMessage.bind(this)
-    );
+    if (localLokiServer) {
+      localLokiServer.on('message', this.handleP2pMessage.bind(this));
+    }
+    if (lokiPublicChatAPI) {
+      lokiPublicChatAPI.on(
+        'publicMessage',
+        this.handleUnencryptedMessage.bind(this)
+      );
+    }
     // set up pollers for any RSS feeds
     feeds.forEach(feed => {
       feed.on('rssMessage', this.handleUnencryptedMessage.bind(this));
@@ -117,6 +123,9 @@ MessageReceiver.prototype.extend({
     this.incoming = [this.pending];
   },
   async startLocalServer() {
+    if (!localLokiServer) {
+      return;
+    }
     try {
       // clearnet change: getMyLokiIp -> getMyClearIp
       // const myLokiIp = await window.lokiSnodeAPI.getMyLokiIp();
@@ -183,7 +192,7 @@ MessageReceiver.prototype.extend({
       );
     }
   },
-  close() {
+  async close() {
     window.log.info('MessageReceiver.close()');
     this.calledClose = true;
 
@@ -195,6 +204,10 @@ MessageReceiver.prototype.extend({
 
     if (localLokiServer) {
       localLokiServer.close();
+    }
+
+    if (lokiPublicChatAPI) {
+      await lokiPublicChatAPI.close();
     }
 
     if (this.httpPollingResource) {
@@ -1046,6 +1059,166 @@ MessageReceiver.prototype.extend({
     }
     return this.removeFromCache(envelope);
   },
+  async handlePairingRequest(envelope, pairingRequest) {
+    const valid = await libloki.crypto.validateAuthorisation(pairingRequest);
+    if (valid) {
+      // Pairing dialog is open and is listening
+      if (Whisper.events.isListenedTo('devicePairingRequestReceived')) {
+        await window.libloki.storage.savePairingAuthorisation(pairingRequest);
+        Whisper.events.trigger(
+          'devicePairingRequestReceived',
+          pairingRequest.secondaryDevicePubKey
+        );
+      }
+      // Ignore requests if the dialog is closed
+    }
+    return this.removeFromCache(envelope);
+  },
+  async handleAuthorisationForSelf(
+    envelope,
+    pairingAuthorisation,
+    { dataMessage, syncMessage }
+  ) {
+    const valid = await libloki.crypto.validateAuthorisation(
+      pairingAuthorisation
+    );
+    const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
+    let removedFromCache = false;
+    if (alreadySecondaryDevice) {
+      window.log.warn(
+        'Received an unexpected pairing authorisation (device is already paired as secondary device). Ignoring.'
+      );
+    } else if (!valid) {
+      window.log.warn(
+        'Received invalid pairing authorisation for self. Could not verify signature. Ignoring.'
+      );
+    } else {
+      const { type, primaryDevicePubKey } = pairingAuthorisation;
+      if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT) {
+        // Authorisation received to become a secondary device
+        window.log.info(
+          `Received pairing authorisation from ${primaryDevicePubKey}`
+        );
+        await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
+        // Set current device as secondary.
+        // This will ensure the authorisation is sent
+        // along with each friend request.
+        window.storage.remove('secondaryDeviceStatus');
+        window.storage.put('isSecondaryDevice', true);
+        Whisper.events.trigger('secondaryDeviceRegistration');
+        // Update profile name
+        if (dataMessage && dataMessage.profile) {
+          const ourNumber = textsecure.storage.user.getNumber();
+          const me = window.ConversationController.get(ourNumber);
+          if (me) {
+            me.setLokiProfile(dataMessage.profile);
+          }
+        }
+        // Update contact list
+        if (syncMessage && syncMessage.contacts) {
+          // This call already removes the envelope from the cache
+          await this.handleContacts(envelope, syncMessage.contacts);
+          removedFromCache = true;
+          await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
+        }
+      } else {
+        window.log.warn('Unimplemented pairing authorisation message type');
+      }
+    }
+    if (!removedFromCache) {
+      await this.removeFromCache(envelope);
+    }
+  },
+  async sendFriendRequestsToSyncContacts(contacts) {
+    const attachmentPointer = await this.handleAttachment(contacts);
+    const contactBuffer = new ContactBuffer(attachmentPointer.data);
+    let contactDetails = contactBuffer.next();
+    // Extract just the pubkeys
+    const friendPubKeys = [];
+    while (contactDetails !== undefined) {
+      friendPubKeys.push(contactDetails.number);
+      contactDetails = contactBuffer.next();
+    }
+    return Promise.all(
+      friendPubKeys.map(async pubKey => {
+        const c = await window.ConversationController.getOrCreateAndWait(
+          pubKey,
+          'private'
+        );
+        if (!c) {
+          return null;
+        }
+        const attachments = [];
+        const quote = null;
+        const linkPreview = null;
+        // Send an empty message, the underlying logic will know
+        // it should send a friend request
+        return c.sendMessage('', attachments, quote, linkPreview);
+      })
+    );
+  },
+  async handleAuthorisationForContact(envelope) {
+    window.log.error(
+      'Unexpected pairing request/authorisation received, ignoring.'
+    );
+    return this.removeFromCache(envelope);
+  },
+  async handlePairingAuthorisationMessage(envelope, content) {
+    const { pairingAuthorisation } = content;
+    const { type, secondaryDevicePubKey } = pairingAuthorisation;
+    if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST) {
+      return this.handlePairingRequest(envelope, pairingAuthorisation);
+    } else if (secondaryDevicePubKey === textsecure.storage.user.getNumber()) {
+      return this.handleAuthorisationForSelf(
+        envelope,
+        pairingAuthorisation,
+        content
+      );
+    }
+    return this.handleAuthorisationForContact(envelope);
+  },
+
+  async handleSecondaryDeviceFriendRequest(pubKey, deviceMapping) {
+    if (!deviceMapping) {
+      return false;
+    }
+    // Only handle secondary pubkeys
+    if (deviceMapping.isPrimary === '1' || !deviceMapping.authorisations) {
+      return false;
+    }
+    const { authorisations } = deviceMapping;
+    // Secondary devices should only have 1 authorisation from a primary device
+    if (authorisations.length !== 1) {
+      return false;
+    }
+    const authorisation = authorisations[0];
+    if (!authorisation) {
+      return false;
+    }
+    if (!authorisation.grantSignature) {
+      return false;
+    }
+    const isValid = await libloki.crypto.validateAuthorisation(authorisation);
+    if (!isValid) {
+      return false;
+    }
+    const correctSender = pubKey === authorisation.secondaryDevicePubKey;
+    if (!correctSender) {
+      return false;
+    }
+    const { primaryDevicePubKey } = authorisation;
+    // ensure the primary device is a friend
+    const c = window.ConversationController.get(primaryDevicePubKey);
+    if (!c || !c.isFriend()) {
+      return false;
+    }
+    await libloki.storage.savePairingAuthorisation(authorisation);
+    // sending a message back = accepting friend request
+    window.libloki.api.sendBackgroundMessage(pubKey);
+
+    return true;
+  },
+
   handleDataMessage(envelope, msg) {
     if (!envelope.isP2p) {
       const timestamp = envelope.timestamp.toNumber();
@@ -1085,9 +1258,25 @@ MessageReceiver.prototype.extend({
           await conversation.setLokiProfile(profile);
         }
 
-        if (friendRequest && isMe) {
-          window.log.info('refusing to add a friend request to ourselves');
-          throw new Error('Cannot add a friend request for ourselves!');
+        if (friendRequest) {
+          if (isMe) {
+            window.log.info('refusing to add a friend request to ourselves');
+            throw new Error('Cannot add a friend request for ourselves!');
+          } else {
+            const senderPubKey = envelope.source;
+            // fetch the device mapping from the server
+            const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(
+              senderPubKey
+            );
+            // auto-accept friend request if the device is paired to one of our friend
+            const autoAccepted = await this.handleSecondaryDeviceFriendRequest(
+              senderPubKey,
+              deviceMapping
+            );
+            if (autoAccepted) {
+              return this.removeFromCache(envelope);
+            }
+          }
         }
 
         if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
@@ -1156,6 +1345,9 @@ MessageReceiver.prototype.extend({
         envelope,
         content.lokiAddressMessage
       );
+    }
+    if (content.pairingAuthorisation) {
+      return this.handlePairingAuthorisationMessage(envelope, content);
     }
     if (content.syncMessage) {
       return this.handleSyncMessage(envelope, content.syncMessage);
@@ -1328,11 +1520,11 @@ MessageReceiver.prototype.extend({
   },
   handleContacts(envelope, contacts) {
     window.log.info('contact sync');
-    const { blob } = contacts;
+    // const { blob } = contacts;
 
     // Note: we do not return here because we don't want to block the next message on
     //   this attachment download and a lot of processing of that attachment.
-    this.handleAttachment(blob).then(attachmentPointer => {
+    this.handleAttachment(contacts).then(attachmentPointer => {
       const results = [];
       const contactBuffer = new ContactBuffer(attachmentPointer.data);
       let contactDetails = contactBuffer.next();
@@ -1435,8 +1627,8 @@ MessageReceiver.prototype.extend({
     };
   },
   async downloadAttachment(attachment) {
-    window.log.info('Not downloading attachments.');
-    return Promise.reject();
+    // window.log.info('Not downloading attachments.');
+    // return Promise.reject();
 
     const encrypted = await this.server.getAttachment(attachment.id);
     const { key, digest, size } = attachment;
@@ -1461,8 +1653,11 @@ MessageReceiver.prototype.extend({
     };
   },
   handleAttachment(attachment) {
-    window.log.info('Not handling attachments.');
-    return Promise.reject();
+    // window.log.info('Not handling attachments.');
+    return Promise.resolve({
+      ...attachment,
+      data: dcodeIO.ByteBuffer.wrap(attachment.data).toArrayBuffer(), // ByteBuffer to ArrayBuffer
+    });
 
     const cleaned = this.cleanAttachment(attachment);
     return this.downloadAttachment(cleaned);

@@ -172,6 +172,8 @@
     return -1;
   };
   Whisper.events = _.clone(Backbone.Events);
+  Whisper.events.isListenedTo = eventName =>
+    Whisper.events._events ? !!Whisper.events._events[eventName] : false;
   let accountManager;
   window.getAccountManager = () => {
     if (!accountManager) {
@@ -182,6 +184,7 @@
         const user = {
           regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
+          isSecondaryDevice: !!textsecure.storage.get('isSecondaryDevice'),
         };
         Whisper.events.trigger('userChanged', user);
 
@@ -205,7 +208,11 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
+  let specialConvInited = false;
   const initSpecialConversations = async () => {
+    if (specialConvInited) {
+      return;
+    }
     const rssFeedConversations = await window.Signal.Data.getAllRssFeedConversations(
       {
         ConversationCollection: Whisper.ConversationCollection,
@@ -223,9 +230,14 @@
       // weird but create the object and does everything we need
       conversation.getPublicSendData();
     });
+    specialConvInited = true;
   };
 
+  let initialisedAPI = false;
   const initAPIs = async () => {
+    if (initialisedAPI) {
+      return;
+    }
     const ourKey = textsecure.storage.user.getNumber();
     window.feeds = [];
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
@@ -242,6 +254,11 @@
     });
     window.lokiP2pAPI.on('online', ConversationController._handleOnline);
     window.lokiP2pAPI.on('offline', ConversationController._handleOffline);
+    initialisedAPI = true;
+
+    if (storage.get('isSecondaryDevice')) {
+      window.lokiFileServerAPI.updateOurDeviceMapping();
+    }
   };
 
   function mapOldThemeToNew(theme) {
@@ -259,6 +276,9 @@
   }
 
   function startLocalLokiServer() {
+    if (window.localLokiServer) {
+      return;
+    }
     const pems = window.getSelfSignedCert();
     window.localLokiServer = new window.LocalLokiServer(pems);
   }
@@ -628,7 +648,10 @@
     if (Whisper.Import.isIncomplete()) {
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
-    } else if (Whisper.Registration.everDone()) {
+    } else if (
+      Whisper.Registration.isDone() &&
+      !Whisper.Registration.ongoingSecondaryDeviceRegistration()
+    ) {
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
       // window.Signal.RefreshSenderCertificate.initialize({
@@ -756,6 +779,12 @@
       }
     });
 
+    Whisper.events.on('showDevicePairingDialog', async () => {
+      if (appView) {
+        appView.showDevicePairingDialog();
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
@@ -790,6 +819,22 @@
       if (appView && appView.inboxView) {
         appView.inboxView.trigger('password-updated');
       }
+    });
+
+    Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
+      try {
+        await getAccountManager().authoriseSecondaryDevice(pubKey);
+        cb(null);
+      } catch (e) {
+        cb(e);
+      }
+    });
+
+    Whisper.events.on('devicePairingRequestRejected', async pubKey => {
+      await window.libloki.storage.removeContactPreKeyBundle(pubKey);
+      await window.libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+        pubKey
+      );
     });
   }
 
@@ -836,14 +881,14 @@
     );
   }
 
-  function disconnect() {
+  async function disconnect() {
     window.log.info('disconnect');
 
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
 
     if (messageReceiver) {
-      messageReceiver.close();
+      await messageReceiver.close();
     }
     window.Signal.AttachmentDownloads.stop();
   }
@@ -873,7 +918,7 @@
     }
 
     if (messageReceiver) {
-      messageReceiver.close();
+      await messageReceiver.close();
     }
 
     const USERNAME = storage.get('number_id');
@@ -887,6 +932,26 @@
     };
 
     Whisper.Notifications.disable(); // avoid notification flood until empty
+
+    if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
+      const ourKey = textsecure.storage.user.getNumber();
+      window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+      window.localLokiServer = null;
+      window.lokiPublicChatAPI = null;
+      window.feeds = [];
+      messageReceiver = new textsecure.MessageReceiver(
+        USERNAME,
+        PASSWORD,
+        mySignalingKey,
+        options
+      );
+      messageReceiver.addEventListener('message', onMessageReceived);
+      window.textsecure.messaging = new textsecure.MessageSender(
+        USERNAME,
+        PASSWORD
+      );
+      return;
+    }
 
     // initialize the socket and start listening for messages
     startLocalLokiServer();
@@ -1075,7 +1140,7 @@
     ev.confirm();
   }
 
-  function onTyping(ev) {
+  async function onTyping(ev) {
     const { typing, sender, senderDevice } = ev;
     const { groupId, started } = typing || {};
 
@@ -1084,7 +1149,17 @@
       return;
     }
 
-    const conversation = ConversationController.get(groupId || sender);
+    let primaryDevice = null;
+    const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+      sender
+    );
+    if (authorisation) {
+      primaryDevice = authorisation.primaryDevicePubKey;
+    }
+
+    const conversation = ConversationController.get(
+      groupId || primaryDevice || sender
+    );
 
     if (conversation) {
       conversation.notifyTyping({
@@ -1148,11 +1223,18 @@
         }
       }
 
+      // Do not set name to allow working with lokiProfile and nicknames
       conversation.set({
-        name: details.name,
+        // name: details.name,
         color: details.color,
         active_at: activeAt,
       });
+
+      await conversation.setLokiProfile({ displayName: details.name });
+
+      if (details.nickname) {
+        await conversation.setNickname(details.nickname);
+      }
 
       // Update the conversation avatar only if new avatar exists and hash differs
       const { avatar } = details;
@@ -1297,6 +1379,14 @@
       const { data, confirm } = event;
 
       const messageDescriptor = getMessageDescriptor(data);
+
+      // Funnel messages to primary device conversation if multi-device
+      const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        messageDescriptor.id
+      );
+      if (authorisation) {
+        messageDescriptor.id = authorisation.primaryDevicePubKey;
+      }
 
       const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
       // eslint-disable-next-line no-bitwise

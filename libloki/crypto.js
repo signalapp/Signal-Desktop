@@ -158,6 +158,125 @@
     }
   }
 
+  async function generateSignatureForPairing(secondaryPubKey, type) {
+    const pubKeyArrayBuffer = StringView.hexToArrayBuffer(secondaryPubKey);
+    // Make sure the signature includes the pairing action (pairing or unpairing)
+    const len = pubKeyArrayBuffer.byteLength;
+    const data = new Uint8Array(len + 1);
+    data.set(new Uint8Array(pubKeyArrayBuffer), 0);
+    data[len] = type;
+
+    const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+    const signature = await libsignal.Curve.async.calculateSignature(
+      myKeyPair.privKey,
+      data.buffer
+    );
+    return signature;
+  }
+
+  async function validateAuthorisation(authorisation) {
+    const {
+      primaryDevicePubKey,
+      secondaryDevicePubKey,
+      requestSignature,
+      grantSignature,
+    } = authorisation;
+    const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
+    const ourPubKey = textsecure.storage.user.getNumber();
+    const isRequest = !grantSignature;
+    const isGrant = !!grantSignature;
+    if (!primaryDevicePubKey || !secondaryDevicePubKey) {
+      window.log.warn(
+        'Received a pairing request with missing pubkeys. Ignored.'
+      );
+      return false;
+    } else if (!requestSignature) {
+      window.log.warn(
+        'Received a pairing request with missing request signature. Ignored.'
+      );
+      return false;
+    } else if (isRequest && alreadySecondaryDevice) {
+      window.log.warn(
+        'Received a pairing request while being a secondary device. Ignored.'
+      );
+      return false;
+    } else if (isRequest && authorisation.primaryDevicePubKey !== ourPubKey) {
+      window.log.warn(
+        'Received a pairing request addressed to another pubkey. Ignored.'
+      );
+      return false;
+    } else if (isRequest && authorisation.secondaryDevicePubKey === ourPubKey) {
+      window.log.warn('Received a pairing request from ourselves. Ignored.');
+      return false;
+    }
+    const verify = async (signature, signatureType) => {
+      const encoding = typeof signature === 'string' ? 'base64' : undefined;
+      await this.verifyPairingSignature(
+        primaryDevicePubKey,
+        secondaryDevicePubKey,
+        dcodeIO.ByteBuffer.wrap(signature, encoding).toArrayBuffer(),
+        signatureType
+      );
+    };
+    try {
+      await verify(
+        requestSignature,
+        textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
+      );
+    } catch (e) {
+      window.log.warn(
+        'Could not verify pairing request authorisation signature. Ignoring message.'
+      );
+      window.log.error(e);
+      return false;
+    }
+    if (isGrant) {
+      try {
+        await verify(
+          grantSignature,
+          textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT
+        );
+      } catch (e) {
+        window.log.warn(
+          'Could not verify pairing grant authorisation signature. Ignoring message.'
+        );
+        window.log.error(e);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  async function verifyPairingSignature(
+    primaryDevicePubKey,
+    secondaryPubKey,
+    signature,
+    type
+  ) {
+    const secondaryPubKeyArrayBuffer = StringView.hexToArrayBuffer(
+      secondaryPubKey
+    );
+    const primaryDevicePubKeyArrayBuffer = StringView.hexToArrayBuffer(
+      primaryDevicePubKey
+    );
+    const len = secondaryPubKeyArrayBuffer.byteLength;
+    const data = new Uint8Array(len + 1);
+    // For REQUEST type message, the secondary device signs the primary device pubkey
+    // For GRANT type message, the primary device signs the secondary device pubkey
+    let issuer;
+    if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT) {
+      data.set(new Uint8Array(secondaryPubKeyArrayBuffer));
+      issuer = primaryDevicePubKeyArrayBuffer;
+    } else if (
+      type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
+    ) {
+      data.set(new Uint8Array(primaryDevicePubKeyArrayBuffer));
+      issuer = secondaryPubKeyArrayBuffer;
+    }
+    data[len] = type;
+    // Throws for invalid signature
+    await libsignal.Curve.async.verifySignature(issuer, data.buffer, signature);
+  }
   async function decryptToken({ cipherText64, serverPubKey64 }) {
     const ivAndCiphertext = new Uint8Array(
       dcodeIO.ByteBuffer.fromBase64(cipherText64).toArrayBuffer()
@@ -177,7 +296,6 @@
     const tokenString = dcodeIO.ByteBuffer.wrap(token).toString('utf8');
     return tokenString;
   }
-
   const snodeCipher = new LokiSnodeChannel();
 
   window.libloki.crypto = {
@@ -187,6 +305,9 @@
     FallBackDecryptionError,
     snodeCipher,
     decryptToken,
+    generateSignatureForPairing,
+    verifyPairingSignature,
+    validateAuthorisation,
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,

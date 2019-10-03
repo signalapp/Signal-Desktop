@@ -926,6 +926,30 @@
   "cancel": {
     "message": "Cancel"
   },
+  "skip": {
+    "message": "Skip"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "pairNewDevice": {
+    "message": "Pair new Device"
+  },
+  "devicePairingAccepted": {
+    "message": "Device Pairing Accepted"
+  },
+  "devicePairingReceived": {
+    "message": "Device Pairing Received"
+  },
+  "waitingForDeviceToRegister": {
+    "message": "Waiting for device to register..."
+  },
+  "pairedDevices": {
+    "message": "Paired Devices"
+  },
+  "allowPairing": {
+    "message": "Allow Pairing"
+  },
   "clear": {
     "message": "Clear"
   },

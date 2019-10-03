@@ -1,4 +1,11 @@
-/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil, _ */
+/* global Whisper,
+ $,
+ getAccountManager,
+ textsecure,
+ i18n,
+ passwordUtil,
+ _,
+*/
 
 /* eslint-disable more/no-then */
 
@@ -13,6 +20,8 @@
     className: 'full-screen-flow standalone-fullscreen',
     initialize() {
       this.accountManager = getAccountManager();
+      // Clean status in case the app closed unexpectedly
+      textsecure.storage.remove('secondaryDeviceStatus');
 
       this.render();
 
@@ -26,6 +35,7 @@
       this.$('#error').hide();
 
       this.$('.standalone-mnemonic').hide();
+      this.$('.standalone-secondary-device').hide();
 
       this.onGenerateMnemonic();
 
@@ -49,9 +59,14 @@
 
       this.registrationParams = {};
       this.$pages = this.$('.page');
+      this.pairingInterval = null;
       this.showRegisterPage();
 
       this.onValidatePassword();
+
+      this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(
+        this
+      );
     },
     events: {
       'validation input.number': 'onValidation',
@@ -60,6 +75,8 @@
       'change #code': 'onChangeCode',
       'click #register': 'registerWithoutMnemonic',
       'click #register-mnemonic': 'registerWithMnemonic',
+      'click #register-secondary-device': 'registerSecondaryDevice',
+      'click #cancel-secondary-device': 'cancelSecondaryDevice',
       'click #back-button': 'onBack',
       'click #save-button': 'onSaveProfile',
       'change #mnemonic': 'onChangeMnemonic',
@@ -103,7 +120,12 @@
 
       const input = this.trim(this.$passwordInput.val());
 
+      // Ensure we clear the secondary device registration status
+      textsecure.storage.remove('secondaryDeviceStatus');
+
       try {
+        await this.resetRegistration();
+
         await window.setPassword(input);
         await this.accountManager.registerSingleDevice(
           mnemonic,
@@ -122,6 +144,101 @@
       const mnemonic = this.$('#mnemonic-display').text();
       const language = this.$('#mnemonic-display-language').val();
       this.showProfilePage(mnemonic, language);
+    },
+    async onSecondaryDeviceRegistered() {
+      clearInterval(this.pairingInterval);
+      // Ensure the left menu is updated
+      Whisper.events.trigger('userChanged', { isSecondaryDevice: true });
+      // will re-run the background initialisation
+      Whisper.events.trigger('registration_done');
+      this.$el.trigger('openInbox');
+    },
+    async resetRegistration() {
+      await window.Signal.Data.removeAllIdentityKeys();
+      await window.Signal.Data.removeAllPrivateConversations();
+      Whisper.Registration.remove();
+      // Do not remove all items since they are only set
+      // at startup.
+      textsecure.storage.remove('identityKey');
+      textsecure.storage.remove('secondaryDeviceStatus');
+      window.ConversationController.reset();
+      await window.ConversationController.load();
+      Whisper.RotateSignedPreKeyListener.stop(Whisper.events);
+    },
+    async cancelSecondaryDevice() {
+      Whisper.events.off(
+        'secondaryDeviceRegistration',
+        this.onSecondaryDeviceRegistered
+      );
+      this.$('#register-secondary-device')
+        .removeAttr('disabled')
+        .text('Link');
+      this.$('#cancel-secondary-device').hide();
+      this.$('.standalone-secondary-device #pubkey').text('');
+      await this.resetRegistration();
+    },
+    async registerSecondaryDevice() {
+      if (textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
+        return;
+      }
+      await this.resetRegistration();
+      textsecure.storage.put('secondaryDeviceStatus', 'ongoing');
+      this.$('#register-secondary-device')
+        .attr('disabled', 'disabled')
+        .text('Sending...');
+      this.$('#cancel-secondary-device').show();
+      const mnemonic = this.$('#mnemonic-display').text();
+      const language = this.$('#mnemonic-display-language').val();
+      const primaryPubKey = this.$('#primary-pubkey').val();
+      this.$('.standalone-secondary-device #error').hide();
+      // Ensure only one listener
+      Whisper.events.off(
+        'secondaryDeviceRegistration',
+        this.onSecondaryDeviceRegistered
+      );
+      Whisper.events.once(
+        'secondaryDeviceRegistration',
+        this.onSecondaryDeviceRegistered
+      );
+      const onError = async error => {
+        this.$('.standalone-secondary-device #error')
+          .text(error)
+          .show();
+        await this.resetRegistration();
+        this.$('#register-secondary-device')
+          .removeAttr('disabled')
+          .text('Link');
+        this.$('#cancel-secondary-device').hide();
+      };
+      const c = new Whisper.Conversation({
+        id: primaryPubKey,
+        type: 'private',
+      });
+      const validationError = c.validateNumber();
+      if (validationError) {
+        onError('Invalid public key');
+        return;
+      }
+      try {
+        await this.accountManager.registerSingleDevice(
+          mnemonic,
+          language,
+          null
+        );
+        await this.accountManager.requestPairing(primaryPubKey);
+        const pubkey = textsecure.storage.user.getNumber();
+        const words = window.mnemonic
+          .mn_encode(pubkey.slice(2), 'english')
+          .split(' ')
+          .slice(-3)
+          .join(' ');
+
+        this.$('.standalone-secondary-device #pubkey').text(
+          `Here is your secret:\n${words}`
+        );
+      } catch (e) {
+        onError(e);
+      }
     },
     registerWithMnemonic() {
       const mnemonic = this.$('#mnemonic').val();

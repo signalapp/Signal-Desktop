@@ -5,7 +5,12 @@ import { MainHeader } from '../../components/MainHeader';
 import { StateType } from '../reducer';
 
 import { getQuery } from '../selectors/search';
-import { getIntl, getRegionCode, getUserNumber } from '../selectors/user';
+import {
+  getIntl,
+  getIsSecondaryDevice,
+  getRegionCode,
+  getUserNumber,
+} from '../selectors/user';
 import { getMe } from '../selectors/conversations';
 
 const mapStateToProps = (state: StateType) => {
@@ -13,6 +18,7 @@ const mapStateToProps = (state: StateType) => {
     searchTerm: getQuery(state),
     regionCode: getRegionCode(state),
     ourNumber: getUserNumber(state),
+    isSecondaryDevice: getIsSecondaryDevice(state),
     ...getMe(state),
     i18n: getIntl(state),
   };

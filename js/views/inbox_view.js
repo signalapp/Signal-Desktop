@@ -156,6 +156,7 @@
         user: {
           regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
+          isSecondaryDevice: !!window.storage.get('isSecondaryDevice'),
           i18n: window.i18n,
         },
       };

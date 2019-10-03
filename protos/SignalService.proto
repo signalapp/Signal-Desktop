@@ -36,6 +36,7 @@ message Content {
   optional TypingMessage  typingMessage  = 6;
   optional PreKeyBundleMessage preKeyBundleMessage = 101;
   optional LokiAddressMessage lokiAddressMessage = 102;
+  optional PairingAuthorisationMessage pairingAuthorisation = 103;
 }
 
 message LokiAddressMessage {
@@ -46,6 +47,19 @@ message LokiAddressMessage {
   optional string p2pAddress    = 1;
   optional uint32 p2pPort       = 2;
   optional Type   type          = 3;
+}
+
+message PairingAuthorisationMessage {
+  enum Type {
+    REQUEST = 1;
+    GRANT = 2;
+    REVOKE = 3;
+  }
+  optional string primaryDevicePubKey   = 1;
+  optional string secondaryDevicePubKey = 2;
+  optional bytes  requestSignature      = 3;
+  optional bytes  grantSignature        = 4;
+  optional Type   type                  = 5;
 }
 
 message PreKeyBundleMessage {
@@ -258,6 +272,7 @@ message SyncMessage {
   message Contacts {
     optional AttachmentPointer blob     = 1;
     optional bool              complete = 2 [default = false];
+    optional bytes             data     = 101;
   }
 
   message Groups {
@@ -351,6 +366,7 @@ message ContactDetails {
   optional bytes    profileKey  = 6;
   optional bool     blocked     = 7;
   optional uint32   expireTimer = 8;
+  optional string   nickname    = 101;
 }
 
 message GroupDetails {
