@@ -1,6 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _, lokiFileServerAPI,
-dcodeIO */
+clearTimeout, MessageController, libsignal, StringView, window, _, lokiFileServerAPI */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -12,12 +11,17 @@ const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
+// not quite a singleton yet (one for chat and one per file server)
 class LokiAppDotNetAPI extends EventEmitter {
   constructor(ourKey) {
     super();
     this.ourKey = ourKey;
     this.servers = [];
     this.myPrivateKey = false;
+
+    // Multidevice states
+    this.slavePrimaryMap = {};
+    this.primaryUserProfileName = {};
   }
 
   async close() {
@@ -445,10 +449,6 @@ class LokiPublicChannelAPI {
     // Cache for duplicate checking
     this.lastMessagesCache = [];
 
-    // Multidevice states
-    this.slavePrimaryMap = {};
-    this.primaryUserProfileName = {};
-
     // end properties
 
     log.info(`registered LokiPublicChannel ${channelId}`);
@@ -859,93 +859,23 @@ class LokiPublicChannelAPI {
       this.conversation.setLastRetrievedMessage(this.lastGot);
 
       if (pendingMessages.length) {
-        const newSlavePrimaryMap = {};
-        const checkSigs = {};
-
-        // console.log('premultiDeviceResults', pubKeys)
+        // console.log('premultiDeviceResults', pubKeys);
         if (pubKeys.length) {
-          const multiDeviceResults = await lokiFileServerAPI.getDeviceMappingForUsers(
+          const verifiedPrimaryPKs = await lokiFileServerAPI.verifyPrimaryPubKeys(
             pubKeys
           );
-          // console.log('multiDeviceResults', multiDeviceResults);
+          const { slavePrimaryMap } = this.serverAPI.chatAPI;
 
-          multiDeviceResults.forEach(user => {
-            if (user.annotations) {
-              user.annotations.forEach(note => {
-                if (note.type === 'network.loki.messenger.devicemapping') {
-                  // console.log('devmap note', note);
-                  // is slave?
-                  if (note.value.isPrimary === '0') {
-                    const { authorisations } = note.value;
-                    if (Array.isArray(authorisations)) {
-                      authorisations.forEach(auth => {
-                        if (auth.secondaryDevicePubKey !== user.username) {
-                          // this is not the authorization we're looking for
-                          return;
-                        }
-                        // console.log('auth', auth);
-                        try {
-                          // request (secondary wants to be paired with this primary)
-                          window.libloki.crypto.verifyPairingSignature(
-                            auth.primaryDevicePubKey,
-                            auth.secondaryDevicePubKey,
-                            dcodeIO.ByteBuffer.wrap(
-                              auth.requestSignature,
-                              'base64'
-                            ).toArrayBuffer(),
-                            textsecure.protobuf.PairingAuthorisationMessage.Type
-                              .REQUEST
-                          );
-                          // if it doesn't throw, that means it's valid
-                          // add map to newSlavePrimaryMap
-                          if (
-                            newSlavePrimaryMap[user.username] &&
-                            newSlavePrimaryMap[user.username] !==
-                              auth.primaryDevicePubKey
-                          ) {
-                            log.warn(
-                              `file server user annotation primaryKey mismatch, had ${
-                                newSlavePrimaryMap[user.username]
-                              } now ${auth.primaryDevicePubKey} for ${
-                                user.username
-                              }`
-                            );
-                            return;
-                          }
-                          checkSigs[user.username] = auth;
-                          newSlavePrimaryMap[user.username] =
-                            auth.primaryDevicePubKey;
-                        } catch (e) {
-                          log.warn(
-                            `Invalid grant signature on SecondaryPubKey ${
-                              auth.secondaryDevicePubKey
-                            }`
-                          );
-                        }
-                      });
-                    }
-                  }
-                }
-              });
-            }
-          });
-          // log.info('tenative slavePrimaryMap', newSlavePrimaryMap);
-
-          const primaryPubKeys = [];
           const slaveMessages = {};
-          // go through multiDeviceResults and get primary Pubkey
+          // sort pending messages
           pendingMessages.forEach(messageData => {
             // why am I getting these?
             if (messageData === undefined) {
               log.warn('invalid pendingMessages');
               return;
             }
-            if (newSlavePrimaryMap[messageData.source]) {
-              const primaryPubKey = newSlavePrimaryMap[messageData.source];
-              // add to lookup (if we don't already have it)
-              if (primaryPubKeys.indexOf(`@${primaryPubKey}`) === -1) {
-                primaryPubKeys.push(`@${primaryPubKey}`);
-              }
+            // if a known slave, queue
+            if (slavePrimaryMap[messageData.source]) {
               // delay sending the message
               if (slaveMessages[messageData.source] === undefined) {
                 slaveMessages[messageData.source] = [messageData];
@@ -960,93 +890,6 @@ class LokiPublicChannelAPI {
             }
           });
           pendingMessages = []; // free memory
-
-          const verifiedPrimaryPKs = [];
-          if (primaryPubKeys.length) {
-            // get a list of all of primary pubKeys to verify the secondaryDevice
-            const primaryDeviceResults = await lokiFileServerAPI.getDeviceMappingForUsers(
-              primaryPubKeys
-            );
-            // go through primaryDeviceResults
-            primaryDeviceResults.forEach(user => {
-              let found = false;
-              if (user.annotations) {
-                user.annotations.forEach(note => {
-                  if (note.type === 'network.loki.messenger.devicemapping') {
-                    if (note.value.isPrimary) {
-                      const { authorisations } = note.value;
-                      if (Array.isArray(authorisations)) {
-                        authorisations.forEach(auth => {
-                          try {
-                            // grant (primary approves this secondary)
-                            window.libloki.crypto.verifyPairingSignature(
-                              auth.primaryDevicePubKey,
-                              auth.secondaryDevicePubKey,
-                              dcodeIO.ByteBuffer.wrap(
-                                auth.grantSignature,
-                                'base64'
-                              ).toArrayBuffer(),
-                              textsecure.protobuf.PairingAuthorisationMessage.Type
-                                .GRANT
-                            );
-                            if (
-                              verifiedPrimaryPKs.indexOf(
-                                `@${auth.primaryDevicePubKey}`
-                              ) === -1
-                            ) {
-                              verifiedPrimaryPKs.push(
-                                `@${auth.primaryDevicePubKey}`
-                              );
-                            }
-                            // assuming both are ordered
-                            // make sure our secondary and primary authorization match
-                            if (
-                              JSON.stringify(
-                                checkSigs[auth.secondaryDevicePubKey]
-                              ) !== JSON.stringify(auth)
-                            ) {
-                              // should hopefully never happen
-                              log.warn(
-                                `Valid authorizations from ${
-                                  auth.secondaryDevicePubKey
-                                } does not match ${auth.primaryDevicePubKey}`
-                              );
-                              return;
-                            }
-                            found = true;
-                          } catch (e) {
-                            log.warn(
-                              `Invalid grant signature on PrimaryPubKey ${
-                                auth.primaryDevicePubKey
-                              }`
-                            );
-                          }
-                        });
-                      }
-                    }
-                  }
-                });
-              }
-              if (found) {
-                return;
-              }
-              // if not verified remove this user pubkey from newSlavePrimaryMap
-              Object.keys(newSlavePrimaryMap).forEach(slaveKey => {
-                if (newSlavePrimaryMap[slaveKey] === user.username) {
-                  log.warn(
-                    `removing unverifible ${slaveKey} to ${user.username} mapping`
-                  );
-                  delete newSlavePrimaryMap[slaveKey];
-                }
-              });
-            });
-          }
-
-          // update this.slavePrimaryMap live with updated map
-          this.slavePrimaryMap = newSlavePrimaryMap;
-          log.info(
-            `Updated device mappings ${JSON.stringify(this.slavePrimaryMap)}`
-          );
 
           // if we have verified primaryKeys then update them
           if (verifiedPrimaryPKs.length) {
@@ -1073,10 +916,10 @@ class LokiPublicChannelAPI {
               // we originally sent these
               return;
             }
-            const primaryPubKey = this.slavePrimaryMap[slaveKey];
+            const primaryPubKey = slavePrimaryMap[slaveKey];
             slaveMessages[slaveKey].forEach(messageDataP => {
               const messageData = messageDataP; // for linter
-              if (this.slavePrimaryMap[messageData.source]) {
+              if (slavePrimaryMap[messageData.source]) {
                 // rewrite source, profile
                 messageData.source = primaryPubKey;
                 messageData.message.profile.displayName = this.primaryUserProfileName[
@@ -1095,6 +938,7 @@ class LokiPublicChannelAPI {
         // console.log('pendingMessages', pendingMessages);
         // find messages for original slave key using slavePrimaryMap
         if (pendingMessages.length) {
+          const { slavePrimaryMap } = this.serverAPI.chatAPI;
           const ourNumber = textsecure.storage.user.getNumber();
           pendingMessages.forEach(messageDataP => {
             const messageData = messageDataP; // for linter
@@ -1108,9 +952,9 @@ class LokiPublicChannelAPI {
               // we originally sent this
               return;
             }
-            if (this.slavePrimaryMap[messageData.source]) {
+            if (slavePrimaryMap[messageData.source]) {
               // rewrite source, profile
-              const primaryPubKey = this.slavePrimaryMap[messageData.source];
+              const primaryPubKey = slavePrimaryMap[messageData.source];
               log.info(`Rewriting ${messageData.source} to ${primaryPubKey}`);
               messageData.source = primaryPubKey;
               messageData.message.profile.displayName = this.primaryUserProfileName[
