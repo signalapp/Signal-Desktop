@@ -8,6 +8,7 @@ import is from '@sindresorhus/is';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
 
+import { formatDuration } from '../util/formatDuration';
 import { LocalizerType } from '../types/Util';
 
 const Colors = {
@@ -29,9 +30,13 @@ interface Props {
   i18n: LocalizerType;
   objectURL: string;
   caption?: string;
+  isViewOnce: boolean;
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
+}
+interface State {
+  videoTime?: number;
 }
 
 const CONTROLS_WIDTH = 50;
@@ -116,6 +121,19 @@ const styles = {
     width: 50,
     height: 50,
   },
+  timestampPill: {
+    borderRadius: '15px',
+    backgroundColor: '#000000',
+    color: '#eeefef',
+    fontSize: '16px',
+    letterSpacing: '0px',
+    lineHeight: '18px',
+    // This cast is necessary or typescript chokes
+    textAlign: 'center' as 'center',
+    padding: '6px',
+    paddingLeft: '18px',
+    paddingRight: '18px',
+  },
 };
 
 interface IconButtonProps {
@@ -169,7 +187,7 @@ const Icon = ({
   />
 );
 
-export class Lightbox extends React.Component<Props> {
+export class Lightbox extends React.Component<Props, State> {
   private readonly containerRef: React.RefObject<HTMLDivElement>;
   private readonly videoRef: React.RefObject<HTMLVideoElement>;
 
@@ -178,21 +196,39 @@ export class Lightbox extends React.Component<Props> {
 
     this.videoRef = React.createRef();
     this.containerRef = React.createRef();
+
+    this.state = {
+      videoTime: undefined,
+    };
   }
 
   public componentDidMount() {
+    const { isViewOnce } = this.props;
+
     const useCapture = true;
     document.addEventListener('keyup', this.onKeyUp, useCapture);
+
+    const video = this.getVideo();
+    if (video && isViewOnce) {
+      video.addEventListener('timeupdate', this.onTimeUpdate);
+    }
 
     this.playVideo();
   }
 
   public componentWillUnmount() {
+    const { isViewOnce } = this.props;
+
     const useCapture = true;
     document.removeEventListener('keyup', this.onKeyUp, useCapture);
+
+    const video = this.getVideo();
+    if (video && isViewOnce) {
+      video.removeEventListener('timeupdate', this.onTimeUpdate);
+    }
   }
 
-  public playVideo() {
+  public getVideo() {
     if (!this.videoRef) {
       return;
     }
@@ -202,11 +238,20 @@ export class Lightbox extends React.Component<Props> {
       return;
     }
 
-    if (current.paused) {
+    return current;
+  }
+
+  public playVideo() {
+    const video = this.getVideo();
+    if (!video) {
+      return;
+    }
+
+    if (video.paused) {
       // tslint:disable-next-line no-floating-promises
-      current.play();
+      video.play();
     } else {
-      current.pause();
+      video.pause();
     }
   }
 
@@ -215,11 +260,13 @@ export class Lightbox extends React.Component<Props> {
       caption,
       contentType,
       i18n,
+      isViewOnce,
       objectURL,
       onNext,
       onPrevious,
       onSave,
     } = this.props;
+    const { videoTime } = this.state;
 
     return (
       <div
@@ -232,7 +279,7 @@ export class Lightbox extends React.Component<Props> {
           <div style={styles.controlsOffsetPlaceholder} />
           <div style={styles.objectContainer}>
             {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType, i18n })
+              ? this.renderObject({ objectURL, contentType, i18n, isViewOnce })
               : null}
             {caption ? <div style={styles.caption}>{caption}</div> : null}
           </div>
@@ -247,18 +294,24 @@ export class Lightbox extends React.Component<Props> {
             ) : null}
           </div>
         </div>
-        <div style={styles.navigationContainer}>
-          {onPrevious ? (
-            <IconButton type="previous" onClick={onPrevious} />
-          ) : (
-            <IconButtonPlaceholder />
-          )}
-          {onNext ? (
-            <IconButton type="next" onClick={onNext} />
-          ) : (
-            <IconButtonPlaceholder />
-          )}
-        </div>
+        {isViewOnce && is.number(videoTime) ? (
+          <div style={styles.navigationContainer}>
+            <div style={styles.timestampPill}>{formatDuration(videoTime)}</div>
+          </div>
+        ) : (
+          <div style={styles.navigationContainer}>
+            {onPrevious ? (
+              <IconButton type="previous" onClick={onPrevious} />
+            ) : (
+              <IconButtonPlaceholder />
+            )}
+            {onNext ? (
+              <IconButton type="next" onClick={onNext} />
+            ) : (
+              <IconButtonPlaceholder />
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -267,10 +320,12 @@ export class Lightbox extends React.Component<Props> {
     objectURL,
     contentType,
     i18n,
+    isViewOnce,
   }: {
     objectURL: string;
     contentType: MIME.MIMEType;
     i18n: LocalizerType;
+    isViewOnce: boolean;
   }) => {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     if (isImageTypeSupported) {
@@ -290,7 +345,8 @@ export class Lightbox extends React.Component<Props> {
         <video
           role="button"
           ref={this.videoRef}
-          controls={true}
+          loop={isViewOnce}
+          controls={!isViewOnce}
           style={styles.object}
           key={objectURL}
         >
@@ -324,6 +380,16 @@ export class Lightbox extends React.Component<Props> {
     }
 
     close();
+  };
+
+  private readonly onTimeUpdate = () => {
+    const video = this.getVideo();
+    if (!video) {
+      return;
+    }
+    this.setState({
+      videoTime: video.currentTime,
+    });
   };
 
   private readonly onKeyUp = (event: KeyboardEvent) => {

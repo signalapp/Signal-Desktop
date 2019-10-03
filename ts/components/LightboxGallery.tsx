@@ -66,14 +66,15 @@ export class LightboxGallery extends React.Component<Props, State> {
 
     return (
       <Lightbox
-        close={close}
-        onPrevious={onPrevious}
-        onNext={onNext}
-        onSave={saveCallback}
-        objectURL={objectURL}
         caption={captionCallback}
+        close={close}
         contentType={selectedMedia.contentType}
         i18n={i18n}
+        isViewOnce={false}
+        objectURL={objectURL}
+        onNext={onNext}
+        onPrevious={onPrevious}
+        onSave={saveCallback}
       />
     );
   }

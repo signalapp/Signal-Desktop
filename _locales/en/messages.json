@@ -1285,7 +1285,7 @@
       "Label text for button to upgrade the app to the latest version"
   },
   "mediaMessage": {
-    "message": "Media message",
+    "message": "Media Message",
     "description":
       "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
@@ -1762,7 +1762,12 @@
       "Shown in notifications and in the left pane when a message has features too new for this signal install."
   },
   "message--getDescription--disappearing-photo": {
-    "message": "Disappearing photo",
+    "message": "Disappearing Photo",
+    "description":
+      "Shown in notifications and in the left pane when a message is a disappearing photo."
+  },
+  "message--getDescription--disappearing-video": {
+    "message": "Disappering Video",
     "description":
       "Shown in notifications and in the left pane when a message is a disappearing photo."
   },
@@ -1929,14 +1934,19 @@
       "Text shown on messages with with individual timers, after user has viewed it"
   },
   "Message--tap-to-view--outgoing": {
-    "message": "Photo",
+    "message": "Media",
     "description":
       "Text shown on outgoing messages with with individual timers (inaccessble)"
   },
   "Message--tap-to-view--incoming": {
-    "message": "View Photo",
+    "message": "Photo",
     "description":
-      "Text shown on messages with with individual timers, before user has viewed it"
+      "Text shown on photo messages with with individual timers, before user has viewed it"
+  },
+  "Message--tap-to-view--incoming-video": {
+    "message": "Video",
+    "description":
+      "Text shown on video messages with with individual timers, before user has viewed it"
   },
   "Conversation--getDraftPreview--attachment": {
     "message": "(attachment)",

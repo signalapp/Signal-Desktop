@@ -1149,6 +1149,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderTapToViewText() {
     const {
+      attachments,
       direction,
       i18n,
       isTapToViewExpired,
@@ -1157,7 +1158,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     const incomingString = isTapToViewExpired
       ? i18n('Message--tap-to-view-expired')
-      : i18n('Message--tap-to-view--incoming');
+      : i18n(
+          `Message--tap-to-view--incoming${
+            isVideo(attachments) ? '-video' : ''
+          }`
+        );
     const outgoingString = i18n('Message--tap-to-view--outgoing');
     const isDownloadPending = this.isAttachmentPending();
 

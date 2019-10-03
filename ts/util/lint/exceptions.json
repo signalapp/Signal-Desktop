@@ -7524,7 +7524,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 185,
+    "lineNumber": 207,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used to auto-start playback on videos"
@@ -7533,7 +7533,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.tsx",
     "line": "    this.videoRef = React.createRef();",
-    "lineNumber": 179,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used to auto-start playback on videos"

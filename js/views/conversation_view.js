@@ -1893,6 +1893,8 @@
         return {
           objectURL: getAbsoluteTempPath(path),
           contentType,
+          onSave: null, // important so download button is omitted
+          isViewOnce: true,
         };
       };
       this.lightboxView = new Whisper.ReactWrapperView({
