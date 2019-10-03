@@ -19,9 +19,10 @@ class LokiFileServerAPI {
 
   async getUserDeviceMapping(pubKey) {
     const annotations = await this._server.getUserAnnotations(pubKey);
-    return annotations.find(
+    const deviceMapping = annotations.find(
       annotation => annotation.type === DEVICE_MAPPING_ANNOTATION_KEY
     );
+    return deviceMapping ? deviceMapping.value : null;
   }
 
   async updateOurDeviceMapping() {
