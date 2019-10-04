@@ -12,8 +12,7 @@ import { formatDuration } from '../util/formatDuration';
 import { LocalizerType } from '../types/Util';
 
 const Colors = {
-  TEXT_SECONDARY: '#bbb',
-  ICON_SECONDARY: '#ccc',
+  ICON_SECONDARY: '#b9b9b9',
 };
 
 const colorSVG = (url: string, color: string) => {

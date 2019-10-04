@@ -972,8 +972,13 @@
     "description": "Label for the sender of a message"
   },
   "to": {
-    "message": "to",
+    "message": "To",
     "description": "Label for the receiver of a message"
+  },
+  "toJoiner": {
+    "message": "to",
+    "description":
+      "Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Sent",
@@ -1326,28 +1331,17 @@
       "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
   },
   "timestamp_m": {
-    "message": "1 minute",
+    "message": "1m",
     "description":
       "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
   },
   "timestamp_h": {
-    "message": "1 hour",
+    "message": "1h",
     "description":
       "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
   },
-  "hoursAgoShort": {
-    "message": "$hours$ hr",
-    "description":
-      "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-    "placeholders": {
-      "hours": {
-        "content": "$1",
-        "example": "2"
-      }
-    }
-  },
   "hoursAgo": {
-    "message": "$hours$ hr ago",
+    "message": "$hours$h",
     "description":
       "Contracted form of 'X hours ago' which works both for singular and plural",
     "placeholders": {
@@ -1357,19 +1351,8 @@
       }
     }
   },
-  "minutesAgoShort": {
-    "message": "$minutes$ min",
-    "description":
-      "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-    "placeholders": {
-      "minutes": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
-  },
   "minutesAgo": {
-    "message": "$minutes$ min ago",
+    "message": "$minutes$m",
     "description":
       "Contracted form of 'X minutes ago' which works both for singular and plural",
     "placeholders": {

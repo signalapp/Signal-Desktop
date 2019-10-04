@@ -1,6 +1,12 @@
 import moment from 'moment';
 import { LocalizerType } from '../types/Util';
 
+// Only applies in the english locales, but it ensures that the format
+//   is what we want.
+function replaceSuffix(time: string) {
+  return time.replace(/ PM$/, 'pm').replace(/ AM$/, 'am');
+}
+
 const getExtendedFormats = (i18n: LocalizerType) => ({
   y: 'lll',
   M: `${i18n('timestampFormat_M') || 'MMM D'} LT`,
@@ -38,19 +44,15 @@ export function formatRelativeTime(
   const diff = moment.duration(now.diff(timestamp));
 
   if (diff.years() >= 1 || !isYear(timestamp)) {
-    return timestamp.format(formats.y);
+    return replaceSuffix(timestamp.format(formats.y));
   } else if (diff.months() >= 1 || diff.days() > 6) {
-    return timestamp.format(formats.M);
+    return replaceSuffix(timestamp.format(formats.M));
   } else if (diff.days() >= 1 || !isToday(timestamp)) {
-    return timestamp.format(formats.d);
+    return replaceSuffix(timestamp.format(formats.d));
   } else if (diff.hours() >= 1) {
-    const key = extended ? 'hoursAgo' : 'hoursAgoShort';
-
-    return i18n(key, [String(diff.hours())]);
+    return i18n('hoursAgo', [String(diff.hours())]);
   } else if (diff.minutes() >= 1) {
-    const key = extended ? 'minutesAgo' : 'minutesAgoShort';
-
-    return i18n(key, [String(diff.minutes())]);
+    return i18n('minutesAgo', [String(diff.minutes())]);
   }
 
   return i18n('justNow');

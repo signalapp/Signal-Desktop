@@ -66,7 +66,7 @@
 }
 
 .module-message--incoming.module-message--group {
-  margin-left: 48px;
+  margin-left: 52px;
 }
 
 .module-message__buttons {
@@ -95,9 +95,26 @@
   width: 24px;
   display: inline-block;
   cursor: pointer;
-  @include color-svg('../images/download.svg', $color-light-45);
-  &:hover {
-    @include color-svg('../images/download.svg', $color-gray-90);
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/save-outline-24.svg',
+      $color-gray-45
+    );
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/save-outline-24.svg',
+        $color-gray-90
+      );
+    }
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/save-solid-24.svg', $color-gray-45);
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/save-solid-24.svg',
+        $color-gray-02
+      );
+    }
   }
 }
 
@@ -113,9 +130,27 @@
   width: 24px;
   display: inline-block;
   cursor: pointer;
-  @include color-svg('../images/reply.svg', $color-light-45);
-  &:hover {
-    @include color-svg('../images/reply.svg', $color-gray-90);
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/reply-outline-24.svg',
+      $color-gray-45
+    );
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/reply-outline-24.svg',
+        $color-gray-90
+      );
+    }
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/reply-solid-24.svg', $color-gray-45);
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/reply-solid-24.svg',
+        $color-gray-02
+      );
+    }
   }
 }
 
@@ -131,9 +166,23 @@
   width: 24px;
   display: inline-block;
   cursor: pointer;
-  @include color-svg('../images/ellipsis.svg', $color-light-45);
-  &:hover {
-    @include color-svg('../images/ellipsis.svg', $color-gray-90);
+
+  @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-gray-45);
+  @include light-theme {
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/more-horiz-24.svg',
+        $color-gray-90
+      );
+    }
+  }
+  @include dark-theme {
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/more-horiz-24.svg',
+        $color-gray-02
+      );
+    }
   }
 }
 
@@ -156,7 +205,19 @@
   display: inline-block;
   position: absolute;
   bottom: 4px;
-  @include color-svg('../images/error.svg', $color-core-red);
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/error-outline-24.svg',
+      $color-accent-red
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/error-solid-24.svg',
+      $color-accent-red
+    );
+  }
 }
 
 .module-message__error--outgoing {
@@ -191,7 +252,20 @@
 }
 
 .module-message__container--outgoing {
-  background-color: $color-light-10;
+  @include light-theme {
+    background-color: $color-gray-05;
+  }
+  @include dark-theme {
+    background-color: $color-gray-75;
+  }
+  @include ios-theme {
+    background-color: $color-signal-blue;
+    color: $color-white;
+  }
+  @include ios-dark-theme {
+    background-color: $color-signal-blue;
+    color: $color-gray-05;
+  }
 }
 
 .module-message__container--selected {
@@ -217,40 +291,21 @@
 // In case the color gets messed up
 .module-message__container--incoming {
   background-color: $color-conversation-grey;
+
+  @include ios-theme {
+    background-color: $color-gray-05;
+    color: $color-gray-90;
+  }
+  @include ios-dark-theme {
+    background-color: $color-gray-75;
+    color: $color-gray-05;
+  }
 }
 
-.module-message__container--incoming-red {
-  background-color: $color-conversation-red;
-}
-.module-message__container--incoming-deep_orange {
-  background-color: $color-conversation-deep_orange;
-}
-.module-message__container--incoming-brown {
-  background-color: $color-conversation-brown;
-}
-.module-message__container--incoming-pink {
-  background-color: $color-conversation-pink;
-}
-.module-message__container--incoming-purple {
-  background-color: $color-conversation-purple;
-}
-.module-message__container--incoming-indigo {
-  background-color: $color-conversation-indigo;
-}
-.module-message__container--incoming-blue {
-  background-color: $color-conversation-blue;
-}
-.module-message__container--incoming-teal {
-  background-color: $color-conversation-teal;
-}
-.module-message__container--incoming-green {
-  background-color: $color-conversation-green;
-}
-.module-message__container--incoming-light_green {
-  background-color: $color-conversation-light_green;
-}
-.module-message__container--incoming-blue_grey {
-  background-color: $color-conversation-blue_grey;
+@each $color, $value in $conversation-colors {
+  .module-message__container--incoming-#{$color} {
+    background-color: $value;
+  }
 }
 
 .module-message__container--with-tap-to-view {
@@ -258,41 +313,21 @@
   cursor: pointer;
 }
 
+.module-message__container--with-tap-to-view-pending {
+  @include ios-theme {
+    background-color: $color-gray-15;
+  }
+}
+
+// In case the color gets messed up
 .module-message__container--incoming--tap-to-view-pending {
   background-color: $color-conversation-grey-shade;
 }
-.module-message__container--incoming-red-tap-to-view-pending {
-  background-color: $color-conversation-red-shade;
-}
-.module-message__container--incoming-deep_orange-tap-to-view-pending {
-  background-color: $color-conversation-deep_orange-shade;
-}
-.module-message__container--incoming-brown-tap-to-view-pending {
-  background-color: $color-conversation-brown-shade;
-}
-.module-message__container--incoming-pink-tap-to-view-pending {
-  background-color: $color-conversation-pink-shade;
-}
-.module-message__container--incoming-purple-tap-to-view-pending {
-  background-color: $color-conversation-purple-shade;
-}
-.module-message__container--incoming-indigo-tap-to-view-pending {
-  background-color: $color-conversation-indigo-shade;
-}
-.module-message__container--incoming-blue-tap-to-view-pending {
-  background-color: $color-conversation-blue-shade;
-}
-.module-message__container--incoming-teal-tap-to-view-pending {
-  background-color: $color-conversation-teal-shade;
-}
-.module-message__container--incoming-green-tap-to-view-pending {
-  background-color: $color-conversation-green-shade;
-}
-.module-message__container--incoming-light_green-tap-to-view-pending {
-  background-color: $color-conversation-light_green-shade;
-}
-.module-message__container--incoming-blue_grey-tap-to-view-pending {
-  background-color: $color-conversation-blue_grey-shade;
+
+@each $color, $value in $conversation-colors-shade {
+  .module-message__container--incoming-#{$color}-tap-to-view-pending {
+    background-color: $value;
+  }
 }
 
 .module-message__container--with-tap-to-view-pending {
@@ -301,15 +336,45 @@
 
 .module-message__container--with-tap-to-view-expired {
   cursor: default;
-  border: 1px solid $color-gray-15;
-  background-color: $color-white;
+
+  @include light-theme {
+    border: 1px solid $color-gray-15;
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    border: 1px solid $color-gray-60;
+    background-color: $color-black;
+  }
+  @include ios-theme {
+    border: 1px solid $color-gray-15;
+    background-color: $color-white;
+  }
+  @include ios-dark-theme {
+    border: 1px solid $color-gray-60;
+    background-color: $color-black;
+  }
 }
 
 .module-message__container--with-tap-to-view-error {
-  background-color: $color-white;
-  border: 1px solid $color-core-red;
   width: auto;
   cursor: default;
+
+  @include light-theme {
+    background-color: $color-white;
+    border: 1px solid $color-accent-red;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+    border: 1px solid $color-deep-red;
+  }
+  @include ios-theme {
+    background-color: $color-white;
+    border: 1px solid $color-deep-red;
+  }
+  @include ios-dark-theme {
+    background-color: $color-black;
+    border: 1px solid $color-deep-red;
+  }
 }
 
 .module-message__tap-to-view {
@@ -343,29 +408,121 @@
   width: 20px;
   height: 20px;
 
-  @include color-svg('../images/play-filled-24.svg', $color-white);
+  @include light-theme {
+    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-white);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-05);
+  }
+  @include ios-theme {
+    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-90);
+  }
+  @include ios-dark-theme {
+    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-05);
+  }
 }
 .module-message__tap-to-view__icon--outgoing {
-  background-color: $color-gray-75;
+  @include light-theme {
+    background-color: $color-gray-75;
+  }
+  @include dark-theme {
+    background-color: $color-gray-05;
+  }
+  @include ios-theme {
+    background-color: $color-white;
+  }
 }
 .module-message__tap-to-view__icon--expired {
-  @include color-svg('../images/play-outline-24.svg', $color-gray-75);
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/play-outline-24.svg',
+      $color-gray-75
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/play-outline-24.svg',
+      $color-gray-05
+    );
+  }
+  @include ios-theme {
+    @include color-svg(
+      '../images/icons/v2/play-outline-24.svg',
+      $color-gray-75
+    );
+  }
+  @include ios-dark-theme {
+    @include color-svg(
+      '../images/icons/v2/play-outline-24.svg',
+      $color-gray-05
+    );
+  }
 }
 .module-message__tap-to-view__text {
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 18px;
+  @include font-body-1-bold;
 
-  color: $color-gray-90;
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+  @include ios-theme {
+    color: $color-gray-90;
+  }
 }
 .module-message__tap-to-view__text--incoming {
-  color: $color-white;
+  @include light-theme {
+    color: $color-white;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+  @include ios-theme {
+    color: $color-gray-90;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
 }
 .module-message__tap-to-view__text--incoming-expired {
-  color: $color-gray-90;
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+  @include ios-theme {
+    color: $color-gray-90;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
 }
 .module-message__tap-to-view__text--incoming-error {
-  color: $color-gray-60;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+  @include ios-theme {
+    color: $color-gray-60;
+  }
+}
+
+.module-message__tap-to-view__text--outgoing {
+  @include ios-theme {
+    color: $color-white;
+  }
+}
+.module-message__tap-to-view__text--outgoing-expired {
+  @include ios-theme {
+    color: $color-gray-90;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-message__attachment-container {
@@ -383,7 +540,12 @@
   border-radius: 16px;
   overflow: hidden;
 
-  background-color: $color-white;
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
 
   &--with-content-below {
     margin-bottom: 7px;
@@ -490,7 +652,10 @@
   height: 16px;
   width: 16px;
 
-  @include color-svg('../images/error-filled.svg', $color-core-red);
+  @include color-svg(
+    '../images/icons/v2/error-solid-24.svg',
+    $color-accent-red
+  );
 }
 
 .module-message__generic-attachment__icon__extension {
@@ -521,36 +686,62 @@
 }
 
 .module-message__generic-attachment__file-name {
-  color: $color-gray-90;
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 300;
+  @include font-body-2-bold;
+
   margin-top: 2px;
 
   // Handling really long filenames - cut them off
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
+  @include ios-theme {
+    color: $color-white;
+  }
 }
 
 .module-message__generic-attachment__file-name--incoming {
   color: $color-white;
+
+  @include ios-theme {
+    color: $color-gray-90;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-message__generic-attachment__file-size {
-  color: $color-gray-90;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
+  @include font-body-2;
+
   margin-top: 3px;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
+  @include ios-theme {
+    color: $color-white;
+  }
 }
 
 .module-message__generic-attachment__file-size--incoming {
   color: $color-white;
-}
 
-.module-message__generic-attachment__file-size--incoming {
-  color: $color-white;
+  @include ios-theme {
+    color: $color-gray-90;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-message__link-preview {
@@ -578,7 +769,14 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  border: 1px solid $color-black-015;
+
+  @include light-theme {
+    border: 1px solid $color-black-alpha-20;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+    border: 1px solid $color-gray-60;
+  }
 }
 
 .module-message__link-preview__content--with-content-above {
@@ -599,54 +797,73 @@
 }
 
 .module-message__link-preview__title {
-  color: $color-gray-90;
-  font-size: 16px;
-  font-weight: 300;
-  letter-spacing: 0.15px;
-  line-height: 22px;
+  @include font-body-1-bold;
 
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-message__link-preview__location {
+  @include font-body-2;
+
   margin-top: 4px;
-  color: $color-gray-60;
-  font-size: 12px;
-  height: 16px;
-  letter-spacing: 0.4px;
-  line-height: 16px;
   text-transform: uppercase;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-message__author {
-  color: $color-white;
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 18px;
+  @include font-caption-bold;
+
   height: 18px;
   overflow-x: hidden;
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
+  color: $color-white-alpha-90;
+
+  @include ios-theme {
+    color: $color-gray-90;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
+
   &__profile-name {
-    font-style: italic;
+    @include font-caption-bold-italic;
   }
 }
 
 .module-message__author--with-tap-to-view-expired {
-  color: $color-gray-75;
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 18px;
+  @include font-caption-bold;
+
   height: 18px;
   overflow-x: hidden;
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-75;
+  }
+  @include dark-theme {
+    color: $color-white;
+  }
 
   &__profile-name {
     font-style: italic;
@@ -654,10 +871,8 @@
 }
 
 .module-message__author_with_sticker {
-  color: $color-gray-90;
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 18px;
+  @include font-caption-bold;
+
   height: 18px;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -670,37 +885,92 @@
   //   look bad for RTL users if we make it too wide.
   width: 300px;
 
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+
   &__profile-name {
     font-style: italic;
   }
 }
 
 .module-message__text {
-  color: $color-gray-90;
-  font-size: 14px;
-  line-height: 18px;
+  @include font-body-1;
+
   text-align: start;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
   white-space: pre-wrap;
 
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+  @include ios-theme {
+    color: $color-white-alpha-90;
+  }
+  @include ios-dark-theme {
+    color: $color-white-alpha-90;
+  }
+
   a {
     text-decoration: underline;
-    color: $color-gray-90;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+    @include ios-theme {
+      color: $color-white-alpha-90;
+    }
+    @include ios-dark-theme {
+      color: $color-white-alpha-90;
+    }
   }
 }
 
 .module-message__text--incoming {
-  color: $color-white;
+  @include light-theme {
+    color: $color-white;
+  }
+  @include ios-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-white-alpha-90;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
+
   a {
     text-decoration: underline;
-    color: $color-white;
+
+    @include light-theme {
+      color: $color-white;
+    }
+    @include ios-theme {
+      color: $color-gray-90;
+    }
+    @include dark-theme {
+      color: $color-white-alpha-90;
+    }
+    @include ios-dark-theme {
+      color: $color-gray-05;
+    }
   }
 }
 
 .module-message__text--error {
-  font-style: italic;
+  @include font-body-1-italic;
 }
 
 .module-message__metadata {
@@ -724,20 +994,49 @@
 }
 
 .module-message__metadata__date {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
-  text-transform: uppercase;
+  @include font-caption;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-white-alpha-80;
+  }
+  @include ios-theme {
+    color: $color-white-alpha-80;
+  }
+  @include ios-dark-theme {
+    color: $color-white-alpha-80;
+  }
 }
 .module-message__metadata__date--incoming {
-  color: $color-white-08;
+  color: $color-white-alpha-80;
+
+  @include ios-theme {
+    color: $color-gray-60;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-25;
+  }
 }
 .module-message__metadata__date--with-image-no-caption {
-  color: $color-white;
+  @include light-theme {
+    color: $color-white;
+  }
+  @include dark-theme {
+    color: $color-white-alpha-80;
+  }
+  @include ios-theme {
+    color: $color-white;
+  }
 }
 .module-message__metadata__date--incoming-with-tap-to-view-expired {
   color: $color-gray-75;
+}
+.module-message__metadata__date--with-sticker {
+  @include ios-theme {
+    color: $color-gray-60;
+  }
 }
 
 .module-message__metadata__spacer {
@@ -753,8 +1052,20 @@
 }
 
 .module-message__metadata__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-gray-60);
   animation: module-message__metadata__status-icon--spinning 4s linear infinite;
+
+  @include light-theme {
+    @include color-svg('../images/sending.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/sending.svg', $color-white-alpha-80);
+  }
+  @include ios-theme {
+    @include color-svg('../images/sending.svg', $color-gray-60);
+  }
+  @include ios-dark-theme {
+    @include color-svg('../images/sending.svg', $color-white);
+  }
 }
 
 @keyframes module-message__metadata__status-icon--spinning {
@@ -765,30 +1076,92 @@
 }
 
 .module-message__metadata__status-icon--sent {
-  @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
+  @include light-theme {
+    @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/check-circle-outline.svg',
+      $color-white-alpha-80
+    );
+  }
+  @include ios-theme {
+    @include color-svg(
+      '../images/check-circle-outline.svg',
+      $color-white-alpha-80
+    );
+  }
+  @include ios-dark-theme {
+    @include color-svg(
+      '../images/check-circle-outline.svg',
+      $color-white-alpha-80
+    );
+  }
 }
 .module-message__metadata__status-icon--delivered {
-  @include color-svg('../images/double-check.svg', $color-gray-60);
   width: 18px;
+
+  @include light-theme {
+    @include color-svg('../images/double-check.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/double-check.svg', $color-white-alpha-80);
+  }
+  @include ios-theme {
+    @include color-svg('../images/double-check.svg', $color-white-alpha-80);
+  }
+  @include ios-dark-theme {
+    @include color-svg('../images/double-check.svg', $color-white-alpha-80);
+  }
 }
 .module-message__metadata__status-icon--read {
-  @include color-svg('../images/read.svg', $color-gray-60);
   width: 18px;
+
+  @include light-theme {
+    @include color-svg('../images/read.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/read.svg', $color-white-alpha-80);
+  }
+  @include ios-theme {
+    @include color-svg('../images/read.svg', $color-white-alpha-80);
+  }
+  @include ios-dark-theme {
+    @include color-svg('../images/read.svg', $color-white-alpha-80);
+  }
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
 .module-message__metadata__status-icon--with-image-no-caption {
-  background-color: $color-white;
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-02;
+  }
+  @include ios-theme {
+    background-color: $color-white;
+  }
+}
+.module-message__metadata__status-icon--with-sticker {
+  @include ios-theme {
+    background-color: $color-gray-60;
+  }
+}
+.module-message__metadata__status-icon--with-tap-to-view-expired {
+  @include ios-theme {
+    background-color: $color-gray-75;
+  }
+}
+
+.module-message__metadata__spinner-container {
+  margin-left: 6px;
 }
 
 .module-message__send-message-button {
   cursor: pointer;
-  font-weight: 300;
-  font-size: 13px;
-  line-height: 18px;
-  color: $color-signal-blue;
-  background-color: $color-light-02;
-  border: 1px solid $color-black-012;
+
+  @include font-body-2-bold;
 
   margin-top: 8px;
   margin-bottom: -10px;
@@ -800,6 +1173,17 @@
 
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
+
+  @include light-theme {
+    color: $color-signal-blue;
+    background-color: $color-gray-02;
+    border: 1px solid $color-black-alpha-20;
+  }
+  @include dark-theme {
+    color: $color-signal-blue;
+    background-color: $color-gray-75;
+    border: 1px solid $color-gray-45;
+  }
 }
 
 .module-message__author-avatar {
@@ -824,56 +1208,76 @@
   display: inline-block;
   margin-left: 6px;
   margin-bottom: 2px;
-  @include color-svg('../images/timer-60.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/timer-60-12.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/timer-60-12.svg',
+      $color-white-alpha-80
+    );
+  }
+  @include ios-theme {
+    @include color-svg(
+      '../images/icons/v2/timer-60-12.svg',
+      $color-white-alpha-80
+    );
+  }
 }
 
-.module-expire-timer--55 {
-  @include color-svg('../images/timer-55.svg', $color-gray-60);
-}
-.module-expire-timer--50 {
-  @include color-svg('../images/timer-50.svg', $color-gray-60);
-}
-.module-expire-timer--45 {
-  @include color-svg('../images/timer-45.svg', $color-gray-60);
-}
-.module-expire-timer--40 {
-  @include color-svg('../images/timer-40.svg', $color-gray-60);
-}
-.module-expire-timer--35 {
-  @include color-svg('../images/timer-35.svg', $color-gray-60);
-}
-.module-expire-timer--30 {
-  @include color-svg('../images/timer-30.svg', $color-gray-60);
-}
-.module-expire-timer--25 {
-  @include color-svg('../images/timer-25.svg', $color-gray-60);
-}
-.module-expire-timer--20 {
-  @include color-svg('../images/timer-20.svg', $color-gray-60);
-}
-.module-expire-timer--15 {
-  @include color-svg('../images/timer-15.svg', $color-gray-60);
-}
-.module-expire-timer--10 {
-  @include color-svg('../images/timer-10.svg', $color-gray-60);
-}
-.module-expire-timer--05 {
-  @include color-svg('../images/timer-05.svg', $color-gray-60);
-}
-.module-expire-timer--00 {
-  @include color-svg('../images/timer-00.svg', $color-gray-60);
+$timer-icons: 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 05, 00;
+
+@each $timer-icon in $conversation-colors {
+  .module-expire-timer--#{$timer-icon} {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/timer-#{$timer-icon}-12.svg',
+        $color-gray-60
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/timer-#{$timer-icon}-12.svg',
+        $color-white-alpha-80
+      );
+    }
+    @include ios-theme {
+      @include color-svg(
+        '../images/icons/v2/timer-#{$timer-icon}-12.svg',
+        $color-white-alpha-80
+      );
+    }
+  }
 }
 
 .module-expire-timer--incoming {
-  background-color: $color-white-08;
+  background-color: $color-white-alpha-80;
+
+  @include ios-theme {
+    background-color: $color-gray-60;
+  }
+  @include ios-dark-theme {
+    background-color: $color-gray-25;
+  }
 }
 .module-expire-timer--incoming-with-tap-to-view-expired {
   background-color: $color-gray-75;
 }
+.module-expire-timer--with-sticker {
+  @include ios-theme {
+    background-color: $color-gray-60;
+  }
+}
 
 // When status indicators are overlaid on top of an image, they use different colors
 .module-expire-timer--with-image-no-caption {
-  background-color: $color-white;
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-02;
+  }
 }
 
 // Module: Quoted Reply
@@ -926,89 +1330,77 @@
 
 .module-quote--outgoing {
   border-left-color: $color-conversation-grey;
-  background-color: $color-conversation-grey-tint;
+  @include light-theme {
+    background-color: $color-conversation-grey-tint;
+  }
+  @include dark-theme {
+    background-color: $color-conversation-grey-shade;
+  }
+
+  // Note: both of these override all of the specific color classes below
+  @include ios-theme {
+    border-left-color: $color-white;
+    background-color: $color-white-alpha-60;
+  }
+  @include ios-dark-theme {
+    border-left-color: $color-black;
+    background-color: $color-conversation-blue-shade;
+  }
 }
-.module-quote--outgoing-red {
-  border-left-color: $color-conversation-red;
-  background-color: $color-conversation-red-tint;
+
+@each $color, $value in $conversation-colors {
+  .module-quote--outgoing-#{$color} {
+    border-left-color: $value;
+  }
 }
-.module-quote--outgoing-deep_orange {
-  border-left-color: $color-conversation-deep_orange;
-  background-color: $color-conversation-deep_orange-tint;
+@each $color, $value in $conversation-colors-tint {
+  .module-quote--outgoing-#{$color} {
+    @include light-theme {
+      background-color: $value;
+    }
+  }
 }
-.module-quote--outgoing-brown {
-  border-left-color: $color-conversation-brown;
-  background-color: $color-conversation-brown-tint;
-}
-.module-quote--outgoing-pink {
-  border-left-color: $color-conversation-pink;
-  background-color: $color-conversation-pink-tint;
-}
-.module-quote--outgoing-purple {
-  border-left-color: $color-conversation-purple;
-  background-color: $color-conversation-purple-tint;
-}
-.module-quote--outgoing-indigo {
-  border-left-color: $color-conversation-indigo;
-  background-color: $color-conversation-indigo-tint;
-}
-.module-quote--outgoing-blue {
-  border-left-color: $color-conversation-blue;
-  background-color: $color-conversation-blue-tint;
-}
-.module-quote--outgoing-teal {
-  border-left-color: $color-conversation-teal;
-  background-color: $color-conversation-teal-tint;
-}
-.module-quote--outgoing-green {
-  border-left-color: $color-conversation-green;
-  background-color: $color-conversation-green-tint;
-}
-.module-quote--outgoing-light_green {
-  border-left-color: $color-conversation-light_green;
-  background-color: $color-conversation-light_green-tint;
-}
-.module-quote--outgoing-blue_grey {
-  border-left-color: $color-conversation-blue_grey;
-  background-color: $color-conversation-blue_grey-tint;
+@each $color, $value in $conversation-colors-shade {
+  .module-quote--outgoing-#{$color} {
+    @include dark-theme {
+      background-color: $value;
+    }
+  }
 }
 
 .module-quote--incoming {
-  border-left-color: $color-white;
-  background-color: $color-conversation-grey-tint;
+  @include light-theme {
+    border-left-color: $color-white;
+    background-color: $color-conversation-grey-tint;
+  }
+  @include dark-theme {
+    border-left-color: $color-black;
+    background-color: $color-conversation-grey-shade;
+  }
+
+  // Note: both of these override all of the specific color classes below
+  @include ios-theme {
+    background-color: $color-signal-blue-alpha-25;
+    border-left-color: $color-signal-blue;
+  }
+  @include ios-dark-theme {
+    background-color: $color-conversation-blue-shade;
+    border-left-color: $color-signal-blue;
+  }
 }
-.module-quote--incoming-red {
-  background-color: $color-conversation-red-tint;
+@each $color, $value in $conversation-colors-tint {
+  .module-quote--incoming-#{$color} {
+    @include light-theme {
+      background-color: $value;
+    }
+  }
 }
-.module-quote--incoming-deep_orange {
-  background-color: $color-conversation-deep_orange-tint;
-}
-.module-quote--incoming-brown {
-  background-color: $color-conversation-brown-tint;
-}
-.module-quote--incoming-pink {
-  background-color: $color-conversation-pink-tint;
-}
-.module-quote--incoming-purple {
-  background-color: $color-conversation-purple-tint;
-}
-.module-quote--incoming-indigo {
-  background-color: $color-conversation-indigo-tint;
-}
-.module-quote--incoming-blue {
-  background-color: $color-conversation-blue-tint;
-}
-.module-quote--incoming-teal {
-  background-color: $color-conversation-teal-tint;
-}
-.module-quote--incoming-green {
-  background-color: $color-conversation-green-tint;
-}
-.module-quote--incoming-light_green {
-  background-color: $color-conversation-light_green-tint;
-}
-.module-quote--incoming-blue_grey {
-  background-color: $color-conversation-blue_grey-tint;
+@each $color, $value in $conversation-colors-shade {
+  .module-quote--incoming-#{$color} {
+    @include dark-theme {
+      background-color: $value;
+    }
+  }
 }
 
 .module-quote__primary {
@@ -1022,28 +1414,55 @@
 }
 
 .module-quote__primary__author {
-  font-size: 13px;
-  line-height: 18px;
-  font-weight: 300;
-  color: $color-gray-90;
+  @include font-caption-bold;
 
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__primary__author--incoming {
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-quote__primary__profile-name {
-  font-style: italic;
+  @include font-caption-bold-italic;
 }
 
 .module-quote__primary__text {
-  font-size: 14px;
-  line-height: 18px;
-  color: $color-gray-90;
+  @include font-body-2;
+
   text-align: start;
 
-  a {
+  @include light-theme {
     color: $color-gray-90;
+    a {
+      color: $color-gray-90;
+    }
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+    a {
+      color: $color-gray-02;
+    }
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+    a {
+      color: $color-gray-05;
+    }
   }
 
   overflow-wrap: break-word;
@@ -1063,15 +1482,37 @@
   //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
 }
 
+.module-quote__primary__text--incoming {
+  @include ios-dark-theme {
+    color: $color-gray-05;
+    a {
+      color: $color-gray-05;
+    }
+  }
+}
+
 .module-quote__primary__type-label {
-  font-style: italic;
-  color: $color-gray-90;
-  font-size: 13px;
-  line-height: 18px;
+  @include font-body-2-italic;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__primary__type-label--incoming {
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-quote__primary__filename-label {
-  font-size: 12px;
+  @include font-body-2;
 }
 
 .module-quote__close-container {
@@ -1081,15 +1522,33 @@
   height: 16px;
   width: 16px;
 
-  background-color: rgba(255, 255, 255, 0.75);
   border-radius: 50%;
+
+  @include light-theme {
+    background-color: $color-white-alpha-60;
+  }
+  @include dark-theme {
+    background-color: $color-white-alpha-40;
+  }
 }
 
 .module-quote__close-button {
-  width: 100%;
-  height: 100%;
+  width: 14px;
+  height: 14px;
   cursor: pointer;
-  @include color-svg('../images/x.svg', $grey);
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+  }
 }
 
 .module-quote__icon-container {
@@ -1131,8 +1590,8 @@
 }
 
 .module-quote__icon-container__icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 .module-quote__icon-container__icon--file {
@@ -1142,10 +1601,16 @@
   @include color-svg('../images/image.svg', $color-signal-blue);
 }
 .module-quote__icon-container__icon--microphone {
-  @include color-svg('../images/microphone.svg', $color-signal-blue);
+  @include color-svg(
+    '../images/icons/v2/mic-outline-24.svg',
+    $color-signal-blue
+  );
 }
 .module-quote__icon-container__icon--play {
-  @include color-svg('../images/play.svg', $color-signal-blue);
+  @include color-svg(
+    '../images/icons/v2/play-solid-24.svg',
+    $color-signal-blue
+  );
 }
 .module-quote__icon-container__icon--movie {
   @include color-svg('../images/movie.svg', $color-signal-blue);
@@ -1167,14 +1632,28 @@
   margin-bottom: 5px;
 }
 .module-quote__generic-file__text {
-  font-size: 14px;
-  line-height: 18px;
-  color: $color-gray-90;
+  @include font-body-2;
 
   max-width: calc(100% - 26px);
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-quote__generic-file__text--incoming {
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-quote__reference-warning {
@@ -1183,24 +1662,68 @@
   flex-direction: row;
   align-items: center;
 
-  background-color: $color-white-085;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   padding-left: 8px;
   padding-right: 8px;
+
+  background-color: $color-white-alpha-80;
+  @include ios-theme {
+    background-color: $color-signal-blue-tint-alpha-50;
+  }
+  @include ios-dark-theme {
+    background-color: $color-white-alpha-40;
+  }
+}
+
+.module-quote__reference-warning--incoming {
+  @include ios-dark-theme {
+    color: $color-gray-15;
+    background-color: $color-signal-blue-alpha-50;
+  }
 }
 
 .module-quote__reference-warning__icon {
   height: 16px;
   width: 16px;
-  @include color-svg('../images/broken-link.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-25);
+  }
+  @include ios-dark-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+  }
+}
+
+.module-quote__reference-warning__icon--incoming {
+  @include ios-dark-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-15);
+  }
 }
 
 .module-quote__reference-warning__text {
+  @include font-caption;
+
   margin-left: 6px;
-  color: $color-gray-90;
-  font-size: 13px;
-  line-height: 18px;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-90;
+  }
+}
+
+.module-quote__reference-warning__text--incoming {
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 // Module: Embedded Contact
@@ -1234,37 +1757,66 @@
 }
 
 .module-embedded-contact__contact-name {
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 300;
+  @include font-body-1-bold;
+
   margin-top: 6px;
-  color: $color-gray-90;
 
   max-width: 100%;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
+  @include ios-theme {
+    color: $color-white;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-embedded-contact__contact-name--incoming {
   color: $color-white;
+
+  @include ios-theme {
+    color: $color-gray-90;
+  }
+  @include ios-dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-embedded-contact__contact-method {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  margin-top: 3px;
-  color: $color-gray-60;
+  @include font-body-2;
 
+  margin-top: 3px;
   max-width: 100%;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-white-alpha-80;
+  }
+  @include ios-theme {
+    color: $color-white-alpha-80;
+  }
 }
 
 .module-embedded-contact__contact-method--incoming {
-  color: $color-white-07;
+  color: $color-white-alpha-80;
+
+  @include ios-theme {
+    color: $color-gray-60;
+  }
 }
 
 // Module: Contact Detail
@@ -1281,12 +1833,12 @@
 }
 
 .module-contact-detail__contact-name {
-  font-size: 20px;
-  font-weight: bold;
+  @include font-body-1-bold;
 }
 
 .module-contact-detail__contact-method {
-  font-size: 14px;
+  @include font-body-2;
+
   margin-top: 10px;
 }
 
@@ -1294,7 +1846,7 @@
   cursor: pointer;
 
   border-radius: 4px;
-  background-color: $blue;
+  background-color: $color-signal-blue;
   display: inline-block;
   padding: 6px;
   margin-top: 20px;
@@ -1312,6 +1864,9 @@
 .module-contact-detail__send-message__inner {
   display: flex;
   align-items: center;
+  padding-right: 5px;
+
+  @include font-body-2-bold;
 }
 
 .module-contact-detail__send-message__bubble-icon {
@@ -1319,19 +1874,35 @@
   width: 18px;
   display: inline-block;
   margin-right: 5px;
-  @include color-svg('../images/chat-bubble.svg', white);
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/message-outline-24.svg',
+      $color-white
+    );
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/message-solid-24.svg', $color-white);
+  }
 }
 
 .module-contact-detail__additional-contact {
   text-align: left;
-  border-top: 1px solid $color-light-10;
   margin-top: 15px;
   padding-top: 8px;
+
+  @include light-theme {
+    border-top: 1px solid $color-gray-05;
+  }
+  @include dark-theme {
+    border-top: 1px solid $color-gray-75;
+  }
 }
 
 .module-contact-detail__additional-contact__type {
-  color: $color-light-45;
-  font-size: 12px;
+  @include font-caption-bold;
+
+  color: $color-gray-45;
+
   margin-bottom: 3px;
 }
 
@@ -1341,11 +1912,15 @@
   margin-top: 14px;
   margin-left: 1em;
   margin-right: 1em;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
+
   text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-group-notification__change {
@@ -1353,18 +1928,21 @@
 }
 
 .module-group-notification__contact {
-  font-weight: 300;
+  font-weight: bold;
 }
 
 // Module: Reset Session Notification
 
 .module-reset-session-notification {
   margin-top: 14px;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
   text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 // Module: Safety Number Notification
@@ -1380,46 +1958,70 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 7px;
-  @include color-svg('../images/shield.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/safety-number-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/safety-number-solid-24.svg',
+      $color-gray-25
+    );
+  }
 }
 
 .module-safety-number-notification__text {
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-safety-number-notification__contact {
-  font-weight: 300;
+  font-weight: bold;
 }
 
 .module-safety-number-notification__button {
+  @include font-body-2-bold;
+
   margin-top: 5px;
   display: inline-block;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 18px;
+
   padding: 12px;
-  color: $color-signal-blue;
-  background-color: $color-light-02;
   border-radius: 4px;
+
+  color: $color-signal-blue;
+
+  @include light-theme {
+    background-color: $color-gray-02;
+  }
+  @include dark-theme {
+    background-color: $color-gray-75;
+  }
 }
 
 // Module: Verification Notification
 
 .module-verification-notification {
   margin-top: 14px;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
   text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-verification-notification__contact {
-  font-weight: 300;
+  font-weight: bold;
 }
 
 .module-verification-notification__icon--mark-verified {
@@ -1428,7 +2030,13 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 4px;
-  @include color-svg('../images/verified-check.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-25);
+  }
 }
 
 .module-verification-notification__icon--mark-not-verified {
@@ -1437,18 +2045,32 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 7px;
-  @include color-svg('../images/shield.svg', $color-gray-60);
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/safety-number-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/safety-number-solid-24.svg',
+      $color-gray-25
+    );
+  }
 }
 
 // Module: Timer Notification
 
 .module-timer-notification {
   margin-top: 14px;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: $color-gray-60;
   text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-timer-notification__icon-container {
@@ -1464,28 +2086,35 @@
   height: 20px;
   width: 20px;
   display: inline-block;
-  @include color-svg('../images/timer.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-25);
+  }
 }
 
 .module-timer-notification__icon--disabled {
-  @include color-svg('../images/timer-disabled.svg', $color-gray-60);
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/timer-disabled-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/timer-disabled-24.svg',
+      $color-gray-25
+    );
+  }
 }
 
 .module-timer-notification__icon-label {
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
   margin-left: 6px;
-  text-transform: uppercase;
 
   // Didn't seem centered otherwise
   margin-top: 1px;
-}
-
-.module-timer-notification__message {
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
 }
 
 .module-notification--with-click-handler {
@@ -1502,13 +2131,18 @@
 // Module: Contact List Item
 
 .module-contact-list-item {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  color: $color-gray-60;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-15;
+  }
 }
 
 .module-contact-list-item--with-click-handler {
@@ -1520,28 +2154,34 @@
 }
 
 .module-contact-list-item__text__name {
-  font-weight: 300;
-  font-size: 14px;
+  @include font-body-2-bold;
 }
 
 .module-contact-list-item__text__profile-name {
-  font-style: italic;
+  @include font-body-2-bold-italic;
 }
 
 .module-contact-list-item__text__additional-data {
-  margin-top: 3px;
-  font-size: 14px;
+  @include font-body-2;
+
+  margin-top: 3p;
 }
 
 .module-contact-list-item__text__verified-icon {
-  @include color-svg('../images/verified-check.svg', $color-gray-60);
   display: inline-block;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   vertical-align: text-bottom;
 
   // Trying to account for the whitespace around the check mark
   margin-bottom: -1px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-25);
+  }
 }
 
 // Module: Conversation Header
@@ -1554,20 +2194,24 @@
   align-items: center;
 
   height: $header-height;
-  color: $color-gray-90;
 
-  background-color: $color-white;
-  border-bottom: 1px solid $color-black-02;
+  @include light-theme {
+    color: $color-gray-90;
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+    background-color: $color-gray-95;
+  }
 }
 
 .module-conversation-header__back-icon {
-  @include color-svg('../images/back.svg', $color-gray-90);
   display: inline-block;
   margin-left: -10px;
   margin-right: -2px;
-  width: 35px;
-  height: 35px;
-  min-width: 35px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
   vertical-align: text-bottom;
   border: none;
   opacity: 0;
@@ -1579,6 +2223,19 @@
 
   &--show {
     opacity: 1;
+  }
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/chevron-left-24.svg',
+      $color-gray-90
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/chevron-left-24.svg',
+      $color-gray-02
+    );
   }
 }
 
@@ -1602,6 +2259,12 @@
   max-width: 100%;
 }
 
+.module-conversation-header__note-to-self {
+  @include dark-theme {
+    color: $color-gray-02;
+  }
+}
+
 .module-conversation-header__avatar {
   min-width: 28px;
   user-select: none;
@@ -1609,12 +2272,9 @@
 
 .module-conversation-header__title {
   margin-left: 6px;
-
   min-width: 0;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 300;
-  color: $color-gray-90;
+
+  @include font-body-1-bold;
 
   // width of avatar (28px) and our 6px left margin
   max-width: calc(100% - 34px);
@@ -1623,18 +2283,31 @@
   text-overflow: ellipsis;
 
   -webkit-user-select: text;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
 }
 
 .module-conversation-header__title__profile-name {
-  font-style: italic;
+  @include font-body-1-bold-italic;
 }
 
 .module-conversation-header__title__verified-icon {
-  @include color-svg('../images/verified-check.svg', $color-gray-90);
   display: inline-block;
   width: 1.25em;
   height: 1.25em;
   vertical-align: text-bottom;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-90);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-02);
+  }
 }
 
 .module-conversation-header__expiration {
@@ -1651,10 +2324,16 @@
 }
 
 .module-conversation-header__expiration__clock-icon {
-  @include color-svg('../images/timer.svg', $color-gray-60);
   height: 24px;
   width: 24px;
   display: inline-block;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-25);
+  }
 }
 
 .module-conversation-header__expiration__setting {
@@ -1663,7 +2342,6 @@
 }
 
 .module-conversation-header__more-button {
-  @include color-svg('../images/more-h-24.svg', $color-gray-75);
   height: 24px;
   width: 24px;
   margin-left: 12px;
@@ -1677,11 +2355,17 @@
 
   &--show {
     opacity: 1;
+  }
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-gray-75);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-gray-15);
   }
 }
 
 .module-conversation-header__search-button {
-  @include color-svg('../images/search-24.svg', $color-gray-75);
   height: 24px;
   width: 24px;
   margin-left: 12px;
@@ -1695,6 +2379,13 @@
 
   &--show {
     opacity: 1;
+  }
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/search-24.svg', $color-gray-75);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/search-24.svg', $color-gray-15);
   }
 }
 
@@ -1721,12 +2412,16 @@
 }
 
 .module-message-detail__label {
-  font-weight: 300;
-  padding-right: 5px;
+  @include font-body-1-bold;
 }
 
 .module-message-detail__unix-timestamp {
-  color: $color-light-10;
+  @include light-theme {
+    color: $color-gray-05;
+  }
+  @include dark-theme {
+    color: $color-gray-45;
+  }
 }
 
 .module-message-detail__delete-button-container {
@@ -1737,14 +2432,22 @@
 .module-message-detail__delete-button {
   @include button-reset;
 
-  background-color: $color-core-red;
-  color: $color-white;
-  box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
   border-radius: 5px;
-  border: solid 1px $color-light-35;
   cursor: pointer;
   margin: 1em auto;
   padding: 1em;
+
+  background-color: $color-accent-red;
+  color: $color-white;
+
+  @include light-theme {
+    border: solid 1px $color-gray-45;
+    box-shadow: 0 0 10px -3px $color-black-alpha-60;
+  }
+  @include dark-theme {
+    border: solid 1px $color-gray-25;
+    box-shadow: 0 0 10px -3px $color-white-alpha-60;
+  }
 }
 
 .module-message-detail__contact-container {
@@ -1764,8 +2467,8 @@
 }
 
 .module-message-detail__contact__error {
-  color: $color-core-red;
-  font-weight: 300;
+  color: $color-accent-red;
+  font-weight: bold;
 }
 
 .module-message-detail__contact__status-icon {
@@ -1776,9 +2479,15 @@
 }
 
 .module-message-detail__contact__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-gray-60);
   animation: module-message-detail__contact__status-icon--spinning 4s linear
     infinite;
+
+  @include light-theme {
+    @include color-svg('../images/sending.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/sending.svg', $color-gray-25);
+  }
 }
 
 @keyframes module-message-detail__contact__status-icon--spinning {
@@ -1789,18 +2498,46 @@
 }
 
 .module-message-detail__contact__status-icon--sent {
-  @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
+  @include light-theme {
+    @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/check-circle-outline.svg', $color-gray-25);
+  }
 }
 .module-message-detail__contact__status-icon--delivered {
-  @include color-svg('../images/double-check.svg', $color-gray-60);
   width: 18px;
+
+  @include light-theme {
+    @include color-svg('../images/double-check.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/double-check.svg', $color-gray-25);
+  }
 }
 .module-message-detail__contact__status-icon--read {
-  @include color-svg('../images/read.svg', $color-gray-60);
   width: 18px;
+
+  @include light-theme {
+    @include color-svg('../images/read.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/read.svg', $color-gray-25);
+  }
 }
 .module-message-detail__contact__status-icon--error {
-  @include color-svg('../images/error.svg', $color-core-red);
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/error-outline-12.svg',
+      $color-accent-red
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/error-solid-12.svg',
+      $color-accent-red
+    );
+  }
 }
 
 .module-message-detail__contact__unidentified-delivery-icon {
@@ -1810,7 +2547,13 @@
   width: 20px;
   height: 20px;
   display: inline-block;
-  @include color-svg('../images/unidentified-delivery.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg('../images/unidentified-delivery.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/unidentified-delivery.svg', $color-gray-25);
+  }
 }
 
 .module-message-detail__contact__error-buttons {
@@ -1820,18 +2563,26 @@
 .module-message-detail__contact__show-safety-number {
   @include button-reset;
   padding: 4px;
-  color: $color-white;
-  background-color: $color-light-35;
   border-radius: 4px;
+
+  color: $color-white;
+
+  @include light-theme {
+    background-color: $color-gray-45;
+  }
+  @include dark-theme {
+    background-color: $color-gray-25;
+  }
 }
 .module-message-detail__contact__send-anyway {
   @include button-reset;
-  color: $color-white;
-  background-color: $color-core-red;
   margin-left: 5px;
   margin-top: 5px;
   padding: 4px;
   border-radius: 4px;
+
+  color: $color-white;
+  background-color: $color-accent-red;
 }
 
 // Module: Media Gallery
@@ -1854,9 +2605,15 @@
 
 .module-media-gallery__tab {
   width: 100%;
-  background-color: $color-light-02;
   padding: 20px;
   text-align: center;
+
+  @include light-theme {
+    background-color: $color-gray-02;
+  }
+  @include dark-theme {
+    background-color: $color-gray-90;
+  }
 }
 
 .module-media-gallery__tab--active {
@@ -1883,9 +2640,7 @@
 }
 
 .module-attachment-section__header {
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 28px;
+  @include font-body-1-bold;
 }
 
 .module-attachment-section__items {
@@ -1904,7 +2659,12 @@
 }
 
 .module-document-list-item--with-separator {
-  border-bottom: 1px solid $color-light-02;
+  @include light-theme {
+    border-bottom: 1px solid $color-gray-02;
+  }
+  @include dark-theme {
+    border-bottom: 1px solid $color-gray-75;
+  }
 }
 
 .module-document-list-item__content {
@@ -1921,7 +2681,7 @@
 
   width: 48px;
   height: 48px;
-  @include color-svg('../images/file.svg', $color-light-35);
+  @include color-svg('../images/file.svg', $color-gray-45);
 }
 
 .module-document-list-item__metadata {
@@ -1933,14 +2693,10 @@
   margin-right: 8px;
 }
 
-.module-document-list-item__file-name {
-  font-weight: bold;
-}
-
 .module-document-list-item__file-size {
   display: inline-block;
   margin-top: 8px;
-  font-size: 80%;
+  @include font-body-2;
 }
 
 .module-document-list-item__date {
@@ -1954,7 +2710,7 @@
   height: 94px;
   width: 94px;
   cursor: pointer;
-  background-color: $color-light-10;
+  background-color: $color-gray-05;
   margin-right: 4px;
   margin-bottom: 4px;
   position: relative;
@@ -1975,7 +2731,7 @@
 }
 
 .module-media-grid-item__icon-image {
-  @include color-svg('../images/image.svg', $color-light-35);
+  @include color-svg('../images/image.svg', $color-gray-45);
 }
 
 .module-media-grid-item__image-container {
@@ -2004,17 +2760,20 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  height: 36px;
-  width: 36px;
-  @include color-svg('../images/play.svg', $color-signal-blue);
+  height: 24px;
+  width: 24px;
+  @include color-svg(
+    '../images/icons/v2/play-solid-24.svg',
+    $color-signal-blue
+  );
 }
 
 .module-media-grid-item__icon-video {
-  @include color-svg('../images/movie.svg', $color-light-35);
+  @include color-svg('../images/movie.svg', $color-gray-45);
 }
 
 .module-media-grid-item__icon-generic {
-  @include color-svg('../images/file.svg', $color-light-35);
+  @include color-svg('../images/file.svg', $color-gray-45);
 }
 
 /* Module: Empty State*/
@@ -2024,14 +2783,16 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  font-size: 28px;
-  color: $color-light-45;
+
+  @include font-title-1;
+
+  color: $color-gray-45;
 }
 
 // Module: Conversation List Item
 
 .module-conversation-list-item {
-  max-width: 300px;
+  max-width: $left-pane-width;
   display: flex;
   flex-direction: row;
   padding-right: 16px;
@@ -2040,8 +2801,15 @@
 
   cursor: pointer;
 
-  &:hover {
-    background-color: $color-gray-05;
+  @include light-theme {
+    &:hover {
+      background-color: $color-gray-05;
+    }
+  }
+  @include dark-theme {
+    &:hover {
+      background-color: $color-gray-75;
+    }
   }
 }
 
@@ -2051,7 +2819,12 @@
 }
 
 .module-conversation-list-item--is-selected {
-  background-color: $color-gray-05;
+  @include light-theme {
+    background-color: $color-gray-15;
+  }
+  @include dark-theme {
+    background-color: $color-gray-65;
+  }
 }
 
 .module-conversation-list-item__avatar-container {
@@ -2061,8 +2834,6 @@
 }
 
 .module-conversation-list-item__unread-count {
-  color: $color-white;
-  background-color: $color-signal-blue;
   text-align: center;
 
   padding-top: 1px;
@@ -2071,24 +2842,30 @@
 
   position: absolute;
   right: -6px;
-  top: 6px;
+  top: 0px;
 
-  font-weight: 300;
-  font-size: 11px;
-  letter-spacing: 0.25px;
+  @include font-caption-bold;
 
-  height: 16px;
-  min-width: 16px;
-  line-height: 16px;
-  border-radius: 8px;
+  height: 20px;
+  min-width: 20px;
+  line-height: 20px;
+  border-radius: 10px;
 
-  box-shadow: 0px 0px 0px 1px $color-gray-02;
+  color: $color-white;
+  background-color: $color-signal-blue;
+
+  @include light-theme {
+    box-shadow: 0px 0px 0px 1px $color-gray-02;
+  }
+  @include dark-theme {
+    box-shadow: 0px 0px 0px 1px $color-gray-90;
+  }
 }
 
 .module-conversation-list-item__content {
   flex-grow: 1;
   margin-left: 12px;
-  // parent - 48px (for avatar) - 16px (our right margin)
+  // parent - 52px (for avatar) - 12p (margin to avatar)
   max-width: calc(100% - 64px);
 
   display: flex;
@@ -2105,41 +2882,52 @@
 .module-conversation-list-item__header__name {
   flex-grow: 1;
   flex-shrink: 1;
-  font-size: 14px;
-  line-height: 18px;
+
+  @include font-body-1-bold;
 
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  font-weight: 300;
-  color: $color-gray-90;
-}
-
-.module-conversation-list-item__header__name--with-unread {
-  font-weight: 300;
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-conversation-list-item__header__timestamp {
   flex-shrink: 0;
   margin-left: 6px;
 
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
+  @include font-caption;
 
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  text-transform: uppercase;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
 
-  color: $color-gray-60;
+.module-conversation-list-item__header__timestamp--with-unread {
+  @include font-caption-bold;
 }
 
 .module-conversation-list-item__header__date--has-unread {
-  font-weight: 300;
-  color: $color-gray-90;
+  @include font-caption-bold;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-conversation-list-item__message {
@@ -2152,20 +2940,30 @@
   flex-grow: 1;
   flex-shrink: 1;
 
-  font-size: 13px;
-  line-height: 18px;
-
-  color: $color-gray-60;
+  @include font-body-2;
 
   height: 1.3em;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-conversation-list-item__message__text--has-unread {
-  font-weight: 300;
-  color: $color-gray-90;
+  @include font-body-2-bold;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-conversation-list-item__message__draft-prefix {
@@ -2184,9 +2982,14 @@
 }
 
 .module-conversation-list-item__message__status-icon--sending {
-  @include color-svg('../images/sending.svg', $color-gray-60);
   animation: module-conversation-list-item__message__status-icon--spinning 4s
     linear infinite;
+  @include light-theme {
+    @include color-svg('../images/sending.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/sending.svg', $color-gray-45);
+  }
 }
 
 @keyframes module-conversation-list-item__message__status-icon--spinning {
@@ -2197,18 +3000,44 @@
 }
 
 .module-conversation-list-item__message__status-icon--sent {
-  @include color-svg('../images/check-circle-outline.svg', $color-light-35);
+  @include light-theme {
+    @include color-svg('../images/check-circle-outline.svg', $color-gray-25);
+  }
+  @include dark-theme {
+    @include color-svg('../images/check-circle-outline.svg', $color-gray-45);
+  }
 }
 .module-conversation-list-item__message__status-icon--delivered {
-  @include color-svg('../images/double-check.svg', $color-light-35);
+  @include light-theme {
+    @include color-svg('../images/double-check.svg', $color-gray-25);
+  }
+  @include dark-theme {
+    @include color-svg('../images/double-check.svg', $color-gray-45);
+  }
   width: 18px;
 }
 .module-conversation-list-item__message__status-icon--read {
-  @include color-svg('../images/read.svg', $color-light-35);
+  @include light-theme {
+    @include color-svg('../images/read.svg', $color-gray-25);
+  }
+  @include dark-theme {
+    @include color-svg('../images/read.svg', $color-gray-45);
+  }
   width: 18px;
 }
 .module-conversation-list-item__message__status-icon--error {
-  @include color-svg('../images/error.svg', $color-core-red);
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/error-outline-12.svg',
+      $color-accent-red
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/error-solid-12.svg',
+      $color-accent-red
+    );
+  }
 }
 
 // Module: Avatar
@@ -2228,9 +3057,15 @@
 .module-avatar__label {
   width: 100%;
   text-align: center;
-  font-weight: 300;
+  font-weight: bold;
   text-transform: uppercase;
-  color: $color-white;
+
+  @include light-theme {
+    color: $color-white;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-avatar__icon {
@@ -2241,11 +3076,21 @@
 }
 
 .module-avatar__icon--group {
-  @include color-svg('../images/profile-group.svg', $color-white);
+  @include light-theme {
+    @include color-svg('../images/profile-group.svg', $color-white);
+  }
+  @include dark-theme {
+    @include color-svg('../images/profile-group.svg', $color-gray-05);
+  }
 }
 
 .module-avatar__icon--direct {
-  @include color-svg('../images/profile-individual.svg', $color-white);
+  @include light-theme {
+    @include color-svg('../images/profile-individual.svg', $color-white);
+  }
+  @include dark-theme {
+    @include color-svg('../images/profile-individual.svg', $color-gray-05);
+  }
 }
 
 .module-avatar--28 {
@@ -2268,47 +3113,24 @@
   width: 16px;
 }
 
-.module-avatar--36 {
-  height: 36px;
-  width: 36px;
+.module-avatar--52 {
+  height: 52px;
+  width: 52px;
 
   img {
-    height: 36px;
-    width: 36px;
+    height: 52px;
+    width: 52px;
   }
 }
 
-.module-avatar__label--36 {
-  margin-top: 1px;
-  width: 36px;
-  font-size: 16px;
+.module-avatar__label--52 {
+  width: 52px;
+  font-size: 22px;
   letter-spacing: 0.19px;
-  line-height: 36px;
+  line-height: 52px;
 }
 
-.module-avatar__icon--36 {
-  height: 20px;
-  width: 20px;
-}
-
-.module-avatar--48 {
-  height: 48px;
-  width: 48px;
-
-  img {
-    height: 48px;
-    width: 48px;
-  }
-}
-
-.module-avatar__label--48 {
-  width: 48px;
-  font-size: 20px;
-  letter-spacing: 0.19px;
-  line-height: 48px;
-}
-
-.module-avatar__icon--48 {
+.module-avatar__icon--52 {
   height: 26px;
   width: 26px;
 }
@@ -2337,63 +3159,54 @@
 .module-avatar__icon--note-to-self {
   width: 70%;
   height: 70%;
-  @include color-svg('../images/note-28.svg', $color-white);
+
+  @include light-theme {
+    @include color-svg('../images/note-28.svg', $color-white);
+  }
+  @include dark-theme {
+    @include color-svg('../images/note-28.svg', $color-gray-05);
+  }
 }
 
 .module-avatar--no-image {
-  background-color: $color-conversation-grey;
+  @include light-theme {
+    background-color: $color-conversation-grey;
+  }
+  @include dark-theme {
+    background-color: $color-conversation-grey-shade;
+  }
 }
 
 .module-avatar--signal-blue {
   background-color: $color-signal-blue;
 }
-.module-avatar--red {
-  background-color: $color-conversation-red;
+
+@each $color, $value in $conversation-colors {
+  .module-avatar--#{$color} {
+    @include light-theme {
+      background-color: $value;
+    }
+  }
 }
-.module-avatar--deep_orange {
-  background-color: $color-conversation-deep_orange;
-}
-.module-avatar--brown {
-  background-color: $color-conversation-brown;
-}
-.module-avatar--pink {
-  background-color: $color-conversation-pink;
-}
-.module-avatar--purple {
-  background-color: $color-conversation-purple;
-}
-.module-avatar--indigo {
-  background-color: $color-conversation-indigo;
-}
-.module-avatar--blue {
-  background-color: $color-conversation-blue;
-}
-.module-avatar--teal {
-  background-color: $color-conversation-teal;
-}
-.module-avatar--green {
-  background-color: $color-conversation-green;
-}
-.module-avatar--light_green {
-  background-color: $color-conversation-light_green;
-}
-.module-avatar--blue_grey {
-  background-color: $color-conversation-blue_grey;
+@each $color, $value in $conversation-colors-shade {
+  .module-avatar--#{$color} {
+    @include dark-theme {
+      background-color: $value;
+    }
+  }
 }
 
 // Module: Main Header
 
 .module-main-header {
   height: $header-height;
-  width: 300px;
+  width: $left-pane-width;
 
   padding-left: 16px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  border-bottom: 1px solid $color-gray-15;
 }
 
 .module-main-header__search {
@@ -2403,16 +3216,26 @@
 
 .module-main-header__search__input {
   height: 28px;
-  width: 228px;
 
-  border-radius: 14px;
-  border: solid 1px $color-gray-15;
+  // 320 - 28 (avatar) - 32 (left/right margin) - 12 (space to avatar)
+  width: 248px;
 
   padding-left: 30px;
   padding-right: 5px;
 
-  color: $color-gray-90;
-  font-size: 14px;
+  border-radius: 14px;
+  border: none;
+
+  @include font-body-2;
+
+  @include light-theme {
+    background-color: $color-gray-05;
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+    background-color: $color-gray-95;
+  }
 
   &:placeholder {
     color: $color-gray-45;
@@ -2440,7 +3263,13 @@
   width: 16px;
 
   cursor: text;
-  @include color-svg('../images/search.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/search-16.svg', $color-gray-75);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/search-16.svg', $color-gray-25);
+  }
 }
 
 .module-main-header__search__in-conversation-pill {
@@ -2451,7 +3280,6 @@
 
   border-radius: 14px;
   width: 42px;
-  background-color: $color-gray-05;
 
   display: flex;
   flex-direction: row;
@@ -2460,6 +3288,13 @@
   // Overriding some default button styling
   border: none;
   padding: 0;
+
+  @include light-theme {
+    background-color: $color-gray-15;
+  }
+  @include dark-theme {
+    background-color: $color-gray-75;
+  }
 }
 .module-main-header__search__in-conversation-pill__avatar-container {
   margin-left: 4px;
@@ -2473,23 +3308,47 @@
   height: 16px;
   width: 16px;
 
-  @include color-svg('../images/profile-solid-16.svg', $color-white);
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-white
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-solid-24.svg',
+      $color-gray-05
+    );
+  }
 }
 .module-main-header__search__in-conversation-pill__x-button {
   margin-left: 2px;
-  @include color-svg('../images/x.svg', $color-gray-60);
+
   height: 16px;
   width: 16px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+  }
 }
 
 .module-main-header__search__cancel-icon {
   position: absolute;
   right: 8px;
-  top: 7px;
-  height: 14px;
-  width: 14px;
+  top: 5px;
+  height: 18px;
+  width: 18px;
   cursor: pointer;
-  @include color-svg('../images/x-16.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+  }
 }
 
 // Module: Image
@@ -2502,7 +3361,12 @@
 }
 
 .module-image--with-background {
-  background-color: $color-white;
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-black;
+  }
 }
 
 .module-image__caption-icon {
@@ -2554,18 +3418,30 @@
   z-index: 1;
   left: 0;
   right: 0;
-  box-shadow: inset 0px 0px 0px 1px $color-black-015;
+
+  @include light-theme {
+    box-shadow: inset 0px 0px 0px 1px $color-black-alpha-20;
+  }
+  @include dark-theme {
+    box-shadow: inset 0px 0px 0px 1px $color-white-alpha-20;
+  }
 }
 
 .module-image__border-overlay--dark {
-  background-color: $color-black-02;
+  background-color: $color-black-alpha-20;
 }
 
 .module-image__loading-placeholder {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  background-color: $color-black-015;
+
+  @include light-theme {
+    background-color: $color-black-alpha-20;
+  }
+  @include dark-theme {
+    background-color: $color-white-alpha-20;
+  }
 }
 
 .module-image__image {
@@ -2573,7 +3449,8 @@
   // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
 
-  margin-bottom: -3px;
+  // Seems to be related to body text size
+  margin-bottom: -5px;
 }
 
 .module-image__bottom-overlay {
@@ -2621,9 +3498,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  height: 36px;
-  width: 36px;
-  @include color-svg('../images/play.svg', $color-signal-blue);
+  height: 24px;
+  width: 24px;
+  @include color-svg(
+    '../images/icons/v2/play-solid-24.svg',
+    $color-signal-blue
+  );
 }
 
 .module-image__text-container {
@@ -2636,9 +3516,7 @@
 
   color: $color-white;
 
-  font-size: 20px;
-  font-weight: normal;
-  letter-spacing: 0;
+  @include font-body-1;
 
   text-align: center;
 }
@@ -2700,20 +3578,34 @@
 
 .module-typing-animation__dot {
   border-radius: 50%;
-  background-color: $color-gray-60;
 
   height: 6px;
   width: 6px;
   opacity: 0.4;
+
+  @include light-theme {
+    background-color: $color-gray-60;
+  }
+  @include dark-theme {
+    background-color: $color-white;
+  }
+  @include ios-theme {
+    background-color: $color-gray-60;
+  }
 }
 
 .module-typing-animation__dot--light {
   border-radius: 50%;
-  background-color: $color-white;
 
   height: 6px;
   width: 6px;
   opacity: 0.4;
+
+  background-color: $color-white;
+
+  @include ios-theme {
+    background-color: $color-gray-60;
+  }
 }
 
 @keyframes typing-animation-first {
@@ -2788,7 +3680,7 @@
   height: 20px;
 
   z-index: 2;
-  @include color-svg('../images/x-16.svg', $color-black);
+  @include color-svg('../images/icons/v2/x-24.svg', $color-black);
 }
 
 .module-attachments__rail {
@@ -2811,9 +3703,17 @@
   display: inline-block;
   position: relative;
   border-radius: 4px;
-  box-shadow: inset 0px 0px 0px 1px $color-black-015;
-  background-color: $color-gray-05;
   vertical-align: middle;
+
+  @include light-theme {
+    box-shadow: inset 0px 0px 0px 1px $color-black-alpha-20;
+    background-color: $color-gray-05;
+  }
+  @include dark-theme {
+    box-shadow: inset 0px 0px 0px 1px $color-gray-45;
+    background-color: $color-gray-75;
+    color: $color-gray-02;
+  }
 }
 
 .module-staged-generic-attachment__close-button {
@@ -2824,7 +3724,13 @@
   width: 16px;
   height: 16px;
   z-index: 2;
-  @include color-svg('../images/x-16.svg', $color-black);
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-black);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-45);
+  }
 }
 
 .module-staged-generic-attachment__icon {
@@ -2864,12 +3770,11 @@
 }
 
 .module-staged-generic-attachment__filename {
+  @include font-caption;
+
   margin: 7px;
   margin-top: 5px;
   text-align: center;
-
-  font-family: Roboto;
-  font-size: 14px;
 
   overflow: hidden;
   height: 2.4em;
@@ -2906,7 +3811,7 @@
   width: 30px;
   height: 30px;
   z-index: 2;
-  @include color-svg('../images/x-16.svg', $color-white);
+  @include color-svg('../images/icons/v2/x-24.svg', $color-white);
 }
 
 .module-caption-editor__media-container {
@@ -2966,7 +3871,6 @@
   height: 36px;
   width: 40em;
 
-  font-size: 14px;
   color: $color-white;
 
   border: 1px solid $color-white;
@@ -2977,7 +3881,7 @@
   padding-right: 65px;
 
   &:placeholder {
-    color: $color-white-07;
+    color: $color-white-alpha-80;
   }
   &:focus {
     border: 1px solid $color-signal-blue;
@@ -3007,7 +3911,7 @@
 .module-staged-placeholder-attachment {
   margin: 1px;
   border-radius: 4px;
-  border: 1px solid $color-gray-25;
+
   height: 120px;
   width: 120px;
   display: inline-block;
@@ -3015,8 +3919,18 @@
   cursor: pointer;
   position: relative;
 
-  &:hover {
-    background: $color-gray-05;
+  @include light-theme {
+    border: 1px solid $color-gray-25;
+    &:hover {
+      background: $color-gray-05;
+    }
+  }
+  @include dark-theme {
+    border: 1px solid $color-gray-60;
+
+    &:hover {
+      background: $color-gray-75;
+    }
   }
 }
 
@@ -3030,7 +3944,12 @@
   height: 36px;
   width: 36px;
 
-  @include color-svg('../images/plus-36.svg', $color-gray-45);
+  @include light-theme {
+    @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-45);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-60);
+  }
 }
 
 // Module: Staged Link Preview
@@ -3048,11 +3967,16 @@
   align-items: center;
 }
 .module-staged-link-preview__loading {
-  color: $color-gray-60;
-  font-size: 14px;
   text-align: center;
   flex-grow: 1;
   flex-shrink: 1;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-staged-link-preview__icon-container {
@@ -3062,10 +3986,14 @@
   margin-right: 20px;
 }
 .module-staged-link-preview__title {
-  color: $color-gray-90;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 18px;
+  @include font-body-1-bold;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 
   overflow: hidden;
   display: -webkit-box;
@@ -3073,12 +4001,17 @@
   -webkit-box-orient: vertical;
 }
 .module-staged-link-preview__location {
+  @include font-body-2;
+
   margin-top: 4px;
-  color: $color-gray-60;
-  font-size: 11px;
-  height: 16px;
-  letter-spacing: 0.25px;
   text-transform: uppercase;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 .module-staged-link-preview__close-button {
   cursor: pointer;
@@ -3089,7 +4022,12 @@
   height: 16px;
   width: 16px;
 
-  @include color-svg('../images/x-16.svg', $color-gray-60);
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+  }
 }
 
 // Module: Spinner
@@ -3107,22 +4045,29 @@
   top: 0;
   left: 0;
 
-  @include color-svg('../images/spinner-track-56.svg', $color-white-04);
   z-index: 2;
   height: 100%;
   width: 100%;
+
+  @include color-svg('../images/spinner-track-56.svg', $color-white-alpha-40);
 }
 .module-spinner__arc {
   position: absolute;
   top: 0;
   left: 0;
 
-  @include color-svg('../images/spinner-56.svg', $color-gray-60);
   z-index: 3;
   height: 100%;
   width: 100%;
 
   animation: spinner-arc-animation 1000ms linear infinite;
+
+  @include light-theme {
+    @include color-svg('../images/spinner-56.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/spinner-56.svg', $color-gray-05);
+  }
 }
 
 @keyframes spinner-arc-animation {
@@ -3148,45 +4093,68 @@
 .module-spinner__circle--small {
   -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
-  height: 24px;
-  width: 24px;
 }
 .module-spinner__arc--small {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
-  height: 24px;
-  width: 24px;
-}
-
-.module-spinner__container--mini {
-  height: 14px;
-  width: 14px;
-}
-.module-spinner__circle--mini {
-  -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
-  -webkit-mask-size: 100%;
-  height: 14px;
-  width: 14px;
-}
-.module-spinner__arc--mini {
-  -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
-  -webkit-mask-size: 100%;
-  height: 14px;
-  width: 14px;
 }
 
 .module-spinner__circle--incoming {
-  background-color: $color-white-04;
+  background-color: $color-white-alpha-40;
 }
 .module-spinner__arc--incoming {
-  background-color: $color-white;
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-02;
+  }
+  @include ios-theme {
+    background-color: $color-gray-60;
+  }
+  @include ios-dark-theme {
+    background-color: $color-gray-02;
+  }
+}
+
+.module-spinner__circle--outgoing {
+  @include dark-theme {
+    background-color: $color-white-alpha-40;
+  }
+  @include ios-theme {
+    background-color: $color-white-alpha-40;
+  }
+  @include ios-dark-theme {
+    background-color: $color-white-alpha-40;
+  }
+}
+.module-spinner__arc--outgoing {
+  @include dark-theme {
+    background-color: $color-gray-05;
+  }
+  @include ios-theme {
+    background-color: $color-white;
+  }
+  @include ios-dark-theme {
+    background-color: $color-gray-05;
+  }
 }
 
 .module-spinner__circle--on-background {
-  background-color: $color-gray-05;
+  @include light-theme {
+    background-color: $color-gray-05;
+  }
+  @include dark-theme {
+    background-color: $color-gray-75;
+  }
 }
 .module-spinner__arc--on-background {
-  background-color: $color-gray-60;
+  @include light-theme {
+    background-color: $color-gray-60;
+  }
+  @include dark-theme {
+    background-color: $color-gray-25;
+  }
 }
 
 // Module: Highlighted Message Body
@@ -3203,14 +4171,14 @@
 }
 
 .module-search-results__conversations-header {
-  height: 36px;
-  line-height: 36px;
+  @include font-body-1-bold;
 
+  height: 36px;
   margin-left: 16px;
 
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0;
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-search-results__no-results {
@@ -3222,25 +4190,25 @@
 }
 
 .module-search-results__contacts-header {
-  height: 36px;
-  line-height: 36px;
+  @include font-body-1-bold;
 
+  height: 36px;
   margin-left: 16px;
 
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0;
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-search-results__messages-header {
-  height: 36px;
-  line-height: 36px;
+  @include font-body-1-bold;
 
+  height: 36px;
   margin-left: 16px;
 
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0;
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-search-results__spinner-container {
@@ -3257,7 +4225,7 @@
   padding-left: 16px;
   padding-right: 16px;
   min-height: 64px;
-  max-width: 300px;
+  max-width: $left-pane-width;
 
   display: flex;
   flex-direction: row;
@@ -3265,12 +4233,22 @@
 
   cursor: pointer;
   &:hover {
-    background-color: $color-gray-05;
+    @include light-theme {
+      background-color: $color-gray-05;
+    }
+    @include dark-theme {
+      background-color: $color-gray-75;
+    }
   }
 }
 
 .module-message-search-result--is-selected {
-  background-color: $color-gray-05;
+  @include light-theme {
+    background-color: $color-gray-05;
+  }
+  @include dark-theme {
+    background-color: $color-gray-75;
+  }
 }
 
 .module-message-search-result__text {
@@ -3291,25 +4269,28 @@
 }
 
 .module-message-search-result__header__from {
+  @include font-body-1;
+
   flex-grow: 1;
   flex-shrink: 1;
-  font-size: 14px;
-  line-height: 18px;
 
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  color: $color-gray-90;
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-message-search-result__header__timestamp {
   flex-shrink: 0;
   margin-left: 6px;
 
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
+  @include font-caption;
 
   overflow-x: hidden;
   white-space: nowrap;
@@ -3317,26 +4298,27 @@
 
   text-transform: uppercase;
 
-  color: $color-gray-60;
-}
-
-.module-message-search-result__header__name {
-  font-weight: 300;
-}
-.module-mesages-search-result__header__group {
-  font-weight: 300;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
 }
 
 .module-message-search-result__body {
+  @include font-body-2;
+
   margin-top: 1px;
   flex-grow: 1;
   flex-shrink: 1;
 
-  font-size: 13px;
-
-  color: $color-gray-60;
-
-  max-height: 3.6em;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-15;
+  }
 
   overflow: hidden;
   display: -webkit-box;
@@ -3353,13 +4335,10 @@
 // Module: Left Pane
 
 .module-left-pane {
-  background-color: $color-gray-02;
-  border-right: 1px solid $color-gray-15;
-
   display: inline-flex;
   flex-direction: column;
 
-  width: 300px;
+  width: $left-pane-width;
   height: 100%;
 }
 
@@ -3376,33 +4355,64 @@
   flex-direction: row;
   align-items: center;
 
-  border-bottom: 1px solid $color-gray-15;
+  @include light-theme {
+    border-bottom: 1px solid $color-gray-15;
+  }
+  @include dark-theme {
+    border-bottom: 1px solid $color-gray-75;
+  }
 }
 
 .module-left-pane__to-inbox-button {
-  margin-left: 2px;
+  margin-left: 7px;
+  margin-right: 5px;
 
-  width: 35px;
-  height: 35px;
+  width: 24px;
+  height: 24px;
 
   cursor: pointer;
-  @include color-svg('../images/back.svg', $color-gray-60);
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/chevron-left-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/chevron-left-24.svg',
+      $color-gray-25
+    );
+  }
 }
 
 .module-left-pane__archive-header-text {
-  color: $color-gray-90;
-  font-size: 16px;
-  font-weight: 300px;
+  @include font-body-1-bold;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-left-pane__archive-helper-text {
+  @include font-body-2;
+
   flex-grow: 0;
   flex-shrink: 0;
 
   padding: 1em;
-  font-size: 12px;
-  color: $color-gray-60;
-  background-color: $color-gray-05;
+
+  @include light-theme {
+    color: $color-gray-60;
+    background-color: $color-gray-05;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+    background-color: $color-gray-75;
+  }
 }
 
 .module-left-pane__list {
@@ -3415,28 +4425,44 @@
 }
 
 .module-left-pane__archived-button {
-  font-size: 14px;
+  @include font-body-1-bold;
+
   height: 64px;
   line-height: 64px;
   text-align: center;
-  font-weight: 300;
-  color: $color-gray-60;
-
   cursor: pointer;
-  &:hover {
-    background-color: $color-gray-05;
+
+  @include light-theme {
+    color: $color-gray-60;
+
+    &:hover {
+      background-color: $color-gray-05;
+    }
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+    &:hover {
+      background-color: $color-gray-75;
+    }
   }
 }
 
 .module-left-pane__archived-button__archived-count {
-  font-size: 12px;
-  font-weight: 300;
-  color: $color-gray-60;
-  background-color: $color-gray-05;
+  @include font-body-2-bold;
+
   padding: 6px;
   padding-top: 1px;
   padding-bottom: 1px;
   border-radius: 10px;
+
+  @include light-theme {
+    color: $color-gray-60;
+    background-color: $color-gray-05;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+    background-color: $color-gray-75;
+  }
 }
 
 // Module: Start New Conversation
@@ -3452,8 +4478,15 @@
 
   cursor: pointer;
 
-  &:hover {
-    background-color: $color-gray-05;
+  @include light-theme {
+    &:hover {
+      background-color: $color-gray-05;
+    }
+  }
+  @include dark-theme {
+    &:hover {
+      background-color: $color-gray-75;
+    }
   }
 }
 
@@ -3462,14 +4495,24 @@
 }
 
 .module-start-new-conversation__number {
-  font-weight: 300;
+  font-weight: bold;
+
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 .module-start-new-conversation__text {
   margin-top: 3px;
-  font-style: italic;
-  color: $color-gray-60;
-  font-size: 13px;
+
+  @include font-body-1-italic;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-45;
+  }
 }
 
 // Module: Timeline Loading Row
@@ -3584,7 +4627,7 @@
 
   &--selected {
     @include light-theme {
-      background: $color-gray-10;
+      background: $color-gray-05;
     }
     @include dark-theme {
       background: $color-gray-60;
@@ -3604,10 +4647,16 @@
   &--recents {
     &::after {
       @include light-theme {
-        @include color-svg('../images/recent-outline.svg', $color-gray-60);
+        @include color-svg(
+          '../images/icons/v2/recent-outline-20.svg',
+          $color-gray-60
+        );
       }
       @include dark-theme {
-        @include color-svg('../images/recent-outline.svg', $color-gray-25);
+        @include color-svg(
+          '../images/icons/v2/recent-solid-20.svg',
+          $color-gray-25
+        );
       }
     }
   }
@@ -3615,10 +4664,10 @@
   &--add-pack {
     &::after {
       @include light-theme {
-        @include color-svg('../images/plus-20.svg', $color-gray-60);
+        @include color-svg('../images/icons/v2/plus-20.svg', $color-gray-60);
       }
       @include dark-theme {
-        @include color-svg('../images/plus-20.svg', $color-gray-25);
+        @include color-svg('../images/icons/v2/plus-20.svg', $color-gray-25);
       }
     }
   }
@@ -3632,8 +4681,8 @@
     &::after {
       content: '';
       display: block;
-      min-width: 12px;
-      min-height: 12px;
+      min-width: 16px;
+      min-height: 16px;
     }
 
     @include light-theme {
@@ -3651,10 +4700,16 @@
 
     &::after {
       @include light-theme {
-        @include color-svg('../images/chevron-left-12.svg', $color-gray-60);
+        @include color-svg(
+          '../images/icons/v2/chevron-left-16.svg',
+          $color-gray-60
+        );
       }
       @include dark-theme {
-        @include color-svg('../images/chevron-left-12.svg', $color-gray-25);
+        @include color-svg(
+          '../images/icons/v2/chevron-left-16.svg',
+          $color-gray-25
+        );
       }
     }
   }
@@ -3665,10 +4720,16 @@
 
     &::after {
       @include light-theme {
-        @include color-svg('../images/chevron-right-12.svg', $color-gray-60);
+        @include color-svg(
+          '../images/icons/v2/chevron-right-16.svg',
+          $color-gray-60
+        );
       }
       @include dark-theme {
-        @include color-svg('../images/chevron-right-12.svg', $color-gray-25);
+        @include color-svg(
+          '../images/icons/v2/chevron-right-16.svg',
+          $color-gray-25
+        );
       }
     }
   }
@@ -3684,7 +4745,10 @@
       position: absolute;
       left: 14px;
       top: 2px;
-      @include color-svg('../images/error-filled.svg', $color-core-red);
+      @include color-svg(
+        '../images/icons/v2/error-solid-24.svg',
+        $color-accent-red
+      );
     }
   }
 
@@ -3716,7 +4780,7 @@
   min-height: 20px;
   max-width: 20px;
   max-height: 20px;
-  background-color: $color-gray-10;
+  background-color: $color-gray-05;
 }
 
 .module-sticker-picker__body {
@@ -3778,9 +4842,8 @@
   }
 
   &__text {
-    font-family: Roboto;
-    font-weight: 300;
-    font-size: 14px;
+    @include font-body-1-bold;
+
     text-align: center;
     padding: 8px 16px 12px 0;
 
@@ -3798,10 +4861,10 @@
 
     &--error {
       @include light-theme() {
-        color: $color-core-red;
+        color: $color-accent-red;
       }
       @include dark-theme() {
-        color: $color-core-red;
+        color: $color-accent-red;
       }
     }
 
@@ -3831,9 +4894,7 @@
 
 .module-sticker-manager__text {
   height: 18px;
-  font-size: 13px;
-  font-weight: normal;
-  font-family: Roboto;
+
   letter-spacing: 0px;
   line-height: 18px;
 
@@ -3846,8 +4907,7 @@
   }
 
   &--heading {
-    font-size: 14px;
-    font-weight: 300;
+    @include font-body-1-bold;
 
     @include light-theme() {
       color: $color-gray-90;
@@ -3865,8 +4925,6 @@
   align-items: center;
   height: 64px;
   border-radius: 8px;
-  font-family: Roboto-Light;
-  font-size: 13px;
 
   @include light-theme {
     background: $color-gray-02;
@@ -3888,8 +4946,16 @@
     cursor: pointer;
   }
 
-  & + & {
-    border-top: 1px solid $color-gray-15;
+  @include light-theme {
+    & + & {
+      border-top: 1px solid $color-gray-15;
+    }
+  }
+
+  @include dark-theme {
+    & + & {
+      border-top: 1px solid $color-gray-75;
+    }
   }
 
   &__cover {
@@ -3899,7 +4965,7 @@
   &__cover-placeholder {
     width: 48px;
     height: 48px;
-    background: $color-gray-10;
+    background: $color-gray-05;
   }
 
   &__meta {
@@ -3917,11 +4983,9 @@
 
     &__author {
       flex: 1;
-      font-family: Roboto-Light;
-      font-size: 13px;
 
       @include light-theme() {
-        color: $color-gray-60;
+        color: $color-gray-45;
       }
 
       @include dark-theme() {
@@ -3955,10 +5019,16 @@
           min-width: 24px;
           min-height: 24px;
           @include light-theme {
-            @include color-svg('../images/more-h-24.svg', $color-gray-60);
+            @include color-svg(
+              '../images/icons/v2/more-horiz-24.svg',
+              $color-gray-60
+            );
           }
           @include dark-theme {
-            @include color-svg('../images/more-h-24.svg', $color-gray-25);
+            @include color-svg(
+              '../images/icons/v2/more-horiz-24.svg',
+              $color-gray-25
+            );
           }
         }
       }
@@ -3969,10 +5039,10 @@
 .module-sticker-manager__install-button {
   background: none;
   border: 0;
-  font-family: Roboto;
   color: $color-gray-90;
-  font-weight: 300;
-  font-size: 13px;
+
+  @include font-body-1-bold;
+
   height: 24px;
   background: $color-gray-05;
   border-radius: 12px;
@@ -4000,7 +5070,7 @@
 
 .module-sticker-manager__preview-modal {
   &__overlay {
-    background: rgba(0, 0, 0, 0.4);
+    background: $color-black-alpha-40;
     position: fixed;
     left: 0;
     top: 0;
@@ -4015,7 +5085,7 @@
   &__container {
     position: relative;
     border-radius: 8px;
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px 0 $color-black-alpha-20;
     width: 440px;
     height: 360px;
     overflow: hidden;
@@ -4030,7 +5100,7 @@
     }
 
     &__error {
-      color: $color-core-red;
+      color: $color-accent-red;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -4038,8 +5108,8 @@
       width: 100%;
       height: 100%;
       padding: 0 80px 30px 80px;
-      font-family: Roboto;
-      font-weight: 300;
+
+      @include font-body-1-bold;
     }
 
     &__header {
@@ -4052,8 +5122,8 @@
       align-items: center;
 
       &__text {
-        font-weight: 300;
-        font-size: 14px;
+        @include font-body-1-bold;
+
         color: $color-gray-90;
         @include dark-theme {
           color: $color-gray-05;
@@ -4065,10 +5135,10 @@
         width: 20px;
         height: 20px;
         @include light-theme {
-          @include color-svg('../images/x.svg', $color-gray-60);
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
         }
         @include dark-theme {
-          @include color-svg('../images/x.svg', $color-gray-05);
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
         }
       }
     }
@@ -4139,10 +5209,8 @@
 
         &__title {
           margin: 0;
-          font-size: 16px;
-          font-weight: 300;
-          height: 20px;
-          line-height: 20px;
+
+          @include font-body-1-bold;
 
           @include light-theme {
             color: $color-gray-90;
@@ -4155,13 +5223,10 @@
 
         &__author {
           margin: 0;
-          font-family: Roboto-Light;
-          font-size: 13px;
           height: 18px;
-          line-height: 18px;
 
           @include light-theme {
-            color: $color-gray-60;
+            color: $color-gray-45;
           }
 
           @include dark-theme {
@@ -4226,16 +5291,22 @@
     flex-shrink: 0;
 
     @include light-theme {
-      @include color-svg('../images/sticker-filled.svg', $color-gray-60);
+      @include color-svg(
+        '../images/icons/v2/sticker-outline-24.svg',
+        $color-gray-60
+      );
     }
     @include dark-theme {
-      @include color-svg('../images/sticker-filled.svg', $color-gray-25);
+      @include color-svg(
+        '../images/icons/v2/sticker-solid-24.svg',
+        $color-gray-25
+      );
     }
   }
 
   &--active {
     @include light-theme() {
-      background: $color-gray-10;
+      background: $color-gray-05;
     }
 
     @include dark-theme() {
@@ -4297,12 +5368,11 @@
   &__image-placeholder {
     width: 20px;
     height: 20px;
-    background-color: $color-gray-10;
+    background-color: $color-gray-05;
   }
 
   &__text {
     margin-left: 4px;
-    font-size: 14px;
     cursor: default;
 
     @include light-theme {
@@ -4314,7 +5384,7 @@
     }
 
     &__title {
-      font-weight: 300;
+      font-weight: bold;
     }
   }
 
@@ -4327,7 +5397,7 @@
     // &__image {
     //   width: 52px;
     //   height: 52px;
-    //   background: $color-gray-10;
+    //   background: $color-gray-05;
     // }
 
     &__meta {
@@ -4347,15 +5417,13 @@
 
       &__title {
         margin: 0;
-        font-size: 14px;
-        font-weight: 300;
+
+        @include font-body-1-bold;
         height: 16px;
-        line-height: 20px;
       }
 
       &__subtitle {
         margin-top: 3px;
-        font-size: 14px;
         height: 16px;
       }
     }
@@ -4369,11 +5437,11 @@
         border: none;
 
         @include light-theme {
-          @include color-svg('../images/x.svg', $color-gray-60);
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
         }
 
         @include dark-theme {
-          @include color-svg('../images/x.svg', $color-gray-05);
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
         }
       }
     }
@@ -4383,7 +5451,7 @@
 // Module: confirmation dialog
 .module-confirmation-dialog {
   &__overlay {
-    background: rgba(0, 0, 0, 0.4);
+    background: $color-black-alpha-40;
     position: fixed;
     left: 0;
     top: 0;
@@ -4428,9 +5496,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 13px;
-        font-weight: 500;
-        font-family: Roboto;
+
+        @include font-body-1-bold;
 
         @include light-theme() {
           background: $color-white;
@@ -4447,13 +5514,13 @@
         &--negative {
           @include light-theme() {
             border: none;
-            background: $color-core-red;
+            background: $color-accent-red;
             color: $color-white;
           }
 
           @include dark-theme() {
             border: none;
-            background: $color-core-red;
+            background: $color-accent-red;
             color: $color-white;
           }
         }
@@ -4461,13 +5528,13 @@
         &--affirmative {
           @include light-theme() {
             border: none;
-            background: $color-core-green;
+            background: $color-accent-green;
             color: $color-white;
           }
 
           @include dark-theme() {
             border: none;
-            background: $color-core-green;
+            background: $color-accent-green;
             color: $color-white;
           }
         }
@@ -4502,6 +5569,8 @@
       margin-left: 8px;
       position: relative;
 
+      @include font-body-2;
+
       &::after {
         display: block;
         content: '';
@@ -4512,18 +5581,27 @@
         top: 6px;
 
         @include light-theme {
-          @include color-svg('../images/search.svg', $color-gray-60);
+          @include color-svg(
+            '../images/icons/v2/search-16.svg',
+            $color-gray-60
+          );
         }
         @include dark-theme {
-          @include color-svg('../images/search.svg', $color-gray-25);
+          @include color-svg(
+            '../images/icons/v2/search-16.svg',
+            $color-gray-25
+          );
         }
       }
 
       &__input {
         width: 100%;
         height: 28px;
+
+        @include font-body-1;
+
         line-height: 28px;
-        font-size: 14px;
+
         border-radius: 17px;
         border-width: 1px;
         border-style: solid;
@@ -4588,7 +5666,7 @@
 
     &--selected {
       @include light-theme {
-        background: $color-gray-10;
+        background: $color-gray-05;
       }
 
       @include dark-theme {
@@ -4611,10 +5689,16 @@
       &--search {
         &::after {
           @include light-theme {
-            @include color-svg('../images/search.svg', $color-gray-60);
+            @include color-svg(
+              '../images/icons/v2/search-16.svg',
+              $color-gray-60
+            );
           }
           @include dark-theme {
-            @include color-svg('../images/search.svg', $color-gray-25);
+            @include color-svg(
+              '../images/icons/v2/search-16.svg',
+              $color-gray-25
+            );
           }
         }
       }
@@ -4622,10 +5706,10 @@
       &--close {
         &::after {
           @include light-theme {
-            @include color-svg('../images/x.svg', $color-gray-60);
+            @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
           }
           @include dark-theme {
-            @include color-svg('../images/x.svg', $color-gray-25);
+            @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
           }
         }
       }
@@ -4634,13 +5718,13 @@
         &::after {
           @include light-theme {
             @include color-svg(
-              '../images/recent-outline-20.svg',
+              '../images/icons/v2/recent-outline-20.svg',
               $color-gray-60
             );
           }
           @include dark-theme {
             @include color-svg(
-              '../images/recent-outline-20.svg',
+              '../images/icons/v2/recent-solid-20.svg',
               $color-gray-25
             );
           }
@@ -4651,12 +5735,15 @@
         &::after {
           @include light-theme {
             @include color-svg(
-              '../images/emoji-outline-20.svg',
+              '../images/icons/v2/emoji-smiley-outline-20.svg',
               $color-gray-60
             );
           }
           @include dark-theme {
-            @include color-svg('../images/emoji-filled-20.svg', $color-gray-25);
+            @include color-svg(
+              '../images/icons/v2/emoji-smiley-solid-20.svg',
+              $color-gray-25
+            );
           }
         }
       }
@@ -4668,13 +5755,13 @@
           &::after {
             @include light-theme {
               @include color-svg(
-                '../images/emoji-#{$cat}-outline-20.svg',
+                '../images/icons/v2/emoji-#{$cat}-outline-20.svg',
                 $color-gray-60
               );
             }
             @include dark-theme {
               @include color-svg(
-                '../images/emoji-#{$cat}-filled-20.svg',
+                '../images/icons/v2/emoji-#{$cat}-solid-20.svg',
                 $color-gray-25
               );
             }
@@ -4745,16 +5832,22 @@
     flex-shrink: 0;
 
     @include light-theme {
-      @include color-svg('../images/smile.svg', $color-gray-60);
+      @include color-svg(
+        '../images/icons/v2/emoji-smiley-outline-24.svg',
+        $color-gray-60
+      );
     }
     @include dark-theme {
-      @include color-svg('../images/smile.svg', $color-gray-25);
+      @include color-svg(
+        '../images/icons/v2/emoji-smiley-solid-24.svg',
+        $color-gray-25
+      );
     }
   }
 
   &--active {
     @include light-theme() {
-      background: $color-gray-10;
+      background: $color-gray-05;
     }
 
     @include dark-theme() {
@@ -4819,28 +5912,34 @@
   margin-bottom: 7px;
 
   @include light-theme {
-    @include color-svg('../images/error.svg', $color-gray-60);
+    @include color-svg(
+      '../images/icons/v2/error-outline-24.svg',
+      $color-gray-60
+    );
   }
 
   @include dark-theme {
-    @include color-svg('../images/error.svg', $color-dark-30);
+    @include color-svg('../images/icons/v2/error-solid-24.svg', $color-gray-25);
   }
 }
 
 .module-unsupported-message__icon--can-process {
   @include light-theme {
-    @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
+    @include color-svg(
+      '../images/icons/v2/check-circle-outline-24.svg',
+      $color-gray-60
+    );
   }
 
   @include dark-theme {
-    @include color-svg('../images/check-circle-outline.svg', $color-dark-30);
+    @include color-svg(
+      '../images/icons/v2/check-circle-solid-24.svg',
+      $color-gray-25
+    );
   }
 }
 
 .module-unsupported-message__text {
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
   max-width: 396px;
   margin-left: auto;
   margin-right: auto;
@@ -4849,27 +5948,27 @@
     color: $color-gray-60;
   }
   @include dark-theme {
-    color: $color-dark-30;
+    color: $color-gray-25;
   }
 }
 
 .module-unsupported-message__contact {
-  font-weight: 300;
+  font-weight: bold;
 }
 
 .module-unsupported-message__button {
   margin-top: 5px;
   display: inline-block;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 300;
-  line-height: 18px;
+
+  @include font-body-1-bold;
+
   padding: 12px;
   border-radius: 4px;
 
   @include light-theme {
     color: $color-signal-blue;
-    background-color: $color-light-02;
+    background-color: $color-gray-02;
   }
   @include dark-theme {
     color: $color-signal-blue;
@@ -4915,12 +6014,35 @@
 // Module: CompositionInput
 .module-composition-input {
   &__input {
-    line-height: 20px;
-    border: 1px solid;
+    @include font-body-1;
+
+    border: none;
     border-radius: 18px;
-    font-size: 14px;
     overflow: hidden;
     word-break: break-word;
+
+    &:placeholder {
+      color: $color-gray-45;
+    }
+
+    // Override draft.js styles
+    .public-DraftEditorPlaceholder-root {
+      color: $color-gray-45;
+    }
+
+    @include light-theme() {
+      // Same as background color
+      border: 1px solid $color-white;
+      background-color: $color-gray-05;
+      color: $color-gray-90;
+    }
+
+    @include dark-theme() {
+      // Same as background color
+      border: 1px solid $color-gray-95;
+      background-color: $color-gray-75;
+      color: $color-gray-05;
+    }
 
     &__scroller {
       padding: 7px 12px;
@@ -4936,36 +6058,13 @@
       }
     }
 
-    @include light-theme() {
-      border-color: $color-gray-15;
-      background: $color-white;
-      color: $color-gray-90;
-    }
-
-    @include dark-theme() {
-      border-color: $color-gray-60;
-      background: $color-dark-85;
-      color: $color-gray-05;
-    }
-
     &:focus-within {
       @include light-theme() {
-        border-color: $color-signal-blue;
+        border: 1px solid $color-signal-blue;
       }
 
       @include dark-theme() {
-        border-color: $color-signal-blue;
-      }
-    }
-
-    // Override draft.js styles
-    .public-DraftEditorPlaceholder-root {
-      @include light-theme() {
-        color: $color-gray-45;
-      }
-
-      @include dark-theme() {
-        color: $color-gray-45;
+        border: 1px solid $color-signal-blue;
       }
     }
   }
@@ -4996,8 +6095,8 @@
       background: none;
       border: none;
       width: 100%;
-      font-size: 13px;
-      font-family: Roboto;
+
+      @include font-body-2;
 
       @include light-theme() {
         color: $color-gray-60;
@@ -5014,7 +6113,7 @@
       &--selected,
       &:hover {
         @include light-theme() {
-          background: $color-gray-10;
+          background: $color-gray-05;
           color: $color-gray-90;
         }
 
@@ -5052,10 +6151,11 @@
   }
 
   &__button-cell {
+    margin-top: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 44px;
+    width: 40px;
     height: 100%;
     flex-shrink: 0;
     &--mic-active {
@@ -5080,7 +6180,7 @@
       width: 24px;
       height: 24px;
       flex-shrink: 0;
-      @include color-svg('../images/send.svg', $color-signal-blue);
+      @include color-svg('../images/icons/v2/send-24.svg', $color-signal-blue);
     }
   }
   &__input {
@@ -5116,17 +6216,25 @@
       border: none;
 
       @include light-theme() {
-        @include color-svg('../images/expand-up.svg', $color-gray-45, false);
+        @include color-svg(
+          '../images/icons/v2/expand-up-20.svg',
+          $color-gray-45,
+          false
+        );
       }
 
       @include dark-theme() {
-        @include color-svg('../images/expand-up.svg', $color-gray-45, false);
+        @include color-svg(
+          '../images/icons/v2/expand-up-20.svg',
+          $color-gray-45,
+          false
+        );
       }
 
       &--large-active {
         @include light-theme() {
           @include color-svg(
-            '../images/collapse-down.svg',
+            '../images/icons/v2/collapse-down-20.svg',
             $color-gray-45,
             false
           );
@@ -5134,7 +6242,7 @@
 
         @include dark-theme() {
           @include color-svg(
-            '../images/collapse-down.svg',
+            '../images/icons/v2/collapse-down-20.svg',
             $color-gray-45,
             false
           );
@@ -5159,25 +6267,27 @@
 .module-last-seen-indicator {
   padding-top: 25px;
   padding-bottom: 35px;
-  margin-left: 28px;
-  margin-right: 28px;
 }
 
 .module-last-seen-indicator__bar {
-  background-color: $color-light-60;
+  background-color: $color-gray-45;
   width: 100%;
-  height: 4px;
+  height: 1px;
 }
 
 .module-last-seen-indicator__text {
   margin-top: 3px;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
+
+  @include font-body-2-bold;
 
   text-align: center;
-  color: $color-light-90;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
 }
 
 // Module: Scroll Down Button
@@ -5194,13 +6304,24 @@
   width: 44px;
   border-radius: 22px;
   text-align: center;
-  background-color: $color-light-35;
   border: none;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
   outline: none;
 
-  &:hover {
-    background-color: $color-light-45;
+  @include light-theme {
+    background-color: $color-gray-25;
+    &:hover {
+      background-color: $color-gray-45;
+    }
+
+    box-shadow: 0px 3px 5px 0px $color-black-alpha-20;
+  }
+  @include dark-theme {
+    background-color: $color-gray-45;
+    &:hover {
+      background-color: $color-gray-25;
+    }
+
+    box-shadow: 0px 3px 5px 0px $color-white-alpha-20;
   }
 }
 
@@ -5208,28 +6329,37 @@
   background-color: $color-signal-blue;
 
   &:hover {
-    background-color: #1472bd;
+    background-color: $color-ios-blue-shade;
   }
 }
 
 .module-scroll-down__icon {
-  @include color-svg('../images/down.svg', $color-white);
-  height: 100%;
-  width: 100%;
+  @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
+  height: 36px;
+  width: 36px;
+  margin-left: -3px;
+  margin-top: -1px;
 }
 
 // Third-party module: react-contextmenu
 
 .react-contextmenu {
-  background-color: $color-light-02;
   border-radius: 4px;
   min-width: 160px;
   padding: 0px;
   padding-top: 8px;
   padding-bottom: 8px;
-  border: 1px solid $color-dark-05;
   opacity: 0;
   user-select: none;
+
+  @include light-theme {
+    background-color: $color-gray-02;
+    border: 1px solid $color-gray-02;
+  }
+  @include dark-theme {
+    background-color: $color-gray-90;
+    border: 1px solid $color-gray-60;
+  }
 }
 
 .react-contextmenu--visible {
@@ -5238,17 +6368,22 @@
 }
 
 .react-contextmenu-item {
-  color: $color-gray-90;
-
   cursor: pointer;
-  font-size: 13px;
-  line-height: 18px;
   white-space: nowrap;
+
+  @include font-body-2;
 
   padding-left: 16px;
   padding-top: 3px;
   padding-bottom: 2px;
   padding-right: 16px;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
 }
 
 .react-contextmenu-item--checked:before {
@@ -5256,7 +6391,13 @@
   display: inline-block;
   position: absolute;
   right: 7px;
-  color: $color-gray-90;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
 }
 
 .react-contextmenu-item.react-contextmenu-submenu {
@@ -5273,13 +6414,25 @@
   display: inline-block;
   position: absolute;
   right: 7px;
-  color: $color-gray-90;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-02;
+  }
 }
 
 .react-contextmenu-item.react-contextmenu-item--active,
 .react-contextmenu-item.react-contextmenu-item--selected {
   color: $color-white;
-  background-color: $color-light-35;
+
+  @include light-theme {
+    background-color: $color-gray-25;
+  }
+  @include dark-theme {
+    background-color: $color-gray-45;
+  }
 }
 
 .react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,

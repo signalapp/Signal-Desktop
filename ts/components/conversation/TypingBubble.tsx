@@ -42,7 +42,7 @@ export class TypingBubble extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={36}
+          size={28}
         />
       </div>
     );

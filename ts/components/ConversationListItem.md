@@ -5,7 +5,7 @@
   <ConversationListItem
     id="conversationId1"
     name="Someone 🔥 Somewhere"
-    conversationType={'direct'}
+    type={'direct'}
     phoneNumber="(202) 555-0011"
     avatarPath={util.gifObjectUrl}
     lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -26,7 +26,7 @@
   <ConversationListItem
     id="conversationId1"
     phoneNumber="(202) 555-0011"
-    conversationType={'direct'}
+    type={'direct'}
     name="Mr. Fire🔥"
     color="green"
     lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -48,7 +48,7 @@
     id="conversationId1"
     isMe={true}
     phoneNumber="(202) 555-0011"
-    conversationType={'direct'}
+    type={'direct'}
     name="Mr. Fire🔥"
     color="green"
     lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -70,7 +70,7 @@
     <ConversationListItem
       id="conversationId1"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -84,7 +84,7 @@
     <ConversationListItem
       id="conversationId2"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -98,7 +98,7 @@
     <ConversationListItem
       id="conversationId3"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -112,7 +112,7 @@
     <ConversationListItem
       id="conversationId4"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -126,7 +126,7 @@
     <ConversationListItem
       id="conversationId5"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -149,7 +149,7 @@
     <ConversationListItem
       id="conversationId1"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       unreadCount={4}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       typingContact={{
@@ -163,7 +163,7 @@
     <ConversationListItem
       id="conversationId2"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       unreadCount={4}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       typingContact={{
@@ -189,7 +189,7 @@
     <ConversationListItem
       id="conversationId1"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       unreadCount={4}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -201,7 +201,7 @@
     <ConversationListItem
       id="conversationId2"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       unreadCount={10}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -213,7 +213,7 @@
     <ConversationListItem
       id="conversationId3"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       unreadCount={250}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -233,7 +233,7 @@
   <ConversationListItem
     id="conversationId1"
     phoneNumber="(202) 555-0011"
-    conversationType={'direct'}
+    type={'direct'}
     isSelected={true}
     lastUpdated={Date.now() - 5 * 60 * 1000}
     lastMessage={{
@@ -255,7 +255,7 @@ We don't want Jumbomoji or links.
     <ConversationListItem
       id="conversationId1"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text: 'Download at http://signal.org',
@@ -266,7 +266,7 @@ We don't want Jumbomoji or links.
     <ConversationListItem
       id="conversationId2"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text: '🔥',
@@ -288,7 +288,7 @@ We only show one line.
     <ConversationListItem
       id="conversationId1"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       name="Long contact name. Esquire. The third. And stuff. And more! And more!"
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -300,7 +300,7 @@ We only show one line.
     <ConversationListItem
       id="conversationId2"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text:
@@ -312,7 +312,7 @@ We only show one line.
     <ConversationListItem
       id="conversationId3"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text:
@@ -326,7 +326,7 @@ We only show one line.
     <ConversationListItem
       id="conversationId4"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       unreadCount={8}
       lastMessage={{
@@ -339,7 +339,7 @@ We only show one line.
     <ConversationListItem
       id="conversationId5"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text:
@@ -351,7 +351,7 @@ We only show one line.
     <ConversationListItem
       id="conversationId6"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text:
@@ -375,7 +375,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId1"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       name="Long contact name. Esquire. The third. And stuff. And more! And more!"
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -387,7 +387,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId2"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text:
@@ -408,7 +408,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId1"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 60 * 1000}
       lastMessage={{
         text: 'Five hours ago',
@@ -419,7 +419,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId2"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 24 * 60 * 60 * 1000}
       lastMessage={{
         text: 'One day ago',
@@ -430,7 +430,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId3"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 7 * 24 * 60 * 60 * 1000}
       lastMessage={{
         text: 'One week ago',
@@ -441,7 +441,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId4"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 365 * 24 * 60 * 60 * 1000}
       lastMessage={{
         text: 'One year ago',
@@ -461,7 +461,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId1"
       name="John"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={null}
       lastMessage={{
         text: 'Missing last updated',
@@ -472,7 +472,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId2"
       name="Missing message"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text: null,
@@ -483,7 +483,7 @@ On platforms that show scrollbars all the time, this is true all the time.
     <ConversationListItem
       id="conversationId3"
       phoneNumber="(202) 555-0011"
-      conversationType={'direct'}
+      type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
         text: null,

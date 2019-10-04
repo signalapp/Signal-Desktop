@@ -918,11 +918,29 @@
       });
 
       const onSave = caption => {
-        // eslint-disable-next-line no-param-reassign
-        attachment.caption = caption;
+        this.model.set({
+          draftAttachments: this.model.get('draftAttachments').map(item => {
+            if (
+              (item.path && item.path === attachment.path) ||
+              (item.screenshotPath &&
+                item.screenshotPath === attachment.screenshotPath)
+            ) {
+              return {
+                ...attachment,
+                caption,
+              };
+            }
+
+            return item;
+          }),
+          draftChanged: true,
+        });
+
         this.captionEditorView.remove();
         Signal.Backbone.Views.Lightbox.hide();
-        this.attachmentListView.update(this.getPropsForAttachmentList());
+
+        this.updateAttachmentsView();
+        this.saveModel();
       };
 
       this.captionEditorView = new Whisper.ReactWrapperView({
@@ -1041,7 +1059,7 @@
       }
 
       return {
-        ..._.pick(attachment, ['contentType', 'fileName', 'size']),
+        ..._.pick(attachment, ['contentType', 'fileName', 'size', 'caption']),
         data,
       };
     },
@@ -1253,7 +1271,7 @@
     async handleImageAttachment(file) {
       if (MIME.isJPEG(file.type)) {
         const rotatedDataUrl = await window.autoOrientImage(file);
-        const rotatedBlob = VisualAttachment.dataURLToBlobSync(rotatedDataUrl);
+        const rotatedBlob = window.dataURLToBlobSync(rotatedDataUrl);
         const {
           contentType,
           file: resizedBlob,
@@ -2107,7 +2125,7 @@
         className: 'contact-detail-pane panel',
         props: {
           contact,
-          signalAccount,
+          hasSignalAccount: Boolean(signalAccount),
           onSendMessage: () => {
             if (signalAccount) {
               this.openConversation(signalAccount);

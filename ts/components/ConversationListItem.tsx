@@ -65,7 +65,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={48}
+          size={52}
         />
         {this.renderUnread()}
       </div>
@@ -129,6 +129,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             timestamp={lastUpdated}
             extended={false}
             module="module-conversation-list-item__header__timestamp"
+            withUnread={unreadCount > 0}
             i18n={i18n}
           />
         </div>

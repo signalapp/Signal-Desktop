@@ -13,12 +13,19 @@
 }
 
 .conversation {
-  background-color: $color-white;
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
+
+  @include light-theme {
+    background-color: $color-white;
+  }
+
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
 
   .panel {
     height: calc(100% - #{$header-height});
@@ -102,7 +109,13 @@
 }
 
 .discussion-container {
-  background-color: $color-white;
+  @include light-theme {
+    background-color: $color-white;
+  }
+
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
 }
 
 .key-verification {
@@ -119,10 +132,26 @@
     display: inline-block;
 
     &.verified {
-      @include color-svg('../images/verified-check.svg', $color-light-90);
+      @include light-theme {
+        @include color-svg('../images/icons/v2/check-24.svg', $color-gray-95);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/check-24.svg', $color-gray-02);
+      }
     }
     &.shield {
-      @include color-svg('../images/shield.svg', $color-light-90);
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/safety-number-outline-24.svg',
+          $color-gray-95
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/safety-number-solid-24.svg',
+          $color-gray-02
+        );
+      }
     }
   }
 
@@ -136,16 +165,25 @@
     padding: 10px;
     margin: 20px auto 20px auto;
     width: 16em;
-    background: $grey_l;
-    border: solid 1px $grey_l2;
-    border-radius: $border-radius;
+    border-radius: 5px;
+
+    @include light-theme {
+      background: $color-gray-02;
+      border: solid 1px $color-gray-15;
+    }
+
+    @include dark-theme {
+      color: $color-gray-02;
+      background: $color-gray-90;
+      border: solid 1px $color-gray-45;
+    }
   }
   .placeholder {
     font-weight: bold;
   }
   .qr {
     border-radius: 200px;
-    border: solid 1px $grey_l2;
+    border: solid 1px $color-gray-15;
     width: 150px;
     height: 150px;
     text-align: center;
@@ -186,10 +224,37 @@
   padding-bottom: 40px;
 }
 
-.bottom-bar .module-quote {
-  margin: 0;
+.bottom-bar {
+  .module-quote {
+    margin: 0;
 
-  border-left-style: none;
+    border-left-style: none;
+    @include ios-theme {
+      background-color: $color-signal-blue-alpha-25;
+      border-left-color: $color-signal-blue;
+    }
+  }
+
+  @include ios-dark-theme {
+    .module-quote__primary__author {
+      color: $color-gray-05;
+    }
+
+    .module-quote__primary__type-label {
+      color: $color-gray-05;
+    }
+
+    .module-quote__generic-file__text {
+      color: $color-gray-05;
+    }
+
+    .module-quote__primary__text {
+      color: $color-gray-05;
+      a {
+        color: $color-gray-05;
+      }
+    }
+  }
 }
 
 // We need to use the wrapper because the conversation view calculates the height of all
@@ -214,38 +279,17 @@
 
   form.active {
     textarea {
-      border: solid 1px $blue;
+      border: solid 1px $color-signal-blue;
     }
   }
 
   form.send {
     margin-bottom: 0px;
-    background: $color-white;
-
-    &.video-attachment {
-      .image-container {
-        position: relative;
-      }
-
-      .outer {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .play.icon {
-          height: 30px;
-          width: 30px;
-
-          @include color-svg('../images/play.svg', white);
-        }
-      }
+    @include light-theme {
+      background: $color-white;
+    }
+    @include dark-theme {
+      background-color: $color-gray-95;
     }
   }
 
@@ -269,13 +313,24 @@
     margin-top: 3px;
     margin-bottom: 6px;
     border-radius: 20px;
-    background-color: $color-light-02;
-    color: $color-light-90;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    outline: 0;
+
     resize: none;
     font-size: 1em;
     font-family: inherit;
+
+    @include light-theme {
+      background-color: $color-gray-02;
+      color: $color-gray-95;
+      border: 1px solid $color-black-alpha-20;
+      outline: 0;
+    }
+
+    @include dark-theme {
+      background-color: $color-gray-90;
+      color: $color-gray-02;
+      border: 1px solid $color-gray-60;
+      outline: 0;
+    }
 
     &[disabled='disabled'] {
       background: transparent;
@@ -309,9 +364,17 @@
   line-height: 18px;
   letter-spacing: 0;
 
-  background-color: $color-gray-75;
-  color: $color-white;
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+  @include light-theme {
+    background-color: $color-gray-75;
+    color: $color-white;
+    box-shadow: 0 4px 16px 0 $color-black-alpha-20,
+      0 0 0 0.5px $color-black-alpha-05;
+  }
+  @include dark-theme {
+    background-color: $color-gray-45;
+    color: $color-white;
+    box-shadow: 0 4px 16px 0 $color-white-alpha-20;
+  }
 }
 
 .confirmation-dialog {
@@ -319,10 +382,19 @@
     max-width: 350px;
     margin: 100px auto;
     padding: 1em;
-    background: white;
-    border-radius: $border-radius;
+
+    border-radius: 5px;
     overflow: auto;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
+
+    @include light-theme {
+      background: $color-white;
+      box-shadow: 0px 0px 15px 0px $color-black-alpha-20;
+    }
+    @include dark-theme {
+      background: $color-black;
+      color: $color-gray-02;
+      box-shadow: 0px 0px 15px 0px $color-white-alpha-20;
+    }
 
     .buttons {
       margin-top: 10px;
@@ -330,14 +402,28 @@
       button {
         float: right;
         margin-left: 10px;
-        background-color: $grey_l;
-        border-radius: $border-radius;
         padding: 5px 8px;
-        border: 1px solid $grey_l2;
+        border-radius: 5px;
+
+        @include light-theme {
+          background-color: $color-gray-02;
+          border: 1px solid $color-gray-15;
+        }
+        @include dark-theme {
+          background-color: $color-gray-90;
+          border: 1px solid $color-gray-45;
+          color: $color-gray-02;
+        }
 
         &:hover {
-          background-color: $grey_l2;
-          border-color: $grey_l3;
+          @include light-theme {
+            background-color: $color-gray-15;
+            border-color: $color-gray-25;
+          }
+          @include dark-theme {
+            background-color: $color-gray-75;
+            border-color: $color-gray-45;
+          }
         }
       }
     }
@@ -358,49 +444,5 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 15px;
-  }
-}
-
-.conversation-loading-screen {
-  z-index: 99;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  background-color: $color-white;
-
-  .content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .container {
-    position: absolute;
-    left: 50%;
-    width: 120px;
-    transform: translate(-50%, 0);
-  }
-
-  .dot {
-    width: 14px;
-    height: 14px;
-    border: 3px solid $blue;
-    border-radius: 50%;
-    float: left;
-    margin: 0 6px;
-    transform: scale(0);
-
-    animation: loading 1500ms ease infinite 0ms;
-    &:nth-child(2) {
-      animation: loading 1500ms ease infinite 333ms;
-    }
-    &:nth-child(3) {
-      animation: loading 1500ms ease infinite 666ms;
-    }
   }
 }
