@@ -1040,6 +1040,8 @@ MessageReceiver.prototype.extend({
     } else if (syncMessage.viewOnceOpen) {
       return this.handleViewOnceOpen(envelope, syncMessage.viewOnceOpen);
     }
+
+    this.removeFromCache(envelope);
     throw new Error('Got empty SyncMessage');
   },
   handleConfiguration(envelope, configuration) {
@@ -1100,6 +1102,8 @@ MessageReceiver.prototype.extend({
     window.log.info('contact sync');
     const { blob } = contacts;
 
+    this.removeFromCache(envelope);
+
     // Note: we do not return here because we don't want to block the next message on
     //   this attachment download and a lot of processing of that attachment.
     this.handleAttachment(blob).then(attachmentPointer => {
@@ -1119,13 +1123,14 @@ MessageReceiver.prototype.extend({
 
       return Promise.all(results).then(() => {
         window.log.info('handleContacts: finished');
-        return this.removeFromCache(envelope);
       });
     });
   },
   handleGroups(envelope, groups) {
     window.log.info('group sync');
     const { blob } = groups;
+
+    this.removeFromCache(envelope);
 
     // Note: we do not return here because we don't want to block the next message on
     //   this attachment download and a lot of processing of that attachment.
@@ -1136,7 +1141,6 @@ MessageReceiver.prototype.extend({
       while (groupDetails !== undefined) {
         groupDetails.id = groupDetails.id.toBinary();
         const ev = new Event('group');
-        ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.groupDetails = groupDetails;
         const promise = this.dispatchAndWait(ev).catch(e => {
           window.log.error('error processing group', e);
@@ -1147,7 +1151,6 @@ MessageReceiver.prototype.extend({
 
       Promise.all(promises).then(() => {
         const ev = new Event('groupsync');
-        ev.confirm = this.removeFromCache.bind(this, envelope);
         return this.dispatchAndWait(ev);
       });
     });
