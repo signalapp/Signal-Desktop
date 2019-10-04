@@ -153,8 +153,8 @@ installSetter('audio-notification', 'setAudioNotification');
 installGetter('spell-check', 'getSpellCheck');
 installSetter('spell-check', 'setSpellCheck');
 
-// installGetter('hide-phone-numbers', 'getHidePhoneNumbers');
-// installSetter('hide-phone-numbers', 'setHidePhoneNumbers');
+installGetter('hide-phone-numbers', 'getHidePhoneNumbers');
+installSetter('hide-phone-numbers', 'setHidePhoneNumbers');
 
 window.getMediaPermissions = () =>
   new Promise((resolve, reject) => {

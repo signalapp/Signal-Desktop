@@ -307,7 +307,7 @@
         startSpellCheck();
       },
 
-      getHidePhoneNumbers: () => storage.get('hide-phone-numbers', true),
+      getHidePhoneNumbers: () => storage.get('hide-phone-numbers', false),
       setHidePhoneNumbers: value => {
         storage.put('hide-phone-numbers', value);
       },
