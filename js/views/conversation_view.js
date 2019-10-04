@@ -238,7 +238,8 @@
         return {
           id: this.model.id,
           name: this.model.getName(),
-          phoneNumber: this.model.getNumber(),
+          phoneNumber:
+            !storage.get('hide-phone-numbers') && this.model.getNumber(),
           profileName: this.model.getProfileName(),
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),

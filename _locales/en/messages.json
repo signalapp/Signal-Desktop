@@ -1173,6 +1173,10 @@
     "message": "Enable spell check of text entered in message composition box",
     "description": "Description of the media permission description"
   },
+  "hidePhoneNumbersDescription": {
+    "message": "Hide phone numbers of contacts in conversation headers",
+    "description": "Description of the media permission description"
+  },
   "clearDataHeader": {
     "message": "Clear Data",
     "description":

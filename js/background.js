@@ -307,6 +307,11 @@
         startSpellCheck();
       },
 
+      getHidePhoneNumbers: () => storage.get('hide-phone-numbers', true),
+      setHidePhoneNumbers: value => {
+        storage.put('hide-phone-numbers', value);
+      },
+
       // eslint-disable-next-line eqeqeq
       isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
       getSyncRequest: () =>

@@ -39,6 +39,8 @@ const getInitialData = async () => ({
 
   spellCheck: await window.getSpellCheck(),
 
+  hidePhoneNumbers: await window.getHidePhoneNumbers(),
+
   mediaPermissions: await window.getMediaPermissions(),
 
   isPrimary: await window.isPrimary(),

@@ -108,6 +108,12 @@
         value: window.initialData.spellCheck,
         setFn: window.setSpellCheck,
       });
+      new CheckboxView({
+        el: this.$('.hide-phone-numbers-setting'),
+        name: 'hide-phone-numbers-setting',
+        value: window.initialData.hidePhoneNumbers,
+        setFn: window.setHidePhoneNumbers,
+      });
       if (Settings.isHideMenuBarSupported()) {
         new CheckboxView({
           el: this.$('.menu-bar-setting'),
@@ -157,6 +163,7 @@
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         generalHeader: i18n('general'),
         spellCheckDescription: i18n('spellCheckDescription'),
+        hidePhoneNumbersDescription: i18n('hidePhoneNumbersDescription'),
         sendLinkPreviews: i18n('sendLinkPreviews'),
         linkPreviewsDescription: i18n('linkPreviewsDescription'),
       };
