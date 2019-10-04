@@ -178,11 +178,12 @@
       profile,
     });
     // Attach contact list
-    const syncMessage = await createContactSyncProtoMessage();
+    // TODO: Reenable sending of the syncmessage for pairing requests
+    // const syncMessage = await createContactSyncProtoMessage();
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
       dataMessage,
-      syncMessage,
+      // syncMessage,
     });
     // Send
     const options = { messageType: 'pairing-request' };
