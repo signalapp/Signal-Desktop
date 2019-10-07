@@ -314,10 +314,11 @@
       this.selectMember = this.selectMember.bind(this);
 
       const updateMemberList = async () => {
+        const maxToFetch = 1000;
         const allMessages = await window.Signal.Data.getMessagesByConversation(
           this.model.id,
           {
-            limit: Number.MAX_SAFE_INTEGER,
+            limit: maxToFetch,
             MessageCollection: Whisper.MessageCollection,
           }
         );
