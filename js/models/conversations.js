@@ -466,6 +466,7 @@
         timestamp: this.get('timestamp'),
         title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
+        mentionedUs: this.get('mentionedUs') || false,
         showFriendRequestIndicator: this.isPendingFriendRequest(),
         isBlocked: this.isBlocked(),
 
@@ -2007,6 +2008,21 @@
 
       const unreadCount = unreadMessages.length - read.length;
       this.set({ unreadCount });
+
+      const mentionRead = (() => {
+        const stillUnread = unreadMessages.filter(
+          m => m.get('received_at') > newestUnreadDate
+        );
+        const ourNumber = textsecure.storage.user.getNumber();
+        return !stillUnread.some(
+          m => m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
+        );
+      })();
+
+      if (mentionRead) {
+        this.set({ mentionedUs: false });
+      }
+
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
