@@ -22,6 +22,8 @@ if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
 
+window.Lodash = require('lodash');
+
 window.platform = process.platform;
 window.getDefaultPoWDifficulty = () => config.defaultPoWDifficulty;
 window.getTitle = () => title;
