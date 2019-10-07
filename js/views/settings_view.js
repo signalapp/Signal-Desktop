@@ -81,6 +81,12 @@
         setFn: window.setNotificationSetting,
       });
       new RadioButtonGroupView({
+        el: this.$('.shortcut-change-conversation-modifier-setting'),
+        name: 'shortcut-change-conversation-modifier-setting',
+        value: window.initialData.shortcutConversationModifierDescription,
+        setFn: window.setShortcutChangeConversationModifier,
+      });
+      new RadioButtonGroupView({
         el: this.$('.theme-settings'),
         name: 'theme-setting',
         value: window.initialData.themeSetting,
@@ -157,6 +163,10 @@
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         generalHeader: i18n('general'),
         spellCheckDescription: i18n('spellCheckDescription'),
+        shortcutConversationModifierDescription: i18n('shortcutConversationModifierDescription'),
+        shortcutConversationModifierDescriptionControl: i18n('shortcutConversationModifierDescriptionControl'),
+        shortcutConversationModifierDescriptionMeta: i18n('shortcutConversationModifierDescriptionMeta'),
+        shortcutConversationModifierDescriptionAlt: i18n('shortcutConversationModifierDescriptionAlt'),
         sendLinkPreviews: i18n('sendLinkPreviews'),
         linkPreviewsDescription: i18n('linkPreviewsDescription'),
       };

@@ -151,6 +151,10 @@ installSetter('audio-notification', 'setAudioNotification');
 installGetter('spell-check', 'getSpellCheck');
 installSetter('spell-check', 'setSpellCheck');
 
+installGetter('shortcut-change-conversation-modifier', 'getShortcutChangeConversationModifier');
+installSetter('shortcut-change-conversation-modifier', 'setShortcutChangeConversationModifier');
+
+
 window.getMediaPermissions = () =>
   new Promise((resolve, reject) => {
     ipc.once('get-success-media-permissions', (_event, error, value) => {

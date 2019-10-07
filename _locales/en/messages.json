@@ -1153,6 +1153,22 @@
     "message": "Enable spell check of text entered in message composition box",
     "description": "Description of the media permission description"
   },
+  "shortcutConversationModifierDescription": {
+    "message": "Modifier to use with conversation change shortcut",
+    "description": "Description of the shortcut conversation setting"
+  },
+  "shortcutConversationModifierDescriptionControl": {
+    "message": "Control",
+    "description": "Description of the shortcut conversation setting"
+  },
+  "shortcutConversationModifierDescriptionMeta": {
+    "message": "Meta",
+    "description": "Description of the shortcut conversation setting"
+  },
+  "shortcutConversationModifierDescriptionAlt": {
+    "message": "Alt",
+    "description": "Description of the shortcut conversation setting"
+  },
   "clearDataHeader": {
     "message": "Clear Data",
     "description":

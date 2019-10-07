@@ -209,13 +209,18 @@
     },
     // switches the conversation with ctrl/alt + up/down
     switchConversation(e) {
+      const modifierKey = window.storage.get('shortcut-change-conversation-modifier');
       const keyCode = e.which || e.keyCode;
       const conversations = getInboxCollection().models;
       const currentConversation =
         this.conversation_stack.lastConversation || conversations[0];
       let currentConversationIndex = -1;
 
-      if (!e.ctrlKey && !e.altKey) {
+      if (
+        !(e.ctrlKey && modifierKey === "control") &&
+        !(e.metaKey && modifierKey === "meta") &&
+        !(e.altKey && modifierKey === "alt")
+      ) {
         return;
       }
 

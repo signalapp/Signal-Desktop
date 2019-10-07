@@ -268,6 +268,9 @@
         startSpellCheck();
       },
 
+      getShortcutChangeConversationModifier: () => storage.get('shortcut-change-conversation-modifier', 'control'),
+      setShortcutChangeConversationModifier: value => storage.put('shortcut-change-conversation-modifier', value),
+
       // eslint-disable-next-line eqeqeq
       isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
       getSyncRequest: () =>

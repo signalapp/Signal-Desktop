@@ -39,6 +39,8 @@ const getInitialData = async () => ({
 
   spellCheck: await window.getSpellCheck(),
 
+  shortcutConversationModifierDescription: await window.getShortcutChangeConversationModifier(),
+
   mediaPermissions: await window.getMediaPermissions(),
 
   isPrimary: await window.isPrimary(),

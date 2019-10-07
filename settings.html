@@ -100,6 +100,15 @@
         <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
         <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
       </div>
+      <h4>{{ shortcutConversationModifierDescription }}</h4>
+      <div class='shortcut-change-conversation-modifier-setting'>
+        <input type='radio' name='shortcut-change-conversation-modifier-setting' id='shortcut-change-conversation-modifier-control' value='control' />
+        <label for='shortcut-change-conversation-modifier-control'>{{ shortcutConversationModifierDescriptionControl }}</label>
+        <input type='radio' name='shortcut-change-conversation-modifier-setting' id='shortcut-change-conversation-modifier-meta' value='meta' />
+        <label for='shortcut-change-conversation-modifier-meta'>{{ shortcutConversationModifierDescriptionMeta }}</label>
+        <input type='radio' name='shortcut-change-conversation-modifier-setting' id='shortcut-change-conversation-modifier-alt' value='alt' />
+        <label for='shortcut-change-conversation-modifier-alt'>{{ shortcutConversationModifierDescriptionAlt }}</label>
+      </div>
     <hr>
     <div class='permissions-setting'>
       <h3>{{ permissions }}</h3>
