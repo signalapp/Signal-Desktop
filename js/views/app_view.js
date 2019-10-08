@@ -200,5 +200,10 @@
       const dialog = new Whisper.QRDialogView({ string });
       this.el.append(dialog.el);
     },
+    showAddServerDialog({ resolve }) {
+      console.log('Adding new server: AppView');
+      const dialog = new Whisper.AddServerDialogView({ resolve });
+      this.el.append(dialog.el);
+    },
   });
 })();

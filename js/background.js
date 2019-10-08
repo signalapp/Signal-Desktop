@@ -749,6 +749,13 @@
       }
     });
 
+    Whisper.events.on('showAddServerDialog', async options => {
+      console.log('Adding new server: background');
+      if (appView) {
+        appView.showAddServerDialog(options);
+      }
+    });
+
     Whisper.events.on('showQRDialog', async () => {
       if (appView) {
         const ourNumber = textsecure.storage.user.getNumber();
