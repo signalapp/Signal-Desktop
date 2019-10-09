@@ -14,6 +14,7 @@
     "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "start": "electron .",
     "start-multi": "NODE_APP_INSTANCE=1 electron .",
+    "start-multi2": "NODE_APP_INSTANCE=2 electron .",
     "start-prod": "NODE_ENV=production NODE_APP_INSTANCE=devprod LOKI_DEV=1 electron .",
     "start-prod-multi": "NODE_ENV=production NODE_APP_INSTANCE=devprod1 LOKI_DEV=1 electron .",
     "grunt": "grunt",
