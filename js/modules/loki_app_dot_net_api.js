@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _ */
+clearTimeout, MessageController, libsignal, StringView, window, _, dcodeIO */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -595,6 +595,22 @@ class LokiPublicChannelAPI {
     }
   }
 
+  static getSigData(sigVer, noteValue, adnMessage) {
+    let sigString = '';
+    sigString += adnMessage.text.trim();
+    sigString += noteValue.timestamp;
+    if (noteValue.quote) {
+      sigString += noteValue.quote.id;
+      sigString += noteValue.quote.author;
+      sigString += noteValue.quote.text.trim();
+      if (adnMessage.reply_to) {
+        sigString += adnMessage.reply_to;
+      }
+    }
+    sigString += sigVer;
+    return dcodeIO.ByteBuffer.wrap(sigString, 'utf8').toArrayBuffer();
+  }
+
   async getMessengerData(adnMessage) {
     if (
       !Array.isArray(adnMessage.annotations) ||
@@ -621,23 +637,16 @@ class LokiPublicChannelAPI {
     const annoCopy = [...adnMessage.annotations];
     // strip out sig and sigver
     annoCopy[0] = _.omit(annoCopy[0], ['value.sig', 'value.sigver']);
-    const verifyObj = {
-      text: adnMessage.text,
-      version: sigver,
-      annotations: annoCopy,
-    };
-    if (adnMessage.reply_to) {
-      verifyObj.reply_to = adnMessage.reply_to;
-    }
+    const sigData = LokiPublicChannelAPI.getSigData(
+      sigver,
+      noteValue,
+      adnMessage
+    );
 
     const pubKeyBin = StringView.hexToArrayBuffer(adnMessage.user.username);
     const sigBin = StringView.hexToArrayBuffer(sig);
     try {
-      await libsignal.Curve.async.verifySignature(
-        pubKeyBin,
-        JSON.stringify(verifyObj),
-        sigBin
-      );
+      await libsignal.Curve.async.verifySignature(pubKeyBin, sigData, sigBin);
     } catch (e) {
       if (e.message === 'Invalid signature') {
         // keep noise out of the logs, once per start up is enough
@@ -716,7 +725,6 @@ class LokiPublicChannelAPI {
           !adnMessage.id ||
           !adnMessage.user ||
           !adnMessage.user.username || // pubKey lives in the username field
-          !adnMessage.user.name || // profileName lives in the name field
           !adnMessage.text ||
           adnMessage.is_deleted
         ) {
@@ -761,7 +769,7 @@ class LokiPublicChannelAPI {
           },
         ].splice(-5);
 
-        const from = adnMessage.user.name; // profileName
+        const from = adnMessage.user.name || 'Anonymous'; // profileName
 
         const messageData = {
           serverId: adnMessage.id,
@@ -842,20 +850,22 @@ class LokiPublicChannelAPI {
       }
     }
     const privKey = await this.serverAPI.chatAPI.getPrivateKey();
-    const objToSign = {
-      version: 1,
-      text,
-      annotations: payload.annotations,
-    };
+    const sigVer = 1;
+    const mockAdnMessage = { text };
     if (payload.reply_to) {
-      objToSign.reply_to = payload.reply_to;
+      mockAdnMessage.reply_to = payload.reply_to;
     }
+    const sigData = LokiPublicChannelAPI.getSigData(
+      sigVer,
+      payload.annotations[0].value,
+      mockAdnMessage
+    );
     const sig = await libsignal.Curve.async.calculateSignature(
       privKey,
-      JSON.stringify(objToSign)
+      sigData
     );
     payload.annotations[0].value.sig = StringView.arrayBufferToHex(sig);
-    payload.annotations[0].value.sigver = objToSign.version;
+    payload.annotations[0].value.sigver = sigVer;
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
       method: 'POST',
       objBody: payload,
