@@ -10,17 +10,54 @@
     templateName: 'connecting-to-server-template',
     className: 'loki-dialog connecting-to-server modal',
     initialize(options = {}) {
-      console.log(`Add server init: ${options}`);
-      this.title =  i18n('loading');
+      this.title = i18n('connectingLoad');
       this.cancelText = options.cancelText || i18n('cancel');
-      this.render();
-      this.$('.connecting-to-server').bind('keyup', event => this.onKeyup(event));
-      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
-        options.serverUrl
+      this.serverUrl = options.serverUrl;
+      this.channelId = options.channelId;
+      this.once('attemptConnection', () =>
+        this.attemptConnection(options.serverUrl, options.channelId)
       );
+      this.render();
     },
     events: {
+      keyup: 'onKeyup',
       'click .cancel': 'close',
+    },
+    async attemptConnection(serverUrl, channelId) {
+      const rawServerUrl = serverUrl
+        .replace(/^https?:\/\//i, '')
+        .replace(/[/\\]+$/i, '');
+      const sslServerUrl = `https://${rawServerUrl}`;
+      const conversationId = `publicChat:${channelId}@${rawServerUrl}`;
+
+      const conversationExists = ConversationController.get(conversationId);
+      if (conversationExists) {
+        // We are already a member of this public chat
+        return this.resolveWith({ errorCode: i18n('publicChatExists') });
+      }
+
+      const serverAPI = await lokiPublicChatAPI.findOrCreateServer(
+        sslServerUrl
+      );
+      if (!serverAPI) {
+        // Url incorrect or server not compatible
+        return this.resolveWith({ errorCode: i18n('connectToServerFail') });
+      }
+
+      const conversation = await ConversationController.getOrCreateAndWait(
+        conversationId,
+        'group'
+      );
+      serverAPI.findOrCreateChannel(channelId, conversationId);
+      await conversation.setPublicSource(sslServerUrl, channelId);
+      await conversation.setFriendRequestStatus(
+        friends.friendRequestStatusEnum.friends
+      );
+      return this.resolveWith({ conversation });
+    },
+    resolveWith(result) {
+      this.trigger('connectionResult', result);
+      this.remove();
     },
     render_attributes() {
       return {
@@ -29,6 +66,7 @@
       };
     },
     close() {
+      this.trigger('connectionResult', { cancelled: true });
       this.remove();
     },
     onKeyup(event) {

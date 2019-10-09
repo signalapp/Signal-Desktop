@@ -37,7 +37,7 @@ class LokiAppDotNetAPI extends EventEmitter {
       thisServer = new LokiAppDotNetServerAPI(this, serverUrl);
       const gotToken = await thisServer.getOrRefreshServerToken();
       if (!gotToken) {
-        log.error(`Invalid server ${serverUrl}`);
+        log.warn(`Invalid server ${serverUrl}`);
         return null;
       }
       log.info(`set token ${thisServer.token}`);

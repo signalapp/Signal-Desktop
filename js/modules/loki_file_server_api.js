@@ -1,7 +1,8 @@
+/* global log */
+
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
 const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
-
 
 class LokiFileServerAPI {
   constructor(ourKey) {
@@ -13,7 +14,7 @@ class LokiFileServerAPI {
     this._server = await this._adnApi.findOrCreateServer(serverUrl);
     // TODO: Handle this failure gracefully
     if (!this._server) {
-      // console.error('Failed to establish connection to file server');
+      log.error('Failed to establish connection to file server');
     }
   }
 
