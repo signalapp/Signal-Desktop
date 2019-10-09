@@ -149,6 +149,11 @@ export class ConversationListItem extends React.PureComponent<Props> {
     if (!lastMessage && !typingContact) {
       return null;
     }
+
+    const showingDraft = shouldShowDraft && draftPreview;
+
+    // Note: instead of re-using showingDraft here we explode it because
+    //   typescript can't tell that draftPreview is truthy otherwise
     const text =
       shouldShowDraft && draftPreview
         ? draftPreview
@@ -170,7 +175,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             <TypingAnimation i18n={i18n} />
           ) : (
             <>
-              {shouldShowDraft ? (
+              {showingDraft ? (
                 <span className="module-conversation-list-item__message__draft-prefix">
                   {i18n('ConversationListItem--draft-prefix')}
                 </span>
@@ -184,7 +189,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             </>
           )}
         </div>
-        {lastMessage && lastMessage.status ? (
+        {!showingDraft && lastMessage && lastMessage.status ? (
           <div
             className={classNames(
               'module-conversation-list-item__message__status-icon',
