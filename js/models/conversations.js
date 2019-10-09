@@ -2122,6 +2122,21 @@
       };
     },
     // maybe "Backend" instead of "Source"?
+    async setPublicSource(newServer, newChannelId) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (
+        this.get('server') !== newServer ||
+        this.get('channelId') !== newChannelId
+      ) {
+        this.set({ server: newServer });
+        this.set({ channelId: newChannelId });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
     getPublicSource() {
       if (!this.isPublic()) {
         return null;

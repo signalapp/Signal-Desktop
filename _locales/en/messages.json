@@ -166,6 +166,11 @@
     "description":
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "connectingLoad": {
+    "message": "Connecting...",
+    "description":
+      "Message shown on the as a loading screen while we are connecting to something"
+  },
   "loading": {
     "message": "Loading...",
     "description":
@@ -1942,11 +1947,13 @@
   },
   "showAddServer": {
     "message": "Add public server",
-    "description": "Button action that the user can click to connect to a new public server"
+    "description":
+      "Button action that the user can click to connect to a new public server"
   },
   "addServerDialogTitle": {
     "message": "Connect to new public server",
-    "description": "Title for the dialog box used to connect to a new public server"
+    "description":
+      "Title for the dialog box used to connect to a new public server"
   },
 
   "seedViewTitle": {
@@ -1998,6 +2005,15 @@
   },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match"
+  },
+  "publicChatExists": {
+    "message": "You are already connected to this public channel"
+  },
+  "connectToServerFail": {
+    "message": "Failed to connect to server. Check URL"
+  },
+  "connectToServerSuccess": {
+    "message": "Successfully connected to new public chat server"
   },
   "setPasswordFail": {
     "message": "Failed to set password"

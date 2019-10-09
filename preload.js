@@ -41,6 +41,7 @@ window.isBehindProxy = () => Boolean(config.proxyUrl);
 window.JobQueue = JobQueue;
 window.getStoragePubKey = key =>
   window.isDev() ? key.substring(0, key.length - 2) : key;
+window.getDefaultFileServer = () => config.defaultFileServer;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {

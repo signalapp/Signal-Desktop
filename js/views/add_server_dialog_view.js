@@ -1,4 +1,4 @@
-/* global Whisper, i18n, QRCode, lokiPublicChatAPI */
+/* global Whisper, i18n, _ */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -10,15 +10,14 @@
     templateName: 'add-server-template',
     className: 'loki-dialog add-server modal',
     initialize(options = {}) {
-      console.log(`Add server init: ${options}`);
-      this.title =  i18n('addServerDialogTitle');
+      this.title = i18n('addServerDialogTitle');
       this.okText = options.okText || i18n('ok');
       this.cancelText = options.cancelText || i18n('cancel');
-      this.resolve = options.resolve;
+      this.$('input').focus();
       this.render();
-      this.$('.add-server').bind('keyup', event => this.onKeyup(event));
     },
     events: {
+      keyup: 'onKeyup',
       'click .ok': 'confirm',
       'click .cancel': 'close',
     },
@@ -43,6 +42,7 @@
     onKeyup(event) {
       switch (event.key) {
         case 'Enter':
+          this.confirm();
           break;
         case 'Escape':
         case 'Esc':
@@ -54,4 +54,3 @@
     },
   });
 })();
-

@@ -1,4 +1,4 @@
-/* global Whisper, i18n, QRCode, lokiPublicChatAPI */
+/* global Whisper, i18n, lokiPublicChatAPI, ConversationController, friends */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -43,5 +43,3 @@
     },
   });
 })();
-
-

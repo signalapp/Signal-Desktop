@@ -338,11 +338,7 @@ export class MainHeader extends React.Component<Props, any> {
         id: 'showAddServer',
         name: i18n('showAddServer'),
         onClick: () => {
-          trigger('showAddServerDialog', {
-            resolve: (serverUrl) => {
-              console.log(`Adding a new server: ${serverUrl}`);
-            },
-          });
+          trigger('showAddServerDialog');
         },
       },
     ];

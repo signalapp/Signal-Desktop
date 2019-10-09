@@ -174,14 +174,14 @@ class LokiAppDotNetServerAPI {
 
   // request an token from the server
   async requestToken() {
-    const url = new URL(`${this.baseServerUrl}/loki/v1/get_challenge`);
-    const params = {
-      pubKey: this.chatAPI.ourKey,
-    };
-    url.search = new URLSearchParams(params);
-
     let res;
     try {
+      const url = new URL(`${this.baseServerUrl}/loki/v1/get_challenge`);
+      const params = {
+        pubKey: this.chatAPI.ourKey,
+      };
+      url.search = new URLSearchParams(params);
+
       res = await nodeFetch(url);
     } catch (e) {
       return null;
@@ -226,15 +226,12 @@ class LokiAppDotNetServerAPI {
       url.search = new URLSearchParams(params);
     }
     let result;
-    let { token } = this;
+    const token = await this.getOrRefreshServerToken();
     if (!token) {
-      token = await this.getOrRefreshServerToken();
-      if (!token) {
-        log.error('NO TOKEN');
-        return {
-          err: 'noToken',
-        };
-      }
+      log.error('NO TOKEN');
+      return {
+        err: 'noToken',
+      };
     }
     try {
       const fetchOptions = {};

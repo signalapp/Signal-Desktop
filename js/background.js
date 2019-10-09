@@ -750,7 +750,6 @@
     });
 
     Whisper.events.on('showAddServerDialog', async options => {
-      console.log('Adding new server: background');
       if (appView) {
         appView.showAddServerDialog(options);
       }
