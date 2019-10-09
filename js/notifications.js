@@ -180,5 +180,15 @@
     disable() {
       this.isEnabled = false;
     },
+    notifyMe() {
+      if(Notification.permission !== 'granted' || Notification.permission === 'default') {
+        Notification.requestPermission((permission) => {
+          if (permission === 'granted') {
+            // eslint-disable-next-line no-new
+            new Notification('Notifications turned on');
+          }
+        })
+      }
+    },
   }))();
 })();

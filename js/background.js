@@ -79,6 +79,8 @@
 
   // Load these images now to ensure that they don't flicker on first use
   window.Signal.EmojiLib.preloadImages();
+  // ask for permissions
+  Whisper.Notifications.notifyMe();
   const images = [];
   function preload(list) {
     for (let index = 0, max = list.length; index < max; index += 1) {
