@@ -28,21 +28,32 @@ class LokiAppDotNetAPI extends EventEmitter {
   }
 
   // server getter/factory
-  findOrCreateServer(serverUrl) {
+  async findOrCreateServer(serverUrl) {
     let thisServer = this.servers.find(
       server => server.baseServerUrl === serverUrl
     );
     if (!thisServer) {
       log.info(`LokiAppDotNetAPI creating ${serverUrl}`);
       thisServer = new LokiAppDotNetServerAPI(this, serverUrl);
+      const gotToken = await thisServer.getOrRefreshServerToken();
+      if (!gotToken) {
+        log.error(`Invalid server ${serverUrl}`);
+        return null;
+      }
+      log.info(`set token ${thisServer.token}`);
+
       this.servers.push(thisServer);
     }
     return thisServer;
   }
 
   // channel getter/factory
-  findOrCreateChannel(serverUrl, channelId, conversationId) {
-    const server = this.findOrCreateServer(serverUrl);
+  async findOrCreateChannel(serverUrl, channelId, conversationId) {
+    const server = await this.findOrCreateServer(serverUrl);
+    if (!server) {
+      log.error(`Failed to create server for: ${serverUrl}`);
+      return null;
+    }
     return server.findOrCreateChannel(channelId, conversationId);
   }
 
@@ -82,11 +93,6 @@ class LokiAppDotNetServerAPI {
     this.channels = [];
     this.tokenPromise = null;
     this.baseServerUrl = url;
-    const ref = this;
-    (async function justToEnableAsyncToGetToken() {
-      ref.token = await ref.getOrRefreshServerToken();
-      log.info(`set token ${ref.token}`);
-    })();
   }
 
   // channel getter/factory

@@ -2,16 +2,19 @@ const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
 const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
 
-// returns the LokiFileServerAPI constructor with the serverUrl already consumed
-function LokiFileServerAPIWrapper(serverUrl) {
-  return LokiFileServerAPI.bind(null, serverUrl);
-}
 
 class LokiFileServerAPI {
-  constructor(serverUrl, ourKey) {
+  constructor(ourKey) {
     this.ourKey = ourKey;
     this._adnApi = new LokiAppDotNetAPI(ourKey);
-    this._server = this._adnApi.findOrCreateServer(serverUrl);
+  }
+
+  async establishConnection(serverUrl) {
+    this._server = await this._adnApi.findOrCreateServer(serverUrl);
+    // TODO: Handle this failure gracefully
+    if (!this._server) {
+      // console.error('Failed to establish connection to file server');
+    }
   }
 
   async getUserDeviceMapping(pubKey) {
@@ -33,4 +36,4 @@ class LokiFileServerAPI {
   }
 }
 
-module.exports = LokiFileServerAPIWrapper;
+module.exports = LokiFileServerAPI;

@@ -329,10 +329,7 @@ window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
-const LokiFileServerAPIWrapper = require('./js/modules/loki_file_server_api');
-
-// bind first argument as we have it here already
-window.LokiFileServerAPI = LokiFileServerAPIWrapper(config.defaultFileServer);
+window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
 window.LokiRssAPI = require('./js/modules/loki_rss_api');
 

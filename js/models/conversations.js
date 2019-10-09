@@ -1421,7 +1421,7 @@
         options.messageType = message.get('type');
         options.isPublic = this.isPublic();
         if (options.isPublic) {
-          options.publicSendData = this.getPublicSendData();
+          options.publicSendData = await this.getPublicSendData();
         }
 
         const groupNumbers = this.getRecipients();
@@ -2147,10 +2147,18 @@
         conversationId: this.get('id'),
       };
     },
-    getPublicSendData() {
-      const serverAPI = lokiPublicChatAPI.findOrCreateServer(
+    async getPublicSendData() {
+      const serverAPI = await lokiPublicChatAPI.findOrCreateServer(
         this.get('server')
       );
+      if (!serverAPI) {
+        window.log.warn(
+          `Failed to get serverAPI (${this.get('server')}) for conversation (${
+            this.id
+          })`
+        );
+        return null;
+      }
       const channelAPI = serverAPI.findOrCreateChannel(
         this.get('channelId'),
         this.id
@@ -2412,6 +2420,9 @@
 
     async deletePublicMessage(message) {
       const channelAPI = this.getPublicSendData();
+      if (!channelAPI) {
+        return false;
+      }
       const success = await channelAPI.deleteMessage(message.getServerId());
       if (success) {
         this.removeMessage(message.id);
