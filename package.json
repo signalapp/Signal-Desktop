@@ -2,7 +2,7 @@
   "name": "signal-desktop",
   "productName": "Signal",
   "description": "Private messaging from your desktop",
-  "desktopName": "signal-desktop.desktop",
+  "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
   "version": "1.27.3-beta.2",
   "license": "GPL-3.0",

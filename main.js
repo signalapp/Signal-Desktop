@@ -46,6 +46,8 @@ let tray = null;
 const startInTray = process.argv.some(arg => arg === '--start-in-tray');
 const usingTrayIcon =
   startInTray || process.argv.some(arg => arg === '--use-tray-icon');
+const disableFlashFrame =
+  startInTray || process.argv.some(arg => arg === '--disable-flash-frame');
 
 const config = require('./app/config');
 
@@ -906,7 +908,14 @@ ipc.on('add-setup-menu-items', () => {
 });
 
 ipc.on('draw-attention', () => {
-  if (process.platform === 'win32' && mainWindow) {
+  if (!mainWindow) {
+    return;
+  }
+  if (disableFlashFrame) {
+    return;
+  }
+
+  if (process.platform === 'win32' || process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }
 });
