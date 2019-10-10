@@ -3353,6 +3353,46 @@
     "updated": "2019-04-10T19:08:25.356Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 211,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
