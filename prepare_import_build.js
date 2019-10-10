@@ -60,6 +60,11 @@ checkValue(packageJson, WIN_ASSET_PATH, WIN_ASSET_START_VALUE);
 _.set(packageJson, MAC_ASSET_PATH, MAC_ASSET_END_VALUE);
 _.set(packageJson, WIN_ASSET_PATH, WIN_ASSET_END_VALUE);
 
+const MAC_BUILD_TARGET = 'build.mac.target';
+const MAC_BUILD_TARGET_END_VALUE = ['dmg'];
+
+_.set(packageJson, MAC_BUILD_TARGET, MAC_BUILD_TARGET_END_VALUE);
+
 // ---
 
 fs.writeFileSync(
