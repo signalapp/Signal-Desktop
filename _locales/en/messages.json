@@ -1750,9 +1750,9 @@
       "Shown in notifications and in the left pane when a message is a disappearing photo."
   },
   "message--getDescription--disappearing-video": {
-    "message": "Disappering Video",
+    "message": "Disappearing Video",
     "description":
-      "Shown in notifications and in the left pane when a message is a disappearing photo."
+      "Shown in notifications and in the left pane when a message is a disappearing video."
   },
   "stickers--toast--InstallFailed": {
     "message": "Sticker pack could not be installed",
