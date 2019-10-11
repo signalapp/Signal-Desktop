@@ -14,6 +14,9 @@
     }
 
     background-color: $color-light-10;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     .name-part {
       font-weight: 300;
@@ -22,6 +25,7 @@
 
     .pubkey-part {
       margin-left: 6px;
+      color: darkslategrey;
     }
   }
 
@@ -60,6 +64,10 @@
       background-color: $color-dark-70;
 
       color: white;
+
+      .pubkey-part {
+        color: rgb(230, 230, 230);
+      }
     }
 
     .member-selected {
