@@ -1,1 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>save-solid-24</title><path d="M19.618,10a.75.75,0,0,1,.516,1.294L12,19,3.866,11.294A.75.75,0,0,1,4.382,10H8.5V2h7v8ZM4,22H20V20.5H4Z"/></svg>
+<svg height="24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M19.618 10a.75.75 0 01.516 1.294L12 19l-8.134-7.706A.75.75 0 014.382 10H8.5V2h7v8zM4 22h16v-1.5H4z"/>
+</svg>

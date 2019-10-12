@@ -1,1 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><title>timer-20-12</title><path d="M11.2,9l-.865-.5A5,5,0,0,0,6,1V0a6,6,0,0,1,5.2,9Z"/><path d="M6.375,5.35a.75.75,0,0,0-.75,1.3L9.339,8.216l.25-.432Z"/></svg>
+<svg height="12" width="12" xmlns="http://www.w3.org/2000/svg">
+  <path d="M11.2 9l-.865-.5A5 5 0 006 1V0a6 6 0 015.2 9zM6.375 5.35a.75.75 0 00-.75 1.3l3.714 1.566.25-.432z"/>
+</svg>
