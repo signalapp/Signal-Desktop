@@ -1,9 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
+import Electron from 'electron';
+
 
 import { Avatar } from './Avatar';
 import { LocalizerType } from '../types/Util';
+
+const {BrowserWindow} = Electron.remote;
 
 export interface PropsType {
   searchTerm: string;
@@ -49,7 +53,6 @@ export class MainHeader extends React.Component<PropsType> {
 
   constructor(props: PropsType) {
     super(props);
-
     this.inputRef = React.createRef();
   }
 
@@ -177,6 +180,25 @@ export class MainHeader extends React.Component<PropsType> {
     }
   };
 
+  public minimizeWindow = () => {
+    const window = BrowserWindow.getFocusedWindow();
+    // tslint:disable-next-line: no-unused-expression
+    window && window.minimize();
+  }
+
+  public maximumWindow = () => {
+    const window = BrowserWindow.getFocusedWindow();
+    // tslint:disable-next-line: no-void-expression
+    // tslint:disable-next-line: no-unused-expression
+    window && window.isMaximized() ? window && window.unmaximize() :  window && window.maximize();
+  }
+
+  public closeWindow = () => {
+      const window = BrowserWindow.getFocusedWindow();
+      // tslint:disable-next-line: no-unused-expression
+      window && window.close();
+  }
+
   public render() {
     const {
       avatarPath,
@@ -248,6 +270,11 @@ export class MainHeader extends React.Component<PropsType> {
               onClick={this.handleXButton}
             />
           ) : null}
+        </div>
+        <div className="action_buttons">
+          <button className="minimize_button" onClick={this.minimizeWindow} />
+          <button className="maximize_button" onClick={this.maximumWindow} />
+          <button className="close_button" onClick={this.closeWindow} />
         </div>
       </div>
     );

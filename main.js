@@ -213,6 +213,7 @@ function createWindow() {
       show: !startInTray, // allow to start minimised in tray
       width: DEFAULT_WIDTH,
       height: DEFAULT_HEIGHT,
+      frame: false,
       minWidth: MIN_WIDTH,
       minHeight: MIN_HEIGHT,
       autoHideMenuBar: false,

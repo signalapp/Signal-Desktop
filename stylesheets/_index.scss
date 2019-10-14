@@ -290,3 +290,44 @@ input.search {
     top: -30px;
   }
 }
+.action_buttons {
+  position: fixed;
+  top: 0px;
+  right: 6px;
+  z-index: 9999
+}
+
+.minimize_button {
+    -webkit-mask: url('../images/minus-circle-outline.svg') no-repeat center;
+    &:hover {
+      background: $color-maximize-button;
+      cursor: pointer;
+    }
+}
+
+.maximize_button {
+  -webkit-mask: url('../images/plus-circle-outline.svg') no-repeat center;
+  &:hover {
+    background: $color-minimize-button;
+    cursor: pointer;
+  }
+}
+
+.close_button {
+  -webkit-mask: url('../images/close-circle-outline.svg') no-repeat center;
+  &:hover {
+    background: $color-close-button;
+    cursor: pointer;
+  }
+}
+
+.close_button, .minimize_button, .maximize_button {
+  -webkit-mask-size: 100%;
+  width: 18px;
+  height: 33px;
+  content: '';
+  display: inline-block;
+  left: 20px;
+  top: 0;
+  background: gray;
+}

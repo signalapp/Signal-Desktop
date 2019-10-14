@@ -57,7 +57,7 @@ module.exports = grunt => {
       // TODO: Move errors back down?
       libtextsecure: {
         options: {
-          banner: ';(function() {\n',
+          banner: ';(function() {\n', 
           footer: '})();\n',
         },
         src: [
