@@ -196,12 +196,9 @@
                 this.model.set({
                   draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
                 });
-                await window.Signal.Data.updateConversation(
+                window.Signal.Data.updateConversation(
                   conversation.id,
-                  conversation.attributes,
-                  {
-                    Conversation: Whisper.Conversation,
-                  }
+                  conversation.attributes
                 );
               }
             })

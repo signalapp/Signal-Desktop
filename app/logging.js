@@ -69,6 +69,17 @@ function initialize() {
       });
     });
 
+    ipc.on('batch-log', (first, batch) => {
+      batch.forEach(item => {
+        logger[item.level](
+          {
+            time: new Date(item.timestamp),
+          },
+          item.logText
+        );
+      });
+    });
+
     ipc.on('fetch-log', event => {
       fetch(logPath).then(
         data => {

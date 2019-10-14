@@ -70,7 +70,7 @@ index 262776b..156cf0f 100644
        this._cellHeightCache[key] = height;
        this._cellWidthCache[key] = width;
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
-index e1b959a..89163a5 100644
+index e1b959a..8c5fb6b 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 +++ b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 @@ -132,6 +132,9 @@ var Grid = function (_React$PureComponent) {
@@ -155,7 +155,7 @@ index e1b959a..89163a5 100644
        });
  
        this._maybeCallOnScrollbarPresenceChange();
-@@ -584,6 +616,65 @@ var Grid = function (_React$PureComponent) {
+@@ -584,6 +616,67 @@ var Grid = function (_React$PureComponent) {
          }
        }
  
@@ -192,7 +192,7 @@ index e1b959a..89163a5 100644
 +
 +        if (isVisible) {
 +          const maxScroll = totalColumnsWidth - width;
-+          this._hasScrolledToColumnTarget = (scrollLeft >= maxScroll || targetColumn.offset === scrollLeft);
++          this._hasScrolledToColumnTarget = targetColumn.offset === scrollLeft || (targetColumn.offset < totalColumnsColumsHeight && scrollLeft >= maxScroll);
 +        }
 +      }
 +      if (scrollToRow >= 0 && !this._hasScrolledToRowTarget) {
@@ -213,7 +213,9 @@ index e1b959a..89163a5 100644
 +          }
 +
 +          if (isVisible) {
-+            this._hasScrolledToRowTarget = (scrollTop >= maxScroll || targetRow.offset === scrollTop);
++            // We check the target row's offset against the totalRowsHeight because sometimes the math can be a bit off,
++            //   and the target row has an offset greater than our calculated total height.
++            this._hasScrolledToRowTarget = targetRow.offset === scrollTop || (targetRow.offset < totalRowsHeight && scrollTop >= maxScroll);
 +          }
 +        }
 +      }
@@ -221,7 +223,7 @@ index e1b959a..89163a5 100644
        // Special case where the previous size was 0:
        // In this case we don't show any windowed cells at all.
        // So we should always recalculate offset afterwards.
-@@ -594,6 +685,8 @@ var Grid = function (_React$PureComponent) {
+@@ -594,6 +687,8 @@ var Grid = function (_React$PureComponent) {
        if (this._recomputeScrollLeftFlag) {
          this._recomputeScrollLeftFlag = false;
          this._updateScrollLeftForScrollToColumn(this.props);
@@ -230,7 +232,7 @@ index e1b959a..89163a5 100644
        } else {
          (0, _updateScrollIndexHelper2.default)({
            cellSizeAndPositionManager: instanceProps.columnSizeAndPositionManager,
-@@ -616,6 +709,8 @@ var Grid = function (_React$PureComponent) {
+@@ -616,6 +711,8 @@ var Grid = function (_React$PureComponent) {
        if (this._recomputeScrollTopFlag) {
          this._recomputeScrollTopFlag = false;
          this._updateScrollTopForScrollToRow(this.props);
@@ -239,7 +241,7 @@ index e1b959a..89163a5 100644
        } else {
          (0, _updateScrollIndexHelper2.default)({
            cellSizeAndPositionManager: instanceProps.rowSizeAndPositionManager,
-@@ -635,19 +730,50 @@ var Grid = function (_React$PureComponent) {
+@@ -635,19 +732,50 @@ var Grid = function (_React$PureComponent) {
          });
        }
  
@@ -294,7 +296,7 @@ index e1b959a..89163a5 100644
          });
        }
  
-@@ -909,6 +1035,11 @@ var Grid = function (_React$PureComponent) {
+@@ -909,6 +1037,11 @@ var Grid = function (_React$PureComponent) {
            visibleRowIndices: visibleRowIndices
          });
  
@@ -306,7 +308,7 @@ index e1b959a..89163a5 100644
          // update the indices
          this._columnStartIndex = columnStartIndex;
          this._columnStopIndex = columnStopIndex;
-@@ -962,7 +1093,11 @@ var Grid = function (_React$PureComponent) {
+@@ -962,7 +1095,11 @@ var Grid = function (_React$PureComponent) {
        var scrollLeft = _ref6.scrollLeft,
            scrollTop = _ref6.scrollTop,
            totalColumnsWidth = _ref6.totalColumnsWidth,
@@ -319,7 +321,7 @@ index e1b959a..89163a5 100644
  
        this._onScrollMemoizer({
          callback: function callback(_ref7) {
-@@ -973,19 +1108,26 @@ var Grid = function (_React$PureComponent) {
+@@ -973,19 +1110,26 @@ var Grid = function (_React$PureComponent) {
                onScroll = _props7.onScroll,
                width = _props7.width;
  
@@ -349,7 +351,7 @@ index e1b959a..89163a5 100644
          }
        });
      }
-@@ -1325,6 +1467,15 @@ var Grid = function (_React$PureComponent) {
+@@ -1325,6 +1469,15 @@ var Grid = function (_React$PureComponent) {
          var totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
          var scrollBarSize = instanceProps.scrollbarSizeMeasured && totalColumnsWidth > width ? instanceProps.scrollbarSize : 0;
  

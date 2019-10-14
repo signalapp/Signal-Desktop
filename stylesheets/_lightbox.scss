@@ -33,30 +33,39 @@
   }
 
   &:hover {
-    background: $grey;
+    background: $color-gray-60;
   }
 
   &.save {
     &:before {
-      @include color-svg('../images/save.svg', white);
+      @include color-svg(
+        '../images/icons/v2/save-outline-24.svg',
+        $color-white
+      );
     }
   }
 
   &.close {
     &:before {
-      @include color-svg('../images/x.svg', white);
+      @include color-svg('../images/icons/v2/x-24.svg', $color-white);
     }
   }
 
   &.previous {
     &:before {
-      @include color-svg('../images/back.svg', white);
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-white
+      );
     }
   }
 
   &.next {
     &:before {
-      @include color-svg('../images/forward.svg', white);
+      @include color-svg(
+        '../images/icons/v2/chevron-right-24.svg',
+        $color-white
+      );
     }
   }
 }

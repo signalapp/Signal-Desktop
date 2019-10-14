@@ -88,7 +88,7 @@
     clearTimeout(timeout);
     timeout = setTimeout(destroyExpiredMessages, wait);
   }
-  const throttledCheckExpiringMessages = _.throttle(
+  const debouncedCheckExpiringMessages = _.debounce(
     checkExpiringMessages,
     1000
   );
@@ -97,9 +97,9 @@
     nextExpiration: null,
     init(events) {
       checkExpiringMessages();
-      events.on('timetravel', throttledCheckExpiringMessages);
+      events.on('timetravel', debouncedCheckExpiringMessages);
     },
-    update: throttledCheckExpiringMessages,
+    update: debouncedCheckExpiringMessages,
   };
 
   const TimerOption = Backbone.Model.extend({

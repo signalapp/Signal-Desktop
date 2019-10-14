@@ -17,7 +17,7 @@ export function renderAvatar({
 }: {
   contact: ContactType;
   i18n: LocalizerType;
-  size: number;
+  size: 28 | 52 | 80;
   direction?: 'outgoing' | 'incoming';
 }) {
   const { avatar } = contact;

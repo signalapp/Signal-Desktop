@@ -18,6 +18,12 @@
 
         font-family: Monaco, Consolas, 'Courier New', Courier, monospace;
         font-size: 12px;
+
+        @include dark-theme {
+          background-color: $color-gray-90;
+          border: 1px solid $color-gray-45;
+          color: $color-gray-02;
+        }
       }
     }
   }
@@ -35,8 +41,8 @@
       max-width: $group-max-width;
     }
 
-    $open-pad-x: ($open-width - $button-height - 2) / 2;
-    $open-pad-y: ($open-height - $button-height - 2) / 2;
+    $open-pad-x: ($open-width - 22px) / 2;
+    $open-pad-y: ($open-height - 22px) / 2;
     .open {
       float: left;
       display: inline-block;
@@ -44,28 +50,53 @@
       height: $open-height;
       padding: $open-pad-y $open-pad-x;
       cursor: pointer;
-      border: solid 1px #ccc;
-      border-radius: 0 $border-radius $border-radius 0;
-      background: $grey_l;
+
+      border-radius: 0 5px 5px 0;
+
+      @include light-theme {
+        border: solid 1px $color-gray-25;
+        background: $color-gray-02;
+      }
+      @include dark-theme {
+        border: solid 1px $color-gray-45;
+        background-color: $color-gray-90;
+        color: $color-gray-02;
+      }
+
       &:before {
         content: '';
         display: block;
-        width: $button-height;
-        height: $button-height;
-        @include header-icon-black('../images/open_link.svg');
+        width: 24px;
+        height: 24px;
+
+        @include light-theme {
+          @include header-icon-black('../images/icons/v2/open-24.svg');
+        }
+        @include dark-theme {
+          @include header-icon-white('../images/icons/v2/open-24.svg');
+        }
       }
     }
 
     .link {
-      border-radius: $border-radius 0 0 $border-radius;
+      border-radius: 5px 0 0 5px;
       float: left;
       width: calc(100% - #{$open-width});
       max-width: $link-max-width;
       height: $open-height;
       padding: 0 10px;
       outline-offset: -4px;
-      border: solid 1px #ccc;
-      border-right: none;
+
+      @include light-theme {
+        border: solid 1px $color-gray-25;
+        border-right: none;
+      }
+      @include dark-theme {
+        color: $color-gray-02;
+        border: solid 1px $color-gray-45;
+        border-right: none;
+        background-color: $color-gray-90;
+      }
     }
   }
 }

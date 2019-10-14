@@ -82,7 +82,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
     if (!to.isMe && !isSearchingInConversation) {
       return (
         <div className="module-message-search-result__header__from">
-          {fromName} {i18n('to')}{' '}
+          {fromName} {i18n('toJoiner')}{' '}
           <span className="module-mesages-search-result__header__group">
             <ContactName
               phoneNumber={to.phoneNumber}
@@ -115,7 +115,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
         noteToSelf={isNoteToSelf}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
-        size={48}
+        size={52}
       />
     );
   }

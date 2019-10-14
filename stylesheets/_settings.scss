@@ -18,6 +18,10 @@
   }
   hr {
     margin: 10px 0;
+
+    @include dark-theme {
+      border-color: $color-gray-45;
+    }
   }
   .device-name-settings {
     text-align: center;
@@ -32,12 +36,12 @@
     }
     .synced_at {
       font-size: $font-size-small;
-      color: $grey;
+      color: $color-gray-60;
     }
     .sync_failed {
       display: none;
       font-size: $font-size-small;
-      color: red;
+      color: $color-accent-red;
     }
   }
   .restart-needed {
@@ -52,8 +56,8 @@
       margin: 0 0 20px 20px;
     }
     .destructive {
-      background-color: red;
-      color: white;
+      background-color: $color-accent-red;
+      color: $color-white;
     }
   }
 

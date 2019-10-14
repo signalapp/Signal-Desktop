@@ -13,7 +13,7 @@ interface Props {
   name?: string;
   phoneNumber?: string;
   profileName?: string;
-  size: number;
+  size: 28 | 52 | 80;
 }
 
 interface State {
@@ -110,7 +110,7 @@ export class Avatar extends React.Component<Props, State> {
 
     const hasImage = !noteToSelf && avatarPath && !imageBroken;
 
-    if (size !== 28 && size !== 36 && size !== 48 && size !== 80) {
+    if (size !== 28 && size !== 52 && size !== 80) {
       throw new Error(`Size ${size} is not supported!`);
     }
 
