@@ -1,3 +1,47 @@
+.create-group-dialog {
+  .content {
+    max-width: 100% !important;
+  }
+
+  .buttons {
+    margin: 8px;
+  }
+
+  .group-name {
+    font-size: larger;
+  }
+
+  .titleText {
+    font-size: large;
+    text-align: center;
+  }
+}
+
+.friend-selection-list {
+  max-height: 240px;
+  overflow-y: scroll;
+
+  .check-mark {
+    float: right;
+    text-align: center;
+    color: darkslategrey;
+    margin: 4px;
+    min-width: 20px;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+}
+
+.dark-theme {
+  .friend-selection-list {
+    .check-mark {
+      color: rgb(230, 230, 230);
+    }
+  }
+}
+
 .member-list-container {
   margin: 0;
   padding: 0;
@@ -5,6 +49,13 @@
   max-height: 240px;
   overflow-y: scroll;
 
+  .check-mark {
+    display: none;
+  }
+}
+
+.member-list-container,
+.create-group-dialog {
   .member-item {
     padding: 4px;
     user-select: none;
@@ -55,7 +106,8 @@
 }
 
 .dark-theme {
-  .member-list-container {
+  .member-list-container,
+  .create-group-dialog {
     .member-item {
       &:hover:not(.member-selected) {
         background-color: $color-dark-55;

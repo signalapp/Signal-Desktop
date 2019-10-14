@@ -8,6 +8,8 @@
   storage,
   textsecure,
   Whisper,
+  libsignal,
+  StringView,
   BlockedNumberController
 */
 
@@ -680,6 +682,54 @@
       }
     });
 
+    window.doCreateGroup = async (groupName, members) => {
+      const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const groupId = StringView.arrayBufferToHex(keypair.pubKey);
+
+      const ev = new Event('group');
+
+      const ourKey = textsecure.storage.user.getNumber();
+
+      ev.groupDetails = {
+        id: groupId,
+        name: groupName,
+        members: [ourKey, ...members],
+        active: true,
+        expireTimer: 0,
+      };
+
+      ev.confirm = () => {};
+
+      await onGroupReceived(ev);
+
+      const convo = await ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
+
+      convo.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends
+      );
+      convo.set({ active_at: Date.now() });
+
+      appView.openConversation(groupId, {});
+
+      // Tell all group participants about this group
+      textsecure.messaging.createGroup(
+        ev.groupDetails.members,
+        groupId,
+        ev.groupDetails.name,
+        {},
+        {}
+      );
+    };
+
+    Whisper.events.on('createNewGroup', async () => {
+      if (appView) {
+        appView.showCreateGroup();
+      }
+    });
+
     Whisper.events.on('deleteConversation', async conversation => {
       await conversation.destroyMessages();
       await window.Signal.Data.removeConversation(conversation.id, {
@@ -916,6 +966,7 @@
     messageReceiver.addEventListener('delivery', onDeliveryReceipt);
     messageReceiver.addEventListener('contact', onContactReceived);
     messageReceiver.addEventListener('group', onGroupReceived);
+    window.addEventListener('group', onGroupReceived);
     messageReceiver.addEventListener('sent', onSentMessage);
     messageReceiver.addEventListener('readSync', onReadSync);
     messageReceiver.addEventListener('read', onReadReceipt);

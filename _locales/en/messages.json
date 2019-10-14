@@ -1929,6 +1929,12 @@
     "description":
       "Button action that the user can click to edit their display name"
   },
+
+  "createGroupDialogTitle": {
+    "message": "Creating a Private Group Chat",
+    "description": "Title for the dialog box used to create a new private group"
+  },
+
   "showSeed": {
     "message": "Show seed",
     "description":

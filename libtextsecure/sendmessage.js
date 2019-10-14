@@ -1009,15 +1009,11 @@ MessageSender.prototype = {
     proto.group.members = targetNumbers;
     proto.group.name = name;
 
-    return this.makeAttachmentPointer(avatar).then(attachment => {
-      proto.group.avatar = attachment;
-      return this.sendGroupProto(
-        targetNumbers,
-        proto,
-        Date.now(),
-        options
-      ).then(() => proto.group.id);
-    });
+    // TODO: Add adding attachmentPointer once we support avatars
+    // (see git history)
+    return this.sendGroupProto(targetNumbers, proto, Date.now(), options).then(
+      () => proto.group.id
+    );
   },
 
   updateGroup(groupId, name, avatar, targetNumbers, options) {

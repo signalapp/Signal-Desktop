@@ -1699,6 +1699,14 @@
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
+
+      if (initialMessage.group) {
+        // TODO: call this only once!
+        conversation.setFriendRequestStatus(
+          window.friends.friendRequestStatusEnum.friends
+        );
+      }
+
       return conversation.queueJob(async () => {
         window.log.info(
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`

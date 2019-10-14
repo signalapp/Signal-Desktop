@@ -2,10 +2,22 @@ import React from 'react';
 import classNames from 'classnames';
 import { Avatar } from '../Avatar';
 
+export interface Contact {
+  id: string;
+  selected: boolean;
+  authorProfileName: string;
+  authorPhoneNumber: string;
+  authorName: string;
+  authorColor: any;
+  authorAvatarPath: string;
+  checkmarked: boolean;
+}
 interface MemberItemProps {
-  member: any;
-  selected: Boolean;
+  member: Contact;
+  selected: boolean;
   onClicked: any;
+  i18n: any;
+  checkmarked: boolean;
 }
 
 class MemberItem extends React.Component<MemberItemProps> {
@@ -19,6 +31,10 @@ class MemberItem extends React.Component<MemberItemProps> {
     const pubkey = this.props.member.authorPhoneNumber;
     const selected = this.props.selected;
 
+    const checkMarkClass = this.props.checkmarked
+      ? 'check-mark'
+      : classNames('check-mark', 'hidden');
+
     return (
       <div
         role="button"
@@ -31,6 +47,7 @@ class MemberItem extends React.Component<MemberItemProps> {
         {this.renderAvatar()}
         <span className="name-part">{name}</span>
         <span className="pubkey-part">{pubkey}</span>
+        <span className={checkMarkClass}>✓</span>
       </div>
     );
   }
@@ -45,7 +62,7 @@ class MemberItem extends React.Component<MemberItemProps> {
         avatarPath={this.props.member.authorAvatarPath}
         color={this.props.member.authorColor}
         conversationType="direct"
-        i18n={this.props.member.i18n}
+        i18n={this.props.i18n}
         name={this.props.member.authorName}
         phoneNumber={this.props.member.authorPhoneNumber}
         profileName={this.props.member.authorProfileName}
@@ -56,9 +73,10 @@ class MemberItem extends React.Component<MemberItemProps> {
 }
 
 interface MemberListProps {
-  members: [any];
+  members: Contact[];
   selected: any;
   onMemberClicked: any;
+  i18n: any;
 }
 
 export class MemberList extends React.Component<MemberListProps> {
@@ -79,6 +97,8 @@ export class MemberList extends React.Component<MemberListProps> {
           key={item.id}
           member={item}
           selected={selected}
+          checkmarked={item.checkmarked}
+          i18n={this.props.i18n}
           onClicked={this.handleMemberClicked}
         />
       );

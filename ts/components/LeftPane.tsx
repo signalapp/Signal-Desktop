@@ -26,6 +26,9 @@ export interface Props {
     query: string,
     options: { regionCode: string }
   ) => void;
+
+  createNewGroup: () => void;
+
   openConversationInternal: (id: string, messageId?: string) => void;
   showArchivedConversations: () => void;
   showInbox: () => void;
@@ -262,6 +265,12 @@ export class LeftPane extends React.Component<Props, any> {
         <div className="module-left-pane__header">
           {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
         </div>
+        <input
+          className="create-group-button"
+          type="button"
+          value="Create Group"
+          onClick={this.props.createNewGroup}
+        />
         {this.renderList()}
       </div>
     );

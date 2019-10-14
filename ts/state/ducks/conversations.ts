@@ -137,6 +137,7 @@ export const actions = {
   openConversationExternal,
   showInbox,
   showArchivedConversations,
+  createNewGroup,
 };
 
 function conversationAdded(
@@ -227,6 +228,15 @@ function showInbox() {
 function showArchivedConversations() {
   return {
     type: 'SHOW_ARCHIVED_CONVERSATIONS',
+    payload: null,
+  };
+}
+
+function createNewGroup() {
+  // Not sure how much of this is necessary:
+  trigger('createNewGroup');
+  return {
+    type: 'CREATE_NEW_GROUP',
     payload: null,
   };
 }
