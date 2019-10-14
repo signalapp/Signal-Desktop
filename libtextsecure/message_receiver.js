@@ -719,9 +719,8 @@ MessageReceiver.prototype.extend({
                 throw error;
               }
 
-              return this.removeFromCache(envelope).then(() => {
-                throw error;
-              });
+              this.removeFromCache(envelope);
+              throw error;
             }
           );
         break;
