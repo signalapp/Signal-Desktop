@@ -220,7 +220,13 @@ class LokiAppDotNetServerAPI {
 
   // make a request to the server
   async serverRequest(endpoint, options = {}) {
-    const { params = {}, method, objBody, forceFreshToken = false } = options;
+    const {
+      params = {},
+      method,
+      rawBody,
+      objBody,
+      forceFreshToken = false,
+    } = options;
     const url = new URL(`${this.baseServerUrl}/${endpoint}`);
     if (params) {
       url.search = new URLSearchParams(params);
@@ -247,6 +253,8 @@ class LokiAppDotNetServerAPI {
       if (objBody) {
         headers['Content-Type'] = 'application/json';
         fetchOptions.body = JSON.stringify(objBody);
+      } else if (rawBody) {
+        fetchOptions.body = rawBody;
       }
       fetchOptions.headers = new Headers(headers);
       result = await nodeFetch(url, fetchOptions || undefined);

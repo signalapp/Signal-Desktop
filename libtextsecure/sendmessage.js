@@ -191,8 +191,8 @@ MessageSender.prototype = {
     return textsecure.crypto
       .encryptAttachment(attachment.data, proto.key, iv)
       .then(result =>
-        this.server.putAttachment(result.ciphertext).then(id => {
-          proto.id = id;
+        this.server.putAttachment(result.ciphertext).then(url => {
+          proto.id = url;
           proto.contentType = attachment.contentType;
           proto.digest = result.digest;
 
@@ -310,8 +310,6 @@ MessageSender.prototype = {
     const silent = false;
 
     // Remove this when we add support for attachments
-    message.attachments = [];
-    message.attachmentPointers = [];
     message.preview = [];
     if (message.quote) {
       message.quote.attachments = [];

@@ -18,6 +18,7 @@
 /* global lokiMessageAPI: false */
 /* global lokiP2pAPI: false */
 /* global feeds: false */
+/* global WebAPI: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -28,6 +29,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
+  this.server = WebAPI.connect({ username, password });
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -1435,9 +1437,7 @@ MessageReceiver.prototype.extend({
     };
   },
   async downloadAttachment(attachment) {
-    window.log.info('Not downloading attachments.');
-    return Promise.reject();
-
+    // The attachment id is actually just the absolute url of the attachment
     const encrypted = await this.server.getAttachment(attachment.id);
     const { key, digest, size } = attachment;
 
