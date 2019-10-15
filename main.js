@@ -46,8 +46,10 @@ let tray = null;
 const startInTray = process.argv.some(arg => arg === '--start-in-tray');
 const usingTrayIcon =
   startInTray || process.argv.some(arg => arg === '--use-tray-icon');
-const disableFlashFrame =
-  startInTray || process.argv.some(arg => arg === '--disable-flash-frame');
+
+const disableFlashFrame = process.argv.some(
+  arg => arg === '--disable-flash-frame'
+);
 
 const config = require('./app/config');
 
