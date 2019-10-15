@@ -1971,7 +1971,10 @@
             } else {
               const ourNumber = textsecure.storage.user.getNumber();
 
-              if (message.attributes.body.indexOf(`@${ourNumber}`) !== -1) {
+              if (
+                message.attributes.body &&
+                message.attributes.body.indexOf(`@${ourNumber}`) !== -1
+              ) {
                 conversation.set({ mentionedUs: true });
               }
 
