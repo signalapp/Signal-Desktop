@@ -309,7 +309,7 @@ message AttachmentPointer {
     VOICE_MESSAGE = 1;
   }
 
-  optional string  id          = 1;
+  optional fixed64 id          = 1;
   optional string  contentType = 2;
   optional bytes   key         = 3;
   optional uint32  size        = 4;
@@ -320,6 +320,7 @@ message AttachmentPointer {
   optional uint32  width       = 9;
   optional uint32  height      = 10;
   optional string  caption     = 11;
+  optional string  url         = 12;
 }
 
 message GroupContext {

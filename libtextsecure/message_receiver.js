@@ -1438,7 +1438,7 @@ MessageReceiver.prototype.extend({
   },
   async downloadAttachment(attachment) {
     // The attachment id is actually just the absolute url of the attachment
-    const encrypted = await this.server.getAttachment(attachment.id);
+    const encrypted = await this.server.getAttachment(attachment.url);
     const { key, digest, size } = attachment;
 
     const data = await textsecure.crypto.decryptAttachment(

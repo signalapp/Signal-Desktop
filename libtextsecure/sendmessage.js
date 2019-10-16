@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, dcodeIO, libloki */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -191,8 +191,14 @@ MessageSender.prototype = {
     return textsecure.crypto
       .encryptAttachment(attachment.data, proto.key, iv)
       .then(result =>
-        this.server.putAttachment(result.ciphertext).then(url => {
-          proto.id = url;
+        this.server.putAttachment(result.ciphertext).then(async url => {
+          const urlBuffer = dcodeIO.ByteBuffer.wrap(
+            url,
+            'utf8'
+          ).toArrayBuffer();
+          const idBuffer = await libloki.crypto.sha512(urlBuffer);
+          proto.id = dcodeIO.ByteBuffer.wrap(idBuffer).toString('base64');
+          proto.url = url;
           proto.contentType = attachment.contentType;
           proto.digest = result.digest;
 

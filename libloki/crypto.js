@@ -6,6 +6,7 @@
   Multibase,
   TextEncoder,
   TextDecoder,
+  crypto,
   dcodeIO
 */
 
@@ -180,6 +181,8 @@
 
   const snodeCipher = new LokiSnodeChannel();
 
+  const sha512 = data => crypto.subtle.digest('SHA-512', data);
+
   window.libloki.crypto = {
     DHEncrypt,
     DHDecrypt,
@@ -190,5 +193,6 @@
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,
+    sha512,
   };
 })();
