@@ -1226,9 +1226,10 @@
   }
 }
 
-$timer-icons: 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 05, 00;
+$timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
+  '00';
 
-@each $timer-icon in $conversation-colors {
+@each $timer-icon in $timer-icons {
   .module-expire-timer--#{$timer-icon} {
     @include light-theme {
       @include color-svg(
@@ -1524,12 +1525,7 @@ $timer-icons: 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 05, 00;
 
   border-radius: 50%;
 
-  @include light-theme {
-    background-color: $color-white-alpha-60;
-  }
-  @include dark-theme {
-    background-color: $color-white-alpha-40;
-  }
+  background-color: $color-black-alpha-40;
 }
 
 .module-quote__close-button {
@@ -1543,12 +1539,7 @@ $timer-icons: 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 05, 00;
 
   transform: translate(-50%, -50%);
 
-  @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-white);
-  }
+  @include color-svg('../images/icons/v2/x-24.svg', $color-white);
 }
 
 .module-quote__icon-container {
@@ -2942,7 +2933,7 @@ $timer-icons: 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 05, 00;
 
   @include font-body-2;
 
-  height: 1.3em;
+  height: 1.4em;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -3231,10 +3222,12 @@ $timer-icons: 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 05, 00;
   @include light-theme {
     background-color: $color-gray-05;
     color: $color-gray-90;
+    border: solid 1px $color-gray-02;
   }
   @include dark-theme {
     color: $color-gray-05;
     background-color: $color-gray-95;
+    border: solid 1px $color-gray-80;
   }
 
   &:placeholder {
@@ -6049,6 +6042,16 @@ $timer-icons: 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 05, 00;
       min-height: 32px;
       max-height: 80px;
       overflow: auto;
+
+      &::-webkit-scrollbar-thumb {
+        @include light-theme {
+          border: 2px solid $color-gray-05;
+        }
+        @include dark-theme {
+          border: 2px solid $color-gray-75;
+        }
+      }
+
       &--large {
         max-height: 227px;
         height: 227px;
