@@ -1700,11 +1700,71 @@
 
       const conversation = ConversationController.get(conversationId);
 
-      if (initialMessage.group) {
-        // TODO: call this only once!
+      if (
+        initialMessage.group &&
+        initialMessage.group.members &&
+        initialMessage.group.type === GROUP_TYPES.UPDATE
+      ) {
+        // Note: this might be called more times than necessary
         conversation.setFriendRequestStatus(
           window.friends.friendRequestStatusEnum.friends
         );
+
+        // For every member, see if we need to establish a session:
+        initialMessage.group.members.forEach(memberPubKey => {
+          const haveSession = _.some(
+            textsecure.storage.protocol.sessions,
+            s => s.number === memberPubKey
+          );
+
+          const ourPubKey = textsecure.storage.user.getNumber();
+          if (!haveSession && memberPubKey !== ourPubKey) {
+            ConversationController.getOrCreateAndWait(
+              memberPubKey,
+              'private'
+            ).then(() => {
+              textsecure.messaging.sendMessageToNumber(
+                memberPubKey,
+                '(If you see this message, you must be using an out-of-date client)',
+                [],
+                undefined,
+                [],
+                Date.now(),
+                undefined,
+                undefined,
+                { messageType: 'friend-request', backgroundFriendReq: true }
+              );
+            });
+          }
+        });
+      }
+
+      const backgroundFrReq =
+        initialMessage.flags ===
+        textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST;
+
+      if (message.isFriendRequest() && backgroundFrReq) {
+        // Check if the contact is a member in one of our private groups:
+        const groupMember =
+          window
+            .getConversations()
+            .models.filter(c => c.get('members'))
+            .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
+            .indexOf(source) !== -1;
+
+        if (groupMember) {
+          window.log.info(
+            `Auto accepting a 'group' friend request for a known group member: ${groupMember}`
+          );
+
+          window.libloki.api.sendBackgroundMessage(message.get('source'));
+
+          confirm();
+        }
+
+        // Wether or not we accepted the FR, we exit early so background friend requests
+        // cannot be used for establishing regular private conversations
+        return null;
       }
 
       return conversation.queueJob(async () => {

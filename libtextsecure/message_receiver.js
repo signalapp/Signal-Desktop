@@ -1081,10 +1081,9 @@ MessageReceiver.prototype.extend({
           let profile = null;
           if (message.profile) {
             profile = JSON.parse(message.profile.encodeJSON());
+            // Update the conversation
+            await conversation.setLokiProfile(profile);
           }
-
-          // Update the conversation
-          await conversation.setLokiProfile(profile);
         }
 
         if (friendRequest && isMe) {
@@ -1542,6 +1541,8 @@ MessageReceiver.prototype.extend({
     } else if (decrypted.flags & FLAGS.PROFILE_KEY_UPDATE) {
       decrypted.body = null;
       decrypted.attachments = [];
+    } else if (decrypted.flags & FLAGS.BACKGROUND_FRIEND_REQUEST) {
+      // do nothing
     } else if (decrypted.flags !== 0) {
       throw new Error('Unknown flags in message');
     }

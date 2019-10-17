@@ -15,6 +15,14 @@
     font-size: large;
     text-align: center;
   }
+
+  .no-friends {
+    text-align: center;
+  }
+
+  .hidden {
+    display: none;
+  }
 }
 
 .friend-selection-list {
@@ -29,7 +37,7 @@
     min-width: 20px;
   }
 
-  .hidden {
+  .invisible {
     visibility: hidden;
   }
 }

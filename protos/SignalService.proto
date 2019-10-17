@@ -94,9 +94,10 @@ message CallMessage {
 
 message DataMessage {
   enum Flags {
-    END_SESSION             = 1;
-    EXPIRATION_TIMER_UPDATE = 2;
-    PROFILE_KEY_UPDATE      = 4;
+    END_SESSION               = 1;
+    EXPIRATION_TIMER_UPDATE   = 2;
+    PROFILE_KEY_UPDATE        = 4;
+    BACKGROUND_FRIEND_REQUEST = 256;
   }
 
   message Quote {

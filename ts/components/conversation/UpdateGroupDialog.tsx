@@ -1,19 +1,15 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Contact, MemberList } from './MemberList';
-
-declare global {
-  interface Window {
-    Lodash: any;
-    doCreateGroup: any;
-  }
-}
 
 interface Props {
   titleText: string;
+  groupName: string;
   okText: string;
   cancelText: string;
   friendList: Array<any>;
   i18n: any;
+  onSubmit: any;
   onClose: any;
 }
 
@@ -22,11 +18,9 @@ interface State {
   groupName: string;
 }
 
-export class CreateGroupDialog extends React.Component<Props, State> {
+export class UpdateGroupDialog extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
-
-    // const _ = window.Lodash;
 
     this.onMemberClicked = this.onMemberClicked.bind(this);
     this.onClickOK = this.onClickOK.bind(this);
@@ -52,7 +46,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
 
     this.state = {
       friendList: friends,
-      groupName: '',
+      groupName: this.props.groupName,
     };
 
     window.addEventListener('keyup', this.onKeyUp);
@@ -65,11 +59,11 @@ export class CreateGroupDialog extends React.Component<Props, State> {
 
     if (!this.state.groupName.trim()) {
       // TODO: show error message
-      // console.error('Group name cannot be empty!');
+      // window.log.error('Group name cannot be empty!');
       return;
     }
 
-    window.doCreateGroup(this.state.groupName, members);
+    this.props.onSubmit(this.state.groupName, members);
 
     this.closeDialog();
   }
@@ -78,6 +72,11 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     const titleText = this.props.titleText;
     const okText = this.props.okText;
     const cancelText = this.props.cancelText;
+
+    const noFriendsClasses =
+      this.state.friendList.length === 0
+        ? 'no-friends'
+        : classNames('no-friends', 'hidden');
 
     return (
       <div className="content">
@@ -91,8 +90,8 @@ export class CreateGroupDialog extends React.Component<Props, State> {
           onChange={this.onGroupNameChanged}
           tabIndex={0}
           required={true}
-          autoFocus={true}
           aria-required={true}
+          autoFocus={true}
         />
         <div className="friend-selection-list">
           <MemberList
@@ -102,6 +101,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
             onMemberClicked={this.onMemberClicked}
           />
         </div>
+        <p className={noFriendsClasses}>(no friends to add)</p>
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
             {cancelText}
@@ -112,17 +112,6 @@ export class CreateGroupDialog extends React.Component<Props, State> {
         </div>
       </div>
     );
-  }
-
-  private onGroupNameChanged(event: any) {
-    event.persist();
-
-    this.setState(state => {
-      return {
-        ...state,
-        groupName: event.target.value,
-      };
-    });
   }
 
   private onKeyUp(event: any) {
@@ -157,6 +146,17 @@ export class CreateGroupDialog extends React.Component<Props, State> {
       return {
         ...state,
         friendList: updatedFriends,
+      };
+    });
+  }
+
+  private onGroupNameChanged(event: any) {
+    event.persist();
+
+    this.setState(state => {
+      return {
+        ...state,
+        groupName: event.target.value,
       };
     });
   }

@@ -682,6 +682,38 @@
       }
     });
 
+    window.doUpdateGroup = async (groupId, groupName, members) => {
+      const ourKey = textsecure.storage.user.getNumber();
+
+      const ev = new Event('message');
+      ev.confirm = () => {};
+
+      ev.data = {
+        source: ourKey,
+        message: {
+          group: {
+            id: groupId,
+            type: textsecure.protobuf.GroupContext.Type.UPDATE,
+            name: groupName,
+            members,
+            avatar: null, // TODO
+          },
+        },
+      };
+
+      await onMessageReceived(ev);
+
+      const avatar = '';
+      const options = {};
+      textsecure.messaging.updateGroup(
+        groupId,
+        groupName,
+        avatar,
+        members,
+        options
+      );
+    };
+
     window.doCreateGroup = async (groupName, members) => {
       const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
       const groupId = StringView.arrayBufferToHex(keypair.pubKey);
@@ -696,6 +728,7 @@
         members: [ourKey, ...members],
         active: true,
         expireTimer: 0,
+        avatar: '',
       };
 
       ev.confirm = () => {};
@@ -707,26 +740,26 @@
         'group'
       );
 
+      convo.updateGroup(ev.groupDetails);
+
+      // Group conversations are automatically 'friends'
+      // so that we can skip the friend request logic
       convo.setFriendRequestStatus(
         window.friends.friendRequestStatusEnum.friends
       );
-      convo.set({ active_at: Date.now() });
 
       appView.openConversation(groupId, {});
-
-      // Tell all group participants about this group
-      textsecure.messaging.createGroup(
-        ev.groupDetails.members,
-        groupId,
-        ev.groupDetails.name,
-        {},
-        {}
-      );
     };
 
     Whisper.events.on('createNewGroup', async () => {
       if (appView) {
         appView.showCreateGroup();
+      }
+    });
+
+    Whisper.events.on('updateGroup', async groupConvo => {
+      if (appView) {
+        appView.showUpdateGroupDialog(groupConvo);
       }
     });
 

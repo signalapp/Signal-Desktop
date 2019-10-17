@@ -48,6 +48,9 @@ const {
   CreateGroupDialog,
 } = require('../../ts/components/conversation/CreateGroupDialog');
 const {
+  UpdateGroupDialog,
+} = require('../../ts/components/conversation/UpdateGroupDialog');
+const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
 const { Message } = require('../../ts/components/conversation/Message');
@@ -223,6 +226,7 @@ exports.setup = (options = {}) => {
     MainHeader,
     MemberList,
     CreateGroupDialog,
+    UpdateGroupDialog,
     MediaGallery,
     Message,
     MessageBody,

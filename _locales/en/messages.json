@@ -1910,6 +1910,13 @@
     "description":
       "Button action that the user can click to copy their public keys"
   },
+
+  "updateGroup": {
+    "message": "Update Group",
+    "description":
+      "Button action that the user can click to rename the group or add a new member"
+  },
+
   "copiedPublicKey": {
     "message": "Copied public key",
     "description": "A toast message telling the user that the key was copied"
@@ -1933,6 +1940,12 @@
   "createGroupDialogTitle": {
     "message": "Creating a Private Group Chat",
     "description": "Title for the dialog box used to create a new private group"
+  },
+
+  "updateGroupDialogTitle": {
+    "message": "Updating a Private Group Chat",
+    "description":
+      "Title for the dialog box used to update an existing private group"
   },
 
   "showSeed": {

@@ -211,5 +211,9 @@
       const dialog = new Whisper.CreateGroupDialogView();
       this.el.append(dialog.el);
     },
+    showUpdateGroupDialog(groupConvo) {
+      const dialog = new Whisper.UpdateGroupDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
   });
 })();

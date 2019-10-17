@@ -268,6 +268,10 @@
           onMoveToInbox: () => {
             this.model.setArchived(false);
           },
+
+          onUpdateGroup: () => {
+            window.Whisper.events.trigger('updateGroup', this.model);
+          },
         };
       };
       this.titleView = new Whisper.ReactWrapperView({

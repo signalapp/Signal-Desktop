@@ -235,6 +235,7 @@ function showArchivedConversations() {
 function createNewGroup() {
   // Not sure how much of this is necessary:
   trigger('createNewGroup');
+
   return {
     type: 'CREATE_NEW_GROUP',
     payload: null,

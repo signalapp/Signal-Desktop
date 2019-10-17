@@ -33,7 +33,7 @@ class MemberItem extends React.Component<MemberItemProps> {
 
     const checkMarkClass = this.props.checkmarked
       ? 'check-mark'
-      : classNames('check-mark', 'hidden');
+      : classNames('check-mark', 'invisible');
 
     return (
       <div
@@ -73,7 +73,7 @@ class MemberItem extends React.Component<MemberItemProps> {
 }
 
 interface MemberListProps {
-  members: Contact[];
+  members: Array<Contact>;
   selected: any;
   onMemberClicked: any;
   i18n: any;
