@@ -286,7 +286,7 @@
           },
 
           onArchive: () => {
-            this.unload('archive');
+            this.model.trigger('unload', 'archive');
             this.model.setArchived(true);
           },
           onMoveToInbox: () => {
@@ -2189,9 +2189,8 @@
       try {
         await this.confirm(i18n('deleteConversationConfirmation'));
         try {
-          this.unload('delete messages');
+          this.model.trigger('unload', 'delete messages');
           await this.model.destroyMessages();
-          Whisper.events.trigger('unloadConversation', this.model.id);
           this.model.updateLastMessage();
         } catch (error) {
           window.log.error(
