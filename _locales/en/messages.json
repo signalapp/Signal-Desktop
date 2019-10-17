@@ -166,6 +166,10 @@
     "description":
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "avatarMenuViewArchive": {
+    "message": "View Archive",
+    "description": "One of the menu options available in the Avatar Popup menu"
+  },
   "loading": {
     "message": "Loading...",
     "description":

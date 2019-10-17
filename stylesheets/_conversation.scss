@@ -122,7 +122,7 @@
   label {
     display: block;
     margin: 10px 0;
-    font-size: $font-size-small;
+    @include font-body-2;
   }
 
   .icon {

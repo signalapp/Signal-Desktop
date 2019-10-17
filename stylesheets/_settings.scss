@@ -35,12 +35,12 @@
       margin: 0 0 20px 20px;
     }
     .synced_at {
-      font-size: $font-size-small;
+      @include font-body-2;
       color: $color-gray-60;
     }
     .sync_failed {
       display: none;
-      font-size: $font-size-small;
+      @include font-body-2;
       color: $color-accent-red;
     }
   }

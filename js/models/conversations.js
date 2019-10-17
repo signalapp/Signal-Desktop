@@ -1939,7 +1939,7 @@
     },
 
     getProfileName() {
-      if (this.isPrivate() && !this.get('name')) {
+      if (this.isPrivate()) {
         return this.get('profileName');
       }
       return null;

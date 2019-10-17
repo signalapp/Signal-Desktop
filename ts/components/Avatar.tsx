@@ -4,16 +4,22 @@ import classNames from 'classnames';
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
 
-interface Props {
+export interface Props {
   avatarPath?: string;
   color?: string;
   conversationType: 'group' | 'direct';
-  i18n: LocalizerType;
   noteToSelf?: boolean;
   name?: string;
   phoneNumber?: string;
   profileName?: string;
   size: 28 | 52 | 80;
+
+  onClick?: () => unknown;
+
+  // Matches Popper's RefHandler type
+  innerRef?: (ref: HTMLElement | null) => void;
+
+  i18n: LocalizerType;
 }
 
 interface State {
@@ -63,9 +69,15 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderNoImage() {
-    const { conversationType, name, noteToSelf, size } = this.props;
+    const {
+      conversationType,
+      name,
+      noteToSelf,
+      profileName,
+      size,
+    } = this.props;
 
-    const initials = getInitials(name);
+    const initials = getInitials(name || profileName);
     const isGroup = conversationType === 'group';
 
     if (noteToSelf) {
@@ -105,7 +117,14 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public render() {
-    const { avatarPath, color, size, noteToSelf } = this.props;
+    const {
+      avatarPath,
+      color,
+      innerRef,
+      noteToSelf,
+      onClick,
+      size,
+    } = this.props;
     const { imageBroken } = this.state;
 
     const hasImage = !noteToSelf && avatarPath && !imageBroken;
@@ -114,14 +133,20 @@ export class Avatar extends React.Component<Props, State> {
       throw new Error(`Size ${size} is not supported!`);
     }
 
+    const role = onClick ? 'button' : undefined;
+
     return (
       <div
         className={classNames(
           'module-avatar',
           `module-avatar--${size}`,
           hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
-          !hasImage ? `module-avatar--${color}` : null
+          !hasImage ? `module-avatar--${color}` : null,
+          onClick ? 'module-avatar--with-click' : null
         )}
+        ref={innerRef}
+        role={role}
+        onClick={onClick}
       >
         {hasImage ? this.renderImage() : this.renderNoImage()}
       </div>

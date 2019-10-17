@@ -11,3 +11,8 @@ export function getBubbleProps(attributes: any) {
 
   return model.getPropsForBubble();
 }
+
+export function showSettings() {
+  // @ts-ignore
+  window.showSettings();
+}

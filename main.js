@@ -524,6 +524,8 @@ async function showSettingsWindow() {
     return;
   }
 
+  addDarkOverlay();
+
   const size = mainWindow.getSize();
   const options = {
     width: Math.min(500, size[0]),
@@ -557,7 +559,6 @@ async function showSettingsWindow() {
   });
 
   settingsWindow.once('ready-to-show', () => {
-    addDarkOverlay();
     settingsWindow.show();
   });
 }

@@ -12,14 +12,14 @@ body {
   width: 100%;
   margin: 0;
 
-  color: $color-gray-95;
+  color: $color-gray-90;
 
   @include font-body-1;
 }
 
 body.light-theme {
   background-color: $color-white;
-  color: $color-gray-95;
+  color: $color-gray-90;
 }
 body.dark-theme {
   background-color: $color-gray-95;

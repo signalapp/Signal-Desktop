@@ -3159,6 +3159,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-avatar--with-click {
+  cursor: pointer;
+}
 .module-avatar--no-image {
   @include light-theme {
     background-color: $color-conversation-grey;
@@ -6343,7 +6346,141 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-top: -1px;
 }
 
-// Third-party module: react-contextmenu
+// Module: Avatar Popup
+
+.module-avatar-popup {
+  min-width: 240px;
+
+  border-radius: 4px;
+  padding-bottom: 4px;
+
+  @include popper-shadow;
+
+  @include light-theme {
+    color: $color-gray-90;
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+    background-color: $color-gray-75;
+  }
+}
+
+.module-avatar-popup__profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-avatar-popup__profile {
+  padding: 12px;
+}
+
+.module-avatar-popup__profile__text {
+  margin-left: 10px;
+}
+
+.module-avatar-popup__profile__name {
+  @include font-body-2-bold;
+}
+.module-avatar-popup__profile__number {
+  @include font-caption;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-avatar-popup__divider {
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  height: 1px;
+  width: 100%;
+  margin-bottom: 6px;
+
+  @include light-theme {
+    background-color: $color-gray-15;
+  }
+  @include dark-theme {
+    background-color: $color-gray-60;
+  }
+}
+
+.module-avatar-popup__item {
+  @include font-body-2;
+  @include button-reset;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  width: 100%;
+  height: 32px;
+  padding: 6px;
+
+  @include light-theme {
+    &:hover {
+      background-color: $color-gray-05;
+    }
+    &:focus {
+      background-color: $color-gray-05;
+    }
+  }
+  @include dark-theme {
+    &:hover {
+      background-color: $color-gray-60;
+    }
+    &:focus {
+      background-color: $color-gray-05;
+    }
+  }
+}
+
+.module-avatar-popup__item__icon {
+  margin-left: 6px;
+
+  height: 16px;
+  width: 16px;
+}
+.module-avatar-popup__item__icon-settings {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/settings-outline-16.svg',
+      $color-gray-75
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/settings-solid-16.svg',
+      $color-gray-15
+    );
+  }
+}
+.module-avatar-popup__item__icon-archive {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/archive-outline-16.svg',
+      $color-gray-75
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/archive-solid-16.svg',
+      $color-gray-15
+    );
+  }
+}
+
+.module-avatar-popup__item__text {
+  margin-left: 8px;
+}
+
+/* Third-party module: react-contextmenu*/
 
 .react-contextmenu {
   border-radius: 4px;

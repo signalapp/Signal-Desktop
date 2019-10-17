@@ -1,8 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
+import { Manager, Popper, Reference } from 'react-popper';
+import { createPortal } from 'react-dom';
 
+import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
+import { AvatarPopup } from './AvatarPopup';
 import { LocalizerType } from '../types/Util';
 
 export interface PropsType {
@@ -42,15 +46,36 @@ export interface PropsType {
 
   clearConversationSearch: () => void;
   clearSearch: () => void;
+
+  showArchivedConversations: () => void;
 }
 
-export class MainHeader extends React.Component<PropsType> {
+interface StateType {
+  showingAvatarPopup: boolean;
+  popperRoot: HTMLDivElement | null;
+}
+
+export class MainHeader extends React.Component<PropsType, StateType> {
   private readonly inputRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: PropsType) {
     super(props);
 
     this.inputRef = React.createRef();
+
+    this.state = {
+      showingAvatarPopup: false,
+      popperRoot: null,
+    };
+  }
+
+  public componentDidMount() {
+    const popperRoot = document.createElement('div');
+    document.body.appendChild(popperRoot);
+
+    this.setState({
+      popperRoot,
+    });
   }
 
   public componentDidUpdate(prevProps: PropsType) {
@@ -62,6 +87,50 @@ export class MainHeader extends React.Component<PropsType> {
       searchConversationId !== prevProps.searchConversationId
     ) {
       this.setFocus();
+    }
+  }
+
+  public handleOutsideClick = ({ target }: MouseEvent) => {
+    const { popperRoot, showingAvatarPopup } = this.state;
+
+    if (
+      showingAvatarPopup &&
+      popperRoot &&
+      !popperRoot.contains(target as Node)
+    ) {
+      this.hideAvatarPopup();
+    }
+  };
+
+  public handleOutsideKeyUp = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.hideAvatarPopup();
+    }
+  };
+
+  public showAvatarPopup = () => {
+    this.setState({
+      showingAvatarPopup: true,
+    });
+    document.addEventListener('click', this.handleOutsideClick);
+    document.addEventListener('keydown', this.handleOutsideKeyUp);
+  };
+
+  public hideAvatarPopup = () => {
+    document.removeEventListener('click', this.handleOutsideClick);
+    document.removeEventListener('keydown', this.handleOutsideKeyUp);
+    this.setState({
+      showingAvatarPopup: false,
+    });
+  };
+
+  public componentWillUnmount() {
+    const { popperRoot } = this.state;
+
+    if (popperRoot) {
+      document.body.removeChild(popperRoot);
+      document.removeEventListener('click', this.handleOutsideClick);
+      document.removeEventListener('keydown', this.handleOutsideKeyUp);
     }
   }
 
@@ -177,6 +246,7 @@ export class MainHeader extends React.Component<PropsType> {
     }
   };
 
+  // tslint:disable-next-line:max-func-body-length
   public render() {
     const {
       avatarPath,
@@ -188,7 +258,9 @@ export class MainHeader extends React.Component<PropsType> {
       searchConversationId,
       searchConversationName,
       searchTerm,
+      showArchivedConversations,
     } = this.props;
+    const { showingAvatarPopup, popperRoot } = this.state;
 
     const placeholder = searchConversationName
       ? i18n('searchIn', [searchConversationName])
@@ -196,16 +268,53 @@ export class MainHeader extends React.Component<PropsType> {
 
     return (
       <div className="module-main-header">
-        <Avatar
-          avatarPath={avatarPath}
-          color={color}
-          conversationType="direct"
-          i18n={i18n}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          size={28}
-        />
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <Avatar
+                avatarPath={avatarPath}
+                color={color}
+                conversationType="direct"
+                i18n={i18n}
+                name={name}
+                phoneNumber={phoneNumber}
+                profileName={profileName}
+                size={28}
+                innerRef={ref}
+                onClick={this.showAvatarPopup}
+              />
+            )}
+          </Reference>
+          {showingAvatarPopup && popperRoot
+            ? createPortal(
+                <Popper placement="bottom-end">
+                  {({ ref, style }) => (
+                    <AvatarPopup
+                      innerRef={ref}
+                      i18n={i18n}
+                      style={style}
+                      color={color}
+                      conversationType="direct"
+                      name={name}
+                      phoneNumber={phoneNumber}
+                      profileName={profileName}
+                      avatarPath={avatarPath}
+                      size={28}
+                      onViewPreferences={() => {
+                        showSettings();
+                        this.hideAvatarPopup();
+                      }}
+                      onViewArchive={() => {
+                        showArchivedConversations();
+                        this.hideAvatarPopup();
+                      }}
+                    />
+                  )}
+                </Popper>,
+                popperRoot
+              )
+            : null}
+        </Manager>
         <div className="module-main-header__search">
           {searchConversationId ? (
             <button
