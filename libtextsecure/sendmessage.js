@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, dcodeIO, libloki */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -191,38 +191,35 @@ MessageSender.prototype = {
     return textsecure.crypto
       .encryptAttachment(attachment.data, proto.key, iv)
       .then(result =>
-        this.server.putAttachment(result.ciphertext).then(async url => {
-          const urlBuffer = dcodeIO.ByteBuffer.wrap(
-            url,
-            'utf8'
-          ).toArrayBuffer();
-          const idBuffer = await libloki.crypto.sha512(urlBuffer);
-          proto.id = dcodeIO.ByteBuffer.wrap(idBuffer).toString('base64');
-          proto.url = url;
-          proto.contentType = attachment.contentType;
-          proto.digest = result.digest;
+        this.server
+          .putAttachment(result.ciphertext)
+          .then(async ({ url, id }) => {
+            proto.id = id;
+            proto.url = url;
+            proto.contentType = attachment.contentType;
+            proto.digest = result.digest;
 
-          if (attachment.size) {
-            proto.size = attachment.size;
-          }
-          if (attachment.fileName) {
-            proto.fileName = attachment.fileName;
-          }
-          if (attachment.flags) {
-            proto.flags = attachment.flags;
-          }
-          if (attachment.width) {
-            proto.width = attachment.width;
-          }
-          if (attachment.height) {
-            proto.height = attachment.height;
-          }
-          if (attachment.caption) {
-            proto.caption = attachment.caption;
-          }
+            if (attachment.size) {
+              proto.size = attachment.size;
+            }
+            if (attachment.fileName) {
+              proto.fileName = attachment.fileName;
+            }
+            if (attachment.flags) {
+              proto.flags = attachment.flags;
+            }
+            if (attachment.width) {
+              proto.width = attachment.width;
+            }
+            if (attachment.height) {
+              proto.height = attachment.height;
+            }
+            if (attachment.caption) {
+              proto.caption = attachment.caption;
+            }
 
-          return proto;
-        })
+            return proto;
+          })
       );
   },
 

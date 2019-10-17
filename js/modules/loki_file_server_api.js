@@ -51,7 +51,11 @@ class LokiFileServerAPI {
     }
 
     const url = response.data && response.data.url;
-    return url;
+    const id = response.data && response.data.id;
+    return {
+      url,
+      id,
+    };
   }
 }
 
