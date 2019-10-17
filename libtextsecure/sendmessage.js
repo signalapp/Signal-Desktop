@@ -312,12 +312,6 @@ MessageSender.prototype = {
     const message = new Message(attrs);
     const silent = false;
 
-    // Remove this when we add support for attachments
-    message.preview = [];
-    if (message.quote) {
-      message.quote.attachments = [];
-    }
-
     return Promise.all([
       this.uploadAttachments(message),
       this.uploadThumbnails(message),
