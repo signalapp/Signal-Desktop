@@ -2110,6 +2110,7 @@
             await conversation.notify(message);
           }
 
+          Whisper.events.trigger('incrementProgress');
           confirm();
         } catch (error) {
           const errorForLog = error && error.stack ? error.stack : error;

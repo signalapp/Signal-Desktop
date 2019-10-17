@@ -877,7 +877,6 @@
     addQueuedEventListener('error', onError);
     addQueuedEventListener('empty', onEmpty);
     addQueuedEventListener('reconnect', onReconnect);
-    addQueuedEventListener('progress', onProgress);
     addQueuedEventListener('configuration', onConfiguration);
     addQueuedEventListener('typing', onTyping);
     addQueuedEventListener('sticker-pack', onStickerPack);
@@ -1038,15 +1037,27 @@
     deliveryReceiptQueue.pause();
     Whisper.Notifications.disable();
   }
-  function onProgress(ev) {
-    const { count } = ev;
-    window.log.info(`onProgress: Message count is ${count}`);
+
+  let initialStartupCount = 0;
+  Whisper.events.on('incrementProgress', incrementProgress);
+  function incrementProgress() {
+    initialStartupCount += 1;
+
+    // Only update progress every 10 items
+    if (initialStartupCount % 10 !== 0) {
+      return;
+    }
+
+    window.log.info(
+      `incrementProgress: Message count is ${initialStartupCount}`
+    );
 
     const view = window.owsDesktopApp.appView;
     if (view) {
-      view.onProgress(count);
+      view.onProgress(initialStartupCount);
     }
   }
+
   function onConfiguration(ev) {
     ev.confirm();
 
