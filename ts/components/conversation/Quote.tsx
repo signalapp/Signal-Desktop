@@ -19,6 +19,8 @@ interface Props {
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
+  conversationType: 'group' | 'direct';
+  convoId: string;
   isPublic?: boolean;
   withContentAbove: boolean;
   onClick?: () => void;
@@ -215,7 +217,14 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText() {
-    const { i18n, text, attachment, isIncoming, isPublic } = this.props;
+    const {
+      i18n,
+      text,
+      attachment,
+      isIncoming,
+      conversationType,
+      convoId,
+    } = this.props;
 
     if (text) {
       return (
@@ -227,7 +236,8 @@ export class Quote extends React.Component<Props, State> {
           )}
         >
           <MessageBody
-            isPublic={isPublic}
+            isGroup={conversationType === 'group'}
+            convoId={convoId}
             text={text}
             disableLinks={true}
             i18n={i18n}

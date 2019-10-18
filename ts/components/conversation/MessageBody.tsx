@@ -16,12 +16,13 @@ interface Props {
   disableJumbomoji?: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
   disableLinks?: boolean;
-  isPublic?: boolean;
+  isGroup?: boolean;
   i18n: LocalizerType;
+  convoId: string;
 }
-
-const renderMentions: RenderTextCallbackType = ({ text, key }) => (
-  <AddMentions key={key} text={text} />
+// eslint-disable-next-line
+const renderMentions: RenderTextCallbackType = ({ text, key, convoId }) => (
+  <AddMentions key={key} text={text} convoId={convoId} />
 );
 
 const renderDefault: RenderTextCallbackType = ({ text }) => text;
@@ -29,15 +30,17 @@ const renderDefault: RenderTextCallbackType = ({ text }) => text;
 const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,
   key,
-  isPublic,
+  isGroup,
+  convoId,
 }) => {
-  const renderOther = isPublic ? renderMentions : renderDefault;
+  const renderOther = isGroup ? renderMentions : renderDefault;
 
   return (
     <AddNewLines
       key={key}
       text={textWithNewLines}
       renderNonNewLine={renderOther}
+      convoId={convoId}
     />
   );
 };
@@ -48,14 +51,16 @@ const renderEmoji = ({
   key,
   sizeClass,
   renderNonEmoji,
-  isPublic,
+  isGroup,
+  convoId,
 }: {
   i18n: LocalizerType;
   text: string;
   key: number;
   sizeClass?: SizeClassType;
   renderNonEmoji: RenderTextCallbackType;
-  isPublic?: boolean;
+  isGroup?: boolean;
+  convoId?: string;
 }) => (
   <Emojify
     i18n={i18n}
@@ -63,7 +68,8 @@ const renderEmoji = ({
     text={text}
     sizeClass={sizeClass}
     renderNonEmoji={renderNonEmoji}
-    isPublic={isPublic}
+    isGroup={isGroup}
+    convoId={convoId}
   />
 );
 
@@ -75,7 +81,7 @@ const renderEmoji = ({
  */
 export class MessageBody extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    isPublic: false,
+    isGroup: false,
   };
 
   public addDownloading(jsx: JSX.Element): JSX.Element {
@@ -102,7 +108,8 @@ export class MessageBody extends React.Component<Props> {
       disableLinks,
       isRss,
       i18n,
-      isPublic,
+      isGroup,
+      convoId,
     } = this.props;
     const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
     const textWithPending = textPending ? `${text}...` : text;
@@ -115,7 +122,8 @@ export class MessageBody extends React.Component<Props> {
           sizeClass,
           key: 0,
           renderNonEmoji: renderNewLines,
-          isPublic,
+          isGroup,
+          convoId,
         })
       );
     }
@@ -131,7 +139,8 @@ export class MessageBody extends React.Component<Props> {
             sizeClass,
             key,
             renderNonEmoji: renderNewLines,
-            isPublic,
+            isGroup,
+            convoId,
           });
         }}
       />

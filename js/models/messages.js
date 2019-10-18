@@ -573,8 +573,12 @@
           ? expireTimerStart + expirationLength
           : null;
 
+      // TODO: investigate why conversation is undefined
+      // for the public group chat
       const conversation = this.getConversation();
-      const isGroup = conversation && !conversation.isPrivate();
+
+      const convoId = conversation ? conversation.id : undefined;
+      const isGroup = !!conversation && !conversation.isPrivate();
 
       const attachments = this.get('attachments') || [];
       const firstAttachment = attachments[0];
@@ -592,6 +596,7 @@
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
         conversationType: isGroup ? 'group' : 'direct',
+        convoId,
         attachments: attachments
           .filter(attachment => !attachment.error)
           .map(attachment => this.getPropsForAttachment(attachment)),

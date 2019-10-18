@@ -8,12 +8,14 @@ declare global {
     lokiPublicChatAPI: any;
     shortenPubkey: any;
     pubkeyPattern: any;
+    getConversations: any;
   }
 }
 
 interface MentionProps {
   key: number;
   text: string;
+  convoId: string;
 }
 
 interface MentionState {
@@ -78,13 +80,41 @@ class Mention extends React.Component<MentionProps, MentionState> {
   }
 
   private findMember(pubkey: String) {
-    const members = window.lokiPublicChatAPI.getListOfMembers();
-    if (!members) {
-      return null;
-    }
-    const filtered = members.filter((m: any) => !!m);
+    let groupMembers;
 
-    return filtered.find(
+    const groupConvos = window.getConversations().models.filter((d: any) => {
+      return !d.isPrivate();
+    });
+    const thisConvo = groupConvos.find((d: any) => {
+      return d.id === this.props.convoId;
+    });
+
+    if (thisConvo.isPublic()) {
+      // TODO: make this work for other public chats as well
+      groupMembers = window.lokiPublicChatAPI
+        .getListOfMembers()
+        .filter((m: any) => !!m);
+    } else {
+      const privateConvos = window
+        .getConversations()
+        .models.filter((d: any) => d.isPrivate());
+      const members = thisConvo.attributes.members;
+      if (!members) {
+        return null;
+      }
+      const memberConversations = members
+        .map((m: any) => privateConvos.find((c: any) => c.id === m))
+        .filter((c: any) => !!c);
+      groupMembers = memberConversations.map((m: any) => {
+        return {
+          id: m.id,
+          authorPhoneNumber: m.id,
+          authorProfileName: m.getLokiProfile().displayName,
+        };
+      });
+    }
+
+    return groupMembers.find(
       ({ authorPhoneNumber: pn }: any) => pn && pn === pubkey
     );
   }
@@ -93,6 +123,7 @@ class Mention extends React.Component<MentionProps, MentionState> {
 interface Props {
   text: string;
   renderOther?: RenderTextCallbackType;
+  convoId: string;
 }
 
 export class AddMentions extends React.Component<Props> {
@@ -101,7 +132,7 @@ export class AddMentions extends React.Component<Props> {
   };
 
   public render() {
-    const { text, renderOther } = this.props;
+    const { text, renderOther, convoId } = this.props;
     const results: Array<any> = [];
     const FIND_MENTIONS = window.pubkeyPattern;
 
@@ -126,7 +157,7 @@ export class AddMentions extends React.Component<Props> {
       }
 
       const pubkey = text.slice(match.index, FIND_MENTIONS.lastIndex);
-      results.push(<Mention text={pubkey} key={count++} />);
+      results.push(<Mention text={pubkey} key={count++} convoId={convoId} />);
 
       // @ts-ignore
       last = FIND_MENTIONS.lastIndex;

@@ -2389,7 +2389,7 @@
       // Note: schedule the member list handler shortly afterwards, so
       // that the input element has time to update its cursor position to
       // what the user would expect
-      if (this.model.isPublic()) {
+      if (this.model.get('type') === 'group') {
         window.requestAnimationFrame(this.maybeShowMembers.bind(this, event));
       }
 
@@ -2521,10 +2521,31 @@
         return query;
       };
 
-      let allMembers = window.lokiPublicChatAPI.getListOfMembers();
-      allMembers = allMembers.filter(d => !!d);
-      allMembers = allMembers.filter(d => d.authorProfileName !== 'Anonymous');
-      allMembers = _.uniq(allMembers, true, d => d.authorPhoneNumber);
+      let allMembers;
+
+      if (this.model.isPublic()) {
+        let members = window.lokiPublicChatAPI.getListOfMembers();
+        members = members.filter(d => !!d);
+        members = members.filter(d => d.authorProfileName !== 'Anonymous');
+        allMembers = _.uniq(members, true, d => d.authorPhoneNumber);
+      } else {
+        const members = this.model.get('members');
+        if (!members || members.length === 0) {
+          return;
+        }
+
+        const privateConvos = window
+          .getConversations()
+          .models.filter(d => d.isPrivate());
+        const memberConvos = members
+          .map(m => privateConvos.find(c => c.id === m))
+          .filter(c => !!c);
+        allMembers = memberConvos.map(m => ({
+          id: m.id,
+          authorPhoneNumber: m.id,
+          authorProfileName: m.getLokiProfile().displayName,
+        }));
+      }
 
       const cursorPos = event.target.selectionStart;
 
