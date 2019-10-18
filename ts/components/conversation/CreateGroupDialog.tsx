@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Contact, MemberList } from './MemberList';
 
 declare global {
@@ -20,6 +21,7 @@ interface Props {
 interface State {
   friendList: Array<Contact>;
   groupName: string;
+  errorDisplayed: boolean;
 }
 
 export class CreateGroupDialog extends React.Component<Props, State> {
@@ -53,6 +55,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     this.state = {
       friendList: friends,
       groupName: '',
+      errorDisplayed: false,
     };
 
     window.addEventListener('keyup', this.onKeyUp);
@@ -64,8 +67,8 @@ export class CreateGroupDialog extends React.Component<Props, State> {
       .map(d => d.id);
 
     if (!this.state.groupName.trim()) {
-      // TODO: show error message
-      // console.error('Group name cannot be empty!');
+      this.onShowError();
+
       return;
     }
 
@@ -79,9 +82,16 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     const okText = this.props.okText;
     const cancelText = this.props.cancelText;
 
+    const errorMsg = this.props.i18n('emptyGroupNameError');
+    const errorMessageClasses = classNames(
+      'error-message',
+      this.state.errorDisplayed ? 'error-shown' : 'error-faded'
+    );
+
     return (
       <div className="content">
         <p className="titleText">{titleText}</p>
+        <p className={errorMessageClasses}>{errorMsg}</p>
         <input
           type="text"
           id="group-name"
@@ -112,6 +122,22 @@ export class CreateGroupDialog extends React.Component<Props, State> {
         </div>
       </div>
     );
+  }
+
+  private onShowError() {
+    if (this.state.errorDisplayed) {
+      return;
+    }
+
+    this.setState({
+      errorDisplayed: true,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        errorDisplayed: false,
+      });
+    }, 3000);
   }
 
   private onGroupNameChanged(event: any) {

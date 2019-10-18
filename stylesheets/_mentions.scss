@@ -23,6 +23,22 @@
   .hidden {
     display: none;
   }
+
+  .error-message {
+    text-align: center;
+    color: red;
+    margin-bottom: 0.5em;
+  }
+
+  .error-faded {
+    opacity: 0;
+    transition: all 100ms linear;
+  }
+
+  .error-shown {
+    opacity: 1;
+    transition: all 250ms linear;
+  }
 }
 
 .friend-selection-list {

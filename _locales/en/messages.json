@@ -2094,5 +2094,9 @@
   "notFriends": {
     "message": "not friends",
     "description": "Indicates that a conversation is not friends with us"
+  },
+  "emptyGroupNameError": {
+    "message": "Group Name cannot be empty",
+    "description": "Error message displayed on empty group name"
   }
 }
