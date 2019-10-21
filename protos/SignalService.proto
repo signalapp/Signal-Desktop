@@ -320,6 +320,7 @@ message AttachmentPointer {
   optional uint32  width       = 9;
   optional uint32  height      = 10;
   optional string  caption     = 11;
+  optional string  url         = 101;
 }
 
 message GroupContext {

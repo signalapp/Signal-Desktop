@@ -1,5 +1,7 @@
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
+/* global log */
+
 const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
 
 // returns the LokiFileServerAPI constructor with the serverUrl already consumed
@@ -30,6 +32,30 @@ class LokiFileServerAPI {
       DEVICE_MAPPING_ANNOTATION_KEY,
       content
     );
+  }
+
+  async uploadData(data) {
+    const endpoint = 'files';
+    const options = {
+      method: 'POST',
+      rawBody: data,
+    };
+
+    const { statusCode, response } = await this._server.serverRequest(
+      endpoint,
+      options
+    );
+    if (statusCode !== 200) {
+      log.warn('Failed to upload data to fileserver');
+      return null;
+    }
+
+    const url = response.data && response.data.url;
+    const id = response.data && response.data.id;
+    return {
+      url,
+      id,
+    };
   }
 }
 

@@ -191,32 +191,35 @@ MessageSender.prototype = {
     return textsecure.crypto
       .encryptAttachment(attachment.data, proto.key, iv)
       .then(result =>
-        this.server.putAttachment(result.ciphertext).then(id => {
-          proto.id = id;
-          proto.contentType = attachment.contentType;
-          proto.digest = result.digest;
+        this.server
+          .putAttachment(result.ciphertext)
+          .then(async ({ url, id }) => {
+            proto.id = id;
+            proto.url = url;
+            proto.contentType = attachment.contentType;
+            proto.digest = result.digest;
 
-          if (attachment.size) {
-            proto.size = attachment.size;
-          }
-          if (attachment.fileName) {
-            proto.fileName = attachment.fileName;
-          }
-          if (attachment.flags) {
-            proto.flags = attachment.flags;
-          }
-          if (attachment.width) {
-            proto.width = attachment.width;
-          }
-          if (attachment.height) {
-            proto.height = attachment.height;
-          }
-          if (attachment.caption) {
-            proto.caption = attachment.caption;
-          }
+            if (attachment.size) {
+              proto.size = attachment.size;
+            }
+            if (attachment.fileName) {
+              proto.fileName = attachment.fileName;
+            }
+            if (attachment.flags) {
+              proto.flags = attachment.flags;
+            }
+            if (attachment.width) {
+              proto.width = attachment.width;
+            }
+            if (attachment.height) {
+              proto.height = attachment.height;
+            }
+            if (attachment.caption) {
+              proto.caption = attachment.caption;
+            }
 
-          return proto;
-        })
+            return proto;
+          })
       );
   },
 
@@ -308,14 +311,6 @@ MessageSender.prototype = {
   sendMessage(attrs, options) {
     const message = new Message(attrs);
     const silent = false;
-
-    // Remove this when we add support for attachments
-    message.attachments = [];
-    message.attachmentPointers = [];
-    message.preview = [];
-    if (message.quote) {
-      message.quote.attachments = [];
-    }
 
     return Promise.all([
       this.uploadAttachments(message),
