@@ -864,7 +864,7 @@ function initialize({
         filename: 'attachment',
       });
 
-      return lokiFileServerAPI.uploadData(formData);
+      return lokiFileServerAPI.uploadPrivateAttachment(formData);
     }
 
     // eslint-disable-next-line no-shadow

@@ -1,8 +1,9 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _, dcodeIO */
+clearTimeout, MessageController, libsignal, StringView, window, _, dcodeIO, Buffer */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
+const FormData = require('form-data');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -343,6 +344,43 @@ class LokiAppDotNetServerAPI {
     }
 
     return false;
+  }
+
+  async uploadData(data) {
+    const endpoint = 'files';
+    const options = {
+      method: 'POST',
+      rawBody: data,
+    };
+
+    const { statusCode, response } = await this.serverRequest(
+      endpoint,
+      options
+    );
+    if (statusCode !== 200) {
+      log.warn('Failed to upload data to fileserver');
+      return null;
+    }
+
+    const url = response.data && response.data.url;
+    const id = response.data && response.data.id;
+    return {
+      url,
+      id,
+    };
+  }
+
+  putAttachment(attachmentBin) {
+    const formData = new FormData();
+    const buffer = Buffer.from(attachmentBin);
+    formData.append('type', 'network.loki');
+    formData.append('content', buffer, {
+      contentType: 'application/octet-stream',
+      name: 'content',
+      filename: 'attachment',
+    });
+
+    return this.uploadData(formData);
   }
 }
 

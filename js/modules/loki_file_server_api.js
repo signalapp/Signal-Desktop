@@ -38,28 +38,8 @@ class LokiFileServerAPI {
     );
   }
 
-  async uploadData(data) {
-    const endpoint = 'files';
-    const options = {
-      method: 'POST',
-      rawBody: data,
-    };
-
-    const { statusCode, response } = await this._server.serverRequest(
-      endpoint,
-      options
-    );
-    if (statusCode !== 200) {
-      log.warn('Failed to upload data to fileserver');
-      return null;
-    }
-
-    const url = response.data && response.data.url;
-    const id = response.data && response.data.id;
-    return {
-      url,
-      id,
-    };
+  uploadPrivateAttachment(data) {
+    return this._server.uploadData(data);
   }
 }
 
