@@ -858,7 +858,8 @@ class LokiPublicChannelAPI {
           receivedAt,
           isPublic: true,
           message: {
-            body: adnMessage.text,
+            // == to compare string and number
+            body: adnMessage.text == timestamp ? '' : adnMessage.text,
             attachments,
             group: {
               id: this.conversationId,
@@ -962,7 +963,7 @@ class LokiPublicChannelAPI {
   // create a message in the channel
   async sendMessage(data, messageTimeStamp) {
     const { quote, attachments, preview } = data;
-    const text = data.body;
+    const text = data.body || messageTimeStamp.toString();
     const attachmentAnnotations = attachments.map(
       LokiPublicChannelAPI.getAnnotationFromAttachment
     );
