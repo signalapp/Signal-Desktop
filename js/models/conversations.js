@@ -671,6 +671,11 @@
         this.trigger('disable:input', true);
         return;
       }
+      if (!this.isPrivate() && this.get('left')) {
+        this.trigger('disable:input', true);
+        this.trigger('change:placeholder', 'left-group');
+        return;
+      }
       switch (this.get('friendRequestStatus')) {
         case FriendRequestStatusEnum.none:
         case FriendRequestStatusEnum.requestExpired:
@@ -1962,6 +1967,8 @@
             textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
           )
         );
+
+        this.updateTextInputState();
       }
     },
 

@@ -763,6 +763,12 @@
       }
     });
 
+    Whisper.events.on('leaveGroup', async groupConvo => {
+      if (appView) {
+        appView.showLeaveGroupDialog(groupConvo);
+      }
+    });
+
     Whisper.events.on('deleteConversation', async conversation => {
       await conversation.destroyMessages();
       await window.Signal.Data.removeConversation(conversation.id, {

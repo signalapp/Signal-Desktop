@@ -272,6 +272,10 @@
           onUpdateGroup: () => {
             window.Whisper.events.trigger('updateGroup', this.model);
           },
+
+          onLeaveGroup: () => {
+            window.Whisper.events.trigger('leaveGroup', this.model);
+          },
         };
       };
       this.titleView = new Whisper.ReactWrapperView({
@@ -439,6 +443,9 @@
           break;
         case 'disabled':
           placeholder = i18n('sendMessageDisabled');
+          break;
+        case 'left-group':
+          placeholder = i18n('sendMessageLeftGroup');
           break;
         default:
           placeholder = i18n('sendMessage');

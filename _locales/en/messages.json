@@ -928,6 +928,9 @@
   "ok": {
     "message": "OK"
   },
+  "yes": {
+    "message": "Yes"
+  },
   "cancel": {
     "message": "Cancel"
   },
@@ -993,6 +996,9 @@
     "message": "Hi there! This is <insert name here> !",
     "description":
       "Placeholder text in the message entry field when it is the first message sent to that contact"
+  },
+  "sendMessageLeftGroup": {
+    "message": "You left this group"
   },
   "groupMembers": {
     "message": "Group members"
@@ -1915,6 +1921,17 @@
     "message": "Update Group",
     "description":
       "Button action that the user can click to rename the group or add a new member"
+  },
+
+  "leaveGroup": {
+    "message": "Leave Group",
+    "description": "Button action that the user can click to leave the group"
+  },
+
+  "leaveGroupDialogTitle": {
+    "message": "Are you sure you want to leave this group?",
+    "description":
+      "Title shown to the user to confirm they want to leave the group"
   },
 
   "copiedPublicKey": {

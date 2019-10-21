@@ -1816,6 +1816,8 @@
                 groupUpdate.joined = difference;
               }
               if (conversation.get('left')) {
+                // TODO: Maybe we shouldn't assume this message adds us:
+                // we could maybe still get this message by mistake
                 window.log.warn('re-added to a left group');
                 attributes.left = false;
               }
@@ -1884,6 +1886,9 @@
           }
           attributes.active_at = now;
           conversation.set(attributes);
+
+          // Re-enable typing if re-joined the group
+          conversation.updateTextInputState();
 
           if (message.isExpirationTimerUpdate()) {
             message.set({

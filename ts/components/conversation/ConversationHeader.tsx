@@ -63,6 +63,7 @@ interface Props {
   onCopyPublicKey: () => void;
 
   onUpdateGroup: () => void;
+  onLeaveGroup: () => void;
 
   i18n: LocalizerType;
 }
@@ -225,6 +226,7 @@ export class ConversationHeader extends React.Component<Props> {
       onDeleteContact,
       onCopyPublicKey,
       onUpdateGroup,
+      onLeaveGroup,
     } = this.props;
 
     return (
@@ -233,6 +235,7 @@ export class ConversationHeader extends React.Component<Props> {
         <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
+        <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
         {!isMe && isClosable ? (
           !isPublic ? (
             <MenuItem onClick={onDeleteContact}>
