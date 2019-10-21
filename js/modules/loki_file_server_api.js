@@ -2,8 +2,6 @@
 
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
-/* global log */
-
 const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
 
 class LokiFileServerAPI {

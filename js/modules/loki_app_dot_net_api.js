@@ -648,7 +648,13 @@ class LokiPublicChannelAPI {
     }
   }
 
-  static getSigData(sigVer, noteValue, adnMessage) {
+  static getSigData(
+    sigVer,
+    noteValue,
+    attachmentAnnotations,
+    previewAnnotations,
+    adnMessage
+  ) {
     let sigString = '';
     sigString += adnMessage.text.trim();
     sigString += noteValue.timestamp;
@@ -660,6 +666,12 @@ class LokiPublicChannelAPI {
         sigString += adnMessage.reply_to;
       }
     }
+    attachmentAnnotations
+      .concat(previewAnnotations)
+      .map(data => data.id || data.image.id)
+      .sort()
+    // eslint-disable-next-line no-return-assign
+      .forEach(id => sigString += id);
     sigString += sigVer;
     return dcodeIO.ByteBuffer.wrap(sigString, 'utf8').toArrayBuffer();
   }
@@ -682,17 +694,26 @@ class LokiPublicChannelAPI {
     const { timestamp, quote } = noteValue;
 
     if (quote) {
+      // TODO: Enable quote attachments again using proper ADN style
       quote.attachments = [];
     }
 
     // try to verify signature
     const { sig, sigver } = noteValue;
     const annoCopy = [...adnMessage.annotations];
+    const attachments = annoCopy
+      .filter(anno => anno.value.lokiType === LOKI_ATTACHMENT_TYPE)
+      .map(attachment => ({ isRaw: true, ...attachment.value }));
+    const preview = annoCopy
+      .filter(anno => anno.value.lokiType === LOKI_PREVIEW_TYPE)
+      .map(LokiPublicChannelAPI.getPreviewFromAnnotation);
     // strip out sig and sigver
     annoCopy[0] = _.omit(annoCopy[0], ['value.sig', 'value.sigver']);
     const sigData = LokiPublicChannelAPI.getSigData(
       sigver,
       noteValue,
+      attachments,
+      preview,
       adnMessage
     );
 
@@ -730,6 +751,8 @@ class LokiPublicChannelAPI {
 
     return {
       timestamp,
+      attachments,
+      preview,
       quote,
     };
   }
@@ -789,7 +812,7 @@ class LokiPublicChannelAPI {
           return;
         }
 
-        const { timestamp, quote } = messengerData;
+        const { timestamp, quote, attachments, preview } = messengerData;
         if (!timestamp) {
           return; // Invalid message
         }
@@ -836,7 +859,7 @@ class LokiPublicChannelAPI {
           isPublic: true,
           message: {
             body: adnMessage.text,
-            attachments: [],
+            attachments,
             group: {
               id: this.conversationId,
               type: textsecure.protobuf.GroupContext.Type.DELIVER,
@@ -849,7 +872,7 @@ class LokiPublicChannelAPI {
             sent_at: timestamp,
             quote,
             contact: [],
-            preview: [],
+            preview,
             profile: {
               displayName: from,
             },
@@ -956,6 +979,8 @@ class LokiPublicChannelAPI {
             timestamp: messageTimeStamp,
           },
         },
+        ...attachmentAnnotations,
+        ...previewAnnotations,
       ],
     };
     if (quote && quote.id) {
@@ -988,6 +1013,8 @@ class LokiPublicChannelAPI {
     const sigData = LokiPublicChannelAPI.getSigData(
       sigVer,
       payload.annotations[0].value,
+      attachmentAnnotations.map(anno => anno.value),
+      previewAnnotations.map(anno => anno.value),
       mockAdnMessage
     );
     const sig = await libsignal.Curve.async.calculateSignature(

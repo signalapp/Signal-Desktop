@@ -168,7 +168,7 @@ MessageSender.prototype = {
   constructor: MessageSender,
 
   //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  makeAttachmentPointer(attachment) {
+  async makeAttachmentPointer(attachment, publicServer = null) {
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }
@@ -185,42 +185,49 @@ MessageSender.prototype = {
     }
 
     const proto = new textsecure.protobuf.AttachmentPointer();
-    proto.key = libsignal.crypto.getRandomBytes(64);
-
-    const iv = libsignal.crypto.getRandomBytes(16);
-    return textsecure.crypto
-      .encryptAttachment(attachment.data, proto.key, iv)
-      .then(result =>
-        this.server
-          .putAttachment(result.ciphertext)
-          .then(async ({ url, id }) => {
-            proto.id = id;
-            proto.url = url;
-            proto.contentType = attachment.contentType;
-            proto.digest = result.digest;
-
-            if (attachment.size) {
-              proto.size = attachment.size;
-            }
-            if (attachment.fileName) {
-              proto.fileName = attachment.fileName;
-            }
-            if (attachment.flags) {
-              proto.flags = attachment.flags;
-            }
-            if (attachment.width) {
-              proto.width = attachment.width;
-            }
-            if (attachment.height) {
-              proto.height = attachment.height;
-            }
-            if (attachment.caption) {
-              proto.caption = attachment.caption;
-            }
-
-            return proto;
-          })
+    let attachmentData;
+    let server;
+    if (publicServer) {
+      attachmentData = attachment.data;
+      server = publicServer;
+    } else {
+      proto.key = libsignal.crypto.getRandomBytes(64);
+      const iv = libsignal.crypto.getRandomBytes(16);
+      const result = await textsecure.crypto.encryptAttachment(
+        attachment.data,
+        proto.key,
+        iv
       );
+      proto.digest = result.digest;
+      attachmentData = result.ciphertext;
+      ({ server } = this);
+    }
+
+    const { url, id } = await server.putAttachment(attachmentData);
+    proto.id = id;
+    proto.url = url;
+    proto.contentType = attachment.contentType;
+
+    if (attachment.size) {
+      proto.size = attachment.size;
+    }
+    if (attachment.fileName) {
+      proto.fileName = attachment.fileName;
+    }
+    if (attachment.flags) {
+      proto.flags = attachment.flags;
+    }
+    if (attachment.width) {
+      proto.width = attachment.width;
+    }
+    if (attachment.height) {
+      proto.height = attachment.height;
+    }
+    if (attachment.caption) {
+      proto.caption = attachment.caption;
+    }
+
+    return proto;
   },
 
   queueJobForNumber(number, runJob) {
@@ -243,9 +250,11 @@ MessageSender.prototype = {
     });
   },
 
-  uploadAttachments(message) {
+  uploadAttachments(message, publicServer) {
     return Promise.all(
-      message.attachments.map(this.makeAttachmentPointer.bind(this))
+      message.attachments.map(attachment =>
+        this.makeAttachmentPointer(attachment, publicServer)
+      )
     )
       .then(attachmentPointers => {
         // eslint-disable-next-line no-param-reassign
@@ -260,12 +269,12 @@ MessageSender.prototype = {
       });
   },
 
-  async uploadLinkPreviews(message) {
+  async uploadLinkPreviews(message, publicServer) {
     try {
       const preview = await Promise.all(
         (message.preview || []).map(async item => ({
           ...item,
-          image: await this.makeAttachmentPointer(item.image),
+          image: await this.makeAttachmentPointer(item.image, publicServer),
         }))
       );
       // eslint-disable-next-line no-param-reassign
@@ -279,7 +288,7 @@ MessageSender.prototype = {
     }
   },
 
-  uploadThumbnails(message) {
+  uploadThumbnails(message, publicServer) {
     const makePointer = this.makeAttachmentPointer.bind(this);
     const { quote } = message;
 
@@ -294,7 +303,7 @@ MessageSender.prototype = {
           return null;
         }
 
-        return makePointer(thumbnail).then(pointer => {
+        return makePointer(thumbnail, publicServer).then(pointer => {
           // eslint-disable-next-line no-param-reassign
           attachment.attachmentPointer = pointer;
         });
@@ -311,11 +320,13 @@ MessageSender.prototype = {
   sendMessage(attrs, options) {
     const message = new Message(attrs);
     const silent = false;
+    const publicServer =
+      options.publicSendData && options.publicSendData.serverAPI;
 
     return Promise.all([
-      this.uploadAttachments(message),
-      this.uploadThumbnails(message),
-      this.uploadLinkPreviews(message),
+      this.uploadAttachments(message, publicServer),
+      this.uploadThumbnails(message, publicServer),
+      this.uploadLinkPreviews(message, publicServer),
     ]).then(
       () =>
         new Promise((resolve, reject) => {
