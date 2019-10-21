@@ -12,6 +12,10 @@ const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
+const ATTACHMENT_TYPE = 'net.app.core.oembed';
+const LOKI_ATTACHMENT_TYPE = 'attachment';
+const LOKI_PREVIEW_TYPE = 'preview';
+
 class LokiAppDotNetAPI extends EventEmitter {
   constructor(ourKey) {
     super();
@@ -864,8 +868,85 @@ class LokiPublicChannelAPI {
     }
   }
 
+  static getPreviewFromAnnotation(annotation) {
+    const preview = {
+      title: annotation.value.linkPreviewTitle,
+      url: annotation.value.linkPreviewUrl,
+      image: {
+        isRaw: true,
+        caption: annotation.value.caption,
+        contentType: annotation.value.contentType,
+        digest: annotation.value.digest,
+        fileName: annotation.value.fileName || '',
+        flags: annotation.value.flags || '0',
+        height: annotation.value.height,
+        id: annotation.value.id,
+        key: annotation.value.key,
+        size: annotation.value.size,
+        thumbnail: annotation.value.thumbnail,
+        url: annotation.value.url,
+        width: annotation.value.width,
+      },
+    };
+    return preview;
+  }
+
+  static getAnnotationFromPreview(preview) {
+    const annotation = {
+      type: ATTACHMENT_TYPE,
+      value: {
+        // Mandatory ADN fields
+        version: '1.0',
+        lokiType: LOKI_PREVIEW_TYPE,
+
+        // Signal stuff we actually care about
+        linkPreviewTitle: preview.title,
+        linkPreviewUrl: preview.url,
+        caption: preview.image.caption,
+        contentType: preview.image.contentType,
+        digest: preview.image.digest,
+        fileName: preview.image.fileName || '',
+        flags: preview.image.flags || '0',
+        height: preview.image.height,
+        id: preview.image.id,
+        key: preview.image.key,
+        size: preview.image.size,
+        thumbnail: preview.image.thumbnail,
+        url: preview.image.url,
+        width: preview.image.width,
+      },
+    };
+    return annotation;
+  }
+
+  static getAnnotationFromAttachment(attachment) {
+    const type = attachment.contentType.match(/^image/) ? 'photo' : 'video';
+    const annotation = {
+      type: ATTACHMENT_TYPE,
+      value: {
+        // Mandatory ADN fields
+        version: '1.0',
+        type,
+        lokiType: LOKI_ATTACHMENT_TYPE,
+
+        // Signal stuff we actually care about
+        ...attachment,
+      },
+    };
+    return annotation;
+  }
+
   // create a message in the channel
-  async sendMessage(text, quote, messageTimeStamp) {
+  async sendMessage(data, messageTimeStamp) {
+    const { quote, attachments, preview } = data;
+    const text = data.body;
+    const attachmentAnnotations = attachments.map(
+      LokiPublicChannelAPI.getAnnotationFromAttachment
+    );
+    const previewAnnotations = preview.map(
+      LokiPublicChannelAPI.getAnnotationFromPreview
+    );
+
     const payload = {
       text,
       annotations: [
