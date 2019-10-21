@@ -222,6 +222,7 @@ export class ConversationHeader extends React.Component<Props> {
       isMe,
       isClosable,
       isPublic,
+      isGroup,
       onDeleteMessages,
       onDeleteContact,
       onCopyPublicKey,
@@ -229,14 +230,23 @@ export class ConversationHeader extends React.Component<Props> {
       onLeaveGroup,
     } = this.props;
 
+    const isPrivateGroup = isGroup && !isPublic;
+
+    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
+
     return (
       <ContextMenu id={triggerId}>
         {this.renderPublicMenuItems()}
-        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
-        <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
-        {!isMe && isClosable ? (
+        {isPrivateGroup ? (
+          <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
+        ) : null}
+        {isPrivateGroup ? (
+          <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
+        ) : null}
+        {/* TODO: add delete group */}
+        {!isMe && isClosable && !isPrivateGroup ? (
           !isPublic ? (
             <MenuItem onClick={onDeleteContact}>
               {i18n('deleteContact')}
@@ -329,13 +339,14 @@ export class ConversationHeader extends React.Component<Props> {
     const resetSessionMenuItem = !isGroup && (
       <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
     );
-    const blockHandlerMenuItem = !isMe && (
-      <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
-    );
-    const changeNicknameMenuItem = !isMe && (
-      <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
-    );
+    const blockHandlerMenuItem = !isMe &&
+      !isGroup && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
+    const changeNicknameMenuItem = !isMe &&
+      !isGroup && (
+        <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+      );
     const clearNicknameMenuItem = !isMe &&
+      !isGroup &&
       hasNickname && (
         <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
       );

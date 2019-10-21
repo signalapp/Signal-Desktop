@@ -1917,6 +1917,10 @@
       "Button action that the user can click to copy their public keys"
   },
 
+  "copyChatId": {
+    "message": "Copy Chat ID"
+  },
+
   "updateGroup": {
     "message": "Update Group",
     "description":
