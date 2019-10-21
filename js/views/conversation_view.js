@@ -2421,6 +2421,7 @@
       }
 
       try {
+        message = message.trim();
         if (!message.length && !this.hasFiles() && !this.voiceNoteAttachment) {
           return;
         }
