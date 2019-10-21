@@ -827,7 +827,7 @@
 }
 
 .module-message__author {
-  @include font-caption-bold;
+  @include font-body-2-bold;
 
   height: 18px;
   overflow-x: hidden;
@@ -850,7 +850,7 @@
 }
 
 .module-message__author--with-tap-to-view-expired {
-  @include font-caption-bold;
+  @include font-body-2-bold;
 
   height: 18px;
   overflow-x: hidden;
@@ -871,7 +871,7 @@
 }
 
 .module-message__author_with_sticker {
-  @include font-caption-bold;
+  @include font-body-2-bold;
 
   height: 18px;
   overflow-x: hidden;
@@ -1415,7 +1415,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-quote__primary__author {
-  @include font-caption-bold;
+  @include font-body-2-bold;
 
   overflow-x: hidden;
   white-space: nowrap;
@@ -1439,11 +1439,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-quote__primary__profile-name {
-  @include font-caption-bold-italic;
+  @include font-body-2-bold-italic;
 }
 
 .module-quote__primary__text {
-  @include font-body-2;
+  @include font-body-1;
 
   text-align: start;
 
