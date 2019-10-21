@@ -2,12 +2,20 @@ import React from 'react';
 import classNames from 'classnames';
 import { Contact, MemberList } from './MemberList';
 
+declare global {
+  interface Window {
+    SMALL_GROUP_SIZE_LIMIT: number;
+  }
+}
+
 interface Props {
   titleText: string;
   groupName: string;
   okText: string;
   cancelText: string;
+  // friends not in the group
   friendList: Array<any>;
+  existingMembers: Array<any>;
   i18n: any;
   onSubmit: any;
   onClose: any;
@@ -17,6 +25,7 @@ interface State {
   friendList: Array<Contact>;
   groupName: string;
   errorDisplayed: boolean;
+  errorMessage: string;
 }
 
 export class UpdateGroupDialog extends React.Component<Props, State> {
@@ -49,6 +58,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
       friendList: friends,
       groupName: this.props.groupName,
       errorDisplayed: false,
+      errorMessage: 'placeholder',
     };
 
     window.addEventListener('keyup', this.onKeyUp);
@@ -60,7 +70,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
       .map(d => d.id);
 
     if (!this.state.groupName.trim()) {
-      this.onShowError();
+      this.onShowError(this.props.i18n('emptyGroupNameError'));
 
       return;
     }
@@ -71,7 +81,10 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const titleText = this.props.titleText;
+    const checkMarkedCount = this.getMemberCount();
+
+    const titleText = `${this.props.titleText} (Members: ${checkMarkedCount})`;
+
     const okText = this.props.okText;
     const cancelText = this.props.cancelText;
 
@@ -80,7 +93,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
         ? 'no-friends'
         : classNames('no-friends', 'hidden');
 
-    const errorMsg = this.props.i18n('emptyGroupNameError');
+    const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
       'error-message',
       this.state.errorDisplayed ? 'error-shown' : 'error-faded'
@@ -123,13 +136,14 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
     );
   }
 
-  private onShowError() {
+  private onShowError(msg: string) {
     if (this.state.errorDisplayed) {
       return;
     }
 
     this.setState({
       errorDisplayed: true,
+      errorMessage: msg,
     });
 
     setTimeout(() => {
@@ -152,6 +166,13 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
     }
   }
 
+  private getMemberCount() {
+    return (
+      this.props.existingMembers.length +
+      this.state.friendList.filter(d => d.checkmarked).length
+    );
+  }
+
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
 
@@ -159,15 +180,28 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
   }
 
   private onMemberClicked(selected: any) {
-    this.setState(state => {
-      const updatedFriends = this.state.friendList.map(member => {
-        if (member.id === selected.id) {
-          return { ...member, checkmarked: !member.checkmarked };
-        } else {
-          return member;
-        }
-      });
+    const updatedFriends = this.state.friendList.map(member => {
+      if (member.id === selected.id) {
+        return { ...member, checkmarked: !member.checkmarked };
+      } else {
+        return member;
+      }
+    });
 
+    const newMemberCount =
+      this.props.existingMembers.length +
+      updatedFriends.filter(d => d.checkmarked).length;
+
+    if (newMemberCount > window.SMALL_GROUP_SIZE_LIMIT - 1) {
+      const msg = `${this.props.i18n('maxGroupMembersError')} ${
+        window.SMALL_GROUP_SIZE_LIMIT
+      }`;
+      this.onShowError(msg);
+
+      return;
+    }
+
+    this.setState(state => {
       return {
         ...state,
         friendList: updatedFriends,

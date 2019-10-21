@@ -1989,6 +1989,12 @@
       "Title for the dialog box used to connect to a new public server"
   },
 
+  "createPrivateGroup": {
+    "message": "Create Private Group",
+    "description":
+      "Button action that the user can click to show a dialog for creating a new private group chat"
+  },
+
   "seedViewTitle": {
     "message":
       "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
@@ -2119,5 +2125,8 @@
   "emptyGroupNameError": {
     "message": "Group Name cannot be empty",
     "description": "Error message displayed on empty group name"
+  },
+  "maxGroupMembersError": {
+    "message": "Max number of members for small group chats is: "
   }
 }

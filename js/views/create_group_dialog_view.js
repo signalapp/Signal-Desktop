@@ -112,6 +112,8 @@
         d => !_.some(existingMembers, x => x === d.id)
       );
 
+      this.existingMembers = existingMembers;
+
       this.$el.focus();
       this.render();
     },
@@ -124,6 +126,7 @@
           groupName: this.groupName,
           okText: this.okText,
           cancelText: this.cancelText,
+          existingMembers: this.existingMembers,
           friendList: this.membersToShow,
           onClose: this.close,
           onSubmit: this.onSubmit,

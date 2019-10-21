@@ -341,6 +341,13 @@ export class MainHeader extends React.Component<Props, any> {
           trigger('showAddServerDialog');
         },
       },
+      {
+        id: 'createPrivateGroup',
+        name: i18n('createPrivateGroup'),
+        onClick: () => {
+          trigger('createNewGroup');
+        },
+      },
     ];
 
     const passItem = (type: string) => ({

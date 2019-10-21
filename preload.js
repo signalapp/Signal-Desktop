@@ -459,3 +459,6 @@ if (config.environment === 'test') {
 window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
+
+// Limited due to the proof-of-work requirement
+window.SMALL_GROUP_SIZE_LIMIT = 10;

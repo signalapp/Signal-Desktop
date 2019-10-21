@@ -6,6 +6,7 @@ declare global {
   interface Window {
     Lodash: any;
     doCreateGroup: any;
+    SMALL_GROUP_SIZE_LIMIT: number;
   }
 }
 
@@ -22,6 +23,7 @@ interface State {
   friendList: Array<Contact>;
   groupName: string;
   errorDisplayed: boolean;
+  errorMessage: string;
 }
 
 export class CreateGroupDialog extends React.Component<Props, State> {
@@ -56,6 +58,8 @@ export class CreateGroupDialog extends React.Component<Props, State> {
       friendList: friends,
       groupName: '',
       errorDisplayed: false,
+      // if empty, the initial height is 0, which is not desirable
+      errorMessage: 'placeholder',
     };
 
     window.addEventListener('keyup', this.onKeyUp);
@@ -67,7 +71,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
       .map(d => d.id);
 
     if (!this.state.groupName.trim()) {
-      this.onShowError();
+      this.onShowError(this.props.i18n('emptyGroupNameError'));
 
       return;
     }
@@ -78,11 +82,12 @@ export class CreateGroupDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const titleText = this.props.titleText;
+    const checkMarkedCount = this.getMemberCount();
+
+    const titleText = `${this.props.titleText} (Members: ${checkMarkedCount})`;
     const okText = this.props.okText;
     const cancelText = this.props.cancelText;
 
-    const errorMsg = this.props.i18n('emptyGroupNameError');
     const errorMessageClasses = classNames(
       'error-message',
       this.state.errorDisplayed ? 'error-shown' : 'error-faded'
@@ -91,7 +96,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     return (
       <div className="content">
         <p className="titleText">{titleText}</p>
-        <p className={errorMessageClasses}>{errorMsg}</p>
+        <p className={errorMessageClasses}>{this.state.errorMessage}</p>
         <input
           type="text"
           id="group-name"
@@ -124,13 +129,14 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     );
   }
 
-  private onShowError() {
+  private onShowError(msg: string) {
     if (this.state.errorDisplayed) {
       return;
     }
 
     this.setState({
       errorDisplayed: true,
+      errorMessage: msg,
     });
 
     setTimeout(() => {
@@ -164,6 +170,11 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     }
   }
 
+  private getMemberCount() {
+    // Add 1 to include yourself
+    return this.state.friendList.filter(d => d.checkmarked).length + 1;
+  }
+
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
 
@@ -171,15 +182,27 @@ export class CreateGroupDialog extends React.Component<Props, State> {
   }
 
   private onMemberClicked(selected: any) {
-    this.setState(state => {
-      const updatedFriends = this.state.friendList.map(member => {
-        if (member.id === selected.id) {
-          return { ...member, checkmarked: !member.checkmarked };
-        } else {
-          return member;
-        }
-      });
+    const updatedFriends = this.state.friendList.map(member => {
+      if (member.id === selected.id) {
+        return { ...member, checkmarked: !member.checkmarked };
+      } else {
+        return member;
+      }
+    });
 
+    if (
+      updatedFriends.filter(d => d.checkmarked).length >
+      window.SMALL_GROUP_SIZE_LIMIT - 1
+    ) {
+      const msg = `${this.props.i18n('maxGroupMembersError')} ${
+        window.SMALL_GROUP_SIZE_LIMIT
+      }`;
+      this.onShowError(msg);
+
+      return;
+    }
+
+    this.setState(state => {
       return {
         ...state,
         friendList: updatedFriends,

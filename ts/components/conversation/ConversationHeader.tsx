@@ -31,6 +31,8 @@ interface Props {
   isArchived: boolean;
   isPublic: boolean;
 
+  members: Array<any>;
+
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
@@ -262,8 +264,10 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public render() {
-    const { id } = this.props;
+    const { id, isGroup, isPublic } = this.props;
     const triggerId = `conversation-${id}`;
+
+    const isPrivateGroup = isGroup && !isPublic;
 
     return (
       <div className="module-conversation-header">
@@ -272,12 +276,27 @@ export class ConversationHeader extends React.Component<Props> {
           <div className="module-conversation-header__title-flex">
             {this.renderAvatar()}
             {this.renderTitle()}
+            {isPrivateGroup ? this.renderMemberCount() : null}
           </div>
         </div>
         {this.renderExpirationLength()}
         {this.renderGear(triggerId)}
         {this.renderMenu(triggerId)}
       </div>
+    );
+  }
+
+  private renderMemberCount() {
+    const memberCount = this.props.members.length;
+
+    if (memberCount === 0) {
+      return null;
+    }
+
+    const wordForm = memberCount === 1 ? 'member' : 'members';
+
+    return (
+      <span className="member-preview">{`(${memberCount} ${wordForm})`}</span>
     );
   }
 
