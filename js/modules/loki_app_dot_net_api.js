@@ -666,12 +666,10 @@ class LokiPublicChannelAPI {
         sigString += adnMessage.reply_to;
       }
     }
-    attachmentAnnotations
-      .concat(previewAnnotations)
+    sigString += [...attachmentAnnotations, ...previewAnnotations]
       .map(data => data.id || data.image.id)
       .sort()
-    // eslint-disable-next-line no-return-assign
-      .forEach(id => sigString += id);
+      .join();
     sigString += sigVer;
     return dcodeIO.ByteBuffer.wrap(sigString, 'utf8').toArrayBuffer();
   }
@@ -858,8 +856,8 @@ class LokiPublicChannelAPI {
           receivedAt,
           isPublic: true,
           message: {
-            // == to compare string and number
-            body: adnMessage.text == timestamp ? '' : adnMessage.text,
+            body:
+              adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
             attachments,
             group: {
               id: this.conversationId,
@@ -901,8 +899,8 @@ class LokiPublicChannelAPI {
         caption: annotation.value.caption,
         contentType: annotation.value.contentType,
         digest: annotation.value.digest,
-        fileName: annotation.value.fileName || '',
-        flags: annotation.value.flags || '0',
+        fileName: annotation.value.fileName,
+        flags: annotation.value.flags,
         height: annotation.value.height,
         id: annotation.value.id,
         key: annotation.value.key,
@@ -929,8 +927,8 @@ class LokiPublicChannelAPI {
         caption: preview.image.caption,
         contentType: preview.image.contentType,
         digest: preview.image.digest,
-        fileName: preview.image.fileName || '',
-        flags: preview.image.flags || '0',
+        fileName: preview.image.fileName,
+        flags: preview.image.flags,
         height: preview.image.height,
         id: preview.image.id,
         key: preview.image.key,
