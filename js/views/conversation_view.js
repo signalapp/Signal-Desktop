@@ -2421,8 +2421,8 @@
       }
 
       try {
-        message = message.trim();
-        if (!message.length && !this.hasFiles() && !this.voiceNoteAttachment) {
+        const trimmed = message.trim();
+        if (!trimmed.length && !this.hasFiles() && !this.voiceNoteAttachment) {
           return;
         }
 
@@ -2431,7 +2431,7 @@
         window.log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
         this.model.sendMessage(
-          message,
+          trimmed,
           attachments,
           this.quote,
           this.getLinkPreview()
