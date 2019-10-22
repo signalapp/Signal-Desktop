@@ -233,6 +233,9 @@
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
     // singleton to interface the File server
     window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
+    await window.lokiFileServerAPI.establishConnection(
+      window.getDefaultFileServer()
+    );
     // are there limits on tracking, is this unneeded?
     // window.mixpanel.track("Desktop boot");
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
@@ -746,6 +749,12 @@
       if (appView && manager) {
         const seed = manager.getCurrentMnemonic();
         appView.showSeedDialog(seed);
+      }
+    });
+
+    Whisper.events.on('showAddServerDialog', async options => {
+      if (appView) {
+        appView.showAddServerDialog(options);
       }
     });
 

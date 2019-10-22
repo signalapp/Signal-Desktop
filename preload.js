@@ -41,6 +41,7 @@ window.isBehindProxy = () => Boolean(config.proxyUrl);
 window.JobQueue = JobQueue;
 window.getStoragePubKey = key =>
   window.isDev() ? key.substring(0, key.length - 2) : key;
+window.getDefaultFileServer = () => config.defaultFileServer;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -328,10 +329,7 @@ window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
-const LokiFileServerAPIWrapper = require('./js/modules/loki_file_server_api');
-
-// bind first argument as we have it here already
-window.LokiFileServerAPI = LokiFileServerAPIWrapper(config.defaultFileServer);
+window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
 window.LokiRssAPI = require('./js/modules/loki_rss_api');
 

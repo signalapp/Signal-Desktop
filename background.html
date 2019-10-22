@@ -282,6 +282,29 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='connecting-to-server-template'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <div class='buttons'>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+      </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='add-server-template'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <input type='text' id='server-url' placeholder='Server Url' autofocus>
+      <div class='error'></div>
+      <div class='buttons'>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='qr-code-template'>
     <div class="content">
       <div id="qr">
@@ -692,6 +715,8 @@
   <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/qr_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/connecting_to_server_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/add_server_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/beta_release_disclaimer_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
