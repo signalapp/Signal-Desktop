@@ -1438,21 +1438,23 @@ MessageReceiver.prototype.extend({
   },
   async downloadAttachment(attachment) {
     // The attachment id is actually just the absolute url of the attachment
-    const encrypted = await this.server.getAttachment(attachment.url);
-    const { key, digest, size } = attachment;
+    let data = await this.server.getAttachment(attachment.url);
+    if (!attachment.isRaw) {
+      const { key, digest, size } = attachment;
 
-    const data = await textsecure.crypto.decryptAttachment(
-      encrypted,
-      window.Signal.Crypto.base64ToArrayBuffer(key),
-      window.Signal.Crypto.base64ToArrayBuffer(digest)
-    );
-
-    if (!size || size !== data.byteLength) {
-      throw new Error(
-        `downloadAttachment: Size ${size} did not match downloaded attachment size ${
-          data.byteLength
-        }`
+      data = await textsecure.crypto.decryptAttachment(
+        data,
+        window.Signal.Crypto.base64ToArrayBuffer(key),
+        window.Signal.Crypto.base64ToArrayBuffer(digest)
       );
+
+      if (!size || size !== data.byteLength) {
+        throw new Error(
+          `downloadAttachment: Size ${size} did not match downloaded attachment size ${
+            data.byteLength
+          }`
+        );
+      }
     }
 
     return {

@@ -1,8 +1,9 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _, dcodeIO */
+clearTimeout, MessageController, libsignal, StringView, window, _, dcodeIO, Buffer */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
+const FormData = require('form-data');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -10,6 +11,10 @@ const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
 const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
+
+const ATTACHMENT_TYPE = 'net.app.core.oembed';
+const LOKI_ATTACHMENT_TYPE = 'attachment';
+const LOKI_PREVIEW_TYPE = 'preview';
 
 class LokiAppDotNetAPI extends EventEmitter {
   constructor(ourKey) {
@@ -344,6 +349,43 @@ class LokiAppDotNetServerAPI {
 
     return false;
   }
+
+  async uploadData(data) {
+    const endpoint = 'files';
+    const options = {
+      method: 'POST',
+      rawBody: data,
+    };
+
+    const { statusCode, response } = await this.serverRequest(
+      endpoint,
+      options
+    );
+    if (statusCode !== 200) {
+      log.warn('Failed to upload data to fileserver');
+      return null;
+    }
+
+    const url = response.data && response.data.url;
+    const id = response.data && response.data.id;
+    return {
+      url,
+      id,
+    };
+  }
+
+  putAttachment(attachmentBin) {
+    const formData = new FormData();
+    const buffer = Buffer.from(attachmentBin);
+    formData.append('type', 'network.loki');
+    formData.append('content', buffer, {
+      contentType: 'application/octet-stream',
+      name: 'content',
+      filename: 'attachment',
+    });
+
+    return this.uploadData(formData);
+  }
 }
 
 class LokiPublicChannelAPI {
@@ -606,7 +648,13 @@ class LokiPublicChannelAPI {
     }
   }
 
-  static getSigData(sigVer, noteValue, adnMessage) {
+  static getSigData(
+    sigVer,
+    noteValue,
+    attachmentAnnotations,
+    previewAnnotations,
+    adnMessage
+  ) {
     let sigString = '';
     sigString += adnMessage.text.trim();
     sigString += noteValue.timestamp;
@@ -618,6 +666,10 @@ class LokiPublicChannelAPI {
         sigString += adnMessage.reply_to;
       }
     }
+    sigString += [...attachmentAnnotations, ...previewAnnotations]
+      .map(data => data.id || data.image.id)
+      .sort()
+      .join();
     sigString += sigVer;
     return dcodeIO.ByteBuffer.wrap(sigString, 'utf8').toArrayBuffer();
   }
@@ -640,17 +692,26 @@ class LokiPublicChannelAPI {
     const { timestamp, quote } = noteValue;
 
     if (quote) {
+      // TODO: Enable quote attachments again using proper ADN style
       quote.attachments = [];
     }
 
     // try to verify signature
     const { sig, sigver } = noteValue;
     const annoCopy = [...adnMessage.annotations];
+    const attachments = annoCopy
+      .filter(anno => anno.value.lokiType === LOKI_ATTACHMENT_TYPE)
+      .map(attachment => ({ isRaw: true, ...attachment.value }));
+    const preview = annoCopy
+      .filter(anno => anno.value.lokiType === LOKI_PREVIEW_TYPE)
+      .map(LokiPublicChannelAPI.getPreviewFromAnnotation);
     // strip out sig and sigver
     annoCopy[0] = _.omit(annoCopy[0], ['value.sig', 'value.sigver']);
     const sigData = LokiPublicChannelAPI.getSigData(
       sigver,
       noteValue,
+      attachments,
+      preview,
       adnMessage
     );
 
@@ -688,6 +749,8 @@ class LokiPublicChannelAPI {
 
     return {
       timestamp,
+      attachments,
+      preview,
       quote,
     };
   }
@@ -747,7 +810,7 @@ class LokiPublicChannelAPI {
           return;
         }
 
-        const { timestamp, quote } = messengerData;
+        const { timestamp, quote, attachments, preview } = messengerData;
         if (!timestamp) {
           return; // Invalid message
         }
@@ -793,8 +856,9 @@ class LokiPublicChannelAPI {
           receivedAt,
           isPublic: true,
           message: {
-            body: adnMessage.text,
-            attachments: [],
+            body:
+              adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
+            attachments,
             group: {
               id: this.conversationId,
               type: textsecure.protobuf.GroupContext.Type.DELIVER,
@@ -807,7 +871,7 @@ class LokiPublicChannelAPI {
             sent_at: timestamp,
             quote,
             contact: [],
-            preview: [],
+            preview,
             profile: {
               displayName: from,
             },
@@ -826,8 +890,85 @@ class LokiPublicChannelAPI {
     }
   }
 
+  static getPreviewFromAnnotation(annotation) {
+    const preview = {
+      title: annotation.value.linkPreviewTitle,
+      url: annotation.value.linkPreviewUrl,
+      image: {
+        isRaw: true,
+        caption: annotation.value.caption,
+        contentType: annotation.value.contentType,
+        digest: annotation.value.digest,
+        fileName: annotation.value.fileName,
+        flags: annotation.value.flags,
+        height: annotation.value.height,
+        id: annotation.value.id,
+        key: annotation.value.key,
+        size: annotation.value.size,
+        thumbnail: annotation.value.thumbnail,
+        url: annotation.value.url,
+        width: annotation.value.width,
+      },
+    };
+    return preview;
+  }
+
+  static getAnnotationFromPreview(preview) {
+    const annotation = {
+      type: ATTACHMENT_TYPE,
+      value: {
+        // Mandatory ADN fields
+        version: '1.0',
+        lokiType: LOKI_PREVIEW_TYPE,
+
+        // Signal stuff we actually care about
+        linkPreviewTitle: preview.title,
+        linkPreviewUrl: preview.url,
+        caption: preview.image.caption,
+        contentType: preview.image.contentType,
+        digest: preview.image.digest,
+        fileName: preview.image.fileName,
+        flags: preview.image.flags,
+        height: preview.image.height,
+        id: preview.image.id,
+        key: preview.image.key,
+        size: preview.image.size,
+        thumbnail: preview.image.thumbnail,
+        url: preview.image.url,
+        width: preview.image.width,
+      },
+    };
+    return annotation;
+  }
+
+  static getAnnotationFromAttachment(attachment) {
+    const type = attachment.contentType.match(/^image/) ? 'photo' : 'video';
+    const annotation = {
+      type: ATTACHMENT_TYPE,
+      value: {
+        // Mandatory ADN fields
+        version: '1.0',
+        type,
+        lokiType: LOKI_ATTACHMENT_TYPE,
+
+        // Signal stuff we actually care about
+        ...attachment,
+      },
+    };
+    return annotation;
+  }
+
   // create a message in the channel
-  async sendMessage(text, quote, messageTimeStamp) {
+  async sendMessage(data, messageTimeStamp) {
+    const { quote, attachments, preview } = data;
+    const text = data.body || messageTimeStamp.toString();
+    const attachmentAnnotations = attachments.map(
+      LokiPublicChannelAPI.getAnnotationFromAttachment
+    );
+    const previewAnnotations = preview.map(
+      LokiPublicChannelAPI.getAnnotationFromPreview
+    );
+
     const payload = {
       text,
       annotations: [
@@ -837,6 +978,8 @@ class LokiPublicChannelAPI {
             timestamp: messageTimeStamp,
           },
         },
+        ...attachmentAnnotations,
+        ...previewAnnotations,
       ],
     };
     if (quote && quote.id) {
@@ -869,6 +1012,8 @@ class LokiPublicChannelAPI {
     const sigData = LokiPublicChannelAPI.getSigData(
       sigVer,
       payload.annotations[0].value,
+      attachmentAnnotations.map(anno => anno.value),
+      previewAnnotations.map(anno => anno.value),
       mockAdnMessage
     );
     const sig = await libsignal.Curve.async.calculateSignature(
