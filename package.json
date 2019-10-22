@@ -157,6 +157,7 @@
     "electron": "4.1.2",
     "electron-builder": "20.39.0",
     "electron-icon-maker": "0.0.3",
+    "electron-notarize": "^0.1.1",
     "eslint": "4.14.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.9.0",
