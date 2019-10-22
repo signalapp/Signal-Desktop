@@ -59,7 +59,7 @@
 
       const sanitiseNameInput = () => {
         const oldVal = this.$('#display-name').val();
-        this.$('#display-name').val(oldVal.replace(/[^a-zA-Z0-9 ]/g, ''));
+        this.$('#display-name').val(oldVal.replace(/[^a-zA-Z0-9_]/g, ''));
       };
 
       this.$('#display-name').get(0).oninput = () => {
