@@ -1,4 +1,4 @@
-const { notarize } = require("electron-notarize")
+const { notarize } = require('electron-notarize');
 
 /*
  Pre-requisites: https://github.com/electron/electron-notarize#prerequisites
@@ -10,19 +10,19 @@ const { notarize } = require("electron-notarize")
   Notarizing: https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
 */
 
-exports.default = async function notarizing (context) {
-    const { electronPlatformName, appOutDir } = context
-    if (electronPlatformName !== "darwin") {
-        return
-    }
+exports.default = async function notarizing(context) {
+  const { electronPlatformName, appOutDir } = context;
+  if (electronPlatformName !== 'darwin') {
+    return;
+  }
 
-    const appName = context.packager.appInfo.productFilename
+  const appName = context.packager.appInfo.productFilename;
 
-    return notarize({
-        appBundleId: "com.loki-project.messenger-desktop",
-        appPath: `${appOutDir}/${appName}.app`,
-        appleId: process.env.SIGNING_APPLE_ID,
-        appleIdPassword: process.env.SIGNING_APP_PASSWORD,
-        ascProvider: process.env.SIGNING_TEAM_ID
-    })
-}
+  return notarize({
+    appBundleId: 'com.loki-project.messenger-desktop',
+    appPath: `${appOutDir}/${appName}.app`,
+    appleId: process.env.SIGNING_APPLE_ID,
+    appleIdPassword: process.env.SIGNING_APP_PASSWORD,
+    ascProvider: process.env.SIGNING_TEAM_ID,
+  });
+};
