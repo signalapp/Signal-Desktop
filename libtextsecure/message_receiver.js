@@ -263,6 +263,7 @@ MessageReceiver.prototype.extend({
       const ev = new Event('empty');
       this.dispatchAndWait(ev);
       this.isEmptied = true;
+
       this.maybeScheduleRetryTimeout();
     };
 
@@ -393,6 +394,7 @@ MessageReceiver.prototype.extend({
   },
   maybeScheduleRetryTimeout() {
     if (this.isEmptied) {
+      this.clearRetryTimeout();
       this.retryCachedTimeout = setTimeout(() => {
         this.pendingQueue.add(() => this.queueAllCached());
       }, RETRY_TIMEOUT);
@@ -450,7 +452,6 @@ MessageReceiver.prototype.extend({
         this.queueEnvelope(item.envelope);
       });
 
-      this.clearRetryTimeout();
       this.maybeScheduleRetryTimeout();
     } catch (error) {
       items.forEach(item => {

@@ -1244,7 +1244,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 751,
+    "lineNumber": 752,
     "reasonCategory": "falseMatch",
     "updated": "2019-10-21T22:30:15.622Z"
   },
@@ -1252,7 +1252,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 776,
+    "lineNumber": 777,
     "reasonCategory": "falseMatch",
     "updated": "2019-10-21T22:30:15.622Z"
   },
