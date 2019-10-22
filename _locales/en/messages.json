@@ -1235,7 +1235,7 @@
   },
   "linkPreviewsSettingDescription": {
     "message":
-      "Enable local link previews (Restart for changes to take effect).",
+      "Enable local link previews",
     "description": "Description shown for the Link Preview option "
   },
   "spellCheckDescription": {

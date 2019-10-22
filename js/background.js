@@ -607,6 +607,12 @@
     Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');
 
+      // Enable link previews as default
+      storage.onready(async () => {
+        storage.put('linkPreviews', true);
+      });
+
+
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
       // window.Signal.RefreshSenderCertificate.initialize({
