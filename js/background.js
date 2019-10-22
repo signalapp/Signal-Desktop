@@ -612,7 +612,6 @@
         storage.put('linkPreviews', true);
       });
 
-
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
       // window.Signal.RefreshSenderCertificate.initialize({

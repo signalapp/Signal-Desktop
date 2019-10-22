@@ -1234,8 +1234,7 @@
       "Additional detail provided for Link Previews option in settings screen"
   },
   "linkPreviewsSettingDescription": {
-    "message":
-      "Enable local link previews",
+    "message": "Enable local link previews",
     "description": "Description shown for the Link Preview option "
   },
   "spellCheckDescription": {
