@@ -1993,6 +1993,14 @@
             }
           } else {
             await conversation.onFriendRequestAccepted();
+            // We need to return for these types of messages because android struggles
+            if (
+              !message.get('body') &&
+              !message.get('attachments').length &&
+              !message.get('preview').length
+            ) {
+              return;
+            }
           }
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,

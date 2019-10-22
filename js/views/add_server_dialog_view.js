@@ -31,7 +31,9 @@
     confirm() {
       // Remove error if there is one
       this.showError(null);
-      const serverUrl = this.$('#server-url').val().toLowerCase();
+      const serverUrl = this.$('#server-url')
+        .val()
+        .toLowerCase();
       // TODO: Make this not hard coded
       const channelId = 1;
       const dialog = new Whisper.ConnectingToServerDialogView({
