@@ -31,6 +31,22 @@
       this.$input.focus();
 
       this.validateNickname();
+
+      const sanitiseNameInput = () => {
+        const oldVal = this.$input.val();
+        this.$input.val(oldVal.replace(/[^a-zA-Z0-9_]/g, ''));
+      };
+
+      this.$input[0].oninput = () => {
+        sanitiseNameInput();
+      };
+
+      this.$input[0].onpaste = () => {
+        // Sanitise data immediately after paste because it's easier
+        setTimeout(() => {
+          sanitiseNameInput();
+        });
+      };
     },
     events: {
       keyup: 'onKeyup',
