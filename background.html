@@ -196,7 +196,6 @@
         <div class='message'>{{ message }}</div>
       {{ /message }}
       <div class='buttons'>
-        <button class='clear' tabindex='3'>{{ clear }}</button>
         <button class='cancel' tabindex='2'>{{ cancel }}</button>
         <button class='ok' tabindex='1'>{{ ok }}</button>
       </div>
@@ -646,7 +645,7 @@
           <div class='page'>
             <div class='display-name-input'>
               <div class='input-header'>Enter your public display name (alphanumeric characters and underscores only)</div>
-              <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
+              <input class='form-control' type='text' id='display-name' placeholder='Display Name' autocomplete='off' spellcheck='false' maxlength='25'>
             </div>
             <div class='password-inputs'>
                 <div class='input-header'>Type an optional password for added security</div>
@@ -655,8 +654,8 @@
                 <div class='error'></div>
             </div>
             <div class='buttons'>
-              <a class='button grey' id='back-button'>Back</a>
-              <a class='button' id='save-button' data-loading-text='Please wait...'>Save</a>
+              <button class='button grey' id='back-button' tabindex='2'>Back</button>
+              <button class='button' id='save-button' tabindex='1'>Save</button>
             </div>
           </div>
 

@@ -19,9 +19,6 @@
       this.reject = options.reject;
       this.cancelText = options.cancelText || i18n('cancel');
 
-      this.clear = options.clear;
-      this.clearText = options.clearText || i18n('clear');
-
       this.title = options.title;
 
       this.render();
@@ -52,16 +49,17 @@
       keyup: 'onKeyup',
       'click .ok': 'ok',
       'click .cancel': 'cancel',
-      'click .clear': 'clear',
       change: 'validateNickname',
     },
     validateNickname() {
       const nickname = this.$input.val();
 
       if (_.isEmpty(nickname)) {
-        this.$('.clear').hide();
+        this.$('.ok').attr('disabled', 'disabled');
+        return false;
       } else {
-        this.$('.clear').show();
+        this.$('.ok').removeAttr('disabled');
+        return true;
       }
     },
     render_attributes() {
@@ -70,7 +68,6 @@
         showCancel: !this.hideCancel,
         cancel: this.cancelText,
         ok: this.okText,
-        clear: this.clearText,
         title: this.title,
       };
     },
@@ -88,14 +85,13 @@
         this.reject();
       }
     },
-    clear() {
-      this.$input.val('').trigger('change');
-    },
     onKeyup(event) {
-      this.validateNickname();
+      const valid = this.validateNickname();
       switch (event.key) {
         case 'Enter':
-          this.ok();
+          if (valid) {
+            this.ok();
+          }
           break;
         case 'Escape':
         case 'Esc':
