@@ -2015,7 +2015,7 @@
         );
         const ourNumber = textsecure.storage.user.getNumber();
         return !stillUnread.some(
-          m => m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
+          m => m.propsForMessage.text && m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
         );
       })();
 
@@ -2419,7 +2419,7 @@
     },
 
     async deletePublicMessage(message) {
-      const channelAPI = this.getPublicSendData();
+      const channelAPI = await this.getPublicSendData();
       if (!channelAPI) {
         return false;
       }
