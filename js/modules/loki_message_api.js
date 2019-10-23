@@ -91,11 +91,12 @@ class LokiMessageAPI {
     };
 
     if (isPublic) {
-      const res = await publicSendData.sendMessage(
-        data.body,
-        data.quote,
-        messageTimeStamp
-      );
+      if (!publicSendData) {
+        throw new window.textsecure.PublicChatError(
+          'Missing public send data for public chat message'
+        );
+      }
+      const res = await publicSendData.sendMessage(data, messageTimeStamp);
       if (res === false) {
         throw new window.textsecure.PublicChatError(
           'Failed to send public chat message'

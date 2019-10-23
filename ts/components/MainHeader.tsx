@@ -342,6 +342,13 @@ export class MainHeader extends React.Component<Props, any> {
           trigger('showQRDialog');
         },
       },
+      {
+        id: 'showAddServer',
+        name: i18n('showAddServer'),
+        onClick: () => {
+          trigger('showAddServerDialog');
+        },
+      },
     ];
 
     const passItem = (type: string) => ({

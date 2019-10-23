@@ -166,6 +166,11 @@
     "description":
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "connectingLoad": {
+    "message": "Connecting...",
+    "description":
+      "Message shown on the as a loading screen while we are connecting to something"
+  },
   "loading": {
     "message": "Loading...",
     "description":
@@ -1253,8 +1258,7 @@
       "Additional detail provided for Link Previews option in settings screen"
   },
   "linkPreviewsSettingDescription": {
-    "message":
-      "Enable local link previews (Restart for changes to take effect).",
+    "message": "Enable local link previews",
     "description": "Description shown for the Link Preview option "
   },
   "spellCheckDescription": {
@@ -1923,7 +1927,8 @@
       "Shown in the settings page as the heading for the blocked user settings"
   },
   "editProfileTitle": {
-    "message": "Change your own display name",
+    "message":
+      "Change your own display name (alphanumeric characters and underscores only)",
     "description": "The title shown when user edits their own profile"
   },
   "editProfileDisplayNameWarning": {
@@ -1963,6 +1968,16 @@
   "showQRCode": {
     "message": "Show QR code",
     "description": "Button action that the user can click to view their QR code"
+  },
+  "showAddServer": {
+    "message": "Add public server",
+    "description":
+      "Button action that the user can click to connect to a new public server"
+  },
+  "addServerDialogTitle": {
+    "message": "Connect to new public server",
+    "description":
+      "Title for the dialog box used to connect to a new public server"
   },
 
   "seedViewTitle": {
@@ -2014,6 +2029,15 @@
   },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match"
+  },
+  "publicChatExists": {
+    "message": "You are already connected to this public channel"
+  },
+  "connectToServerFail": {
+    "message": "Failed to connect to server. Check URL"
+  },
+  "connectToServerSuccess": {
+    "message": "Successfully connected to new public chat server"
   },
   "setPasswordFail": {
     "message": "Failed to set password"

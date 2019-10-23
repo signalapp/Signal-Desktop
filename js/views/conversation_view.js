@@ -93,6 +93,11 @@
     initialize(options) {
       this.listenTo(this.model, 'destroy', this.stopListening);
       this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
+      this.listenTo(
+        this.model,
+        'change:friendRequestStatus',
+        this.onFriendStatusChange
+      );
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
@@ -160,6 +165,7 @@
       );
 
       this.render();
+      this.onFriendStatusChange();
 
       this.model.updateTextInputState();
 
@@ -618,6 +624,14 @@
 
       if (this.view.atBottom()) {
         this.typingBubbleView.el.scrollIntoView();
+      }
+    },
+
+    onFriendStatusChange() {
+      if (this.model.isPrivate() && !this.model.isFriend()) {
+        this.$('#choose-file').hide();
+      } else {
+        this.$('#choose-file').show();
       }
     },
 
