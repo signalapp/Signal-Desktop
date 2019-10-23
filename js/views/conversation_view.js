@@ -636,10 +636,6 @@
     },
 
     toggleMicrophone() {
-      // ALWAYS HIDE until we support audio
-      this.$('.capture-audio').hide();
-
-      /*
       if (
         this.$('.send-message').val().length > 0 ||
         this.fileInput.hasFiles()
@@ -648,7 +644,6 @@
       } else {
         this.$('.capture-audio').show();
       }
-      */
     },
     captureAudio(e) {
       e.preventDefault();

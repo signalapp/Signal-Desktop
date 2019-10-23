@@ -90,10 +90,9 @@
       if (_.isEmpty(newVal)) {
         this.$('#save-button').attr('disabled', 'disabled');
         return false;
-      } else {
-        this.$('#save-button').removeAttr('disabled');
-        return true;
       }
+      this.$('#save-button').removeAttr('disabled');
+      return true;
     },
     async showPage(pageIndex) {
       // eslint-disable-next-line func-names

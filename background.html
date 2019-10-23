@@ -133,12 +133,12 @@
               <div class='flex'>
                 <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
-                <div class='capture-audio hide'>
+                <div class='capture-audio'>
                     <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 </div>
                 <div id='choose-file' class='choose-file'>
                     <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    <input type='file' class='file-input' multiple='multiple' accept='video/* image/*'>
+                    <input type='file' class='file-input' multiple='multiple'>
                 </div>
               </div>
             </form>
@@ -654,8 +654,6 @@
                 <div class='error'></div>
             </div>
             <div class='buttons'>
-              <!-- <a class='button grey' id='back-button'>Back</a> -->
-              <!-- <a class='button' id='save-button' data-loading-text='Please wait...'>Save</a> -->
               <button class='button grey' id='back-button' tabindex='2'>Back</button>
               <button class='button' id='save-button' tabindex='1'>Save</button>
             </div>

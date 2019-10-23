@@ -1228,8 +1228,7 @@
       "Option to control creation and send of link previews in setting screen"
   },
   "linkPreviewsSettingDescription": {
-    "message":
-      "Enable link previews",
+    "message": "Enable link previews",
     "description": "Description shown for the Link Preview option "
   },
   "spellCheckDescription": {

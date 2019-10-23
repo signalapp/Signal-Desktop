@@ -57,10 +57,9 @@
       if (_.isEmpty(nickname)) {
         this.$('.ok').attr('disabled', 'disabled');
         return false;
-      } else {
-        this.$('.ok').removeAttr('disabled');
-        return true;
       }
+      this.$('.ok').removeAttr('disabled');
+      return true;
     },
     render_attributes() {
       return {
