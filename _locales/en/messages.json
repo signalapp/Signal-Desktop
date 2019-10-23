@@ -1227,14 +1227,9 @@
     "description":
       "Option to control creation and send of link previews in setting screen"
   },
-  "linkPreviewsDescription": {
-    "message":
-      "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
-    "description":
-      "Additional detail provided for Link Previews option in settings screen"
-  },
   "linkPreviewsSettingDescription": {
-    "message": "Enable local link previews",
+    "message":
+      "Enable link previews",
     "description": "Description shown for the Link Preview option "
   },
   "spellCheckDescription": {

@@ -250,7 +250,6 @@
         spellCheckDescription: i18n('spellCheckDescription'),
         blockedHeader: 'Blocked Users',
         linkPreviews: i18n('linkPreviews'),
-        linkPreviewsDescription: i18n('linkPreviewsDescription'),
         linkPreviewsSettingDescription: i18n('linkPreviewsSettingDescription'),
       };
     },
