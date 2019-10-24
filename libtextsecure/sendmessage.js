@@ -1022,25 +1022,25 @@ MessageSender.prototype = {
     return this.sendMessage(attrs, options);
   },
 
-  updateGroup(groupId, name, avatar, targetNumbers, options) {
+  updateGroup(groupId, name, avatar, members, recipients, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
 
     proto.group.id = stringToArrayBuffer(groupId);
     proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
     proto.group.name = name;
-    proto.group.members = targetNumbers;
+    proto.group.members = members;
+
+    const ourPK = textsecure.storage.user.getNumber();
+    proto.group.admins = [ourPK];
 
     return this.makeAttachmentPointer(avatar).then(attachment => {
       proto.group.avatar = attachment;
       // TODO: re-enable this once we have attachments
       proto.group.avatar = null;
-      return this.sendGroupProto(
-        targetNumbers,
-        proto,
-        Date.now(),
-        options
-      ).then(() => proto.group.id);
+      return this.sendGroupProto(recipients, proto, Date.now(), options).then(
+        () => proto.group.id
+      );
     });
   },
 

@@ -1,4 +1,4 @@
-/* global Whisper, i18n, getInboxCollection _ */
+/* global Whisper, i18n, textsecure, _ */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -17,7 +17,9 @@
       const convos = window.getConversations().models;
 
       let allMembers = convos.filter(d => !!d);
-      allMembers = allMembers.filter(d => d.isFriend() && d.isPrivate());
+      allMembers = allMembers.filter(
+        d => d.isFriend() && d.isPrivate() && !d.isMe()
+      );
       allMembers = _.uniq(allMembers, true, d => d.id);
 
       this.membersToShow = allMembers;
@@ -99,18 +101,22 @@
       this.close = this.close.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
 
-      const convos = getInboxCollection().models;
+      const ourPK = textsecure.storage.user.getNumber();
+
+      this.isAdmin = groupConvo.get('groupAdmins').indexOf(ourPK) !== -1;
+
+      const convos = window.getConversations().models;
 
       let allMembers = convos.filter(d => !!d);
-      allMembers = allMembers.filter(d => d.isFriend());
-      allMembers = allMembers.filter(d => d.isPrivate());
+      allMembers = allMembers.filter(
+        d => d.isFriend() && d.isPrivate() && !d.isMe()
+      );
       allMembers = _.uniq(allMembers, true, d => d.id);
+
+      this.friendList = allMembers;
 
       // only give members that are not already in the group
       const existingMembers = groupConvo.get('members');
-      this.membersToShow = allMembers.filter(
-        d => !_.some(existingMembers, x => x === d.id)
-      );
 
       this.existingMembers = existingMembers;
 
@@ -127,7 +133,8 @@
           okText: this.okText,
           cancelText: this.cancelText,
           existingMembers: this.existingMembers,
-          friendList: this.membersToShow,
+          friendList: this.friendList,
+          isAdmin: this.isAdmin,
           onClose: this.close,
           onSubmit: this.onSubmit,
         },
@@ -137,10 +144,8 @@
       return this;
     },
     onSubmit(newGroupName, newMembers) {
-      const allMembers = window.Lodash.concat(
-        newMembers,
-        this.conversation.get('members')
-      );
+      const ourPK = textsecure.storage.user.getNumber();
+      const allMembers = window.Lodash.concat(newMembers, [ourPK]);
       const groupId = this.conversation.get('id');
 
       window.doUpdateGroup(groupId, newGroupName, allMembers);

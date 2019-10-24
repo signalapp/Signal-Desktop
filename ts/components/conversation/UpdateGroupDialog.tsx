@@ -5,6 +5,7 @@ import { Contact, MemberList } from './MemberList';
 declare global {
   interface Window {
     SMALL_GROUP_SIZE_LIMIT: number;
+    Lodash: any;
   }
 }
 
@@ -15,6 +16,7 @@ interface Props {
   cancelText: string;
   // friends not in the group
   friendList: Array<any>;
+  isAdmin: boolean;
   existingMembers: Array<any>;
   i18n: any;
   onSubmit: any;
@@ -43,6 +45,8 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
 
+      const existingMember = this.props.existingMembers.indexOf(d.id) !== -1;
+
       return {
         id: d.id,
         authorPhoneNumber: d.id,
@@ -51,6 +55,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
         authorName: name, // different from ProfileName?
         authorColor: d.getColor(),
         checkmarked: false,
+        existingMember,
       };
     });
 
@@ -65,9 +70,9 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
   }
 
   public onClickOK() {
-    const members = this.state.friendList
-      .filter(d => d.checkmarked)
-      .map(d => d.id);
+    const members = this.getWouldBeMembers(this.state.friendList).map(
+      d => d.id
+    );
 
     if (!this.state.groupName.trim()) {
       this.onShowError(this.props.i18n('emptyGroupNameError'));
@@ -81,7 +86,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const checkMarkedCount = this.getMemberCount();
+    const checkMarkedCount = this.getMemberCount(this.state.friendList);
 
     const titleText = `${this.props.titleText} (Members: ${checkMarkedCount})`;
 
@@ -109,6 +114,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
           className="group-name"
           placeholder="Group Name"
           value={this.state.groupName}
+          disabled={!this.props.isAdmin}
           onChange={this.onGroupNameChanged}
           tabIndex={0}
           required={true}
@@ -166,11 +172,20 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
     }
   }
 
-  private getMemberCount() {
-    return (
-      this.props.existingMembers.length +
-      this.state.friendList.filter(d => d.checkmarked).length
-    );
+  // Return members that would comprise the group given the
+  // current state in `users`
+  private getWouldBeMembers(users: Array<Contact>) {
+    return users.filter(d => {
+      return (
+        (d.existingMember && !d.checkmarked) ||
+        (!d.existingMember && d.checkmarked)
+      );
+    });
+  }
+
+  private getMemberCount(users: Array<Contact>) {
+    // Adding one to include ourselves
+    return this.getWouldBeMembers(users).length + 1;
   }
 
   private closeDialog() {
@@ -180,6 +195,12 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
   }
 
   private onMemberClicked(selected: any) {
+    if (selected.existingMember && !this.props.isAdmin) {
+      this.onShowError(this.props.i18n('nonAdminDeleteMember'));
+
+      return;
+    }
+
     const updatedFriends = this.state.friendList.map(member => {
       if (member.id === selected.id) {
         return { ...member, checkmarked: !member.checkmarked };
@@ -188,11 +209,9 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
       }
     });
 
-    const newMemberCount =
-      this.props.existingMembers.length +
-      updatedFriends.filter(d => d.checkmarked).length;
+    const newMemberCount = this.getMemberCount(updatedFriends);
 
-    if (newMemberCount > window.SMALL_GROUP_SIZE_LIMIT - 1) {
+    if (newMemberCount > window.SMALL_GROUP_SIZE_LIMIT) {
       const msg = `${this.props.i18n('maxGroupMembersError')} ${
         window.SMALL_GROUP_SIZE_LIMIT
       }`;

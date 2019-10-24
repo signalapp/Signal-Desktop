@@ -11,10 +11,12 @@ export interface Contact {
   authorColor: any;
   authorAvatarPath: string;
   checkmarked: boolean;
+  existingMember: boolean;
 }
 interface MemberItemProps {
   member: Contact;
   selected: boolean;
+  existingMember: boolean;
   onClicked: any;
   i18n: any;
   checkmarked: boolean;
@@ -30,10 +32,41 @@ class MemberItem extends React.Component<MemberItemProps> {
     const name = this.props.member.authorProfileName;
     const pubkey = this.props.member.authorPhoneNumber;
     const selected = this.props.selected;
+    const existingMember = this.props.existingMember;
 
-    const checkMarkClass = this.props.checkmarked
-      ? 'check-mark'
-      : classNames('check-mark', 'invisible');
+    let markType: 'none' | 'kicked' | 'added' | 'existing' = 'none';
+
+    if (this.props.checkmarked) {
+      if (existingMember) {
+        markType = 'kicked';
+      } else {
+        markType = 'added';
+      }
+    } else {
+      if (existingMember) {
+        markType = 'existing';
+      } else {
+        markType = 'none';
+      }
+    }
+
+    const markClasses = ['check-mark'];
+
+    switch (markType) {
+      case 'none':
+        markClasses.push('invisible');
+        break;
+      case 'existing':
+        markClasses.push('existing-member');
+        break;
+      case 'kicked':
+        markClasses.push('existing-member-kicked');
+        break;
+      default:
+      // do nothing
+    }
+
+    const mark = markType === 'kicked' ? '✘' : '✔';
 
     return (
       <div
@@ -47,7 +80,7 @@ class MemberItem extends React.Component<MemberItemProps> {
         {this.renderAvatar()}
         <span className="name-part">{name}</span>
         <span className="pubkey-part">{pubkey}</span>
-        <span className={checkMarkClass}>✓</span>
+        <span className={classNames(markClasses)}>{mark}</span>
       </div>
     );
   }
@@ -98,6 +131,7 @@ export class MemberList extends React.Component<MemberListProps> {
           member={item}
           selected={selected}
           checkmarked={item.checkmarked}
+          existingMember={item.existingMember}
           i18n={this.props.i18n}
           onClicked={this.handleMemberClicked}
         />

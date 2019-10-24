@@ -89,6 +89,13 @@ class Mention extends React.Component<MentionProps, MentionState> {
       return d.id === this.props.convoId;
     });
 
+    if (!thisConvo) {
+      // If this gets triggered, is is likely because we deleted the conversation
+      this.clearOurInterval();
+
+      return;
+    }
+
     if (thisConvo.isPublic()) {
       // TODO: make this work for other public chats as well
       groupMembers = window.lokiPublicChatAPI
@@ -106,10 +113,14 @@ class Mention extends React.Component<MentionProps, MentionState> {
         .map((m: any) => privateConvos.find((c: any) => c.id === m))
         .filter((c: any) => !!c);
       groupMembers = memberConversations.map((m: any) => {
+        const name = m.getLokiProfile()
+          ? m.getLokiProfile().displayName
+          : m.attributes.displayName;
+
         return {
           id: m.id,
           authorPhoneNumber: m.id,
-          authorProfileName: m.getLokiProfile().displayName,
+          authorProfileName: name,
         };
       });
     }

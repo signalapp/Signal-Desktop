@@ -701,17 +701,25 @@
         },
       };
 
-      await onMessageReceived(ev);
+      const convo = await ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
 
       const avatar = '';
       const options = {};
-      textsecure.messaging.updateGroup(
+
+      const recipients = _.union(convo.get('members'), members);
+
+      await onMessageReceived(ev);
+      convo.updateGroup({
         groupId,
         groupName,
         avatar,
+        recipients,
         members,
-        options
-      );
+        options,
+      });
     };
 
     window.doCreateGroup = async (groupName, members) => {
@@ -722,10 +730,13 @@
 
       const ourKey = textsecure.storage.user.getNumber();
 
+      const allMembers = [ourKey, ...members];
+
       ev.groupDetails = {
         id: groupId,
         name: groupName,
-        members: [ourKey, ...members],
+        members: allMembers,
+        recipients: allMembers,
         active: true,
         expireTimer: 0,
         avatar: '',
@@ -747,6 +758,8 @@
       convo.setFriendRequestStatus(
         window.friends.friendRequestStatusEnum.friends
       );
+
+      convo.updateGroupAdmins([ourKey]);
 
       appView.openConversation(groupId, {});
     };
@@ -1005,7 +1018,6 @@
     messageReceiver.addEventListener('delivery', onDeliveryReceipt);
     messageReceiver.addEventListener('contact', onContactReceived);
     messageReceiver.addEventListener('group', onGroupReceived);
-    window.addEventListener('group', onGroupReceived);
     messageReceiver.addEventListener('sent', onSentMessage);
     messageReceiver.addEventListener('readSync', onReadSync);
     messageReceiver.addEventListener('read', onReadReceipt);

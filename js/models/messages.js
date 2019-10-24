@@ -204,8 +204,12 @@
           return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
         }
 
+        if (groupUpdate.kicked === 'You') {
+          return i18n('youGotKickedFromGroup');
+        }
+
         const messages = [];
-        if (!groupUpdate.name && !groupUpdate.joined) {
+        if (!groupUpdate.name && !groupUpdate.joined && !groupUpdate.kicked) {
           messages.push(i18n('updatedTheGroup'));
         }
         if (groupUpdate.name) {
@@ -223,6 +227,18 @@
           }
         }
 
+        if (groupUpdate.kicked && groupUpdate.kicked.length) {
+          const names = _.map(
+            groupUpdate.kicked,
+            this.getNameForNumber.bind(this)
+          );
+
+          if (names.length > 1) {
+            messages.push(i18n('multipleKickedFromTheGroup', names.join(', ')));
+          } else {
+            messages.push(i18n('kickedFromTheGroup', names[0]));
+          }
+        }
         return messages.join(', ');
       }
       if (this.isEndSession()) {
@@ -457,6 +473,23 @@
             Array.isArray(groupUpdate.joined)
               ? groupUpdate.joined
               : [groupUpdate.joined],
+            phoneNumber => this.findAndFormatContact(phoneNumber)
+          ),
+        });
+      }
+
+      if (groupUpdate.kicked === 'You') {
+        changes.push({
+          type: 'kicked',
+          isMe: true,
+        });
+      } else if (groupUpdate.kicked) {
+        changes.push({
+          type: 'kicked',
+          contacts: _.map(
+            Array.isArray(groupUpdate.kicked)
+              ? groupUpdate.kicked
+              : [groupUpdate.kicked],
             phoneNumber => this.findAndFormatContact(phoneNumber)
           ),
         });
@@ -1705,16 +1738,65 @@
 
       const conversation = ConversationController.get(conversationId);
 
+      // NOTE: we use friends status to tell if this is
+      // the creation of the group (initial update)
+      const newGroup = !conversation.isFriend();
+      const knownMembers = conversation.get('members');
+
+      if (!newGroup && knownMembers) {
+        const fromMember = knownMembers.indexOf(source) !== -1;
+
+        if (!fromMember) {
+          window.log.warn(`Ignoring group message from non-member: ${source}`);
+          confirm();
+          return null;
+        }
+      }
+
       if (
         initialMessage.group &&
         initialMessage.group.members &&
         initialMessage.group.type === GROUP_TYPES.UPDATE
       ) {
-        // Note: this might be called more times than necessary
-        conversation.setFriendRequestStatus(
-          window.friends.friendRequestStatusEnum.friends
-        );
+        if (newGroup) {
+          conversation.updateGroupAdmins(initialMessage.group.admins);
 
+          conversation.setFriendRequestStatus(
+            window.friends.friendRequestStatusEnum.friends
+          );
+        }
+
+        const fromAdmin =
+          conversation.get('groupAdmins').indexOf(source) !== -1;
+
+        if (!fromAdmin) {
+          // Make sure the message is not removing members / renaming the group
+          const nameChanged =
+            conversation.get('name') !== initialMessage.group.name;
+
+          if (nameChanged) {
+            window.log.warn(
+              'Non-admin attempts to change the name of the group'
+            );
+          }
+
+          const membersMissing =
+            _.difference(
+              conversation.get('members'),
+              initialMessage.group.members
+            ).length > 0;
+
+          if (membersMissing) {
+            window.log.warn('Non-admin attempts to remove group members');
+          }
+
+          const messageAllowed = !nameChanged && !membersMissing;
+
+          if (!messageAllowed) {
+            confirm();
+            return null;
+          }
+        }
         // For every member, see if we need to establish a session:
         initialMessage.group.members.forEach(memberPubKey => {
           const haveSession = _.some(
@@ -1797,10 +1879,7 @@
               attributes = {
                 ...attributes,
                 name: dataMessage.group.name,
-                members: _.union(
-                  dataMessage.group.members,
-                  conversation.get('members')
-                ),
+                members: dataMessage.group.members,
               };
 
               groupUpdate =
@@ -1808,18 +1887,42 @@
                   _.pick(dataMessage.group, 'name', 'avatar')
                 ) || {};
 
-              const difference = _.difference(
+              const addedMembers = _.difference(
                 attributes.members,
                 conversation.get('members')
               );
-              if (difference.length > 0) {
-                groupUpdate.joined = difference;
+              if (addedMembers.length > 0) {
+                groupUpdate.joined = addedMembers;
               }
               if (conversation.get('left')) {
                 // TODO: Maybe we shouldn't assume this message adds us:
                 // we could maybe still get this message by mistake
                 window.log.warn('re-added to a left group');
                 attributes.left = false;
+              }
+
+              if (attributes.isKickedFromGroup) {
+                // Assume somebody re-invited us since we received this update
+                attributes.isKickedFromGroup = false;
+              }
+
+              // Check if anyone got kicked:
+              const removedMembers = _.difference(
+                conversation.get('members'),
+                attributes.members
+              );
+
+              if (removedMembers.length > 0) {
+                if (
+                  removedMembers.indexOf(
+                    textsecure.storage.user.getNumber()
+                  ) !== -1
+                ) {
+                  groupUpdate.kicked = 'You';
+                  attributes.isKickedFromGroup = true;
+                } else {
+                  groupUpdate.kicked = removedMembers;
+                }
               }
             } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
               if (source === textsecure.storage.user.getNumber()) {

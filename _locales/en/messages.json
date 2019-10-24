@@ -309,6 +309,11 @@
     "description":
       "Displayed when a user can't send a message because they have left the group"
   },
+  "youGotKickedFromGroup": {
+    "message": "You were removed from the group",
+    "description":
+      "Displayed when a user can't send a message because they have left the group"
+  },
   "scrollDown": {
     "message": "Scroll to bottom of conversation",
     "description":
@@ -1839,6 +1844,28 @@
       }
     }
   },
+  "kickedFromTheGroup": {
+    "message": "$name$ was removed from the group",
+    "description":
+      "Shown in the conversation history when a single person is removed from the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "multipleKickedFromTheGroup": {
+    "message": "$names$ were removed from the group",
+    "description":
+      "Shown in the conversation history when more than one person is removed from the group",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "Alice, Bob"
+      }
+    }
+  },
   "friendRequestPending": {
     "message": "Friend request",
     "description":
@@ -2128,5 +2155,8 @@
   },
   "maxGroupMembersError": {
     "message": "Max number of members for small group chats is: "
+  },
+  "nonAdminDeleteMember": {
+    "message": "Only group admin can remove members!"
   }
 }

@@ -75,6 +75,7 @@
 .friend-selection-list {
   max-height: 240px;
   overflow-y: scroll;
+  margin: 4px;
 
   .check-mark {
     float: right;
@@ -86,6 +87,14 @@
 
   .invisible {
     visibility: hidden;
+  }
+
+  .existing-member {
+    color: green;
+  }
+
+  .existing-member-kicked {
+    color: red;
   }
 }
 

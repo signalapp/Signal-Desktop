@@ -2548,11 +2548,12 @@
           .models.filter(d => d.isPrivate());
         const memberConvos = members
           .map(m => privateConvos.find(c => c.id === m))
-          .filter(c => !!c);
-        allMembers = memberConvos.map(m => ({
-          id: m.id,
-          authorPhoneNumber: m.id,
-          authorProfileName: m.getLokiProfile().displayName,
+          .filter(c => !!c && c.getLokiProfile());
+
+        allMembers = memberConvos.map(c => ({
+          id: c.id,
+          authorPhoneNumber: c.id,
+          authorProfileName: c.getLokiProfile().displayName,
         }));
       }
 

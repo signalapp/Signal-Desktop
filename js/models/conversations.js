@@ -84,6 +84,8 @@
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
         swarmNodes: [],
+        groupAdmins: [],
+        isKickedFromGroup: false,
         isOnline: false,
       };
     },
@@ -671,6 +673,10 @@
         this.trigger('disable:input', true);
         return;
       }
+      if (this.get('isKickedFromGroup')) {
+        this.trigger('disable:input', true);
+        return;
+      }
       if (!this.isPrivate() && this.get('left')) {
         this.trigger('disable:input', true);
         this.trigger('change:placeholder', 'left-group');
@@ -714,6 +720,12 @@
         });
         this.updateTextInputState();
       }
+    },
+    async updateGroupAdmins(groupAdmins) {
+      this.set({ groupAdmins });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
     async respondToAllFriendRequests(options) {
       const { response, status, direction = null } = options;
@@ -1933,6 +1945,7 @@
             this.get('name'),
             this.get('avatar'),
             this.get('members'),
+            groupUpdate.recipients,
             options
           )
         )
@@ -2708,6 +2721,23 @@
       // We don't do anything with typing messages from our other devices
       if (sender === this.ourNumber) {
         return;
+      }
+
+      // For groups, block typing messages from non-members (e.g. from kicked members)
+      if (this.get('type') === 'group') {
+        const knownMembers = this.get('members');
+
+        if (knownMembers) {
+          const fromMember = knownMembers.indexOf(sender) !== -1;
+
+          if (!fromMember) {
+            window.log.warn(
+              'Blocking typing messages from a non-member: ',
+              sender
+            );
+            return;
+          }
+        }
       }
 
       const identifier = `${sender}.${senderDevice}`;
