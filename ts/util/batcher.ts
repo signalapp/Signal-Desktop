@@ -6,7 +6,7 @@ window.batchers = [];
 // @ts-ignore
 window.waitForAllBatchers = async () => {
   // @ts-ignore
-  await Promise.all(window.batchers.map(item => item.onIdle()));
+  await Promise.all(window.batchers.map(item => item.flushAndWait()));
 };
 
 type BatcherOptionsType<ItemType> = {
@@ -19,6 +19,7 @@ type BatcherType<ItemType> = {
   add: (item: ItemType) => void;
   anyPending: () => boolean;
   onIdle: () => Promise<void>;
+  flushAndWait: () => Promise<void>;
   unregister: () => void;
 };
 
@@ -83,10 +84,23 @@ export function createBatcher<ItemType>(
     window.batchers = window.batchers.filter((item: any) => item !== batcher);
   }
 
+  async function flushAndWait() {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+    if (items.length) {
+      _kickBatchOff();
+    }
+
+    return onIdle();
+  }
+
   batcher = {
     add,
     anyPending,
     onIdle,
+    flushAndWait,
     unregister,
   };
 
