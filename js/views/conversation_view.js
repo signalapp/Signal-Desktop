@@ -2533,9 +2533,10 @@
       let allMembers;
 
       if (this.model.isPublic()) {
-        let members = window.lokiPublicChatAPI.getListOfMembers();
-        members = members.filter(d => !!d);
-        members = members.filter(d => d.authorProfileName !== 'Anonymous');
+        const members = window.lokiPublicChatAPI
+          .getListOfMembers()
+          .filter(d => !!d)
+          .filter(d => d.authorProfileName !== 'Anonymous');
         allMembers = _.uniq(members, true, d => d.authorPhoneNumber);
       } else {
         const members = this.model.get('members');

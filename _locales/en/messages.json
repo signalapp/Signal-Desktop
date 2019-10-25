@@ -2158,5 +2158,8 @@
   },
   "nonAdminDeleteMember": {
     "message": "Only group admin can remove members!"
+  },
+  "groupNamePlaceholder": {
+    "message": "Group Name"
   }
 }

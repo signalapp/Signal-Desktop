@@ -30,8 +30,6 @@ export class CreateGroupDialog extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    // const _ = window.Lodash;
-
     this.onMemberClicked = this.onMemberClicked.bind(this);
     this.onClickOK = this.onClickOK.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
@@ -101,7 +99,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
           type="text"
           id="group-name"
           className="group-name"
-          placeholder="Group Name"
+          placeholder={this.props.i18n('groupNamePlaceholder')}
           value={this.state.groupName}
           onChange={this.onGroupNameChanged}
           tabIndex={0}

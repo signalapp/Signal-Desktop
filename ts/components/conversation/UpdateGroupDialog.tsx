@@ -112,7 +112,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
           type="text"
           id="group-name"
           className="group-name"
-          placeholder="Group Name"
+          placeholder={this.props.i18n('groupNamePlaceholder')}
           value={this.state.groupName}
           disabled={!this.props.isAdmin}
           onChange={this.onGroupNameChanged}

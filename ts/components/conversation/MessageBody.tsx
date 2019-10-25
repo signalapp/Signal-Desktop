@@ -20,7 +20,7 @@ interface Props {
   i18n: LocalizerType;
   convoId: string;
 }
-// eslint-disable-next-line
+
 const renderMentions: RenderTextCallbackType = ({ text, key, convoId }) => (
   <AddMentions key={key} text={text} convoId={convoId} />
 );

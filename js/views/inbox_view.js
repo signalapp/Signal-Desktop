@@ -294,7 +294,8 @@
     async openConversation(id, messageId) {
       const conversationExists = await ConversationController.get(id);
 
-      // why does this have to be 'private'???
+      // If we call this to create a new conversation, it can only be private
+      // (group conversations are created elsewhere)
       const conversation = await ConversationController.getOrCreateAndWait(
         id,
         'private'

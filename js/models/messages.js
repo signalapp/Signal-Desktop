@@ -2178,7 +2178,8 @@
             if (
               !message.get('body') &&
               !message.get('attachments').length &&
-              !message.get('preview').length
+              !message.get('preview').length &&
+              !message.get('group_update')
             ) {
               return;
             }
