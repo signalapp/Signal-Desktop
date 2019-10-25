@@ -163,8 +163,8 @@ const compositeDecorator = new CompositeDecorator([
           {children}
         </Emoji>
       ) : (
-        children
-      ),
+          children
+        ),
   },
 ]);
 
@@ -228,7 +228,7 @@ export const CompositionInput = ({
     null
   );
   const dirtyRef = React.useRef(false);
-  const focusRef = React.useRef(false);
+  const focusRef = startingText ? React.useRef(true) : React.useRef(false);
   const editorStateRef = React.useRef<EditorState>(editorRenderState);
   const rootElRef = React.useRef<HTMLDivElement>();
 
@@ -501,22 +501,22 @@ export const CompositionInput = ({
 
       let newContent = replaceWord
         ? Modifier.replaceText(
-            oldContent,
-            selection.merge({
-              anchorOffset: word.start,
-              focusOffset: word.end,
-            }) as SelectionState,
-            emojiContent,
-            undefined,
-            emojiEntityKey
-          )
+          oldContent,
+          selection.merge({
+            anchorOffset: word.start,
+            focusOffset: word.end,
+          }) as SelectionState,
+          emojiContent,
+          undefined,
+          emojiEntityKey
+        )
         : Modifier.insertText(
-            oldContent,
-            selection,
-            emojiContent,
-            undefined,
-            emojiEntityKey
-          );
+          oldContent,
+          selection,
+          emojiContent,
+          undefined,
+          emojiEntityKey
+        );
 
       const afterSelection = newContent.getSelectionAfter();
 
@@ -796,56 +796,56 @@ export const CompositionInput = ({
       </Reference>
       {emojiResults.length > 0 && popperRoot
         ? createPortal(
-            <Popper placement="top" key={searchText}>
-              {({ ref, style }) => (
-                <div
-                  ref={ref}
-                  className="module-composition-input__emoji-suggestions"
-                  style={{
-                    ...style,
-                    width: editorWidth,
-                  }}
-                  role="listbox"
-                  aria-expanded={true}
-                  aria-activedescendant={`emoji-result--${
-                    emojiResults[emojiResultsIndex].short_name
+          <Popper placement="top" key={searchText}>
+            {({ ref, style }) => (
+              <div
+                ref={ref}
+                className="module-composition-input__emoji-suggestions"
+                style={{
+                  ...style,
+                  width: editorWidth,
+                }}
+                role="listbox"
+                aria-expanded={true}
+                aria-activedescendant={`emoji-result--${
+                  emojiResults[emojiResultsIndex].short_name
                   }`}
-                >
-                  {emojiResults.map((emoji, index) => (
-                    <button
-                      key={emoji.short_name}
-                      id={`emoji-result--${emoji.short_name}`}
-                      role="option button"
-                      aria-selected={emojiResultsIndex === index}
-                      onMouseDown={() => {
-                        insertEmoji(
-                          { shortName: emoji.short_name, skinTone },
-                          true
-                        );
-                        onPickEmoji({ shortName: emoji.short_name });
-                      }}
-                      className={classNames(
-                        'module-composition-input__emoji-suggestions__row',
-                        emojiResultsIndex === index
-                          ? 'module-composition-input__emoji-suggestions__row--selected'
-                          : null
-                      )}
-                    >
-                      <Emoji
-                        shortName={emoji.short_name}
-                        size={16}
-                        skinTone={skinTone}
-                      />
-                      <div className="module-composition-input__emoji-suggestions__row__short-name">
-                        :{emoji.short_name}:
+              >
+                {emojiResults.map((emoji, index) => (
+                  <button
+                    key={emoji.short_name}
+                    id={`emoji-result--${emoji.short_name}`}
+                    role="option button"
+                    aria-selected={emojiResultsIndex === index}
+                    onMouseDown={() => {
+                      insertEmoji(
+                        { shortName: emoji.short_name, skinTone },
+                        true
+                      );
+                      onPickEmoji({ shortName: emoji.short_name });
+                    }}
+                    className={classNames(
+                      'module-composition-input__emoji-suggestions__row',
+                      emojiResultsIndex === index
+                        ? 'module-composition-input__emoji-suggestions__row--selected'
+                        : null
+                    )}
+                  >
+                    <Emoji
+                      shortName={emoji.short_name}
+                      size={16}
+                      skinTone={skinTone}
+                    />
+                    <div className="module-composition-input__emoji-suggestions__row__short-name">
+                      :{emoji.short_name}:
                       </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </Popper>,
-            popperRoot
-          )
+                  </button>
+                ))}
+              </div>
+            )}
+          </Popper>,
+          popperRoot
+        )
         : null}
     </Manager>
   );
