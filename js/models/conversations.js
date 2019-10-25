@@ -2450,8 +2450,8 @@
         });
       } else {
         Whisper.events.trigger('showConfirmationDialog', {
-          message: i18n('deleteContactConfirmation'),
-          onOk: () => ConversationController.deleteContact(this.id),
+          message: i18n('deleteConversationConfirmation'),
+          onOk: () => this.destroyMessages(),
         });
       }
     },
