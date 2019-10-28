@@ -940,7 +940,8 @@ async function updateToLokiSchemaVersion2(currentVersion, instance) {
       primaryDevicePubKey VARCHAR(255),
       secondaryDevicePubKey VARCHAR(255),
       isGranted BOOLEAN,
-      json TEXT
+      json TEXT,
+      UNIQUE(primaryDevicePubKey, secondaryDevicePubKey)
     );`
   );
 
