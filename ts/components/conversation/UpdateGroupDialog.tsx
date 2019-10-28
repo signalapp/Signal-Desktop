@@ -45,7 +45,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
 
-      const existingMember = this.props.existingMembers.indexOf(d.id) !== -1;
+      const existingMember = this.props.existingMembers.includes(d.id);
 
       return {
         id: d.id,

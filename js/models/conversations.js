@@ -2728,7 +2728,7 @@
         const knownMembers = this.get('members');
 
         if (knownMembers) {
-          const fromMember = knownMembers.indexOf(sender) !== -1;
+          const fromMember = knownMembers.includes(sender);
 
           if (!fromMember) {
             window.log.warn(

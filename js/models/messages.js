@@ -1744,7 +1744,7 @@
       const knownMembers = conversation.get('members');
 
       if (!newGroup && knownMembers) {
-        const fromMember = knownMembers.indexOf(source) !== -1;
+        const fromMember = knownMembers.includes(source);
 
         if (!fromMember) {
           window.log.warn(`Ignoring group message from non-member: ${source}`);
@@ -1766,8 +1766,7 @@
           );
         }
 
-        const fromAdmin =
-          conversation.get('groupAdmins').indexOf(source) !== -1;
+        const fromAdmin = conversation.get('groupAdmins').includes(source);
 
         if (!fromAdmin) {
           // Make sure the message is not removing members / renaming the group
@@ -1832,12 +1831,11 @@
 
       if (message.isFriendRequest() && backgroundFrReq) {
         // Check if the contact is a member in one of our private groups:
-        const groupMember =
-          window
-            .getConversations()
-            .models.filter(c => c.get('members'))
-            .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
-            .indexOf(source) !== -1;
+        const groupMember = window
+          .getConversations()
+          .models.filter(c => c.get('members'))
+          .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
+          .includes(source);
 
         if (groupMember) {
           window.log.info(
@@ -1914,9 +1912,7 @@
 
               if (removedMembers.length > 0) {
                 if (
-                  removedMembers.indexOf(
-                    textsecure.storage.user.getNumber()
-                  ) !== -1
+                  removedMembers.includes(textsecure.storage.user.getNumber())
                 ) {
                   groupUpdate.kicked = 'You';
                   attributes.isKickedFromGroup = true;

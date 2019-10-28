@@ -102,7 +102,7 @@
 
       const ourPK = textsecure.storage.user.getNumber();
 
-      this.isAdmin = groupConvo.get('groupAdmins').indexOf(ourPK) !== -1;
+      this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
 
       const convos = window.getConversations().models;
 

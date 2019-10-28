@@ -3,7 +3,7 @@
 const electron = require('electron');
 
 // TODO: this results in poor readability, would be
-// much better to implicitly call with `_`.
+// much better to explicitly call with `_`.
 const {
   cloneDeep,
   forEach,
