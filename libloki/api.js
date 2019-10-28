@@ -1,4 +1,4 @@
-/* global window, textsecure, log, Whisper, dcodeIO, StringView */
+/* global window, textsecure, log, Whisper, dcodeIO, StringView, ConversationController */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -31,7 +31,7 @@
     let p2pPort = null;
     let type;
 
-    if (!window.localLokiServer.isListening()) {
+    if (!window.localLokiServer || !window.localLokiServer.isListening()) {
       type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
     } else {
       // clearnet change: getMyLokiAddress -> getMyClearIP
@@ -166,7 +166,7 @@
     );
     // Send profile name to secondary device
     const ourNumber = textsecure.storage.user.getNumber();
-    const conversation = await window.ConversationController.getOrCreateAndWait(
+    const conversation = await ConversationController.getOrCreateAndWait(
       ourNumber,
       'private'
     );
