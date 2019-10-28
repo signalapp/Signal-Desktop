@@ -1107,6 +1107,7 @@ MessageReceiver.prototype.extend({
         // along with each friend request.
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
+        window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
         Whisper.events.trigger('secondaryDeviceRegistration');
         // Update profile name
         if (dataMessage && dataMessage.profile) {

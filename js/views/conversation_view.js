@@ -436,6 +436,9 @@
         case 'disabled':
           placeholder = i18n('sendMessageDisabled');
           break;
+        case 'secondary':
+          placeholder = i18n('sendMessageDisabledSecondary');
+          break;
         default:
           placeholder = i18n('sendMessage');
           break;

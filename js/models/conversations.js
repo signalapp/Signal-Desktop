@@ -469,6 +469,7 @@
         mentionedUs: this.get('mentionedUs') || false,
         showFriendRequestIndicator: this.isPendingFriendRequest(),
         isBlocked: this.isBlocked(),
+        isSecondary: !!this.get('secondaryStatus'),
 
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
@@ -689,6 +690,17 @@
           return;
         default:
           throw new Error('Invalid friend request state');
+      }
+    },
+    isSecondaryDevice() {
+      return !!this.get('secondaryStatus');
+    },
+    async setSecondaryStatus(newStatus) {
+      if (this.get('secondaryStatus') !== newStatus) {
+        this.set({ secondaryStatus: newStatus });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
       }
     },
     async setFriendRequestStatus(newStatus) {
