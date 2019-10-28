@@ -157,8 +157,14 @@
     );
   }
 
-  function savePairingAuthorisation(authorisation) {
-    return window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
+  async function savePairingAuthorisation(authorisation) {
+    // Ensure that we have a conversation for all the devices
+    const conversation = await ConversationController.getOrCreateAndWait(
+      authorisation.secondaryDevicePubKey,
+      'private'
+    );
+    await conversation.setSecondaryStatus(true);
+    await window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
   }
 
   function removePairingAuthorisationForSecondaryPubKey(pubKey) {
