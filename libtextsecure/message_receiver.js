@@ -1212,7 +1212,7 @@ MessageReceiver.prototype.extend({
     const { primaryDevicePubKey } = authorisation;
     // ensure the primary device is a friend
     const c = window.ConversationController.get(primaryDevicePubKey);
-    if (!c || !c.isFriend()) {
+    if (!c || !c.isFriendWithAnyDevice()) {
       return false;
     }
     await libloki.storage.savePairingAuthorisation(authorisation);

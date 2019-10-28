@@ -217,9 +217,10 @@
       this.messageCollection.forEach(m => m.trigger('change'));
     },
 
-    bumpTyping() {
+    async bumpTyping() {
       // We don't send typing messages if the setting is disabled or we aren't friends
-      if (!this.isFriend() || !storage.get('typing-indicators-setting')) {
+      const hasFriendDevice = await this.isFriendWithAnyDevice();
+      if (!storage.get('typing-indicators-setting') || !hasFriendDevice) {
         return;
       }
 
@@ -481,7 +482,7 @@
         },
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
-        isFriend: this.isFriend(),
+        isFriend: !!this.isFriendWithAnyCache,
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
@@ -492,6 +493,8 @@
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
       };
+
+      this.updateAsyncPropsCache();
 
       return result;
     },
@@ -666,13 +669,81 @@
         this.get('friendRequestStatus') === FriendRequestStatusEnum.friends
       );
     },
-    updateTextInputState() {
+    async getAnyDeviceFriendRequestStatus() {
+      const secondaryDevices = await window.libloki.storage.getSecondaryDevicesFor(
+        this.id
+      );
+      const allDeviceStatus = secondaryDevices
+        // Get all the secondary device friend status'
+        .map(pubKey => {
+          const conversation = ConversationController.get(pubKey);
+          if (!conversation) {
+            return FriendRequestStatusEnum.none;
+          }
+          return conversation.getFriendRequestStatus();
+        })
+        // Also include this conversation's friend status
+        .concat(this.get('friendRequestStatus'))
+        .reduce((acc, cur) => {
+          if (
+            acc === FriendRequestStatusEnum.friends ||
+            cur === FriendRequestStatusEnum.friends
+          ) {
+            return FriendRequestStatusEnum.friends;
+          }
+          if (acc !== FriendRequestStatusEnum.none) {
+            return acc;
+          }
+          return cur;
+        }, FriendRequestStatusEnum.none);
+      return allDeviceStatus;
+    },
+    async updateAsyncPropsCache() {
+      const isFriendWithAnyDevice = await this.isFriendWithAnyDevice();
+      if (this.isFriendWithAnyCache !== isFriendWithAnyDevice) {
+        this.isFriendWithAnyCache = isFriendWithAnyDevice;
+        this.trigger('change');
+      }
+    },
+    async isFriendWithAnyDevice() {
+      const allDeviceStatus = await this.getAnyDeviceFriendRequestStatus();
+      return allDeviceStatus === FriendRequestStatusEnum.friends;
+    },
+    getFriendRequestStatus() {
+      return this.get('friendRequestStatus');
+    },
+    async getPrimaryConversation() {
+      if (!this.isSecondaryDevice()) {
+        // This is already the primary conversation
+        return this;
+      }
+      const authorisation = await window.libloki.storage.getAuthorisationForSecondaryPubKey(
+        this.id
+      );
+      if (authorisation) {
+        return ConversationController.getOrCreateAndWait(
+          authorisation.primaryDevicePubKey,
+          'private'
+        );
+      }
+      // Something funky has happened
+      return this;
+    },
+    async updateTextInputState() {
       if (this.isRss()) {
         // or if we're an rss conversation, disable it
         this.trigger('disable:input', true);
         return;
       }
-      switch (this.get('friendRequestStatus')) {
+      if (this.isSecondaryDevice()) {
+        // Or if we're a secondary device, update the primary device text input
+        const primaryConversation = await this.getPrimaryConversation();
+        primaryConversation.updateTextInputState();
+        return;
+      }
+      const allDeviceStatus = await this.getAnyDeviceFriendRequestStatus();
+
+      switch (allDeviceStatus) {
         case FriendRequestStatusEnum.none:
         case FriendRequestStatusEnum.requestExpired:
           this.trigger('disable:input', false);
@@ -719,7 +790,7 @@
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
-        this.updateTextInputState();
+        await this.updateTextInputState();
       }
     },
     async respondToAllFriendRequests(options) {
@@ -1262,11 +1333,6 @@
     },
 
     async sendMessage(body, attachments, quote, preview) {
-      // Input should be blocked if there is a pending friend request
-      if (this.isPendingFriendRequest()) {
-        return;
-      }
-
       this.clearTypingTimers();
 
       const destination = this.id;
@@ -1290,8 +1356,9 @@
 
         let messageWithSchema = null;
 
-        // If we are a friend then let the user send the message normally
-        if (this.isFriend()) {
+        // If we are a friend with any of the devices, send the message normally
+        const canSendNormalMessage = await this.isFriendWithAnyDevice();
+        if (canSendNormalMessage) {
           messageWithSchema = await upgradeMessageSchema({
             type: 'outgoing',
             body,
@@ -2047,7 +2114,7 @@
       read = read.filter(item => !item.hasErrors);
 
       // Do not send read receipt if not friends yet
-      if (!this.isFriend()) {
+      if (!this.isFriendWithAnyDevice()) {
         return;
       }
 
