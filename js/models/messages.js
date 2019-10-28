@@ -1980,6 +1980,10 @@
           }
 
           let autoAccept = false;
+          const requestConversation = await ConversationController.getOrCreateAndWait(
+            source,
+            'private'
+          );
           if (message.get('type') === 'friend-request') {
             /*
             Here is the before and after state diagram for the operation before.
@@ -1996,16 +2000,16 @@
               - We are friends with the user, and that user just sent us a friend request.
             */
             if (
-              conversation.hasSentFriendRequest() ||
-              conversation.isFriend()
+              requestConversation.hasSentFriendRequest() ||
+              requestConversation.isFriend()
             ) {
               // Automatically accept incoming friend requests if we have send one already
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
-              await conversation.onFriendRequestAccepted();
+              await requestConversation.onFriendRequestAccepted();
               window.libloki.api.sendBackgroundMessage(message.get('source'));
             } else {
-              await conversation.onFriendRequestReceived();
+              await requestConversation.onFriendRequestReceived();
             }
           } else {
             await conversation.onFriendRequestAccepted();
