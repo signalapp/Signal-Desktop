@@ -942,7 +942,16 @@ class LokiPublicChannelAPI {
   }
 
   static getAnnotationFromAttachment(attachment) {
-    const type = attachment.contentType.match(/^image/) ? 'photo' : 'video';
+    let type;
+    if (attachment.contentType.match(/^image/)) {
+      type = 'photo';
+    } else if (attachment.contentType.match(/^video/)) {
+      type = 'video';
+    } else if (attachment.contentType.match(/^audio/)) {
+      type = 'audio';
+    } else {
+      type = 'other';
+    }
     const annotation = {
       type: ATTACHMENT_TYPE,
       value: {

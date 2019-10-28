@@ -2015,7 +2015,9 @@
         );
         const ourNumber = textsecure.storage.user.getNumber();
         return !stillUnread.some(
-          m => m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
+          m =>
+            m.propsForMessage.text &&
+            m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
         );
       })();
 
@@ -2419,7 +2421,7 @@
     },
 
     async deletePublicMessage(message) {
-      const channelAPI = this.getPublicSendData();
+      const channelAPI = await this.getPublicSendData();
       if (!channelAPI) {
         return false;
       }
@@ -2448,8 +2450,8 @@
         });
       } else {
         Whisper.events.trigger('showConfirmationDialog', {
-          message: i18n('deleteContactConfirmation'),
-          onOk: () => ConversationController.deleteContact(this.id),
+          message: i18n('deleteConversationConfirmation'),
+          onOk: () => this.destroyMessages(),
         });
       }
     },

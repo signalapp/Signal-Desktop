@@ -65,6 +65,7 @@ module.exports = {
         // We still want to limit comments as before:
         comments: 90,
         ignoreUrls: true,
+        ignoreRegExpLiterals: true,
       },
     ],
   },

@@ -69,6 +69,15 @@ audio {
 button {
   cursor: pointer;
   font-size: inherit;
+
+  &[disabled='disabled'] {
+    &,
+    &:hover {
+      opacity: 0.5;
+      box-shadow: none;
+      cursor: default;
+    }
+  }
 }
 button.grey {
   border-radius: $border-radius;
