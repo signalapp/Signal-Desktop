@@ -1897,8 +1897,7 @@
       "Shown in the settings page as the heading for the blocked user settings"
   },
   "editProfileTitle": {
-    "message":
-      "Change your own display name (alphanumeric characters and underscores only)",
+    "message": "Change your own display name",
     "description": "The title shown when user edits their own profile"
   },
   "editProfileDisplayNameWarning": {
