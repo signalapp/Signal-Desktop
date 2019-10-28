@@ -1,4 +1,5 @@
-/* global Whisper, $, getAccountManager, textsecure, i18n, passwordUtil, _, setTimeout */
+/* global Whisper, $, getAccountManager, textsecure,
+   i18n, passwordUtil, _, setTimeout, displayNameRegex */
 
 /* eslint-disable more/no-then */
 
@@ -85,7 +86,7 @@
     },
     sanitiseNameInput() {
       const oldVal = this.$('#display-name').val();
-      const newVal = oldVal.replace(/[^a-zA-Z0-9_]/g, '');
+      const newVal = oldVal.replace(displayNameRegex, '');
       this.$('#display-name').val(newVal);
       if (_.isEmpty(newVal)) {
         this.$('#save-button').attr('disabled', 'disabled');
@@ -154,7 +155,7 @@
         await this.accountManager.registerSingleDevice(
           mnemonic,
           language,
-          this.$('#display-name').val()
+          this.trim(this.$('#display-name').val())
         );
         this.$el.trigger('openInbox');
       } catch (e) {

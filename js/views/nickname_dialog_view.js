@@ -1,4 +1,4 @@
-/* global Whisper, i18n, _ */
+/* global Whisper, i18n, _, displayNameRegex */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -31,7 +31,7 @@
 
       const sanitiseNameInput = () => {
         const oldVal = this.$input.val();
-        this.$input.val(oldVal.replace(/[^a-zA-Z0-9_]/g, ''));
+        this.$input.val(oldVal.replace(displayNameRegex, ''));
       };
 
       this.$input[0].oninput = () => {
