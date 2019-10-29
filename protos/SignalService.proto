@@ -50,16 +50,10 @@ message LokiAddressMessage {
 }
 
 message PairingAuthorisationMessage {
-  enum Type {
-    REQUEST = 1;
-    GRANT = 2;
-    REVOKE = 3;
-  }
   optional string primaryDevicePubKey   = 1;
   optional string secondaryDevicePubKey = 2;
   optional bytes  requestSignature      = 3;
   optional bytes  grantSignature        = 4;
-  optional Type   type                  = 5;
 }
 
 message PreKeyBundleMessage {

@@ -220,10 +220,7 @@
       );
     };
     try {
-      await verify(
-        requestSignature,
-        textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
-      );
+      await verify(requestSignature, PairingType.REQUEST);
     } catch (e) {
       window.log.warn(
         'Could not verify pairing request authorisation signature. Ignoring message.'
@@ -233,10 +230,7 @@
     }
     if (isGrant) {
       try {
-        await verify(
-          grantSignature,
-          textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT
-        );
+        await verify(grantSignature, PairingType.GRANT);
       } catch (e) {
         window.log.warn(
           'Could not verify pairing grant authorisation signature. Ignoring message.'
@@ -265,12 +259,10 @@
     // For REQUEST type message, the secondary device signs the primary device pubkey
     // For GRANT type message, the primary device signs the secondary device pubkey
     let issuer;
-    if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT) {
+    if (type === PairingType.GRANT) {
       data.set(new Uint8Array(secondaryPubKeyArrayBuffer));
       issuer = primaryDevicePubKeyArrayBuffer;
-    } else if (
-      type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
-    ) {
+    } else if (type === PairingType.REQUEST) {
       data.set(new Uint8Array(primaryDevicePubKeyArrayBuffer));
       issuer = secondaryPubKeyArrayBuffer;
     }
@@ -301,6 +293,11 @@
 
   const sha512 = data => crypto.subtle.digest('SHA-512', data);
 
+  const PairingType = Object.freeze({
+    REQUEST: 0,
+    GRANT: 1,
+  });
+
   window.libloki.crypto = {
     DHEncrypt,
     DHDecrypt,
@@ -311,6 +308,7 @@
     generateSignatureForPairing,
     verifyPairingSignature,
     validateAuthorisation,
+    PairingType,
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,
