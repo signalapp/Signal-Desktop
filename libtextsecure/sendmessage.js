@@ -203,7 +203,13 @@ MessageSender.prototype = {
       ({ server } = this);
     }
 
-    const { url, id } = await server.putAttachment(attachmentData);
+    const result = await server.putAttachment(attachmentData);
+    if (!result) {
+      return Promise.reject(
+        new Error('Failed to upload data to attachment fileserver')
+      );
+    }
+    const { url, id } = result;
     proto.id = id;
     proto.url = url;
     proto.contentType = attachment.contentType;
