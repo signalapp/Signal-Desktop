@@ -1095,8 +1095,8 @@ MessageReceiver.prototype.extend({
         'Received invalid pairing authorisation for self. Could not verify signature. Ignoring.'
       );
     } else {
-      const { type, primaryDevicePubKey } = pairingAuthorisation;
-      if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT) {
+      const { primaryDevicePubKey, grantSignature } = pairingAuthorisation;
+      if (grantSignature) {
         // Authorisation received to become a secondary device
         window.log.info(
           `Received pairing authorisation from ${primaryDevicePubKey}`
@@ -1168,17 +1168,18 @@ MessageReceiver.prototype.extend({
   },
   async handlePairingAuthorisationMessage(envelope, content) {
     const { pairingAuthorisation } = content;
-    const { type, secondaryDevicePubKey } = pairingAuthorisation;
-    if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST) {
-      return this.handlePairingRequest(envelope, pairingAuthorisation);
-    } else if (secondaryDevicePubKey === textsecure.storage.user.getNumber()) {
+    const { secondaryDevicePubKey, grantSignature } = pairingAuthorisation;
+    const isGrant =
+      grantSignature &&
+      secondaryDevicePubKey === textsecure.storage.user.getNumber();
+    if (isGrant) {
       return this.handleAuthorisationForSelf(
         envelope,
         pairingAuthorisation,
         content
       );
     }
-    return this.handleAuthorisationForContact(envelope);
+    return this.handlePairingRequest(envelope, pairingAuthorisation);
   },
 
   async handleSecondaryDeviceFriendRequest(pubKey, deviceMapping) {
