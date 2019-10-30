@@ -1480,11 +1480,6 @@ MessageReceiver.prototype.extend({
       window.log.error('Error getting conversation: ', number);
     }
 
-    // Bail early if a session reset is already ongoing
-    if (conversation.isSessionResetOngoing()) {
-      return;
-    }
-
     await Promise.all(
       deviceIds.map(async deviceId => {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
@@ -1668,6 +1663,7 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
     messageReceiver
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
+  this.handleEndSession = messageReceiver.handleEndSession.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
   this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(
     messageReceiver

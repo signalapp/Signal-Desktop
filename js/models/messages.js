@@ -1983,11 +1983,13 @@
               conversation.hasSentFriendRequest() ||
               conversation.isFriend()
             ) {
+              if (conversation.isFriend()) {
+                window.Whisper.events.trigger('endSession', source);
+              }
               // Automatically accept incoming friend requests if we have send one already
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
               await conversation.onFriendRequestAccepted();
-              window.libloki.api.sendBackgroundMessage(message.get('source'));
             } else {
               await conversation.onFriendRequestReceived();
             }

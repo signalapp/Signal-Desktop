@@ -927,6 +927,10 @@
     messageReceiver.addEventListener('configuration', onConfiguration);
     messageReceiver.addEventListener('typing', onTyping);
 
+    Whisper.events.on('endSession', (source) => {
+      messageReceiver.handleEndSession(source);
+    });
+
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
       logger: window.log,
