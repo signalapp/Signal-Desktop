@@ -1958,6 +1958,10 @@
             });
           }
 
+          const sendingDeviceConversation = await ConversationController.getOrCreateAndWait(
+            source,
+            'private'
+          );
           if (dataMessage.profileKey) {
             const profileKey = dataMessage.profileKey.toString('base64');
             if (source === textsecure.storage.user.getNumber()) {
@@ -1965,18 +1969,10 @@
             } else if (conversation.isPrivate()) {
               conversation.setProfileKey(profileKey);
             } else {
-              ConversationController.getOrCreateAndWait(source, 'private').then(
-                sender => {
-                  sender.setProfileKey(profileKey);
-                }
-              );
+              sendingDeviceConversation.setProfileKey(profileKey);
             }
           } else if (dataMessage.profile) {
-            ConversationController.getOrCreateAndWait(source, 'private').then(
-              sender => {
-                sender.setLokiProfile(dataMessage.profile);
-              }
-            );
+            sendingDeviceConversation.setLokiProfile(dataMessage.profile);
           }
 
           let autoAccept = false;
@@ -1996,16 +1992,16 @@
               - We are friends with the user, and that user just sent us a friend request.
             */
             if (
-              conversation.hasSentFriendRequest() ||
-              conversation.isFriend()
+              sendingDeviceConversation.hasSentFriendRequest() ||
+              sendingDeviceConversation.isFriend()
             ) {
               // Automatically accept incoming friend requests if we have send one already
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
-              await conversation.onFriendRequestAccepted();
+              await sendingDeviceConversation.onFriendRequestAccepted();
               window.libloki.api.sendBackgroundMessage(message.get('source'));
             } else {
-              await conversation.onFriendRequestReceived();
+              await sendingDeviceConversation.onFriendRequestReceived();
             }
           } else {
             await conversation.onFriendRequestAccepted();

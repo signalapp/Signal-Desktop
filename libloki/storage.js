@@ -179,6 +179,7 @@
     if (!conversation || conversation.isPublic() || conversation.isRss()) {
       return null;
     }
+    await saveAllPairingAuthorisationsFor(secondaryPubKey);
     const authorisation = await window.Signal.Data.getGrantAuthorisationForSecondaryPubKey(
       secondaryPubKey
     );
@@ -220,6 +221,7 @@
   }
 
   async function getAllDevicePubKeysForPrimaryPubKey(primaryDevicePubKey) {
+    await saveAllPairingAuthorisationsFor(primaryDevicePubKey);
     const secondaryPubKeys =
       (await getSecondaryDevicesFor(primaryDevicePubKey)) || [];
     return secondaryPubKeys.concat(primaryDevicePubKey);

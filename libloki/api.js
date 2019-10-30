@@ -27,6 +27,13 @@
   }
 
   async function sendOnlineBroadcastMessage(pubKey, isPing = false) {
+    const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+      pubKey
+    );
+    if (authorisation && authorisation.primaryDevicePubKey !== pubKey) {
+      sendOnlineBroadcastMessage(authorisation.primaryDevicePubKey);
+      return;
+    }
     let p2pAddress = null;
     let p2pPort = null;
     let type;

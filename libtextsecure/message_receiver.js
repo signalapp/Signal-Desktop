@@ -1277,6 +1277,7 @@ MessageReceiver.prototype.extend({
               deviceMapping
             );
             if (autoAccepted) {
+              await conversation.onFriendRequestAccepted();
               return this.removeFromCache(envelope);
             }
           }

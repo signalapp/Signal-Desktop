@@ -1008,6 +1008,12 @@
     "message": "Send a message",
     "description": "Placeholder text in the message entry field"
   },
+  "secondaryDeviceDefaultFR": {
+    "message":
+      "This is an automated friend request because you are friends with another one of my devices",
+    "description":
+      "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
+  },
   "sendMessageDisabledSecondary": {
     "message":
       "This pubkey belongs to a secondary device. You should never see this message",
