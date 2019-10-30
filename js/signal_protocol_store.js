@@ -329,7 +329,7 @@
 
       const session = this.sessions[encodedNumber];
       if (session) {
-        return libsignal.SessionRecord.deserialize(session.record);
+        return session.record;
       }
 
       return undefined;
@@ -346,7 +346,7 @@
         id: encodedNumber,
         number,
         deviceId,
-        record: record.serialize(),
+        record,
       };
 
       this.sessions[encodedNumber] = data;

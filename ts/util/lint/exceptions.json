@@ -301,7 +301,7 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 908,
+    "lineNumber": 894,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },

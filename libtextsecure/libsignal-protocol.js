@@ -35766,8 +35766,6 @@ Internal.SessionRecord = function() {
     return SessionRecord;
 }();
 
-libsignal.SessionRecord = Internal.SessionRecord;
-
 function SignalProtocolAddress(name, deviceId) {
   this.name = name;
   this.deviceId = deviceId;
@@ -35846,15 +35844,18 @@ SessionBuilder.prototype = {
         });
       }.bind(this)).then(function(session) {
         var address = this.remoteAddress.toString();
-        return this.storage.loadSession(address).then(function(record) {
-          if (record === undefined) {
+        return this.storage.loadSession(address).then(function(serialized) {
+          var record;
+          if (serialized !== undefined) {
+            record = Internal.SessionRecord.deserialize(serialized);
+          } else {
             record = new Internal.SessionRecord();
           }
 
           record.archiveCurrentState();
           record.updateSessionState(session);
           return Promise.all([
-            this.storage.storeSession(address, record),
+            this.storage.storeSession(address, record.serialize()),
             this.storage.saveIdentity(this.remoteAddress.toString(), device.identityKey)
           ]);
         }.bind(this));
@@ -36038,7 +36039,12 @@ function SessionCipher(storage, remoteAddress) {
 
 SessionCipher.prototype = {
   getRecord: function(encodedNumber) {
-      return this.storage.loadSession(encodedNumber);
+      return this.storage.loadSession(encodedNumber).then(function(serialized) {
+          if (serialized === undefined) {
+              return undefined;
+          }
+          return Internal.SessionRecord.deserialize(serialized);
+      });
   },
   // encoding is an optional parameter - wrap() will only translate if one is provided
   encrypt: function(buffer, encoding) {
@@ -36118,7 +36124,7 @@ SessionCipher.prototype = {
                       return this.storage.saveIdentity(this.remoteAddress.toString(), theirIdentityKey);
                   }.bind(this)).then(function() {
                       record.updateSessionState(session);
-                      return this.storage.storeSession(address, record).then(function() {
+                      return this.storage.storeSession(address, record.serialize()).then(function() {
                           return result;
                       });
                   }.bind(this));
@@ -36205,7 +36211,7 @@ SessionCipher.prototype = {
                         return this.storage.saveIdentity(this.remoteAddress.toString(), result.session.indexInfo.remoteIdentityKey);
                     }.bind(this)).then(function() {
                         record.updateSessionState(result.session);
-                        return this.storage.storeSession(address, record).then(function() {
+                        return this.storage.storeSession(address, record.serialize()).then(function() {
                             return result.plaintext;
                         });
                     }.bind(this));
@@ -36240,7 +36246,7 @@ SessionCipher.prototype = {
                       preKeyProto.message.toArrayBuffer(), session
                   ).then(function(plaintext) {
                       record.updateSessionState(session);
-                      return this.storage.storeSession(address, record).then(function() {
+                      return this.storage.storeSession(address, record.serialize()).then(function() {
                           if (preKeyId !== undefined && preKeyId !== null) {
                               return this.storage.removePreKey(preKeyId);
                           }
@@ -36438,7 +36444,7 @@ SessionCipher.prototype = {
         }
 
         record.archiveCurrentState();
-        return this.storage.storeSession(address, record);
+        return this.storage.storeSession(address, record.serialize());
       }.bind(this));
     }.bind(this));
   },
@@ -36452,7 +36458,7 @@ SessionCipher.prototype = {
         }
 
         record.deleteAllSessions();
-        return this.storage.storeSession(address, record);
+        return this.storage.storeSession(address, record.serialize());
       }.bind(this));
     }.bind(this));
   }
