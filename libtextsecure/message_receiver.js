@@ -1663,7 +1663,9 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
     messageReceiver
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
-  this.handleEndSession = messageReceiver.handleEndSession.bind(messageReceiver);
+  this.handleEndSession = messageReceiver.handleEndSession.bind(
+    messageReceiver
+  );
   this.close = messageReceiver.close.bind(messageReceiver);
   this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(
     messageReceiver
