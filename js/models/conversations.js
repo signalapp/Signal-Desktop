@@ -782,7 +782,7 @@
           response: 'accepted',
           status: ['pending', 'expired'],
         });
-        window.libloki.api.sendOnlineBroadcastMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(this.id);
         return true;
       }
       return false;
@@ -1822,7 +1822,7 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      await window.libloki.api.sendBackgroundMessage(this.id);
+      window.libloki.api.sendBackgroundMessage(this.id);
     },
 
     isSessionResetReceived() {
@@ -1858,7 +1858,7 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        await window.libloki.api.sendBackgroundMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(this.id);
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',
