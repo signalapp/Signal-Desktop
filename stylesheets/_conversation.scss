@@ -190,6 +190,22 @@
   margin-bottom: -5px;
 }
 
+.conversation-stack-border {
+  border-bottom: solid;
+  border-color: white;
+  border-width: 4px;
+}
+
+.conversation-stack-no-border {
+  border-bottom: none;
+}
+
+.dark-theme {
+  .conversation-stack-border {
+    border-color: black;
+  }
+}
+
 .bottom-bar .preview-wrapper {
   margin-top: 3px;
   margin-left: 37px;

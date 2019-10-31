@@ -1009,6 +1009,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorColor,
       direction,
       id,
+      isRss,
       timestamp,
     } = this.props;
     const { expired, expiring } = this.state;
@@ -1049,7 +1050,9 @@ export class Message extends React.PureComponent<Props, State> {
             )}
           >
             {this.renderError(direction === 'incoming')}
-            {this.renderMenu(direction === 'outgoing', triggerId)}
+            {isRss
+              ? null
+              : this.renderMenu(direction === 'outgoing', triggerId)}
             <div
               className={classNames(
                 'module-message__container',
@@ -1073,7 +1076,9 @@ export class Message extends React.PureComponent<Props, State> {
               {this.renderAvatar()}
             </div>
             {this.renderError(direction === 'outgoing')}
-            {this.renderMenu(direction === 'incoming', triggerId)}
+            {isRss
+              ? null
+              : this.renderMenu(direction === 'incoming', triggerId)}
             {this.renderContextMenu(triggerId)}
             {this.renderContextMenu(rightClickTriggerId)}
           </div>
