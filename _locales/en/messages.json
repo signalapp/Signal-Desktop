@@ -955,6 +955,9 @@
   "allowPairing": {
     "message": "Allow Pairing"
   },
+  "showPairingWordsTitle": {
+    "message": "Pairing Secret Words"
+  },
   "clear": {
     "message": "Clear"
   },
