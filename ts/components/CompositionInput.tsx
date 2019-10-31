@@ -23,8 +23,9 @@ import { Emoji } from './emoji/Emoji';
 import { EmojiPickDataType } from './emoji/EmojiPicker';
 import {
   convertShortName,
+  DataFromEmojiText,
   EmojiData,
-  replaceColons,
+  emojiToData,
   search,
 } from './emoji/lib';
 import { LocalizerType } from '../types/Util';
@@ -56,9 +57,11 @@ export type InputApi = {
   submit: () => void;
 };
 
+export type SelectionKeys = 'Shift-End' | 'End' | 'Shift-Home' | 'Home';
 export type CompositionInputEditorCommand =
   | DraftEditorCommand
-  | ('enter-emoji' | 'next-emoji' | 'prev-emoji' | 'submit');
+  | ('enter-emoji' | 'next-emoji' | 'prev-emoji' | 'submit')
+  | SelectionKeys;
 
 function getTrimmedMatchAtIndex(str: string, index: number, pattern: RegExp) {
   let match;
@@ -117,18 +120,117 @@ function getLengthOfSelectedText(state: EditorState): number {
   return length;
 }
 
-function getWordAtIndex(str: string, index: number) {
+function getWordAtIndex(
+  str: string,
+  index: number
+): { start: number; end: number; word: string } {
   const start = str
     .slice(0, index + 1)
     .replace(/\s+$/, '')
     .search(/\S+$/);
-  const end = str.slice(index).search(/(?:[^a-z0-9-_+]|$)/) + index;
+
+  let end =
+    str
+      .slice(index)
+      .split('')
+      .findIndex(c => /[^a-z0-9-_]/i.test(c) || c === ':') + index;
+
+  const endChar = str[end];
+
+  if (/\w|:/.test(endChar)) {
+    end += 1;
+  }
+
+  const word = str.slice(start, end);
+
+  if (word === ':') {
+    return getWordAtIndex(str, index + 1);
+  }
 
   return {
     start,
     end,
-    word: str.slice(start, end),
+    word,
   };
+}
+
+// Replace bare (non-entitied) emojis with draft entities
+function replaceBareEmojis(state: EditorState, focus: boolean): EditorState {
+  // Track emoji positions
+  const selections: Array<[SelectionState, DataFromEmojiText]> = [];
+
+  const content = state.getCurrentContent();
+  const initialSelection = state.getSelection();
+  let selectionOffset = 0;
+
+  content.getBlockMap().forEach(block => {
+    if (!block) {
+      return;
+    }
+    const pat = emojiRegex();
+    const text = block.getText();
+    let match;
+    // tslint:disable-next-line
+    while ((match = pat.exec(text)) !== null) {
+      const start = match.index;
+      const end = start + match[0].length;
+      const blockKey = block.getKey();
+      const blockSelection = SelectionState.createEmpty(blockKey).merge({
+        anchorOffset: start,
+        focusOffset: end,
+      }) as SelectionState;
+      const emojiData = emojiToData(match[0]);
+      // If there is not entity at this location and emoji data exists for the emoji at this location, track it for replacement
+      if (!block.getEntityAt(start) && emojiData) {
+        selections.push([blockSelection, emojiData]);
+      }
+    }
+  });
+
+  const newContent = selections.reduce(
+    (accContent, [sel, { shortName, tone }]) => {
+      const emojiContent = convertShortName(shortName);
+      const emojiEntityKey = accContent
+        .createEntity('emoji', 'IMMUTABLE', {
+          shortName: shortName,
+          skinTone: tone,
+        })
+        .getLastCreatedEntityKey();
+
+      // Keep track of selection offsets caused by replaced emojis
+      if (sel.getAnchorOffset() < initialSelection.getAnchorOffset()) {
+        selectionOffset += Math.abs(
+          sel.getAnchorOffset() - sel.getFocusOffset()
+        );
+      }
+
+      return Modifier.replaceText(
+        accContent,
+        sel,
+        emojiContent,
+        undefined,
+        emojiEntityKey
+      );
+    },
+    content
+  );
+
+  const pushState = EditorState.push(
+    state,
+    newContent,
+    'replace-emoji' as EditorChangeType
+  );
+
+  if (focus) {
+    const newSelection = initialSelection.merge({
+      anchorOffset: initialSelection.getAnchorOffset() + selectionOffset,
+      focusOffset: initialSelection.getFocusOffset() + selectionOffset,
+    }) as SelectionState;
+
+    return EditorState.forceSelection(pushState, newSelection);
+  }
+
+  return pushState;
 }
 
 const compositeDecorator = new CompositeDecorator([
@@ -187,18 +289,15 @@ const getInitialEditorState = (startingText?: string) => {
     return EditorState.createEmpty(compositeDecorator);
   }
 
-  const end = startingText.length;
-  const state = EditorState.createWithContent(
-    ContentState.createFromText(startingText),
-    compositeDecorator
+  const state = replaceBareEmojis(
+    EditorState.createWithContent(
+      ContentState.createFromText(startingText),
+      compositeDecorator
+    ),
+    false
   );
-  const selection = state.getSelection();
-  const selectionAtEnd = selection.merge({
-    anchorOffset: end,
-    focusOffset: end,
-  }) as SelectionState;
 
-  return EditorState.forceSelection(state, selectionAtEnd);
+  return EditorState.moveFocusToEnd(state);
 };
 
 // tslint:disable-next-line max-func-body-length
@@ -231,6 +330,7 @@ export const CompositionInput = ({
   const focusRef = React.useRef(false);
   const editorStateRef = React.useRef<EditorState>(editorRenderState);
   const rootElRef = React.useRef<HTMLDivElement>();
+  const latestKeyRef = React.useRef<string>();
 
   // This function sets editorState and also keeps a reference to the newly set
   // state so we can reference the state in effects and callbacks without
@@ -309,7 +409,7 @@ export const CompositionInput = ({
 
       // Update the state to indicate emojiable text at the current position.
       const newSearchText = match ? match.trim().substr(1) : '';
-      if (newSearchText.endsWith(':')) {
+      if (newSearchText.endsWith(':') && latestKeyRef.current === ':') {
         const bareText = trimEnd(newSearchText, ':');
         const emoji = head(search(bareText));
         if (emoji && bareText === emoji.short_name) {
@@ -328,12 +428,15 @@ export const CompositionInput = ({
         resetEmojiResults();
       }
 
+      const modifiedState = replaceBareEmojis(newState, focusRef.current);
+
       // Finally, update the editor state
-      setAndTrackEditorState(newState);
-      updateExternalStateListeners(newState);
+      setAndTrackEditorState(modifiedState);
+      updateExternalStateListeners(modifiedState);
     },
     [
       focusRef,
+      latestKeyRef,
       resetEmojiResults,
       setAndTrackEditorState,
       setSearchText,
@@ -399,8 +502,7 @@ export const CompositionInput = ({
     () => {
       const { current: state } = editorStateRef;
       const text = state.getCurrentContent().getPlainText();
-      const emojidText = replaceColons(text);
-      const trimmedText = emojidText.trim();
+      const trimmedText = text.trim();
       onSubmit(trimmedText);
     },
     [editorStateRef, onSubmit]
@@ -453,8 +555,36 @@ export const CompositionInput = ({
     [emojiResultsIndex, emojiResults]
   );
 
+  const setCursor = React.useCallback(
+    (key: SelectionKeys) => {
+      const { current: state } = editorStateRef;
+      const selection = state.getSelection();
+      const offset =
+        key === 'Shift-Home' || key === 'Home'
+          ? 0
+          : state
+              .getCurrentContent()
+              .getBlockForKey(selection.getAnchorKey())
+              .getText().length;
+
+      const desc: { focusOffset?: number; anchorOffset?: number } = {
+        focusOffset: offset,
+      };
+
+      if (key === 'Home' || key === 'End') {
+        desc.anchorOffset = offset;
+      }
+
+      const newSelection = selection.merge(desc) as SelectionState;
+      setAndTrackEditorState(EditorState.forceSelection(state, newSelection));
+    },
+    [editorStateRef, setAndTrackEditorState]
+  );
+
   const handleEditorArrowKey = React.useCallback(
     (e: React.KeyboardEvent) => {
+      latestKeyRef.current = e.key;
+
       if (e.key === 'ArrowUp') {
         selectEmojiResult('prev', e);
       }
@@ -462,8 +592,26 @@ export const CompositionInput = ({
       if (e.key === 'ArrowDown') {
         selectEmojiResult('next', e);
       }
+
+      if (e.key === 'ArrowLeft' && e.metaKey) {
+        e.preventDefault();
+        if (e.shiftKey) {
+          setCursor('Shift-Home');
+        } else {
+          setCursor('Home');
+        }
+      }
+
+      if (e.key === 'ArrowRight' && e.metaKey) {
+        e.preventDefault();
+        if (e.shiftKey) {
+          setCursor('Shift-End');
+        } else {
+          setCursor('End');
+        }
+      }
     },
-    [selectEmojiResult]
+    [latestKeyRef, selectEmojiResult, setCursor]
   );
 
   const handleEscapeKey = React.useCallback(
@@ -503,24 +651,18 @@ export const CompositionInput = ({
         .getLastCreatedEntityKey();
       const word = getWordAtCaret();
 
-      let newContent = replaceWord
-        ? Modifier.replaceText(
-            oldContent,
-            selection.merge({
+      let newContent = Modifier.replaceText(
+        oldContent,
+        replaceWord
+          ? (selection.merge({
               anchorOffset: word.start,
               focusOffset: word.end,
-            }) as SelectionState,
-            emojiContent,
-            undefined,
-            emojiEntityKey
-          )
-        : Modifier.insertText(
-            oldContent,
-            selection,
-            emojiContent,
-            undefined,
-            emojiEntityKey
-          );
+            }) as SelectionState)
+          : selection,
+        emojiContent,
+        undefined,
+        emojiEntityKey
+      );
 
       const afterSelection = newContent.getSelectionAfter();
 
@@ -611,6 +753,15 @@ export const CompositionInput = ({
         selectEmojiResult('prev');
       }
 
+      if (
+        command === 'Shift-End' ||
+        command === 'End' ||
+        command === 'Shift-Home' ||
+        command === 'Home'
+      ) {
+        setCursor(command);
+      }
+
       return 'not-handled';
     },
     [
@@ -619,6 +770,7 @@ export const CompositionInput = ({
       resetEmojiResults,
       selectEmojiResult,
       setAndTrackEditorState,
+      setCursor,
       skinTone,
       submit,
     ]
@@ -637,7 +789,10 @@ export const CompositionInput = ({
   );
 
   const editorKeybindingFn = React.useCallback(
+    // tslint:disable-next-line cyclomatic-complexity
     (e: React.KeyboardEvent): CompositionInputEditorCommand | null => {
+      latestKeyRef.current = e.key;
+
       if (e.key === 'Enter' && emojiResults.length > 0) {
         e.preventDefault();
 
@@ -652,6 +807,30 @@ export const CompositionInput = ({
         e.preventDefault();
 
         return 'submit';
+      }
+
+      if (e.shiftKey && e.key === 'End') {
+        e.preventDefault();
+
+        return 'Shift-End';
+      }
+
+      if (e.key === 'End') {
+        e.preventDefault();
+
+        return 'End';
+      }
+
+      if (e.shiftKey && e.key === 'Home') {
+        e.preventDefault();
+
+        return 'Shift-Home';
+      }
+
+      if (e.key === 'Home') {
+        e.preventDefault();
+
+        return 'Home';
       }
 
       if (e.key === 'n' && e.ctrlKey) {
@@ -680,7 +859,7 @@ export const CompositionInput = ({
 
       return getDefaultKeyBinding(e);
     },
-    [emojiResults, large]
+    [latestKeyRef, emojiResults, large]
   );
 
   // Create popper root
@@ -732,6 +911,7 @@ export const CompositionInput = ({
           setAndTrackEditorState(
             EditorState.forceSelection(oldState, oldState.getSelection())
           );
+          onFocus();
         };
 
         rootEl.addEventListener('focusin', onFocusIn);
@@ -743,7 +923,7 @@ export const CompositionInput = ({
 
       return noop;
     },
-    [editorStateRef, rootElRef, setAndTrackEditorState]
+    [editorStateRef, onFocus, rootElRef, setAndTrackEditorState]
   );
 
   if (inputApi) {
@@ -780,6 +960,8 @@ export const CompositionInput = ({
                     placeholder={i18n('sendMessage')}
                     onUpArrow={handleEditorArrowKey}
                     onDownArrow={handleEditorArrowKey}
+                    onLeftArrow={handleEditorArrowKey}
+                    onRightArrow={handleEditorArrowKey}
                     onEscape={handleEscapeKey}
                     onTab={onTab}
                     handleKeyCommand={handleEditorCommand}

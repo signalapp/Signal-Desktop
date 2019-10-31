@@ -38,6 +38,11 @@ export type EmojiSkinVariation = {
   has_img_messenger: boolean;
 };
 
+export type DataFromEmojiText = {
+  shortName: string;
+  tone?: SkinToneKey;
+};
+
 export type EmojiData = {
   name: string;
   unified: string;
@@ -116,6 +121,7 @@ export const preloadImages = async () => {
 
 const dataByShortName = keyBy(data, 'short_name');
 const imageByEmoji: { [key: string]: string } = {};
+const dataByEmoji: { [key: string]: DataFromEmojiText } = {};
 
 export const dataByCategory = mapValues(
   groupBy(data, ({ category }) => {
@@ -242,20 +248,8 @@ export function emojiToImage(emoji: string): string | undefined {
   return imageByEmoji[emoji];
 }
 
-export function replaceColons(str: string) {
-  return str.replace(/:[a-z0-9-_+]+:(?::skin-tone-[1-5]:)?/gi, m => {
-    const [shortName = '', skinTone = '0'] = m
-      .replace('skin-tone-', '')
-      .toLowerCase()
-      .split(':')
-      .filter(Boolean);
-
-    if (shortName && isShortName(shortName)) {
-      return convertShortName(shortName, parseInt(skinTone, 10));
-    }
-
-    return m;
-  });
+export function emojiToData(emoji: string): DataFromEmojiText | undefined {
+  return dataByEmoji[emoji];
 }
 
 function getCountOfAllMatches(str: string, regex: RegExp) {
@@ -305,12 +299,17 @@ data.forEach(emoji => {
   }
 
   imageByEmoji[convertShortName(short_name)] = makeImagePath(image);
+  dataByEmoji[convertShortName(short_name)] = { shortName: short_name };
 
   if (skin_variations) {
     Object.entries(skin_variations).forEach(([tone, variation]) => {
       imageByEmoji[
         convertShortName(short_name, tone as SkinToneKey)
       ] = makeImagePath(variation.image);
+      dataByEmoji[convertShortName(short_name, tone as SkinToneKey)] = {
+        shortName: short_name,
+        tone: tone as SkinToneKey,
+      };
     });
   }
 });

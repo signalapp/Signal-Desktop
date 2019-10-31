@@ -231,9 +231,9 @@
     "rule": "jQuery-load(",
     "path": "js/modules/emojis.js",
     "line": "async function load() {",
-    "lineNumber": 13,
+    "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2019-05-23T22:27:53.554Z"
+    "updated": "2019-10-31T17:28:08.684Z"
   },
   {
     "rule": "jQuery-load(",
