@@ -77,16 +77,10 @@
     secondaryDevicePubKey,
     requestSignature,
     grantSignature,
-    type,
   }) {
-    if (
-      !primaryDevicePubKey ||
-      !secondaryDevicePubKey ||
-      !requestSignature ||
-      typeof type !== 'number'
-    ) {
+    if (!primaryDevicePubKey || !secondaryDevicePubKey || !requestSignature) {
       throw new Error(
-        'createPairingAuthorisationProtoMessage: pubkeys or type is not set'
+        'createPairingAuthorisationProtoMessage: pubkeys missing'
       );
     }
     if (requestSignature.constructor !== ArrayBuffer) {
@@ -104,7 +98,6 @@
       grantSignature: grantSignature ? new Uint8Array(grantSignature) : null,
       primaryDevicePubKey,
       secondaryDevicePubKey,
-      type,
     });
   }
   // Serialise as <Element0.length><Element0><Element1.length><Element1>...
