@@ -37,7 +37,8 @@ interface Props {
   hasNickname?: boolean;
 
   isBlocked: boolean;
-  isKeysPending: boolean;
+  isFriend: boolean;
+  isFriendRequestPending: boolean;
   isOnline?: boolean;
 
   onSetDisappearingMessages: (seconds: number) => void;
@@ -102,7 +103,9 @@ export class ConversationHeader extends React.Component<Props> {
       phoneNumber,
       i18n,
       profileName,
-      isKeysPending,
+      isFriend,
+      isGroup,
+      isFriendRequestPending,
       isMe,
       name,
     } = this.props;
@@ -115,6 +118,18 @@ export class ConversationHeader extends React.Component<Props> {
       );
     }
 
+    let text = '';
+    if (isFriendRequestPending) {
+      text = `(${i18n('pending')})`;
+    } else if (!isFriend && !isGroup) {
+      text = `(${i18n('notFriends')})`;
+    }
+
+    const textEl =
+      text === '' ? null : (
+        <span className="module-conversation-header__title-text">{text}</span>
+      );
+
     return (
       <div className="module-conversation-header__title">
         <ContactName
@@ -123,7 +138,7 @@ export class ConversationHeader extends React.Component<Props> {
           name={name}
           i18n={i18n}
         />
-        {isKeysPending ? '(pending)' : null}
+        {textEl}
       </div>
     );
   }
