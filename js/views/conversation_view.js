@@ -732,6 +732,16 @@
 
       this.model.updateLastMessage();
 
+      if (this.model.isRss()) {
+        $('.compose').hide();
+        $('.conversation-stack').removeClass('conversation-stack-no-border');
+        $('.conversation-stack').addClass('conversation-stack-border');
+      } else {
+        $('.compose').show();
+        $('.conversation-stack').removeClass('conversation-stack-border');
+        $('.conversation-stack').addClass('conversation-stack-no-border');
+      }
+
       // const statusPromise = this.throttledGetProfiles();
       // // eslint-disable-next-line more/no-then
       // this.statusFetch = statusPromise.then(() =>
