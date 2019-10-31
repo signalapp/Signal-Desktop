@@ -2067,5 +2067,13 @@
   "friendsTab": {
     "message": "Friends",
     "description": "friend tab title"
+  },
+  "pending": {
+    "message": "pending",
+    "description": "Indicates that a friend request is pending"
+  },
+  "notFriends": {
+    "message": "not friends",
+    "description": "Indicates that a conversation is not friends with us"
   }
 }
