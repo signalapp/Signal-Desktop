@@ -1335,26 +1335,34 @@
         ? i18n('deletePublicWarning')
         : i18n('deleteWarning');
 
+      const doDelete = async () => {
+        if (this.model.isPublic()) {
+          const success = await this.model.deletePublicMessage(message);
+          if (!success) {
+            // Message failed to delete from server, show error?
+            return;
+          }
+        } else {
+          this.model.messageCollection.remove(message.id);
+        }
+        await window.Signal.Data.removeMessage(message.id, {
+          Message: Whisper.Message,
+        });
+        message.trigger('unload');
+        this.resetPanel();
+        this.updateHeader();
+      };
+
+      // The message wasn't saved, so we don't show any warning
+      if (message.hasErrors()) {
+        doDelete();
+        return;
+      }
+
       const dialog = new Whisper.ConfirmationDialogView({
         message: warningMessage,
         okText: i18n('delete'),
-        resolve: async () => {
-          if (this.model.isPublic()) {
-            const success = await this.model.deletePublicMessage(message);
-            if (!success) {
-              // Message failed to delete from server, show error?
-              return;
-            }
-          } else {
-            this.model.messageCollection.remove(message.id);
-          }
-          await window.Signal.Data.removeMessage(message.id, {
-            Message: Whisper.Message,
-          });
-          message.trigger('unload');
-          this.resetPanel();
-          this.updateHeader();
-        },
+        resolve: doDelete,
       });
 
       this.$el.prepend(dialog.el);

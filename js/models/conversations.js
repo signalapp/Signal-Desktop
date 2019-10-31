@@ -2425,11 +2425,20 @@
       if (!channelAPI) {
         return false;
       }
-      const success = await channelAPI.deleteMessage(message.getServerId());
-      if (success) {
+      const serverId = message.getServerId();
+
+      const success = serverId
+        ? await channelAPI.deleteMessage(serverId)
+        : false;
+
+      const shouldDeleteLocally = success || message.hasErrors() || !serverId;
+      // If the message has errors it is likely not saved
+      // on the server, so we delete it locally unconditionally
+      if (shouldDeleteLocally) {
         this.removeMessage(message.id);
       }
-      return success;
+
+      return shouldDeleteLocally;
     },
 
     removeMessage(messageId) {
