@@ -181,6 +181,8 @@
 
       this.messageSendQueue = new JobQueue();
 
+      this.selectedMessages = new Set();
+
       // Keep props ready
       const generateProps = () => {
         this.cachedProps = this.getProps();
@@ -217,6 +219,43 @@
       BlockedNumberController.unblock(this.id);
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
+    },
+
+    addMessageSelection(id) {
+      // If the selection is empty, then we chage the mode to
+      // multiple selection by making it non-empty
+      const modeChanged = this.selectedMessages.size === 0;
+      this.selectedMessages.add(id);
+
+      if (modeChanged) {
+        this.messageCollection.forEach(m => m.trigger('change'));
+      }
+
+      this.trigger('message-selection-changed');
+    },
+
+    removeMessageSelection(id) {
+      this.selectedMessages.delete(id);
+      // If the selection is empty after the deletion then we
+      // must have unselected the last one (we assume the id is valid)
+      const modeChanged = this.selectedMessages.size === 0;
+
+      if (modeChanged) {
+        this.messageCollection.forEach(m => m.trigger('change'));
+      }
+
+      this.trigger('message-selection-changed');
+    },
+
+    resetMessageSelection() {
+      this.selectedMessages.clear();
+      this.messageCollection.forEach(m => {
+        // eslint-disable-next-line no-param-reassign
+        m.selected = false;
+        m.trigger('change');
+      });
+
+      this.trigger('message-selection-changed');
     },
 
     bumpTyping() {
@@ -483,6 +522,8 @@
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
         isFriend: this.isFriend(),
+
+        selectedMessages: this.selectedMessages,
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
@@ -2440,24 +2481,35 @@
       });
     },
 
-    async deletePublicMessage(message) {
+    async deletePublicMessages(messages) {
       const channelAPI = await this.getPublicSendData();
       if (!channelAPI) {
         return false;
       }
-      const serverId = message.getServerId();
 
-      const success = serverId
-        ? await channelAPI.deleteMessage(serverId)
-        : false;
-
-      const shouldDeleteLocally = success || message.hasErrors() || !serverId;
-      // If the message has errors it is likely not saved
-      // on the server, so we delete it locally unconditionally
-      if (shouldDeleteLocally) {
-        this.removeMessage(message.id);
+      let success;
+      const shouldBeDeleted = [];
+      if (messages.length > 1) {
+        success = await channelAPI.deleteMessages(
+          messages.map(m => m.getServerId())
+        );
+      } else {
+        success = await channelAPI.deleteMessages([messages[0].getServerId()]);
       }
 
+      messages.forEach(m => {
+
+        // If the message has errors it is likely not saved
+        // on the server, so we delete it locally unconditionally
+        const shouldDeleteLocally = success || m.hasErrors() || !m.getServerId();
+
+        if (shouldDeleteLocally) {
+          this.removeMessage(m.id);
+        }
+
+      });
+
+      /// TODO: not sure what to return here
       return shouldDeleteLocally;
     },
 

@@ -125,6 +125,8 @@
         );
       }
 
+      this.selected = false;
+
       generateProps();
     },
     idForLogging() {
@@ -639,6 +641,8 @@
         isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
+        selected: this.selected,
+        multiSelectMode: conversation && conversation.selectedMessages.size > 0,
         isP2p: !!this.get('isP2p'),
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
@@ -651,6 +655,7 @@
           this.getSource() === this.OUR_NUMBER,
 
         onCopyText: () => this.copyText(),
+        onSelectMessage: () => this.selectMessage(),
         onCopyPubKey: () => this.copyPubKey(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
@@ -947,6 +952,20 @@
       window.Whisper.events.trigger('showToast', {
         message: i18n('copiedPublicKey'),
       });
+    },
+
+    selectMessage() {
+      this.selected = !this.selected;
+
+      const convo = this.getConversation();
+
+      if (this.selected) {
+        convo.addMessageSelection(this);
+      } else {
+        convo.removeMessageSelection(this);
+      }
+
+      this.trigger('change');
     },
 
     copyText() {

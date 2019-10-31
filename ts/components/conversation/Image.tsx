@@ -67,8 +67,9 @@ export class Image extends React.Component<Props> {
     return (
       <div
         role={role}
-        onClick={() => {
+        onClick={(e: any) => {
           if (canClick && onClick) {
+            e.stopPropagation();
             onClick(attachment);
           }
         }}

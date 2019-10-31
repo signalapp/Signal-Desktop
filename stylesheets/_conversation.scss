@@ -136,13 +136,8 @@
 .message-list {
   list-style: none;
 
-  .message-wrapper {
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
   li {
-    margin-bottom: 10px;
+    margin-bottom: 2px;
 
     &::after {
       visibility: hidden;
@@ -155,12 +150,92 @@
   }
 }
 
-.group {
-  .message-container,
-  .message-list {
-    .message-wrapper {
-      margin-left: 44px;
-    }
+.module-message__check-box {
+  color: rgb(97, 97, 97);
+  font-size: 20px;
+  padding: 4px;
+  user-select: none;
+  display: inline;
+}
+
+.check-box-container {
+  // background-color: blue;
+  align-items: center;
+  flex-direction: row;
+  display: inline-flex;
+}
+
+.check-box-visible {
+  transition-duration: 200ms;
+  opacity: 0.1;
+  width: 40px;
+}
+
+.check-box-invisible {
+  transition-duration: 200ms;
+  opacity: 0;
+  width: 0px;
+}
+
+.check-box-selected {
+  opacity: 1;
+}
+
+.loki-message-wrapper {
+  .react-contextmenu-wrapper {
+    display: inline-flex;
+    width: 100%;
+  }
+}
+
+.loki-message-wrapper {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.loki-message-wrapper {
+  display: flow-root;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+.message-selected {
+  background-color: #60554060;
+}
+
+.bulk-edit-container {
+  display: flex;
+  border-top: solid;
+  border-width: 0.8px;
+  border-color: #80808090;
+
+  &.hidden {
+    display: none;
+  }
+
+  .delete-button {
+    color: orangered;
+    padding: 18px;
+    // This makes sure the message counter is right in the center
+    width: 80px;
+    margin-right: -80px;
+    user-select: none;
+  }
+
+  .cancel-button {
+    padding: 18px;
+    width: 80px;
+    margin-left: -80px;
+    user-select: none;
+  }
+
+  .message-counter {
+    color: darkgrey;
+    display: flex;
+    align-items: center;
+    user-select: none;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

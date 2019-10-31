@@ -519,20 +519,18 @@ class LokiPublicChannelAPI {
     }
   }
 
-  // delete a message on the server
-  async deleteMessage(serverId, canThrow = false) {
+  // delete messages on the server
+  async deleteMessages(serverIds, canThrow = false) {
     const res = await this.serverRequest(
-      this.modStatus
-        ? `loki/v1/moderation/message/${serverId}`
-        : `${this.baseChannelUrl}/messages/${serverId}`,
-      { method: 'DELETE' }
+      this.modStatus ? `loki/v1/moderation/messages` : `loki/v1/messages`,
+      { method: 'DELETE', params: { ids: serverIds } }
     );
     if (!res.err && res.response) {
-      log.info(`deleted ${serverId} on ${this.baseChannelUrl}`);
+      log.info(`deleted ${serverIds} on ${this.baseChannelUrl}`);
       return true;
     }
     // fire an alert
-    log.warn(`failed to delete ${serverId} on ${this.baseChannelUrl}`);
+    log.warn(`failed to delete ${serverIds} on ${this.baseChannelUrl}`);
     if (canThrow) {
       throw new textsecure.PublicChatError(
         'Failed to delete public chat message'

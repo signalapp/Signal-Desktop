@@ -49,7 +49,7 @@ module.exports = {
     quotes: [
       'error',
       'single',
-      { avoidEscape: true, allowTemplateLiterals: false },
+      { avoidEscape: true, allowTemplateLiterals: true },
     ],
 
     // Prettier overrides:
