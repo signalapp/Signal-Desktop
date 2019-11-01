@@ -955,6 +955,9 @@
   "allowPairing": {
     "message": "Allow Pairing"
   },
+  "provideDeviceAlias": {
+    "message": "Please provide an alias for this paired device"
+  },
   "clear": {
     "message": "Clear"
   },

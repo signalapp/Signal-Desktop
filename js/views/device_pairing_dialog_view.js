@@ -1,4 +1,4 @@
-/* global Whisper, i18n, libloki, textsecure */
+/* global Whisper, i18n, libloki, textsecure, ConversationController */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -19,6 +19,7 @@
       this.pubKey = null;
       this.accepted = false;
       this.isListening = false;
+      this.success = false;
     },
     events: {
       'click #startPairing': 'startReceivingRequests',
@@ -48,6 +49,13 @@
       this.showView();
     },
     stopReceivingRequests() {
+      if (this.success) {
+        const deviceAlias = this.$('#deviceAlias')[0].value.trim();
+        const conv = ConversationController.get(this.pubKey);
+        if (conv) {
+          conv.setNickname(deviceAlias);
+        }
+      }
       this.trigger('stopReceivingRequests');
       this.reset();
       this.showView();
@@ -69,11 +77,22 @@
     },
     transmisssionCB(errors) {
       if (!errors) {
-        this.$('.transmissionStatus').text(i18n('sent'));
+        this.$('.transmissionStatus').text(i18n('provideDeviceAlias'));
+        this.$('#deviceAliasView').show();
+        this.$('#deviceAlias').on('keydown', (e) => {
+          if (e.target.value.trim()) {
+            this.$('.requestAcceptedView .ok').removeAttr('disabled');
+          } else {
+            this.$('.requestAcceptedView .ok').attr('disabled', true);
+          }
+        });
+        this.$('.requestAcceptedView .ok').show();
+        this.$('.requestAcceptedView .ok').attr('disabled', true);
+        this.success = true;
       } else {
         this.$('.transmissionStatus').text(errors);
+        this.$('.requestAcceptedView .ok').show();
       }
-      this.$('.requestAcceptedView .ok').show();
     },
     skipDevice() {
       this.trigger('devicePairingRequestRejected', this.pubKey);
@@ -99,8 +118,13 @@
         if (pubKeys && pubKeys.length > 0) {
           this.$('#pairedPubKeys').empty();
           pubKeys.forEach(x => {
+            let deviceAlias = 'Paired Device';
             const secretWords = window.mnemonic.pubkey_to_secret_words(x);
-            this.$('#pairedPubKeys').append(`<li>(${secretWords})</li>`);
+            const conv = ConversationController.get(x);
+            if (conv) {
+              deviceAlias = conv.getNickname();
+            }
+            this.$('#pairedPubKeys').append(`<li>${deviceAlias} (${secretWords})</li>`);
           });
         }
       } else if (this.accepted) {
