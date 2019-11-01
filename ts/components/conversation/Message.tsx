@@ -93,6 +93,7 @@ export interface Props {
   isExpired: boolean;
   expirationLength?: number;
   expirationTimestamp?: number;
+  convoId: string;
   isP2p?: boolean;
   isPublic?: boolean;
   isRss?: boolean;
@@ -590,6 +591,7 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       quote,
       isPublic,
+      convoId,
     } = this.props;
 
     if (!quote) {
@@ -614,6 +616,8 @@ export class Message extends React.PureComponent<Props, State> {
         text={quote.text}
         attachment={quote.attachment}
         isIncoming={direction === 'incoming'}
+        conversationType={conversationType}
+        convoId={convoId}
         isPublic={isPublic}
         authorPhoneNumber={displayedPubkey}
         authorProfileName={quote.authorProfileName}
@@ -718,7 +722,16 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderText() {
-    const { text, textPending, i18n, direction, status, isRss } = this.props;
+    const {
+      text,
+      textPending,
+      i18n,
+      direction,
+      status,
+      isRss,
+      conversationType,
+      convoId,
+    } = this.props;
 
     const contents =
       direction === 'incoming' && status === 'error'
@@ -745,7 +758,8 @@ export class Message extends React.PureComponent<Props, State> {
           isRss={isRss}
           i18n={i18n}
           textPending={textPending}
-          isPublic={this.props.isPublic}
+          isGroup={conversationType === 'group'}
+          convoId={convoId}
         />
       </div>
     );

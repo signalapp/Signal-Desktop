@@ -382,7 +382,23 @@ MessageSender.prototype = {
     );
 
     numbers.forEach(number => {
-      this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
+      // Note: if we are sending a private group message, we make our best to
+      // ensure we have signal protocol sessions with every member, but if we
+      // fail, let's at least send messages to those members with which we do:
+      const haveSession = _.some(
+        textsecure.storage.protocol.sessions,
+        s => s.number === number
+      );
+
+      if (
+        haveSession ||
+        options.isPublic ||
+        options.messageType === 'friend-request'
+      ) {
+        this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
+      } else {
+        window.log.error(`No session for number: ${number}`);
+      }
     });
   },
 
@@ -854,6 +870,11 @@ MessageSender.prototype = {
     options
   ) {
     const profile = this.getOurProfile();
+
+    const flags = options.backgroundFriendReq
+      ? textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST
+      : undefined;
+
     return this.sendMessage(
       {
         recipients: [number],
@@ -866,6 +887,7 @@ MessageSender.prototype = {
         expireTimer,
         profileKey,
         profile,
+        flags,
       },
       options
     );
@@ -1000,43 +1022,25 @@ MessageSender.prototype = {
     return this.sendMessage(attrs, options);
   },
 
-  createGroup(targetNumbers, id, name, avatar, options) {
-    const proto = new textsecure.protobuf.DataMessage();
-    proto.group = new textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(id);
-
-    proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.members = targetNumbers;
-    proto.group.name = name;
-
-    return this.makeAttachmentPointer(avatar).then(attachment => {
-      proto.group.avatar = attachment;
-      return this.sendGroupProto(
-        targetNumbers,
-        proto,
-        Date.now(),
-        options
-      ).then(() => proto.group.id);
-    });
-  },
-
-  updateGroup(groupId, name, avatar, targetNumbers, options) {
+  updateGroup(groupId, name, avatar, members, recipients, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
 
     proto.group.id = stringToArrayBuffer(groupId);
     proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
     proto.group.name = name;
-    proto.group.members = targetNumbers;
+    proto.group.members = members;
+
+    const ourPK = textsecure.storage.user.getNumber();
+    proto.group.admins = [ourPK];
 
     return this.makeAttachmentPointer(avatar).then(attachment => {
       proto.group.avatar = attachment;
-      return this.sendGroupProto(
-        targetNumbers,
-        proto,
-        Date.now(),
-        options
-      ).then(() => proto.group.id);
+      // TODO: re-enable this once we have attachments
+      proto.group.avatar = null;
+      return this.sendGroupProto(recipients, proto, Date.now(), options).then(
+        () => proto.group.id
+      );
     });
   },
 
@@ -1167,7 +1171,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.resetSession = sender.resetSession.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.sendTypingMessage = sender.sendTypingMessage.bind(sender);
-  this.createGroup = sender.createGroup.bind(sender);
   this.updateGroup = sender.updateGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
   this.setGroupName = sender.setGroupName.bind(sender);

@@ -204,8 +204,12 @@
           return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
         }
 
+        if (groupUpdate.kicked === 'You') {
+          return i18n('youGotKickedFromGroup');
+        }
+
         const messages = [];
-        if (!groupUpdate.name && !groupUpdate.joined) {
+        if (!groupUpdate.name && !groupUpdate.joined && !groupUpdate.kicked) {
           messages.push(i18n('updatedTheGroup'));
         }
         if (groupUpdate.name) {
@@ -223,6 +227,18 @@
           }
         }
 
+        if (groupUpdate.kicked && groupUpdate.kicked.length) {
+          const names = _.map(
+            groupUpdate.kicked,
+            this.getNameForNumber.bind(this)
+          );
+
+          if (names.length > 1) {
+            messages.push(i18n('multipleKickedFromTheGroup', names.join(', ')));
+          } else {
+            messages.push(i18n('kickedFromTheGroup', names[0]));
+          }
+        }
         return messages.join(', ');
       }
       if (this.isEndSession()) {
@@ -462,6 +478,23 @@
         });
       }
 
+      if (groupUpdate.kicked === 'You') {
+        changes.push({
+          type: 'kicked',
+          isMe: true,
+        });
+      } else if (groupUpdate.kicked) {
+        changes.push({
+          type: 'kicked',
+          contacts: _.map(
+            Array.isArray(groupUpdate.kicked)
+              ? groupUpdate.kicked
+              : [groupUpdate.kicked],
+            phoneNumber => this.findAndFormatContact(phoneNumber)
+          ),
+        });
+      }
+
       if (groupUpdate.left === 'You') {
         changes.push({
           type: 'remove',
@@ -573,8 +606,12 @@
           ? expireTimerStart + expirationLength
           : null;
 
+      // TODO: investigate why conversation is undefined
+      // for the public group chat
       const conversation = this.getConversation();
-      const isGroup = conversation && !conversation.isPrivate();
+
+      const convoId = conversation ? conversation.id : undefined;
+      const isGroup = !!conversation && !conversation.isPrivate();
 
       const attachments = this.get('attachments') || [];
       const firstAttachment = attachments[0];
@@ -592,6 +629,7 @@
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
         conversationType: isGroup ? 'group' : 'direct',
+        convoId,
         attachments: attachments
           .filter(attachment => !attachment.error)
           .map(attachment => this.getPropsForAttachment(attachment)),
@@ -1699,6 +1737,121 @@
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
+
+      // NOTE: we use friends status to tell if this is
+      // the creation of the group (initial update)
+      const newGroup = !conversation.isFriend();
+      const knownMembers = conversation.get('members');
+
+      if (!newGroup && knownMembers) {
+        const fromMember = knownMembers.includes(source);
+
+        if (!fromMember) {
+          window.log.warn(`Ignoring group message from non-member: ${source}`);
+          confirm();
+          return null;
+        }
+      }
+
+      if (
+        initialMessage.group &&
+        initialMessage.group.members &&
+        initialMessage.group.type === GROUP_TYPES.UPDATE
+      ) {
+        if (newGroup) {
+          conversation.updateGroupAdmins(initialMessage.group.admins);
+
+          conversation.setFriendRequestStatus(
+            window.friends.friendRequestStatusEnum.friends
+          );
+        }
+
+        const fromAdmin = conversation.get('groupAdmins').includes(source);
+
+        if (!fromAdmin) {
+          // Make sure the message is not removing members / renaming the group
+          const nameChanged =
+            conversation.get('name') !== initialMessage.group.name;
+
+          if (nameChanged) {
+            window.log.warn(
+              'Non-admin attempts to change the name of the group'
+            );
+          }
+
+          const membersMissing =
+            _.difference(
+              conversation.get('members'),
+              initialMessage.group.members
+            ).length > 0;
+
+          if (membersMissing) {
+            window.log.warn('Non-admin attempts to remove group members');
+          }
+
+          const messageAllowed = !nameChanged && !membersMissing;
+
+          if (!messageAllowed) {
+            confirm();
+            return null;
+          }
+        }
+        // For every member, see if we need to establish a session:
+        initialMessage.group.members.forEach(memberPubKey => {
+          const haveSession = _.some(
+            textsecure.storage.protocol.sessions,
+            s => s.number === memberPubKey
+          );
+
+          const ourPubKey = textsecure.storage.user.getNumber();
+          if (!haveSession && memberPubKey !== ourPubKey) {
+            ConversationController.getOrCreateAndWait(
+              memberPubKey,
+              'private'
+            ).then(() => {
+              textsecure.messaging.sendMessageToNumber(
+                memberPubKey,
+                '(If you see this message, you must be using an out-of-date client)',
+                [],
+                undefined,
+                [],
+                Date.now(),
+                undefined,
+                undefined,
+                { messageType: 'friend-request', backgroundFriendReq: true }
+              );
+            });
+          }
+        });
+      }
+
+      const backgroundFrReq =
+        initialMessage.flags ===
+        textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST;
+
+      if (message.isFriendRequest() && backgroundFrReq) {
+        // Check if the contact is a member in one of our private groups:
+        const groupMember = window
+          .getConversations()
+          .models.filter(c => c.get('members'))
+          .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
+          .includes(source);
+
+        if (groupMember) {
+          window.log.info(
+            `Auto accepting a 'group' friend request for a known group member: ${groupMember}`
+          );
+
+          window.libloki.api.sendBackgroundMessage(message.get('source'));
+
+          confirm();
+        }
+
+        // Wether or not we accepted the FR, we exit early so background friend requests
+        // cannot be used for establishing regular private conversations
+        return null;
+      }
+
       return conversation.queueJob(async () => {
         window.log.info(
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
@@ -1724,10 +1877,7 @@
               attributes = {
                 ...attributes,
                 name: dataMessage.group.name,
-                members: _.union(
-                  dataMessage.group.members,
-                  conversation.get('members')
-                ),
+                members: dataMessage.group.members,
               };
 
               groupUpdate =
@@ -1735,16 +1885,40 @@
                   _.pick(dataMessage.group, 'name', 'avatar')
                 ) || {};
 
-              const difference = _.difference(
+              const addedMembers = _.difference(
                 attributes.members,
                 conversation.get('members')
               );
-              if (difference.length > 0) {
-                groupUpdate.joined = difference;
+              if (addedMembers.length > 0) {
+                groupUpdate.joined = addedMembers;
               }
               if (conversation.get('left')) {
+                // TODO: Maybe we shouldn't assume this message adds us:
+                // we could maybe still get this message by mistake
                 window.log.warn('re-added to a left group');
                 attributes.left = false;
+              }
+
+              if (attributes.isKickedFromGroup) {
+                // Assume somebody re-invited us since we received this update
+                attributes.isKickedFromGroup = false;
+              }
+
+              // Check if anyone got kicked:
+              const removedMembers = _.difference(
+                conversation.get('members'),
+                attributes.members
+              );
+
+              if (removedMembers.length > 0) {
+                if (
+                  removedMembers.includes(textsecure.storage.user.getNumber())
+                ) {
+                  groupUpdate.kicked = 'You';
+                  attributes.isKickedFromGroup = true;
+                } else {
+                  groupUpdate.kicked = removedMembers;
+                }
               }
             } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
               if (source === textsecure.storage.user.getNumber()) {
@@ -1811,6 +1985,9 @@
           }
           attributes.active_at = now;
           conversation.set(attributes);
+
+          // Re-enable typing if re-joined the group
+          conversation.updateTextInputState();
 
           if (message.isExpirationTimerUpdate()) {
             message.set({
@@ -1997,7 +2174,8 @@
             if (
               !message.get('body') &&
               !message.get('attachments').length &&
-              !message.get('preview').length
+              !message.get('preview').length &&
+              !message.get('group_update')
             ) {
               return;
             }

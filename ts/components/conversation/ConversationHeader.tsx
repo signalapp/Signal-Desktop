@@ -31,6 +31,8 @@ interface Props {
   isArchived: boolean;
   isPublic: boolean;
 
+  members: Array<any>;
+
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
@@ -61,6 +63,9 @@ interface Props {
   onChangeNickname: () => void;
 
   onCopyPublicKey: () => void;
+
+  onUpdateGroup: () => void;
+  onLeaveGroup: () => void;
 
   i18n: LocalizerType;
 }
@@ -219,17 +224,31 @@ export class ConversationHeader extends React.Component<Props> {
       isMe,
       isClosable,
       isPublic,
+      isGroup,
       onDeleteMessages,
       onDeleteContact,
       onCopyPublicKey,
+      onUpdateGroup,
+      onLeaveGroup,
     } = this.props;
+
+    const isPrivateGroup = isGroup && !isPublic;
+
+    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
 
     return (
       <ContextMenu id={triggerId}>
         {this.renderPublicMenuItems()}
-        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe && isClosable ? (
+        {isPrivateGroup ? (
+          <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
+        ) : null}
+        {isPrivateGroup ? (
+          <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
+        ) : null}
+        {/* TODO: add delete group */}
+        {!isMe && isClosable && !isPrivateGroup ? (
           !isPublic ? (
             <MenuItem onClick={onDeleteContact}>
               {i18n('deleteContact')}
@@ -245,8 +264,10 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public render() {
-    const { id } = this.props;
+    const { id, isGroup, isPublic } = this.props;
     const triggerId = `conversation-${id}`;
+
+    const isPrivateGroup = isGroup && !isPublic;
 
     return (
       <div className="module-conversation-header">
@@ -255,12 +276,27 @@ export class ConversationHeader extends React.Component<Props> {
           <div className="module-conversation-header__title-flex">
             {this.renderAvatar()}
             {this.renderTitle()}
+            {isPrivateGroup ? this.renderMemberCount() : null}
           </div>
         </div>
         {this.renderExpirationLength()}
         {this.renderGear(triggerId)}
         {this.renderMenu(triggerId)}
       </div>
+    );
+  }
+
+  private renderMemberCount() {
+    const memberCount = this.props.members.length;
+
+    if (memberCount === 0) {
+      return null;
+    }
+
+    const wordForm = memberCount === 1 ? 'member' : 'members';
+
+    return (
+      <span className="member-preview">{`(${memberCount} ${wordForm})`}</span>
     );
   }
 
@@ -322,13 +358,14 @@ export class ConversationHeader extends React.Component<Props> {
     const resetSessionMenuItem = !isGroup && (
       <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
     );
-    const blockHandlerMenuItem = !isMe && (
-      <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
-    );
-    const changeNicknameMenuItem = !isMe && (
-      <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
-    );
+    const blockHandlerMenuItem = !isMe &&
+      !isGroup && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
+    const changeNicknameMenuItem = !isMe &&
+      !isGroup && (
+        <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+      );
     const clearNicknameMenuItem = !isMe &&
+      !isGroup &&
       hasNickname && (
         <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
       );

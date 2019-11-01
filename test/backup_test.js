@@ -574,6 +574,8 @@ describe('Backup', () => {
           'profileAvatar',
           'swarmNodes',
           'friendRequestStatus',
+          'groupAdmins',
+          'isKickedFromGroup',
           'unlockTimestamp',
           'sessionResetStatus',
           'isOnline',

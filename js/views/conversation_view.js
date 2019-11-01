@@ -196,6 +196,8 @@
           ? Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
           : null;
 
+        const members = this.model.get('members') || [];
+
         return {
           id: this.model.id,
           name: this.model.getName(),
@@ -213,7 +215,7 @@
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
-
+          members,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
@@ -267,6 +269,14 @@
           },
           onMoveToInbox: () => {
             this.model.setArchived(false);
+          },
+
+          onUpdateGroup: () => {
+            window.Whisper.events.trigger('updateGroup', this.model);
+          },
+
+          onLeaveGroup: () => {
+            window.Whisper.events.trigger('leaveGroup', this.model);
           },
         };
       };
@@ -435,6 +445,9 @@
           break;
         case 'disabled':
           placeholder = i18n('sendMessageDisabled');
+          break;
+        case 'left-group':
+          placeholder = i18n('sendMessageLeftGroup');
           break;
         default:
           placeholder = i18n('sendMessage');
@@ -2385,7 +2398,7 @@
       // Note: schedule the member list handler shortly afterwards, so
       // that the input element has time to update its cursor position to
       // what the user would expect
-      if (this.model.isPublic()) {
+      if (this.model.get('type') === 'group') {
         window.requestAnimationFrame(this.maybeShowMembers.bind(this, event));
       }
 
@@ -2517,10 +2530,33 @@
         return query;
       };
 
-      let allMembers = window.lokiPublicChatAPI.getListOfMembers();
-      allMembers = allMembers.filter(d => !!d);
-      allMembers = allMembers.filter(d => d.authorProfileName !== 'Anonymous');
-      allMembers = _.uniq(allMembers, true, d => d.authorPhoneNumber);
+      let allMembers;
+
+      if (this.model.isPublic()) {
+        const members = window.lokiPublicChatAPI
+          .getListOfMembers()
+          .filter(d => !!d)
+          .filter(d => d.authorProfileName !== 'Anonymous');
+        allMembers = _.uniq(members, true, d => d.authorPhoneNumber);
+      } else {
+        const members = this.model.get('members');
+        if (!members || members.length === 0) {
+          return;
+        }
+
+        const privateConvos = window
+          .getConversations()
+          .models.filter(d => d.isPrivate());
+        const memberConvos = members
+          .map(m => privateConvos.find(c => c.id === m))
+          .filter(c => !!c && c.getLokiProfile());
+
+        allMembers = memberConvos.map(c => ({
+          id: c.id,
+          authorPhoneNumber: c.id,
+          authorProfileName: c.getLokiProfile().displayName,
+        }));
+      }
 
       const cursorPos = event.target.selectionStart;
 

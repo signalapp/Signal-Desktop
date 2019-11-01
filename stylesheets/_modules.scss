@@ -8,6 +8,17 @@
   overflow-x: hidden;
 }
 
+.create-group-button {
+  background-color: #383c46;
+  color: #ffffff;
+  margin: 4px;
+  padding: 4px;
+}
+
+.create-group-button:focus {
+  outline: 0;
+}
+
 .module-contact-name span {
   text-overflow: ellipsis;
   overflow-x: hidden;

@@ -2,6 +2,8 @@
 
 const electron = require('electron');
 
+// TODO: this results in poor readability, would be
+// much better to explicitly call with `_`.
 const {
   cloneDeep,
   forEach,
@@ -9,10 +11,11 @@ const {
   isFunction,
   isObject,
   map,
-  merge,
   set,
   omit,
 } = require('lodash');
+
+const _ = require('lodash');
 
 const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
 const MessageType = require('./types/message');
@@ -662,17 +665,6 @@ async function getAllSessions(id) {
 
 // Conversation
 
-function setifyProperty(data, propertyName) {
-  if (!data) {
-    return data;
-  }
-  const returnData = { ...data };
-  if (Array.isArray(returnData[propertyName])) {
-    returnData[propertyName] = new Set(returnData[propertyName]);
-  }
-  return returnData;
-}
-
 async function getSwarmNodesByPubkey(pubkey) {
   return channels.getSwarmNodesByPubkey(pubkey);
 }
@@ -701,13 +693,14 @@ async function updateConversation(id, data, { Conversation }) {
   if (!existing) {
     throw new Error(`Conversation ${id} does not exist!`);
   }
-  const setData = setifyProperty(data, 'swarmNodes');
-  const setExisting = setifyProperty(existing.attributes, 'swarmNodes');
 
-  const merged = merge({}, setExisting, setData);
-  if (merged.swarmNodes instanceof Set) {
-    merged.swarmNodes = Array.from(merged.swarmNodes);
-  }
+  const merged = _.merge({}, existing.attributes, data);
+
+  // Merging is a really bad idea and not what we want here, e.g.
+  // it will take a union of old and new members and that's not
+  // what we want for member deletion, so:
+  merged.members = data.members;
+  merged.swarmNodes = data.swarmNodes;
 
   // Don't save the online status of the object
   const cleaned = omit(merged, 'isOnline');

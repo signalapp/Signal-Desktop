@@ -1,3 +1,111 @@
+.leave-group-dialog {
+  .content {
+    max-width: 100% !important;
+  }
+
+  .titleText {
+    font-size: large;
+    text-align: center;
+    margin: 2px;
+  }
+
+  .ok {
+    background-color: orangered;
+    min-width: 70px;
+    border: none;
+
+    &:hover {
+      background-color: red;
+    }
+  }
+
+  .cancel {
+    border: none;
+    min-width: 70px;
+  }
+}
+
+.member-preview {
+  margin-left: 10px;
+}
+
+.create-group-dialog {
+  .content {
+    max-width: 100% !important;
+  }
+
+  .buttons {
+    margin: 8px;
+  }
+
+  .group-name {
+    font-size: larger;
+  }
+
+  .titleText {
+    font-size: large;
+    text-align: center;
+  }
+
+  .no-friends {
+    text-align: center;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .error-message {
+    text-align: center;
+    color: red;
+    margin-bottom: 0.5em;
+  }
+
+  .error-faded {
+    opacity: 0;
+    transition: all 100ms linear;
+  }
+
+  .error-shown {
+    opacity: 1;
+    transition: all 250ms linear;
+  }
+}
+
+.friend-selection-list {
+  max-height: 240px;
+  overflow-y: scroll;
+  margin: 4px;
+
+  .check-mark {
+    float: right;
+    text-align: center;
+    color: darkslategrey;
+    margin: 4px;
+    min-width: 20px;
+  }
+
+  .invisible {
+    visibility: hidden;
+  }
+
+  .existing-member {
+    color: green;
+  }
+
+  .existing-member-kicked {
+    color: red;
+  }
+}
+
+.dark-theme {
+  .friend-selection-list {
+    .check-mark {
+      color: rgb(230, 230, 230);
+    }
+  }
+}
+
 .member-list-container {
   margin: 0;
   padding: 0;
@@ -5,6 +113,13 @@
   max-height: 240px;
   overflow-y: scroll;
 
+  .check-mark {
+    display: none;
+  }
+}
+
+.member-list-container,
+.create-group-dialog {
   .member-item {
     padding: 4px;
     user-select: none;
@@ -55,7 +170,8 @@
 }
 
 .dark-theme {
-  .member-list-container {
+  .member-list-container,
+  .create-group-dialog {
     .member-item {
       &:hover:not(.member-selected) {
         background-color: $color-dark-55;
