@@ -268,11 +268,7 @@
         );
         await this.accountManager.requestPairing(primaryPubKey);
         const pubkey = textsecure.storage.user.getNumber();
-        const words = window.mnemonic
-          .mn_encode(pubkey.slice(2), 'english')
-          .split(' ')
-          .slice(-3)
-          .join(' ');
+        const words = window.mnemonic.pubkey_to_secret_words(pubkey);
 
         this.$('.standalone-secondary-device #pubkey').text(
           `Here is your secret:\n${words}`
