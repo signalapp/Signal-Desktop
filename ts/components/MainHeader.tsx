@@ -17,6 +17,12 @@ import { clipboard } from 'electron';
 
 import { validateNumber } from '../types/PhoneNumber';
 
+declare global {
+  interface Window {
+    lokiFeatureFlags: any;
+  }
+}
+
 interface MenuItem {
   id: string;
   name: string;
@@ -341,14 +347,17 @@ export class MainHeader extends React.Component<Props, any> {
           trigger('showAddServerDialog');
         },
       },
-      {
+    ];
+
+    if (window.lokiFeatureFlags.privateGroupChats) {
+      menuItems.push({
         id: 'createPrivateGroup',
         name: i18n('createPrivateGroup'),
         onClick: () => {
           trigger('createNewGroup');
         },
-      },
-    ];
+      });
+    }
 
     const passItem = (type: string) => ({
       id: `${type}Password`,
