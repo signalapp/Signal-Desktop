@@ -99,7 +99,8 @@
         if (pubKeys && pubKeys.length > 0) {
           this.$('#pairedPubKeys').empty();
           pubKeys.forEach(x => {
-            this.$('#pairedPubKeys').append(`<li>${x}</li>`);
+            const secretWords = window.mnemonic.pubkey_to_secret_words(x);
+            this.$('#pairedPubKeys').append(`<li>(${secretWords})</li>`);
           });
         }
       } else if (this.accepted) {
@@ -108,11 +109,7 @@
         waitingForRequestView.hide();
         requestAcceptedView.show();
       } else if (this.pubKey) {
-        const secretWords = window.mnemonic
-          .mn_encode(this.pubKey.slice(2), 'english')
-          .split(' ')
-          .slice(-3)
-          .join(' ');
+        const secretWords = window.mnemonic.pubkey_to_secret_words(this.pubKey);
         this.$('.secretWords').text(secretWords);
         requestReceivedView.show();
         waitingForRequestView.hide();
