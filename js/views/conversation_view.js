@@ -784,6 +784,7 @@
 
       this.titleView.remove();
       this.timelineView.remove();
+      this.compositionAreaView.remove();
 
       if (this.attachmentListView) {
         this.attachmentListView.remove();
