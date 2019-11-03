@@ -79,7 +79,7 @@
       if (!errors) {
         this.$('.transmissionStatus').text(i18n('provideDeviceAlias'));
         this.$('#deviceAliasView').show();
-        this.$('#deviceAlias').on('keydown', (e) => {
+        this.$('#deviceAlias').on('keydown', e => {
           if (e.target.value.trim()) {
             this.$('.requestAcceptedView .ok').removeAttr('disabled');
           } else {
@@ -124,7 +124,9 @@
             if (conv) {
               deviceAlias = conv.getNickname();
             }
-            this.$('#pairedPubKeys').append(`<li>${deviceAlias} (${secretWords})</li>`);
+            this.$('#pairedPubKeys').append(
+              `<li>${deviceAlias} (${secretWords})</li>`
+            );
           });
         }
       } else if (this.accepted) {
