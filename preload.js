@@ -462,3 +462,7 @@ window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 
 // Limited due to the proof-of-work requirement
 window.SMALL_GROUP_SIZE_LIMIT = 10;
+
+window.lokiFeatureFlags = {
+  privateGroupChats: true,
+};
