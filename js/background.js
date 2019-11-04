@@ -862,7 +862,18 @@
 
     function addQueuedEventListener(name, handler) {
       messageReceiver.addEventListener(name, (...args) =>
-        eventHandlerQueue.add(() => handler(...args))
+        eventHandlerQueue.add(async () => {
+          try {
+            await handler(...args);
+          } finally {
+            // message/sent: Message.handleDataMessage has its own queue and will trigger
+            //   this event itself when complete.
+            // error: Error processing (below) also has its own queue and self-trigger.
+            if (name !== 'message' && name !== 'sent' && name !== 'error') {
+              Whisper.events.trigger('incrementProgress');
+            }
+          }
+        })
       );
     }
 
@@ -1752,6 +1763,8 @@
 
         conversation.trigger('newmessage', model);
         conversation.notify(model);
+
+        Whisper.events.trigger('incrementProgress');
 
         if (ev.confirm) {
           ev.confirm();
