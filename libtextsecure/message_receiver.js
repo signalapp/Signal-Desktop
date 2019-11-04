@@ -21,6 +21,7 @@
 /* global Whisper: false */
 /* global lokiFileServerAPI: false */
 /* global WebAPI: false */
+/* global ConversationController: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -1110,6 +1111,11 @@ MessageReceiver.prototype.extend({
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
         window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
+        const primaryConversation = await ConversationController.getOrCreateAndWait(
+          primaryDevicePubKey,
+          'private'
+        );
+        primaryConversation.trigger('change');
         Whisper.events.trigger('secondaryDeviceRegistration');
         // Update profile name
         if (dataMessage && dataMessage.profile) {
@@ -1124,7 +1130,10 @@ MessageReceiver.prototype.extend({
           // This call already removes the envelope from the cache
           await this.handleContacts(envelope, syncMessage.contacts);
           removedFromCache = true;
-          await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
+          // We need to wait here because initAPIs hasn't been called yet
+          Whisper.events.on('apisReady', async () => {
+            await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
+          });
         }
       } else {
         window.log.warn('Unimplemented pairing authorisation message type');

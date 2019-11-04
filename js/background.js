@@ -262,6 +262,7 @@
     if (storage.get('isSecondaryDevice')) {
       window.lokiFileServerAPI.updateOurDeviceMapping();
     }
+    Whisper.events.trigger('apisReady');
   };
 
   function mapOldThemeToNew(theme) {
