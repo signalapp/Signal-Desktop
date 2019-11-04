@@ -239,6 +239,7 @@
     getAuthorisationForSecondaryPubKey,
     getAllDevicePubKeysForPrimaryPubKey,
     getSecondaryDevicesFor,
+    getPrimaryDeviceMapping,
   };
 
   // Libloki protocol store

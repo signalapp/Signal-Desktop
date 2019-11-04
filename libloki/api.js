@@ -164,13 +164,21 @@
     const pairingAuthorisation = createPairingAuthorisationProtoMessage(
       authorisation
     );
-    // Send profile name to secondary device
     const ourNumber = textsecure.storage.user.getNumber();
-    const conversation = await ConversationController.getOrCreateAndWait(
+    const ourConversation = await ConversationController.getOrCreateAndWait(
       ourNumber,
       'private'
     );
-    const lokiProfile = conversation.getLokiProfile();
+    const secondaryConversation = await ConversationController.getOrCreateAndWait(
+      recipientPubKey,
+      'private'
+    );
+    // Always be friends with secondary devices
+    secondaryConversation.setFriendRequestStatus(
+      window.friends.friendRequestStatusEnum.friends
+    );
+    // Send profile name to secondary device
+    const lokiProfile = ourConversation.getLokiProfile();
     const profile = new textsecure.protobuf.DataMessage.LokiProfile(
       lokiProfile
     );
@@ -178,12 +186,11 @@
       profile,
     });
     // Attach contact list
-    // TODO: Reenable sending of the syncmessage for pairing requests
-    // const syncMessage = await createContactSyncProtoMessage();
+    const syncMessage = await createContactSyncProtoMessage();
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
       dataMessage,
-      // syncMessage,
+      syncMessage,
     });
     // Send
     const options = { messageType: 'pairing-request' };

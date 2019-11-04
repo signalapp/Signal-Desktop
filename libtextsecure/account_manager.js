@@ -546,6 +546,10 @@
     async registrationDone(number, displayName) {
       window.log.info('registration done');
 
+      if (!textsecure.storage.get('secondaryDeviceStatus')) {
+        // We have registered as a primary device
+        textsecure.storage.put('primaryDevicePubKey', number);
+      }
       // Ensure that we always have a conversation for ourself
       const conversation = await ConversationController.getOrCreateAndWait(
         number,
