@@ -958,6 +958,9 @@
   "provideDeviceAlias": {
     "message": "Please provide an alias for this paired device"
   },
+  "showPairingWordsTitle": {
+    "message": "Pairing Secret Words"
+  },
   "clear": {
     "message": "Clear"
   },
