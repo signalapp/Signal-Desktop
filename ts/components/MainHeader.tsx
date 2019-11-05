@@ -381,6 +381,14 @@ export class MainHeader extends React.Component<Props, any> {
           trigger('showDevicePairingDialog');
         },
       });
+    } else {
+      menuItems.push({
+        id: 'showPairingWords',
+        name: 'Show Pairing Words',
+        onClick: () => {
+          trigger('showDevicePairingWordsDialog');
+        },
+      });
     }
 
     this.setState({ menuItems });

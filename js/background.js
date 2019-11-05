@@ -799,6 +799,12 @@
       }
     });
 
+    Whisper.events.on('showDevicePairingWordsDialog', async () => {
+      if (appView) {
+        appView.showDevicePairingWordsDialog();
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
