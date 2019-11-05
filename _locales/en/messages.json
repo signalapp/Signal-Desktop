@@ -961,6 +961,12 @@
   "showPairingWordsTitle": {
     "message": "Pairing Secret Words"
   },
+  "confirmUnpairingTitle": {
+      "message": "Please confirm you want to unpair the following device:"
+  },
+  "unpairDevice": {
+    "message": "Unpair Device"
+  },
   "clear": {
     "message": "Clear"
   },

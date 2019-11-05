@@ -253,7 +253,6 @@
       <div class="defaultView">
         <h4>{{ defaultTitle }}</h4>
         <ul id="pairedPubKeys">
-          <li>No paired devices</li>
         </ul>
         <div class='buttons'>
           <button id='close' tabindex='2'>{{ closeText }}</button>
@@ -290,6 +289,16 @@
         </div>
         <div class='buttons'>
           <button class="ok" style="display: none;">{{ okText }}</button>
+        </div>
+      </div>
+
+      <!--Prompt user to confirm unpairing -->
+      <div class="confirmUnpairView" style="display: none;">
+        <h4>{{ confirmUnpairViewTitle }}</h4>
+        <p id="pubkey"></p>
+        <div class='buttons'>
+            <button class='cancel' tabindex='2'>{{ cancelText }}</button>
+            <button class='unpairDevice' tabindex='1'>{{ UnpairDevice }}</button>
         </div>
       </div>
     </div>
