@@ -1111,7 +1111,7 @@ MessageReceiver.prototype.extend({
         Whisper.events.trigger('secondaryDeviceRegistration');
         // Update profile name
         if (dataMessage && dataMessage.profile) {
-          const ourNumber = textsecure.storage.user.getNumber();
+          const ourNumber = window.storage.get('primaryDevicePubKey');
           const me = window.ConversationController.get(ourNumber);
           if (me) {
             me.setLokiProfile(dataMessage.profile);
