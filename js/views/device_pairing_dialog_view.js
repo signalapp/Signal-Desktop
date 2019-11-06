@@ -161,12 +161,15 @@
         if (pubKeys && pubKeys.length > 0) {
           pubKeys.forEach(x => {
             const name = this.getPubkeyName(x);
-            const li = $('<li>').html(`${name}  - `);
-            const link = $('<a>')
-              .text('Unpair')
-              .attr('href', '#');
-            link.on('click', () => this.requestUnpairDevice(x));
-            li.append(link);
+            const li = $('<li>').html(name);
+            if (window.lokiFeatureFlags.multiDeviceUnpairing) {
+              const link = $('<a>')
+                .text('Unpair')
+                .attr('href', '#');
+              link.on('click', () => this.requestUnpairDevice(x));
+              li.append(' - ');
+              li.append(link);
+            }
             this.$('#pairedPubKeys').append(li);
           });
         } else {
