@@ -294,8 +294,8 @@
   const sha512 = data => crypto.subtle.digest('SHA-512', data);
 
   const PairingType = Object.freeze({
-    REQUEST: 0,
-    GRANT: 1,
+    REQUEST: 1,
+    GRANT: 2,
   });
 
   window.libloki.crypto = {
