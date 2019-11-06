@@ -1385,18 +1385,21 @@
       })();
 
       const doDelete = async () => {
+        let toDeleteLocally;
+
         if (this.model.isPublic()) {
-          const success = await this.model.deletePublicMessages(messages);
-          if (!success) {
+          toDeleteLocally = await this.model.deletePublicMessages(messages);
+          if (toDeleteLocally.length === 0) {
             // Message failed to delete from server, show error?
             return;
           }
         } else {
           messages.forEach(m => this.model.messageCollection.remove(m.id));
+          toDeleteLocally = messages;
         }
 
         await Promise.all(
-          messages.map(async m => {
+          toDeleteLocally.map(async m => {
             await window.Signal.Data.removeMessage(m.id, {
               Message: Whisper.Message,
             });

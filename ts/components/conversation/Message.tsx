@@ -1076,9 +1076,7 @@ export class Message extends React.PureComponent<Props, State> {
             )}
           >
             {this.renderError(isIncoming)}
-            {isRss
-              ? null
-              : this.renderMenu(!isIncoming, triggerId)}
+            {isRss ? null : this.renderMenu(!isIncoming, triggerId)}
             <div
               className={classNames(
                 'module-message__container',
@@ -1101,7 +1099,7 @@ export class Message extends React.PureComponent<Props, State> {
               {this.renderSendMessageButton()}
             </div>
             {this.renderError(!isIncoming)}
-            {(isRss || multiSelectMode)
+            {isRss || multiSelectMode
               ? null
               : this.renderMenu(isIncoming, triggerId)}
             {multiSelectMode ? null : this.renderContextMenu(triggerId)}

@@ -145,7 +145,10 @@
         "method": "render",
         "comment": "Usage has been approved by Ryan Tharp on 2019-07-22"
       }
-    ]
+    ],
+    // Reasonable functions can exceed the default of 100 lines
+    // due to auto-formatting
+    "max-func-body-length": [true, 150]
   },
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
 }

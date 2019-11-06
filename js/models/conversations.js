@@ -2487,30 +2487,32 @@
         return false;
       }
 
-      let success;
-      const shouldBeDeleted = [];
-      if (messages.length > 1) {
-        success = await channelAPI.deleteMessages(
-          messages.map(m => m.getServerId())
+      const invalidMessages = messages.filter(m => !m.getServerId());
+      const pendingMessages = messages.filter(m => m.getServerId());
+
+      let deletedServerIds = [];
+      let ignoredServerIds = [];
+
+      if (pendingMessages.length > 0) {
+        const result = await channelAPI.deleteMessages(
+          pendingMessages.map(m => m.getServerId())
         );
-      } else {
-        success = await channelAPI.deleteMessages([messages[0].getServerId()]);
+        deletedServerIds = result.deletedIds;
+        ignoredServerIds = result.ignoredIds;
       }
 
-      messages.forEach(m => {
+      const toDeleteLocallyServerIds = _.union(
+        deletedServerIds,
+        ignoredServerIds
+      );
+      let toDeleteLocally = messages.filter(m =>
+        toDeleteLocallyServerIds.includes(m.getServerId())
+      );
+      toDeleteLocally = _.union(toDeleteLocally, invalidMessages);
 
-        // If the message has errors it is likely not saved
-        // on the server, so we delete it locally unconditionally
-        const shouldDeleteLocally = success || m.hasErrors() || !m.getServerId();
+      toDeleteLocally.forEach(m => this.removeMessage(m.id));
 
-        if (shouldDeleteLocally) {
-          this.removeMessage(m.id);
-        }
-
-      });
-
-      /// TODO: not sure what to return here
-      return shouldDeleteLocally;
+      return toDeleteLocally;
     },
 
     removeMessage(messageId) {
