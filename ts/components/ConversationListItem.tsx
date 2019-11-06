@@ -181,7 +181,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 </span>
               ) : null}
               <MessageBody
-                text={text}
+                text={text.split('\n')[0]}
                 disableJumbomoji={true}
                 disableLinks={true}
                 i18n={i18n}
