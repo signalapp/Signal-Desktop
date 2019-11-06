@@ -723,7 +723,7 @@
     });
 
     Whisper.events.on('onEditProfile', async () => {
-      const ourNumber = textsecure.storage.user.getNumber();
+      const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(
         ourNumber,
         'private'
