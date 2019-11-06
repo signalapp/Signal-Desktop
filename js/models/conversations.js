@@ -931,6 +931,13 @@
       }
       await this.setFriendRequestStatus(FriendRequestStatusEnum.requestSent);
     },
+    friendRequestTimerIsExpired() {
+      const unlockTimestamp = this.get('unlockTimestamp');
+      if (unlockTimestamp && unlockTimestamp > Date.now()) {
+        return false;
+      }
+      return true;
+    },
     setFriendRequestExpiryTimeout() {
       if (this.isFriend()) {
         return;
