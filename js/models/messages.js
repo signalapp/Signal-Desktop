@@ -361,7 +361,7 @@
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
-      const conversation = this.getConversation();
+      const conversation = await this.getSourceDeviceConversation();
 
       this.set({ friendStatus: 'accepted' });
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1118,6 +1118,14 @@
       //   initial module setup. We may be in the middle of the initial fetch to
       //   the database.
       return ConversationController.getUnsafe(this.get('conversationId'));
+    },
+    getSourceDeviceConversation() {
+      // This gets the conversation of the device that sent this message
+      // while getConversation will return the primary device conversation
+      return ConversationController.getOrCreateAndWait(
+        this.get('source'),
+        'private'
+      );
     },
     getIncomingContact() {
       if (!this.isIncoming()) {

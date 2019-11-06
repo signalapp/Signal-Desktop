@@ -355,10 +355,23 @@ OutgoingMessage.prototype = {
           } catch (e) {
             // do nothing
           }
-          // TODO: Make sure we retry sending friend request messages to all our friends
-          if (conversation && !conversation.isFriend()) {
-            isMultiDeviceRequest = true;
-            thisDeviceMessageType = 'friend-request';
+          if (
+            conversation &&
+            !conversation.isFriend() &&
+            !conversation.hasReceivedFriendRequest()
+          ) {
+            // We want to send an automated friend request if:
+            // - We aren't already friends
+            // - We haven't received a friend request from this device
+            // - We haven't sent a friend request recently
+            if (conversation.friendRequestTimerIsExpired()) {
+              isMultiDeviceRequest = true;
+              thisDeviceMessageType = 'friend-request';
+            } else {
+              // Throttle automated friend requests
+              this.successfulNumbers.push(devicePubKey);
+              return null;
+            }
           }
         }
 
@@ -456,6 +469,9 @@ OutgoingMessage.prototype = {
       .then(async outgoingObjects => {
         // TODO: handle multiple devices/messages per transmit
         const promises = outgoingObjects.map(async outgoingObject => {
+          if (!outgoingObject) {
+            return;
+          }
           const destination = outgoingObject.pubKey;
           try {
             const socketMessage = await this.wrapInWebsocketMessage(
