@@ -139,7 +139,7 @@
         requestAcceptedView.hide();
         confirmUnpairView.show();
         const name = this.getPubkeyName(this.pubKeyToUnpair);
-        this.$('.confirmUnpairView #pubkey').text(name);
+        this.$('.confirmUnpairView #pubkey').html(name);
       } else if (!this.isListening) {
         requestReceivedView.hide();
         waitingForRequestView.hide();
