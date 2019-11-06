@@ -57,11 +57,9 @@ export type InputApi = {
   submit: () => void;
 };
 
-export type SelectionKeys = 'Shift-End' | 'End' | 'Shift-Home' | 'Home';
 export type CompositionInputEditorCommand =
   | DraftEditorCommand
-  | ('enter-emoji' | 'next-emoji' | 'prev-emoji' | 'submit')
-  | SelectionKeys;
+  | ('enter-emoji' | 'next-emoji' | 'prev-emoji' | 'submit');
 
 function getTrimmedMatchAtIndex(str: string, index: number, pattern: RegExp) {
   let match;
@@ -161,7 +159,6 @@ function replaceBareEmojis(state: EditorState, focus: boolean): EditorState {
 
   const content = state.getCurrentContent();
   const initialSelection = state.getSelection();
-  let selectionOffset = 0;
 
   content.getBlockMap().forEach(block => {
     if (!block) {
@@ -180,7 +177,8 @@ function replaceBareEmojis(state: EditorState, focus: boolean): EditorState {
         focusOffset: end,
       }) as SelectionState;
       const emojiData = emojiToData(match[0]);
-      // If there is not entity at this location and emoji data exists for the emoji at this location, track it for replacement
+      // If there is no entity at this location and emoji data exists for the
+      // emoji at this location, track it for replacement
       if (!block.getEntityAt(start) && emojiData) {
         selections.push([blockSelection, emojiData]);
       }
@@ -196,13 +194,6 @@ function replaceBareEmojis(state: EditorState, focus: boolean): EditorState {
           skinTone: tone,
         })
         .getLastCreatedEntityKey();
-
-      // Keep track of selection offsets caused by replaced emojis
-      if (sel.getAnchorOffset() < initialSelection.getAnchorOffset()) {
-        selectionOffset += Math.abs(
-          sel.getAnchorOffset() - sel.getFocusOffset()
-        );
-      }
 
       return Modifier.replaceText(
         accContent,
@@ -223,8 +214,8 @@ function replaceBareEmojis(state: EditorState, focus: boolean): EditorState {
 
   if (focus) {
     const newSelection = initialSelection.merge({
-      anchorOffset: initialSelection.getAnchorOffset() + selectionOffset,
-      focusOffset: initialSelection.getFocusOffset() + selectionOffset,
+      anchorOffset: initialSelection.getAnchorOffset(),
+      focusOffset: initialSelection.getFocusOffset(),
     }) as SelectionState;
 
     return EditorState.forceSelection(pushState, newSelection);
@@ -398,6 +389,20 @@ export const CompositionInput = ({
 
   const handleEditorStateChange = React.useCallback(
     (newState: EditorState) => {
+      // If this is an undo, we don't want to trigger any other custom logic
+      if (newState.getLastChangeType() === 'undo') {
+        // Does this undo result in the same state as before?
+        const pointlessUndo =
+          newState.getCurrentContent().getPlainText() ===
+          editorStateRef.current.getCurrentContent().getPlainText();
+        // If so, we need to apply another undo
+        const pushState = pointlessUndo ? EditorState.undo(newState) : newState;
+        // Update state
+        setAndTrackEditorState(pushState);
+        resetEmojiResults();
+
+        return;
+      }
       // Does the current position have any emojiable text?
       const selection = newState.getSelection();
       const caretLocation = selection.getStartOffset();
@@ -435,6 +440,7 @@ export const CompositionInput = ({
       updateExternalStateListeners(modifiedState);
     },
     [
+      editorStateRef,
       focusRef,
       latestKeyRef,
       resetEmojiResults,
@@ -555,27 +561,180 @@ export const CompositionInput = ({
     [emojiResultsIndex, emojiResults]
   );
 
-  const setCursor = React.useCallback(
-    (key: SelectionKeys) => {
+  const modKeySelection = React.useCallback(
+    // tslint:disable-next-line cyclomatic-complexity max-func-body-length
+    (e: React.KeyboardEvent) => {
+      e.preventDefault();
       const { current: state } = editorStateRef;
       const selection = state.getSelection();
-      const offset =
-        key === 'Shift-Home' || key === 'Home'
-          ? 0
-          : state
-              .getCurrentContent()
-              .getBlockForKey(selection.getAnchorKey())
-              .getText().length;
 
-      const desc: { focusOffset?: number; anchorOffset?: number } = {
-        focusOffset: offset,
-      };
+      const newSelectionDesc: Partial<{
+        anchorKey: string;
+        anchorOffset: number;
+        focusKey: string;
+        focusOffset: number;
+      }> = {};
 
-      if (key === 'Home' || key === 'End') {
-        desc.anchorOffset = offset;
+      if (
+        (e.shiftKey && (e.metaKey && e.key === 'ArrowUp')) ||
+        e.key === 'Home'
+      ) {
+        const block = state.getCurrentContent().getFirstBlock();
+        newSelectionDesc.anchorKey = block.getKey();
+        newSelectionDesc.anchorOffset = 0;
+      } else if (
+        (e.shiftKey && (e.metaKey && e.key === 'ArrowDown')) ||
+        e.key === 'End'
+      ) {
+        const block = state.getCurrentContent().getLastBlock();
+        newSelectionDesc.focusKey = block.getKey();
+        newSelectionDesc.focusOffset = block.getText().length;
+      } else if (
+        e.shiftKey &&
+        ((e.metaKey && e.key === 'ArrowLeft') || e.key === 'Home')
+      ) {
+        newSelectionDesc.anchorOffset = 0;
+      } else if (
+        e.shiftKey &&
+        ((e.metaKey && e.key === 'ArrowRight') || e.key === 'End')
+      ) {
+        newSelectionDesc.focusOffset = state
+          .getCurrentContent()
+          .getBlockForKey(selection.getFocusKey())
+          .getText().length;
+      } else if (e.shiftKey && e.key === 'ArrowLeft') {
+        newSelectionDesc.anchorOffset = selection.getAnchorOffset() - 1;
+        if (newSelectionDesc.anchorOffset < 0) {
+          newSelectionDesc.anchorOffset = 0;
+          const block = state
+            .getCurrentContent()
+            .getBlockBefore(selection.getAnchorKey());
+          if (block) {
+            newSelectionDesc.anchorKey = block.getKey();
+          }
+        }
+      } else if (e.shiftKey && e.key === 'ArrowRight') {
+        newSelectionDesc.focusOffset = selection.getFocusOffset() + 1;
+        const { length } = state
+          .getCurrentContent()
+          .getBlockForKey(selection.getFocusKey())
+          .getText();
+        if (newSelectionDesc.focusOffset > length) {
+          newSelectionDesc.focusOffset = length;
+          const block = state
+            .getCurrentContent()
+            .getBlockAfter(selection.getAnchorKey());
+          if (block) {
+            newSelectionDesc.anchorKey = block.getKey();
+          }
+        }
+      } else if (e.shiftKey && e.key === 'ArrowUp') {
+        if (selection.getIsBackward()) {
+          const block = state
+            .getCurrentContent()
+            .getBlockBefore(selection.getFocusKey());
+          newSelectionDesc.focusOffset = 0;
+          if (block) {
+            newSelectionDesc.focusKey = block.getKey();
+          }
+        } else {
+          const block = state
+            .getCurrentContent()
+            .getBlockBefore(selection.getAnchorKey());
+          newSelectionDesc.anchorOffset = 0;
+          if (block) {
+            newSelectionDesc.anchorKey = block.getKey();
+          }
+        }
+      } else if (e.shiftKey && e.key === 'ArrowDown') {
+        if (selection.getIsBackward()) {
+          const block = state
+            .getCurrentContent()
+            .getBlockAfter(selection.getAnchorKey());
+          if (block) {
+            newSelectionDesc.anchorKey = block.getKey();
+            newSelectionDesc.anchorOffset = block.getText().length;
+          }
+        } else {
+          const block = state
+            .getCurrentContent()
+            .getBlockAfter(selection.getFocusKey());
+          if (block) {
+            newSelectionDesc.focusKey = block.getKey();
+            newSelectionDesc.focusOffset = block.getText().length;
+          }
+        }
+      } else if ((e.metaKey && e.key === 'ArrowLeft') || e.key === 'Home') {
+        newSelectionDesc.anchorOffset = 0;
+        newSelectionDesc.focusOffset = 0;
+      } else if ((e.metaKey && e.key === 'ArrowRight') || e.key === 'End') {
+        const { length } = state
+          .getCurrentContent()
+          .getBlockForKey(selection.getAnchorKey())
+          .getText();
+        newSelectionDesc.anchorOffset = length;
+        newSelectionDesc.focusOffset = length;
+      } else if (e.key === 'ArrowLeft') {
+        newSelectionDesc.anchorOffset = selection.getAnchorOffset() - 1;
+        if (newSelectionDesc.anchorOffset < 0) {
+          newSelectionDesc.anchorOffset = 0;
+          const block = state
+            .getCurrentContent()
+            .getBlockBefore(selection.getAnchorKey());
+          if (block) {
+            newSelectionDesc.anchorKey = block.getKey();
+          }
+        }
+      } else if (e.key === 'ArrowRight') {
+        newSelectionDesc.focusOffset = selection.getFocusOffset() + 1;
+        const { length } = state
+          .getCurrentContent()
+          .getBlockForKey(selection.getFocusKey())
+          .getText();
+        if (newSelectionDesc.focusOffset > length) {
+          newSelectionDesc.anchorOffset = length;
+          const block = state
+            .getCurrentContent()
+            .getBlockAfter(selection.getFocusKey());
+          if (block) {
+            newSelectionDesc.focusKey = block.getKey();
+          }
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        const content = state.getCurrentContent();
+        const anchorKey = selection.getAnchorKey();
+        const block =
+          e.key === 'ArrowUp'
+            ? content.getBlockBefore(anchorKey)
+            : content.getBlockAfter(anchorKey);
+        if (block) {
+          const key = block.getKey();
+          const length = block.getText().length;
+          newSelectionDesc.anchorKey = key;
+          newSelectionDesc.focusKey = key;
+          const offset = selection.getAnchorOffset();
+          newSelectionDesc.anchorOffset = Math.min(length, offset);
+          newSelectionDesc.focusOffset = Math.min(length, offset);
+        } else {
+          if (e.key === 'ArrowUp') {
+            const key = content.getFirstBlock().getKey();
+            newSelectionDesc.anchorKey = key;
+            newSelectionDesc.focusKey = key;
+            newSelectionDesc.anchorOffset = 0;
+            newSelectionDesc.focusOffset = 0;
+          } else {
+            const lastBlock = content.getLastBlock();
+            const key = lastBlock.getKey();
+            const { length } = lastBlock.getText();
+            newSelectionDesc.anchorKey = key;
+            newSelectionDesc.focusKey = key;
+            newSelectionDesc.anchorOffset = length;
+            newSelectionDesc.focusOffset = length;
+          }
+        }
       }
 
-      const newSelection = selection.merge(desc) as SelectionState;
+      const newSelection = selection.merge(newSelectionDesc) as SelectionState;
       setAndTrackEditorState(EditorState.forceSelection(state, newSelection));
     },
     [editorStateRef, setAndTrackEditorState]
@@ -586,32 +745,28 @@ export const CompositionInput = ({
       latestKeyRef.current = e.key;
 
       if (e.key === 'ArrowUp') {
-        selectEmojiResult('prev', e);
+        modKeySelection(e);
+        if (!e.shiftKey) {
+          selectEmojiResult('prev', e);
+        }
       }
 
       if (e.key === 'ArrowDown') {
-        selectEmojiResult('next', e);
+        modKeySelection(e);
+        if (!e.shiftKey) {
+          selectEmojiResult('next', e);
+        }
       }
 
       if (e.key === 'ArrowLeft' && e.metaKey) {
-        e.preventDefault();
-        if (e.shiftKey) {
-          setCursor('Shift-Home');
-        } else {
-          setCursor('Home');
-        }
+        modKeySelection(e);
       }
 
       if (e.key === 'ArrowRight' && e.metaKey) {
-        e.preventDefault();
-        if (e.shiftKey) {
-          setCursor('Shift-End');
-        } else {
-          setCursor('End');
-        }
+        modKeySelection(e);
       }
     },
-    [latestKeyRef, selectEmojiResult, setCursor]
+    [latestKeyRef, selectEmojiResult, modKeySelection]
   );
 
   const handleEscapeKey = React.useCallback(
@@ -753,15 +908,6 @@ export const CompositionInput = ({
         selectEmojiResult('prev');
       }
 
-      if (
-        command === 'Shift-End' ||
-        command === 'End' ||
-        command === 'Shift-Home' ||
-        command === 'Home'
-      ) {
-        setCursor(command);
-      }
-
       return 'not-handled';
     },
     [
@@ -770,7 +916,7 @@ export const CompositionInput = ({
       resetEmojiResults,
       selectEmojiResult,
       setAndTrackEditorState,
-      setCursor,
+      modKeySelection,
       skinTone,
       submit,
     ]
@@ -810,27 +956,27 @@ export const CompositionInput = ({
       }
 
       if (e.shiftKey && e.key === 'End') {
-        e.preventDefault();
+        modKeySelection(e);
 
-        return 'Shift-End';
+        return null;
       }
 
       if (e.key === 'End') {
-        e.preventDefault();
+        modKeySelection(e);
 
-        return 'End';
+        return null;
       }
 
       if (e.shiftKey && e.key === 'Home') {
-        e.preventDefault();
+        modKeySelection(e);
 
-        return 'Shift-Home';
+        return null;
       }
 
       if (e.key === 'Home') {
-        e.preventDefault();
+        modKeySelection(e);
 
-        return 'Home';
+        return null;
       }
 
       if (e.key === 'n' && e.ctrlKey) {
@@ -859,7 +1005,7 @@ export const CompositionInput = ({
 
       return getDefaultKeyBinding(e);
     },
-    [latestKeyRef, emojiResults, large]
+    [latestKeyRef, emojiResults, large, modKeySelection]
   );
 
   // Create popper root
