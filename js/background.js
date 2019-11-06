@@ -233,9 +233,8 @@
     specialConvInited = true;
   };
 
-  let initialisedAPI = false;
   const initAPIs = async () => {
-    if (initialisedAPI) {
+    if (window.initialisedAPI) {
       return;
     }
     const ourKey = textsecure.storage.user.getNumber();
@@ -257,7 +256,7 @@
     });
     window.lokiP2pAPI.on('online', ConversationController._handleOnline);
     window.lokiP2pAPI.on('offline', ConversationController._handleOffline);
-    initialisedAPI = true;
+    window.initialisedAPI = true;
 
     if (storage.get('isSecondaryDevice')) {
       window.lokiFileServerAPI.updateOurDeviceMapping();

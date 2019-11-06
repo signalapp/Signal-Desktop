@@ -1130,10 +1130,14 @@ MessageReceiver.prototype.extend({
           // This call already removes the envelope from the cache
           await this.handleContacts(envelope, syncMessage.contacts);
           removedFromCache = true;
-          // We need to wait here because initAPIs hasn't been called yet
-          Whisper.events.on('apisReady', async () => {
+          if (window.initialisedAPI) {
             await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
-          });
+          } else {
+            // We need to wait here because initAPIs hasn't been called yet
+            Whisper.events.once('apisReady', async () => {
+              await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
+            });
+          }
         }
       } else {
         window.log.warn('Unimplemented pairing authorisation message type');
