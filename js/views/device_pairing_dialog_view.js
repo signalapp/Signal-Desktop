@@ -1,4 +1,12 @@
-/* global Whisper, i18n, libloki, textsecure, ConversationController, $, lokiFileServerAPI */
+/* global
+  Whisper,
+  i18n,
+  libloki,
+  textsecure,
+  ConversationController,
+  $,
+  lokiFileServerAPI
+*/
 
 // eslint-disable-next-line func-names
 (function() {
