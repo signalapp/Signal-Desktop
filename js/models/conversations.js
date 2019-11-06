@@ -2526,6 +2526,7 @@
     },
 
     deleteMessages() {
+      this.resetMessageSelection();
       if (this.isPublic()) {
         Whisper.events.trigger('showConfirmationDialog', {
           message: i18n('deletePublicConversationConfirmation'),

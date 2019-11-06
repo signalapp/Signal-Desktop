@@ -755,6 +755,7 @@
       this.lastActivity = Date.now();
 
       this.model.updateLastMessage();
+      this.model.resetMessageSelection();
 
       if (this.model.isRss()) {
         $('.compose').hide();
