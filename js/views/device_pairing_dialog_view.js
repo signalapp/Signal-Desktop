@@ -48,7 +48,7 @@
         requestAcceptedTitle: i18n('devicePairingAccepted'),
         startPairingText: i18n('pairNewDevice'),
         cancelText: i18n('cancel'),
-        UnpairDevice: i18n('unpairDevice'),
+        unpairDevice: i18n('unpairDevice'),
         closeText: i18n('close'),
         skipText: i18n('skip'),
         okText: i18n('ok'),
