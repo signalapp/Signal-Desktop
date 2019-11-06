@@ -120,11 +120,7 @@
       { ConversationCollection: Whisper.ConversationCollection }
     );
     // Extract required contacts information out of conversations
-    const rawContacts = conversations.reduce((acc, conversation) => {
-      if (conversation.isSecondaryDevice()) {
-        // Don't bother syncing secondary devices
-        return acc;
-      }
+    const rawContacts = conversations.map(conversation => {
       const profile = conversation.getLokiProfile();
       const number = conversation.getNumber();
       const name = profile
@@ -139,15 +135,15 @@
         destination: number,
         identityKey: StringView.hexToArrayBuffer(number),
       });
-      return acc.concat({
+      return {
         name,
         verified,
         number,
         nickname: conversation.getNickname(),
         blocked: conversation.isBlocked(),
         expireTimer: conversation.get('expireTimer'),
-      });
-    }, []);
+      };
+    });
     // Convert raw contacts to an array of buffers
     const contactDetails = rawContacts
       .filter(x => x.number !== textsecure.storage.user.getNumber())

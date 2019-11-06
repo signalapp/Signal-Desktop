@@ -192,10 +192,7 @@
     },
 
     isMe() {
-      return (
-        this.id === this.ourNumber ||
-        this.id === window.storage.get('primaryDevicePubKey')
-      );
+      return this.id === window.storage.get('primaryDevicePubKey');
     },
     isPublic() {
       return this.id && this.id.match(/^publicChat:/);

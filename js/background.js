@@ -8,6 +8,7 @@
   storage,
   textsecure,
   Whisper,
+  libloki,
   BlockedNumberController
 */
 
@@ -252,7 +253,7 @@
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
       const isPing = true;
-      window.libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
+      libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
     });
     window.lokiP2pAPI.on('online', ConversationController._handleOnline);
     window.lokiP2pAPI.on('offline', ConversationController._handleOffline);
@@ -845,8 +846,8 @@
     });
 
     Whisper.events.on('devicePairingRequestRejected', async pubKey => {
-      await window.libloki.storage.removeContactPreKeyBundle(pubKey);
-      await window.libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+      await libloki.storage.removeContactPreKeyBundle(pubKey);
+      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
         pubKey
       );
     });
@@ -1164,7 +1165,7 @@
     }
 
     let primaryDevice = null;
-    const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+    const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
       sender
     );
     if (authorisation) {
@@ -1220,6 +1221,16 @@
       //   activeAt is null, then this contact has been purposefully hidden.
       if (activeAt !== null) {
         activeAt = activeAt || Date.now();
+      }
+      const ourAuthorisations = await libloki.storage.getPrimaryDeviceMapping(
+        window.storage.get('primaryDevicePubKey')
+      );
+      const isSecondaryDevice =
+        ourAuthorisations &&
+        ourAuthorisations.some(auth => auth.secondaryDevicePubKey === id);
+
+      if (isSecondaryDevice) {
+        await conversation.setSecondaryStatus(true);
       }
 
       if (details.profileKey) {
@@ -1395,7 +1406,7 @@
       const messageDescriptor = getMessageDescriptor(data);
 
       // Funnel messages to primary device conversation if multi-device
-      const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
         messageDescriptor.id
       );
       if (authorisation) {
