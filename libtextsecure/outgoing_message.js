@@ -95,18 +95,18 @@ OutgoingMessage.prototype = {
     this.numberCompleted();
   },
   reloadDevicesAndSend(number, recurse) {
+    const ourNumber = textsecure.storage.user.getNumber();
     return () =>
       libloki.storage
         .getAllDevicePubKeysForPrimaryPubKey(number)
+        // Don't send to ourselves
+        .then(devicesPubKeys =>
+          devicesPubKeys.filter(pubKey => pubKey !== ourNumber)
+        )
         .then(devicesPubKeys => {
           if (devicesPubKeys.length === 0) {
             // eslint-disable-next-line no-param-reassign
             devicesPubKeys = [number];
-            // return this.registerError(
-            //   number,
-            //   'Got empty device list when loading device keys',
-            //   null
-            // );
           }
           return this.doSendMessage(number, devicesPubKeys, recurse);
         });

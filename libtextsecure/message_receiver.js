@@ -21,6 +21,7 @@
 /* global Whisper: false */
 /* global lokiFileServerAPI: false */
 /* global WebAPI: false */
+/* global ConversationController: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -1018,7 +1019,9 @@ MessageReceiver.prototype.extend({
       this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
-        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const isMe =
+          envelope.source === textsecure.storage.user.getNumber() ||
+          envelope.source === window.storage.get('primaryDevicePubKey');
         const isLeavingGroup = Boolean(
           message.group &&
             message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
@@ -1108,6 +1111,11 @@ MessageReceiver.prototype.extend({
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
         window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
+        const primaryConversation = await ConversationController.getOrCreateAndWait(
+          primaryDevicePubKey,
+          'private'
+        );
+        primaryConversation.trigger('change');
         Whisper.events.trigger('secondaryDeviceRegistration');
         // Update profile name
         if (dataMessage && dataMessage.profile) {
@@ -1122,7 +1130,14 @@ MessageReceiver.prototype.extend({
           // This call already removes the envelope from the cache
           await this.handleContacts(envelope, syncMessage.contacts);
           removedFromCache = true;
-          await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
+          if (window.initialisedAPI) {
+            await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
+          } else {
+            // We need to wait here because initAPIs hasn't been called yet
+            Whisper.events.once('apisReady', async () => {
+              await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
+            });
+          }
         }
       } else {
         window.log.warn('Unimplemented pairing authorisation message type');
@@ -1451,13 +1466,23 @@ MessageReceiver.prototype.extend({
     window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
-  handleSyncMessage(envelope, syncMessage) {
-    if (envelope.source !== this.number) {
-      throw new Error('Received sync message from another number');
-    }
-    // eslint-disable-next-line eqeqeq
-    if (envelope.sourceDevice == this.deviceId) {
-      throw new Error('Received sync message from our own device');
+  async handleSyncMessage(envelope, syncMessage) {
+    const ourNumber = textsecure.storage.user.getNumber();
+    // NOTE: Maybe we should be caching this list?
+    const ourAuthorisations = await libloki.storage.getPrimaryDeviceMapping(
+      ourNumber
+    );
+    const validSyncSender =
+      ourAuthorisations &&
+      ourAuthorisations.some(
+        auth =>
+          auth.secondaryDevicePubKey === ourNumber ||
+          auth.primaryDevicePubKey === ourNumber
+      );
+    if (!validSyncSender) {
+      throw new Error(
+        "Received sync message from a device we aren't paired with"
+      );
     }
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;

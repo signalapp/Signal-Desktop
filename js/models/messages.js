@@ -1269,7 +1269,9 @@
           });
 
           this.trigger('sent', this);
-          this.sendSyncMessage();
+          if (this.get('type') !== 'friend-request') {
+            this.sendSyncMessage();
+          }
         })
         .catch(result => {
           this.trigger('done');
@@ -1710,6 +1712,7 @@
       //   2. on a sent message sync'd from another device
       //   3. in rare cases, an incoming message can be retried, though it will
       //      still go through one of the previous two codepaths
+      const ourNumber = textsecure.storage.user.getNumber();
       const message = this;
       const source = message.get('source');
       const type = message.get('type');
@@ -1719,7 +1722,8 @@
       );
       if (initialMessage.group) {
         conversationId = initialMessage.group.id;
-      } else if (authorisation) {
+      } else if (source !== ourNumber && authorisation) {
+        // Ignore auth from our devices
         conversationId = authorisation.primaryDevicePubKey;
       }
 
@@ -1916,8 +1920,6 @@
                 c.onReadMessage(message);
               }
             } else {
-              const ourNumber = textsecure.storage.user.getNumber();
-
               if (
                 message.attributes.body &&
                 message.attributes.body.indexOf(`@${ourNumber}`) !== -1
@@ -2007,12 +2009,12 @@
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
               await sendingDeviceConversation.onFriendRequestAccepted();
-              window.libloki.api.sendBackgroundMessage(message.get('source'));
             } else {
               await sendingDeviceConversation.onFriendRequestReceived();
             }
-          } else {
-            await conversation.onFriendRequestAccepted();
+          } else if (message.get('type') !== 'outgoing') {
+            // Ignore 'outgoing' messages because they are sync messages
+            await sendingDeviceConversation.onFriendRequestAccepted();
             // We need to return for these types of messages because android struggles
             if (
               !message.get('body') &&
