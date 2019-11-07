@@ -107,7 +107,7 @@
       );
       this.listenTo(
         this.messageCollection,
-        'add remove destroy',
+        'add remove destroy content-changed',
         this.debouncedUpdateLastMessage
       );
       this.listenTo(this.messageCollection, 'sent', this.updateLastMessage);
