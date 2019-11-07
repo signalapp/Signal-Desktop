@@ -1,4 +1,12 @@
-/* global Whisper, i18n, libloki, textsecure, ConversationController */
+/* global
+  Whisper,
+  i18n,
+  libloki,
+  textsecure,
+  ConversationController,
+  $,
+  lokiFileServerAPI
+*/
 
 // eslint-disable-next-line func-names
 (function() {
@@ -19,6 +27,7 @@
       this.pubKey = null;
       this.accepted = false;
       this.isListening = false;
+      this.pubKeyToUnpair = null;
       this.success = false;
     },
     events: {
@@ -28,6 +37,8 @@
       'click .requestReceivedView .skip': 'skipDevice',
       'click #allowPairing': 'allowDevice',
       'click .requestAcceptedView .ok': 'stopReceivingRequests',
+      'click .confirmUnpairView .cancel': 'stopReceivingRequests',
+      'click .confirmUnpairView .unpairDevice': 'confirmUnpairDevice',
     },
     render_attributes() {
       return {
@@ -37,10 +48,12 @@
         requestAcceptedTitle: i18n('devicePairingAccepted'),
         startPairingText: i18n('pairNewDevice'),
         cancelText: i18n('cancel'),
+        unpairDevice: i18n('unpairDevice'),
         closeText: i18n('close'),
         skipText: i18n('skip'),
         okText: i18n('ok'),
         allowPairingText: i18n('allowPairing'),
+        confirmUnpairViewTitle: i18n('confirmUnpairingTitle'),
       };
     },
     startReceivingRequests() {
@@ -103,31 +116,64 @@
       // FIFO: pop at the back of the array using pop()
       this.pubKey = this.pubKeyRequests.pop();
     },
+    async confirmUnpairDevice() {
+      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+        this.pubKeyToUnpair
+      );
+      await lokiFileServerAPI.updateOurDeviceMapping();
+      this.reset();
+      this.showView();
+    },
+    requestUnpairDevice(pubKey) {
+      this.pubKeyToUnpair = pubKey;
+      this.showView();
+    },
+    getPubkeyName(pubKey) {
+      const secretWords = window.mnemonic.pubkey_to_secret_words(pubKey);
+      const conv = ConversationController.get(pubKey);
+      const deviceAlias = conv ? conv.getNickname() : 'Unnamed Device';
+      return `${deviceAlias} (pairing secret: <i>${secretWords}</i>)`;
+    },
     async showView() {
       const defaultView = this.$('.defaultView');
       const waitingForRequestView = this.$('.waitingForRequestView');
       const requestReceivedView = this.$('.requestReceivedView');
       const requestAcceptedView = this.$('.requestAcceptedView');
-      if (!this.isListening) {
-        const ourPubKey = textsecure.storage.user.getNumber();
-        defaultView.show();
+      const confirmUnpairView = this.$('.confirmUnpairView');
+      if (this.pubKeyToUnpair) {
+        defaultView.hide();
         requestReceivedView.hide();
         waitingForRequestView.hide();
         requestAcceptedView.hide();
+        confirmUnpairView.show();
+        const name = this.getPubkeyName(this.pubKeyToUnpair);
+        this.$('.confirmUnpairView #pubkey').html(name);
+      } else if (!this.isListening) {
+        requestReceivedView.hide();
+        waitingForRequestView.hide();
+        requestAcceptedView.hide();
+        confirmUnpairView.hide();
+
+        const ourPubKey = textsecure.storage.user.getNumber();
+        defaultView.show();
         const pubKeys = await libloki.storage.getSecondaryDevicesFor(ourPubKey);
+        this.$('#pairedPubKeys').empty();
         if (pubKeys && pubKeys.length > 0) {
-          this.$('#pairedPubKeys').empty();
           pubKeys.forEach(x => {
-            let deviceAlias = 'Paired Device';
-            const secretWords = window.mnemonic.pubkey_to_secret_words(x);
-            const conv = ConversationController.get(x);
-            if (conv) {
-              deviceAlias = conv.getNickname();
+            const name = this.getPubkeyName(x);
+            const li = $('<li>').html(name);
+            if (window.lokiFeatureFlags.multiDeviceUnpairing) {
+              const link = $('<a>')
+                .text('Unpair')
+                .attr('href', '#');
+              link.on('click', () => this.requestUnpairDevice(x));
+              li.append(' - ');
+              li.append(link);
             }
-            this.$('#pairedPubKeys').append(
-              `<li>${deviceAlias} (${secretWords})</li>`
-            );
+            this.$('#pairedPubKeys').append(li);
           });
+        } else {
+          this.$('#pairedPubKeys').append('<li>No paired devices</li>');
         }
       } else if (this.accepted) {
         defaultView.hide();
