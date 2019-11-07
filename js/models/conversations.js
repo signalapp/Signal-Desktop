@@ -774,7 +774,8 @@
         });
       }
     },
-    async setFriendRequestStatus(newStatus) {
+    async setFriendRequestStatus(newStatus, options = {}) {
+      const { fromContactSync } = options;
       // Ensure that the new status is a valid FriendStatusEnum value
       if (!(newStatus in Object.values(FriendRequestStatusEnum))) {
         return;
@@ -791,6 +792,10 @@
           Conversation: Whisper.Conversation,
         });
         await this.updateTextInputState();
+        if (!fromContactSync && newStatus === FriendRequestStatusEnum.friends) {
+          // Sync contact
+          this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
+        }
       }
     },
     async respondToAllFriendRequests(options) {
@@ -837,12 +842,12 @@
       await window.libloki.storage.removeContactPreKeyBundle(this.id);
     },
     // We have accepted an incoming friend request
-    async onAcceptFriendRequest() {
+    async onAcceptFriendRequest(options = {}) {
       if (this.unlockTimer) {
         clearTimeout(this.unlockTimer);
       }
       if (this.hasReceivedFriendRequest()) {
-        this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
+        this.setFriendRequestStatus(FriendRequestStatusEnum.friends, options);
         await this.respondToAllFriendRequests({
           response: 'accepted',
           direction: 'incoming',

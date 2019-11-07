@@ -563,6 +563,33 @@ MessageSender.prototype = {
     return Promise.resolve();
   },
 
+  async sendContactSyncMessage(contactConversation) {
+    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    const allOurDevices = (await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+      primaryDeviceKey
+    ))
+      // Don't send to ourselves
+      .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
+    if (allOurDevices.length === 0) {
+      return Promise.resolve();
+    }
+
+    const syncMessage = await libloki.api.createContactSyncProtoMessage([
+      contactConversation,
+    ]);
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      primaryDeviceKey,
+      contentMessage,
+      Date.now(),
+      silent,
+      {} // options
+    );
+  },
+
   sendRequestContactSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -1160,6 +1187,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(
     sender
   );
+  this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
   this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(
     sender
   );

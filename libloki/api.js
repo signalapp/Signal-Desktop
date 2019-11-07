@@ -114,11 +114,7 @@
     result.reset();
     return result;
   }
-  async function createContactSyncProtoMessage() {
-    const conversations = await window.Signal.Data.getConversationsWithFriendStatus(
-      window.friends.friendRequestStatusEnum.friends,
-      { ConversationCollection: Whisper.ConversationCollection }
-    );
+  async function createContactSyncProtoMessage(conversations) {
     // Extract required contacts information out of conversations
     const rawContacts = conversations.map(conversation => {
       const profile = conversation.getLokiProfile();
@@ -186,7 +182,11 @@
       profile,
     });
     // Attach contact list
-    const syncMessage = await createContactSyncProtoMessage();
+    const conversations = await window.Signal.Data.getConversationsWithFriendStatus(
+      window.friends.friendRequestStatusEnum.friends,
+      { ConversationCollection: Whisper.ConversationCollection }
+    );
+    const syncMessage = await createContactSyncProtoMessage(conversations);
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
       dataMessage,

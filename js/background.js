@@ -1239,6 +1239,14 @@
         await conversation.setSecondaryStatus(true);
       }
 
+      if (conversation.isFriendRequestStatusNone()) {
+        // Will be replaced with automatic friend request
+        libloki.api.sendBackgroundMessage(conversation.id);
+      } else {
+        // Accept any pending friend requests if there are any
+        conversation.onAcceptFriendRequest({ fromContactSync: true });
+      }
+
       if (details.profileKey) {
         const profileKey = window.Signal.Crypto.arrayBufferToBase64(
           details.profileKey
