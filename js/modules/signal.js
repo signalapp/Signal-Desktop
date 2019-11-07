@@ -57,6 +57,9 @@ const {
 const {
   createStickerPreviewModal,
 } = require('../../ts/state/roots/createStickerPreviewModal');
+const {
+  createShortcutGuideModal,
+} = require('../../ts/state/roots/createShortcutGuideModal');
 
 const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
@@ -65,6 +68,8 @@ const itemsDuck = require('../../ts/state/ducks/items');
 const searchDuck = require('../../ts/state/ducks/search');
 const stickersDuck = require('../../ts/state/ducks/stickers');
 const userDuck = require('../../ts/state/ducks/user');
+
+const conversationsSelectors = require('../../ts/state/selectors/conversations');
 
 // Migrations
 const {
@@ -266,9 +271,10 @@ exports.setup = (options = {}) => {
   const Roots = {
     createCompositionArea,
     createLeftPane,
-    createTimeline,
+    createShortcutGuideModal,
     createStickerManager,
     createStickerPreviewModal,
+    createTimeline,
   };
   const Ducks = {
     conversations: conversationsDuck,
@@ -278,11 +284,16 @@ exports.setup = (options = {}) => {
     search: searchDuck,
     stickers: stickersDuck,
   };
+  const Selectors = {
+    conversations: conversationsSelectors,
+  };
+
   const State = {
     bindActionCreators,
     createStore,
     Roots,
     Ducks,
+    Selectors,
   };
 
   const Types = {

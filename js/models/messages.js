@@ -125,6 +125,17 @@
       };
     },
 
+    isNormalBubble() {
+      return (
+        !this.isUnsupportedMessage() &&
+        !this.isExpirationTimerUpdate() &&
+        !this.isKeyChange() &&
+        !this.isVerifiedChange() &&
+        !this.isGroupUpdate() &&
+        !this.isEndSession()
+      );
+    },
+
     // Top-level prop generation for the message bubble
     getPropsForBubble() {
       if (this.isUnsupportedMessage()) {
@@ -489,6 +500,7 @@
         text: this.createNonBreakingLastSeparator(this.get('body')),
         textPending: this.get('bodyPending'),
         id: this.id,
+        conversationId: this.get('conversationId'),
         isSticker: Boolean(sticker),
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),

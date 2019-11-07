@@ -17,6 +17,7 @@ export type Props = {
 } & AvatarProps;
 
 export const AvatarPopup = (props: Props) => {
+  const focusRef = React.useRef<HTMLButtonElement>(null);
   const {
     i18n,
     profileName,
@@ -27,6 +28,22 @@ export const AvatarPopup = (props: Props) => {
   } = props;
 
   const hasProfileName = !isEmpty(profileName);
+
+  // Note: mechanisms to dismiss this view are all in its host, MainHeader
+
+  // Focus first button after initial render, restore focus on teardown
+  React.useEffect(() => {
+    const lastFocused = document.activeElement as any;
+    if (focusRef.current) {
+      focusRef.current.focus();
+    }
+
+    return () => {
+      if (lastFocused && lastFocused.focus) {
+        lastFocused.focus();
+      }
+    };
+  }, []);
 
   return (
     <div style={style} className="module-avatar-popup">
@@ -44,7 +61,11 @@ export const AvatarPopup = (props: Props) => {
         </div>
       </div>
       <hr className="module-avatar-popup__divider" />
-      <button className="module-avatar-popup__item" onClick={onViewPreferences}>
+      <button
+        ref={focusRef}
+        className="module-avatar-popup__item"
+        onClick={onViewPreferences}
+      >
         <div
           className={classNames(
             'module-avatar-popup__item__icon',

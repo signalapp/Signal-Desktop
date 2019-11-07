@@ -13,6 +13,7 @@ export interface PropsType {
   searchTerm: string;
   searchConversationName?: string;
   searchConversationId?: string;
+  startSearchCounter: number;
 
   // To be used as an ID
   ourNumber: string;
@@ -79,7 +80,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
   }
 
   public componentDidUpdate(prevProps: PropsType) {
-    const { searchConversationId } = this.props;
+    const { searchConversationId, startSearchCounter } = this.props;
 
     // When user chooses to search in a given conversation we focus the field for them
     if (
@@ -87,6 +88,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       searchConversationId !== prevProps.searchConversationId
     ) {
       this.setFocus();
+    }
+    // When user chooses to start a new search, we focus the field
+    if (startSearchCounter !== prevProps.startSearchCounter) {
+      this.setSelected();
     }
   }
 
@@ -102,7 +107,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
-  public handleOutsideKeyUp = (event: KeyboardEvent) => {
+  public handleOutsideKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       this.hideAvatarPopup();
     }
@@ -113,12 +118,12 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       showingAvatarPopup: true,
     });
     document.addEventListener('click', this.handleOutsideClick);
-    document.addEventListener('keydown', this.handleOutsideKeyUp);
+    document.addEventListener('keydown', this.handleOutsideKeyDown);
   };
 
   public hideAvatarPopup = () => {
     document.removeEventListener('click', this.handleOutsideClick);
-    document.removeEventListener('keydown', this.handleOutsideKeyUp);
+    document.removeEventListener('keydown', this.handleOutsideKeyDown);
     this.setState({
       showingAvatarPopup: false,
     });
@@ -130,7 +135,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     if (popperRoot) {
       document.body.removeChild(popperRoot);
       document.removeEventListener('click', this.handleOutsideClick);
-      document.removeEventListener('keydown', this.handleOutsideKeyUp);
+      document.removeEventListener('keydown', this.handleOutsideKeyDown);
     }
   }
 
@@ -204,7 +209,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     this.setFocus();
   };
 
-  public handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const {
       clearConversationSearch,
       clearSearch,
@@ -221,6 +226,9 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     } else {
       clearSearch();
     }
+
+    event.preventDefault();
+    event.stopPropagation();
   };
 
   public handleXButton = () => {
@@ -243,6 +251,13 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     if (this.inputRef.current) {
       // @ts-ignore
       this.inputRef.current.focus();
+    }
+  };
+
+  public setSelected = () => {
+    if (this.inputRef.current) {
+      // @ts-ignore
+      this.inputRef.current.select();
     }
   };
 
@@ -320,6 +335,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             <button
               className="module-main-header__search__in-conversation-pill"
               onClick={this.clearSearch}
+              tabIndex={-1}
             >
               <div className="module-main-header__search__in-conversation-pill__avatar-container">
                 <div className="module-main-header__search__in-conversation-pill__avatar" />
@@ -330,6 +346,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             <button
               className="module-main-header__search__icon"
               onClick={this.setFocus}
+              tabIndex={-1}
             />
           )}
           <input
@@ -346,13 +363,13 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             )}
             placeholder={placeholder}
             dir="auto"
-            onKeyUp={this.handleKeyUp}
+            onKeyDown={this.handleKeyDown}
             value={searchTerm}
             onChange={this.updateSearch}
           />
           {searchTerm ? (
-            <div
-              role="button"
+            <button
+              tabIndex={-1}
               className="module-main-header__search__cancel-icon"
               onClick={this.handleXButton}
             />

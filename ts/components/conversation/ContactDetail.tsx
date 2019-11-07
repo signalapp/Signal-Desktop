@@ -93,17 +93,12 @@ export class ContactDetail extends React.Component<Props> {
     };
 
     return (
-      <div
-        className="module-contact-detail__send-message"
-        role="button"
-        // tslint:disable-next-line react-this-binding-issue
-        onClick={onClick}
-      >
-        <button className="module-contact-detail__send-message__inner">
+      <button className="module-contact-detail__send-message" onClick={onClick}>
+        <div className="module-contact-detail__send-message__inner">
           <div className="module-contact-detail__send-message__bubble-icon" />
           {i18n('sendMessageToContact')}
-        </button>
-      </div>
+        </div>
+      </button>
     );
   }
 

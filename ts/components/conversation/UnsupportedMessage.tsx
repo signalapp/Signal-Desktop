@@ -71,15 +71,14 @@ export class UnsupportedMessage extends React.Component<Props> {
           />
         </div>
         {canProcessNow ? null : (
-          <div
-            role="button"
+          <button
             onClick={() => {
               downloadNewVersion();
             }}
             className="module-unsupported-message__button"
           >
             {i18n('Message--update-signal')}
-          </div>
+          </button>
         )}
       </div>
     );

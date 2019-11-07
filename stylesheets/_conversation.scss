@@ -119,10 +119,13 @@
 }
 
 .key-verification {
+  .container {
+    outline: none;
+  }
+
   label {
     display: block;
     margin: 10px 0;
-    @include font-body-2;
   }
 
   .icon {

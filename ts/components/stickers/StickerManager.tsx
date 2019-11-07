@@ -18,7 +18,14 @@ export type OwnProps = {
 
 export type Props = OwnProps;
 
+function focusOnRender(el: HTMLElement | null) {
+  if (el) {
+    el.focus();
+  }
+}
+
 export const StickerManager = React.memo(
+  // tslint:disable-next-line max-func-body-length
   ({
     installedPacks,
     receivedPacks,
@@ -69,7 +76,11 @@ export const StickerManager = React.memo(
             uninstallStickerPack={uninstallStickerPack}
           />
         ) : null}
-        <div className="module-sticker-manager">
+        <div
+          className="module-sticker-manager"
+          tabIndex={-1}
+          ref={focusOnRender}
+        >
           {[
             {
               i18nKey: 'stickers--StickerManager--InstalledPacks',

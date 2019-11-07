@@ -145,7 +145,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/about_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 19,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -179,7 +179,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/debug_log_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 4,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -246,7 +246,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/permissions_popup_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 3,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -273,7 +273,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/settings_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 3,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -336,7 +336,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/confirmation_dialog_view.js",
     "line": "      this.$('.cancel').focus();",
-    "lineNumber": 55,
+    "lineNumber": 73,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -542,7 +542,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 183,
+    "lineNumber": 190,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -551,7 +551,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 187,
+    "lineNumber": 194,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -560,7 +560,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 191,
+    "lineNumber": 198,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -569,7 +569,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 193,
+    "lineNumber": 200,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -578,7 +578,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 213,
+    "lineNumber": 220,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -587,7 +587,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 216,
+    "lineNumber": 223,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -811,7 +811,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
     "line": "      this.$('.time').text(`${minutes}:${seconds}`);",
-    "lineNumber": 38,
+    "lineNumber": 49,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -820,7 +820,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
     "line": "      $(window).off('blur', this.onSwitchAwayBound);",
-    "lineNumber": 69,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-11T19:22:47.331Z",
     "reasonDetail": "Operating on already-existing DOM elements"
@@ -1138,6 +1138,15 @@
     "lineNumber": 21,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "js/views/toast_view.js",
+    "line": "    toast.$el.appendTo(el);",
+    "lineNumber": 34,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-html(",
@@ -7515,34 +7524,43 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 69,
+    "lineNumber": 70,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-01T14:10:37.481Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/Lightbox.js",
-    "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 207,
+    "path": "ts/components/LeftPane.js",
+    "line": "        this.listRef = react_1.default.createRef();",
+    "lineNumber": 14,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used to auto-start playback on videos"
+    "updated": "2019-11-05T01:14:21.081Z",
+    "reasonDetail": "Used for focus management"
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/Lightbox.tsx",
-    "line": "    this.videoRef = React.createRef();",
-    "lineNumber": 196,
+    "path": "ts/components/Lightbox.js",
+    "line": "        this.containerRef = react_1.default.createRef();",
+    "lineNumber": 141,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used to auto-start playback on videos"
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to double-check outside clicks"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/Lightbox.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 143,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 118,
+    "lineNumber": 126,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
@@ -7551,7 +7569,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 64,
+    "lineNumber": 65,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
@@ -7560,7 +7578,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SearchResults.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 22,
+    "lineNumber": 25,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T00:44:31.008Z",
     "reasonDetail": "SearchResults needs to interact with its child List directly"
@@ -7585,12 +7603,84 @@
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/conversation/InlineNotificationWrapper.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 10,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 11,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 31,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 149,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/MessageDetail.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/MessageDetail.tsx",
+    "line": "    this.focusRef = React.createRef();",
+    "lineNumber": 42,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
     "lineNumber": 27,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 25,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
+    "line": "  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 65,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
   },
   {
     "rule": "jQuery-wrap(",

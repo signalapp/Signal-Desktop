@@ -77,6 +77,16 @@
       return { toastMessage: i18n('voiceNoteMustBeOnlyAttachment') };
     },
   });
+  Whisper.ConversationArchivedToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('conversationArchived') };
+    },
+  });
+  Whisper.ConversationUnarchivedToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('conversationReturnedToInbox') };
+    },
+  });
 
   const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
@@ -142,6 +152,28 @@
       this.listenTo(this.model, 'scroll-to-message', this.scrollToMessage);
       this.listenTo(this.model, 'unload', reason =>
         this.unload(`model trigger - ${reason}`)
+      );
+      this.listenTo(this.model, 'focus-composer', this.focusMessageField);
+      this.listenTo(this.model, 'open-all-media', this.showAllMedia);
+      this.listenTo(this.model, 'begin-recording', this.captureAudio);
+      this.listenTo(this.model, 'attach-file', this.onChooseAttachment);
+      this.listenTo(this.model, 'escape-pressed', this.resetPanel);
+      this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
+      this.listenTo(this.model, 'toggle-reply', messageId => {
+        const target = this.quote || !messageId ? null : messageId;
+        this.setQuoteMessage(target);
+      });
+      this.listenTo(
+        this.model,
+        'save-attachment',
+        this.downloadAttachmentWrapper
+      );
+      this.listenTo(this.model, 'delete-message', this.deleteMessage);
+      this.listenTo(this.model, 'remove-link-review', this.removeLinkPreview);
+      this.listenTo(
+        this.model,
+        'remove-all-draft-attachments',
+        this.clearAttachments
       );
 
       // Events on Message models - we still listen to these here because they
@@ -272,9 +304,8 @@
           onShowSafetyNumber: () => {
             this.showSafetyNumber();
           },
-          onShowAllMedia: async () => {
-            await this.showAllMedia();
-            this.updateHeader();
+          onShowAllMedia: () => {
+            this.showAllMedia();
           },
           onShowGroupMembers: async () => {
             await this.showMembers();
@@ -282,15 +313,24 @@
           },
           onGoBack: () => {
             this.resetPanel();
-            this.updateHeader();
           },
 
           onArchive: () => {
-            this.model.trigger('unload', 'archive');
             this.model.setArchived(true);
+            this.model.trigger('unload', 'archive');
+
+            Whisper.ToastView.show(
+              Whisper.ConversationArchivedToast,
+              document.body
+            );
           },
           onMoveToInbox: () => {
             this.model.setArchived(false);
+
+            Whisper.ToastView.show(
+              Whisper.ConversationUnarchivedToast,
+              document.body
+            );
           },
         };
       };
@@ -655,12 +695,13 @@
 
         const cleaned = await this.cleanModels(all);
         this.model.messageCollection.reset(cleaned);
+        const scrollToMessageId = disableScroll ? undefined : messageId;
 
         messagesReset(
           conversationId,
           cleaned.map(model => model.getReduxData()),
           metrics,
-          disableScroll ? undefined : messageId
+          scrollToMessageId
         );
       } catch (error) {
         setMessagesLoading(conversationId, false);
@@ -670,7 +711,7 @@
       }
     },
 
-    async loadNewestMessages(newestMessageId) {
+    async loadNewestMessages(newestMessageId, setFocus) {
       const {
         messagesReset,
         setMessagesLoading,
@@ -701,7 +742,9 @@
         const metrics = await getMessageMetricsForConversation(conversationId);
 
         if (scrollToLatestUnread && metrics.oldestUnread) {
-          this.loadAndScroll(metrics.oldestUnread.id, { disableScroll: true });
+          this.loadAndScroll(metrics.oldestUnread.id, {
+            disableScroll: !setFocus,
+          });
           return;
         }
 
@@ -712,11 +755,14 @@
 
         const cleaned = await this.cleanModels(messages);
         this.model.messageCollection.reset(cleaned);
+        const scrollToMessageId =
+          setFocus && metrics.newest ? metrics.newest.id : undefined;
 
         messagesReset(
           conversationId,
           cleaned.map(model => model.getReduxData()),
-          metrics
+          metrics,
+          scrollToMessageId
         );
       } catch (error) {
         setMessagesLoading(conversationId, false);
@@ -1485,7 +1531,13 @@
     },
 
     captureAudio(e) {
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
+
+      if (this.compositionApi.current.isDirty()) {
+        return;
+      }
 
       if (this.hasFiles()) {
         this.showToast(Whisper.VoiceNoteMustBeOnlyAttachmentToast);
@@ -1507,6 +1559,7 @@
       view.on('send', this.handleAudioCapture.bind(this));
       view.on('closed', this.endCaptureAudio.bind(this));
       view.$el.appendTo(this.$('.capture-audio'));
+      view.$('.finish').focus();
       this.compositionApi.current.setMicActive(true);
 
       this.disableMessageField();
@@ -1527,12 +1580,18 @@
         flags: textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
       };
 
+      // Note: The RecorderView removes itself on send
+      this.captureAudioView = null;
+
       this.sendMessage();
     },
     endCaptureAudio() {
       this.enableMessageField();
       this.$('.microphone').show();
+
+      // Note: The RecorderView removes itself on close
       this.captureAudioView = null;
+
       this.compositionApi.current.setMicActive(false);
     },
 
@@ -1727,6 +1786,7 @@
       this.listenTo(this.model.messageCollection, 'remove', update);
 
       this.listenBack(view);
+      this.updateHeader();
     },
 
     focusMessageField() {
@@ -1833,6 +1893,27 @@
         this.listenBack(view);
         this.updateHeader();
       }
+    },
+
+    downloadAttachmentWrapper(messageId) {
+      const message = this.model.messageCollection.get(messageId);
+      if (!message) {
+        throw new Error(
+          `downloadAttachmentWrapper: Did not find message for id ${messageId}`
+        );
+      }
+
+      const { attachments, sent_at: timestamp } = message.attributes;
+      if (!attachments || attachments.length < 1) {
+        return;
+      }
+
+      const attachment = attachments[0];
+      const { fileName } = attachment;
+
+      const isDangerous = window.Signal.Util.isFileDangerous(fileName || '');
+
+      this.downloadAttachment({ attachment, timestamp, isDangerous });
     },
 
     downloadAttachment({ attachment, timestamp, isDangerous }) {
@@ -1944,7 +2025,6 @@
           message.trigger('unload');
           this.model.messageCollection.remove(message.id);
           this.resetPanel();
-          this.updateHeader();
         },
       });
 
@@ -2081,10 +2161,13 @@
         );
       }
 
+      if (!message.isNormalBubble()) {
+        return;
+      }
+
       const onClose = () => {
         this.stopListening(message, 'change', update);
         this.resetPanel();
-        this.updateHeader();
       };
 
       const props = message.getPropsForMessageDetail();
@@ -2111,7 +2194,6 @@
         JSX: Signal.State.Roots.createStickerManager(window.reduxStore),
         onClose: () => {
           this.resetPanel();
-          this.updateHeader();
         },
       });
 
@@ -2135,7 +2217,6 @@
         },
         onClose: () => {
           this.resetPanel();
-          this.updateHeader();
         },
       });
 
@@ -2149,6 +2230,11 @@
 
     listenBack(view) {
       this.panels = this.panels || [];
+
+      if (this.panels.length === 0) {
+        this.previousFocus = document.activeElement;
+      }
+
       this.panels.unshift(view);
       view.$el.insertAfter(this.$('.panel').last());
       view.$el.one('animationend', () => {
@@ -2162,11 +2248,23 @@
 
       const view = this.panels.shift();
 
+      if (
+        this.panels.length === 0 &&
+        this.previousFocus &&
+        this.previousFocus.focus
+      ) {
+        this.previousFocus.focus();
+        this.previousFocus = null;
+      }
+
       if (this.panels.length > 0) {
         this.panels[0].$el.fadeIn(250);
       }
+      this.updateHeader();
+
       view.$el.addClass('panel--remove').one('transitionend', () => {
         view.remove();
+
         if (this.panels.length === 0) {
           // Make sure poppers are positioned properly
           window.dispatchEvent(new Event('resize'));
@@ -2290,8 +2388,19 @@
     },
 
     async setQuoteMessage(messageId) {
+      const model = messageId
+        ? await getMessageById(messageId, {
+            Message: Whisper.Message,
+          })
+        : null;
+
+      if (model && !model.isNormalBubble()) {
+        return;
+      }
+
       this.quote = null;
       this.quotedMessage = null;
+      this.quoteHolder = null;
 
       const existing = this.model.get('quotedMessageId');
       if (existing !== messageId) {
@@ -2303,25 +2412,20 @@
         await this.saveModel();
       }
 
-      if (this.quoteHolder) {
-        this.quoteHolder.unload();
-        this.quoteHolder = null;
+      if (this.quoteView) {
+        this.quoteView.remove();
+        this.quoteView = null;
       }
 
-      if (messageId) {
-        const model = await getMessageById(messageId, {
-          Message: Whisper.Message,
-        });
-        if (model) {
-          const message = MessageController.register(model.id, model);
-          this.quotedMessage = message;
+      if (model) {
+        const message = MessageController.register(model.id, model);
+        this.quotedMessage = message;
 
-          if (message) {
-            const quote = await this.model.makeQuote(this.quotedMessage);
-            this.quote = quote;
+        if (message) {
+          const quote = await this.model.makeQuote(this.quotedMessage);
+          this.quote = quote;
 
-            this.focusMessageFieldAndClearDisabled();
-          }
+          this.focusMessageFieldAndClearDisabled();
         }
       }
 
@@ -2363,6 +2467,8 @@
         props: Object.assign({}, props, {
           withContentAbove: true,
           onClose: () => {
+            // This can't be the normal 'onClose' because that is always run when this
+            //   view is removed from the DOM, and would clear the draft quote.
             this.setQuoteMessage(null);
           },
         }),

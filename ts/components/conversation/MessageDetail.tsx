@@ -35,6 +35,23 @@ interface Props {
 }
 
 export class MessageDetail extends React.Component<Props> {
+  private readonly focusRef: React.RefObject<HTMLDivElement>;
+
+  constructor(props: Props) {
+    super(props);
+    this.focusRef = React.createRef();
+  }
+
+  public componentDidMount() {
+    // When this component is created, it's initially not part of the DOM, and then it's
+    //   added off-screen and animated in. This ensures that the focus takes.
+    setTimeout(() => {
+      if (this.focusRef.current) {
+        this.focusRef.current.focus();
+      }
+    });
+  }
+
   public renderAvatar(contact: Contact) {
     const { i18n } = this.props;
     const { avatarPath, color, phoneNumber, name, profileName } = contact;
@@ -144,7 +161,7 @@ export class MessageDetail extends React.Component<Props> {
     const { errors, message, receivedAt, sentAt, i18n } = this.props;
 
     return (
-      <div className="module-message-detail">
+      <div className="module-message-detail" tabIndex={0} ref={this.focusRef}>
         <div className="module-message-detail__message-container">
           <Message i18n={i18n} {...message} />
         </div>

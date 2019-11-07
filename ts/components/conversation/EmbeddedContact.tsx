@@ -33,7 +33,7 @@ export class EmbeddedContact extends React.Component<Props> {
     const direction = isIncoming ? 'incoming' : 'outgoing';
 
     return (
-      <div
+      <button
         className={classNames(
           'module-embedded-contact',
           withContentAbove
@@ -43,15 +43,21 @@ export class EmbeddedContact extends React.Component<Props> {
             ? 'module-embedded-contact--with-content-below'
             : null
         )}
-        role="button"
-        onClick={onClick}
+        onClick={(event: React.MouseEvent) => {
+          if (onClick) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClick();
+          }
+        }}
       >
         {renderAvatar({ contact, i18n, size: 52, direction })}
         <div className="module-embedded-contact__text-container">
           {renderName({ contact, isIncoming, module })}
           {renderContactShorthand({ contact, isIncoming, module })}
         </div>
-      </div>
+      </button>
     );
   }
 }

@@ -57,6 +57,7 @@ describe('SignalMenu', () => {
                 setupWithImport: null,
                 showAbout: null,
                 showDebugLog: null,
+                showKeyboardShortcuts: null,
                 showSettings: null,
                 showWindow: null,
               };

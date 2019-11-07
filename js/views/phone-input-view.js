@@ -15,7 +15,7 @@
     },
     events: {
       change: 'validateNumber',
-      keyup: 'validateNumber',
+      keydown: 'validateNumber',
     },
     validateNumber() {
       const input = this.$('input.number');

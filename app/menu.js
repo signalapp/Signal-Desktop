@@ -17,6 +17,7 @@ exports.createTemplate = (options, messages) => {
     setupWithImport,
     showAbout,
     showDebugLog,
+    showKeyboardShortcuts,
     showSettings,
   } = options;
 
@@ -131,11 +132,16 @@ exports.createTemplate = (options, messages) => {
       role: 'help',
       submenu: [
         {
-          label: messages.goToReleaseNotes.message,
-          click: openReleaseNotes,
+          label: messages.helpMenuShowKeyboardShortcuts.message,
+          accelerator: 'CmdOrCtrl+/',
+          click: showKeyboardShortcuts,
         },
         {
           type: 'separator',
+        },
+        {
+          label: messages.goToReleaseNotes.message,
+          click: openReleaseNotes,
         },
         {
           label: messages.goToForums.message,

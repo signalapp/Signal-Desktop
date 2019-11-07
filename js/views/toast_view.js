@@ -28,4 +28,10 @@
       setTimeout(this.close.bind(this), 2000);
     },
   });
+
+  Whisper.ToastView.show = (View, el) => {
+    const toast = new View();
+    toast.$el.appendTo(el);
+    toast.render();
+  };
 })();

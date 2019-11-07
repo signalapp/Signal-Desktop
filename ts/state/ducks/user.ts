@@ -8,6 +8,7 @@ export type UserStateType = {
   stickersPath: string;
   tempPath: string;
   ourNumber: string;
+  platform: string;
   regionCode: string;
   i18n: LocalizerType;
 };
@@ -49,6 +50,7 @@ function getEmptyState(): UserStateType {
     tempPath: 'missing',
     ourNumber: 'missing',
     regionCode: 'missing',
+    platform: 'missing',
     i18n: () => 'missing',
   };
 }

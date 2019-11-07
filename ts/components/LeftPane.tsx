@@ -1,7 +1,9 @@
 import React from 'react';
 import { AutoSizer, List } from 'react-virtualized';
+import { debounce } from 'lodash';
 
 import {
+  cleanId,
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
 } from './ConversationListItem';
@@ -14,6 +16,7 @@ import { LocalizerType } from '../types/Util';
 export interface PropsType {
   conversations?: Array<ConversationListItemPropsType>;
   archivedConversations?: Array<ConversationListItemPropsType>;
+  selectedConversationId?: string;
   searchResults?: SearchResultsProps;
   showArchived?: boolean;
 
@@ -44,6 +47,11 @@ type RowRendererParamsType = {
 };
 
 export class LeftPane extends React.Component<PropsType> {
+  public listRef = React.createRef<any>();
+  public containerRef = React.createRef<HTMLDivElement>();
+  public setFocusToFirstNeeded = false;
+  public setFocusToLastNeeded = false;
+
   public renderRow = ({
     index,
     key,
@@ -85,13 +93,13 @@ export class LeftPane extends React.Component<PropsType> {
     );
   };
 
-  public renderArchivedButton({
+  public renderArchivedButton = ({
     key,
     style,
   }: {
     key: string;
     style: Object;
-  }): JSX.Element {
+  }): JSX.Element => {
     const {
       archivedConversations,
       i18n,
@@ -105,22 +113,172 @@ export class LeftPane extends React.Component<PropsType> {
     }
 
     return (
-      <div
+      <button
         key={key}
         className="module-left-pane__archived-button"
         style={style}
-        role="button"
         onClick={showArchivedConversations}
       >
         {i18n('archivedConversations')}{' '}
         <span className="module-left-pane__archived-button__archived-count">
           {archivedConversations.length}
         </span>
-      </div>
+      </button>
     );
-  }
+  };
 
-  public renderList(): JSX.Element | Array<JSX.Element | null> {
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const commandOrCtrl = event.metaKey || event.ctrlKey;
+
+    if (commandOrCtrl && !event.shiftKey && event.key === 'ArrowUp') {
+      this.scrollToRow(0);
+      this.setFocusToFirstNeeded = true;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
+    if (commandOrCtrl && !event.shiftKey && event.key === 'ArrowDown') {
+      const length = this.getLength();
+      this.scrollToRow(length - 1);
+      this.setFocusToLastNeeded = true;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+  };
+
+  public handleFocus = () => {
+    const { selectedConversationId } = this.props;
+    const { current: container } = this.containerRef;
+
+    if (!container) {
+      return;
+    }
+
+    if (document.activeElement === container) {
+      const scrollingContainer = this.getScrollContainer();
+      if (selectedConversationId && scrollingContainer) {
+        const escapedId = cleanId(selectedConversationId).replace(
+          /["\\]/g,
+          '\\$&'
+        );
+        // tslint:disable-next-line no-unnecessary-type-assertion
+        const target = scrollingContainer.querySelector(
+          `.module-conversation-list-item[data-id="${escapedId}"]`
+        ) as any;
+
+        if (target && target.focus) {
+          target.focus();
+
+          return;
+        }
+      }
+
+      this.setFocusToFirst();
+    }
+  };
+
+  public scrollToRow = (row: number) => {
+    if (!this.listRef || !this.listRef.current) {
+      return;
+    }
+
+    this.listRef.current.scrollToRow(row);
+  };
+
+  public getScrollContainer = () => {
+    if (!this.listRef || !this.listRef.current) {
+      return;
+    }
+
+    const list = this.listRef.current;
+
+    if (!list.Grid || !list.Grid._scrollingContainer) {
+      return;
+    }
+
+    return list.Grid._scrollingContainer as HTMLDivElement;
+  };
+
+  public setFocusToFirst = () => {
+    const scrollContainer = this.getScrollContainer();
+    if (!scrollContainer) {
+      return;
+    }
+
+    // tslint:disable-next-line no-unnecessary-type-assertion
+    const item = scrollContainer.querySelector(
+      '.module-conversation-list-item'
+    ) as any;
+    if (item && item.focus) {
+      item.focus();
+
+      return;
+    }
+  };
+
+  // tslint:disable-next-line member-ordering
+  public onScroll = debounce(
+    () => {
+      if (this.setFocusToFirstNeeded) {
+        this.setFocusToFirstNeeded = false;
+        this.setFocusToFirst();
+      }
+      if (this.setFocusToLastNeeded) {
+        this.setFocusToLastNeeded = false;
+
+        const scrollContainer = this.getScrollContainer();
+        if (!scrollContainer) {
+          return;
+        }
+
+        // tslint:disable-next-line no-unnecessary-type-assertion
+        const button = scrollContainer.querySelector(
+          '.module-left-pane__archived-button'
+        ) as any;
+        if (button && button.focus) {
+          button.focus();
+
+          return;
+        }
+        // tslint:disable-next-line no-unnecessary-type-assertion
+        const items = scrollContainer.querySelectorAll(
+          '.module-conversation-list-item'
+        ) as any;
+        if (items && items.length > 0) {
+          const last = items[items.length - 1];
+
+          if (last && last.focus) {
+            last.focus();
+
+            return;
+          }
+        }
+      }
+    },
+    100,
+    { maxWait: 100 }
+  );
+
+  public getLength = () => {
+    const { archivedConversations, conversations, showArchived } = this.props;
+
+    if (!conversations || !archivedConversations) {
+      return 0;
+    }
+
+    // That extra 1 element added to the list is the 'archived conversations' button
+    return showArchived
+      ? archivedConversations.length
+      : conversations.length + (archivedConversations.length ? 1 : 0);
+  };
+
+  public renderList = (): JSX.Element | Array<JSX.Element | null> => {
     const {
       archivedConversations,
       i18n,
@@ -150,10 +308,7 @@ export class LeftPane extends React.Component<PropsType> {
       );
     }
 
-    // That extra 1 element added to the list is the 'archived converastions' button
-    const length = showArchived
-      ? archivedConversations.length
-      : conversations.length + (archivedConversations.length ? 1 : 0);
+    const length = this.getLength();
 
     const archived = showArchived ? (
       <div className="module-left-pane__archive-helper-text" key={0}>
@@ -171,15 +326,27 @@ export class LeftPane extends React.Component<PropsType> {
     //   it re-renders when our conversation data changes. Otherwise it would just render
     //   on startup and scroll.
     const list = (
-      <div className="module-left-pane__list" key={listKey} aria-live="polite">
+      <div
+        className="module-left-pane__list"
+        key={listKey}
+        aria-live="polite"
+        role="group"
+        tabIndex={-1}
+        ref={this.containerRef}
+        onKeyDown={this.handleKeyDown}
+        onFocus={this.handleFocus}
+      >
         <AutoSizer>
           {({ height, width }) => (
             <List
+              ref={this.listRef}
+              onScroll={this.onScroll}
               className="module-left-pane__virtual-list"
               conversations={conversations}
               height={height}
               rowCount={length}
               rowHeight={68}
+              tabIndex={-1}
               rowRenderer={this.renderRow}
               width={width}
             />
@@ -189,24 +356,24 @@ export class LeftPane extends React.Component<PropsType> {
     );
 
     return [archived, list];
-  }
+  };
 
-  public renderArchivedHeader(): JSX.Element {
+  public renderArchivedHeader = (): JSX.Element => {
     const { i18n, showInbox } = this.props;
 
     return (
       <div className="module-left-pane__archive-header">
-        <div
-          role="button"
+        <button
           onClick={showInbox}
           className="module-left-pane__to-inbox-button"
+          title={i18n('backToInbox')}
         />
         <div className="module-left-pane__archive-header-text">
           {i18n('archivedConversations')}
         </div>
       </div>
     );
-  }
+  };
 
   public render(): JSX.Element {
     const { renderMainHeader, showArchived } = this.props;

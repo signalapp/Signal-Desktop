@@ -17,9 +17,8 @@ export class StagedGenericAttachment extends React.Component<Props> {
 
     return (
       <div className="module-staged-generic-attachment">
-        <div
+        <button
           className="module-staged-generic-attachment__close-button"
-          role="button"
           onClick={() => {
             if (onClose) {
               onClose(attachment);

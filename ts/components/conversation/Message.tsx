@@ -40,7 +40,6 @@ interface Trigger {
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
 const STICKER_SIZE = 128;
-const SELECTED_TIMEOUT = 1000;
 
 interface LinkPreviewType {
   title: string;
@@ -52,11 +51,11 @@ interface LinkPreviewType {
 
 export type PropsData = {
   id: string;
+  conversationId: string;
   text?: string;
   textPending?: boolean;
   isSticker: boolean;
   isSelected: boolean;
-  isSelectedCounter: number;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
@@ -131,6 +130,7 @@ export type PropsActions = {
       sentAt: number;
     }
   ) => void;
+  selectMessage: (messageId: string, conversationId: string) => unknown;
 };
 
 export type Props = PropsData & PropsHousekeeping & PropsActions;
@@ -139,58 +139,64 @@ interface State {
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
-
-  isSelected: boolean;
-  prevSelectedCounter: number;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 const EXPIRED_DELAY = 600;
 
 export class Message extends React.PureComponent<Props, State> {
-  public captureMenuTriggerBound: (trigger: any) => void;
-  public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
-  public handleImageErrorBound: () => void;
-
   public menuTriggerRef: Trigger | undefined;
+  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
+  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();
+
+  public state = {
+    expiring: false,
+    expired: false,
+    imageBroken: false,
+  };
+
   public expirationCheckInterval: any;
   public expiredTimeout: any;
   public selectedTimeout: any;
 
-  public constructor(props: Props) {
-    super(props);
+  public captureMenuTrigger = (triggerRef: Trigger) => {
+    this.menuTriggerRef = triggerRef;
+  };
 
-    this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
-    this.showMenuBound = this.showMenu.bind(this);
-    this.handleImageErrorBound = this.handleImageError.bind(this);
-
-    this.state = {
-      expiring: false,
-      expired: false,
-      imageBroken: false,
-
-      isSelected: props.isSelected,
-      prevSelectedCounter: props.isSelectedCounter,
-    };
-  }
-
-  public static getDerivedStateFromProps(props: Props, state: State): State {
-    if (
-      props.isSelected &&
-      props.isSelectedCounter !== state.prevSelectedCounter
-    ) {
-      return {
-        ...state,
-        isSelected: props.isSelected,
-        prevSelectedCounter: props.isSelectedCounter,
-      };
+  public showMenu = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (this.menuTriggerRef) {
+      this.menuTriggerRef.handleContextClick(event);
     }
+  };
 
-    return state;
-  }
+  public handleImageError = () => {
+    const { id } = this.props;
+    // tslint:disable-next-line no-console
+    console.log(
+      `Message ${id}: Image failed to load; failing over to placeholder`
+    );
+    this.setState({
+      imageBroken: true,
+    });
+  };
+
+  public setSelected = () => {
+    const { id, conversationId, selectMessage } = this.props;
+
+    selectMessage(id, conversationId);
+  };
+
+  public setFocus = () => {
+    if (this.focusRef.current) {
+      this.focusRef.current.focus();
+    }
+  };
 
   public componentDidMount() {
-    this.startSelectedTimer();
+    const { isSelected } = this.props;
+    if (isSelected) {
+      this.setFocus();
+    }
 
     const { expirationLength } = this.props;
     if (!expirationLength) {
@@ -219,25 +225,12 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  public componentDidUpdate() {
-    this.startSelectedTimer();
+  public componentDidUpdate(prevProps: Props) {
+    if (!prevProps.isSelected && this.props.isSelected) {
+      this.setFocus();
+    }
 
     this.checkExpired();
-  }
-
-  public startSelectedTimer() {
-    const { isSelected } = this.state;
-    if (!isSelected) {
-      return;
-    }
-
-    if (!this.selectedTimeout) {
-      this.selectedTimeout = setTimeout(() => {
-        this.selectedTimeout = undefined;
-        this.setState({ isSelected: false });
-        this.props.clearSelectedMessage();
-      }, SELECTED_TIMEOUT);
-    }
   }
 
   public checkExpired() {
@@ -263,14 +256,6 @@ export class Message extends React.PureComponent<Props, State> {
       };
       this.expiredTimeout = setTimeout(setExpired, EXPIRED_DELAY);
     }
-  }
-
-  public handleImageError() {
-    // tslint:disable-next-line no-console
-    console.log('Message: Image failed to load; failing over to placeholder');
-    this.setState({
-      imageBroken: true,
-    });
   }
 
   public renderMetadata() {
@@ -427,7 +412,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       text,
     } = this.props;
-    const { imageBroken, isSelected } = this.state;
+    const { imageBroken } = this.state;
 
     if (!attachments || !attachments[0]) {
       return null;
@@ -449,6 +434,8 @@ export class Message extends React.PureComponent<Props, State> {
     ) {
       const prefix = isSticker ? 'sticker' : 'attachment';
       const bottomOverlay = !isSticker && !collapseMetadata;
+      // We only want users to tab into this if there's more than one
+      const tabIndex = attachments.length > 1 ? 0 : -1;
 
       return (
         <div
@@ -470,11 +457,11 @@ export class Message extends React.PureComponent<Props, State> {
             withContentAbove={isSticker || withContentAbove}
             withContentBelow={isSticker || withContentBelow}
             isSticker={isSticker}
-            isSelected={isSticker && isSelected}
             stickerSize={STICKER_SIZE}
             bottomOverlay={bottomOverlay}
             i18n={i18n}
-            onError={this.handleImageErrorBound}
+            onError={this.handleImageError}
+            tabIndex={tabIndex}
             onClick={attachment => {
               showVisualAttachment({ attachment, messageId: id });
             }}
@@ -484,6 +471,7 @@ export class Message extends React.PureComponent<Props, State> {
     } else if (!firstAttachment.pending && isAudio(attachments)) {
       return (
         <audio
+          ref={this.audioRef}
           controls={true}
           className={classNames(
             'module-message__audio-attachment',
@@ -505,7 +493,7 @@ export class Message extends React.PureComponent<Props, State> {
       const isDangerous = isFileDangerous(fileName || '');
 
       return (
-        <div
+        <button
           className={classNames(
             'module-message__generic-attachment',
             withContentBelow
@@ -515,6 +503,14 @@ export class Message extends React.PureComponent<Props, State> {
               ? 'module-message__generic-attachment--with-content-above'
               : null
           )}
+          // There's only ever one of these, so we don't want users to tab into it
+          tabIndex={-1}
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            this.openGenericAttachment();
+          }}
         >
           {pending ? (
             <div className="module-message__generic-attachment__spinner-container">
@@ -554,7 +550,7 @@ export class Message extends React.PureComponent<Props, State> {
               {fileSize}
             </div>
           </div>
-        </div>
+        </button>
       );
     }
   }
@@ -597,15 +593,25 @@ export class Message extends React.PureComponent<Props, State> {
       width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
     return (
-      <div
-        role="button"
+      <button
         className={classNames(
           'module-message__link-preview',
           withContentAbove
             ? 'module-message__link-preview--with-content-above'
             : null
         )}
-        onClick={() => {
+        onKeyDown={(event: React.KeyboardEvent) => {
+          if (event.key === 'Enter' || event.key === 'Space') {
+            event.stopPropagation();
+            event.preventDefault();
+
+            openLink(first.url);
+          }
+        }}
+        onClick={(event: React.MouseEvent) => {
+          event.stopPropagation();
+          event.preventDefault();
+
           openLink(first.url);
         }}
       >
@@ -614,7 +620,7 @@ export class Message extends React.PureComponent<Props, State> {
             attachments={[first.image]}
             withContentAbove={withContentAbove}
             withContentBelow={true}
-            onError={this.handleImageErrorBound}
+            onError={this.handleImageError}
             i18n={i18n}
           />
         ) : null}
@@ -638,7 +644,7 @@ export class Message extends React.PureComponent<Props, State> {
                 width={72}
                 url={first.image.url}
                 attachment={first.image}
-                onError={this.handleImageErrorBound}
+                onError={this.handleImageError}
                 i18n={i18n}
               />
             </div>
@@ -659,7 +665,7 @@ export class Message extends React.PureComponent<Props, State> {
             </div>
           </div>
         </div>
-      </div>
+      </button>
     );
   }
 
@@ -751,8 +757,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div
-        role="button"
+      <button
         onClick={() => {
           if (contact.signalAccount) {
             openConversation(contact.signalAccount);
@@ -761,7 +766,7 @@ export class Message extends React.PureComponent<Props, State> {
         className="module-message__send-message-button"
       >
         {i18n('sendMessageToContact')}
-      </div>
+      </button>
     );
   }
 
@@ -853,35 +858,21 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public captureMenuTrigger(triggerRef: Trigger) {
-    this.menuTriggerRef = triggerRef;
-  }
-  public showMenu(event: React.MouseEvent<HTMLDivElement>) {
-    if (this.menuTriggerRef) {
-      this.menuTriggerRef.handleContextClick(event);
-    }
-  }
-
   public renderMenu(isCorrectSide: boolean, triggerId: string) {
     const {
       attachments,
       direction,
       disableMenu,
-      downloadAttachment,
       id,
       isSticker,
       isTapToView,
       replyToMessage,
-      timestamp,
     } = this.props;
 
     if (!isCorrectSide || disableMenu) {
       return null;
     }
 
-    const fileName =
-      attachments && attachments[0] ? attachments[0].fileName : null;
-    const isDangerous = isFileDangerous(fileName || '');
     const multipleAttachments = attachments && attachments.length > 1;
     const firstAttachment = attachments && attachments[0];
 
@@ -892,13 +883,8 @@ export class Message extends React.PureComponent<Props, State> {
       firstAttachment &&
       !firstAttachment.pending ? (
         <div
-          onClick={() => {
-            downloadAttachment({
-              isDangerous,
-              attachment: firstAttachment,
-              timestamp,
-            });
-          }}
+          onClick={this.openGenericAttachment}
+          // This a menu meant for mouse use only
           role="button"
           className={classNames(
             'module-message__buttons__download',
@@ -909,9 +895,13 @@ export class Message extends React.PureComponent<Props, State> {
 
     const replyButton = (
       <div
-        onClick={() => {
+        onClick={(event: React.MouseEvent) => {
+          event.stopPropagation();
+          event.preventDefault();
+
           replyToMessage(id);
         }}
+        // This a menu meant for mouse use only
         role="button"
         className={classNames(
           'module-message__buttons__reply',
@@ -921,10 +911,11 @@ export class Message extends React.PureComponent<Props, State> {
     );
 
     const menuButton = (
-      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTriggerBound}>
+      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTrigger as any}>
         <div
+          // This a menu meant for mouse use only
           role="button"
-          onClick={this.showMenuBound}
+          onClick={this.showMenu}
           className={classNames(
             'module-message__buttons__menu',
             `module-message__buttons__download--${direction}`
@@ -955,7 +946,6 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       deleteMessage,
       direction,
-      downloadAttachment,
       i18n,
       id,
       isSticker,
@@ -964,13 +954,9 @@ export class Message extends React.PureComponent<Props, State> {
       retrySend,
       showMessageDetail,
       status,
-      timestamp,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
-    const fileName =
-      attachments && attachments[0] ? attachments[0].fileName : null;
-    const isDangerous = isFileDangerous(fileName || '');
     const multipleAttachments = attachments && attachments.length > 1;
 
     const menu = (
@@ -984,13 +970,7 @@ export class Message extends React.PureComponent<Props, State> {
             attributes={{
               className: 'module-message__context__download',
             }}
-            onClick={() => {
-              downloadAttachment({
-                attachment: attachments[0],
-                timestamp,
-                isDangerous,
-              });
-            }}
+            onClick={this.openGenericAttachment}
           >
             {i18n('downloadAttachment')}
           </MenuItem>
@@ -999,7 +979,10 @@ export class Message extends React.PureComponent<Props, State> {
           attributes={{
             className: 'module-message__context__reply',
           }}
-          onClick={() => {
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
             replyToMessage(id);
           }}
         >
@@ -1009,7 +992,10 @@ export class Message extends React.PureComponent<Props, State> {
           attributes={{
             className: 'module-message__context__more-info',
           }}
-          onClick={() => {
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
             showMessageDetail(id);
           }}
         >
@@ -1020,7 +1006,10 @@ export class Message extends React.PureComponent<Props, State> {
             attributes={{
               className: 'module-message__context__retry-send',
             }}
-            onClick={() => {
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
               retrySend(id);
             }}
           >
@@ -1031,7 +1020,10 @@ export class Message extends React.PureComponent<Props, State> {
           attributes={{
             className: 'module-message__context__delete-message',
           }}
-          onClick={() => {
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
             deleteMessage(id);
           }}
         >
@@ -1048,13 +1040,14 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (attachments && attachments.length) {
       if (isSticker) {
-        // Padding is 8px, on both sides
-        return STICKER_SIZE + 8 * 2;
+        // Padding is 8px, on both sides, plus two for 1px border
+        return STICKER_SIZE + 8 * 2 + 2;
       }
 
       const dimensions = getGridDimensions(attachments);
       if (dimensions) {
-        return dimensions.width;
+        // Add two for 1px border
+        return dimensions.width + 2;
       }
     }
 
@@ -1074,7 +1067,8 @@ export class Message extends React.PureComponent<Props, State> {
       ) {
         const dimensions = getImageDimensions(first.image);
         if (dimensions) {
-          return dimensions.width;
+          // Add two for 1px border
+          return dimensions.width + 2;
         }
       }
     }
@@ -1249,25 +1243,188 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   // tslint:disable-next-line cyclomatic-complexity
-  public render() {
+  public handleOpen = (
+    event: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent
+  ) => {
     const {
-      authorPhoneNumber,
-      authorColor,
       attachments,
-      conversationType,
-      direction,
       displayTapToViewMessage,
       id,
+      isTapToView,
+      isTapToViewExpired,
+      showVisualAttachment,
+    } = this.props;
+    const { imageBroken } = this.state;
+
+    const isAttachmentPending = this.isAttachmentPending();
+
+    if (isTapToView) {
+      if (!isTapToViewExpired && !isAttachmentPending) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        displayTapToViewMessage(id);
+      }
+
+      return;
+    }
+
+    if (
+      !imageBroken &&
+      attachments &&
+      attachments.length > 0 &&
+      !isAttachmentPending &&
+      canDisplayImage(attachments) &&
+      ((isImage(attachments) && hasImage(attachments)) ||
+        (isVideo(attachments) && hasVideoScreenshot(attachments)))
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const attachment = attachments[0];
+
+      showVisualAttachment({ attachment, messageId: id });
+
+      return;
+    }
+
+    if (
+      attachments &&
+      attachments.length === 1 &&
+      !isAttachmentPending &&
+      !isAudio(attachments)
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.openGenericAttachment();
+
+      return;
+    }
+
+    if (
+      !isAttachmentPending &&
+      isAudio(attachments) &&
+      this.audioRef &&
+      this.audioRef.current
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (this.audioRef.current.paused) {
+        // tslint:disable-next-line no-floating-promises
+        this.audioRef.current.play();
+      } else {
+        // tslint:disable-next-line no-floating-promises
+        this.audioRef.current.pause();
+      }
+    }
+  };
+
+  public openGenericAttachment = (event?: React.MouseEvent) => {
+    const { attachments, downloadAttachment, timestamp } = this.props;
+
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (!attachments || attachments.length !== 1) {
+      return;
+    }
+
+    const attachment = attachments[0];
+    const { fileName } = attachment;
+    const isDangerous = isFileDangerous(fileName || '');
+
+    downloadAttachment({
+      isDangerous,
+      attachment,
+      timestamp,
+    });
+  };
+
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'Enter' && event.key !== 'Space') {
+      return;
+    }
+
+    this.handleOpen(event);
+  };
+
+  public handleClick = (event: React.MouseEvent) => {
+    // We don't want clicks on body text to result in the 'default action' for the message
+    const { text } = this.props;
+    if (text && text.length > 0) {
+      return;
+    }
+
+    this.handleOpen(event);
+  };
+
+  public renderContainer() {
+    const {
+      authorColor,
+      direction,
+      isSelected,
       isSticker,
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
-      timestamp,
     } = this.props;
-    const { expired, expiring, imageBroken, isSelected } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
-    const isButton = isTapToView && !isTapToViewExpired && !isAttachmentPending;
+
+    const width = this.getWidth();
+    const isShowingImage = this.isShowingImage();
+
+    const containerClassnames = classNames(
+      'module-message__container',
+      isSelected && !isSticker ? 'module-message__container--selected' : null,
+      isSticker ? 'module-message__container--with-sticker' : null,
+      !isSticker ? `module-message__container--${direction}` : null,
+      isTapToView ? 'module-message__container--with-tap-to-view' : null,
+      isTapToView && isTapToViewExpired
+        ? 'module-message__container--with-tap-to-view-expired'
+        : null,
+      !isSticker && direction === 'incoming'
+        ? `module-message__container--incoming-${authorColor}`
+        : null,
+      isTapToView && isAttachmentPending && !isTapToViewExpired
+        ? 'module-message__container--with-tap-to-view-pending'
+        : null,
+      isTapToView && isAttachmentPending && !isTapToViewExpired
+        ? `module-message__container--${direction}-${authorColor}-tap-to-view-pending`
+        : null,
+      isTapToViewError
+        ? 'module-message__container--with-tap-to-view-error'
+        : null
+    );
+    const containerStyles = {
+      width: isShowingImage ? width : undefined,
+    };
+
+    return (
+      <div className={containerClassnames} style={containerStyles}>
+        {this.renderAuthor()}
+        {this.renderContents()}
+        {this.renderAvatar()}
+      </div>
+    );
+  }
+
+  // tslint:disable-next-line cyclomatic-complexity
+  public render() {
+    const {
+      authorPhoneNumber,
+      attachments,
+      conversationType,
+      direction,
+      id,
+      isSticker,
+      timestamp,
+    } = this.props;
+    const { expired, expiring, imageBroken } = this.state;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
@@ -1281,11 +1438,6 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const width = this.getWidth();
-    const isShowingImage = this.isShowingImage();
-    const role = isButton ? 'button' : undefined;
-    const onClick = isButton ? () => displayTapToViewMessage(id) : undefined;
-
     return (
       <div
         className={classNames(
@@ -1294,44 +1446,18 @@ export class Message extends React.PureComponent<Props, State> {
           expiring ? 'module-message--expired' : null,
           conversationType === 'group' ? 'module-message--group' : null
         )}
+        tabIndex={0}
+        // We pretend to be a button because we sometimes contain buttons and a button
+        //   cannot be within another button
+        role="button"
+        onKeyDown={this.handleKeyDown}
+        onClick={this.handleClick}
+        onFocus={this.setSelected}
+        ref={this.focusRef}
       >
         {this.renderError(direction === 'incoming')}
         {this.renderMenu(direction === 'outgoing', triggerId)}
-        <div
-          className={classNames(
-            'module-message__container',
-            isSelected && !isSticker
-              ? 'module-message__container--selected'
-              : null,
-            isSticker ? 'module-message__container--with-sticker' : null,
-            !isSticker ? `module-message__container--${direction}` : null,
-            isTapToView ? 'module-message__container--with-tap-to-view' : null,
-            isTapToView && isTapToViewExpired
-              ? 'module-message__container--with-tap-to-view-expired'
-              : null,
-            !isSticker && direction === 'incoming'
-              ? `module-message__container--incoming-${authorColor}`
-              : null,
-            isTapToView && isAttachmentPending && !isTapToViewExpired
-              ? 'module-message__container--with-tap-to-view-pending'
-              : null,
-            isTapToView && isAttachmentPending && !isTapToViewExpired
-              ? `module-message__container--${direction}-${authorColor}-tap-to-view-pending`
-              : null,
-            isTapToViewError
-              ? 'module-message__container--with-tap-to-view-error'
-              : null
-          )}
-          style={{
-            width: isShowingImage ? width : undefined,
-          }}
-          role={role}
-          onClick={onClick}
-        >
-          {this.renderAuthor()}
-          {this.renderContents()}
-          {this.renderAvatar()}
-        </div>
+        {this.renderContainer()}
         {this.renderError(direction === 'outgoing')}
         {this.renderMenu(direction === 'incoming', triggerId)}
         {this.renderContextMenu(triggerId)}

@@ -32,6 +32,11 @@ export const getStickersPath = createSelector(
   (state: UserStateType): string => state.stickersPath
 );
 
+export const getPlatform = createSelector(
+  getUser,
+  (state: UserStateType): string => state.platform
+);
+
 export const getTempPath = createSelector(
   getUser,
   (state: UserStateType): string => state.tempPath

@@ -33,6 +33,10 @@ export type PropsData = {
   };
 };
 
+export function cleanId(id: string): string {
+  return id.replace(/[^\u0020-\u007e\u00a0-\u00ff]/g, '_');
+}
+
 type PropsHousekeeping = {
   i18n: LocalizerType;
   style?: Object;
@@ -207,8 +211,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     const { unreadCount, onClick, id, isSelected, style } = this.props;
 
     return (
-      <div
-        role="button"
+      <button
         onClick={() => {
           if (onClick) {
             onClick(id);
@@ -220,13 +223,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
           unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
           isSelected ? 'module-conversation-list-item--is-selected' : null
         )}
+        data-id={cleanId(id)}
       >
         {this.renderAvatar()}
         <div className="module-conversation-list-item__content">
           {this.renderHeader()}
           {this.renderMessage()}
         </div>
-      </div>
+      </button>
     );
   }
 }

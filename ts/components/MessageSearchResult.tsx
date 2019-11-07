@@ -138,8 +138,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
     }
 
     return (
-      <div
-        role="button"
+      <button
         onClick={() => {
           if (openConversationInternal) {
             openConversationInternal(conversationId, id);
@@ -149,6 +148,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
           'module-message-search-result',
           isSelected ? 'module-message-search-result--is-selected' : null
         )}
+        data-id={id}
       >
         {this.renderAvatar()}
         <div className="module-message-search-result__text">
@@ -162,7 +162,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
             <MessageBodyHighlight text={snippet} i18n={i18n} />
           </div>
         </div>
-      </div>
+      </button>
     );
   }
 }

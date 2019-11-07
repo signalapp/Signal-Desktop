@@ -90,25 +90,36 @@ function getTypeLabel({
 }
 
 export class Quote extends React.Component<Props, State> {
-  public handleImageErrorBound: () => void;
+  public state = {
+    imageBroken: false,
+  };
 
-  public constructor(props: Props) {
-    super(props);
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    const { onClick } = this.props;
 
-    this.handleImageErrorBound = this.handleImageError.bind(this);
+    // This is important to ensure that using this quote to navigate to the referenced
+    //   message doesn't also trigger its parent message's keydown.
+    if (onClick && (event.key === 'Enter' || event.key === 'Space')) {
+      event.preventDefault();
+      event.stopPropagation();
+      onClick();
+    }
+  };
 
-    this.state = {
-      imageBroken: false,
-    };
-  }
+  // We prevent this from bubbling to prevent the focus flash around a message when
+  //   you click a quote.
+  public handleMouseDown = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
-  public handleImageError() {
+  public handleImageError = () => {
     // tslint:disable-next-line no-console
     console.log('Message: Image failed to load; failing over to placeholder');
     this.setState({
       imageBroken: true,
     });
-  }
+  };
 
   public renderImage(url: string, i18n: LocalizerType, icon?: string) {
     const iconElement = icon ? (
@@ -129,7 +140,7 @@ export class Quote extends React.Component<Props, State> {
         <img
           src={url}
           alt={i18n('quoteThumbnailAlt')}
-          onError={this.handleImageErrorBound}
+          onError={this.handleImageError}
         />
         {iconElement}
       </div>
@@ -264,6 +275,8 @@ export class Quote extends React.Component<Props, State> {
     //   propagation before handing control to the caller's callback.
     const onClick = (e: React.MouseEvent<{}>): void => {
       e.stopPropagation();
+      e.preventDefault();
+
       onClose();
     };
 
@@ -271,8 +284,10 @@ export class Quote extends React.Component<Props, State> {
     return (
       <div className="module-quote__close-container">
         <div
-          className="module-quote__close-button"
+          tabIndex={0}
+          // We can't be a button because the overall quote is a button; can't nest them
           role="button"
+          className="module-quote__close-button"
           onClick={onClick}
         />
       </div>
@@ -365,9 +380,10 @@ export class Quote extends React.Component<Props, State> {
           withContentAbove ? 'module-quote-container--with-content-above' : null
         )}
       >
-        <div
+        <button
           onClick={onClick}
-          role="button"
+          onKeyDown={this.handleKeyDown}
+          onMouseDown={this.handleMouseDown}
           className={classNames(
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
@@ -388,7 +404,7 @@ export class Quote extends React.Component<Props, State> {
           </div>
           {this.renderIconContainer()}
           {this.renderClose()}
-        </div>
+        </button>
         {this.renderReferenceWarning()}
       </div>
     );

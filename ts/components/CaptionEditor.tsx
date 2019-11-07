@@ -21,7 +21,7 @@ interface State {
 }
 
 export class CaptionEditor extends React.Component<Props, State> {
-  private readonly handleKeyUpBound: (
+  private readonly handleKeyDownBound: (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => void;
   private readonly setFocusBound: () => void;
@@ -39,7 +39,7 @@ export class CaptionEditor extends React.Component<Props, State> {
       caption: caption || '',
     };
 
-    this.handleKeyUpBound = this.handleKeyUp.bind(this);
+    this.handleKeyDownBound = this.handleKeyDown.bind(this);
     this.setFocusBound = this.setFocus.bind(this);
     this.onChangeBound = this.onChange.bind(this);
     this.onSaveBound = this.onSave.bind(this);
@@ -53,16 +53,22 @@ export class CaptionEditor extends React.Component<Props, State> {
     }, 200);
   }
 
-  public handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
+  public handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     const { close, onSave } = this.props;
 
     if (close && event.key === 'Escape') {
       close();
+
+      event.stopPropagation();
+      event.preventDefault();
     }
 
     if (onSave && event.key === 'Enter') {
       const { caption } = this.state;
       onSave(caption);
+
+      event.stopPropagation();
+      event.preventDefault();
     }
   }
 
@@ -120,7 +126,7 @@ export class CaptionEditor extends React.Component<Props, State> {
   public render() {
     const { i18n, close } = this.props;
     const { caption } = this.state;
-    const onKeyUp = close ? this.handleKeyUpBound : undefined;
+    const onKeyDown = close ? this.handleKeyDownBound : undefined;
 
     return (
       <div
@@ -129,6 +135,7 @@ export class CaptionEditor extends React.Component<Props, State> {
         className="module-caption-editor"
       >
         <div
+          // Okay that this isn't a button; the escape key can be used to close this view
           role="button"
           onClick={close}
           className="module-caption-editor__close-button"
@@ -145,17 +152,16 @@ export class CaptionEditor extends React.Component<Props, State> {
               maxLength={200}
               placeholder={i18n('addACaption')}
               className="module-caption-editor__caption-input"
-              onKeyUp={onKeyUp}
+              onKeyDown={onKeyDown}
               onChange={this.onChangeBound}
             />
             {caption ? (
-              <div
-                role="button"
+              <button
                 onClick={this.onSaveBound}
                 className="module-caption-editor__save-button"
               >
                 {i18n('save')}
-              </div>
+              </button>
             ) : null}
           </div>
         </div>

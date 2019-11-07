@@ -1,4 +1,4 @@
-/* global Whisper, i18n */
+/* global Backbone, Whisper, i18n */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -10,6 +10,8 @@
     className: 'confirmation-dialog modal',
     templateName: 'confirmation-dialog',
     initialize(options) {
+      this.previousFocus = document.activeElement;
+
       this.message = options.message;
       this.hideCancel = options.hideCancel;
 
@@ -19,12 +21,25 @@
       this.reject = options.reject;
       this.cancelText = options.cancelText || i18n('cancel');
 
+      if (Whisper.activeConfirmationView) {
+        Whisper.activeConfirmationView.remove();
+        Whisper.activeConfirmationView = null;
+      }
+
+      Whisper.activeConfirmationView = this;
+
       this.render();
     },
     events: {
-      keyup: 'onKeyup',
+      keydown: 'onKeydown',
       'click .ok': 'ok',
       'click .cancel': 'cancel',
+    },
+    remove() {
+      if (this.previousFocus && this.previousFocus.focus) {
+        this.previousFocus.focus();
+      }
+      Backbone.View.prototype.remove.call(this);
     },
     render_attributes() {
       return {
@@ -46,9 +61,12 @@
         this.reject();
       }
     },
-    onKeyup(event) {
+    onKeydown(event) {
       if (event.key === 'Escape' || event.key === 'Esc') {
         this.cancel();
+
+        event.preventDefault();
+        event.stopPropagation();
       }
     },
     focusCancel() {

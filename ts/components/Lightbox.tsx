@@ -62,6 +62,7 @@ const styles = {
     paddingBottom: 0,
     // To ensure that a large image doesn't overflow the flex layout
     minHeight: '50px',
+    outline: 'none',
   } as React.CSSProperties,
   objectContainer: {
     position: 'relative',
@@ -142,7 +143,7 @@ interface IconButtonProps {
 }
 
 const IconButton = ({ onClick, style, type }: IconButtonProps) => {
-  const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+  const clickHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     if (!onClick) {
       return;
@@ -152,11 +153,9 @@ const IconButton = ({ onClick, style, type }: IconButtonProps) => {
   };
 
   return (
-    <a
-      href="#"
+    <button
       onClick={clickHandler}
       className={classNames('iconButton', type)}
-      role="button"
       style={style}
     />
   );
@@ -170,56 +169,62 @@ const Icon = ({
   onClick,
   url,
 }: {
-  onClick?: (
-    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
-  ) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   url: string;
 }) => (
-  <div
+  <button
     style={{
       ...styles.object,
       ...colorSVG(url, Colors.ICON_SECONDARY),
       maxWidth: 200,
     }}
     onClick={onClick}
-    role="button"
   />
 );
 
 export class Lightbox extends React.Component<Props, State> {
-  private readonly containerRef: React.RefObject<HTMLDivElement>;
-  private readonly videoRef: React.RefObject<HTMLVideoElement>;
+  public readonly containerRef = React.createRef<HTMLDivElement>();
+  public readonly videoRef = React.createRef<HTMLVideoElement>();
+  public readonly focusRef = React.createRef<HTMLDivElement>();
+  public previousFocus: any;
 
-  constructor(props: Props) {
-    super(props);
-
-    this.videoRef = React.createRef();
-    this.containerRef = React.createRef();
-
-    this.state = {
-      videoTime: undefined,
-    };
-  }
+  public state = {
+    videoTime: undefined,
+  };
 
   public componentDidMount() {
+    this.previousFocus = document.activeElement;
+
     const { isViewOnce } = this.props;
 
     const useCapture = true;
-    document.addEventListener('keyup', this.onKeyUp, useCapture);
+    document.addEventListener('keydown', this.onKeyDown, useCapture);
 
     const video = this.getVideo();
     if (video && isViewOnce) {
       video.addEventListener('timeupdate', this.onTimeUpdate);
     }
 
-    this.playVideo();
+    // Wait until we're added to the DOM. ConversationView first creates this view, then
+    //   appends its elements into the DOM.
+    setTimeout(() => {
+      this.playVideo();
+
+      if (this.focusRef && this.focusRef.current) {
+        this.focusRef.current.focus();
+      }
+    });
   }
 
   public componentWillUnmount() {
+    if (this.previousFocus && this.previousFocus.focus) {
+      this.previousFocus.focus();
+    }
+
     const { isViewOnce } = this.props;
 
     const useCapture = true;
-    document.removeEventListener('keyup', this.onKeyUp, useCapture);
+    document.removeEventListener('keydown', this.onKeyDown, useCapture);
 
     const video = this.getVideo();
     if (video && isViewOnce) {
@@ -269,12 +274,13 @@ export class Lightbox extends React.Component<Props, State> {
 
     return (
       <div
+        className="module-lightbox"
         style={styles.container}
         onClick={this.onContainerClick}
         ref={this.containerRef}
         role="dialog"
       >
-        <div style={styles.mainContainer}>
+        <div style={styles.mainContainer} tabIndex={-1} ref={this.focusRef}>
           <div style={styles.controlsOffsetPlaceholder} />
           <div style={styles.objectContainer}>
             {!is.undefined(contentType)
@@ -342,7 +348,6 @@ export class Lightbox extends React.Component<Props, State> {
     if (isVideoTypeSupported) {
       return (
         <video
-          role="button"
           ref={this.videoRef}
           loop={isViewOnce}
           controls={!isViewOnce}
@@ -391,22 +396,32 @@ export class Lightbox extends React.Component<Props, State> {
     });
   };
 
-  private readonly onKeyUp = (event: KeyboardEvent) => {
+  private readonly onKeyDown = (event: KeyboardEvent) => {
     const { onNext, onPrevious } = this.props;
     switch (event.key) {
       case 'Escape':
         this.onClose();
+
+        event.preventDefault();
+        event.stopPropagation();
+
         break;
 
       case 'ArrowLeft':
         if (onPrevious) {
           onPrevious();
+
+          event.preventDefault();
+          event.stopPropagation();
         }
         break;
 
       case 'ArrowRight':
         if (onNext) {
           onNext();
+
+          event.preventDefault();
+          event.stopPropagation();
         }
         break;
 
@@ -424,7 +439,7 @@ export class Lightbox extends React.Component<Props, State> {
   };
 
   private readonly onObjectClick = (
-    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
+    event: React.MouseEvent<HTMLButtonElement | HTMLImageElement>
   ) => {
     event.stopPropagation();
     this.onClose();

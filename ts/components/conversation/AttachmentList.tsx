@@ -50,8 +50,7 @@ export class AttachmentList extends React.Component<Props> {
       <div className="module-attachments">
         {attachments.length > 1 ? (
           <div className="module-attachments__header">
-            <div
-              role="button"
+            <button
               onClick={onClose}
               className="module-attachments__close-button"
             />
@@ -105,7 +104,10 @@ export class AttachmentList extends React.Component<Props> {
             );
           })}
           {allVisualAttachments ? (
-            <StagedPlaceholderAttachment onClick={onAddAttachment} />
+            <StagedPlaceholderAttachment
+              onClick={onAddAttachment}
+              i18n={i18n}
+            />
           ) : null}
         </div>
       </div>
