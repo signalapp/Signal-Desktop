@@ -1,4 +1,5 @@
 %global debug_package %{nil}
+#global beta beta.5
 
 # Remove bundled libraries from requirements/provides
 %global __requires_exclude ^(libffmpeg\\.so.*|libEGL\\.so.*|libGLESv2\\.so.*|libVkICD_mock_icd\\.so\\..*)$
@@ -11,7 +12,7 @@ Summary:    Private messaging from your desktop
 License:    GPLv3
 URL:        https://signal.org/
 
-Source0:    https://github.com/signalapp/%{name}/archive/v%{version}.tar.gz#/Signal-Desktop-%{version}.tar.gz
+Source0:    https://github.com/signalapp/%{name}/archive/v%{version}%{?beta:-%{beta}}.tar.gz#/Signal-Desktop-%{version}%{?beta:-%{beta}}.tar.gz
 # Declare as source and not patch as patching is done later in the process:
 Source1:    https://aur.archlinux.org/cgit/aur.git/plain/openssl-linking.patch?h=signal#/Signal-Desktop-openssl-linking.patch
 Source2:    %{name}.desktop
@@ -20,9 +21,14 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-c++
 BuildRequires:  git
 BuildRequires:  nodejs
-BuildRequires:  npm
 BuildRequires:  openssl-devel
 BuildRequires:  python2
+BuildRequires:  yarn
+
+%if 0%{?fedora} >= 31
+# Required for downloaded sqlcipher
+BuildRequires:  python-unversioned-command
+%endif
 
 Requires:   libappindicator-gtk3
 Requires:   libnotify
@@ -35,22 +41,16 @@ Signal Desktop is an Electron application that links with Signal on Android or
 iOS.
 
 %prep
-%autosetup
+%autosetup -n %{name}-%{version}%{?beta:-%{beta}}
 
-# Use distribution nodejs version:
-%define nsjver %(node --version | sed -e 's/^v//g')
-sed -i 's/"node": ".*/"node": "%{nsjver}"/' package.json
+# Allow higher node versions
+sed -i 's/"node": "/&>=/' package.json
 
 %build
-# Clean if not starting from scratch
-rm -frv node_modules ~/.node-gyp
-
-npm install yarn
-
-node_modules/yarn/bin/yarn install
+yarn install
 patch -p1 -i %{SOURCE1}
-node_modules/yarn/bin/yarn generate --force
-node_modules/yarn/bin/yarn build-release --dir
+yarn generate --force
+yarn build-release --dir
 
 %install
 # Main files
@@ -82,6 +82,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %changelog
 * Fri Nov 08 2019 Simone Caronni <negativo17@gmail.com> - 1.27.4-1
 - Update to 1.27.4.
+- Switch to external yarn/npm stuff.
 
 * Mon Oct 07 2019 Simone Caronni <negativo17@gmail.com> - 1.27.3-1
 - Update to 1.27.3.
