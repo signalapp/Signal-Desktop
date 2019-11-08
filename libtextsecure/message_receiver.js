@@ -1232,8 +1232,6 @@ MessageReceiver.prototype.extend({
       return false;
     }
     await libloki.storage.savePairingAuthorisation(authorisation);
-    // sending a message back = accepting friend request
-    window.libloki.api.sendBackgroundMessage(pubKey);
 
     return true;
   },
@@ -1293,7 +1291,12 @@ MessageReceiver.prototype.extend({
               deviceMapping
             );
             if (autoAccepted) {
-              await conversation.onFriendRequestAccepted();
+              // sending a message back = accepting friend request
+              // Directly setting friend request status to skip the pending state
+              await conversation.setFriendRequestStatus(
+                window.friends.friendRequestStatusEnum.friends
+              );
+              window.libloki.api.sendBackgroundMessage(envelope.source);
               return this.removeFromCache(envelope);
             }
           }

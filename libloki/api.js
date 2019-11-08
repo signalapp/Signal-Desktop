@@ -165,33 +165,28 @@
       ourNumber,
       'private'
     );
-    const secondaryConversation = await ConversationController.getOrCreateAndWait(
-      recipientPubKey,
-      'private'
-    );
-    // Always be friends with secondary devices
-    secondaryConversation.setFriendRequestStatus(
-      window.friends.friendRequestStatusEnum.friends
-    );
-    // Send profile name to secondary device
-    const lokiProfile = ourConversation.getLokiProfile();
-    const profile = new textsecure.protobuf.DataMessage.LokiProfile(
-      lokiProfile
-    );
-    const dataMessage = new textsecure.protobuf.DataMessage({
-      profile,
-    });
-    // Attach contact list
-    const conversations = await window.Signal.Data.getConversationsWithFriendStatus(
-      window.friends.friendRequestStatusEnum.friends,
-      { ConversationCollection: Whisper.ConversationCollection }
-    );
-    const syncMessage = await createContactSyncProtoMessage(conversations);
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
-      dataMessage,
-      syncMessage,
     });
+    const isGrant = authorisation.primaryDevicePubKey === ourNumber;
+    if (isGrant) {
+      // Send profile name to secondary device
+      const lokiProfile = ourConversation.getLokiProfile();
+      const profile = new textsecure.protobuf.DataMessage.LokiProfile(
+        lokiProfile
+      );
+      const dataMessage = new textsecure.protobuf.DataMessage({
+        profile,
+      });
+      // Attach contact list
+      const conversations = await window.Signal.Data.getConversationsWithFriendStatus(
+        window.friends.friendRequestStatusEnum.friends,
+        { ConversationCollection: Whisper.ConversationCollection }
+      );
+      const syncMessage = await createContactSyncProtoMessage(conversations);
+      content.syncMessage = syncMessage;
+      content.dataMessage = dataMessage;
+    }
     // Send
     const options = { messageType: 'pairing-request' };
     const p = new Promise((resolve, reject) => {

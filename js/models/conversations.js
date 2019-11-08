@@ -775,7 +775,7 @@
       }
     },
     async setFriendRequestStatus(newStatus, options = {}) {
-      const { fromContactSync } = options;
+      const { blockSync } = options;
       // Ensure that the new status is a valid FriendStatusEnum value
       if (!(newStatus in Object.values(FriendRequestStatusEnum))) {
         return;
@@ -792,7 +792,7 @@
           Conversation: Whisper.Conversation,
         });
         await this.updateTextInputState();
-        if (!fromContactSync && newStatus === FriendRequestStatusEnum.friends) {
+        if (!blockSync && newStatus === FriendRequestStatusEnum.friends) {
           // Sync contact
           this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
         }

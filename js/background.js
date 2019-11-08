@@ -1244,7 +1244,7 @@
         libloki.api.sendBackgroundMessage(conversation.id);
       } else {
         // Accept any pending friend requests if there are any
-        conversation.onAcceptFriendRequest({ fromContactSync: true });
+        conversation.onAcceptFriendRequest({ blockSync: true });
       }
 
       if (details.profileKey) {
