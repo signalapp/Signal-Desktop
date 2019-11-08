@@ -5,7 +5,7 @@
 %global __provides_exclude ^(lib.*\\.so.*)$
 
 Name:       Signal-Desktop
-Version:    1.27.3
+Version:    1.27.4
 Release:    1%{?dist}
 Summary:    Private messaging from your desktop
 License:    GPLv3
@@ -22,7 +22,7 @@ BuildRequires:  git
 BuildRequires:  nodejs
 BuildRequires:  npm
 BuildRequires:  openssl-devel
-BuildRequires:  python-unversioned-command
+BuildRequires:  python2
 
 Requires:   libappindicator-gtk3
 Requires:   libnotify
@@ -80,6 +80,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_libdir}/%{name}
 
 %changelog
+* Fri Nov 08 2019 Simone Caronni <negativo17@gmail.com> - 1.27.4-1
+- Update to 1.27.4.
+
 * Mon Oct 07 2019 Simone Caronni <negativo17@gmail.com> - 1.27.3-1
 - Update to 1.27.3.
 
