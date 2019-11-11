@@ -452,7 +452,7 @@ MessageSender.prototype = {
       // Don't send to ourselves
       .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
     if (allOurDevices.length === 0) {
-      return Promise.resolve();
+      return null;
     }
 
     const dataMessage = textsecure.protobuf.DataMessage.decode(
@@ -570,7 +570,11 @@ MessageSender.prototype = {
     ))
       // Don't send to ourselves
       .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
-    if (allOurDevices.includes(contactConversation.id) || !primaryDeviceKey || allOurDevices.length === 0) {
+    if (
+      allOurDevices.includes(contactConversation.id) ||
+      !primaryDeviceKey ||
+      allOurDevices.length === 0
+    ) {
       // If we havn't got a primaryDeviceKey then we are in the middle of pairing
       return Promise.resolve();
     }
