@@ -124,6 +124,10 @@ window.restart = () => {
 //  collection on the main window from the settings window.
 window.onUnblockNumber = number => ipc.send('on-unblock-number', number);
 
+ipc.on('mediaPermissionsChanged', () => {
+  Whisper.events.trigger('mediaPermissionsChanged');
+});
+
 ipc.on('on-unblock-number', (event, number) => {
   // Unblock the number
   if (window.BlockedNumberController) {
