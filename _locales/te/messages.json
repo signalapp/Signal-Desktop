@@ -1,162 +1,162 @@
 {
     "copyErrorAndQuit": {
-        "message": "Kopeeri tõrke tekst ja välju",
+        "message": "లోపం కాపీ చేసి నిష్క్రమించండి",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownGroup": {
-        "message": "Tundmatu grupp",
+        "message": "తెలియని సమూహం",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Andmebaasi tõrge",
+        "message": "దత్తాంశమూల లోపం",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Kustuta kõik andmed ja taaskäivita",
+        "message": "సమాచార మొత్తని తీసివేసి పునఃప్రారంబించు ",
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
-        "message": "&Fail",
+        "message": "&పంక్తి",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Muuda",
+        "message": "&సరిచేయు",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Vaade",
+        "message": "&వీక్షణ",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "&Aken",
+        "message": "&విండో",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "A&bi",
+        "message": "&సహాయం",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Eelistused...",
+        "message": "ప్రాధాన్యతలు ...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Peida",
+        "message": "దాచు",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Peida teised",
+        "message": "ఇతరులను దాచు",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Näita kõiki",
+        "message": "అన్నీ చూపండి",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Välju Signalist",
+        "message": "Signal నుండి నిష్క్రమించండి",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Võta tagasi",
+        "message": "దిద్దుబాటు",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Tee uuesti",
+        "message": "పునరావృత్తం",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Lõika",
+        "message": "కత్తిరించు",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Kopeeri",
+        "message": "నకలు",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Aseta",
+        "message": "అతికించు",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Aseta ja sobita stiiliga",
+        "message": "నకిలీ మరియు సరిపడు పద్ధతి",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Kustuta",
+        "message": "తొలగించండి",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Vali kõik",
+        "message": "అన్నీ ఎంచుకో",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Alusta rääkimist",
+        "message": "మాట్లాడటం ప్రారంభించండి",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Lõpeta rääkimine",
+        "message": "మాట్లాడటం మానేయండి",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Sulge aken",
+        "message": "విండోను మూసివేయండి",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimeeri",
+        "message": "తగ్గించడానికి",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Suurenda",
+        "message": "దూరదర్శన సమర్థ",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Too kõik ette",
+        "message": "అన్నింటినీ ముందుకి తీసుకురండి",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Tegelik suurus",
+        "message": "అసలైన పరిమాణం",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Suurenda",
+        "message": "పెద్దదిగా చూపు",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Vähenda",
+        "message": "పెద్దది చెయ్యి",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Lülita täisekraanirežiimi",
+        "message": "టోగుల్ పూర్తి స్క్రీన్",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Lülita arendusvahendid sisse/välja",
+        "message": "డెవలపర్ సాధనాలను టోగుల్ చేయండి",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Seadista importimise abil",
+        "message": "దిగుమతితో సెటప్ చేయండి",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Seadista uue seadmena",
+        "message": "క్రొత్త పరికరంగా సెటప్ చేయండి",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Seadista iseseisva seadmena",
+        "message": "స్వతంత్ర పరికరంగా సెటప్ చేయండి",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "avatarMenuViewArchive": {
-        "message": "View Archive",
+        "message": "ఆర్కైవ్ చూడండి",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Laadimine...",
+        "message": "లోడింగ్...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Rakenduse optimeerimine...",
+        "message": "అనువర్తనాన్ని ఆప్టిమైజ్ చేస్తోంది ...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Sõnumite optimeerimine... $status$ tehtud.",
+        "message": "సందేశాలను ఆప్టిమైజ్ చేస్తోంది ... $status$ పూర్తయింది ",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -166,83 +166,83 @@
         }
     },
     "archivedConversations": {
-        "message": "Arhiveeritud vestlused",
+        "message": "భద్రపరిచిన సంభాషణలు",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "Need vestlused on arhiveeritud ja ilmuvad sisendkausta, kui saabub uusi sõnumeid.",
+        "message": "ఈ సంభాషణలు భద్రపర్చబడ్డాయి మరియు క్రొత్త సందేశాలు వస్తే మాత్రమే ఇన్‌బాక్స్‌లో కనిపిస్తాయి.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arhiveeri vestlus",
+        "message": "సంభాషను భద్రపరుచు ",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Teisalda vestlus postkasti",
+        "message": "సంభాషణను ఇన్‌బాక్స్‌కు తరలించండి",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
-        "message": "Vali kaust",
+        "message": "ఫోల్డర్ ఎంచుకోండి",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Vali fail",
+        "message": "ఫైల్‌ని ఎంచుకోండి",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Sinu andmete laadimine",
+        "message": "మీ సమాచారం లోడ్ చేయండి",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Sa läbisid just eksportimisprotsessi ja sinu kontaktid ning sõnumid ootavad nüüd kannatlikult arvutis. Vali kaust, mis sisaldab sinu salvestatud Signali andmeid.",
+        "message": "మీరు ఎగుమతి ప్రక్రియ ద్వారా వెళ్ళారు మరియు మీ పరిచయాలు మరియు సందేశాలు మీ కంప్యూటర్‌లో వేచి ఉన్నాయి. మీరు భద్రపరిచిన Signal డేటాను కలిగి ఉన్న ఫోల్డర్‌ను ఎంచుకోండి.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Vali eksporditud andmetega kataloog",
+        "message": "ఎగుమతి చేసిన సమాచార దర్శిని ఎంచుకోండి",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Midagi läks valesti!",
+        "message": "ఏదో తప్పు జరిగినది.",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Kontaktide ja sõnumite laadimine",
+        "message": "పరిచయాలు మరియు సందేశాలను లోడ్ చేస్తోంది",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Ole kindel, et oled valinud õige kataloogi, mis sisaldab sinu salvestatud Signali andmeid. Selle nimi peaks algama fraasiga \"Signal Export\". Sul on võimalik salvestada andmetest ka uus koopia rakendusest Chrome App.",
+        "message": "మీరు భద్రపరిచిన Signal సమాచారాన్ని కలిగి ఉన్న సరైన దర్శిని ఎంచుకున్నారని నిర్ధారించుకోండి. దీని పేరు 'Signal ఎక్స్‌పోర్ట్' తో ప్రారంభం కావాలి. మీరు మీ సమాచారం యొక్క క్రొత్త కాపీని Chrome అనువర్తనం నుండి కూడా సేవ్ భద్రపరుచోకోవచ్చు.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Kui need sammud ei aita, siis saada palun silumisinfo (Vaade->Silumisinfo), et saaksime aidata sul migreerumine lõpule viia!",
+        "message": "ఈ దశలు మీకు పని చేయకపోతే, దయచేసి డీబగ్ సంఘటన లేకరి (వీక్షణ -> డీబగ్ లాగ్) ను సమర్పించండి, తద్వారా మేము దీని తలరించడానికి మీకు సహాయపడతాము!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Vali kaust ja proovi uuesti",
+        "message": "ఫోల్డర్‌ను ఎంచుకుని, మళ్లీ ప్రయత్నించండి",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Õnnestus!",
+        "message": "విజయం!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Alusta Signal Desktopi kasutamist",
+        "message": "Signal Desktop ఉపయోగించడం ప్రారంభించండి",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Ühenda see seade enda telefoniga",
+        "message": "ఈ పరికరాన్ని మీ ఫోన్‌కు జ్యోదించండి",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "sinu valitud asukoht",
+        "message": "మీరు ఎంచుకున్న స్థానం",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Andmebaasi uuendamine. See võib võtta pisut aega...",
+        "message": "దత్తాంశమూల అప్‌గ్రేడ్ చేస్తోంది. దీనికి కొంత సమయం పడుతుంది ...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Sõnumite laadimine, siiamaani $count$...",
+        "message": "సందేశాలను లోడ్ చేస్తోంది. $count$ ఇప్పటివరకు ...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -252,31 +252,31 @@
         }
     },
     "me": {
-        "message": "Mina",
+        "message": "నేను",
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "Näita",
+        "message": "వీక్షణ",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Sa lahkusid grupist",
+        "message": "మీరు సమూహన్ని విడిచిపెట్టారు",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Keri vestluse lõppu",
+        "message": "సంభాషణ దిగువకు స్క్రోల్ చేయండి",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
-        "message": "Allpool on uued sõnumid",
+        "message": "క్రింద క్రొత్త సందేశం",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 lugemata sõnum",
+        "message": "1 చదవని సందేశం",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ lugemata sõnumit",
+        "message": "$count$చదవని సందేశాలు ",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -286,7 +286,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "Sa märkisid turvanumbri kasutajaga $name$ kinnitatuks.",
+        "message": "మీరు ధృవీకరించినట్లుగా మీ భద్రతా నంబర్‌ను $name$తో గుర్తించారు.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -296,7 +296,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Sa märkisid turvanumbri kasutajaga $name$ mittekinnitatuks",
+        "message": "ధృవీకరించబడనట్లు మీరు మీ భద్రతా సంఖ్యను $name$ తో గుర్తించారు",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -306,7 +306,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Sa märkisid teisest seadmest turvanumbri kasutajaga $name$ kinnitatuks.",
+        "message": "మరొక పరికరం నుండి ధృవీకరించినట్లు మీరు మీ భద్రతా సంఖ్యను $name$తో గుర్తించారు.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -316,7 +316,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Sa märkisid teisest seadmest turvanumbri kasutajaga $name$ mittekinnitatuks",
+        "message": "మరొక పరికరం నుండి ధృవీకరించబడనట్లు మీరు మీ భద్రతా సంఖ్యను $name$తో గుర్తించారు.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -326,15 +326,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Sinu turvanumbrid selle grupi liikmetega on muutunud ajast, kui viimati kinnitasid. Klõpsa grupi liikmel uue turvanumbri nägemiseks.",
+        "message": "మీరు చివరిగా ధృవీకరించినప్పటి నుండి ఈ సమూహ సభ్యులతో మీ భద్రతా సంఖ్యలు మార్చబడ్డాయి. వారితో మీ క్రొత్త భద్రతా నంబర్‌ను చూడటానికి సమూహ సభ్యుడిని క్లిక్ చేయండి.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Sinu turvanumbrid mitme selle grupi liikmega on muutunud ajast, kui viimati kinnitasid. See võib tähendada, et keegi püüab sinu suhtlust pealt kuulata või nad lihtsalt paigaldasid Signali uuesti.",
+        "message": "మీరు చివరిగా ధృవీకరించినప్పటి నుండి బహుళ సమూహ సభ్యులతో మీ భద్రతా సంఖ్యలు మార్చబడ్డాయి. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా వారు Signal ను మళ్లీ ఇన్‌స్టాల్ చేశారని దీని అర్థం.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud ajast, kui viimati kinnitasid. See võib tähendada, et keegi püüab sinu suhtlust pealt kuulata või on $name$ lihtsalt Signali uuesti paigaldanud.",
+        "message": "మీరు చివరిగా ధృవీకరించినప్పటి నుండి $name$ తో మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా $name$ Signal ను తిరిగి ఇన్‌స్టాల్ చేసిందని దీని అర్థం.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +344,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Turvanumber, mida püüad kinnitada, on muutunud. Palun vaata üle uus turvanumber kasutajaga $name$. Jäta meelde, et see muudatus võib tähendada, et keegi püüab teie suhtlust pealt kuulata või on $name$ lihtsalt Signali uuesti paigaldanud.",
+        "message": "మీరు ధృవీకరించడానికి ప్రయత్నిస్తున్న భద్రతా సంఖ్య మార్చబడింది. దయచేసి మీ క్రొత్త భద్రతా నంబర్‌ను $name$తో సమీక్షించండి. గుర్తుంచుకోండి, ఈ మార్పు ఎవరైనా మీ కమ్యూనికేషన్‌ను లేదా Signal ను మళ్లీ ఇన్‌స్టాల్ చేసిన $name$ను అడ్డగించడానికి ప్రయత్నిస్తుందని అర్థం.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +354,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Sinu turvanumbrid mitme grupiliikmega on hiljuti muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et nad on lihtsalt Signali uuesti paigaldanud.",
+        "message": "బహుళ సమూహ సభ్యులతో మీ భద్రతా సంఖ్యలు ఇటీవల మార్చబడ్డాయి. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా వారు Signal ను మళ్లీ ఇన్‌స్టాల్ చేశారని దీని అర్థం.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Sinu turvanumber kasutajaga $name$ on hiljuti muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et $name$ on lihtsalt Signali uuesti paigaldanud.",
+        "message": "$name$ ఉన్న మీ భద్రతా సంఖ్య ఇటీవల మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా $name$ Signal ను తిరిగి ఇన్‌స్టాల్ చేసిందని దీని అర్థం.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et $name$ on lihtsalt Signali uuesti paigaldanud. Kontrolli enda turvakoodi selle kontaktiga.",
+        "message": "$name$ ఉన్న మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా $name$ Signal ను తిరిగి ఇన్‌స్టాల్ చేసిందని దీని అర్థం. మీరు ఈ పరిచయంతో మీ సేఫ్టీ నంబర్‌ను ధృవీకరించాలనుకోవచ్చు.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -378,11 +378,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Saada ikkagi",
+        "message": "ఏదేమైనా పంపు",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud ja ei ole enam kinnitatud. Klõpsa nägemiseks.",
+        "message": "$name$ ఉన్న మీ భద్రతా సంఖ్య మార్చబడింది మరియు ఇకపై ధృవీకరించబడదు. చూపించడానికి క్లిక్ చేయండి.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -392,43 +392,43 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Sinu turvanumber mitme selle grupi liikmega on muutunud ja ei ole enam kinnitatud. Klõpsa nägemiseks.",
+        "message": "ఈ గుంపులోని బహుళ సభ్యులతో మీ భద్రతా సంఖ్యలు మార్చబడ్డాయి మరియు ఇకపై ధృవీకరించబడవు. చూపించడానికి క్లిక్ చేయండి.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "See logi postitatakse avalikult internetti kaastöötajatele nägemiseks. Kontrolli üle ja vajadusel muuda enne postitamist.",
+        "message": "సహాయకులు వీక్షించడానికి ఈ సంఘటన లేకరి బహిరంగంగా ఆన్‌లైన్‌లో పోస్ట్ చేయబడుతుంది. సమర్పించే ముందు మీరు దాన్ని పరిశీలించి సవరించవచ్చు.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Midagi läks üleslaadimisega kehvasti! Palun lisa logifailid sellele raportile käsitsi.",
+        "message": "అప్‌లోడ్‌లో ఏదో తప్పు జరిగింది! దయచేసి మీరు ఫైల్ చేసిన బగ్‌కు మీ సంఘటన లేకరిను మాన్యువల్‌గా జ్యోదించండి.",
         "description": ""
     },
     "reportIssue": {
-        "message": "Teavita probleemist",
+        "message": "సమస్యను నివేదించండి",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Sain aru!",
+        "message": "దొరికింది!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Postita",
+        "message": "సమర్పించండి",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Nõustun",
+        "message": "అంగీకరించండి",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Märgi kinnitatuks",
+        "message": "ధృవీకరించినట్లు గుర్తించండి",
         "description": ""
     },
     "unverify": {
-        "message": "Märgi mittekinnitatuks",
+        "message": "ధృవీకరించబడలేదని గుర్తించండి",
         "description": ""
     },
     "isVerified": {
-        "message": "Sa oled kinnitanud enda turvanumbri kasutajaga $name$.",
+        "message": "మీరు మీ భద్రతా నంబర్‌ను $name$తో ధృవీకరించారు",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -438,7 +438,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Sa ei ole kinnitanud enda turvanumbri kasutajaga $name$.",
+        "message": "మీరు మీ భద్రతా నంబర్‌ను $name$తో ధృవీకరించలేదు",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -448,79 +448,79 @@
         }
     },
     "verified": {
-        "message": "Kontrollitud",
+        "message": "నిర్థారించబడింది",
         "description": ""
     },
     "newIdentity": {
-        "message": "Uus turvanumber",
+        "message": "నూతన భద్రతా సంఖ్య",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Sinu turvanumber selle kontaktiga on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et see kontakt on lihtsalt Signali uuesti paigaldanud. Kontrolli uut turvakoodi allpool.",
+        "message": "ఈ పరిచయంతో మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా ఈ పరిచయం Signal ను మళ్లీ ఇన్‌స్టాల్ చేసిందని దీని అర్థం. మీరు దిగువ కొత్త భద్రతా సంఖ్యను ధృవీకరించాలనుకోవచ్చు.",
         "description": ""
     },
     "incomingError": {
-        "message": "Sissetuleva sõnumi käsitlemisel tekkis tõrge.",
+        "message": "ఇన్‌కమింగ్ సందేశాన్ని నిర్వహించడంలో లోపం",
         "description": ""
     },
     "media": {
-        "message": "Meedia",
+        "message": "మీడియా",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Selles vestluses pole meediaelemente",
+        "message": "ఈ సంభాషణలో మీకు మీడియా లేదు",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Dokumendid",
+        "message": "పత్రాలు",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Selles vestluses pole dokumente",
+        "message": "ఈ సంభాషణలో మీకు పత్రాలు లేవు",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Täna",
+        "message": "నేడు",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Eile",
+        "message": "నిన్న",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "See nädal",
+        "message": "ఈ వారం",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "See kuu",
+        "message": "ఈ నెల",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Mittetoetatud manuse tüüp. Klõpsa salvestamiseks.",
+        "message": "మద్దతు లేని అటాచ్మెంట్ రకం. సేవ్ చేయడానికి క్లిక్ చేయండి.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Salvestamiseks klõpsa",
+        "message": "సేవ్ చేయడానికి క్లిక్ చేయండి",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Nimeta fail",
+        "message": "పేరులేని పంక్తి",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Häälsõnum",
+        "message": "వాయిస్ సందేశం",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Manuse tüüp pole turvakaalutlustel lubatud.",
+        "message": "భద్రతా కారణాల వల్ల ఈ రకమైన అటాచ్మెంట్ అనుమతించబడదు",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Eelvaate laadimine...",
+        "message": "పరిదృశ్యం లోడ్ అవుతోంది ...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Lingi eelvaate pisipildi mustand: $domain$",
+        "message": "$domain$ కోసం నకలు సూక్ష్మచిత్రం పూర్వప్రదర్శన లింకు ",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -530,7 +530,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Lingi eelvaate pisipilt: $domain$",
+        "message": "$domain$కోసం సూక్ష్మచిత్రం పూర్వప్రదర్శన లింకు ",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -540,7 +540,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Piltmanuse mustand: $path$",
+        "message": "నకలుచిత్రం జోడింపు: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -550,43 +550,43 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Mittepildilisi manuseid sõnumile lisades kehtiv ühe manuse piirang.",
+        "message": "చిత్రంకాని జోడింపును చేర్చినప్పుడు, సందేశ పరిమితి ఒక అటాచ్మెంట్.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "Piltmanuseid ja teisi manuseid ei saa koos ühte sõnumisse panna.",
+        "message": "మీరు ఒక సందేశంలో ణొన్-ఇమేజ్ మరియు చిత్రం జోడింపులను కలపలేరు.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Sellele sõnumile pole võimalik rohkem manuseid lisada.",
+        "message": "మీరు ఈ సందేశానికి ఎక్కువ జోడింపులను జోడించలేరు.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu.",
+        "message": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Valitud manuse laadimine ei õnnestunud.",
+        "message": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు.",
         "description": ""
     },
     "disconnected": {
-        "message": "Ühendus katkestatud",
+        "message": "డిస్కనెక్ట్",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Ühendamine",
+        "message": "కలుస్తుంది   ",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Ühenduseta",
+        "message": "ఆఫ్లైన్",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Kontrolli enda võrguühendust.",
+        "message": "మీ నెట్‌వర్క్ కనెక్షన్‌ను తనిఖీ చేయండి.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
-        "message": "$reconnect_duration_in_seconds$ sekundi pärast proovitakse uuesti ühenduda.",
+        "message": "$reconnect_duration_in_seconds$ తిరిగి కనెక్ట్ చేయడానికి ప్రయత్నిస్తున్నారు",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -596,51 +596,51 @@
         }
     },
     "submitDebugLog": {
-        "message": "Silumisinfo",
+        "message": "డీబగ్ సంఘటన లేకరి",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Silumisinfo",
+        "message": "డీబగ్ సంఘటన లేకరి",
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Mine väljalaskemärkmete juurde",
+        "message": "రిలీజు నోట్స్‌కు వెళ్లండి",
         "description": ""
     },
     "goToForums": {
-        "message": "Mine foorumitesse",
+        "message": "చర్చాస్థలం వెళ్లండి",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Mine kasutajatoelehele",
+        "message": "మద్దతు పేజీకి వెళ్లండి",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Teavita probleemist",
+        "message": "సమస్యను నివేదించండి",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktopi eelistused",
+        "message": "Signal Desktop ప్రాధాన్యతలు",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Teave Signal Desktopi kohta",
+        "message": "Signal Desktop గురించి",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Kõne",
+        "message": "ప్రసంగం",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Näita",
+        "message": "కనబర్చు",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Peida",
+        "message": "దాచు",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Välju",
+        "message": "వైదొలగు",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -648,11 +648,11 @@
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "Otsi",
+        "message": "వెతకండి",
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Otsi vestlusest $conversationName$",
+        "message": "$conversationName$ లో శోధించండి",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -662,7 +662,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Tulemusi pole: \"$searchTerm$\"",
+        "message": "\"$searchTerm$\" కోసం ఫలితాలు లేవు",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -672,7 +672,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "Vestlusest $conversationName$ ei leitud \"$searchTerm$\"",
+        "message": "$conversationName$ లో $searchTerm$ కోసం ఫలితాలు లేవు",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -682,31 +682,31 @@
         }
     },
     "conversationsHeader": {
-        "message": "Vestlused",
+        "message": "సంభాషణలు",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Kontaktid",
+        "message": "పరిచయాలు ",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Sõnumid",
+        "message": "సందేశాలు",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Tere tulemast Signalisse",
+        "message": "Signal కి స్వాగతం!",
         "description": ""
     },
     "selectAContact": {
-        "message": "Vali kontakt või grupp ja alusta vestlust.",
+        "message": "చాటింగ్ ప్రారంభించడానికి పరిచయం లేదా సమూహాన్ని ఎంచుకోండి.",
         "description": ""
     },
     "typingAlt": {
-        "message": "Selle vestluse sisestuse animatsioon",
+        "message": "ఈ సంభాషణ కొరకు ముద్రాలేఖనం చైతన్యకల్పన",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Kontakti $name$ pilt",
+        "message": "పరిచయం $name$ కోసం అవతార్",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -716,71 +716,71 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Saada sõnum",
+        "message": "సందేశము పంపుము",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "kodu",
+        "message": "హోమ్",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "töö",
+        "message": "పని",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobiil",
+        "message": "చరవాణి ",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "e-post",
+        "message": "ఇమెయిల్",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "telefon",
+        "message": "ఫోన్",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "aadress",
+        "message": "చిరునామా",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "postkast",
+        "message": "P.O. బాక్స్",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Laadin alla",
+        "message": "దిగుమతి అవుతోంది",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Laadi manus alla",
+        "message": "అటాచ్మెంట్ దిగుమతి ",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Vasta sõnumile",
+        "message": "సందేశానికి ప్రత్యుత్తరం ఇవ్వండి",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Algset sõnumit ei leitud",
+        "message": "అసలు సందేశం కనుగొనబడలేదు",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Algne sõnum ei ole enam saadaval",
+        "message": "అసలు సందేశం అందుబాటులో లేదు",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Algne sõnum on leitud, kuid mitte laaditud. Keri üles selle laadimiseks.",
+        "message": "అసలు సందేశం కనుగొనబడింది, కానీ లోడ్ కాలేదు. దాన్ని లోడ్ చేయడానికి పైకి స్క్రోల్ చేయండి.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Häälmärkmed peavad olema sõnumi ainuke manus.",
+        "message": "వాయిస్ నోట్ సందేశంలో చేర్చబడిన ఏకైక అటాచ్మెంట్ అయి ఉండాలి.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
-        "message": "Sina",
+        "message": "మీరు",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Vastus kasutajale $name$",
+        "message": "ప్రత్యుత్తరం$name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -790,119 +790,119 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Audiosõnumite saatmiseks luba Signal Desktopil mikrofoni kasutada.",
+        "message": "ఆడియో సందేశాలను పంపడానికి, మీ మైక్రోఫోన్‌ను యాక్సెస్ చేయడానికి Signal Desktop ను అనుమతించండి.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Luba ligipääs",
+        "message": "ప్రాప్యతను అనుమతించు",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Näita sätteid",
+        "message": "అమరికలు చూపించు",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "ఆడియో",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "వీడియో",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Foto",
+        "message": "ఛాయాచిత్రము",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Ei saa uuendada",
+        "message": "నవీకరించలేరు",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop-i uuendamine ei õnnestunud, aga uus versioon on siiski saadaval. Palun mine aadressile https://signal.org/download ja paigalda uus versioon käsitsi. Seejärel kas võta ühendust kasutajatoega või saada selle probleemi kohta tõrkeraport. ",
+        "message": "Signal Desktop నవీకరించడంలో విఫలమైంది, కానీ క్రొత్త సంస్కరణ అందుబాటులో ఉంది. దయచేసి https://signal.org/download కు వెళ్లి క్రొత్త సంస్కరణను మాన్యువల్‌గా ఇన్‌స్టాల్ చేయండి, ఆపై మద్దతును సంప్రదించండి లేదా ఈ సమస్య గురించి బగ్‌ను ఫైల్ చేయండి.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop on tõenäoliselt macOS-i karantiinis ja pole võimeline automaatselt uuenema. Palun proovi teisaldada Signal.app rakendus Finderi abil /Applications kausta.",
+        "message": "Signal Desktop macOS నిర్బంధంలో ఉండవచ్చు మరియు స్వయంచాలకంగా నవీకరించబడదు. దయచేసి Signal.అప్‌ను Finderతో  /Applications తరలించడానికి ప్రయత్నించండి.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
-        "message": "Sobib",
+        "message": "అలాగే",
         "description": ""
     },
     "cancel": {
-        "message": "Loobu",
+        "message": "రద్దు",
         "description": ""
     },
     "failedToSend": {
-        "message": "Mõnedele saajatele saatmine ei õnnestunud. Kontrolli enda võrguühendust.",
+        "message": "కొంతమంది గ్రహీతలకు పంపడంలో విఫలమైంది. మీ నెట్‌వర్క్ కనెక్షన్‌ను తనిఖీ చేయండి.",
         "description": ""
     },
     "error": {
-        "message": "Tõrge",
+        "message": "లోపం",
         "description": ""
     },
     "messageDetail": {
-        "message": "Sõnumi üksikasjad",
+        "message": "సందేశం వివరాలు",
         "description": ""
     },
     "delete": {
-        "message": "Kustuta",
+        "message": "తొలగించండి",
         "description": ""
     },
     "deleteWarning": {
-        "message": "Kas sa oled kindel? Klõpsates \"Kustuta\" eemaldatakse see sõnum ainult sellest seadmest.",
+        "message": "మీరు నిశ్చయమ? 'తొలగించు' క్లిక్ చేస్తే ఈ సందేశం ఈ పరికరం నుండి మాత్రమే శాశ్వతంగా తొలగించబడుతుంది.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Kustuta see sõnum",
+        "message": "ఈ సందేశాన్ని తొలగించండి",
         "description": ""
     },
     "from": {
-        "message": "Saatja",
+        "message": "ఎవరి నుండి",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Saaja",
+        "message": "ఎవరికి",
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "saajale",
+        "message": "కు",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
-        "message": "Saadetud",
+        "message": "పంపిన",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Saadud",
+        "message": "అందుకున్న",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Saada sõnum",
+        "message": "సందేశం పంపండి",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Grupi liikmed",
+        "message": "సమూహ సభ్యులు",
         "description": ""
     },
     "showMembers": {
-        "message": "Näita liikmeid",
+        "message": "సభ్యులను చూపించు",
         "description": ""
     },
     "resetSession": {
-        "message": "Lähtesta seanss",
+        "message": "సెషన్‌ను రీసెట్ చేయండి",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Näita turvanumbrit",
+        "message": "భద్రతా సంఖ్యను వీక్షించండి",
         "description": ""
     },
     "viewAllMedia": {
-        "message": "Näita kogu meediat",
+        "message": "అన్ని మీడియాను చూడండి",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Kui soovid kontrollida kasutajaga $name$ suhtluse krüpteerimist, siis võrdle ülalpool olevaid numbreid numbritega tema seadme ekraanil.",
+        "message": "మీ ఎండ్-టు-ఎండ్ ఎన్క్రిప్షన్ యొక్క భద్రతను $name$తో ధృవీకరించాలనుకుంటే, పై సంఖ్యలను వాటి పరికరంలోని సంఖ్యలతో పోల్చండి.",
         "description": "",
         "placeholders": {
             "name": {
@@ -912,283 +912,283 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Sa ei ole selle kontaktiga veel ühtegi sõnumit vahetanud. Sinu turvanumber temaga tekib pärast esimest sõnumit.",
+        "message": "ఈ పరిచయంతో మీరు ఇంకా సందేశాలను మార్పిడి చేయలేదు. వారితో మీ భద్రతా సంఖ్య మొదటి సందేశం తర్వాత అందుబాటులో ఉంటుంది.",
         "description": ""
     },
     "moreInfo": {
-        "message": "Rohkem teavet...",
+        "message": "మరింత సమాచారం...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Proovi uuesti saata",
+        "message": "తిరిగి పంపండి",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Kustuta sõnum",
+        "message": "సందేశాన్ని తొలగించు",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Kustuta sõnumid",
+        "message": "సందేశాలను తొలగించు",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Kas kustutada see vestlus jäädavalt?",
+        "message": "ఈ సంభాషణను శాశ్వతంగా తొలగించాలా?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Turvaseanss lähtestati",
+        "message": "సురక్షిత సెషన్ పునరుద్ధరించు.",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Tsiteeritud sõnumist pärit pildi pisipilt",
+        "message": "కోట్ చేసిన సందేశం నుండి చిత్రం యొక్క సూక్ష్మచిత్రం",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Pilt lisatud sõnumile",
+        "message": "చిత్రం సందేశానికి జోడించబడింది",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Sõnumile lisatud video ekraanipilt",
+        "message": "సందేశానికి జోడించిన వీడియో స్క్రీన్ షాట్",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Vestluses saadetud pilt",
+        "message": "చిత్రం సంభాషణలో పంపబడింది",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Ikoon näitamaks, et sellel pildil on seletus.",
+        "message": "ఈ చిత్రానికి శీర్షిక ఉందని చూపించే ఐకాన్",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Lisa pealkiri...",
+        "message": "శీర్షికను జోడించండి...",
         "description": ""
     },
     "save": {
-        "message": "Salvesta",
+        "message": "భద్రపరుచు",
         "description": ""
     },
     "fileIconAlt": {
-        "message": "Faili ikoon",
+        "message": "ఫైల్ చిహ్నం",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Tere tulemast Signal Desktopi kasutama",
+        "message": "Signal డెస్క్‌టాప్‌కు స్వాగతం",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privaatsus on võimalik. Signal teeb selle lihtsaks.",
+        "message": "గోప్యత సాధ్యమే. Signal సులభం చేస్తుంది.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Ühenda telefon Signal Desktopiga",
+        "message": "మీ ఫోన్‌ను Signal Desktop లింక్ చేయండి",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Signali sätted",
+        "message": "Signal అమరికలు",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Ühendatud seadmed",
+        "message": "పరికరాలు అనుసంధానించు ",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+'-nupp",
+        "message": "'+' బటన్",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Ühenda uus seade",
+        "message": "కొత్త పరికరాన్ని అనుసంధానించు",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Seadme nimi",
+        "message": "పరికరం యొక్క పేరు ",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Vali selle seadme nimi",
+        "message": "ఈ పరికరం పేరును ఎంచుకోండి",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Lõpeta telefoni ühendamine",
+        "message": "ఫోన్‌ను లింక్ చేయడాన్ని ముగించండి",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Kontaktide ja gruppide sünkimine",
+        "message": "పరిచయాలు మరియు సమూహాలను సమకాలీకరిస్తోంది",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Ühenduse loomine serverisse ei õnnestunud.",
+        "message": "సర్వర్ తో అనుసంధాన ప్రయత్నం విఫలమైనది.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Kahjuks on sul juba liiga palju ühendatud seadmeid. Proovi mõni eemaldada.",
+        "message": "క్షమించండి,మీరు చాల పరికరాలను అనుసంధానం చేసారు. కొన్ని తొలగించడానికి ప్రయత్నించండి.",
         "description": ""
     },
     "settings": {
-        "message": "Sätted",
+        "message": "అమరికలు",
         "description": "Menu item and header for global settings"
     },
     "theme": {
-        "message": "Teema",
+        "message": "థీమ్",
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Õigused",
+        "message": "అనుమతులు",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Luba ligipääs kaamerale ja mikrofonile",
+        "message": "కెమెరా మరియు మైక్రోఫోన్‌కు ప్రాప్యతను అనుమతించండి",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "Üldine",
+        "message": "సాధారణం",
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Luba sõnumite kasti teksti õigekirja kontroll",
+        "message": "సందేశ కాంపోజిషన్‌ బాక్స్ లో వర్ణక్రమము సరిచూచుటకు అధికారం",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Eemalda andmed",
+        "message": "సమాచారం క్లియర్ చేయండి",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Eemaldatakse kõik rakenduse andmed, kustutatakse kõik sõnumid ja salvestatud teave konto kohta.",
+        "message": "ఇది అనువర్తనంలోని మొత్తం సమాచారం క్లియర్ చేస్తుంది, అన్ని సందేశాలను మరియు ఖాతా సమాచారాన్ని తీసివేస్తుంది",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Eemalda andmed",
+        "message": "సమాచారం క్లియర్ చేయండి",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Kas kustutada kõik andmed?",
+        "message": "సమాచార మొత్తని  తొలగించండి?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Oled kustutamas rakenduses salvestatud infot, kaasa arvatud kõik kontaktid ja sõnumid. Sul on alati võimalus ühendada nutiseade uuesti, aga see ei taasta kustutatud sõnumeid.",
+        "message": "మీరు అన్ని పరిచయాలు మరియు అన్ని సందేశాలతో సహా ఈ అనువర్తనం యొక్క సేవ్ చేసిన ఖాతా సమాచారాన్ని తొలగించబోతున్నారు. మీరు ఎప్పుడైనా మీ మొబైల్ పరికరంతో మళ్లీ లింక్ చేయవచ్చు, కానీ అది తొలగించిన సందేశాలను పునరుద్ధరించదు.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Kustuta kõik andmed",
+        "message": "సమాచార మొత్తని తొలగించండి",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Ühenduse lõpetamine ja kõigi andmete kustutamine",
+        "message": "మొత్తం సమాచారం డిస్కోనెక్ట మరియు తొలిగింపదుతోంది ",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
-        "message": "Teavitused",
+        "message": "ప్రకటనలు",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Kui saabub sõnum, siis kuva teavitusi, mis avaldavad:",
+        "message": "సందేశాలు వచ్చినప్పుడు, బహిర్గతం చేసే నోటిఫికేషన్‌లను ప్రదర్శించండి:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Keela teavitused",
+        "message": "నోటిఫికేషన్‌లను నిలిపివేయండి",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Nii saatja nime kui sõnumi sisu",
+        "message": "Both sender name and message",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Ei nime ega sisu",
+        "message": "పేరు లేదా సందేశం కాదు",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Ainult saatja nime",
+        "message": "పంపినవారి పేరు మాత్రమే",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Uus sõnum",
+        "message": "కొత్త సందేశం",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "Uued sõnumid",
+        "message": "కొత్త సందేశాలు",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Kõige uuem saatjalt:",
+        "message": "ఇటీవల నుండి: ",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "Saatjalt:",
+        "message": "ఎవరి నుండి:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Kõige uuem:",
+        "message": "ఇటీవలి: ",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Saatmine ei õnnestunud",
+        "message": "పంపడం విఫలమైంది",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Üksikasjad",
+        "message": "వివరాలు",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Peida üksikasjad",
+        "message": "వివరాలను దాచండి",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Täpsem info turvanumbrite kontrollimise kohta",
+        "message": "భద్రతా సంఖ్యలను ధృవీకరించడం గురించి మరింత తెలుసుకోండి",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "See Signal Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks.",
+        "message": "Signal Desktop యొక్క ఈ వెర్షన్ గడువు ముగిసింది. సందేశాన్ని కొనసాగించడానికి దయచేసి తాజా సంస్కరణకు అభివృద్ధి చేయండి.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Uuenda",
+        "message": "అభివృద్ధి",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Media Message",
+        "message": "మీడియా సందేశం",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Number ei ole registreeritud",
+        "message": "సంఖ్య నమోదు చేయబడలేదు",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontaktid",
+        "message": "పరిచయాలు ",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Impordi kõik Signali grupid ja kontaktid enda nutiseadmest.",
+        "message": "మీ మొబైల్ పరికరం నుండి అన్ని Signal సమూహాలు మరియు పరిచయాలను దిగుమతి చేయండి.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Viimane importimine:",
+        "message": "వద్ద చివరి దిగుమతి",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Impordi nüüd",
+        "message": "ఇప్పుడే దిగుమతి చేయండి",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importimine...",
+        "message": "దిగుమతి అవుతోంది ...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Importimine ei õnnestunud. Kontrolli üle, et arvuti ja telefon oleksid mõlemad ühendatud internetti.",
+        "message": "దిగుమతి విఫలమైంది. మీ కంప్యూటర్ మరియు మీ ఫోన్ ఇంటర్నెట్‌కు కనెక్ట్ అయ్యాయని నిర్ధారించుకోండి.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "nüüd",
+        "message": "ఇప్పుడు",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1m",
+        "message": "1 నిమి",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1h",
+        "message": "1 గం",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$h",
+        "message": "$hours$ గం",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1198,7 +1198,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$m",
+        "message": "$minutes$ ని",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1208,27 +1208,27 @@
         }
     },
     "justNow": {
-        "message": "nüüd",
+        "message": "ఇప్పుడు",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "D. MMM",
+        "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Sõnumi sisu on liiga pikk.",
+        "message": "సందేశం బహు దీర్ఘముగా వుంది ",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Sõnumi saatmiseks eemalda selle kontakti blokeering.",
+        "message": "సందేశం పంపడానికి ఈ పరిచయాన్ని అన్‌బ్లాక్ చేయండి.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Sõnumi saatmiseks eemalda selle grupi blokeering.",
+        "message": "సందేశం పంపడానికి ఈ గుంపును అన్‌బ్లాక్ చేయండి.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Sina määrasid kaduvate sõnumite taimeriks $time$",
+        "message": "మీరు అదృశ్యమవుతున్న సందేశ టైమర్ను సెట్ చేసారు $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1238,7 +1238,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Kaduvate sõnumite taimer seati väärtusele $time$",
+        "message": "అదృశ్యమవుతున్న సందేశ టైమర్‌ను $time$కు నవీకరించారు",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1248,7 +1248,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ seadis kaduvate sõnumite taimeri väärtusele $time$",
+        "message": "$name$ అదృశ్యమైన సందేశ టైమర్‌ను $time$కు సెట్ చేశారు ",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1262,111 +1262,111 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "väljas",
+        "message": "ఆఫ్",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 sekundit",
+        "message": "5సెకన్లు",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 sekundit",
+        "message": "10సెకన్లు",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 sekundit",
+        "message": "30సెకన్లు",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minut",
+        "message": "1 నిమిషం",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutit",
+        "message": "5 నిముషాలు ",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutit",
+        "message": "30 నిముషాలు ",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 tund",
+        "message": "1 గంట",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 tundi",
+        "message": "6 గంటలు",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 tundi",
+        "message": "12 గంటలు",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 päev",
+        "message": "1 రోజు",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 nädal",
+        "message": "1 వారం",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Kaduvad sõnumid",
+        "message": "అదృశ్యమవుతున్న  సందేశాలు",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "väljas",
+        "message": "ఆఫ్",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5సె",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10సె",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30సె",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 నిమి",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 నిమి",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 నిమి",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1 గం",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 గం",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 గం",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1p",
+        "message": "ఒక రోజు",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1ndl",
+        "message": "ఒక వారం",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Kaduvad sõnumid on keelatud",
+        "message": "అదృశ్యమవుతున్న  సందేశాలు నిలిపివేయబడ్డాయి",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ keelas kaduvad sõnumid",
+        "message": "$name$ అదృశ్యమవుతున్న సందేశాలను నిలిపివేసింది",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1376,11 +1376,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Sa keelasid kaduvad sõnumid",
+        "message": "మీరు అదృశ్యమవుతున్న సందేశాలను నిలిపివేసారు",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Taimer on määratud: $time$",
+        "message": "టైమర్ $time$ కు సెట్ చేయబడింది",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1390,15 +1390,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Mängi audioteavitust",
+        "message": "ఆడియో నోటిఫికేషన్‌ను ప్లే చేయండి",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Turvanumber on muutunud",
+        "message": "భద్రతా సంఖ్య మార్చబడింది",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Kasutaja $name$ turvanumber on muutunud",
+        "message": "$name$ తో మీ భద్రత సంఖ్య మార్చబడింది.",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1408,11 +1408,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Kinnita turvanumber",
+        "message": "భద్రత సంఖ్యను ధృవీకరించండి",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Sinu turvanumber kasutajaga $name$:",
+        "message": "మీ భద్రతా సంఖ్య$name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1422,71 +1422,71 @@
         }
     },
     "themeLight": {
-        "message": "Hele",
+        "message": "కాంతి",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Tume",
+        "message": "గుప్తమైన",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "Süsteem",
+        "message": "వ్యవస్థ",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Märkus endale",
+        "message": "స్వీయ గమనిక",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
-        "message": "Peida menüüriba",
+        "message": "మెనూ పట్టికని  దాచు ",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Alusta uut vestlust...",
+        "message": "క్రొత్త సంభాషణను ప్రారంభించండి…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Kontakti lisamiseks sisesta telefoninumber.",
+        "message": "పరిచయాన్ని జోడించడానికి ఫోన్ నంబర్‌ను నమోదు చేయండి.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Vigane number",
+        "message": "చెల్లని సంఖ్య",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Sõnumite saatmise jätkamiseks ühenda Signal Desktop nutiseadmega.",
+        "message": "సందేశాన్ని కొనసాగించడానికి Signal డెస్క్‌టాప్‌ను మీ మొబైల్ పరికరానికి తిరిగి పంపండి.",
         "description": ""
     },
     "unlinked": {
-        "message": "Ühendus eemaldatud",
+        "message": "లింక్ తొలగించడానికి",
         "description": ""
     },
     "relink": {
-        "message": "Ühenda uuesti",
+        "message": "తిరిగి లింక్ చేయండి",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signali uuendus on saadaval",
+        "message": "Signal నవీకరణ అందుబాటులో ఉంది",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signalist on saadaval uus versioon.",
+        "message": "Signal యొక్క క్రొత్త సంస్కరణ అందుబాటులో ఉంది.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Signal\".",
+        "message": "నవీకరణలను వర్తింపచేయడానికి పున Sign ప్రారంభించు Signal నొక్కండి.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Taaskäivita Signal",
+        "message": "Signal పున ప్రారంభించండి",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Hiljem",
+        "message": "తర్వాత",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ lahkus grupist",
+        "message": "$name$ సమూహాన్ని విడిచిపెట్టారు",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1496,7 +1496,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ lahkusid grupist",
+        "message": "$name$ సమూహాన్ని విడిచిపెట్టారు",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1506,11 +1506,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupp on uuendatud",
+        "message": "సమూహం నవీకరించబడింది",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Pealkiri on nüüd '$name$'",
+        "message": "శీర్షిక ఇప్పుడు $name$",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1520,7 +1520,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ ühines grupiga",
+        "message": "$name$ సమూహంలొ చేరారు.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1530,7 +1530,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ ühinesid grupiga",
+        "message": "$names$ సమూహంలొ చేరారు.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1540,115 +1540,115 @@
         }
     },
     "ConversationListItem--draft-prefix": {
-        "message": "Mustand:",
+        "message": "చిత్తు పత్రం:",
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--stickers": {
-        "message": "Kleepsu sõnum",
+        "message": "స్టిక్కర్ సందేశం",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getDescription--unsupported-message": {
-        "message": "Mittetoetatud sõnum",
+        "message": "మద్దతు లేని సందేశం",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "Kaduv foto",
+        "message": "అదృశ్యమవుతున్న  చిత్రం",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Disappearing Video",
+        "message": "అదృశ్యమవుతున్న వీడియో",
         "description": "Shown in notifications and in the left pane when a message is a disappearing video."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Kleepsupaki paigaldamine ei õnnestunud",
+        "message": "స్టిక్కర్ ప్యాక్ వ్యవస్థాపించబడలేదు",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Paigaldatud kleepsud",
+        "message": "ఇన్‌స్టాల్ చేసిన స్టిక్కర్లు",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "Kleepse pole paigaldatud",
+        "message": "స్టిక్కర్లు వ్యవస్థాపించబడలేదు",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Signali artisti seeria",
+        "message": "Singal కళాకారుడు సిరీస్",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Signal Artist kleepse pole saadaval",
+        "message": "Signal ఆర్టిస్ట్ స్టిక్కర్లు అందుబాటులో లేవు",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Vastuvõetud kleepsud",
+        "message": "మీరు అందుకున్న స్టిక్కర్లు",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Kleepsud sissetulevatelt sõnumitelt kuvatakse siin",
+        "message": "ఇన్కమింగ్ సందేశాల నుండి స్టిక్కర్లు ఇక్కడ కనిపిస్తాయి",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Paigalda",
+        "message": "వ్యవస్థాపన",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Eemalda",
+        "message": "అన్ఇన్స్టాల్",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Sa ei saa seda kleepsupakki uuesti paigaldada, kui sul pole enam algsõnumit.",
+        "message": "మీకు ఇకపై మూల సందేశం లేకపోతే మీరు ఈ స్టిక్కర్ ప్యాక్‌ను తిరిగి ఇన్‌స్టాల్ చేయలేరు.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Tutvustame kleepse",
+        "message": "స్టిక్కర్లను పరిచయం చేస్తున్నాము",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "Miks kasutada sõnu, kui saab kasutada kleepse?",
+        "message": "స్టిక్కెర్లు వుందగా పదాలు ఎందుకు?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Mõnede kleepsude allalaadimine ei õnnestunud.",
+        "message": "కొన్ని స్టిక్కర్లను డౌన్‌లోడ్ చేయడం సాధ్యం కాలేదు.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Kleepsupaki paigaldamine...",
+        "message": "స్టిక్కర్ ప్యాక్‌ని ఇన్‌స్టాల్ చేస్తోంది ...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "Kleepse ei leitud",
+        "message": "స్టిక్కర్లు కనుగొనబడలేదు",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Uued kleepsupakid sinu sõnumitest on paigaldamiseks saadaval",
+        "message": "మీ సందేశాల నుండి కొత్త స్టిక్కర్ ప్యాక్‌లు ఇన్‌స్టాల్ చేయడానికి అందుబాటులో ఉన్నాయి",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Kleepsupakke ei leitud",
+        "message": "స్టిక్కర్ ప్యాక్‌లు కనుగొనబడలేదు",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Hiljuti kasutatud kleepsud ilmuvad siia.",
+        "message": "ఇటీవల ఉపయోగించిన స్టిక్కర్లు ఇక్కడ కనిపిస్తాయి.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Kleepsupakk",
+        "message": "స్టిక్కర్ ప్యాక్",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Kleepsupaki avamisel tekkis tõrge. Palun kontrolli enda internetiühendust ja proovi uuesti.",
+        "message": "స్టిక్కర్ ప్యాక్ తెరవడంలో లోపం. మీ ఇంటర్నెట్ కనెక్షన్‌ను తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Emojisid ei leitud",
+        "message": "ఎమోజీలు కనుగొనబడలేదు",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Otsi emojisid",
+        "message": "ఎమోజిని శోధించండి",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
-        "message": "$tone$ nahatoon",
+        "message": "స్కిన్ టోన్ $tone$",
         "description": "Shown as a tooltip over the emoji tone buttons.",
         "placeholders": {
             "status": {
@@ -1658,11 +1658,11 @@
         }
     },
     "confirmation-dialog--Cancel": {
-        "message": "Loobu",
+        "message": "రద్దు",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ saatis sulle sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signal-i uut funktsionaalsust.",
+        "message": "$contact$ మీకు క్రొత్త Signal లక్షణాన్ని ఉపయోగిస్తున్నందున ప్రాసెస్ చేయలేని లేదా ప్రదర్శించలేని సందేశాన్ని పంపింది.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1672,7 +1672,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Nüüd, kui kasutad Signali uuendatud versiooni, siis palu kontaktil $contact$ sõnum uuesti saata.",
+        "message": "మీరు Signal యొక్క నవీనమైన సంస్కరణను ఉపయోగిస్తున్నందున ఈ సందేశాన్ని తిరిగి పంపమని మీరు $contact$అడగవచ్చు.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1682,47 +1682,47 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Üks sinu seadmetest saatis sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signal-i uut funktsionaalsust.",
+        "message": "మీ పరికరాల్లో ఒకటి క్రొత్త Signal లక్షణాన్ని ఉపయోగిస్తున్నందున ప్రాసెస్ చేయలేని లేదా ప్రదర్శించలేని సందేశాన్ని పంపింది.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Tulevikusõnumid nagu see sünkroniseeritakse nüüd, kui kasutad värskendatud Signal-i versiooni.",
+        "message": "భవిష్యత్ సందేశాలు మీరు Signal యొక్క నవీనమైన సంస్కరణను ఉపయోగిస్తున్నందున ఇప్పుడు సమకాలీకరించబడతాయి.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Uuenda Signal-it",
+        "message": "Signal ను నవీకరించండి",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Vaadatud",
+        "message": "వీక్షించినవి",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Meedia",
+        "message": "మీడియా",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Foto",
+        "message": "ఫోటో",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Video",
+        "message": "వీడియో",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(manus)",
+        "message": "(అటాచ్మెంట్)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(tsitaat)",
+        "message": "(యథాతథంగా)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(mustand)",
+        "message": "(చిత్తు పత్రం)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
-        "message": "Tingimused ja privaatsuspoliitika",
+        "message": "నిబంధనలు & గోప్యతా విధానం",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

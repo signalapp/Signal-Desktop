@@ -8,7 +8,7 @@
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Cơ sở dữ liệu lỗi",
+        "message": "Lỗi Cơ sở dữ liệu",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
@@ -16,7 +16,7 @@
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
-        "message": "Tệp tin",
+        "message": "Tập tin",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -32,7 +32,7 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "Giúp đỡ ",
+        "message": "Trợ giúp",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
@@ -44,11 +44,11 @@
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Ẩn thứ khác",
+        "message": "Ẩn các Cửa sổ khác",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Hiện tất cả",
+        "message": "Hiển thị Tất cả",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
@@ -56,7 +56,7 @@
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Quay lại",
+        "message": "Hoàn tác",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
@@ -84,7 +84,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Chọn tất cả",
+        "message": "Chọn Tất cả",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -96,7 +96,7 @@
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Đóng cửa sổ",
+        "message": "Đóng Cửa sổ",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
@@ -108,11 +108,11 @@
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Đem tất cả đến trước mặt",
+        "message": "Đưa Tất cả cửa sổ ra Trước",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Kích cỡ thực tế",
+        "message": "Kích cỡ Thực tế",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
@@ -124,11 +124,11 @@
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Chuyển sang Toàn màn hình",
+        "message": "Bật tắt chế độ Toàn màn hình",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Chuyển sang công cụ Nhà phát triển",
+        "message": "Bật tắt Công cụ Nhà phát triển",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
@@ -136,12 +136,16 @@
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Thiết lập như Thiết bị mới",
+        "message": "Thiết lập như Thiết bị Mới",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Thiết lập như Thiết bị độc lập",
+        "message": "Thiết lập như Thiết bị Độc lập",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "avatarMenuViewArchive": {
+        "message": "Xem Lưu trữ",
+        "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
         "message": "Đang tải...",
@@ -152,7 +156,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Tối ưu hóa tin nhắn... $status$ thành công. ",
+        "message": "Tối ưu hóa tin nhắn... hoàn thành $status$.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -162,19 +166,19 @@
         }
     },
     "archivedConversations": {
-        "message": "Thư mục lưu trữ",
+        "message": "Các cuộc trò chuyện đã lưu trữ",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "Các hộp thoại này được lưu trữ và chỉ xuất hiện trong Hộp thư đến nếu nhận được tin nhắn mới.",
+        "message": "Các cuộc trò chuyện này được lưu trữ và chỉ xuất hiện trong Hộp thư đến nếu nhận được tin nhắn mới.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Thư mục lưu trữ",
+        "message": "Lưu trữ Cuộc trò chuyện",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Di chuyển cuộc hội thoại tới Hộp thư đến",
+        "message": "Di chuyển Cuộc trò chuyện tới Hộp thư đến",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
@@ -182,7 +186,7 @@
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Chọn tệp tin",
+        "message": "Chọn tập tin",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
@@ -190,27 +194,27 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Bạn vừa trải qua quá trình xuất, và các liên hệ và tin nhắn của bạn đang trên máy tính củ bạn. Chọn thư mục dữ liệu Signal đã lưu của bạn.",
+        "message": "Bạn vừa trải qua quá trình xuất, các liên hệ và tin nhắn của bạn vẫn còn trên máy tính của bạn. Hãy chọn thư mục dữ liệu Signal đã lưu của bạn.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Chọn danh mục với dữ liệu đã xuất",
+        "message": "Chọn thư mục với dữ liệu đã xuất",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Có gì đó sai !",
+        "message": "Đã xảy ra lỗi!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Tải liên hệ và tin nhắn",
+        "message": "Đang tải liên hệ và tin nhắn",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Hãy đảm bảo bạn đã chọn đúng thư mục chứa dữ liệu Signal đã lưu. Tên của nó phải bắt đầu bằng 'Signal Export'. Bạn có thể lưu một bản sao mới của dữ liệu tù ứng dụng Chrome.",
+        "message": "Hãy đảm bảo bạn đã chọn đúng thư mục chứa dữ liệu Signal đã lưu. Tên của thư mục phải bắt đầu bằng 'Signal Export'. Bạn có thể lưu một bản sao mới của dữ liệu từ ứng dụng Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Nếu các bước này không phù hợp với bạn, vui lòng gửi nhật ký gỡ lỗi ( Xem -> Nhật ký gỡ lỗi ) để chúng tôi có thể giúp bạn chuyển đi!",
+        "message": "Nếu các bước này không phù hợp với bạn, vui lòng gửi nhật ký gỡ lỗi ( Xem -> Nhật ký Gỡ lỗi) để chúng tôi có thể giúp bạn chuyển đi!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -218,7 +222,7 @@
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Thành công",
+        "message": "Thành công!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
@@ -226,7 +230,7 @@
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Kết nối thiết bị này tới điện thoại của bạn",
+        "message": "Liên kết thiết bị này với điện thoại của bạn",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -234,11 +238,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Đang cập nhật dữ liệu. Cần một chút thời gian...",
+        "message": "Đang nâng cấp dữ liệu. Cần một chút thời gian...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Đang tải tin nhắn. $count$ phần trăm...",
+        "message": "Đang tải tin nhắn. Đã được $count$...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -252,7 +256,7 @@
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "Lượt xem",
+        "message": "Xem",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
@@ -268,11 +272,11 @@
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 tin nhắn chưa đọc",
+        "message": "1 Tin nhắn Chưa đọc",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "1$count$ Tin nhắn chưa đọc",
+        "message": "$count$ Tin nhắn Chưa đọc",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -282,7 +286,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "Bạn đã đánh dấu số an toàn của bạn với $name$ đã được xác minh",
+        "message": "Bạn đã đánh dấu Số An toàn của bạn với $name$ là đã được xác minh",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -292,7 +296,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Bạn đã đánh dấu số an toàn của bạn với$name$ chưa được xác minh",
+        "message": "Bạn đã đánh dấu Số An toàn của bạn với$name$ là chưa được xác minh",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -302,7 +306,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Bạn đã đánh dấu số an toàn của bạn với $name$ đã được xác minh từ thiết bị khác",
+        "message": "Bạn đã đánh dấu Số An toàn của bạn với $name$ là đã được xác minh từ thiết bị khác",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -312,7 +316,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Bạn đã đánh dấu số an toàn của bạn với $name$ chưa được xác minh từ thiế bị khác",
+        "message": "Bạn đã đánh dấu Số An toàn của bạn với $name$ là chưa được xác minh từ thiế bị khác",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -322,7 +326,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Số an toàn của bạn với các thành viên nhóm này đã được thay đổi từ lần xác minh cuối cùng của bạn. Nhấp vào một thành viên nhóm để xem số an toàn mới của bạn đối với họ.",
+        "message": "Số an toàn của bạn với các thành viên nhóm này đã được thay đổi từ lần xác minh cuối cùng của bạn. Nhấp vào một thành viên trong nhóm để xem số an toàn mới của bạn đối với họ.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
@@ -330,7 +334,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Số an toàn của bạn $name$ đã thay đổi từ lần xác minh cuối cùng của bạn. Điều đó có nghĩa là ai đó đang cố gắn chặn liên lạc của bạn hoặc chỉ là $name$ cài lại Signal",
+        "message": "Số an toàn của bạn với $name$ đã thay đổi từ lần xác minh cuối cùng của bạn. Điều này có nghĩa là ai đó đang cố gắng chặn liên lạc của bạn hoặc chỉ là $name$ đã cài đặt lại Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -340,7 +344,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Số an toàn của bạn $name$ đã thay đổi từ lần xác minh cuối cùng của bạn. Điều đó có nghĩa là ai đó đang cố gắn chặn liên lạc của bạn hoặc chỉ là $name$ cài lại Signal",
+        "message": "Số an toàn của bạn với $name$ đã thay đổi từ lần xác minh cuối cùng của bạn. Điều này có nghĩa là ai đó đang cố gắng chặn liên lạc của bạn hoặc chỉ là $name$ đã cài đặt lại Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,7 +358,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Số an toàn của bạn $name$ đã thay đổi từ lần xác minh cuối cùng của bạn. Điều đó có nghĩa là ai đó đang cố gắn chặn liên lạc của bạn hoặc chỉ là $name$ cài lại Signal",
+        "message": "Số an toàn của bạn với $name$ đã thay đổi từ lần xác minh cuối cùng của bạn. Điều này có nghĩa là ai đó đang cố gắng chặn liên lạc của bạn hoặc chỉ là $name$ đã cài đặt lại Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -364,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Số an toàn của bạn $name$đã thay đổi từ lần xác minh cuối cùng của bạn. Điều đó có nghĩa là ai đó đang cố gắn chặn liên lạc của bạn hoặc chỉ là $name$ cài lại Signal. Bạn có thể muốn xác minh số an toàn của bạn với liên hệ này.",
+        "message": "Số an toàn của bạn với $name$đã thay đổi từ lần xác minh cuối cùng của bạn. Điều này có nghĩa là ai đó đang cố gắng chặn liên lạc của bạn hoặc chỉ là $name$ đã cài đặt lại Signal. Bạn có thể muốn xác minh số an toàn của bạn với liên hệ này.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -374,11 +378,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Gửi bằng mọi cách",
+        "message": "Vẫn tiếp tục gửi",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Số an toàn của bạn với $name$ đã được thay đổi và không còn được xác minh. Nhấn vào đây để hiển thị.",
+        "message": "Số an toàn của bạn với $name$ đã được thay đổi và không còn được xác minh. Nhấp vào đây để hiển thị.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -388,19 +392,19 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Số an toàn của bạn với nhiều thành viên của nhóm này đã được thay đổi và không còn được xác minh. Nhấn vào đây để hiển thị.",
+        "message": "Số an toàn của bạn với nhiều thành viên của nhóm này đã được thay đổi và không còn được xác minh. Nhấp vào đây để hiển thị.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Bản ghi này sẽ được đăng trực tuyến một cách công khai để những người đóng góp theo dõi. Bạn có thể kiểm tra và sửa đổi nó trước khi gửi đi.",
+        "message": "Bản ghi này sẽ được đăng trực tuyến công khai để những người đóng góp theo dõi. Bạn có thể kiểm tra và sửa đổi bản ghi này trước khi gửi đi.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Một vài thứ bị lỗi trong quá trình tải lên! Vui lòng xem xét một cách thủ công để thêm nhật ký lỗi của bạn.",
+        "message": "Đã xảy ra lỗi trong quá trình tải lên! Vui lòng xem xét thêm vào nhật ký lỗi của bạn theo cách thủ công.",
         "description": ""
     },
     "reportIssue": {
-        "message": "Báo lỗi",
+        "message": "Báo cáo lỗi",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -416,11 +420,11 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Đánh dấu như đã chứng thực",
+        "message": "Đánh dấu đã xác minh",
         "description": ""
     },
     "unverify": {
-        "message": "Đánh dấu là không xác minh",
+        "message": "Đánh dấu chưa xác minh",
         "description": ""
     },
     "isVerified": {
@@ -434,7 +438,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Bạn chưa xác minh số an toàn với $name$",
+        "message": "Bạn chưa xác minh số an toàn của bạn với $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -448,11 +452,11 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "Số-an-toàn mới",
+        "message": "Số an toàn mới",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Số-an-toàn của bạn với người (liên lạc) này đã thay đổi. Điều này có nghĩa rằng người nào đó đang xâm nhập vào liên lạc của bạn, hoặc đơn giản là người (liên lạc) này đã cài đặt lại Signal. Bạn muốn xác nhận số-an-toàn mới bên dưới.",
+        "message": "Số an toàn của bạn với người (liên lạc) này đã thay đổi. Điều này có nghĩa là ai đó đang cố chặn liên lạc của bạn, hoặc đơn giản là người (liên lạc) này đã cài đặt lại Signal. Bạn có thể muốn xác minh số an toàn mới bên dưới.",
         "description": ""
     },
     "incomingError": {
@@ -464,15 +468,15 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Bạn không có bất kì đa phương tiện nào trong cuộc hội thoại",
+        "message": "Bạn không có tập tin đa phương tiện nào trong cuộc trò chuyện này",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Văn bản",
+        "message": "Tài liệu",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Bạn không có bất kì văn bản nào trong cuộc hội thoại này",
+        "message": "Bạn không có tài liệu nào trong cuộc trò chuyện này",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -492,19 +496,19 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Không hỗ trợ tập tin đính kèm. Bấm để lưu.",
+        "message": "Dạng tập tin đính kèm không được hỗ trợ. Nhấp để lưu.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click để lưu",
+        "message": "Nhấp để lưu",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Tập tin không có tên",
+        "message": "Tập tin Không có tên",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Tin nhắn thoại",
+        "message": "Tin nhắn Thoại",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
@@ -512,11 +516,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Tải bản xem trước...",
+        "message": "Đang tải Bản xem trước...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Bản nháp liên kết hình thu nhỏ xem trước cho $domain$",
+        "message": "Bản nháp hình thu nhỏ liên kết bản xem trước cho $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -526,7 +530,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Liên kết hình thu nhỏ xem trước cho $domain$",
+        "message": "Hình thu nhỏ liên kết bản xem trước cho $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -546,23 +550,23 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Khi bao gồm một tệp đính kèm không có hình ảnh, giới hạn là một tệp đính kèm cho mỗi tin nhắn.",
+        "message": "Khi bao gồm một tập tin đính kèm không phải hình ảnh, giới hạn là một tập tin đính kèm cho mỗi tin nhắn.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "Bạn không thể trộn tập tin ảnh và tập tin không phải ảnh đính kèm trong cùng một tin nhắn",
+        "message": "Bạn không thể kết hợp tập tin hình ảnh và tập tin không phải hình ảnh đính kèm trong cùng một tin nhắn.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Bạn không thể thêm bất kì tập tin đính kèm nào cho tin nhắn này",
+        "message": "Bạn không thể thêm bất kì tập tin đính kèm nào cho tin nhắn này.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Rất tiếc, các tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn.",
+        "message": "Rất tiếc, tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Không thể tải tập tin đính kèm được chọn",
+        "message": "Không thể tải tập tin đính kèm đã chọn.",
         "description": ""
     },
     "disconnected": {
@@ -578,7 +582,7 @@
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Kiểm tra kết nối mạng của bạn",
+        "message": "Kiểm tra kết nối mạng của bạn.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
@@ -592,7 +596,7 @@
         }
     },
     "submitDebugLog": {
-        "message": "Nhật ký Gỡ lỗi",
+        "message": "Nhật ký gỡ lỗi",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
@@ -600,19 +604,19 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Tới Ghi chú phát hành",
+        "message": "Chuyển đến Ghi chú Phát hành",
         "description": ""
     },
     "goToForums": {
-        "message": "Đi tới Diễn đàn",
+        "message": "Chuyển đến Diễn đàn",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Đi tới Trang hỗ trợ",
+        "message": "Chuyển đến Trang Hỗ trợ",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Báo cáo vấn đề",
+        "message": "Báo cáo Lỗi",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
@@ -620,7 +624,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Về Signal Desktop",
+        "message": "Giới thiệu Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -628,7 +632,7 @@
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Hiện",
+        "message": "Hiển thị",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
@@ -648,7 +652,7 @@
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Search in $conversationName$",
+        "message": "Tìm kiếm trong $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -668,7 +672,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "message": "Không có kết quả cho \"$searchTerm$\" trong $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -682,7 +686,7 @@
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Liên hệ",
+        "message": "Danh bạ",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -694,11 +698,11 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Chọn một liên hệ hoặc nhóm để bắt đầu chat.",
+        "message": "Chọn một liên hệ hoặc nhóm để bắt đầu trò chuyện.",
         "description": ""
     },
     "typingAlt": {
-        "message": "Gõ hoạt hình cho cuộc trò chuyện này",
+        "message": "Nhập hoạt ảnh cho cuộc trò chuyện này",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
@@ -712,7 +716,7 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Gửi tin nhắn",
+        "message": "Gửi Tin nhắn",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
@@ -748,7 +752,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Tải tập tin đính kèm",
+        "message": "Tải Tập tin đính kèm",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
@@ -760,15 +764,15 @@
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Tin nhắn ban đầu không khả dụng",
+        "message": "Tin nhắn ban đầu không còn khả dụng",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Tin nhắn gốc được tìm thấy, nhưng không tải dược. Cuộn lên để tải nó.",
+        "message": "Đã tìm thấy tin nhắn gốc, nhưng không tải dược. Cuộn lên để tải nó.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Một ghi chú thoại phải là tệp đính kèm duy nhất có trong một tin nhắn.",
+        "message": "Ghi chú thoại phải là tập tin đính kèm duy nhất có trong một tin nhắn.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
@@ -776,7 +780,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Đáp lại $name$",
+        "message": "Đang trả lời cho $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -786,15 +790,15 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Để gửi tệp tin âm thanh, hãy chắc rằng Signal Desktop được phép truy cập micro",
+        "message": "Để gửi tập tin âm thanh, hãy chắc chắn rằng Signal Desktop được phép truy cập micro.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Try cập cho phép",
+        "message": "Cho phép Truy cập",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Hiển thị cài đặt",
+        "message": "Hiển thị Cài đặt",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
@@ -810,19 +814,19 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Không thể nâng cấp",
+        "message": "Không thể Cập nhật",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop không thể nâng cấp, nhưng đã có phiên bản mới. Vui lòng truy cập https://signal.org/download và cài đặt phiên bản mới theo cách thủ công, sau đó liên hệ với bộ phận hỗ trợ hoặc gửi thông báo lỗi về vấn đề này.",
+        "message": "Không thể cập nhật Signal Desktop, nhưng đã có phiên bản mới. Vui lòng truy cập https://signal.org/download và cài đặt phiên bản mới theo cách thủ công, sau đó liên hệ với bộ phận hỗ trợ hoặc gửi thông báo lỗi về vấn đề này.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop có vẻ trong một khu vực cách ly macOS và sẽ không thể tự động cập nhật. Vui lòng thử di chuyển Signal.app tới / Ứng dụng với Công cụ tìm kiếm",
+        "message": "Signal Desktop có vẻ như đang bị cách ly với macOS và sẽ không thể tự động cập nhật. Vui lòng thử di chuyển Signal.app tới /Ứng dụng với Công cụ tìm kiếm.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
-        "message": "Đồng ý",
+        "message": "OK",
         "description": ""
     },
     "cancel": {
@@ -830,7 +834,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Không thể gửi đến một số người nhận. Kiểm tra kết nối mạng của bạn.",
+        "message": "Không gửi được đến một số người nhận. Kiểm tra kết nối mạng của bạn.",
         "description": ""
     },
     "error": {
@@ -838,7 +842,7 @@
         "description": ""
     },
     "messageDetail": {
-        "message": "Chi tiết tin nhắn",
+        "message": "Chi tiết Tin nhắn",
         "description": ""
     },
     "delete": {
@@ -846,11 +850,11 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Bạn chắc chứ ? Nhấn 'xóa' sẽ xóa vĩnh viễn tin nhắn từ thiết bị này.",
+        "message": "Bạn có chắc không? Nhấp vào 'xóa' sẽ chỉ xóa vĩnh viễn tin nhắn này khỏi thiết bị này.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "xóa tin nhắn này",
+        "message": "Xóa tin nhắn này",
         "description": ""
     },
     "from": {
@@ -858,8 +862,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "tới",
+        "message": "Đến",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "đến",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "Đã gửi",
@@ -874,27 +882,27 @@
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Thành viên",
+        "message": "Thành viên nhóm",
         "description": ""
     },
     "showMembers": {
-        "message": "Đưa ra thành viên",
+        "message": "Hiển thị thành viên",
         "description": ""
     },
     "resetSession": {
-        "message": "Đăng nhập lại",
+        "message": "Thiết lập lại phiên",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Xem mã số an toàn",
+        "message": "Xem số an toàn",
         "description": ""
     },
     "viewAllMedia": {
-        "message": "Xem tất cả đa phương tiện",
+        "message": "Xem tất cả tập tin đa phương tiện",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Nếu bạn muốn xác minh tính bảo mật của mã hóa đầu cuối của mình với $name$, hãy so sánh các số trên với các số trên thiết bị của họ. ",
+        "message": "Nếu bạn muốn xác minh tính bảo mật của mã hóa hai chiều của mình với $name$, hãy so sánh các số trên với các số trên thiết bị của họ.",
         "description": "",
         "placeholders": {
             "name": {
@@ -904,19 +912,19 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Bạn chưa trao đổi tin nhắn nào với liên hệ này.  Số an toàn của bạn sẽ có sau tin nhắn đầu tiên.",
+        "message": "Bạn chưa trao đổi tin nhắn nào với liên hệ này. Số an toàn của bạn với họ sẽ được cung cấp sau tin nhắn đầu tiên.",
         "description": ""
     },
     "moreInfo": {
-        "message": "Thêm thông tin",
+        "message": "Thông tin khác...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Gửi lại",
+        "message": "Thử Gửi lại",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Xóa tin nhắn",
+        "message": "Xóa Tin nhắn",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -928,7 +936,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Khởi tạo lại phiên làm việc bảo mật",
+        "message": "Thiết lập lại phiên bảo mật",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
@@ -940,19 +948,19 @@
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Hình chụp của video đã được đính kèm tới tin nhắn",
+        "message": "Hình chụp của video đã được đính kèm vào tin nhắn",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Hình đã được gửi từ cuộc hội thoại",
+        "message": "Hình đã được gửi vào cuộc trò chuyện",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Biểu tượng cho thấy hình ảnh này có chú thích",
+        "message": "Biểu tượng cho biết hình ảnh này có chú thích",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Thêm tiêu đề...",
+        "message": "Thêm chú thích...",
         "description": ""
     },
     "save": {
@@ -960,7 +968,7 @@
         "description": ""
     },
     "fileIconAlt": {
-        "message": "Tệp tin biểu tượng",
+        "message": "Biểu tượng tập tin",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -968,11 +976,11 @@
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Sự riêng tư là có thể. Signal khiến điều đó trở nên dễ dàng.",
+        "message": "Sự riêng tư là khả thi. Signal khiến điều đó trở nên dễ dàng.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Kết nối điện thoại của bạn tới Signal Desktop",
+        "message": "Liên kết điện thoại của bạn với Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -980,15 +988,15 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Thiết bị đã liên kết",
+        "message": "Các thiết bị Được liên kết",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+' Nút",
+        "message": "Nút '+'",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Liên kết thiết bị mới",
+        "message": "Liên kết Thiết bị Mới",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
@@ -996,27 +1004,27 @@
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Chọn tên thiết bị này",
+        "message": "Chọn tên cho thiết bị này",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Hoàn tất kết nối điện thoại",
+        "message": "Hoàn tất liên kết điện thoại",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Đồng bộ liên lạc và nhóm",
+        "message": "Đồng bộ các liên lạc và nhóm",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Kết nối đến máy chủ thất bại.",
+        "message": "Không thể kết nối đến máy chủ.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Rất tiếc, bạn có quá nhiều thiết bị đã được kết nối. Thử gỡ bỏ vài thiết bị.",
+        "message": "Rất tiếc, bạn có quá nhiều thiết bị đã được liên kết. Hãy thử gỡ bỏ vài thiết bị.",
         "description": ""
     },
     "settings": {
-        "message": "Các cài đặt",
+        "message": "Cài đặt",
         "description": "Menu item and header for global settings"
     },
     "theme": {
@@ -1036,7 +1044,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Cho phép kiểm tra chính tả văn bản được nhập trong hộp soạn thư",
+        "message": "Bật kiểm tra chính tả văn bản được nhập trong hộp soạn tin nhắn",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
@@ -1044,7 +1052,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Điều này sẽ xóa tất cả dữ liệu trong ứng dụng, xóa tất cả các tin nhắn và thông tin tài khoản đã lưu.",
+        "message": "Thao tác này sẽ xóa tất cả dữ liệu trong ứng dụng, xóa tất cả các tin nhắn và thông tin tài khoản đã lưu.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1056,7 +1064,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Bạn sắp xóa tất cả thông tin tài khoản đã lưu của ứng dụng này, bao gồm tất cả các liên hệ và tất cả các tin nhắn. Bạn luôn có thể liên kết lại với thiết bị di động của mình, nhưng điều đó sẽ không khôi phục các tin nhắn đã xóa.",
+        "message": "Bạn sắp xóa tất cả thông tin tài khoản đã lưu của ứng dụng này, bao gồm tất cả các liên hệ và tất cả các tin nhắn. Bạn luôn có thể liên kết lại với thiết bị di động của mình, nhưng điều đó sẽ giúp không khôi phục các tin nhắn đã xóa.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1064,7 +1072,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Ngưng kết nối và xóa toàn bộ dữ liệu",
+        "message": "Ngắt kết nối và xóa toàn bộ dữ liệu",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
@@ -1072,11 +1080,11 @@
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Khi tin nhắn đến, hiện thị các thông báo thể hiện:",
+        "message": "Khi tin nhắn đến, hiển thị các thông báo thể hiện:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Vô hiệu hóa thông báo",
+        "message": "Tắt thông báo",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -1084,35 +1092,35 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Không hiện tên cũng như tin nhắn",
+        "message": "Không hiển thị tên cũng như tin nhắn",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Chỉ tên người gửi",
+        "message": "Chỉ hiển thị tên người gửi",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Tin nhắn mới",
+        "message": "Tin nhắn Mới",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "Các tin nhắn mới",
+        "message": "Các tin nhắn Mới",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Gần đây nhất từ :",
+        "message": "Gần đây nhất từ:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "Từ",
+        "message": "Từ:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Gần đây nhất :",
+        "message": "Gần đây nhất:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Gửi thất bại",
+        "message": "Không gửi được",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
@@ -1124,7 +1132,7 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Tìm hiểu thêm về xác nhận các số-an-toàn.",
+        "message": "Tìm hiểu thêm về việc xác minh các số an toàn",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
@@ -1136,15 +1144,15 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Tin nhắn đa phương tiện",
+        "message": "Tin nhắn Đa phương tiện",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Số điện thoại chưa đăng ký",
+        "message": "Số chưa đăng ký",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Liên hệ",
+        "message": "Danh bạ",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1156,19 +1164,19 @@
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Nhập ngay bây giờ",
+        "message": "Nhập ngay",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Đăng nhập",
+        "message": "Đang nhập...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Nhập thất bại. Chắc chắn rằng máy tính và điện thoại của bạn đã kết nối internet.",
+        "message": "Nhập không thành công. Hãy chắc chắn rằng máy tính và điện thoại của bạn đã kết nối internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "hiện tại",
+        "message": "vừa xong",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
@@ -1179,18 +1187,8 @@
         "message": "1 giờ",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ giờ",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "$hours$ giờ trước",
+        "message": "$hours$ giờ ",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ phút",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "$minutes$ phút trước",
+        "message": "$minutes$ phút",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1220,7 +1208,7 @@
         }
     },
     "justNow": {
-        "message": "hiện tại",
+        "message": "vừa xong",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -1232,15 +1220,15 @@
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Mở khóa người (liên lạc) này để gởi thông báo.",
+        "message": "Bỏ chặn người (liên lạc) này để gửi tin nhắn.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Bỏ chặn nhóm này để gửi một tin nhắn.",
+        "message": "Bỏ chặn nhóm này để gửi tin nhắn.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Bạn đặt hẹn giờ để tin nhắn biến $time$",
+        "message": "Bạn đã đặt thời gian để tin nhắn biến mất là $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1250,7 +1238,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Cập nhật hẹn giờ tin nhắn để biến mất $time$",
+        "message": "Thời gian để tin nhắn được cập nhật thành $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1260,7 +1248,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ đặt bộ hẹn giờ tin nhắn biến mất thành $time$",
+        "message": "$name$ đã đặt thời gian để tin nhắn biến mất là $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1274,7 +1262,7 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "Tắt",
+        "message": "tắt",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
@@ -1326,7 +1314,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "Tắt",
+        "message": "tắt",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
@@ -1374,11 +1362,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Tin nhắn tự hủy đã được vô hiệu hóa",
+        "message": "Đã tắt tin nhắn tạm thời",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ tin nhắn đã biến mất",
+        "message": "$name$ đã tắt tin nhắn tạm thời",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1388,11 +1376,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Bạn đã tắt chế độ tin nhắn biến mất",
+        "message": "Bạn đã tắt chế độ tin nhắn tạm thời",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Thời gian thiết lập đến $time$",
+        "message": "Thời gian được đặt thành $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1406,11 +1394,11 @@
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Số an toàn đã được thay đổi",
+        "message": "Số An toàn đã được thay đổi",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Số an toàn với $name$ đã đổi",
+        "message": "Số An toàn với $name$ đã thay đổi",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1420,11 +1408,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Số an toàn",
+        "message": "Xác minh Số An toàn",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Số an toàn của bạn $name$ :",
+        "message": "Số an toàn của bạn với $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1446,11 +1434,11 @@
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Ghi lại",
+        "message": "Ghi chú",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
-        "message": "Ẩn bảng chọn",
+        "message": "Ẩn thanh menu",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
@@ -1458,15 +1446,15 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Nhập số điện thoại để thêm một liên hệ",
+        "message": "Nhập số điện thoại để thêm một liên hệ.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Số không chính xác",
+        "message": "Số không hợp lệ",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Kết nối lại Signal Desktop tới thiết bị di động cảu bạn để tiếp tục tin nhắn.",
+        "message": "Liên kết lại Signal Desktop với thiết bị di động của bạn để tiếp tục nhắn tin.",
         "description": ""
     },
     "unlinked": {
@@ -1478,15 +1466,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Bản nâng cấp Signal có sẵn",
+        "message": "Bản cập nhật Signal có sẵn",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Đây là một bản nâng cấp Signal mới có sẵn.",
+        "message": "Có sẵn phiên bản Signal mới.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Nhấn Khởi động lại Signal để áp dụng bản nâng cấp.",
+        "message": "Nhấn Khởi động lại Signal để áp dụng bản cập nhật.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -1498,7 +1486,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ rời nhóm",
+        "message": "$name$ đã rời nhóm",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1508,7 +1496,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ rời nhóm",
+        "message": "$name$ đã rời nhóm",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1518,7 +1506,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Đã cập nhật nhóm",
+        "message": "Nhóm được cập nhật",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -1532,7 +1520,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ đã gia nhập nhóm ",
+        "message": "$name$ đã gia nhập nhóm",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1542,7 +1530,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ đã gia nhập nhóm ",
+        "message": "$names$ đã gia nhập nhóm",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1560,23 +1548,27 @@
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getDescription--unsupported-message": {
-        "message": "Tin nhắn không hỗ trợ",
+        "message": "Tin nhắn không được hỗ trợ",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "Ảnh tự huỷ",
+        "message": "Tin nhắn hình ảnh Tạm thời",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
+    "message--getDescription--disappearing-video": {
+        "message": "Tin nhắn video Tạm thời",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
     "stickers--toast--InstallFailed": {
-        "message": "Gói sticker không thể được cài đặt",
+        "message": "Không thể cài đặt bộ nhãn dán",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Các nhãn dán đã cài",
+        "message": "Các nhãn dán đã Cài đặt",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "Chưa có nhãn dán nào được cài",
+        "message": "Không có nhãn dán nào được cài đặt",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
@@ -1584,15 +1576,15 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Không có nhãn dán Nghệ sĩ Signal có sẵn",
+        "message": "Không có sẵn nhãn dán Nghệ sĩ Signal",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Nhãn dán nhận được",
+        "message": "Các Nhãn dán Bạn Đã nhận được",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Nhãn dán từ tin nhắn sẽ được hiển thị ở đây",
+        "message": "Nhãn dán từ các tin nhắn đến sẽ xuất hiện ở đây",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -1604,23 +1596,23 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Bạn không thể cài đặt lại gói nhãn dán này nếu bạn không còn thông báo nguồn.",
+        "message": "Bạn không thể cài đặt lại bộ nhãn dán này nếu bạn không còn tin nhắn nguồn.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Nhãn gián giới thiệu",
+        "message": "Giới thiệu Nhãn gián",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "Tại sao không thể sử dụng từ ngữ khi bạn đang sử dụng nhãn dán",
+        "message": "Tại sao phải sử dụng từ ngữ khi mà bạn có thể sử dụng nhãn dán?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Một vài nhãn dán đã không thể tải xuống",
+        "message": "Một vài nhãn dán đã không thể tải xuống.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Cài đặt gói nhãn dán..",
+        "message": "Cài đặt bộ nhãn dán...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -1628,31 +1620,31 @@
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Gói sticker mới từ tin nhắn của bạn có sẵn để cài đặt",
+        "message": "Bộ nhãn dán mới từ tin nhắn của bạn có sẵn để cài đặt",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Không tìm thấy gói nhãn dán ",
+        "message": "Không tìm thấy bộ nhãn dán ",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Nhãn dán được sử dụng gần đây sẽ xuất hiện ở đây.",
+        "message": "Các nhãn dán mói được sử dụng sẽ xuất hiện ở đây.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Gói nhãn dán",
+        "message": "Bộ Nhãn dán",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Lỗi mở gói sticker. Kiểm tra kết nối internet của bạn và thử lại.",
+        "message": "Lỗi khi mở bộ nhãn dán. Kiểm tra kết nối internet của bạn và thử lại.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Không tìm thấy emoji",
+        "message": "Không tìm thấy biểu tượng cảm xúc",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Tìm kiếm Nhãn dán",
+        "message": "Tìm kiếm Biểu tượng cảm xúc",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -1666,11 +1658,11 @@
         }
     },
     "confirmation-dialog--Cancel": {
-        "message": "Hủy bỏ",
+        "message": "Hủy",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ đã gửi cho bạn một tin nhắn không thể xử lý hoặc hiển thị vì nó sử dụng tính năng Signal mới.",
+        "message": "$contact$ đã gửi cho bạn một tin nhắn nhưng không thể xử lý hoặc hiển thị vì sử dụng tính năng Signal mới.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1680,7 +1672,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Bạn có thể yêu cầu $contact$ gửi lại tin nhắn này ngay bây giờ rằng bạn đang sử dụng phiên bản Signal mới cập nhật.",
+        "message": "Bạn có thể yêu cầu $contact$ gửi lại tin nhắn này khi bạn đang sử dụng phiên bản Signal mới cập nhật.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1690,15 +1682,15 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Một trong những thiết bị của bạn đã gửi một tin nhắn không thể xử lý hoặc hiển thị vì nó sử dụng tính năng Signal mới.",
+        "message": "Một trong những thiết bị của bạn đã gửi một tin nhắn không thể xử lý hoặc hiển thị vì sử dụng tính năng Signal mới.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Các tin nhắn trong tương lai như thế này sẽ được đồng bộ hóa ngay bây giờ khi bạn đang sử dụng phiên bản  Signal cập nhật",
+        "message": "Các tin nhắn như thế này trong tương lai sẽ được đồng bộ hóa khi bạn đang sử dụng phiên bản  Signal cập nhật.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Nâng cấp Signal",
+        "message": "Cập nhật Signal",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
@@ -1706,23 +1698,27 @@
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Ảnh",
+        "message": "Đa phương tiện",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Xem ảnh",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "Ảnh",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "Video",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(attachment)",
+        "message": "(tập tin đính kèm)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(quote)",
+        "message": "(trích dẫn)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(draft)",
+        "message": "(nháp)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {

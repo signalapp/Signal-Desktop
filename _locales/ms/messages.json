@@ -1,18 +1,18 @@
 {
     "copyErrorAndQuit": {
-        "message": "Kopeeri tõrke tekst ja välju",
+        "message": "Ralat menyalin dan berhenti",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownGroup": {
-        "message": "Tundmatu grupp",
+        "message": "Kumpulan tidak diketahui",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Andmebaasi tõrge",
+        "message": "Ralat pangkalan data",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Kustuta kõik andmed ja taaskäivita",
+        "message": "Padam semua dan mula semula",
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
@@ -20,143 +20,143 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Muuda",
+        "message": "&Edit",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Vaade",
+        "message": "&Lihat",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "&Aken",
+        "message": "%Tetingkap",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "A&bi",
+        "message": "&Bantu",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Eelistused...",
+        "message": "Pilihan...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Peida",
+        "message": "Sembunyikan",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Peida teised",
+        "message": "Sembunyikan lain-lain",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Näita kõiki",
+        "message": "Papar semua",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Välju Signalist",
+        "message": "Keluar Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Võta tagasi",
+        "message": "Buat asal",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Tee uuesti",
+        "message": "Buat semula",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Lõika",
+        "message": "Potong",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Kopeeri",
+        "message": "Salin",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Aseta",
+        "message": "Tampal",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Aseta ja sobita stiiliga",
+        "message": "Tampal dan Padankan Gaya",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Kustuta",
+        "message": "Padam",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Vali kõik",
+        "message": "Pilih Semua",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Alusta rääkimist",
+        "message": "Mula bercakap",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Lõpeta rääkimine",
+        "message": "Henti bercakap",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Sulge aken",
+        "message": "Tutup tetingkap",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimeeri",
+        "message": "Meminimumkan",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Suurenda",
+        "message": "Zum",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Too kõik ette",
+        "message": "Bawakan Semua Ke Hadapan",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Tegelik suurus",
+        "message": "Saiz Sebenar",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Suurenda",
+        "message": "Zum ke dalam ",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Vähenda",
+        "message": "Zum Masuk",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Lülita täisekraanirežiimi",
+        "message": "Togol Skrin Penuh",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Lülita arendusvahendid sisse/välja",
+        "message": "Togol Alat Pembangunan",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Seadista importimise abil",
+        "message": "Pasang dengan Import",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Seadista uue seadmena",
+        "message": "Pasang sebagai Peranti Baru",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Seadista iseseisva seadmena",
+        "message": "Pasang sebagai Peranti kendiri",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "avatarMenuViewArchive": {
-        "message": "View Archive",
+        "message": "Lihat Arkib",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Laadimine...",
+        "message": "Memuatkan...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Rakenduse optimeerimine...",
+        "message": "Aplikasi Pengoptimum",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Sõnumite optimeerimine... $status$ tehtud.",
+        "message": "Mesej pengoptimum...$status$ selesai.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -166,83 +166,83 @@
         }
     },
     "archivedConversations": {
-        "message": "Arhiveeritud vestlused",
+        "message": "Perbualan Diarkibkan",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "Need vestlused on arhiveeritud ja ilmuvad sisendkausta, kui saabub uusi sõnumeid.",
+        "message": "Perbualan ini diarkibkan dan hanya akan muncul dalam Peti Masuk jika mesej baru diterima.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arhiveeri vestlus",
+        "message": "Arkib Perbualan",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Teisalda vestlus postkasti",
+        "message": "Alihkan Perbualan ke Peti Masuk",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
-        "message": "Vali kaust",
+        "message": "Memilih folder",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Vali fail",
+        "message": "Memilih fail",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Sinu andmete laadimine",
+        "message": "Muat data anda",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Sa läbisid just eksportimisprotsessi ja sinu kontaktid ning sõnumid ootavad nüüd kannatlikult arvutis. Vali kaust, mis sisaldab sinu salvestatud Signali andmeid.",
+        "message": "Anda baru sahaja melalui proses eksport, dan kenalan dan mesej anda menunggu dengan sabar di komputer anda. Pilih folder yang mengandungi data Signal yang anda menyimpan.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Vali eksporditud andmetega kataloog",
+        "message": "Pilih direktori dengan data dieksport",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Midagi läks valesti!",
+        "message": "Ada yang salah!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Kontaktide ja sõnumite laadimine",
+        "message": "Memuatkan kenalan dan mesej",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Ole kindel, et oled valinud õige kataloogi, mis sisaldab sinu salvestatud Signali andmeid. Selle nimi peaks algama fraasiga \"Signal Export\". Sul on võimalik salvestada andmetest ka uus koopia rakendusest Chrome App.",
+        "message": "Pastikan anda telah memilih direktori betul yang mengandungi data Signal anda yang disimpan. Namanya hendaklah bermula dengan 'Eksport Signal.' Anda juga boleh menyimpan salinan baru data anda dari Aplikasi Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Kui need sammud ei aita, siis saada palun silumisinfo (Vaade->Silumisinfo), et saaksime aidata sul migreerumine lõpule viia!",
+        "message": "Jika langkah-langkah ini tidak berfungsi untuk anda, sila serahkan log debug (Lihat -> Debug Log) supaya kami dapat membantu anda mendapatkan migrasi!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Vali kaust ja proovi uuesti",
+        "message": "Pilih folder dan cuba lagi",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Õnnestus!",
+        "message": "Berjaya!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Alusta Signal Desktopi kasutamist",
+        "message": "Mula menggunakan Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Ühenda see seade enda telefoniga",
+        "message": "Memaut peranti ini pada telefon anda",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "sinu valitud asukoht",
+        "message": "lokasi dipilih anda",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Andmebaasi uuendamine. See võib võtta pisut aega...",
+        "message": "Menaik taraf pangkalan data. Ini akan mengambil sedikit masa...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Sõnumite laadimine, siiamaani $count$...",
+        "message": "Memuatkan mesej. $count$ setakat ini...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -252,31 +252,31 @@
         }
     },
     "me": {
-        "message": "Mina",
+        "message": "Saya",
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "Näita",
+        "message": "Lihat",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Sa lahkusid grupist",
+        "message": "Anda telah keluar kumpulan",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Keri vestluse lõppu",
+        "message": "Tatal ke bawah perbualan",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
-        "message": "Allpool on uued sõnumid",
+        "message": "Mesej-mesej baru di bawah",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 lugemata sõnum",
+        "message": "1 Mesej Belum Dibaca",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ lugemata sõnumit",
+        "message": "$count$ Mesej Belum Dibaca",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -286,7 +286,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "Sa märkisid turvanumbri kasutajaga $name$ kinnitatuks.",
+        "message": "Anda telah menandakan sah kepada nombor keselamatan anda dengan $name$.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -296,7 +296,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Sa märkisid turvanumbri kasutajaga $name$ mittekinnitatuks",
+        "message": "Anda telah menandakan tak sah kepada nombor keselamatan anda dengan $name$.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -306,7 +306,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Sa märkisid teisest seadmest turvanumbri kasutajaga $name$ kinnitatuks.",
+        "message": "Anda telah menandakan sah kepada nombor keselamatan anda dengan $name$ dari peranti lain",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -316,7 +316,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Sa märkisid teisest seadmest turvanumbri kasutajaga $name$ mittekinnitatuks",
+        "message": "Anda telah menandakan tak sah kepada nombor keselamatan anda dengan $name$ dari peranti lain",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -326,15 +326,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Sinu turvanumbrid selle grupi liikmetega on muutunud ajast, kui viimati kinnitasid. Klõpsa grupi liikmel uue turvanumbri nägemiseks.",
+        "message": "Nombor keselamatan anda dengan ahli-ahli kumpulan ini telah berubah sejak sah terakhir anda. Klik ahli kumpulan untuk melihat nombor keselamatan anda dengan mereka.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Sinu turvanumbrid mitme selle grupi liikmega on muutunud ajast, kui viimati kinnitasid. See võib tähendada, et keegi püüab sinu suhtlust pealt kuulata või nad lihtsalt paigaldasid Signali uuesti.",
+        "message": "Nombor keselamatan anda dengan pelbagai ahli-ahli kumpulan telah berubah sejak sah terakhir anda. Ini bermaksud sama ada seseorang sedang mencuba untuk memintas komunikasi anda atau mereka cuma memasang semula Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud ajast, kui viimati kinnitasid. See võib tähendada, et keegi püüab sinu suhtlust pealt kuulata või on $name$ lihtsalt Signali uuesti paigaldanud.",
+        "message": "Nombor keselamatan anda dengan $name$ telah berubah sejak sah terakhir anda. Ini bermaksud sama ada seseorang sedang mencuba untuk memintas komunikasi anda atau $name$ cuma memasang semula Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +344,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Turvanumber, mida püüad kinnitada, on muutunud. Palun vaata üle uus turvanumber kasutajaga $name$. Jäta meelde, et see muudatus võib tähendada, et keegi püüab teie suhtlust pealt kuulata või on $name$ lihtsalt Signali uuesti paigaldanud.",
+        "message": "Nombor keselamatan yang anda cuma sahkan telah berubah. Sila semak semula nombor keselamatan baru anda dengan $name$. Ingat, ini bermaksud sama ada seseorang sedang mencuba untuk memintas komunikasi anda atau $name$ cuma memasang semula Signal. ",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +354,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Sinu turvanumbrid mitme grupiliikmega on hiljuti muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et nad on lihtsalt Signali uuesti paigaldanud.",
+        "message": "Nombor keselamatan anda dengan pelbagai ahli-ahli kumpulan telah berubah baru-baru ini. Ini bermaksud sama ada seseorang sedang mencuba untuk memintas komunikasi anda atau mereka cuma memasang semula Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Sinu turvanumber kasutajaga $name$ on hiljuti muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et $name$ on lihtsalt Signali uuesti paigaldanud.",
+        "message": "Nombor keselamatan anda dengan $name$ telah berubah baru-baru ini. Ini bermaksud sama ada seseorang sedang mencuba untuk memintas komunikasi anda atau $name$ cuma memasang semula Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et $name$ on lihtsalt Signali uuesti paigaldanud. Kontrolli enda turvakoodi selle kontaktiga.",
+        "message": "Nombor keselamatan anda dengan $name$ telah berubah. Ini bermaksud sama ada seseorang sedang mencuba untuk memintas komunikasi anda atau $name$ cuma memasang semula Signal. Anda mungkin ingin mengesahkan nombor keselamatan anda dengan kenalan ini.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -378,11 +378,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Saada ikkagi",
+        "message": "Hantar Juga",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud ja ei ole enam kinnitatud. Klõpsa nägemiseks.",
+        "message": "Nombor keselamatan anda dengan $name$ telah ditukar dan tidak lagi disahkan. Klik untuk memaparkan.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -392,43 +392,43 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Sinu turvanumber mitme selle grupi liikmega on muutunud ja ei ole enam kinnitatud. Klõpsa nägemiseks.",
+        "message": "Nombor keselamatan dengan pelbagai ahli-ahli pada kumpulan ini telah berubah dan tidak lagi disah. Klik untuk dipapar.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "See logi postitatakse avalikult internetti kaastöötajatele nägemiseks. Kontrolli üle ja vajadusel muuda enne postitamist.",
+        "message": "Log ini akan dihantarskan secara terbuka dalam talian untuk penyumbang lihat, anda boleh memeriksa dan mengeditnya sebelum menghantar.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Midagi läks üleslaadimisega kehvasti! Palun lisa logifailid sellele raportile käsitsi.",
+        "message": "Sesuatu yang tidak kena berlaku dengan muat naik! Sila pertimbangkan menambah log anda secara manual pada bug anda menfail.",
         "description": ""
     },
     "reportIssue": {
-        "message": "Teavita probleemist",
+        "message": "Laporkan isu",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Sain aru!",
+        "message": "Faham!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Postita",
+        "message": "Hantar",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Nõustun",
+        "message": "Terima",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Märgi kinnitatuks",
+        "message": "Tanda sebagai disahkan",
         "description": ""
     },
     "unverify": {
-        "message": "Märgi mittekinnitatuks",
+        "message": "Tanda sebagai tidah disahkan",
         "description": ""
     },
     "isVerified": {
-        "message": "Sa oled kinnitanud enda turvanumbri kasutajaga $name$.",
+        "message": "Anda telah menentusahkan nombor keselamatan anda dengan $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -438,7 +438,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Sa ei ole kinnitanud enda turvanumbri kasutajaga $name$.",
+        "message": "Anda tidak menentusahkan nombor keselamatan anda dengan $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -448,79 +448,79 @@
         }
     },
     "verified": {
-        "message": "Kontrollitud",
+        "message": "Disahkan",
         "description": ""
     },
     "newIdentity": {
-        "message": "Uus turvanumber",
+        "message": "Nombor selamat baru",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Sinu turvanumber selle kontaktiga on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et see kontakt on lihtsalt Signali uuesti paigaldanud. Kontrolli uut turvakoodi allpool.",
+        "message": "Nombor keselamatan dengan kenalan ini telah berubah. Ini bermaksud sama ada seseorang sedang mencuba untuk memintas komunikasi anda atau kenalan ini cuma memasang semula Signal. Anda mungkin ingin mengesahkan nombor keselamatan baru di bawah ini.",
         "description": ""
     },
     "incomingError": {
-        "message": "Sissetuleva sõnumi käsitlemisel tekkis tõrge.",
+        "message": "Ralat mengendalikan mesej masuk",
         "description": ""
     },
     "media": {
-        "message": "Meedia",
+        "message": "Media",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Selles vestluses pole meediaelemente",
+        "message": "Anda tidak mempunyai sebarang media dalam perbualan ini",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Dokumendid",
+        "message": "Dokumen",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Selles vestluses pole dokumente",
+        "message": "Anda tidak mempunyai sebarang dokumen dalam perbualan ini",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Täna",
+        "message": "Hari ini",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Eile",
+        "message": "Semalam",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "See nädal",
+        "message": "Minggu ini",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "See kuu",
+        "message": "Bulan Ini",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Mittetoetatud manuse tüüp. Klõpsa salvestamiseks.",
+        "message": "Jenis lampiran yang tidak disokong. Klik untuk menyimpan.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Salvestamiseks klõpsa",
+        "message": "Klik untuk menyimpan",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Nimeta fail",
+        "message": "Fail tidak dinamakan",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Häälsõnum",
+        "message": "Mesej Suara",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Manuse tüüp pole turvakaalutlustel lubatud.",
+        "message": "Lampiran tidak dibenarkan atas sebab keselamatan",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Eelvaate laadimine...",
+        "message": "Memuatkan pratonton...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Lingi eelvaate pisipildi mustand: $domain$",
+        "message": "Pratonton pautan draf lakaran kecil untuk $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -530,7 +530,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Lingi eelvaate pisipilt: $domain$",
+        "message": "Pautan lakaran kecil untuk $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -540,7 +540,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Piltmanuse mustand: $path$",
+        "message": "Draf lampiran imej:$path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -550,43 +550,43 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Mittepildilisi manuseid sõnumile lisades kehtiv ühe manuse piirang.",
+        "message": "Apabila termasuk lampiran bukan imej, had adalah satu lampiran bagi setiap mesej.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "Piltmanuseid ja teisi manuseid ei saa koos ühte sõnumisse panna.",
+        "message": "Anda tidak boleh menggabungkan lampiran bukan imej dan imej dalam satu mesej.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Sellele sõnumile pole võimalik rohkem manuseid lisada.",
+        "message": "Anda tidak boleh menambah lampiran lagi pada mesej ini.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu.",
+        "message": "Maaf, fail yang dipilih melebihi sekatan saiz mesej.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Valitud manuse laadimine ei õnnestunud.",
+        "message": "Tidak dapat memuat lampiran yang dipilih.",
         "description": ""
     },
     "disconnected": {
-        "message": "Ühendus katkestatud",
+        "message": "Terputus sambungan",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Ühendamine",
+        "message": "Menyambung",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Ühenduseta",
+        "message": "Luar talian",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Kontrolli enda võrguühendust.",
+        "message": "Semak sambungan rangkaian anda.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
-        "message": "$reconnect_duration_in_seconds$ sekundi pärast proovitakse uuesti ühenduda.",
+        "message": "Cuba menyambung semula dalam $reconnect_duration_in_seconds$saat",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -596,51 +596,51 @@
         }
     },
     "submitDebugLog": {
-        "message": "Silumisinfo",
+        "message": "Log Debug",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Silumisinfo",
+        "message": "Log Debug",
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Mine väljalaskemärkmete juurde",
+        "message": "Pergi ke Nota Keluaran",
         "description": ""
     },
     "goToForums": {
-        "message": "Mine foorumitesse",
+        "message": "Pergi ke Forum",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Mine kasutajatoelehele",
+        "message": "Pergi ke Halaman Sokongan",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Teavita probleemist",
+        "message": "Laporkan Isu",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktopi eelistused",
+        "message": "Pilihan Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Teave Signal Desktopi kohta",
+        "message": "Perihal Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Kõne",
+        "message": "Pertuturan",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Näita",
+        "message": "Papar",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Peida",
+        "message": "Sembunyikan",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Välju",
+        "message": "Henti",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -648,11 +648,11 @@
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "Otsi",
+        "message": "Cari",
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Otsi vestlusest $conversationName$",
+        "message": "Cari dalam $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -662,7 +662,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Tulemusi pole: \"$searchTerm$\"",
+        "message": "Tiada keputusan untuk \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -672,7 +672,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "Vestlusest $conversationName$ ei leitud \"$searchTerm$\"",
+        "message": "Tiada keputusan untuk \"$searchTerm$\" dalam $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -682,31 +682,31 @@
         }
     },
     "conversationsHeader": {
-        "message": "Vestlused",
+        "message": "Perbualan",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Kontaktid",
+        "message": "Kenalan",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Sõnumid",
+        "message": "Mesej",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Tere tulemast Signalisse",
+        "message": "Selamat datang ke Signal",
         "description": ""
     },
     "selectAContact": {
-        "message": "Vali kontakt või grupp ja alusta vestlust.",
+        "message": "Pilih satu kenalan atau kumpulan untuk mula bersembang.",
         "description": ""
     },
     "typingAlt": {
-        "message": "Selle vestluse sisestuse animatsioon",
+        "message": "Menaip animasi untuk perbualan ini",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Kontakti $name$ pilt",
+        "message": "Avatar untuk kenalan $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -716,71 +716,71 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Saada sõnum",
+        "message": "Hantar Mesej",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "kodu",
+        "message": "halaman utama",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "töö",
+        "message": "kerja",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobiil",
+        "message": "mobil",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "e-post",
+        "message": "emel",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "telefon",
+        "message": "Telefon",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "aadress",
+        "message": "alamat",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "postkast",
+        "message": "PO Box",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Laadin alla",
+        "message": "Memuat turun",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Laadi manus alla",
+        "message": "Muat Turun Lampiran",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Vasta sõnumile",
+        "message": "Balas Mesej",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Algset sõnumit ei leitud",
+        "message": "Mesej asal tidak dijumpai",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Algne sõnum ei ole enam saadaval",
+        "message": "Mesej asal tidak lagi tersedia",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Algne sõnum on leitud, kuid mitte laaditud. Keri üles selle laadimiseks.",
+        "message": "Mesej asal dijumpai, tetapi tidak dimuatkan. Skrol ke atas untuk memuatkannya.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Häälmärkmed peavad olema sõnumi ainuke manus.",
+        "message": "Nota suara mestilah satu-satunya lampiran yang dimasukkan dalam mesej.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
-        "message": "Sina",
+        "message": "Anda",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Vastus kasutajale $name$",
+        "message": "Membalas kepada $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -790,19 +790,19 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Audiosõnumite saatmiseks luba Signal Desktopil mikrofoni kasutada.",
+        "message": "Untuk menghantar mesej audio, benarkan Signal Desktop untuk mengakses mikrofon anda.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Luba ligipääs",
+        "message": "Benarkan capaian",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Näita sätteid",
+        "message": "Paparkan Tetapan",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Audio`",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
@@ -814,95 +814,95 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Ei saa uuendada",
+        "message": "Tidak dapat mengemas kini",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop-i uuendamine ei õnnestunud, aga uus versioon on siiski saadaval. Palun mine aadressile https://signal.org/download ja paigalda uus versioon käsitsi. Seejärel kas võta ühendust kasutajatoega või saada selle probleemi kohta tõrkeraport. ",
+        "message": "Signal Desktop gagal untuk mengemaskini, tetapi mempunyai versi baru yang tersedia. Sila terus ke https://signal.org/download dan pasang versi baru secara manual, kemudian hubungi sokongan atau failkan bug tentang masalah ini.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop on tõenäoliselt macOS-i karantiinis ja pole võimeline automaatselt uuenema. Palun proovi teisaldada Signal.app rakendus Finderi abil /Applications kausta.",
+        "message": "Signal Desktop mungkin dalam kuarantin macOS, dan tidak akan dapat auto-kemas kini. Sila cuba mengalih Signal.app ke /Aplikasi dengan Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
-        "message": "Sobib",
+        "message": "OK",
         "description": ""
     },
     "cancel": {
-        "message": "Loobu",
+        "message": "Batal",
         "description": ""
     },
     "failedToSend": {
-        "message": "Mõnedele saajatele saatmine ei õnnestunud. Kontrolli enda võrguühendust.",
+        "message": "Ralat menghantar kepada sesetengah kenalan. Semak sambungan rangkaian anda.",
         "description": ""
     },
     "error": {
-        "message": "Tõrge",
+        "message": "Ralat",
         "description": ""
     },
     "messageDetail": {
-        "message": "Sõnumi üksikasjad",
+        "message": "Butiran Mesej",
         "description": ""
     },
     "delete": {
-        "message": "Kustuta",
+        "message": "Padam",
         "description": ""
     },
     "deleteWarning": {
-        "message": "Kas sa oled kindel? Klõpsates \"Kustuta\" eemaldatakse see sõnum ainult sellest seadmest.",
+        "message": "Adakah anda pasti? Mengklik 'padam' akan mengalih keluar mesej ini secara kekal dari peranti ini sahaja.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Kustuta see sõnum",
+        "message": "Padam mesej ini",
         "description": ""
     },
     "from": {
-        "message": "Saatja",
+        "message": "Daripada",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Saaja",
+        "message": "Kepada",
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "saajale",
+        "message": "Kepada",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
-        "message": "Saadetud",
+        "message": "Dihantar",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Saadud",
+        "message": "Diterima",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Saada sõnum",
+        "message": "Menghantar mesej",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Grupi liikmed",
+        "message": "Ahli kumpulan",
         "description": ""
     },
     "showMembers": {
-        "message": "Näita liikmeid",
+        "message": "Paparkan ahli",
         "description": ""
     },
     "resetSession": {
-        "message": "Lähtesta seanss",
+        "message": "Tetapkan semula sesi",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Näita turvanumbrit",
+        "message": "Lihat nombor keselamatan",
         "description": ""
     },
     "viewAllMedia": {
-        "message": "Näita kogu meediat",
+        "message": "Lihat semua media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Kui soovid kontrollida kasutajaga $name$ suhtluse krüpteerimist, siis võrdle ülalpool olevaid numbreid numbritega tema seadme ekraanil.",
+        "message": "Jika anda ingin mengesahkan keselamatan penyulitan akhir-ke-akhir anda dengan $name$, bandingkan nombor-nombor di atas ini dengan nombor-nombor pada peranti mereka.",
         "description": "",
         "placeholders": {
             "name": {
@@ -912,271 +912,271 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Sa ei ole selle kontaktiga veel ühtegi sõnumit vahetanud. Sinu turvanumber temaga tekib pärast esimest sõnumit.",
+        "message": "Anda belum bertukar sebarang mesej dengan kenalan ini lagi. Nombor keselamatan anda dengan mereka akan tersedia selepas mesej pertama.",
         "description": ""
     },
     "moreInfo": {
-        "message": "Rohkem teavet...",
+        "message": "Maklumat Lanjut...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Proovi uuesti saata",
+        "message": "Cuba semula menghantar",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Kustuta sõnum",
+        "message": "Padam mesej",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Kustuta sõnumid",
+        "message": "Padam mesej-mesej",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Kas kustutada see vestlus jäädavalt?",
+        "message": "Padam perbualan ini secara kekal?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Turvaseanss lähtestati",
+        "message": "Penetapan semula sesi selamat",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Tsiteeritud sõnumist pärit pildi pisipilt",
+        "message": "Lakaran imej kecil dari mesej yang dipetik",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Pilt lisatud sõnumile",
+        "message": "Imej yang dilampir pada mesej",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Sõnumile lisatud video ekraanipilt",
+        "message": "Tangkapan skrin video yang dilampirkan pada mesej",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Vestluses saadetud pilt",
+        "message": "Imej dihantar dalam perbualan",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Ikoon näitamaks, et sellel pildil on seletus.",
+        "message": "Ikon menunjukkan bahawa imej ini mempunyai kapsyen",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Lisa pealkiri...",
+        "message": "Tambah kapsyen...",
         "description": ""
     },
     "save": {
-        "message": "Salvesta",
+        "message": "Simpan",
         "description": ""
     },
     "fileIconAlt": {
-        "message": "Faili ikoon",
+        "message": "Ikon fail",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Tere tulemast Signal Desktopi kasutama",
+        "message": "Selamat datang ke Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privaatsus on võimalik. Signal teeb selle lihtsaks.",
+        "message": "Privasi mampu dicapai. Signal memudahkannya.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Ühenda telefon Signal Desktopiga",
+        "message": "Pautkan telefon anda pada Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Signali sätted",
+        "message": "Tetapan Signal",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Ühendatud seadmed",
+        "message": "Peranti terpaut",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+'-nupp",
+        "message": "Butang '+'",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Ühenda uus seade",
+        "message": "Paut Peranti Baru",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Seadme nimi",
+        "message": "Nama peranti",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Vali selle seadme nimi",
+        "message": "Pilih nama peranti ini",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Lõpeta telefoni ühendamine",
+        "message": "Selesai memautkan telefon",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Kontaktide ja gruppide sünkimine",
+        "message": "Menyegerak kenalan dan kumpulan",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Ühenduse loomine serverisse ei õnnestunud.",
+        "message": "Gagal menyambung ke pelayan.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Kahjuks on sul juba liiga palju ühendatud seadmeid. Proovi mõni eemaldada.",
+        "message": "Maaf, anda mempunyai terlalu banyak peranti dipautkan, cuba alih keluar beberapa",
         "description": ""
     },
     "settings": {
-        "message": "Sätted",
+        "message": "Tetapan",
         "description": "Menu item and header for global settings"
     },
     "theme": {
-        "message": "Teema",
+        "message": "Tema",
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Õigused",
+        "message": "Kebenaran",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Luba ligipääs kaamerale ja mikrofonile",
+        "message": "Benarkan akses pada kamera dan mikrofon",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "Üldine",
+        "message": "Umum",
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Luba sõnumite kasti teksti õigekirja kontroll",
+        "message": "Dayakan semakan ejaan teks yang dimasukkan dalam kotak komposisi mesej",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Eemalda andmed",
+        "message": "Kosongkan data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Eemaldatakse kõik rakenduse andmed, kustutatakse kõik sõnumid ja salvestatud teave konto kohta.",
+        "message": "Ini akan mengosongkan semua data dalam aplikasi, mengeluarkan semua mesej dan maklumat akaun yang disimpan.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Eemalda andmed",
+        "message": "Kosongkan data",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Kas kustutada kõik andmed?",
+        "message": "Padamkan semua data?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Oled kustutamas rakenduses salvestatud infot, kaasa arvatud kõik kontaktid ja sõnumid. Sul on alati võimalus ühendada nutiseade uuesti, aga see ei taasta kustutatud sõnumeid.",
+        "message": "Anda akan memadam semua maklumat akaun akaun yang disimpan, ini termasuk semua kenalan dan semua mesej. Anda boleh memautkan dengan peranti mudah alih anda, tetapi itu tidak akan memulihkan mesej yang dipadam.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Kustuta kõik andmed",
+        "message": "Padamkan semua data",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Ühenduse lõpetamine ja kõigi andmete kustutamine",
+        "message": "Menyahpautkan dan padamkan semua data",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
-        "message": "Teavitused",
+        "message": "Pemberitahuan",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Kui saabub sõnum, siis kuva teavitusi, mis avaldavad:",
+        "message": "Apabila mesej tiba, paparkan pemberitahuan yang mendedahkan:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Keela teavitused",
+        "message": "Nyahdayakan pemberitahuan",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Nii saatja nime kui sõnumi sisu",
+        "message": "Kedua-dua nama penghantar dan mesej",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Ei nime ega sisu",
+        "message": "Tiada nama atau mesej",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Ainult saatja nime",
+        "message": "Nama penghantar sahaja",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Uus sõnum",
+        "message": "Mesej Baru",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "Uued sõnumid",
+        "message": "Mesej-mesej Baru",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Kõige uuem saatjalt:",
+        "message": "Terbaru daripada:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "Saatjalt:",
+        "message": "Daripada:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Kõige uuem:",
+        "message": "Terbaru:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Saatmine ei õnnestunud",
+        "message": "Penghantaran gagal",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Üksikasjad",
+        "message": "Butiran",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Peida üksikasjad",
+        "message": "Sembunyikan butiran",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Täpsem info turvanumbrite kontrollimise kohta",
+        "message": "Ketahui lebih lanjut mengenai mengesahkan nombor keselamatan",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "See Signal Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks.",
+        "message": "Versi Signal Desktop telah tamat tempoh. Sila naik taraf kepada versi terkini untuk meneruskan pemesejan.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Uuenda",
+        "message": "Naik taraf",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Media Message",
+        "message": "Mesej Media",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Number ei ole registreeritud",
+        "message": "Nombor tidak didaftarkan",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontaktid",
+        "message": "Kenalan",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Impordi kõik Signali grupid ja kontaktid enda nutiseadmest.",
+        "message": "Import semua kumpulan dan kenalan Signal daripada peranti mudah alih anda.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Viimane importimine:",
+        "message": "Import terakhir pada",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Impordi nüüd",
+        "message": "Import sekarang",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importimine...",
+        "message": "Mengimport...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Importimine ei õnnestunud. Kontrolli üle, et arvuti ja telefon oleksid mõlemad ühendatud internetti.",
+        "message": "Gagal mengimport. Pastikan komputer dan telefon anda telah menyambung kepada Internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "nüüd",
+        "message": "sekarang",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
@@ -1184,11 +1184,11 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1h",
+        "message": "1j",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$h",
+        "message": "$hours$ j",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1198,7 +1198,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$m",
+        "message": "$minutes$ m",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1208,27 +1208,27 @@
         }
     },
     "justNow": {
-        "message": "nüüd",
+        "message": "sekarang",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "D. MMM",
+        "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Sõnumi sisu on liiga pikk.",
+        "message": "Isi mesej terlalu panjang",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Sõnumi saatmiseks eemalda selle kontakti blokeering.",
+        "message": "Nyahsekat kenalan ini untuk menghantar mesej.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Sõnumi saatmiseks eemalda selle grupi blokeering.",
+        "message": "Nyahsekat kumpulan ini untuk menghantar mesej",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Sina määrasid kaduvate sõnumite taimeriks $time$",
+        "message": "Anda telah menetapkan pemasa hilang mesej kepada$time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1238,7 +1238,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Kaduvate sõnumite taimer seati väärtusele $time$",
+        "message": "Kemas kini pemasa hilang mesej kepada $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1248,7 +1248,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ seadis kaduvate sõnumite taimeri väärtusele $time$",
+        "message": "$name$ telah menetapkan pemasa hilang mesej kepada$time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1262,59 +1262,59 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "väljas",
+        "message": "mati",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 sekundit",
+        "message": "5 saat",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 sekundit",
+        "message": "10 saat",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 sekundit",
+        "message": "30 saat",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minut",
+        "message": "1 minit",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutit",
+        "message": "5 minit",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutit",
+        "message": "30 minit",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 tund",
+        "message": "1 jam",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 tundi",
+        "message": "6 jam",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 tundi",
+        "message": "12 jam",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 päev",
+        "message": "1 hari",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 nädal",
+        "message": "1 minggu",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Kaduvad sõnumid",
+        "message": "Mesej hilang",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "väljas",
+        "message": "mati",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
@@ -1342,31 +1342,31 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1j",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6j",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12j",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1p",
+        "message": "1d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1ndl",
+        "message": "1w",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Kaduvad sõnumid on keelatud",
+        "message": "Mesej hilang dinyahdayakan",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ keelas kaduvad sõnumid",
+        "message": "$name$ telah menyahdayakan mesej hilang",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1376,11 +1376,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Sa keelasid kaduvad sõnumid",
+        "message": "Anda telah menyahdayakan mesej hilang.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Taimer on määratud: $time$",
+        "message": "Pemasa ditetapkan kepada $time$1",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1390,15 +1390,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Mängi audioteavitust",
+        "message": "Mainkan pemberitahuan audio",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Turvanumber on muutunud",
+        "message": "Nombor keselamatan telah berubah",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Kasutaja $name$ turvanumber on muutunud",
+        "message": "Nombor keselamatan dengan$name$ telah berubah.",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1408,11 +1408,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Kinnita turvanumber",
+        "message": "Sahkan Nombor Keselamatan",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Sinu turvanumber kasutajaga $name$:",
+        "message": "Nombor keselamatan anda dengan $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1422,71 +1422,71 @@
         }
     },
     "themeLight": {
-        "message": "Hele",
+        "message": "Cerah",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Tume",
+        "message": "Gelap",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "Süsteem",
+        "message": "Sistem",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Märkus endale",
+        "message": "Nota untuk Diri Sendiri",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
-        "message": "Peida menüüriba",
+        "message": "Sembunyikan bar menu",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Alusta uut vestlust...",
+        "message": "Mulakan perbualan baru...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Kontakti lisamiseks sisesta telefoninumber.",
+        "message": "Masukkan nombor telefon untuk tambah kenalan.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Vigane number",
+        "message": "Nombor tidak sah",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Sõnumite saatmise jätkamiseks ühenda Signal Desktop nutiseadmega.",
+        "message": "Pautkan semula Signal Desktop ke peranti mudah alih anda untuk terus menghantar mesej.",
         "description": ""
     },
     "unlinked": {
-        "message": "Ühendus eemaldatud",
+        "message": "Dinyahpautkan",
         "description": ""
     },
     "relink": {
-        "message": "Ühenda uuesti",
+        "message": "Pautkan semula",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signali uuendus on saadaval",
+        "message": "Kemas kini Signal tersedia",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signalist on saadaval uus versioon.",
+        "message": "Terdapat versi baru Signal tersedia",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Signal\".",
+        "message": "Tekan Mula Semula untuk gunakan kemas kini.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Taaskäivita Signal",
+        "message": "Mulakan semula Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Hiljem",
+        "message": "Kemudian",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ lahkus grupist",
+        "message": "$name$ telah keluar kumpulan ",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1496,7 +1496,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ lahkusid grupist",
+        "message": "$name$ telah keluar kumpulan ",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1506,11 +1506,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupp on uuendatud",
+        "message": "Kumpulan dikemas kini",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Pealkiri on nüüd '$name$'",
+        "message": "Tajuk sekarang adalah '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1520,7 +1520,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ ühines grupiga",
+        "message": "$name$telah menyertai kumpulan",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1530,7 +1530,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ ühinesid grupiga",
+        "message": "$names$ telah menyertai kumpulan",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1540,115 +1540,115 @@
         }
     },
     "ConversationListItem--draft-prefix": {
-        "message": "Mustand:",
+        "message": "Draf:",
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--stickers": {
-        "message": "Kleepsu sõnum",
+        "message": "Mesej pelekat",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getDescription--unsupported-message": {
-        "message": "Mittetoetatud sõnum",
+        "message": "Mesej tidak disokong",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "Kaduv foto",
+        "message": "Foto hilang",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Disappearing Video",
+        "message": "Video hilang",
         "description": "Shown in notifications and in the left pane when a message is a disappearing video."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Kleepsupaki paigaldamine ei õnnestunud",
+        "message": "Pek pelekat tidak dapat dipasang",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Paigaldatud kleepsud",
+        "message": "Pelekat Dipasang",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "Kleepse pole paigaldatud",
+        "message": "Tiada pelekat dipasang",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Signali artisti seeria",
+        "message": "Siri Artis Signal",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Signal Artist kleepse pole saadaval",
+        "message": "Tiada pelekat Artis Signal tersedia",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Vastuvõetud kleepsud",
+        "message": "Pelekat Yang Anda Terima",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Kleepsud sissetulevatelt sõnumitelt kuvatakse siin",
+        "message": "Pelekat daripada mesej masuk akan muncul di sini",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Paigalda",
+        "message": "Memasang",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Eemalda",
+        "message": "Nyahpasang",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Sa ei saa seda kleepsupakki uuesti paigaldada, kui sul pole enam algsõnumit.",
+        "message": "Anda mungkin tidak dapat memasang semula pek pelekat ini jika anda tidak lagi mempunyai sumber mesej.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Tutvustame kleepse",
+        "message": "Memperkenalkan Pelekat",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "Miks kasutada sõnu, kui saab kasutada kleepse?",
+        "message": "Mengapa menggunakan kata-kata apabila anda boleh menggunakan pelekat?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Mõnede kleepsude allalaadimine ei õnnestunud.",
+        "message": "Sesetengah pelekat tidak dapat dimuat turun.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Kleepsupaki paigaldamine...",
+        "message": "Memasang pek pelekat",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "Kleepse ei leitud",
+        "message": "Tiada pelekat dicari",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Uued kleepsupakid sinu sõnumitest on paigaldamiseks saadaval",
+        "message": "Pek pelekat baru daripada mesej anda sedia dipasang",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Kleepsupakke ei leitud",
+        "message": "Tiada pek pelekat dicari",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Hiljuti kasutatud kleepsud ilmuvad siia.",
+        "message": "Pelekat yang diguna baru-baru ini akan muncul di sini.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Kleepsupakk",
+        "message": "Pek pelekat",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Kleepsupaki avamisel tekkis tõrge. Palun kontrolli enda internetiühendust ja proovi uuesti.",
+        "message": "Ralat membuka pek pelekat. Semak sambungan rangkaian dan cuba lagi.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Emojisid ei leitud",
+        "message": "Tiada emoji dijumpai",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Otsi emojisid",
+        "message": "Cari Emoji",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
-        "message": "$tone$ nahatoon",
+        "message": "Warna kulit $tone$",
         "description": "Shown as a tooltip over the emoji tone buttons.",
         "placeholders": {
             "status": {
@@ -1658,11 +1658,11 @@
         }
     },
     "confirmation-dialog--Cancel": {
-        "message": "Loobu",
+        "message": "Batal",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ saatis sulle sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signal-i uut funktsionaalsust.",
+        "message": "$contact$ telah menghantar anda satu mesej yang tidak dapat diproses atau dipapar kerana ia menggunakan ciri-ciri Signal yang baru.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1672,7 +1672,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Nüüd, kui kasutad Signali uuendatud versiooni, siis palu kontaktil $contact$ sõnum uuesti saata.",
+        "message": "Anda boleh minta $contact$ untuk emnghantar semula mesej sekarang kerana anda menggunakan versi Signal yang dikemas kini.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1682,23 +1682,23 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Üks sinu seadmetest saatis sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signal-i uut funktsionaalsust.",
+        "message": "Salah satu peranti anda telah menghantar satu mesej yang tidak dapat diproses atau dipapar kerana ia menggunakan ciri-ciri Signal yang baru.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Tulevikusõnumid nagu see sünkroniseeritakse nüüd, kui kasutad värskendatud Signal-i versiooni.",
+        "message": "Mesej masa depan seperti ini akan disegerakkan bahawa anda menggunakan versi Signal terkini.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Uuenda Signal-it",
+        "message": "Kemas kini Signal",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Vaadatud",
+        "message": "Dilihat",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Meedia",
+        "message": "Media",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
@@ -1710,19 +1710,19 @@
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(manus)",
+        "message": "(lampiran)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(tsitaat)",
+        "message": "(petikan)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(mustand)",
+        "message": "(draf)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
-        "message": "Tingimused ja privaatsuspoliitika",
+        "message": "Terma & Dasar Privasi",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

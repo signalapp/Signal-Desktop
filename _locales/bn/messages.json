@@ -1,162 +1,162 @@
 {
     "copyErrorAndQuit": {
-        "message": "Kopeeri tõrke tekst ja välju",
+        "message": "ত্রুটি অনুলিপি করে প্রস্থান করুন",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownGroup": {
-        "message": "Tundmatu grupp",
+        "message": "অচেনা গ্রুপ",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Andmebaasi tõrge",
+        "message": "ডাটাবেস ত্রুটি",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Kustuta kõik andmed ja taaskäivita",
+        "message": "সমস্ত ডেটা মুছে দিন এবং পুনরায় চালু করুন",
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
-        "message": "&Fail",
+        "message": "&ফাইল",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Muuda",
+        "message": "&সম্পাদনা",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Vaade",
+        "message": "&দেখান",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "&Aken",
+        "message": "&জানালা",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "A&bi",
+        "message": "&সাহায্য",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Eelistused...",
+        "message": "পছন্দসমূহ...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Peida",
+        "message": "লুকান",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Peida teised",
+        "message": "অন্যদের লুকান",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Näita kõiki",
+        "message": "সব দেখাও",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Välju Signalist",
+        "message": "Signal বন্ধ করুন",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Võta tagasi",
+        "message": "পূর্বাবস্থায় ফিরে যান",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Tee uuesti",
+        "message": "পুনরায় করুন",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Lõika",
+        "message": "কাটুন",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Kopeeri",
+        "message": "অনুলিপি",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Aseta",
+        "message": "প্রতিস্থাপন",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Aseta ja sobita stiiliga",
+        "message": "প্রতিস্থাপন করুন এবং স্টাইল মিলান",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Kustuta",
+        "message": "মুছে দিন",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Vali kõik",
+        "message": "সবগুলো নির্বাচন",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Alusta rääkimist",
+        "message": "কথা বলতে শুরু করুন",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Lõpeta rääkimine",
+        "message": "কথা বলা বন্ধ করুন",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Sulge aken",
+        "message": "জানালা বন্ধ করুন",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimeeri",
+        "message": "কমান",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Suurenda",
+        "message": "বড়",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Too kõik ette",
+        "message": "সবগুলো সামনে আনুন",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Tegelik suurus",
+        "message": "প্রকৃত আকার",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Suurenda",
+        "message": "প্রসারিত করো",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Vähenda",
+        "message": "ছোট করা",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Lülita täisekraanirežiimi",
+        "message": "পর্দা জুড়ে প্রদর্শন করুন",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Lülita arendusvahendid sisse/välja",
+        "message": "বিকাশকারী সরঞ্জামগুলি দেখান",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Seadista importimise abil",
+        "message": "আমদানি সহ সেট আপ করুন",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Seadista uue seadmena",
+        "message": "নতুন ডিভাইস হিসেবে সেট করুন",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Seadista iseseisva seadmena",
+        "message": "স্বাধীন ডিভাইস হিসেবে সেট করুন",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "avatarMenuViewArchive": {
-        "message": "View Archive",
+        "message": "সংরক্ষণাগার দেখুন",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Laadimine...",
+        "message": "লোড হচ্ছে...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Rakenduse optimeerimine...",
+        "message": "অ্যাপ্লিকেশন সামঞ্জস্যপূর্ন করা হচ্ছে ...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Sõnumite optimeerimine... $status$ tehtud.",
+        "message": "বার্তাসমূহ সামঞ্জস্যপূর্ন করা হচ্ছে...$status$শেষ হয়েছে",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -166,83 +166,83 @@
         }
     },
     "archivedConversations": {
-        "message": "Arhiveeritud vestlused",
+        "message": "সংরক্ষণাগারভুক্ত আলাপ সমুহ",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "Need vestlused on arhiveeritud ja ilmuvad sisendkausta, kui saabub uusi sõnumeid.",
+        "message": "এই আলাপ সমুহ সংরক্ষণাগারভুক্ত করা হয়েছে এবং নতুন বার্তা প্রাপ্ত হলে কেবল ইনবক্সে উপস্থিত হবে।",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Arhiveeri vestlus",
+        "message": "আলাপ সযরক্ষনাগারে পাঠান",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Teisalda vestlus postkasti",
+        "message": "আলাপ ইনবক্সে স্থানান্তরিত করুন",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
-        "message": "Vali kaust",
+        "message": "ফোল্ডার চয়ন করুন",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Vali fail",
+        "message": "ফাইল চয়ন করুন",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Sinu andmete laadimine",
+        "message": "আপনার ডেটা লোড করুন",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Sa läbisid just eksportimisprotsessi ja sinu kontaktid ning sõnumid ootavad nüüd kannatlikult arvutis. Vali kaust, mis sisaldab sinu salvestatud Signali andmeid.",
+        "message": "আপনি সবেমাত্র রফতানি প্রক্রিয়াটি শেষ করেছেন এবং আপনার কন্টাক্ট এবং বার্তাগুলি আপনার কম্পিউটারে সংরক্ষিত হয়েছে। আপনার Signal সংরক্ষিত ডেটাযুক্ত ফোল্ডারটি নির্বাচন করুন।",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Vali eksporditud andmetega kataloog",
+        "message": "রফতানি হওয়া ডেটা সহ ফোল্ডারটি চয়ন করুন",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Midagi läks valesti!",
+        "message": "কিছু ভুল হয়েছে!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Kontaktide ja sõnumite laadimine",
+        "message": "কন্টাক্ট এবং বার্তাসমূহ লোড হচ্ছে",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Ole kindel, et oled valinud õige kataloogi, mis sisaldab sinu salvestatud Signali andmeid. Selle nimi peaks algama fraasiga \"Signal Export\". Sul on võimalik salvestada andmetest ka uus koopia rakendusest Chrome App.",
+        "message": "আপনার Signal থেকে সংরক্ষিত ডেটা রয়েছে এমন সঠিক ডিরেক্টরিটি চয়ন করেছেন তা নিশ্চিত করুন। এর নামটি 'Signalএক্সপোর্ট' দিয়ে শুরু হয়েছে। আপনি ক্রোম অ্যাপ থেকে আপনার ডেটার একটি নতুন অনুলিপিও সংরক্ষণ করতে পারেন।",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Kui need sammud ei aita, siis saada palun silumisinfo (Vaade->Silumisinfo), et saaksime aidata sul migreerumine lõpule viia!",
+        "message": "যদি এই পদক্ষেপগুলি যদি আপনার জন্য কাজ করে না, দয়া করে একটি ডিবাগ লগ জমা দিন (দেখুন -> ডিবাগ লগ) যাতে আমরা আপনাকে মাইগ্রেশন করতে সহায়তা করতে পারি!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Vali kaust ja proovi uuesti",
+        "message": "ফোল্ডারটি চয়ন করুন এবং আবার চেষ্টা করুন",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Õnnestus!",
+        "message": "সফল!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Alusta Signal Desktopi kasutamist",
+        "message": "Signal Desktop ব্যবহার শুরু করুন",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Ühenda see seade enda telefoniga",
+        "message": "এই ডিভাইস আপনার ফোনে সংযুক্ত করুন",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "sinu valitud asukoht",
+        "message": "আপনার নির্বাচিত অবস্থান",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Andmebaasi uuendamine. See võib võtta pisut aega...",
+        "message": "ডাটাবেস আপগ্রেড করা হচ্ছে। এটি কিছু সময় নিতে পারে ...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Sõnumite laadimine, siiamaani $count$...",
+        "message": "বার্তা লোড হচ্ছে। এখনও অবধি $count$ ...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -252,31 +252,31 @@
         }
     },
     "me": {
-        "message": "Mina",
+        "message": "আমি",
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "Näita",
+        "message": "দেখান",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Sa lahkusid grupist",
+        "message": "আপনি গ্রুপ ত্যাগ করেছেন।",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Keri vestluse lõppu",
+        "message": "আলাপ এর নীচে স্ক্রোল করুন",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
-        "message": "Allpool on uued sõnumid",
+        "message": "নীচে নতুন বার্তাসমূহ",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 lugemata sõnum",
+        "message": "১ টি অপঠিত বার্তা",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ lugemata sõnumit",
+        "message": "$count$ টি অপঠিত বার্তা",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -286,7 +286,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "Sa märkisid turvanumbri kasutajaga $name$ kinnitatuks.",
+        "message": "$name$ এর সাথে আপনি আপনার নিরাপত্তা নাম্বার যাচাইকৃত হিসেবে চিহ্নিত করেছেন।",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -296,7 +296,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Sa märkisid turvanumbri kasutajaga $name$ mittekinnitatuks",
+        "message": "আপনি $name$ এর সাথে নিরাপত্তা নাম্বার অযাচিত নির্বাচন করেছেন।",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -306,7 +306,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Sa märkisid teisest seadmest turvanumbri kasutajaga $name$ kinnitatuks.",
+        "message": "$name$ এর সাথে আপনি অন্য একটি ডিভাইস থেকে আপনার নিরাপত্তা নাম্বার  যাচাইকৃত চিহ্নিত করেছেন।",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -316,7 +316,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Sa märkisid teisest seadmest turvanumbri kasutajaga $name$ mittekinnitatuks",
+        "message": "আপনি অন্য একটি ডিভাইস থেকে  $name$এর নিরাপত্তা নাম্বার অযাচিত নির্বাচন করেছেন।",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -326,15 +326,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Sinu turvanumbrid selle grupi liikmetega on muutunud ajast, kui viimati kinnitasid. Klõpsa grupi liikmel uue turvanumbri nägemiseks.",
+        "message": "এই গ্রুপের সদস্যদের সাথে আপনার নিরাপত্তা নাম্বারসমূহ আপনি শেষ যাচাই করার পরে পরিবর্তিত হয়েছে। আপনার নতুন নিরাপত্তা নাম্বার দেখতে একটি গ্রুপের সদস্যকে ক্লিক করুন।",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Sinu turvanumbrid mitme selle grupi liikmega on muutunud ajast, kui viimati kinnitasid. See võib tähendada, et keegi püüab sinu suhtlust pealt kuulata või nad lihtsalt paigaldasid Signali uuesti.",
+        "message": "আপনি শেষ বার যাচাই করার পরে একাধিক গ্রুপের সদস্য সহ আপনার নিরাপত্তা নম্বরগুলি পরিবর্তন হয়েছে। এর অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছেন বা তারা কেবল Signal পুনরায় ইনস্টল করেছেন।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud ajast, kui viimati kinnitasid. See võib tähendada, et keegi püüab sinu suhtlust pealt kuulata või on $name$ lihtsalt Signali uuesti paigaldanud.",
+        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে, বা $name$ কেবল Signal পুনরায় ইনস্টল করেছে।",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +344,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Turvanumber, mida püüad kinnitada, on muutunud. Palun vaata üle uus turvanumber kasutajaga $name$. Jäta meelde, et see muudatus võib tähendada, et keegi püüab teie suhtlust pealt kuulata või on $name$ lihtsalt Signali uuesti paigaldanud.",
+        "message": "আপনি যে নিরাপত্তা নাম্বার যাচাই করার চেষ্টা করছেন সেটি পরিবর্তিত হয়েছে। দয়া করে আপনার নতুন সুরক্ষা নম্বরটি $name$এর সাথে পর্যালোচনা করুন। মনে রাখবেন, এই পরিবর্তনের অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা $name$ কেবল Signal পুনরায় ইনস্টল করেছে।",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +354,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Sinu turvanumbrid mitme grupiliikmega on hiljuti muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et nad on lihtsalt Signali uuesti paigaldanud.",
+        "message": "একাধিক গ্রুপের সদস্যের সাথে আপনার নিরাপত্তা নম্বরগুলি সম্প্রতি পরিবর্তিত হয়েছে। এর অর্থ এই হতে পারে যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছেন বা তারা কেবল Signal পুনরায় ইনস্টল করেছেন।",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Sinu turvanumber kasutajaga $name$ on hiljuti muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et $name$ on lihtsalt Signali uuesti paigaldanud.",
+        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার সাম্প্রতি পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে, বা $name$ কেবল Signal পুনরায় ইনস্টল করেছে।",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et $name$ on lihtsalt Signali uuesti paigaldanud. Kontrolli enda turvakoodi selle kontaktiga.",
+        "message": "$name$ এর সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা $name$ কেবল Signal পুনরায় ইনস্টল করেছে। আপনি এই কন্টাক্ট এর সাথে আপনার নিরাপত্তা নাম্বার যাচাই করতে চাইতে পারেন।",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -378,11 +378,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Saada ikkagi",
+        "message": "যাইহোক পাঠান",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Sinu turvanumber kasutajaga $name$ on muutunud ja ei ole enam kinnitatud. Klõpsa nägemiseks.",
+        "message": "$name$ এর  সাথে আপনার নিরাপত্তা নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে এবং আর যাচাইকৃত নয়। দেখতে চাইলে ক্লিক করুন।",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -392,43 +392,43 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Sinu turvanumber mitme selle grupi liikmega on muutunud ja ei ole enam kinnitatud. Klõpsa nägemiseks.",
+        "message": "একাধিক গ্রুপের সদস্যদের সাথে আপনার নিরাপত্তা নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে এবং আর যাচাইকৃত নয়। দেখতে চাইলে ক্লিক করুন।",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "See logi postitatakse avalikult internetti kaastöötajatele nägemiseks. Kontrolli üle ja vajadusel muuda enne postitamist.",
+        "message": "এই লগটি অবদানকারীদের দেখার জন্য অনলাইনে প্রকাশ্যে পোস্ট করা হবে, আপনি সাবমিট করার আগে এটি পরীক্ষা এবং সম্পাদনা করতে পারেন।",
         "description": ""
     },
     "debugLogError": {
-        "message": "Midagi läks üleslaadimisega kehvasti! Palun lisa logifailid sellele raportile käsitsi.",
+        "message": "আপলোডের সময় কিছু ভুল হয়েছে! দয়া করে আপনার ফাইলের বাগটি আপনার লগটিতে ম্যানুয়ালি যুক্ত করার বিষয়টি বিবেচনা করুন।",
         "description": ""
     },
     "reportIssue": {
-        "message": "Teavita probleemist",
+        "message": "একটি সমস্যা রিপোর্ট করুন",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Sain aru!",
+        "message": "বুঝতে পেরেছি!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Postita",
+        "message": "সাবমিট",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Nõustun",
+        "message": "মানছি",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Märgi kinnitatuks",
+        "message": "যাচাইকৃত হিসাবে চিহ্নিত করুন",
         "description": ""
     },
     "unverify": {
-        "message": "Märgi mittekinnitatuks",
+        "message": "অযাচাইকৃত হিসাবে চিহ্নিত করুন",
         "description": ""
     },
     "isVerified": {
-        "message": "Sa oled kinnitanud enda turvanumbri kasutajaga $name$.",
+        "message": "$name$ এর সাথে আপনি আপনার নিরাপত্তা নাম্বার যাচাইকৃত চিহ্নিত করেছেন।",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -438,7 +438,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Sa ei ole kinnitanud enda turvanumbri kasutajaga $name$.",
+        "message": "$name$ এর সাথে আপনি আপনার নিরাপত্তা নাম্বার যাচাই করেন নি।",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -448,79 +448,79 @@
         }
     },
     "verified": {
-        "message": "Kontrollitud",
+        "message": "যাচাইকৃত",
         "description": ""
     },
     "newIdentity": {
-        "message": "Uus turvanumber",
+        "message": "নতুন নিরাপত্তা নাম্বার",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Sinu turvanumber selle kontaktiga on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et see kontakt on lihtsalt Signali uuesti paigaldanud. Kontrolli uut turvakoodi allpool.",
+        "message": "এই কন্টাক্ট এর সাথে আপনার নিরাপত্তা নাম্বার পরিবর্তন হয়েছে। এর অর্থ হয় যে কেউ আপনার যোগাযোগ বাধা দেওয়ার চেষ্টা করছে বা এই কন্টাক্ট কেবল Signal পুনরায় ইনস্টল করেছে। আপনি নীচের নতুন নিরাপত্তা নাম্বার যাচাই করতে চাইতে পারেন।",
         "description": ""
     },
     "incomingError": {
-        "message": "Sissetuleva sõnumi käsitlemisel tekkis tõrge.",
+        "message": "আগত বার্তা পরিচালনা করার সময় ত্রুটি",
         "description": ""
     },
     "media": {
-        "message": "Meedia",
+        "message": "মিডিয়া",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Selles vestluses pole meediaelemente",
+        "message": "আপনার এই আলাপ এ কোনও মিডিয়া নেই।",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Dokumendid",
+        "message": "দস্তাবেজ",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Selles vestluses pole dokumente",
+        "message": "আপনার এই আলাপ এ কোনও দস্তাবেজ নেই।",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Täna",
+        "message": "আজ",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Eile",
+        "message": "গতকাল",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "See nädal",
+        "message": "এই সপ্তাহ",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "See kuu",
+        "message": "এই মাস",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Mittetoetatud manuse tüüp. Klõpsa salvestamiseks.",
+        "message": "অসমর্থিত সংযুক্তির ধরন পওয়া গেছে। সংরক্ষন করতে ক্লিক করুন।",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Salvestamiseks klõpsa",
+        "message": "সংরক্ষন করতে ক্লিক করুন",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Nimeta fail",
+        "message": "নামহীন ফাইল",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Häälsõnum",
+        "message": "ভয়েস বার্তা",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Manuse tüüp pole turvakaalutlustel lubatud.",
+        "message": "নিরাপত্তার কারণে এই সংযুক্তির ধরন অনুমিত নয়",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Eelvaate laadimine...",
+        "message": "পূর্বরূপ লোড হচ্ছে ...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Lingi eelvaate pisipildi mustand: $domain$",
+        "message": "$domain$ লিঙ্ক এর জন্য ছোট খসড়া পূর্বরূপ",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -530,7 +530,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Lingi eelvaate pisipilt: $domain$",
+        "message": "$domain$ লিঙ্ক এর জন্য ছোট পূর্বরূপ",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -540,7 +540,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Piltmanuse mustand: $path$",
+        "message": "খসড়া চিত্র সংযুক্তি: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -550,43 +550,43 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Mittepildilisi manuseid sõnumile lisades kehtiv ühe manuse piirang.",
+        "message": "ছবি ছাড়া অন্যান্য সংযুক্তি অন্তর্ভুক্ত করার সময়, প্রতি বার্তায় একটি মাত্র সংযুক্তি যোগ করতে পারবেন।",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "Piltmanuseid ja teisi manuseid ei saa koos ühte sõnumisse panna.",
+        "message": "আপনি একটি বার্তায় ছবি এবং অন্যান্য সংযুক্তি সমুহ মিশ্রণ করতে পারবেন না।",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Sellele sõnumile pole võimalik rohkem manuseid lisada.",
+        "message": "আপনি এই বার্তায় আর কোন সংযুক্তি সমুহ করতে পারবেন না।",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu.",
+        "message": "দুঃখিত, নির্বাচিত ফাইলটি বার্তার আকারের সীমাবদ্ধতা অতিক্রম করেছে।",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Valitud manuse laadimine ei õnnestunud.",
+        "message": "নির্বাচিত সংযুক্তি লোড করতে অক্ষম।",
         "description": ""
     },
     "disconnected": {
-        "message": "Ühendus katkestatud",
+        "message": "বিচ্ছিন্ন হয়েছে",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Ühendamine",
+        "message": "সংযুক্ত হচ্ছে ...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Ühenduseta",
+        "message": "অফলাইন",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Kontrolli enda võrguühendust.",
+        "message": "আপনার নেটওয়ার্ক সংযোগ পরীক্ষা করুন।",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
-        "message": "$reconnect_duration_in_seconds$ sekundi pärast proovitakse uuesti ühenduda.",
+        "message": "পুনরায় সংযোগ করার চেষ্টা করছে $reconnect_duration_in_seconds$ সেকেন্ডে",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -596,63 +596,63 @@
         }
     },
     "submitDebugLog": {
-        "message": "Silumisinfo",
+        "message": "ডিবাগ লগ",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Silumisinfo",
+        "message": "ডিবাগ লগ",
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Mine väljalaskemärkmete juurde",
+        "message": "প্রকাশিত নোট দেখুন",
         "description": ""
     },
     "goToForums": {
-        "message": "Mine foorumitesse",
+        "message": "ফোরামসমূহে যান",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Mine kasutajatoelehele",
+        "message": "সহায়তা পৃষ্ঠায় যান",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Teavita probleemist",
+        "message": "একটি সমস্যা রিপোর্ট করুন",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktopi eelistused",
+        "message": "Signal ডেস্কটপ পছন্দসমূহ",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Teave Signal Desktopi kohta",
+        "message": "Signal ডেস্কটপ সম্পর্কে",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Kõne",
+        "message": "বক্তৃতা",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Näita",
+        "message": "দেখান",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Peida",
+        "message": "লুকান",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Välju",
+        "message": "প্রস্থান",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Signal Desktop",
+        "message": "Signal ডেস্কটপ",
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "Otsi",
+        "message": "অনুসন্ধান",
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Otsi vestlusest $conversationName$",
+        "message": "$conversationName$মধ্যে খুঁজুন",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -662,7 +662,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Tulemusi pole: \"$searchTerm$\"",
+        "message": "\"$searchTerm$\" এর জন্য কোন ফলাফল নেই",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -672,7 +672,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "Vestlusest $conversationName$ ei leitud \"$searchTerm$\"",
+        "message": "\"$searchTerm$\" এর জন্য $conversationName$ মধ্যে কোন ফলাফল নেই",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -682,31 +682,31 @@
         }
     },
     "conversationsHeader": {
-        "message": "Vestlused",
+        "message": "আলাপ সমুহ",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Kontaktid",
+        "message": "কন্টাক্ট সমূহ",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Sõnumid",
+        "message": "বার্তা সমূহ",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Tere tulemast Signalisse",
+        "message": "Signal এ স্বাগতম!",
         "description": ""
     },
     "selectAContact": {
-        "message": "Vali kontakt või grupp ja alusta vestlust.",
+        "message": "চ্যাট শুরু করতে একটি কন্টাক্ট বা গ্রুপ নির্বাচন করুন।",
         "description": ""
     },
     "typingAlt": {
-        "message": "Selle vestluse sisestuse animatsioon",
+        "message": "এই আলাপ এর জন্য টাইপিং অ্যানিমেশন",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Kontakti $name$ pilt",
+        "message": "$name$ কন্টাক্ট এর জন্য প্রোফাইলের ছবি",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -716,71 +716,71 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Saada sõnum",
+        "message": "বার্তা পাঠান",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "kodu",
+        "message": "পারিবারিক",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "töö",
+        "message": "কর্মক্ষেত্র",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobiil",
+        "message": "মোবাইল",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "e-post",
+        "message": "ইমেইল",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "telefon",
+        "message": "ফোন",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "aadress",
+        "message": "ঠিকানা",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "postkast",
+        "message": "পোস্ট বক্স",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Laadin alla",
+        "message": "ডাউনলোড করা হচ্ছে",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Laadi manus alla",
+        "message": "সংযুক্তি ডাউনলোড",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Vasta sõnumile",
+        "message": "বার্তার জবাব দিন",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Algset sõnumit ei leitud",
+        "message": "মূল বার্তাটি পাওয়া যায়নি",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Algne sõnum ei ole enam saadaval",
+        "message": "মূল বার্তাটি আর পাওয়া যাচ্ছে না",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Algne sõnum on leitud, kuid mitte laaditud. Keri üles selle laadimiseks.",
+        "message": "মূল বার্তা পাওয়া গেছে, তবে লোড হয়নি। এটিকে লোড করতে স্ক্রোল করুন।",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Häälmärkmed peavad olema sõnumi ainuke manus.",
+        "message": "একটি ভয়েস নোট অবশ্যই বার্তায় অন্তর্ভুক্ত একমাত্র সংযুক্তি হতে হবে।",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
-        "message": "Sina",
+        "message": "আপনি",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Vastus kasutajale $name$",
+        "message": "$name$কে প্রতিউত্তর দেওয়া হচ্ছে",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -790,119 +790,119 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Audiosõnumite saatmiseks luba Signal Desktopil mikrofoni kasutada.",
+        "message": "অডিও বার্তা পাঠাতে Signal ডেস্কটপ কে আপনার মাইক্রোফোন ব্যাবহারের অনুমতি দিন।",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Luba ligipääs",
+        "message": "অ্যাক্সেসের অনুমতি দিন",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Näita sätteid",
+        "message": "সেটিংস দেখান",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "শব্দ",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "ভিডিও",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Foto",
+        "message": "ছবি",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Ei saa uuendada",
+        "message": "আপডেট করতে পারছে না",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop-i uuendamine ei õnnestunud, aga uus versioon on siiski saadaval. Palun mine aadressile https://signal.org/download ja paigalda uus versioon käsitsi. Seejärel kas võta ühendust kasutajatoega või saada selle probleemi kohta tõrkeraport. ",
+        "message": "Signal ডেস্কটপ আপডেট করতে ব্যর্থ হয়েছে, তবে একটি নতুন সংস্করণ পাওয়া যাচ্ছে। দয়া করে https://signal.org/download এ যান এবং ম্যানুয়ালি নতুন সংস্করণ ইনস্টল করুন, তারপরে হয় সহয়ায়তার জন্য কন্টাক্ট করুন বা এই সমস্যা সম্পর্কে একটি বাগ ফাইল করুন।",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop on tõenäoliselt macOS-i karantiinis ja pole võimeline automaatselt uuenema. Palun proovi teisaldada Signal.app rakendus Finderi abil /Applications kausta.",
+        "message": "Signal ডেস্কটপ সম্ভবত  ম্যাক ওএস এর মধ্যে পৃথক অবস্থায় রয়েছে এবং স্বয়ংক্রিয়ভাবে আপডেট করতে সক্ষম হবে না। দয়া করে ফাইন্ডারের মাধ্যমে Signal.app অ্যাপ টি /Applications এ স্থানান্তরিত করার চেষ্টা করুন।",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
-        "message": "Sobib",
+        "message": "ঠিক আছে",
         "description": ""
     },
     "cancel": {
-        "message": "Loobu",
+        "message": "বাতিল",
         "description": ""
     },
     "failedToSend": {
-        "message": "Mõnedele saajatele saatmine ei õnnestunud. Kontrolli enda võrguühendust.",
+        "message": "কিছু প্রাপকদের প্রেরণে ব্যর্থ। আপনার নেটওয়ার্ক সংযোগ পরীক্ষা করুন।",
         "description": ""
     },
     "error": {
-        "message": "Tõrge",
+        "message": "ত্রুটি",
         "description": ""
     },
     "messageDetail": {
-        "message": "Sõnumi üksikasjad",
+        "message": "বার্তার খুঁটিনাটি",
         "description": ""
     },
     "delete": {
-        "message": "Kustuta",
+        "message": "মুছে দিন",
         "description": ""
     },
     "deleteWarning": {
-        "message": "Kas sa oled kindel? Klõpsates \"Kustuta\" eemaldatakse see sõnum ainult sellest seadmest.",
+        "message": "আপনি কি নিশ্চিত? 'মুছে দিন' ক্লিক করলে এই বার্তাটি স্থায়ীভাবে এই ডিভাইস থেকে সরানো হবে।",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Kustuta see sõnum",
+        "message": "এই বার্তাটি মুছে দিন",
         "description": ""
     },
     "from": {
-        "message": "Saatja",
+        "message": "থেকে",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Saaja",
+        "message": "প্রতি",
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "saajale",
+        "message": "প্রতি",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
-        "message": "Saadetud",
+        "message": "পাঠানো হয়েছে",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Saadud",
+        "message": "গৃহীত",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Saada sõnum",
+        "message": "একটি বার্তা পাঠান",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Grupi liikmed",
+        "message": "গ্রুপের সদস্যগণ",
         "description": ""
     },
     "showMembers": {
-        "message": "Näita liikmeid",
+        "message": "সদস্যদের দেখান",
         "description": ""
     },
     "resetSession": {
-        "message": "Lähtesta seanss",
+        "message": "সেশন পুনরায় সেট করুন",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Näita turvanumbrit",
+        "message": "নিরাপত্তা নম্বর দেখুন",
         "description": ""
     },
     "viewAllMedia": {
-        "message": "Näita kogu meediat",
+        "message": "সমস্ত মিডিয়া দেখুন",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Kui soovid kontrollida kasutajaga $name$ suhtluse krüpteerimist, siis võrdle ülalpool olevaid numbreid numbritega tema seadme ekraanil.",
+        "message": "যদি আপনি $name$ এর সাথে আপনার এন্ড টু এন্ড এনক্রিপশনের সুরক্ষা যাচাই করতে চান তবে উপরের সংখ্যাগুলি তাদের ডিভাইস এ দেখানো সংখ্যার সাথে তুলনা করুন। ",
         "description": "",
         "placeholders": {
             "name": {
@@ -912,283 +912,283 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Sa ei ole selle kontaktiga veel ühtegi sõnumit vahetanud. Sinu turvanumber temaga tekib pärast esimest sõnumit.",
+        "message": "আপনি এই কন্টাক্ট এর সাথে কোনও বার্তা বিনিময় করেননি। তাদের সাথে আপনার নিরাপত্তা নাম্বার প্রথম বার্তা পাঠানোর পরে পাওয়া যাচ্ছে।",
         "description": ""
     },
     "moreInfo": {
-        "message": "Rohkem teavet...",
+        "message": "আরও তথ্য...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Proovi uuesti saata",
+        "message": "পুনরায় পাঠানোর চেষ্টা করুন",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Kustuta sõnum",
+        "message": "বার্তা মুছে দিন",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Kustuta sõnumid",
+        "message": "বার্তাসমূহ মুছে দিন",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Kas kustutada see vestlus jäädavalt?",
+        "message": "এই আলাপ স্থায়ীভাবে মুছে ফেলবেন?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Turvaseanss lähtestati",
+        "message": "নিরাপদ সেশন পুনরায় সেট করা হয়েছে",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Tsiteeritud sõnumist pärit pildi pisipilt",
+        "message": "উদ্ধৃত বার্তা থেকে ছবির ছোট রূপ",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Pilt lisatud sõnumile",
+        "message": "বার্তায় সংযুক্ত ছবি",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Sõnumile lisatud video ekraanipilt",
+        "message": "ভিডিওর স্ক্রিনশট বার্তার সাথে সংযুক্ত",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Vestluses saadetud pilt",
+        "message": "আলাপ এর মধ্যে পাঠানো ছবি",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Ikoon näitamaks, et sellel pildil on seletus.",
+        "message": "আইকনটি দেখায় যে, এই চিত্রটির একটি ক্যাপশন রয়েছে",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Lisa pealkiri...",
+        "message": "ক্যাপশন যুক্ত করুন...",
         "description": ""
     },
     "save": {
-        "message": "Salvesta",
+        "message": "সংরক্ষ",
         "description": ""
     },
     "fileIconAlt": {
-        "message": "Faili ikoon",
+        "message": "ফাইল আইকন",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Tere tulemast Signal Desktopi kasutama",
+        "message": "Signal ডেস্কটপ এ স্বাগতম!",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privaatsus on võimalik. Signal teeb selle lihtsaks.",
+        "message": "গোপনীয়তা সম্ভব। Signal এটি সহজ করে তোলে।",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Ühenda telefon Signal Desktopiga",
+        "message": "Signal ডেস্কটপে আপনার ফোন সংযুক্ত করুন",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Signali sätted",
+        "message": "Signal সেটিংস",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Ühendatud seadmed",
+        "message": "সংযুক্ত ডিভাইসগুলি",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+'-nupp",
+        "message": "'+' বোতাম",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Ühenda uus seade",
+        "message": "নতুন ডিভাইস যুক্ত করুন",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Seadme nimi",
+        "message": "ডিভাইস এর নাম",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Vali selle seadme nimi",
+        "message": "এই ডিভাইস'র নাম চয়ন করুন",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Lõpeta telefoni ühendamine",
+        "message": "ফোন সংযুক্তি করা শেষ করুন",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Kontaktide ja gruppide sünkimine",
+        "message": "গ্রুপ এবং কন্টাক্ট সমূহ সমন্বয় করা হচ্ছে",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Ühenduse loomine serverisse ei õnnestunud.",
+        "message": "সার্ভারের সাথে সংযোগ করতে ব্যর্থ।",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Kahjuks on sul juba liiga palju ühendatud seadmeid. Proovi mõni eemaldada.",
+        "message": "দুঃখিত, ইতিমধ্যে আপনার সাথে সংযুক্ত অনেকগুলি ডিভাইস রয়েছে, কিছু সরানোর চেষ্টা করুন",
         "description": ""
     },
     "settings": {
-        "message": "Sätted",
+        "message": "সেটিংস",
         "description": "Menu item and header for global settings"
     },
     "theme": {
-        "message": "Teema",
+        "message": "থীম",
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Õigused",
+        "message": "অনুমতিগুলি",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Luba ligipääs kaamerale ja mikrofonile",
+        "message": "ক্যামেরা এবং মাইক্রোফোনে অ্যাক্সেসের অনুমতি দিন",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "Üldine",
+        "message": "সাধারন",
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Luba sõnumite kasti teksti õigekirja kontroll",
+        "message": "বার্তা লেখার বাক্সে প্রবেশ করা পাঠ্যের বানান পরীক্ষা সচল করুন",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Eemalda andmed",
+        "message": "ডেটা মুছে ফেল",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Eemaldatakse kõik rakenduse andmed, kustutatakse kõik sõnumid ja salvestatud teave konto kohta.",
+        "message": "এটি অ্যাপ্লিকেশনের সমস্ত ডেটা মুছে ফেলবে, সমস্ত বার্তা এবং অ্যাকাউন্টের সংরক্ষিত তথ্য মুছে ফেলবে।",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Eemalda andmed",
+        "message": "ডেটা মুছে ফেল",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Kas kustutada kõik andmed?",
+        "message": "সকল ডেটা মুছে দিন?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Oled kustutamas rakenduses salvestatud infot, kaasa arvatud kõik kontaktid ja sõnumid. Sul on alati võimalus ühendada nutiseade uuesti, aga see ei taasta kustutatud sõnumeid.",
+        "message": "আপনি সমস্ত কন্টাক্ট এবং সমস্ত বার্তা সহ এই অ্যাপ্লিকেশনটির সংরক্ষিত অ্যাকাউন্টের সমস্ত তথ্য মুছে ফেলতে চলেছেন। আপনি যেকোন সময় আপনার মোবাইল ডিভাইসের সাথে আবার লিঙ্ক করতে পারবেন, তবে এটি মোছা বার্তাগুলি পুনরুদ্ধার করবে না।",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Kustuta kõik andmed",
+        "message": "সকল ডেটা মুছে দিন",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Ühenduse lõpetamine ja kõigi andmete kustutamine",
+        "message": "সংযোগ বিচ্ছিন্ন এবং সমস্ত ডেটা মোছা হচ্ছে",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
-        "message": "Teavitused",
+        "message": "বিজ্ঞপ্তিগুলি",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Kui saabub sõnum, siis kuva teavitusi, mis avaldavad:",
+        "message": "বার্তা উপস্থিত হলে, বিজ্ঞপ্তিগুলি যা প্রকাশ করে:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Keela teavitused",
+        "message": "বিজ্ঞপ্তিগুলি অক্ষম করুন",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Nii saatja nime kui sõnumi sisu",
+        "message": "প্রেরকের নাম এবং বার্তা উভয়ই",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Ei nime ega sisu",
+        "message": "নাম বা বার্তা কোনটিই নয়",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Ainult saatja nime",
+        "message": "কেবল প্রেরকের নাম",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Uus sõnum",
+        "message": "নতুন বার্তা",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "Uued sõnumid",
+        "message": "নতুন বার্তাসমূহ",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Kõige uuem saatjalt:",
+        "message": "অতি সাম্প্রতি যার থেকে:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "Saatjalt:",
+        "message": "থেকে:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Kõige uuem:",
+        "message": "অতি সাম্প্রতিক:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Saatmine ei õnnestunud",
+        "message": "পাঠাতে ব্যর্থ",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Üksikasjad",
+        "message": "খুঁটিনাটি",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Peida üksikasjad",
+        "message": "খুঁটিনাটি লুকান",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Täpsem info turvanumbrite kontrollimise kohta",
+        "message": "নিরাপত্তা নম্বর যাচাই করা সম্পর্কে আরও জানুন",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "See Signal Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks.",
+        "message": "Signal ডেস্কটপের এই সংস্করণটির মেয়াদ শেষ হয়ে গেছে। বার্তা আদান-প্রদান চালিয়ে যেতে দয়া করে সর্বশেষতম সংস্করণে আপগ্রেড করুন।",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Uuenda",
+        "message": "আপগ্রেড করুন",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Media Message",
+        "message": "মিডিয়া বার্তা",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Number ei ole registreeritud",
+        "message": "নাম্বারটি নিবন্ধিত নয়!",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontaktid",
+        "message": "কন্টাক্ট সমূহ",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Impordi kõik Signali grupid ja kontaktid enda nutiseadmest.",
+        "message": "আপনার মোবাইল ডিভাইস থেকে সমস্ত Signal গ্রুপ এবং কন্টাক্ট আমদানি করুন।",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Viimane importimine:",
+        "message": "সর্বশেষ আমদানী করা হয়েছিল",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Impordi nüüd",
+        "message": "এখনি আমদানী করুন",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importimine...",
+        "message": "আমদানী করা হচ্ছে",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Importimine ei õnnestunud. Kontrolli üle, et arvuti ja telefon oleksid mõlemad ühendatud internetti.",
+        "message": "আমদানি ব্যর্থ। আপনার কম্পিউটার এবং আপনার ফোনটি ইন্টারনেটে সংযুক্ত রয়েছে তা নিশ্চিত করুন।",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "nüüd",
+        "message": "এখন",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1m",
+        "message": "1মি.",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1h",
+        "message": "1ঘ.",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$h",
+        "message": "$hours$ঘ.",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1198,7 +1198,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$m",
+        "message": "$minutes$মি.",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1208,27 +1208,27 @@
         }
     },
     "justNow": {
-        "message": "nüüd",
+        "message": "এখন",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "D. MMM",
+        "message": "মাস দিন",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Sõnumi sisu on liiga pikk.",
+        "message": "বার্তার মূল অংশটি অনেক দীর্ঘ।",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Sõnumi saatmiseks eemalda selle kontakti blokeering.",
+        "message": "এই কন্টাক্ট অবরোধ মুক্ত করুন একটি বার্তা প্রেরণ করতে।",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Sõnumi saatmiseks eemalda selle grupi blokeering.",
+        "message": "একটি বার্তা পাঠাতে এই গ্রুপটি অবরোধ মুক্ত করুন।",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Sina määrasid kaduvate sõnumite taimeriks $time$",
+        "message": "আপনি অদৃশ্য হয়ে যাওয়া বার্তার সময়কাল $time$ নির্ধারন করেছেন।",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1238,7 +1238,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Kaduvate sõnumite taimer seati väärtusele $time$",
+        "message": "অদৃশ্য হয়ে যাওয়া বার্তার সময়কাল $time$আপডেট হয়েছে।",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1248,7 +1248,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ seadis kaduvate sõnumite taimeri väärtusele $time$",
+        "message": "$name$ অদৃশ্য হয়ে যাওয়া বার্তার সময়কাল $time$ নির্ধারন করেছেন।",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1262,111 +1262,111 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "väljas",
+        "message": "বন্ধ",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 sekundit",
+        "message": "5 সেকেন্ড",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 sekundit",
+        "message": "10 সেকেন্ড",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 sekundit",
+        "message": "30 সেকেন্ড",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minut",
+        "message": "1 মিনিট",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutit",
+        "message": "5 মিনিট",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutit",
+        "message": "30 মিনিট",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 tund",
+        "message": "1 ঘন্টা",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 tundi",
+        "message": "6 ঘন্টা",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 tundi",
+        "message": "12 ঘন্টা",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 päev",
+        "message": "1 দিন",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 nädal",
+        "message": "1 সপ্তাহ",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Kaduvad sõnumid",
+        "message": "অদৃশ্য বার্তা",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "väljas",
+        "message": "বন্ধ",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5সে.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10সে.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30সে.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1মি.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5মি.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30মি.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1ঘ.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6ঘ.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12ঘ.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1p",
+        "message": "1দিন",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1ndl",
+        "message": "1সপ্তাহ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Kaduvad sõnumid on keelatud",
+        "message": "অদৃশ্য হওয়া বার্তাগুলি অক্ষম করা হয়েছে",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ keelas kaduvad sõnumid",
+        "message": "$name$ অদৃশ্য হয়ে যাওয়া বার্তা অক্ষম করেছেন।",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1376,11 +1376,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Sa keelasid kaduvad sõnumid",
+        "message": "আপনি অদৃশ্য হয়ে যাওয়া বার্তাগুলি অক্ষম করেছেন।",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Taimer on määratud: $time$",
+        "message": "সময়কাল $time$নির্ধারন করা হয়েছে",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1390,15 +1390,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Mängi audioteavitust",
+        "message": "অডিও বিজ্ঞপ্তি চালান",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Turvanumber on muutunud",
+        "message": "নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Kasutaja $name$ turvanumber on muutunud",
+        "message": "$name$ এর সাথে নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1408,11 +1408,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Kinnita turvanumber",
+        "message": "নিরাপত্তা নাম্বার যাচাই করুন",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Sinu turvanumber kasutajaga $name$:",
+        "message": "$name$ এর সাথে আপনি আপনার নিরাপত্তা নাম্বার :",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1422,71 +1422,71 @@
         }
     },
     "themeLight": {
-        "message": "Hele",
+        "message": "আলো",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Tume",
+        "message": "অন্ধকার",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "Süsteem",
+        "message": "সিস্টেম",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Märkus endale",
+        "message": "নিজের জন্য বার্তা",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
-        "message": "Peida menüüriba",
+        "message": "মেনুবার লুকান",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Alusta uut vestlust...",
+        "message": "নতুন আলাপ শুরু করুন...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Kontakti lisamiseks sisesta telefoninumber.",
+        "message": "একটি কন্টাক্ট যুক্ত করতে একটি ফোন নাম্বার প্রবেশ করান।",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Vigane number",
+        "message": "নম্বর সঠিক নয়",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Sõnumite saatmise jätkamiseks ühenda Signal Desktop nutiseadmega.",
+        "message": "বার্তা আদান-প্রদান চালিয়ে যেতে আপনার মোবাইল ডিভাইস থেকে Signal ডেস্কটপটিকে পুনরায় সংযুক্ত করুন।",
         "description": ""
     },
     "unlinked": {
-        "message": "Ühendus eemaldatud",
+        "message": "বিচ্ছিন্ন হয়েছে",
         "description": ""
     },
     "relink": {
-        "message": "Ühenda uuesti",
+        "message": "পূনঃসংযোগ",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signali uuendus on saadaval",
+        "message": "Signal আপডেট পাওয়া যাচ্ছে",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signalist on saadaval uus versioon.",
+        "message": "Signal  এর একটি নতুন সংস্করণ পাওয়া যাচ্ছে",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Signal\".",
+        "message": "আপডেটগুলি প্রয়োগ করতে Signal পূনরায় চালু করুন।",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Taaskäivita Signal",
+        "message": "Signal পুনরায় চালু করুন",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Hiljem",
+        "message": "পরে",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ lahkus grupist",
+        "message": "$name$গ্রুপ ত্যাগ করেছে",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1496,7 +1496,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ lahkusid grupist",
+        "message": "$name$গ্রুপ ত্যাগ করেছে",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1506,11 +1506,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupp on uuendatud",
+        "message": "গ্রুপ অাপডেট হয়েছে",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Pealkiri on nüüd '$name$'",
+        "message": "শিরোনাম এখন '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1520,7 +1520,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ ühines grupiga",
+        "message": "$name$ গ্রুপে যোগ দিয়েছে",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1530,7 +1530,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ ühinesid grupiga",
+        "message": "$names$গ্রুপে যোগ দিয়েছেন।",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1540,115 +1540,115 @@
         }
     },
     "ConversationListItem--draft-prefix": {
-        "message": "Mustand:",
+        "message": "খসড়া:",
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--stickers": {
-        "message": "Kleepsu sõnum",
+        "message": "স্টিকার বার্তা",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getDescription--unsupported-message": {
-        "message": "Mittetoetatud sõnum",
+        "message": "অসমর্থিত বার্তা",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "Kaduv foto",
+        "message": "অদৃশ্য ছবি",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Disappearing Video",
+        "message": "অদৃশ্য ভিডিও",
         "description": "Shown in notifications and in the left pane when a message is a disappearing video."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Kleepsupaki paigaldamine ei õnnestunud",
+        "message": "স্টিকার প্যাক ইনস্টল করা যায়নি",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Paigaldatud kleepsud",
+        "message": "ইনস্টল স্টিকার",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "Kleepse pole paigaldatud",
+        "message": "কোনো স্টিকার ইনস্টল করা নেই",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Signali artisti seeria",
+        "message": "Signal  শিল্পী সিরিজ",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Signal Artist kleepse pole saadaval",
+        "message": "কোনও Signal আর্টিস্ট স্টিকার পাওয়া যাচ্ছে না",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Vastuvõetud kleepsud",
+        "message": "আপনার প্রাপ্ত স্টিকার",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Kleepsud sissetulevatelt sõnumitelt kuvatakse siin",
+        "message": "আগত বার্তাগুলির স্টিকারসমূহ এখানে উপস্থিত হবে",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Paigalda",
+        "message": "ইনস্টল করুন",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Eemalda",
+        "message": "আনইনস্টল",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Sa ei saa seda kleepsupakki uuesti paigaldada, kui sul pole enam algsõnumit.",
+        "message": "আপনার যদি আর উৎস বার্তা না থাকে তবে আপনি এই স্টিকার প্যাকটি পুনরায় ইনস্টল করতে পারবেন না।",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Tutvustame kleepse",
+        "message": "স্টিকারের সাথে পরিচিত হন",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "Miks kasutada sõnu, kui saab kasutada kleepse?",
+        "message": "আপনি যখন স্টিকার ব্যবহার করতে পারেন তখন কেন শব্দ ব্যবহার করবেন?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Mõnede kleepsude allalaadimine ei õnnestunud.",
+        "message": "কিছু স্টিকার ডাউনলোড করা যায়নি।",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Kleepsupaki paigaldamine...",
+        "message": "স্টিকার প্যাক ইনস্টল করা হচ্ছে ...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "Kleepse ei leitud",
+        "message": "কোনও স্টিকার পাওয়া যায় নি",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Uued kleepsupakid sinu sõnumitest on paigaldamiseks saadaval",
+        "message": "আপনার বার্তাগুলি থেকে নতুন স্টিকার প্যাকগুলি ইনস্টল করার জন্য পাওয়া যাচ্ছে",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Kleepsupakke ei leitud",
+        "message": "কোনও স্টিকার পাওয়া যায় নি",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Hiljuti kasutatud kleepsud ilmuvad siia.",
+        "message": "সম্প্রতি ব্যবহৃত স্টিকারগুলি এখানে দেখা যাবে।",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Kleepsupakk",
+        "message": "স্টিকার প্যাক",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Kleepsupaki avamisel tekkis tõrge. Palun kontrolli enda internetiühendust ja proovi uuesti.",
+        "message": "স্টিকার প্যাকটি খোলার সময় ত্রুটি। আপনার ইন্টারনেট সংযোগ পরীক্ষা করে দেখুন এবং আবার চেষ্টা করুন।",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Emojisid ei leitud",
+        "message": "কোনও ইমোজি পাওয়া যায়নি",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Otsi emojisid",
+        "message": "ইমোজি অনুসন্ধান করুন",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
-        "message": "$tone$ nahatoon",
+        "message": "ত্বকের ধরন $tone$",
         "description": "Shown as a tooltip over the emoji tone buttons.",
         "placeholders": {
             "status": {
@@ -1658,11 +1658,11 @@
         }
     },
     "confirmation-dialog--Cancel": {
-        "message": "Loobu",
+        "message": "বাতিল",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ saatis sulle sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signal-i uut funktsionaalsust.",
+        "message": "$contact$ একটি বার্তা প্রেরণ করেছে যা এখানে প্রক্রিয়া করা বা প্রদর্শিত করা যাচ্ছে না  কারণ এটি একটি নতুন Signal বৈশিষ্ট্য ব্যবহার করেছে।",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1672,7 +1672,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Nüüd, kui kasutad Signali uuendatud versiooni, siis palu kontaktil $contact$ sõnum uuesti saata.",
+        "message": "আপনি $contact$ কে এই বার্তাটি এখনই আবার পাঠাতে বলতে পারেন যে আপনি Signal এর একটি আধুনিক সংস্করণ ব্যবহার করছেন।",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1682,47 +1682,47 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Üks sinu seadmetest saatis sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signal-i uut funktsionaalsust.",
+        "message": "আপনার একটি ডিভাইস একটি বার্তা প্রেরণ করেছে যা এখানে প্রক্রিয়া করা বা প্রদর্শিত করা যাচ্ছে না  কারণ এটি একটি নতুন Signal বৈশিষ্ট্য ব্যবহার করেছে।",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Tulevikusõnumid nagu see sünkroniseeritakse nüüd, kui kasutad värskendatud Signal-i versiooni.",
+        "message": "এই জাতীয় ভবিষ্যতের বার্তাগুলি এখন সমন্বয় হবে কারন আপনি Signal এর একটি আধুনিক সংস্করণ ব্যবহার করছেন।",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Uuenda Signal-it",
+        "message": "Signal আপডেট করুন",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Vaadatud",
+        "message": "দেখা হয়েছে",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Meedia",
+        "message": "মিডিয়া",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Foto",
+        "message": "ছবি",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Video",
+        "message": "ভিডিও",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(manus)",
+        "message": "(সংযুক্তি)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(tsitaat)",
+        "message": "(উদ্ধৃতি)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(mustand)",
+        "message": "(খসড়া)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
-        "message": "Tingimused ja privaatsuspoliitika",
+        "message": "শর্তাদি এবং গোপনীয়তা নীতি",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }
