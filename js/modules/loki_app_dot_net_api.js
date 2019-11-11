@@ -519,26 +519,48 @@ class LokiPublicChannelAPI {
     }
   }
 
-  // delete a message on the server
-  async deleteMessage(serverId, canThrow = false) {
+  // delete messages on the server
+  async deleteMessages(serverIds, canThrow = false) {
     const res = await this.serverRequest(
-      this.modStatus
-        ? `loki/v1/moderation/message/${serverId}`
-        : `${this.baseChannelUrl}/messages/${serverId}`,
-      { method: 'DELETE' }
+      this.modStatus ? `loki/v1/moderation/messages` : `loki/v1/messages`,
+      { method: 'DELETE', params: { ids: serverIds } }
     );
-    if (!res.err && res.response) {
-      log.info(`deleted ${serverId} on ${this.baseChannelUrl}`);
-      return true;
+    if (!res.err) {
+      const deletedIds = res.response.data
+        .filter(d => d.is_deleted)
+        .map(d => d.id);
+
+      if (deletedIds.length > 0) {
+        log.info(`deleted ${serverIds} on ${this.baseChannelUrl}`);
+      }
+
+      const failedIds = res.response.data
+        .filter(d => !d.is_deleted)
+        .map(d => d.id);
+
+      if (failedIds.length > 0) {
+        log.warn(`failed to delete ${failedIds} on ${this.baseChannelUrl}`);
+      }
+
+      // Note: if there is no entry for message, we assume it wasn't found
+      // on the server, so it is not treated as explicitly failed
+      const ignoredIds = _.difference(
+        serverIds,
+        _.union(failedIds, deletedIds)
+      );
+
+      if (ignoredIds.length > 0) {
+        log.warn(`No response for ${ignoredIds} on ${this.baseChannelUrl}`);
+      }
+
+      return { deletedIds, ignoredIds };
     }
-    // fire an alert
-    log.warn(`failed to delete ${serverId} on ${this.baseChannelUrl}`);
     if (canThrow) {
       throw new textsecure.PublicChatError(
         'Failed to delete public chat message'
       );
     }
-    return false;
+    return { deletedIds: [], ignoredIds: [] };
   }
 
   // used for sending messages

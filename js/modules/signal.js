@@ -44,6 +44,7 @@ const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const { MainHeader } = require('../../ts/components/MainHeader');
 const { MemberList } = require('../../ts/components/conversation/MemberList');
+const { BulkEdit } = require('../../ts/components/conversation/BulkEdit');
 const {
   CreateGroupDialog,
 } = require('../../ts/components/conversation/CreateGroupDialog');
@@ -229,6 +230,7 @@ exports.setup = (options = {}) => {
     CreateGroupDialog,
     ConfirmDialog,
     UpdateGroupDialog,
+    BulkEdit,
     MediaGallery,
     Message,
     MessageBody,

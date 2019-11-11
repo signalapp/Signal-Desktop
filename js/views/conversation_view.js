@@ -147,6 +147,11 @@
         'show-message-detail',
         this.showMessageDetail
       );
+      this.listenTo(
+        this.model,
+        'message-selection-changed',
+        this.onMessageSelectionChanged
+      );
       this.listenTo(this.model.messageCollection, 'navigate-to', url => {
         window.location = url;
       });
@@ -302,6 +307,12 @@
       });
 
       this.memberView.render();
+
+      this.bulkEditView = new Whisper.BulkEditView({
+        el: this.$('#bulk-edit-view'),
+        onCancel: this.resetMessageSelection.bind(this),
+        onDelete: this.deleteSelectedMessages.bind(this),
+      });
 
       this.$messageField = this.$('.send-message');
 
@@ -744,6 +755,7 @@
       this.lastActivity = Date.now();
 
       this.model.updateLastMessage();
+      this.model.resetMessageSelection();
 
       if (this.model.isRss()) {
         $('.compose').hide();
@@ -1353,31 +1365,60 @@
       });
     },
 
-    deleteMessage(message) {
-      const warningMessage = this.model.isPublic()
-        ? i18n('deletePublicWarning')
-        : i18n('deleteWarning');
+    deleteSelectedMessages() {
+      const msgArray = Array.from(this.model.selectedMessages);
+
+      this.deleteMessages(msgArray, () => {
+        this.resetMessageSelection();
+      });
+    },
+
+    deleteMessages(messages, onSuccess) {
+      const multiple = messages.length > 1;
+
+      const warningMessage = (() => {
+        if (this.model.isPublic()) {
+          return multiple
+            ? i18n('deleteMultiplePublicWarning')
+            : i18n('deletePublicWarning');
+        }
+        return multiple ? i18n('deleteMultipleWarning') : i18n('deleteWarning');
+      })();
 
       const doDelete = async () => {
+        let toDeleteLocally;
+
         if (this.model.isPublic()) {
-          const success = await this.model.deletePublicMessage(message);
-          if (!success) {
+          toDeleteLocally = await this.model.deletePublicMessages(messages);
+          if (toDeleteLocally.length === 0) {
             // Message failed to delete from server, show error?
             return;
           }
         } else {
-          this.model.messageCollection.remove(message.id);
+          messages.forEach(m => this.model.messageCollection.remove(m.id));
+          toDeleteLocally = messages;
         }
-        await window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
-        });
-        message.trigger('unload');
+
+        await Promise.all(
+          toDeleteLocally.map(async m => {
+            await window.Signal.Data.removeMessage(m.id, {
+              Message: Whisper.Message,
+            });
+            m.trigger('unload');
+          })
+        );
+
         this.resetPanel();
         this.updateHeader();
+
+        if (onSuccess) {
+          onSuccess();
+        }
       };
 
-      // The message wasn't saved, so we don't show any warning
-      if (message.hasErrors()) {
+      // Only show a warning when at least one messages was successfully
+      // saved in on the server
+      if (!messages.some(m => !m.hasErrors())) {
         doDelete();
         return;
       }
@@ -1390,6 +1431,10 @@
 
       this.$el.prepend(dialog.el);
       dialog.focusCancel();
+    },
+
+    deleteMessage(message) {
+      this.deleteMessages([message]);
     },
 
     showLightbox({ attachment, message }) {
@@ -1735,6 +1780,22 @@
       }
     },
 
+    onMessageSelectionChanged() {
+      const selectionSize = this.model.selectedMessages.size;
+
+      if (selectionSize > 0) {
+        $('.compose').hide();
+      } else {
+        $('.compose').show();
+      }
+
+      this.bulkEditView.update(this.model.selectedMessages);
+    },
+
+    resetMessageSelection() {
+      this.model.resetMessageSelection();
+    },
+
     toggleEmojiPanel(e) {
       e.preventDefault();
       if (!this.emojiPanel) {
@@ -1747,6 +1808,9 @@
       if (event.key !== 'Escape') {
         return;
       }
+      // TODO: this view is not always in focus (e.g. after I've selected a message),
+      // so need to make Esc more robust
+      this.model.resetMessageSelection();
       this.closeEmojiPanel();
     },
     openEmojiPanel() {
