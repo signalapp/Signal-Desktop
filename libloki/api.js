@@ -120,30 +120,32 @@
       { ConversationCollection: Whisper.ConversationCollection }
     );
     // Extract required contacts information out of conversations
-    const rawContacts = conversations.map(conversation => {
-      const profile = conversation.getLokiProfile();
-      const number = conversation.getNumber();
-      const name = profile
-        ? profile.displayName
-        : conversation.getProfileName();
-      const status = conversation.safeGetVerified();
-      const protoState = textsecure.storage.protocol.convertVerifiedStatusToProtoState(
-        status
-      );
-      const verified = new textsecure.protobuf.Verified({
-        state: protoState,
-        destination: number,
-        identityKey: StringView.hexToArrayBuffer(number),
-      });
-      return {
-        name,
-        verified,
-        number,
-        nickname: conversation.getNickname(),
-        blocked: conversation.isBlocked(),
-        expireTimer: conversation.get('expireTimer'),
-      };
-    });
+    const rawContacts = await Promise.all(
+      conversations.map(async conversation => {
+        const profile = conversation.getLokiProfile();
+        const number = conversation.getNumber();
+        const name = profile
+          ? profile.displayName
+          : conversation.getProfileName();
+        const status = await conversation.safeGetVerified();
+        const protoState = textsecure.storage.protocol.convertVerifiedStatusToProtoState(
+          status
+        );
+        const verified = new textsecure.protobuf.Verified({
+          state: protoState,
+          destination: number,
+          identityKey: StringView.hexToArrayBuffer(number),
+        });
+        return {
+          name,
+          verified,
+          number,
+          nickname: conversation.getNickname(),
+          blocked: conversation.isBlocked(),
+          expireTimer: conversation.get('expireTimer'),
+        };
+      })
+    );
     // Convert raw contacts to an array of buffers
     const contactDetails = rawContacts
       .filter(x => x.number !== textsecure.storage.user.getNumber())
