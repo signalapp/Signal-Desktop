@@ -94,10 +94,36 @@
 </util.ConversationContext>
 ```
 
-### All colors
+### Group Icon
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar size={80} color="blue" conversationType="group" i18n={util.i18n} />
+  <Avatar size={52} color="blue" conversationType="group" i18n={util.i18n} />
+  <Avatar size={28} color="blue" conversationType="group" i18n={util.i18n} />
+</util.ConversationContext>
+```
+
+### Contact Icon
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar size={80} color="blue" conversationType="direct" i18n={util.i18n} />
+  <Avatar size={52} color="blue" conversationType="direct" i18n={util.i18n} />
+  <Avatar size={28} color="blue" conversationType="direct" i18n={util.i18n} />
+</util.ConversationContext>
+```
+
+### All colors, 28px
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar
+    size={28}
+    color="signal-blue"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
   <Avatar
     size={28}
     color="signal-blue"

@@ -3067,19 +3067,28 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-avatar__icon--group {
   @include light-theme {
-    @include color-svg('../images/profile-group.svg', $color-white);
+    @include color-svg('../images/icons/v2/group-outline-40.svg', $color-white);
   }
   @include dark-theme {
-    @include color-svg('../images/profile-group.svg', $color-gray-05);
+    @include color-svg(
+      '../images/icons/v2/group-outline-40.svg',
+      $color-gray-05
+    );
   }
 }
 
 .module-avatar__icon--direct {
   @include light-theme {
-    @include color-svg('../images/profile-individual.svg', $color-white);
+    @include color-svg(
+      '../images/icons/v2/profile-outline-40.svg',
+      $color-white
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/profile-individual.svg', $color-gray-05);
+    @include color-svg(
+      '../images/icons/v2/profile-outline-40.svg',
+      $color-gray-05
+    );
   }
 }
 
@@ -3093,14 +3102,39 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-avatar__icon--28.module-avatar__icon--group {
+  height: 20px;
+  width: 20px;
+  @include light-theme {
+    @include color-svg('../images/icons/v2/group-outline-20.svg', $color-white);
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-05
+    );
+  }
+}
+.module-avatar__icon--28.module-avatar__icon--direct {
+  height: 20px;
+  width: 20px;
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-outline-20.svg',
+      $color-white
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-outline-20.svg',
+      $color-gray-05
+    );
+  }
+}
+
 .module-avatar__label--28 {
   font-size: 14px;
   line-height: 28px;
-}
-
-.module-avatar__icon--28 {
-  height: 16px;
-  width: 16px;
 }
 
 .module-avatar--52 {
@@ -3121,8 +3155,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-avatar__icon--52 {
-  height: 26px;
-  width: 26px;
+  height: 38px;
+  width: 38px;
+}
+.module-avatar__icon--52.module-avatar__icon--direct {
+  height: 42px;
+  width: 42px;
 }
 
 .module-avatar--80 {
@@ -3142,8 +3180,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-avatar__icon--80 {
-  height: 42px;
-  width: 42px;
+  height: 58px;
+  width: 58px;
+}
+.module-avatar__icon--80.module-avatar__icon--direct {
+  height: 62px;
+  width: 62px;
 }
 
 .module-avatar__icon--note-to-self {
