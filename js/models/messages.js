@@ -2175,15 +2175,18 @@
               - We sent the user a friend request and that user sent us a friend request.
               - We are friends with the user, and that user just sent us a friend request.
             */
-            if (
-              conversation.hasSentFriendRequest() ||
-              conversation.isFriend()
-            ) {
-              // Automatically accept incoming friend requests if we have send one already
-              autoAccept = true;
+            const isFriend = conversation.isFriend();
+            const hasSentFriendRequest = conversation.hasSentFriendRequest();
+            autoAccept = isFriend || hasSentFriendRequest;
+
+            if (autoAccept) {
               message.set({ friendStatus: 'accepted' });
+            }
+
+            if (isFriend) {
+              window.Whisper.events.trigger('endSession', source);
+            } else if (hasSentFriendRequest) {
               await conversation.onFriendRequestAccepted();
-              window.libloki.api.sendBackgroundMessage(message.get('source'));
             } else {
               await conversation.onFriendRequestReceived();
             }
