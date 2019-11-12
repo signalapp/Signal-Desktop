@@ -114,7 +114,7 @@
     buffers.forEach(buffer => {
       // bytebuffer container expands and increments
       // offset automatically
-      result.writeVarint32(buffer.limit);
+      result.writeInt32(buffer.limit);
       result.append(buffer);
     });
     result.limit = result.offset;

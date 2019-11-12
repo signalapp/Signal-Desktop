@@ -14,7 +14,7 @@ ProtoParser.prototype = {
       if (this.buffer.limit === this.buffer.offset) {
         return undefined; // eof
       }
-      const len = this.buffer.readVarint32();
+      const len = this.buffer.readInt32();
       const nextBuffer = this.buffer
         .slice(this.buffer.offset, this.buffer.offset + len)
         .toArrayBuffer();
