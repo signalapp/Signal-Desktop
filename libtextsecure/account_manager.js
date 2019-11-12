@@ -596,7 +596,7 @@
       // throws if invalid
       this.validatePubKeyHex(secondaryDevicePubKey);
       // we need a conversation for sending a message
-      await ConversationController.getOrCreateAndWait(
+      const secondaryConversation = await ConversationController.getOrCreateAndWait(
         secondaryDevicePubKey,
         'private'
       );
@@ -625,6 +625,13 @@
       await libloki.api.sendPairingAuthorisation(
         authorisation,
         secondaryDevicePubKey
+      );
+      // Always be friends with secondary devices
+      await secondaryConversation.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends,
+        {
+          blockSync: true,
+        }
       );
     },
     validatePubKeyHex(pubKey) {

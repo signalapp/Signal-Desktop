@@ -1465,7 +1465,7 @@ MessageReceiver.prototype.extend({
     const ourNumber = textsecure.storage.user.getNumber();
     // NOTE: Maybe we should be caching this list?
     const ourAuthorisations = await libloki.storage.getPrimaryDeviceMapping(
-      ourNumber
+      window.storage.get('primaryDevicePubKey')
     );
     const validSyncSender =
       ourAuthorisations &&
