@@ -1130,14 +1130,6 @@ MessageReceiver.prototype.extend({
           // This call already removes the envelope from the cache
           await this.handleContacts(envelope, syncMessage.contacts);
           removedFromCache = true;
-          if (window.initialisedAPI) {
-            await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
-          } else {
-            // We need to wait here because initAPIs hasn't been called yet
-            Whisper.events.once('apisReady', async () => {
-              await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
-            });
-          }
         }
       } else {
         window.log.warn('Unimplemented pairing authorisation message type');
@@ -1232,8 +1224,6 @@ MessageReceiver.prototype.extend({
       return false;
     }
     await libloki.storage.savePairingAuthorisation(authorisation);
-    // sending a message back = accepting friend request
-    window.libloki.api.sendBackgroundMessage(pubKey);
 
     return true;
   },
@@ -1293,7 +1283,12 @@ MessageReceiver.prototype.extend({
               deviceMapping
             );
             if (autoAccepted) {
-              await conversation.onFriendRequestAccepted();
+              // sending a message back = accepting friend request
+              // Directly setting friend request status to skip the pending state
+              await conversation.setFriendRequestStatus(
+                window.friends.friendRequestStatusEnum.friends
+              );
+              window.libloki.api.sendBackgroundMessage(envelope.source);
               return this.removeFromCache(envelope);
             }
           }

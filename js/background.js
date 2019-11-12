@@ -244,10 +244,13 @@
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
     // singleton to interface the File server
-    window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
-    await window.lokiFileServerAPI.establishConnection(
-      window.getDefaultFileServer()
-    );
+    // If already exists we registered as a secondary device
+    if (!window.lokiFileServerAPI) {
+      window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
+      await window.lokiFileServerAPI.establishConnection(
+        window.getDefaultFileServer()
+      );
+    }
     // are there limits on tracking, is this unneeded?
     // window.mixpanel.track("Desktop boot");
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
@@ -262,7 +265,6 @@
     if (storage.get('isSecondaryDevice')) {
       window.lokiFileServerAPI.updateOurDeviceMapping();
     }
-    Whisper.events.trigger('apisReady');
   };
 
   function mapOldThemeToNew(theme) {
@@ -957,6 +959,10 @@
     if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
       const ourKey = textsecure.storage.user.getNumber();
       window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+      window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
+      await window.lokiFileServerAPI.establishConnection(
+        window.getDefaultFileServer()
+      );
       window.localLokiServer = null;
       window.lokiPublicChatAPI = null;
       window.feeds = [];
@@ -967,6 +973,7 @@
         options
       );
       messageReceiver.addEventListener('message', onMessageReceived);
+      messageReceiver.addEventListener('contact', onContactReceived);
       window.textsecure.messaging = new textsecure.MessageSender(
         USERNAME,
         PASSWORD
@@ -1237,6 +1244,14 @@
 
       if (isSecondaryDevice) {
         await conversation.setSecondaryStatus(true);
+      }
+
+      if (conversation.isFriendRequestStatusNone()) {
+        // Will be replaced with automatic friend request
+        libloki.api.sendBackgroundMessage(conversation.id);
+      } else {
+        // Accept any pending friend requests if there are any
+        conversation.onAcceptFriendRequest({ blockSync: true });
       }
 
       if (details.profileKey) {

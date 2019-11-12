@@ -38,15 +38,22 @@
     let p2pPort = null;
     let type;
 
-    if (!window.localLokiServer || !window.localLokiServer.isListening()) {
-      type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
-    } else {
-      // clearnet change: getMyLokiAddress -> getMyClearIP
-      // const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
-      const myIp = await window.lokiSnodeAPI.getMyClearIp();
+    let myIp;
+    if (window.localLokiServer && window.localLokiServer.isListening()) {
+      try {
+        // clearnet change: getMyLokiAddress -> getMyClearIP
+        // const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
+        myIp = await window.lokiSnodeAPI.getMyClearIp();
+      } catch (e) {
+        log.warn(`Failed to get clear IP for local server ${e}`);
+      }
+    }
+    if (myIp) {
       p2pAddress = `https://${myIp}`;
       p2pPort = window.localLokiServer.getPublicPort();
       type = textsecure.protobuf.LokiAddressMessage.Type.HOST_REACHABLE;
+    } else {
+      type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
     }
 
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
@@ -114,11 +121,7 @@
     result.reset();
     return result;
   }
-  async function createContactSyncProtoMessage() {
-    const conversations = await window.Signal.Data.getConversationsWithFriendStatus(
-      window.friends.friendRequestStatusEnum.friends,
-      { ConversationCollection: Whisper.ConversationCollection }
-    );
+  async function createContactSyncProtoMessage(conversations) {
     // Extract required contacts information out of conversations
     const rawContacts = await Promise.all(
       conversations.map(async conversation => {
@@ -171,29 +174,28 @@
       ourNumber,
       'private'
     );
-    const secondaryConversation = await ConversationController.getOrCreateAndWait(
-      recipientPubKey,
-      'private'
-    );
-    // Always be friends with secondary devices
-    secondaryConversation.setFriendRequestStatus(
-      window.friends.friendRequestStatusEnum.friends
-    );
-    // Send profile name to secondary device
-    const lokiProfile = ourConversation.getLokiProfile();
-    const profile = new textsecure.protobuf.DataMessage.LokiProfile(
-      lokiProfile
-    );
-    const dataMessage = new textsecure.protobuf.DataMessage({
-      profile,
-    });
-    // Attach contact list
-    const syncMessage = await createContactSyncProtoMessage();
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
-      dataMessage,
-      syncMessage,
     });
+    const isGrant = authorisation.primaryDevicePubKey === ourNumber;
+    if (isGrant) {
+      // Send profile name to secondary device
+      const lokiProfile = ourConversation.getLokiProfile();
+      const profile = new textsecure.protobuf.DataMessage.LokiProfile(
+        lokiProfile
+      );
+      const dataMessage = new textsecure.protobuf.DataMessage({
+        profile,
+      });
+      // Attach contact list
+      const conversations = await window.Signal.Data.getConversationsWithFriendStatus(
+        window.friends.friendRequestStatusEnum.friends,
+        { ConversationCollection: Whisper.ConversationCollection }
+      );
+      const syncMessage = await createContactSyncProtoMessage(conversations);
+      content.syncMessage = syncMessage;
+      content.dataMessage = dataMessage;
+    }
     // Send
     const options = { messageType: 'pairing-request' };
     const p = new Promise((resolve, reject) => {
