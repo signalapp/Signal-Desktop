@@ -1,4 +1,4 @@
-/* global window, setTimeout, IDBKeyRange */
+/* global window, setTimeout, clearTimeout, IDBKeyRange */
 
 const electron = require('electron');
 
@@ -124,6 +124,7 @@ module.exports = {
   getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
+  getPubkeysInPublicConversation,
   savePublicServerToken,
   getPublicServerTokenByServerUrl,
   getAllGroupsInvolvingId,
@@ -312,6 +313,11 @@ function _removeJob(id) {
     return;
   }
 
+  if (_jobs[id].timer) {
+    clearTimeout(_jobs[id].timer);
+    _jobs[id].timer = null;
+  }
+
   delete _jobs[id];
 
   if (_shutdownCallback) {
@@ -363,7 +369,7 @@ function makeChannel(fnName) {
         args: _DEBUG ? args : null,
       });
 
-      setTimeout(
+      _jobs[jobId].timer = setTimeout(
         () =>
           reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
         DATABASE_UPDATE_TIMEOUT
@@ -762,6 +768,10 @@ async function getAllPrivateConversations({ ConversationCollection }) {
   const collection = new ConversationCollection();
   collection.add(conversations);
   return collection;
+}
+
+async function getPubkeysInPublicConversation(id) {
+  return channels.getPubkeysInPublicConversation(id);
 }
 
 async function savePublicServerToken(data) {
