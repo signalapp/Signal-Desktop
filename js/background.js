@@ -1247,7 +1247,7 @@
         ourDevices.some(devicePubKey => devicePubKey === id);
 
       if (isOurSecondaryDevice) {
-        await conversation.setSecondaryStatus(true);
+        await conversation.setSecondaryStatus(true, ourPrimaryKey);
       }
 
       if (conversation.isFriendRequestStatusNone()) {

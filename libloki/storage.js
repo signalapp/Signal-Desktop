@@ -172,7 +172,10 @@
       authorisation.secondaryDevicePubKey,
       'private'
     );
-    await conversation.setSecondaryStatus(true);
+    await conversation.setSecondaryStatus(
+      true,
+      authorisation.primaryDevicePubKey
+    );
     await window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
   }
 
