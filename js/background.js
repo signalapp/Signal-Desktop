@@ -360,19 +360,20 @@
       await storage.put('indexeddb-delete-needed', true);
     }
 
+    // How long since we were last running?
     const now = Date.now();
     const lastHeartbeat = storage.get('lastHeartbeat');
     await storage.put('lastStartup', Date.now());
 
     const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-
     if (lastHeartbeat > 0 && now - lastHeartbeat > THIRTY_DAYS) {
       await unlinkAndDisconnect();
-    } else {
-      storage.put('lastHeartbeat', Date.now());
-      const TWELVE_HOURS = 12 * 60 * 60 * 1000;
-      setInterval(() => storage.put('lastHeartbeat', Date.now()), TWELVE_HOURS);
     }
+
+    // Start heartbeat timer
+    storage.put('lastHeartbeat', Date.now());
+    const TWELVE_HOURS = 12 * 60 * 60 * 1000;
+    setInterval(() => storage.put('lastHeartbeat', Date.now()), TWELVE_HOURS);
 
     const currentVersion = window.getVersion();
     const lastVersion = storage.get('version');
