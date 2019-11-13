@@ -22,13 +22,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const {
-    Message: TypedMessage,
-    Contact,
-    PhoneNumber,
-    Attachment,
-    Errors,
-  } = Signal.Types;
+  const { Message: TypedMessage, Contact, PhoneNumber, Errors } = Signal.Types;
 
   const {
     deleteExternalMessageFiles,
@@ -36,7 +30,6 @@
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
-    writeAttachment,
     upgradeMessageSchema,
   } = window.Signal.Migrations;
   const { bytesFromString } = window.Signal.Crypto;
@@ -97,9 +90,6 @@
       this.on('unload', this.unload);
       this.on('expired', this.onExpired);
       this.setToExpire();
-
-      this.updatePreview();
-
       // Keep props ready
       const generateProps = () => {
         if (this.isExpirationTimerUpdate()) {
@@ -161,73 +151,6 @@
       const flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
-    },
-    async updatePreview() {
-      // Don't generate link previews if user has turned them off
-      if (!storage.get('linkPreviews', false)) {
-        return;
-      }
-
-      if (this.updatingPreview) {
-        return;
-      }
-
-      // Only update the preview if we don't have any set
-      const preview = this.get('preview');
-      if (!_.isEmpty(preview)) {
-        return;
-      }
-
-      // Make sure we have links we can preview
-      const links = Signal.LinkPreviews.findLinks(this.get('body'));
-      const firstLink = links.find(link =>
-        Signal.LinkPreviews.isLinkInWhitelist(link)
-      );
-      if (!firstLink) {
-        return;
-      }
-
-      this.updatingPreview = true;
-
-      try {
-        const result = await Signal.LinkPreviews.helper.getPreview(firstLink);
-
-        const { image, title, hash } = result;
-
-        // A link preview isn't worth showing unless we have either a title or an image
-        if (!result || !(image || title)) {
-          this.updatingPreview = false;
-          return;
-        }
-
-        // Save the image to disk
-        const { data } = image;
-        const extension = Attachment.getFileExtension(image);
-        if (data && extension) {
-          const hash32 = hash.substring(0, 32);
-          try {
-            const filePath = await writeAttachment({
-              data,
-              path: `previews/${hash32}.${extension}`,
-            });
-
-            // return the image without the data
-            result.image = _.omit({ ...image, path: filePath }, 'data');
-          } catch (e) {
-            window.log.warn('Failed to write preview to disk', e);
-          }
-        }
-
-        // Save it!!
-        this.set({ preview: [result] });
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-      } catch (e) {
-        window.log.warn(`Failed to load previews for message: ${this.id}`);
-      } finally {
-        this.updatingPreview = false;
-      }
     },
     getEndSessionTranslationKey() {
       const sessionType = this.get('endSessionType');
@@ -438,7 +361,7 @@
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
-      const conversation = this.getConversation();
+      const conversation = await this.getSourceDeviceConversation();
 
       this.set({ friendStatus: 'accepted' });
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1196,6 +1119,14 @@
       //   the database.
       return ConversationController.getUnsafe(this.get('conversationId'));
     },
+    getSourceDeviceConversation() {
+      // This gets the conversation of the device that sent this message
+      // while getConversation will return the primary device conversation
+      return ConversationController.getOrCreateAndWait(
+        this.get('source'),
+        'private'
+      );
+    },
     getIncomingContact() {
       if (!this.isIncoming()) {
         return null;
@@ -1338,7 +1269,9 @@
           });
 
           this.trigger('sent', this);
-          this.sendSyncMessage();
+          if (this.get('type') !== 'friend-request') {
+            this.sendSyncMessage();
+          }
         })
         .catch(result => {
           this.trigger('done');
@@ -1779,6 +1712,7 @@
       //   2. on a sent message sync'd from another device
       //   3. in rare cases, an incoming message can be retried, though it will
       //      still go through one of the previous two codepaths
+      const ourNumber = textsecure.storage.user.getNumber();
       const message = this;
       const source = message.get('source');
       const type = message.get('type');
@@ -1788,7 +1722,8 @@
       );
       if (initialMessage.group) {
         conversationId = initialMessage.group.id;
-      } else if (authorisation) {
+      } else if (source !== ourNumber && authorisation) {
+        // Ignore auth from our devices
         conversationId = authorisation.primaryDevicePubKey;
       }
 
@@ -1891,9 +1826,6 @@
             schemaVersion: dataMessage.schemaVersion,
           });
 
-          // Update the previews if we need to
-          message.updatePreview();
-
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(
               conversation,
@@ -1988,6 +1920,13 @@
                 c.onReadMessage(message);
               }
             } else {
+              if (
+                message.attributes.body &&
+                message.attributes.body.indexOf(`@${ourNumber}`) !== -1
+              ) {
+                conversation.set({ mentionedUs: true });
+              }
+
               conversation.set({
                 unreadCount: conversation.get('unreadCount') + 1,
                 isArchived: false,
@@ -2029,6 +1968,10 @@
             });
           }
 
+          const sendingDeviceConversation = await ConversationController.getOrCreateAndWait(
+            source,
+            'private'
+          );
           if (dataMessage.profileKey) {
             const profileKey = dataMessage.profileKey.toString('base64');
             if (source === textsecure.storage.user.getNumber()) {
@@ -2036,18 +1979,10 @@
             } else if (conversation.isPrivate()) {
               conversation.setProfileKey(profileKey);
             } else {
-              ConversationController.getOrCreateAndWait(source, 'private').then(
-                sender => {
-                  sender.setProfileKey(profileKey);
-                }
-              );
+              sendingDeviceConversation.setProfileKey(profileKey);
             }
           } else if (dataMessage.profile) {
-            ConversationController.getOrCreateAndWait(source, 'private').then(
-              sender => {
-                sender.setLokiProfile(dataMessage.profile);
-              }
-            );
+            sendingDeviceConversation.setLokiProfile(dataMessage.profile);
           }
 
           let autoAccept = false;
@@ -2067,19 +2002,27 @@
               - We are friends with the user, and that user just sent us a friend request.
             */
             if (
-              conversation.hasSentFriendRequest() ||
-              conversation.isFriend()
+              sendingDeviceConversation.hasSentFriendRequest() ||
+              sendingDeviceConversation.isFriend()
             ) {
               // Automatically accept incoming friend requests if we have send one already
               autoAccept = true;
               message.set({ friendStatus: 'accepted' });
-              await conversation.onFriendRequestAccepted();
-              window.libloki.api.sendBackgroundMessage(message.get('source'));
+              await sendingDeviceConversation.onFriendRequestAccepted();
             } else {
-              await conversation.onFriendRequestReceived();
+              await sendingDeviceConversation.onFriendRequestReceived();
             }
-          } else {
-            await conversation.onFriendRequestAccepted();
+          } else if (message.get('type') !== 'outgoing') {
+            // Ignore 'outgoing' messages because they are sync messages
+            await sendingDeviceConversation.onFriendRequestAccepted();
+            // We need to return for these types of messages because android struggles
+            if (
+              !message.get('body') &&
+              !message.get('attachments').length &&
+              !message.get('preview').length
+            ) {
+              return;
+            }
           }
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,

@@ -55,7 +55,15 @@ export class LeftPane extends React.Component<Props, any> {
     const { conversations, friends } = this.props;
     const { currentTab } = this.state;
 
-    return currentTab === 'conversations' ? conversations : friends;
+    let conversationList =
+      currentTab === 'conversations' ? conversations : friends;
+    if (conversationList !== undefined) {
+      conversationList = conversationList.filter(
+        conversation => !conversation.isSecondary
+      );
+    }
+
+    return conversationList;
   }
 
   public renderTabs(): JSX.Element {

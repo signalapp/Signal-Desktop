@@ -342,6 +342,13 @@ export class MainHeader extends React.Component<Props, any> {
           trigger('showQRDialog');
         },
       },
+      {
+        id: 'showAddServer',
+        name: i18n('showAddServer'),
+        onClick: () => {
+          trigger('showAddServerDialog');
+        },
+      },
     ];
 
     const passItem = (type: string) => ({
@@ -372,6 +379,14 @@ export class MainHeader extends React.Component<Props, any> {
         name: 'Device Pairing',
         onClick: () => {
           trigger('showDevicePairingDialog');
+        },
+      });
+    } else {
+      menuItems.push({
+        id: 'showPairingWords',
+        name: 'Show Pairing Words',
+        onClick: () => {
+          trigger('showDevicePairingWordsDialog');
         },
       });
     }

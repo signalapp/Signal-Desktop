@@ -136,9 +136,9 @@
                 <div class='capture-audio hide'>
                     <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 </div>
-                <div class='choose-file hide'>
+                <div id='choose-file' class='choose-file'>
                     <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    <input type='file' class='file-input' multiple='multiple'>
+                    <input type='file' class='file-input' multiple='multiple' accept='video/* image/*'>
                 </div>
               </div>
             </form>
@@ -253,7 +253,6 @@
       <div class="defaultView">
         <h4>{{ defaultTitle }}</h4>
         <ul id="pairedPubKeys">
-          <li>No paired devices</li>
         </ul>
         <div class='buttons'>
           <button id='close' tabindex='2'>{{ closeText }}</button>
@@ -285,10 +284,31 @@
         <h4>{{ requestAcceptedTitle }}</h4>
         <p class="secretWords"></p>
         <p class="transmissionStatus">Please be patient...</p>
+        <div id="deviceAliasView" style="display: none;" >
+          <input id="deviceAlias" type="text" placeholder="Device Alias" required>
+        </div>
         <div class='buttons'>
           <button class="ok" style="display: none;">{{ okText }}</button>
         </div>
       </div>
+
+      <!--Prompt user to confirm unpairing -->
+      <div class="confirmUnpairView" style="display: none;">
+        <h4>{{ confirmUnpairViewTitle }}</h4>
+        <p id="pubkey"></p>
+        <div class='buttons'>
+            <button class='cancel' tabindex='2'>{{ cancelText }}</button>
+            <button class='unpairDevice' tabindex='1'>{{ unpairDevice }}</button>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type='text/x-tmpl-mustache' id='device-pairing-words-dialog'>
+    <div class="content">
+        <h4>{{ title }}</h4>
+        <p>{{ secretWords }}</p>
+        <button id='close'>{{ closeText }}</button>
     </div>
   </script>
 
@@ -324,6 +344,29 @@
             As a beta, this software is still experimental. When things aren't working for you, or you feel confused by the app, please let us know by filing an issue on <a href="https://github.com/loki-project/loki-messenger">Github</a> or making suggestions on <a href="https://discordapp.com/invite/67GXfD6">Discord</a>.
         </p>
 
+        <button class='ok' tabindex='1'>{{ ok }}</button>
+      </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='connecting-to-server-template'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <div class='buttons'>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+      </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='add-server-template'>
+    <div class="content">
+      {{ #title }}
+        <h4>{{ title }}</h4>
+      {{ /title }}
+      <input type='text' id='server-url' placeholder='Server Url' autofocus>
+      <div class='error'></div>
+      <div class='buttons'>
+        <button class='cancel' tabindex='2'>{{ cancel }}</button>
         <button class='ok' tabindex='1'>{{ ok }}</button>
       </div>
     </div>
@@ -688,7 +731,7 @@
           <!-- Profile -->
           <div class='page'>
             <div class='display-name-input'>
-              <div class='input-header'>Enter a name that will be shown to all your contacts</div>
+              <div class='input-header'>Enter your public display name (alphanumeric characters and underscores only)</div>
               <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
             </div>
             <div class='password-inputs'>
@@ -733,7 +776,6 @@
   <script type='text/javascript' src='js/expire.js'></script>
   <script type='text/javascript' src='js/conversation_controller.js'></script>
   <script type='text/javascript' src='js/blocked_number_controller.js'></script>
-  <script type='text/javascript' src='js/link_previews_helper.js'></script>
   <script type='text/javascript' src='js/message_controller.js'></script>
 
   <script type='text/javascript' src='js/views/react_wrapper_view.js'></script>
@@ -759,6 +801,8 @@
   <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/qr_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/connecting_to_server_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/add_server_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/beta_release_disclaimer_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
@@ -769,6 +813,7 @@
   <script type='text/javascript' src='js/views/import_view.js'></script>
   <script type='text/javascript' src='js/views/clear_data_view.js'></script>
   <script type='text/javascript' src='js/views/device_pairing_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/device_pairing_words_dialog_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>

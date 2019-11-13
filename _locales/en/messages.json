@@ -166,6 +166,11 @@
     "description":
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "connectingLoad": {
+    "message": "Connecting...",
+    "description":
+      "Message shown on the as a loading screen while we are connecting to something"
+  },
   "loading": {
     "message": "Loading...",
     "description":
@@ -950,6 +955,18 @@
   "allowPairing": {
     "message": "Allow Pairing"
   },
+  "provideDeviceAlias": {
+    "message": "Please provide an alias for this paired device"
+  },
+  "showPairingWordsTitle": {
+    "message": "Pairing Secret Words"
+  },
+  "confirmUnpairingTitle": {
+    "message": "Please confirm you want to unpair the following device:"
+  },
+  "unpairDevice": {
+    "message": "Unpair Device"
+  },
   "clear": {
     "message": "Clear"
   },
@@ -1002,6 +1019,18 @@
   "sendMessage": {
     "message": "Send a message",
     "description": "Placeholder text in the message entry field"
+  },
+  "secondaryDeviceDefaultFR": {
+    "message":
+      "This is an automated friend request because you are friends with another one of my devices",
+    "description":
+      "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
+  },
+  "sendMessageDisabledSecondary": {
+    "message":
+      "This pubkey belongs to a secondary device. You should never see this message",
+    "description":
+      "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
   },
   "sendMessageDisabled": {
     "message": "Waiting for friend request approval",
@@ -1253,8 +1282,7 @@
       "Additional detail provided for Link Previews option in settings screen"
   },
   "linkPreviewsSettingDescription": {
-    "message":
-      "Enable local link previews (Restart for changes to take effect).",
+    "message": "Enable local link previews",
     "description": "Description shown for the Link Preview option "
   },
   "spellCheckDescription": {
@@ -1923,7 +1951,8 @@
       "Shown in the settings page as the heading for the blocked user settings"
   },
   "editProfileTitle": {
-    "message": "Change your own display name",
+    "message":
+      "Change your own display name (alphanumeric characters and underscores only)",
     "description": "The title shown when user edits their own profile"
   },
   "editProfileDisplayNameWarning": {
@@ -1963,6 +1992,16 @@
   "showQRCode": {
     "message": "Show QR code",
     "description": "Button action that the user can click to view their QR code"
+  },
+  "showAddServer": {
+    "message": "Add public server",
+    "description":
+      "Button action that the user can click to connect to a new public server"
+  },
+  "addServerDialogTitle": {
+    "message": "Connect to new public server",
+    "description":
+      "Title for the dialog box used to connect to a new public server"
   },
 
   "seedViewTitle": {
@@ -2014,6 +2053,15 @@
   },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match"
+  },
+  "publicChatExists": {
+    "message": "You are already connected to this public channel"
+  },
+  "connectToServerFail": {
+    "message": "Failed to connect to server. Check URL"
+  },
+  "connectToServerSuccess": {
+    "message": "Successfully connected to new public chat server"
   },
   "setPasswordFail": {
     "message": "Failed to set password"

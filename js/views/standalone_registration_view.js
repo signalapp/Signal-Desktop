@@ -1,10 +1,12 @@
-/* global Whisper,
+/* global
+ Whisper,
  $,
  getAccountManager,
  textsecure,
  i18n,
  passwordUtil,
  _,
+ setTimeout
 */
 
 /* eslint-disable more/no-then */
@@ -14,6 +16,10 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
+
+  const REGISTER_INDEX = 0;
+  const PROFILE_INDEX = 1;
+  let currentPageIndex = REGISTER_INDEX;
 
   Whisper.StandaloneRegistrationView = Whisper.View.extend({
     templateName: 'standalone',
@@ -67,8 +73,24 @@
       this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(
         this
       );
+      const sanitiseNameInput = () => {
+        const oldVal = this.$('#display-name').val();
+        this.$('#display-name').val(oldVal.replace(/[^a-zA-Z0-9_]/g, ''));
+      };
+
+      this.$('#display-name').get(0).oninput = () => {
+        sanitiseNameInput();
+      };
+
+      this.$('#display-name').get(0).onpaste = () => {
+        // Sanitise data immediately after paste because it's easier
+        setTimeout(() => {
+          sanitiseNameInput();
+        });
+      };
     },
     events: {
+      keyup: 'onKeyup',
       'validation input.number': 'onValidation',
       'click #request-voice': 'requestVoice',
       'click #request-sms': 'requestSMSVerification',
@@ -94,12 +116,13 @@
           $(this).hide();
         } else {
           $(this).show();
+          currentPageIndex = pageIndex;
         }
       });
     },
     async showRegisterPage() {
       this.registrationParams = {};
-      this.showPage(0);
+      this.showPage(REGISTER_INDEX);
     },
     async showProfilePage(mnemonic, language) {
       this.registrationParams = {
@@ -109,7 +132,25 @@
       this.$passwordInput.val('');
       this.$passwordConfirmationInput.val('');
       this.onValidatePassword();
-      this.showPage(1);
+      this.showPage(PROFILE_INDEX);
+      this.$('#display-name').focus();
+    },
+    onKeyup(event) {
+      if (currentPageIndex !== PROFILE_INDEX) {
+        // Only want enter/escape keys to work on profile page
+        return;
+      }
+
+      switch (event.key) {
+        case 'Enter':
+          this.onSaveProfile();
+          break;
+        case 'Escape':
+        case 'Esc':
+          this.onBack();
+          break;
+        default:
+      }
     },
     async register(mnemonic, language) {
       // Make sure the password is valid
@@ -227,11 +268,7 @@
         );
         await this.accountManager.requestPairing(primaryPubKey);
         const pubkey = textsecure.storage.user.getNumber();
-        const words = window.mnemonic
-          .mn_encode(pubkey.slice(2), 'english')
-          .split(' ')
-          .slice(-3)
-          .join(' ');
+        const words = window.mnemonic.pubkey_to_secret_words(pubkey);
 
         this.$('.standalone-secondary-device #pubkey').text(
           `Here is your secret:\n${words}`

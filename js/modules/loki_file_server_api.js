@@ -1,23 +1,33 @@
 /* global dcodeIO, window, log, textsecure */
 /* global storage: false */
 /* global Signal: false */
+/* global log: false */
 
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
 const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
 
+/*
 // returns the LokiFileServerAPI constructor with the serverUrl already consumed
 function LokiFileServerAPIWrapper(serverUrl) {
   return LokiFileServerAPI.bind(null, serverUrl);
 }
+*/
 
 // can have multiple of these objects instances as each user can have a
 // different home server
 class LokiFileServerAPI {
-  constructor(serverUrl, ourKey) {
+  constructor(ourKey) {
     this.ourKey = ourKey;
     this._adnApi = new LokiAppDotNetAPI(ourKey);
-    this._server = this._adnApi.findOrCreateServer(serverUrl);
+  }
+
+  async establishConnection(serverUrl) {
+    this._server = await this._adnApi.findOrCreateServer(serverUrl);
+    // TODO: Handle this failure gracefully
+    if (!this._server) {
+      log.error('Failed to establish connection to file server');
+    }
   }
 
   async getUserDeviceMapping(pubKey) {
@@ -231,6 +241,10 @@ class LokiFileServerAPI {
       content
     );
   }
+
+  uploadPrivateAttachment(data) {
+    return this._server.uploadData(data);
+  }
 }
 
-module.exports = LokiFileServerAPIWrapper;
+module.exports = LokiFileServerAPI;

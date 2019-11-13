@@ -224,5 +224,13 @@
       });
       this.el.append(dialog.el);
     },
+    showDevicePairingWordsDialog() {
+      const dialog = new Whisper.DevicePairingWordsDialogView();
+      this.el.append(dialog.el);
+    },
+    showAddServerDialog() {
+      const dialog = new Whisper.AddServerDialogView();
+      this.el.append(dialog.el);
+    },
   });
 })();

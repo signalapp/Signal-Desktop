@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -168,7 +168,7 @@ MessageSender.prototype = {
   constructor: MessageSender,
 
   //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  makeAttachmentPointer(attachment) {
+  async makeAttachmentPointer(attachment, publicServer = null) {
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }
@@ -185,39 +185,49 @@ MessageSender.prototype = {
     }
 
     const proto = new textsecure.protobuf.AttachmentPointer();
-    proto.key = libsignal.crypto.getRandomBytes(64);
-
-    const iv = libsignal.crypto.getRandomBytes(16);
-    return textsecure.crypto
-      .encryptAttachment(attachment.data, proto.key, iv)
-      .then(result =>
-        this.server.putAttachment(result.ciphertext).then(id => {
-          proto.id = id;
-          proto.contentType = attachment.contentType;
-          proto.digest = result.digest;
-
-          if (attachment.size) {
-            proto.size = attachment.size;
-          }
-          if (attachment.fileName) {
-            proto.fileName = attachment.fileName;
-          }
-          if (attachment.flags) {
-            proto.flags = attachment.flags;
-          }
-          if (attachment.width) {
-            proto.width = attachment.width;
-          }
-          if (attachment.height) {
-            proto.height = attachment.height;
-          }
-          if (attachment.caption) {
-            proto.caption = attachment.caption;
-          }
-
-          return proto;
-        })
+    let attachmentData;
+    let server;
+    if (publicServer) {
+      attachmentData = attachment.data;
+      server = publicServer;
+    } else {
+      proto.key = libsignal.crypto.getRandomBytes(64);
+      const iv = libsignal.crypto.getRandomBytes(16);
+      const result = await textsecure.crypto.encryptAttachment(
+        attachment.data,
+        proto.key,
+        iv
       );
+      proto.digest = result.digest;
+      attachmentData = result.ciphertext;
+      ({ server } = this);
+    }
+
+    const { url, id } = await server.putAttachment(attachmentData);
+    proto.id = id;
+    proto.url = url;
+    proto.contentType = attachment.contentType;
+
+    if (attachment.size) {
+      proto.size = attachment.size;
+    }
+    if (attachment.fileName) {
+      proto.fileName = attachment.fileName;
+    }
+    if (attachment.flags) {
+      proto.flags = attachment.flags;
+    }
+    if (attachment.width) {
+      proto.width = attachment.width;
+    }
+    if (attachment.height) {
+      proto.height = attachment.height;
+    }
+    if (attachment.caption) {
+      proto.caption = attachment.caption;
+    }
+
+    return proto;
   },
 
   queueJobForNumber(number, runJob) {
@@ -240,9 +250,11 @@ MessageSender.prototype = {
     });
   },
 
-  uploadAttachments(message) {
+  uploadAttachments(message, publicServer) {
     return Promise.all(
-      message.attachments.map(this.makeAttachmentPointer.bind(this))
+      message.attachments.map(attachment =>
+        this.makeAttachmentPointer(attachment, publicServer)
+      )
     )
       .then(attachmentPointers => {
         // eslint-disable-next-line no-param-reassign
@@ -257,12 +269,12 @@ MessageSender.prototype = {
       });
   },
 
-  async uploadLinkPreviews(message) {
+  async uploadLinkPreviews(message, publicServer) {
     try {
       const preview = await Promise.all(
         (message.preview || []).map(async item => ({
           ...item,
-          image: await this.makeAttachmentPointer(item.image),
+          image: await this.makeAttachmentPointer(item.image, publicServer),
         }))
       );
       // eslint-disable-next-line no-param-reassign
@@ -276,7 +288,7 @@ MessageSender.prototype = {
     }
   },
 
-  uploadThumbnails(message) {
+  uploadThumbnails(message, publicServer) {
     const makePointer = this.makeAttachmentPointer.bind(this);
     const { quote } = message;
 
@@ -291,7 +303,7 @@ MessageSender.prototype = {
           return null;
         }
 
-        return makePointer(thumbnail).then(pointer => {
+        return makePointer(thumbnail, publicServer).then(pointer => {
           // eslint-disable-next-line no-param-reassign
           attachment.attachmentPointer = pointer;
         });
@@ -308,19 +320,13 @@ MessageSender.prototype = {
   sendMessage(attrs, options) {
     const message = new Message(attrs);
     const silent = false;
-
-    // Remove this when we add support for attachments
-    message.attachments = [];
-    message.attachmentPointers = [];
-    message.preview = [];
-    if (message.quote) {
-      message.quote.attachments = [];
-    }
+    const publicServer =
+      options.publicSendData && options.publicSendData.serverAPI;
 
     return Promise.all([
-      this.uploadAttachments(message),
-      this.uploadThumbnails(message),
-      this.uploadLinkPreviews(message),
+      this.uploadAttachments(message, publicServer),
+      this.uploadThumbnails(message, publicServer),
+      this.uploadLinkPreviews(message, publicServer),
     ]).then(
       () =>
         new Promise((resolve, reject) => {
@@ -428,7 +434,7 @@ MessageSender.prototype = {
     return syncMessage;
   },
 
-  sendSyncMessage(
+  async sendSyncMessage(
     encodedDataMessage,
     timestamp,
     destination,
@@ -437,10 +443,16 @@ MessageSender.prototype = {
     unidentifiedDeliveries = [],
     options
   ) {
-    const myNumber = textsecure.storage.user.getNumber();
-    const myDevice = textsecure.storage.user.getDeviceId();
-    if (myDevice === 1 || myDevice === '1') {
-      return Promise.resolve();
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    const allOurDevices = (await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+      primaryDeviceKey
+    ))
+      // Don't send to ourselves
+      .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
+    if (allOurDevices.length === 0) {
+      return null;
     }
 
     const dataMessage = textsecure.protobuf.DataMessage.decode(
@@ -483,7 +495,7 @@ MessageSender.prototype = {
 
     const silent = true;
     return this.sendIndividualProto(
-      myNumber,
+      primaryDeviceKey,
       contentMessage,
       Date.now(),
       silent,
@@ -551,6 +563,38 @@ MessageSender.prototype = {
     return Promise.resolve();
   },
 
+  async sendContactSyncMessage(contactConversation) {
+    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    const allOurDevices = (await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+      primaryDeviceKey
+    ))
+      // Don't send to ourselves
+      .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
+    if (
+      allOurDevices.includes(contactConversation.id) ||
+      !primaryDeviceKey ||
+      allOurDevices.length === 0
+    ) {
+      // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+      return Promise.resolve();
+    }
+
+    const syncMessage = await libloki.api.createContactSyncProtoMessage([
+      contactConversation,
+    ]);
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      primaryDeviceKey,
+      contentMessage,
+      Date.now(),
+      silent,
+      {} // options
+    );
+  },
+
   sendRequestContactSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -582,7 +626,8 @@ MessageSender.prototype = {
     // We don't want to send typing messages to our other devices, but we will
     //   in the group case.
     const myNumber = textsecure.storage.user.getNumber();
-    if (recipientId && myNumber === recipientId) {
+    const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
+    if (recipientId && primaryDevicePubkey === recipientId) {
       return null;
     }
 
@@ -1147,6 +1192,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(
     sender
   );
+  this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
   this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(
     sender
   );

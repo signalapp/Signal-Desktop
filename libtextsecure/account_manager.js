@@ -546,6 +546,10 @@
     async registrationDone(number, displayName) {
       window.log.info('registration done');
 
+      if (!textsecure.storage.get('secondaryDeviceStatus')) {
+        // We have registered as a primary device
+        textsecure.storage.put('primaryDevicePubKey', number);
+      }
       // Ensure that we always have a conversation for ourself
       const conversation = await ConversationController.getOrCreateAndWait(
         number,
@@ -567,17 +571,14 @@
       if (primaryDevicePubKey === ourPubKey) {
         throw new Error('Cannot request to pair with ourselves');
       }
-      const requestType =
-        textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST;
       const requestSignature = await libloki.crypto.generateSignatureForPairing(
         primaryDevicePubKey,
-        requestType
+        libloki.crypto.PairingType.REQUEST
       );
       const authorisation = {
         primaryDevicePubKey,
         secondaryDevicePubKey: ourPubKey,
         requestSignature,
-        type: requestType,
       };
       await libloki.api.sendPairingAuthorisation(
         authorisation,
@@ -599,11 +600,9 @@
         secondaryDevicePubKey,
         'private'
       );
-      const grantType =
-        textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT;
       const grantSignature = await libloki.crypto.generateSignatureForPairing(
         secondaryDevicePubKey,
-        grantType
+        libloki.crypto.PairingType.GRANT
       );
       const existingAuthorisation = await libloki.storage.getAuthorisationForSecondaryPubKey(
         secondaryDevicePubKey
@@ -619,7 +618,6 @@
         secondaryDevicePubKey,
         requestSignature,
         grantSignature,
-        type: grantType,
       };
       // Update authorisation in database with the new grant signature
       await libloki.storage.savePairingAuthorisation(authorisation);

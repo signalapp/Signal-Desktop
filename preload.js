@@ -22,6 +22,8 @@ if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
 
+window.Lodash = require('lodash');
+
 window.platform = process.platform;
 window.getDefaultPoWDifficulty = () => config.defaultPoWDifficulty;
 window.getTitle = () => title;
@@ -39,6 +41,8 @@ window.isBehindProxy = () => Boolean(config.proxyUrl);
 window.JobQueue = JobQueue;
 window.getStoragePubKey = key =>
   window.isDev() ? key.substring(0, key.length - 2) : key;
+window.getDefaultFileServer = () => config.defaultFileServer;
+window.initialisedAPI = false;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -326,10 +330,7 @@ window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
-const LokiFileServerAPIWrapper = require('./js/modules/loki_file_server_api');
-
-// bind first argument as we have it here already
-window.LokiFileServerAPI = LokiFileServerAPIWrapper(config.defaultFileServer);
+window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
 window.LokiRssAPI = require('./js/modules/loki_rss_api');
 
@@ -456,3 +457,7 @@ if (config.environment === 'test') {
 window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
+
+window.lokiFeatureFlags = {
+  multiDeviceUnpairing: false,
+};

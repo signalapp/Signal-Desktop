@@ -26,6 +26,7 @@ export type PropsData = {
 
   lastUpdated: number;
   unreadCount: number;
+  mentionedUs: boolean;
   isSelected: boolean;
 
   isTyping: boolean;
@@ -40,6 +41,7 @@ export type PropsData = {
   isOnline?: boolean;
   hasNickname?: boolean;
   isFriendItem?: boolean;
+  isSecondary?: boolean;
 };
 
 type PropsHousekeeping = {
@@ -93,12 +95,17 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderUnread() {
-    const { unreadCount } = this.props;
+    const { unreadCount, mentionedUs } = this.props;
 
     if (unreadCount > 0) {
+      const atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
+
       return (
-        <div className="module-conversation-list-item__unread-count">
-          {unreadCount}
+        <div>
+          <p className="module-conversation-list-item__unread-count">
+            {unreadCount}
+          </p>
+          {atSymbol}
         </div>
       );
     }
@@ -285,6 +292,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       showFriendRequestIndicator,
       isBlocked,
       style,
+      mentionedUs,
     } = this.props;
 
     const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
@@ -304,6 +312,9 @@ export class ConversationListItem extends React.PureComponent<Props> {
               'module-conversation-list-item',
               unreadCount > 0
                 ? 'module-conversation-list-item--has-unread'
+                : null,
+              unreadCount > 0 && mentionedUs
+                ? 'module-conversation-list-item--mentioned-us'
                 : null,
               isSelected ? 'module-conversation-list-item--is-selected' : null,
               showFriendRequestIndicator

@@ -6,6 +6,7 @@ module.exports = {
   mn_decode,
   sc_reduce32,
   get_languages,
+  pubkey_to_secret_words,
 };
 class MnemonicError extends Error {}
 
@@ -189,4 +190,11 @@ for (var i in mn_words) {
       );
     }
   }
+}
+
+function pubkey_to_secret_words(pubKey) {
+  return mn_encode(pubKey.slice(2), 'english')
+    .split(' ')
+    .slice(0, 3)
+    .join(' ');
 }

@@ -14,6 +14,9 @@
     }
 
     background-color: $color-light-10;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     .name-part {
       font-weight: 300;
@@ -22,6 +25,7 @@
 
     .pubkey-part {
       margin-left: 6px;
+      color: darkslategrey;
     }
   }
 
@@ -60,10 +64,43 @@
       background-color: $color-dark-70;
 
       color: white;
+
+      .pubkey-part {
+        color: rgb(230, 230, 230);
+      }
     }
 
     .member-selected {
       background-color: $color-dark-60;
     }
   }
+}
+
+.module-conversation-list-item--mentioned-us {
+  border-left: 4px solid #ffb000 !important;
+}
+
+.at-symbol {
+  background-color: #ffb000;
+
+  color: $color-black;
+  text-align: center;
+
+  padding-top: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+
+  position: absolute;
+  right: -6px;
+  top: 12px;
+
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.25px;
+
+  height: 16px;
+  min-width: 16px;
+  border-radius: 8px;
+
+  box-shadow: 0px 0px 0px 1px $color-dark-85;
 }

@@ -1,4 +1,4 @@
-/* global window, textsecure, log, Whisper, dcodeIO, StringView */
+/* global window, textsecure, log, Whisper, dcodeIO, StringView, ConversationController */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -27,19 +27,33 @@
   }
 
   async function sendOnlineBroadcastMessage(pubKey, isPing = false) {
+    const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+      pubKey
+    );
+    if (authorisation && authorisation.primaryDevicePubKey !== pubKey) {
+      sendOnlineBroadcastMessage(authorisation.primaryDevicePubKey);
+      return;
+    }
     let p2pAddress = null;
     let p2pPort = null;
     let type;
 
-    if (!window.localLokiServer.isListening()) {
-      type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
-    } else {
-      // clearnet change: getMyLokiAddress -> getMyClearIP
-      // const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
-      const myIp = await window.lokiSnodeAPI.getMyClearIp();
+    let myIp;
+    if (window.localLokiServer && window.localLokiServer.isListening()) {
+      try {
+        // clearnet change: getMyLokiAddress -> getMyClearIP
+        // const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
+        myIp = await window.lokiSnodeAPI.getMyClearIp();
+      } catch (e) {
+        log.warn(`Failed to get clear IP for local server ${e}`);
+      }
+    }
+    if (myIp) {
       p2pAddress = `https://${myIp}`;
       p2pPort = window.localLokiServer.getPublicPort();
       type = textsecure.protobuf.LokiAddressMessage.Type.HOST_REACHABLE;
+    } else {
+      type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
     }
 
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
@@ -70,16 +84,10 @@
     secondaryDevicePubKey,
     requestSignature,
     grantSignature,
-    type,
   }) {
-    if (
-      !primaryDevicePubKey ||
-      !secondaryDevicePubKey ||
-      !requestSignature ||
-      typeof type !== 'number'
-    ) {
+    if (!primaryDevicePubKey || !secondaryDevicePubKey || !requestSignature) {
       throw new Error(
-        'createPairingAuthorisationProtoMessage: pubkeys or type is not set'
+        'createPairingAuthorisationProtoMessage: pubkeys missing'
       );
     }
     if (requestSignature.constructor !== ArrayBuffer) {
@@ -97,7 +105,6 @@
       grantSignature: grantSignature ? new Uint8Array(grantSignature) : null,
       primaryDevicePubKey,
       secondaryDevicePubKey,
-      type,
     });
   }
   // Serialise as <Element0.length><Element0><Element1.length><Element1>...
@@ -114,36 +121,34 @@
     result.reset();
     return result;
   }
-  async function createContactSyncProtoMessage() {
-    const conversations = await window.Signal.Data.getConversationsWithFriendStatus(
-      window.friends.friendRequestStatusEnum.friends,
-      { ConversationCollection: Whisper.ConversationCollection }
-    );
+  async function createContactSyncProtoMessage(conversations) {
     // Extract required contacts information out of conversations
-    const rawContacts = conversations.map(conversation => {
-      const profile = conversation.getLokiProfile();
-      const number = conversation.getNumber();
-      const name = profile
-        ? profile.displayName
-        : conversation.getProfileName();
-      const status = conversation.safeGetVerified();
-      const protoState = textsecure.storage.protocol.convertVerifiedStatusToProtoState(
-        status
-      );
-      const verified = new textsecure.protobuf.Verified({
-        state: protoState,
-        destination: number,
-        identityKey: StringView.hexToArrayBuffer(number),
-      });
-      return {
-        name,
-        verified,
-        number,
-        nickname: conversation.getNickname(),
-        blocked: conversation.isBlocked(),
-        expireTimer: conversation.get('expireTimer'),
-      };
-    });
+    const rawContacts = await Promise.all(
+      conversations.map(async conversation => {
+        const profile = conversation.getLokiProfile();
+        const number = conversation.getNumber();
+        const name = profile
+          ? profile.displayName
+          : conversation.getProfileName();
+        const status = await conversation.safeGetVerified();
+        const protoState = textsecure.storage.protocol.convertVerifiedStatusToProtoState(
+          status
+        );
+        const verified = new textsecure.protobuf.Verified({
+          state: protoState,
+          destination: number,
+          identityKey: StringView.hexToArrayBuffer(number),
+        });
+        return {
+          name,
+          verified,
+          number,
+          nickname: conversation.getNickname(),
+          blocked: conversation.isBlocked(),
+          expireTimer: conversation.get('expireTimer'),
+        };
+      })
+    );
     // Convert raw contacts to an array of buffers
     const contactDetails = rawContacts
       .filter(x => x.number !== textsecure.storage.user.getNumber())
@@ -164,26 +169,33 @@
     const pairingAuthorisation = createPairingAuthorisationProtoMessage(
       authorisation
     );
-    // Send profile name to secondary device
     const ourNumber = textsecure.storage.user.getNumber();
-    const conversation = await window.ConversationController.getOrCreateAndWait(
+    const ourConversation = await ConversationController.getOrCreateAndWait(
       ourNumber,
       'private'
     );
-    const lokiProfile = conversation.getLokiProfile();
-    const profile = new textsecure.protobuf.DataMessage.LokiProfile(
-      lokiProfile
-    );
-    const dataMessage = new textsecure.protobuf.DataMessage({
-      profile,
-    });
-    // Attach contact list
-    const syncMessage = await createContactSyncProtoMessage();
     const content = new textsecure.protobuf.Content({
       pairingAuthorisation,
-      dataMessage,
-      syncMessage,
     });
+    const isGrant = authorisation.primaryDevicePubKey === ourNumber;
+    if (isGrant) {
+      // Send profile name to secondary device
+      const lokiProfile = ourConversation.getLokiProfile();
+      const profile = new textsecure.protobuf.DataMessage.LokiProfile(
+        lokiProfile
+      );
+      const dataMessage = new textsecure.protobuf.DataMessage({
+        profile,
+      });
+      // Attach contact list
+      const conversations = await window.Signal.Data.getConversationsWithFriendStatus(
+        window.friends.friendRequestStatusEnum.friends,
+        { ConversationCollection: Whisper.ConversationCollection }
+      );
+      const syncMessage = await createContactSyncProtoMessage(conversations);
+      content.syncMessage = syncMessage;
+      content.dataMessage = dataMessage;
+    }
     // Send
     const options = { messageType: 'pairing-request' };
     const p = new Promise((resolve, reject) => {

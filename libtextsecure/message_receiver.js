@@ -20,6 +20,8 @@
 /* global feeds: false */
 /* global Whisper: false */
 /* global lokiFileServerAPI: false */
+/* global WebAPI: false */
+/* global ConversationController: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -30,6 +32,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
+  this.server = WebAPI.connect({ username, password });
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -1016,7 +1019,9 @@ MessageReceiver.prototype.extend({
       this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
-        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const isMe =
+          envelope.source === textsecure.storage.user.getNumber() ||
+          envelope.source === window.storage.get('primaryDevicePubKey');
         const isLeavingGroup = Boolean(
           message.group &&
             message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
@@ -1093,8 +1098,8 @@ MessageReceiver.prototype.extend({
         'Received invalid pairing authorisation for self. Could not verify signature. Ignoring.'
       );
     } else {
-      const { type, primaryDevicePubKey } = pairingAuthorisation;
-      if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT) {
+      const { primaryDevicePubKey, grantSignature } = pairingAuthorisation;
+      if (grantSignature) {
         // Authorisation received to become a secondary device
         window.log.info(
           `Received pairing authorisation from ${primaryDevicePubKey}`
@@ -1105,10 +1110,16 @@ MessageReceiver.prototype.extend({
         // along with each friend request.
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
+        window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
+        const primaryConversation = await ConversationController.getOrCreateAndWait(
+          primaryDevicePubKey,
+          'private'
+        );
+        primaryConversation.trigger('change');
         Whisper.events.trigger('secondaryDeviceRegistration');
         // Update profile name
         if (dataMessage && dataMessage.profile) {
-          const ourNumber = textsecure.storage.user.getNumber();
+          const ourNumber = window.storage.get('primaryDevicePubKey');
           const me = window.ConversationController.get(ourNumber);
           if (me) {
             me.setLokiProfile(dataMessage.profile);
@@ -1119,7 +1130,6 @@ MessageReceiver.prototype.extend({
           // This call already removes the envelope from the cache
           await this.handleContacts(envelope, syncMessage.contacts);
           removedFromCache = true;
-          await this.sendFriendRequestsToSyncContacts(syncMessage.contacts);
         }
       } else {
         window.log.warn('Unimplemented pairing authorisation message type');
@@ -1165,17 +1175,18 @@ MessageReceiver.prototype.extend({
   },
   async handlePairingAuthorisationMessage(envelope, content) {
     const { pairingAuthorisation } = content;
-    const { type, secondaryDevicePubKey } = pairingAuthorisation;
-    if (type === textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST) {
-      return this.handlePairingRequest(envelope, pairingAuthorisation);
-    } else if (secondaryDevicePubKey === textsecure.storage.user.getNumber()) {
+    const { secondaryDevicePubKey, grantSignature } = pairingAuthorisation;
+    const isGrant =
+      grantSignature &&
+      secondaryDevicePubKey === textsecure.storage.user.getNumber();
+    if (isGrant) {
       return this.handleAuthorisationForSelf(
         envelope,
         pairingAuthorisation,
         content
       );
     }
-    return this.handleAuthorisationForContact(envelope);
+    return this.handlePairingRequest(envelope, pairingAuthorisation);
   },
 
   async handleSecondaryDeviceFriendRequest(pubKey, deviceMapping) {
@@ -1209,12 +1220,10 @@ MessageReceiver.prototype.extend({
     const { primaryDevicePubKey } = authorisation;
     // ensure the primary device is a friend
     const c = window.ConversationController.get(primaryDevicePubKey);
-    if (!c || !c.isFriend()) {
+    if (!c || !c.isFriendWithAnyDevice()) {
       return false;
     }
     await libloki.storage.savePairingAuthorisation(authorisation);
-    // sending a message back = accepting friend request
-    window.libloki.api.sendBackgroundMessage(pubKey);
 
     return true;
   },
@@ -1274,6 +1283,12 @@ MessageReceiver.prototype.extend({
               deviceMapping
             );
             if (autoAccepted) {
+              // sending a message back = accepting friend request
+              // Directly setting friend request status to skip the pending state
+              await conversation.setFriendRequestStatus(
+                window.friends.friendRequestStatusEnum.friends
+              );
+              window.libloki.api.sendBackgroundMessage(envelope.source);
               return this.removeFromCache(envelope);
             }
           }
@@ -1446,13 +1461,23 @@ MessageReceiver.prototype.extend({
     window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
-  handleSyncMessage(envelope, syncMessage) {
-    if (envelope.source !== this.number) {
-      throw new Error('Received sync message from another number');
-    }
-    // eslint-disable-next-line eqeqeq
-    if (envelope.sourceDevice == this.deviceId) {
-      throw new Error('Received sync message from our own device');
+  async handleSyncMessage(envelope, syncMessage) {
+    const ourNumber = textsecure.storage.user.getNumber();
+    // NOTE: Maybe we should be caching this list?
+    const ourAuthorisations = await libloki.storage.getPrimaryDeviceMapping(
+      ourNumber
+    );
+    const validSyncSender =
+      ourAuthorisations &&
+      ourAuthorisations.some(
+        auth =>
+          auth.secondaryDevicePubKey === ourNumber ||
+          auth.primaryDevicePubKey === ourNumber
+      );
+    if (!validSyncSender) {
+      throw new Error(
+        "Received sync message from a device we aren't paired with"
+      );
     }
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
@@ -1627,24 +1652,24 @@ MessageReceiver.prototype.extend({
     };
   },
   async downloadAttachment(attachment) {
-    // window.log.info('Not downloading attachments.');
-    // return Promise.reject();
+    // The attachment id is actually just the absolute url of the attachment
+    let data = await this.server.getAttachment(attachment.url);
+    if (!attachment.isRaw) {
+      const { key, digest, size } = attachment;
 
-    const encrypted = await this.server.getAttachment(attachment.id);
-    const { key, digest, size } = attachment;
-
-    const data = await textsecure.crypto.decryptAttachment(
-      encrypted,
-      window.Signal.Crypto.base64ToArrayBuffer(key),
-      window.Signal.Crypto.base64ToArrayBuffer(digest)
-    );
-
-    if (!size || size !== data.byteLength) {
-      throw new Error(
-        `downloadAttachment: Size ${size} did not match downloaded attachment size ${
-          data.byteLength
-        }`
+      data = await textsecure.crypto.decryptAttachment(
+        data,
+        window.Signal.Crypto.base64ToArrayBuffer(key),
+        window.Signal.Crypto.base64ToArrayBuffer(digest)
       );
+
+      if (!size || size !== data.byteLength) {
+        throw new Error(
+          `downloadAttachment: Size ${size} did not match downloaded attachment size ${
+            data.byteLength
+          }`
+        );
+      }
     }
 
     return {

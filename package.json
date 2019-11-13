@@ -3,7 +3,7 @@
   "productName": "Loki Messenger",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/loki-project/loki-messenger.git",
-  "version": "1.0.0-beta5",
+  "version": "1.0.0-beta6",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -14,12 +14,13 @@
     "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "start": "electron .",
     "start-multi": "NODE_APP_INSTANCE=1 electron .",
+    "start-multi2": "NODE_APP_INSTANCE=2 electron .",
     "start-prod": "NODE_ENV=production NODE_APP_INSTANCE=devprod LOKI_DEV=1 electron .",
     "start-prod-multi": "NODE_ENV=production NODE_APP_INSTANCE=devprod1 LOKI_DEV=1 electron .",
     "grunt": "grunt",
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
     "generate": "yarn icon-gen && yarn grunt",
-    "build": "build  --config.extraMetadata.environment=$SIGNAL_ENV",
+    "build": "electron-builder  --config.extraMetadata.environment=$SIGNAL_ENV",
     "build-release": "export SIGNAL_ENV=production && npm run build -- --config.directories.output=release",
     "sign-release": "node ts/updater/generateSignature.js",
     "build-module-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
@@ -154,8 +155,9 @@
     "chai": "4.1.2",
     "dashdash": "1.14.1",
     "electron": "4.1.2",
-    "electron-builder": "20.39.0",
+    "electron-builder": "21.2.0",
     "electron-icon-maker": "0.0.3",
+    "electron-notarize": "^0.1.1",
     "eslint": "4.14.0",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.9.0",
@@ -192,21 +194,20 @@
     "node": "10.13.0"
   },
   "build": {
-    "appId": "org.loki.messenger-desktop",
+    "appId": "com.loki-project.messenger-desktop",
+    "afterSign": "build/notarize.js",
     "mac": {
       "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
-      "publish": [
-        {
-          "provider": "generic",
-          "url": "https://updates.signal.org/desktop"
-        }
-      ],
       "target": [
-        "zip"
+        "7z"
       ],
-      "bundleVersion": "1"
+      "bundleVersion": "1",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
     },
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
