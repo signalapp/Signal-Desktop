@@ -286,13 +286,13 @@ function _updateJob(id, data) {
     ...data,
     resolve: value => {
       _removeJob(id);
-      const end = Date.now();
-      const delta = end - start;
-      if (delta > 10) {
-        window.log.debug(
-          `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
-        );
-      }
+      // const end = Date.now();
+      // const delta = end - start;
+      // if (delta > 10) {
+      //   window.log.debug(
+      //     `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
+      //   );
+      // }
       return resolve(value);
     },
     reject: error => {
