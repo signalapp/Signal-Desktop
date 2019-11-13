@@ -54,7 +54,7 @@ class LokiFileServerAPI {
   }
 
   async getDeviceMappingForUsers(pubKeys) {
-    const users = await this._server.getUsersAnnotations(pubKeys);
+    const users = await this._server.getUsers(pubKeys);
     return users;
   }
 
