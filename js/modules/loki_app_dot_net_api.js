@@ -393,17 +393,17 @@ class LokiAppDotNetServerAPI {
     return res.response.data.annotations || [];
   }
 
-  async getUsersAnnotations(pubKeys) {
+  async getUsers(pubKeys) {
     if (!pubKeys) {
-      log.warn('No pubKeys provided to getUsersAnnotations!');
+      log.warn('No pubKeys provided to getUsers!');
       return [];
     }
     if (!pubKeys.length) {
-      log.warn('No pubKeys given to getUsersAnnotations!');
+      log.warn('No pubKeys given to getUsers!');
       return [];
     }
     if (pubKeys.length > 200) {
-      log.warn('Too many pubKeys given to getUsersAnnotations!');
+      log.warn('Too many pubKeys given to getUsers!');
     }
     const res = await this.serverRequest('users', {
       method: 'GET',
@@ -979,7 +979,7 @@ class LokiPublicChannelAPI {
           // if we have verified primaryKeys then update them
           if (verifiedPrimaryPKs.length) {
             // get final list of verified chat server profile names
-            const verifiedDeviceResults = await this.serverAPI.getUsersAnnotations(
+            const verifiedDeviceResults = await this.serverAPI.getUsers(
               verifiedPrimaryPKs
             );
             // console.log('verifiedDeviceResults', verifiedDeviceResults)
