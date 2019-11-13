@@ -22,6 +22,7 @@ class LokiAppDotNetAPI extends EventEmitter {
     this.ourKey = ourKey;
     this.servers = [];
     this.myPrivateKey = false;
+    this.allMembers = [];
   }
 
   async getPrivateKey() {
@@ -785,8 +786,8 @@ class LokiPublicChannelAPI {
       log.warn(`Error while polling for public chat messages: ${e}`);
     }
     if (this.running) {
-      setTimeout(() => {
-        this.timers.message = this.pollForMessages();
+      this.timers.message = setTimeout(() => {
+        this.pollForMessages();
       }, PUBLICCHAT_MSG_POLL_EVERY);
     }
   }

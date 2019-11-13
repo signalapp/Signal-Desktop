@@ -341,16 +341,24 @@
       this.selectMember = this.selectMember.bind(this);
 
       const updateMemberList = async () => {
-        const maxToFetch = 1000;
-        const allMessages = await window.Signal.Data.getMessagesByConversation(
-          this.model.id,
-          {
-            limit: maxToFetch,
-            MessageCollection: Whisper.MessageCollection,
-          }
+        const allPubKeys = await window.Signal.Data.getPubkeysInPublicConversation(
+          this.model.id
         );
 
-        const allMembers = allMessages.models.map(d => d.propsForMessage);
+        const allMembers = await Promise.all(
+          allPubKeys.map(async pubKey => {
+            const conv = ConversationController.get(pubKey);
+            let profileName = 'Anonymous';
+            if (conv) {
+              profileName = await conv.getProfileName();
+            }
+            return {
+              id: pubKey,
+              authorPhoneNumber: pubKey,
+              authorProfileName: profileName,
+            };
+          })
+        );
         window.lokiPublicChatAPI.setListOfMembers(allMembers);
       };
 

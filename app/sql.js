@@ -103,6 +103,7 @@ module.exports = {
   getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
+  getPubkeysInPublicConversation,
   getPubKeysWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -1738,6 +1739,19 @@ async function getPublicConversationsByServer(server) {
   );
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getPubkeysInPublicConversation(id) {
+  const rows = await db.all(
+    `SELECT DISTINCT source FROM messages WHERE
+      conversationId = $conversationId
+     ORDER BY id ASC;`,
+    {
+      $conversationId: id,
+    }
+  );
+
+  return map(rows, row => row.source);
 }
 
 async function getAllGroupsInvolvingId(id) {
