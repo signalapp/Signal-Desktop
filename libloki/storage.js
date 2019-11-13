@@ -5,6 +5,9 @@
 (function() {
   window.libloki = window.libloki || {};
 
+  const timers = {};
+  const REFRESH_DELAY = 60 * 1000;
+
   async function getPreKeyBundleForContact(pubKey) {
     const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
     const identityKey = myKeyPair.pubKey;
@@ -149,6 +152,12 @@
   // if the device is a secondary device,
   // fetch the device mappings for its primary device
   async function saveAllPairingAuthorisationsFor(pubKey) {
+    // Will be false if there is no timer
+    const cacheValid = timers[pubKey] > Date.now();
+    if (cacheValid) {
+      return;
+    }
+    timers[pubKey] = Date.now() + REFRESH_DELAY;
     const authorisations = await getPrimaryDeviceMapping(pubKey);
     await Promise.all(
       authorisations.map(authorisation =>
@@ -199,6 +208,7 @@
 
   // Transforms signatures from base64 to ArrayBuffer!
   async function getAuthorisationForSecondaryPubKey(secondaryPubKey) {
+    await saveAllPairingAuthorisationsFor(secondaryPubKey);
     const authorisation = await window.Signal.Data.getAuthorisationForSecondaryPubKey(
       secondaryPubKey
     );
