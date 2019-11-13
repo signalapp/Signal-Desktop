@@ -25,7 +25,7 @@ const logger = createLogger({
 });
 
 // Exclude logger if we're in production mode
-const disableLogging = true || env === 'production'; // ALWAYS TURNED OFF
+const disableLogging = env === 'production' || true; // ALWAYS TURNED OFF
 const middlewareList = disableLogging ? [promise] : [promise, logger];
 
 const enhancer = applyMiddleware.apply(null, middlewareList);
