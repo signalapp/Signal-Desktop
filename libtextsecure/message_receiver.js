@@ -1104,13 +1104,13 @@ MessageReceiver.prototype.extend({
         window.log.info(
           `Received pairing authorisation from ${primaryDevicePubKey}`
         );
-        await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
         // Set current device as secondary.
         // This will ensure the authorisation is sent
         // along with each friend request.
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
         window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
+        await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
         const primaryConversation = await ConversationController.getOrCreateAndWait(
           primaryDevicePubKey,
           'private'
@@ -1464,16 +1464,11 @@ MessageReceiver.prototype.extend({
   async handleSyncMessage(envelope, syncMessage) {
     const ourNumber = textsecure.storage.user.getNumber();
     // NOTE: Maybe we should be caching this list?
-    const ourAuthorisations = await libloki.storage.getPrimaryDeviceMapping(
+    const ourDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
       window.storage.get('primaryDevicePubKey')
     );
     const validSyncSender =
-      ourAuthorisations &&
-      ourAuthorisations.some(
-        auth =>
-          auth.secondaryDevicePubKey === ourNumber ||
-          auth.primaryDevicePubKey === ourNumber
-      );
+      ourDevices && ourDevices.some(devicePubKey => devicePubKey === ourNumber);
     if (!validSyncSender) {
       throw new Error(
         "Received sync message from a device we aren't paired with"

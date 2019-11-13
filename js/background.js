@@ -1235,14 +1235,18 @@
       if (activeAt !== null) {
         activeAt = activeAt || Date.now();
       }
-      const ourAuthorisations = await libloki.storage.getPrimaryDeviceMapping(
-        window.storage.get('primaryDevicePubKey')
+      const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
+      const ourDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+        ourPrimaryKey
       );
-      const isSecondaryDevice =
-        ourAuthorisations &&
-        ourAuthorisations.some(auth => auth.secondaryDevicePubKey === id);
+      // TODO: We should probably just *not* send any secondary devices and
+      // just load them all and send FRs when we get the mapping
+      const isOurSecondaryDevice =
+        id !== ourPrimaryKey &&
+        ourDevices &&
+        ourDevices.some(devicePubKey => devicePubKey === id);
 
-      if (isSecondaryDevice) {
+      if (isOurSecondaryDevice) {
         await conversation.setSecondaryStatus(true);
       }
 
