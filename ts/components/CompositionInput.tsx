@@ -265,7 +265,10 @@ export const CompositionInput = ({
 
   const updateExternalStateListeners = React.useCallback(
     (newState: EditorState) => {
-      const plainText = newState.getCurrentContent().getPlainText();
+      const plainText = newState
+        .getCurrentContent()
+        .getPlainText()
+        .trim();
       const cursorBlockKey = newState.getSelection().getStartKey();
       const cursorBlockIndex = editorStateRef.current
         .getCurrentContent()
@@ -417,7 +420,8 @@ export const CompositionInput = ({
       const { current: state } = editorStateRef;
       const text = state.getCurrentContent().getPlainText();
       const emojidText = replaceColons(text);
-      onSubmit(emojidText);
+      const trimmedText = emojidText.trim();
+      onSubmit(trimmedText);
     },
     [editorStateRef, onSubmit]
   );
