@@ -117,17 +117,37 @@ function getLengthOfSelectedText(state: EditorState): number {
   return length;
 }
 
-function getWordAtIndex(str: string, index: number) {
+function getWordAtIndex(
+  str: string,
+  index: number
+): { start: number; end: number; word: string } {
   const start = str
     .slice(0, index + 1)
     .replace(/\s+$/, '')
     .search(/\S+$/);
-  const end = str.slice(index).search(/(?:[^a-z0-9-_+]|$)/) + index;
+
+  let end =
+    str
+      .slice(index)
+      .split('')
+      .findIndex(c => /[^a-z0-9-_]/i.test(c) || c === ':') + index;
+
+  const endChar = str[end];
+
+  if (/\w|:/.test(endChar)) {
+    end += 1;
+  }
+
+  const word = str.slice(start, end);
+
+  if (word === ':') {
+    return getWordAtIndex(str, index + 1);
+  }
 
   return {
     start,
     end,
-    word: str.slice(start, end),
+    word,
   };
 }
 
@@ -245,7 +265,10 @@ export const CompositionInput = ({
 
   const updateExternalStateListeners = React.useCallback(
     (newState: EditorState) => {
-      const plainText = newState.getCurrentContent().getPlainText();
+      const plainText = newState
+        .getCurrentContent()
+        .getPlainText()
+        .trim();
       const cursorBlockKey = newState.getSelection().getStartKey();
       const cursorBlockIndex = editorStateRef.current
         .getCurrentContent()
@@ -397,7 +420,8 @@ export const CompositionInput = ({
       const { current: state } = editorStateRef;
       const text = state.getCurrentContent().getPlainText();
       const emojidText = replaceColons(text);
-      onSubmit(emojidText);
+      const trimmedText = emojidText.trim();
+      onSubmit(trimmedText);
     },
     [editorStateRef, onSubmit]
   );
@@ -499,24 +523,18 @@ export const CompositionInput = ({
         .getLastCreatedEntityKey();
       const word = getWordAtCaret();
 
-      let newContent = replaceWord
-        ? Modifier.replaceText(
-            oldContent,
-            selection.merge({
+      let newContent = Modifier.replaceText(
+        oldContent,
+        replaceWord
+          ? (selection.merge({
               anchorOffset: word.start,
               focusOffset: word.end,
-            }) as SelectionState,
-            emojiContent,
-            undefined,
-            emojiEntityKey
-          )
-        : Modifier.insertText(
-            oldContent,
-            selection,
-            emojiContent,
-            undefined,
-            emojiEntityKey
-          );
+            }) as SelectionState)
+          : selection,
+        emojiContent,
+        undefined,
+        emojiEntityKey
+      );
 
       const afterSelection = newContent.getSelectionAfter();
 

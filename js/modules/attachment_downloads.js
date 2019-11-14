@@ -166,9 +166,11 @@ async function _runJob(job) {
       );
     }
 
-    const found = await getMessageById(messageId, {
-      Message: Whisper.Message,
-    });
+    const found =
+      MessageController.getById(messageId) ||
+      (await getMessageById(messageId, {
+        Message: Whisper.Message,
+      }));
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
       await _finishJob(null, id);
@@ -434,13 +436,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
         hash: await computeHash(loadedAttachment.data),
       },
     });
-    await Signal.Data.updateConversation(
-      conversationId,
-      conversation.attributes,
-      {
-        Conversation: Whisper.Conversation,
-      }
-    );
+    Signal.Data.updateConversation(conversationId, conversation.attributes);
     return;
   }
 

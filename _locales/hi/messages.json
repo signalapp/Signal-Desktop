@@ -1,18 +1,18 @@
 {
     "copyErrorAndQuit": {
-        "message": "Copy error and quit",
+        "message": "एरर कॉपी करें और ऐप बंद करें",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownGroup": {
-        "message": "Unknown group",
+        "message": "अनजान समूह",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Database Error",
+        "message": "डेटाबेस एरर",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Delete all data and restart",
+        "message": "सारा डाटा हटाएँ और फिर से शुरु करें।",
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
@@ -36,47 +36,47 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Preferences…",
+        "message": "वरीयताएँ...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Hide",
+        "message": "छुपा दें",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Hide Others",
+        "message": "अन्य को छुपा दें",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Show All",
+        "message": "सब दिखाएँ",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Quit Signal",
+        "message": "Signal बंद करें",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "अंडु",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "रीडू",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Cut",
+        "message": "कट",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Copy",
+        "message": "कॉपी",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Paste",
+        "message": "पेस्ट",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Paste and Match Style",
+        "message": "पेस्ट करें और स्टाइल मिलाएँ",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -84,75 +84,79 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Select All",
+        "message": "सब चुन लें",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "बोलना शुरु करें",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "बोलना बंद करें",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Close Window",
+        "message": "विंडो बंद करें",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimize",
+        "message": "मिनिमाइज़",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zoom",
+        "message": "बङा करें",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Bring All to Front",
+        "message": "सब आगे ले आयें",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Actual Size",
+        "message": "असल आकार का करें",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "बङा करें",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "छोटा करें",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
+        "message": "फुल स्क्रीन करें/हटाएँ",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
+        "message": "डेवलपर टूल्स दिखाएँ/हटाएँ",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Set Up with Import",
+        "message": "इमपोर्ट से स्थापना करें",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
+        "message": "नये डिवाइस कि तरह स्थापना करें",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Set Up as Standalone Device",
+        "message": "स्टैंडअलोन डिवाइस की तरह स्थापना करें",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "avatarMenuViewArchive": {
+        "message": "संग्रह देखें",
+        "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
         "message": "लोड हो रहा है",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "एप्लिकेशन को बेहतर कर रहे हैं...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimizing messages... $status$ complete.",
+        "message": "संदेशों को बेहतर कर रहे हैं... $status$ पूरा हुआ।",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -166,15 +170,15 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
+        "message": "यह वार्तालाप संग्रहीत कर दिये गये हैं और इनबॉक्स में तभी दिखेंगे अगर इनमें कोई नया मेसेज प्राप्त होगा।",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archive Conversation",
+        "message": "वार्तालाप को संग्रहित करें",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Move Conversation to Inbox",
+        "message": "वार्तालाप को इनबॉक्स में डालें",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
@@ -182,15 +186,15 @@
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Choose file",
+        "message": "फ़ाइल चुनें",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Load your data",
+        "message": "अपना डाटा लोड करें",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "आप अभी निर्यात की प्रक्रिया से गुज़रें हैं और आपके संपर्क तथा संदेश आपके कंप्यूटर में आपका इंतेज़ार कर रहे हैं। वह फोलडर चुनें जिसमें आपका Signal डाटा है।",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -202,15 +206,15 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Loading contacts and messages",
+        "message": "संपर्क और संदेश लोड हो रहे हैं",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "ध्यान रखें कि आपने सही डायरेक्ट्री चुनी है जिसमें आपका Signal डाटा है। उसका नाम 'Signal Export' से शुरु होना चाहिये। आप अपने डाटा की नयी कॉपी क्रोम ऐप से भी सहेज सकते हैं।",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+        "message": "अगर यह निर्देश आपके लिए काम नहीं कर रहे, तो कृपया डीबग लॉग ( व्यू -> डीबग लॉग) जमा करें ताकी हम विस्थापन में आपकी सहायता कर सकें।",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -222,11 +226,11 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Start using Signal Desktop",
+        "message": "Signal Desktop इस्तेमाल करना शुुरु करें",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Link this device to your phone",
+        "message": "इस डिवाइस को अपने फ़ोन से लिंक करें",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -272,7 +276,7 @@
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ अपठित संदेश",
+        "message": "$count$ अपठित मेसेज",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -282,7 +286,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "You marked your Safety Number with $name$ as verified",
+        "message": "आपने $name$ के साथ अपने सुरक्षा नंबर को सत्यापित चिह्नित किया है",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -292,7 +296,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your Safety Number with $name$ as not verified",
+        "message": "आपने $name$ के साथ अपने सुरक्षा नंबर को असत्यापित चिह्नित किया है",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -302,7 +306,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as verified from another device",
+        "message": "आपने $name$ के साथ अपने सुरक्षा नंबर को दूसरे डिवाइस से सत्यापित चिह्नित किया है",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -312,7 +316,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your Safety Number with $name$ as not verified from another device",
+        "message": "आपने $name$ के साथ अपने सुरक्षा नंबर को दूसरे डिवाइस से असत्यापित चिह्नित किया है",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -330,7 +334,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "आपकी सुरक्षा संख्या के साथ$name$आपके अंतिम सत्यापन के बाद से बदल गया है। इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$आपके अंतिम सत्यापन के बाद से बदल गया है। इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है|",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -340,7 +344,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "आपके द्वारा सत्यापित करने की कोशिश कर रहे सुरक्षा नंबर बदल गया है कृपया अपने नए सुरक्षा नंबर के साथ की समीक्षा करें$name$|याद रखें, इस परिवर्तन का मतलब यह हो सकता है कि कोई आपकी संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है",
+        "message": "आपके द्वारा सत्यापित करने की कोशिश कर रहे सुरक्षा नंबर बदल गया है कृपया अपने नए सुरक्षा नंबर के साथ की समीक्षा करें$name$| याद रखें, इस परिवर्तन का मतलब यह हो सकता है कि कोई आपकी संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,7 +358,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "आपकी सुरक्षा संख्या के साथ$name$हाल ही में बदल गया है|इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$हाल ही में बदल गया है| इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस Signal को पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -364,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$ बदल गया है। इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या $name$ बस Signal को पुनः स्थापित किया है आप इस संपर्क के साथ अपना सुरक्षा नंबर सत्यापित करना चाह सकते हैं।",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -396,7 +400,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
+        "message": "अपलोड के साथ कुछ गलती हुई है। कृपया बग फ़ाइल में अपना लॉग खुद डालने पर विचार करें।",
         "description": ""
     },
     "reportIssue": {
@@ -456,39 +460,39 @@
         "description": ""
     },
     "incomingError": {
-        "message": "Error handling incoming message",
+        "message": "आने वाले मेसेज को संभालने में त्रुटि",
         "description": ""
     },
     "media": {
-        "message": "Media",
+        "message": "मीडिया",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "You don’t have any media in this conversation",
+        "message": "आपके पास इस वार्तालाप में कोई मीडिया नहीं है।",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Documents",
+        "message": "डॉक्युमेंट्स",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "You don’t have any documents in this conversation",
+        "message": "आपके पास इस वार्तालाप में कोई  डॉक्युमेंट्स नहीं है।",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Today",
+        "message": "आज",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "कल",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "इस हफ़ते",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "इस महीने",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -508,15 +512,15 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Attachment type not allowed for security reasons",
+        "message": "इस प्रकार के अटैचमेंट की सुरक्षा कारणों से अनुमति नहीं है",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Loading Preview...",
+        "message": "पूर्वावलोकन लोड हो रहा है...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "$domain$ के लिये ड्राफ्ट थंबनेल लिंक पूर्वावलोकन",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -526,7 +530,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "$domain$ के लिये थंबनेल लिंक पूर्वावलोकन",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -536,7 +540,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "ड्राफ्ट तस्वीर अटैचमेंट: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -546,15 +550,15 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "message": "तस्वीर से अलग सारे अटैचमेंट के लिये सीमा, एक मेसेज में एक अटैचमेंट है।",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "You cannot mix non-image and image attachments in one message.",
+        "message": "आप तस्वीर और अन्य अटैचमेंट एक ही संदेश में नहीं रख सकते।",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "You cannot add any more attachments to this message.",
+        "message": "आप इस मेसेज में और अटैचमेंट का इस्तेमाल नहीं कर सकते",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -562,7 +566,7 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Unable to load selected attachment.",
+        "message": "चुना हुआ अटैचमेंट लोड नहीं हो रहा।",
         "description": ""
     },
     "disconnected": {
@@ -592,7 +596,7 @@
         }
     },
     "submitDebugLog": {
-        "message": "Debug log",
+        "message": "डीबग लॉग",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
@@ -600,23 +604,23 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "goToReleaseNotes": {
-        "message": "Go to Release Notes",
+        "message": "रिलीज़ नोट्स पर जाएँ",
         "description": ""
     },
     "goToForums": {
-        "message": "Go to Forums",
+        "message": "फ़ोरम पर जाएँ",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Go to Support Page",
+        "message": "समर्थन पेज पर जाएँ",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Report an Issue",
+        "message": "समस्या रिपोर्ट करें",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
+        "message": "Signal Desktop वरीयताएँ",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -632,11 +636,11 @@
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Hide",
+        "message": "छुपा दें",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Quit",
+        "message": "बंद करें",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -648,7 +652,7 @@
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Search in $conversationName$",
+        "message": "$conversationName$ में खोजें",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -658,7 +662,7 @@
         }
     },
     "noSearchResults": {
-        "message": "No results for \"$searchTerm$\"",
+        "message": "\"$searchTerm$\" के लिये कोई परिणाम नहीं मिले",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -668,7 +672,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "message": "$conversationName$ में \"$searchTerm$\" के कोई परिणाम नहीं मिले",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -686,7 +690,7 @@
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "संदेश",
+        "message": "मेसेज",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
@@ -698,11 +702,11 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Typing animation for this conversation",
+        "message": "इस वार्तालाप के लिये टाइपिंग एनीमेशन",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Avatar for contact $name$",
+        "message": "$name$ संपर्क के लिये अवतार",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -712,63 +716,63 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Send Message",
+        "message": "संदेश भेजें",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "home",
+        "message": "घर",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "work",
+        "message": "दफ़तर",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobile",
+        "message": "मोबाइल",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "email",
+        "message": "ई-मेल",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "phone",
+        "message": "फ़ोन",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "address",
+        "message": "पता",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "PO Box",
+        "message": "पी.ओ. बॉक्स",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Downloading",
+        "message": "डाउनलोडिंग",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Download Attachment",
+        "message": "अटैचमेंट डाउनलोड करें",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Reply to Message",
+        "message": "संदेश का जवाब दें",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Original message not found",
+        "message": "मूल संदेश नहीं मिला",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Original message no longer available",
+        "message": "मूल संदेश अब उपलब्ध नहीं है",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Original message found, but not loaded. Scroll up to load it.",
+        "message": "मूल संदेश मिल गया पर लोड नहीं हुआ। लोड करने के लिये ऊपर स्क्रोल करें।",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice note must be the only attachment included in a message.",
+        "message": "संदेश में वॉयस नोट इकलौता अटैचमेंट हो सकता है",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
@@ -776,7 +780,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Replying to $name$",
+        "message": "$name$ को जवाब दे रहे हैं",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -786,15 +790,15 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "ऑडियो संदेश भेजने के लिए, अपने माइक्रोफ़ोन पर Signal Desktop पहुंच की अनुमति दें।",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Allow Access",
+        "message": "अनुमति दें",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Show Settings",
+        "message": "सेटिंग्स दिखाएँ",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
@@ -802,23 +806,23 @@
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "वीडियो",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Photo",
+        "message": "तस्वीर",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "अपडेट नहीं कर सकते",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop अपडेट नहीं हो पाया, पर एक नया वर्ज़न उपलब्ध है। कृपया https://signal.org/download पर जाएँ और नया वर्ज़न डाउनलोड कर के स्थापित कर लें, फिर या तो समर्थन से संपर्क करें या फिर इस परेशानी के बारे में बग फ़ाइल कर दें।",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "Signal Desktop macOS क्वारंटाइन में हो सकता है जिसकी वजह से स्वाचालित अपडेट नहीं हो पाएगा। कृपया Signal ऐप को /Applications में फ़ाईंडर की मदद से भेज दें",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
@@ -846,11 +850,11 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only.",
+        "message": "क्या आपको यकीन है? 'हटाए जाने' पर क्लिक करने से इस संदेश से को इस डिवाइस से स्थायी रूप से निकाल दिया जाएगा।",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "यह संदेश हटाएं",
+        "message": "यह मेसेज हटाएं",
         "description": ""
     },
     "from": {
@@ -858,8 +862,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "to",
+        "message": "किस को",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "to",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "भेज दिया",
@@ -870,7 +878,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "एक संदेश भेजें",
+        "message": "एक मेसेज भेजें",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -886,11 +894,11 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "View safety number",
+        "message": "सुरक्षा नंबर देखें",
         "description": ""
     },
     "viewAllMedia": {
-        "message": "View all media",
+        "message": "सभी मीडिया देखें",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -908,15 +916,15 @@
         "description": ""
     },
     "moreInfo": {
-        "message": "More Info...",
+        "message": "और जानें...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Retry Send",
+        "message": "फिर से भेजने की कोशिश करें",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": " डिलीट मेसिज",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -932,27 +940,27 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Thumbnail of image from quoted message",
+        "message": "कोटेड संदेश में से तस्वीर का थंबनेल",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Image attached to message",
+        "message": "संदेश के साथ अटैच तस्वीर",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Screenshot of video attached to message",
+        "message": "संदेश के साथ अटैच वीडियो का सक्रीनशौट",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Image sent in conversation",
+        "message": "वार्तालाप में भेजी हुई तस्वीर",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Icon showing that this image has a caption",
+        "message": "आइकॅन यह दिखा रहा है कि तस्वीर में कैप्शन है",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Add a caption...",
+        "message": "इसके बारे में कुछ लिखें...",
         "description": ""
     },
     "save": {
@@ -960,7 +968,7 @@
         "description": ""
     },
     "fileIconAlt": {
-        "message": "File icon",
+        "message": "फ़ाइल आइकॅन",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -972,11 +980,11 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
+        "message": "Signal Desktop से अपना फ़ोन लिंक करें",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Signal Settings",
+        "message": "Signal सेटिंग्स",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
@@ -984,27 +992,27 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+' Button",
+        "message": "'+' बटन",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Link New Device",
+        "message": "नया डिवाइस लिंक करें",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Device name",
+        "message": "डिवाइस का नाम",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Choose this device's name",
+        "message": "डिवाइस का नाम चुनें",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Finish linking phone",
+        "message": "फ़ोन लिंक करना पूरा करें",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Syncing contacts and groups",
+        "message": "संपर्क और समूह सिंक हो रहे हैं",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1024,11 +1032,11 @@
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Permissions",
+        "message": "अनुमतियाँ",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Allow access to camera and microphone",
+        "message": "कैमेरा और माइक्रोफ़ोन इस्तेमाल करने की अनुमति दें",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1036,35 +1044,35 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Enable spell check of text entered in message composition box",
+        "message": "संदेश संरचना बॉक्स के शब्दों पर अक्षर जाँच सक्षम करें",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Clear Data",
+        "message": "डाटा हटाएँ",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
+        "message": "यह आपके एप्लिकेशन से सारा डाटा, संदेश और ख़ाते की जानकारी सहित हटा देगा।",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Clear data",
+        "message": "डाटा हटाएँ",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Delete all data?",
+        "message": "सारा डाटा हटा दें?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
+        "message": "आप इस एप्लिकेशन के सारे खाते की जानकारी, संपर्क और संदेश सहित हटाने जा रहे हैं। आप अपना मोबाइल डिवाइस फिर से लिंक कर सकते हैं पर उससे हटे हुए संदेश वापस नहीं आएँगे।",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Delete all data",
+        "message": "सारा डाटा हटा दें",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
+        "message": "वियोजित हो रहा है और सारा डाटा हटा रहे हैं",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
@@ -1100,19 +1108,19 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Most recent from:",
+        "message": "हाल ही में:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "From:",
+        "message": "तरफ से:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Most recent:",
+        "message": "हाल ही में:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "भेजना असफल रहा",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
@@ -1172,25 +1180,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 मिनट",
+        "message": "1 मी",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 घंटा",
+        "message": "1 घंटे",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ hr",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "$hours$ घंटे",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "$minutes$ मिनट",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1224,11 +1212,11 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "एमएमएम  डीडी ",
+        "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Message body is too long.",
+        "message": "संदेश बहुत लंबा है",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
@@ -1236,11 +1224,11 @@
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Unblock this group to send a message.",
+        "message": "संदेश भेजने के लिए इस समूह को अनब्लॉक करें",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "You set the disappearing message timer to $time$",
+        "message": "आपने गायब संदेश टाइमर को $time$ में सेट कर दिया है।",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1250,7 +1238,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Updated disappearing message timer to $time$",
+        "message": "गायब होने वाले संदेश का टाइमर $time$ में अपडेट हो गया है ",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1260,7 +1248,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the disappearing message timer to $time$",
+        "message": "$name$ ने गायब होने वाले संदेशों का टाइमर $time$ कर दिया है।",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1294,11 +1282,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutes",
+        "message": "5 मिनट",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutes",
+        "message": "30 मिनट",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
@@ -1306,11 +1294,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 hours",
+        "message": "6 घंटे",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 hours",
+        "message": "12 घंटे",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
@@ -1374,11 +1362,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Disappearing messages disabled",
+        "message": "संदेश जो गायब हो जाते हैं अक्षम",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ disabled disappearing messages",
+        "message": "$name$ ने गायब संदेश अक्षम कर दिए हैं। ",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1388,7 +1376,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "You disabled disappearing messages",
+        "message": "आपने गायब संदेश अक्षम कर दिए हैं।",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1406,11 +1394,11 @@
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Safety Number has changed",
+        "message": "सुरक्षा नंबर बदल गया है।",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Safety Number with $name$ has changed",
+        "message": "$name$ के साथ आपका सुरक्षा नंबर बदल गया है।",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1420,7 +1408,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verify Safety Number",
+        "message": "सुरक्षा नंबर सत्यापित करें",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1434,19 +1422,19 @@
         }
     },
     "themeLight": {
-        "message": "Light",
+        "message": "रोशनी ",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "अँधेरा ",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "System",
+        "message": "तंत्र",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Note to Self",
+        "message": "स्वयं को लिखें",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
@@ -1454,7 +1442,7 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Start new conversation…",
+        "message": "नया वार्तालाप शुरु करें...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
@@ -1478,27 +1466,27 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Signal अपडेट उपलब्ध है",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Signal का नया वर्ज़न अब उपलब्ध है।",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "अपडेट लागू करने के लिये Signal फिर से शुरु करें",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "Signal पुनः आरंभ करे ",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "बाद में",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ समूह छोड़ दिया",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1508,7 +1496,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ समूह छोड़ दिया",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1518,11 +1506,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "समूह अपडेट हो गया है",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "शीर्षक अब '$name$' है।",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1532,7 +1520,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ समूह में शामिल हो गए",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1542,7 +1530,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ समूह में शामिल हो गए",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1556,107 +1544,111 @@
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--stickers": {
-        "message": "Sticker message",
+        "message": "स्टिकर संदेश",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getDescription--unsupported-message": {
-        "message": "Unsupported message",
+        "message": "असमर्थित मेसेज",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "Disappearing photo",
+        "message": "गायब होने वाली तस्वीरें",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
+    "message--getDescription--disappearing-video": {
+        "message": "गायब होने वाली वीडियो",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
     "stickers--toast--InstallFailed": {
-        "message": "Sticker pack could not be installed",
+        "message": "स्टीकर पैक स्थापित नहीं हो पाया",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Installed Stickers",
+        "message": "स्थापित स्टिकर",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "No stickers installed",
+        "message": "कोई स्टीकर स्थापित नहीं है",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Signal Artist Series",
+        "message": "Signal की कलाकार श्रृंखला से",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "No Signal Artist stickers available",
+        "message": "Signal कलाकार स्टिकर उपलब्ध नहीं हैं",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Stickers You Received",
+        "message": "आपको प्राप्त स्टीकर ",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Stickers from incoming messages will appear here",
+        "message": "आने वाले संदेशों के स्टिकर यहां दिखाई देंगे",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Install",
+        "message": "स्थापित करें",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Uninstall",
+        "message": "हटा दें",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "You may not be able to re-install this sticker pack if you no longer have the source message.",
+        "message": "अगर आपके पास मूल संदेश नहीं है तो शायद आप स्टिकर पैक पुनः स्थापित ना कर पाएँ",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Introducing Stickers",
+        "message": "पेश है स्टिकर",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "Why use words when you can use stickers?",
+        "message": "शब्द क्युँ इस्तेमाल करने जब आप स्टिकर इस्तेमाल कर सकते हैं?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Some stickers could not be downloaded.",
+        "message": "कुछ स्टिकर डाउनलोड नहीं हो पाए",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Installing sticker pack...",
+        "message": "स्टीकर पैक स्थापित हो रहा है...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "No stickers found",
+        "message": "स्टिकर नहीं मिले",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "New sticker packs from your messages are available to install",
+        "message": "आपके संदेशों से आये नये स्टिकर पैक अब स्थापना के लिए उपलब्ध हैं",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "No sticker packs found",
+        "message": "स्टिकर पैक नहीं मिले",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Recently used stickers will appear here.",
+        "message": "हाल ही मे इस्तेमाल हुए स्टिकर यहाँ दिखेंगे",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Sticker Pack",
+        "message": "स्टीकर पैक",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Error opening sticker pack. Check your internet connection and try again.",
+        "message": "स्टिकर पैक खोलने में गलती हुई है। कृपया अपना इंटरनेट कनेक्शन जांच लें और फिर कोशिश करें।",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "No emoji found",
+        "message": "इमोजी नहीं मिला",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Search Emoji",
+        "message": "इमोजी खोजें",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
-        "message": "Skin tone $tone$",
+        "message": "स्किन टोन $tone$",
         "description": "Shown as a tooltip over the emoji tone buttons.",
         "placeholders": {
             "status": {
@@ -1670,7 +1662,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
+        "message": "$contact$ ने एक संदेश भेजा है जो याहाँ दिखाया नहीं जा सकता क्योंकि वह Signal का नया फ़ीचर इस्तेमाल करता है।",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1680,7 +1672,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
+        "message": "आप Signal का नवीनतम वर्ज़न तक अपडेट हो चुके हैं, अब आप $contact$ को यह मेसेज फिर से भेजने के लिये कह सकते हैं।",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1690,43 +1682,47 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
+        "message": "आपके किसी डिवाइस ने एक मेसेज भेजा है जो याहाँ दिखाया नहीं जा सकता क्योंकि वह Signal का नया फ़ीचर इस्तेमाल करता है।",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
+        "message": "अब जब आप Signal का नवीनतम वर्ज़न तक अपडेट हो चुके हैं, आपके आगे के संदेश सिंक्रनाइज़ कर दिये जाएँगे",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Update Signal",
+        "message": "Signal अपडेट करें",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Viewed",
+        "message": "देखा गया",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "फ़ोटो",
+        "message": "मीडिया",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "View Photo",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "फ़ोटो",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "वीडियो ",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(attachment)",
+        "message": "(अटैचमेंट)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(quote)",
+        "message": "(कोट)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(draft)",
+        "message": "(ड्राफ्ट)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "नियम और गोपनीयता नीति",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

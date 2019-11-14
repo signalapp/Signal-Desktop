@@ -21,6 +21,9 @@
     add(data) {
       return textsecure.storage.protocol.addUnprocessed(data);
     },
+    batchAdd(array) {
+      return textsecure.storage.protocol.addMultipleUnprocessed(array);
+    },
     updateAttempts(id, attempts) {
       return textsecure.storage.protocol.updateUnprocessedAttempts(
         id,
@@ -30,8 +33,11 @@
     addDecryptedData(id, data) {
       return textsecure.storage.protocol.updateUnprocessedWithData(id, data);
     },
-    remove(id) {
-      return textsecure.storage.protocol.removeUnprocessed(id);
+    addDecryptedDataToList(array) {
+      return textsecure.storage.protocol.updateUnprocessedsWithData(array);
+    },
+    remove(idOrArray) {
+      return textsecure.storage.protocol.removeUnprocessed(idOrArray);
     },
     removeAll() {
       return textsecure.storage.protocol.removeAllUnprocessed();

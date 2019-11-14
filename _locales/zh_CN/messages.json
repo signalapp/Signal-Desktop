@@ -143,6 +143,10 @@
         "message": "配置为独立设备",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "avatarMenuViewArchive": {
+        "message": "查看存档",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "加载中...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -858,8 +862,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "向",
+        "message": "至",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "向",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "已发送",
@@ -1136,7 +1144,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "附件信息",
+        "message": "媒体信息",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -1179,18 +1187,8 @@
         "message": "1小时",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$小时",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "$hours$小时前",
+        "message": "$hours$小时",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$分钟",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "$minutes$分钟前",
+        "message": "$minutes$分钟",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1567,6 +1555,10 @@
         "message": "闪照",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
+    "message--getDescription--disappearing-video": {
+        "message": "自毁视频",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
     "stickers--toast--InstallFailed": {
         "message": "无法安装表情包",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1706,12 +1698,16 @@
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "图片",
+        "message": "媒体",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "查看照片",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "图片",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "视频",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
         "message": "（附件）",

@@ -44,7 +44,7 @@
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Esconder todas",
+        "message": "Ocultar outras",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
@@ -80,7 +80,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Apagar",
+        "message": "Excluir",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -124,7 +124,7 @@
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Tela inteira",
+        "message": "Alternar tela inteira",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
@@ -142,6 +142,10 @@
     "menuSetupAsStandalone": {
         "message": "Configurar como Dispositivo Autônomo",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "avatarMenuViewArchive": {
+        "message": "Ver arquivo",
+        "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
         "message": "Carregando...",
@@ -648,7 +652,7 @@
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Search in $conversationName$",
+        "message": "Buscar em $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -668,7 +672,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "message": "Nenhum resultado para \"$searchTerm$\" em $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -858,8 +862,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "para",
+        "message": "Para",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "para",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "Enviada",
@@ -1136,7 +1144,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Mensagem de mídia (MMS)",
+        "message": "Mensagem de mídia",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -1172,25 +1180,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minuto",
+        "message": "1min",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 hora",
+        "message": "1h",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ h",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "Há $hours$ h",
+        "message": "$hours$h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "Há $minutes$ min",
+        "message": "$minutes$min",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1567,6 +1555,10 @@
         "message": "Foto efêmera",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
+    "message--getDescription--disappearing-video": {
+        "message": "Vídeo efêmero",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
     "stickers--toast--InstallFailed": {
         "message": "O pacote de figurinhas não pôde ser instalado",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1652,7 +1644,7 @@
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Procurar emojis",
+        "message": "Buscar emojis",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -1706,23 +1698,27 @@
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Foto",
+        "message": "Mídia",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Ver foto",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "Foto",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "Vídeo",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(attachment)",
+        "message": "(anexo)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(quote)",
+        "message": "(citação)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(draft)",
+        "message": "(rascunho)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {

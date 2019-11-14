@@ -143,6 +143,10 @@
         "message": "Configurar como dispositivo autónomo",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "avatarMenuViewArchive": {
+        "message": "Ver arquivo",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "A carregar...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -648,7 +652,7 @@
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Search in $conversationName$",
+        "message": "Pesquisar em $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -668,7 +672,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "message": "Sem resultados para \"$searchTerm$\" em $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -858,8 +862,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "para",
+        "message": "Para",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "para",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "Enviada",
@@ -1172,25 +1180,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minuto",
+        "message": "1m",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 hora",
+        "message": "1h",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ h",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "há $hours$h",
+        "message": "$hours$h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "há $minutes$ min",
+        "message": "$minutes$m",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1567,6 +1555,10 @@
         "message": "Destruição de fotografia",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
+    "message--getDescription--disappearing-video": {
+        "message": "Destruição de vídeo",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
     "stickers--toast--InstallFailed": {
         "message": "Não foi possível instalar o pacote de autocolantes",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1706,23 +1698,27 @@
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Fotografia",
+        "message": "Média",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Ver fotografia",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "Fotografia",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "Vídeo",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(attachment)",
+        "message": "(anexo)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(quote)",
+        "message": "(citação)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(draft)",
+        "message": "(rascunho)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "privacyPolicy": {

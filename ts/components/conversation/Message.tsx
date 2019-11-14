@@ -306,6 +306,7 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
       >
+        <span className="module-message__metadata__spacer" />
         {showError ? (
           <span
             className={classNames(
@@ -343,7 +344,6 @@ export class Message extends React.PureComponent<Props, State> {
             withTapToViewExpired={isTapToViewExpired}
           />
         ) : null}
-        <span className="module-message__metadata__spacer" />
         {textPending ? (
           <div className="module-message__metadata__spinner-container">
             <Spinner svgSize="small" size="14px" direction={direction} />
@@ -796,7 +796,7 @@ export class Message extends React.PureComponent<Props, State> {
           name={authorName}
           phoneNumber={authorPhoneNumber}
           profileName={authorProfileName}
-          size={36}
+          size={28}
         />
       </div>
     );
@@ -1149,6 +1149,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderTapToViewText() {
     const {
+      attachments,
       direction,
       i18n,
       isTapToViewExpired,
@@ -1157,7 +1158,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     const incomingString = isTapToViewExpired
       ? i18n('Message--tap-to-view-expired')
-      : i18n('Message--tap-to-view--incoming');
+      : i18n(
+          `Message--tap-to-view--incoming${
+            isVideo(attachments) ? '-video' : ''
+          }`
+        );
     const outgoingString = i18n('Message--tap-to-view--outgoing');
     const isDownloadPending = this.isAttachmentPending();
 

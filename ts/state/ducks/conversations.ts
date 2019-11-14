@@ -54,6 +54,7 @@ export type MessageType = {
   quote?: { author: string };
   received_at: number;
   hasSignalAccount?: boolean;
+  bodyPending?: boolean;
   attachments: Array<AttachmentType>;
   sticker: {
     data?: {
@@ -528,6 +529,12 @@ function hasMessageHeightChanged(
     previous.sticker.data &&
     previous.sticker.data.pending !== message.sticker.data.pending;
   if (stickerPendingChanged) {
+    return true;
+  }
+
+  const longMessageAttachmentLoaded =
+    previous.bodyPending && !message.bodyPending;
+  if (longMessageAttachmentLoaded) {
     return true;
   }
 

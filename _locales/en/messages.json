@@ -166,6 +166,10 @@
     "description":
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "avatarMenuViewArchive": {
+    "message": "View Archive",
+    "description": "One of the menu options available in the Avatar Popup menu"
+  },
   "loading": {
     "message": "Loading...",
     "description":
@@ -972,8 +976,13 @@
     "description": "Label for the sender of a message"
   },
   "to": {
-    "message": "to",
+    "message": "To",
     "description": "Label for the receiver of a message"
+  },
+  "toJoiner": {
+    "message": "to",
+    "description":
+      "Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
     "message": "Sent",
@@ -1285,7 +1294,7 @@
       "Label text for button to upgrade the app to the latest version"
   },
   "mediaMessage": {
-    "message": "Media message",
+    "message": "Media Message",
     "description":
       "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
@@ -1326,28 +1335,17 @@
       "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
   },
   "timestamp_m": {
-    "message": "1 minute",
+    "message": "1m",
     "description":
       "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
   },
   "timestamp_h": {
-    "message": "1 hour",
+    "message": "1h",
     "description":
       "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
   },
-  "hoursAgoShort": {
-    "message": "$hours$ hr",
-    "description":
-      "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-    "placeholders": {
-      "hours": {
-        "content": "$1",
-        "example": "2"
-      }
-    }
-  },
   "hoursAgo": {
-    "message": "$hours$ hr ago",
+    "message": "$hours$h",
     "description":
       "Contracted form of 'X hours ago' which works both for singular and plural",
     "placeholders": {
@@ -1357,19 +1355,8 @@
       }
     }
   },
-  "minutesAgoShort": {
-    "message": "$minutes$ min",
-    "description":
-      "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-    "placeholders": {
-      "minutes": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
-  },
   "minutesAgo": {
-    "message": "$minutes$ min ago",
+    "message": "$minutes$m",
     "description":
       "Contracted form of 'X minutes ago' which works both for singular and plural",
     "placeholders": {
@@ -1762,9 +1749,14 @@
       "Shown in notifications and in the left pane when a message has features too new for this signal install."
   },
   "message--getDescription--disappearing-photo": {
-    "message": "Disappearing photo",
+    "message": "Disappearing Photo",
     "description":
       "Shown in notifications and in the left pane when a message is a disappearing photo."
+  },
+  "message--getDescription--disappearing-video": {
+    "message": "Disappearing Video",
+    "description":
+      "Shown in notifications and in the left pane when a message is a disappearing video."
   },
   "stickers--toast--InstallFailed": {
     "message": "Sticker pack could not be installed",
@@ -1929,14 +1921,19 @@
       "Text shown on messages with with individual timers, after user has viewed it"
   },
   "Message--tap-to-view--outgoing": {
-    "message": "Photo",
+    "message": "Media",
     "description":
       "Text shown on outgoing messages with with individual timers (inaccessble)"
   },
   "Message--tap-to-view--incoming": {
-    "message": "View Photo",
+    "message": "Photo",
     "description":
-      "Text shown on messages with with individual timers, before user has viewed it"
+      "Text shown on photo messages with with individual timers, before user has viewed it"
+  },
+  "Message--tap-to-view--incoming-video": {
+    "message": "Video",
+    "description":
+      "Text shown on video messages with with individual timers, before user has viewed it"
   },
   "Conversation--getDraftPreview--attachment": {
     "message": "(attachment)",

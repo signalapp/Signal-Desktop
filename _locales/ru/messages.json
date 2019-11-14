@@ -32,7 +32,7 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "&Помощь",
+        "message": "&Справка",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
@@ -84,7 +84,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Выбрать все",
+        "message": "Выбрать всё",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -142,6 +142,10 @@
     "menuSetupAsStandalone": {
         "message": "Настроить как самостоятельное устройство",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "avatarMenuViewArchive": {
+        "message": "Просмотреть архив",
+        "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
         "message": "Загрузка…",
@@ -226,7 +230,7 @@
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Привяжите это устройство к вашему телефону",
+        "message": "Привязать это устройство к вашему телефону",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -374,7 +378,7 @@
         }
     },
     "sendAnyway": {
-        "message": "Отправить в любом случае",
+        "message": "Всё равно отправить",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
@@ -416,11 +420,11 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Отметить как подтвержденный",
+        "message": "Отметить как подтверждённый",
         "description": ""
     },
     "unverify": {
-        "message": "Отметить как неподтвержденный",
+        "message": "Отметить как неподтверждённый",
         "description": ""
     },
     "isVerified": {
@@ -444,7 +448,7 @@
         }
     },
     "verified": {
-        "message": "Подтвержденный",
+        "message": "Подтверждённый",
         "description": ""
     },
     "newIdentity": {
@@ -452,7 +456,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Ваш код безопасности с этим контактом изменился. Это может означать, что кто-то пытается перехватить вашу переписку и звонки или что этот контакт просто переустановил Signal. Возможно, вы захотите подтвердить ваш новый код безопасности с этим контактом ниже.",
+        "message": "Ваш код безопасности с этим контактом изменился. Это может означать, что кто-то пытается перехватить вашу переписку и звонки или что этот контакт просто переустановил Signal. Возможно, вам стоит подтвердить ваш новый код безопасности, показанный ниже.",
         "description": ""
     },
     "incomingError": {
@@ -464,7 +468,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "У вас нет медиа в этом разговоре",
+        "message": "У вас нет медиа-файлов в этом разговоре",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
@@ -508,7 +512,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Этот тип файла не разрешен по соображениям безопасности",
+        "message": "Этот тип файла не разрешён по соображениям безопасности",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -620,7 +624,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "О Signal Desktop",
+        "message": "О приложении Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -648,7 +652,7 @@
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Поиск в $conversationName$",
+        "message": "Искать в $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -858,8 +862,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "(кому)",
+        "message": "Кому",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "в",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "Отправлено",
@@ -1172,25 +1180,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 минута",
+        "message": "1м",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 час",
+        "message": "1ч",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ ч.",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "$hours$ ч. назад",
+        "message": "$hours$ч",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ мин.",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "$minutes$ мин. назад",
+        "message": "$minutes$м",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1567,6 +1555,10 @@
         "message": "Исчезающая фотография",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
+    "message--getDescription--disappearing-video": {
+        "message": "Исчезающее видео",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
     "stickers--toast--InstallFailed": {
         "message": "Не удалось установить набор стикеров",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1706,12 +1698,16 @@
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Фото",
+        "message": "Медиа",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Просмотреть фотографию",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "Фото",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "Видео",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
         "message": "(вложение)",

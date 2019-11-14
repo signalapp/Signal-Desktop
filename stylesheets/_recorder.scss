@@ -20,7 +20,19 @@
       display: inline-block;
       height: 24px;
       width: 24px;
-      @include color-svg('../images/microphone.svg', $grey);
+
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/mic-outline-24.svg',
+          $color-gray-60
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/mic-solid-24.svg',
+          $color-gray-25
+        );
+      }
     }
   }
 }
@@ -42,31 +54,34 @@
 
     .icon {
       display: inline-block;
-      width: $button-height;
-      height: $button-height;
+      width: 24px;
+      height: 24px;
     }
   }
 
   .finish {
-    background: lighten($color-core-green, 20%);
-    border: 1px solid $color-core-green;
+    background: lighten($color-accent-green, 20%);
+    border: 1px solid $color-accent-green;
 
     .icon {
-      @include color-svg('../images/check.svg', $color-core-green);
+      @include color-svg(
+        '../images/icons/v2/check-24.svg',
+        $color-accent-green
+      );
     }
   }
 
   .close {
-    background: lighten($color-core-red, 20%);
-    border: 1px solid $color-core-red;
+    background: lighten($color-accent-red, 20%);
+    border: 1px solid $color-accent-red;
 
     .icon {
-      @include color-svg('../images/x.svg', $color-core-red);
+      @include color-svg('../images/icons/v2/x-24.svg', $color-accent-red);
     }
   }
 
   .time {
-    color: $grey;
+    color: $color-gray-60;
     float: right;
     line-height: 36px;
     padding: 0 10px;
@@ -90,7 +105,7 @@
       border-radius: 10px;
       width: 10px;
       height: 10px;
-      background: #f00;
+      background: $color-accent-red;
       margin-right: 10px;
       opacity: 0;
       animation: pulse 2s infinite;

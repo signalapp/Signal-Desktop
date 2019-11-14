@@ -41,23 +41,14 @@
         const notificationForMessage = found
           ? Whisper.Notifications.findWhere({ messageId: found.id })
           : null;
-        const removedNotification = Whisper.Notifications.remove(
-          notificationForMessage
-        );
-        const receiptSender = receipt.get('sender');
-        const receiptTimestamp = receipt.get('timestamp');
-        const wasMessageFound = Boolean(found);
-        const wasNotificationFound = Boolean(notificationForMessage);
-        const wasNotificationRemoved = Boolean(removedNotification);
-        window.log.info('Receive read sync:', {
-          receiptSender,
-          receiptTimestamp,
-          wasMessageFound,
-          wasNotificationFound,
-          wasNotificationRemoved,
-        });
+        Whisper.Notifications.remove(notificationForMessage);
 
         if (!found) {
+          window.log.info(
+            'No message for read sync',
+            receipt.get('sender'),
+            receipt.get('timestamp')
+          );
           return;
         }
 
@@ -68,7 +59,7 @@
         //   timer to the time specified by the read sync if it's earlier than
         //   the previous read time.
         if (message.isUnread()) {
-          await message.markRead(readAt);
+          await message.markRead(readAt, { skipSave: true });
 
           // onReadMessage may result in messages older than this one being
           //   marked read. We want those messages to have the same expire timer
@@ -87,13 +78,17 @@
           message.set({ expirationStartTimestamp });
 
           const force = true;
-          await message.setToExpire(force);
+          await message.setToExpire(force, { skipSave: true });
 
           const conversation = message.getConversation();
           if (conversation) {
             conversation.trigger('expiration-change', message);
           }
         }
+
+        await window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
+        });
 
         this.remove(receipt);
       } catch (error) {

@@ -179,7 +179,7 @@ export class LeftPane extends React.Component<PropsType> {
               conversations={conversations}
               height={height}
               rowCount={length}
-              rowHeight={64}
+              rowHeight={68}
               rowRenderer={this.renderRow}
               width={width}
             />

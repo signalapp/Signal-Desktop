@@ -1,0 +1,1728 @@
+{
+    "copyErrorAndQuit": {
+        "message": "பிழையை நகலெடுத்து வெளியேற்றவும்",
+        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "unknownGroup": {
+        "message": "தெரியாத குழு",
+        "description": "Shown as the name of a group if we don't have any information about it"
+    },
+    "databaseError": {
+        "message": " தரவுத் தளம் பிழை",
+        "description": "Shown in a popup if the database cannot start up properly"
+    },
+    "deleteAndRestart": {
+        "message": "எல்லா தரவையும் நீக்கி மறுதொடக்கம் செய்",
+        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    },
+    "mainMenuFile": {
+        "message": "&கோப்பு",
+        "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuEdit": {
+        "message": "&தொகுத்து அமை",
+        "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuView": {
+        "message": "& காண்க",
+        "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuWindow": {
+        "message": "&ஜன்னல்",
+        "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuHelp": {
+        "message": "&உதவி",
+        "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuSettings": {
+        "message": "முன்னுரிமைகள்...",
+        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    },
+    "appMenuHide": {
+        "message": "மறை",
+        "description": "Application menu command to hide the window"
+    },
+    "appMenuHideOthers": {
+        "message": "மற்றவர்களை மறை",
+        "description": "Application menu command to hide all other windows"
+    },
+    "appMenuUnhide": {
+        "message": "அனைத்தையும் காட்டு",
+        "description": "Application menu command to show all application windows"
+    },
+    "appMenuQuit": {
+        "message": "Signal லை விட்டு வெளியேறு",
+        "description": "Application menu command to close the application"
+    },
+    "editMenuUndo": {
+        "message": "செயல்தவிர்",
+        "description": "Edit menu command to remove recently-typed text"
+    },
+    "editMenuRedo": {
+        "message": "மீண்டும் செய்",
+        "description": "Edit menu command to restore previously undone typed text"
+    },
+    "editMenuCut": {
+        "message": "வெட்டு",
+        "description": "Edit menu command to remove selected text and add it to clipboard"
+    },
+    "editMenuCopy": {
+        "message": "நகல்",
+        "description": "Edit menu command to add selected text to clipboard"
+    },
+    "editMenuPaste": {
+        "message": "ஒட்டு",
+        "description": "Edit menu command to insert text from clipboard at cursor location"
+    },
+    "editMenuPasteAndMatchStyle": {
+        "message": "ஒரே பாணியை பொருத்தி ஓட்டுக",
+        "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    },
+    "editMenuDelete": {
+        "message": "அழி",
+        "description": "Edit menu command to remove the selected text"
+    },
+    "editMenuSelectAll": {
+        "message": "அனைத்தையும் தெரிவுசெய்",
+        "description": "Edit menu comand to select all of the text in selected text box"
+    },
+    "editMenuStartSpeaking": {
+        "message": "பேசத் தொடங்குங்கள்",
+        "description": "Edit menu item under 'speech' to start dictation"
+    },
+    "editMenuStopSpeaking": {
+        "message": "பேசுவதை நிறுத்துங்கள்",
+        "description": "Edit menu item under 'speech' to stop dictation"
+    },
+    "windowMenuClose": {
+        "message": "சாளரத்தை மூடு",
+        "description": "Window menu command to close the current window"
+    },
+    "windowMenuMinimize": {
+        "message": "குறைத்தல்",
+        "description": "Window menu command to minimize the current window"
+    },
+    "windowMenuZoom": {
+        "message": "பெரிதாக்கு",
+        "description": "Window menu command to make the current window the size of the whole screen"
+    },
+    "windowMenuBringAllToFront": {
+        "message": "அனைத்தையும் முன்னால் கொண்டு வாருங்கள்",
+        "description": "Window menu command to bring all windows of current applicatinon to front"
+    },
+    "viewMenuResetZoom": {
+        "message": "உண்மையான அளவு",
+        "description": "View menu command to go back to the default zoom"
+    },
+    "viewMenuZoomIn": {
+        "message": "பெரிதாக்க",
+        "description": "View menu command to make everything bigger"
+    },
+    "viewMenuZoomOut": {
+        "message": "பெரிதாக்கு",
+        "description": "View menu command to make everything smaller"
+    },
+    "viewMenuToggleFullScreen": {
+        "message": "முழுத்திரையை நிலைமாற்று ",
+        "description": "View menu command to enter or leave Full Screen mode"
+    },
+    "viewMenuToggleDevTools": {
+        "message": "டெவலப்பர் கருவிகளை நிலைமாற்று",
+        "description": "View menu command to show or hide the developer tools"
+    },
+    "menuSetupWithImport": {
+        "message": "இறக்குமதியுடன் அமைக்கவும்",
+        "description": "When the application is not yet set up, menu option to start up the import sequence"
+    },
+    "menuSetupAsNewDevice": {
+        "message": "புதிய சாதனமாக அமைக்கவும்",
+        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
+    },
+    "menuSetupAsStandalone": {
+        "message": "முழுமையான பயன்முறை சாதனமாக அமைக்கவும்",
+        "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "avatarMenuViewArchive": {
+        "message": "காப்பகத்தைக் காண்க",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
+    "loading": {
+        "message": "ஏற்றுதல் ...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "optimizingApplication": {
+        "message": "பயன்பாட்டை மேம்படுத்துகிறது ...",
+        "description": "Message shown on the loading screen while we are doing application optimizations"
+    },
+    "migratingToSQLCipher": {
+        "message": "செய்திகளை மேம்படுத்துகிறது ... $status$ முடிந்தது.",
+        "description": "Message shown on the loading screen while we are doing application optimizations",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "45/200"
+            }
+        }
+    },
+    "archivedConversations": {
+        "message": "காப்பகப்படுத்தப்பட்ட உரையாடல்கள்",
+        "description": "Shown in place of the search box when showing archived conversation list"
+    },
+    "archiveHelperText": {
+        "message": "இந்த உரையாடல்கள் காப்பகப்படுத்தப்பட்டுள்ளன, மேலும் புதிய செய்திகள் வந்தால் மட்டுமே இன்பாக்ஸில் தோன்றும்.",
+        "description": "Shown at the top of the archived converations list in the left pane"
+    },
+    "archiveConversation": {
+        "message": "காப்பக உரையாடல்",
+        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
+    },
+    "moveConversationToInbox": {
+        "message": "உரையாடலை இன்பாக்ஸிற்கு நகர்த்தவும்",
+        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
+    },
+    "chooseDirectory": {
+        "message": "கோப்புறையைத் தேர்வுசெய்க",
+        "description": "Button to allow the user to find a folder on disk"
+    },
+    "chooseFile": {
+        "message": "கோப்பை தேர்ந்தெடுங்கள்",
+        "description": "Button to allow the user to find a file on disk"
+    },
+    "loadDataHeader": {
+        "message": "உங்கள் தரவை ஏற்றவும்",
+        "description": "Header shown on the first screen in the data import process"
+    },
+    "loadDataDescription": {
+        "message": "நீங்கள் ஏற்றுமதி செயல்முறையை கடந்துவிட்டீர்கள், உங்கள் தொடர்புகள் மற்றும் செய்திகள் உங்கள் கணினியில் பொறுமையாக காத்திருக்கின்றன. உங்கள் சேமித்த Signal தரவைக் கொண்ட கோப்புறையைத் தேர்ந்தெடுக்கவும்.",
+        "description": "Introduction to the process of importing messages and contacts from disk"
+    },
+    "importChooserTitle": {
+        "message": "ஏற்றுமதி செய்யப்பட்ட தரவுடன் கோப்பகத்தைத் தேர்வுசெய்க",
+        "description": "Title of the popup window used to select data previously exported"
+    },
+    "importErrorHeader": {
+        "message": "ஏதோ தவறு நடைபெற்றிருக்கிறது!",
+        "description": "Header of the error screen after a failed import"
+    },
+    "importingHeader": {
+        "message": "தொடர்புகள் மற்றும் செய்திகளை ஏற்றுகிறது",
+        "description": "Header of screen shown as data is import"
+    },
+    "importErrorFirst": {
+        "message": "உங்கள் சேமித்த Signal தரவைக் கொண்ட சரியான கோப்பகத்தை நீங்கள் தேர்ந்தெடுத்துள்ளீர்கள் என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள். அதன் பெயர் 'Signal Export' உடன் தொடங்க வேண்டும். உங்கள் தரவின் புதிய நகலை Chrome  பயன்பாடு சேமிக்கவும் முடியும்.",
+        "description": "Message shown if the import went wrong; first paragraph"
+    },
+    "importErrorSecond": {
+        "message": "இந்த படிகள் உங்களுக்காக வேலை செய்யவில்லை எனில், தயவுசெய்து பிழைத்திருத்த பதிவைச் சமர்ப்பிக்கவும் (காண்க -> பிழைத்திருத்தப் பதிவு) இதன் மூலம் இடம்பெயர நாங்கள் உங்களுக்கு உதவ முடியும்!",
+        "description": "Message shown if the import went wrong; second paragraph"
+    },
+    "importAgain": {
+        "message": "கோப்புறையைத் தேர்ந்தெடுத்து மீண்டும் முயற்சிக்கவும்",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
+    },
+    "importCompleteHeader": {
+        "message": "வெற்றி!",
+        "description": "Header shown on the screen at the end of a successful import process"
+    },
+    "importCompleteStartButton": {
+        "message": "Signal Desktop ப்பைப் பயன்படுத்தத் தொடங்குங்கள்",
+        "description": "Button shown at end of successful import process, nothing left but a restart"
+    },
+    "importCompleteLinkButton": {
+        "message": "இந்த சாதனத்தை உங்கள் தொலைபேசியுடன் இணைக்கவும்",
+        "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    },
+    "selectedLocation": {
+        "message": "நீங்கள் தேர்ந்தெடுத்த இடம்",
+        "description": "Message shown as the export location if we didn't capture the target directory"
+    },
+    "upgradingDatabase": {
+        "message": "தரவுத்தளத்தை மேம்படுத்துதல். இதற்கு சிறிது நேரம் ஆகலாம் ...",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    },
+    "loadingMessages": {
+        "message": "செய்திகளை ஏற்றுகிறது. 1$count$ இதுவரை ...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "me": {
+        "message": "என்னை",
+        "description": "The label for yourself when shown in a group member list"
+    },
+    "view": {
+        "message": "காண்க",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "youLeftTheGroup": {
+        "message": "நீங்கள் குழுவிலிருந்து வெளியேறினீர்கள்",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "scrollDown": {
+        "message": "உரையாடலின் கீழே உருட்டவும்",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
+    "messagesBelow": {
+        "message": "கீழே புதிய செய்திகள்",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
+    "unreadMessage": {
+        "message": "1 படிக்காத செய்தி",
+        "description": "Text for unread message separator, just one message"
+    },
+    "unreadMessages": {
+        "message": "1$count$ படிக்காத செய்திகள்",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "youMarkedAsVerified": {
+        "message": "சரிபார்க்கப்பட்டபடி உங்கள் பாதுகாப்பு எண்ணை $name$  உடன் குறித்தீர்கள்",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerified": {
+        "message": "உங்கள் பாதுகாப்பு எண்ணை $name$  உடன் சரிபார்க்கவில்லை எனக் குறித்தீர்கள்",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "மற்றொரு சாதனத்திலிருந்து சரிபார்க்கப்பட்டபடி உங்கள் பாதுகாப்பு எண்ணை $name$ உடன் குறித்தீர்கள்",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "மற்றொரு சாதனத்திலிருந்து சரிபார்க்கப்படாதபடி உங்கள் பாதுகாப்பு எண்ணை $name$  உடன் குறித்தீர்கள்",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "நீங்கள் கடைசியாக சரிபார்க்கப்பட்டதிலிருந்து இந்த குழு உறுப்பினர்களுடனான உங்கள் பாதுகாப்பு எண்கள் மாறிவிட்டன. அவர்களுடன் உங்கள் புதிய பாதுகாப்பு எண்ணைக் காண குழு உறுப்பினரைக் கிளிக் செய்க.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+    },
+    "changedSinceVerifiedMultiple": {
+        "message": "நீங்கள் கடைசியாக சரிபார்க்கப்பட்டதிலிருந்து பல குழு உறுப்பினர்களுடனான உங்கள் பாதுகாப்பு எண்கள் மாறிவிட்டன. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது அவர்கள் Signal லை மீண்டும் நிறுவியுள்ளனர் என்று இது குறிக்கலாம்.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "changedSinceVerified": {
+        "message": "நீங்கள் கடைசியாக சரிபார்க்கப்பட்டதிலிருந்து 1$name$  உடன் உங்கள் பாதுகாப்பு எண் மாறிவிட்டது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது 1$name$  வெறுமனே Signal லை மீண்டும் நிறுவியுள்ளதாக இது குறிக்கலாம்.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "changedRightAfterVerify": {
+        "message": "நீங்கள் சரிபார்க்க முயற்சிக்கும் பாதுகாப்பு எண் மாறிவிட்டது. உங்கள் புதிய பாதுகாப்பு எண்ணை $name$ உடன் மதிப்பாய்வு செய்யவும். நினைவில் கொள்ளுங்கள், இந்த மாற்றம் யாராவது உங்கள் தகவல்தொடர்புகளை இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name$  Signal வெறுமனே மீண்டும் நிறுவியிருக்கலாம்.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "changedRecentlyMultiple": {
+        "message": "பல குழு உறுப்பினர்களுடனான உங்கள் பாதுகாப்பு எண்கள் சமீபத்தில் மாறிவிட்டன. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது அவர்கள் Signal லை மீண்டும் நிறுவியுள்ளனர் என்று இது குறிக்கலாம்.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "changedRecently": {
+        "message": "1$name$  உடன் உங்கள் பாதுகாப்பு எண் சமீபத்தில் மாற்றப்பட்டது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name$  sign வெறுமனே Signal லை மீண்டும் நிறுவியுள்ளதாக இது குறிக்கலாம்.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "identityKeyErrorOnSend": {
+        "message": "$name$  உடன் உங்கள் பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name$ Signal வெறுமனே Signal லை மீண்டும் நிறுவியிருக்கலாம் என்று இது குறிக்கலாம். இந்த தொடர்பு மூலம் உங்கள் பாதுகாப்பு எண்ணை சரிபார்க்க விரும்பலாம்.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "sendAnyway": {
+        "message": "இருந்தாலும் அனுப்பு",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "noLongerVerified": {
+        "message": "1$name$  உடன் உங்கள் பாதுகாப்பு எண் மாறிவிட்டது, இனி சரிபார்க்கப்படாது. காண்பிக்க கிளிக் செய்க.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "multipleNoLongerVerified": {
+        "message": "இந்த குழுவின் பல உறுப்பினர்களுடன் உங்கள் பாதுகாப்பு எண்கள் மாறிவிட்டன, அவை இனி சரிபார்க்கப்படாது. காண்பிக்க கிளிக் செய்க.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    },
+    "debugLogExplanation": {
+        "message": "பங்களிப்பாளர்கள் பார்வையிட இந்த பதிவு ஆன்லைனில் பொதுவில் வெளியிடப்படும். சமர்ப்பிக்கும் முன் அதை ஆராய்ந்து திருத்தலாம்.",
+        "description": ""
+    },
+    "debugLogError": {
+        "message": "பதிவேற்றுவதில் ஏதோ தவறு ஏற்பட்டது! நீங்கள் பதிவுசெய்த பிழையில் உங்கள் பதிவை கைமுறையாகச் சேர்க்கவும்.",
+        "description": ""
+    },
+    "reportIssue": {
+        "message": "சிக்கலைப் புகாரளிக்கவும்",
+        "description": "Link to open the issue tracker"
+    },
+    "gotIt": {
+        "message": "அறிந்துகொண்டேன்!",
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    },
+    "submit": {
+        "message": "சமர்ப்பி",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "ஏற்கவும்",
+        "description": "Label for a button to accept a new safety number"
+    },
+    "verify": {
+        "message": "சரிபார்க்கப்பட்டதாகக் குறிக்கவும்",
+        "description": ""
+    },
+    "unverify": {
+        "message": "சரிபார்க்கப்படவில்லை எனக் குறிக்கவும்",
+        "description": ""
+    },
+    "isVerified": {
+        "message": "உங்கள் பாதுகாப்பு எண்ணை $name$ with உடன் சரிபார்த்துள்ளீர்கள்.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isNotVerified": {
+        "message": "உங்கள் பாதுகாப்பு எண்ணை 1$name$ உடன் சரிபார்க்கவில்லை.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "verified": {
+        "message": "சரிபார்க்கப்பட்ட",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "புதிய பாதுகாப்பு எண்",
+        "description": "Header for a key change dialog"
+    },
+    "identityChanged": {
+        "message": "இந்த தொடர்புடன் உங்கள் பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது இந்த தொடர்பு Signal லை மீண்டும் நிறுவியது என்று இது குறிக்கலாம். கீழே உள்ள புதிய பாதுகாப்பு எண்ணை நீங்கள் சரிபார்க்க விரும்பலாம்.",
+        "description": ""
+    },
+    "incomingError": {
+        "message": "உள்வரும் செய்தியைக் கையாளுவதில் பிழை",
+        "description": ""
+    },
+    "media": {
+        "message": "ஊடகம்",
+        "description": "Header of the default pane in the media gallery, showing images and videos"
+    },
+    "mediaEmptyState": {
+        "message": "இந்த உரையாடலில் உங்களிடம் எந்த ஊடகமும் இல்லை",
+        "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    },
+    "documents": {
+        "message": "ஆவணங்கள்",
+        "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    },
+    "documentsEmptyState": {
+        "message": "இந்த உரையாடலில் உங்களிடம் எந்த ஆவணங்களும் இல்லை",
+        "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    },
+    "today": {
+        "message": "இன்று",
+        "description": "Section header in the media gallery"
+    },
+    "yesterday": {
+        "message": "நேற்று",
+        "description": "Section header in the media gallery"
+    },
+    "thisWeek": {
+        "message": "இந்த வாரம்",
+        "description": "Section header in the media gallery"
+    },
+    "thisMonth": {
+        "message": "இந்த மாதம்",
+        "description": "Section header in the media gallery"
+    },
+    "unsupportedAttachment": {
+        "message": "ஆதரிக்கப்படாத இணைப்பு வகை. சேமிக்க கிளிக் செய்க.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
+    "unnamedFile": {
+        "message": "பெயரிடப்படாத கோப்பு",
+        "description": "Hover text for attachment filenames"
+    },
+    "voiceMessage": {
+        "message": "குரல் செய்தி",
+        "description": "Name for a voice message attachment"
+    },
+    "dangerousFileType": {
+        "message": "பாதுகாப்பு காரணங்களுக்காக இணைப்பு வகை அனுமதிக்கப்படவில்லை",
+        "description": "Shown in toast when user attempts to send .exe file, for example"
+    },
+    "loadingPreview": {
+        "message": "முன்னோட்டத்தை ஏற்றுகிறது ...",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
+    },
+    "stagedPreviewThumbnail": {
+        "message": "$domain$ க்கான சிறு இணைப்பு இணைப்பு மாதிரிக்காட்சி",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "previewThumbnail": {
+        "message": "$domain$  க்கான சிறு இணைப்பு முன்னோட்டம்",
+        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "instagram.com"
+            }
+        }
+    },
+    "stagedImageAttachment": {
+        "message": "வரைவு பட இணைப்பு:  $path$",
+        "description": "Alt text for staged attachments",
+        "placeholders": {
+            "path": {
+                "content": "$1",
+                "example": "dog.jpg"
+            }
+        }
+    },
+    "oneNonImageAtATimeToast": {
+        "message": "படம் அல்லாத இணைப்பு சேர்க்கும்போது, ​​வரம்பு ஒரு செய்திக்கு ஒரு இணைப்பு.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "cannotMixImageAdnNonImageAttachments": {
+        "message": "ஒரு செய்தியில் நீங்கள் படம் அல்லாத மற்றும் பட இணைப்புகள் கலக்க முடியாது.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "maximumAttachments": {
+        "message": "இந்த செய்தியில் மேலும் இணைப்புகள் நீங்கள் சேர்க்க முடியாது.",
+        "description": "An error popup when the user has attempted to add an attachment"
+    },
+    "fileSizeWarning": {
+        "message": "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட கோப்பு செய்தி அளவு கட்டுப்பாடுகளை மீறுகிறது.",
+        "description": ""
+    },
+    "unableToLoadAttachment": {
+        "message": "தேர்ந்தெடுக்கப்பட்ட இணைப்பு ஏற்ற முடியவில்லை.",
+        "description": ""
+    },
+    "disconnected": {
+        "message": "துண்டிக்கப்பட்டது",
+        "description": "Displayed when the desktop client cannot connect to the server."
+    },
+    "connecting": {
+        "message": "இணைக்கிறது",
+        "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "offline": {
+        "message": "ஆஃப்லைன்",
+        "description": "Displayed when the desktop client has no network connection."
+    },
+    "checkNetworkConnection": {
+        "message": "உங்கள் பிணைய இணைப்பைச் சரிபார்க்கவும்.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "attemptingReconnection": {
+        "message": "1$reconnect_duration_in_seconds$ வினாடிகளில் மீண்டும் இணைக்க முயற்சிக்கிறது",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "submitDebugLog": {
+        "message": "பிழைத்திருத்த பதிவு",
+        "description": "Menu item and header text for debug log modal (sentence case)"
+    },
+    "debugLog": {
+        "message": "பிழைத்திருத்த பதிவு",
+        "description": "View menu item to open the debug log (title case)"
+    },
+    "goToReleaseNotes": {
+        "message": "வெளியீட்டுக் குறிப்புகளுக்குச் செல்லவும்",
+        "description": ""
+    },
+    "goToForums": {
+        "message": "மன்றங்களுக்குச் செல்லுங்கள்",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
+    "goToSupportPage": {
+        "message": "ஆதரவு பக்கத்திற்குச் செல்லவும்",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
+    "menuReportIssue": {
+        "message": "ஒரு சிக்கலைப் புகாரளிக்கவும்",
+        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    },
+    "signalDesktopPreferences": {
+        "message": "Signal Desktop விருப்பத்தேர்வுகள்",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "aboutSignalDesktop": {
+        "message": "Signal Desktop பற்றி",
+        "description": "Item under the Help menu, which opens a small about window"
+    },
+    "speech": {
+        "message": "பேச்சு",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
+    "show": {
+        "message": "காட்டு",
+        "description": "Command under Window menu, to show the window"
+    },
+    "hide": {
+        "message": "மறை",
+        "description": "Command in the tray icon menu, to hide the window"
+    },
+    "quit": {
+        "message": "விட்டுவிடு ",
+        "description": "Command in the tray icon menu, to quit the application"
+    },
+    "signalDesktop": {
+        "message": "Signal Desktop",
+        "description": "Tooltip for the tray icon"
+    },
+    "search": {
+        "message": "தேடல்",
+        "description": "Placeholder text in the search input"
+    },
+    "searchIn": {
+        "message": "$conversationName$  இல் தேடுங்கள்",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
+    "noSearchResults": {
+        "message": "\"$searchTerm$\" க்கான முடிவுகள் எதுவும் இல்லை",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "$conversationName$  இல் \"$searchTerm$\" க்கான முடிவுகள் எதுவும் இல்லை",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
+            }
+        }
+    },
+    "conversationsHeader": {
+        "message": "உரையாடல்கள்",
+        "description": "Shown to separate the types of search results"
+    },
+    "contactsHeader": {
+        "message": "தொடர்புகள்",
+        "description": "Shown to separate the types of search results"
+    },
+    "messagesHeader": {
+        "message": "செய்திகள்",
+        "description": "Shown to separate the types of search results"
+    },
+    "welcomeToSignal": {
+        "message": "Signal லுக்கு வருக",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "அரட்டையடிக்க ஒரு தொடர்பு அல்லது குழுவைத் தேர்ந்தெடுக்கவும்.",
+        "description": ""
+    },
+    "typingAlt": {
+        "message": "இந்த உரையாடலுக்கு அனிமேஷனைத் தட்டச்சு செய்க",
+        "description": "Used as the 'title' attibute for the typing animation"
+    },
+    "contactAvatarAlt": {
+        "message": "தொடர்புக்கான அவதாரம் $name$",
+        "description": "Used in the alt tag for the image avatar of a contact",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "sendMessageToContact": {
+        "message": "செய்தி அனுப்ப",
+        "description": "Shown when you are sent a contact and that contact has a signal account"
+    },
+    "home": {
+        "message": "வீடு",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "work": {
+        "message": "வேலை",
+        "description": "Shown on contact detail screen as a label for an address/phone/email"
+    },
+    "mobile": {
+        "message": "கைபேசி",
+        "description": "Shown on contact detail screen as a label for aa phone or email"
+    },
+    "email": {
+        "message": "மின்னஞ்சல்",
+        "description": "Generic label shown if contact email has custom type but no label"
+    },
+    "phone": {
+        "message": "தொலைபேசி",
+        "description": "Generic label shown if contact phone has custom type but no label"
+    },
+    "address": {
+        "message": "முகவரி",
+        "description": "Generic label shown if contact address has custom type but no label"
+    },
+    "poBox": {
+        "message": "அஞ்சல் பெட்டி",
+        "description": "When rendering an address, used to provide context to a post office box"
+    },
+    "downloading": {
+        "message": "பதிவிறக்குகிறது",
+        "description": "Shown in the message bubble while a long message attachment is being downloaded"
+    },
+    "downloadAttachment": {
+        "message": "இணைப்பு பதிவிறக்கவும்",
+        "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+    },
+    "replyToMessage": {
+        "message": "செய்திக்கு பதில்",
+        "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    },
+    "originalMessageNotFound": {
+        "message": "அசல் செய்தி கிடைக்கவில்லை",
+        "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
+    },
+    "originalMessageNotAvailable": {
+        "message": "அசல் செய்தி இனி கிடைக்கும்",
+        "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    },
+    "messageFoundButNotLoaded": {
+        "message": "அசல் செய்தி கிடைத்தது, ஆனால் ஏற்றப்படவில்லை. அதை ஏற்றுவதற்கு மேலே உருட்டவும்.",
+        "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceNoteMustBeOnlyAttachment": {
+        "message": "ஒரு குரல் குறிப்பு ஒரு செய்தியில் சேர்க்கப்பட்ட ஒரே இணைப்பு இருக்க வேண்டும்.",
+        "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
+    "you": {
+        "message": "நீங்கள்",
+        "description": "In Android theme, shown in quote if you or someone else replies to you"
+    },
+    "replyingTo": {
+        "message": "$name$ க்கு பதிலளிக்கிறது",
+        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "audioPermissionNeeded": {
+        "message": "ஆடியோ செய்திகளை அனுப்ப, உங்கள் மைக்ரோஃபோனை அணுக Signal Desktop ப்பை அனுமதிக்கவும்.",
+        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "allowAccess": {
+        "message": "அணுகலை அனுமதிக்கவும்",
+        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    },
+    "showSettings": {
+        "message": "அமைப்புகளைக் காட்டு",
+        "description": "A button shown in dialog requesting the user to turn on audio permissions"
+    },
+    "audio": {
+        "message": "ஒலி",
+        "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    },
+    "video": {
+        "message": "காணொளி",
+        "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    },
+    "photo": {
+        "message": "புகைப்பட",
+        "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    },
+    "cannotUpdate": {
+        "message": "அமைப்புகளைக் காட்டு",
+        "description": "Shown as the title of our update error dialogs on windows"
+    },
+    "cannotUpdateDetail": {
+        "message": "Signal Desktop புதுப்பிக்கத் தவறிவிட்டது, ஆனால் ஒரு புதிய பதிப்பு கிடைக்கும். தயவுசெய்து https://signal.org/download க்குச் சென்று புதிய பதிப்பை கைமுறையாக நிறுவவும், பின்னர் ஆதரவைத் தொடர்பு கொள்ளவும் அல்லது இந்த சிக்கலைப் பற்றி ஒரு பிழையை தாக்கல் செய்யவும். ",
+        "description": "Shown if a general error happened while trying to install update package"
+    },
+    "readOnlyVolume": {
+        "message": "Signal Desktop ஒரு மேகோஸ் தனிமைப்படுத்தலில் இருக்கலாம், மேலும் தானாக புதுப்பிக்க முடியாது. Finder உடன் Signal.app ஐ / பயன்பாடு நகர்த்த முயற்சிக்கவும்.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+    },
+    "ok": {
+        "message": "சரி",
+        "description": ""
+    },
+    "cancel": {
+        "message": "ரத்து",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "சில பெறுநர்களுக்கு அனுப்புவதில் தோல்வி. உங்கள் பிணைய இணைப்பைச் சரிபார்க்கவும்.",
+        "description": ""
+    },
+    "error": {
+        "message": "பிழை",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "செய்தி விவரம்",
+        "description": ""
+    },
+    "delete": {
+        "message": "அழி",
+        "description": ""
+    },
+    "deleteWarning": {
+        "message": "உறுதியாக சொல்கிறீர்களா? 'நீக்கு' என்பதைக் கிளிக் செய்தால், இந்தச் சாதனத்திலிருந்து  மட்டுமே இந்தச் செய்தி நிரந்தரமாக நீக்கப்படும்.",
+        "description": ""
+    },
+    "deleteThisMessage": {
+        "message": "இந்த செய்தியை நீக்கு",
+        "description": ""
+    },
+    "from": {
+        "message": "இருந்து",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "செய்ய",
+        "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "க்கு",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    },
+    "sent": {
+        "message": "அனுப்புதல்",
+        "description": "Label for the time a message was sent"
+    },
+    "received": {
+        "message": "பெறப்பட்டது",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "செய்தி அனுப்புங்கள்",
+        "description": "Placeholder text in the message entry field"
+    },
+    "groupMembers": {
+        "message": "குழு உறுப்பினர்கள்",
+        "description": ""
+    },
+    "showMembers": {
+        "message": "உறுப்பினர்களைக் காட்டு",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "அமர்வை மீட்டமை",
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "showSafetyNumber": {
+        "message": "பாதுகாப்பு எண்ணைக் காண்க",
+        "description": ""
+    },
+    "viewAllMedia": {
+        "message": "எல்லா ஊடகங்களையும் காண்க",
+        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    },
+    "verifyHelp": {
+        "message": "உங்கள் இறுதி முதல் இறுதி குறியாக்கத்தின் பாதுகாப்பை 1$name$  உடன் சரிபார்க்க விரும்பினால், மேலே உள்ள எண்களை அவற்றின் சாதனத்தில் உள்ள எண்களுடன் ஒப்பிடுக.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "theirIdentityUnknown": {
+        "message": "இந்த தொடர்புடன் நீங்கள் இதுவரை எந்த செய்திகளையும் பரிமாறவில்லை. அவர்களுடனான உங்கள் பாதுகாப்பு எண் முதல் செய்திக்குப் பிறகு கிடைக்கும்.",
+        "description": ""
+    },
+    "moreInfo": {
+        "message": "மேலும் தகவல்...",
+        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    },
+    "retrySend": {
+        "message": "அனுப்ப முயற்சிக்கவும்",
+        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+    },
+    "deleteMessage": {
+        "message": "செய்தியை நீக்கு",
+        "description": "Shown on the drop-down menu for an individual message, deletes single message"
+    },
+    "deleteMessages": {
+        "message": "செய்திகளை நீக்கு",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteConversationConfirmation": {
+        "message": "இந்த உரையாடலை நிரந்தரமாக நீக்கவா?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "sessionEnded": {
+        "message": "பாதுகாப்பான அமர்வு மீட்டமைப்பு",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
+    },
+    "quoteThumbnailAlt": {
+        "message": "மேற்கோள் செய்தியிலிருந்து படத்தின் சிறு உருவம்",
+        "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
+    },
+    "imageAttachmentAlt": {
+        "message": "செய்தியுடன் இணைக்கப்பட்ட படம்",
+        "description": "Used in alt tag of image attachment"
+    },
+    "videoAttachmentAlt": {
+        "message": "செய்தியுடன் இணைக்கப்பட்ட வீடியோவின் ஸ்கிரீன் ஷாட்",
+        "description": "Used in alt tag of video attachment preview"
+    },
+    "lightboxImageAlt": {
+        "message": "படம் உரையாடலில் அனுப்பப்பட்டது",
+        "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
+    },
+    "imageCaptionIconAlt": {
+        "message": "இந்த படத்திற்கு ஒரு தலைப்பு இருப்பதைக் காட்டும் ஐகான்",
+        "description": "Used for the icon layered on top of an image in message bubbles"
+    },
+    "addACaption": {
+        "message": "ஒரு தலைப்பை சேர்க்க...",
+        "description": ""
+    },
+    "save": {
+        "message": "சேமி",
+        "description": ""
+    },
+    "fileIconAlt": {
+        "message": "கோப்பு ஐகான்",
+        "description": "Used in the media gallery documents tab to visually represent a file"
+    },
+    "installWelcome": {
+        "message": "Signal Desktop பிற்கு வருக",
+        "description": "Welcome title on the install page"
+    },
+    "installTagline": {
+        "message": "தனியுரிமை சாத்தியம். Signal அதை எளிதாக்குகிறது.",
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "linkYourPhone": {
+        "message": "உங்கள் தொலைபேசியை Signal Desktop ப்பில் இணைக்கவும்",
+        "description": "Shown on the front page when the application first starst, above the QR code"
+    },
+    "signalSettings": {
+        "message": "Signal அமைப்புகள்",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "linkedDevices": {
+        "message": "இணைக்கப்பட்ட சாதனங்கள்",
+        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    },
+    "plusButton": {
+        "message": "'+' பொத்தான்",
+        "description": "The button used in Signal Android to add a new linked device"
+    },
+    "linkNewDevice": {
+        "message": "புதிய சாதனத்தை இணைக்கவும்",
+        "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "deviceName": {
+        "message": "சாதனத்தின் பெயர்",
+        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
+    },
+    "chooseDeviceName": {
+        "message": "இந்த சாதனத்தின் பெயரைத் தேர்வுசெய்க",
+        "description": "The header shown on the 'choose device name' screen in the device linking process"
+    },
+    "finishLinkingPhone": {
+        "message": "தொலைபேசியை இணைப்பதை முடிக்கவும்",
+        "description": "The text on the button to finish the linking process, after choosing the device name"
+    },
+    "initialSync": {
+        "message": "தொடர்புகள் மற்றும் குழுக்களை ஒத்திசைத்தல்",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
+    "installConnectionFailed": {
+        "message": "சேவகையத்திடம் தொடர்பு கொள்ள முடியவில்லை.",
+        "description": "Displayed when we can't connect to the server."
+    },
+    "installTooManyDevices": {
+        "message": "மன்னிக்கவும், உங்களிடம் ஏற்கனவே பல சாதனங்கள் இணைக்கப்பட்டுள்ளன. சிலவற்றை நீக்க முயற்சிக்கவும்.",
+        "description": ""
+    },
+    "settings": {
+        "message": "அமைப்புகள்",
+        "description": "Menu item and header for global settings"
+    },
+    "theme": {
+        "message": "தீம்",
+        "description": "Header for theme settings"
+    },
+    "permissions": {
+        "message": "அனுமதிகள்",
+        "description": "Header for permissions section of settings"
+    },
+    "mediaPermissionsDescription": {
+        "message": "கேமரா மற்றும் மைக்ரோஃபோனை அணுக அனுமதிக்கவும்",
+        "description": "Description of the media permission description"
+    },
+    "general": {
+        "message": "பொது",
+        "description": "Header for general options on the settings screen"
+    },
+    "spellCheckDescription": {
+        "message": "செய்தி அமைப்பு பெட்டியில் உள்ளிடப்பட்ட உரையின் எழுத்து சரிபார்ப்பை இயக்கவும்",
+        "description": "Description of the media permission description"
+    },
+    "clearDataHeader": {
+        "message": "தரவை அழி",
+        "description": "Header in the settings dialog for the section dealing with data deletion"
+    },
+    "clearDataExplanation": {
+        "message": "இது பயன்பாட்டில் உள்ள எல்லா தரவையும் அழித்து, எல்லா செய்திகளையும், சேமித்த கணக்கு தகவல்களையும் நீக்கும்.",
+        "description": "Text describing what the clear data button will do."
+    },
+    "clearDataButton": {
+        "message": "தரவை அழி",
+        "description": "Button in the settings dialog starting process to delete all data"
+    },
+    "deleteAllDataHeader": {
+        "message": "எல்லா தரவையும் நீக்கவா?",
+        "description": "Header of the full-screen delete data confirmation screen"
+    },
+    "deleteAllDataBody": {
+        "message": "எல்லா தொடர்புகள் மற்றும் அனைத்து செய்திகளும் உட்பட இந்த பயன்பாட்டின் சேமிக்கப்பட்ட கணக்கு தகவல்களை நீக்க உள்ளீர்கள். நீங்கள் எப்போதும் உங்கள் மொபைல் சாதனத்துடன் மீண்டும் இணைக்க முடியும், ஆனால் அது நீக்கப்பட்ட செய்திகளை மீட்டெடுக்காது.",
+        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
+    },
+    "deleteAllDataButton": {
+        "message": "எல்லா தரவையும் நீக்கு",
+        "description": "Text of the button that deletes all data"
+    },
+    "deleteAllDataProgress": {
+        "message": "எல்லா தரவையும் துண்டித்து நீக்குகிறது",
+        "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "notifications": {
+        "message": "அறிவிப்புகள்",
+        "description": "Header for notification settings"
+    },
+    "notificationSettingsDialog": {
+        "message": "செய்திகள் வரும்போது, ​​வெளிப்படுத்தும் அறிவிப்புகளைக் காண்பி:",
+        "description": "Explain the purpose of the notification settings"
+    },
+    "disableNotifications": {
+        "message": "அறிவிப்புகளை முடக்கு",
+        "description": "Label for disabling notifications"
+    },
+    "nameAndMessage": {
+        "message": "அனுப்புநரின் பெயர் மற்றும் செய்தி இரண்டும்",
+        "description": "Label for setting notifications to display name and message text"
+    },
+    "noNameOrMessage": {
+        "message": "பெயரோ செய்தியோ இல்லை",
+        "description": "Label for setting notifications to display no name and no message text"
+    },
+    "nameOnly": {
+        "message": "அனுப்புநரின் பெயர் மட்டுமே",
+        "description": "Label for setting notifications to display sender name only"
+    },
+    "newMessage": {
+        "message": "புதிய தகவல்",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "newMessages": {
+        "message": "புதிய செய்திகள்",
+        "description": "Displayed in notifications for multiple messages"
+    },
+    "notificationMostRecentFrom": {
+        "message": "இதிலிருந்து மிக சமீபத்தியது:",
+        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    },
+    "notificationFrom": {
+        "message": "இருந்து:",
+        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
+    },
+    "notificationMostRecent": {
+        "message": "மிக சமீபத்தியது:",
+        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "sendFailed": {
+        "message": "அனுப்புவது தோல்வியுற்றது",
+        "description": "Shown on outgoing message if it fails to send"
+    },
+    "showMore": {
+        "message": "விவரங்கள்",
+        "description": "Displays the details of a key change"
+    },
+    "showLess": {
+        "message": "விவரங்களை மறை",
+        "description": "Hides the details of a key change"
+    },
+    "learnMore": {
+        "message": "பாதுகாப்பு எண்களைச் சரிபார்ப்பது பற்றி மேலும் அறிக",
+        "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "expiredWarning": {
+        "message": "Signal Desktop ப்பின் இந்த பதிப்பு காலாவதியானது. செய்தியைத் தொடர சமீபத்திய பதிப்பிற்கு மேம்படுத்தவும்.",
+        "description": "Warning notification that this version of the app has expired"
+    },
+    "upgrade": {
+        "message": "மேம்படுத்தல்",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "mediaMessage": {
+        "message": "ஊடக செய்தி",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unregisteredUser": {
+        "message": "எண் பதிவு செய்யப்படவில்லை",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "தொடர்புகள்",
+        "description": "Label for contact and group sync settings"
+    },
+    "syncExplanation": {
+        "message": "உங்கள் மொபைல் சாதனத்திலிருந்து அனைத்து Signal குழுக்கள் மற்றும் தொடர்புகளை இறக்குமதி செய்க.",
+        "description": "Explanatory text for sync settings"
+    },
+    "lastSynced": {
+        "message": "இல் கடைசி இறக்குமதி",
+        "description": "Label for date and time of last sync operation"
+    },
+    "syncNow": {
+        "message": "இப்போது இறக்குமதி செய்க",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncing": {
+        "message": "இறக்குமதி செய்கிறது ...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "syncFailed": {
+        "message": "இறக்குமதி தோல்வியுற்றது. உங்கள் கணினியும் உங்கள் தொலைபேசியும் இணையத்துடன் இணைக்கப்பட்டுள்ளதா என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
+    "timestamp_s": {
+        "message": "இப்போது",
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_m": {
+        "message": "1 நிமிடம்",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timestamp_h": {
+        "message": "1 மணி நேரம்",
+        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+    },
+    "hoursAgo": {
+        "message": "$hours$ ஹ",
+        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
+        "placeholders": {
+            "hours": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "minutesAgo": {
+        "message": "$minutes$ம்",
+        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
+        "placeholders": {
+            "minutes": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
+    "justNow": {
+        "message": "இப்போது",
+        "description": "Shown if a message is very recent, less than 60 seconds old"
+    },
+    "timestampFormat_M": {
+        "message": "எம்.எம்.எம் டி",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "messageBodyTooLong": {
+        "message": "செய்தி உடல் மிக நீளமானது.",
+        "description": "Shown if the user tries to send more than 64kb of text"
+    },
+    "unblockToSend": {
+        "message": "செய்தி அனுப்ப இந்த தொடர்பைத் விடுவிக்கவும்.",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
+    "unblockGroupToSend": {
+        "message": "செய்தி அனுப்ப இந்த குழுவைத் விடுவிக்கவும்.",
+        "description": "Brief message shown when trying to message a blocked group"
+    },
+    "youChangedTheTimer": {
+        "message": "காணாமல்  போகும் செய்தி நேரத்தை $time$  என அமைத்துள்ளீர்கள்",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
+    "timerSetOnSync": {
+        "message": "காணாமல் போன செய்தி டைமரை $time$ to க்கு புதுப்பித்தது",
+        "description": "Message displayed when timer is set on initial link of desktop device.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
+    "theyChangedTheTimer": {
+        "message": "$name$ the மறைந்து வரும் செய்தி நேரத்தை $time$ to என அமைக்கவும்",
+        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "time": {
+                "content": "$2",
+                "example": "10m"
+            }
+        }
+    },
+    "timerOption_0_seconds": {
+        "message": "ஆஃப்",
+        "description": "Label for option to turn off message expiration in the timer menu"
+    },
+    "timerOption_5_seconds": {
+        "message": "5 விநாடிகள்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_10_seconds": {
+        "message": "10 வினாடிகள்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_30_seconds": {
+        "message": "30 வினாடிகள்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_minute": {
+        "message": "1 நிமிடம்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_5_minutes": {
+        "message": "5 நிமிடம்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_30_minutes": {
+        "message": "30 நிமிடம்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_hour": {
+        "message": "1 மணி நேரம்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_6_hours": {
+        "message": "6 மணி நேரம்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_12_hours": {
+        "message": "12 மணி நேரம்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_day": {
+        "message": "1 நாள்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_week": {
+        "message": "1 வாரம்",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "disappearingMessages": {
+        "message": "காணாமல் போகும் செய்திகள்",
+        "description": "Conversation menu option to enable disappearing messages"
+    },
+    "timerOption_0_seconds_abbreviated": {
+        "message": "ஆஃப்",
+        "description": "Short format indicating current timer setting in the conversation list snippet"
+    },
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5 நொடி",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10 நொடி",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30 நொடி",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_minute_abbreviated": {
+        "message": "1 நிமிடம்",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5 நிமிடம்",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30 நிமிடம்",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_hour_abbreviated": {
+        "message": "1 மணி நேரம்",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_6_hours_abbreviated": {
+        "message": "6 மணி நேரம்",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_12_hours_abbreviated": {
+        "message": "12 மணி நேரம்",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_day_abbreviated": {
+        "message": "1 நாள்",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_1_week_abbreviated": {
+        "message": "1 வாரம்",
+        "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "disappearingMessagesDisabled": {
+        "message": "காணாமல் போன செய்திகள் முடக்கப்பட்டுள்ளன",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "disabledDisappearingMessages": {
+        "message": "$name$ காணாமல் போன செய்திகளை முடக்கியது",
+        "description": "Displayed in the conversation list when the timer is turned off",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "youDisabledDisappearingMessages": {
+        "message": "காணாமல் போன செய்திகளை முடக்கியுள்ளீர்கள்",
+        "description": "Displayed in the conversation list when the timer is turned off"
+    },
+    "timerSetTo": {
+        "message": "டைமர் $time$  என அமைக்கப்பட்டது",
+        "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "1w"
+            }
+        }
+    },
+    "audioNotificationDescription": {
+        "message": "ஆடியோ அறிவிப்பை இயக்கு",
+        "description": "Description for audio notification setting"
+    },
+    "safetyNumberChanged": {
+        "message": "பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது",
+        "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChangedGroup": {
+        "message": "$name$ உடன் பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது",
+        "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "verifyNewNumber": {
+        "message": "பாதுகாப்பு எண்ணைச் சரிபார்க்கவும்",
+        "description": "Label on button included with safety number change notification in the conversation"
+    },
+    "yourSafetyNumberWith": {
+        "message": "$name$ உடன் உங்கள் பாதுகாப்பு எண்:",
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "themeLight": {
+        "message": "ஒளி",
+        "description": "Label text for light theme (normal)"
+    },
+    "themeDark": {
+        "message": "இருள்",
+        "description": "Label text for dark theme"
+    },
+    "themeSystem": {
+        "message": "அமைப்பு",
+        "description": "Label text for system theme"
+    },
+    "noteToSelf": {
+        "message": "சுய குறிப்பு",
+        "description": "Name for the conversation with your own phone number"
+    },
+    "hideMenuBar": {
+        "message": "பட்டியல் பட்டியை மறைக்க",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "startConversation": {
+        "message": "புதிய உரையாடலைத் தொடங்குங்கள்…",
+        "description": "Label underneath number a user enters that is not an existing contact"
+    },
+    "newPhoneNumber": {
+        "message": "தொடர்பைச் சேர்க்க தொலைபேசி எண்ணை உள்ளிடவும்.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
+    "invalidNumberError": {
+        "message": "தவறான எண்",
+        "description": "When a person inputs a number that is invalid"
+    },
+    "unlinkedWarning": {
+        "message": "செய்தியைத் தொடர உங்கள் மொபைல் சாதனத்தில் சிக்னல் டெஸ்க்டாப்பை மீண்டும் இணைக்கவும்.",
+        "description": ""
+    },
+    "unlinked": {
+        "message": "துண்டிக்கவில்லை",
+        "description": ""
+    },
+    "relink": {
+        "message": "இணைக்கவும்",
+        "description": ""
+    },
+    "autoUpdateNewVersionTitle": {
+        "message": "Signal புதுப்பிப்பு கிடைக்கும்",
+        "description": ""
+    },
+    "autoUpdateNewVersionMessage": {
+        "message": "Signal லின் புதிய பதிப்பு கிடைக்கும்.",
+        "description": ""
+    },
+    "autoUpdateNewVersionInstructions": {
+        "message": "புதுப்பிப்புகளைப் பயன்படுத்த மறுதொடக்கம் Signal லை அழுத்தவும்.",
+        "description": ""
+    },
+    "autoUpdateRestartButtonLabel": {
+        "message": "சிக்னலை மறுதொடக்கம் செய்யுங்கள்",
+        "description": ""
+    },
+    "autoUpdateLaterButtonLabel": {
+        "message": "பின்னர்",
+        "description": ""
+    },
+    "leftTheGroup": {
+        "message": "$name$ the குழுவிலிருந்து வெளியேறியது",
+        "description": "Shown in the conversation history when a single person leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "multipleLeftTheGroup": {
+        "message": "$name$ the குழுவிலிருந்து வெளியேறியது",
+        "description": "Shown in the conversation history when multiple people leave the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "updatedTheGroup": {
+        "message": "குழு புதுப்பிக்கப்பட்டது",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
+    "titleIsNow": {
+        "message": "தலைப்பு இப்போது '$name$'",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
+    "joinedTheGroup": {
+        "message": "$name$ குழுவில் சேர்ந்தார்",
+        "description": "Shown in the conversation history when a single person joins the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "multipleJoinedTheGroup": {
+        "message": "$names$ குழுவில் சேர்ந்தன",
+        "description": "Shown in the conversation history when more than one person joins the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "வரைவு:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "ஸ்டிக்கர் செய்தி",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "ஆதரிக்கப்படாத செய்தி",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "காணாமல் போன புகைப்படம்",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "message--getDescription--disappearing-video": {
+        "message": "காணாமல் போன வீடியோ",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "ஸ்டிக்கர் பேக் நிறுவ முடியவில்லை",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "நிறுவப்பட்ட ஸ்டிக்கர்கள்",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "ஸ்டிக்கர்கள் எதுவும் நிறுவப்படவில்லை",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "சிக்னல் கலைஞர் தொடர்",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "Signal ஆர்ட்டிஸ்ட் ஸ்டிக்கர்கள் கிடைக்கும் வசதி இல்லை ",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "நீங்கள் பெற்ற ஸ்டிக்கர்கள்",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "உள்வரும் செய்திகளின் ஸ்டிக்கர்கள் இங்கே தோன்றும்",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "நிறுவு",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "நீக்குதல்",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "உங்களிடம் இனி மூல செய்தி இல்லையென்றால் இந்த ஸ்டிக்கர் பேக்கை மீண்டும் நிறுவ முடியாது.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "ஸ்டிக்கர்களை அறிமுகப்படுத்துகிறோம்",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "நீங்கள் ஸ்டிக்கர்களைப் பயன்படுத்தும்போது ஏன் வார்த்தைகளைப் பயன்படுத்த வேண்டும்?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "சில ஸ்டிக்கர்களை பதிவிறக்கம் செய்ய முடியவில்லை.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "ஸ்டிக்கர் பேக்கை நிறுவுகிறது ...",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "ஸ்டிக்கர்கள் எதுவும் கிடைக்கவில்லை",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "உங்கள் செய்திகளிலிருந்து புதிய ஸ்டிக்கர் பொதிகள் நிறுவ கிடைக்கும்",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "ஸ்டிக்கர் பொதிகள் எதுவும் கிடைக்கவில்லை",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "சமீபத்தில் பயன்படுத்தப்பட்ட ஸ்டிக்கர்கள் இங்கே தோன்றும்.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "ஸ்டிக்கர் பேக்",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "ஸ்டிக்கர் பேக் திறப்பதில் பிழை. உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "ஈமோஜிகள் எதுவும் கிடைக்கவில்லை",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "ஈமோஜியைத் தேடுங்கள்",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "தோல் தொனி $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "ரத்து",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ உங்களுக்கு ஒரு செய்தியை அனுப்பியது, இது புதிய Signal அம்சத்தைப் பயன்படுத்துவதால் செயலாக்கவோ அல்லது காட்டவோ முடியாது.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "நீங்கள் Signal லின் புதுப்பித்த பதிப்பைப் பயன்படுத்துகிறீர்கள் என்று இந்த செய்தியை இப்போது மீண்டும் அனுப்ப $contact$ ஐக் கேட்கலாம்.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "உங்கள் சாதனங்களில் ஒன்று புதிய Signal அம்சத்தைப் பயன்படுத்துவதால் செயலாக்கவோ அல்லது காட்டவோ முடியாத செய்தியை அனுப்பியது.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "இது போன்ற எதிர்கால செய்திகள் இப்போது நீங்கள் Signal லின் புதுப்பித்த பதிப்பைப் பயன்படுத்துகிறீர்கள் என்று ஒத்திசைக்கப்படும்.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Signal லைப் புதுப்பிக்கவும்",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "பார்க்கப்பட்டவை",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "ஊடகம்",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "புகைப்பட",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "காணொளி",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(இணைப்பு)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(மேற்கோள்)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(வரைவு)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "privacyPolicy": {
+        "message": "விதிமுறைகள் மற்றும் தனியுரிமைக் கொள்கை",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
+    }
+}

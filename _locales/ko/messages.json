@@ -143,6 +143,10 @@
         "message": "독립 실행형 기기로 설정",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "avatarMenuViewArchive": {
+        "message": "View Archive",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "불러오는 중",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -861,6 +865,10 @@
         "message": "받는이:",
         "description": "Label for the receiver of a message"
     },
+    "toJoiner": {
+        "message": "받는이:",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    },
     "sent": {
         "message": "보낸 시간:",
         "description": "Label for the time a message was sent"
@@ -1136,7 +1144,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "미디어 메시지",
+        "message": "Media Message",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -1179,18 +1187,8 @@
         "message": "1시간",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$시간",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "$hours$시간 전",
+        "message": "$hours$h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$분",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "$minutes$분 전",
+        "message": "$minutes$m",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1564,8 +1552,12 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "Disappearing photo",
+        "message": "Disappearing Photo",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "message--getDescription--disappearing-video": {
+        "message": "Disappearing Video",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
     },
     "stickers--toast--InstallFailed": {
         "message": "스티커 팩을 설치할 수 없음",
@@ -1706,12 +1698,16 @@
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "사진",
+        "message": "미디어",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "View Photo",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "사진",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "비디오",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
         "message": "(attachment)",

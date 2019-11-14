@@ -172,10 +172,11 @@ message DataMessage {
   enum ProtocolVersion {
     option allow_alias = true;
 
-    INITIAL = 0;
-    MESSAGE_TIMERS = 1;
-    VIEW_ONCE = 2;
-    CURRENT = 2;
+    INITIAL         = 0;
+    MESSAGE_TIMERS  = 1;
+    VIEW_ONCE       = 2;
+    VIEW_ONCE_VIDEO = 3;
+    CURRENT         = 3;
   }
 
   optional string             body                    = 1;

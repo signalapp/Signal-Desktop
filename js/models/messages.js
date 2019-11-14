@@ -36,6 +36,8 @@
     savePackMetadata,
     getStickerPackStatus,
   } = window.Signal.Stickers;
+  const { GoogleChrome } = window.Signal.Util;
+
   const { addStickerPackReference } = window.Signal.Data;
   const { bytesFromString } = window.Signal.Crypto;
 
@@ -726,7 +728,23 @@
         return i18n('message--getDescription--unsupported-message');
       }
       if (this.isTapToView()) {
-        return i18n('message--getDescription--disappearing-photo');
+        if (this.isErased()) {
+          return i18n('mediaMessage');
+        }
+
+        const attachments = this.get('attachments');
+        if (!attachments || !attachments[0]) {
+          return i18n('mediaMessage');
+        }
+
+        const { contentType } = attachments[0];
+        if (GoogleChrome.isImageTypeSupported(contentType)) {
+          return i18n('message--getDescription--disappearing-photo');
+        } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
+          return i18n('message--getDescription--disappearing-video');
+        }
+
+        return i18n('mediaMessage');
       }
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
@@ -875,9 +893,8 @@
 
       const firstAttachment = attachments[0];
       if (
-        !window.Signal.Util.GoogleChrome.isImageTypeSupported(
-          firstAttachment.contentType
-        )
+        !GoogleChrome.isImageTypeSupported(firstAttachment.contentType) &&
+        !GoogleChrome.isVideoTypeSupported(firstAttachment.contentType)
       ) {
         return false;
       }
@@ -962,6 +979,7 @@
         sticker: null,
         preview: [],
       });
+      this.trigger('content-changed');
 
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
@@ -1004,7 +1022,9 @@
     hasErrors() {
       return _.size(this.get('errors')) > 0;
     },
-    async saveErrors(providedErrors) {
+    async saveErrors(providedErrors, options = {}) {
+      const { skipSave } = options;
+
       let errors = providedErrors;
 
       if (!(errors instanceof Array)) {
@@ -1030,11 +1050,16 @@
       errors = errors.concat(this.get('errors') || []);
 
       this.set({ errors });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+
+      if (!skipSave) {
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+      }
     },
-    async markRead(readAt) {
+    async markRead(readAt, options = {}) {
+      const { skipSave } = options;
+
       this.unset('unread');
 
       if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
@@ -1051,9 +1076,11 @@
         })
       );
 
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
+      if (!skipSave) {
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+      }
     },
     isExpiring() {
       return this.get('expireTimer') && this.get('expirationStartTimestamp');
@@ -1074,7 +1101,9 @@
       }
       return msFromNow;
     },
-    async setToExpire(force = false) {
+    async setToExpire(force = false, options = {}) {
+      const { skipSave } = options;
+
       if (this.isExpiring() && (force || !this.get('expires_at'))) {
         const start = this.get('expirationStartTimestamp');
         const delta = this.get('expireTimer') * 1000;
@@ -1082,7 +1111,7 @@
 
         this.set({ expires_at: expiresAt });
         const id = this.get('id');
-        if (id) {
+        if (id && !skipSave) {
           await window.Signal.Data.saveMessage(this.attributes, {
             Message: Whisper.Message,
           });
@@ -1664,10 +1693,6 @@
           sticker,
         });
 
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-
         return true;
       }
 
@@ -1715,12 +1740,8 @@
 
       if (
         !firstAttachment ||
-        (!window.Signal.Util.GoogleChrome.isImageTypeSupported(
-          firstAttachment.contentType
-        ) &&
-          !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
-            firstAttachment.contentType
-          ))
+        (!GoogleChrome.isImageTypeSupported(firstAttachment.contentType) &&
+          !GoogleChrome.isVideoTypeSupported(firstAttachment.contentType))
       ) {
         return message;
       }
@@ -1880,6 +1901,7 @@
           }
 
           message.set({
+            id: window.getGuid(),
             attachments: dataMessage.attachments,
             body: dataMessage.body,
             contact: dataMessage.contact,
@@ -2024,8 +2046,8 @@
             !conversationTimestamp ||
             message.get('sent_at') > conversationTimestamp
           ) {
-            conversation.lastMessage = message.getNotificationText();
             conversation.set({
+              lastMessage: message.getNotificationText(),
               timestamp: message.get('sent_at'),
             });
           }
@@ -2044,12 +2066,6 @@
               );
             }
           }
-
-          const id = await window.Signal.Data.saveMessage(message.attributes, {
-            Message: Whisper.Message,
-          });
-          message.set({ id });
-          MessageController.register(message.id, message);
 
           if (message.isTapToView() && type === 'outgoing') {
             await message.eraseContents();
@@ -2076,60 +2092,29 @@
             }
           }
 
-          if (message.isUnsupportedMessage()) {
-            await message.eraseContents();
-          } else {
-            // Note that this can save the message again, if jobs were queued. We need to
-            //   call it after we have an id for this message, because the jobs refer back
-            //   to their source message.
-            await message.queueAttachmentDownloads();
-          }
-
-          await window.Signal.Data.updateConversation(
+          MessageController.register(message.id, message);
+          window.Signal.Data.updateConversation(
             conversationId,
-            conversation.attributes,
-            { Conversation: Whisper.Conversation }
+            conversation.attributes
           );
 
-          conversation.trigger('newmessage', message);
-
-          try {
-            // We go to the database here because, between the message save above and
-            // the previous line's trigger() call, we might have marked all messages
-            // unread in the database. This message might already be read!
-            const fetched = await window.Signal.Data.getMessageById(
-              message.get('id'),
-              {
-                Message: Whisper.Message,
-              }
-            );
-            const previousUnread = message.get('unread');
-
-            // Important to update message with latest read state from database
-            message.merge(fetched);
-
-            if (previousUnread !== message.get('unread')) {
-              window.log.warn(
-                'Caught race condition on new message read state! ' +
-                  'Manually starting timers.'
-              );
-              // We call markRead() even though the message is already
-              // marked read because we need to start expiration
-              // timers, etc.
-              message.markRead();
-            }
-          } catch (error) {
-            window.log.warn(
-              'handleDataMessage: Message',
-              message.idForLogging(),
-              'was deleted'
-            );
+          if (message.isUnsupportedMessage()) {
+            await message.eraseContents();
           }
+
+          await message.queueAttachmentDownloads();
+          await window.Signal.Data.saveMessage(message.attributes, {
+            Message: Whisper.Message,
+            forceSave: true,
+          });
+
+          conversation.trigger('newmessage', message);
 
           if (message.get('unread')) {
             await conversation.notify(message);
           }
 
+          Whisper.events.trigger('incrementProgress');
           confirm();
         } catch (error) {
           const errorForLog = error && error.stack ? error.stack : error;

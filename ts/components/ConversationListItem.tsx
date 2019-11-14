@@ -65,7 +65,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={48}
+          size={52}
         />
         {this.renderUnread()}
       </div>
@@ -129,6 +129,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             timestamp={lastUpdated}
             extended={false}
             module="module-conversation-list-item__header__timestamp"
+            withUnread={unreadCount > 0}
             i18n={i18n}
           />
         </div>
@@ -148,6 +149,11 @@ export class ConversationListItem extends React.PureComponent<Props> {
     if (!lastMessage && !typingContact) {
       return null;
     }
+
+    const showingDraft = shouldShowDraft && draftPreview;
+
+    // Note: instead of re-using showingDraft here we explode it because
+    //   typescript can't tell that draftPreview is truthy otherwise
     const text =
       shouldShowDraft && draftPreview
         ? draftPreview
@@ -169,13 +175,13 @@ export class ConversationListItem extends React.PureComponent<Props> {
             <TypingAnimation i18n={i18n} />
           ) : (
             <>
-              {shouldShowDraft ? (
+              {showingDraft ? (
                 <span className="module-conversation-list-item__message__draft-prefix">
                   {i18n('ConversationListItem--draft-prefix')}
                 </span>
               ) : null}
               <MessageBody
-                text={text}
+                text={text.split('\n')[0]}
                 disableJumbomoji={true}
                 disableLinks={true}
                 i18n={i18n}
@@ -183,7 +189,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             </>
           )}
         </div>
-        {lastMessage && lastMessage.status ? (
+        {!showingDraft && lastMessage && lastMessage.status ? (
           <div
             className={classNames(
               'module-conversation-list-item__message__status-icon',

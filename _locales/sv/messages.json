@@ -12,7 +12,7 @@
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Radera alla data och starta om",
+        "message": "Ta bort alla data och starta om",
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
@@ -40,11 +40,11 @@
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Göm",
+        "message": "Dölj",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Göm övriga",
+        "message": "Dölj övriga",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
@@ -80,7 +80,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Radera",
+        "message": "Ta bort",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -142,6 +142,10 @@
     "menuSetupAsStandalone": {
         "message": "Ställ in som fristående enhet",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "avatarMenuViewArchive": {
+        "message": "Visa arkiv",
+        "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
         "message": "Läser in...",
@@ -632,7 +636,7 @@
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Göm",
+        "message": "Dölj",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
@@ -842,15 +846,15 @@
         "description": ""
     },
     "delete": {
-        "message": "Radera",
+        "message": "Ta bort",
         "description": ""
     },
     "deleteWarning": {
-        "message": "Är du säker? Om du klickar \"radera\" så tas detta meddelande bort permanent, men bara från denna enhet.",
+        "message": "Är du säker? Om du klickar \"ta bort\" så tas detta meddelande bort permanent, men bara från denna enhet.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Radera detta meddelande",
+        "message": "Ta bort detta meddelande",
         "description": ""
     },
     "from": {
@@ -858,8 +862,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "till",
+        "message": "Till",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "till",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "Skickat",
@@ -916,15 +924,15 @@
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Radera meddelande",
+        "message": "Ta bort meddelande",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Radera meddelanden",
+        "message": "Ta bort meddelanden",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Vill du radera denna konversation för alltid?",
+        "message": "Vill du ta bort denna konversation för alltid?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
@@ -1040,27 +1048,27 @@
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Radera data",
+        "message": "Ta bort data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Detta kommer radera alla data i applikationen, det tar bort alla meddelanden och sparad kontoinformation.",
+        "message": "Detta kommer ta bort alla data i applikationen, det tar bort alla meddelanden och sparad kontoinformation.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Radera data",
+        "message": "Ta bort data",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Radera alla data?",
+        "message": "Ta bort alla data?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Du är på väg att radera allt av denna applikations sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan länka till din mobila enhet igen, men det kommer inte att återställa de borttagna meddelandena.",
+        "message": "Du är på väg att ta bort allt av denna applikations sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan länka till din mobila enhet igen, men det kommer inte att återställa de borttagna meddelandena.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Radera alla data",
+        "message": "Ta bort alla data",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
@@ -1120,7 +1128,7 @@
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Göm info",
+        "message": "Dölj detaljer",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
@@ -1172,25 +1180,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minut",
+        "message": "1m",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 timme",
+        "message": "1h",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ h",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "$hours$ h sedan",
+        "message": "$hours$h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "$minutes$ min sedan",
+        "message": "$minutes$m",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1450,7 +1438,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
-        "message": "Göm menyraden",
+        "message": "Dölj menyrad",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
@@ -1566,6 +1554,10 @@
     "message--getDescription--disappearing-photo": {
         "message": "Försvinnande foto",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "message--getDescription--disappearing-video": {
+        "message": "Försvinnande video",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
     },
     "stickers--toast--InstallFailed": {
         "message": "Klistermärkespaketet kan inte installeras",
@@ -1706,12 +1698,16 @@
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Foto",
+        "message": "Media",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Visa foto",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "Foto",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "Video",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
         "message": "(bilaga)",

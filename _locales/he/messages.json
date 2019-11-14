@@ -36,7 +36,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "העדפות...",
+        "message": "העדפות…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
@@ -143,16 +143,20 @@
         "message": "הגדר בתור מכשיר עצמאי",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "avatarMenuViewArchive": {
+        "message": "הצג ארכיון",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
-        "message": "טוען...",
+        "message": "טוען…",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "ממטב יישום...",
+        "message": "ממטב יישום…",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "ממטב הודעות... $status$ הושלמו.",
+        "message": "ממטב הודעות… $status$ הושלמו.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -234,11 +238,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "משדרג מסד נתונים. זה עשוי לקחת זמן מה...",
+        "message": "משדרג מסד נתונים. זה עשוי לקחת זמן מה…",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "טוען הודעות. $count$ עד כה...",
+        "message": "טוען הודעות. $count$ עד כה…",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -512,7 +516,7 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "טוען קדם־תצוגה...",
+        "message": "טוען קדם־תצוגה…",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
@@ -861,6 +865,10 @@
         "message": "אל",
         "description": "Label for the receiver of a message"
     },
+    "toJoiner": {
+        "message": "אל",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
+    },
     "sent": {
         "message": "נשלח",
         "description": "Label for the time a message was sent"
@@ -908,7 +916,7 @@
         "description": ""
     },
     "moreInfo": {
-        "message": "עוד מידע...",
+        "message": "עוד מידע…",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -952,7 +960,7 @@
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "הוסף כיתוב...",
+        "message": "הוסף כיתוב…",
         "description": ""
     },
     "save": {
@@ -1160,7 +1168,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "מייבא...",
+        "message": "מייבא…",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
@@ -1172,25 +1180,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "דקה 1",
+        "message": "1 ד'",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "שעה 1",
+        "message": "1 שע'",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ שע'",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "לפני $hours$ שע'",
+        "message": "$hours$שע",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1199,18 +1197,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ דק'",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "לפני $minutes$ דק'",
+        "message": "$minutes$דק",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1454,7 +1442,7 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "התחל שיחה חדשה...",
+        "message": "התחל שיחה חדשה…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
@@ -1567,6 +1555,10 @@
         "message": "תצלום נעלם",
         "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
     },
+    "message--getDescription--disappearing-video": {
+        "message": "סרטון נעלם",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
     "stickers--toast--InstallFailed": {
         "message": "חבילת מדבקות לא יכלה להיות מותקנת",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1620,7 +1612,7 @@
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "מתקין חבילת מדבקות...",
+        "message": "מתקין חבילת מדבקות…",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -1706,12 +1698,16 @@
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "תצלום",
+        "message": "מדיה",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming": {
-        "message": "הצג תצלום",
-        "description": "Text shown on messages with with individual timers, before user has viewed it"
+        "message": "תצלום",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "וידיאו",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
         "message": "(צרופה)",
