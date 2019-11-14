@@ -38,7 +38,7 @@ const SUPPORTED_DOMAINS = [
   'pinterest.com',
   'www.pinterest.com',
   'pin.it',
-  'signal.org',
+  'signal.art',
 ];
 
 function isLinkInWhitelist(link) {
@@ -65,7 +65,7 @@ function isLinkInWhitelist(link) {
 }
 
 function isStickerPack(link) {
-  return (link || '').startsWith('https://signal.org/addstickers/');
+  return (link || '').startsWith('https://signal.art/addstickers/');
 }
 
 const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg\.com|cdninstagram\.com|redd\.it|imgur\.com|fbcdn\.net|pinimg\.com)$/i;

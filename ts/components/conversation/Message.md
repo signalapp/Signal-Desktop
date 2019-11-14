@@ -3226,12 +3226,12 @@ Sticker link previews are forced to use the small link preview form, no matter t
       direction="incoming"
       i18n={util.i18n}
       timestamp={Date.now()}
-      text="Pretty sweet link: https://signal.org/addsticker/#pack_id=11111"
+      text="Pretty sweet link: https://signal.art/addsticker/#pack_id=11111"
       previews={[
         {
           title: 'This is a really sweet post',
           isStickerPack: true,
-          domain: 'instagram.com',
+          domain: 'signal.art',
           image: {
             url: util.squareStickerObjectUrl,
             contentType: 'image/png',
@@ -3250,12 +3250,12 @@ Sticker link previews are forced to use the small link preview form, no matter t
       i18n={util.i18n}
       timestamp={Date.now()}
       status="sent"
-      text="Pretty sweet link: https://signal.org/addsticker/#pack_id=11111"
+      text="Pretty sweet link: https://signal.art/addsticker/#pack_id=11111"
       previews={[
         {
           title: 'This is a really sweet post',
           isStickerPack: true,
-          domain: 'signal.org',
+          domain: 'signal.art',
           image: {
             url: util.squareStickerObjectUrl,
             contentType: 'image/png',
