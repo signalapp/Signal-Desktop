@@ -11,8 +11,10 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   public setFocus = () => {
-    if (this.focusRef.current) {
-      this.focusRef.current.focus();
+    const container = this.focusRef.current;
+
+    if (container && !container.contains(document.activeElement)) {
+      container.focus();
     }
   };
 
