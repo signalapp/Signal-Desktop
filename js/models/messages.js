@@ -1270,7 +1270,11 @@
 
           this.trigger('sent', this);
           if (this.get('type') !== 'friend-request') {
-            this.sendSyncMessage();
+            const c = this.getConversation();
+            // Don't bother sending sync messages to public chats
+            if (!c.isPublic()) {
+              this.sendSyncMessage();
+            }
           }
         })
         .catch(result => {
