@@ -836,225 +836,225 @@ class LokiPublicChannelAPI {
       params,
     });
 
-    if (!res.err && res.response) {
-      let receivedAt = new Date().getTime();
-      const pubKeys = [];
-      let pendingMessages = [];
-      pendingMessages = await Promise.all(
-        res.response.data.reverse().map(async adnMessage => {
-          // still update our last received if deleted, not signed or not valid
-          this.lastGot = !this.lastGot
-            ? adnMessage.id
-            : Math.max(this.lastGot, adnMessage.id);
 
-          if (
-            !adnMessage.id ||
-            !adnMessage.user ||
-            !adnMessage.user.username || // pubKey lives in the username field
-            !adnMessage.text ||
-            adnMessage.is_deleted
-          ) {
-            return false; // Invalid or delete message
-          }
+    if (res.err || !res.response) {
+      return;
+    }
 
-          const messengerData = await this.getMessengerData(adnMessage);
-          if (messengerData === false) {
-            return false;
-          }
+    let receivedAt = new Date().getTime();
+    const pubKeys = [];
+    let pendingMessages = [];
+    pendingMessages = await Promise.all(
+      res.response.data.reverse().map(async adnMessage => {
+        // still update our last received if deleted, not signed or not valid
+        this.lastGot = !this.lastGot
+          ? adnMessage.id
+          : Math.max(this.lastGot, adnMessage.id);
 
-          const { timestamp, quote, attachments, preview } = messengerData;
-          if (!timestamp) {
-            return false; // Invalid message
-          }
+        if (
+          !adnMessage.id ||
+          !adnMessage.user ||
+          !adnMessage.user.username || // pubKey lives in the username field
+          !adnMessage.text ||
+          adnMessage.is_deleted
+        ) {
+          return false; // Invalid or delete message
+        }
 
-          // Duplicate check
-          const isDuplicate = message => {
-            // The username in this case is the users pubKey
-            const sameUsername = message.username === adnMessage.user.username;
-            const sameText = message.text === adnMessage.text;
-            // Don't filter out messages that are too far apart from each other
-            const timestampsSimilar =
-              Math.abs(message.timestamp - timestamp) <=
-              PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
+        const messengerData = await this.getMessengerData(adnMessage);
+        if (messengerData === false) {
+          return false;
+        }
 
-            return sameUsername && sameText && timestampsSimilar;
-          };
+        const { timestamp, quote, attachments, preview } = messengerData;
+        if (!timestamp) {
+          return false; // Invalid message
+        }
 
-          // Filter out any messages that we got previously
-          if (this.lastMessagesCache.some(isDuplicate)) {
-            return false; // Duplicate message
-          }
+        // Duplicate check
+        const isDuplicate = message => {
+          // The username in this case is the users pubKey
+          const sameUsername = message.username === adnMessage.user.username;
+          const sameText = message.text === adnMessage.text;
+          // Don't filter out messages that are too far apart from each other
+          const timestampsSimilar =
+            Math.abs(message.timestamp - timestamp) <=
+            PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
 
-          // FIXME: maybe move after the de-multidev-decode
-          // Add the message to the lastMessage cache and keep the last 5 recent messages
-          this.lastMessagesCache = [
-            ...this.lastMessagesCache,
-            {
-              username: adnMessage.user.username,
-              text: adnMessage.text,
-              timestamp,
-            },
-          ].splice(-5);
+          return sameUsername && sameText && timestampsSimilar;
+        };
 
-          const from = adnMessage.user.name || 'Anonymous'; // profileName
-          if (pubKeys.indexOf(`@${adnMessage.user.username}`) === -1) {
-            pubKeys.push(`@${adnMessage.user.username}`);
-          }
+        // Filter out any messages that we got previously
+        if (this.lastMessagesCache.some(isDuplicate)) {
+          return false; // Duplicate message
+        }
 
-          const messageData = {
-            serverId: adnMessage.id,
-            clientVerified: true,
-            friendRequest: false,
-            source: adnMessage.user.username,
-            sourceDevice: 1,
+        // FIXME: maybe move after the de-multidev-decode
+        // Add the message to the lastMessage cache and keep the last 5 recent messages
+        this.lastMessagesCache = [
+          ...this.lastMessagesCache,
+          {
+            username: adnMessage.user.username,
+            text: adnMessage.text,
             timestamp,
+          },
+        ].splice(-5);
 
-            serverTimestamp: timestamp,
-            receivedAt,
-            isPublic: true,
-            message: {
-              body:
-                adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
-              attachments,
-              group: {
-                id: this.conversationId,
-                type: textsecure.protobuf.GroupContext.Type.DELIVER,
-              },
-              flags: 0,
-              expireTimer: 0,
-              profileKey: null,
-              timestamp,
-              received_at: receivedAt,
-              sent_at: timestamp,
-              quote,
-              contact: [],
-              preview,
-              profile: {
-                displayName: from,
-              },
+        const from = adnMessage.user.name || 'Anonymous'; // profileName
+        if (pubKeys.indexOf(`@${adnMessage.user.username}`) === -1) {
+          pubKeys.push(`@${adnMessage.user.username}`);
+        }
+
+        const messageData = {
+          serverId: adnMessage.id,
+          clientVerified: true,
+          friendRequest: false,
+          source: adnMessage.user.username,
+          sourceDevice: 1,
+          timestamp,
+
+          serverTimestamp: timestamp,
+          receivedAt,
+          isPublic: true,
+          message: {
+            body:
+            adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
+            attachments,
+            group: {
+              id: this.conversationId,
+              type: textsecure.protobuf.GroupContext.Type.DELIVER,
             },
-          };
-          receivedAt += 1; // Ensure different arrival times
+            flags: 0,
+            expireTimer: 0,
+            profileKey: null,
+            timestamp,
+            received_at: receivedAt,
+            sent_at: timestamp,
+            quote,
+            contact: [],
+            preview,
+            profile: {
+              displayName: from,
+            },
+          },
+        };
+        receivedAt += 1; // Ensure different arrival times
 
-          // now process any user meta data updates
-          // - update their conversation with a potentially new avatar
-          return messageData;
-        })
+        // now process any user meta data updates
+        // - update their conversation with a potentially new avatar
+        return messageData;
+      })
+    );
+    this.conversation.setLastRetrievedMessage(this.lastGot);
+
+    if (!pendingMessages.length) {
+      return;
+    }
+    if (pubKeys.length) {
+      // this will set slavePrimaryMap
+      const verifiedPrimaryPKs = await lokiFileServerAPI.verifyPrimaryPubKeys(
+        pubKeys
       );
-      this.conversation.setLastRetrievedMessage(this.lastGot);
+      const { slavePrimaryMap } = this.serverAPI.chatAPI;
 
-      if (pendingMessages.length) {
-        // console.log('premultiDeviceResults', pubKeys);
-        if (pubKeys.length) {
-          // this will set slavePrimaryMap
-          const verifiedPrimaryPKs = await lokiFileServerAPI.verifyPrimaryPubKeys(
-            pubKeys
-          );
-          const { slavePrimaryMap } = this.serverAPI.chatAPI;
-
-          const slaveMessages = {};
-          // sort pending messages
-          pendingMessages.forEach(messageData => {
-            // why am I getting these?
-            if (messageData === undefined) {
-              log.warn('invalid pendingMessages');
-              return;
-            }
-            // if a known slave, queue
-            if (slavePrimaryMap[messageData.source]) {
-              // delay sending the message
-              if (slaveMessages[messageData.source] === undefined) {
-                slaveMessages[messageData.source] = [messageData];
-              } else {
-                slaveMessages[messageData.source].push(messageData);
-              }
-            } else {
-              // no user or isPrimary means not multidevice, send event now
-              this.serverAPI.chatAPI.emit('publicMessage', {
-                message: messageData,
-              });
-            }
-          });
-          pendingMessages = []; // free memory
-
-          // build map of userProfileName to primaryKeys
-          // if we have verified primaryKeys/the claimed relation
-          if (verifiedPrimaryPKs.length) {
-            // get final list of verified chat server profile names
-            const verifiedDeviceResults = await this.serverAPI.getUsers(
-              verifiedPrimaryPKs
-            );
-            // console.log('verifiedDeviceResults', verifiedDeviceResults)
-
-            // go through verifiedDeviceResults
-            const newPrimaryUserProfileName = {};
-            verifiedDeviceResults.forEach(user => {
-              newPrimaryUserProfileName[user.username] = user.name;
-            });
-            // replace whole
-            this.primaryUserProfileName = newPrimaryUserProfileName;
+      const slaveMessages = {};
+      // sort pending messages
+      pendingMessages.forEach(messageData => {
+        // why am I getting these?
+        if (messageData === undefined) {
+          log.warn('invalid pendingMessages');
+          return;
+        }
+        // if a known slave, queue
+        if (slavePrimaryMap[messageData.source]) {
+          // delay sending the message
+          if (slaveMessages[messageData.source] === undefined) {
+            slaveMessages[messageData.source] = [messageData];
+          } else {
+            slaveMessages[messageData.source].push(messageData);
           }
-
-          // process remaining messages
-          const ourNumber = textsecure.storage.user.getNumber();
-          Object.keys(slaveMessages).forEach(slaveKey => {
-            // prevent our own sent messages from coming back in
-            if (slaveKey === ourNumber) {
-              // we originally sent these
-              return;
-            }
-            const primaryPubKey = slavePrimaryMap[slaveKey];
-            slaveMessages[slaveKey].forEach(messageDataP => {
-              const messageData = messageDataP; // for linter
-              if (slavePrimaryMap[messageData.source]) {
-                // rewrite source, profile
-                messageData.source = primaryPubKey;
-                messageData.message.profile.displayName = this.primaryUserProfileName[
-                  primaryPubKey
-                ];
-              }
-              this.serverAPI.chatAPI.emit('publicMessage', {
-                message: messageData,
-              });
-            });
-          });
-        } // end if there are pending pubkeys to look up
-
-        // console.log('pendingMessages len', pendingMessages.length);
-        // console.log('pendingMessages', pendingMessages);
-        // find messages for original slave key using slavePrimaryMap
-        if (pendingMessages.length) {
-          const { slavePrimaryMap } = this.serverAPI.chatAPI;
-          const ourNumber = textsecure.storage.user.getNumber();
-          pendingMessages.forEach(messageDataP => {
-            const messageData = messageDataP; // for linter
-            // why am I getting these?
-            if (messageData === undefined) {
-              log.warn(`invalid pendingMessages ${pendingMessages}`);
-              return;
-            }
-            // prevent our own sent messages from coming back in
-            if (messageData.source === ourNumber) {
-              // we originally sent this
-              return;
-            }
-            if (slavePrimaryMap[messageData.source]) {
-              // rewrite source, profile
-              const primaryPubKey = slavePrimaryMap[messageData.source];
-              log.info(`Rewriting ${messageData.source} to ${primaryPubKey}`);
-              messageData.source = primaryPubKey;
-              messageData.message.profile.displayName = this.primaryUserProfileName[
-                primaryPubKey
-              ];
-            }
-            this.serverAPI.chatAPI.emit('publicMessage', {
-              message: messageData,
-            });
+        } else {
+          // no user or isPrimary means not multidevice, send event now
+          this.serverAPI.chatAPI.emit('publicMessage', {
+            message: messageData,
           });
         }
-        pendingMessages = [];
+      });
+      pendingMessages = []; // free memory
+
+      // build map of userProfileName to primaryKeys
+      // if we have verified primaryKeys/the claimed relation
+      if (verifiedPrimaryPKs.length) {
+        // get final list of verified chat server profile names
+        const verifiedDeviceResults = await this.serverAPI.getUsers(
+          verifiedPrimaryPKs
+        );
+
+        // go through verifiedDeviceResults
+        const newPrimaryUserProfileName = {};
+        verifiedDeviceResults.forEach(user => {
+          newPrimaryUserProfileName[user.username] = user.name;
+        });
+        // replace whole
+        this.primaryUserProfileName = newPrimaryUserProfileName;
       }
+
+      // process remaining messages
+      const ourNumber = textsecure.storage.user.getNumber();
+      Object.keys(slaveMessages).forEach(slaveKey => {
+        // prevent our own sent messages from coming back in
+        if (slaveKey === ourNumber) {
+          // we originally sent these
+          return;
+        }
+        const primaryPubKey = slavePrimaryMap[slaveKey];
+        slaveMessages[slaveKey].forEach(messageDataP => {
+          const messageData = messageDataP; // for linter
+          if (slavePrimaryMap[messageData.source]) {
+            // rewrite source, profile
+            messageData.source = primaryPubKey;
+            messageData.message.profile.displayName = this.primaryUserProfileName[
+              primaryPubKey
+            ];
+          }
+          this.serverAPI.chatAPI.emit('publicMessage', {
+            message: messageData,
+          });
+        });
+      });
+    } // end if there are pending pubkeys to look up
+
+    // find messages for original slave key using slavePrimaryMap
+    if (pendingMessages.length) {
+      const { slavePrimaryMap } = this.serverAPI.chatAPI;
+      const ourNumber = textsecure.storage.user.getNumber();
+      pendingMessages.forEach(messageDataP => {
+        const messageData = messageDataP; // for linter
+        // why am I getting these?
+        if (messageData === undefined) {
+          log.warn(`invalid pendingMessages ${pendingMessages}`);
+          return;
+        }
+        // prevent our own sent messages from coming back in
+        if (messageData.source === ourNumber) {
+          // we originally sent this
+          return;
+        }
+        if (slavePrimaryMap[messageData.source]) {
+          // rewrite source, profile
+          const primaryPubKey = slavePrimaryMap[messageData.source];
+          log.info(`Rewriting ${messageData.source} to ${primaryPubKey}`);
+          messageData.source = primaryPubKey;
+          messageData.message.profile.displayName = this.primaryUserProfileName[
+            primaryPubKey
+          ];
+        }
+        this.serverAPI.chatAPI.emit('publicMessage', {
+          message: messageData,
+        });
+      });
     }
+    pendingMessages = [];
   }
 
   static getPreviewFromAnnotation(annotation) {
