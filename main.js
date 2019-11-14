@@ -234,14 +234,7 @@ function createWindow() {
       },
       icon: path.join(__dirname, 'images', 'icon_256.png'),
     },
-    _.pick(windowConfig, [
-      'maximized',
-      'autoHideMenuBar',
-      'width',
-      'height',
-      'x',
-      'y',
-    ])
+    _.pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y'])
   );
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
@@ -270,10 +263,6 @@ function createWindow() {
     delete windowOptions.y;
   }
 
-  if (windowOptions.fullscreen === false) {
-    delete windowOptions.fullscreen;
-  }
-
   logger.info(
     'Initializing BrowserWindow config: %s',
     JSON.stringify(windowOptions)
@@ -283,6 +272,9 @@ function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   if (windowOptions.maximized) {
     mainWindow.maximize();
+  }
+  if (windowOptions.fullscreen) {
+    mainWindow.setFullScreen(true);
   }
 
   function captureAndSaveWindowStats() {
@@ -297,17 +289,12 @@ function createWindow() {
     windowConfig = {
       maximized: mainWindow.isMaximized(),
       autoHideMenuBar: mainWindow.isMenuBarAutoHide(),
+      fullscreen: mainWindow.isFullScreen(),
       width: size[0],
       height: size[1],
       x: position[0],
       y: position[1],
     };
-
-    if (mainWindow.isFullScreen()) {
-      // Only include this property if true, because when explicitly set to
-      // false the fullscreen button will be disabled on osx
-      windowConfig.fullscreen = true;
-    }
 
     logger.info(
       'Updating BrowserWindow config: %s',
