@@ -8,12 +8,18 @@
 
   Whisper.BulkEditView = Whisper.View.extend({
     initialize(options) {
+      this.memberView = null;
       this.props = {
         onCancel: options.onCancel,
         onDelete: options.onDelete,
         messageCount: 0,
       };
-
+    },
+    render() {
+      if (this.memberView) {
+        this.memberView.update(this.props);
+        return;
+      }
       this.memberView = new Whisper.ReactWrapperView({
         className: 'bulk-edit-view',
         Component: window.Signal.Components.BulkEdit,
@@ -21,9 +27,6 @@
       });
 
       this.$el.append(this.memberView.el);
-    },
-    render() {
-      this.memberView.update(this.props);
     },
 
     update(selectionSize) {
