@@ -217,7 +217,18 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       searchTerm,
     } = this.props;
 
-    if (event.key !== 'Escape') {
+    const { ctrlKey, metaKey, key } = event;
+    const ctrlOrCommand = ctrlKey || metaKey;
+
+    // On linux, this keyboard combination selects all text
+    if (ctrlOrCommand && key === '/') {
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
+    if (key !== 'Escape') {
       return;
     }
 

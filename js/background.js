@@ -655,6 +655,15 @@
       // NAVIGATION
 
       // Show keyboard shortcuts - handled by Electron-managed keyboard shortcuts
+      // However, on linux Ctrl+/ selects all text, so we prevent that
+      if (ctrlOrCommand && key === '/') {
+        window.showKeyboardShortcuts();
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        return;
+      }
 
       // Navigate by section
       if (ctrlOrCommand && !shiftKey && (key === 't' || key === 'T')) {
