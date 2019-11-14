@@ -58,87 +58,83 @@ class LokiFileServerAPI {
     return users;
   }
 
-  async verifyUserObjectDeviceMap(
-    pubKeys,
-    isRequest,
-    iterator,
-    notFoundHandler
-  ) {
+  async verifyUserObjectDeviceMap(pubKeys, isRequest, iterator) {
     const users = await this.getDeviceMappingForUsers(pubKeys);
     // log.info('verifyUserObjectDeviceMap Found', users.length, 'users')
 
     // go through each user and find deviceMap annotations
+    const notFoundUsers = [];
     users.forEach(user => {
       let found = false;
-      if (user.annotations) {
-        user.annotations.forEach(note => {
-          if (note.type === 'network.loki.messenger.devicemapping') {
-            // is desired type
-            if (
-              (isRequest && note.value.isPrimary === '0') ||
-              (!isRequest && note.value.isPrimary !== '0')
-            ) {
-              const { authorisations } = note.value;
-              if (Array.isArray(authorisations)) {
-                authorisations.forEach(auth => {
-                  // log.info('devmap auth', auth);
-                  // only skip, if in secondary search mode
-                  if (
-                    isRequest &&
-                    auth.secondaryDevicePubKey !== user.username
-                  ) {
-                    // this is not the authorization we're looking for
-                    log.info(
-                      `Request and ${auth.secondaryDevicePubKey} != ${
-                        user.username
-                      }`
-                    );
-                    return;
-                  }
-                  // log.info('auth', auth);
-                  try {
-                    // request (secondary wants to be paired with this primary)
-                    // grant (primary approves this secondary)
-                    window.libloki.crypto.verifyPairingSignature(
-                      auth.primaryDevicePubKey,
-                      auth.secondaryDevicePubKey,
-                      dcodeIO.ByteBuffer.wrap(
-                        isRequest ? auth.requestSignature : auth.grantSignature,
-                        'base64'
-                      ).toArrayBuffer(),
-                      isRequest
-                        ? textsecure.protobuf.PairingAuthorisationMessage.Type
-                            .REQUEST
-                        : textsecure.protobuf.PairingAuthorisationMessage.Type
-                            .GRANT
-                    );
-                    // log.info('auth is valid for', user.username)
-                    if (iterator(user.username, auth)) {
-                      found = true;
-                    }
-                  } catch (e) {
-                    log.warn(
-                      `Invalid signature on pubkey ${
-                        user.username
-                      } authorization ${
-                        auth.secondaryDevicePubKey
-                      } isRequest ${isRequest}`
-                    );
-                  }
-                }); // end forEach authorisations
-              }
-            }
-          }
-        }); // end forEach annotations
+      if (!user.annotations || !user.annotations.length) {
+        log.info(
+          `verifyUserObjectDeviceMap no annotation for ${user.username}`
+        );
+        return;
       }
-      if (notFoundHandler) {
-        if (found) {
+      user.annotations.forEach(note => {
+        if (note.type !== 'network.loki.messenger.devicemapping') {
           return;
         }
-        notFoundHandler(user.username);
+        // isn't desired type
+        // request is slave => primary type...
+        if (
+          (isRequest && note.value.isPrimary !== '0') ||
+          (!isRequest && note.value.isPrimary === '0')
+        ) {
+          /* log.info(`verifyUserObjectDeviceMap found wrong type of` +
+                  `relationship ${user.username}`); */
+          // console.log(`https://file.lokinet.org/users/@${user.username}?prettyPrint=1&include_annotations=1`);
+          return;
+        }
+        const { authorisations } = note.value;
+        if (!Array.isArray(authorisations)) {
+          return;
+        }
+        authorisations.forEach(auth => {
+          // log.info('devmap auth', auth);
+          // only skip, if in secondary search mode
+          if (isRequest && auth.secondaryDevicePubKey !== user.username) {
+            // this is not the authorization we're looking for
+            log.info(
+              `Request and ${auth.secondaryDevicePubKey} != ${user.username}`
+            );
+            return;
+          }
+          // log.info('auth', auth);
+          try {
+            // request (secondary wants to be paired with this primary)
+            // grant (primary approves this secondary)
+            window.libloki.crypto.verifyPairingSignature(
+              auth.primaryDevicePubKey,
+              auth.secondaryDevicePubKey,
+              dcodeIO.ByteBuffer.wrap(
+                isRequest ? auth.requestSignature : auth.grantSignature,
+                'base64'
+              ).toArrayBuffer(),
+              isRequest
+                ? textsecure.protobuf.PairingAuthorisationMessage.Type.REQUEST
+                : textsecure.protobuf.PairingAuthorisationMessage.Type.GRANT
+            );
+            // log.info('auth is valid for', user.username)
+            if (iterator(user.username, auth)) {
+              found = true;
+            }
+          } catch (e) {
+            log.warn(
+              `Invalid signature on pubkey ${user.username} authorization ${
+                auth.secondaryDevicePubKey
+              } isRequest ${isRequest}`
+            );
+          }
+        }); // end forEach authorisations
+      }); // end forEach annotations
+      if (!found) {
+        notFoundUsers.push(user.username);
       }
     }); // end forEach users
     // log.info('done with users', users.length);
+    return notFoundUsers;
   }
 
   // verifies list of pubKeys for any deviceMappings
@@ -176,13 +172,14 @@ class LokiFileServerAPI {
 
     // no valid primary pubkeys to check
     if (!primaryPubKeys.length) {
+      // log.warn(`no valid primary pubkeys to check ${pubKeys}`);
       return [];
     }
 
     const verifiedPrimaryPKs = [];
 
     // get a list of all of primary pubKeys to verify the secondaryDevice assertion
-    await this.verifyUserObjectDeviceMap(
+    const notFoundUsers = await this.verifyUserObjectDeviceMap(
       primaryPubKeys,
       false,
       (primaryKey, auth) => {
@@ -205,19 +202,20 @@ class LokiFileServerAPI {
           return false;
         }
         return true;
-      },
-      primaryPubKey => {
-        // if not verified remove this user pubkey from newSlavePrimaryMap
-        Object.keys(newSlavePrimaryMap).forEach(slaveKey => {
-          if (newSlavePrimaryMap[slaveKey] === primaryPubKey) {
-            log.warn(
-              `removing unverifible ${slaveKey} to ${primaryPubKey} mapping`
-            );
-            delete newSlavePrimaryMap[slaveKey];
-          }
-        });
       }
     ); // end verifyUserObjectDeviceMap
+
+    // remove from newSlavePrimaryMap if no valid mapping is found
+    notFoundUsers.forEach(primaryPubKey => {
+      Object.keys(newSlavePrimaryMap).forEach(slaveKey => {
+        if (newSlavePrimaryMap[slaveKey] === primaryPubKey) {
+          log.warn(
+            `removing unverifible ${slaveKey} to ${primaryPubKey} mapping`
+          );
+          delete newSlavePrimaryMap[slaveKey];
+        }
+      });
+    });
 
     // make new map final
     window.lokiPublicChatAPI.slavePrimaryMap = newSlavePrimaryMap;
