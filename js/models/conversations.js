@@ -767,7 +767,7 @@
       return !!this.get('secondaryStatus');
     },
     getPrimaryDevicePubKey() {
-      return this.get('getPrimaryDevicePubKey') || this.id;
+      return this.get('primaryDevicePubKey') || this.id;
     },
     async setSecondaryStatus(newStatus, primaryDevicePubKey) {
       if (this.get('secondaryStatus') !== newStatus) {
