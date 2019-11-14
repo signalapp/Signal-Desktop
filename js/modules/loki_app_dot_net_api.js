@@ -946,6 +946,7 @@ class LokiPublicChannelAPI {
       if (pendingMessages.length) {
         // console.log('premultiDeviceResults', pubKeys);
         if (pubKeys.length) {
+          // this will set slavePrimaryMap
           const verifiedPrimaryPKs = await lokiFileServerAPI.verifyPrimaryPubKeys(
             pubKeys
           );
@@ -976,7 +977,8 @@ class LokiPublicChannelAPI {
           });
           pendingMessages = []; // free memory
 
-          // if we have verified primaryKeys then update them
+          // build map of userProfileName to primaryKeys
+          // if we have verified primaryKeys/the claimed relation
           if (verifiedPrimaryPKs.length) {
             // get final list of verified chat server profile names
             const verifiedDeviceResults = await this.serverAPI.getUsers(
@@ -1011,7 +1013,6 @@ class LokiPublicChannelAPI {
                   primaryPubKey
                 ];
               }
-              // console.log('messageData', messageData)
               this.serverAPI.chatAPI.emit('publicMessage', {
                 message: messageData,
               });
