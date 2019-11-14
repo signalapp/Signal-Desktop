@@ -88,7 +88,7 @@ export const EmojiButton = React.memo(
           const { ctrlKey, key, metaKey, shiftKey } = event;
           const ctrlOrCommand = metaKey || ctrlKey;
 
-          if (ctrlOrCommand && shiftKey && key === 'e') {
+          if (ctrlOrCommand && shiftKey && (key === 'e' || key === 'E')) {
             event.stopPropagation();
             event.preventDefault();
 
