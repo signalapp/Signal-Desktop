@@ -1445,7 +1445,10 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const ourNumber = textsecure.storage.user.getNumber();
+      const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+      const allOurDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+        primaryDeviceKey
+      );
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
@@ -1453,7 +1456,7 @@
       if (
         messageDescriptor.type === 'group' &&
         descriptorId.match(/^publicChat:/) &&
-        data.source === ourNumber
+        allOurDevices.includes(data.source)
       ) {
         // Public chat messages from ourselves should be outgoing
         message = await createSentMessage(data);

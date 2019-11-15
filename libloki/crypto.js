@@ -175,16 +175,13 @@
     return signature;
   }
 
-  async function validateAuthorisation(authorisation) {
+  async function verifyAuthorisation(authorisation) {
     const {
       primaryDevicePubKey,
       secondaryDevicePubKey,
       requestSignature,
       grantSignature,
     } = authorisation;
-    const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
-    const ourPubKey = textsecure.storage.user.getNumber();
-    const isRequest = !grantSignature;
     const isGrant = !!grantSignature;
     if (!primaryDevicePubKey || !secondaryDevicePubKey) {
       window.log.warn(
@@ -195,19 +192,6 @@
       window.log.warn(
         'Received a pairing request with missing request signature. Ignored.'
       );
-      return false;
-    } else if (isRequest && alreadySecondaryDevice) {
-      window.log.warn(
-        'Received a pairing request while being a secondary device. Ignored.'
-      );
-      return false;
-    } else if (isRequest && authorisation.primaryDevicePubKey !== ourPubKey) {
-      window.log.warn(
-        'Received a pairing request addressed to another pubkey. Ignored.'
-      );
-      return false;
-    } else if (isRequest && authorisation.secondaryDevicePubKey === ourPubKey) {
-      window.log.warn('Received a pairing request from ourselves. Ignored.');
       return false;
     }
     const verify = async (signature, signatureType) => {
@@ -228,6 +212,7 @@
       window.log.error(e);
       return false;
     }
+    // can't have grant without requestSignature?
     if (isGrant) {
       try {
         await verify(grantSignature, PairingType.GRANT);
@@ -240,6 +225,33 @@
       }
     }
     return true;
+  }
+
+  // FIXME: rename to include the fact it's relative to YOUR device
+  async function validateAuthorisation(authorisation) {
+    const {
+      primaryDevicePubKey,
+      secondaryDevicePubKey,
+      grantSignature,
+    } = authorisation;
+    const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
+    const ourPubKey = textsecure.storage.user.getNumber();
+    const isRequest = !grantSignature;
+    if (isRequest && alreadySecondaryDevice) {
+      window.log.warn(
+        'Received a pairing request while being a secondary device. Ignored.'
+      );
+      return false;
+    } else if (isRequest && primaryDevicePubKey !== ourPubKey) {
+      window.log.warn(
+        'Received a pairing request addressed to another pubkey. Ignored.'
+      );
+      return false;
+    } else if (isRequest && secondaryDevicePubKey === ourPubKey) {
+      window.log.warn('Received a pairing request from ourselves. Ignored.');
+      return false;
+    }
+    return this.verifyAuthorisation(authorisation);
   }
 
   async function verifyPairingSignature(
@@ -307,6 +319,7 @@
     decryptToken,
     generateSignatureForPairing,
     verifyPairingSignature,
+    verifyAuthorisation,
     validateAuthorisation,
     PairingType,
     // for testing
