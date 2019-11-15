@@ -70,6 +70,7 @@ const stickersDuck = require('../../ts/state/ducks/stickers');
 const userDuck = require('../../ts/state/ducks/user');
 
 const conversationsSelectors = require('../../ts/state/selectors/conversations');
+const searchSelectors = require('../../ts/state/selectors/search');
 
 // Migrations
 const {
@@ -286,6 +287,7 @@ exports.setup = (options = {}) => {
   };
   const Selectors = {
     conversations: conversationsSelectors,
+    search: searchSelectors,
   };
 
   const State = {
