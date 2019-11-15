@@ -8,6 +8,17 @@
   overflow-x: hidden;
 }
 
+.create-group-button {
+  background-color: #383c46;
+  color: #ffffff;
+  margin: 4px;
+  padding: 4px;
+}
+
+.create-group-button:focus {
+  outline: 0;
+}
+
 .module-contact-name span {
   text-overflow: ellipsis;
   overflow-x: hidden;
@@ -88,8 +99,8 @@
 }
 
 .module-message__buttons__download {
-  height: 24px;
-  width: 24px;
+  min-height: 24px;
+  min-width: 24px;
   display: inline-block;
   cursor: pointer;
   @include color-svg('../images/download.svg', $color-light-45);
@@ -106,8 +117,8 @@
 }
 
 .module-message__buttons__reply {
-  height: 24px;
-  width: 24px;
+  min-height: 24px;
+  min-width: 24px;
   display: inline-block;
   cursor: pointer;
   @include color-svg('../images/reply.svg', $color-light-45);
@@ -520,6 +531,7 @@
   letter-spacing: 0.3px;
   color: $color-gray-60;
   text-transform: uppercase;
+  user-select: none;
 }
 
 .module-message__metadata__badge {
@@ -603,9 +615,9 @@
 }
 
 .module-message__author-avatar {
-  position: absolute;
-  bottom: 0px;
-  right: calc(100% + 4px);
+  flex-direction: column-reverse;
+  display: inline-flex;
+  padding-right: 4px;
 }
 
 .module-message__typing-container {
@@ -1432,6 +1444,11 @@
   height: 48px;
 }
 
+.module-conversation-header__title-text {
+  color: darkgrey;
+  margin-left: 1em;
+}
+
 .module-conversation-header__title-flex {
   margin-left: auto;
   margin-right: auto;
@@ -2058,9 +2075,9 @@
 }
 
 .module-avatar__icon--crown-wrapper {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  position: relative;
+  bottom: -38px;
+  right: -16px;
   height: 21px;
   width: 21px;
   transform: translate(25%, 25%);

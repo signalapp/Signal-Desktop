@@ -108,10 +108,12 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
+  getPubKeysWithFriendStatus,
   getConversationsWithFriendStatus,
   getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
+  getPubkeysInPublicConversation,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingId,
@@ -1836,6 +1838,19 @@ async function getAllConversations() {
   return map(rows, row => jsonToObject(row.json));
 }
 
+async function getPubKeysWithFriendStatus(status) {
+  const rows = await db.all(
+    `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
+      friendRequestStatus = $status
+      AND type = 'private'
+    ORDER BY id ASC;`,
+    {
+      $status: status,
+    }
+  );
+  return map(rows, row => row.id);
+}
+
 async function getConversationsWithFriendStatus(status) {
   const rows = await db.all(
     `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
@@ -1899,6 +1914,19 @@ async function getPublicConversationsByServer(server) {
   );
 
   return map(rows, row => jsonToObject(row.json));
+}
+
+async function getPubkeysInPublicConversation(id) {
+  const rows = await db.all(
+    `SELECT DISTINCT source FROM messages WHERE
+      conversationId = $conversationId
+     ORDER BY id ASC;`,
+    {
+      $conversationId: id,
+    }
+  );
+
+  return map(rows, row => row.source);
 }
 
 async function getAllGroupsInvolvingId(id) {

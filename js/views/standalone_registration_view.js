@@ -6,7 +6,8 @@
  i18n,
  passwordUtil,
  _,
- setTimeout
+ setTimeout,
+ displayNameRegex
 */
 
 /* eslint-disable more/no-then */
@@ -73,21 +74,18 @@
       this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(
         this
       );
-      const sanitiseNameInput = () => {
-        const oldVal = this.$('#display-name').val();
-        this.$('#display-name').val(oldVal.replace(/[^a-zA-Z0-9_]/g, ''));
-      };
 
       this.$('#display-name').get(0).oninput = () => {
-        sanitiseNameInput();
+        this.sanitiseNameInput();
       };
 
       this.$('#display-name').get(0).onpaste = () => {
         // Sanitise data immediately after paste because it's easier
         setTimeout(() => {
-          sanitiseNameInput();
+          this.sanitiseNameInput();
         });
       };
+      this.sanitiseNameInput();
     },
     events: {
       keyup: 'onKeyup',
@@ -108,6 +106,17 @@
       'click .section-toggle': 'toggleSection',
       'keyup #password': 'onValidatePassword',
       'keyup #password-confirmation': 'onValidatePassword',
+    },
+    sanitiseNameInput() {
+      const oldVal = this.$('#display-name').val();
+      const newVal = oldVal.replace(displayNameRegex, '');
+      this.$('#display-name').val(newVal);
+      if (_.isEmpty(newVal)) {
+        this.$('#save-button').attr('disabled', 'disabled');
+        return false;
+      }
+      this.$('#save-button').removeAttr('disabled');
+      return true;
     },
     async showPage(pageIndex) {
       // eslint-disable-next-line func-names
@@ -141,9 +150,12 @@
         return;
       }
 
+      const validName = this.sanitiseNameInput();
       switch (event.key) {
         case 'Enter':
-          this.onSaveProfile();
+          if (validName) {
+            this.onSaveProfile();
+          }
           break;
         case 'Escape':
         case 'Esc':
@@ -171,7 +183,7 @@
         await this.accountManager.registerSingleDevice(
           mnemonic,
           language,
-          this.$('#display-name').val()
+          this.trim(this.$('#display-name').val())
         );
         this.$el.trigger('openInbox');
       } catch (e) {

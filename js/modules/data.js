@@ -1,7 +1,9 @@
-/* global window, setTimeout, IDBKeyRange, dcodeIO */
+/* global window, setTimeout, clearTimeout, IDBKeyRange, dcodeIO */
 
 const electron = require('electron');
 
+// TODO: this results in poor readability, would be
+// much better to explicitly call with `_`.
 const {
   cloneDeep,
   forEach,
@@ -9,11 +11,12 @@ const {
   isFunction,
   isObject,
   map,
-  merge,
   set,
   omit,
   isArrayBuffer,
 } = require('lodash');
+
+const _ = require('lodash');
 
 const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
 const MessageType = require('./types/message');
@@ -132,6 +135,7 @@ module.exports = {
   getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
+  getPubkeysInPublicConversation,
   savePublicServerToken,
   getPublicServerTokenByServerUrl,
   getAllGroupsInvolvingId,
@@ -296,13 +300,13 @@ function _updateJob(id, data) {
     ...data,
     resolve: value => {
       _removeJob(id);
-      const end = Date.now();
-      const delta = end - start;
-      if (delta > 10) {
-        window.log.debug(
-          `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
-        );
-      }
+      // const end = Date.now();
+      // const delta = end - start;
+      // if (delta > 10) {
+      //   window.log.debug(
+      //     `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
+      //   );
+      // }
       return resolve(value);
     },
     reject: error => {
@@ -320,6 +324,11 @@ function _removeJob(id) {
   if (_DEBUG) {
     _jobs[id].complete = true;
     return;
+  }
+
+  if (_jobs[id].timer) {
+    clearTimeout(_jobs[id].timer);
+    _jobs[id].timer = null;
   }
 
   delete _jobs[id];
@@ -373,7 +382,7 @@ function makeChannel(fnName) {
         args: _DEBUG ? args : null,
       });
 
-      setTimeout(
+      _jobs[jobId].timer = setTimeout(
         () =>
           reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
         DATABASE_UPDATE_TIMEOUT
@@ -732,17 +741,6 @@ async function getAllSessions(id) {
 
 // Conversation
 
-function setifyProperty(data, propertyName) {
-  if (!data) {
-    return data;
-  }
-  const returnData = { ...data };
-  if (Array.isArray(returnData[propertyName])) {
-    returnData[propertyName] = new Set(returnData[propertyName]);
-  }
-  return returnData;
-}
-
 async function getSwarmNodesByPubkey(pubkey) {
   return channels.getSwarmNodesByPubkey(pubkey);
 }
@@ -771,13 +769,14 @@ async function updateConversation(id, data, { Conversation }) {
   if (!existing) {
     throw new Error(`Conversation ${id} does not exist!`);
   }
-  const setData = setifyProperty(data, 'swarmNodes');
-  const setExisting = setifyProperty(existing.attributes, 'swarmNodes');
 
-  const merged = merge({}, setExisting, setData);
-  if (merged.swarmNodes instanceof Set) {
-    merged.swarmNodes = Array.from(merged.swarmNodes);
-  }
+  const merged = _.merge({}, existing.attributes, data);
+
+  // Merging is a really bad idea and not what we want here, e.g.
+  // it will take a union of old and new members and that's not
+  // what we want for member deletion, so:
+  merged.members = data.members;
+  merged.swarmNodes = data.swarmNodes;
 
   // Don't save the online status of the object
   const cleaned = omit(merged, 'isOnline');
@@ -851,6 +850,10 @@ async function getAllPrivateConversations({ ConversationCollection }) {
   const collection = new ConversationCollection();
   collection.add(conversations);
   return collection;
+}
+
+async function getPubkeysInPublicConversation(id) {
+  return channels.getPubkeysInPublicConversation(id);
 }
 
 async function savePublicServerToken(data) {

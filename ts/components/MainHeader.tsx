@@ -18,6 +18,12 @@ import { clipboard } from 'electron';
 
 import { validateNumber } from '../types/PhoneNumber';
 
+declare global {
+  interface Window {
+    lokiFeatureFlags: any;
+  }
+}
+
 interface MenuItem {
   id: string;
   name: string;
@@ -61,6 +67,7 @@ export class MainHeader extends React.Component<Props, any> {
   private readonly setFocusBound: () => void;
   private readonly inputRef: React.RefObject<HTMLInputElement>;
   private readonly debouncedSearch: (searchTerm: string) => void;
+  private readonly timerId: any;
 
   constructor(props: Props) {
     super(props);
@@ -81,7 +88,7 @@ export class MainHeader extends React.Component<Props, any> {
 
     this.debouncedSearch = debounce(this.search.bind(this), 20);
 
-    setInterval(() => {
+    this.timerId = setInterval(() => {
       const clipboardText = clipboard.readText();
       if (this.state.clipboardText !== clipboardText) {
         this.setState({ clipboardText });
@@ -92,6 +99,11 @@ export class MainHeader extends React.Component<Props, any> {
   public componentWillMount() {
     // tslint:disable-next-line
     this.updateHasPass();
+  }
+
+  public componentWillUnmount() {
+    // tslint:disable-next-line
+    clearInterval(this.timerId);
   }
 
   public componentDidUpdate(_prevProps: Props, prevState: any) {
@@ -350,6 +362,16 @@ export class MainHeader extends React.Component<Props, any> {
         },
       },
     ];
+
+    if (window.lokiFeatureFlags.privateGroupChats) {
+      menuItems.push({
+        id: 'createPrivateGroup',
+        name: i18n('createPrivateGroup'),
+        onClick: () => {
+          trigger('createNewGroup');
+        },
+      });
+    }
 
     const passItem = (type: string) => ({
       id: `${type}Password`,

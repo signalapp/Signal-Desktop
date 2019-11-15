@@ -1261,10 +1261,9 @@ MessageReceiver.prototype.extend({
           let profile = null;
           if (message.profile) {
             profile = JSON.parse(message.profile.encodeJSON());
+            // Update the conversation
+            await conversation.setLokiProfile(profile);
           }
-
-          // Update the conversation
-          await conversation.setLokiProfile(profile);
         }
 
         if (friendRequest) {
@@ -1693,11 +1692,6 @@ MessageReceiver.prototype.extend({
       window.log.error('Error getting conversation: ', number);
     }
 
-    // Bail early if a session reset is already ongoing
-    if (conversation.isSessionResetOngoing()) {
-      return;
-    }
-
     await Promise.all(
       deviceIds.map(async deviceId => {
         const address = new libsignal.SignalProtocolAddress(number, deviceId);
@@ -1755,6 +1749,8 @@ MessageReceiver.prototype.extend({
     } else if (decrypted.flags & FLAGS.PROFILE_KEY_UPDATE) {
       decrypted.body = null;
       decrypted.attachments = [];
+    } else if (decrypted.flags & FLAGS.BACKGROUND_FRIEND_REQUEST) {
+      // do nothing
     } else if (decrypted.flags !== 0) {
       throw new Error('Unknown flags in message');
     }
@@ -1881,6 +1877,9 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
     messageReceiver
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
+  this.handleEndSession = messageReceiver.handleEndSession.bind(
+    messageReceiver
+  );
   this.close = messageReceiver.close.bind(messageReceiver);
   this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(
     messageReceiver

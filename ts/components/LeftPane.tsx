@@ -26,6 +26,7 @@ export interface Props {
     query: string,
     options: { regionCode: string }
   ) => void;
+
   openConversationInternal: (id: string, messageId?: string) => void;
   showArchivedConversations: () => void;
   showInbox: () => void;
