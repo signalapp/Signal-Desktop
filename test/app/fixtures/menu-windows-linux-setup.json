@@ -74,7 +74,7 @@
         "role": "resetzoom"
       },
       {
-        "accelerator": "Control+Plus",
+        "accelerator": null,
         "label": "Zoom In",
         "role": "zoomin"
       },
