@@ -88,6 +88,12 @@ export const EmojiButton = React.memo(
           const { ctrlKey, key, metaKey, shiftKey } = event;
           const ctrlOrCommand = metaKey || ctrlKey;
 
+          // We don't want to open up if the conversation has any panels open
+          const panels = document.querySelectorAll('.conversation .panel');
+          if (panels && panels.length > 1) {
+            return;
+          }
+
           if (ctrlOrCommand && shiftKey && (key === 'e' || key === 'E')) {
             event.stopPropagation();
             event.preventDefault();
