@@ -1022,7 +1022,7 @@
   },
   "secondaryDeviceDefaultFR": {
     "message":
-      "This is an automated friend request because you are friends with another one of my devices",
+      "Accept this friend request to enable messages to be synced across devices",
     "description":
       "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
   },
