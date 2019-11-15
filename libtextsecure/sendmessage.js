@@ -391,6 +391,7 @@ MessageSender.prototype = {
       );
 
       if (
+        number === textsecure.storage.user.getNumber() ||
         haveSession ||
         options.isPublic ||
         options.messageType === 'friend-request'

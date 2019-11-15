@@ -470,5 +470,5 @@ window.SMALL_GROUP_SIZE_LIMIT = 10;
 
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: false,
-  privateGroupChats: true,
+  privateGroupChats: false,
 };
