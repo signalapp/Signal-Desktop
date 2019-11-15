@@ -1203,7 +1203,7 @@
 .module-message__send-message-button {
   @include button-reset;
 
-  width: 100%;
+  width: calc(100% + 24px);
 
   @include font-body-2-bold;
 
@@ -1227,6 +1227,11 @@
     color: $color-signal-blue;
     background-color: $color-gray-75;
     border: 1px solid $color-gray-45;
+  }
+
+  &:focus,
+  &:hover {
+    box-shadow: 0px 0px 0px 2px $color-signal-blue;
   }
 }
 
@@ -1776,10 +1781,16 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include button-reset;
 
   width: 100%;
+  padding: 5px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  &:focus,
+  &:hover {
+    box-shadow: 0px 0px 0px 2px $color-signal-blue;
+  }
 }
 
 .module-embedded-contact--with-content-above {

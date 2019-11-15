@@ -738,6 +738,9 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType === 'group' && direction === 'incoming';
     const withContentBelow = withCaption || !collapseMetadata;
 
+    const otherContent = (contact && contact.signalAccount) || withCaption;
+    const tabIndex = otherContent ? 0 : -1;
+
     return (
       <EmbeddedContact
         contact={contact}
@@ -748,6 +751,7 @@ export class Message extends React.PureComponent<Props, State> {
         }}
         withContentAbove={withContentAbove}
         withContentBelow={withContentBelow}
+        tabIndex={tabIndex}
       />
     );
   }
@@ -1250,10 +1254,13 @@ export class Message extends React.PureComponent<Props, State> {
   ) => {
     const {
       attachments,
+      contact,
       displayTapToViewMessage,
       id,
       isTapToView,
       isTapToViewExpired,
+      openConversation,
+      showContactDetail,
       showVisualAttachment,
     } = this.props;
     const { imageBroken } = this.state;
@@ -1320,6 +1327,20 @@ export class Message extends React.PureComponent<Props, State> {
         // tslint:disable-next-line no-floating-promises
         this.audioRef.current.pause();
       }
+    }
+
+    if (contact && contact.signalAccount) {
+      openConversation(contact.signalAccount);
+
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (contact) {
+      showContactDetail({ contact, signalAccount: contact.signalAccount });
+
+      event.preventDefault();
+      event.stopPropagation();
     }
   };
 

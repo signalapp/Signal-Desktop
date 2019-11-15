@@ -16,6 +16,7 @@ interface Props {
   isIncoming: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
+  tabIndex: number;
   onClick?: () => void;
 }
 
@@ -26,6 +27,7 @@ export class EmbeddedContact extends React.Component<Props> {
       i18n,
       isIncoming,
       onClick,
+      tabIndex,
       withContentAbove,
       withContentBelow,
     } = this.props;
@@ -43,6 +45,18 @@ export class EmbeddedContact extends React.Component<Props> {
             ? 'module-embedded-contact--with-content-below'
             : null
         )}
+        onKeyDown={(event: React.KeyboardEvent) => {
+          if (event.key !== 'Enter' && event.key !== 'Space') {
+            return;
+          }
+
+          if (onClick) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClick();
+          }
+        }}
         onClick={(event: React.MouseEvent) => {
           if (onClick) {
             event.stopPropagation();
@@ -51,6 +65,7 @@ export class EmbeddedContact extends React.Component<Props> {
             onClick();
           }
         }}
+        tabIndex={tabIndex}
       >
         {renderAvatar({ contact, i18n, size: 52, direction })}
         <div className="module-embedded-contact__text-container">

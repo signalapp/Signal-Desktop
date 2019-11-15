@@ -30,6 +30,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -40,6 +41,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -50,6 +52,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -61,6 +64,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
@@ -96,6 +100,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -106,6 +111,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
@@ -113,10 +119,11 @@ const contact = {
 
 #### Really long data
 
-```
+```jsx
 const contact = {
   name: {
-    displayName: 'Dr. First Middle Last Junior Senior and all that and a bag of chips',
+    displayName:
+      'Dr. First Middle Last Junior Senior and all that and a bag of chips',
   },
   number: [
     {
@@ -130,23 +137,27 @@ const contact = {
     },
   },
 };
-<util.ConversationContext theme={util.theme}  ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios}>
   <div className="module-message-container">
     <Message
-    authorColor="green"
-    direction="incoming"
-    i18n={util.i18n}
-    timestamp={Date.now()}
-    contact={contact}/>
+      authorColor="green"
+      direction="incoming"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
+    />
   </div>
   <div className="module-message-container">
-  <Message
-    authorColor="green"
-    direction="outgoing"
-    status="delivered"
-    i18n={util.i18n}
-    timestamp={Date.now()}
-    contact={contact}/>
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      status="delivered"
+      i18n={util.i18n}
+      timestamp={Date.now()}
+      contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
+    />
   </div>
 </util.ConversationContext>;
 ```
@@ -182,6 +193,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -194,6 +206,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -206,6 +219,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
@@ -238,6 +252,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -248,6 +263,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -258,6 +274,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -269,6 +286,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
@@ -299,6 +317,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -309,6 +328,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -319,6 +339,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -330,6 +351,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
@@ -363,6 +385,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -373,6 +396,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -383,6 +407,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -394,6 +419,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
@@ -421,6 +447,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -431,6 +458,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -441,6 +469,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -452,6 +481,7 @@ const contact = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
@@ -469,6 +499,7 @@ const contact = {};
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -479,6 +510,7 @@ const contact = {};
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -489,6 +521,7 @@ const contact = {};
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -500,6 +533,7 @@ const contact = {};
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contact}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
@@ -550,6 +584,7 @@ const contactWithoutAccount = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contactWithAccount}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -561,6 +596,7 @@ const contactWithoutAccount = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contactWithAccount}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -571,6 +607,7 @@ const contactWithoutAccount = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contactWithAccount}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -582,6 +619,7 @@ const contactWithoutAccount = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contactWithAccount}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -593,6 +631,7 @@ const contactWithoutAccount = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contactWithoutAccount}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -605,6 +644,7 @@ const contactWithoutAccount = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contactWithoutAccount}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -616,6 +656,7 @@ const contactWithoutAccount = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contactWithoutAccount}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
   <div className="module-message-container">
@@ -628,6 +669,7 @@ const contactWithoutAccount = {
       i18n={util.i18n}
       timestamp={Date.now()}
       contact={contactWithoutAccount}
+      selectMessage={(...args) => console.log('selectMessage', args)}
     />
   </div>
 </util.ConversationContext>;
