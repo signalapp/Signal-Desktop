@@ -147,6 +147,11 @@
         'show-message-detail',
         this.showMessageDetail
       );
+      this.listenTo(
+        this.model,
+        'message-selection-changed',
+        this.onMessageSelectionChanged
+      );
       this.listenTo(this.model.messageCollection, 'navigate-to', url => {
         window.location = url;
       });
@@ -189,12 +194,17 @@
           this.removeLinkPreview();
         }
       });
+      Whisper.events.on('mediaPermissionsChanged', () =>
+        this.toggleMicrophone()
+      );
 
       const getHeaderProps = () => {
         const expireTimer = this.model.get('expireTimer');
         const expirationSettingName = expireTimer
           ? Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
           : null;
+
+        const members = this.model.get('members') || [];
 
         return {
           id: this.model.id,
@@ -203,9 +213,9 @@
           profileName: this.model.getProfileName(),
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
-
           isVerified: this.model.isVerified(),
-          isKeysPending: !this.model.isFriend(),
+          isFriendRequestPending: this.model.isPendingFriendRequest(),
+          isFriend: this.model.isFriend(),
           isMe: this.model.isMe(),
           isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),
@@ -213,7 +223,7 @@
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
-
+          members,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
@@ -268,6 +278,14 @@
           onMoveToInbox: () => {
             this.model.setArchived(false);
           },
+
+          onUpdateGroup: () => {
+            window.Whisper.events.trigger('updateGroup', this.model);
+          },
+
+          onLeaveGroup: () => {
+            window.Whisper.events.trigger('leaveGroup', this.model);
+          },
         };
       };
       this.titleView = new Whisper.ReactWrapperView({
@@ -292,6 +310,12 @@
       });
 
       this.memberView.render();
+
+      this.bulkEditView = new Whisper.BulkEditView({
+        el: this.$('#bulk-edit-view'),
+        onCancel: this.resetMessageSelection.bind(this),
+        onDelete: this.deleteSelectedMessages.bind(this),
+      });
 
       this.$messageField = this.$('.send-message');
 
@@ -320,16 +344,24 @@
       this.selectMember = this.selectMember.bind(this);
 
       const updateMemberList = async () => {
-        const maxToFetch = 1000;
-        const allMessages = await window.Signal.Data.getMessagesByConversation(
-          this.model.id,
-          {
-            limit: maxToFetch,
-            MessageCollection: Whisper.MessageCollection,
-          }
+        const allPubKeys = await window.Signal.Data.getPubkeysInPublicConversation(
+          this.model.id
         );
 
-        const allMembers = allMessages.models.map(d => d.propsForMessage);
+        const allMembers = await Promise.all(
+          allPubKeys.map(async pubKey => {
+            const conv = ConversationController.get(pubKey);
+            let profileName = 'Anonymous';
+            if (conv) {
+              profileName = await conv.getProfileName();
+            }
+            return {
+              id: pubKey,
+              authorPhoneNumber: pubKey,
+              authorProfileName: profileName,
+            };
+          })
+        );
         window.lokiPublicChatAPI.setListOfMembers(allMembers);
       };
 
@@ -438,6 +470,9 @@
           break;
         case 'secondary':
           placeholder = i18n('sendMessageDisabledSecondary');
+          break;
+        case 'left-group':
+          placeholder = i18n('sendMessageLeftGroup');
           break;
         default:
           placeholder = i18n('sendMessage');
@@ -638,12 +673,10 @@
       }
     },
 
-    toggleMicrophone() {
-      // ALWAYS HIDE until we support audio
-      this.$('.capture-audio').hide();
-
-      /*
+    async toggleMicrophone() {
+      const allowMicrophone = await window.getMediaPermissions();
       if (
+        !allowMicrophone ||
         this.$('.send-message').val().length > 0 ||
         this.fileInput.hasFiles()
       ) {
@@ -651,7 +684,6 @@
       } else {
         this.$('.capture-audio').show();
       }
-      */
     },
     captureAudio(e) {
       e.preventDefault();
@@ -739,6 +771,17 @@
       this.lastActivity = Date.now();
 
       this.model.updateLastMessage();
+      this.model.resetMessageSelection();
+
+      if (this.model.isRss()) {
+        $('.compose').hide();
+        $('.conversation-stack').removeClass('conversation-stack-no-border');
+        $('.conversation-stack').addClass('conversation-stack-border');
+      } else {
+        $('.compose').show();
+        $('.conversation-stack').removeClass('conversation-stack-border');
+        $('.conversation-stack').addClass('conversation-stack-no-border');
+      }
 
       // const statusPromise = this.throttledGetProfiles();
       // // eslint-disable-next-line more/no-then
@@ -1338,35 +1381,76 @@
       });
     },
 
-    deleteMessage(message) {
-      const warningMessage = this.model.isPublic()
-        ? i18n('deletePublicWarning')
-        : i18n('deleteWarning');
+    deleteSelectedMessages() {
+      const msgArray = Array.from(this.model.selectedMessages);
+
+      this.deleteMessages(msgArray, () => {
+        this.resetMessageSelection();
+      });
+    },
+
+    deleteMessages(messages, onSuccess) {
+      const multiple = messages.length > 1;
+
+      const warningMessage = (() => {
+        if (this.model.isPublic()) {
+          return multiple
+            ? i18n('deleteMultiplePublicWarning')
+            : i18n('deletePublicWarning');
+        }
+        return multiple ? i18n('deleteMultipleWarning') : i18n('deleteWarning');
+      })();
+
+      const doDelete = async () => {
+        let toDeleteLocally;
+
+        if (this.model.isPublic()) {
+          toDeleteLocally = await this.model.deletePublicMessages(messages);
+          if (toDeleteLocally.length === 0) {
+            // Message failed to delete from server, show error?
+            return;
+          }
+        } else {
+          messages.forEach(m => this.model.messageCollection.remove(m.id));
+          toDeleteLocally = messages;
+        }
+
+        await Promise.all(
+          toDeleteLocally.map(async m => {
+            await window.Signal.Data.removeMessage(m.id, {
+              Message: Whisper.Message,
+            });
+            m.trigger('unload');
+          })
+        );
+
+        this.resetPanel();
+        this.updateHeader();
+
+        if (onSuccess) {
+          onSuccess();
+        }
+      };
+
+      // Only show a warning when at least one messages was successfully
+      // saved in on the server
+      if (!messages.some(m => !m.hasErrors())) {
+        doDelete();
+        return;
+      }
 
       const dialog = new Whisper.ConfirmationDialogView({
         message: warningMessage,
         okText: i18n('delete'),
-        resolve: async () => {
-          if (this.model.isPublic()) {
-            const success = await this.model.deletePublicMessage(message);
-            if (!success) {
-              // Message failed to delete from server, show error?
-              return;
-            }
-          } else {
-            this.model.messageCollection.remove(message.id);
-          }
-          await window.Signal.Data.removeMessage(message.id, {
-            Message: Whisper.Message,
-          });
-          message.trigger('unload');
-          this.resetPanel();
-          this.updateHeader();
-        },
+        resolve: doDelete,
       });
 
       this.$el.prepend(dialog.el);
       dialog.focusCancel();
+    },
+
+    deleteMessage(message) {
+      this.deleteMessages([message]);
     },
 
     showLightbox({ attachment, message }) {
@@ -1712,6 +1796,22 @@
       }
     },
 
+    onMessageSelectionChanged() {
+      const selectionSize = this.model.selectedMessages.size;
+
+      if (selectionSize > 0) {
+        $('.compose').hide();
+      } else {
+        $('.compose').show();
+      }
+
+      this.bulkEditView.update(selectionSize);
+    },
+
+    resetMessageSelection() {
+      this.model.resetMessageSelection();
+    },
+
     toggleEmojiPanel(e) {
       e.preventDefault();
       if (!this.emojiPanel) {
@@ -1724,6 +1824,9 @@
       if (event.key !== 'Escape') {
         return;
       }
+      // TODO: this view is not always in focus (e.g. after I've selected a message),
+      // so need to make Esc more robust
+      this.model.resetMessageSelection();
       this.closeEmojiPanel();
     },
     openEmojiPanel() {
@@ -2375,7 +2478,7 @@
       // Note: schedule the member list handler shortly afterwards, so
       // that the input element has time to update its cursor position to
       // what the user would expect
-      if (this.model.isPublic()) {
+      if (this.model.get('type') === 'group') {
         window.requestAnimationFrame(this.maybeShowMembers.bind(this, event));
       }
 
@@ -2507,10 +2610,33 @@
         return query;
       };
 
-      let allMembers = window.lokiPublicChatAPI.getListOfMembers();
-      allMembers = allMembers.filter(d => !!d);
-      allMembers = allMembers.filter(d => d.authorProfileName !== 'Anonymous');
-      allMembers = _.uniq(allMembers, true, d => d.authorPhoneNumber);
+      let allMembers;
+
+      if (this.model.isPublic()) {
+        const members = window.lokiPublicChatAPI
+          .getListOfMembers()
+          .filter(d => !!d)
+          .filter(d => d.authorProfileName !== 'Anonymous');
+        allMembers = _.uniq(members, true, d => d.authorPhoneNumber);
+      } else {
+        const members = this.model.get('members');
+        if (!members || members.length === 0) {
+          return;
+        }
+
+        const privateConvos = window
+          .getConversations()
+          .models.filter(d => d.isPrivate());
+        const memberConvos = members
+          .map(m => privateConvos.find(c => c.id === m))
+          .filter(c => !!c && c.getLokiProfile());
+
+        allMembers = memberConvos.map(c => ({
+          id: c.id,
+          authorPhoneNumber: c.id,
+          authorProfileName: c.getLokiProfile().displayName,
+        }));
+      }
 
       const cursorPos = event.target.selectionStart;
 

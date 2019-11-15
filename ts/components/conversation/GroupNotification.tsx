@@ -15,7 +15,7 @@ interface Contact {
 }
 
 interface Change {
-  type: 'add' | 'remove' | 'name' | 'general';
+  type: 'add' | 'remove' | 'name' | 'general' | 'kicked';
   isMe: boolean;
   newName?: string;
   contacts?: Array<Contact>;
@@ -78,6 +78,21 @@ export class GroupNotification extends React.Component<Props> {
           contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
 
         return <Intl i18n={i18n} id={leftKey} components={[people]} />;
+      case 'kicked':
+        if (isMe) {
+          return i18n('youGotKickedFromGroup');
+        }
+
+        if (!contacts || !contacts.length) {
+          throw new Error('Group update is missing contacts');
+        }
+
+        const kickedKey =
+          contacts.length > 1
+            ? 'multipleKickedFromTheGroup'
+            : 'kickedFromTheGroup';
+
+        return <Intl i18n={i18n} id={kickedKey} components={[people]} />;
       case 'general':
         return i18n('updatedTheGroup');
       default:

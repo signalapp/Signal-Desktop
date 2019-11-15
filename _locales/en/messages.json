@@ -309,6 +309,11 @@
     "description":
       "Displayed when a user can't send a message because they have left the group"
   },
+  "youGotKickedFromGroup": {
+    "message": "You were removed from the group",
+    "description":
+      "Displayed when a user can't send a message because they have left the group"
+  },
   "scrollDown": {
     "message": "Scroll to bottom of conversation",
     "description":
@@ -928,6 +933,9 @@
   "ok": {
     "message": "OK"
   },
+  "yes": {
+    "message": "Yes"
+  },
   "cancel": {
     "message": "Cancel"
   },
@@ -993,9 +1001,17 @@
     "message":
       "Are you sure? Clicking 'delete' will permanently remove this message for everyone in this channel."
   },
+  "deleteMultiplePublicWarning": {
+    "message":
+      "Are you sure? Clicking 'delete' will permanently remove these messages for everyone in this channel."
+  },
   "deleteWarning": {
     "message":
       "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
+  },
+  "deleteMultipleWarning": {
+    "message":
+      "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
   },
   "deleteThisMessage": {
     "message": "Delete this message"
@@ -1041,6 +1057,9 @@
     "message": "Hi there! This is <insert name here> !",
     "description":
       "Placeholder text in the message entry field when it is the first message sent to that contact"
+  },
+  "sendMessageLeftGroup": {
+    "message": "You left this group"
   },
   "groupMembers": {
     "message": "Group members"
@@ -1101,7 +1120,7 @@
       "Confirmation dialog text that asks the user if they really wish to delete the public channel messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "deleteConversationConfirmation": {
-    "message": "Permanently delete this conversation?",
+    "message": "Permanently delete the messages in this conversation?",
     "description":
       "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
@@ -1275,14 +1294,8 @@
     "description":
       "Option to control creation and send of link previews in setting screen"
   },
-  "linkPreviewsDescription": {
-    "message":
-      "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
-    "description":
-      "Additional detail provided for Link Previews option in settings screen"
-  },
   "linkPreviewsSettingDescription": {
-    "message": "Enable local link previews",
+    "message": "Enable link previews",
     "description": "Description shown for the Link Preview option "
   },
   "spellCheckDescription": {
@@ -1887,6 +1900,28 @@
       }
     }
   },
+  "kickedFromTheGroup": {
+    "message": "$name$ was removed from the group",
+    "description":
+      "Shown in the conversation history when a single person is removed from the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "multipleKickedFromTheGroup": {
+    "message": "$names$ were removed from the group",
+    "description":
+      "Shown in the conversation history when more than one person is removed from the group",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "Alice, Bob"
+      }
+    }
+  },
   "friendRequestPending": {
     "message": "Friend request",
     "description":
@@ -1951,8 +1986,7 @@
       "Shown in the settings page as the heading for the blocked user settings"
   },
   "editProfileTitle": {
-    "message":
-      "Change your own display name (alphanumeric characters and underscores only)",
+    "message": "Change your own display name",
     "description": "The title shown when user edits their own profile"
   },
   "editProfileDisplayNameWarning": {
@@ -1965,6 +1999,28 @@
     "description":
       "Button action that the user can click to copy their public keys"
   },
+
+  "copyChatId": {
+    "message": "Copy Chat ID"
+  },
+
+  "updateGroup": {
+    "message": "Update Group",
+    "description":
+      "Button action that the user can click to rename the group or add a new member"
+  },
+
+  "leaveGroup": {
+    "message": "Leave Group",
+    "description": "Button action that the user can click to leave the group"
+  },
+
+  "leaveGroupDialogTitle": {
+    "message": "Are you sure you want to leave this group?",
+    "description":
+      "Title shown to the user to confirm they want to leave the group"
+  },
+
   "copiedPublicKey": {
     "message": "Copied public key",
     "description": "A toast message telling the user that the key was copied"
@@ -1973,6 +2029,10 @@
     "message": "Copy message text",
     "description":
       "Button action that the user can click to copy their public keys"
+  },
+  "selectMessage": {
+    "message": "Select message",
+    "description": "Button action that the user can click to select the message"
   },
   "copiedMessage": {
     "message": "Copied message text",
@@ -1984,6 +2044,18 @@
     "description":
       "Button action that the user can click to edit their display name"
   },
+
+  "createGroupDialogTitle": {
+    "message": "Creating a Private Group Chat",
+    "description": "Title for the dialog box used to create a new private group"
+  },
+
+  "updateGroupDialogTitle": {
+    "message": "Updating a Private Group Chat",
+    "description":
+      "Title for the dialog box used to update an existing private group"
+  },
+
   "showSeed": {
     "message": "Show seed",
     "description":
@@ -2002,6 +2074,12 @@
     "message": "Connect to new public server",
     "description":
       "Title for the dialog box used to connect to a new public server"
+  },
+
+  "createPrivateGroup": {
+    "message": "Create Private Group",
+    "description":
+      "Button action that the user can click to show a dialog for creating a new private group chat"
   },
 
   "seedViewTitle": {
@@ -2122,5 +2200,26 @@
   "friendsTab": {
     "message": "Friends",
     "description": "friend tab title"
+  },
+  "pending": {
+    "message": "pending",
+    "description": "Indicates that a friend request is pending"
+  },
+  "notFriends": {
+    "message": "not friends",
+    "description": "Indicates that a conversation is not friends with us"
+  },
+  "emptyGroupNameError": {
+    "message": "Group Name cannot be empty",
+    "description": "Error message displayed on empty group name"
+  },
+  "maxGroupMembersError": {
+    "message": "Max number of members for small group chats is: "
+  },
+  "nonAdminDeleteMember": {
+    "message": "Only group admin can remove members!"
+  },
+  "groupNamePlaceholder": {
+    "message": "Group Name"
   }
 }

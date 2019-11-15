@@ -127,18 +127,19 @@
       <div class='bottom-bar' id='footer'>
           <div class='emoji-panel-container'></div>
           <div class='member-list-container'></div>
+          <div id='bulk-edit-view'></div>
           <div class='attachment-list'></div>
           <div class='compose'>
             <form class='send clearfix file-input'>
               <div class='flex'>
                 <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
-                <div class='capture-audio hide'>
+                <div class='capture-audio'>
                     <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                 </div>
                 <div id='choose-file' class='choose-file'>
                     <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    <input type='file' class='file-input' multiple='multiple' accept='video/* image/*'>
+                    <input type='file' class='file-input' multiple='multiple'>
                 </div>
               </div>
             </form>
@@ -196,7 +197,6 @@
         <div class='message'>{{ message }}</div>
       {{ /message }}
       <div class='buttons'>
-        <button class='clear' tabindex='3'>{{ clear }}</button>
         <button class='cancel' tabindex='2'>{{ cancel }}</button>
         <button class='ok' tabindex='1'>{{ ok }}</button>
       </div>
@@ -731,8 +731,8 @@
           <!-- Profile -->
           <div class='page'>
             <div class='display-name-input'>
-              <div class='input-header'>Enter your public display name (alphanumeric characters and underscores only)</div>
-              <input class='form-control' type='text' id='display-name' placeholder='Display Name (optional)' autocomplete='off' spellcheck='false' maxlength='25'>
+              <div class='input-header'>Enter your public display name</div>
+              <input class='form-control' type='text' id='display-name' placeholder='Display Name' autocomplete='off' spellcheck='false' maxlength='25'>
             </div>
             <div class='password-inputs'>
                 <div class='input-header'>Type an optional password for added security</div>
@@ -741,8 +741,8 @@
                 <div class='error'></div>
             </div>
             <div class='buttons'>
-              <a class='button grey' id='back-button'>Back</a>
-              <a class='button' id='save-button' data-loading-text='Please wait...'>Save</a>
+              <button class='button grey' id='back-button' tabindex='2'>Back</button>
+              <button class='button' id='save-button' tabindex='1'>Save</button>
             </div>
           </div>
 
@@ -791,6 +791,7 @@
   <script type='text/javascript' src='js/views/key_verification_view.js'></script>
   <script type='text/javascript' src='js/views/message_list_view.js'></script>
   <script type='text/javascript' src='js/views/member_list_view.js'></script>
+  <script type='text/javascript' src='js/views/bulk_edit_view.js'></script>
   <script type='text/javascript' src='js/views/group_member_list_view.js'></script>
   <script type='text/javascript' src='js/views/recorder_view.js'></script>
   <script type='text/javascript' src='js/views/conversation_view.js'></script>
@@ -814,6 +815,7 @@
   <script type='text/javascript' src='js/views/clear_data_view.js'></script>
   <script type='text/javascript' src='js/views/device_pairing_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/device_pairing_words_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/create_group_dialog_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>

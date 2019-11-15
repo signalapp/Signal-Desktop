@@ -9,6 +9,8 @@
   textsecure,
   Whisper,
   libloki,
+  libsignal,
+  StringView,
   BlockedNumberController
 */
 
@@ -706,6 +708,106 @@
       }
     });
 
+    window.doUpdateGroup = async (groupId, groupName, members) => {
+      const ourKey = textsecure.storage.user.getNumber();
+
+      const ev = new Event('message');
+      ev.confirm = () => {};
+
+      ev.data = {
+        source: ourKey,
+        message: {
+          group: {
+            id: groupId,
+            type: textsecure.protobuf.GroupContext.Type.UPDATE,
+            name: groupName,
+            members,
+            avatar: null, // TODO
+          },
+        },
+      };
+
+      const convo = await ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
+
+      const avatar = '';
+      const options = {};
+
+      const recipients = _.union(convo.get('members'), members);
+
+      await onMessageReceived(ev);
+      convo.updateGroup({
+        groupId,
+        groupName,
+        avatar,
+        recipients,
+        members,
+        options,
+      });
+    };
+
+    window.doCreateGroup = async (groupName, members) => {
+      const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const groupId = StringView.arrayBufferToHex(keypair.pubKey);
+
+      const ev = new Event('group');
+
+      const ourKey = textsecure.storage.user.getNumber();
+
+      const allMembers = [ourKey, ...members];
+
+      ev.groupDetails = {
+        id: groupId,
+        name: groupName,
+        members: allMembers,
+        recipients: allMembers,
+        active: true,
+        expireTimer: 0,
+        avatar: '',
+      };
+
+      ev.confirm = () => {};
+
+      await onGroupReceived(ev);
+
+      const convo = await ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
+
+      convo.updateGroup(ev.groupDetails);
+
+      // Group conversations are automatically 'friends'
+      // so that we can skip the friend request logic
+      convo.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends
+      );
+
+      convo.updateGroupAdmins([ourKey]);
+
+      appView.openConversation(groupId, {});
+    };
+
+    Whisper.events.on('createNewGroup', async () => {
+      if (appView) {
+        appView.showCreateGroup();
+      }
+    });
+
+    Whisper.events.on('updateGroup', async groupConvo => {
+      if (appView) {
+        appView.showUpdateGroupDialog(groupConvo);
+      }
+    });
+
+    Whisper.events.on('leaveGroup', async groupConvo => {
+      if (appView) {
+        appView.showLeaveGroupDialog(groupConvo);
+      }
+    });
+
     Whisper.events.on('deleteConversation', async conversation => {
       await conversation.destroyMessages();
       await window.Signal.Data.removeConversation(conversation.id, {
@@ -1005,6 +1107,10 @@
     messageReceiver.addEventListener('progress', onProgress);
     messageReceiver.addEventListener('configuration', onConfiguration);
     messageReceiver.addEventListener('typing', onTyping);
+
+    Whisper.events.on('endSession', source => {
+      messageReceiver.handleEndSession(source);
+    });
 
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,

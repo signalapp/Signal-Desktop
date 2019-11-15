@@ -6,6 +6,7 @@
 
   window.Whisper = window.Whisper || {};
 
+  // TODO: remove this as unused?
   Whisper.GroupUpdateView = Backbone.View.extend({
     tagName: 'div',
     className: 'group-update',

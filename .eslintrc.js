@@ -49,7 +49,7 @@ module.exports = {
     quotes: [
       'error',
       'single',
-      { avoidEscape: true, allowTemplateLiterals: false },
+      { avoidEscape: true, allowTemplateLiterals: true },
     ],
 
     // Prettier overrides:
@@ -65,6 +65,7 @@ module.exports = {
         // We still want to limit comments as before:
         comments: 90,
         ignoreUrls: true,
+        ignoreRegExpLiterals: true,
       },
     ],
   },

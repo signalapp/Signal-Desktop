@@ -84,6 +84,8 @@
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
         swarmNodes: [],
+        groupAdmins: [],
+        isKickedFromGroup: false,
         isOnline: false,
       };
     },
@@ -179,6 +181,8 @@
 
       this.messageSendQueue = new JobQueue();
 
+      this.selectedMessages = new Set();
+
       // Keep props ready
       const generateProps = () => {
         this.cachedProps = this.getProps();
@@ -215,6 +219,43 @@
       BlockedNumberController.unblock(this.id);
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
+    },
+
+    addMessageSelection(id) {
+      // If the selection is empty, then we chage the mode to
+      // multiple selection by making it non-empty
+      const modeChanged = this.selectedMessages.size === 0;
+      this.selectedMessages.add(id);
+
+      if (modeChanged) {
+        this.messageCollection.forEach(m => m.trigger('change'));
+      }
+
+      this.trigger('message-selection-changed');
+    },
+
+    removeMessageSelection(id) {
+      this.selectedMessages.delete(id);
+      // If the selection is empty after the deletion then we
+      // must have unselected the last one (we assume the id is valid)
+      const modeChanged = this.selectedMessages.size === 0;
+
+      if (modeChanged) {
+        this.messageCollection.forEach(m => m.trigger('change'));
+      }
+
+      this.trigger('message-selection-changed');
+    },
+
+    resetMessageSelection() {
+      this.selectedMessages.clear();
+      this.messageCollection.forEach(m => {
+        // eslint-disable-next-line no-param-reassign
+        m.selected = false;
+        m.trigger('change');
+      });
+
+      this.trigger('message-selection-changed');
     },
 
     async bumpTyping() {
@@ -484,6 +525,8 @@
         hasNickname: !!this.getNickname(),
         isFriend: !!this.isFriendWithAnyCache,
 
+        selectedMessages: this.selectedMessages,
+
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
         onUnblockContact: () => this.unblock(),
@@ -743,6 +786,15 @@
       }
       const allDeviceStatus = await this.getAnyDeviceFriendRequestStatus();
 
+      if (this.get('isKickedFromGroup')) {
+        this.trigger('disable:input', true);
+        return;
+      }
+      if (!this.isPrivate() && this.get('left')) {
+        this.trigger('disable:input', true);
+        this.trigger('change:placeholder', 'left-group');
+        return;
+      }
       switch (allDeviceStatus) {
         case FriendRequestStatusEnum.none:
         case FriendRequestStatusEnum.requestExpired:
@@ -803,6 +855,12 @@
           this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
         }
       }
+    },
+    async updateGroupAdmins(groupAdmins) {
+      this.set({ groupAdmins });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
     async respondToAllFriendRequests(options) {
       const { response, status, direction = null } = options;
@@ -886,7 +944,7 @@
           response: 'accepted',
           status: ['pending', 'expired'],
         });
-        window.libloki.api.sendOnlineBroadcastMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(this.id);
         return true;
       }
       return false;
@@ -1929,7 +1987,7 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      await window.libloki.api.sendBackgroundMessage(this.id);
+      window.libloki.api.sendBackgroundMessage(this.id);
     },
 
     isSessionResetReceived() {
@@ -1965,7 +2023,7 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        await window.libloki.api.sendBackgroundMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(this.id);
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',
@@ -2035,6 +2093,7 @@
             this.get('name'),
             this.get('avatar'),
             this.get('members'),
+            groupUpdate.recipients,
             options
           )
         )
@@ -2069,6 +2128,8 @@
             textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
           )
         );
+
+        this.updateTextInputState();
       }
     },
 
@@ -2122,7 +2183,9 @@
         );
         const ourNumber = textsecure.storage.user.getNumber();
         return !stillUnread.some(
-          m => m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
+          m =>
+            m.propsForMessage.text &&
+            m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
         );
       })();
 
@@ -2525,16 +2588,38 @@
       });
     },
 
-    async deletePublicMessage(message) {
-      const channelAPI = this.getPublicSendData();
+    async deletePublicMessages(messages) {
+      const channelAPI = await this.getPublicSendData();
       if (!channelAPI) {
         return false;
       }
-      const success = await channelAPI.deleteMessage(message.getServerId());
-      if (success) {
-        this.removeMessage(message.id);
+
+      const invalidMessages = messages.filter(m => !m.getServerId());
+      const pendingMessages = messages.filter(m => m.getServerId());
+
+      let deletedServerIds = [];
+      let ignoredServerIds = [];
+
+      if (pendingMessages.length > 0) {
+        const result = await channelAPI.deleteMessages(
+          pendingMessages.map(m => m.getServerId())
+        );
+        deletedServerIds = result.deletedIds;
+        ignoredServerIds = result.ignoredIds;
       }
-      return success;
+
+      const toDeleteLocallyServerIds = _.union(
+        deletedServerIds,
+        ignoredServerIds
+      );
+      let toDeleteLocally = messages.filter(m =>
+        toDeleteLocallyServerIds.includes(m.getServerId())
+      );
+      toDeleteLocally = _.union(toDeleteLocally, invalidMessages);
+
+      toDeleteLocally.forEach(m => this.removeMessage(m.id));
+
+      return toDeleteLocally;
     },
 
     removeMessage(messageId) {
@@ -2548,6 +2633,7 @@
     },
 
     deleteMessages() {
+      this.resetMessageSelection();
       if (this.isPublic()) {
         Whisper.events.trigger('showConfirmationDialog', {
           message: i18n('deletePublicConversationConfirmation'),
@@ -2555,8 +2641,8 @@
         });
       } else {
         Whisper.events.trigger('showConfirmationDialog', {
-          message: i18n('deleteContactConfirmation'),
-          onOk: () => ConversationController.deleteContact(this.id),
+          message: i18n('deleteConversationConfirmation'),
+          onOk: () => this.destroyMessages(),
         });
       }
     },
@@ -2797,6 +2883,23 @@
       // We don't do anything with typing messages from our other devices
       if (sender === this.ourNumber) {
         return;
+      }
+
+      // For groups, block typing messages from non-members (e.g. from kicked members)
+      if (this.get('type') === 'group') {
+        const knownMembers = this.get('members');
+
+        if (knownMembers) {
+          const fromMember = knownMembers.includes(sender);
+
+          if (!fromMember) {
+            window.log.warn(
+              'Blocking typing messages from a non-member: ',
+              sender
+            );
+            return;
+          }
+        }
       }
 
       const identifier = `${sender}.${senderDevice}`;
