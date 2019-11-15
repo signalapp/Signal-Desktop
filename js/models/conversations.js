@@ -766,9 +766,15 @@
     isSecondaryDevice() {
       return !!this.get('secondaryStatus');
     },
-    async setSecondaryStatus(newStatus) {
+    getPrimaryDevicePubKey() {
+      return this.get('primaryDevicePubKey') || this.id;
+    },
+    async setSecondaryStatus(newStatus, primaryDevicePubKey) {
       if (this.get('secondaryStatus') !== newStatus) {
-        this.set({ secondaryStatus: newStatus });
+        this.set({
+          secondaryStatus: newStatus,
+          primaryDevicePubKey,
+        });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
@@ -804,7 +810,17 @@
       if (!response) {
         return;
       }
-      const pending = await this.getFriendRequests(direction, status);
+      const primaryConversation = ConversationController.get(
+        this.getPrimaryDevicePubKey()
+      );
+      // Should never happen
+      if (!primaryConversation) {
+        return;
+      }
+      const pending = await primaryConversation.getFriendRequests(
+        direction,
+        status
+      );
       await Promise.all(
         pending.map(async request => {
           if (request.hasErrors()) {
@@ -815,7 +831,7 @@
           await window.Signal.Data.saveMessage(request.attributes, {
             Message: Whisper.Message,
           });
-          this.trigger('updateMessage', request);
+          primaryConversation.trigger('updateMessage', request);
         })
       );
     },
