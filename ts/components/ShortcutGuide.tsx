@@ -23,7 +23,7 @@ type KeyType =
   | 'D'
   | 'E'
   | 'F'
-  | 'I'
+  | 'L'
   | 'M'
   | 'P'
   | 'R'
@@ -64,7 +64,7 @@ const NAVIGATION_SHORTCUTS: Array<ShortcutType> = [
   },
   {
     description: 'Keyboard--open-conversation-menu',
-    keys: ['commandOrCtrl', 'shift', 'I'],
+    keys: ['commandOrCtrl', 'shift', 'L'],
   },
   {
     description: 'Keyboard--search',
