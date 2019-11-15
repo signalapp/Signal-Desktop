@@ -1140,6 +1140,9 @@ ipc.on('set-media-permissions', (event, value) => {
   installPermissionsHandler({ session, userConfig });
 
   event.sender.send('set-success-media-permissions', null);
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('mediaPermissionsChanged');
+  }
 });
 
 ipc.on('on-unblock-number', (event, number) => {

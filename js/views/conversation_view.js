@@ -194,6 +194,9 @@
           this.removeLinkPreview();
         }
       });
+      Whisper.events.on('mediaPermissionsChanged', () =>
+        this.toggleMicrophone()
+      );
 
       const getHeaderProps = () => {
         const expireTimer = this.model.get('expireTimer');
@@ -667,8 +670,10 @@
       }
     },
 
-    toggleMicrophone() {
+    async toggleMicrophone() {
+      const allowMicrophone = await window.getMediaPermissions();
       if (
+        !allowMicrophone ||
         this.$('.send-message').val().length > 0 ||
         this.fileInput.hasFiles()
       ) {
