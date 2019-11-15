@@ -398,8 +398,8 @@ class LokiAppDotNetServerAPI {
       log.warn('No pubKeys provided to getUsers!');
       return [];
     }
+    // ok to call without
     if (!pubKeys.length) {
-      log.warn('No pubKeys given to getUsers!');
       return [];
     }
     if (pubKeys.length > 200) {
@@ -836,7 +836,6 @@ class LokiPublicChannelAPI {
       params,
     });
 
-
     if (res.err || !res.response) {
       return;
     }
@@ -844,6 +843,8 @@ class LokiPublicChannelAPI {
     let receivedAt = new Date().getTime();
     const pubKeys = [];
     let pendingMessages = [];
+
+    // the signature forces this to be async
     pendingMessages = await Promise.all(
       res.response.data.reverse().map(async adnMessage => {
         // still update our last received if deleted, not signed or not valid
@@ -901,10 +902,13 @@ class LokiPublicChannelAPI {
         ].splice(-5);
 
         const from = adnMessage.user.name || 'Anonymous'; // profileName
+
+        // track sources for multidevice support
         if (pubKeys.indexOf(`@${adnMessage.user.username}`) === -1) {
           pubKeys.push(`@${adnMessage.user.username}`);
         }
 
+        // generate signal message object
         const messageData = {
           serverId: adnMessage.id,
           clientVerified: true,
@@ -918,7 +922,7 @@ class LokiPublicChannelAPI {
           isPublic: true,
           message: {
             body:
-            adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
+              adnMessage.text === timestamp.toString() ? '' : adnMessage.text,
             attachments,
             group: {
               id: this.conversationId,
@@ -947,103 +951,74 @@ class LokiPublicChannelAPI {
     );
     this.conversation.setLastRetrievedMessage(this.lastGot);
 
+    // do we really need this?
     if (!pendingMessages.length) {
       return;
     }
-    if (pubKeys.length) {
-      // this will set slavePrimaryMap
-      const verifiedPrimaryPKs = await lokiFileServerAPI.verifyPrimaryPubKeys(
-        pubKeys
-      );
-      const { slavePrimaryMap } = this.serverAPI.chatAPI;
 
-      const slaveMessages = {};
-      // sort pending messages
-      pendingMessages.forEach(messageData => {
-        // why am I getting these?
-        if (messageData === undefined) {
-          log.warn('invalid pendingMessages');
-          return;
-        }
-        // if a known slave, queue
-        if (slavePrimaryMap[messageData.source]) {
-          // delay sending the message
-          if (slaveMessages[messageData.source] === undefined) {
-            slaveMessages[messageData.source] = [messageData];
-          } else {
-            slaveMessages[messageData.source].push(messageData);
-          }
+    // get list of verified primary PKs
+    const verifiedPrimaryPKs = await lokiFileServerAPI.verifyPrimaryPubKeys(
+      pubKeys
+    );
+    // access slavePrimaryMap set by verifyPrimaryPubKeys
+    const { slavePrimaryMap } = this.serverAPI.chatAPI;
+
+    // sort pending messages by if slave device or not
+    /* eslint-disable no-param-reassign */
+    const slaveMessages = pendingMessages.reduce((retval, messageData) => {
+      // if a known slave, queue
+      if (slavePrimaryMap[messageData.source]) {
+        // delay sending the message
+        if (retval[messageData.source] === undefined) {
+          retval[messageData.source] = [messageData];
         } else {
-          // no user or isPrimary means not multidevice, send event now
-          this.serverAPI.chatAPI.emit('publicMessage', {
-            message: messageData,
-          });
+          retval[messageData.source].push(messageData);
         }
-      });
-      pendingMessages = []; // free memory
-
-      // build map of userProfileName to primaryKeys
-      // if we have verified primaryKeys/the claimed relation
-      if (verifiedPrimaryPKs.length) {
-        // get final list of verified chat server profile names
-        const verifiedDeviceResults = await this.serverAPI.getUsers(
-          verifiedPrimaryPKs
-        );
-
-        // go through verifiedDeviceResults
-        const newPrimaryUserProfileName = {};
-        verifiedDeviceResults.forEach(user => {
-          newPrimaryUserProfileName[user.username] = user.name;
+      } else {
+        // no user or isPrimary means not multidevice, send event now
+        this.serverAPI.chatAPI.emit('publicMessage', {
+          message: messageData,
         });
-        // replace whole
-        this.primaryUserProfileName = newPrimaryUserProfileName;
+      }
+      return retval;
+    }, {});
+    /* eslint-enable no-param-reassign */
+
+    pendingMessages = []; // allow memory to be freed
+
+    // get actual chat server data (mainly the name rn) of primary device
+    const verifiedDeviceResults = await this.serverAPI.getUsers(
+      verifiedPrimaryPKs
+    );
+
+    // build map of userProfileName to primaryKeys
+    /* eslint-disable no-param-reassign */
+    this.primaryUserProfileName = verifiedDeviceResults.reduce(
+      (mapOut, user) => {
+        mapOut[user.username] = user.name;
+        return mapOut;
+      },
+      {}
+    );
+    /* eslint-enable no-param-reassign */
+
+    // process remaining messages
+    const ourNumber = textsecure.storage.user.getNumber();
+    Object.keys(slaveMessages).forEach(slaveKey => {
+      // prevent our own device sent messages from coming back in
+      if (slaveKey === ourNumber) {
+        // we originally sent these
+        return;
       }
 
-      // process remaining messages
-      const ourNumber = textsecure.storage.user.getNumber();
-      Object.keys(slaveMessages).forEach(slaveKey => {
-        // prevent our own sent messages from coming back in
-        if (slaveKey === ourNumber) {
-          // we originally sent these
-          return;
-        }
-        const primaryPubKey = slavePrimaryMap[slaveKey];
-        slaveMessages[slaveKey].forEach(messageDataP => {
-          const messageData = messageDataP; // for linter
-          if (slavePrimaryMap[messageData.source]) {
-            // rewrite source, profile
-            messageData.source = primaryPubKey;
-            messageData.message.profile.displayName = this.primaryUserProfileName[
-              primaryPubKey
-            ];
-          }
-          this.serverAPI.chatAPI.emit('publicMessage', {
-            message: messageData,
-          });
-        });
-      });
-    } // end if there are pending pubkeys to look up
+      // look up primary device once
+      const primaryPubKey = slavePrimaryMap[slaveKey];
 
-    // find messages for original slave key using slavePrimaryMap
-    if (pendingMessages.length) {
-      const { slavePrimaryMap } = this.serverAPI.chatAPI;
-      const ourNumber = textsecure.storage.user.getNumber();
-      pendingMessages.forEach(messageDataP => {
+      // send out remaining messages for this merged identity
+      slaveMessages[slaveKey].forEach(messageDataP => {
         const messageData = messageDataP; // for linter
-        // why am I getting these?
-        if (messageData === undefined) {
-          log.warn(`invalid pendingMessages ${pendingMessages}`);
-          return;
-        }
-        // prevent our own sent messages from coming back in
-        if (messageData.source === ourNumber) {
-          // we originally sent this
-          return;
-        }
         if (slavePrimaryMap[messageData.source]) {
           // rewrite source, profile
-          const primaryPubKey = slavePrimaryMap[messageData.source];
-          log.info(`Rewriting ${messageData.source} to ${primaryPubKey}`);
           messageData.source = primaryPubKey;
           messageData.message.profile.displayName = this.primaryUserProfileName[
             primaryPubKey
@@ -1053,8 +1028,7 @@ class LokiPublicChannelAPI {
           message: messageData,
         });
       });
-    }
-    pendingMessages = [];
+    });
   }
 
   static getPreviewFromAnnotation(annotation) {
