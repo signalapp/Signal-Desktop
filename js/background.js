@@ -1442,7 +1442,9 @@
       }
 
       const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
-      const allOurDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(primaryDeviceKey);
+      const allOurDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+        primaryDeviceKey
+      );
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
