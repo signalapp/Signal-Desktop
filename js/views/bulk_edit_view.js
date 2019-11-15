@@ -8,33 +8,29 @@
 
   Whisper.BulkEditView = Whisper.View.extend({
     initialize(options) {
-      this.selectedMessages = new Set();
-      this.render();
-      this.onCancel = options.onCancel;
-      this.onDelete = options.onDelete;
+      this.memberView = null;
+      this.props = {
+        onCancel: options.onCancel,
+        onDelete: options.onDelete,
+        messageCount: 0,
+      };
     },
     render() {
       if (this.memberView) {
-        this.memberView.remove();
-        this.memberView = null;
+        this.memberView.update(this.props);
+        return;
       }
-
       this.memberView = new Whisper.ReactWrapperView({
         className: 'bulk-edit-view',
         Component: window.Signal.Components.BulkEdit,
-        props: {
-          messageCount: this.selectedMessages.size,
-          onCancel: this.onCancel,
-          onDelete: this.onDelete,
-        },
+        props: this.props,
       });
 
       this.$el.append(this.memberView.el);
-      return this;
     },
 
-    update(selectedMessages) {
-      this.selectedMessages = selectedMessages;
+    update(selectionSize) {
+      this.props.messageCount = selectionSize;
       this.render();
     },
   });

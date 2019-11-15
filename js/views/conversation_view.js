@@ -1802,7 +1802,7 @@
         $('.compose').show();
       }
 
-      this.bulkEditView.update(this.model.selectedMessages);
+      this.bulkEditView.update(selectionSize);
     },
 
     resetMessageSelection() {
