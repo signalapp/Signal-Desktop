@@ -54,15 +54,20 @@
   .hidden {
     display: none;
   }
+}
 
+.create-group-dialog,
+.edit-profile-dialog {
   .error-message {
     text-align: center;
     color: red;
-    margin-bottom: 0.5em;
+    display: block;
+    user-select: none;
   }
 
   .error-faded {
     opacity: 0;
+    margin-top: -20px;
     transition: all 100ms linear;
   }
 

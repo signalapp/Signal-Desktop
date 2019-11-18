@@ -1037,8 +1037,7 @@
     "description": "Placeholder text in the message entry field"
   },
   "secondaryDeviceDefaultFR": {
-    "message":
-      "Please accept to enable messages to be synced across devices",
+    "message": "Please accept to enable messages to be synced across devices",
     "description":
       "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
   },
@@ -2039,10 +2038,9 @@
     "description":
       "A toast message telling the user that the message text was copied"
   },
-  "editDisplayName": {
-    "message": "Edit display name",
-    "description":
-      "Button action that the user can click to edit their display name"
+  "editProfile": {
+    "message": "Edit profile",
+    "description": "Button action that the user can click to edit their profile"
   },
 
   "createGroupDialogTitle": {
@@ -2213,11 +2211,21 @@
     "message": "Group Name cannot be empty",
     "description": "Error message displayed on empty group name"
   },
+  "emptyProfileNameError": {
+    "message": "Profile name cannot be empty",
+    "description": "Error message displayed on empty profile name"
+  },
   "maxGroupMembersError": {
     "message": "Max number of members for small group chats is: "
   },
   "nonAdminDeleteMember": {
     "message": "Only group admin can remove members!"
+  },
+  "editProfileDialogTitle": {
+    "message": "Editing Profile"
+  },
+  "profileName": {
+    "message": "Profile Name"
   },
   "groupNamePlaceholder": {
     "message": "Group Name"

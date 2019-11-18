@@ -801,7 +801,7 @@
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
       const onClick = noClick
         ? null
-        : (event) => {
+        : event => {
             event.stopPropagation();
             this.trigger('scroll-to-message', {
               author,
@@ -2180,8 +2180,6 @@
             } else {
               sendingDeviceConversation.setProfileKey(profileKey);
             }
-          } else if (dataMessage.profile) {
-            sendingDeviceConversation.setLokiProfile(dataMessage.profile);
           }
 
           let autoAccept = false;

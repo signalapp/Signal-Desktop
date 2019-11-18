@@ -48,6 +48,7 @@ const { BulkEdit } = require('../../ts/components/conversation/BulkEdit');
 const {
   CreateGroupDialog,
 } = require('../../ts/components/conversation/CreateGroupDialog');
+const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const {
   UpdateGroupDialog,
 } = require('../../ts/components/conversation/UpdateGroupDialog');
@@ -228,6 +229,7 @@ exports.setup = (options = {}) => {
     MainHeader,
     MemberList,
     CreateGroupDialog,
+    EditProfileDialog,
     ConfirmDialog,
     UpdateGroupDialog,
     BulkEdit,

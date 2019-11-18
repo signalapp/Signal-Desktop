@@ -2255,12 +2255,16 @@
 
       await this.updateProfileName();
     },
-    async setLokiProfile(profile) {
-      if (!_.isEqual(this.get('profile'), profile)) {
-        this.set({ profile });
+    async setLokiProfile(newProfile) {
+      if (!_.isEqual(this.get('profile'), newProfile)) {
+        this.set({ profile: newProfile });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
+      }
+
+      if (newProfile.avatar) {
+        await this.setProfileAvatar({ path: newProfile.avatar });
       }
 
       await this.updateProfileName();
@@ -2435,10 +2439,10 @@
         });
       }
     },
-    async setProfileAvatar(avatarPath) {
+    async setProfileAvatar(avatar) {
       const profileAvatar = this.get('profileAvatar');
-      if (profileAvatar !== avatarPath) {
-        this.set({ profileAvatar: avatarPath });
+      if (profileAvatar !== avatar) {
+        this.set({ profileAvatar: avatar });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
@@ -2749,11 +2753,12 @@
     getAvatarPath() {
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
-      if (avatar) {
-        if (avatar.path) {
-          return getAbsoluteAttachmentPath(avatar.path);
-        }
+      if (typeof avatar === 'string') {
         return avatar;
+      }
+
+      if (avatar && avatar.path && typeof avatar.path === 'string') {
+        return getAbsoluteAttachmentPath(avatar.path);
       }
 
       return null;
@@ -2761,10 +2766,7 @@
     getAvatar() {
       const title = this.get('name');
       const color = this.getColor();
-      const avatar = this.get('avatar') || this.get('profileAvatar');
-
-      const url =
-        avatar && avatar.path ? getAbsoluteAttachmentPath(avatar.path) : avatar;
+      const url = this.getAvatarPath();
 
       if (url) {
         return { url, color };

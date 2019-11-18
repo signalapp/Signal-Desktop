@@ -334,8 +334,8 @@ export class MainHeader extends React.Component<Props, any> {
         onClick: onCopyPublicKey,
       },
       {
-        id: 'editDisplayName',
-        name: i18n('editDisplayName'),
+        id: 'editProfile',
+        name: i18n('editProfile'),
         onClick: () => {
           trigger('onEditProfile');
         },
