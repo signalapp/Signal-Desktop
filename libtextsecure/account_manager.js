@@ -2,6 +2,8 @@
   window,
   textsecure,
   libsignal,
+  libloki,
+  lokiFileServerAPI,
   mnemonic,
   btoa,
   Signal,
@@ -11,7 +13,8 @@
   StringView,
   log,
   Event,
-  ConversationController
+  ConversationController,
+  Whisper
 */
 
 /* eslint-disable more/no-then */
@@ -543,6 +546,10 @@
     async registrationDone(number, displayName) {
       window.log.info('registration done');
 
+      if (!textsecure.storage.get('secondaryDeviceStatus')) {
+        // We have registered as a primary device
+        textsecure.storage.put('primaryDevicePubKey', number);
+      }
       // Ensure that we always have a conversation for ourself
       const conversation = await ConversationController.getOrCreateAndWait(
         number,
@@ -551,6 +558,91 @@
       await conversation.setLokiProfile({ displayName });
 
       this.dispatchEvent(new Event('registration'));
+    },
+    async requestPairing(primaryDevicePubKey) {
+      // throws if invalid
+      this.validatePubKeyHex(primaryDevicePubKey);
+      // we need a conversation for sending a message
+      await ConversationController.getOrCreateAndWait(
+        primaryDevicePubKey,
+        'private'
+      );
+      const ourPubKey = textsecure.storage.user.getNumber();
+      if (primaryDevicePubKey === ourPubKey) {
+        throw new Error('Cannot request to pair with ourselves');
+      }
+      const requestSignature = await libloki.crypto.generateSignatureForPairing(
+        primaryDevicePubKey,
+        libloki.crypto.PairingType.REQUEST
+      );
+      const authorisation = {
+        primaryDevicePubKey,
+        secondaryDevicePubKey: ourPubKey,
+        requestSignature,
+      };
+      await libloki.api.sendPairingAuthorisation(
+        authorisation,
+        primaryDevicePubKey
+      );
+    },
+    async authoriseSecondaryDevice(secondaryDevicePubKey) {
+      const ourPubKey = textsecure.storage.user.getNumber();
+      if (secondaryDevicePubKey === ourPubKey) {
+        throw new Error(
+          'Cannot register primary device pubkey as secondary device'
+        );
+      }
+
+      // throws if invalid
+      this.validatePubKeyHex(secondaryDevicePubKey);
+      // we need a conversation for sending a message
+      const secondaryConversation = await ConversationController.getOrCreateAndWait(
+        secondaryDevicePubKey,
+        'private'
+      );
+      const grantSignature = await libloki.crypto.generateSignatureForPairing(
+        secondaryDevicePubKey,
+        libloki.crypto.PairingType.GRANT
+      );
+      const existingAuthorisation = await libloki.storage.getAuthorisationForSecondaryPubKey(
+        secondaryDevicePubKey
+      );
+      if (!existingAuthorisation) {
+        throw new Error(
+          'authoriseSecondaryDevice: request signature missing from database!'
+        );
+      }
+      const { requestSignature } = existingAuthorisation;
+      const authorisation = {
+        primaryDevicePubKey: ourPubKey,
+        secondaryDevicePubKey,
+        requestSignature,
+        grantSignature,
+      };
+      // Update authorisation in database with the new grant signature
+      await libloki.storage.savePairingAuthorisation(authorisation);
+      await lokiFileServerAPI.updateOurDeviceMapping();
+      await libloki.api.sendPairingAuthorisation(
+        authorisation,
+        secondaryDevicePubKey
+      );
+      // Always be friends with secondary devices
+      await secondaryConversation.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends,
+        {
+          blockSync: true,
+        }
+      );
+    },
+    validatePubKeyHex(pubKey) {
+      const c = new Whisper.Conversation({
+        id: pubKey,
+        type: 'private',
+      });
+      const validationError = c.validateNumber();
+      if (validationError) {
+        throw new Error(validationError);
+      }
     },
   });
   textsecure.AccountManager = AccountManager;

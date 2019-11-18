@@ -1,4 +1,4 @@
-/* global window, setTimeout, clearTimeout, IDBKeyRange */
+/* global window, setTimeout, clearTimeout, IDBKeyRange, dcodeIO */
 
 const electron = require('electron');
 
@@ -13,6 +13,7 @@ const {
   map,
   set,
   omit,
+  isArrayBuffer,
 } = require('lodash');
 
 const _ = require('lodash');
@@ -91,6 +92,15 @@ module.exports = {
   removeContactSignedPreKeyByIdentityKey,
   removeAllContactSignedPreKeys,
 
+  createOrUpdatePairingAuthorisation,
+  removePairingAuthorisationForSecondaryPubKey,
+  getGrantAuthorisationForSecondaryPubKey,
+  getAuthorisationForSecondaryPubKey,
+  getGrantAuthorisationsForPrimaryPubKey,
+  getSecondaryDevicesFor,
+  getPrimaryDeviceFor,
+  getPairedDevicesFor,
+
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -119,6 +129,7 @@ module.exports = {
 
   getAllConversations,
   getPubKeysWithFriendStatus,
+  getConversationsWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllRssFeedConversations,
@@ -181,6 +192,8 @@ module.exports = {
 
   removeAll,
   removeAllConfiguration,
+  removeAllConversations,
+  removeAllPrivateConversations,
 
   removeOtherData,
   cleanupOrphanedAttachments,
@@ -585,6 +598,63 @@ async function removeAllContactSignedPreKeys() {
   await channels.removeAllContactSignedPreKeys();
 }
 
+function signatureToBase64(signature) {
+  if (signature.constructor === dcodeIO.ByteBuffer) {
+    return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
+  } else if (isArrayBuffer(signature)) {
+    return arrayBufferToBase64(signature);
+  } else if (typeof signature === 'string') {
+    // assume it's already base64
+    return signature;
+  }
+  throw new Error(
+    'Invalid signature provided in createOrUpdatePairingAuthorisation. Needs to be either ArrayBuffer or ByteBuffer.'
+  );
+}
+
+async function createOrUpdatePairingAuthorisation(data) {
+  const { requestSignature, grantSignature } = data;
+
+  return channels.createOrUpdatePairingAuthorisation({
+    ...data,
+    requestSignature: signatureToBase64(requestSignature),
+    grantSignature: grantSignature ? signatureToBase64(grantSignature) : null,
+  });
+}
+
+async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
+  if (!pubKey) {
+    return;
+  }
+  await channels.removePairingAuthorisationForSecondaryPubKey(pubKey);
+}
+
+async function getGrantAuthorisationForSecondaryPubKey(pubKey) {
+  return channels.getAuthorisationForSecondaryPubKey(pubKey, {
+    granted: true,
+  });
+}
+
+async function getGrantAuthorisationsForPrimaryPubKey(pubKey) {
+  return channels.getGrantAuthorisationsForPrimaryPubKey(pubKey);
+}
+
+function getAuthorisationForSecondaryPubKey(pubKey) {
+  return channels.getAuthorisationForSecondaryPubKey(pubKey);
+}
+
+function getSecondaryDevicesFor(primaryDevicePubKey) {
+  return channels.getSecondaryDevicesFor(primaryDevicePubKey);
+}
+
+function getPrimaryDeviceFor(secondaryDevicePubKey) {
+  return channels.getPrimaryDeviceFor(secondaryDevicePubKey);
+}
+
+function getPairedDevicesFor(pubKey) {
+  return channels.getPairedDevicesFor(pubKey);
+}
+
 // Items
 
 const ITEM_KEYS = {
@@ -729,8 +799,20 @@ async function _removeConversations(ids) {
   await channels.removeConversation(ids);
 }
 
+async function getConversationsWithFriendStatus(
+  status,
+  { ConversationCollection }
+) {
+  const conversations = await channels.getConversationsWithFriendStatus(status);
+
+  const collection = new ConversationCollection();
+  collection.add(conversations);
+  return collection;
+}
+
 async function getPubKeysWithFriendStatus(status) {
-  return channels.getPubKeysWithFriendStatus(status);
+  const conversations = await getConversationsWithFriendStatus(status);
+  return conversations.map(row => row.id);
 }
 
 async function getAllConversations({ ConversationCollection }) {
@@ -1109,6 +1191,14 @@ async function removeAll() {
 
 async function removeAllConfiguration() {
   await channels.removeAllConfiguration();
+}
+
+async function removeAllConversations() {
+  await channels.removeAllConversations();
+}
+
+async function removeAllPrivateConversations() {
+  await channels.removeAllPrivateConversations();
 }
 
 async function cleanupOrphanedAttachments() {

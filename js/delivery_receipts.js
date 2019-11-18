@@ -3,7 +3,8 @@
   Whisper,
   ConversationController,
   MessageController,
-  _
+  _,
+  libloki,
 */
 
 /* eslint-disable more/no-then */
@@ -34,6 +35,15 @@
       if (messages.length === 0) {
         return null;
       }
+
+      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        source
+      );
+      if (authorisation) {
+        // eslint-disable-next-line no-param-reassign
+        source = authorisation.primaryDevicePubKey;
+      }
+
       const message = messages.find(
         item => !item.isIncoming() && source === item.get('conversationId')
       );

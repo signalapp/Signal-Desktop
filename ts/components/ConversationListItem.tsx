@@ -41,6 +41,7 @@ export type PropsData = {
   isOnline?: boolean;
   hasNickname?: boolean;
   isFriendItem?: boolean;
+  isSecondary?: boolean;
 };
 
 type PropsHousekeeping = {

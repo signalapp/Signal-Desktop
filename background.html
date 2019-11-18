@@ -246,6 +246,72 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='device-pairing-dialog'>
+    <div class="content">
+
+      <!-- Default view -->
+      <div class="defaultView">
+        <h4>{{ defaultTitle }}</h4>
+        <ul id="pairedPubKeys">
+        </ul>
+        <div class='buttons'>
+          <button id='close' tabindex='2'>{{ closeText }}</button>
+          <button id="startPairing" tabindex='1'>{{ startPairingText }}</button>
+        </div>
+      </div>
+
+      <!-- Waiting for request -->
+      <div class="waitingForRequestView" style="display: none;">
+        <h4>{{ waitingForRequestTitle }}</h4>
+        <div class='buttons'>
+          <button class="cancel">{{ cancelText }}</button>
+        </div>
+      </div>
+
+      <!-- Request Received -->
+      <div class="requestReceivedView" style="display: none;">
+        <h4>{{ requestReceivedTitle }}</h4>
+        Please verify that the secret words shown below matches the ones on your other device!
+        <p class="secretWords"></p>
+        <div class='buttons'>
+          <button class="skip">{{ skipText }}</button>
+          <button id="allowPairing">{{ allowPairingText }}</button>
+        </div>
+      </div>
+
+      <!-- Request accepted -->
+      <div class="requestAcceptedView" style="display: none;">
+        <h4>{{ requestAcceptedTitle }}</h4>
+        <p class="secretWords"></p>
+        <p class="transmissionStatus">Please be patient...</p>
+        <div id="deviceAliasView" style="display: none;" >
+          <input id="deviceAlias" type="text" placeholder="Device Alias" required>
+        </div>
+        <div class='buttons'>
+          <button class="ok" style="display: none;">{{ okText }}</button>
+        </div>
+      </div>
+
+      <!--Prompt user to confirm unpairing -->
+      <div class="confirmUnpairView" style="display: none;">
+        <h4>{{ confirmUnpairViewTitle }}</h4>
+        <p id="pubkey"></p>
+        <div class='buttons'>
+            <button class='cancel' tabindex='2'>{{ cancelText }}</button>
+            <button class='unpairDevice' tabindex='1'>{{ unpairDevice }}</button>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type='text/x-tmpl-mustache' id='device-pairing-words-dialog'>
+    <div class="content">
+        <h4>{{ title }}</h4>
+        <p>{{ secretWords }}</p>
+        <button id='close'>{{ closeText }}</button>
+    </div>
+  </script>
+
   <script type='text/x-tmpl-mustache' id='beta-disclaimer-dialog'>
     <div class="content">
       <div class="betaDisclaimerView" style="display: none;">
@@ -605,21 +671,7 @@
 
           <!-- Registration -->
           <div class='page'>
-            <h4 class='section-toggle'>Restore using seed</h4>
-            <div class='standalone-mnemonic section-content'>
-              <div class='standalone-mnemonic-inputs'>
-                <input class='form-control' type='text' id='mnemonic' placeholder='Mnemonic Seed' autocomplete='off' spellcheck='false' />
-              </div>
-              <div id='error' class='collapse'></div>
-              <div class='restore standalone-register-language'>
-                <span>Language:</span>
-                <div class='select-container'>
-                  <select id='mnemonic-language'></select>
-                </div>
-              </div>
-              <a class='button' id='register-mnemonic'>Restore</a>
-              <div id=status></div>
-            </div>
+            <!-- New account -->
             <h4 class='section-toggle section-toggle-visible'>Register a new account</h4>
             <div class='standalone-register section-content'>
               <div class='standalone-register-warning'>
@@ -639,6 +691,40 @@
                 <a class='button grey' id='copy-mnemonic'>Copy Seed</a>
                 <a class='button' id='register' data-loading-text='Please wait...'>Register</a>
               </div>
+            </div>
+            <!-- Restore using seed -->
+            <h4 class='section-toggle'>Restore using seed</h4>
+            <div class='standalone-mnemonic section-content'>
+              <div class='standalone-mnemonic-inputs'>
+                <input class='form-control' type='text' id='mnemonic' placeholder='Mnemonic Seed' autocomplete='off' spellcheck='false' />
+              </div>
+              <div id='error' class='collapse'></div>
+              <div class='restore standalone-register-language'>
+                <span>Language:</span>
+                <div class='select-container'>
+                  <select id='mnemonic-language'></select>
+                </div>
+              </div>
+              <a class='button' id='register-mnemonic'>Restore</a>
+              <div id=status></div>
+            </div>
+            <!-- Link device to an existing account -->
+            <h4 class='section-toggle'>Link device to an existing account</h4>
+            <div class='standalone-secondary-device section-content'>
+              <p class='standalone-register-warning'>
+                You will need your Primary Device handy during this step.
+                </br>
+                Open the Loki Messenger App on your Primary Device
+              </br>
+                and select "Device Pairing" in the main menu.
+              </p>
+              <div class='standalone-secondary-device-inputs'>
+                <input class='form-control' type='text' id='primary-pubkey' placeholder='Primary Account Public Key' autocomplete='off' spellcheck='false' />
+              </div>
+              <div id='pubkey' class='collapse'></div>
+              <div id='error' class='collapse'></div>
+              <button type='button' class='button' id='register-secondary-device'>Link</button>
+              <button type='button' class='button' id='cancel-secondary-device' style="display: none;">Cancel</button>
             </div>
           </div>
 
@@ -727,6 +813,8 @@
   <script type='text/javascript' src='js/views/app_view.js'></script>
   <script type='text/javascript' src='js/views/import_view.js'></script>
   <script type='text/javascript' src='js/views/clear_data_view.js'></script>
+  <script type='text/javascript' src='js/views/device_pairing_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/device_pairing_words_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/create_group_dialog_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>

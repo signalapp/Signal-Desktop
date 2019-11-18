@@ -939,6 +939,42 @@
   "cancel": {
     "message": "Cancel"
   },
+  "skip": {
+    "message": "Skip"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "pairNewDevice": {
+    "message": "Pair new Device"
+  },
+  "devicePairingAccepted": {
+    "message": "Device Pairing Accepted"
+  },
+  "devicePairingReceived": {
+    "message": "Device Pairing Received"
+  },
+  "waitingForDeviceToRegister": {
+    "message": "Waiting for device to register..."
+  },
+  "pairedDevices": {
+    "message": "Paired Devices"
+  },
+  "allowPairing": {
+    "message": "Allow Pairing"
+  },
+  "provideDeviceAlias": {
+    "message": "Please provide an alias for this paired device"
+  },
+  "showPairingWordsTitle": {
+    "message": "Pairing Secret Words"
+  },
+  "confirmUnpairingTitle": {
+    "message": "Please confirm you want to unpair the following device:"
+  },
+  "unpairDevice": {
+    "message": "Unpair Device"
+  },
   "clear": {
     "message": "Clear"
   },
@@ -999,6 +1035,18 @@
   "sendMessage": {
     "message": "Send a message",
     "description": "Placeholder text in the message entry field"
+  },
+  "secondaryDeviceDefaultFR": {
+    "message":
+      "Please accept to enable messages to be synced across devices",
+    "description":
+      "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
+  },
+  "sendMessageDisabledSecondary": {
+    "message":
+      "This pubkey belongs to a secondary device. You should never see this message",
+    "description":
+      "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
   },
   "sendMessageDisabled": {
     "message": "Waiting for friend request approval",

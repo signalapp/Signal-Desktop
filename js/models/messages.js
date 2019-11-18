@@ -10,7 +10,8 @@
   Signal,
   textsecure,
   Whisper,
-  clipboard
+  clipboard,
+  libloki,
 */
 
 /* eslint-disable more/no-then */
@@ -378,7 +379,7 @@
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
-      const conversation = this.getConversation();
+      const conversation = await this.getSourceDeviceConversation();
 
       this.set({ friendStatus: 'accepted' });
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -898,6 +899,7 @@
       //   that contact. Otherwise, it will be a standalone entry.
       const errors = _.reject(allErrors, error => Boolean(error.number));
       const errorsGroupedById = _.groupBy(allErrors, 'number');
+      const primaryDevicePubKey = this.get('conversationId');
       const finalContacts = (phoneNumbers || []).map(id => {
         const errorsForContact = errorsGroupedById[id];
         const isOutgoingKeyError = Boolean(
@@ -907,12 +909,20 @@
           storage.get('unidentifiedDeliveryIndicators') &&
           this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
+        const isPrimaryDevice = id === primaryDevicePubKey;
+
+        const contact = this.findAndFormatContact(id);
+        const profileName = isPrimaryDevice
+          ? contact.profileName
+          : `${contact.profileName} (Secondary Device)`;
         return {
-          ...this.findAndFormatContact(id),
+          ...contact,
           status: this.getStatus(id),
           errors: errorsForContact,
           isOutgoingKeyError,
           isUnidentifiedDelivery,
+          isPrimaryDevice,
+          profileName,
           onSendAnyway: () =>
             this.trigger('force-send', {
               contact: this.findContact(id),
@@ -927,7 +937,8 @@
       //   first; otherwise it's alphabetical
       const sortedContacts = _.sortBy(
         finalContacts,
-        contact => `${contact.errors ? '0' : '1'}${contact.title}`
+        contact =>
+          `${contact.isPrimaryDevice ? '0' : '1'}${contact.phoneNumber}`
       );
 
       return {
@@ -1164,6 +1175,14 @@
       //   the database.
       return ConversationController.getUnsafe(this.get('conversationId'));
     },
+    getSourceDeviceConversation() {
+      // This gets the conversation of the device that sent this message
+      // while getConversation will return the primary device conversation
+      return ConversationController.getOrCreateAndWait(
+        this.get('source'),
+        'private'
+      );
+    },
     getIncomingContact() {
       if (!this.isIncoming()) {
         return null;
@@ -1306,7 +1325,13 @@
           });
 
           this.trigger('sent', this);
-          this.sendSyncMessage();
+          if (this.get('type') !== 'friend-request') {
+            const c = this.getConversation();
+            // Don't bother sending sync messages to public chats
+            if (!c.isPublic()) {
+              this.sendSyncMessage();
+            }
+          }
         })
         .catch(result => {
           this.trigger('done');
@@ -1741,19 +1766,27 @@
       return message;
     },
 
-    handleDataMessage(initialMessage, confirm) {
+    async handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
       //   2. on a sent message sync'd from another device
       //   3. in rare cases, an incoming message can be retried, though it will
       //      still go through one of the previous two codepaths
+      const ourNumber = textsecure.storage.user.getNumber();
       const message = this;
       const source = message.get('source');
       const type = message.get('type');
       let conversationId = message.get('conversationId');
+      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        source
+      );
       if (initialMessage.group) {
         conversationId = initialMessage.group.id;
+      } else if (source !== ourNumber && authorisation) {
+        // Ignore auth from our devices
+        conversationId = authorisation.primaryDevicePubKey;
       }
+
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
@@ -2086,8 +2119,6 @@
                 c.onReadMessage(message);
               }
             } else {
-              const ourNumber = textsecure.storage.user.getNumber();
-
               if (
                 message.attributes.body &&
                 message.attributes.body.indexOf(`@${ourNumber}`) !== -1
@@ -2136,6 +2167,10 @@
             });
           }
 
+          const sendingDeviceConversation = await ConversationController.getOrCreateAndWait(
+            source,
+            'private'
+          );
           if (dataMessage.profileKey) {
             const profileKey = dataMessage.profileKey.toString('base64');
             if (source === textsecure.storage.user.getNumber()) {
@@ -2143,21 +2178,10 @@
             } else if (conversation.isPrivate()) {
               conversation.setProfileKey(profileKey);
             } else {
-              ConversationController.getOrCreateAndWait(source, 'private').then(
-                sender => {
-                  sender.setProfileKey(profileKey);
-                }
-              );
+              sendingDeviceConversation.setProfileKey(profileKey);
             }
-          } else if (
-            source !== textsecure.storage.user.getNumber() &&
-            dataMessage.profile
-          ) {
-            ConversationController.getOrCreateAndWait(source, 'private').then(
-              sender => {
-                sender.setLokiProfile(dataMessage.profile);
-              }
-            );
+          } else if (dataMessage.profile) {
+            sendingDeviceConversation.setLokiProfile(dataMessage.profile);
           }
 
           let autoAccept = false;
@@ -2176,8 +2200,8 @@
               - We sent the user a friend request and that user sent us a friend request.
               - We are friends with the user, and that user just sent us a friend request.
             */
-            const isFriend = conversation.isFriend();
-            const hasSentFriendRequest = conversation.hasSentFriendRequest();
+            const isFriend = sendingDeviceConversation.isFriend();
+            const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
             autoAccept = isFriend || hasSentFriendRequest;
 
             if (autoAccept) {
@@ -2187,12 +2211,13 @@
             if (isFriend) {
               window.Whisper.events.trigger('endSession', source);
             } else if (hasSentFriendRequest) {
-              await conversation.onFriendRequestAccepted();
+              await sendingDeviceConversation.onFriendRequestAccepted();
             } else {
-              await conversation.onFriendRequestReceived();
+              await sendingDeviceConversation.onFriendRequestReceived();
             }
-          } else {
-            await conversation.onFriendRequestAccepted();
+          } else if (message.get('type') !== 'outgoing') {
+            // Ignore 'outgoing' messages because they are sync messages
+            await sendingDeviceConversation.onFriendRequestAccepted();
             // We need to return for these types of messages because android struggles
             if (
               !message.get('body') &&

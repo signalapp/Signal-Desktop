@@ -1,5 +1,6 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _, dcodeIO, Buffer */
+clearTimeout, MessageController, libsignal, StringView, window, _, lokiFileServerAPI,
+dcodeIO, Buffer */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
@@ -16,6 +17,7 @@ const ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
 
+// not quite a singleton yet (one for chat and one per file server)
 class LokiAppDotNetAPI extends EventEmitter {
   constructor(ourKey) {
     super();
@@ -23,6 +25,13 @@ class LokiAppDotNetAPI extends EventEmitter {
     this.servers = [];
     this.myPrivateKey = false;
     this.allMembers = [];
+    // Multidevice states
+    this.slavePrimaryMap = {};
+    this.primaryUserProfileName = {};
+  }
+
+  async close() {
+    await Promise.all(this.servers.map(server => server.close()));
   }
 
   async getPrivateKey() {
@@ -101,6 +110,13 @@ class LokiAppDotNetServerAPI {
     this.baseServerUrl = url;
   }
 
+  async close() {
+    this.channels.forEach(channel => channel.stop());
+    if (this.tokenPromise) {
+      await this.tokenPromise;
+    }
+  }
+
   // channel getter/factory
   findOrCreateChannel(channelId, conversationId) {
     let thisChannel = this.channels.find(
@@ -152,6 +168,55 @@ class LokiAppDotNetServerAPI {
       }
     }
     this.token = token;
+
+    // verify token info
+    const tokenRes = await this.serverRequest('token');
+    // if no problems and we have data
+    if (
+      !tokenRes.err &&
+      tokenRes.response &&
+      tokenRes.response.data &&
+      tokenRes.response.data.user
+    ) {
+      // get our profile name and write it to the network
+      const ourNumber = textsecure.storage.user.getNumber();
+      const profileConvo = ConversationController.get(ourNumber);
+      const profileName = profileConvo.getProfileName();
+
+      // update profile name as needed
+      if (tokenRes.response.data.user.name !== profileName) {
+        if (profileName) {
+          // will need this when we add an annotation
+          /*
+          const privKey = await this.serverAPI.chatAPI.getPrivateKey();
+          // we might need an annotation that sets the homeserver for media
+          // better to include this with each attachment...
+          const objToSign = {
+            name: profileName,
+            version: 1,
+            annotations: [],
+          };
+          const sig = await libsignal.Curve.async.calculateSignature(
+            privKey,
+            JSON.stringify(objToSign)
+          );
+          */
+
+          await this.serverRequest('users/me', {
+            method: 'PATCH',
+            objBody: {
+              name: profileName,
+            },
+          });
+          // no big deal if it fails...
+          // } else {
+          // should we update the local from the server?
+          // guessing no because there will be multiple servers
+        }
+        // update our avatar if needed
+      }
+    }
+
     return token;
   }
 
@@ -328,6 +393,36 @@ class LokiAppDotNetServerAPI {
     return res.response.data.annotations || [];
   }
 
+  async getUsers(pubKeys) {
+    if (!pubKeys) {
+      log.warn('No pubKeys provided to getUsers!');
+      return [];
+    }
+    // ok to call without
+    if (!pubKeys.length) {
+      return [];
+    }
+    if (pubKeys.length > 200) {
+      log.warn('Too many pubKeys given to getUsers!');
+    }
+    const res = await this.serverRequest('users', {
+      method: 'GET',
+      params: {
+        ids: pubKeys.join(','),
+        include_user_annotations: 1,
+      },
+    });
+
+    if (res.err || !res.response || !res.response.data) {
+      if (res.err) {
+        log.error(`Error ${res.err}`);
+      }
+      return [];
+    }
+
+    return res.response.data || [];
+  }
+
   // Only one annotation at a time
   async setSelfAnnotation(type, value) {
     const annotation = { type };
@@ -471,53 +566,6 @@ class LokiPublicChannelAPI {
     }
 
     await this.conversation.setModerators(moderators || []);
-
-    // get token info
-    const tokenRes = await this.serverRequest('token');
-    // if no problems and we have data
-    if (
-      !tokenRes.err &&
-      tokenRes.response &&
-      tokenRes.response.data &&
-      tokenRes.response.data.user
-    ) {
-      // get our profile name and write it to the network
-      const profileConvo = ConversationController.get(ourNumber);
-      const profileName = profileConvo.getProfileName();
-
-      // update profile name as needed
-      if (tokenRes.response.data.user.name !== profileName) {
-        if (profileName) {
-          // will need this when we add an annotation
-          /*
-          const privKey = await this.serverAPI.chatAPI.getPrivateKey();
-          // we might need an annotation that sets the homeserver for media
-          // better to include this with each attachment...
-          const objToSign = {
-            name: profileName,
-            version: 1,
-            annotations: [],
-          };
-          const sig = await libsignal.Curve.async.calculateSignature(
-            privKey,
-            JSON.stringify(objToSign)
-          );
-          */
-
-          await this.serverRequest('users/me', {
-            method: 'PATCH',
-            objBody: {
-              name: profileName,
-            },
-          });
-          // no big deal if it fails...
-          // } else {
-          // should we update the local from the server?
-          // guessing no because there will be multiple servers
-        }
-        // update our avatar if needed
-      }
-    }
   }
 
   // delete messages on the server
@@ -810,9 +858,17 @@ class LokiPublicChannelAPI {
       params,
     });
 
-    if (!res.err && res.response) {
-      let receivedAt = new Date().getTime();
-      res.response.data.reverse().forEach(async adnMessage => {
+    if (res.err || !res.response) {
+      return;
+    }
+
+    let receivedAt = new Date().getTime();
+    const pubKeys = [];
+    let pendingMessages = [];
+
+    // the signature forces this to be async
+    pendingMessages = await Promise.all(
+      res.response.data.reverse().map(async adnMessage => {
         // still update our last received if deleted, not signed or not valid
         this.lastGot = !this.lastGot
           ? adnMessage.id
@@ -825,17 +881,17 @@ class LokiPublicChannelAPI {
           !adnMessage.text ||
           adnMessage.is_deleted
         ) {
-          return; // Invalid or delete message
+          return false; // Invalid or delete message
         }
 
         const messengerData = await this.getMessengerData(adnMessage);
         if (messengerData === false) {
-          return;
+          return false;
         }
 
         const { timestamp, quote, attachments, preview } = messengerData;
         if (!timestamp) {
-          return; // Invalid message
+          return false; // Invalid message
         }
 
         // Duplicate check
@@ -853,9 +909,10 @@ class LokiPublicChannelAPI {
 
         // Filter out any messages that we got previously
         if (this.lastMessagesCache.some(isDuplicate)) {
-          return; // Duplicate message
+          return false; // Duplicate message
         }
 
+        // FIXME: maybe move after the de-multidev-decode
         // Add the message to the lastMessage cache and keep the last 5 recent messages
         this.lastMessagesCache = [
           ...this.lastMessagesCache,
@@ -868,6 +925,12 @@ class LokiPublicChannelAPI {
 
         const from = adnMessage.user.name || 'Anonymous'; // profileName
 
+        // track sources for multidevice support
+        if (pubKeys.indexOf(`@${adnMessage.user.username}`) === -1) {
+          pubKeys.push(`@${adnMessage.user.username}`);
+        }
+
+        // generate signal message object
         const messageData = {
           serverId: adnMessage.id,
           clientVerified: true,
@@ -875,6 +938,7 @@ class LokiPublicChannelAPI {
           source: adnMessage.user.username,
           sourceDevice: 1,
           timestamp,
+
           serverTimestamp: timestamp,
           receivedAt,
           isPublic: true,
@@ -902,15 +966,91 @@ class LokiPublicChannelAPI {
         };
         receivedAt += 1; // Ensure different arrival times
 
+        // now process any user meta data updates
+        // - update their conversation with a potentially new avatar
+        return messageData;
+      })
+    );
+    this.conversation.setLastRetrievedMessage(this.lastGot);
+
+    // do we really need this?
+    if (!pendingMessages.length) {
+      return;
+    }
+
+    // get list of verified primary PKs
+    const verifiedPrimaryPKs = await lokiFileServerAPI.verifyPrimaryPubKeys(
+      pubKeys
+    );
+    // access slavePrimaryMap set by verifyPrimaryPubKeys
+    const { slavePrimaryMap } = this.serverAPI.chatAPI;
+
+    // sort pending messages by if slave device or not
+    /* eslint-disable no-param-reassign */
+    const slaveMessages = pendingMessages.reduce((retval, messageData) => {
+      // if a known slave, queue
+      if (slavePrimaryMap[messageData.source]) {
+        // delay sending the message
+        if (retval[messageData.source] === undefined) {
+          retval[messageData.source] = [messageData];
+        } else {
+          retval[messageData.source].push(messageData);
+        }
+      } else {
+        // no user or isPrimary means not multidevice, send event now
         this.serverAPI.chatAPI.emit('publicMessage', {
           message: messageData,
         });
+      }
+      return retval;
+    }, {});
+    /* eslint-enable no-param-reassign */
 
-        // now process any user meta data updates
-        // - update their conversation with a potentially new avatar
+    pendingMessages = []; // allow memory to be freed
+
+    // get actual chat server data (mainly the name rn) of primary device
+    const verifiedDeviceResults = await this.serverAPI.getUsers(
+      verifiedPrimaryPKs
+    );
+
+    // build map of userProfileName to primaryKeys
+    /* eslint-disable no-param-reassign */
+    this.primaryUserProfileName = verifiedDeviceResults.reduce(
+      (mapOut, user) => {
+        mapOut[user.username] = user.name;
+        return mapOut;
+      },
+      {}
+    );
+    /* eslint-enable no-param-reassign */
+
+    // process remaining messages
+    const ourNumber = textsecure.storage.user.getNumber();
+    Object.keys(slaveMessages).forEach(slaveKey => {
+      // prevent our own device sent messages from coming back in
+      if (slaveKey === ourNumber) {
+        // we originally sent these
+        return;
+      }
+
+      // look up primary device once
+      const primaryPubKey = slavePrimaryMap[slaveKey];
+
+      // send out remaining messages for this merged identity
+      slaveMessages[slaveKey].forEach(messageDataP => {
+        const messageData = messageDataP; // for linter
+        if (slavePrimaryMap[messageData.source]) {
+          // rewrite source, profile
+          messageData.source = primaryPubKey;
+          messageData.message.profile.displayName = this.primaryUserProfileName[
+            primaryPubKey
+          ];
+        }
+        this.serverAPI.chatAPI.emit('publicMessage', {
+          message: messageData,
+        });
       });
-      this.conversation.setLastRetrievedMessage(this.lastGot);
-    }
+    });
   }
 
   static getPreviewFromAnnotation(annotation) {

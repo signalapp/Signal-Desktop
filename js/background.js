@@ -8,6 +8,7 @@
   storage,
   textsecure,
   Whisper,
+  libloki,
   libsignal,
   StringView,
   BlockedNumberController
@@ -174,6 +175,8 @@
     return -1;
   };
   Whisper.events = _.clone(Backbone.Events);
+  Whisper.events.isListenedTo = eventName =>
+    Whisper.events._events ? !!Whisper.events._events[eventName] : false;
   let accountManager;
   window.getAccountManager = () => {
     if (!accountManager) {
@@ -184,6 +187,7 @@
         const user = {
           regionCode: window.storage.get('regionCode'),
           ourNumber: textsecure.storage.user.getNumber(),
+          isSecondaryDevice: !!textsecure.storage.get('isSecondaryDevice'),
         };
         Whisper.events.trigger('userChanged', user);
 
@@ -207,7 +211,11 @@
   window.log.info('Storage fetch');
   storage.fetch();
 
+  let specialConvInited = false;
   const initSpecialConversations = async () => {
+    if (specialConvInited) {
+      return;
+    }
     const rssFeedConversations = await window.Signal.Data.getAllRssFeedConversations(
       {
         ConversationCollection: Whisper.ConversationCollection,
@@ -225,28 +233,40 @@
       // weird but create the object and does everything we need
       conversation.getPublicSendData();
     });
+    specialConvInited = true;
   };
 
   const initAPIs = async () => {
+    if (window.initialisedAPI) {
+      return;
+    }
     const ourKey = textsecure.storage.user.getNumber();
     window.feeds = [];
     window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
     // singleton to interface the File server
-    window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
-    await window.lokiFileServerAPI.establishConnection(
-      window.getDefaultFileServer()
-    );
+    // If already exists we registered as a secondary device
+    if (!window.lokiFileServerAPI) {
+      window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
+      await window.lokiFileServerAPI.establishConnection(
+        window.getDefaultFileServer()
+      );
+    }
     // are there limits on tracking, is this unneeded?
     // window.mixpanel.track("Desktop boot");
     window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
     window.lokiP2pAPI.on('pingContact', pubKey => {
       const isPing = true;
-      window.libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
+      libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
     });
     window.lokiP2pAPI.on('online', ConversationController._handleOnline);
     window.lokiP2pAPI.on('offline', ConversationController._handleOffline);
+    window.initialisedAPI = true;
+
+    if (storage.get('isSecondaryDevice')) {
+      window.lokiFileServerAPI.updateOurDeviceMapping();
+    }
   };
 
   function mapOldThemeToNew(theme) {
@@ -264,6 +284,9 @@
   }
 
   function startLocalLokiServer() {
+    if (window.localLokiServer) {
+      return;
+    }
     const pems = window.getSelfSignedCert();
     window.localLokiServer = new window.LocalLokiServer(pems);
   }
@@ -638,7 +661,10 @@
     if (Whisper.Import.isIncomplete()) {
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
-    } else if (Whisper.Registration.everDone()) {
+    } else if (
+      Whisper.Registration.isDone() &&
+      !Whisper.Registration.ongoingSecondaryDeviceRegistration()
+    ) {
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
       // window.Signal.RefreshSenderCertificate.initialize({
@@ -801,7 +827,7 @@
     });
 
     Whisper.events.on('onEditProfile', async () => {
-      const ourNumber = textsecure.storage.user.getNumber();
+      const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(
         ourNumber,
         'private'
@@ -872,6 +898,18 @@
       }
     });
 
+    Whisper.events.on('showDevicePairingDialog', async () => {
+      if (appView) {
+        appView.showDevicePairingDialog();
+      }
+    });
+
+    Whisper.events.on('showDevicePairingWordsDialog', async () => {
+      if (appView) {
+        appView.showDevicePairingWordsDialog();
+      }
+    });
+
     Whisper.events.on('calculatingPoW', ({ pubKey, timestamp }) => {
       try {
         const conversation = ConversationController.get(pubKey);
@@ -906,6 +944,22 @@
       if (appView && appView.inboxView) {
         appView.inboxView.trigger('password-updated');
       }
+    });
+
+    Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
+      try {
+        await getAccountManager().authoriseSecondaryDevice(pubKey);
+        cb(null);
+      } catch (e) {
+        cb(e);
+      }
+    });
+
+    Whisper.events.on('devicePairingRequestRejected', async pubKey => {
+      await libloki.storage.removeContactPreKeyBundle(pubKey);
+      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+        pubKey
+      );
     });
   }
 
@@ -952,14 +1006,14 @@
     );
   }
 
-  function disconnect() {
+  async function disconnect() {
     window.log.info('disconnect');
 
     // Clear timer, since we're only called when the timer is expired
     disconnectTimer = null;
 
     if (messageReceiver) {
-      messageReceiver.close();
+      await messageReceiver.close();
     }
     window.Signal.AttachmentDownloads.stop();
   }
@@ -989,7 +1043,7 @@
     }
 
     if (messageReceiver) {
-      messageReceiver.close();
+      await messageReceiver.close();
     }
 
     const USERNAME = storage.get('number_id');
@@ -1003,6 +1057,31 @@
     };
 
     Whisper.Notifications.disable(); // avoid notification flood until empty
+
+    if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
+      const ourKey = textsecure.storage.user.getNumber();
+      window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+      window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
+      await window.lokiFileServerAPI.establishConnection(
+        window.getDefaultFileServer()
+      );
+      window.localLokiServer = null;
+      window.lokiPublicChatAPI = null;
+      window.feeds = [];
+      messageReceiver = new textsecure.MessageReceiver(
+        USERNAME,
+        PASSWORD,
+        mySignalingKey,
+        options
+      );
+      messageReceiver.addEventListener('message', onMessageReceived);
+      messageReceiver.addEventListener('contact', onContactReceived);
+      window.textsecure.messaging = new textsecure.MessageSender(
+        USERNAME,
+        PASSWORD
+      );
+      return;
+    }
 
     // initialize the socket and start listening for messages
     startLocalLokiServer();
@@ -1195,7 +1274,7 @@
     ev.confirm();
   }
 
-  function onTyping(ev) {
+  async function onTyping(ev) {
     const { typing, sender, senderDevice } = ev;
     const { groupId, started } = typing || {};
 
@@ -1204,7 +1283,17 @@
       return;
     }
 
-    const conversation = ConversationController.get(groupId || sender);
+    let primaryDevice = null;
+    const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+      sender
+    );
+    if (authorisation) {
+      primaryDevice = authorisation.primaryDevicePubKey;
+    }
+
+    const conversation = ConversationController.get(
+      groupId || primaryDevice || sender
+    );
 
     if (conversation) {
       conversation.notifyTyping({
@@ -1252,6 +1341,28 @@
       if (activeAt !== null) {
         activeAt = activeAt || Date.now();
       }
+      const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
+      const ourDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+        ourPrimaryKey
+      );
+      // TODO: We should probably just *not* send any secondary devices and
+      // just load them all and send FRs when we get the mapping
+      const isOurSecondaryDevice =
+        id !== ourPrimaryKey &&
+        ourDevices &&
+        ourDevices.some(devicePubKey => devicePubKey === id);
+
+      if (isOurSecondaryDevice) {
+        await conversation.setSecondaryStatus(true, ourPrimaryKey);
+      }
+
+      if (conversation.isFriendRequestStatusNone()) {
+        // Will be replaced with automatic friend request
+        libloki.api.sendBackgroundMessage(conversation.id);
+      } else {
+        // Accept any pending friend requests if there are any
+        conversation.onAcceptFriendRequest({ blockSync: true });
+      }
 
       if (details.profileKey) {
         const profileKey = window.Signal.Crypto.arrayBufferToBase64(
@@ -1268,11 +1379,18 @@
         }
       }
 
+      // Do not set name to allow working with lokiProfile and nicknames
       conversation.set({
-        name: details.name,
+        // name: details.name,
         color: details.color,
         active_at: activeAt,
       });
+
+      await conversation.setLokiProfile({ displayName: details.name });
+
+      if (details.nickname) {
+        await conversation.setNickname(details.nickname);
+      }
 
       // Update the conversation avatar only if new avatar exists and hash differs
       const { avatar } = details;
@@ -1418,6 +1536,14 @@
 
       const messageDescriptor = getMessageDescriptor(data);
 
+      // Funnel messages to primary device conversation if multi-device
+      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        messageDescriptor.id
+      );
+      if (authorisation) {
+        messageDescriptor.id = authorisation.primaryDevicePubKey;
+      }
+
       const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
       // eslint-disable-next-line no-bitwise
       const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
@@ -1425,7 +1551,10 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const ourNumber = textsecure.storage.user.getNumber();
+      const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+      const allOurDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+        primaryDeviceKey
+      );
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
@@ -1433,7 +1562,7 @@
       if (
         messageDescriptor.type === 'group' &&
         descriptorId.match(/^publicChat:/) &&
-        data.source === ourNumber
+        allOurDevices.includes(data.source)
       ) {
         // Public chat messages from ourselves should be outgoing
         message = await createSentMessage(data);

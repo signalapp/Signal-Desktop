@@ -45,6 +45,7 @@ window.JobQueue = JobQueue;
 window.getStoragePubKey = key =>
   window.isDev() ? key.substring(0, key.length - 2) : key;
 window.getDefaultFileServer = () => config.defaultFileServer;
+window.initialisedAPI = false;
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -468,5 +469,6 @@ window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 window.SMALL_GROUP_SIZE_LIMIT = 10;
 
 window.lokiFeatureFlags = {
-  privateGroupChats: true,
+  multiDeviceUnpairing: false,
+  privateGroupChats: false,
 };

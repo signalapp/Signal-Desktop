@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -391,6 +391,7 @@ MessageSender.prototype = {
       );
 
       if (
+        number === textsecure.storage.user.getNumber() ||
         haveSession ||
         options.isPublic ||
         options.messageType === 'friend-request'
@@ -456,7 +457,7 @@ MessageSender.prototype = {
     return syncMessage;
   },
 
-  sendSyncMessage(
+  async sendSyncMessage(
     encodedDataMessage,
     timestamp,
     destination,
@@ -465,10 +466,16 @@ MessageSender.prototype = {
     unidentifiedDeliveries = [],
     options
   ) {
-    const myNumber = textsecure.storage.user.getNumber();
-    const myDevice = textsecure.storage.user.getDeviceId();
-    if (myDevice === 1 || myDevice === '1') {
-      return Promise.resolve();
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    const allOurDevices = (await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+      primaryDeviceKey
+    ))
+      // Don't send to ourselves
+      .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
+    if (allOurDevices.length === 0) {
+      return null;
     }
 
     const dataMessage = textsecure.protobuf.DataMessage.decode(
@@ -511,7 +518,7 @@ MessageSender.prototype = {
 
     const silent = true;
     return this.sendIndividualProto(
-      myNumber,
+      primaryDeviceKey,
       contentMessage,
       Date.now(),
       silent,
@@ -579,6 +586,38 @@ MessageSender.prototype = {
     return Promise.resolve();
   },
 
+  async sendContactSyncMessage(contactConversation) {
+    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    const allOurDevices = (await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+      primaryDeviceKey
+    ))
+      // Don't send to ourselves
+      .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
+    if (
+      allOurDevices.includes(contactConversation.id) ||
+      !primaryDeviceKey ||
+      allOurDevices.length === 0
+    ) {
+      // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+      return Promise.resolve();
+    }
+
+    const syncMessage = await libloki.api.createContactSyncProtoMessage([
+      contactConversation,
+    ]);
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      primaryDeviceKey,
+      contentMessage,
+      Date.now(),
+      silent,
+      {} // options
+    );
+  },
+
   sendRequestContactSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -610,7 +649,8 @@ MessageSender.prototype = {
     // We don't want to send typing messages to our other devices, but we will
     //   in the group case.
     const myNumber = textsecure.storage.user.getNumber();
-    if (recipientId && myNumber === recipientId) {
+    const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
+    if (recipientId && primaryDevicePubkey === recipientId) {
       return null;
     }
 
@@ -1163,6 +1203,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(
     sender
   );
+  this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
   this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(
     sender
   );
