@@ -159,6 +159,7 @@
         const pubKeys = await libloki.storage.getSecondaryDevicesFor(ourPubKey);
         this.$('#pairedPubKeys').empty();
         if (pubKeys && pubKeys.length > 0) {
+          this.$('#startPairing').attr('disabled', true);
           pubKeys.forEach(x => {
             const name = this.getPubkeyName(x);
             const li = $('<li>').html(name);
@@ -173,6 +174,7 @@
             this.$('#pairedPubKeys').append(li);
           });
         } else {
+          this.$('#startPairing').removeAttr('disabled');
           this.$('#pairedPubKeys').append('<li>No paired devices</li>');
         }
       } else if (this.accepted) {
