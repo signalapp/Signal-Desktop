@@ -176,32 +176,34 @@ export class FriendRequest extends React.Component<Props> {
     const { direction } = this.props;
 
     return (
-      <div
-        className={classNames(
-          `module-message module-message--${direction}`,
-          'module-message-friend-request'
-        )}
-      >
-        {this.renderError(direction === 'incoming')}
+      <div className={'loki-message-wrapper'}>
         <div
           className={classNames(
-            'module-message__container',
-            `module-message__container--${direction}`,
-            'module-message-friend-request__container'
+            `module-message module-message--${direction}`,
+            'module-message-friend-request'
           )}
         >
+          {this.renderError(direction === 'incoming')}
           <div
             className={classNames(
-              'module-message__text',
-              `module-message__text--${direction}`
+              'module-message__container',
+              `module-message__container--${direction}`,
+              'module-message-friend-request__container'
             )}
           >
-            {this.renderContents()}
-            {this.renderStatusIndicator()}
-            {this.renderButtons()}
+            <div
+              className={classNames(
+                'module-message__text',
+                `module-message__text--${direction}`
+              )}
+            >
+              {this.renderContents()}
+              {this.renderStatusIndicator()}
+              {this.renderButtons()}
+            </div>
           </div>
+          {this.renderError(direction === 'outgoing')}
         </div>
-        {this.renderError(direction === 'outgoing')}
       </div>
     );
   }

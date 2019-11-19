@@ -1018,6 +1018,7 @@ export class Message extends React.PureComponent<Props, State> {
       timestamp,
       selected,
       multiSelectMode,
+      conversationType,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -1051,6 +1052,10 @@ export class Message extends React.PureComponent<Props, State> {
     }
     if (selected) {
       divClasses.push('message-selected');
+    }
+
+    if (conversationType === 'group') {
+      divClasses.push('public-chat-message-wrapper');
     }
 
     return (
