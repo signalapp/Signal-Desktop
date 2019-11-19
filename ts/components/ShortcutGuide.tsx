@@ -21,8 +21,8 @@ type KeyType =
   | 'A'
   | 'C'
   | 'D'
-  | 'E'
   | 'F'
+  | 'J'
   | 'L'
   | 'M'
   | 'P'
@@ -84,7 +84,7 @@ const NAVIGATION_SHORTCUTS: Array<ShortcutType> = [
   },
   {
     description: 'Keyboard--open-emoji-chooser',
-    keys: ['commandOrCtrl', 'shift', 'E'],
+    keys: ['commandOrCtrl', 'shift', 'J'],
   },
   {
     description: 'Keyboard--open-sticker-chooser',

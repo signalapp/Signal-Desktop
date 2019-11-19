@@ -3,7 +3,6 @@ import { AutoSizer, List } from 'react-virtualized';
 import { debounce } from 'lodash';
 
 import {
-  cleanId,
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
 } from './ConversationListItem';
@@ -12,6 +11,7 @@ import {
   SearchResults,
 } from './SearchResults';
 import { LocalizerType } from '../types/Util';
+import { cleanId } from './_util';
 
 export interface PropsType {
   conversations?: Array<ConversationListItemPropsType>;

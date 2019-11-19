@@ -3,6 +3,7 @@
     "label": "&File",
     "submenu": [
       {
+        "accelerator": "CommandOrControl+,",
         "label": "Preferences…",
         "click": null
       },

@@ -7533,7 +7533,7 @@
     "rule": "React-createRef",
     "path": "ts/components/LeftPane.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 14,
+    "lineNumber": 15,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-05T01:14:21.081Z",
     "reasonDetail": "Used for focus management"
@@ -7578,7 +7578,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SearchResults.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 25,
+    "lineNumber": 26,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T00:44:31.008Z",
     "reasonDetail": "SearchResults needs to interact with its child List directly"

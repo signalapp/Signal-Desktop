@@ -243,9 +243,6 @@ function createWindow() {
   if (!_.isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
     windowOptions.height = DEFAULT_HEIGHT;
   }
-  if (!_.isBoolean(windowOptions.maximized)) {
-    delete windowOptions.maximized;
-  }
   if (!_.isBoolean(windowOptions.autoHideMenuBar)) {
     delete windowOptions.autoHideMenuBar;
   }
@@ -270,10 +267,10 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
-  if (windowOptions.maximized) {
+  if (windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
-  if (windowOptions.fullscreen) {
+  if (windowConfig && windowConfig.fullscreen) {
     mainWindow.setFullScreen(true);
   }
 

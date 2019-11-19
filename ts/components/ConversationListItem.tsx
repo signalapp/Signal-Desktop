@@ -6,6 +6,7 @@ import { MessageBody } from './conversation/MessageBody';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
+import { cleanId } from './_util';
 
 import { LocalizerType } from '../types/Util';
 
@@ -32,10 +33,6 @@ export type PropsData = {
     text: string;
   };
 };
-
-export function cleanId(id: string): string {
-  return id.replace(/[^\u0020-\u007e\u00a0-\u00ff]/g, '_');
-}
 
 type PropsHousekeeping = {
   i18n: LocalizerType;

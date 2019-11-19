@@ -750,9 +750,12 @@
 
 .module-message__link-preview {
   @include button-reset;
+  display: block;
 
   margin-left: -12px;
   margin-right: -12px;
+  width: calc(100% + 24px);
+
   margin-top: -10px;
   margin-bottom: 5px;
   border-top-left-radius: 16px;
@@ -1033,6 +1036,9 @@
   // Because this is absolutely positioned, we 100% is too big, take it down by parent
   //   padding sizes.
   padding-right: 24px;
+
+  // This is so all clicks go right through to the underlying image.
+  pointer-events: none;
 }
 
 .module-message__metadata__date {
@@ -1323,6 +1329,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // When status indicators are overlaid on top of an image, they use different colors
 .module-expire-timer--with-image-no-caption {
   @include light-theme {
+    background-color: $color-white;
+  }
+  @include ios-theme {
     background-color: $color-white;
   }
   @include dark-theme {
@@ -1717,6 +1726,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   padding-right: 8px;
 
   background-color: $color-white-alpha-80;
+  @include dark-theme {
+    background-color: $color-white-alpha-20;
+  }
   @include ios-theme {
     background-color: $color-signal-blue-tint-alpha-50;
   }
@@ -2920,7 +2932,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-conversation-list-item__unread-count {
   text-align: center;
 
-  padding-top: 1px;
   padding-left: 3px;
   padding-right: 3px;
 
@@ -3141,6 +3152,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include button-reset;
 
   // Ensures that the border of the item sticks tight to the inner contents
+  width: 100%;
   line-height: 0;
   border-radius: 50%;
 
@@ -3282,7 +3294,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-avatar__label--80 {
   width: 80px;
   font-size: 40px;
-  line-height: 82px;
+  line-height: 80px;
 }
 
 .module-avatar__icon--80 {
@@ -3545,7 +3557,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 2;
 }
 
 .module-image__border-overlay--with-click-handler {
@@ -3627,7 +3639,7 @@ button.module-image__border-overlay:hover {
   );
   position: absolute;
   bottom: 0;
-  z-index: 2;
+  z-index: 1;
   left: 0;
   right: 0;
 }

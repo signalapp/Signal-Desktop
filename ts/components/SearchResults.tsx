@@ -11,11 +11,11 @@ import { Intl } from './Intl';
 import { Emojify } from './conversation/Emojify';
 import { Spinner } from './Spinner';
 import {
-  cleanId,
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
 } from './ConversationListItem';
 import { StartNewConversation } from './StartNewConversation';
+import { cleanId } from './_util';
 
 import { LocalizerType } from '../types/Util';
 

@@ -162,7 +162,6 @@ export class Image extends React.Component<Props> {
             alt={i18n('imageCaptionIconAlt')}
           />
         ) : null}
-        {overlay}
         {closeButton ? (
           <button
             onClick={(e: React.MouseEvent<{}>) => {
@@ -199,6 +198,7 @@ export class Image extends React.Component<Props> {
             {overlayText}
           </div>
         ) : null}
+        {overlay}
       </div>
     );
   }
