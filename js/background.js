@@ -307,8 +307,7 @@
 
     // Ensure accounts created prior to 1.0.0-beta8 do have their
     // 'primaryDevicePubKey' defined.
-    const primaryDevicePubKey = storage.get('primaryDevicePubKey', null);
-    if (!primaryDevicePubKey) {
+    if (Whisper.Registration.isDone() && !storage.get('primaryDevicePubKey', null)) {
       storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
     }
 
