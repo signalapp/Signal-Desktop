@@ -127,6 +127,7 @@
       }
 
       this.selected = false;
+      window.contextMenuShown = false;
 
       generateProps();
     },
@@ -657,6 +658,7 @@
 
         onCopyText: () => this.copyText(),
         onSelectMessage: () => this.selectMessage(),
+        onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
         onCopyPubKey: () => this.copyPubKey(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
@@ -801,7 +803,7 @@
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
       const onClick = noClick
         ? null
-        : (event) => {
+        : event => {
             event.stopPropagation();
             this.trigger('scroll-to-message', {
               author,
@@ -966,7 +968,8 @@
       });
     },
 
-    selectMessage() {
+    // Select message even if the context menu is shown
+    selectMessageUnchecked() {
       this.selected = !this.selected;
 
       const convo = this.getConversation();
@@ -978,6 +981,15 @@
       }
 
       this.trigger('change');
+    },
+
+    selectMessage() {
+      // Disable message selection when the context menu is displayed
+      if (window.contextMenuShown) {
+        return;
+      }
+
+      this.selectMessageUnchecked();
     },
 
     copyText() {
