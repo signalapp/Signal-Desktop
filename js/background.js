@@ -305,6 +305,12 @@
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
     }
 
+    // Ensure accounts created prior to 1.0.0-beta8 do have their
+    // 'primaryDevicePubKey' defined.
+    if (Whisper.Registration.isDone() && !storage.get('primaryDevicePubKey', null)) {
+      storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
+    }
+
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
