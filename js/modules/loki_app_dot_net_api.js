@@ -987,23 +987,25 @@ class LokiPublicChannelAPI {
 
     // sort pending messages by if slave device or not
     /* eslint-disable no-param-reassign */
-    const slaveMessages = pendingMessages.reduce((retval, messageData) => {
-      // if a known slave, queue
-      if (slavePrimaryMap[messageData.source]) {
-        // delay sending the message
-        if (retval[messageData.source] === undefined) {
-          retval[messageData.source] = [messageData];
+    const slaveMessages = pendingMessages
+      .filter(messageData => !!messageData)
+      .reduce((retval, messageData) => {
+        // if a known slave, queue
+        if (slavePrimaryMap[messageData.source]) {
+          // delay sending the message
+          if (retval[messageData.source] === undefined) {
+            retval[messageData.source] = [messageData];
+          } else {
+            retval[messageData.source].push(messageData);
+          }
         } else {
-          retval[messageData.source].push(messageData);
+          // no user or isPrimary means not multidevice, send event now
+          this.serverAPI.chatAPI.emit('publicMessage', {
+            message: messageData,
+          });
         }
-      } else {
-        // no user or isPrimary means not multidevice, send event now
-        this.serverAPI.chatAPI.emit('publicMessage', {
-          message: messageData,
-        });
-      }
-      return retval;
-    }, {});
+        return retval;
+      }, {});
     /* eslint-enable no-param-reassign */
 
     pendingMessages = []; // allow memory to be freed
