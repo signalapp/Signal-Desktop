@@ -1079,6 +1079,8 @@ export class Message extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
+    const enableContextMenu = !isRss && !multiSelectMode;
+
     return (
       <div
         className={classNames(divClasses)}
@@ -1128,10 +1130,10 @@ export class Message extends React.PureComponent<Props, State> {
             {isRss || multiSelectMode
               ? null
               : this.renderMenu(isIncoming, triggerId)}
-            {multiSelectMode ? null : this.renderContextMenu(triggerId)}
-            {multiSelectMode
-              ? null
-              : this.renderContextMenu(rightClickTriggerId)}
+            {enableContextMenu ? this.renderContextMenu(triggerId) : null}
+            {enableContextMenu
+              ? this.renderContextMenu(rightClickTriggerId)
+              : null}
           </div>
         </ContextMenuTrigger>
       </div>

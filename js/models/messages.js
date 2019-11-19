@@ -984,8 +984,7 @@
     },
 
     selectMessage() {
-      // Disable message selection when the context menu is displayed
-      if (window.contextMenuShown) {
+      if (window.contextMenuShown || this.get('isRss')) {
         return;
       }
 
