@@ -801,7 +801,7 @@
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
       const onClick = noClick
         ? null
-        : (event) => {
+        : event => {
             event.stopPropagation();
             this.trigger('scroll-to-message', {
               author,
