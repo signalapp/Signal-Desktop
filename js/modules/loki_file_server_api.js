@@ -217,6 +217,10 @@ class LokiFileServerAPI {
     );
   }
 
+  uploadAvatar(data) {
+    return this._server.uploadAvatar(data);
+  }
+
   uploadPrivateAttachment(data) {
     return this._server.uploadData(data);
   }

@@ -446,6 +446,33 @@ class LokiAppDotNetServerAPI {
     return false;
   }
 
+  async uploadAvatar(data) {
+    const endpoint = 'users/me/avatar';
+
+    const options = {
+      method: 'POST',
+      rawBody: data,
+    };
+
+    const { statusCode, response } = await this.serverRequest(
+      endpoint,
+      options
+    );
+
+    if (statusCode !== 200) {
+      log.warn('Failed to upload avatar to fileserver');
+      return null;
+    }
+
+    const url =
+      response.data &&
+      response.data.avatar_image &&
+      response.data.avatar_image.url;
+    return {
+      url,
+    };
+  }
+
   async uploadData(data) {
     const endpoint = 'files';
     const options = {

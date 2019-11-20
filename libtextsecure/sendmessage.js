@@ -177,7 +177,12 @@ MessageSender.prototype = {
   constructor: MessageSender,
 
   //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  async makeAttachmentPointer(attachment, publicServer = null, isRaw = false) {
+  async makeAttachmentPointer(
+    attachment,
+    publicServer = null,
+    isRaw = false,
+    isAvatar = false
+  ) {
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }
@@ -217,7 +222,10 @@ MessageSender.prototype = {
       attachmentData = result.ciphertext;
     }
 
-    const result = await server.putAttachment(attachmentData);
+    const result = isAvatar
+      ? await server.putAvatar(attachmentData)
+      : await server.putAttachment(attachmentData);
+
     if (!result) {
       return Promise.reject(
         new Error('Failed to upload data to attachment fileserver')
@@ -553,7 +561,7 @@ MessageSender.prototype = {
   },
 
   uploadAvatar(attachment) {
-    return this.makeAttachmentPointer(attachment, null, true);
+    return this.makeAttachmentPointer(attachment, null, true, true);
   },
 
   sendRequestConfigurationSyncMessage(options) {

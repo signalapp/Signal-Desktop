@@ -835,8 +835,8 @@
 
       const readFile = attachment =>
         new Promise((resolve, reject) => {
-          const FR = new FileReader();
-          FR.onload = e => {
+          const fileReader = new FileReader();
+          fileReader.onload = e => {
             const data = e.target.result;
             resolve({
               ...attachment,
@@ -844,9 +844,9 @@
               size: data.byteLength,
             });
           };
-          FR.onerror = reject;
-          FR.onabort = reject;
-          FR.readAsArrayBuffer(attachment.file);
+          fileReader.onerror = reject;
+          fileReader.onabort = reject;
+          fileReader.readAsArrayBuffer(attachment.file);
         });
 
       const avatarPath = conversation.getAvatarPath();
