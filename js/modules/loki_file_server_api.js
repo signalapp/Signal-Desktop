@@ -1,64 +1,49 @@
-/* global window, log, libloki */
+/* global log, libloki */
 /* global storage: false */
 /* global Signal: false */
 /* global log: false */
 
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
-const DEVICE_MAPPING_ANNOTATION_KEY = 'network.loki.messenger.devicemapping';
+const DEVICE_MAPPING_USER_ANNOTATION_TYPE =
+  'network.loki.messenger.devicemapping';
 
-// can have multiple of these objects instances as each user can have a
+// can have multiple of these instances as each user can have a
 // different home server
-class LokiFileServerAPI {
+class LokiFileServerInstance {
   constructor(ourKey) {
     this.ourKey = ourKey;
     this._adnApi = new LokiAppDotNetAPI(ourKey);
+    this.avatarMap = {};
   }
-
   async establishConnection(serverUrl) {
+    // FIXME: we don't always need a token...
     this._server = await this._adnApi.findOrCreateServer(serverUrl);
     // TODO: Handle this failure gracefully
     if (!this._server) {
       log.error('Failed to establish connection to file server');
     }
   }
-
   async getUserDeviceMapping(pubKey) {
     const annotations = await this._server.getUserAnnotations(pubKey);
     const deviceMapping = annotations.find(
-      annotation => annotation.type === DEVICE_MAPPING_ANNOTATION_KEY
+      annotation => annotation.type === DEVICE_MAPPING_USER_ANNOTATION_TYPE
     );
     return deviceMapping ? deviceMapping.value : null;
   }
 
-  async updateOurDeviceMapping() {
-    const isPrimary = !storage.get('isSecondaryDevice');
-    let authorisations;
-    if (isPrimary) {
-      authorisations = await Signal.Data.getGrantAuthorisationsForPrimaryPubKey(
-        this.ourKey
-      );
-    } else {
-      authorisations = [
-        await Signal.Data.getGrantAuthorisationForSecondaryPubKey(this.ourKey),
-      ];
-    }
-    return this._setOurDeviceMapping(authorisations, isPrimary);
-  }
-
-  async getDeviceMappingForUsers(pubKeys) {
-    const users = await this._server.getUsers(pubKeys);
-    return users;
-  }
-
   async verifyUserObjectDeviceMap(pubKeys, isRequest, iterator) {
-    const users = await this.getDeviceMappingForUsers(pubKeys);
+    const users = await this._server.getUsers(pubKeys);
 
     // go through each user and find deviceMap annotations
     const notFoundUsers = [];
     await Promise.all(
       users.map(async user => {
         let found = false;
+        // if this user has an avatar set, copy it into the map
+        this.avatarMap[user.username] = user.avatar_image
+          ? user.avatar_image.url
+          : false;
         if (!user.annotations || !user.annotations.length) {
           log.info(
             `verifyUserObjectDeviceMap no annotation for ${user.username}`
@@ -66,7 +51,7 @@ class LokiFileServerAPI {
           return;
         }
         const mappingNote = user.annotations.find(
-          note => note.type === DEVICE_MAPPING_ANNOTATION_KEY
+          note => note.type === DEVICE_MAPPING_USER_ANNOTATION_TYPE
         );
         const { authorisations } = mappingNote.value;
         if (!Array.isArray(authorisations)) {
@@ -105,6 +90,10 @@ class LokiFileServerAPI {
     // checkSig disabled for now
     // const checkSigs = {}; // cache for authorisation
     const primaryPubKeys = [];
+    const result = {
+      verifiedPrimaryPKs: [],
+      slaveMap: {},
+    };
 
     // go through multiDeviceResults and get primary Pubkey
     await this.verifyUserObjectDeviceMap(pubKeys, true, (slaveKey, auth) => {
@@ -144,7 +133,8 @@ class LokiFileServerAPI {
     // no valid primary pubkeys to check
     if (!primaryPubKeys.length) {
       // log.warn(`no valid primary pubkeys to check ${pubKeys}`);
-      return [];
+      // do we want to update slavePrimaryMap?
+      return result;
     }
 
     const verifiedPrimaryPKs = [];
@@ -193,28 +183,41 @@ class LokiFileServerAPI {
       });
     });
 
-    // FIXME: move to a return value since we're only scoped to pubkeys given
-    // make new map final
-    window.lokiPublicChatAPI.slavePrimaryMap = newSlavePrimaryMap;
+    log.info(`Updated device mappings ${JSON.stringify(newSlavePrimaryMap)}`);
 
-    log.info(
-      `Updated device mappings ${JSON.stringify(
-        window.lokiPublicChatAPI.slavePrimaryMap
-      )}`
-    );
-
-    return verifiedPrimaryPKs;
+    result.verifiedPrimaryPKs = verifiedPrimaryPKs;
+    result.slaveMap = newSlavePrimaryMap;
+    return result;
   }
+}
 
+// extends LokiFileServerInstance with functions we'd only perform on our own home server
+// so we don't accidentally send info to the wrong file server
+class LokiHomeServerInstance extends LokiFileServerInstance {
   _setOurDeviceMapping(authorisations, isPrimary) {
     const content = {
       isPrimary: isPrimary ? '1' : '0',
       authorisations,
     };
     return this._server.setSelfAnnotation(
-      DEVICE_MAPPING_ANNOTATION_KEY,
+      DEVICE_MAPPING_USER_ANNOTATION_TYPE,
       content
     );
+  }
+
+  async updateOurDeviceMapping() {
+    const isPrimary = !storage.get('isSecondaryDevice');
+    let authorisations;
+    if (isPrimary) {
+      authorisations = await Signal.Data.getGrantAuthorisationsForPrimaryPubKey(
+        this.ourKey
+      );
+    } else {
+      authorisations = [
+        await Signal.Data.getGrantAuthorisationForSecondaryPubKey(this.ourKey),
+      ];
+    }
+    return this._setOurDeviceMapping(authorisations, isPrimary);
   }
 
   uploadPrivateAttachment(data) {
@@ -222,4 +225,38 @@ class LokiFileServerAPI {
   }
 }
 
-module.exports = LokiFileServerAPI;
+// this will be our instance factory
+class LokiFileServerFactoryAPI {
+  constructor(ourKey) {
+    this.ourKey = ourKey;
+    this.servers = [];
+  }
+
+  async establishHomeConnection(serverUrl) {
+    let thisServer = this.servers.find(
+      server => server._server.baseServerUrl === serverUrl
+    );
+    if (!thisServer) {
+      thisServer = new LokiHomeServerInstance(this.ourKey);
+      log.info(`Registering HomeServer ${serverUrl}`);
+      await thisServer.establishConnection(serverUrl);
+      this.servers.push(thisServer);
+    }
+    return thisServer;
+  }
+
+  async establishConnection(serverUrl) {
+    let thisServer = this.servers.find(
+      server => server._server.baseServerUrl === serverUrl
+    );
+    if (!thisServer) {
+      thisServer = new LokiFileServerInstance(this.ourKey);
+      log.info(`Registering FileServer ${serverUrl}`);
+      await thisServer.establishConnection(serverUrl);
+      this.servers.push(thisServer);
+    }
+    return thisServer;
+  }
+}
+
+module.exports = LokiFileServerFactoryAPI;
