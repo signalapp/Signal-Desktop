@@ -444,12 +444,18 @@
 
       window.log.info('clearing all sessions, prekeys, and signed prekeys');
       await Promise.all([
-        store.clearPreKeyStore(),
         store.clearContactPreKeysStore(),
-        store.clearSignedPreKeysStore(),
         store.clearContactSignedPreKeysStore(),
         store.clearSessionStore(),
       ]);
+      // During secondary device registration we need to keep our prekeys sent
+      // to other pubkeys
+      if (textsecure.storage.get('secondaryDeviceStatus') !== 'ongoing') {
+        await Promise.all([
+          store.clearPreKeyStore(),
+          store.clearSignedPreKeysStore(),
+        ]);
+      }
     },
     // Takes the same object returned by generateKeys
     async confirmKeys(keys) {
