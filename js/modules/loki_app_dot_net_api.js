@@ -1,5 +1,5 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
-clearTimeout, MessageController, libsignal, StringView, window, _, lokiFileServerAPI,
+clearTimeout, MessageController, libsignal, StringView, window, _,
 dcodeIO, Buffer */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
@@ -13,7 +13,8 @@ const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
-const ATTACHMENT_TYPE = 'net.app.core.oembed';
+const HOMESERVER_USER_ANNOTATION_TYPE = 'network.loki.messenger.homeserver';
+const MESSAGE_ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
 
@@ -26,7 +27,6 @@ class LokiAppDotNetAPI extends EventEmitter {
     this.myPrivateKey = false;
     this.allMembers = [];
     // Multidevice states
-    this.slavePrimaryMap = {};
     this.primaryUserProfileName = {};
   }
 
@@ -843,6 +843,7 @@ class LokiPublicChannelAPI {
   async pollOnceForMessages() {
     const params = {
       include_annotations: 1,
+      include_user_annotations: 1, // to get the home server
       include_deleted: false,
     };
     if (!this.conversation) {
@@ -863,7 +864,7 @@ class LokiPublicChannelAPI {
     }
 
     let receivedAt = new Date().getTime();
-    const pubKeys = [];
+    const homeServerPubKeys = {};
     let pendingMessages = [];
 
     // the signature forces this to be async
@@ -926,8 +927,27 @@ class LokiPublicChannelAPI {
         const from = adnMessage.user.name || 'Anonymous'; // profileName
 
         // track sources for multidevice support
-        if (pubKeys.indexOf(`@${adnMessage.user.username}`) === -1) {
-          pubKeys.push(`@${adnMessage.user.username}`);
+        // sort it by home server
+        let homeServer = window.getDefaultFileServer();
+        if (adnMessage.user && adnMessage.user.annotations.length) {
+          const homeNotes = adnMessage.user.annotations.filter(
+            note => note.type === HOMESERVER_USER_ANNOTATION_TYPE
+          );
+          // FIXME: this annotation should probably be signed and verified...
+          homeServer = homeNotes.reduce(
+            (curVal, note) => (note.value ? note.value : curVal),
+            homeServer
+          );
+        }
+        if (homeServerPubKeys[homeServer] === undefined) {
+          homeServerPubKeys[homeServer] = [];
+        }
+        if (
+          homeServerPubKeys[homeServer].indexOf(
+            `@${adnMessage.user.username}`
+          ) === -1
+        ) {
+          homeServerPubKeys[homeServer].push(`@${adnMessage.user.username}`);
         }
 
         // generate signal message object
@@ -978,20 +998,50 @@ class LokiPublicChannelAPI {
       return;
     }
 
-    // get list of verified primary PKs
-    const verifiedPrimaryPKs = await lokiFileServerAPI.verifyPrimaryPubKeys(
-      pubKeys
+    // slave to primary map for this group of messages
+    let slavePrimaryMap = {};
+    // pubKey to avatar
+    let avatarMap = {};
+
+    // reduce list of servers into verified maps and keys
+    const verifiedPrimaryPKs = await Object.keys(homeServerPubKeys).reduce(
+      async (curVal, serverUrl) => {
+        // get an API to this server
+        const serverAPI = await window.lokiFileServerAPIFactory.establishConnection(
+          serverUrl
+        );
+
+        // get list of verified primary PKs
+        const result = await serverAPI.verifyPrimaryPubKeys(
+          homeServerPubKeys[serverUrl]
+        );
+
+        // merged these device mappings into our slavePrimaryMap
+        // should not be any collisions, since each pubKey can only have one home server
+        slavePrimaryMap = { ...slavePrimaryMap, ...result.slaveMap };
+
+        // merge this servers avatarMap into our map
+        // again shouldn't be any collisions
+        avatarMap = { ...avatarMap, ...serverAPI.avatarMap };
+
+        // copy verified pub keys into result
+        return curVal.concat(result.verifiedPrimaryPKs);
+      },
+      []
     );
-    // access slavePrimaryMap set by verifyPrimaryPubKeys
-    const { slavePrimaryMap } = this.serverAPI.chatAPI;
 
     // sort pending messages by if slave device or not
     /* eslint-disable no-param-reassign */
     const slaveMessages = pendingMessages
-      .filter(messageData => !!messageData)
+      .filter(messageData => !!messageData) // filter out false messages
       .reduce((retval, messageData) => {
-        // if a known slave, queue
+        // if a known slave
         if (slavePrimaryMap[messageData.source]) {
+          // pop primary device avatars in
+          if (avatarMap[slavePrimaryMap[messageData.source]]) {
+            // modify messageData for user's avatar?
+          }
+
           // delay sending the message
           if (retval[messageData.source] === undefined) {
             retval[messageData.source] = [messageData];
@@ -999,7 +1049,14 @@ class LokiPublicChannelAPI {
             retval[messageData.source].push(messageData);
           }
         } else {
-          // no user or isPrimary means not multidevice, send event now
+          // not from a paired/slave/unregistered device
+
+          // pop current device avatars in
+          if (avatarMap[messageData.source]) {
+            // modify messageData for user's avatar?
+          }
+
+          // send event now
           this.serverAPI.chatAPI.emit('publicMessage', {
             message: messageData,
           });
@@ -1080,7 +1137,7 @@ class LokiPublicChannelAPI {
 
   static getAnnotationFromPreview(preview) {
     const annotation = {
-      type: ATTACHMENT_TYPE,
+      type: MESSAGE_ATTACHMENT_TYPE,
       value: {
         // Mandatory ADN fields
         version: '1.0',
@@ -1118,7 +1175,7 @@ class LokiPublicChannelAPI {
       type = 'other';
     }
     const annotation = {
-      type: ATTACHMENT_TYPE,
+      type: MESSAGE_ATTACHMENT_TYPE,
       value: {
         // Mandatory ADN fields
         version: '1.0',
