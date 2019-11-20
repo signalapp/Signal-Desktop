@@ -248,8 +248,8 @@
     // singleton to interface the File server
     // If already exists we registered as a secondary device
     if (!window.lokiFileServerAPI) {
-      window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
-      await window.lokiFileServerAPI.establishConnection(
+      window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
+      window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
     }
@@ -307,7 +307,10 @@
 
     // Ensure accounts created prior to 1.0.0-beta8 do have their
     // 'primaryDevicePubKey' defined.
-    if (Whisper.Registration.isDone() && !storage.get('primaryDevicePubKey', null)) {
+    if (
+      Whisper.Registration.isDone() &&
+      !storage.get('primaryDevicePubKey', null)
+    ) {
       storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
     }
 
@@ -1067,8 +1070,8 @@
     if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
       const ourKey = textsecure.storage.user.getNumber();
       window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
-      window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
-      await window.lokiFileServerAPI.establishConnection(
+      window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
+      window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
       window.localLokiServer = null;
