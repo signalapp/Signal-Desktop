@@ -98,6 +98,18 @@
   right: 100%;
 }
 
+.module-message__buttons__upload {
+  height: 24px;
+  width: 24px;
+  transform: rotate(180deg);
+  display: inline-block;
+  cursor: pointer;
+  @include color-svg('../images/download.svg', $color-light-45);
+  &:hover {
+    @include color-svg('../images/download.svg', $color-gray-90);
+  }
+}
+
 .module-message__buttons__download {
   min-height: 24px;
   min-width: 24px;

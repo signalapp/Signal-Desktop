@@ -463,6 +463,7 @@ function initialize({
       getSenderCertificate,
       makeProxiedRequest,
       putAttachment,
+      putAvatar,
       registerKeys,
       registerSupportForUnauthenticatedDelivery,
       removeSignalingKey,
@@ -854,9 +855,9 @@ function initialize({
       });
     }
 
-    function putAttachment(encryptedBin) {
+    function putAttachment(maybeEncryptedBin) {
       const formData = new FormData();
-      const buffer = Buffer.from(encryptedBin);
+      const buffer = Buffer.from(maybeEncryptedBin);
       formData.append('type', 'network.loki');
       formData.append('content', buffer, {
         contentType: 'application/octet-stream',
@@ -865,6 +866,17 @@ function initialize({
       });
 
       return lokiFileServerAPI.uploadPrivateAttachment(formData);
+    }
+
+    function putAvatar(bin) {
+      const formData = new FormData();
+      const buffer = Buffer.from(bin);
+      formData.append('avatar', buffer, {
+        contentType: 'application/octet-stream',
+        name: 'avatar',
+        filename: 'attachment',
+      });
+      return lokiFileServerAPI.uploadAvatar(formData);
     }
 
     // eslint-disable-next-line no-shadow

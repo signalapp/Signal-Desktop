@@ -148,6 +148,15 @@ Message.prototype = {
     if (this.profile && this.profile.displayName) {
       const profile = new textsecure.protobuf.DataMessage.LokiProfile();
       profile.displayName = this.profile.displayName;
+
+      const conversation = window.ConversationController.get(
+        textsecure.storage.user.getNumber()
+      );
+      const avatarPointer = conversation.get('avatarPointer');
+
+      if (avatarPointer) {
+        profile.avatar = avatarPointer;
+      }
       proto.profile = profile;
     }
 
@@ -168,7 +177,12 @@ MessageSender.prototype = {
   constructor: MessageSender,
 
   //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  async makeAttachmentPointer(attachment, publicServer = null) {
+  async makeAttachmentPointer(
+    attachment,
+    publicServer = null,
+    isRaw = false,
+    isAvatar = false
+  ) {
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }
@@ -187,9 +201,15 @@ MessageSender.prototype = {
     const proto = new textsecure.protobuf.AttachmentPointer();
     let attachmentData;
     let server;
+
     if (publicServer) {
-      attachmentData = attachment.data;
       server = publicServer;
+    } else {
+      ({ server } = this);
+    }
+
+    if (publicServer || isRaw) {
+      attachmentData = attachment.data;
     } else {
       proto.key = libsignal.crypto.getRandomBytes(64);
       const iv = libsignal.crypto.getRandomBytes(16);
@@ -200,10 +220,12 @@ MessageSender.prototype = {
       );
       proto.digest = result.digest;
       attachmentData = result.ciphertext;
-      ({ server } = this);
     }
 
-    const result = await server.putAttachment(attachmentData);
+    const result = isAvatar
+      ? await server.putAvatar(attachmentData)
+      : await server.putAttachment(attachmentData);
+
     if (!result) {
       return Promise.reject(
         new Error('Failed to upload data to attachment fileserver')
@@ -536,6 +558,10 @@ MessageSender.prototype = {
 
   getAvatar(path) {
     return this.server.getAvatar(path);
+  },
+
+  uploadAvatar(attachment) {
+    return this.makeAttachmentPointer(attachment, null, true, true);
   },
 
   sendRequestConfigurationSyncMessage(options) {
@@ -1220,6 +1246,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);
   this.getProfile = sender.getProfile.bind(sender);
   this.getAvatar = sender.getAvatar.bind(sender);
+  this.uploadAvatar = sender.uploadAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);
   this.syncVerification = sender.syncVerification.bind(sender);
   this.sendDeliveryReceipt = sender.sendDeliveryReceipt.bind(sender);

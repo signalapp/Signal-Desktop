@@ -197,6 +197,7 @@ message DataMessage {
   // Loki: A custom message for our profile
   message LokiProfile {
     optional string displayName = 1;
+    optional string avatar = 2;
   }
 
   optional string             body        = 1;

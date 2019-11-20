@@ -220,6 +220,10 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
     return this._setOurDeviceMapping(authorisations, isPrimary);
   }
 
+  uploadAvatar(data) {
+    return this._server.uploadAvatar(data);
+  }
+
   uploadPrivateAttachment(data) {
     return this._server.uploadData(data);
   }
