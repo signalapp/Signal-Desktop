@@ -2418,7 +2418,7 @@
 
       // Alt would normally make the cursor go until the next whitespace,
       // but we need to take the presence of a mention into account
-      if (event.altKey) {
+      if (event.altKey || event.ctrlKey) {
         const searchFrom = isLeft ? posToChange - 1 : posToChange + 1;
         const toSearch = isLeft
           ? text.substr(0, searchFrom)
