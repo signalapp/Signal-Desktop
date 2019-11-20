@@ -1037,8 +1037,7 @@
     "description": "Placeholder text in the message entry field"
   },
   "secondaryDeviceDefaultFR": {
-    "message":
-      "Please accept to enable messages to be synced across devices",
+    "message": "Please accept to enable messages to be synced across devices",
     "description":
       "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
   },
