@@ -468,8 +468,11 @@ class LokiAppDotNetServerAPI {
       response.data &&
       response.data.avatar_image &&
       response.data.avatar_image.url;
+
+    // We don't use the server id for avatars
     return {
       url,
+      id: null,
     };
   }
 
