@@ -223,6 +223,9 @@
       dialog.on('devicePairingRequestRejected', pubKey =>
         Whisper.events.trigger('devicePairingRequestRejected', pubKey)
       );
+      dialog.on('deviceUnpairingRequested', pubKey =>
+        Whisper.events.trigger('deviceUnpairingRequested', pubKey)
+      );
       dialog.once('close', () => {
         Whisper.events.off('devicePairingRequestReceived');
       });

@@ -1286,7 +1286,8 @@ MessageReceiver.prototype.extend({
       this.processDecrypted(envelope, msg).then(async message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
-        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const ourPubKey = textsecure.storage.user.getNumber();
+        const isMe = envelope.source === ourPubKey;
         const conversation = window.ConversationController.get(envelope.source);
         const isLeavingGroup = Boolean(
           message.group &&
@@ -1294,6 +1295,72 @@ MessageReceiver.prototype.extend({
         );
         const friendRequest =
           envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
+        const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
+        // eslint-disable-next-line no-bitwise
+        const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
+
+        if (isUnpairingRequest) {
+          // TODO: move high-level pairing logic to libloki.multidevice.xx
+
+          const unpairingRequestIsLegit = async () => {
+            const isSecondary = textsecure.storage.get('isSecondaryDevice');
+            if (!isSecondary) {
+              return false;
+            }
+            const primaryPubKey = window.storage.get('primaryDevicePubKey');
+            // TODO: allow unpairing from any paired device?
+            if (envelope.source !== primaryPubKey) {
+              return false;
+            }
+
+            const primaryMapping = await lokiFileServerAPI.getUserDeviceMapping(
+              primaryPubKey
+            );
+
+            if (!primaryMapping) {
+              return false;
+            }
+
+            // We expect the primary device to have updated its mapping
+            // before sending the unpairing request
+            const found = primaryMapping.authorisations.find(
+              authorisation => authorisation.secondaryDevicePubKey === ourPubKey
+            );
+
+            // our pubkey should NOT be in the primary device mapping
+            if (found) {
+              return false;
+            }
+
+            return true;
+          };
+
+          const legit = await unpairingRequestIsLegit();
+
+          this.removeFromCache(envelope);
+
+          if (legit) {
+            // remove our device mapping annotations from file server
+            await lokiFileServerAPI.clearOurDeviceMappingAnnotations();
+            // Delete the account and restart
+            try {
+              await window.Signal.Logs.deleteAll();
+              await window.Signal.Data.removeAll();
+              await window.Signal.Data.close();
+              await window.Signal.Data.removeDB();
+              await window.Signal.Data.removeOtherData();
+              // TODO generate an empty db with a flag
+              // to display a message about the unpairing
+              // after the app restarts
+            } catch (error) {
+              window.log.error(
+                'Something went wrong deleting all data:',
+                error && error.stack ? error.stack : error
+              );
+            }
+            window.restart();
+          }
+        }
 
         // Check if we need to update any profile names
         if (!isMe && conversation) {
@@ -1786,6 +1853,8 @@ MessageReceiver.prototype.extend({
       decrypted.body = null;
       decrypted.attachments = [];
     } else if (decrypted.flags & FLAGS.BACKGROUND_FRIEND_REQUEST) {
+      // do nothing
+    } else if (decrypted.flags & FLAGS.UNPAIRING_REQUEST) {
       // do nothing
     } else if (decrypted.flags !== 0) {
       throw new Error('Unknown flags in message');
