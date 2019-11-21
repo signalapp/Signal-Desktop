@@ -2180,8 +2180,6 @@
             } else {
               sendingDeviceConversation.setProfileKey(profileKey);
             }
-          } else if (dataMessage.profile) {
-            sendingDeviceConversation.setLokiProfile(dataMessage.profile);
           }
 
           let autoAccept = false;

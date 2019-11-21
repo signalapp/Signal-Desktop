@@ -10,6 +10,60 @@
   overflow: hidden;
 }
 
+.edit-profile-dialog {
+  .content {
+    max-width: 100% !important;
+  }
+
+  .buttons {
+    margin: 8px;
+  }
+
+  .profile-name {
+    font-size: larger;
+    text-align: center;
+  }
+
+  .title-text {
+    font-size: large;
+    text-align: center;
+  }
+
+  .message {
+    font-style: italic;
+    color: $grey;
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .module-avatar {
+    display: block;
+    margin-bottom: 1em;
+  }
+
+  .avatar-upload {
+    display: flex;
+    justify-content: center;
+  }
+
+  .avatar-upload-inner {
+    display: flex;
+  }
+
+  .upload-btn-background {
+    background-color: #ffffff70;
+    align-self: center;
+    margin-left: -24px;
+    margin-top: 40px;
+    z-index: 1;
+    border-radius: 8px;
+  }
+
+  .input-file {
+    display: none;
+  }
+}
+
 .expired {
   .conversation-stack,
   .gutter {

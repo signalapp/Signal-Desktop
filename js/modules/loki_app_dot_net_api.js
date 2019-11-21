@@ -446,6 +446,36 @@ class LokiAppDotNetServerAPI {
     return false;
   }
 
+  async uploadAvatar(data) {
+    const endpoint = 'users/me/avatar';
+
+    const options = {
+      method: 'POST',
+      rawBody: data,
+    };
+
+    const { statusCode, response } = await this.serverRequest(
+      endpoint,
+      options
+    );
+
+    if (statusCode !== 200) {
+      log.warn('Failed to upload avatar to fileserver');
+      return null;
+    }
+
+    const url =
+      response.data &&
+      response.data.avatar_image &&
+      response.data.avatar_image.url;
+
+    // We don't use the server id for avatars
+    return {
+      url,
+      id: null,
+    };
+  }
+
   async uploadData(data) {
     const endpoint = 'files';
     const options = {
@@ -760,7 +790,7 @@ class LokiPublicChannelAPI {
     }
 
     // timestamp is the only required field we've had since the first deployed version
-    const { timestamp, quote } = noteValue;
+    const { timestamp, quote, avatar } = noteValue;
 
     if (quote) {
       // TODO: Enable quote attachments again using proper ADN style
@@ -823,6 +853,7 @@ class LokiPublicChannelAPI {
       attachments,
       preview,
       quote,
+      avatar,
     };
   }
 
@@ -889,7 +920,13 @@ class LokiPublicChannelAPI {
           return false;
         }
 
-        const { timestamp, quote, attachments, preview } = messengerData;
+        const {
+          timestamp,
+          quote,
+          attachments,
+          preview,
+          avatar,
+        } = messengerData;
         if (!timestamp) {
           return false; // Invalid message
         }
@@ -924,6 +961,7 @@ class LokiPublicChannelAPI {
         ].splice(-5);
 
         const from = adnMessage.user.name || 'Anonymous'; // profileName
+        const avatarObj = avatar || null;
 
         // track sources for multidevice support
         if (pubKeys.indexOf(`@${adnMessage.user.username}`) === -1) {
@@ -961,6 +999,7 @@ class LokiPublicChannelAPI {
             preview,
             profile: {
               displayName: from,
+              avatar: avatarObj,
             },
           },
         };
@@ -1143,6 +1182,8 @@ class LokiPublicChannelAPI {
       LokiPublicChannelAPI.getAnnotationFromPreview
     );
 
+    const avatarAnnotation = data.profile.avatar || null;
+
     const payload = {
       text,
       annotations: [
@@ -1150,12 +1191,14 @@ class LokiPublicChannelAPI {
           type: 'network.loki.messenger.publicChat',
           value: {
             timestamp: messageTimeStamp,
+            avatar: avatarAnnotation,
           },
         },
         ...attachmentAnnotations,
         ...previewAnnotations,
       ],
     };
+
     if (quote && quote.id) {
       payload.annotations[0].value.quote = quote;
 

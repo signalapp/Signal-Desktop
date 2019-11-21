@@ -22,6 +22,7 @@
 /* global lokiFileServerAPI: false */
 /* global WebAPI: false */
 /* global ConversationController: false */
+/* global Signal: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -164,7 +165,16 @@ MessageReceiver.prototype.extend({
     };
     this.httpPollingResource.handleMessage(message, options);
   },
-  handleUnencryptedMessage({ message }) {
+  async handleUnencryptedMessage({ message }) {
+    const isMe = message.source === textsecure.storage.user.getNumber();
+    if (!isMe && message.message.profile) {
+      const conversation = await window.ConversationController.getOrCreateAndWait(
+        message.source,
+        'private'
+      );
+      await this.updateProfile(conversation, message.message.profile);
+    }
+
     const ev = new Event('message');
     ev.confirm = function confirmTerm() {};
     ev.data = message;
@@ -1228,6 +1238,35 @@ MessageReceiver.prototype.extend({
     return true;
   },
 
+  async updateProfile(conversation, profile) {
+    // Retain old values unless changed:
+    const newProfile = conversation.get('profile') || {};
+
+    newProfile.displayName = profile.displayName;
+
+    // TODO: may need to allow users to reset their avatars to null
+    if (profile.avatar) {
+      const prevPointer = conversation.get('avatarPointer');
+      const needsUpdate =
+        !prevPointer || !_.isEqual(prevPointer, profile.avatar);
+
+      if (needsUpdate) {
+        conversation.set('avatarPointer', profile.avatar);
+
+        const downloaded = await this.downloadAttachment({
+          url: profile.avatar,
+          isRaw: true,
+        });
+
+        const upgraded = await Signal.Migrations.processNewAttachment(
+          downloaded
+        );
+        newProfile.avatar = upgraded.path;
+      }
+    }
+
+    await conversation.setLokiProfile(newProfile);
+  },
   handleDataMessage(envelope, msg) {
     if (!envelope.isP2p) {
       const timestamp = envelope.timestamp.toNumber();
@@ -1258,11 +1297,8 @@ MessageReceiver.prototype.extend({
 
         // Check if we need to update any profile names
         if (!isMe && conversation) {
-          let profile = null;
           if (message.profile) {
-            profile = JSON.parse(message.profile.encodeJSON());
-            // Update the conversation
-            await conversation.setLokiProfile(profile);
+            await this.updateProfile(conversation, message.profile);
           }
         }
 
