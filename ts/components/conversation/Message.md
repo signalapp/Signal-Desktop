@@ -3,7 +3,7 @@
 Note that timestamp and status can be hidden with the `collapseMetadata` boolean property.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -148,7 +148,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### Status
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="outgoing"
@@ -323,7 +323,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### All colors
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -450,7 +450,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### Long data
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="purple"
@@ -515,7 +515,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 ### Pending long message download
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="purple"
@@ -553,7 +553,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 #### Image with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="blue"
@@ -645,7 +645,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 First, showing the metadata overlay on dark and light images, then a message with `collapseMetadata` set.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -765,7 +765,7 @@ First, showing the metadata overlay on dark and light images, then a message wit
 Stickers have no background, but they have all the standard message bubble features.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -912,7 +912,7 @@ Stickers have no background, but they have all the standard message bubble featu
 First set is in a 1:1 conversation, second set is in a group.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -1002,7 +1002,7 @@ First set is in a 1:1 conversation, second set is in a group.
 A sticker with no attachments (what our selectors produce for a pending sticker) is not displayed at all.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -1062,7 +1062,7 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
 #### Multiple images
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -1244,7 +1244,7 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
 #### Multiple images with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -1433,7 +1433,7 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
 Note that the delivered indicator is always Signal Blue, not the conversation color.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="outgoing"
@@ -1512,7 +1512,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Pending images
 
 ```
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
     <div className="module-message-container">
     <Message
       authorColor="green"
@@ -1617,7 +1617,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with portrait aspect ratio
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="purple"
@@ -1695,7 +1695,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with portrait aspect ratio and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -1819,7 +1819,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with landscape aspect ratio
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -1897,7 +1897,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image with landscape aspect ratio and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -1979,7 +1979,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Video with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2073,7 +2073,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Video
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2170,7 +2170,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Missing images and videos
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2349,7 +2349,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Broken source URL images and videos
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2441,7 +2441,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image/video which is too big
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2532,7 +2532,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Image/video missing height/width
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2619,7 +2619,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Audio with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2693,7 +2693,7 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 #### Audio
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2767,7 +2767,7 @@ Voice notes are not shown any differently from audio attachments.
 #### Other file type with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2906,7 +2906,7 @@ Voice notes are not shown any differently from audio attachments.
 #### Other file type
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -2984,7 +2984,7 @@ Voice notes are not shown any differently from audio attachments.
 #### Other file type pending
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -3062,7 +3062,7 @@ Voice notes are not shown any differently from audio attachments.
 #### Dangerous file type
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -3108,7 +3108,7 @@ Voice notes are not shown any differently from audio attachments.
 #### Link previews, full-size image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -3219,7 +3219,7 @@ Voice notes are not shown any differently from audio attachments.
 Sticker link previews are forced to use the small link preview form, no matter the image size.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -3273,7 +3273,7 @@ Sticker link previews are forced to use the small link preview form, no matter t
 #### Link previews, small image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -3384,7 +3384,7 @@ Sticker link previews are forced to use the small link preview form, no matter t
 #### Link previews with pending image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -3481,7 +3481,7 @@ Sticker link previews are forced to use the small link preview form, no matter t
 #### Link previews, no image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -3568,7 +3568,7 @@ Sticker link previews are forced to use the small link preview form, no matter t
 ### Tap to view
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -4004,7 +4004,7 @@ Sticker link previews are forced to use the small link preview form, no matter t
 Note that the author avatar goes away if `collapseMetadata` is set.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"

@@ -109,6 +109,61 @@
     activeHandlers = activeHandlers.filter(item => item !== handler);
   };
 
+  // Keyboard/mouse mode
+  let interactionMode = 'mouse';
+  $(document.body).addClass('mouse-mode');
+
+  window.enterKeyboardMode = () => {
+    if (interactionMode === 'keyboard') {
+      return;
+    }
+
+    interactionMode = 'keyboard';
+    $(document.body)
+      .addClass('keyboard-mode')
+      .removeClass('mouse-mode');
+    const { userChanged } = window.reduxActions.user;
+    const { clearSelectedMessage } = window.reduxActions.conversations;
+    if (clearSelectedMessage) {
+      clearSelectedMessage();
+    }
+    if (userChanged) {
+      userChanged({ interactionMode });
+    }
+  };
+  window.enterMouseMode = () => {
+    if (interactionMode === 'mouse') {
+      return;
+    }
+
+    interactionMode = 'mouse';
+    $(document.body)
+      .addClass('mouse-mode')
+      .removeClass('keyboard-mode');
+    const { userChanged } = window.reduxActions.user;
+    const { clearSelectedMessage } = window.reduxActions.conversations;
+    if (clearSelectedMessage) {
+      clearSelectedMessage();
+    }
+    if (userChanged) {
+      userChanged({ interactionMode });
+    }
+  };
+
+  document.addEventListener(
+    'keydown',
+    event => {
+      if (event.key === 'Tab') {
+        window.enterKeyboardMode();
+      }
+    },
+    true
+  );
+  document.addEventListener('wheel', window.enterMouseMode, true);
+  document.addEventListener('mousedown', window.enterMouseMode, true);
+
+  window.getInteractionMode = () => interactionMode;
+
   // Load these images now to ensure that they don't flicker on first use
   window.preloadedImages = [];
   function preload(list) {
@@ -299,10 +354,11 @@
         // Stop processing incoming messages
         if (messageReceiver) {
           await messageReceiver.stopProcessing();
-
           await window.waitForAllBatchers();
-          messageReceiver.unregisterBatchers();
+        }
 
+        if (messageReceiver) {
+          messageReceiver.unregisterBatchers();
           messageReceiver = null;
         }
 
@@ -522,6 +578,7 @@
         ourNumber: textsecure.storage.user.getNumber(),
         platform: window.platform,
         i18n: window.i18n,
+        interactionMode: window.getInteractionMode(),
       },
     };
 
@@ -668,6 +725,7 @@
 
       // Navigate by section
       if (ctrlOrCommand && !shiftKey && (key === 't' || key === 'T')) {
+        window.enterKeyboardMode();
         const focusedElement = document.activeElement;
 
         const targets = [

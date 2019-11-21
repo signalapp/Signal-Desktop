@@ -99,18 +99,11 @@ export class Quote extends React.Component<Props, State> {
 
     // This is important to ensure that using this quote to navigate to the referenced
     //   message doesn't also trigger its parent message's keydown.
-    if (onClick && (event.key === 'Enter' || event.key === 'Space')) {
+    if (onClick && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault();
       event.stopPropagation();
       onClick();
     }
-  };
-
-  // We prevent this from bubbling to prevent the focus flash around a message when
-  //   you click a quote.
-  public handleMouseDown = (event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
   };
 
   public handleImageError = () => {
@@ -271,13 +264,19 @@ export class Quote extends React.Component<Props, State> {
       return null;
     }
 
-    // We don't want the overall click handler for the quote to fire, so we stop
-    //   propagation before handing control to the caller's callback.
-    const onClick = (e: React.MouseEvent<{}>): void => {
+    const clickHandler = (e: React.MouseEvent): void => {
       e.stopPropagation();
       e.preventDefault();
 
       onClose();
+    };
+    const keyDownHandler = (e: React.KeyboardEvent): void => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.stopPropagation();
+        e.preventDefault();
+
+        onClose();
+      }
     };
 
     // We need the container to give us the flexibility to implement the iOS design.
@@ -288,7 +287,8 @@ export class Quote extends React.Component<Props, State> {
           // We can't be a button because the overall quote is a button; can't nest them
           role="button"
           className="module-quote__close-button"
-          onClick={onClick}
+          onKeyDown={keyDownHandler}
+          onClick={clickHandler}
         />
       </div>
     );
@@ -383,7 +383,6 @@ export class Quote extends React.Component<Props, State> {
         <button
           onClick={onClick}
           onKeyDown={this.handleKeyDown}
-          onMouseDown={this.handleMouseDown}
           className={classNames(
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',

@@ -4,7 +4,7 @@ export type PropsType = {
   id: string;
   conversationId: string;
   isSelected: boolean;
-  selectMessage: (messageId: string, conversationId: string) => unknown;
+  selectMessage?: (messageId: string, conversationId: string) => unknown;
 };
 
 export class InlineNotificationWrapper extends React.Component<PropsType> {
@@ -18,10 +18,19 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
     }
   };
 
+  public handleFocus = () => {
+    // @ts-ignore
+    if (window.getInteractionMode() === 'keyboard') {
+      this.setSelected();
+    }
+  };
+
   public setSelected = () => {
     const { id, conversationId, selectMessage } = this.props;
 
-    selectMessage(id, conversationId);
+    if (selectMessage) {
+      selectMessage(id, conversationId);
+    }
   };
 
   public componentDidMount() {
@@ -45,7 +54,7 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
         className="module-inline-notification-wrapper"
         tabIndex={0}
         ref={this.focusRef}
-        onFocus={this.setSelected}
+        onFocus={this.handleFocus}
       >
         {children}
       </div>

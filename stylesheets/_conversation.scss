@@ -408,6 +408,13 @@
         padding: 5px 8px;
         border-radius: 5px;
 
+        outline: none;
+        @include keyboard-mode {
+          &:focus {
+            outline: -webkit-focus-ring-color auto 5px;
+          }
+        }
+
         @include light-theme {
           background-color: $color-gray-02;
           border: 1px solid $color-gray-15;

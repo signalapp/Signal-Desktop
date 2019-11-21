@@ -213,6 +213,20 @@ export class SearchResults extends React.Component<PropsType, StateType> {
   };
 
   public setFocusToFirst = () => {
+    const { current: container } = this.containerRef;
+
+    if (container) {
+      // tslint:disable-next-line no-unnecessary-type-assertion
+      const noResultsItem = container.querySelector(
+        '.module-search-results__no-results'
+      ) as any;
+      if (noResultsItem && noResultsItem.focus) {
+        noResultsItem.focus();
+
+        return;
+      }
+    }
+
     const scrollContainer = this.getScrollContainer();
     if (!scrollContainer) {
       return;
@@ -513,9 +527,19 @@ export class SearchResults extends React.Component<PropsType, StateType> {
 
     if (noResults) {
       return (
-        <div className="module-search-results">
+        <div
+          className="module-search-results"
+          tabIndex={-1}
+          ref={this.containerRef}
+          onFocus={this.handleFocus}
+        >
           {!searchConversationName || searchTerm ? (
-            <div className="module-search-results__no-results" key={searchTerm}>
+            <div
+              // We need this for Ctrl-T shortcut cycling through parts of app
+              tabIndex={-1}
+              className="module-search-results__no-results"
+              key={searchTerm}
+            >
               {searchConversationName ? (
                 <Intl
                   id="noSearchResultsInConversation"

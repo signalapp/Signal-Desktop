@@ -22,7 +22,7 @@ const contact = {
   onSendMessage: () => console.log('onSendMessage'),
   signalAccount: '+12025550000',
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -92,7 +92,7 @@ const contact = {
   onSendMessage: () => console.log('onSendMessage'),
   signalAccount: '+12025550000',
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -137,7 +137,7 @@ const contact = {
     },
   },
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -182,7 +182,7 @@ const contact = {
   },
   signalAccount: '+12025550000',
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -244,7 +244,7 @@ const contact = {
     },
   },
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -309,7 +309,7 @@ const contact = {
     },
   },
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -377,7 +377,7 @@ const contact = {
   },
   signalAccount: '+12025551000',
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -439,7 +439,7 @@ const contact = {
     },
   ],
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -491,7 +491,7 @@ const contact = {
 
 ```jsx
 const contact = {};
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       authorColor="green"
@@ -575,7 +575,7 @@ const contactWithoutAccount = {
     },
   },
 };
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       text="I want to introduce you to Someone..."

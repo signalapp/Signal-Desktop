@@ -22,6 +22,11 @@ export const getIntl = createSelector(
   (state: UserStateType): LocalizerType => state.i18n
 );
 
+export const getInteractionMode = createSelector(
+  getUser,
+  (state: UserStateType) => state.interactionMode
+);
+
 export const getAttachmentsPath = createSelector(
   getUser,
   (state: UserStateType): string => state.attachmentsPath

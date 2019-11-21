@@ -40,6 +40,7 @@ interface Trigger {
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
 const STICKER_SIZE = 128;
+const SELECTED_TIMEOUT = 1000;
 
 interface LinkPreviewType {
   title: string;
@@ -56,6 +57,8 @@ export type PropsData = {
   textPending?: boolean;
   isSticker: boolean;
   isSelected: boolean;
+  isSelectedCounter: number;
+  interactionMode: 'mouse' | 'keyboard';
   direction: 'incoming' | 'outgoing';
   timestamp: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
@@ -130,7 +133,7 @@ export type PropsActions = {
       sentAt: number;
     }
   ) => void;
-  selectMessage: (messageId: string, conversationId: string) => unknown;
+  selectMessage?: (messageId: string, conversationId: string) => unknown;
 };
 
 export type Props = PropsData & PropsHousekeeping & PropsActions;
@@ -139,6 +142,9 @@ interface State {
   expiring: boolean;
   expired: boolean;
   imageBroken: boolean;
+
+  isSelected: boolean;
+  prevSelectedCounter: number;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -149,15 +155,45 @@ export class Message extends React.PureComponent<Props, State> {
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
   public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();
 
-  public state = {
-    expiring: false,
-    expired: false,
-    imageBroken: false,
-  };
-
   public expirationCheckInterval: any;
   public expiredTimeout: any;
   public selectedTimeout: any;
+
+  public constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      expiring: false,
+      expired: false,
+      imageBroken: false,
+
+      isSelected: props.isSelected,
+      prevSelectedCounter: props.isSelectedCounter,
+    };
+  }
+
+  public static getDerivedStateFromProps(props: Props, state: State): State {
+    if (!props.isSelected) {
+      return {
+        ...state,
+        isSelected: false,
+        prevSelectedCounter: 0,
+      };
+    }
+
+    if (
+      props.isSelected &&
+      props.isSelectedCounter !== state.prevSelectedCounter
+    ) {
+      return {
+        ...state,
+        isSelected: props.isSelected,
+        prevSelectedCounter: props.isSelectedCounter,
+      };
+    }
+
+    return state;
+  }
 
   public captureMenuTrigger = (triggerRef: Trigger) => {
     this.menuTriggerRef = triggerRef;
@@ -180,10 +216,20 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
+  public handleFocus = () => {
+    const { interactionMode } = this.props;
+
+    if (interactionMode === 'keyboard') {
+      this.setSelected();
+    }
+  };
+
   public setSelected = () => {
     const { id, conversationId, selectMessage } = this.props;
 
-    selectMessage(id, conversationId);
+    if (selectMessage) {
+      selectMessage(id, conversationId);
+    }
   };
 
   public setFocus = () => {
@@ -195,6 +241,8 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public componentDidMount() {
+    this.startSelectedTimer();
+
     const { isSelected } = this.props;
     if (isSelected) {
       this.setFocus();
@@ -228,11 +276,30 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public componentDidUpdate(prevProps: Props) {
+    this.startSelectedTimer();
+
     if (!prevProps.isSelected && this.props.isSelected) {
       this.setFocus();
     }
 
     this.checkExpired();
+  }
+
+  public startSelectedTimer() {
+    const { interactionMode } = this.props;
+    const { isSelected } = this.state;
+
+    if (interactionMode === 'keyboard' || !isSelected) {
+      return;
+    }
+
+    if (!this.selectedTimeout) {
+      this.selectedTimeout = setTimeout(() => {
+        this.selectedTimeout = undefined;
+        this.setState({ isSelected: false });
+        this.props.clearSelectedMessage();
+      }, SELECTED_TIMEOUT);
+    }
   }
 
   public checkExpired() {
@@ -598,6 +665,7 @@ export class Message extends React.PureComponent<Props, State> {
       <button
         className={classNames(
           'module-message__link-preview',
+          `module-message__link-preview--${direction}`,
           withContentAbove
             ? 'module-message__link-preview--with-content-above'
             : null
@@ -1389,12 +1457,12 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       authorColor,
       direction,
-      isSelected,
       isSticker,
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
     } = this.props;
+    const { isSelected } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
 
@@ -1447,7 +1515,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       timestamp,
     } = this.props;
-    const { expired, expiring, imageBroken } = this.state;
+    const { expired, expiring, imageBroken, isSelected } = this.state;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
@@ -1466,6 +1534,7 @@ export class Message extends React.PureComponent<Props, State> {
         className={classNames(
           'module-message',
           `module-message--${direction}`,
+          isSelected ? 'module-message--selected' : null,
           expiring ? 'module-message--expired' : null,
           conversationType === 'group' ? 'module-message--group' : null
         )}
@@ -1475,7 +1544,7 @@ export class Message extends React.PureComponent<Props, State> {
         role="button"
         onKeyDown={this.handleKeyDown}
         onClick={this.handleClick}
-        onFocus={this.setSelected}
+        onFocus={this.handleFocus}
         ref={this.focusRef}
       >
         {this.renderError(direction === 'incoming')}

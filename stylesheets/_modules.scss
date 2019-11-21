@@ -252,17 +252,53 @@
   }
 }
 
-// This is the component we put the outline around when the whole message is focused
+// This is the component we put the outline around when the whole message is selected
+.module-message--selected .module-message__container {
+  @include mouse-mode {
+    animation: message--mouse-selected 1s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
 .module-message:focus .module-message__container {
-  box-shadow: 0 0 0 5px $color-signal-blue;
+  @include keyboard-mode {
+    box-shadow: 0 0 0 3px $color-signal-blue;
+  }
+}
+
+@keyframes message--mouse-selected {
+  0% {
+    box-shadow: 0 0 0 5px transparent;
+  }
+  10% {
+    box-shadow: 0 0 0 5px $color-signal-blue;
+  }
+  70% {
+    box-shadow: 0 0 0 5px $color-signal-blue;
+  }
+  100% {
+    box-shadow: 0 0 0 5px transparent;
+  }
 }
 
 // We disable this highlight for messages with stickers, instead highlighting the sticker
+.module-message--selected .module-message__container--with-sticker {
+  @include mouse-mode {
+    animation: none;
+  }
+}
 .module-message:focus .module-message__container--with-sticker {
-  box-shadow: none;
+  @include keyboard-mode {
+    box-shadow: none;
+  }
 }
 
 .module-message__container--with-sticker {
+  @include light-theme {
+    border: none;
+  }
+
+  @include dark-theme {
+    border: none;
+  }
   padding-bottom: 0px;
 }
 
@@ -603,9 +639,10 @@
   flex-direction: row;
   align-items: center;
 
-  &:hover,
-  &:focus {
-    box-shadow: 0px 0px 0px 2px $color-signal-blue;
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
   }
 }
 
@@ -762,9 +799,10 @@
   border-top-right-radius: 16px;
   overflow: hidden;
 
-  &:focus,
-  &:hover {
-    box-shadow: 0px 0px 0px 2px $color-signal-blue;
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
   }
 }
 
@@ -934,33 +972,35 @@
 
   a {
     text-decoration: underline;
+    outline: none;
 
     @include light-theme {
       color: $color-gray-90;
-      &:focus,
-      &:hover {
-        outline: 2px solid $color-gray-90;
+    }
+    @include keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-gray-90;
       }
     }
+
     @include dark-theme {
       color: $color-gray-05;
-      &:focus,
-      &:hover {
-        outline: 2px solid $color-gray-05;
+    }
+    @include dark-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-gray-05;
       }
     }
+
     @include ios-theme {
       color: $color-white-alpha-90;
-      &:focus,
-      &:hover {
-        outline: 2px solid $color-white-alpha-90;
-      }
     }
     @include ios-dark-theme {
       color: $color-white-alpha-90;
-      &:focus,
-      &:hover {
-        outline: 2px solid $color-white-alpha-90;
+    }
+    @include ios-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-white-alpha-90;
       }
     }
   }
@@ -982,33 +1022,41 @@
 
   a {
     text-decoration: underline;
+    outline: none;
 
     @include light-theme {
       color: $color-white;
-      &:focus,
-      &:hover {
-        outline: 2px solid $color-white;
+    }
+    @include keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-white;
       }
     }
-    @include ios-theme {
-      color: $color-gray-90;
-      &:focus,
-      &:hover {
-        outline: 2px solid $color-gray-90;
-      }
-    }
+
     @include dark-theme {
       color: $color-white-alpha-90;
-      &:focus,
-      &:hover {
-        outline: 2px solid $color-white-alpha-90;
+    }
+    @include dark-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-white-alpha-90;
       }
     }
+
+    @include ios-theme {
+      color: $color-gray-90;
+    }
+    @include ios-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-gray-90;
+      }
+    }
+
     @include ios-dark-theme {
       color: $color-gray-05;
-      &:focus,
-      &:hover {
-        outline: 2px solid $color-gray-05;
+    }
+    @include dark-ios-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-gray-05;
       }
     }
   }
@@ -1235,9 +1283,10 @@
     border: 1px solid $color-gray-45;
   }
 
-  &:focus,
-  &:hover {
-    box-shadow: 0px 0px 0px 2px $color-signal-blue;
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
   }
 }
 
@@ -1375,9 +1424,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   border-left-width: 4px;
   border-left-style: solid;
 
-  &:focus,
-  &:hover {
-    box-shadow: 0px 0px 0px 2px $color-signal-blue;
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
   }
 }
 
@@ -1402,6 +1452,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     background-color: $color-conversation-grey-shade;
+  }
+
+  // To preserve contrast
+  @include ios-keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-white;
+    }
   }
 
   // Note: both of these override all of the specific color classes below
@@ -1592,6 +1649,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   border-radius: 50%;
 
   background-color: $color-black-alpha-40;
+
+  @include keyboard-mode {
+    &:focus-within {
+      background-color: $color-signal-blue;
+    }
+  }
 }
 
 .module-quote__close-button {
@@ -1799,9 +1862,18 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   flex-direction: row;
   align-items: center;
 
-  &:focus,
-  &:hover {
-    box-shadow: 0px 0px 0px 2px $color-signal-blue;
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
+}
+
+.module-embedded-contact--outgoing {
+  @include ios-keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-white;
+    }
   }
 }
 
@@ -1977,13 +2049,14 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   outline: none;
   padding: 5px;
 
-  &:focus,
-  &:hover {
-    @include light-theme {
-      background-color: $color-gray-02;
-    }
-    @include dark-theme {
-      background-color: $color-gray-80;
+  @include keyboard-mode {
+    &:focus {
+      @include light-theme {
+        background-color: $color-gray-02;
+      }
+      @include dark-theme {
+        background-color: $color-gray-80;
+      }
     }
   }
 }
@@ -2081,16 +2154,17 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include light-theme {
     background-color: $color-gray-02;
-
-    &:hover,
+  }
+  @include keyboard-mode {
     &:focus {
       background-color: $color-gray-15;
     }
   }
+
   @include dark-theme {
     background-color: $color-gray-75;
-
-    &:hover,
+  }
+  @include dark-keyboard-mode {
     &:focus {
       background-color: $color-gray-60;
     }
@@ -2526,6 +2600,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-message-detail__delete-button {
   @include button-reset;
 
+  @include keyboard-mode {
+    &:focus {
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+  }
+
   border-radius: 5px;
   margin: 1em auto;
   padding: 1em;
@@ -2708,6 +2788,19 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include dark-theme {
     background-color: $color-gray-90;
   }
+
+  outline: none;
+
+  @include keyboard-mode {
+    &:focus {
+      @include light-theme {
+        background-color: $color-gray-15;
+      }
+      @include dark-theme {
+        background-color: $color-gray-75;
+      }
+    }
+  }
 }
 
 .module-media-gallery__tab--active {
@@ -2763,12 +2856,19 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-document-list-item__content {
   @include button-reset;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
-  height: 100%;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
 }
 
 .module-document-list-item__icon {
@@ -2810,6 +2910,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-right: 4px;
   margin-bottom: 4px;
   position: relative;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
 }
 
 .module-media-grid-item__image {
@@ -3156,9 +3262,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   line-height: 0;
   border-radius: 50%;
 
-  &:focus,
-  &:hover {
-    box-shadow: 0px 0px 0px 2px $color-signal-blue;
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
   }
 }
 
@@ -3440,6 +3547,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   // Overriding some default button styling
   border: none;
   padding: 0;
+  outline: none;
 
   @include light-theme {
     background-color: $color-gray-15;
@@ -3574,21 +3682,38 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 // Only if it's a sticker do we put the outline inside it
+.module-message--selected
+  .module-message__container--with-sticker
+  .module-image__border-overlay {
+  @include mouse-mode {
+    top: 1px;
+    bottom: 1px;
+    left: 1px;
+    right: 1px;
+    border-radius: 10px;
+
+    animation: message--mouse-selected 1s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+
 .module-message:focus
   .module-message__container--with-sticker
   .module-image__border-overlay {
-  top: 1px;
-  bottom: 1px;
-  left: 1px;
-  right: 1px;
-  border-radius: 10px;
+  @include keyboard-mode {
+    top: 1px;
+    bottom: 1px;
+    left: 1px;
+    right: 1px;
+    border-radius: 10px;
 
-  box-shadow: 0 0 0 5px $color-signal-blue;
+    box-shadow: 0 0 0 3px $color-signal-blue;
+  }
 }
 
-button.module-image__border-overlay:focus,
-button.module-image__border-overlay:hover {
-  box-shadow: inset 0px 0px 0px 2px $color-signal-blue;
+button.module-image__border-overlay:focus {
+  @include keyboard-mode {
+    box-shadow: inset 0px 0px 0px 2px $color-signal-blue;
+  }
 }
 
 .module-image__border-overlay--dark {
@@ -3697,9 +3822,10 @@ button.module-image__border-overlay:hover {
 
   background-image: url('../images/x-shadow-16.svg');
 
-  &:focus,
-  &:hover {
-    outline: 2px solid $color-signal-blue;
+  @include keyboard-mode {
+    &:focus {
+      outline: 2px solid $color-signal-blue;
+    }
   }
 }
 
@@ -3854,8 +3980,10 @@ button.module-image__border-overlay:hover {
   z-index: 2;
   @include color-svg('../images/icons/v2/x-24.svg', $color-black);
 
-  &:focus {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+    }
   }
 }
 
@@ -4103,18 +4231,21 @@ button.module-image__border-overlay:hover {
     &:hover {
       background: $color-gray-05;
     }
-    &:hover,
+  }
+  @include keyboard-mode {
     &:focus {
       box-shadow: inset 0 0 0 2px $color-signal-blue;
     }
   }
+
   @include dark-theme {
     border: 1px solid $color-gray-60;
 
     &:hover {
       background: $color-gray-75;
     }
-    &:hover,
+  }
+  @include dark-keyboard-mode {
     &:focus {
       box-shadow: inset 0 0 0 2px $color-signal-blue;
     }
@@ -4212,12 +4343,17 @@ button.module-image__border-overlay:hover {
 
   @include light-theme {
     @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+  }
+  @include keyboard-mode {
     &:focus {
       @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
     }
   }
+
   @include dark-theme {
     @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+  }
+  @include dark-keyboard-mode {
     &:focus {
       @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
     }
@@ -4360,6 +4496,7 @@ button.module-image__border-overlay:hover {
 // Module: Search Results
 
 .module-search-results {
+  outline: none;
   overflow: hidden;
   flex-grow: 1;
 }
@@ -4381,6 +4518,7 @@ button.module-image__border-overlay:hover {
   padding-right: 1em;
   width: 100%;
   text-align: center;
+  outline: none;
 }
 
 .module-search-results__contacts-header {
@@ -4575,20 +4713,23 @@ button.module-image__border-overlay:hover {
       '../images/icons/v2/chevron-left-24.svg',
       $color-gray-60
     );
-    &:focus,
-    &:hover {
+  }
+  @include keyboard-mode {
+    &:focus {
       @include color-svg(
         '../images/icons/v2/chevron-left-24.svg',
         $color-signal-blue
       );
     }
   }
+
   @include dark-theme {
     @include color-svg(
       '../images/icons/v2/chevron-left-24.svg',
       $color-gray-25
     );
-    &:focus,
+  }
+  @include dark-keyboard-mode {
     &:hover {
       @include color-svg(
         '../images/icons/v2/chevron-left-24.svg',
@@ -4839,13 +4980,14 @@ button.module-image__border-overlay:hover {
   background: none;
   margin-right: 4px;
 
+  outline: none;
+
   &:active,
   &:focus {
-    outline: none;
-    @include light-theme {
+    @include keyboard-mode {
       background: $color-gray-05;
     }
-    @include dark-theme {
+    @include dark-keyboard-mode {
       background: $color-gray-60;
     }
   }
@@ -5040,6 +5182,10 @@ button.module-image__border-overlay:hover {
     justify-content: center;
     align-items: center;
 
+    @include mouse-mode {
+      outline: none;
+    }
+
     &__image,
     &__placeholder {
       width: 100%;
@@ -5182,6 +5328,12 @@ button.module-image__border-overlay:hover {
     }
   }
 
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
+
   &__cover {
     width: 48px;
     height: 48px;
@@ -5278,6 +5430,10 @@ button.module-image__border-overlay:hover {
   @include dark-theme {
     color: $color-gray-05;
     background: $color-gray-75;
+  }
+
+  @include mouse-mode {
+    outline: none;
   }
 
   &--blue {
@@ -5503,9 +5659,12 @@ button.module-image__border-overlay:hover {
   align-items: center;
   opacity: 0.5;
 
+  &:focus,
   &:hover {
     opacity: 1;
   }
+
+  outline: none;
 
   &::after {
     display: block;
@@ -5716,14 +5875,18 @@ button.module-image__border-overlay:hover {
 
       &__button {
         margin-left: 4px;
-        border-radius: 14px;
-        height: 28px;
+        border-radius: 17px;
+        height: 34px;
         padding: 5px 12px;
         display: flex;
         justify-content: center;
         align-items: center;
 
         @include font-body-1-bold;
+
+        @include mouse-mode {
+          outline: none;
+        }
 
         @include light-theme() {
           background: $color-white;
@@ -5883,6 +6046,10 @@ button.module-image__border-overlay:hover {
     justify-content: center;
     align-items: center;
     background: none;
+
+    @include mouse-mode {
+      outline: none;
+    }
 
     &--footer {
       &:not(:first-of-type) {
@@ -6047,9 +6214,12 @@ button.module-image__border-overlay:hover {
   align-items: center;
   opacity: 0.5;
 
+  &:focus,
   &:hover {
     opacity: 1;
   }
+
+  outline: none;
 
   &::after {
     display: block;
@@ -6795,13 +6965,14 @@ button.module-image__border-overlay:hover {
     @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
   }
 
-  &:focus,
-  &:hover {
-    @include light-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
-    }
-    @include dark-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+  @include keyboard-mode {
+    &:focus {
+      @include light-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+      }
     }
   }
 }
@@ -6841,12 +7012,14 @@ button.module-image__border-overlay:hover {
   min-height: 40px;
   outline: none;
 
-  &:focus {
-    @include light-theme {
-      background-color: $color-gray-05;
-    }
-    @include dark-theme {
-      background-color: $color-gray-90;
+  @include keyboard-mode {
+    &:focus {
+      @include light-theme {
+        background-color: $color-gray-05;
+      }
+      @include dark-theme {
+        background-color: $color-gray-90;
+      }
     }
   }
 

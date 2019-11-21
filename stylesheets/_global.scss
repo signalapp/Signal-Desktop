@@ -162,6 +162,13 @@ a {
     border: none;
     background: transparent;
 
+    &:focus,
+    &:hover {
+      opacity: 1;
+    }
+
+    outline: none;
+
     &:before {
       content: '';
       display: inline-block;
@@ -174,11 +181,6 @@ a {
       @include dark-theme {
         @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-25);
       }
-    }
-
-    &:focus,
-    &:hover {
-      opacity: 1;
     }
   }
 

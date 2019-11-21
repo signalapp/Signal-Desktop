@@ -7,6 +7,7 @@ interface Props {
    */
   ios: boolean;
   theme: 'light-theme' | 'dark-theme';
+  mode: 'mouse-mode' | 'keyboard-mode';
 }
 
 /**
@@ -15,11 +16,15 @@ interface Props {
  */
 export class ConversationContext extends React.Component<Props> {
   public render() {
-    const { ios, theme } = this.props;
+    const { ios, theme, mode } = this.props;
 
     return (
       <div
-        className={classNames(theme || 'light-theme', ios ? 'ios-theme' : null)}
+        className={classNames(
+          theme || 'light-theme',
+          ios ? 'ios-theme' : null,
+          mode
+        )}
         style={{
           backgroundColor: theme === 'dark-theme' ? 'black' : undefined,
         }}

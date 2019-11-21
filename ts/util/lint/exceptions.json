@@ -479,7 +479,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 86,
+    "lineNumber": 85,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -488,7 +488,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 93,
+    "lineNumber": 92,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -497,7 +497,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 110,
+    "lineNumber": 109,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -506,7 +506,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 114,
+    "lineNumber": 113,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -515,7 +515,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 120,
+    "lineNumber": 119,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -524,7 +524,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 140,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -533,7 +533,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 140,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -542,7 +542,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 190,
+    "lineNumber": 189,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -551,7 +551,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 194,
+    "lineNumber": 193,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -560,7 +560,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 198,
+    "lineNumber": 197,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -569,7 +569,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 200,
+    "lineNumber": 199,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -578,7 +578,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 220,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -587,7 +587,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 223,
+    "lineNumber": 222,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -7623,7 +7623,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 31,
+    "lineNumber": 32,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -7632,7 +7632,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 149,
+    "lineNumber": 155,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -7642,15 +7642,6 @@
     "path": "ts/components/conversation/MessageDetail.js",
     "line": "        this.focusRef = react_1.default.createRef();",
     "lineNumber": 15,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-11-01T22:46:33.013Z",
-    "reasonDetail": "Used for setting focus only"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/conversation/MessageDetail.tsx",
-    "line": "    this.focusRef = React.createRef();",
-    "lineNumber": 42,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -7677,9 +7668,18 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
     "line": "  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 65,
+    "lineNumber": 66,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/stickers/StickerManager.js",
+    "line": "    const focusRef = React.createRef();",
+    "lineNumber": 20,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-21T06:13:49.384Z",
     "reasonDetail": "Used for setting focus only"
   },
   {

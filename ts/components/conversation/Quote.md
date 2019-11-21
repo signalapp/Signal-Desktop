@@ -3,7 +3,7 @@
 #### Plain text
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -41,7 +41,7 @@
 #### Name variations
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -112,7 +112,7 @@
 #### With emoji
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -148,7 +148,7 @@
 #### Replies to you or yourself
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -186,7 +186,12 @@
 #### In a group conversation
 
 ```jsx
-<util.ConversationContext theme={util.theme} type="group" ios={util.ios}>
+<util.ConversationContext
+  theme={util.theme}
+  type="group"
+  ios={util.ios}
+  mode={util.mode}
+>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -231,7 +236,7 @@ Note: for incoming messages, quote color is taken from the parent message. For o
 messages the color is taken from the contact who wrote the quoted message.
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -610,7 +615,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Referenced message not found
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -687,7 +692,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Long names and context
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -729,7 +734,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### A lot of text in quotation
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -773,7 +778,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### A lot of text in quotation, with icon
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -825,7 +830,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### A lot of text in quotation, with image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -885,7 +890,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Image with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -937,7 +942,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -987,7 +992,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Image with no thumbnail
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1030,7 +1035,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Pending image download
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1073,7 +1078,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Video with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1125,7 +1130,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Video
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1175,7 +1180,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Video with no thumbnail
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1223,7 +1228,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Audio with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1267,7 +1272,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Audio
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1309,7 +1314,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Voice message
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1355,7 +1360,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Other file type with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1438,7 +1443,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Other file type
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1482,7 +1487,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Quote, image attachment, and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1532,7 +1537,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Quote, image attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1580,7 +1585,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Quote, portrait image attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1628,7 +1633,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Quote, video attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1686,7 +1691,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Quote, audio attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1730,7 +1735,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Quote, file attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
       direction="incoming"
@@ -1778,7 +1783,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### Plain text
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1796,7 +1801,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### With an icon
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1818,7 +1823,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### With an image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1843,7 +1848,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### With attachment and no text
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       authorColor="blue"
@@ -1867,7 +1872,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### With generic attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1889,7 +1894,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### With a close button
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1908,7 +1913,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### With a close button and icon
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1931,7 +1936,7 @@ messages the color is taken from the contact who wrote the quoted message.
 #### With a close button and image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"

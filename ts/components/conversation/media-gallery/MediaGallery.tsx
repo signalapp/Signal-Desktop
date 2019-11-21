@@ -55,6 +55,7 @@ const Tab = ({
       )}
       onClick={handleClick}
       role="tab"
+      tabIndex={0}
     >
       {label}
     </div>
@@ -81,7 +82,7 @@ export class MediaGallery extends React.Component<Props, State> {
     const { selectedTab } = this.state;
 
     return (
-      <div className="module-media-gallery" tabIndex={0} ref={this.focusRef}>
+      <div className="module-media-gallery" tabIndex={-1} ref={this.focusRef}>
         <div className="module-media-gallery__tab-container">
           <Tab
             label="Media"

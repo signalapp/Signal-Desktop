@@ -80,7 +80,6 @@
     initialize(options = {}) {
       this.ready = false;
       this.render();
-      this.$el.attr('tabindex', '1');
 
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),

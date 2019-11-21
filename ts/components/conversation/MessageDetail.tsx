@@ -35,12 +35,7 @@ interface Props {
 }
 
 export class MessageDetail extends React.Component<Props> {
-  private readonly focusRef: React.RefObject<HTMLDivElement>;
-
-  constructor(props: Props) {
-    super(props);
-    this.focusRef = React.createRef();
-  }
+  private readonly focusRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     // When this component is created, it's initially not part of the DOM, and then it's

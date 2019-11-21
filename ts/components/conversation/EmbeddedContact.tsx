@@ -38,6 +38,7 @@ export class EmbeddedContact extends React.Component<Props> {
       <button
         className={classNames(
           'module-embedded-contact',
+          `module-embedded-contact--${direction}`,
           withContentAbove
             ? 'module-embedded-contact--with-content-above'
             : null,

@@ -81,6 +81,10 @@ export const StickerPreviewModal = React.memo(
     // Restore focus on teardown
     React.useEffect(
       () => {
+        if (!root) {
+          return;
+        }
+
         const lastFocused = document.activeElement as any;
         if (focusRef.current) {
           focusRef.current.focus();
