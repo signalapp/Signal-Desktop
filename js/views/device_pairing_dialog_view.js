@@ -5,7 +5,8 @@
   textsecure,
   ConversationController,
   $,
-  lokiFileServerAPI
+  lokiFileServerAPI,
+  QRCode,
 */
 
 // eslint-disable-next-line func-names
@@ -22,6 +23,10 @@
       this.reset();
       this.render();
       this.showView();
+      this.qr = new QRCode(this.$('#qr')[0], {
+        correctLevel: QRCode.CorrectLevel.L,
+      });
+      this.qr.makeCode(textsecure.storage.user.getNumber());
     },
     reset() {
       this.pubKey = null;
@@ -198,6 +203,7 @@
     },
     close() {
       this.remove();
+      this.qr.clear();
       if (this.pubKey && !this.accepted) {
         this.trigger('devicePairingRequestRejected', this.pubKey);
       }
