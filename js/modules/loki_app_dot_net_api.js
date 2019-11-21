@@ -923,7 +923,6 @@ class LokiPublicChannelAPI {
           quote,
           attachments,
           preview,
-          avatar,
         } = messengerData;
         if (!timestamp) {
           return false; // Invalid message
@@ -959,7 +958,6 @@ class LokiPublicChannelAPI {
         ].splice(-5);
 
         const from = adnMessage.user.name || 'Anonymous'; // profileName
-        const avatarObj = avatar || null;
 
         // track sources for multidevice support
         // sort it by home server
@@ -1015,8 +1013,7 @@ class LokiPublicChannelAPI {
             contact: [],
             preview,
             profile: {
-              displayName: from,
-              avatar: avatarObj,
+              displayName: from
             },
           },
         };
@@ -1075,7 +1072,8 @@ class LokiPublicChannelAPI {
         if (slavePrimaryMap[messageData.source]) {
           // pop primary device avatars in
           if (avatarMap[slavePrimaryMap[messageData.source]]) {
-            // modify messageData for user's avatar?
+            // modify messageData for user's avatar
+            messageData.profile.avatar=avatarMap[slavePrimaryMap[messageData.source]];
           }
 
           // delay sending the message
@@ -1089,7 +1087,8 @@ class LokiPublicChannelAPI {
 
           // pop current device avatars in
           if (avatarMap[messageData.source]) {
-            // modify messageData for user's avatar?
+            // modify messageData for user's avatar
+            messageData.profile.avatar=avatarMap[messageData.source];
           }
 
           // send event now
@@ -1245,7 +1244,6 @@ class LokiPublicChannelAPI {
           type: 'network.loki.messenger.publicChat',
           value: {
             timestamp: messageTimeStamp,
-            avatar: avatarAnnotation,
           },
         },
         ...attachmentAnnotations,
