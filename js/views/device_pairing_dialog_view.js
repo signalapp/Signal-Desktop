@@ -5,7 +5,6 @@
   textsecure,
   ConversationController,
   $,
-  lokiFileServerAPI
 */
 
 // eslint-disable-next-line func-names
