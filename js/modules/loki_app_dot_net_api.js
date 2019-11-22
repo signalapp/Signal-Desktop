@@ -139,6 +139,7 @@ class LokiAppDotNetServerAPI {
     if (!thisChannel) {
       log.info(`LokiAppDotNetAPI registering channel ${conversationId}`);
       // make sure we're subscribed
+      // eventually we'll need to move to account registration/add server
       await this.serverRequest(`channels/${channelId}/subscribe`, {
         method: 'POST',
       });
@@ -433,7 +434,7 @@ class LokiAppDotNetServerAPI {
         },
       });
     } else {
-      // not implemented on backend yet
+      // not deployed on all backends yet
       res.err = 'array subscribers endpoint not yet implemented';
       /*
       var list = channelId;
