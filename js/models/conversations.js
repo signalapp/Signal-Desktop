@@ -2333,7 +2333,7 @@
         );
         return null;
       }
-      const channelAPI = serverAPI.findOrCreateChannel(
+      const channelAPI = await serverAPI.findOrCreateChannel(
         this.get('channelId'),
         this.id
       );
