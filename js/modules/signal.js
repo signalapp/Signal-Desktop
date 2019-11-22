@@ -52,6 +52,12 @@ const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const {
   UpdateGroupDialog,
 } = require('../../ts/components/conversation/UpdateGroupDialog');
+const {
+  InviteFriendsDialog,
+} = require('../../ts/components/conversation/InviteFriendsDialog');
+const {
+  GroupInvitation,
+} = require('../../ts/components/conversation/GroupInvitation');
 const { ConfirmDialog } = require('../../ts/components/ConfirmDialog');
 const {
   MediaGallery,
@@ -232,6 +238,8 @@ exports.setup = (options = {}) => {
     EditProfileDialog,
     ConfirmDialog,
     UpdateGroupDialog,
+    InviteFriendsDialog,
+    GroupInvitation,
     BulkEdit,
     MediaGallery,
     Message,

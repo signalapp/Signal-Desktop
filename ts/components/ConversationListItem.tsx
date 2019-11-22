@@ -42,6 +42,7 @@ export type PropsData = {
   hasNickname?: boolean;
   isFriendItem?: boolean;
   isSecondary?: boolean;
+  isGroupInvitation?: boolean;
 };
 
 type PropsHousekeeping = {

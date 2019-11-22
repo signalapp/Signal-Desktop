@@ -286,6 +286,10 @@
           onLeaveGroup: () => {
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
+
+          onInviteFriends: () => {
+            window.Whisper.events.trigger('inviteFriends', this.model);
+          },
         };
       };
       this.titleView = new Whisper.ReactWrapperView({

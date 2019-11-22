@@ -251,5 +251,9 @@
       const dialog = new Whisper.LeaveGroupDialogView(groupConvo);
       this.el.append(dialog.el);
     },
+    showInviteFriendsDialog(groupConvo) {
+      const dialog = new Whisper.InviteFriendsDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
   });
 })();

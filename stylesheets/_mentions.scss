@@ -29,6 +29,7 @@
   margin-left: 10px;
 }
 
+.invite-friends-dialog,
 .create-group-dialog {
   .content {
     max-width: 100% !important;
@@ -46,7 +47,9 @@
     font-size: large;
     text-align: center;
   }
+}
 
+.create-group-dialog {
   .no-friends {
     text-align: center;
   }
@@ -124,7 +127,8 @@
 }
 
 .member-list-container,
-.create-group-dialog {
+.create-group-dialog,
+.invite-friends-dialog {
   .member-item {
     padding: 4px;
     user-select: none;
@@ -176,7 +180,8 @@
 
 .dark-theme {
   .member-list-container,
-  .create-group-dialog {
+  .create-group-dialog,
+  .invite-friends-dialog {
     .member-item {
       &:hover:not(.member-selected) {
         background-color: $color-dark-55;
