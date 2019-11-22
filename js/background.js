@@ -904,6 +904,12 @@
               displayName: newName,
               avatar: newAvatarPath,
             });
+            // inform all your registered public servers
+            // could put load on all the servers
+            // if they just keep changing their names without sending messages
+            // so we could disable this here
+            // or least it enable for the quickest response
+            window.lokiPublicChatAPI.setProfileName(newName);
           },
         });
       }
