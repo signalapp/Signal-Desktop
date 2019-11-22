@@ -13,6 +13,7 @@ const DEVICE_MAPPING_USER_ANNOTATION_TYPE =
 class LokiFileServerInstance {
   constructor(ourKey) {
     this.ourKey = ourKey;
+    // why don't we extend this?
     this._adnApi = new LokiAppDotNetAPI(ourKey);
     this.avatarMap = {};
   }
