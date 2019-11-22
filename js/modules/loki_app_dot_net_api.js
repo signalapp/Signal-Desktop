@@ -114,6 +114,25 @@ class LokiAppDotNetAPI extends EventEmitter {
   setListOfMembers(members) {
     this.allMembers = members;
   }
+
+  async setProfileName(profileName) {
+    await Promise.all(
+      this.servers.map(async server => {
+        await server.setProfileName(profileName);
+      })
+    );
+  }
+
+  async setHomeServer(homeServer) {
+    await Promise.all(
+      this.servers.map(async server => {
+        // this may fail
+        // but we can't create a sql table to remember to retry forever
+        // I think we just silently fail for now
+        await server.setHomeServer(homeServer);
+      })
+    );
+  }
 }
 
 class LokiAppDotNetServerAPI {
@@ -173,6 +192,68 @@ class LokiAppDotNetServerAPI {
     this.channels.splice(i, 1);
   }
 
+  async setProfileName(profileName) {
+    // when we add an annotation, may need this
+    /*
+    const privKey = await this.serverAPI.chatAPI.getPrivateKey();
+    // we might need an annotation that sets the homeserver for media
+    // better to include this with each attachment...
+    const objToSign = {
+      name: profileName,
+      version: 1,
+      annotations: [],
+    };
+    const sig = await libsignal.Curve.async.calculateSignature(
+      privKey,
+      JSON.stringify(objToSign)
+    );
+    */
+
+    const res = await this.serverRequest('users/me', {
+      method: 'PATCH',
+      objBody: {
+        name: profileName,
+      },
+    });
+    // no big deal if it fails...
+    if (res.err || !res.response || !res.response.data) {
+      if (res.err) {
+        log.error(`Error ${res.err}`);
+      }
+      return [];
+    }
+
+    // expecting a user object
+    return res.response.data.annotations || [];
+
+    // if no profileName should we update the local from the server?
+    // no because there will be multiple public chat servers
+  }
+
+  async setHomeServer(homeServer) {
+    const res = await this.serverRequest('users/me', {
+      method: 'PATCH',
+      objBody: {
+        annotations: [
+          {
+            type: HOMESERVER_USER_ANNOTATION_TYPE,
+            value: homeServer,
+          },
+        ],
+      },
+    });
+
+    if (res.err || !res.response || !res.response.data) {
+      if (res.err) {
+        log.error(`Error ${res.err}`);
+      }
+      return [];
+    }
+
+    // expecting a user object
+    return res.response.data.annotations || [];
+  }
+
   // get active token for this server
   async getOrRefreshServerToken(forceRefresh = false) {
     let token;
@@ -204,42 +285,14 @@ class LokiAppDotNetServerAPI {
       tokenRes.response.data &&
       tokenRes.response.data.user
     ) {
-      // get our profile name and write it to the network
+      // get our profile name
       const ourNumber = textsecure.storage.user.getNumber();
       const profileConvo = ConversationController.get(ourNumber);
       const profileName = profileConvo.getProfileName();
-
-      // update profile name as needed
+      // if doesn't match, write it to the network
       if (tokenRes.response.data.user.name !== profileName) {
-        if (profileName) {
-          // will need this when we add an annotation
-          /*
-          const privKey = await this.serverAPI.chatAPI.getPrivateKey();
-          // we might need an annotation that sets the homeserver for media
-          // better to include this with each attachment...
-          const objToSign = {
-            name: profileName,
-            version: 1,
-            annotations: [],
-          };
-          const sig = await libsignal.Curve.async.calculateSignature(
-            privKey,
-            JSON.stringify(objToSign)
-          );
-          */
-
-          await this.serverRequest('users/me', {
-            method: 'PATCH',
-            objBody: {
-              name: profileName,
-            },
-          });
-          // no big deal if it fails...
-          // } else {
-          // should we update the local from the server?
-          // guessing no because there will be multiple servers
-        }
-        // update our avatar if needed
+        // update our profile name if it got out of sync
+        this.setProfileName(profileName);
       }
     }
 
@@ -994,8 +1047,13 @@ class LokiPublicChannelAPI {
     const homeServerPubKeys = {};
     let pendingMessages = [];
 
+    // get our profile name
+    const ourNumber = textsecure.storage.user.getNumber();
+    let lastProfileName = false;
+
     // the signature forces this to be async
     pendingMessages = await Promise.all(
+      // process these in chronological order
       res.response.data.reverse().map(async adnMessage => {
         // still update our last received if deleted, not signed or not valid
         this.lastGot = !this.lastGot
@@ -1052,6 +1110,12 @@ class LokiPublicChannelAPI {
         ].splice(-5);
 
         const from = adnMessage.user.name || 'Anonymous'; // profileName
+
+        // if us
+        if (adnMessage.user.username === ourNumber) {
+          // update the last name we saw from ourself
+          lastProfileName = from;
+        }
 
         // track sources for multidevice support
         // sort it by home server
@@ -1214,7 +1278,6 @@ class LokiPublicChannelAPI {
     /* eslint-enable no-param-reassign */
 
     // process remaining messages
-    const ourNumber = textsecure.storage.user.getNumber();
     Object.keys(slaveMessages).forEach(slaveKey => {
       // prevent our own device sent messages from coming back in
       if (slaveKey === ourNumber) {
@@ -1240,6 +1303,18 @@ class LokiPublicChannelAPI {
         });
       });
     });
+
+    // if we received one of our own messages
+    if (lastProfileName !== false) {
+      // get current profileName
+      const profileConvo = ConversationController.get(ourNumber);
+      const profileName = profileConvo.getProfileName();
+      // check to see if it out of sync
+      if (profileName !== lastProfileName) {
+        // out of sync, update this server
+        this.serverAPI.setProfileName(profileName);
+      }
+    }
 
     // finally update our position
     this.conversation.setLastRetrievedMessage(this.lastGot);
