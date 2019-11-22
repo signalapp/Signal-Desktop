@@ -35,6 +35,7 @@ import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 declare global {
   interface Window {
     shortenPubkey: any;
+    contextMenuShown: boolean;
   }
 }
 
@@ -105,6 +106,7 @@ export interface Props {
   onClickLinkPreview?: (url: string) => void;
   onCopyText?: () => void;
   onSelectMessage: () => void;
+  onSelectMessageUnchecked: () => void;
   onReply?: () => void;
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
@@ -847,7 +849,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       onCopyText,
-      onSelectMessage,
+      onSelectMessageUnchecked,
       direction,
       status,
       isDeletable,
@@ -876,8 +878,27 @@ export class Message extends React.PureComponent<Props, State> {
       }
     };
 
+    const onContextMenuShown = () => {
+      window.contextMenuShown = true;
+    };
+
+    const onContextMenuHidden = () => {
+      // This function will called before the click event
+      // on the message would trigger (and I was unable to
+      // prevent propagation in this case), so use a short timeout
+      setTimeout(() => {
+        window.contextMenuShown = false;
+      }, 100);
+    };
+
+    // CONTEXT MENU "Select Message" does not work
+
     return (
-      <ContextMenu id={triggerId}>
+      <ContextMenu
+        id={triggerId}
+        onShow={onContextMenuShown}
+        onHide={onContextMenuHidden}
+      >
         {!multipleAttachments && attachments && attachments[0] ? (
           <MenuItem
             attributes={{
@@ -895,7 +916,7 @@ export class Message extends React.PureComponent<Props, State> {
         ) : null}
 
         <MenuItem onClick={wrap(onCopyText)}>{i18n('copyMessage')}</MenuItem>
-        <MenuItem onClick={wrap(onSelectMessage)}>
+        <MenuItem onClick={wrap(onSelectMessageUnchecked)}>
           {i18n('selectMessage')}
         </MenuItem>
         <MenuItem
@@ -1058,6 +1079,8 @@ export class Message extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
+    const enableContextMenu = !isRss && !multiSelectMode;
+
     return (
       <div
         className={classNames(divClasses)}
@@ -1107,10 +1130,10 @@ export class Message extends React.PureComponent<Props, State> {
             {isRss || multiSelectMode
               ? null
               : this.renderMenu(isIncoming, triggerId)}
-            {multiSelectMode ? null : this.renderContextMenu(triggerId)}
-            {multiSelectMode
-              ? null
-              : this.renderContextMenu(rightClickTriggerId)}
+            {enableContextMenu ? this.renderContextMenu(triggerId) : null}
+            {enableContextMenu
+              ? this.renderContextMenu(rightClickTriggerId)
+              : null}
           </div>
         </ContextMenuTrigger>
       </div>
