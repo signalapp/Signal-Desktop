@@ -1299,7 +1299,7 @@ MessageReceiver.prototype.extend({
         // eslint-disable-next-line no-bitwise
         const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
 
-        if (isUnpairingRequest) {
+        if (!friendRequest && isUnpairingRequest) {
           // TODO: move high-level pairing logic to libloki.multidevice.xx
 
           const unpairingRequestIsLegit = async () => {
@@ -1328,11 +1328,7 @@ MessageReceiver.prototype.extend({
             );
 
             // our pubkey should NOT be in the primary device mapping
-            if (found) {
-              return false;
-            }
-
-            return true;
+            return !found;
           };
 
           const legit = await unpairingRequestIsLegit();
