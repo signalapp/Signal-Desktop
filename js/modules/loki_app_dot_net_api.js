@@ -91,7 +91,21 @@ class LokiAppDotNetAPI extends EventEmitter {
     this.servers.splice(i, 1);
   }
 
-  getListOfMembers() {
+  // shouldn't this be scoped per conversation?
+  async getListOfMembers() {
+    // enable in the next release
+    /*
+    let members = [];
+    await Promise.all(this.servers.map(async server => {
+      await Promise.all(server.channels.map(async channel => {
+        const newMembers = await channel.getSubscribers();
+        members = [...members, ...newMembers];
+      }));
+    }));
+    const results = members.map(member => {
+      return { authorPhoneNumber: member.username };
+    });
+    */
     return this.allMembers;
   }
 
@@ -118,16 +132,27 @@ class LokiAppDotNetServerAPI {
   }
 
   // channel getter/factory
-  findOrCreateChannel(channelId, conversationId) {
+  async findOrCreateChannel(channelId, conversationId) {
     let thisChannel = this.channels.find(
       channel => channel.channelId === channelId
     );
     if (!thisChannel) {
-      log.info(`LokiAppDotNetAPI creating channel ${conversationId}`);
+      log.info(`LokiAppDotNetAPI registering channel ${conversationId}`);
+      // make sure we're subscribed
+      await this.serverRequest(`channels/${channelId}/subscribe`, {
+        method: 'POST',
+      });
       thisChannel = new LokiPublicChannelAPI(this, channelId, conversationId);
       this.channels.push(thisChannel);
     }
     return thisChannel;
+  }
+
+  async partChannel(channelId) {
+    await this.serverRequest(`channels/${channelId}/subscribe`, {
+      method: 'DELETE',
+    });
+    this.unregisterChannel(channelId);
   }
 
   // deallocate resources channel uses
@@ -393,6 +418,71 @@ class LokiAppDotNetServerAPI {
     return res.response.data.annotations || [];
   }
 
+  async getSubscribers(channelId, wantObjects) {
+    if (!channelId) {
+      log.warn('No channelId provided to getSubscribers!');
+      return [];
+    }
+
+    let res = {};
+    if (!Array.isArray(channelId) && wantObjects) {
+      res = await this.serverRequest(`channels/${channelId}/subscribers`, {
+        method: 'GET',
+        params: {
+          include_user_annotations: 1,
+        },
+      });
+    } else {
+      // not implemented on backend yet
+      res.err = 'array subscribers endpoint not yet implemented';
+      /*
+      var list = channelId;
+      if (!Array.isArray(list)) {
+        list = [channelId];
+      }
+      const idres = await this.serverRequest(`channels/subscribers/ids`, {
+        method: 'GET',
+        params: {
+          ids: list.join(','),
+          include_user_annotations: 1,
+        },
+      });
+      if (wantObjects) {
+        if (idres.err || !idres.response || !idres.response.data) {
+          if (idres.err) {
+            log.error(`Error ${idres.err}`);
+          }
+          return [];
+        }
+        const userList = [];
+        await Promise.all(idres.response.data.map(async channelId => {
+          const channelUserObjs = await this.getUsers(idres.response.data[channelId]);
+          userList.push(...channelUserObjs);
+        }));
+        res = {
+          response: {
+            meta: {
+              code: 200,
+            },
+            data: userList
+          }
+        }
+      } else {
+        res = idres;
+      }
+      */
+    }
+
+    if (res.err || !res.response || !res.response.data) {
+      if (res.err) {
+        log.error(`Error ${res.err}`);
+      }
+      return [];
+    }
+
+    return res.response.data || [];
+  }
+
   async getUsers(pubKeys) {
     if (!pubKeys) {
       log.warn('No pubKeys provided to getUsers!');
@@ -563,6 +653,10 @@ class LokiPublicChannelAPI {
 
   serverRequest(endpoint, options = {}) {
     return this.serverAPI.serverRequest(endpoint, options);
+  }
+
+  getSubscribers() {
+    return this.serverAPI.getSubscribers(this.channelId, true);
   }
 
   // get moderation actions
@@ -886,6 +980,7 @@ class LokiPublicChannelAPI {
     params.since_id = this.lastGot;
     // Just grab the most recent 100 messages if you don't have a valid lastGot
     params.count = this.lastGot === 0 ? -100 : 20;
+    // log.info(`Getting ${params.count} from ${this.lastGot} on ${this.baseChannelUrl}`);
     const res = await this.serverRequest(`${this.baseChannelUrl}/messages`, {
       params,
     });
@@ -921,12 +1016,7 @@ class LokiPublicChannelAPI {
           return false;
         }
 
-        const {
-          timestamp,
-          quote,
-          attachments,
-          preview,
-        } = messengerData;
+        const { timestamp, quote, attachments, preview } = messengerData;
         if (!timestamp) {
           return false; // Invalid message
         }
@@ -1016,7 +1106,7 @@ class LokiPublicChannelAPI {
             contact: [],
             preview,
             profile: {
-              displayName: from
+              displayName: from,
             },
           },
         };
@@ -1027,10 +1117,10 @@ class LokiPublicChannelAPI {
         return messageData;
       })
     );
-    this.conversation.setLastRetrievedMessage(this.lastGot);
 
     // do we really need this?
     if (!pendingMessages.length) {
+      this.conversation.setLastRetrievedMessage(this.lastGot);
       return;
     }
 
@@ -1076,7 +1166,8 @@ class LokiPublicChannelAPI {
           // pop primary device avatars in
           if (avatarMap[slavePrimaryMap[messageData.source]]) {
             // modify messageData for user's avatar
-            messageData.profile.avatar=avatarMap[slavePrimaryMap[messageData.source]];
+            messageData.message.profile.avatar =
+              avatarMap[slavePrimaryMap[messageData.source]];
           }
 
           // delay sending the message
@@ -1091,7 +1182,7 @@ class LokiPublicChannelAPI {
           // pop current device avatars in
           if (avatarMap[messageData.source]) {
             // modify messageData for user's avatar
-            messageData.profile.avatar=avatarMap[messageData.source];
+            messageData.message.profile.avatar = avatarMap[messageData.source];
           }
 
           // send event now
@@ -1148,6 +1239,9 @@ class LokiPublicChannelAPI {
         });
       });
     });
+
+    // finally update our position
+    this.conversation.setLastRetrievedMessage(this.lastGot);
   }
 
   static getPreviewFromAnnotation(annotation) {
@@ -1251,6 +1345,8 @@ class LokiPublicChannelAPI {
         },
         ...attachmentAnnotations,
         ...previewAnnotations,
+        // can remove after this release
+        ...avatarAnnotation,
       ],
     };
 
