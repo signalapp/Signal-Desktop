@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage, textsecure, libsignal, lokiPublicChatAPI */
+/* global _, Whisper, Backbone, storage, textsecure, libsignal, log */
 
 /* eslint-disable more/no-then */
 
@@ -160,8 +160,12 @@
         return;
       }
       if (conversation.isPublic()) {
-        const server = conversation.getPublicSource();
-        lokiPublicChatAPI.unregisterChannel(server.server, server.channelId);
+        const channelAPI = await conversation.getPublicSendData();
+        if (channelAPI === null) {
+          log.warn(`Could not get API for public conversation ${id}`);
+        } else {
+          channelAPI.serverAPI.partChannel(channelAPI.channelId);
+        }
       }
       await conversation.destroyMessages();
       const deviceIds = await textsecure.storage.protocol.getDeviceIds(id);
