@@ -1341,12 +1341,12 @@ class LokiPublicChannelAPI {
           type: 'network.loki.messenger.publicChat',
           value: {
             timestamp: messageTimeStamp,
+            // can remove after this release
+            avatar: avatarAnnotation,
           },
         },
         ...attachmentAnnotations,
         ...previewAnnotations,
-        // can remove after this release
-        ...avatarAnnotation,
       ],
     };
 
