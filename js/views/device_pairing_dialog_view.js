@@ -5,7 +5,6 @@
   textsecure,
   ConversationController,
   $,
-  lokiFileServerAPI
 */
 
 // eslint-disable-next-line func-names
@@ -117,10 +116,7 @@
       this.pubKey = this.pubKeyRequests.pop();
     },
     async confirmUnpairDevice() {
-      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
-        this.pubKeyToUnpair
-      );
-      await lokiFileServerAPI.updateOurDeviceMapping();
+      this.trigger('deviceUnpairingRequested', this.pubKeyToUnpair);
       this.reset();
       this.showView();
     },

@@ -443,6 +443,8 @@ OutgoingMessage.prototype = {
           switch (type) {
             case 'friend-request':
               return 4 * 24 * 60 * 60 * 1000; // 4 days for friend request message
+            case 'device-unpairing':
+              return 4 * 24 * 60 * 60 * 1000; // 4 days for device unpairing
             case 'onlineBroadcast':
               return 60 * 1000; // 1 minute for online broadcast message
             case 'typing':

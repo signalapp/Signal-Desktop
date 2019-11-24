@@ -1025,6 +1025,15 @@
         pubKey
       );
     });
+
+    Whisper.events.on('deviceUnpairingRequested', async pubKey => {
+      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+        pubKey
+      );
+      await window.lokiFileServerAPI.updateOurDeviceMapping();
+      // TODO: we should ensure the message was sent and retry automatically if not
+      await libloki.api.sendUnpairingMessageToSecondary(pubKey);
+    });
   }
 
   window.getSyncRequest = () =>
