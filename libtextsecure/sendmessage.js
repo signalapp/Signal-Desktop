@@ -165,6 +165,7 @@ Message.prototype = {
       proto.groupInvitation = new textsecure.protobuf.DataMessage.GroupInvitation(
         {
           serverAddress: this.groupInvitation.serverAddress,
+          channelId: this.groupInvitation.channelId,
           serverName: this.groupInvitation.serverName,
         }
       );

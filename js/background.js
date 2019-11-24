@@ -809,6 +809,7 @@
         if (convo) {
           convo.sendMessage('', null, null, null, {
             serverName: serverInfo.name,
+            channelId: serverInfo.channelId,
             serverAddress: serverInfo.address,
           });
         }
@@ -833,43 +834,45 @@
       }
     });
 
-    Whisper.events.on('invitationAccepted', async serverAddress => {
-      // To some degree this has been copy-pasted
-      // form connection_to_server_dialog_view.js:
-      const channelId = 1;
-      const rawServerUrl = serverAddress
-        .replace(/^https?:\/\//i, '')
-        .replace(/[/\\]+$/i, '');
-      const sslServerUrl = `https://${rawServerUrl}`;
-      const conversationId = `publicChat:${channelId}@${rawServerUrl}`;
+    Whisper.events.on(
+      'invitationAccepted',
+      async (serverAddress, channelId) => {
+        // To some degree this has been copy-pasted
+        // form connection_to_server_dialog_view.js:
+        const rawServerUrl = serverAddress
+          .replace(/^https?:\/\//i, '')
+          .replace(/[/\\]+$/i, '');
+        const sslServerUrl = `https://${rawServerUrl}`;
+        const conversationId = `publicChat:${channelId}@${rawServerUrl}`;
 
-      const conversationExists = ConversationController.get(conversationId);
-      if (conversationExists) {
-        window.log.warn('We are already a member of this public chat');
-        return;
+        const conversationExists = ConversationController.get(conversationId);
+        if (conversationExists) {
+          window.log.warn('We are already a member of this public chat');
+          return;
+        }
+
+        const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
+          sslServerUrl
+        );
+        if (!serverAPI) {
+          window.log.warn(`Could not connect to ${serverAddress}`);
+          return;
+        }
+
+        const conversation = await ConversationController.getOrCreateAndWait(
+          conversationId,
+          'group'
+        );
+
+        serverAPI.findOrCreateChannel(channelId, conversationId);
+        await conversation.setPublicSource(sslServerUrl, channelId);
+        await conversation.setFriendRequestStatus(
+          window.friends.friendRequestStatusEnum.friends
+        );
+
+        appView.openConversation(conversationId, {});
       }
-
-      const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-        sslServerUrl
-      );
-      if (!serverAPI) {
-        window.log.warn(`Could not connect to ${serverAddress}`);
-        return;
-      }
-
-      const conversation = await ConversationController.getOrCreateAndWait(
-        conversationId,
-        'group'
-      );
-
-      serverAPI.findOrCreateChannel(channelId, conversationId);
-      await conversation.setPublicSource(sslServerUrl, channelId);
-      await conversation.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
-      );
-
-      appView.openConversation(conversationId, {});
-    });
+    );
 
     Whisper.events.on('leaveGroup', async groupConvo => {
       if (appView) {

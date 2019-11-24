@@ -464,7 +464,8 @@
         onClick: () => {
           Whisper.events.trigger(
             'invitationAccepted',
-            invitation.serverAddress
+            invitation.serverAddress,
+            invitation.channelId
           );
         },
       };

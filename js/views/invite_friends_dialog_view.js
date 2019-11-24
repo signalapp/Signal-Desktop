@@ -21,6 +21,7 @@
       this.friends = friends;
       this.chatName = convo.get('name');
       this.chatServer = convo.get('server');
+      this.channelId = convo.get('channelId');
 
       this.$el.focus();
       this.render();
@@ -45,7 +46,11 @@
     },
     submit(pubkeys) {
       window.sendGroupInvitations(
-        { address: this.chatServer, name: this.chatName },
+        {
+          address: this.chatServer,
+          name: this.chatName,
+          channelId: this.channelId,
+        },
         pubkeys
       );
     },
