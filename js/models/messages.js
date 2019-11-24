@@ -449,12 +449,9 @@
     getPropsForGroupInvitation() {
       const invitation = this.get('group_invitation');
 
-      let direction = 'incoming';
-
-      if (this.get('direction')) {
-        direction = this.get('direction');
-      } else if (this.get('type') === 'outgoing') {
-        direction = 'outgoing';
+      let direction = this.get('direction');
+      if (!direction) {
+        direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
       }
 
       return {
