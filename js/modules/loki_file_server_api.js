@@ -224,6 +224,10 @@ class LokiFileServerAPI {
   uploadPrivateAttachment(data) {
     return this._server.uploadData(data);
   }
+
+  clearOurDeviceMappingAnnotations() {
+    return this._server.setSelfAnnotation(DEVICE_MAPPING_ANNOTATION_KEY, null);
+  }
 }
 
 module.exports = LokiFileServerAPI;

@@ -469,6 +469,6 @@ window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 window.SMALL_GROUP_SIZE_LIMIT = 10;
 
 window.lokiFeatureFlags = {
-  multiDeviceUnpairing: false,
+  multiDeviceUnpairing: true,
   privateGroupChats: false,
 };

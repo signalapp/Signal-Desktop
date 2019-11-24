@@ -107,6 +107,27 @@
       secondaryDevicePubKey,
     });
   }
+
+  function sendUnpairingMessageToSecondary(pubKey) {
+    const flags = textsecure.protobuf.DataMessage.Flags.UNPAIRING_REQUEST;
+    const dataMessage = new textsecure.protobuf.DataMessage({
+      flags,
+    });
+    const content = new textsecure.protobuf.Content({
+      dataMessage,
+    });
+    const options = { messageType: 'device-unpairing' };
+    const outgoingMessage = new textsecure.OutgoingMessage(
+      null, // server
+      Date.now(), // timestamp,
+      [pubKey], // numbers
+      content, // message
+      true, // silent
+      () => null, // callback
+      options
+    );
+    return outgoingMessage.sendToNumber(pubKey);
+  }
   // Serialise as <Element0.length><Element0><Element1.length><Element1>...
   // This is an implementation of the reciprocal of contacts_parser.js
   function serialiseByteBuffers(buffers) {
@@ -226,6 +247,7 @@
     broadcastOnlineStatus,
     sendPairingAuthorisation,
     createPairingAuthorisationProtoMessage,
+    sendUnpairingMessageToSecondary,
     createContactSyncProtoMessage,
   };
 })();

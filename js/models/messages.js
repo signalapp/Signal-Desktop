@@ -127,6 +127,7 @@
       }
 
       this.selected = false;
+      window.contextMenuShown = false;
 
       generateProps();
     },
@@ -657,6 +658,7 @@
 
         onCopyText: () => this.copyText(),
         onSelectMessage: () => this.selectMessage(),
+        onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
         onCopyPubKey: () => this.copyPubKey(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
@@ -966,7 +968,8 @@
       });
     },
 
-    selectMessage() {
+    // Select message even if the context menu is shown
+    selectMessageUnchecked() {
       this.selected = !this.selected;
 
       const convo = this.getConversation();
@@ -978,6 +981,14 @@
       }
 
       this.trigger('change');
+    },
+
+    selectMessage() {
+      if (window.contextMenuShown || this.get('isRss')) {
+        return;
+      }
+
+      this.selectMessageUnchecked();
     },
 
     copyText() {
