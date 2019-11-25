@@ -79,7 +79,7 @@ class Mention extends React.Component<MentionProps, MentionState> {
     }
   }
 
-  private findMember(pubkey: String) {
+  private async findMember(pubkey: String) {
     let groupMembers;
 
     const groupConvos = window.getConversations().models.filter((d: any) => {
@@ -97,10 +97,8 @@ class Mention extends React.Component<MentionProps, MentionState> {
     }
 
     if (thisConvo.isPublic()) {
-      // TODO: make this work for other public chats as well
-      groupMembers = window.lokiPublicChatAPI
-        .getListOfMembers()
-        .filter((m: any) => !!m);
+      groupMembers = await window.lokiPublicChatAPI.getListOfMembers();
+      groupMembers = groupMembers.filter((m: any) => !!m);
     } else {
       const privateConvos = window
         .getConversations()

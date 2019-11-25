@@ -2568,7 +2568,7 @@
       this.view.scrollToBottomIfNeeded();
     },
 
-    maybeShowMembers(event) {
+    async maybeShowMembers(event) {
       const filterMembers = (caseSensitiveQuery, member) => {
         const { authorPhoneNumber, authorProfileName } = member;
 
@@ -2613,8 +2613,11 @@
       let allMembers;
 
       if (this.model.isPublic()) {
-        const members = window.lokiPublicChatAPI
-          .getListOfMembers()
+        // const api = await this.model.getPublicSendData();
+        // not quite in the right format tho yet...
+        // let members = await api.getSubscribers();
+        let members = await window.lokiPublicChatAPI.getListOfMembers();
+        members = members
           .filter(d => !!d)
           .filter(d => d.authorProfileName !== 'Anonymous');
         allMembers = _.uniq(members, true, d => d.authorPhoneNumber);

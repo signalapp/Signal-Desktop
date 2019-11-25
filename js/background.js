@@ -248,8 +248,8 @@
     // singleton to interface the File server
     // If already exists we registered as a secondary device
     if (!window.lokiFileServerAPI) {
-      window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
-      await window.lokiFileServerAPI.establishConnection(
+      window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
+      window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
     }
@@ -904,6 +904,12 @@
               displayName: newName,
               avatar: newAvatarPath,
             });
+            // inform all your registered public servers
+            // could put load on all the servers
+            // if they just keep changing their names without sending messages
+            // so we could disable this here
+            // or least it enable for the quickest response
+            window.lokiPublicChatAPI.setProfileName(newName);
           },
         });
       }
@@ -1134,8 +1140,8 @@
     if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
       const ourKey = textsecure.storage.user.getNumber();
       window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
-      window.lokiFileServerAPI = new window.LokiFileServerAPI(ourKey);
-      await window.lokiFileServerAPI.establishConnection(
+      window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
+      window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
       window.localLokiServer = null;

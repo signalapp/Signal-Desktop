@@ -48,7 +48,7 @@
         conversationId,
         'group'
       );
-      serverAPI.findOrCreateChannel(channelId, conversationId);
+      await serverAPI.findOrCreateChannel(channelId, conversationId);
       await conversation.setPublicSource(sslServerUrl, channelId);
       await conversation.setFriendRequestStatus(
         friends.friendRequestStatusEnum.friends
