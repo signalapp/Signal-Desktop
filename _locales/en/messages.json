@@ -2001,26 +2001,22 @@
 
   "banUser": {
     "message": "Ban user",
-    "description":
-      "Ban user from public chat by public key."
+    "description": "Ban user from public chat by public key."
   },
 
   "banUserConfirm": {
     "message": "Are you sure you want to ban user?",
-    "description":
-      "Message shown when confirming user ban."
+    "description": "Message shown when confirming user ban."
   },
 
   "userBanned": {
     "message": "User successfully banned",
-    "description":
-      "Toast on succesful user ban."
+    "description": "Toast on succesful user ban."
   },
 
   "userBanFailed": {
     "message": "User ban failed!",
-    "description":
-      "Toast on unsuccesful user ban."
+    "description": "Toast on unsuccesful user ban."
   },
 
   "copyChatId": {

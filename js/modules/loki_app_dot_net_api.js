@@ -545,10 +545,11 @@ class LokiPublicChannelAPI {
     // TODO: poll for group members here?
   }
 
-  async banUser(pubkey){
+  async banUser(pubkey) {
     const res = await this.serverRequest(
-      `loki/v1/moderation/blacklist/@${pubkey}`, {
-        method: 'POST'
+      `loki/v1/moderation/blacklist/@${pubkey}`,
+      {
+        method: 'POST',
       }
     );
 

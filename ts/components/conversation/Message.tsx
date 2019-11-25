@@ -964,10 +964,8 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('copyPublicKey')}
           </MenuItem>
         ) : null}
-        {(hasModPerms && isPublic) ? (
-          <MenuItem onClick={wrap(onBanUser)}>
-            {i18n('banUser')}
-          </MenuItem>
+        {hasModPerms && isPublic ? (
+          <MenuItem onClick={wrap(onBanUser)}>{i18n('banUser')}</MenuItem>
         ) : null}
       </ContextMenu>
     );

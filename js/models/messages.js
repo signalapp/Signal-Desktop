@@ -12,7 +12,6 @@
   Whisper,
   clipboard,
   libloki,
-  lokiPublicChatAPI,
 */
 
 /* eslint-disable more/no-then */
@@ -656,8 +655,7 @@
           !this.get('isPublic') ||
           this.getConversation().isModerator(this.OUR_NUMBER) ||
           this.getSource() === this.OUR_NUMBER,
-        hasModPerms:
-          this.getConversation().isModerator(this.OUR_NUMBER),
+        hasModPerms: this.getConversation().isModerator(this.OUR_NUMBER),
 
         onCopyText: () => this.copyText(),
         onSelectMessage: () => this.selectMessage(),
@@ -981,18 +979,17 @@
 
           const channelAPI = await conversation.getPublicSendData();
           const success = await channelAPI.banUser(source);
-          
+
           if (success) {
             window.Whisper.events.trigger('showToast', {
               message: i18n('userBanned'),
             });
-          }
-          else{
+          } else {
             window.Whisper.events.trigger('showToast', {
               message: i18n('userBanFailed'),
             });
           }
-        }
+        },
       });
     },
 
