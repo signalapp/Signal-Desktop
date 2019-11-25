@@ -1674,7 +1674,7 @@
       return false;
     },
 
-    async copyFromQuotedMessage(message) {
+    async copyFromQuotedMessage(message, attemptCount = 1) {
       const { quote } = message;
       if (!quote) {
         return message;
@@ -1693,12 +1693,36 @@
       });
 
       if (!found) {
+        // Exponential backoff, giving up after 5 attempts:
+        if (attemptCount < 5) {
+          setTimeout(() => {
+            window.log.info(
+              `Looking for the message id : ${id}, attempt: ${attemptCount + 1}`
+            );
+            this.copyFromQuotedMessage(message, attemptCount + 1);
+          }, attemptCount * attemptCount * 500);
+        }
+
         quote.referencedMessageNotFound = true;
         return message;
       }
 
+      window.log.info(`Found quoted message id: ${id}`);
+      quote.referencedMessageNotFound = false;
+
       const queryMessage = MessageController.register(found.id, found);
       quote.text = queryMessage.get('body');
+
+      if (attemptCount > 1) {
+        // Normally the caller would save the message, but in case we are
+        // called by a timer, we need to update the message manually
+        this.set({ quote });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        return null;
+      }
+
       if (firstAttachment) {
         firstAttachment.thumbnail = null;
       }
