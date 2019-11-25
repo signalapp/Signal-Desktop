@@ -59,6 +59,8 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     const cancelText = window.i18n('cancel');
     const okText = window.i18n('ok');
 
+    const hasFriends = this.state.friendList.length !== 0;
+
     return (
       <div className="content">
         <p className="titleText">{titleText}</p>
@@ -70,11 +72,19 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
             onMemberClicked={this.onMemberClicked}
           />
         </div>
+        {hasFriends ? null : (
+          <p className="no-friends">`(${window.i18n('noFriendsToAdd')})`</p>
+        )}
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
             {cancelText}
           </button>
-          <button className="ok" tabIndex={0} onClick={this.onClickOK}>
+          <button
+            className="ok"
+            disabled={!hasFriends}
+            tabIndex={0}
+            onClick={this.onClickOK}
+          >
             {okText}
           </button>
         </div>
