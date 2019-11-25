@@ -980,7 +980,18 @@
           const conversation = this.getConversation();
 
           const channelAPI = await conversation.getPublicSendData();
-          await channelAPI.banUser(source);
+          const success = await channelAPI.banUser(source);
+          
+          if (success) {
+            window.Whisper.events.trigger('showToast', {
+              message: i18n('userBanned'),
+            });
+          }
+          else{
+            window.Whisper.events.trigger('showToast', {
+              message: i18n('userBanFailed'),
+            });
+          }
         }
       });
     },

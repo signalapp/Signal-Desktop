@@ -547,14 +547,19 @@ class LokiPublicChannelAPI {
 
   async banUser(pubkey){
     const res = await this.serverRequest(
-      `loki/v1/moderation/blacklist/@${pubkey}`
+      `loki/v1/moderation/blacklist/@${pubkey}`, {
+        method: 'POST'
+      }
     );
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
         log.error(`Error ${res.err}`);
       }
+      return false;
     }
+
+    return true;
   }
 
   stop() {

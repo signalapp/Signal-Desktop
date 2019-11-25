@@ -2011,6 +2011,18 @@
       "Message shown when confirming user ban."
   },
 
+  "userBanned": {
+    "message": "User successfully banned",
+    "description":
+      "Toast on succesful user ban."
+  },
+
+  "userBanFailed": {
+    "message": "User ban failed!",
+    "description":
+      "Toast on unsuccesful user ban."
+  },
+
   "copyChatId": {
     "message": "Copy Chat ID"
   },
