@@ -267,7 +267,7 @@
       return this.get('type') === 'friend-request';
     },
     isGroupInvitation() {
-      return !!this.get('group_invitation');
+      return !!this.get('groupInvitation');
     },
     getNotificationText() {
       const description = this.getDescription();
@@ -447,7 +447,7 @@
       };
     },
     getPropsForGroupInvitation() {
-      const invitation = this.get('group_invitation');
+      const invitation = this.get('groupInvitation');
 
       let direction = this.get('direction');
       if (!direction) {
@@ -460,7 +460,7 @@
         direction,
         onClick: () => {
           Whisper.events.trigger(
-            'invitationAccepted',
+            'publicChatInvitationAccepted',
             invitation.serverAddress,
             invitation.channelId
           );
@@ -1938,6 +1938,7 @@
         window.log.info(
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
         );
+
         const withQuoteReference = await this.copyFromQuotedMessage(
           initialMessage
         );
@@ -2021,7 +2022,7 @@
           }
 
           if (initialMessage.groupInvitation) {
-            message.set({ group_invitation: initialMessage.groupInvitation });
+            message.set({ groupInvitation: initialMessage.groupInvitation });
           }
 
           const urls = window.Signal.LinkPreviews.findLinks(dataMessage.body);

@@ -1516,7 +1516,7 @@
         }
         const attributes = {
           ...messageWithSchema,
-          group_invitation: groupInvitation,
+          groupInvitation,
           id: window.getGuid(),
         };
 

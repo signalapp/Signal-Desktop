@@ -202,7 +202,7 @@ message DataMessage {
 
   message GroupInvitation {
     optional string serverAddress = 1;
-    optional string channelId = 2;
+    optional uint32 channelId = 2;
     optional string serverName = 3;
   }
 

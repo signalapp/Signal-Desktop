@@ -55,7 +55,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const titleText = `${window.i18n('add-friends')} ${this.props.chatName}`;
+    const titleText = `${window.i18n('addingFriends')} ${this.props.chatName}`;
     const cancelText = window.i18n('cancel');
     const okText = window.i18n('ok');
 

@@ -835,7 +835,7 @@
     });
 
     Whisper.events.on(
-      'invitationAccepted',
+      'publicChatInvitationAccepted',
       async (serverAddress, channelId) => {
         // To some degree this has been copy-pasted
         // form connection_to_server_dialog_view.js:
