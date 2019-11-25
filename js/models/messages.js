@@ -655,6 +655,8 @@
           !this.get('isPublic') ||
           this.getConversation().isModerator(this.OUR_NUMBER) ||
           this.getSource() === this.OUR_NUMBER,
+        hasModPerms:
+          this.getConversation().isModerator(this.OUR_NUMBER),
 
         onCopyText: () => this.copyText(),
         onSelectMessage: () => this.selectMessage(),

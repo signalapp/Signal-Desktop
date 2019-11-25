@@ -57,6 +57,7 @@ export interface Props {
   disableMenu?: boolean;
   isModerator?: boolean;
   isDeletable: boolean;
+  hasModPerms?: boolean;
   text?: string;
   textPending?: boolean;
   id?: string;
@@ -112,6 +113,7 @@ export interface Props {
   onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
   onCopyPubKey?: () => void;
+  onBanUser?: () => void;
   onShowDetail: () => void;
 }
 
@@ -861,6 +863,8 @@ export class Message extends React.PureComponent<Props, State> {
       onCopyPubKey,
       isPublic,
       i18n,
+      hasModPerms,
+      onBanUser,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -958,6 +962,11 @@ export class Message extends React.PureComponent<Props, State> {
         {isPublic ? (
           <MenuItem onClick={wrap(onCopyPubKey)}>
             {i18n('copyPublicKey')}
+          </MenuItem>
+        ) : null}
+        {(hasModPerms && isPublic) ? (
+          <MenuItem onClick={wrap(onBanUser)}>
+            {i18n('banUser')}
           </MenuItem>
         ) : null}
       </ContextMenu>
