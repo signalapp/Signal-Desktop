@@ -230,7 +230,7 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
   }
 
   clearOurDeviceMappingAnnotations() {
-    return this._server.setSelfAnnotation(DEVICE_MAPPING_ANNOTATION_KEY, null);
+    return this._server.setSelfAnnotation(DEVICE_MAPPING_USER_ANNOTATION_TYPE, null);
   }
 }
 
