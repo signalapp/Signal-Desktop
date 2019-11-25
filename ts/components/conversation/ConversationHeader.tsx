@@ -67,6 +67,8 @@ interface Props {
   onUpdateGroup: () => void;
   onLeaveGroup: () => void;
 
+  onInviteFriends: () => void;
+
   i18n: LocalizerType;
 }
 
@@ -230,6 +232,7 @@ export class ConversationHeader extends React.Component<Props> {
       onCopyPublicKey,
       onUpdateGroup,
       onLeaveGroup,
+      onInviteFriends,
     } = this.props;
 
     const isPrivateGroup = isGroup && !isPublic;
@@ -248,6 +251,9 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
         ) : null}
         {/* TODO: add delete group */}
+        {isGroup && isPublic ? (
+          <MenuItem onClick={onInviteFriends}>{i18n('inviteFriends')}</MenuItem>
+        ) : null}
         {!isMe && isClosable && !isPrivateGroup ? (
           !isPublic ? (
             <MenuItem onClick={onDeleteContact}>

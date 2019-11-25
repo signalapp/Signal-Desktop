@@ -204,6 +204,80 @@
   padding-top: 4px;
 }
 
+.group-invitation-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-invitation {
+  background-color: #f4f4f0;
+  display: inline-block;
+  margin: 4px 16px;
+  padding: 4px;
+
+  border: solid;
+  border-width: 0.5px;
+  border-radius: 4px;
+  border-color: #e0e0e0;
+
+  align-self: flex-start;
+
+  box-shadow: 2px 2px lightgrey;
+
+  .title {
+    margin: 6px;
+    color: darkslategray;
+    font-variant-caps: all-small-caps;
+    user-select: none;
+  }
+
+  .contents {
+    display: flex;
+    align-items: center;
+    margin: 6px;
+
+    .invite-group-avatar {
+      height: 48px;
+      width: 48px;
+    }
+
+    .group-details {
+      display: inline-flex;
+      flex-direction: column;
+
+      padding: 8px;
+
+      .group-name {
+        font-weight: lighter;
+        padding-bottom: 4px;
+      }
+
+      .group-address {
+        color: grey;
+      }
+    }
+
+    .join-btn {
+      background-color: #e0e0e0;
+      padding: 6px 10px;
+      margin-left: 6px;
+      border-radius: 6px;
+      box-shadow: 2px 2px 1px #c0c0c0;
+      color: #404040;
+      user-select: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #c7c7c7;
+      }
+    }
+  }
+}
+
+.invitation-outgoing {
+  align-self: flex-end;
+}
+
 .message-selected {
   background-color: #60554060;
 }

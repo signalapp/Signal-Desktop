@@ -27,6 +27,7 @@ function Message(options) {
   this.expireTimer = options.expireTimer;
   this.profileKey = options.profileKey;
   this.profile = options.profile;
+  this.groupInvitation = options.groupInvitation;
 
   if (!(this.recipients instanceof Array)) {
     throw new Error('Invalid recipient list');
@@ -158,6 +159,16 @@ Message.prototype = {
         profile.avatar = avatarPointer;
       }
       proto.profile = profile;
+    }
+
+    if (this.groupInvitation) {
+      proto.groupInvitation = new textsecure.protobuf.DataMessage.GroupInvitation(
+        {
+          serverAddress: this.groupInvitation.serverAddress,
+          channelId: this.groupInvitation.channelId,
+          serverName: this.groupInvitation.serverName,
+        }
+      );
     }
 
     this.dataMessage = proto;
@@ -404,7 +415,7 @@ MessageSender.prototype = {
     );
 
     numbers.forEach(number => {
-      // Note: if we are sending a private group message, we make our best to
+      // Note: if we are sending a private group message, we do our best to
       // ensure we have signal protocol sessions with every member, but if we
       // fail, let's at least send messages to those members with which we do:
       const haveSession = _.some(
@@ -941,6 +952,8 @@ MessageSender.prototype = {
       ? textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST
       : undefined;
 
+    const { groupInvitation } = options;
+
     return this.sendMessage(
       {
         recipients: [number],
@@ -954,6 +967,7 @@ MessageSender.prototype = {
         profileKey,
         profile,
         flags,
+        groupInvitation,
       },
       options
     );

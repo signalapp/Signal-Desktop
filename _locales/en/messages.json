@@ -2229,5 +2229,14 @@
   },
   "groupNamePlaceholder": {
     "message": "Group Name"
+  },
+  "inviteFriends": {
+    "message": "Invite Friends"
+  },
+  "groupInvitation": {
+    "message": "Group Invitation"
+  },
+  "addingFriends": {
+    "message": "Adding friends to"
   }
 }

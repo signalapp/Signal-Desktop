@@ -74,6 +74,11 @@
           Component: Components.FriendRequest,
           props: this.model.propsForFriendRequest,
         };
+      } else if (this.model.propsForGroupInvitation) {
+        return {
+          Component: Components.GroupInvitation,
+          props: this.model.propsForGroupInvitation,
+        };
       }
 
       return {

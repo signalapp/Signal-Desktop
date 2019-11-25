@@ -104,6 +104,8 @@
           this.propsForGroupNotification = this.getPropsForGroupNotification();
         } else if (this.isFriendRequest()) {
           this.propsForFriendRequest = this.getPropsForFriendRequest();
+        } else if (this.isGroupInvitation()) {
+          this.propsForGroupInvitation = this.getPropsForGroupInvitation();
         } else {
           this.propsForSearchResult = this.getPropsForSearchResult();
           this.propsForMessage = this.getPropsForMessage();
@@ -251,6 +253,9 @@
       if (this.isIncoming() && this.hasErrors()) {
         return i18n('incomingError');
       }
+      if (this.isGroupInvitation()) {
+        return `<${i18n('groupInvitation')}>`;
+      }
       return this.get('body');
     },
     isVerifiedChange() {
@@ -261,6 +266,9 @@
     },
     isFriendRequest() {
       return this.get('type') === 'friend-request';
+    },
+    isGroupInvitation() {
+      return !!this.get('groupInvitation');
     },
     getNotificationText() {
       const description = this.getDescription();
@@ -437,6 +445,27 @@
         onBlockUser,
         onUnblockUser,
         onRetrySend,
+      };
+    },
+    getPropsForGroupInvitation() {
+      const invitation = this.get('groupInvitation');
+
+      let direction = this.get('direction');
+      if (!direction) {
+        direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
+      }
+
+      return {
+        serverName: invitation.serverName,
+        serverAddress: invitation.serverAddress,
+        direction,
+        onClick: () => {
+          Whisper.events.trigger(
+            'publicChatInvitationAccepted',
+            invitation.serverAddress,
+            invitation.channelId
+          );
+        },
       };
     },
     findContact(phoneNumber) {
@@ -1920,6 +1949,7 @@
         window.log.info(
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
         );
+
         const withQuoteReference = await this.copyFromQuotedMessage(
           initialMessage
         );
@@ -2000,6 +2030,10 @@
             if (groupUpdate !== null) {
               message.set({ group_update: groupUpdate });
             }
+          }
+
+          if (initialMessage.groupInvitation) {
+            message.set({ groupInvitation: initialMessage.groupInvitation });
           }
 
           const urls = window.Signal.LinkPreviews.findLinks(dataMessage.body);
@@ -2227,15 +2261,6 @@
           } else if (message.get('type') !== 'outgoing') {
             // Ignore 'outgoing' messages because they are sync messages
             await sendingDeviceConversation.onFriendRequestAccepted();
-            // We need to return for these types of messages because android struggles
-            if (
-              !message.get('body') &&
-              !message.get('attachments').length &&
-              !message.get('preview').length &&
-              !message.get('group_update')
-            ) {
-              return;
-            }
           }
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,

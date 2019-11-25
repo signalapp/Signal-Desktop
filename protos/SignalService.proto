@@ -201,6 +201,12 @@ message DataMessage {
     optional string avatar = 2;
   }
 
+  message GroupInvitation {
+    optional string serverAddress = 1;
+    optional uint32 channelId = 2;
+    optional string serverName = 3;
+  }
+
   optional string             body        = 1;
   repeated AttachmentPointer  attachments = 2;
   optional GroupContext       group       = 3;
@@ -212,6 +218,7 @@ message DataMessage {
   repeated Contact            contact     = 9;
   repeated Preview            preview     = 10;
   optional LokiProfile        profile     = 101; // Loki: The profile of the current user
+  optional GroupInvitation groupInvitation = 102; // Loki: Invitation to a public chat
 }
 
 message NullMessage {

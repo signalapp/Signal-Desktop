@@ -1418,7 +1418,13 @@
       };
     },
 
-    async sendMessage(body, attachments, quote, preview) {
+    async sendMessage(
+      body,
+      attachments,
+      quote,
+      preview,
+      groupInvitation = null
+    ) {
       this.clearTypingTimers();
 
       const destination = this.id;
@@ -1510,6 +1516,7 @@
         }
         const attributes = {
           ...messageWithSchema,
+          groupInvitation,
           id: window.getGuid(),
         };
 
@@ -1588,6 +1595,8 @@
         if (options.isPublic) {
           options.publicSendData = await this.getPublicSendData();
         }
+
+        options.groupInvitation = groupInvitation;
 
         const groupNumbers = this.getRecipients();
 
