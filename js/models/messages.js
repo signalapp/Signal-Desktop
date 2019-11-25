@@ -12,6 +12,7 @@
   Whisper,
   clipboard,
   libloki,
+  lokiPublicChatAPI,
 */
 
 /* eslint-disable more/no-then */
@@ -662,6 +663,7 @@
         onSelectMessage: () => this.selectMessage(),
         onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
         onCopyPubKey: () => this.copyPubKey(),
+        onBanUser: () => this.banUser(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
@@ -967,6 +969,19 @@
       }
       window.Whisper.events.trigger('showToast', {
         message: i18n('copiedPublicKey'),
+      });
+    },
+
+    banUser() {
+      window.Whisper.events.trigger('showConfirmationDialog', {
+        message: i18n('banUserConfirm'),
+        onOk: async () => {
+          const source = this.get('source');
+          const conversation = this.getConversation();
+
+          const channelAPI = await conversation.getPublicSendData();
+          await channelAPI.banUser(source);
+        }
       });
     },
 

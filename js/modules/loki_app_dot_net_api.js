@@ -545,6 +545,18 @@ class LokiPublicChannelAPI {
     // TODO: poll for group members here?
   }
 
+  async banUser(pubkey){
+    const res = await this.serverRequest(
+      `loki/v1/moderation/blacklist/@${pubkey}`
+    );
+
+    if (res.err || !res.response || !res.response.data) {
+      if (res.err) {
+        log.error(`Error ${res.err}`);
+      }
+    }
+  }
+
   stop() {
     this.running = false;
     if (this.timers.channel) {
