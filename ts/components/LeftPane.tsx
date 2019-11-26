@@ -237,7 +237,7 @@ export class LeftPane extends React.Component<Props, any> {
               rowHeight={64}
               rowRenderer={this.renderRow}
               width={width}
-              autoHeight
+              autoHeight={true}
             />
           )}
         </AutoSizer>
