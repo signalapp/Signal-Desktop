@@ -145,7 +145,10 @@
       this.$('#display-name').focus();
     },
     onKeyup(event) {
-      if (currentPageIndex !== PROFILE_INDEX) {
+      if (
+        currentPageIndex !== PROFILE_INDEX &&
+        currentPageIndex !== REGISTER_INDEX
+      ) {
         // Only want enter/escape keys to work on profile page
         return;
       }
@@ -153,7 +156,11 @@
       const validName = this.sanitiseNameInput();
       switch (event.key) {
         case 'Enter':
-          if (validName) {
+          if (event.target.id === 'mnemonic') {
+            this.registerWithMnemonic();
+          } else if (event.target.id === 'primary-pubkey') {
+            this.registerSecondaryDevice();
+          } else if (validName) {
             this.onSaveProfile();
           }
           break;
@@ -388,13 +395,22 @@
         this.$('#number-container').addClass('invalid');
       }
     },
+
     toggleSection(e) {
+      function focusInput() {
+        const inputs = $(this).find('input');
+        if ($(this).is(':visible')) {
+          if (inputs[0]) {
+            inputs[0].focus();
+          }
+        }
+      }
       // Expand or collapse this panel
       const $target = this.$(e.currentTarget);
       const $next = $target.next();
 
       // Toggle section visibility
-      $next.slideToggle('fast');
+      $next.slideToggle('fast', focusInput);
       $target.toggleClass('section-toggle-visible');
 
       // Hide the other sections
