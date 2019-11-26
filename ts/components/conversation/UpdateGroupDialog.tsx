@@ -129,7 +129,9 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
             onMemberClicked={this.onMemberClicked}
           />
         </div>
-        <p className={noFriendsClasses}>(no friends to add)</p>
+        <p className={noFriendsClasses}>{`(${this.props.i18n(
+          'noFriendsToAdd'
+        )})`}</p>
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
             {cancelText}
