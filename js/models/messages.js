@@ -202,7 +202,7 @@
 
         id: this.id,
         conversationId: this.get('conversationId'),
-        receivedAt: this.get('received_at'),
+        sentAt: this.get('sent_at'),
         snippet: this.get('snippet'),
       };
     },

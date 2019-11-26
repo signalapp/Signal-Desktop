@@ -14,7 +14,7 @@ export type PropsDataType = {
 
   id: string;
   conversationId: string;
-  receivedAt: number;
+  sentAt: number;
 
   snippet: string;
 
@@ -128,7 +128,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
       isSelected,
       conversationId,
       openConversationInternal,
-      receivedAt,
+      sentAt,
       snippet,
       to,
     } = this.props;
@@ -155,7 +155,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
           <div className="module-message-search-result__header">
             {this.renderFrom()}
             <div className="module-message-search-result__header__timestamp">
-              <Timestamp timestamp={receivedAt} i18n={i18n} />
+              <Timestamp timestamp={sentAt} i18n={i18n} />
             </div>
           </div>
           <div className="module-message-search-result__body">
