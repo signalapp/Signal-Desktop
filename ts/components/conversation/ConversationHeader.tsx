@@ -68,12 +68,14 @@ interface Props {
   onLeaveGroup: () => void;
 
   onInviteFriends: () => void;
+  onShowUserDetails?: (userPubKey: string) => void;
 
   i18n: LocalizerType;
 }
 
 export class ConversationHeader extends React.Component<Props> {
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
+  public onShowUserDetailsBound: (userPubKey: string) => void;
   public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
@@ -81,6 +83,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     this.menuTriggerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
+    this.onShowUserDetailsBound = this.onShowUserDetails.bind(this);
   }
 
   public showMenu(event: React.MouseEvent<HTMLDivElement>) {
@@ -180,6 +183,9 @@ export class ConversationHeader extends React.Component<Props> {
           size={28}
           borderColor={borderColor}
           borderWidth={2}
+          onAvatarClick={() => {
+            this.onShowUserDetailsBound(phoneNumber);
+          }}
         />
       </span>
     );
@@ -396,5 +402,10 @@ export class ConversationHeader extends React.Component<Props> {
         {archiveConversationMenuItem}
       </React.Fragment>
     );
+  }
+
+  public onShowUserDetails(userPubKey: string) {
+    if (this.props.onShowUserDetails)
+      this.props.onShowUserDetails(userPubKey);
   }
 }

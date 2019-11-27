@@ -674,12 +674,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <div
-        className="module-message__author-avatar"
-        role="button"
-        onClick={() => {
-          onShowUserDetails(authorPhoneNumber);
-        }}
-      >
+        className="module-message__author-avatar">
         <Avatar
           avatarPath={authorAvatarPath}
           color={authorColor}
@@ -689,6 +684,9 @@ export class Message extends React.PureComponent<Props, State> {
           phoneNumber={authorPhoneNumber}
           profileName={authorProfileName}
           size={36}
+          onAvatarClick={() => {
+            onShowUserDetails(authorPhoneNumber);
+          }}
         />
         {isModerator && (
           <div className="module-avatar__icon--crown-wrapper">
