@@ -180,6 +180,10 @@
       const dialog = new Whisper.EditProfileDialogView(options);
       this.el.append(dialog.el);
     },
+    showUserDetailsDialog(options) {
+      const dialog = new Whisper.UserDetailsDialogView(options);
+      this.el.append(dialog.el);
+    },
     showNicknameDialog({ pubKey, title, message, nickname, onOk, onCancel }) {
       const _title = title || `Change nickname for ${pubKey}`;
       const dialog = new Whisper.NicknameDialogView({

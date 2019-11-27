@@ -113,6 +113,7 @@ export interface Props {
   onDelete?: () => void;
   onCopyPubKey?: () => void;
   onShowDetail: () => void;
+  onShowUserDetails: (userPubKey: string) => void;
 }
 
 interface State {
@@ -660,6 +661,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       i18n,
+      onShowUserDetails,
     } = this.props;
 
     if (

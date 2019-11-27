@@ -706,6 +706,10 @@
             message: this,
             isDangerous,
           }),
+        onShowUserDetails: pubkey =>
+          window.Whisper.events.trigger('onShowUserDetails', {
+            userPubKey: pubkey,
+          }),
       };
     },
     createNonBreakingLastSeparator(text) {

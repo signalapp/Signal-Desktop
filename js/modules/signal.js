@@ -49,6 +49,8 @@ const {
   CreateGroupDialog,
 } = require('../../ts/components/conversation/CreateGroupDialog');
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
+const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
+
 const {
   UpdateGroupDialog,
 } = require('../../ts/components/conversation/UpdateGroupDialog');
@@ -236,6 +238,7 @@ exports.setup = (options = {}) => {
     MemberList,
     CreateGroupDialog,
     EditProfileDialog,
+    UserDetailsDialog,
     ConfirmDialog,
     UpdateGroupDialog,
     InviteFriendsDialog,
