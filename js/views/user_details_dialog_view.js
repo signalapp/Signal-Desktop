@@ -30,7 +30,7 @@
     },
     render() {
       this.dialogView = new Whisper.ReactWrapperView({
-        className: 'edit-profile-dialog',
+        className: 'user-details-dialog',
         Component: window.Signal.Components.UserDetailsDialog,
         props: {
           onOk: this.onOk,
