@@ -673,7 +673,13 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className="module-message__author-avatar">
+      <div
+        className="module-message__author-avatar"
+        role="button"
+        onClick={() => {
+          onShowUserDetails(authorPhoneNumber);
+        }}
+      >
         <Avatar
           avatarPath={authorAvatarPath}
           color={authorColor}
@@ -1084,17 +1090,7 @@ export class Message extends React.PureComponent<Props, State> {
     const enableContextMenu = !isRss && !multiSelectMode;
 
     return (
-      <div
-        className={classNames(divClasses)}
-        role="button"
-        onClick={() => {
-          const selection = window.getSelection();
-          if (selection && selection.type === 'Range') {
-            return;
-          }
-          this.props.onSelectMessage();
-        }}
-      >
+      <div className={classNames(divClasses)}>
         <ContextMenuTrigger id={rightClickTriggerId}>
           {this.renderCheckBox()}
           {this.renderAvatar()}
@@ -1104,6 +1100,14 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message--${direction}`,
               expiring ? 'module-message--expired' : null
             )}
+            role="button"
+            onClick={() => {
+              const selection = window.getSelection();
+              if (selection && selection.type === 'Range') {
+                return;
+              }
+              this.props.onSelectMessage();
+            }}
           >
             {this.renderError(isIncoming)}
             {isRss ? null : this.renderMenu(!isIncoming, triggerId)}
