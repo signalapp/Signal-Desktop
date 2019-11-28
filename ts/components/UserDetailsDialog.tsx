@@ -35,8 +35,12 @@ export class UserDetailsDialog extends React.Component<Props> {
 
     return (
       <div className="content">
-        {this.renderAvatar()}
-        <span className="profile-name">{this.props.profileName}</span>
+        <div className="avatar-center">
+          <div className="avatar-center-inner">
+            {this.renderAvatar()}
+          </div>
+        </div>
+        <div className="profile-name">{this.props.profileName}</div>
         <div className="message">{this.props.pubkey}</div>
 
         <div className="buttons">

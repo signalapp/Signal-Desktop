@@ -64,8 +64,8 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
     return (
       <div className="content">
-        <div className="avatar-upload">
-          <div className="avatar-upload-inner">
+        <div className="avatar-center">
+          <div className="avatar-center-inner">
             {this.renderAvatar()}
             <div className="upload-btn-background">
               <input
