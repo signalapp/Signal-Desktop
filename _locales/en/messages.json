@@ -1999,6 +1999,26 @@
       "Button action that the user can click to copy their public keys"
   },
 
+  "banUser": {
+    "message": "Ban user",
+    "description": "Ban user from public chat by public key."
+  },
+
+  "banUserConfirm": {
+    "message": "Are you sure you want to ban user?",
+    "description": "Message shown when confirming user ban."
+  },
+
+  "userBanned": {
+    "message": "User successfully banned",
+    "description": "Toast on succesful user ban."
+  },
+
+  "userBanFailed": {
+    "message": "User ban failed!",
+    "description": "Toast on unsuccesful user ban."
+  },
+
   "copyChatId": {
     "message": "Copy Chat ID"
   },

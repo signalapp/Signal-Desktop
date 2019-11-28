@@ -643,6 +643,9 @@
       // for the public group chat
       const conversation = this.getConversation();
 
+      const isModerator =
+        conversation && !!conversation.isModerator(this.OUR_NUMBER);
+
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
 
@@ -677,18 +680,21 @@
         isP2p: !!this.get('isP2p'),
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
-        isModerator:
+        senderIsModerator:
           !!this.get('isPublic') &&
-          this.getConversation().isModerator(this.getSource()),
+          conversation &&
+          conversation.isModerator(phoneNumber),
         isDeletable:
           !this.get('isPublic') ||
-          this.getConversation().isModerator(this.OUR_NUMBER) ||
-          this.getSource() === this.OUR_NUMBER,
+          isModerator ||
+          phoneNumber === this.OUR_NUMBER,
+        isModerator,
 
         onCopyText: () => this.copyText(),
         onSelectMessage: () => this.selectMessage(),
         onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
         onCopyPubKey: () => this.copyPubKey(),
+        onBanUser: () => this.banUser(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
@@ -994,6 +1000,29 @@
       }
       window.Whisper.events.trigger('showToast', {
         message: i18n('copiedPublicKey'),
+      });
+    },
+
+    banUser() {
+      window.Whisper.events.trigger('showConfirmationDialog', {
+        message: i18n('banUserConfirm'),
+        onOk: async () => {
+          const source = this.get('source');
+          const conversation = this.getConversation();
+
+          const channelAPI = await conversation.getPublicSendData();
+          const success = await channelAPI.banUser(source);
+
+          if (success) {
+            window.Whisper.events.trigger('showToast', {
+              message: i18n('userBanned'),
+            });
+          } else {
+            window.Whisper.events.trigger('showToast', {
+              message: i18n('userBanFailed'),
+            });
+          }
+        },
       });
     },
 

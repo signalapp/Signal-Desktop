@@ -55,8 +55,9 @@ interface LinkPreviewType {
 
 export interface Props {
   disableMenu?: boolean;
-  isModerator?: boolean;
+  senderIsModerator?: boolean;
   isDeletable: boolean;
+  isModerator?: boolean;
   text?: string;
   textPending?: boolean;
   id?: string;
@@ -112,6 +113,7 @@ export interface Props {
   onDownload?: (isDangerous: boolean) => void;
   onDelete?: () => void;
   onCopyPubKey?: () => void;
+  onBanUser?: () => void;
   onShowDetail: () => void;
 }
 
@@ -210,9 +212,13 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderMetadataBadges() {
-    const { direction, isP2p, isPublic, isModerator } = this.props;
+    const { direction, isP2p, isPublic, senderIsModerator } = this.props;
 
-    const badges = [isPublic && 'Public', isP2p && 'P2p', isModerator && 'Mod'];
+    const badges = [
+      isPublic && 'Public',
+      isP2p && 'P2p',
+      senderIsModerator && 'Mod',
+    ];
 
     return badges
       .map(badgeText => {
@@ -655,7 +661,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
-      isModerator,
+      senderIsModerator,
       authorColor,
       conversationType,
       direction,
@@ -682,7 +688,7 @@ export class Message extends React.PureComponent<Props, State> {
           profileName={authorProfileName}
           size={36}
         />
-        {isModerator && (
+        {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
           </div>
@@ -861,6 +867,8 @@ export class Message extends React.PureComponent<Props, State> {
       onCopyPubKey,
       isPublic,
       i18n,
+      isModerator,
+      onBanUser,
     } = this.props;
 
     const showRetry = status === 'error' && direction === 'outgoing';
@@ -959,6 +967,9 @@ export class Message extends React.PureComponent<Props, State> {
           <MenuItem onClick={wrap(onCopyPubKey)}>
             {i18n('copyPublicKey')}
           </MenuItem>
+        ) : null}
+        {isModerator && isPublic ? (
+          <MenuItem onClick={wrap(onBanUser)}>{i18n('banUser')}</MenuItem>
         ) : null}
       </ContextMenu>
     );
