@@ -175,6 +175,7 @@ export class Avatar extends React.PureComponent<Props, State> {
           !hasImage ? `module-avatar--${color}` : null
         )}
         onClick={this.onAvatarClickBound}
+        role="button"
       >
         {hasImage ? this.renderAvatarOrIdenticon() : this.renderNoImage()}
       </div>
@@ -183,7 +184,7 @@ export class Avatar extends React.PureComponent<Props, State> {
 
   private onAvatarClick() {
     if (this.props.onAvatarClick) {
-      this.props.onAvatarClick()
+      this.props.onAvatarClick();
     }
   }
 

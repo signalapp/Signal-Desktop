@@ -298,6 +298,12 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
+  public onShowUserDetails(userPubKey: string) {
+    if (this.props.onShowUserDetails) {
+      this.props.onShowUserDetails(userPubKey);
+    }
+  }
+
   private renderMemberCount() {
     const memberCount = this.props.members.length;
 
@@ -402,10 +408,5 @@ export class ConversationHeader extends React.Component<Props> {
         {archiveConversationMenuItem}
       </React.Fragment>
     );
-  }
-
-  public onShowUserDetails(userPubKey: string) {
-    if (this.props.onShowUserDetails)
-      this.props.onShowUserDetails(userPubKey);
   }
 }

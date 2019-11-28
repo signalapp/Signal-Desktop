@@ -673,8 +673,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div
-        className="module-message__author-avatar">
+      <div className="module-message__author-avatar">
         <Avatar
           avatarPath={authorAvatarPath}
           color={authorColor}
