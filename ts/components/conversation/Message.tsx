@@ -57,7 +57,7 @@ export interface Props {
   disableMenu?: boolean;
   senderIsModerator?: boolean;
   isDeletable: boolean;
-  hasModPerms?: boolean;
+  isModerator?: boolean;
   text?: string;
   textPending?: boolean;
   id?: string;
@@ -867,7 +867,7 @@ export class Message extends React.PureComponent<Props, State> {
       onCopyPubKey,
       isPublic,
       i18n,
-      hasModPerms,
+      isModerator,
       onBanUser,
     } = this.props;
 
@@ -968,7 +968,7 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('copyPublicKey')}
           </MenuItem>
         ) : null}
-        {hasModPerms && isPublic ? (
+        {isModerator && isPublic ? (
           <MenuItem onClick={wrap(onBanUser)}>{i18n('banUser')}</MenuItem>
         ) : null}
       </ContextMenu>

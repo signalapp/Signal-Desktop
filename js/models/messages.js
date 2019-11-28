@@ -656,7 +656,7 @@
           !this.get('isPublic') ||
           conversation && conversation.isModerator(this.OUR_NUMBER) ||
           this.getSource() === this.OUR_NUMBER,
-        hasModPerms:
+        isModerator:
           conversation && !!conversation.isModerator(this.OUR_NUMBER),
 
         onCopyText: () => this.copyText(),
