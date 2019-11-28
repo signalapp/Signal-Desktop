@@ -994,9 +994,8 @@
           pubkey: userPubKey,
           avatarPath,
           avatarColor: conversation.getColor(),
-          onOk: async () => {},
-          onStartConversation: async () => {
-            window.Whisper.events.trigger('showConversation', userPubKey);
+          onStartConversation: () => {
+            Whisper.events.trigger('showConversation', userPubKey);
           },
         });
       }

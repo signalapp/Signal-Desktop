@@ -26,7 +26,7 @@ interface State {
 
 export class Avatar extends React.PureComponent<Props, State> {
   public handleImageErrorBound: () => void;
-  public onAvatarClickBound: () => void;
+  public onAvatarClickBound: (e: any) => void;
 
   public constructor(props: Props) {
     super(props);
@@ -174,7 +174,9 @@ export class Avatar extends React.PureComponent<Props, State> {
           hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
           !hasImage ? `module-avatar--${color}` : null
         )}
-        onClick={this.onAvatarClickBound}
+        onClick={e => {
+          this.onAvatarClickBound(e);
+        }}
         role="button"
       >
         {hasImage ? this.renderAvatarOrIdenticon() : this.renderNoImage()}
@@ -182,8 +184,9 @@ export class Avatar extends React.PureComponent<Props, State> {
     );
   }
 
-  private onAvatarClick() {
+  private onAvatarClick(e: any) {
     if (this.props.onAvatarClick) {
+      e.stopPropagation();
       this.props.onAvatarClick();
     }
   }
