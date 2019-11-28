@@ -28,6 +28,7 @@ function Message(options) {
   this.profileKey = options.profileKey;
   this.profile = options.profile;
   this.groupInvitation = options.groupInvitation;
+  this.sessionRestoration = options.sessionRestoration || false;
 
   if (!(this.recipients instanceof Array)) {
     throw new Error('Invalid recipient list');
@@ -169,6 +170,10 @@ Message.prototype = {
           serverName: this.groupInvitation.serverName,
         }
       );
+    }
+
+    if (this.sessionRestoration) {
+      proto.flags = textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
     }
 
     this.dataMessage = proto;
@@ -952,7 +957,7 @@ MessageSender.prototype = {
       ? textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST
       : undefined;
 
-    const { groupInvitation } = options;
+    const { groupInvitation, sessionRestoration } = options;
 
     return this.sendMessage(
       {
@@ -968,6 +973,7 @@ MessageSender.prototype = {
         profile,
         flags,
         groupInvitation,
+        sessionRestoration,
       },
       options
     );

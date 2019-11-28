@@ -250,6 +250,10 @@
       const dialog = new Whisper.UpdateGroupDialogView(groupConvo);
       this.el.append(dialog.el);
     },
+    showSessionRestoreConfirmation(options) {
+      const dialog = new Whisper.ConfirmSessionResetView(options);
+      this.el.append(dialog.el);
+    },
     showLeaveGroupDialog(groupConvo) {
       const dialog = new Whisper.LeaveGroupDialogView(groupConvo);
       this.el.append(dialog.el);

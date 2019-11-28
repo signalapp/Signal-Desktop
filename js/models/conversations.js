@@ -1423,7 +1423,8 @@
       attachments,
       quote,
       preview,
-      groupInvitation = null
+      groupInvitation = null,
+      otherOptions = {}
     ) {
       this.clearTypingTimers();
 
@@ -1514,9 +1515,17 @@
           messageWithSchema.source = textsecure.storage.user.getNumber();
           messageWithSchema.sourceDevice = 1;
         }
+
+        let sessionRestoration = false;
+
+        if (otherOptions) {
+          sessionRestoration = otherOptions.sessionRestoration || false;
+        }
+
         const attributes = {
           ...messageWithSchema,
           groupInvitation,
+          sessionRestoration,
           id: window.getGuid(),
         };
 
@@ -1597,6 +1606,7 @@
         }
 
         options.groupInvitation = groupInvitation;
+        options.sessionRestoration = sessionRestoration;
 
         const groupNumbers = this.getRecipients();
 
