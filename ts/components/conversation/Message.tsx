@@ -55,7 +55,7 @@ interface LinkPreviewType {
 
 export interface Props {
   disableMenu?: boolean;
-  isModerator?: boolean;
+  senderIsModerator?: boolean;
   isDeletable: boolean;
   hasModPerms?: boolean;
   text?: string;
@@ -212,9 +212,13 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderMetadataBadges() {
-    const { direction, isP2p, isPublic, isModerator } = this.props;
+    const { direction, isP2p, isPublic, senderIsModerator } = this.props;
 
-    const badges = [isPublic && 'Public', isP2p && 'P2p', isModerator && 'Mod'];
+    const badges = [
+      isPublic && 'Public',
+      isP2p && 'P2p',
+      senderIsModerator && 'Mod',
+    ];
 
     return badges
       .map(badgeText => {
@@ -657,7 +661,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
-      isModerator,
+      senderIsModerator,
       authorColor,
       conversationType,
       direction,
@@ -684,7 +688,7 @@ export class Message extends React.PureComponent<Props, State> {
           profileName={authorProfileName}
           size={36}
         />
-        {isModerator && (
+        {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
           </div>

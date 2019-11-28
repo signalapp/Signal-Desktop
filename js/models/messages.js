@@ -648,14 +648,16 @@
         isP2p: !!this.get('isP2p'),
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
-        isModerator:
+        senderIsModerator:
           !!this.get('isPublic') &&
-          this.getConversation().isModerator(this.getSource()),
+          conversation &&
+          conversation.isModerator(phoneNumber),
         isDeletable:
           !this.get('isPublic') ||
-          this.getConversation().isModerator(this.OUR_NUMBER) ||
+          conversation && conversation.isModerator(this.OUR_NUMBER) ||
           this.getSource() === this.OUR_NUMBER,
-        hasModPerms: this.getConversation().isModerator(this.OUR_NUMBER),
+        hasModPerms:
+          conversation && !!conversation.isModerator(this.OUR_NUMBER),
 
         onCopyText: () => this.copyText(),
         onSelectMessage: () => this.selectMessage(),
