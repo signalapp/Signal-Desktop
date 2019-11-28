@@ -614,6 +614,8 @@
       // for the public group chat
       const conversation = this.getConversation();
 
+      const isModerator = conversation && !!conversation.isModerator(this.OUR_NUMBER);
+
       const convoId = conversation ? conversation.id : undefined;
       const isGroup = !!conversation && !conversation.isPrivate();
 
@@ -654,10 +656,9 @@
           conversation.isModerator(phoneNumber),
         isDeletable:
           !this.get('isPublic') ||
-          conversation && conversation.isModerator(this.OUR_NUMBER) ||
-          this.getSource() === this.OUR_NUMBER,
-        isModerator:
-          conversation && !!conversation.isModerator(this.OUR_NUMBER),
+          isModerator ||
+          phoneNumber === this.OUR_NUMBER,
+        isModerator: isModerator
 
         onCopyText: () => this.copyText(),
         onSelectMessage: () => this.selectMessage(),
