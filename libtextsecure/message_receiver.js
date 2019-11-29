@@ -1012,6 +1012,8 @@ MessageReceiver.prototype.extend({
       throw e;
     }
   },
+  // handle a SYNC message for a message
+  // sent by another device
   handleSentMessage(envelope, sentContainer, msg) {
     const {
       destination,
@@ -1029,9 +1031,10 @@ MessageReceiver.prototype.extend({
       this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
+        const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
         const isMe =
           envelope.source === textsecure.storage.user.getNumber() ||
-          envelope.source === window.storage.get('primaryDevicePubKey');
+          envelope.source === primaryDevicePubKey;
         const isLeavingGroup = Boolean(
           message.group &&
             message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
@@ -1044,6 +1047,16 @@ MessageReceiver.prototype.extend({
             )} ignored; destined for blocked group`
           );
           return this.removeFromCache(envelope);
+        }
+
+        // handle profileKey and avatar updates
+        if (envelope.source === primaryDevicePubKey) {
+          const { profileKey, profile } = message;
+          const primaryConversation = ConversationController.get(
+            primaryDevicePubKey
+          );
+          //
+          this.updateProfile(primaryConversation, profile, profileKey);
         }
 
         const ev = new Event('sent');
