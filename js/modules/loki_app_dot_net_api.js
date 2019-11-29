@@ -1251,29 +1251,14 @@ class LokiPublicChannelAPI {
       []
     );
 
-    // sort pending messages by if slave device or not
-    /* eslint-disable no-param-reassign */
-    const slaveMessages = pendingMessages
-      .filter(messageData => !!messageData) // filter out false messages
-      .reduce((retval, messageData) => {
-        // if a known slave
-        if (slavePrimaryMap[messageData.source]) {
-          // delay sending the message
-          if (retval[messageData.source] === undefined) {
-            retval[messageData.source] = [messageData];
-          } else {
-            retval[messageData.source].push(messageData);
-          }
-        } else {
-          // not from a paired/slave/unregistered device
-          // send event now
-          this.serverAPI.chatAPI.emit('publicMessage', {
-            message: messageData,
-          });
-        }
-        return retval;
-      }, {});
-    /* eslint-enable no-param-reassign */
+    // filter out invalid messages
+    pendingMessages = pendingMessages.filter(messageData => !!messageData);
+    // separate messages coming from primary and secondary devices
+    const [primaryMessages, slaveMessages] = _.partition(pendingMessages, message => !(message.source in slavePrimaryMap));
+    // process primary devices' message directly
+    primaryMessages.forEach(message => this.serverAPI.chatAPI.emit('publicMessage', {
+      message,
+    }));
 
     pendingMessages = []; // allow memory to be freed
 
