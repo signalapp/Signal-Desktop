@@ -924,7 +924,9 @@ MessageSender.prototype = {
 
   getOurProfile() {
     try {
-      const ourNumber = textsecure.storage.user.getNumber();
+      // Secondary devices have their profile stored
+      // in their primary device's conversation
+      const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = window.ConversationController.get(ourNumber);
       return conversation.getLokiProfile();
     } catch (e) {
