@@ -985,6 +985,12 @@
             // so we could disable this here
             // or least it enable for the quickest response
             window.lokiPublicChatAPI.setProfileName(newName);
+            window
+              .getConversations()
+              .filter(convo => convo.isPublic() && !convo.isRss())
+              .forEach(convo =>
+                convo.trigger('ourAvatarChanged', { url, profileKey })
+              );
           },
         });
       }

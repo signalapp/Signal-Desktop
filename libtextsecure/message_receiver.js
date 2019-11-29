@@ -172,7 +172,11 @@ MessageReceiver.prototype.extend({
         message.source,
         'private'
       );
-      await this.updateProfile(conversation, message.message.profile);
+      await this.updateProfile(
+        conversation,
+        message.message.profile,
+        message.message.profileKey
+      );
     }
 
     const ev = new Event('message');
@@ -1295,7 +1299,7 @@ MessageReceiver.prototype.extend({
           } catch (e) {
             window.log.error(`Could not decrypt profile image: ${e}`);
           }
-      }
+        }
         newProfile.avatar = path;
       }
     } else {

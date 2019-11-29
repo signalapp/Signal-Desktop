@@ -14,6 +14,7 @@ const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
 const HOMESERVER_USER_ANNOTATION_TYPE = 'network.loki.messenger.homeserver';
+const AVATAR_USER_ANNOTATION_TYPE = 'network.loki.messenger.avatar';
 const MESSAGE_ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
@@ -130,6 +131,17 @@ class LokiAppDotNetAPI extends EventEmitter {
         // but we can't create a sql table to remember to retry forever
         // I think we just silently fail for now
         await server.setHomeServer(homeServer);
+      })
+    );
+  }
+
+  async setAvatar(url, profileKey) {
+    await Promise.all(
+      this.servers.map(async server => {
+        // this may fail
+        // but we can't create a sql table to remember to retry forever
+        // I think we just silently fail for now
+        await server.setAvatar(url, profileKey);
       })
     );
   }
@@ -252,6 +264,14 @@ class LokiAppDotNetServerAPI {
 
     // expecting a user object
     return res.response.data.annotations || [];
+  }
+
+  async setAvatar(url, profileKey) {
+    let value = null;
+    if (url && profileKey) {
+      value = { url, profileKey };
+    }
+    return this.setSelfAnnotation(AVATAR_USER_ANNOTATION_TYPE, value);
   }
 
   // get active token for this server
@@ -938,7 +958,16 @@ class LokiPublicChannelAPI {
     }
 
     // timestamp is the only required field we've had since the first deployed version
-    const { timestamp, quote, avatar } = noteValue;
+    const { timestamp, quote } = noteValue;
+
+    let profileKey = null;
+    let avatar = null;
+    const avatarNote = adnMessage.user.annotations.find(
+      note => note.type === AVATAR_USER_ANNOTATION_TYPE
+    );
+    if (avatarNote) {
+      ({ profileKey, url: avatar } = avatarNote.value);
+    }
 
     if (quote) {
       // TODO: Enable quote attachments again using proper ADN style
@@ -1002,6 +1031,7 @@ class LokiPublicChannelAPI {
       preview,
       quote,
       avatar,
+      profileKey,
     };
   }
 
@@ -1070,12 +1100,21 @@ class LokiPublicChannelAPI {
           return false; // Invalid or delete message
         }
 
+        const pubKey = adnMessage.user.username;
+
         const messengerData = await this.getMessengerData(adnMessage);
         if (messengerData === false) {
           return false;
         }
 
-        const { timestamp, quote, attachments, preview } = messengerData;
+        const {
+          timestamp,
+          quote,
+          attachments,
+          preview,
+          avatar,
+          profileKey,
+        } = messengerData;
         if (!timestamp) {
           return false; // Invalid message
         }
@@ -1083,7 +1122,7 @@ class LokiPublicChannelAPI {
         // Duplicate check
         const isDuplicate = message => {
           // The username in this case is the users pubKey
-          const sameUsername = message.username === adnMessage.user.username;
+          const sameUsername = message.username === pubKey;
           const sameText = message.text === adnMessage.text;
           // Don't filter out messages that are too far apart from each other
           const timestampsSimilar =
@@ -1103,7 +1142,7 @@ class LokiPublicChannelAPI {
         this.lastMessagesCache = [
           ...this.lastMessagesCache,
           {
-            username: adnMessage.user.username,
+            username: pubKey,
             text: adnMessage.text,
             timestamp,
           },
@@ -1112,7 +1151,7 @@ class LokiPublicChannelAPI {
         const from = adnMessage.user.name || 'Anonymous'; // profileName
 
         // if us
-        if (adnMessage.user.username === ourNumber) {
+        if (pubKey === ourNumber) {
           // update the last name we saw from ourself
           lastProfileName = from;
         }
@@ -1133,12 +1172,8 @@ class LokiPublicChannelAPI {
         if (homeServerPubKeys[homeServer] === undefined) {
           homeServerPubKeys[homeServer] = [];
         }
-        if (
-          homeServerPubKeys[homeServer].indexOf(
-            `@${adnMessage.user.username}`
-          ) === -1
-        ) {
-          homeServerPubKeys[homeServer].push(`@${adnMessage.user.username}`);
+        if (homeServerPubKeys[homeServer].indexOf(`@${pubKey}`) === -1) {
+          homeServerPubKeys[homeServer].push(`@${pubKey}`);
         }
 
         // generate signal message object
@@ -1146,7 +1181,7 @@ class LokiPublicChannelAPI {
           serverId: adnMessage.id,
           clientVerified: true,
           friendRequest: false,
-          source: adnMessage.user.username,
+          source: pubKey,
           sourceDevice: 1,
           timestamp,
 
@@ -1163,7 +1198,7 @@ class LokiPublicChannelAPI {
             },
             flags: 0,
             expireTimer: 0,
-            profileKey: null,
+            profileKey,
             timestamp,
             received_at: receivedAt,
             sent_at: timestamp,
@@ -1172,6 +1207,7 @@ class LokiPublicChannelAPI {
             preview,
             profile: {
               displayName: from,
+              avatar,
             },
           },
         };
@@ -1191,8 +1227,6 @@ class LokiPublicChannelAPI {
 
     // slave to primary map for this group of messages
     let slavePrimaryMap = {};
-    // pubKey to avatar
-    let avatarMap = {};
 
     // reduce list of servers into verified maps and keys
     const verifiedPrimaryPKs = await Object.keys(homeServerPubKeys).reduce(
@@ -1211,10 +1245,6 @@ class LokiPublicChannelAPI {
         // should not be any collisions, since each pubKey can only have one home server
         slavePrimaryMap = { ...slavePrimaryMap, ...result.slaveMap };
 
-        // merge this servers avatarMap into our map
-        // again shouldn't be any collisions
-        avatarMap = { ...avatarMap, ...serverAPI.avatarMap };
-
         // copy verified pub keys into result
         return curVal.concat(result.verifiedPrimaryPKs);
       },
@@ -1228,13 +1258,6 @@ class LokiPublicChannelAPI {
       .reduce((retval, messageData) => {
         // if a known slave
         if (slavePrimaryMap[messageData.source]) {
-          // pop primary device avatars in
-          if (avatarMap[slavePrimaryMap[messageData.source]]) {
-            // modify messageData for user's avatar
-            messageData.message.profile.avatar =
-              avatarMap[slavePrimaryMap[messageData.source]];
-          }
-
           // delay sending the message
           if (retval[messageData.source] === undefined) {
             retval[messageData.source] = [messageData];
@@ -1243,13 +1266,6 @@ class LokiPublicChannelAPI {
           }
         } else {
           // not from a paired/slave/unregistered device
-
-          // pop current device avatars in
-          if (avatarMap[messageData.source]) {
-            // modify messageData for user's avatar
-            messageData.message.profile.avatar = avatarMap[messageData.source];
-          }
-
           // send event now
           this.serverAPI.chatAPI.emit('publicMessage', {
             message: messageData,
@@ -1270,7 +1286,19 @@ class LokiPublicChannelAPI {
     /* eslint-disable no-param-reassign */
     this.primaryUserProfileName = verifiedDeviceResults.reduce(
       (mapOut, user) => {
-        mapOut[user.username] = user.name;
+        let avatar = null;
+        let profileKey = null;
+        const avatarNote = user.annotations.find(
+          note => note.type === AVATAR_USER_ANNOTATION_TYPE
+        );
+        if (avatarNote) {
+          ({ profileKey, url: avatar } = avatarNote.value);
+        }
+        mapOut[user.username] = {
+          name: user.name,
+          avatar,
+          profileKey,
+        };
         return mapOut;
       },
       {}
@@ -1294,9 +1322,12 @@ class LokiPublicChannelAPI {
         if (slavePrimaryMap[messageData.source]) {
           // rewrite source, profile
           messageData.source = primaryPubKey;
-          messageData.message.profile.displayName = this.primaryUserProfileName[
+          const { name, avatar, profileKey } = this.primaryUserProfileName[
             primaryPubKey
           ];
+          messageData.message.profile.displayName = name;
+          messageData.message.profile.avatar = avatar;
+          messageData.message.profileKey = profileKey;
         }
         this.serverAPI.chatAPI.emit('publicMessage', {
           message: messageData,
@@ -1408,8 +1439,6 @@ class LokiPublicChannelAPI {
       LokiPublicChannelAPI.getAnnotationFromPreview
     );
 
-    const avatarAnnotation = data.profile.avatar || null;
-
     const payload = {
       text,
       annotations: [
@@ -1417,8 +1446,6 @@ class LokiPublicChannelAPI {
           type: 'network.loki.messenger.publicChat',
           value: {
             timestamp: messageTimeStamp,
-            // can remove after this release
-            avatar: avatarAnnotation,
           },
         },
         ...attachmentAnnotations,

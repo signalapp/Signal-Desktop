@@ -157,6 +157,15 @@
       this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
 
+      this.on('ourAvatarChanged', avatar =>
+        this.updateAvatarOnPublicChat(avatar)
+      );
+
+      // Always share profile pics with public chats
+      if (this.isPublic) {
+        this.set('profileSharing', true);
+      }
+
       const sealedSender = this.get('sealedSender');
       if (sealedSender === undefined) {
         this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
@@ -1675,6 +1684,27 @@
           throw result;
         }
       );
+    },
+
+    async updateAvatarOnPublicChat({ url, profileKey }) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.isRss()) {
+        return;
+      }
+      if (!this.get('profileSharing')) {
+        return;
+      }
+
+      if (profileKey && typeof profileKey !== 'string') {
+        // eslint-disable-next-line no-param-reassign
+        profileKey = window.Signal.Crypto.arrayBufferToBase64(profileKey);
+      }
+      const serverAPI = await lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      await serverAPI.setAvatar(url, profileKey);
     },
 
     async handleMessageSendResult({
