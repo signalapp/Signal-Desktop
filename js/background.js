@@ -978,6 +978,29 @@
       }
     });
 
+    Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
+      const conversation = await ConversationController.getOrCreateAndWait(
+        userPubKey,
+        'private'
+      );
+
+      const avatarPath = conversation.getAvatarPath();
+      const profile = conversation.getLokiProfile();
+      const displayName = profile && profile.displayName;
+
+      if (appView) {
+        appView.showUserDetailsDialog({
+          profileName: displayName,
+          pubkey: userPubKey,
+          avatarPath,
+          avatarColor: conversation.getColor(),
+          onStartConversation: () => {
+            Whisper.events.trigger('showConversation', userPubKey);
+          },
+        });
+      }
+    });
+
     Whisper.events.on('showToast', options => {
       if (
         appView &&

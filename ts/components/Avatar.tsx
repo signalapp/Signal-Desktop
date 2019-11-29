@@ -17,6 +17,7 @@ interface Props {
   size: number;
   borderColor?: string;
   borderWidth?: number;
+  onAvatarClick?: () => void;
 }
 
 interface State {
@@ -25,11 +26,13 @@ interface State {
 
 export class Avatar extends React.PureComponent<Props, State> {
   public handleImageErrorBound: () => void;
+  public onAvatarClickBound: (e: any) => void;
 
   public constructor(props: Props) {
     super(props);
 
     this.handleImageErrorBound = this.handleImageError.bind(this);
+    this.onAvatarClickBound = this.onAvatarClick.bind(this);
 
     this.state = {
       imageBroken: false,
@@ -171,10 +174,21 @@ export class Avatar extends React.PureComponent<Props, State> {
           hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
           !hasImage ? `module-avatar--${color}` : null
         )}
+        onClick={e => {
+          this.onAvatarClickBound(e);
+        }}
+        role="button"
       >
         {hasImage ? this.renderAvatarOrIdenticon() : this.renderNoImage()}
       </div>
     );
+  }
+
+  private onAvatarClick(e: any) {
+    if (this.props.onAvatarClick) {
+      e.stopPropagation();
+      this.props.onAvatarClick();
+    }
   }
 
   private renderAvatarOrIdenticon() {

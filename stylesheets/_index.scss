@@ -10,7 +10,8 @@
   overflow: hidden;
 }
 
-.edit-profile-dialog {
+.edit-profile-dialog,
+.user-details-dialog {
   .content {
     max-width: 100% !important;
   }
@@ -41,12 +42,12 @@
     margin-bottom: 1em;
   }
 
-  .avatar-upload {
+  .avatar-center {
     display: flex;
     justify-content: center;
   }
 
-  .avatar-upload-inner {
+  .avatar-center-inner {
     display: flex;
   }
 

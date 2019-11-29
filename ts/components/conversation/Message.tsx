@@ -115,6 +115,7 @@ export interface Props {
   onCopyPubKey?: () => void;
   onBanUser?: () => void;
   onShowDetail: () => void;
+  onShowUserDetails: (userPubKey: string) => void;
 }
 
 interface State {
@@ -666,6 +667,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       i18n,
+      onShowUserDetails,
     } = this.props;
 
     if (
@@ -687,6 +689,9 @@ export class Message extends React.PureComponent<Props, State> {
           phoneNumber={authorPhoneNumber}
           profileName={authorProfileName}
           size={36}
+          onAvatarClick={() => {
+            onShowUserDetails(authorPhoneNumber);
+          }}
         />
         {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">
