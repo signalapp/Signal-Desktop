@@ -334,13 +334,6 @@ export class MainHeader extends React.Component<Props, any> {
         onClick: onCopyPublicKey,
       },
       {
-        id: 'editProfile',
-        name: i18n('editProfile'),
-        onClick: () => {
-          trigger('onEditProfile');
-        },
-      },
-      {
         id: 'showSeed',
         name: i18n('showSeed'),
         onClick: () => {
@@ -396,6 +389,14 @@ export class MainHeader extends React.Component<Props, any> {
     }
 
     if (!isSecondaryDevice) {
+      // insert as second element
+      menuItems.splice(1, 0, {
+        id: 'editProfile',
+        name: i18n('editProfile'),
+        onClick: () => {
+          trigger('onEditProfile');
+        },
+      });
       menuItems.push({
         id: 'pairNewDevice',
         name: 'Device Pairing',
