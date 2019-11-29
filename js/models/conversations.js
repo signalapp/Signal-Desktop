@@ -87,6 +87,7 @@
         groupAdmins: [],
         isKickedFromGroup: false,
         isOnline: false,
+        profileSharing: false,
       };
     },
 
@@ -846,14 +847,18 @@
       }
       if (this.get('friendRequestStatus') !== newStatus) {
         this.set({ friendRequestStatus: newStatus });
+        if (newStatus === FriendRequestStatusEnum.friends) {
+          if (!blockSync) {
+            // Sync contact
+            this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
+          }
+          // Only enable sending profileKey after becoming friends
+          this.set({ profileSharing: true });
+        }
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
         await this.updateTextInputState();
-        if (!blockSync && newStatus === FriendRequestStatusEnum.friends) {
-          // Sync contact
-          this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
-        }
       }
     },
     async updateGroupAdmins(groupAdmins) {
@@ -1492,6 +1497,11 @@
           await this.setFriendRequestStatus(
             FriendRequestStatusEnum.pendingSend
           );
+
+          // Always share our profileKey in the friend request
+          // This will get added automatically after the FR
+          // is accepted, via the profileSharing flag
+          profileKey = storage.get('profileKey');
 
           // Send the friend request!
           messageWithSchema = await upgradeMessageSchema({
