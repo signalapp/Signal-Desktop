@@ -191,8 +191,7 @@ MessageSender.prototype = {
   async makeAttachmentPointer(
     attachment,
     publicServer = null,
-    isRaw = false,
-    isAvatar = false
+    { isRaw = false, isAvatar = false }
   ) {
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
@@ -211,13 +210,7 @@ MessageSender.prototype = {
 
     const proto = new textsecure.protobuf.AttachmentPointer();
     let attachmentData;
-    let server;
-
-    if (publicServer) {
-      server = publicServer;
-    } else {
-      ({ server } = this);
-    }
+    const server = publicServer || this.server;
 
     if (publicServer || isRaw) {
       attachmentData = attachment.data;
@@ -572,7 +565,12 @@ MessageSender.prototype = {
   },
 
   uploadAvatar(attachment) {
-    return this.makeAttachmentPointer(attachment, null, true, true);
+    // isRaw is true since the data is already encrypted
+    // and doesn't need to be encrypted again
+    return this.makeAttachmentPointer(attachment, null, {
+      isRaw: true,
+      isAvatar: true,
+    });
   },
 
   sendRequestConfigurationSyncMessage(options) {
