@@ -1918,7 +1918,7 @@
 
         window.Whisper.events.trigger('showSessionRestoreConfirmation', {
           pubkey,
-          onOk: async () => {
+          onOk: () => {
             convo.sendMessage('', null, null, null, null, {
               sessionRestoration: true,
             });

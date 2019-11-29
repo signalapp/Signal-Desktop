@@ -1516,11 +1516,7 @@
           messageWithSchema.sourceDevice = 1;
         }
 
-        let sessionRestoration = false;
-
-        if (otherOptions) {
-          sessionRestoration = otherOptions.sessionRestoration || false;
-        }
+        const { sessionRestoration = false } = otherOptions;
 
         const attributes = {
           ...messageWithSchema,
