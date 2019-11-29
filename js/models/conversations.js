@@ -2312,9 +2312,8 @@
         });
       }
 
-      if (newProfile.avatar) {
-        await this.setProfileAvatar({ path: newProfile.avatar });
-      }
+      // if set to null, it will show a jazzIcon
+      await this.setProfileAvatar({ path: newProfile.avatar });
 
       await this.updateProfileName();
     },
