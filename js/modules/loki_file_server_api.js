@@ -17,6 +17,10 @@ class LokiFileServerInstance {
     this._adnApi = new LokiAppDotNetAPI(ourKey);
     this.avatarMap = {};
   }
+
+  // FIXME: this is not file-server specific
+  // and is currently called by LokiAppDotNetAPI.
+  // LokiAppDotNetAPI (base) should not know about LokiFileServer.
   async establishConnection(serverUrl) {
     // FIXME: we don't always need a token...
     this._server = await this._adnApi.findOrCreateServer(serverUrl);

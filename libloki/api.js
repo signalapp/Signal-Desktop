@@ -202,11 +202,17 @@
     if (isGrant) {
       // Send profile name to secondary device
       const lokiProfile = ourConversation.getLokiProfile();
+      // profile.avatar is the path to the local image
+      // replace with the avatar URL
+      const avatarPointer = ourConversation.get('avatarPointer');
+      lokiProfile.avatar = avatarPointer;
       const profile = new textsecure.protobuf.DataMessage.LokiProfile(
         lokiProfile
       );
+      const profileKey = window.storage.get('profileKey');
       const dataMessage = new textsecure.protobuf.DataMessage({
         profile,
+        profileKey,
       });
       // Attach contact list
       const conversations = await window.Signal.Data.getConversationsWithFriendStatus(

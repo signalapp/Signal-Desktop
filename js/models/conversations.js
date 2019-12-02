@@ -87,6 +87,7 @@
         groupAdmins: [],
         isKickedFromGroup: false,
         isOnline: false,
+        profileSharing: false,
       };
     },
 
@@ -155,6 +156,15 @@
       this.on('read', this.updateAndMerge);
       this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
+
+      this.on('ourAvatarChanged', avatar =>
+        this.updateAvatarOnPublicChat(avatar)
+      );
+
+      // Always share profile pics with public chats
+      if (this.isPublic) {
+        this.set('profileSharing', true);
+      }
 
       const sealedSender = this.get('sealedSender');
       if (sealedSender === undefined) {
@@ -846,14 +856,18 @@
       }
       if (this.get('friendRequestStatus') !== newStatus) {
         this.set({ friendRequestStatus: newStatus });
+        if (newStatus === FriendRequestStatusEnum.friends) {
+          if (!blockSync) {
+            // Sync contact
+            this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
+          }
+          // Only enable sending profileKey after becoming friends
+          this.set({ profileSharing: true });
+        }
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
         await this.updateTextInputState();
-        if (!blockSync && newStatus === FriendRequestStatusEnum.friends) {
-          // Sync contact
-          this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
-        }
       }
     },
     async updateGroupAdmins(groupAdmins) {
@@ -1493,6 +1507,11 @@
             FriendRequestStatusEnum.pendingSend
           );
 
+          // Always share our profileKey in the friend request
+          // This will get added automatically after the FR
+          // is accepted, via the profileSharing flag
+          profileKey = storage.get('profileKey');
+
           // Send the friend request!
           messageWithSchema = await upgradeMessageSchema({
             type: 'friend-request',
@@ -1665,6 +1684,27 @@
           throw result;
         }
       );
+    },
+
+    async updateAvatarOnPublicChat({ url, profileKey }) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.isRss()) {
+        return;
+      }
+      if (!this.get('profileSharing')) {
+        return;
+      }
+
+      if (profileKey && typeof profileKey !== 'string') {
+        // eslint-disable-next-line no-param-reassign
+        profileKey = window.Signal.Crypto.arrayBufferToBase64(profileKey);
+      }
+      const serverAPI = await lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      await serverAPI.setAvatar(url, profileKey);
     },
 
     async handleMessageSendResult({
@@ -2272,9 +2312,8 @@
         });
       }
 
-      if (newProfile.avatar) {
-        await this.setProfileAvatar({ path: newProfile.avatar });
-      }
+      // if set to null, it will show a jazzIcon
+      await this.setProfileAvatar({ path: newProfile.avatar });
 
       await this.updateProfileName();
     },

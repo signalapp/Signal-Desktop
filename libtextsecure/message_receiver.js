@@ -172,7 +172,11 @@ MessageReceiver.prototype.extend({
         message.source,
         'private'
       );
-      await this.updateProfile(conversation, message.message.profile);
+      await this.updateProfile(
+        conversation,
+        message.message.profile,
+        message.message.profileKey
+      );
     }
 
     const ev = new Event('message');
@@ -1012,6 +1016,8 @@ MessageReceiver.prototype.extend({
       throw e;
     }
   },
+  // handle a SYNC message for a message
+  // sent by another device
   handleSentMessage(envelope, sentContainer, msg) {
     const {
       destination,
@@ -1029,9 +1035,10 @@ MessageReceiver.prototype.extend({
       this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
+        const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
         const isMe =
           envelope.source === textsecure.storage.user.getNumber() ||
-          envelope.source === window.storage.get('primaryDevicePubKey');
+          envelope.source === primaryDevicePubKey;
         const isLeavingGroup = Boolean(
           message.group &&
             message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
@@ -1044,6 +1051,16 @@ MessageReceiver.prototype.extend({
             )} ignored; destined for blocked group`
           );
           return this.removeFromCache(envelope);
+        }
+
+        // handle profileKey and avatar updates
+        if (envelope.source === primaryDevicePubKey) {
+          const { profileKey, profile } = message;
+          const primaryConversation = ConversationController.get(
+            primaryDevicePubKey
+          );
+          //
+          this.updateProfile(primaryConversation, profile, profileKey);
         }
 
         const ev = new Event('sent');
@@ -1127,12 +1144,13 @@ MessageReceiver.prototype.extend({
         );
         primaryConversation.trigger('change');
         Whisper.events.trigger('secondaryDeviceRegistration');
-        // Update profile name
-        if (dataMessage && dataMessage.profile) {
+        // Update profile
+        if (dataMessage) {
+          const { profile, profileKey } = dataMessage;
           const ourNumber = window.storage.get('primaryDevicePubKey');
           const me = window.ConversationController.get(ourNumber);
           if (me) {
-            me.setLokiProfile(dataMessage.profile);
+            this.updateProfile(me, profile, profileKey);
           }
         }
         // Update contact list
@@ -1238,7 +1256,7 @@ MessageReceiver.prototype.extend({
     return true;
   },
 
-  async updateProfile(conversation, profile) {
+  async updateProfile(conversation, profile, profileKey) {
     // Retain old values unless changed:
     const newProfile = conversation.get('profile') || {};
 
@@ -1252,17 +1270,40 @@ MessageReceiver.prototype.extend({
 
       if (needsUpdate) {
         conversation.set('avatarPointer', profile.avatar);
+        conversation.set('profileKey', profileKey);
 
         const downloaded = await this.downloadAttachment({
           url: profile.avatar,
           isRaw: true,
         });
 
-        const upgraded = await Signal.Migrations.processNewAttachment(
-          downloaded
-        );
-        newProfile.avatar = upgraded.path;
+        // null => use jazzicon
+        let path = null;
+        if (profileKey) {
+          // Convert profileKey to ArrayBuffer, if needed
+          const encoding = typeof profileKey === 'string' ? 'base64' : null;
+          try {
+            const profileKeyArrayBuffer = dcodeIO.ByteBuffer.wrap(
+              profileKey,
+              encoding
+            ).toArrayBuffer();
+            const decryptedData = await textsecure.crypto.decryptProfile(
+              downloaded.data,
+              profileKeyArrayBuffer
+            );
+            const upgraded = await Signal.Migrations.processNewAttachment({
+              ...downloaded,
+              data: decryptedData,
+            });
+            ({ path } = upgraded);
+          } catch (e) {
+            window.log.error(`Could not decrypt profile image: ${e}`);
+          }
+        }
+        newProfile.avatar = path;
       }
+    } else {
+      newProfile.avatar = null;
     }
 
     await conversation.setLokiProfile(newProfile);
@@ -1361,7 +1402,11 @@ MessageReceiver.prototype.extend({
         // Check if we need to update any profile names
         if (!isMe && conversation) {
           if (message.profile) {
-            await this.updateProfile(conversation, message.profile);
+            await this.updateProfile(
+              conversation,
+              message.profile,
+              message.profileKey
+            );
           }
         }
 

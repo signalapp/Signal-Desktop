@@ -933,7 +933,8 @@
           avatarColor: conversation.getColor(),
           onOk: async (newName, avatar) => {
             let newAvatarPath = '';
-
+            let url = null;
+            let profileKey = null;
             if (avatar) {
               const data = await readFile({ file: avatar });
 
@@ -945,19 +946,30 @@
               conversation.setLokiProfile({ displayName: newName });
               conversation.set('avatar', tempUrl);
 
-              const avatarPointer = await textsecure.messaging.uploadAvatar(
-                data
+              // Encrypt with a new key every time
+              profileKey = libsignal.crypto.getRandomBytes(32);
+              const encryptedData = await textsecure.crypto.encryptProfile(
+                data.data,
+                profileKey
               );
 
-              conversation.set('avatarPointer', avatarPointer.url);
-
-              const downloaded = await messageReceiver.downloadAttachment({
-                url: avatarPointer.url,
-                isRaw: true,
+              const avatarPointer = await textsecure.messaging.uploadAvatar({
+                ...data,
+                data: encryptedData,
+                size: encryptedData.byteLength,
               });
-              const upgraded = await Signal.Migrations.processNewAttachment(
-                downloaded
-              );
+
+              ({ url } = avatarPointer);
+
+              storage.put('profileKey', profileKey);
+
+              conversation.set('avatarPointer', url);
+
+              const upgraded = await Signal.Migrations.processNewAttachment({
+                isRaw: true,
+                data: data.data,
+                url,
+              });
               newAvatarPath = upgraded.path;
             }
 
@@ -973,6 +985,12 @@
             // so we could disable this here
             // or least it enable for the quickest response
             window.lokiPublicChatAPI.setProfileName(newName);
+            window
+              .getConversations()
+              .filter(convo => convo.isPublic() && !convo.isRss())
+              .forEach(convo =>
+                convo.trigger('ourAvatarChanged', { url, profileKey })
+              );
           },
         });
       }
