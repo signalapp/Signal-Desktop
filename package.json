@@ -201,13 +201,16 @@
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
       "target": [
-        "7z"
+        "dmg"
       ],
       "bundleVersion": "1",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "dmg": {
+      "sign": false
     },
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
