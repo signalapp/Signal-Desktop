@@ -13,6 +13,7 @@ interface Props {
   titleText: string;
   groupName: string;
   okText: string;
+  isPublic: boolean;
   cancelText: string;
   // friends not in the group
   friendList: Array<any>;
@@ -88,15 +89,24 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
   public render() {
     const checkMarkedCount = this.getMemberCount(this.state.friendList);
 
-    const titleText = `${this.props.titleText} (Members: ${checkMarkedCount})`;
+    let titleText = `${this.props.titleText} (Members: ${checkMarkedCount})`;
 
     const okText = this.props.okText;
     const cancelText = this.props.cancelText;
 
-    const noFriendsClasses =
+    let noFriendsClasses =
       this.state.friendList.length === 0
         ? 'no-friends'
         : classNames('no-friends', 'hidden');
+
+    // alternatively, we can go back to const and use more trinary operators
+    // but this looks cleaner/more organized to me
+    if (this.props.isPublic) {
+      // remove member count from title
+      titleText = `${this.props.titleText}`;
+      // hide the no-friend message
+      noFriendsClasses = classNames('no-friends', 'hidden');
+    }
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
