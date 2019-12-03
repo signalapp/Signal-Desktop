@@ -223,6 +223,9 @@
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
+          amMod: this.model.isModerator(
+            window.storage.get('primaryDevicePubKey')
+          ),
           members,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
