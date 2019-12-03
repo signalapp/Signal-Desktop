@@ -76,7 +76,7 @@
   const ACTIVE_TIMEOUT = 15 * 1000;
   const ACTIVE_EVENTS = [
     'click',
-    'keypress',
+    'keydown',
     'mousedown',
     'mousemove',
     // 'scroll', // this is triggered by Timeline re-renders, can't use
@@ -193,6 +193,7 @@
     upgradeMessageSchema,
     writeNewAttachmentData,
     deleteAttachmentData,
+    doesAttachmentExist,
   } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
@@ -1049,6 +1050,23 @@
           document.body
         );
 
+        // It's very likely that the act of archiving a conversation will set focus to
+        //   'none,' or the top-level body element. This resets it to the left pane,
+        //   whether in the normal conversation list or search results.
+        if (document.activeElement === document.body) {
+          const leftPaneEl = document.querySelector('.module-left-pane__list');
+          if (leftPaneEl) {
+            leftPaneEl.focus();
+          }
+
+          const searchResultsEl = document.querySelector(
+            '.module-search-results'
+          );
+          if (searchResultsEl) {
+            searchResultsEl.focus();
+          }
+        }
+
         event.preventDefault();
         event.stopPropagation();
         return;
@@ -1852,12 +1870,14 @@
           {
             writeNewAttachmentData,
             deleteAttachmentData,
+            doesAttachmentExist,
           }
         );
         conversation.set(newAttributes);
       }
 
       window.Signal.Data.updateConversation(id, conversation.attributes);
+
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
@@ -1934,6 +1954,7 @@
         {
           writeNewAttachmentData,
           deleteAttachmentData,
+          doesAttachmentExist,
         }
       );
       conversation.set(newAttributes);

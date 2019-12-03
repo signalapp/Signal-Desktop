@@ -166,11 +166,15 @@ function prepareURL(pathSegments, moreKeys) {
   });
 }
 
-function handleUrl(event, target) {
+async function handleUrl(event, target) {
   event.preventDefault();
   const { protocol } = url.parse(target);
   if (protocol === 'http:' || protocol === 'https:') {
-    shell.openExternal(target);
+    try {
+      await shell.openExternal(target);
+    } catch (error) {
+      console.log(`Failed to open url: ${error.stack}`);
+    }
   }
 }
 

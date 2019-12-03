@@ -33,6 +33,7 @@ export const actions = {
 };
 
 function userChanged(attributes: {
+  interactionMode?: 'mouse' | 'keyboard';
   ourNumber: string;
   regionCode: string;
 }): UserChangedActionType {

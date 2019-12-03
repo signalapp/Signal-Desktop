@@ -114,6 +114,7 @@ function initializeMigrations({
     createReader,
     createWriterForExisting,
     createWriterForNew,
+    createDoesExist,
     getDraftPath,
     getPath,
     getStickersPath,
@@ -139,6 +140,7 @@ function initializeMigrations({
   const copyIntoAttachmentsDirectory = Attachments.copyIntoAttachmentsDirectory(
     attachmentsPath
   );
+  const doesAttachmentExist = createDoesExist(attachmentsPath);
 
   const stickersPath = getStickersPath(userDataPath);
   const writeNewStickerData = createWriterForNew(stickersPath);
@@ -173,6 +175,7 @@ function initializeMigrations({
     }),
     deleteSticker,
     deleteTempFile,
+    doesAttachmentExist,
     getAbsoluteAttachmentPath,
     getAbsoluteDraftPath,
     getAbsoluteStickerPath,

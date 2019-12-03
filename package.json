@@ -70,7 +70,7 @@
     "fs-extra": "5.0.0",
     "fuse.js": "3.4.4",
     "glob": "7.1.2",
-    "google-libphonenumber": "3.2.2",
+    "google-libphonenumber": "3.2.6",
     "got": "8.2.0",
     "he": "1.2.0",
     "intl-tel-input": "12.1.15",

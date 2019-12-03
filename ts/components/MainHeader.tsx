@@ -70,15 +70,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     };
   }
 
-  public componentDidMount() {
-    const popperRoot = document.createElement('div');
-    document.body.appendChild(popperRoot);
-
-    this.setState({
-      popperRoot,
-    });
-  }
-
   public componentDidUpdate(prevProps: PropsType) {
     const { searchConversationId, startSearchCounter } = this.props;
 
@@ -114,28 +105,41 @@ export class MainHeader extends React.Component<PropsType, StateType> {
   };
 
   public showAvatarPopup = () => {
+    const popperRoot = document.createElement('div');
+    document.body.appendChild(popperRoot);
+
     this.setState({
       showingAvatarPopup: true,
+      popperRoot,
     });
     document.addEventListener('click', this.handleOutsideClick);
     document.addEventListener('keydown', this.handleOutsideKeyDown);
   };
 
   public hideAvatarPopup = () => {
+    const { popperRoot } = this.state;
+
     document.removeEventListener('click', this.handleOutsideClick);
     document.removeEventListener('keydown', this.handleOutsideKeyDown);
+
     this.setState({
       showingAvatarPopup: false,
+      popperRoot: null,
     });
+
+    if (popperRoot) {
+      document.body.removeChild(popperRoot);
+    }
   };
 
   public componentWillUnmount() {
     const { popperRoot } = this.state;
 
+    document.removeEventListener('click', this.handleOutsideClick);
+    document.removeEventListener('keydown', this.handleOutsideKeyDown);
+
     if (popperRoot) {
       document.body.removeChild(popperRoot);
-      document.removeEventListener('click', this.handleOutsideClick);
-      document.removeEventListener('keydown', this.handleOutsideKeyDown);
     }
   }
 

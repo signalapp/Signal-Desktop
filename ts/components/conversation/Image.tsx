@@ -162,20 +162,6 @@ export class Image extends React.Component<Props> {
             alt={i18n('imageCaptionIconAlt')}
           />
         ) : null}
-        {closeButton ? (
-          <button
-            onClick={(e: React.MouseEvent<{}>) => {
-              e.preventDefault();
-              e.stopPropagation();
-
-              if (onClickClose) {
-                onClickClose(attachment);
-              }
-            }}
-            className="module-image__close-button"
-            title={i18n('remove-attachment')}
-          />
-        ) : null}
         {bottomOverlay ? (
           <div
             className={classNames(
@@ -199,6 +185,20 @@ export class Image extends React.Component<Props> {
           </div>
         ) : null}
         {overlay}
+        {closeButton ? (
+          <button
+            onClick={(e: React.MouseEvent<{}>) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              if (onClickClose) {
+                onClickClose(attachment);
+              }
+            }}
+            className="module-image__close-button"
+            title={i18n('remove-attachment')}
+          />
+        ) : null}
       </div>
     );
   }

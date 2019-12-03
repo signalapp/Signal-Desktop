@@ -30,6 +30,7 @@
   const { Conversation, Contact, Message, PhoneNumber } = window.Signal.Types;
   const {
     deleteAttachmentData,
+    doesAttachmentExist,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
     readStickerData,
@@ -1746,7 +1747,6 @@
           error && error.stack ? error.stack : error
         );
         await c.dropProfileKey();
-        return;
       }
 
       try {
@@ -1814,6 +1814,7 @@
           {
             writeNewAttachmentData,
             deleteAttachmentData,
+            doesAttachmentExist,
           }
         );
         this.set(newAttributes);

@@ -700,6 +700,13 @@ export const CompositionInput = ({
         return null;
       }
 
+      // Get rid of Ctrl-/, which on GNOME is bound to 'select all'
+      if (e.key === '/' && !e.shiftKey && e.ctrlKey) {
+        e.preventDefault();
+
+        return null;
+      }
+
       return getDefaultKeyBinding(e);
     },
     [emojiResults, large]

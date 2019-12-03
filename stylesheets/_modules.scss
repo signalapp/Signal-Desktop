@@ -6831,13 +6831,27 @@ button.module-image__border-overlay:focus {
   padding: 6px;
 
   @include light-theme {
-    &:hover,
+    &:hover {
+      background-color: $color-gray-05;
+    }
+  }
+  @include keyboard-mode {
+    &:hover {
+      background-color: inherit;
+    }
     &:focus {
       background-color: $color-gray-05;
     }
   }
   @include dark-theme {
-    &:hover,
+    &:hover {
+      background-color: $color-gray-60;
+    }
+  }
+  @include dark-keyboard-mode {
+    &:hover {
+      background-color: inherit;
+    }
     &:focus {
       background-color: $color-gray-60;
     }
@@ -7009,6 +7023,7 @@ button.module-image__border-overlay:focus {
   align-items: center;
   break-inside: avoid;
 
+  padding-left: 4px;
   min-height: 40px;
   outline: none;
 

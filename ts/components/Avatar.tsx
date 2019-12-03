@@ -24,6 +24,7 @@ export interface Props {
 
 interface State {
   imageBroken: boolean;
+  lastAvatarPath?: string;
 }
 
 export class Avatar extends React.Component<Props, State> {
@@ -35,8 +36,21 @@ export class Avatar extends React.Component<Props, State> {
     this.handleImageErrorBound = this.handleImageError.bind(this);
 
     this.state = {
+      lastAvatarPath: props.avatarPath,
       imageBroken: false,
     };
+  }
+
+  public static getDerivedStateFromProps(props: Props, state: State): State {
+    if (props.avatarPath !== state.lastAvatarPath) {
+      return {
+        ...state,
+        lastAvatarPath: props.avatarPath,
+        imageBroken: false,
+      };
+    }
+
+    return state;
   }
 
   public handleImageError() {

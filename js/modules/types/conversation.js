@@ -1,4 +1,4 @@
-/* global crypto */
+/* global crypto, window */
 
 const { isFunction, isNumber } = require('lodash');
 const { createLastMessageUpdate } = require('../../../ts/types/Conversation');
@@ -16,15 +16,24 @@ function buildAvatarUpdater({ field }) {
     }
 
     const avatar = conversation[field];
-    const { writeNewAttachmentData, deleteAttachmentData } = options;
-    if (!isFunction(writeNewAttachmentData)) {
-      throw new Error(
-        'Conversation.buildAvatarUpdater: writeNewAttachmentData must be a function'
-      );
-    }
+    const {
+      deleteAttachmentData,
+      doesAttachmentExist,
+      writeNewAttachmentData,
+    } = options;
     if (!isFunction(deleteAttachmentData)) {
       throw new Error(
         'Conversation.buildAvatarUpdater: deleteAttachmentData must be a function'
+      );
+    }
+    if (!isFunction(doesAttachmentExist)) {
+      throw new Error(
+        'Conversation.buildAvatarUpdater: deleteAttachmentData must be a function'
+      );
+    }
+    if (!isFunction(writeNewAttachmentData)) {
+      throw new Error(
+        'Conversation.buildAvatarUpdater: writeNewAttachmentData must be a function'
       );
     }
 
@@ -41,8 +50,14 @@ function buildAvatarUpdater({ field }) {
     }
 
     const { hash, path } = avatar;
+    const exists = await doesAttachmentExist(path);
+    if (!exists) {
+      window.log.warn(
+        `Conversation.buildAvatarUpdater: attachment ${path} did not exist`
+      );
+    }
 
-    if (hash === newHash) {
+    if (exists && hash === newHash) {
       return conversation;
     }
 
