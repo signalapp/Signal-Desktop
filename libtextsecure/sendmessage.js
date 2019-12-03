@@ -144,17 +144,17 @@ Message.prototype = {
       proto.profileKey = this.profileKey;
     }
 
-    // Only send the display name for now.
-    // In the future we might want to extend this to send other things.
-    if (this.profile && this.profile.displayName) {
+    // Set the loki profile
+    if (this.profile) {
       const profile = new textsecure.protobuf.DataMessage.LokiProfile();
-      profile.displayName = this.profile.displayName;
+      if (this.profile.displayName) {
+        profile.displayName = this.profile.displayName;
+      }
 
       const conversation = window.ConversationController.get(
         textsecure.storage.user.getNumber()
       );
       const avatarPointer = conversation.get('avatarPointer');
-
       if (avatarPointer) {
         profile.avatar = avatarPointer;
       }
