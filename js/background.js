@@ -741,6 +741,20 @@
         'group'
       );
 
+      if (convo.isPublic()) {
+        const API = await convo.getPublicSendData();
+        if (await API.setChannelName(groupName)) {
+          // queue update from server
+          // and let that set the conversation
+          API.pollForChannelOnce();
+          // or we could just directly call
+          // convo.setGroupName(groupName);
+          // but gut is saying let the server be the definitive storage of the state
+          // and trickle down from there
+        }
+        return;
+      }
+
       const avatar = '';
       const options = {};
 
