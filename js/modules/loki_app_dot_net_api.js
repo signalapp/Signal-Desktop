@@ -1272,11 +1272,16 @@ class LokiPublicChannelAPI {
     // filter out invalid messages
     pendingMessages = pendingMessages.filter(messageData => !!messageData);
     // separate messages coming from primary and secondary devices
-    const [primaryMessages, slaveMessages] = _.partition(pendingMessages, message => !(message.source in slavePrimaryMap));
+    const [primaryMessages, slaveMessages] = _.partition(
+      pendingMessages,
+      message => !(message.source in slavePrimaryMap)
+    );
     // process primary devices' message directly
-    primaryMessages.forEach(message => this.serverAPI.chatAPI.emit('publicMessage', {
-      message,
-    }));
+    primaryMessages.forEach(message =>
+      this.serverAPI.chatAPI.emit('publicMessage', {
+        message,
+      })
+    );
 
     pendingMessages = []; // allow memory to be freed
 
