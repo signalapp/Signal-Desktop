@@ -145,7 +145,7 @@ class LokiAppDotNetServerAPI {
   }
 
   async setAvatar(url, profileKey) {
-    let value = null;
+    let value; // undefined will save bandwidth on the annotation if we don't need it (no avatar)
     if (url && profileKey) {
       value = { url, profileKey };
     }
@@ -666,7 +666,7 @@ class LokiPublicChannelAPI {
       `loki/v1/channels/${this.channelId}/moderators`
     );
     // FIXME: should this be window.storage.get('primaryDevicePubKey')?
-    const ourNumber = textsecure.storage.user.getNumber();;
+    const ourNumber = textsecure.storage.user.getNumber();
 
     // Get the list of moderators if no errors occurred
     const moderators = !res.err && res.response && res.response.moderators;
