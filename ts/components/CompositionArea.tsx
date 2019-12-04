@@ -23,6 +23,7 @@ export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly compositionApi?: React.MutableRefObject<{
     focusInput: () => void;
+    isDirty: () => boolean;
     setDisabled: (disabled: boolean) => void;
     setShowMic: (showMic: boolean) => void;
     setMicActive: (micActive: boolean) => void;
@@ -148,6 +149,7 @@ export const CompositionArea = ({
 
   if (compositionApi) {
     compositionApi.current = {
+      isDirty: () => dirty,
       focusInput,
       setDisabled,
       setShowMic,
@@ -220,7 +222,6 @@ export const CompositionArea = ({
         recentEmojis={recentEmojis}
         skinTone={skinTone}
         onSetSkinTone={onSetSkinTone}
-        onClose={focusInput}
       />
     </div>
   );
@@ -230,7 +231,10 @@ export const CompositionArea = ({
       className={classNames(
         'module-composition-area__button-cell',
         micActive ? 'module-composition-area__button-cell--mic-active' : null,
-        large ? 'module-composition-area__button-cell--large-right' : null
+        large ? 'module-composition-area__button-cell--large-right' : null,
+        micActive && large
+          ? 'module-composition-area__button-cell--large-right-mic-active'
+          : null
       )}
       ref={micCellRef}
     />
@@ -313,6 +317,8 @@ export const CompositionArea = ({
               ? 'module-composition-area__toggle-large__button--large-active'
               : null
           )}
+          // This prevents the user from tabbing here
+          tabIndex={-1}
           onClick={handleToggleLarge}
         />
       </div>

@@ -105,6 +105,30 @@ exports.createReader = root => {
   };
 };
 
+exports.createDoesExist = root => {
+  if (!isString(root)) {
+    throw new TypeError("'root' must be a path");
+  }
+
+  return async relativePath => {
+    if (!isString(relativePath)) {
+      throw new TypeError("'relativePath' must be a string");
+    }
+
+    const absolutePath = path.join(root, relativePath);
+    const normalized = path.normalize(absolutePath);
+    if (!normalized.startsWith(root)) {
+      throw new Error('Invalid relative path');
+    }
+    try {
+      await fse.access(normalized, fse.constants.F_OK);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+};
+
 exports.copyIntoAttachmentsDirectory = root => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");

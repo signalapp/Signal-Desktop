@@ -42,9 +42,8 @@ export class DocumentListItem extends React.Component<Props> {
     const { fileName, fileSize, timestamp } = this.props;
 
     return (
-      <div
+      <button
         className="module-document-list-item__content"
-        role="button"
         onClick={this.props.onClick}
       >
         <div className="module-document-list-item__icon" />
@@ -59,7 +58,7 @@ export class DocumentListItem extends React.Component<Props> {
         <div className="module-document-list-item__date">
           {moment(timestamp).format('ddd, MMM D, Y')}
         </div>
-      </div>
+      </button>
     );
   }
 }

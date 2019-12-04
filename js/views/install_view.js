@@ -195,7 +195,7 @@
               'confirmNumber: error clearing database',
               error && error.stack ? error.stack : error
             );
-            finish();
+            return finish();
           });
         });
       });

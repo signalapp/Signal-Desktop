@@ -119,10 +119,13 @@
 }
 
 .key-verification {
+  .container {
+    outline: none;
+  }
+
   label {
     display: block;
     margin: 10px 0;
-    @include font-body-2;
   }
 
   .icon {
@@ -404,6 +407,13 @@
         margin-left: 10px;
         padding: 5px 8px;
         border-radius: 5px;
+
+        outline: none;
+        @include keyboard-mode {
+          &:focus {
+            outline: -webkit-focus-ring-color auto 5px;
+          }
+        }
 
         @include light-theme {
           background-color: $color-gray-02;

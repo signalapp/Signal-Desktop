@@ -27,7 +27,10 @@ body.dark-theme {
 }
 
 ::-webkit-scrollbar {
+  // For vertical scrollbars
   width: 9px;
+  // For horizontal scrollbars
+  height: 9px;
 }
 
 ::-webkit-scrollbar-track {
@@ -159,6 +162,13 @@ a {
     border: none;
     background: transparent;
 
+    &:focus,
+    &:hover {
+      opacity: 1;
+    }
+
+    outline: none;
+
     &:before {
       content: '';
       display: inline-block;
@@ -171,11 +181,6 @@ a {
       @include dark-theme {
         @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-25);
       }
-    }
-
-    &:focus,
-    &:hover {
-      opacity: 1;
     }
   }
 
@@ -192,17 +197,23 @@ a {
   }
 }
 
-.group-member-list .members .contact {
-  @include light-theme {
-    border-bottom: 1px solid $color-gray-05;
-    &:last-of-type {
-      border-bottom: none;
-    }
+.group-member-list {
+  .container {
+    outline: none;
   }
-  @include dark-theme {
-    border-bottom: 1px solid $color-gray-75;
-    &:last-of-type {
-      border-bottom: none;
+
+  .members .contact {
+    @include light-theme {
+      border-bottom: 1px solid $color-gray-05;
+      &:last-of-type {
+        border-bottom: none;
+      }
+    }
+    @include dark-theme {
+      border-bottom: 1px solid $color-gray-75;
+      &:last-of-type {
+        border-bottom: none;
+      }
     }
   }
 }

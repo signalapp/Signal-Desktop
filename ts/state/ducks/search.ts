@@ -12,10 +12,12 @@ import { makeLookup } from '../../util/makeLookup';
 
 import {
   ConversationType,
+  ConversationUnloadedActionType,
   MessageDeletedActionType,
   MessageType,
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
+  ShowArchivedConversationsActionType,
 } from './conversations';
 
 // State
@@ -29,6 +31,7 @@ export type MessageSearchResultLookupType = {
 };
 
 export type SearchStateType = {
+  startSearchCounter: number;
   searchConversationId?: string;
   searchConversationName?: string;
   // We store just ids of conversations, since that data is always cached in memory
@@ -81,6 +84,10 @@ type UpdateSearchTermActionType = {
     query: string;
   };
 };
+type StartSearchActionType = {
+  type: 'SEARCH_START';
+  payload: null;
+};
 type ClearSearchActionType = {
   type: 'SEARCH_CLEAR';
   payload: null;
@@ -103,18 +110,22 @@ export type SEARCH_TYPES =
   | SearchMessagesResultsFulfilledActionType
   | SearchDiscussionsResultsFulfilledActionType
   | UpdateSearchTermActionType
+  | StartSearchActionType
   | ClearSearchActionType
   | ClearConversationSearchActionType
   | SearchInConversationActionType
   | MessageDeletedActionType
   | RemoveAllConversationsActionType
-  | SelectedConversationChangedActionType;
+  | SelectedConversationChangedActionType
+  | ShowArchivedConversationsActionType
+  | ConversationUnloadedActionType;
 
 // Action Creators
 
 export const actions = {
   searchMessages,
   searchDiscussions,
+  startSearch,
   clearSearch,
   clearConversationSearch,
   searchInConversation,
@@ -188,7 +199,12 @@ async function doSearchDiscussions(
     query,
   };
 }
-
+function startSearch(): StartSearchActionType {
+  return {
+    type: 'SEARCH_START',
+    payload: null,
+  };
+}
 function clearSearch(): ClearSearchActionType {
   return {
     type: 'SEARCH_CLEAR',
@@ -294,6 +310,7 @@ async function queryConversationsAndContacts(
 
 function getEmptyState(): SearchStateType {
   return {
+    startSearchCounter: 0,
     query: '',
     messageIds: [],
     messageLookup: {},
@@ -304,11 +321,24 @@ function getEmptyState(): SearchStateType {
   };
 }
 
-// tslint:disable-next-line max-func-body-length
+// tslint:disable-next-line cyclomatic-complexity max-func-body-length
 export function reducer(
   state: SearchStateType = getEmptyState(),
   action: SEARCH_TYPES
 ): SearchStateType {
+  if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
+    return getEmptyState();
+  }
+
+  if (action.type === 'SEARCH_START') {
+    return {
+      ...state,
+      searchConversationId: undefined,
+      searchConversationName: undefined,
+      startSearchCounter: state.startSearchCounter + 1,
+    };
+  }
+
   if (action.type === 'SEARCH_CLEAR') {
     return getEmptyState();
   }
@@ -341,13 +371,17 @@ export function reducer(
     const { searchConversationId, searchConversationName } = payload;
 
     if (searchConversationId === state.searchConversationId) {
-      return state;
+      return {
+        ...state,
+        startSearchCounter: state.startSearchCounter + 1,
+      };
     }
 
     return {
       ...getEmptyState(),
       searchConversationId,
       searchConversationName,
+      startSearchCounter: state.startSearchCounter + 1,
     };
   }
   if (action.type === 'CLEAR_CONVERSATION_SEARCH') {
@@ -410,6 +444,18 @@ export function reducer(
       ...state,
       selectedMessage: messageId,
     };
+  }
+
+  if (action.type === 'CONVERSATION_UNLOADED') {
+    const { payload } = action;
+    const { id } = payload;
+    const { searchConversationId } = state;
+
+    if (searchConversationId && searchConversationId === id) {
+      return getEmptyState();
+    }
+
+    return state;
   }
 
   if (action.type === 'MESSAGE_DELETED') {

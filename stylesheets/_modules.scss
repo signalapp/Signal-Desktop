@@ -11,6 +11,9 @@
 // Note: this does the same thing as module-timeline__message-container but
 //   can be used outside tht Timeline contact more easily.
 .module-message-container {
+  @include button-reset;
+
+  cursor: inherit;
   width: 100%;
   margin-top: 4px;
   margin-bottom: 4px;
@@ -30,6 +33,8 @@
   display: inline-flex;
   flex-direction: row;
   align-items: stretch;
+
+  outline: none;
 }
 
 .module-message--expired {
@@ -247,7 +252,53 @@
   }
 }
 
+// This is the component we put the outline around when the whole message is selected
+.module-message--selected .module-message__container {
+  @include mouse-mode {
+    animation: message--mouse-selected 1s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+.module-message:focus .module-message__container {
+  @include keyboard-mode {
+    box-shadow: 0 0 0 3px $color-signal-blue;
+  }
+}
+
+@keyframes message--mouse-selected {
+  0% {
+    box-shadow: 0 0 0 5px transparent;
+  }
+  10% {
+    box-shadow: 0 0 0 5px $color-signal-blue;
+  }
+  70% {
+    box-shadow: 0 0 0 5px $color-signal-blue;
+  }
+  100% {
+    box-shadow: 0 0 0 5px transparent;
+  }
+}
+
+// We disable this highlight for messages with stickers, instead highlighting the sticker
+.module-message--selected .module-message__container--with-sticker {
+  @include mouse-mode {
+    animation: none;
+  }
+}
+.module-message:focus .module-message__container--with-sticker {
+  @include keyboard-mode {
+    box-shadow: none;
+  }
+}
+
 .module-message__container--with-sticker {
+  @include light-theme {
+    border: none;
+  }
+
+  @include dark-theme {
+    border: none;
+  }
   padding-bottom: 0px;
 }
 
@@ -265,26 +316,6 @@
   @include ios-dark-theme {
     background-color: $color-signal-blue;
     color: $color-gray-05;
-  }
-}
-
-.module-message__container--selected {
-  // cubic-bezier taken from https://easings.net/en#easeOutExpo
-  animation: message--selected 1s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-@keyframes message--selected {
-  0% {
-    box-shadow: 0 0 0 5px transparent;
-  }
-  10% {
-    box-shadow: 0 0 0 5px $color-signal-blue;
-  }
-  70% {
-    box-shadow: 0 0 0 5px $color-signal-blue;
-  }
-  100% {
-    box-shadow: 0 0 0 5px transparent;
   }
 }
 
@@ -600,9 +631,19 @@
 }
 
 .module-message__generic-attachment {
+  @include button-reset;
+
+  width: 100%;
+
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
 }
 
 .module-message__generic-attachment--with-content-below {
@@ -745,14 +786,24 @@
 }
 
 .module-message__link-preview {
-  cursor: pointer;
+  @include button-reset;
+  display: block;
+
   margin-left: -12px;
   margin-right: -12px;
+  width: calc(100% + 24px);
+
   margin-top: -10px;
   margin-bottom: 5px;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   overflow: hidden;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
 }
 
 .module-message__link-preview--with-content-above {
@@ -921,18 +972,36 @@
 
   a {
     text-decoration: underline;
+    outline: none;
 
     @include light-theme {
       color: $color-gray-90;
     }
+    @include keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-gray-90;
+      }
+    }
+
     @include dark-theme {
       color: $color-gray-05;
     }
+    @include dark-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-gray-05;
+      }
+    }
+
     @include ios-theme {
       color: $color-white-alpha-90;
     }
     @include ios-dark-theme {
       color: $color-white-alpha-90;
+    }
+    @include ios-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-white-alpha-90;
+      }
     }
   }
 }
@@ -953,18 +1022,42 @@
 
   a {
     text-decoration: underline;
+    outline: none;
 
     @include light-theme {
       color: $color-white;
     }
-    @include ios-theme {
-      color: $color-gray-90;
+    @include keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-white;
+      }
     }
+
     @include dark-theme {
       color: $color-white-alpha-90;
     }
+    @include dark-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-white-alpha-90;
+      }
+    }
+
+    @include ios-theme {
+      color: $color-gray-90;
+    }
+    @include ios-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-gray-90;
+      }
+    }
+
     @include ios-dark-theme {
       color: $color-gray-05;
+    }
+    @include dark-ios-keyboard-mode {
+      &:focus {
+        outline: 1px solid $color-gray-05;
+      }
     }
   }
 }
@@ -991,6 +1084,9 @@
   // Because this is absolutely positioned, we 100% is too big, take it down by parent
   //   padding sizes.
   padding-right: 24px;
+
+  // This is so all clicks go right through to the underlying image.
+  pointer-events: none;
 }
 
 .module-message__metadata__date {
@@ -1159,7 +1255,9 @@
 }
 
 .module-message__send-message-button {
-  cursor: pointer;
+  @include button-reset;
+
+  width: calc(100% + 24px);
 
   @include font-body-2-bold;
 
@@ -1183,6 +1281,12 @@
     color: $color-signal-blue;
     background-color: $color-gray-75;
     border: 1px solid $color-gray-45;
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
   }
 }
 
@@ -1276,6 +1380,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include light-theme {
     background-color: $color-white;
   }
+  @include ios-theme {
+    background-color: $color-white;
+  }
   @include dark-theme {
     background-color: $color-gray-02;
   }
@@ -1297,15 +1404,18 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-quote {
+  @include button-reset;
+
+  display: block;
   // To leave room for image thumbnail
   min-height: 54px;
+  width: 100%;
 
   position: relative;
   border-radius: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 
-  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -1313,6 +1423,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   border-left-width: 4px;
   border-left-style: solid;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
 }
 
 .module-quote--no-click {
@@ -1336,6 +1452,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     background-color: $color-conversation-grey-shade;
+  }
+
+  // To preserve contrast
+  @include ios-keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-white;
+    }
   }
 
   // Note: both of these override all of the specific color classes below
@@ -1526,12 +1649,19 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   border-radius: 50%;
 
   background-color: $color-black-alpha-40;
+
+  @include keyboard-mode {
+    &:focus-within {
+      background-color: $color-signal-blue;
+    }
+  }
 }
 
 .module-quote__close-button {
+  @include button-reset;
+
   width: 14px;
   height: 14px;
-  cursor: pointer;
 
   position: absolute;
   left: 50%;
@@ -1659,6 +1789,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   padding-right: 8px;
 
   background-color: $color-white-alpha-80;
+  @include dark-theme {
+    background-color: $color-white-alpha-20;
+  }
   @include ios-theme {
     background-color: $color-signal-blue-tint-alpha-50;
   }
@@ -1720,11 +1853,28 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Embedded Contact
 
 .module-embedded-contact {
-  // Cursor is always a pointer because this component is always wired up to the contact detail screen
-  cursor: pointer;
+  @include button-reset;
+
+  width: 100%;
+  padding: 5px;
+
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
+}
+
+.module-embedded-contact--outgoing {
+  @include ios-keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-white;
+    }
+  }
 }
 
 .module-embedded-contact--with-content-above {
@@ -1834,7 +1984,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-contact-detail__send-message {
-  cursor: pointer;
+  @include button-reset;
 
   border-radius: 4px;
   background-color: $color-signal-blue;
@@ -1846,10 +1996,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   flex-direction: column;
   align-items: center;
-
-  button {
-    @include button-reset;
-  }
 }
 
 .module-contact-detail__send-message__inner {
@@ -1897,10 +2043,27 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-bottom: 3px;
 }
 
+// Module: Inline Notification Wrapper
+
+.module-inline-notification-wrapper {
+  outline: none;
+  padding: 5px;
+
+  @include keyboard-mode {
+    &:focus {
+      @include light-theme {
+        background-color: $color-gray-02;
+      }
+      @include dark-theme {
+        background-color: $color-gray-80;
+      }
+    }
+  }
+}
+
 // Module: Group Notification
 
 .module-group-notification {
-  margin-top: 14px;
   margin-left: 1em;
   margin-right: 1em;
 
@@ -1915,7 +2078,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-group-notification__change {
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .module-group-notification__contact {
@@ -1925,7 +2089,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Reset Session Notification
 
 .module-reset-session-notification {
-  margin-top: 14px;
   text-align: center;
 
   @include light-theme {
@@ -1939,7 +2102,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Safety Number Notification
 
 .module-safety-number-notification {
-  margin-top: 14px;
   text-align: center;
 }
 
@@ -1978,11 +2140,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-safety-number-notification__button {
+  @include button-reset;
+
   @include font-body-2-bold;
 
   margin-top: 5px;
   display: inline-block;
-  cursor: pointer;
 
   padding: 12px;
   border-radius: 4px;
@@ -1992,15 +2155,25 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include light-theme {
     background-color: $color-gray-02;
   }
+  @include keyboard-mode {
+    &:focus {
+      background-color: $color-gray-15;
+    }
+  }
+
   @include dark-theme {
     background-color: $color-gray-75;
+  }
+  @include dark-keyboard-mode {
+    &:focus {
+      background-color: $color-gray-60;
+    }
   }
 }
 
 // Module: Verification Notification
 
 .module-verification-notification {
-  margin-top: 14px;
   text-align: center;
 
   @include light-theme {
@@ -2053,7 +2226,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Timer Notification
 
 .module-timer-notification {
-  margin-top: 14px;
   text-align: center;
 
   @include light-theme {
@@ -2122,6 +2294,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Contact List Item
 
 .module-contact-list-item {
+  @include button-reset;
+
+  cursor: inherit;
+
   padding-top: 8px;
   padding-bottom: 8px;
   display: flex;
@@ -2387,6 +2563,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
+  outline: none;
 }
 
 .module-message-detail__message-container {
@@ -2423,8 +2600,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-message-detail__delete-button {
   @include button-reset;
 
+  @include keyboard-mode {
+    &:focus {
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+  }
+
   border-radius: 5px;
-  cursor: pointer;
   margin: 1em auto;
   padding: 1em;
 
@@ -2584,6 +2766,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   flex-grow: 1;
   width: 100%;
   height: 100%;
+  outline: none;
 }
 
 .module-media-gallery__tab-container {
@@ -2604,6 +2787,19 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     background-color: $color-gray-90;
+  }
+
+  outline: none;
+
+  @include keyboard-mode {
+    &:focus {
+      @include light-theme {
+        background-color: $color-gray-15;
+      }
+      @include dark-theme {
+        background-color: $color-gray-75;
+      }
+    }
   }
 }
 
@@ -2659,12 +2855,20 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-document-list-item__content {
-  cursor: pointer;
+  @include button-reset;
+  width: 100%;
+  height: 100%;
+
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
-  height: 100%;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
 }
 
 .module-document-list-item__icon {
@@ -2698,13 +2902,20 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Media Grid Item
 
 .module-media-grid-item {
+  @include button-reset;
+
   height: 94px;
   width: 94px;
-  cursor: pointer;
   background-color: $color-gray-05;
   margin-right: 4px;
   margin-bottom: 4px;
   position: relative;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
 }
 
 .module-media-grid-item__image {
@@ -2783,22 +2994,22 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Conversation List Item
 
 .module-conversation-list-item {
-  max-width: $left-pane-width;
+  @include button-reset;
+
+  width: 100%;
+
   display: flex;
   flex-direction: row;
   padding-right: 16px;
   padding-left: 16px;
   align-items: center;
 
-  cursor: pointer;
-
-  @include light-theme {
-    &:hover {
+  &:hover,
+  &:focus {
+    @include light-theme {
       background-color: $color-gray-05;
     }
-  }
-  @include dark-theme {
-    &:hover {
+    @include dark-theme {
       background-color: $color-gray-75;
     }
   }
@@ -2827,7 +3038,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-conversation-list-item__unread-count {
   text-align: center;
 
-  padding-top: 1px;
   padding-left: 3px;
   padding-right: 3px;
 
@@ -3044,6 +3254,21 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-avatar-button {
+  @include button-reset;
+
+  // Ensures that the border of the item sticks tight to the inner contents
+  width: 100%;
+  line-height: 0;
+  border-radius: 50%;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
+}
+
 .module-avatar__label {
   width: 100%;
   text-align: center;
@@ -3176,7 +3401,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-avatar__label--80 {
   width: 80px;
   font-size: 40px;
-  line-height: 82px;
+  line-height: 80px;
 }
 
 .module-avatar__icon--80 {
@@ -3200,9 +3425,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-.module-avatar--with-click {
-  cursor: pointer;
-}
 .module-avatar--no-image {
   @include light-theme {
     background-color: $color-conversation-grey;
@@ -3325,6 +3547,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   // Overriding some default button styling
   border: none;
   padding: 0;
+  outline: none;
 
   @include light-theme {
     background-color: $color-gray-15;
@@ -3378,7 +3601,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   top: 5px;
   height: 18px;
   width: 18px;
-  cursor: pointer;
 
   @include light-theme {
     @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
@@ -3412,10 +3634,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   left: 6px;
 }
 
-.module-image__with-click-handler {
-  cursor: pointer;
-}
-
 .module-image--soft-corners {
   border-radius: 4px;
 }
@@ -3436,31 +3654,65 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   border-top-left-radius: 10px;
 }
 
-.module-image--selection--selected {
-  position: absolute;
-  top: 1px;
-  bottom: 1px;
-  left: 1px;
-  right: 1px;
-  border-radius: 10px;
-
-  // cubic-bezier taken from https://easings.net/en#easeOutExpo
-  animation: message--selected 1s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
 .module-image__border-overlay {
+  @include button-reset;
+
+  width: 100%;
+  cursor: inherit;
+
   position: absolute;
   top: 0;
   bottom: 0;
-  z-index: 1;
   left: 0;
   right: 0;
+  z-index: 2;
+}
 
+.module-image__border-overlay--with-click-handler {
+  cursor: pointer;
+}
+
+.module-image__border-overlay--with-border {
   @include light-theme {
     box-shadow: inset 0px 0px 0px 1px $color-black-alpha-20;
   }
   @include dark-theme {
     box-shadow: inset 0px 0px 0px 1px $color-white-alpha-20;
+  }
+}
+
+// Only if it's a sticker do we put the outline inside it
+.module-message--selected
+  .module-message__container--with-sticker
+  .module-image__border-overlay {
+  @include mouse-mode {
+    top: 1px;
+    bottom: 1px;
+    left: 1px;
+    right: 1px;
+    border-radius: 10px;
+
+    animation: message--mouse-selected 1s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+
+.module-message:focus
+  .module-message__container--with-sticker
+  .module-image__border-overlay {
+  @include keyboard-mode {
+    top: 1px;
+    bottom: 1px;
+    left: 1px;
+    right: 1px;
+    border-radius: 10px;
+
+    box-shadow: 0 0 0 3px $color-signal-blue;
+  }
+}
+
+button.module-image__border-overlay:focus {
+  @include keyboard-mode {
+    box-shadow: inset 0px 0px 0px 2px $color-signal-blue;
   }
 }
 
@@ -3512,7 +3764,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   );
   position: absolute;
   bottom: 0;
-  z-index: 2;
+  z-index: 1;
   left: 0;
   right: 0;
 }
@@ -3559,14 +3811,22 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-image__close-button {
-  cursor: pointer;
+  @include button-reset;
+
   position: absolute;
   top: 5px;
   right: 5px;
   width: 16px;
   height: 16px;
   z-index: 2;
+
   background-image: url('../images/x-shadow-16.svg');
+
+  @include keyboard-mode {
+    &:focus {
+      outline: 2px solid $color-signal-blue;
+    }
+  }
 }
 
 // Module: Image Grid
@@ -3708,7 +3968,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-attachments__close-button {
-  cursor: pointer;
+  @include button-reset;
+
   position: absolute;
   top: 8px;
   right: 16px;
@@ -3718,6 +3979,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   z-index: 2;
   @include color-svg('../images/icons/v2/x-24.svg', $color-black);
+
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+    }
+  }
 }
 
 .module-attachments__rail {
@@ -3754,7 +4021,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-staged-generic-attachment__close-button {
-  cursor: pointer;
+  @include button-reset;
+
   position: absolute;
   top: 5px;
   right: 5px;
@@ -3927,10 +4195,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-caption-editor__save-button {
+  @include button-reset;
+
   position: absolute;
   background-color: $color-signal-blue;
   color: $color-white;
-  cursor: pointer;
 
   height: 28px;
   border-radius: 15px;
@@ -3946,6 +4215,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Staged Placeholder Attachment
 
 .module-staged-placeholder-attachment {
+  @include button-reset;
+
   margin: 1px;
   border-radius: 4px;
 
@@ -3953,7 +4224,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   width: 120px;
   display: inline-block;
   vertical-align: middle;
-  cursor: pointer;
   position: relative;
 
   @include light-theme {
@@ -3962,11 +4232,22 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
       background: $color-gray-05;
     }
   }
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: inset 0 0 0 2px $color-signal-blue;
+    }
+  }
+
   @include dark-theme {
     border: 1px solid $color-gray-60;
 
     &:hover {
       background: $color-gray-75;
+    }
+  }
+  @include dark-keyboard-mode {
+    &:focus {
+      box-shadow: inset 0 0 0 2px $color-signal-blue;
     }
   }
 }
@@ -4051,7 +4332,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 .module-staged-link-preview__close-button {
-  cursor: pointer;
+  @include button-reset;
+
   position: absolute;
   top: 0px;
   right: 0px;
@@ -4062,8 +4344,19 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include light-theme {
     @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
   }
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+    }
+  }
+
   @include dark-theme {
     @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+  }
+  @include dark-keyboard-mode {
+    &:focus {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+    }
   }
 }
 
@@ -4203,6 +4496,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Search Results
 
 .module-search-results {
+  outline: none;
   overflow: hidden;
   flex-grow: 1;
 }
@@ -4224,6 +4518,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   padding-right: 1em;
   width: 100%;
   text-align: center;
+  outline: none;
 }
 
 .module-search-results__contacts-header {
@@ -4258,6 +4553,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Message Search Result
 
 .module-message-search-result {
+  @include button-reset;
+
+  width: 100%;
+
   padding: 8px;
   padding-left: 16px;
   padding-right: 16px;
@@ -4268,8 +4567,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   flex-direction: row;
   align-items: flex-start;
 
-  cursor: pointer;
-  &:hover {
+  &:hover,
+  &:focus {
     @include light-theme {
       background-color: $color-gray-05;
     }
@@ -4281,10 +4580,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-message-search-result--is-selected {
   @include light-theme {
-    background-color: $color-gray-05;
+    background-color: $color-gray-15;
   }
   @include dark-theme {
-    background-color: $color-gray-75;
+    background-color: $color-gray-65;
   }
 }
 
@@ -4401,13 +4700,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-left-pane__to-inbox-button {
+  @include button-reset;
+
   margin-left: 7px;
   margin-right: 5px;
 
   width: 24px;
   height: 24px;
-
-  cursor: pointer;
 
   @include light-theme {
     @include color-svg(
@@ -4415,11 +4714,28 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
       $color-gray-60
     );
   }
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-signal-blue
+      );
+    }
+  }
+
   @include dark-theme {
     @include color-svg(
       '../images/icons/v2/chevron-left-24.svg',
       $color-gray-25
     );
+  }
+  @include dark-keyboard-mode {
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-signal-blue
+      );
+    }
   }
 }
 
@@ -4455,6 +4771,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-left-pane__list {
   flex-grow: 1;
   flex-shrink: 1;
+
+  outline: none;
 }
 
 .module-left-pane__virtual-list {
@@ -4462,23 +4780,27 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-left-pane__archived-button {
+  @include button-reset;
+
   @include font-body-1-bold;
 
   height: 64px;
   line-height: 64px;
   text-align: center;
-  cursor: pointer;
+  width: 100%;
 
   @include light-theme {
     color: $color-gray-60;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: $color-gray-05;
     }
   }
   @include dark-theme {
     color: $color-gray-25;
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: $color-gray-75;
     }
   }
@@ -4505,6 +4827,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Start New Conversation
 
 .module-start-new-conversation {
+  @include button-reset;
+
+  width: 100%;
+
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -4513,15 +4839,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   padding-bottom: 8px;
   padding-left: 16px;
 
-  cursor: pointer;
-
-  @include light-theme {
-    &:hover {
+  &:hover,
+  &:focus {
+    @include light-theme {
       background-color: $color-gray-05;
     }
-  }
-  @include dark-theme {
-    &:hover {
+    @include dark-theme {
       background-color: $color-gray-75;
     }
   }
@@ -4657,17 +4980,24 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   background: none;
   margin-right: 4px;
 
+  outline: none;
+
   &:active,
   &:focus {
-    outline: none;
+    @include keyboard-mode {
+      background: $color-gray-05;
+    }
+    @include dark-keyboard-mode {
+      background: $color-gray-60;
+    }
   }
 
   &--selected {
     @include light-theme {
-      background: $color-gray-05;
+      background: $color-gray-15;
     }
     @include dark-theme {
-      background: $color-gray-60;
+      background: $color-gray-45;
     }
   }
 
@@ -4852,6 +5182,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     justify-content: center;
     align-items: center;
 
+    @include mouse-mode {
+      outline: none;
+    }
+
     &__image,
     &__placeholder {
       width: 100%;
@@ -4927,6 +5261,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-sticker-manager {
   padding: 0 16px;
+  outline: none;
 }
 
 .module-sticker-manager__text {
@@ -4975,13 +5310,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-sticker-manager__pack-row {
+  @include button-reset;
+
   display: flex;
   flex-direction: row;
-  padding: 16px 0;
-
-  &:hover {
-    cursor: pointer;
-  }
+  padding: 16px;
 
   @include light-theme {
     & + & {
@@ -4992,6 +5325,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include dark-theme {
     & + & {
       border-top: 1px solid $color-gray-75;
+    }
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
     }
   }
 
@@ -5091,6 +5430,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include dark-theme {
     color: $color-gray-05;
     background: $color-gray-75;
+  }
+
+  @include mouse-mode {
+    outline: none;
   }
 
   &--blue {
@@ -5316,9 +5659,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   align-items: center;
   opacity: 0.5;
 
+  &:focus,
   &:hover {
     opacity: 1;
   }
+
+  outline: none;
 
   &::after {
     display: block;
@@ -5355,6 +5701,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-sticker-button__tooltip {
+  @include button-reset;
+
   height: 34px;
   display: flex;
   justify-content: center;
@@ -5527,14 +5875,18 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
       &__button {
         margin-left: 4px;
-        border-radius: 14px;
-        height: 28px;
+        border-radius: 17px;
+        height: 34px;
         padding: 5px 12px;
         display: flex;
         justify-content: center;
         align-items: center;
 
         @include font-body-1-bold;
+
+        @include mouse-mode {
+          outline: none;
+        }
 
         @include light-theme() {
           background: $color-white;
@@ -5695,6 +6047,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     align-items: center;
     background: none;
 
+    @include mouse-mode {
+      outline: none;
+    }
+
     &--footer {
       &:not(:first-of-type) {
         margin-left: 4px;
@@ -5810,6 +6166,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   &__body {
     padding: 8px 16px 0 12px;
+    outline: none;
 
     &__emoji-cell {
       display: flex;
@@ -5857,9 +6214,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   align-items: center;
   opacity: 0.5;
 
+  &:focus,
   &:hover {
     opacity: 1;
   }
+
+  outline: none;
 
   &::after {
     display: block;
@@ -5938,7 +6298,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Module: Unsupported Message
 
 .module-unsupported-message {
-  margin-top: 14px;
   text-align: center;
 }
 
@@ -5995,9 +6354,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-unsupported-message__button {
+  @include button-reset;
+
   margin-top: 5px;
   display: inline-block;
-  cursor: pointer;
 
   @include font-body-1-bold;
 
@@ -6211,6 +6571,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     }
     &--large-right {
       margin-left: auto;
+      margin-right: 4px;
+    }
+    &--large-right-mic-active {
+      margin-left: auto;
+      margin-right: 12px;
     }
   }
   &__send-button {
@@ -6469,6 +6834,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     &:hover {
       background-color: $color-gray-05;
     }
+  }
+  @include keyboard-mode {
+    &:hover {
+      background-color: inherit;
+    }
     &:focus {
       background-color: $color-gray-05;
     }
@@ -6477,8 +6847,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     &:hover {
       background-color: $color-gray-60;
     }
+  }
+  @include dark-keyboard-mode {
+    &:hover {
+      background-color: inherit;
+    }
     &:focus {
-      background-color: $color-gray-05;
+      background-color: $color-gray-60;
     }
   }
 }
@@ -6522,9 +6897,197 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-left: 8px;
 }
 
+// Module: Shortcut Guide Modal
+
+.module-shortcut-guide-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  background-color: $color-black-alpha-40;
+
+  // react-contextmenu uses a z-index of 1000
+  z-index: 2000;
+}
+
+.module-shortcut-guide-container {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+// Module: Shortcut Guide
+
+.module-shortcut-guide {
+  border-radius: 4px;
+  padding: 16px;
+
+  max-height: calc(100vh - 40px);
+  max-width: 1150px;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  @include popper-shadow;
+
+  @include light-theme {
+    color: $color-gray-90;
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+    background-color: $color-gray-75;
+
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-gray-75;
+    }
+  }
+}
+
+.module-shortcut-guide__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.module-shortcut-guide__header-text {
+  @include font-title-2;
+
+  flex-grow: 1;
+}
+.module-shortcut-guide__header-close {
+  @include button-reset;
+
+  height: 24px;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      @include light-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+      }
+    }
+  }
+}
+
+.module-shortcut-guide__section-header {
+  @include font-body-1-bold;
+
+  margin-bottom: 8px;
+}
+
+.module-shortcut-guide__scroll-container {
+  outline: none;
+  overflow-y: scroll;
+}
+
+.module-shortcut-guide__section {
+  &:not(:last-child) {
+    margin-bottom: 25px;
+  }
+}
+
+@media (min-width: 900px) {
+  .module-shortcut-guide__section-list {
+    column-count: 2;
+    column-gap: 20px;
+    column-span: none;
+    column-fill: auto;
+  }
+}
+
+.module-shortcut-guide__shortcut {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  break-inside: avoid;
+
+  padding-left: 4px;
+  min-height: 40px;
+  outline: none;
+
+  @include keyboard-mode {
+    &:focus {
+      @include light-theme {
+        background-color: $color-gray-05;
+      }
+      @include dark-theme {
+        background-color: $color-gray-90;
+      }
+    }
+  }
+
+  @include light-theme {
+    border-bottom: 1px solid $color-gray-05;
+  }
+  @include dark-theme {
+    border-bottom: 1px solid $color-gray-90;
+  }
+}
+
+.module-shortcut-guide__shortcut__description {
+  flex-grow: 1;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.module-shortcut-guide__shortcut__key-container {
+  text-align: right;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+.module-shortcut-guide__shortcut__key {
+  display: inline-block;
+
+  border-radius: 2px;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-top: 4px;
+  margin-left: 4px;
+
+  height: 30px;
+  text-align: center;
+
+  @include light-theme {
+    border: 1px solid $color-gray-15;
+  }
+  @include dark-theme {
+    border: 1px solid $color-gray-90;
+  }
+}
+
+.module-shortcut-guide__shortcut__key--square {
+  width: 30px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 /* Third-party module: react-contextmenu*/
 
 .react-contextmenu {
+  outline: none;
   border-radius: 4px;
   min-width: 160px;
   padding: 0px;
@@ -6549,6 +7112,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .react-contextmenu-item {
+  outline: none;
   cursor: pointer;
   white-space: nowrap;
 
@@ -6641,13 +7205,15 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 // To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
-  max-width: 300px;
+  // 2px to allow for 1px border
+  max-width: 302px;
 }
 
-/* Spec: container > 438px and container < 593px*/
+/* Spec: container > 438px and container < 593px */
 @media (min-width: 800px) and (max-width: 925px) {
   .module-message {
-    max-width: 374px;
+    // Add 2px for 1px border
+    max-width: 376px;
   }
   .module-message__container {
     max-width: 100%;

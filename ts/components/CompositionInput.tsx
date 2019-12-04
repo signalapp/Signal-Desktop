@@ -651,6 +651,7 @@ export const CompositionInput = ({
   );
 
   const editorKeybindingFn = React.useCallback(
+    // tslint:disable-next-line cyclomatic-complexity
     (e: React.KeyboardEvent): CompositionInputEditorCommand | null => {
       if (e.key === 'Enter' && emojiResults.length > 0) {
         e.preventDefault();
@@ -690,6 +691,20 @@ export const CompositionInput = ({
         if (e.key === 'Delete' && e.shiftKey) {
           return null;
         }
+      }
+
+      // Get rid of Ctrl-Shift-M, which by default adds a newline
+      if ((e.key === 'm' || e.key === 'M') && e.shiftKey && e.ctrlKey) {
+        e.preventDefault();
+
+        return null;
+      }
+
+      // Get rid of Ctrl-/, which on GNOME is bound to 'select all'
+      if (e.key === '/' && !e.shiftKey && e.ctrlKey) {
+        e.preventDefault();
+
+        return null;
       }
 
       return getDefaultKeyBinding(e);

@@ -21,8 +21,8 @@ interface Props {
   withContentBelow?: boolean;
   bottomOverlay?: boolean;
   isSticker?: boolean;
-  isSelected?: boolean;
   stickerSize?: number;
+  tabIndex?: number;
 
   i18n: LocalizerType;
 
@@ -38,10 +38,10 @@ export class ImageGrid extends React.Component<Props> {
       bottomOverlay,
       i18n,
       isSticker,
-      isSelected,
       stickerSize,
       onError,
       onClick,
+      tabIndex,
       withContentAbove,
       withContentBelow,
     } = this.props;
@@ -85,10 +85,10 @@ export class ImageGrid extends React.Component<Props> {
             curveBottomRight={curveBottomRight}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
-            isSelected={isSelected}
             height={finalHeight}
             width={finalWidth}
             url={getUrl(attachments[0])}
+            tabIndex={tabIndex}
             onClick={onClick}
             onError={onError}
           />
@@ -104,7 +104,7 @@ export class ImageGrid extends React.Component<Props> {
             i18n={i18n}
             attachment={attachments[0]}
             bottomOverlay={withBottomOverlay}
-            noBorder={isSticker}
+            noBorder={false}
             curveTopLeft={curveTopLeft}
             curveBottomLeft={curveBottomLeft}
             playIconOverlay={isVideoAttachment(attachments[0])}
@@ -118,7 +118,7 @@ export class ImageGrid extends React.Component<Props> {
             alt={getAlt(attachments[1], i18n)}
             i18n={i18n}
             bottomOverlay={withBottomOverlay}
-            noBorder={isSticker}
+            noBorder={false}
             curveTopRight={curveTopRight}
             curveBottomRight={curveBottomRight}
             playIconOverlay={isVideoAttachment(attachments[1])}
@@ -140,7 +140,7 @@ export class ImageGrid extends React.Component<Props> {
             alt={getAlt(attachments[0], i18n)}
             i18n={i18n}
             bottomOverlay={withBottomOverlay}
-            noBorder={isSticker}
+            noBorder={false}
             curveTopLeft={curveTopLeft}
             curveBottomLeft={curveBottomLeft}
             attachment={attachments[0]}
@@ -168,7 +168,7 @@ export class ImageGrid extends React.Component<Props> {
               alt={getAlt(attachments[2], i18n)}
               i18n={i18n}
               bottomOverlay={withBottomOverlay}
-              noBorder={isSticker}
+              noBorder={false}
               curveBottomRight={curveBottomRight}
               height={99}
               width={99}
@@ -192,6 +192,7 @@ export class ImageGrid extends React.Component<Props> {
                 alt={getAlt(attachments[0], i18n)}
                 i18n={i18n}
                 curveTopLeft={curveTopLeft}
+                noBorder={false}
                 attachment={attachments[0]}
                 playIconOverlay={isVideoAttachment(attachments[0])}
                 height={149}
@@ -205,6 +206,7 @@ export class ImageGrid extends React.Component<Props> {
                 i18n={i18n}
                 curveTopRight={curveTopRight}
                 playIconOverlay={isVideoAttachment(attachments[1])}
+                noBorder={false}
                 height={149}
                 width={149}
                 attachment={attachments[1]}
@@ -218,7 +220,7 @@ export class ImageGrid extends React.Component<Props> {
                 alt={getAlt(attachments[2], i18n)}
                 i18n={i18n}
                 bottomOverlay={withBottomOverlay}
-                noBorder={isSticker}
+                noBorder={false}
                 curveBottomLeft={curveBottomLeft}
                 playIconOverlay={isVideoAttachment(attachments[2])}
                 height={149}
@@ -232,7 +234,7 @@ export class ImageGrid extends React.Component<Props> {
                 alt={getAlt(attachments[3], i18n)}
                 i18n={i18n}
                 bottomOverlay={withBottomOverlay}
-                noBorder={isSticker}
+                noBorder={false}
                 curveBottomRight={curveBottomRight}
                 playIconOverlay={isVideoAttachment(attachments[3])}
                 height={149}

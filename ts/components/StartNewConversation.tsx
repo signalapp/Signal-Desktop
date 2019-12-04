@@ -15,11 +15,7 @@ export class StartNewConversation extends React.PureComponent<Props> {
     const { phoneNumber, i18n, onClick } = this.props;
 
     return (
-      <div
-        role="button"
-        className="module-start-new-conversation"
-        onClick={onClick}
-      >
+      <button className="module-start-new-conversation" onClick={onClick}>
         <Avatar
           color="grey"
           conversationType="direct"
@@ -35,7 +31,7 @@ export class StartNewConversation extends React.PureComponent<Props> {
             {i18n('startConversation')}
           </div>
         </div>
-      </div>
+      </button>
     );
   }
 }

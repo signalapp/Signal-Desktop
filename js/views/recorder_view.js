@@ -18,6 +18,9 @@
       this.onSwitchAwayBound = this.onSwitchAway.bind(this);
       $(window).on('blur', this.onSwitchAwayBound);
 
+      this.handleKeyDownBound = this.handleKeyDown.bind(this);
+      this.$el.on('keydown', this.handleKeyDownBound);
+
       this.start();
     },
     events: {
@@ -27,6 +30,14 @@
     },
     onSwitchAway() {
       this.close();
+    },
+    handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        this.close();
+
+        event.preventDefault();
+        event.stopPropagation();
+      }
     },
     updateTime() {
       const duration = moment.duration(Date.now() - this.startTime, 'ms');
@@ -67,6 +78,8 @@
       this.trigger('closed');
 
       $(window).off('blur', this.onSwitchAwayBound);
+
+      this.$el.off('keydown', this.handleKeyDownBound);
     },
     finish() {
       this.clickedFinish = true;

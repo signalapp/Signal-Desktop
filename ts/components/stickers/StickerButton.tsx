@@ -147,6 +147,35 @@ export const StickerButton = React.memo(
       [open, setOpen, setPopperRoot]
     );
 
+    // Install keyboard shortcut to open sticker picker
+    React.useEffect(
+      () => {
+        const handleKeydown = (event: KeyboardEvent) => {
+          const { ctrlKey, key, metaKey, shiftKey } = event;
+          const ctrlOrCommand = metaKey || ctrlKey;
+
+          // We don't want to open up if the conversation has any panels open
+          const panels = document.querySelectorAll('.conversation .panel');
+          if (panels && panels.length > 1) {
+            return;
+          }
+
+          if (ctrlOrCommand && shiftKey && (key === 's' || key === 'S')) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            setOpen(!open);
+          }
+        };
+        document.addEventListener('keydown', handleKeydown);
+
+        return () => {
+          document.removeEventListener('keydown', handleKeydown);
+        };
+      },
+      [open, setOpen]
+    );
+
     // Clear the installed pack after one minute
     React.useEffect(
       () => {
@@ -192,11 +221,10 @@ export const StickerButton = React.memo(
         {!open && !showIntroduction && installedPack ? (
           <Popper placement={position} key={installedPack.id}>
             {({ ref, style, placement, arrowProps }) => (
-              <div
+              <button
                 ref={ref}
                 style={style}
                 className="module-sticker-button__tooltip"
-                role="button"
                 onClick={clearInstalledStickerPack}
               >
                 {installedPack.cover ? (
@@ -222,21 +250,20 @@ export const StickerButton = React.memo(
                     `module-sticker-button__tooltip__triangle--${placement}`
                   )}
                 />
-              </div>
+              </button>
             )}
           </Popper>
         ) : null}
         {!open && showIntroduction ? (
           <Popper placement={position}>
             {({ ref, style, placement, arrowProps }) => (
-              <div
+              <button
                 ref={ref}
                 style={style}
                 className={classNames(
                   'module-sticker-button__tooltip',
                   'module-sticker-button__tooltip--introduction'
                 )}
-                role="button"
                 onClick={handleClearIntroduction}
               >
                 {/* <div className="module-sticker-button__tooltip--introduction__image" /> */}
@@ -263,7 +290,7 @@ export const StickerButton = React.memo(
                     `module-sticker-button__tooltip__triangle--${placement}`
                   )}
                 />
-              </div>
+              </button>
             )}
           </Popper>
         ) : null}

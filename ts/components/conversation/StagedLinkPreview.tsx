@@ -53,8 +53,7 @@ export class StagedLinkPreview extends React.Component<Props> {
             <div className="module-staged-link-preview__location">{domain}</div>
           </div>
         ) : null}
-        <div
-          role="button"
+        <button
           className="module-staged-link-preview__close-button"
           onClick={onClose}
         />

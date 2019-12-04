@@ -41,15 +41,18 @@ export const ConfirmationModal = React.memo(
 
     React.useEffect(
       () => {
-        const handler = ({ key }: KeyboardEvent) => {
-          if (key === 'Escape') {
+        const handler = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') {
             onClose();
+
+            event.preventDefault();
+            event.stopPropagation();
           }
         };
-        document.addEventListener('keyup', handler);
+        document.addEventListener('keydown', handler);
 
         return () => {
-          document.removeEventListener('keyup', handler);
+          document.removeEventListener('keydown', handler);
         };
       },
       [onClose]
@@ -67,6 +70,7 @@ export const ConfirmationModal = React.memo(
     return root
       ? createPortal(
           <div
+            // Not really a button. Just a background which can be clicked to close modal
             role="button"
             className="module-confirmation-dialog__overlay"
             onClick={handleCancel}

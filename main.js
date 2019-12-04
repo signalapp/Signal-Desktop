@@ -166,11 +166,15 @@ function prepareURL(pathSegments, moreKeys) {
   });
 }
 
-function handleUrl(event, target) {
+async function handleUrl(event, target) {
   event.preventDefault();
   const { protocol } = url.parse(target);
   if (protocol === 'http:' || protocol === 'https:') {
-    shell.openExternal(target);
+    try {
+      await shell.openExternal(target);
+    } catch (error) {
+      console.log(`Failed to open url: ${error.stack}`);
+    }
   }
 }
 
@@ -234,14 +238,7 @@ function createWindow() {
       },
       icon: path.join(__dirname, 'images', 'icon_256.png'),
     },
-    _.pick(windowConfig, [
-      'maximized',
-      'autoHideMenuBar',
-      'width',
-      'height',
-      'x',
-      'y',
-    ])
+    _.pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y'])
   );
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
@@ -249,9 +246,6 @@ function createWindow() {
   }
   if (!_.isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
     windowOptions.height = DEFAULT_HEIGHT;
-  }
-  if (!_.isBoolean(windowOptions.maximized)) {
-    delete windowOptions.maximized;
   }
   if (!_.isBoolean(windowOptions.autoHideMenuBar)) {
     delete windowOptions.autoHideMenuBar;
@@ -270,10 +264,6 @@ function createWindow() {
     delete windowOptions.y;
   }
 
-  if (windowOptions.fullscreen === false) {
-    delete windowOptions.fullscreen;
-  }
-
   logger.info(
     'Initializing BrowserWindow config: %s',
     JSON.stringify(windowOptions)
@@ -281,8 +271,11 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
-  if (windowOptions.maximized) {
+  if (windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
+  }
+  if (windowConfig && windowConfig.fullscreen) {
+    mainWindow.setFullScreen(true);
   }
 
   function captureAndSaveWindowStats() {
@@ -297,17 +290,12 @@ function createWindow() {
     windowConfig = {
       maximized: mainWindow.isMaximized(),
       autoHideMenuBar: mainWindow.isMenuBarAutoHide(),
+      fullscreen: mainWindow.isFullScreen(),
       width: size[0],
       height: size[1],
       x: position[0],
       y: position[1],
     };
-
-    if (mainWindow.isFullScreen()) {
-      // Only include this property if true, because when explicitly set to
-      // false the fullscreen button will be disabled on osx
-      windowConfig.fullscreen = true;
-    }
 
     logger.info(
       'Updating BrowserWindow config: %s',
@@ -453,6 +441,12 @@ function openSupportPage() {
 
 function openForums() {
   shell.openExternal('https://community.signalusers.org/');
+}
+
+function showKeyboardShortcuts() {
+  if (mainWindow) {
+    mainWindow.webContents.send('show-keyboard-shortcuts');
+  }
 }
 
 function setupWithImport() {
@@ -787,6 +781,7 @@ function setupMenu(options) {
   const menuOptions = Object.assign({}, options, {
     development,
     showDebugLog: showDebugLogWindow,
+    showKeyboardShortcuts,
     showWindow,
     showAbout,
     showSettings: showSettingsWindow,

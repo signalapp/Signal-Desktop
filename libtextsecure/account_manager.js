@@ -422,6 +422,12 @@
       );
       await this.deviceNameIsEncrypted();
 
+      window.log.info(
+        `createAccount: Number is ${number}, password has length: ${
+          password ? password.length : 'none'
+        }`
+      );
+
       const response = await this.server.confirmCode(
         number,
         verificationCode,

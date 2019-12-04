@@ -24,6 +24,7 @@ export interface Props {
 
 interface State {
   imageBroken: boolean;
+  lastAvatarPath?: string;
 }
 
 export class Avatar extends React.Component<Props, State> {
@@ -35,8 +36,21 @@ export class Avatar extends React.Component<Props, State> {
     this.handleImageErrorBound = this.handleImageError.bind(this);
 
     this.state = {
+      lastAvatarPath: props.avatarPath,
       imageBroken: false,
     };
+  }
+
+  public static getDerivedStateFromProps(props: Props, state: State): State {
+    if (props.avatarPath !== state.lastAvatarPath) {
+      return {
+        ...state,
+        lastAvatarPath: props.avatarPath,
+        imageBroken: false,
+      };
+    }
+
+    return state;
   }
 
   public handleImageError() {
@@ -133,7 +147,17 @@ export class Avatar extends React.Component<Props, State> {
       throw new Error(`Size ${size} is not supported!`);
     }
 
-    const role = onClick ? 'button' : undefined;
+    let contents;
+
+    if (onClick) {
+      contents = (
+        <button className="module-avatar-button" onClick={onClick}>
+          {hasImage ? this.renderImage() : this.renderNoImage()}
+        </button>
+      );
+    } else {
+      contents = hasImage ? this.renderImage() : this.renderNoImage();
+    }
 
     return (
       <div
@@ -141,14 +165,11 @@ export class Avatar extends React.Component<Props, State> {
           'module-avatar',
           `module-avatar--${size}`,
           hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
-          !hasImage ? `module-avatar--${color}` : null,
-          onClick ? 'module-avatar--with-click' : null
+          !hasImage ? `module-avatar--${color}` : null
         )}
         ref={innerRef}
-        role={role}
-        onClick={onClick}
       >
-        {hasImage ? this.renderImage() : this.renderNoImage()}
+        {contents}
       </div>
     );
   }

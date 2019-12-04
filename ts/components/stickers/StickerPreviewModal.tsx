@@ -23,12 +23,6 @@ export type OwnProps = {
 
 export type Props = OwnProps;
 
-function focusRef(el: HTMLElement | null) {
-  if (el) {
-    el.focus();
-  }
-}
-
 function renderBody({ pack, i18n }: Props) {
   if (pack && pack.status === 'error') {
     return (
@@ -80,8 +74,30 @@ export const StickerPreviewModal = React.memo(
       installStickerPack,
       uninstallStickerPack,
     } = props;
+    const focusRef = React.useRef<HTMLButtonElement>(null);
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
     const [confirmingUninstall, setConfirmingUninstall] = React.useState(false);
+
+    // Restore focus on teardown
+    React.useEffect(
+      () => {
+        if (!root) {
+          return;
+        }
+
+        const lastFocused = document.activeElement as any;
+        if (focusRef.current) {
+          focusRef.current.focus();
+        }
+
+        return () => {
+          if (lastFocused && lastFocused.focus) {
+            lastFocused.focus();
+          }
+        };
+      },
+      [root]
+    );
 
     React.useEffect(() => {
       const div = document.createElement('div');
@@ -148,10 +164,10 @@ export const StickerPreviewModal = React.memo(
           }
         };
 
-        document.addEventListener('keyup', handler);
+        document.addEventListener('keydown', handler);
 
         return () => {
-          document.removeEventListener('keyup', handler);
+          document.removeEventListener('keydown', handler);
         };
       },
       [onClose]
@@ -169,6 +185,7 @@ export const StickerPreviewModal = React.memo(
     return root
       ? createPortal(
           <div
+            // Not really a button. Just a background which can be clicked to close modal
             role="button"
             className="module-sticker-manager__preview-modal__overlay"
             onClick={handleClickToClose}

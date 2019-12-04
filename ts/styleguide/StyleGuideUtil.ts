@@ -119,6 +119,7 @@ const urlOptions = QueryString.parse(query);
 const theme = urlOptions.theme || 'light-theme';
 const ios = urlOptions.ios || false;
 const locale = urlOptions.locale || 'en';
+const mode = urlOptions.mode || 'mouse-mode';
 
 // @ts-ignore
 import localeMessages from '../../_locales/en/messages.json';
@@ -127,7 +128,10 @@ import localeMessages from '../../_locales/en/messages.json';
 import { setup } from '../../js/modules/i18n';
 const i18n = setup(locale, localeMessages);
 
-export { theme, ios, locale, i18n };
+export { theme, ios, locale, mode, i18n };
+
+// @ts-ignore
+window.getInteractionMode = () => mode;
 
 // Telling Lodash to relinquish _ for use by underscore
 // @ts-ignore

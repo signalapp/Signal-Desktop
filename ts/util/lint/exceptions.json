@@ -145,7 +145,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/about_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 19,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -179,7 +179,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/debug_log_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 4,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -246,7 +246,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/permissions_popup_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 3,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -273,7 +273,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/settings_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 3,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -336,7 +336,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/confirmation_dialog_view.js",
     "line": "      this.$('.cancel').focus();",
-    "lineNumber": 55,
+    "lineNumber": 73,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -479,7 +479,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 86,
+    "lineNumber": 85,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -488,7 +488,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 93,
+    "lineNumber": 92,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -497,7 +497,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 110,
+    "lineNumber": 109,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -506,7 +506,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 114,
+    "lineNumber": 113,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -515,7 +515,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 120,
+    "lineNumber": 119,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -524,7 +524,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 140,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -533,7 +533,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 140,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -542,7 +542,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 183,
+    "lineNumber": 189,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -551,24 +551,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 187,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
-    "reasonDetail": "Hardcoded selector"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 191,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
-    "reasonDetail": "Hardcoded selector"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation:first .menu').trigger('close');",
     "lineNumber": 193,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
@@ -577,8 +559,26 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
+    "line": "      this.$('.conversation-stack').addClass('inactive');",
+    "lineNumber": 197,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-10-21T22:30:15.622Z",
+    "reasonDetail": "Hardcoded selector"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.conversation:first .menu').trigger('close');",
+    "lineNumber": 199,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-10-21T22:30:15.622Z",
+    "reasonDetail": "Hardcoded selector"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 213,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -587,7 +587,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 216,
+    "lineNumber": 222,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -811,7 +811,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
     "line": "      this.$('.time').text(`${minutes}:${seconds}`);",
-    "lineNumber": 38,
+    "lineNumber": 49,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -820,7 +820,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
     "line": "      $(window).off('blur', this.onSwitchAwayBound);",
-    "lineNumber": 69,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-11T19:22:47.331Z",
     "reasonDetail": "Operating on already-existing DOM elements"
@@ -1140,6 +1140,15 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "jQuery-appendTo(",
+    "path": "js/views/toast_view.js",
+    "line": "    toast.$el.appendTo(el);",
+    "lineNumber": 34,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
     "rule": "jQuery-html(",
     "path": "js/views/whisper_view.js",
     "line": "        this.$el.html(Mustache.render(template, attrs, partials));",
@@ -1283,18 +1292,26 @@
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sync_request.js",
-    "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
+    "line": "    wrap(sender.sendRequestBlockSyncMessage(sendOptions));",
     "lineNumber": 36,
     "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
+    "updated": "2019-12-03T00:28:08.683Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/sync_request.js",
+    "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
+    "lineNumber": 39,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-03T00:28:08.683Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sync_request.js",
     "line": "        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 39,
+    "lineNumber": 42,
     "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
+    "updated": "2019-12-03T00:28:08.683Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3396,7 +3413,7 @@
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 2134,
+    "lineNumber": 2136,
     "reasonCategory": "falseMatch",
     "updated": "2019-08-15T17:10:42.360Z"
   },
@@ -3404,7 +3421,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3745,
+    "lineNumber": 3760,
     "reasonCategory": "falseMatch",
     "updated": "2019-08-15T17:10:42.360Z"
   },
@@ -3664,7 +3681,7 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
-    "lineNumber": 232,
+    "lineNumber": 233,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Hard-coded string used for testing capabilities."
@@ -3673,7 +3690,7 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "  eval(a);",
-    "lineNumber": 267,
+    "lineNumber": 268,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Used to load dependencies; parent function loadModuleFromSource_ is used in one place only."
@@ -3681,17 +3698,8 @@
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        eval(g + \"\\n//# sourceURL=\" + f);",
-    "lineNumber": 298,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2019-04-12T00:50:12.124Z",
-    "reasonDetail": "Used for google closure compiler transpilation scenarios"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "          goog.global.eval(\"var _evalTest_ = 1;\");",
-    "lineNumber": 444,
+    "lineNumber": 445,
     "reasonCategory": "usageTrusted",
     "updated": "2019-04-12T00:50:12.124Z",
     "reasonDetail": "Hard-coded string used for testing capabilities"
@@ -3700,7 +3708,7 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "        goog.global.eval(a);",
-    "lineNumber": 458,
+    "lineNumber": 459,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "More transpilation logic"
@@ -3708,16 +3716,16 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, d) {",
-    "lineNumber": 498,
+    "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, c) {",
+    "lineNumber": 500,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
+    "updated": "2019-12-03T19:24:21.611Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      return !!eval(a);",
-    "lineNumber": 640,
+    "lineNumber": 642,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "More transpilation logic"
@@ -3726,7 +3734,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "        d.load(f);",
-    "lineNumber": 796,
+    "lineNumber": 794,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2019-04-12T00:50:12.124Z",
     "reasonDetail": "Part of their google closure 'debug loader'"
@@ -3743,11 +3751,29 @@
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "    e || (d.innerHTML = a + \" \", e = d.firstChild.nodeValue.slice(0, -1));",
-    "lineNumber": 2045,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "An odd technique of unescaping content by putting it into the dom"
+    "line": "  a.innerHTML = goog.html.SafeHtml.unwrapTrustedHTML(goog.html.SafeHtml.EMPTY);",
+    "lineNumber": 3448,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-12-03T19:24:21.611Z",
+    "reasonDetail": "HTML is escaped"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "  a.innerHTML = goog.html.SafeHtml.unwrapTrustedHTML(b);",
+    "lineNumber": 3457,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-12-03T19:24:21.611Z",
+    "reasonDetail": "HTML is escaped"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "  a.outerHTML = goog.html.SafeHtml.unwrapTrustedHTML(b);",
+    "lineNumber": 3469,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-12-03T19:24:21.611Z",
+    "reasonDetail": "HTML is escaped"
   },
   {
     "rule": "DOM-innerHTML",
@@ -7515,34 +7541,43 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 69,
+    "lineNumber": 70,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-01T14:10:37.481Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/Lightbox.js",
-    "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 207,
+    "path": "ts/components/LeftPane.js",
+    "line": "        this.listRef = react_1.default.createRef();",
+    "lineNumber": 15,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used to auto-start playback on videos"
+    "updated": "2019-11-05T01:14:21.081Z",
+    "reasonDetail": "Used for focus management"
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/Lightbox.tsx",
-    "line": "    this.videoRef = React.createRef();",
-    "lineNumber": 196,
+    "path": "ts/components/Lightbox.js",
+    "line": "        this.containerRef = react_1.default.createRef();",
+    "lineNumber": 141,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used to auto-start playback on videos"
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to double-check outside clicks"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/Lightbox.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 143,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 118,
+    "lineNumber": 142,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
@@ -7551,7 +7586,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 64,
+    "lineNumber": 65,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
@@ -7560,7 +7595,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SearchResults.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 22,
+    "lineNumber": 26,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T00:44:31.008Z",
     "reasonDetail": "SearchResults needs to interact with its child List directly"
@@ -7585,12 +7620,84 @@
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/conversation/InlineNotificationWrapper.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 10,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 11,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 32,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 155,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/MessageDetail.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
     "lineNumber": 27,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 25,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
+    "line": "  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 66,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/stickers/StickerManager.js",
+    "line": "    const focusRef = React.createRef();",
+    "lineNumber": 20,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-21T06:13:49.384Z",
+    "reasonDetail": "Used for setting focus only"
   },
   {
     "rule": "jQuery-wrap(",

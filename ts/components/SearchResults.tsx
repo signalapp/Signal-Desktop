@@ -5,6 +5,7 @@ import {
   CellMeasurerCache,
   List,
 } from 'react-virtualized';
+import { debounce, isNumber } from 'lodash';
 
 import { Intl } from './Intl';
 import { Emojify } from './conversation/Emojify';
@@ -14,6 +15,7 @@ import {
   PropsData as ConversationListItemPropsType,
 } from './ConversationListItem';
 import { StartNewConversation } from './StartNewConversation';
+import { cleanId } from './_util';
 
 import { LocalizerType } from '../types/Util';
 
@@ -25,6 +27,8 @@ export type PropsDataType = {
   regionCode: string;
   searchConversationName?: string;
   searchTerm: string;
+  selectedConversationId?: string;
+  selectedMessageId?: string;
 };
 
 type StartNewConversationType = {
@@ -82,6 +86,9 @@ type PropsHousekeepingType = {
 };
 
 type PropsType = PropsDataType & PropsHousekeepingType;
+type StateType = {
+  scrollToIndex?: number;
+};
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 type RowRendererParamsType = {
@@ -92,8 +99,23 @@ type RowRendererParamsType = {
   parent: Object;
   style: Object;
 };
+type OnScrollParamsType = {
+  scrollTop: number;
+  clientHeight: number;
+  scrollHeight: number;
 
-export class SearchResults extends React.Component<PropsType> {
+  clientWidth: number;
+  scrollWidth?: number;
+  scrollLeft?: number;
+  scrollToColumn?: number;
+  _hasScrolledToColumnTarget?: boolean;
+  scrollToRow?: number;
+  _hasScrolledToRowTarget?: boolean;
+};
+
+export class SearchResults extends React.Component<PropsType, StateType> {
+  public setFocusToFirstNeeded = false;
+  public setFocusToLastNeeded = false;
   public mostRecentWidth = 0;
   public mostRecentHeight = 0;
   public cellSizeCache = new CellMeasurerCache({
@@ -101,12 +123,232 @@ export class SearchResults extends React.Component<PropsType> {
     fixedWidth: true,
   });
   public listRef = React.createRef<any>();
+  public containerRef = React.createRef<HTMLDivElement>();
+  public state = {
+    scrollToIndex: undefined,
+  };
 
   public handleStartNewConversation = () => {
     const { regionCode, searchTerm, startNewConversation } = this.props;
 
     startNewConversation(searchTerm, { regionCode });
   };
+
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const { items } = this.props;
+    const commandOrCtrl = event.metaKey || event.ctrlKey;
+
+    if (!items || items.length < 1) {
+      return;
+    }
+
+    if (commandOrCtrl && !event.shiftKey && event.key === 'ArrowUp') {
+      this.setState({ scrollToIndex: 0 });
+      this.setFocusToFirstNeeded = true;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
+    if (commandOrCtrl && !event.shiftKey && event.key === 'ArrowDown') {
+      const lastIndex = items.length - 1;
+      this.setState({ scrollToIndex: lastIndex });
+      this.setFocusToLastNeeded = true;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+  };
+
+  public handleFocus = () => {
+    const { selectedConversationId, selectedMessageId } = this.props;
+    const { current: container } = this.containerRef;
+
+    if (!container) {
+      return;
+    }
+
+    if (document.activeElement === container) {
+      const scrollingContainer = this.getScrollContainer();
+
+      // First we try to scroll to the selected message
+      if (selectedMessageId && scrollingContainer) {
+        // tslint:disable-next-line no-unnecessary-type-assertion
+        const target = scrollingContainer.querySelector(
+          `.module-message-search-result[data-id="${selectedMessageId}"]`
+        ) as any;
+
+        if (target && target.focus) {
+          target.focus();
+
+          return;
+        }
+      }
+
+      // Then we try for the selected conversation
+      if (selectedConversationId && scrollingContainer) {
+        const escapedId = cleanId(selectedConversationId).replace(
+          /["\\]/g,
+          '\\$&'
+        );
+        // tslint:disable-next-line no-unnecessary-type-assertion
+        const target = scrollingContainer.querySelector(
+          `.module-conversation-list-item[data-id="${escapedId}"]`
+        ) as any;
+
+        if (target && target.focus) {
+          target.focus();
+
+          return;
+        }
+      }
+
+      // Otherwise we set focus to the first non-header item
+      this.setFocusToFirst();
+    }
+  };
+
+  public setFocusToFirst = () => {
+    const { current: container } = this.containerRef;
+
+    if (container) {
+      // tslint:disable-next-line no-unnecessary-type-assertion
+      const noResultsItem = container.querySelector(
+        '.module-search-results__no-results'
+      ) as any;
+      if (noResultsItem && noResultsItem.focus) {
+        noResultsItem.focus();
+
+        return;
+      }
+    }
+
+    const scrollContainer = this.getScrollContainer();
+    if (!scrollContainer) {
+      return;
+    }
+
+    // tslint:disable-next-line no-unnecessary-type-assertion
+    const startItem = scrollContainer.querySelector(
+      '.module-start-new-conversation'
+    ) as any;
+    if (startItem && startItem.focus) {
+      startItem.focus();
+
+      return;
+    }
+
+    // tslint:disable-next-line no-unnecessary-type-assertion
+    const conversationItem = scrollContainer.querySelector(
+      '.module-conversation-list-item'
+    ) as any;
+    if (conversationItem && conversationItem.focus) {
+      conversationItem.focus();
+
+      return;
+    }
+
+    // tslint:disable-next-line no-unnecessary-type-assertion
+    const messageItem = scrollContainer.querySelector(
+      '.module-message-search-result'
+    ) as any;
+    if (messageItem && messageItem.focus) {
+      messageItem.focus();
+
+      return;
+    }
+  };
+
+  public getScrollContainer = () => {
+    if (!this.listRef || !this.listRef.current) {
+      return;
+    }
+
+    const list = this.listRef.current;
+
+    if (!list.Grid || !list.Grid._scrollingContainer) {
+      return;
+    }
+
+    return list.Grid._scrollingContainer as HTMLDivElement;
+  };
+
+  // tslint:disable-next-line member-ordering
+  public onScroll = debounce(
+    // tslint:disable-next-line cyclomatic-complexity
+    (data: OnScrollParamsType) => {
+      // Ignore scroll events generated as react-virtualized recursively scrolls and
+      //   re-measures to get us where we want to go.
+      if (
+        isNumber(data.scrollToRow) &&
+        data.scrollToRow >= 0 &&
+        !data._hasScrolledToRowTarget
+      ) {
+        return;
+      }
+
+      this.setState({ scrollToIndex: undefined });
+
+      if (this.setFocusToFirstNeeded) {
+        this.setFocusToFirstNeeded = false;
+        this.setFocusToFirst();
+      }
+
+      if (this.setFocusToLastNeeded) {
+        this.setFocusToLastNeeded = false;
+
+        const scrollContainer = this.getScrollContainer();
+        if (!scrollContainer) {
+          return;
+        }
+
+        const messageItems = scrollContainer.querySelectorAll(
+          '.module-message-search-result'
+        ) as any;
+        if (messageItems && messageItems.length > 0) {
+          const last = messageItems[messageItems.length - 1];
+
+          if (last && last.focus) {
+            last.focus();
+
+            return;
+          }
+        }
+
+        const contactItems = scrollContainer.querySelectorAll(
+          '.module-conversation-list-item'
+        ) as any;
+        if (contactItems && contactItems.length > 0) {
+          const last = contactItems[contactItems.length - 1];
+
+          if (last && last.focus) {
+            last.focus();
+
+            return;
+          }
+        }
+
+        const startItem = scrollContainer.querySelectorAll(
+          '.module-start-new-conversation'
+        ) as any;
+        if (startItem && startItem.length > 0) {
+          const last = startItem[startItem.length - 1];
+
+          if (last && last.focus) {
+            last.focus();
+
+            return;
+          }
+        }
+      }
+    },
+    100,
+    { maxWait: 100 }
+  );
 
   public renderRowContents(row: SearchResultRowType) {
     const {
@@ -281,12 +523,23 @@ export class SearchResults extends React.Component<PropsType> {
       searchConversationName,
       searchTerm,
     } = this.props;
+    const { scrollToIndex } = this.state;
 
     if (noResults) {
       return (
-        <div className="module-search-results">
+        <div
+          className="module-search-results"
+          tabIndex={-1}
+          ref={this.containerRef}
+          onFocus={this.handleFocus}
+        >
           {!searchConversationName || searchTerm ? (
-            <div className="module-search-results__no-results" key={searchTerm}>
+            <div
+              // We need this for Ctrl-T shortcut cycling through parts of app
+              tabIndex={-1}
+              className="module-search-results__no-results"
+              key={searchTerm}
+            >
               {searchConversationName ? (
                 <Intl
                   id="noSearchResultsInConversation"
@@ -306,7 +559,15 @@ export class SearchResults extends React.Component<PropsType> {
     }
 
     return (
-      <div className="module-search-results" aria-live="polite">
+      <div
+        className="module-search-results"
+        aria-live="polite"
+        role="group"
+        tabIndex={-1}
+        ref={this.containerRef}
+        onKeyDown={this.handleKeyDown}
+        onFocus={this.handleFocus}
+      >
         <AutoSizer>
           {({ height, width }) => {
             this.mostRecentWidth = width;
@@ -323,6 +584,9 @@ export class SearchResults extends React.Component<PropsType> {
                 rowCount={this.getRowCount()}
                 rowHeight={this.cellSizeCache.rowHeight}
                 rowRenderer={this.renderRow}
+                scrollToIndex={scrollToIndex}
+                tabIndex={-1}
+                onScroll={this.onScroll as any}
                 width={width}
               />
             );

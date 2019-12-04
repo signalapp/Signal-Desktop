@@ -111,19 +111,19 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='recorder'>
-      <button class='finish'><span class='icon'></span></button>
+      <button class='close' tabIndex='2'><span class='icon'></span></button>
       <span class='time'>0:00</span>
-      <button class='close'><span class='icon'></span></button>
+      <button class='finish' tabIndex='1'><span class='icon'></span></button>
   </script>
 
   <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
     <div class="content">
       <div class='message'>{{ message }}</div>
       <div class='buttons'>
+        <button class='ok' tabindex='2'>{{ ok }}</button>
         {{ #showCancel }}
-          <button class='cancel' tabindex='2'>{{ cancel }}</button>
+          <button class='cancel' tabindex='1'>{{ cancel }}</button>
         {{ /showCancel }}
-        <button class='ok' tabindex='1'>{{ ok }}</button>
       </div>
     </div>
   </script>
@@ -155,13 +155,13 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='group-member-list'>
-    <div class='container'>
+    <div class='container' tabindex='0'>
       {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
     </div>
   </script>
 
   <script type='text/x-tmpl-mustache' id='key-verification'>
-    <div class='container'>
+    <div class='container' tabindex='0'>
       {{ ^hasTheirKey }}
         <div class='placeholder'>{{ theirKeyUnknown }}</div>
       {{ /hasTheirKey }}

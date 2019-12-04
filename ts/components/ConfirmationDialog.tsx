@@ -37,10 +37,10 @@ export const ConfirmationDialog = React.memo(
             onClose();
           }
         };
-        document.addEventListener('keyup', handler);
+        document.addEventListener('keydown', handler);
 
         return () => {
-          document.removeEventListener('keyup', handler);
+          document.removeEventListener('keydown', handler);
         };
       },
       [onClose]

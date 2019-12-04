@@ -9,6 +9,7 @@ import { getIntl } from '../selectors/user';
 import {
   getConversationMessagesSelector,
   getConversationSelector,
+  getSelectedMessage,
 } from '../selectors/conversations';
 
 import { SmartTimelineItem } from './TimelineItem';
@@ -30,8 +31,18 @@ type ExternalProps = {
   //   are provided by ConversationView in setupTimeline().
 };
 
-function renderItem(messageId: string, actionProps: Object): JSX.Element {
-  return <FilteredSmartTimelineItem {...actionProps} id={messageId} />;
+function renderItem(
+  messageId: string,
+  conversationId: string,
+  actionProps: Object
+): JSX.Element {
+  return (
+    <FilteredSmartTimelineItem
+      {...actionProps}
+      conversationId={conversationId}
+      id={messageId}
+    />
+  );
 }
 function renderLastSeenIndicator(id: string): JSX.Element {
   return <FilteredSmartLastSeenIndicator id={id} />;
@@ -48,11 +59,13 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   const conversation = getConversationSelector(state)(id);
   const conversationMessages = getConversationMessagesSelector(state)(id);
+  const selectedMessage = getSelectedMessage(state);
 
   return {
     id,
     ...pick(conversation, ['unreadCount', 'typingContact']),
     ...conversationMessages,
+    selectedMessageId: selectedMessage ? selectedMessage.id : undefined,
     i18n: getIntl(state),
     renderItem,
     renderLastSeenIndicator,

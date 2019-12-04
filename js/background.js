@@ -76,7 +76,7 @@
   const ACTIVE_TIMEOUT = 15 * 1000;
   const ACTIVE_EVENTS = [
     'click',
-    'keypress',
+    'keydown',
     'mousedown',
     'mousemove',
     // 'scroll', // this is triggered by Timeline re-renders, can't use
@@ -109,6 +109,61 @@
     activeHandlers = activeHandlers.filter(item => item !== handler);
   };
 
+  // Keyboard/mouse mode
+  let interactionMode = 'mouse';
+  $(document.body).addClass('mouse-mode');
+
+  window.enterKeyboardMode = () => {
+    if (interactionMode === 'keyboard') {
+      return;
+    }
+
+    interactionMode = 'keyboard';
+    $(document.body)
+      .addClass('keyboard-mode')
+      .removeClass('mouse-mode');
+    const { userChanged } = window.reduxActions.user;
+    const { clearSelectedMessage } = window.reduxActions.conversations;
+    if (clearSelectedMessage) {
+      clearSelectedMessage();
+    }
+    if (userChanged) {
+      userChanged({ interactionMode });
+    }
+  };
+  window.enterMouseMode = () => {
+    if (interactionMode === 'mouse') {
+      return;
+    }
+
+    interactionMode = 'mouse';
+    $(document.body)
+      .addClass('mouse-mode')
+      .removeClass('keyboard-mode');
+    const { userChanged } = window.reduxActions.user;
+    const { clearSelectedMessage } = window.reduxActions.conversations;
+    if (clearSelectedMessage) {
+      clearSelectedMessage();
+    }
+    if (userChanged) {
+      userChanged({ interactionMode });
+    }
+  };
+
+  document.addEventListener(
+    'keydown',
+    event => {
+      if (event.key === 'Tab') {
+        window.enterKeyboardMode();
+      }
+    },
+    true
+  );
+  document.addEventListener('wheel', window.enterMouseMode, true);
+  document.addEventListener('mousedown', window.enterMouseMode, true);
+
+  window.getInteractionMode = () => interactionMode;
+
   // Load these images now to ensure that they don't flicker on first use
   window.preloadedImages = [];
   function preload(list) {
@@ -138,6 +193,7 @@
     upgradeMessageSchema,
     writeNewAttachmentData,
     deleteAttachmentData,
+    doesAttachmentExist,
   } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
@@ -282,6 +338,8 @@
         $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
       },
       removeDarkOverlay: () => $('.dark-overlay').remove(),
+      showKeyboardShortcuts: () => window.showKeyboardShortcuts(),
+
       deleteAllData: () => {
         const clearDataView = new window.Whisper.ClearDataView().render();
         $('body').append(clearDataView.el);
@@ -297,10 +355,11 @@
         // Stop processing incoming messages
         if (messageReceiver) {
           await messageReceiver.stopProcessing();
-
           await window.waitForAllBatchers();
-          messageReceiver.unregisterBatchers();
+        }
 
+        if (messageReceiver) {
+          messageReceiver.unregisterBatchers();
           messageReceiver = null;
         }
 
@@ -518,7 +577,9 @@
         tempPath: window.baseTempPath,
         regionCode: window.storage.get('regionCode'),
         ourNumber: textsecure.storage.user.getNumber(),
+        platform: window.platform,
         i18n: window.i18n,
+        interactionMode: window.getInteractionMode(),
       },
     };
 
@@ -581,26 +642,591 @@
     Whisper.events.on('messageExpired', messageExpired);
     Whisper.events.on('userChanged', userChanged);
 
-    // In the future this listener will be added by the conversation view itself. But
-    //   because we currently have multiple converations open at once, we install just
-    //   one global handler.
-    // $(document).on('keydown', event => {
-    //   const { ctrlKey, key } = event;
+    let shortcutGuideView = null;
 
-    // We can add Command-E as the Mac shortcut when we add it to our Electron menus:
-    //   https://stackoverflow.com/questions/27380018/when-cmd-key-is-kept-pressed-keyup-is-not-triggered-for-any-other-key
-    // For now, it will stay as CTRL-E only
-    //   if (key === 'e' && ctrlKey) {
-    //     const state = store.getState();
-    //     const selectedId = state.conversations.selectedConversation;
-    //     const conversation = ConversationController.get(selectedId);
+    window.showKeyboardShortcuts = () => {
+      if (!shortcutGuideView) {
+        shortcutGuideView = new Whisper.ReactWrapperView({
+          className: 'shortcut-guide-wrapper',
+          JSX: Signal.State.Roots.createShortcutGuideModal(window.reduxStore, {
+            close: () => {
+              if (shortcutGuideView) {
+                shortcutGuideView.remove();
+                shortcutGuideView = null;
+              }
+            },
+          }),
+          onClose: () => {
+            shortcutGuideView = null;
+          },
+        });
+      }
+    };
 
-    //     if (conversation && !conversation.get('isArchived')) {
-    //       conversation.setArchived(true);
-    //       conversation.trigger('unload');
-    //     }
-    //   }
-    // });
+    function findConversation(conversationId, direction, unreadOnly) {
+      const state = store.getState();
+      const lists = Signal.State.Selectors.conversations.getLeftPaneLists(
+        state
+      );
+      const toSearch = state.conversations.showArchived
+        ? lists.archivedConversations
+        : lists.conversations;
+
+      const increment = direction === 'up' ? -1 : 1;
+      let startIndex;
+
+      if (conversationId) {
+        const index = toSearch.findIndex(item => item.id === conversationId);
+        if (index >= 0) {
+          startIndex = index + increment;
+        }
+      } else {
+        startIndex = direction === 'up' ? toSearch.length - 1 : 0;
+      }
+
+      for (
+        let i = startIndex, max = toSearch.length;
+        i >= 0 && i < max;
+        i += increment
+      ) {
+        const target = toSearch[i];
+        if (!unreadOnly) {
+          return target.id;
+        } else if (target.unreadCount > 0) {
+          return target.id;
+        }
+      }
+
+      return null;
+    }
+
+    document.addEventListener('keydown', event => {
+      const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
+
+      const optionOrAlt = altKey;
+      const ctrlOrCommand = metaKey || ctrlKey;
+
+      const state = store.getState();
+      const selectedId = state.conversations.selectedConversation;
+      const conversation = ConversationController.get(selectedId);
+      const isSearching = Signal.State.Selectors.search.isSearching(state);
+
+      // NAVIGATION
+
+      // Show keyboard shortcuts - handled by Electron-managed keyboard shortcuts
+      // However, on linux Ctrl+/ selects all text, so we prevent that
+      if (ctrlOrCommand && key === '/') {
+        window.showKeyboardShortcuts();
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        return;
+      }
+
+      // Navigate by section
+      if (ctrlOrCommand && !shiftKey && (key === 't' || key === 'T')) {
+        window.enterKeyboardMode();
+        const focusedElement = document.activeElement;
+
+        const targets = [
+          document.querySelector('.module-main-header .module-avatar-button'),
+          document.querySelector('.module-left-pane__to-inbox-button'),
+          document.querySelector('.module-main-header__search__input'),
+          document.querySelector('.module-left-pane__list'),
+          document.querySelector('.module-search-results'),
+          document.querySelector(
+            '.module-composition-area .public-DraftEditor-content'
+          ),
+        ];
+        const focusedIndex = targets.findIndex(target => {
+          if (!target || !focusedElement) {
+            return false;
+          }
+
+          if (target === focusedElement) {
+            return true;
+          }
+
+          if (target.contains(focusedElement)) {
+            return true;
+          }
+
+          return false;
+        });
+        const lastIndex = targets.length - 1;
+
+        let index;
+        if (focusedIndex < 0 || focusedIndex >= lastIndex) {
+          index = 0;
+        } else {
+          index = focusedIndex + 1;
+        }
+
+        while (!targets[index]) {
+          index += 1;
+          if (index > lastIndex) {
+            index = 0;
+          }
+        }
+
+        targets[index].focus();
+      }
+
+      // Cancel out of keyboard shortcut screen - has first precedence
+      if (shortcutGuideView && key === 'Escape') {
+        shortcutGuideView.remove();
+        shortcutGuideView = null;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Escape is heavily overloaded - here we avoid clashes with other Escape handlers
+      if (key === 'Escape') {
+        // Check origin - if within a react component which handles escape, don't handle.
+        //   Why? Because React's synthetic events can cause events to be handled twice.
+        const target = document.activeElement;
+
+        if (
+          target &&
+          target.attributes &&
+          target.attributes.class &&
+          target.attributes.class.value
+        ) {
+          const className = target.attributes.class.value;
+
+          // These want to handle events internally
+
+          // CaptionEditor text box
+          if (className.includes('module-caption-editor__caption-input')) {
+            return;
+          }
+
+          // MainHeader search box
+          if (className.includes('module-main-header__search__input')) {
+            return;
+          }
+        }
+
+        // These add listeners to document, but we'll run first
+        const confirmationModal = document.querySelector(
+          '.module-confirmation-dialog__overlay'
+        );
+        if (confirmationModal) {
+          return;
+        }
+
+        const emojiPicker = document.querySelector('.module-emoji-picker');
+        if (emojiPicker) {
+          return;
+        }
+
+        const lightBox = document.querySelector('.module-lightbox');
+        if (lightBox) {
+          return;
+        }
+
+        const stickerPicker = document.querySelector('.module-sticker-picker');
+        if (stickerPicker) {
+          return;
+        }
+
+        const stickerPreview = document.querySelector(
+          '.module-sticker-manager__preview-modal__overlay'
+        );
+        if (stickerPreview) {
+          return;
+        }
+      }
+
+      // Close Backbone-based confirmation dialog
+      if (Whisper.activeConfirmationView && key === 'Escape') {
+        Whisper.activeConfirmationView.remove();
+        Whisper.activeConfirmationView = null;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Send Escape to active conversation so it can close panels
+      if (conversation && key === 'Escape') {
+        conversation.trigger('escape-pressed');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Change currently selected conversation - up/down, to next/previous unread
+      if (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') {
+        const unreadOnly = false;
+        const targetId = findConversation(
+          conversation ? conversation.id : null,
+          'up',
+          unreadOnly
+        );
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+      if (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') {
+        const unreadOnly = false;
+        const targetId = findConversation(
+          conversation ? conversation.id : null,
+          'down',
+          unreadOnly
+        );
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowUp') {
+        const unreadOnly = true;
+        const targetId = findConversation(
+          conversation ? conversation.id : null,
+          'up',
+          unreadOnly
+        );
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowDown') {
+        const unreadOnly = true;
+        const targetId = findConversation(
+          conversation ? conversation.id : null,
+          'down',
+          unreadOnly
+        );
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      // Preferences - handled by Electron-managed keyboard shortcuts
+
+      // Open the top-right menu for current conversation
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'l' || key === 'L')
+      ) {
+        const button = document.querySelector(
+          '.module-conversation-header__more-button'
+        );
+        if (!button) {
+          return;
+        }
+
+        // Because the menu is shown at a location based on the initiating click, we need
+        //   to fake up a mouse event to get the menu to show somewhere other than (0,0).
+        const { x, y, width, height } = button.getBoundingClientRect();
+        const mouseEvent = document.createEvent('MouseEvents');
+        mouseEvent.initMouseEvent(
+          'click',
+          true, // bubbles
+          false, // cancelable
+          null, // view
+          null, // detail
+          0, // screenX,
+          0, // screenY,
+          x + width / 2,
+          y + height / 2,
+          false, // ctrlKey,
+          false, // altKey,
+          false, // shiftKey,
+          false, // metaKey,
+          false, // button,
+          document.body
+        );
+
+        button.dispatchEvent(mouseEvent);
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Search
+      if (ctrlOrCommand && !shiftKey && (key === 'f' || key === 'F')) {
+        const { startSearch } = actions.search;
+        startSearch();
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Search in conversation
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'f' || key === 'F')
+      ) {
+        const { searchInConversation } = actions.search;
+        const name = conversation.isMe()
+          ? window.i18n('noteToSelf')
+          : conversation.getTitle();
+        searchInConversation(conversation.id, name);
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Focus composer field
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 't' || key === 'T')
+      ) {
+        conversation.trigger('focus-composer');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Open all media
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'm' || key === 'M')
+      ) {
+        conversation.trigger('open-all-media');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Open emoji picker - handled by component
+
+      // Open sticker picker - handled by component
+
+      // Begin recording voice note
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'v' || key === 'V')
+      ) {
+        conversation.trigger('begin-recording');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Archive or unarchive conversation
+      if (
+        conversation &&
+        !conversation.get('isArchived') &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'a' || key === 'A')
+      ) {
+        conversation.setArchived(true);
+        conversation.trigger('unload', 'keyboard shortcut archive');
+        Whisper.ToastView.show(
+          Whisper.ConversationArchivedToast,
+          document.body
+        );
+
+        // It's very likely that the act of archiving a conversation will set focus to
+        //   'none,' or the top-level body element. This resets it to the left pane,
+        //   whether in the normal conversation list or search results.
+        if (document.activeElement === document.body) {
+          const leftPaneEl = document.querySelector('.module-left-pane__list');
+          if (leftPaneEl) {
+            leftPaneEl.focus();
+          }
+
+          const searchResultsEl = document.querySelector(
+            '.module-search-results'
+          );
+          if (searchResultsEl) {
+            searchResultsEl.focus();
+          }
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      if (
+        conversation &&
+        conversation.get('isArchived') &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'u' || key === 'U')
+      ) {
+        conversation.setArchived(false);
+        Whisper.ToastView.show(
+          Whisper.ConversationUnarchivedToast,
+          document.body
+        );
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Scroll to bottom of list - handled by component
+
+      // Scroll to top of list - handled by component
+
+      // Close conversation
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'c' || key === 'C')
+      ) {
+        conversation.trigger('unload', 'keyboard shortcut close');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // MESSAGES
+
+      // Show message details
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        !shiftKey &&
+        (key === 'd' || key === 'D')
+      ) {
+        const { selectedMessage } = state.conversations;
+        if (!selectedMessage) {
+          return;
+        }
+
+        conversation.trigger('show-message-details', selectedMessage);
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Toggle reply to message
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'r' || key === 'R')
+      ) {
+        const { selectedMessage } = state.conversations;
+
+        conversation.trigger('toggle-reply', selectedMessage);
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Save attachment
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        !shiftKey &&
+        (key === 's' || key === 'S')
+      ) {
+        const { selectedMessage } = state.conversations;
+
+        if (selectedMessage) {
+          conversation.trigger('save-attachment', selectedMessage);
+
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'd' || key === 'D')
+      ) {
+        const { selectedMessage } = state.conversations;
+
+        if (selectedMessage) {
+          conversation.trigger('delete-message', selectedMessage);
+
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      // COMPOSER
+
+      // Create a newline in your message - handled by component
+
+      // Expand composer - handled by component
+
+      // Send in expanded composer - handled by component
+
+      // Attach file
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        !shiftKey &&
+        (key === 'u' || key === 'U')
+      ) {
+        conversation.trigger('attach-file');
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Remove draft link preview
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        !shiftKey &&
+        (key === 'p' || key === 'P')
+      ) {
+        conversation.trigger('remove-link-review');
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Attach file
+      if (
+        conversation &&
+        ctrlOrCommand &&
+        shiftKey &&
+        (key === 'p' || key === 'P')
+      ) {
+        conversation.trigger('remove-all-draft-attachments');
+
+        event.preventDefault();
+        event.stopPropagation();
+        // Commented out because this is the last item
+        // return;
+      }
+    });
   }
 
   Whisper.events.on('setupWithImport', () => {
@@ -1244,12 +1870,14 @@
           {
             writeNewAttachmentData,
             deleteAttachmentData,
+            doesAttachmentExist,
           }
         );
         conversation.set(newAttributes);
       }
 
       window.Signal.Data.updateConversation(id, conversation.attributes);
+
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
@@ -1326,6 +1954,7 @@
         {
           writeNewAttachmentData,
           deleteAttachmentData,
+          doesAttachmentExist,
         }
       );
       conversation.set(newAttributes);

@@ -18,7 +18,12 @@ import { getBubbleProps } from '../../shims/Whisper';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
 
-import { getIntl, getRegionCode, getUserNumber } from './user';
+import {
+  getInteractionMode,
+  getIntl,
+  getRegionCode,
+  getUserNumber,
+} from './user';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -245,6 +250,7 @@ export function _messageSelector(
   ourNumber: string,
   // @ts-ignore
   regionCode: string,
+  interactionMode: 'mouse' | 'keyboard',
   // @ts-ignore
   conversation?: ConversationType,
   // @ts-ignore
@@ -263,13 +269,20 @@ export function _messageSelector(
       ...props,
       data: {
         ...props.data,
+        interactionMode,
         isSelected: true,
         isSelectedCounter: selectedMessageCounter,
       },
     };
   }
 
-  return props;
+  return {
+    ...props,
+    data: {
+      ...props.data,
+      interactionMode,
+    },
+  };
 }
 
 // A little optimization to reset our selector cache whenever high-level application data
@@ -278,6 +291,7 @@ type CachedMessageSelectorType = (
   message: MessageType,
   ourNumber: string,
   regionCode: string,
+  interactionMode: 'mouse' | 'keyboard',
   conversation?: ConversationType,
   author?: ConversationType,
   quoted?: ConversationType,
@@ -302,13 +316,15 @@ export const getMessageSelector = createSelector(
   getConversationSelector,
   getRegionCode,
   getUserNumber,
+  getInteractionMode,
   (
     messageSelector: CachedMessageSelectorType,
     messageLookup: MessageLookupType,
     selectedMessage: SelectedMessageType | undefined,
     conversationSelector: GetConversationByIdType,
     regionCode: string,
-    ourNumber: string
+    ourNumber: string,
+    interactionMode: 'keyboard' | 'mouse'
   ): GetMessageByIdType => {
     return (id: string) => {
       const message = messageLookup[id];
@@ -335,6 +351,7 @@ export const getMessageSelector = createSelector(
         message,
         ourNumber,
         regionCode,
+        interactionMode,
         conversation,
         author,
         quoted,

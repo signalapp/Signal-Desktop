@@ -15,6 +15,8 @@
       opacity: 1;
     }
 
+    outline: none;
+
     &:before {
       content: '';
       display: inline-block;
@@ -43,7 +45,7 @@
     height: 32px;
     border-radius: 32px;
     margin-left: 5px;
-    opacity: 0.5;
+    opacity: 0.3;
     text-align: center;
     padding: 0;
 
@@ -51,6 +53,8 @@
     &:hover {
       opacity: 1;
     }
+
+    outline: none;
 
     .icon {
       display: inline-block;

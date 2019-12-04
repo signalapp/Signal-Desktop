@@ -182,11 +182,16 @@
     "role": "help",
     "submenu": [
       {
-        "label": "Go to Release Notes",
+        "label": "Show Keyboard Shortcuts",
+        "accelerator": "CmdOrCtrl+/",
         "click": null
       },
       {
         "type": "separator"
+      },
+      {
+        "label": "Go to Release Notes",
+        "click": null
       },
       {
         "label": "Go to Forums",
