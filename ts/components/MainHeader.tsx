@@ -127,7 +127,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       popperRoot: null,
     });
 
-    if (popperRoot) {
+    if (popperRoot && document.body.contains(popperRoot)) {
       document.body.removeChild(popperRoot);
     }
   };
@@ -138,7 +138,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     document.removeEventListener('click', this.handleOutsideClick);
     document.removeEventListener('keydown', this.handleOutsideKeyDown);
 
-    if (popperRoot) {
+    if (popperRoot && document.body.contains(popperRoot)) {
       document.body.removeChild(popperRoot);
     }
   }
