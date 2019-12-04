@@ -54,11 +54,9 @@ export class Avatar extends React.PureComponent<Props, State> {
       return this.renderNoImage();
     }
 
-    const borderRadius = '50%';
     const borderStyle = this.getBorderStyle(
       borderColor,
       borderWidth,
-      borderRadius
     );
 
     // Generate the seed
@@ -213,19 +211,15 @@ export class Avatar extends React.PureComponent<Props, State> {
       : this.renderIdenticon();
   }
 
-  private getBorderStyle(color?: string, width?: number, radius?: string) {
+  private getBorderStyle(color?: string, width?: number) {
     const borderWidth = typeof width === 'number' ? width : 3;
 
     return color
-      ? {
-          borderColor: color,
-          borderStyle: 'solid',
-          borderWidth: borderWidth,
-        }
-      : radius
-        ? {
-            borderRadius: radius,
-          }
-        : undefined;
+    ? {
+        borderColor: color,
+        borderStyle: 'solid',
+        borderWidth: borderWidth,
+      }
+    : undefined;
   }
 }
