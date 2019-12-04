@@ -1042,6 +1042,12 @@
       }
     });
 
+    Whisper.events.on('showSessionRestoreConfirmation', options => {
+      if (appView) {
+        appView.showSessionRestoreConfirmation(options);
+      }
+    });
+
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);
@@ -1933,6 +1939,48 @@
   }
 
   async function onError(ev) {
+    const noSession =
+      ev.error &&
+      ev.error.message &&
+      ev.error.message.indexOf('No record for device') === 0;
+    const pubkey = ev.proto.source;
+
+    if (noSession) {
+      const convo = await ConversationController.getOrCreateAndWait(
+        pubkey,
+        'private'
+      );
+
+      if (!convo.get('sessionRestoreSeen')) {
+        convo.set({ sessionRestoreSeen: true });
+
+        await window.Signal.Data.updateConversation(
+          convo.id,
+          convo.attributes,
+          { Conversation: Whisper.Conversation }
+        );
+
+        window.Whisper.events.trigger('showSessionRestoreConfirmation', {
+          pubkey,
+          onOk: () => {
+            convo.sendMessage('', null, null, null, null, {
+              sessionRestoration: true,
+            });
+          },
+        });
+      } else {
+        window.log.verbose(
+          `Already seen session restore for pubkey: ${pubkey}`
+        );
+        if (ev.confirm) {
+          ev.confirm();
+        }
+      }
+
+      // We don't want to display any failed messages in the conversation:
+      return;
+    }
+
     const { error } = ev;
     window.log.error('background onError:', Errors.toLogFormat(error));
 

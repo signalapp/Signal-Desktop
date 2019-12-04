@@ -102,6 +102,8 @@
           this.propsForResetSessionNotification = this.getPropsForResetSessionNotification();
         } else if (this.isGroupUpdate()) {
           this.propsForGroupNotification = this.getPropsForGroupNotification();
+        } else if (this.isSessionRestoration()) {
+          // do nothing
         } else if (this.isFriendRequest()) {
           this.propsForFriendRequest = this.getPropsForFriendRequest();
         } else if (this.isGroupInvitation()) {
@@ -270,6 +272,13 @@
     isGroupInvitation() {
       return !!this.get('groupInvitation');
     },
+    isSessionRestoration() {
+      const flag = textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
+      // eslint-disable-next-line no-bitwise
+      const sessionRestoreFlag = !!(this.get('flags') & flag);
+
+      return !!this.get('sessionRestoration') || sessionRestoreFlag;
+    },
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
@@ -389,6 +398,16 @@
         return;
       }
       const conversation = await this.getSourceDeviceConversation();
+
+      // If we somehow received an old friend request (e.g. after having restored
+      // from seed, we won't be able to accept it, we should initiate our own
+      // friend request to reset the session:
+      if (conversation.get('sessionRestoreSeen')) {
+        conversation.sendMessage('', null, null, null, null, {
+          sessionRestoration: true,
+        });
+        return;
+      }
 
       this.set({ friendStatus: 'accepted' });
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1978,6 +1997,15 @@
       const backgroundFrReq =
         initialMessage.flags ===
         textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST;
+
+      if (
+        // eslint-disable-next-line no-bitwise
+        initialMessage.flags &
+        textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE
+      ) {
+        // Show that the session reset is "in progress" even though we had a valid session
+        this.set({ endSessionType: 'ongoing' });
+      }
 
       if (message.isFriendRequest() && backgroundFrReq) {
         // Check if the contact is a member in one of our private groups:
