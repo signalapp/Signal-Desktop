@@ -54,7 +54,12 @@ export class Avatar extends React.PureComponent<Props, State> {
       return this.renderNoImage();
     }
 
-    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
+    const borderRadius = '50%';
+    const borderStyle = this.getBorderStyle(
+      borderColor,
+      borderWidth,
+      borderRadius
+    );
 
     // Generate the seed
     const hash = phoneNumber.substring(0, 12);
@@ -162,7 +167,13 @@ export class Avatar extends React.PureComponent<Props, State> {
     const hasAvatar = avatarPath || conversationType === 'direct';
     const hasImage = !noteToSelf && hasAvatar && !imageBroken;
 
-    if (size !== 28 && size !== 36 && size !== 48 && size !== 80) {
+    if (
+      size !== 28 &&
+      size !== 36 &&
+      size !== 48 &&
+      size !== 80 &&
+      size !== 300
+    ) {
       throw new Error(`Size ${size} is not supported!`);
     }
 
@@ -202,7 +213,7 @@ export class Avatar extends React.PureComponent<Props, State> {
       : this.renderIdenticon();
   }
 
-  private getBorderStyle(color?: string, width?: number) {
+  private getBorderStyle(color?: string, width?: number, radius?: string) {
     const borderWidth = typeof width === 'number' ? width : 3;
 
     return color
@@ -211,6 +222,10 @@ export class Avatar extends React.PureComponent<Props, State> {
           borderStyle: 'solid',
           borderWidth: borderWidth,
         }
-      : undefined;
+      : radius
+        ? {
+            borderRadius: radius,
+          }
+        : undefined;
   }
 }
