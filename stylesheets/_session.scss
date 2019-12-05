@@ -5,6 +5,18 @@ $session-color-black: #000;
 
 $session-font-family: Waza;
 
+$session-transition-duration: 0.25s;
+
+
+$session-icon-size-sm: 16px;
+$session-icon-size-md: 20px;
+$session-icon-size-lg: 28px;
+
+
+.content{
+    background-color: $session-color-black !important;
+}
+
 .session-button {
     min-width: 165px;
     width: auto;
@@ -41,4 +53,55 @@ $session-font-family: Waza;
         @include transparent-background($session-color-white);
       }
   }
+
   
+.session-icon-button {
+    fill: $session-color-white;
+    opacity: 0.4;
+    cursor: pointer;
+    display: inline-block;
+    transition: opacity $session-transition-duration;
+
+    &.small {
+        line-height: $session-icon-size-sm;
+        height: $session-icon-size-sm;
+        width: $session-icon-size-sm;
+
+        margin: $session-icon-size-sm / 3;
+        
+        img {
+            height: $session-icon-size-sm;
+            width: $session-icon-size-sm;
+        }
+    }
+
+    &.medium {
+        line-height: $session-icon-size-md;
+        height: $session-icon-size-md;
+        width: $session-icon-size-md;
+
+        margin: $session-icon-size-md / 3;
+        
+        img {
+            height: $session-icon-size-md;
+            width: $session-icon-size-md;
+        }
+    }
+    
+    &.large {
+        line-height: $session-icon-size-lg;
+        height: $session-icon-size-lg;
+        width: $session-icon-size-lg;
+
+        margin: $session-icon-size-lg / 3;
+
+        img {
+            height: $session-icon-size-lg;
+            width: $session-icon-size-lg;
+        }
+    }
+
+    &:hover{
+        opacity: 1;
+    }
+}
