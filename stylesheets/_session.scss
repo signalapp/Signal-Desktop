@@ -1,44 +1,106 @@
-$session-color-green: #00F782;
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Italic.ttf') format('truetype');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+$session-font-family: 'SpaceMono';
+
+$session-color-green: #00f782;
 $session-color-white: #fff;
 $session-color-black: #000;
 
+$session-transition-duration: 0.25s;
 
-$session-font-family: Waza;
+$session-icon-size-sm: 15px;
+$session-icon-size-md: 20px;
+$session-icon-size-lg: 30px;
 
 .session-button {
-    min-width: 165px;
-    width: auto;
-    height: 45px;
-    line-height: 45px;
-    padding: 0 35px 0 35px;
-    font-size: 15px;
-    font-family: $session-font-family;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    border-radius: 500px;
+  min-width: 165px;
+  width: auto;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 35px 0 35px;
+  font-size: 15px;
+  font-family: $session-font-family;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  border-radius: 500px;
 
-    @mixin transparent-background($textAndBorderColor) {
-        background-color: Transparent;
-        background-repeat:no-repeat;
-        overflow: hidden;
-        outline:none;
-        color: $textAndBorderColor;
-        border: 2px solid $textAndBorderColor;
-    }
-  
-    &.full-green {
-        background-color: $session-color-green;
-        color: $session-color-white;
-    }
-  
-    &.green {
-        @include transparent-background($session-color-green);
-    }
-      
-    &.white {
-        @include transparent-background($session-color-white);
-      }
+  @mixin transparent-background($textAndBorderColor) {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    outline: none;
+    color: $textAndBorderColor;
+    border: 2px solid $textAndBorderColor;
   }
-  
+
+  &.full-green {
+    background-color: $session-color-green;
+    color: $session-color-white;
+  }
+
+  &.green {
+    @include transparent-background($session-color-green);
+  }
+
+  &.white {
+    @include transparent-background($session-color-white);
+  }
+}
+
+.session-icon-button {
+  fill: $session-color-white;
+  opacity: 0.4;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity $session-transition-duration;
+
+  @mixin adjust-icon-size($size) {
+    line-height: $size;
+    height: $size;
+    width: $size;
+
+    margin: $size / 3;
+
+    img {
+      height: $size;
+      width: $size;
+    }
+  }
+
+  &.small {
+    @include adjust-icon-size($session-icon-size-sm);
+  }
+
+  &.medium {
+    @include adjust-icon-size($session-icon-size-md);
+  }
+
+  &.large {
+    @include adjust-icon-size($session-icon-size-lg);
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
