@@ -21,13 +21,15 @@
   font-weight: bold;
   font-style: italic;
 }
-
 @font-face {
   font-family: "Wasa";
-  src: url("../fonts/Wasa-Bold.otf") format("truetype");
+  src: url("../fonts/Wasa-Bold.otf") format("opentype");
+  font-weight: bold;
 }
 
 // Session Colors
+$session-font-family: "Wasa";
+
 $session-color-green: #00f782;
 $session-color-green-alt-1: #00f480;
 $session-color-green-alt-2: #00fd73;
@@ -69,7 +71,6 @@ $session-overlay-opacity: 0.3;
   color: rgba($color, 0.6);
 }
 
-$session-font-family: "Wasa";
 $session-transition-duration: 0.25s;
 
 $session-icon-size-sm: 15px;

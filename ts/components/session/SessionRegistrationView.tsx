@@ -42,7 +42,7 @@ export class SessionRegistrationView extends React.Component<Props> {
     return (
       <div className="session-content">
         <div className="session-content-accent">
-          <AccentText showSubtitle={showSubtitle} />
+          <AccentText showSubtitle={showSubtitle||true} />
         </div>
         <div className="session-content-registration">
           <SessionButton
