@@ -1,0 +1,44 @@
+$session-color-green: #00F782;
+$session-color-white: #fff;
+$session-color-black: #000;
+
+
+$session-font-family: Waza;
+
+.session-button {
+    min-width: 165px;
+    width: auto;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 35px 0 35px;
+    font-size: 15px;
+    font-family: $session-font-family;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    border-radius: 500px;
+
+    @mixin transparent-background($textAndBorderColor) {
+        background-color: Transparent;
+        background-repeat:no-repeat;
+        overflow: hidden;
+        outline:none;
+        color: $textAndBorderColor;
+        border: 2px solid $textAndBorderColor;
+    }
+  
+    &.full-green {
+        background-color: $session-color-green;
+        color: $session-color-white;
+    }
+  
+    &.green {
+        @include transparent-background($session-color-green);
+    }
+      
+    &.white {
+        @include transparent-background($session-color-white);
+      }
+  }
+  
