@@ -1,8 +1,30 @@
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Italic.ttf') format('truetype');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+$session-font-family: 'SpaceMono';
+
 $session-color-green: #00f782;
 $session-color-white: #fff;
 $session-color-black: #000;
 
-$session-font-family: Waza;
 
 $session-transition-duration: 0.25s;
 
@@ -16,7 +38,7 @@ $session-icon-size-lg: 28px;
   height: 45px;
   line-height: 45px;
   padding: 0 35px 0 35px;
-  font-size: 15px;
+  font-size: 32px;
   font-family: $session-font-family;
   font-weight: 700;
   cursor: pointer;
