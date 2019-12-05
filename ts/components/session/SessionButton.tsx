@@ -15,27 +15,22 @@ interface Props {
   buttonType: SessionButtonTypes;
 }
 
-
 export class SessionButton extends React.PureComponent<Props> {
-
   public render() {
-    const {
-      buttonType,
-      text
-    } = this.props;
+    const { buttonType, text } = this.props;
 
     return (
-        <div  
-          className={classNames(
-            'session-button',
-            buttonType === SessionButtonTypes.green? 'green' : '',
-            buttonType === SessionButtonTypes.fullGreen? 'full-green' : '',
-            buttonType === SessionButtonTypes.white? 'white' : '',
-            )}
-            role='button'
-        >
-          {text}
-        </div>
+      <div
+        className={classNames(
+          'session-button',
+          buttonType === SessionButtonTypes.green ? 'green' : '',
+          buttonType === SessionButtonTypes.fullGreen ? 'full-green' : '',
+          buttonType === SessionButtonTypes.white ? 'white' : ''
+        )}
+        role="button"
+      >
+        {text}
+      </div>
     );
   }
 }

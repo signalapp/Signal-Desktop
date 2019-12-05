@@ -1,72 +1,64 @@
 import React from 'react';
 import classNames from 'classnames';
 
-
 export enum SessionIconButtonTypes {
-    'exit'          = 'exit',
-    'search'        = 'search',
-    'back'          = 'back',
-    'attachment'    = 'attachment',
-    'emoji'         = 'emoji',
-    'favorite'      = 'favorite',
-    'group'         = 'group',
-    'menu'          = 'menu',
-    'message'       = 'message',
-    'microphone'    = 'microphone',
-    'network'       = 'network',
-    'options'       = 'options',
-    'theme'         = 'theme',
+  'exit' = 'exit',
+  'search' = 'search',
+  'back' = 'back',
+  'attachment' = 'attachment',
+  'emoji' = 'emoji',
+  'favorite' = 'favorite',
+  'group' = 'group',
+  'menu' = 'menu',
+  'message' = 'message',
+  'microphone' = 'microphone',
+  'network' = 'network',
+  'options' = 'options',
+  'theme' = 'theme',
 }
 
 export enum SessionIconButtonSizes {
-    'small' = 'small',
-    'medium' = 'medium',
-    'large' = 'large',
+  'small' = 'small',
+  'medium' = 'medium',
+  'large' = 'large',
 }
-
 
 interface Props {
-    iconType: SessionIconButtonTypes;
-    iconSize: SessionIconButtonSizes;
+  iconType: SessionIconButtonTypes;
+  iconSize: SessionIconButtonSizes;
 }
 
-
 export class SessionIconButton extends React.PureComponent<Props> {
-    constructor(props: any){
-        super(props);
-        this.clickHandler = this.clickHandler.bind(this);
-    }
+  constructor(props: any) {
+    super(props);
+    this.clickHandler = this.clickHandler.bind(this);
+  }
 
-    public render() {
-        const {
-            iconType,
-            iconSize,
-        } = this.props;
+  public render() {
+    const { iconType, iconSize } = this.props;
 
-        let iconPath = `./images/session/icon-${iconType}.svg`;
+    let iconPath = `./images/session/icon-${iconType}.svg`;
 
-        return (
-            <div
-                className={classNames(
-                    'session-icon-button',
-                    iconType === SessionIconButtonTypes.exit ? 'exit' : '',
-                    iconType === SessionIconButtonTypes.search ? 'search' : '',
-                    iconType === SessionIconButtonTypes.back ? 'back' : '',
-                    iconSize === SessionIconButtonSizes.small ? 'small' : '',
-                    iconSize === SessionIconButtonSizes.medium ? 'medium' : '',
-                    iconSize === SessionIconButtonSizes.large ? 'large' : ''
-                )}
-                role='button'
-                onClick={this.clickHandler}
-            >
-                <img src={iconPath}/>
-            </div>
-        );
-    }
+    return (
+      <div
+        className={classNames(
+          'session-icon-button',
+          iconType === SessionIconButtonTypes.exit ? 'exit' : '',
+          iconType === SessionIconButtonTypes.search ? 'search' : '',
+          iconType === SessionIconButtonTypes.back ? 'back' : '',
+          iconSize === SessionIconButtonSizes.small ? 'small' : '',
+          iconSize === SessionIconButtonSizes.medium ? 'medium' : '',
+          iconSize === SessionIconButtonSizes.large ? 'large' : ''
+        )}
+        role="button"
+        onClick={this.clickHandler}
+      >
+        <img src={iconPath} />
+      </div>
+    );
+  }
 
-    clickHandler(){
-        return;
-    }
-
-
+  private clickHandler() {
+    return;
+  }
 }
