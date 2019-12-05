@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { exists } from 'fs';
 
 export enum SessionIconButtonTypes {
   'exit' = 'exit',
@@ -26,6 +27,7 @@ export enum SessionIconButtonSizes {
 interface Props {
   iconType: SessionIconButtonTypes;
   iconSize: SessionIconButtonSizes;
+  onClick: any;
 }
 
 export class SessionIconButton extends React.PureComponent<Props> {
@@ -51,14 +53,20 @@ export class SessionIconButton extends React.PureComponent<Props> {
           iconSize === SessionIconButtonSizes.large ? 'large' : ''
         )}
         role="button"
-        onClick={this.clickHandler}
+        onClick={ e => {
+            this.clickHandler(e);
+          }
+        }
       >
-        <img src={iconPath} alt="" />
+        <img src={iconPath} alt="Icon Button" />
       </div>
     );
   }
 
-  private clickHandler() {
-    return;
+  private clickHandler(e: any) {
+    if (this.props.onClick) {
+      e.stopPropagation();
+      this.props.onClick();
+    }
   }
 }
