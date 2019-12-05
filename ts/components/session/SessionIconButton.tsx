@@ -53,10 +53,9 @@ export class SessionIconButton extends React.PureComponent<Props> {
           iconSize === SessionIconButtonSizes.large ? 'large' : ''
         )}
         role="button"
-        onClick={ e => {
-            this.clickHandler(e);
-          }
-        }
+        onClick={e => {
+          this.clickHandler(e);
+        }}
       >
         <img src={iconPath} alt="Icon Button" />
       </div>
