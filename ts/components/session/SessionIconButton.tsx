@@ -37,7 +37,7 @@ export class SessionIconButton extends React.PureComponent<Props> {
   public render() {
     const { iconType, iconSize } = this.props;
 
-    let iconPath = `./images/session/icon-${iconType}.svg`;
+    const iconPath = `./images/session/icon-${iconType}.svg`;
 
     return (
       <div
@@ -53,7 +53,7 @@ export class SessionIconButton extends React.PureComponent<Props> {
         role="button"
         onClick={this.clickHandler}
       >
-        <img src={iconPath} />
+        <img src={iconPath} alt="" />
       </div>
     );
   }
