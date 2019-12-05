@@ -30,6 +30,7 @@
   const currentPageIndex = REGISTER_INDEX; */
 
   Whisper.SessionRegistrationView = Whisper.View.extend({
+    className: 'session-standalone-fullscreen',
     initialize() {
       this.accountManager = getAccountManager();
       // Clean status in case the app closed unexpectedly
