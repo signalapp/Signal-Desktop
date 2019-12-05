@@ -1,30 +1,30 @@
 @font-face {
-  font-family: 'SpaceMono';
-  src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
+  font-family: "SpaceMono";
+  src: url("../fonts/SpaceMono-Regular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'SpaceMono';
-  src: url('../fonts/SpaceMono-Bold.ttf') format('truetype');
+  font-family: "SpaceMono";
+  src: url("../fonts/SpaceMono-Bold.ttf") format("truetype");
   font-weight: bold;
 }
 
 @font-face {
-  font-family: 'SpaceMono';
-  src: url('../fonts/SpaceMono-Italic.ttf') format('truetype');
+  font-family: "SpaceMono";
+  src: url("../fonts/SpaceMono-Italic.ttf") format("truetype");
   font-style: italic;
 }
 
 @font-face {
-  font-family: 'SpaceMono';
-  src: url('../fonts/SpaceMono-BoldItalic.ttf') format('truetype');
+  font-family: "SpaceMono";
+  src: url("../fonts/SpaceMono-BoldItalic.ttf") format("truetype");
   font-weight: bold;
   font-style: italic;
 }
 
 @font-face {
-  font-family: 'Wasa';
-  src: url('../fonts/Wasa-Bold.otf') format('truetype');
+  font-family: "Wasa";
+  src: url("../fonts/Wasa-Bold.otf") format("truetype");
 }
 
 // Session Colors
@@ -69,7 +69,7 @@ $session-overlay-opacity: 0.3;
   color: rgba($color, 0.6);
 }
 
-$session-font-family: 'Wasa';
+$session-font-family: "Wasa";
 $session-transition-duration: 0.25s;
 
 $session-icon-size-sm: 15px;
@@ -83,11 +83,7 @@ $session-gradient-green: linear-gradient(
   rgba($session-color-green-alt-1, 1),
   rgba($session-color-green-alt-1, 0.6)
 );
-$session-gradient-black: linear-gradient(
-  90deg,
-  rgba($session-shade-3, 1),
-  rgba($session-shade-4, 0.6)
-);
+$session-gradient-black: linear-gradient(90deg, rgba($session-shade-3, 1), rgba($session-shade-4, 0.6));
 
 $session-dark-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.37);
 
@@ -305,7 +301,7 @@ $session_message-container-border-radius: 5px;
     margin-left: 7px;
   }
 }
-.message-selection-overlay div[role='button'] {
+.message-selection-overlay div[role="button"] {
   display: inline-block;
 }
 
