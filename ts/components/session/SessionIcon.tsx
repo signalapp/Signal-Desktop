@@ -225,7 +225,7 @@ export class SessionIcon extends React.PureComponent<Props> {
 
     return (
       <svg
-        className={classNames('session-icon', iconType, iconRotation)}
+        className={classNames('session-icon', iconType)}
         version="1.1"
         preserveAspectRatio="xMidYMid meet"
         viewBox={iconDef.viewBox}
