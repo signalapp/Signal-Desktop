@@ -82,11 +82,11 @@ $session-icon-size-lg: 30px;
   }
 
   &.medium {
-    @include set-icon-margin($session-icon-size-sm);
+    @include set-icon-margin($session-icon-size-md);
   }
 
   &.large {
-    @include set-icon-margin($session-icon-size-sm);
+    @include set-icon-margin($session-icon-size-lg);
   }
 }
 
