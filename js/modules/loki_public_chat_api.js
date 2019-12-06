@@ -1,5 +1,6 @@
-/* global log */
+/* global log, window */
 const EventEmitter = require('events');
+const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
 class LokiPublicChatFactoryAPI extends EventEmitter {
@@ -84,17 +85,16 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
 
   // deallocate resources server uses
   unregisterChannel(serverUrl, channelId) {
-    let thisServer;
-    let i = 0;
-    for (; i < this.servers.length; i += 1) {
-      if (this.servers[i].baseServerUrl === serverUrl) {
-        thisServer = this.servers[i];
-        break;
-      }
-    }
-
-    if (!thisServer) {
+    const i = this.servers.findIndex(
+      server => server.baseServerUrl === serverUrl
+    );
+    if (i === -1) {
       log.warn(`Tried to unregister from nonexistent server ${serverUrl}`);
+      return;
+    }
+    const thisServer = this.servers[i];
+    if (!thisServer) {
+      log.warn(`Tried to unregister from nonexistent server ${i}`);
       return;
     }
     thisServer.unregisterChannel(channelId);
