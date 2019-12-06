@@ -89,23 +89,24 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
   public render() {
     const checkMarkedCount = this.getMemberCount(this.state.friendList);
 
-    let titleText = `${this.props.titleText} (Members: ${checkMarkedCount})`;
-
     const okText = this.props.okText;
     const cancelText = this.props.cancelText;
 
-    let noFriendsClasses =
-      this.state.friendList.length === 0
-        ? 'no-friends'
-        : classNames('no-friends', 'hidden');
+    let titleText;
+    let noFriendsClasses;
 
-    // alternatively, we can go back to const and use more trinary operators
-    // but this looks cleaner/more organized to me
     if (this.props.isPublic) {
-      // remove member count from title
+      // no member count in title
       titleText = `${this.props.titleText}`;
       // hide the no-friend message
       noFriendsClasses = classNames('no-friends', 'hidden');
+    } else {
+      // private group
+      titleText = `${this.props.titleText} (Members: ${checkMarkedCount})`;
+      noFriendsClasses =
+        this.state.friendList.length === 0
+          ? 'no-friends'
+          : classNames('no-friends', 'hidden');
     }
 
     const errorMsg = this.state.errorMessage;
