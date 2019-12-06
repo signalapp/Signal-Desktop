@@ -121,7 +121,7 @@ export enum SessionIconSizes {
   Large = 'large',
 }
 
-interface Props {
+export interface Props {
   iconType: SessionIconTypes;
   iconSize: SessionIconSizes;
   iconColor: string;
