@@ -1,9 +1,10 @@
 import React from 'react';
 import { SessionButton, SessionButtonTypes } from './SessionButton';
 import { AccentText } from './AccentText';
+import { SessionInput } from './SessionInput';
 //import classNames from 'classnames';
 
-//import { LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 declare global {
   interface Window {
@@ -13,6 +14,7 @@ declare global {
 
 interface Props {
   showSubtitle: boolean;
+  i18n: LocalizerType;
   /* profileName: string;
   avatarPath: string;
   avatarColor: string;
@@ -45,12 +47,48 @@ export class SessionRegistrationView extends React.Component<Props> {
           <AccentText showSubtitle={showSubtitle || true} />
         </div>
         <div className="session-content-registration">
+          <div className="entry-fields">
+            <SessionInput
+              label="Mnemonic Seed"
+              type="password"
+              placeholder="Enter Seed"
+              i18n={this.props.i18n}
+              enableShowHide={true}
+            />
+            <SessionInput
+              label="Display Name"
+              type="text"
+              placeholder="Enter Optional Display Name"
+              i18n={this.props.i18n}
+            />
+            <SessionInput
+              label="Optional Password"
+              type="password"
+              placeholder="Enter Optional Password"
+              i18n={this.props.i18n}
+            />
+            <SessionInput
+              label="Verify Password"
+              type="password"
+              placeholder="Optional Password"
+              i18n={this.props.i18n}
+            />
+          </div>
+
           <SessionButton
             onClick={() => {
-              alert('clicked');
+              alert('TODO');
             }}
-            buttonType={SessionButtonTypes.Green}
-            text="Generate Session ID"
+            buttonType={SessionButtonTypes.FullGreen}
+            text="Continue Your Session"
+          />
+          <div>or</div>
+          <SessionButton
+            onClick={() => {
+              alert('TODO');
+            }}
+            buttonType={SessionButtonTypes.White}
+            text="Link Device To Existing Account"
           />
         </div>
       </div>

@@ -270,43 +270,98 @@ $session_message-container-border-radius: 5px;
 
 .module-message__container {
   border-radius: $session_message-container-border-radius;
-}
 
-.module-message__attachment-container,
-.module-image--curved-bottom-right,
-.module-image--curved-bottom-left {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-bottom-left-radius: $session_message-container-border-radius;
-  border-bottom-right-radius: $session_message-container-border-radius;
-}
+  label {
+    user-select: none;
+  }
 
-.conversation-header .session-icon-button {
-  @include standard-icon-button();
-}
+  .module-message__attachment-container,
+  .module-image--curved-bottom-right,
+  .module-image--curved-bottom-left {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: $session_message-container-border-radius;
+    border-bottom-right-radius: $session_message-container-border-radius;
+  }
 
-.module-conversation-header,
-.message-selection-overlay {
-  height: $session-conversation-header-height;
-}
+  .conversation-header .session-icon-button {
+    @include standard-icon-button();
+  }
 
-.message-selection-overlay {
-  position: absolute;
-  left: 15px;
-  right: 15px;
-  display: none;
+  .module-conversation-header,
+  .message-selection-overlay {
+    height: $session-conversation-header-height;
+  }
 
-  .close-button {
-    float: left;
-    margin-top: 17px;
-    margin-left: 7px;
+  .message-selection-overlay {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    display: none;
+
+    .close-button {
+      float: left;
+      margin-top: 17px;
+      margin-left: 7px;
+    }
+  }
+  .message-selection-overlay div[role="button"] {
+    display: inline-block;
+  }
+
+  .message-selection-overlay .button-group {
+    float: right;
+    margin-top: 13.5px;
   }
 }
-.message-selection-overlay div[role="button"] {
-  display: inline-block;
-}
+.input-with-label-container {
+  height: 46.5px;
+  width: 280px;
+  color: $session-color-white;
+  padding: 2px 0 2px 0;
+  transition: opacity $session-transition-duration;
+  opacity: 1;
+  position: relative;
 
-.message-selection-overlay .button-group {
-  float: right;
-  margin-top: 13.5px;
+  label {
+    line-height: 14px;
+    opacity: 0;
+    color: #737373;
+    font-size: 10px;
+    line-height: 11px;
+    position: absolute;
+    top: 0px;
+  }
+
+  &.filled {
+    opacity: 1;
+  }
+
+  input {
+    border: none;
+    outline: 0;
+    height: 14px;
+    width: 280px;
+    background: transparent;
+    color: $session-color-white;
+    font-size: 12px;
+    line-height: 14px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  hr {
+    border: 1px solid $session-color-white;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+  }
+
+  button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0px;
+  }
 }
