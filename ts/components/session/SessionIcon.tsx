@@ -233,7 +233,6 @@ export class SessionIcon extends React.PureComponent<Props> {
         height={iconDimensions}
         style={styles}
       >
-        {}
         <path d={iconDef.path} fill={iconColor} />
       </svg>
     );
