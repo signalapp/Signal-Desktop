@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SessionIcon } from './SessionIcon';
+import { Props, SessionIcon } from './SessionIcon';
 
-export class SessionIconButton extends SessionIcon {
+export class SessionIconButton extends React.PureComponent<Props> {
   constructor(props: any) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);

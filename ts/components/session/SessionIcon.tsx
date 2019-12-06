@@ -121,7 +121,7 @@ export enum SessionIconSizes {
   Large = 'large',
 }
 
-interface Props {
+export interface Props {
   iconType: SessionIconTypes;
   iconSize: SessionIconSizes;
   iconColor: string;
@@ -233,7 +233,6 @@ export class SessionIcon extends React.PureComponent<Props> {
         height={iconDimensions}
         style={styles}
       >
-        {}
         <path d={iconDef.path} fill={iconColor} />
       </svg>
     );
