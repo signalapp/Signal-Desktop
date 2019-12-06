@@ -1429,6 +1429,12 @@
     "description":
       "Warning notification that this version of the app has expired"
   },
+  "clockOutOfSync": {
+    "message":
+      "Your clock is out of sync. Please update your clock and try again.",
+    "description":
+      "Notifcation that user's clock is out of sync with Loki's servers."
+  },
   "upgrade": {
     "message": "Upgrade",
     "description":
@@ -2247,5 +2253,18 @@
   },
   "noFriendsToAdd": {
     "message": "no friends to add"
+  },
+  "couldNotDecryptMessage": {
+    "message": "Couldn't decrypt a message"
+  },
+  "confirmSessionRestore": {
+    "message":
+      "Would you like to start a new session with $pubkey$? Only do so if you know this pubkey.",
+    "placeholders": {
+      "pubkey": {
+        "content": "$1",
+        "example": ""
+      }
+    }
   }
 }
