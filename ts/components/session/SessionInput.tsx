@@ -59,12 +59,12 @@ export class SessionInput extends React.PureComponent<Props, State> {
           }}
         />
         <button
-          onClick={() =>
+          onClick={() => {
             this.setState({
               forceShow: !this.state.forceShow,
-            })
-          }
-          className={classNames(enableShowHide ? '' : '')}
+            });
+          }}
+          className={classNames(enableShowHide ? '' : 'hidden')}
         >
           SHOW
         </button>
