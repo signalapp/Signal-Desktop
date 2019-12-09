@@ -1,0 +1,320 @@
+.session-standalone-fullscreen {
+  overflow-y: auto;
+  height: 100%;
+  background: linear-gradient(90deg, #121212 100%, #171717 0%);
+}
+.session-standalone {
+  padding: 0;
+  position: relative;
+}
+.session-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.session-content-accent {
+  flex-grow: 1;
+  padding-left: 20px;
+}
+
+.session-accent-text {
+  color: $session-color-white;
+  font-family: $session-font-family;
+
+  &.title {
+    font-size: 100px;
+    font-weight: 700;
+    line-height: 120px;
+  }
+
+  &.subtitle {
+    font-size: 18px;
+    font-weight: 700;
+
+    .redacted {
+      background: $session-color-white;
+      white-space: nowrap;
+      transition: background-color $session-transition-duration ease;
+      border-radius: 100px;
+      padding-left: 7px;
+      padding-right: 7px;
+
+      &:hover {
+        background-color: $session-color-black;
+      }
+    }
+  }
+}
+
+.session-content-registration {
+  height: 60%;
+  padding-right: 128px;
+}
+
+.entry-fields {
+  margin: 0px;
+  padding-bottom: 30px;
+}
+
+.session-button {
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 18px 0 18px;
+  font-size: 15px;
+  font-family: $session-font-family;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  border-radius: 500px;
+  transition-duration: $session-transition-duration;
+
+  @mixin transparent-background($textAndBorderColor) {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    outline: none;
+    color: $textAndBorderColor;
+    border: 2px solid $textAndBorderColor;
+  }
+
+  &.full-green {
+    background-color: $session-color-green;
+    color: $session-color-white;
+    border: 2px solid $session-color-green;
+
+    &:hover {
+      @include transparent-background($session-color-green);
+    }
+  }
+
+  &.green {
+    @include transparent-background($session-color-green);
+
+    &:hover {
+      background-color: $session-color-green;
+      color: $session-color-white;
+    }
+  }
+
+  &.white {
+    @include transparent-background($session-color-white);
+
+    &:hover {
+      @include transparent-background($session-color-green);
+    }
+  }
+}
+
+.session-icon-button {
+  fill: $session-color-white;
+  opacity: 0.4;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity $session-transition-duration;
+
+  @mixin adjust-icon-size($size) {
+    line-height: $size;
+    height: $size;
+    width: $size;
+
+    margin: $size / 3;
+
+    img {
+      height: $size;
+      width: $size;
+    }
+  }
+
+  &.small {
+    @include adjust-icon-size($session-icon-size-sm);
+  }
+
+  &.medium {
+    @include adjust-icon-size($session-icon-size-md);
+  }
+
+  &.large {
+    @include adjust-icon-size($session-icon-size-lg);
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.input-with-label-container {
+  height: 46.5px;
+  width: 280px;
+  color: $session-color-white;
+  padding: 2px 0 2px 0;
+  transition: opacity $session-transition-duration;
+  opacity: 1;
+  position: relative;
+
+  label {
+    line-height: 14px;
+    opacity: 0;
+    color: #737373;
+    font-size: 10px;
+    line-height: 11px;
+    position: absolute;
+    top: 0px;
+  }
+
+  &.filled {
+    opacity: 1;
+  }
+
+  input {
+    border: none;
+    outline: 0;
+    height: 14px;
+    width: 280px;
+    background: transparent;
+    color: $session-color-white;
+    font-size: 12px;
+    line-height: 14px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  hr {
+    border: 1px solid $session-color-white;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+  }
+
+  button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0px;
+  }
+}
+
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  width: 289px;
+}
+
+.registration-container__tab-container {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  width: 289px;
+  height: 30px;
+  left: 0;
+  right: 0;
+
+  margin-left: auto;
+  margin-right: auto;
+  color: $session-color-white;
+}
+
+.registration-container__tab {
+  @include fontWasaBold();
+  width: 100%;
+  padding-bottom: 10px;
+  background-color: transparent;
+  text-align: center;
+  color: $session-color-white;
+  border-bottom: 2px solid $session-color-dark-grey;
+  transition: border-color $session-transition-duration linear;
+  line-height: 17px;
+  font-size: 15px;
+}
+
+.registration-container__tab--active {
+  border-bottom: 4px solid $session-color-green;
+}
+
+.registration-container__content {
+  width: 100%;
+  overflow-y: auto;
+  padding-top: 20px;
+}
+
+.registration-container__sections {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+
+@mixin registration-label-mixin {
+  color: $session-color-white;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 17px;
+  padding: 12px;
+}
+
+.or-signin-buttons {
+  @include registration-label-mixin;
+}
+
+.registration-view-label {
+  @include registration-label-mixin;
+  padding-top: 3em;
+}
+
+.terms-conditions-agreement {
+  padding-top: 10px;
+  color: $session-color-light-grey;
+  text-align: center;
+  font-size: 12px;
+
+  a {
+    white-space: nowrap;
+    font-weight: bold;
+    color: $session-color-light-grey;
+
+    &:visited &:link {
+      color: $session-color-light-grey;
+    }
+
+    &:hover {
+      color: $session-color-white;
+    }
+  }
+}
+
+.signup-header,
+.signin-device-pairing-header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: $session-color-light-grey;
+  text-align: center;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.signin-enter-session-id {
+  height: auto;
+  width: 289px;
+  border-radius: 8px;
+  border: 2px solid $session-color-dark-grey;
+  outline: 0;
+  background: transparent;
+  color: $session-color-white;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  margin-bottom: 20px;
+  overflow-wrap: break-word;
+  padding: 20px 5px 20px 5px;
+  display: inline-block;
+}
+
+[contenteditable='true']:empty::before {
+  content: attr(placeholder);
+  color: $session-color-light-grey;
+}

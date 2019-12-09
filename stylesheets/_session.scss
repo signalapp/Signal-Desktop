@@ -211,121 +211,125 @@ $session_message-container-border-radius: 5px;
   &.square-outline {
     border-radius: 0px;
   }
-}
 
-@mixin set-icon-margin($size) {
-  margin: $size / 3;
-}
-.session-icon {
-  &.padded-left {
-    @include set-icon-margin($session-icon-size-md);
-  }
-}
-.session-icon-button {
-  opacity: 0.4;
-  cursor: pointer;
-  display: inline-block;
-  transition: opacity $session-transition-duration;
-  &:hover {
-    opacity: 1;
+  .hidden {
+    visibility: hidden;
   }
 
-  &.small.padded {
-    @include set-icon-margin($session-icon-size-sm);
+  @mixin set-icon-margin($size) {
+    margin: $size / 3;
   }
-
-  &.medium.padded {
-    @include set-icon-margin($session-icon-size-md);
-  }
-
-  &.large.padded {
-    @include set-icon-margin($session-icon-size-lg);
-  }
-}
-
-.session-icon {
-  fill: $session-color-white;
-}
-
-/* CONVERSATION AND MESSAGES */
-
-@mixin standard-icon-button() {
-  color: $session-color-white;
-  opacity: 0.9;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.module-conversation-header__title-flex,
-.module-conversation-header__title {
-  width: 100%;
-
-  .module-contact-name {
-    width: 100%;
-  }
-
-  .module-contact-name__profile-number {
-    text-align: center;
-  }
-}
-
-.module-message__author__profile-name {
-  font-style: normal;
-}
-
-.module-message__author-avatar {
-  flex-direction: column;
-  display: inline-flex;
-  margin-right: 20px;
-  padding-top: 5px;
-}
-
-.module-message__container {
-  border-radius: $session_message-container-border-radius;
-
-  label {
-    user-select: none;
-  }
-
-  .module-message__attachment-container,
-  .module-image--curved-bottom-right,
-  .module-image--curved-bottom-left {
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: $session_message-container-border-radius;
-    border-bottom-right-radius: $session_message-container-border-radius;
-  }
-
-  .conversation-header .session-icon-button {
-    @include standard-icon-button();
-  }
-
-  .module-conversation-header,
-  .message-selection-overlay {
-    height: $session-conversation-header-height;
-  }
-
-  .message-selection-overlay {
-    position: absolute;
-    left: 15px;
-    right: 15px;
-    display: none;
-
-    .close-button {
-      float: left;
-      margin-top: 17px;
-      margin-left: 7px;
+  .session-icon {
+    &.padded-left {
+      @include set-icon-margin($session-icon-size-md);
     }
   }
-  .message-selection-overlay div[role="button"] {
+  .session-icon-button {
+    opacity: 0.4;
+    cursor: pointer;
     display: inline-block;
+    transition: opacity $session-transition-duration;
+    &:hover {
+      opacity: 1;
+    }
+
+    &.small.padded {
+      @include set-icon-margin($session-icon-size-sm);
+    }
+
+    &.medium.padded {
+      @include set-icon-margin($session-icon-size-md);
+    }
+
+    &.large.padded {
+      @include set-icon-margin($session-icon-size-lg);
+    }
   }
 
-  .message-selection-overlay .button-group {
-    float: right;
-    margin-top: 13.5px;
+  .session-icon {
+    fill: $session-color-white;
+  }
+
+  /* CONVERSATION AND MESSAGES */
+
+  @mixin standard-icon-button() {
+    color: $session-color-white;
+    opacity: 0.9;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .module-conversation-header__title-flex,
+  .module-conversation-header__title {
+    width: 100%;
+
+    .module-contact-name {
+      width: 100%;
+    }
+
+    .module-contact-name__profile-number {
+      text-align: center;
+    }
+  }
+
+  .module-message__author__profile-name {
+    font-style: normal;
+  }
+
+  .module-message__author-avatar {
+    flex-direction: column;
+    display: inline-flex;
+    margin-right: 20px;
+    padding-top: 5px;
+  }
+
+  .module-message__container {
+    border-radius: $session_message-container-border-radius;
+
+    label {
+      user-select: none;
+    }
+
+    .module-message__attachment-container,
+    .module-image--curved-bottom-right,
+    .module-image--curved-bottom-left {
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-left-radius: $session_message-container-border-radius;
+      border-bottom-right-radius: $session_message-container-border-radius;
+    }
+
+    .conversation-header .session-icon-button {
+      @include standard-icon-button();
+    }
+
+    .module-conversation-header,
+    .message-selection-overlay {
+      height: $session-conversation-header-height;
+    }
+
+    .message-selection-overlay {
+      position: absolute;
+      left: 15px;
+      right: 15px;
+      display: none;
+
+      .close-button {
+        float: left;
+        margin-top: 17px;
+        margin-left: 7px;
+      }
+    }
+    .message-selection-overlay div[role="button"] {
+      display: inline-block;
+    }
+
+    .message-selection-overlay .button-group {
+      float: right;
+      margin-top: 13.5px;
+    }
   }
 }
 
