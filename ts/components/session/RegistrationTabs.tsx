@@ -351,14 +351,13 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderTermsConditionAgreement() {
     // FIXME link to our Terms and Conditions and privacy statement
-    const { i18n } = this.props;
-    const byUsingThisService = i18n('byUsingThisService...');
+    // FIXME find a better way than dangerouslySetInnerHTML to set this in a localized way
 
     return (
-      <div
-        className="session-terms-conditions-agreement"
-        dangerouslySetInnerHTML={{ __html: byUsingThisService }}
-      />
+      <div className="session-terms-conditions-agreement">
+        By using this service, you agree to our <a>Terms and Conditions</a> and{' '}
+        <a>Privacy Statement</a>
+      </div>
     );
   }
 }
