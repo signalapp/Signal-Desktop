@@ -4,15 +4,14 @@ import classNames from 'classnames';
 import { Props, SessionIcon } from './SessionIcon';
 
 export class SessionIconButton extends React.PureComponent<Props> {
+  public static defaultProps = SessionIcon.defaultProps;
+
   constructor(props: any) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
   }
 
-  public static defaultProps = SessionIcon.defaultProps;
-
   public render() {
-    
     return (
       <div
         className={classNames(

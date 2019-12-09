@@ -1,41 +1,35 @@
-
-
-
-// Messages 
+// Messages
 .dark-theme {
-    .module-conversation-header {
-        background-color: $session-color-dark-1;
-    }
-    .discussion-container {
-        background-color: $session-color-dark-2;
-    }
+  .module-conversation-header {
+    background-color: $session-color-dark-1;
+  }
+  .discussion-container {
+    background-color: $session-color-dark-2;
+  }
 
-    .module-message__author {
-        color: $session-color-dark-5;       
-    }
+  .module-message__author {
+    color: $session-color-dark-5;
+  }
 
-    .module-message__metadata__badge {
-        color: $session-color-dark-4;
-    }
-    .module-message__metadata__date--incoming {
-        color: $session-color-dark-4;
-    }
-    .module-message__metadata__date--outgoing {
-        color: $session-color-dark-5;
-    }
+  .module-message__metadata__badge {
+    color: $session-color-dark-4;
+  }
+  .module-message__metadata__date--incoming {
+    color: $session-color-dark-4;
+  }
+  .module-message__metadata__date--outgoing {
+    color: $session-color-dark-5;
+  }
 
-    .module-message__container--incoming {
-        background-color: $session-color-dark-1;
-    }
+  .module-message__container--incoming {
+    background-color: $session-color-dark-1;
+  }
 
-    .module-message__container--outgoing {
-        background-color: $session-color-dark-3;
-    }
-
+  .module-message__container--outgoing {
+    background-color: $session-color-dark-3;
+  }
 }
 
-
 .message-read-receipt-container {
-    margin-left: 5px;
-  }
-  
+  margin-left: 5px;
+}

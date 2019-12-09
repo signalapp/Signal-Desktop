@@ -31,7 +31,11 @@ import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
-import { SessionIcon, SessionIconTypes, SessionIconSizes } from '../session/SessionIcon';
+import {
+  SessionIcon,
+  SessionIconSizes,
+  SessionIconTypes,
+} from '../session/SessionIcon';
 
 declare global {
   interface Window {
@@ -316,8 +320,8 @@ export class Message extends React.PureComponent<Props, State> {
         {!textPending && direction === 'outgoing' && status !== 'error' ? (
           <div className="message-read-receipt-container">
             <SessionIcon
-              iconType = {SessionIconTypes.Check}
-              iconSize = {SessionIconSizes.Small}
+              iconType={SessionIconTypes.Check}
+              iconSize={SessionIconSizes.Small}
             />
           </div>
         ) : null}
