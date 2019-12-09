@@ -46,9 +46,7 @@ export class SessionRegistrationView extends React.Component<Props> {
           <AccentText showSubtitle={showSubtitle || true} />
         </div>
         <div className="session-content-registration">
-          <RegistrationTabs i18n={i18n} >
-
-          </RegistrationTabs>
+          <RegistrationTabs i18n={i18n} />
         </div>
       </div>
     );
@@ -64,5 +62,4 @@ export class SessionRegistrationView extends React.Component<Props> {
       default:
     }
   }
-
 }
