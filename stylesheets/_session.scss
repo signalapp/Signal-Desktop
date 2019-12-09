@@ -81,6 +81,18 @@ $session-icon-size-lg: 30px;
 
 $session-conversation-header-height: 60px;
 
+@mixin fontWasaBold {
+  font-weight: 700;
+  font-family: $session-font-family;
+}
+
+a,
+div,
+span,
+label {
+  user-select: none;
+}
+
 $session-gradient-green: linear-gradient(
   270deg,
   rgba($session-color-green-alt-1, 1),

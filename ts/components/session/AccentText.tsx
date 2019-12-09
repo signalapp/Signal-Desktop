@@ -19,11 +19,11 @@ export class AccentText extends React.PureComponent<Props> {
 
     return (
       <div className="session-accent-text">
-        <div className="session-accent-text title noselect">
+        <div className="session-accent-text title">
           Begin<br />your<br />Session.
         </div>
         {showSubtitle ? (
-          <div className="session-accent-text subtitle noselect">
+          <div className="session-accent-text subtitle">
             Ensuring <span className={classNames('redacted')}>peace of</span>{' '}
             mind, one <span className={classNames('redacted')}>session</span> at
             a time.
