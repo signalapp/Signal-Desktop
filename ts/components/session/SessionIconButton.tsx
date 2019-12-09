@@ -12,12 +12,21 @@ export class SessionIconButton extends React.PureComponent<Props> {
   }
 
   public render() {
+    const {
+      iconType,
+      iconSize,
+      iconColor,
+      iconRotation,
+      iconPadded,
+      onClick,
+    } = this.props;
+
     return (
       <div
         className={classNames(
           'session-icon-button',
-          this.props.iconSize,
-          this.props.iconPadded ? 'padded' : ''
+          iconSize,
+          iconPadded ? 'padded' : ''
         )}
         role="button"
         onClick={e => {
@@ -25,11 +34,11 @@ export class SessionIconButton extends React.PureComponent<Props> {
         }}
       >
         <SessionIcon
-          iconType={this.props.iconType}
-          iconSize={this.props.iconSize}
-          iconColor={this.props.iconSize}
-          iconRotation={this.props.iconRotation}
-          onClick={this.props.onClick}
+          iconType={iconType}
+          iconSize={iconSize}
+          iconColor={iconColor}
+          iconRotation={iconRotation}
+          onClick={onClick}
         />
       </div>
     );
