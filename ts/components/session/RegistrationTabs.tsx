@@ -143,14 +143,29 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderSignUp() {
-    return (
-      <div className="registration-container__content">
-        {this.renderSignUpHeader()}
-
-        {this.renderSignUpButton()}
-        {this.getRenderTermsConditionAgreement()}
-      </div>
-    );
+    const {signUpMode} = this.state;
+    if (signUpMode === SignUpMode.Default) {
+      return (
+        <div className="registration-container__content">
+          {this.renderSignUpHeader()}
+          {this.renderSignUpButton()}
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="registration-container__content">
+          {this.renderSignUpHeader()}
+          <div className="registration-view-label">
+            Your Unique Session ID
+          </div>
+          {this.renderEnterSessionID(false)}
+          {this.renderSignUpButton()}
+          {this.getRenderTermsConditionAgreement()}
+        </div>
+      );
+    }
+    
   }
 
   private getRenderTermsConditionAgreement() {
@@ -187,10 +202,10 @@ export class RegistrationTabs extends React.Component<Props, State> {
     let buttonText: string;
     if (signUpMode !== SignUpMode.Default) {
       buttonType = SessionButtonTypes.FullGreen;
-      buttonText = 'Continue Your Session';
+      buttonText = 'Get started';
     } else {
       buttonType = SessionButtonTypes.Green;
-      buttonText = 'Restore Using Seed';
+      buttonText = 'Generate Session ID';
     }
 
     return (
@@ -272,7 +287,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
             "Device Pairing" from the main menu. Then, enter your Session ID
             below to sign in.
           </div>
-          {this.renderEnterSessionID()}
+          {this.renderEnterSessionID(true)}
         </div>
       );
     } else {
@@ -280,11 +295,11 @@ export class RegistrationTabs extends React.Component<Props, State> {
     }
   }
 
-  private renderEnterSessionID() {
+  private renderEnterSessionID(contentEditable: boolean) {
     return (
       <div
         className="signin-enter-session-id"
-        contentEditable={true}
+        contentEditable={contentEditable}
         placeholder="Enter your Session ID here"
       />
     );
