@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Props, SessionIcon } from './SessionIcon';
+import { Props, SessionIcon } from '../icon';
 
 export class SessionIconButton extends React.PureComponent<Props> {
   public static defaultProps = SessionIcon.defaultProps;
