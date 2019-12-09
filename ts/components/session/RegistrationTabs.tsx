@@ -91,18 +91,22 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderTabs() {
     const { selectedTab } = this.state;
+    const { i18n } = this.props;
+
+    const createAccount = i18n('createAccount');
+    const signIn = i18n('signIn');
 
     return (
       <div className="session-registration-container">
         <div className="session-registration__tab-container">
           <Tab
-            label="Create Account"
+            label={createAccount}
             type="create"
             isSelected={selectedTab === 'create'}
             onSelect={this.handleTabSelect}
           />
           <Tab
-            label="Sign In"
+            label={signIn}
             type="signin"
             isSelected={selectedTab === 'signin'}
             onSelect={this.handleTabSelect}
@@ -143,7 +147,8 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderSignUp() {
-    const {signUpMode} = this.state;
+    const { signUpMode } = this.state;
+    const { i18n } = this.props;
     if (signUpMode === SignUpMode.Default) {
       return (
         <div className="session-registration__content">
@@ -151,13 +156,12 @@ export class RegistrationTabs extends React.Component<Props, State> {
           {this.renderSignUpButton()}
         </div>
       );
-    }
-    else {
+    } else {
       return (
         <div className="session-registration__content">
           {this.renderSignUpHeader()}
           <div className="session-registration__unique-session-id">
-            Your Unique Session ID
+            {i18n('yourUniqueSessionID')}
           </div>
           {this.renderEnterSessionID(false)}
           {this.renderSignUpButton()}
@@ -165,7 +169,6 @@ export class RegistrationTabs extends React.Component<Props, State> {
         </div>
       );
     }
-    
   }
 
   private getRenderTermsConditionAgreement() {
@@ -186,26 +189,23 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderSignUpHeader() {
-    return (
-      <div className="session-signup-header">
-        All users are randomly generated a set of numbers that act as their
-        unique Session ID. Share your Session ID in order to chat with your
-        friends!
-      </div>
-    );
+    const allUsersAreRandomly = this.props.i18n('allUsersAreRandomly...');
+
+    return <div className="session-signup-header">{allUsersAreRandomly}</div>;
   }
 
   private renderSignUpButton() {
     const { signUpMode } = this.state;
+    const { i18n } = this.props;
 
     let buttonType: any;
     let buttonText: string;
     if (signUpMode !== SignUpMode.Default) {
       buttonType = SessionButtonTypes.FullGreen;
-      buttonText = 'Get started';
+      buttonText = i18n('getStarted');
     } else {
       buttonType = SessionButtonTypes.Green;
-      buttonText = 'Generate Session ID';
+      buttonText = i18n('generateSessionID');
     }
 
     return (
@@ -234,15 +234,15 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderRegistrationContent() {
     const { signInMode } = this.state;
+    const { i18n } = this.props;
 
     if (signInMode === SignInMode.UsingSeed) {
       return (
         <div className={classNames('session-registration__entry-fields')}>
           <SessionInput
-            label="Mnemonic Seed"
+            label={i18n('mnemonicSeed')}
             type="password"
-            placeholder="Enter Seed"
-            i18n={this.props.i18n}
+            placeholder={i18n('enterSeed')}
             value={this.state.seed}
             enableShowHide={true}
             onValueChanged={(val: string) => {
@@ -250,29 +250,26 @@ export class RegistrationTabs extends React.Component<Props, State> {
             }}
           />
           <SessionInput
-            label="Display Name"
+            label={i18n('displayName')}
             type="text"
-            placeholder="Enter Optional Display Name"
-            i18n={this.props.i18n}
+            placeholder={i18n('enterOptionalDisplayName')}
             value={this.state.displayName}
             onValueChanged={(val: string) => {
               this.onDisplayNameChanged(val);
             }}
           />
           <SessionInput
-            label="Optional Password"
+            label={i18n('optionalPassword')}
             type="password"
-            placeholder="Enter Optional Password"
-            i18n={this.props.i18n}
+            placeholder={i18n('enterOptionalPassword')}
             onValueChanged={(val: string) => {
               this.onPasswordChanged(val);
             }}
           />
           <SessionInput
-            label="Verify Password"
+            label={i18n('verifyPassword')}
             type="password"
-            placeholder="Optional Password"
-            i18n={this.props.i18n}
+            placeholder={i18n('optionalPassword')}
             onValueChanged={(val: string) => {
               this.onPasswordVerifyChanged(val);
             }}
@@ -283,9 +280,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
       return (
         <div className="">
           <div className="session-signin-device-pairing-header">
-            Open the Loki Messenger App on your primary device and select
-            "Device Pairing" from the main menu. Then, enter your Session ID
-            below to sign in.
+            {i18n('devicePairingHeader')}
           </div>
           {this.renderEnterSessionID(true)}
         </div>
@@ -296,32 +291,37 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderEnterSessionID(contentEditable: boolean) {
+    const { i18n } = this.props;
+    const enterSessionIDHere = i18n('enterSessionIDHere');
+
     return (
       <div
         className="session-signin-enter-session-id"
         contentEditable={contentEditable}
-        placeholder="Enter your Session ID here"
+        placeholder={enterSessionIDHere}
       />
     );
   }
 
   private renderSignInButtons() {
     const { signInMode } = this.state;
+    const { i18n } = this.props;
 
+    const or = i18n('or');
     let greenButtonType: any;
     let greenText: string;
     let whiteButtonText: string;
     if (signInMode !== SignInMode.Default) {
       greenButtonType = SessionButtonTypes.FullGreen;
-      greenText = 'Continue Your Session';
+      greenText = i18n('continueYourSession');
     } else {
       greenButtonType = SessionButtonTypes.Green;
-      greenText = 'Restore Using Seed';
+      greenText = i18n('restoreUsingSeed');
     }
     if (signInMode === SignInMode.LinkingDevice) {
-      whiteButtonText = 'Restore Using Seed';
+      whiteButtonText = i18n('restoreUsingSeed');
     } else {
-      whiteButtonText = 'Link Device To Existing Account';
+      whiteButtonText = i18n('linkDeviceToExistingAccount');
     }
 
     return (
@@ -335,7 +335,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
           buttonType={greenButtonType}
           text={greenText}
         />
-        <div className="session-registration__or">or</div>
+        <div className="session-registration__or">{or}</div>
         <SessionButton
           onClick={() => {
             this.setState({
@@ -350,12 +350,15 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderTermsConditionAgreement() {
-    return (
-      <div className="session-terms-conditions-agreement">
-        By using this service, you agree to our <a>Terms and Conditions</a> and{' '}
-        <a>Privacy Statement</a>
-      </div>
-    );
     // FIXME link to our Terms and Conditions and privacy statement
+    const { i18n } = this.props;
+    const byUsingThisService = i18n('byUsingThisService...');
+
+    return (
+      <div
+        className="session-terms-conditions-agreement"
+        dangerouslySetInnerHTML={{ __html: byUsingThisService }}
+      />
+    );
   }
 }

@@ -1,8 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-//import { LocalizerType } from '../../types/Util';
-
 export enum SessionButtonType {
   Brand = 'brand',
   BrandOutline = 'brand-outline',
@@ -23,7 +21,6 @@ export enum SessionButtonColor {
 }
 
 interface Props {
-  //i18n: LocalizerType;
   text: string;
   buttonType: SessionButtonType;
   buttonColor: SessionButtonColor;

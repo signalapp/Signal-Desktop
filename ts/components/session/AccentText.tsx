@@ -1,11 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
 
-//import { LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
-  //i18n: LocalizerType;
-  // text: string;
+  i18n: LocalizerType;
   showSubtitle?: boolean;
 }
 
@@ -15,19 +13,23 @@ export class AccentText extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { showSubtitle } = this.props;
+    const { showSubtitle, i18n } = this.props;
+
+    const title = i18n('beginYourSession');
+    const subtitle = i18n('ensuringPeaceOfMind');
 
     return (
       <div className="session-content-accent-text">
-        <div className="session-content-accent-text title">
-          Begin<br />your<br />Session.
-        </div>
+        <div
+          className="session-content-accent-text title"
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
+
         {showSubtitle ? (
-          <div className="session-content-accent-text subtitle">
-            Ensuring <span className={classNames('redacted')}>peace of</span>{' '}
-            mind, one <span className={classNames('redacted')}>session</span> at
-            a time.
-          </div>
+          <div
+            className="session-content-accent-text subtitle"
+            dangerouslySetInnerHTML={{ __html: subtitle }}
+          />
         ) : (
           ''
         )}

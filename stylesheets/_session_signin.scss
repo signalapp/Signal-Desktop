@@ -10,25 +10,25 @@
     height: 100%;
     display: flex;
     align-items: center;
-  
+
     &-accent {
       flex-grow: 1;
       padding-left: 20px;
-  
+
       &-text {
         color: $session-color-white;
         font-family: $session-font-family;
-      
+
         .title {
           font-size: 100px;
           font-weight: 700;
           line-height: 120px;
         }
-      
+
         .subtitle {
           font-size: 18px;
           font-weight: 700;
-      
+
           .redacted {
             background: $session-color-white;
             white-space: nowrap;
@@ -36,7 +36,7 @@
             border-radius: 100px;
             padding-left: 7px;
             padding-right: 7px;
-      
+
             &:hover {
               background-color: $session-color-black;
             }
@@ -44,35 +44,32 @@
         }
       }
     }
-  
+
     &-registration {
       height: 60%;
       padding-right: 128px;
     }
-
-
-   
   }
 
   &-registration {
-    &-container{
+    &-container {
       display: flex;
       flex-direction: column;
       width: 289px;
     }
-  
+
     &__content {
       width: 100%;
       overflow-y: auto;
       padding-top: 20px;
     }
-  
+
     &__sections {
       display: flex;
       flex-grow: 1;
       flex-direction: column;
     }
-  
+
     &__tab-container {
       display: flex;
       flex-grow: 0;
@@ -82,12 +79,12 @@
       height: 30px;
       left: 0;
       right: 0;
-    
+
       margin-left: auto;
       margin-right: auto;
       color: $session-color-white;
     }
-  
+
     &__tab {
       @include fontWasaBold();
       width: 100%;
@@ -99,12 +96,12 @@
       transition: border-color $session-transition-duration linear;
       line-height: 17px;
       font-size: 15px;
-  
+
       &--active {
         border-bottom: 4px solid $session-color-green;
       }
     }
-  
+
     @mixin registration-label-mixin {
       color: $session-color-white;
       text-align: center;
@@ -113,16 +110,16 @@
       line-height: 17px;
       padding: 12px;
     }
-  
+
     &__or {
       @include registration-label-mixin;
     }
-  
+
     &__unique-session-id {
       @include registration-label-mixin;
       padding-top: 3em;
     }
-  
+
     &__entry-fields {
       margin: 0px;
       padding-bottom: 30px;
@@ -137,7 +134,7 @@
     transition: opacity $session-transition-duration;
     opacity: 1;
     position: relative;
-  
+
     label {
       line-height: 14px;
       opacity: 0;
@@ -147,11 +144,11 @@
       position: absolute;
       top: 0px;
     }
-  
+
     &.filled {
       opacity: 1;
     }
-  
+
     input {
       border: none;
       outline: 0;
@@ -165,14 +162,14 @@
       top: 50%;
       transform: translateY(-50%);
     }
-  
+
     hr {
       border: 1px solid $session-color-white;
       width: 100%;
       position: absolute;
       bottom: 0px;
     }
-  
+
     button {
       position: absolute;
       top: 50%;
@@ -186,23 +183,23 @@
     color: $session-color-light-grey;
     text-align: center;
     font-size: 12px;
-  
+
     a {
       white-space: nowrap;
       font-weight: bold;
       color: $session-color-light-grey;
       transition: $session-transition-duration;
-  
+
       &:visited &:link {
         color: $session-color-light-grey;
       }
-  
+
       &:hover {
         color: $session-color-white;
       }
     }
   }
-  
+
   &-signup-header,
   &-signin-device-pairing-header {
     padding-top: 10px;
@@ -212,7 +209,7 @@
     font-size: 12px;
     line-height: 20px;
   }
-  
+
   &-signin-enter-session-id {
     height: auto;
     width: 289px;
@@ -228,8 +225,6 @@
     overflow-wrap: break-word;
     padding: 20px 5px 20px 5px;
     display: inline-block;
-
-    
   }
 }
 

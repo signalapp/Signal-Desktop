@@ -440,41 +440,4 @@ $session_message-container-border-radius: 5px;
       }
     }
   }
-
-  &-icon-button {
-    fill: $session-color-white;
-    opacity: 0.4;
-    cursor: pointer;
-    display: inline-block;
-    transition: opacity $session-transition-duration;
-
-    @mixin adjust-icon-size($size) {
-      line-height: $size;
-      height: $size;
-      width: $size;
-
-      margin: $size / 3;
-
-      img {
-        height: $size;
-        width: $size;
-      }
-    }
-
-    &.small {
-      @include adjust-icon-size($session-icon-size-sm);
-    }
-
-    &.medium {
-      @include adjust-icon-size($session-icon-size-md);
-    }
-
-    &.large {
-      @include adjust-icon-size($session-icon-size-lg);
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-  }
 }
