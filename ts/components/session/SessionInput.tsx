@@ -37,13 +37,13 @@ export class SessionInput extends React.PureComponent<Props, State> {
     const correctType = forceShow ? 'text' : type;
 
     return (
-      <div className="input-with-label-container">
+      <div className="session-input-with-label-container">
         <label
           htmlFor="floatField"
           className={classNames(
             inputValue !== ''
-              ? 'input-with-label-container filled'
-              : 'input-with-label-container'
+              ? 'session-input-with-label-container filled'
+              : 'session-input-with-label-container'
           )}
         >
           {label}

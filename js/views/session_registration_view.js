@@ -30,7 +30,7 @@
   const currentPageIndex = REGISTER_INDEX; */
 
   Whisper.SessionRegistrationView = Whisper.View.extend({
-    className: 'session-standalone-fullscreen',
+    className: 'session-fullscreen',
     initialize() {
       this.accountManager = getAccountManager();
       // Clean status in case the app closed unexpectedly
@@ -94,7 +94,7 @@
     },
     render() {
       this.session_registration_view = new Whisper.ReactWrapperView({
-        className: 'session-full-screen-flow session-standalone-fullscreen',
+        className: 'session-full-screen-flow session-fullscreen',
         Component: window.Signal.Components.SessionRegistrationView,
         props: {},
       });

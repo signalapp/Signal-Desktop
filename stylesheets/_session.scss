@@ -388,3 +388,56 @@ $session_message-container-border-radius: 5px;
     right: 0px;
   }
 }
+
+.session {
+  &-button {
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 18px 0 18px;
+    font-size: 15px;
+    font-family: $session-font-family;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    border-radius: 500px;
+    transition-duration: $session-transition-duration;
+
+    @mixin transparent-background($textAndBorderColor) {
+      background-color: Transparent;
+      background-repeat: no-repeat;
+      overflow: hidden;
+      outline: none;
+      color: $textAndBorderColor;
+      border: 2px solid $textAndBorderColor;
+    }
+
+    &.full-green {
+      background-color: $session-color-green;
+      color: $session-color-white;
+      border: 2px solid $session-color-green;
+
+      &:hover {
+        @include transparent-background($session-color-green);
+      }
+    }
+
+    &.green {
+      @include transparent-background($session-color-green);
+
+      &:hover {
+        background-color: $session-color-green;
+        color: $session-color-white;
+      }
+    }
+
+    &.white {
+      @include transparent-background($session-color-white);
+
+      &:hover {
+        @include transparent-background($session-color-green);
+      }
+    }
+  }
+}

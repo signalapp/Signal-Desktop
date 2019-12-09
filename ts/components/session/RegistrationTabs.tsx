@@ -54,8 +54,8 @@ const Tab = ({
   return (
     <div
       className={classNames(
-        'registration-container__tab',
-        isSelected ? 'registration-container__tab--active' : null
+        'session-registration__tab',
+        isSelected ? 'session-registration__tab--active' : null
       )}
       onClick={handleClick}
       role="tab"
@@ -93,8 +93,8 @@ export class RegistrationTabs extends React.Component<Props, State> {
     const { selectedTab } = this.state;
 
     return (
-      <div className="registration-container">
-        <div className="registration-container__tab-container">
+      <div className="session-registration-container">
+        <div className="session-registration__tab-container">
           <Tab
             label="Create Account"
             type="create"
@@ -146,7 +146,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
     const {signUpMode} = this.state;
     if (signUpMode === SignUpMode.Default) {
       return (
-        <div className="registration-container__content">
+        <div className="session-registration__content">
           {this.renderSignUpHeader()}
           {this.renderSignUpButton()}
         </div>
@@ -154,9 +154,9 @@ export class RegistrationTabs extends React.Component<Props, State> {
     }
     else {
       return (
-        <div className="registration-container__content">
+        <div className="session-registration__content">
           {this.renderSignUpHeader()}
-          <div className="registration-view-label">
+          <div className="session-registration__unique-session-id">
             Your Unique Session ID
           </div>
           {this.renderEnterSessionID(false)}
@@ -187,7 +187,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderSignUpHeader() {
     return (
-      <div className="signup-header">
+      <div className="session-signup-header">
         All users are randomly generated a set of numbers that act as their
         unique Session ID. Share your Session ID in order to chat with your
         friends!
@@ -223,7 +223,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderSignIn() {
     return (
-      <div className="registration-container__content">
+      <div className="session-registration__content">
         {this.renderRegistrationContent()}
 
         {this.renderSignInButtons()}
@@ -237,7 +237,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
     if (signInMode === SignInMode.UsingSeed) {
       return (
-        <div className={classNames('entry-fields')}>
+        <div className={classNames('session-registration__entry-fields')}>
           <SessionInput
             label="Mnemonic Seed"
             type="password"
@@ -282,7 +282,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
     } else if (signInMode === SignInMode.LinkingDevice) {
       return (
         <div className="">
-          <div className="signin-device-pairing-header">
+          <div className="session-signin-device-pairing-header">
             Open the Loki Messenger App on your primary device and select
             "Device Pairing" from the main menu. Then, enter your Session ID
             below to sign in.
@@ -298,7 +298,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
   private renderEnterSessionID(contentEditable: boolean) {
     return (
       <div
-        className="signin-enter-session-id"
+        className="session-signin-enter-session-id"
         contentEditable={contentEditable}
         placeholder="Enter your Session ID here"
       />
@@ -335,7 +335,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
           buttonType={greenButtonType}
           text={greenText}
         />
-        <div className="or-signin-buttons">or</div>
+        <div className="session-registration__or">or</div>
         <SessionButton
           onClick={() => {
             this.setState({
@@ -351,7 +351,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderTermsConditionAgreement() {
     return (
-      <div className="terms-conditions-agreement">
+      <div className="session-terms-conditions-agreement">
         By using this service, you agree to our <a>Terms and Conditions</a> and{' '}
         <a>Privacy Statement</a>
       </div>
