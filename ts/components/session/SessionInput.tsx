@@ -39,7 +39,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
     return (
       <div className="session-input-with-label-container">
         <label
-          htmlFor="floatField"
+          htmlFor="session-input-floating-label"
           className={classNames(
             inputValue !== ''
               ? 'session-input-with-label-container filled'
@@ -49,7 +49,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
           {label}
         </label>
         <input
-          id="floatField"
+          id="session-input-floating-label"
           type={correctType}
           placeholder={placeholder}
           value={value}
