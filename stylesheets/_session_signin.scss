@@ -191,6 +191,7 @@
       white-space: nowrap;
       font-weight: bold;
       color: $session-color-light-grey;
+      transition: $session-transition-duration;
   
       &:visited &:link {
         color: $session-color-light-grey;
@@ -227,10 +228,10 @@
     overflow-wrap: break-word;
     padding: 20px 5px 20px 5px;
     display: inline-block;
+
+    
   }
 }
-
-
 
 [contenteditable='true']:empty::before {
   content: attr(placeholder);
