@@ -54,10 +54,7 @@ export class Avatar extends React.PureComponent<Props, State> {
       return this.renderNoImage();
     }
 
-    const borderStyle = this.getBorderStyle(
-      borderColor,
-      borderWidth,
-    );
+    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
 
     // Generate the seed
     const hash = phoneNumber.substring(0, 12);
@@ -215,11 +212,11 @@ export class Avatar extends React.PureComponent<Props, State> {
     const borderWidth = typeof width === 'number' ? width : 3;
 
     return color
-    ? {
-        borderColor: color,
-        borderStyle: 'solid',
-        borderWidth: borderWidth,
-      }
-    : undefined;
+      ? {
+          borderColor: color,
+          borderStyle: 'solid',
+          borderWidth: borderWidth,
+        }
+      : undefined;
   }
 }

@@ -1014,6 +1014,13 @@
     });
 
     Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
+      const isMe = userPubKey === textsecure.storage.user.getNumber();
+
+      if (isMe) {
+        Whisper.events.trigger('onEditProfile');
+        return;
+      }
+
       const conversation = await ConversationController.getOrCreateAndWait(
         userPubKey,
         'private'
