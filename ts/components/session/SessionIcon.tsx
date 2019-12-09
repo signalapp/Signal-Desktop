@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export enum SessionIconTypes {
+export enum SessionIconType {
   Arrow = 'arrow',
   ChatBubble = 'chatBubble',
   Check = 'check',
@@ -115,15 +115,15 @@ const icons = {
   },
 };
 
-export enum SessionIconSizes {
+export enum SessionIconSize {
   Small = 'small',
   Medium = 'medium',
   Large = 'large',
 }
 
 export interface Props {
-  iconType: SessionIconTypes;
-  iconSize: SessionIconSizes;
+  iconType: SessionIconType;
+  iconSize: SessionIconSize;
   iconColor: string;
   iconPadded: boolean;
   iconRotation: number;
@@ -132,7 +132,7 @@ export interface Props {
 
 export class SessionIcon extends React.PureComponent<Props> {
   public static defaultProps = {
-    iconSize: SessionIconSizes.Medium,
+    iconSize: SessionIconSize.Medium,
     iconColor: '',
     iconRotation: 0,
     iconPadded: false,
@@ -154,13 +154,13 @@ export class SessionIcon extends React.PureComponent<Props> {
 
     let iconDimensions;
     switch (iconSize) {
-      case SessionIconSizes.Small:
+      case SessionIconSize.Small:
         iconDimensions = '15';
         break;
-      case SessionIconSizes.Medium:
+      case SessionIconSize.Medium:
         iconDimensions = '20';
         break;
-      case SessionIconSizes.Large:
+      case SessionIconSize.Large:
         iconDimensions = '30';
         break;
       default:
@@ -170,58 +170,58 @@ export class SessionIcon extends React.PureComponent<Props> {
     let iconDef = { path: '', viewBox: '' };
 
     switch (iconType) {
-      case SessionIconTypes.Arrow:
+      case SessionIconType.Arrow:
         iconDef = icons.Arrow;
         break;
-      case SessionIconTypes.ChatBubble:
+      case SessionIconType.ChatBubble:
         iconDef = icons.ChatBubble;
         break;
-      case SessionIconTypes.Check:
+      case SessionIconType.Check:
         iconDef = icons.Check;
         break;
-      case SessionIconTypes.Chevron:
+      case SessionIconType.Chevron:
         iconDef = icons.Chevron;
         break;
-      case SessionIconTypes.CirclePlus:
+      case SessionIconType.CirclePlus:
         iconDef = icons.CirclePlus;
         break;
-      case SessionIconTypes.Contacts:
+      case SessionIconType.Contacts:
         iconDef = icons.Contacts;
         break;
-      case SessionIconTypes.Ellipses:
+      case SessionIconType.Ellipses:
         iconDef = icons.Ellipses;
         break;
-      case SessionIconTypes.Emoji:
+      case SessionIconType.Emoji:
         iconDef = icons.Emoji;
         break;
-      case SessionIconTypes.Eye:
+      case SessionIconType.Eye:
         iconDef = icons.Eye;
         break;
-      case SessionIconTypes.File:
+      case SessionIconType.File:
         iconDef = icons.File;
         break;
-      case SessionIconTypes.Gear:
+      case SessionIconType.Gear:
         iconDef = icons.Gear;
         break;
-      case SessionIconTypes.Globe:
+      case SessionIconType.Globe:
         iconDef = icons.Globe;
         break;
-      case SessionIconTypes.Microphone:
+      case SessionIconType.Microphone:
         iconDef = icons.Microphone;
         break;
-      case SessionIconTypes.Moon:
+      case SessionIconType.Moon:
         iconDef = icons.Moon;
         break;
-      case SessionIconTypes.Reply:
+      case SessionIconType.Reply:
         iconDef = icons.Reply;
         break;
-      case SessionIconTypes.Search:
+      case SessionIconType.Search:
         iconDef = icons.Search;
         break;
-      case SessionIconTypes.Send:
+      case SessionIconType.Send:
         iconDef = icons.Send;
         break;
-      case SessionIconTypes.Star:
+      case SessionIconType.Star:
         iconDef = icons.Star;
         break;
       default:

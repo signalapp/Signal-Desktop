@@ -11,7 +11,7 @@ import {
 } from 'react-contextmenu';
 
 import { SessionIconButton } from '../session/SessionIconButton';
-import { SessionIconSizes, SessionIconTypes } from '../session/SessionIcon';
+import { SessionIconSize, SessionIconType } from '../session/SessionIcon';
 
 interface TimerOption {
   name: string;
@@ -215,8 +215,8 @@ export class ConversationHeader extends React.Component<Props> {
     return (
       <div>
         <SessionIconButton
-          iconType={SessionIconTypes.Search}
-          iconSize={SessionIconSizes.Large}
+          iconType={SessionIconType.Search}
+          iconSize={SessionIconSize.Large}
           iconPadded={true}
         />
       </div>
@@ -233,8 +233,8 @@ export class ConversationHeader extends React.Component<Props> {
     return (
       <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
         <SessionIconButton
-          iconType={SessionIconTypes.Ellipses}
-          iconSize={SessionIconSizes.Large}
+          iconType={SessionIconType.Ellipses}
+          iconSize={SessionIconSize.Large}
           onClick={this.showMenuBound}
         />
       </ContextMenuTrigger>

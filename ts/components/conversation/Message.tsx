@@ -33,8 +33,8 @@ import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import {
   SessionIcon,
-  SessionIconSizes,
-  SessionIconTypes,
+  SessionIconSize,
+  SessionIconType,
 } from '../session/SessionIcon';
 
 declare global {
@@ -320,8 +320,8 @@ export class Message extends React.PureComponent<Props, State> {
         {!textPending && direction === 'outgoing' && status !== 'error' ? (
           <div className="message-read-receipt-container">
             <SessionIcon
-              iconType={SessionIconTypes.Check}
-              iconSize={SessionIconSizes.Small}
+              iconType={SessionIconType.Check}
+              iconSize={SessionIconSize.Small}
             />
           </div>
         ) : null}
