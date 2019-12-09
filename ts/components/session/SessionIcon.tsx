@@ -237,7 +237,6 @@ export class SessionIcon extends React.PureComponent<Props> {
         className={classNames(
           'session-icon',
           iconType,
-          iconRotation,
           iconPadded ? 'padded' : ''
         )}
         version="1.1"
