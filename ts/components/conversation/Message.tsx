@@ -31,11 +31,8 @@ import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
-import {
-  SessionIcon,
-  SessionIconSize,
-  SessionIconType,
-} from '../session/SessionIcon';
+import { SessionIcon } from '../session/icon/SessionIcon';
+import { SessionIconSize, SessionIconType } from '../session/icon';
 
 declare global {
   interface Window {

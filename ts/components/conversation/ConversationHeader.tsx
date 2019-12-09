@@ -10,8 +10,8 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 
-import { SessionIconButton } from '../session/SessionIconButton';
-import { SessionIconSize, SessionIconType } from '../session/SessionIcon';
+import { SessionIconButton } from '../session/icon/SessionIconButton';
+import { SessionIconSize, SessionIconType } from '../session/icon';
 
 interface TimerOption {
   name: string;
