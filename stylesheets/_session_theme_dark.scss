@@ -31,6 +31,14 @@
   .module-message__container--outgoing {
     background-color: $session-color-dark-3;
   }
+
+  .message-highlighted {
+    background-color: $session-color-dark-highlight;
+    border-radius: 0;
+  }
+  .message-selected {
+    background-color: rgba($session-color-dark-highlight, 0.8);
+  }
 }
 
 .message-read-receipt-container {

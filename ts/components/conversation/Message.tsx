@@ -1175,7 +1175,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <div className={classNames(classes)}>
-        <span className="module-message__check-box">✓</span>
+        <SessionIcon iconType={SessionIconType.Check} />
       </div>
     );
   }
