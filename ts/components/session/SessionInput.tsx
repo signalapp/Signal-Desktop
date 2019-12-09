@@ -7,8 +7,10 @@ interface Props {
   i18n: LocalizerType;
   label: string;
   type: string;
+  value?: string;
   placeholder: string;
   enableShowHide?: boolean;
+  onValueChanged?: any;
 }
 
 interface State {
@@ -29,7 +31,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const { placeholder, type, label, enableShowHide } = this.props;
+    const { placeholder, type, label, value, enableShowHide } = this.props;
     const { inputValue, forceShow } = this.state;
 
     const correctType = forceShow ? 'text' : type;
@@ -50,10 +52,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
           id="floatField"
           type={correctType}
           placeholder={placeholder}
-          value={inputValue}
-          onBlur={e => {
-            this.updateInputValue(e);
-          }}
+          value={value}
           onChange={e => {
             this.updateInputValue(e);
           }}
@@ -74,10 +73,13 @@ export class SessionInput extends React.PureComponent<Props, State> {
   }
 
   private updateInputValue(e: any) {
+    e.preventDefault();
     this.setState({
       inputValue: e.target.value,
     });
 
-    e.preventDefault();
+    if (this.props.onValueChanged) {
+      this.props.onValueChanged(e.target.value);
+    }
   }
 }
