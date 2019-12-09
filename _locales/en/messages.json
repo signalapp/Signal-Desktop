@@ -1998,54 +1998,44 @@
     "message": "Note: Your display name will be visible to your contacts",
     "description": "Shown to the user as a warning about setting display name"
   },
-
   "copyPublicKey": {
     "message": "Copy public key",
     "description":
       "Button action that the user can click to copy their public keys"
   },
-
   "banUser": {
     "message": "Ban user",
     "description": "Ban user from public chat by public key."
   },
-
   "banUserConfirm": {
     "message": "Are you sure you want to ban user?",
     "description": "Message shown when confirming user ban."
   },
-
   "userBanned": {
     "message": "User successfully banned",
     "description": "Toast on succesful user ban."
   },
-
   "userBanFailed": {
     "message": "User ban failed!",
     "description": "Toast on unsuccesful user ban."
   },
-
   "copyChatId": {
     "message": "Copy Chat ID"
   },
-
   "updateGroup": {
     "message": "Update Group",
     "description":
       "Button action that the user can click to rename the group or add a new member"
   },
-
   "leaveGroup": {
     "message": "Leave Group",
     "description": "Button action that the user can click to leave the group"
   },
-
   "leaveGroupDialogTitle": {
     "message": "Are you sure you want to leave this group?",
     "description":
       "Title shown to the user to confirm they want to leave the group"
   },
-
   "copiedPublicKey": {
     "message": "Copied public key",
     "description": "A toast message telling the user that the key was copied"
@@ -2068,18 +2058,20 @@
     "message": "Edit profile",
     "description": "Button action that the user can click to edit their profile"
   },
-
   "createGroupDialogTitle": {
     "message": "Creating a Private Group Chat",
     "description": "Title for the dialog box used to create a new private group"
   },
-
   "updateGroupDialogTitle": {
     "message": "Updating a Private Group Chat",
     "description":
       "Title for the dialog box used to update an existing private group"
   },
-
+  "updatePublicGroupDialogTitle": {
+    "message": "Updating a Public Chat Channel",
+    "description":
+      "Title for the dialog box used to update an existing public chat channel"
+  },
   "showSeed": {
     "message": "Show seed",
     "description":
@@ -2099,25 +2091,21 @@
     "description":
       "Title for the dialog box used to connect to a new public server"
   },
-
   "createPrivateGroup": {
     "message": "Create Private Group",
     "description":
       "Button action that the user can click to show a dialog for creating a new private group chat"
   },
-
   "seedViewTitle": {
     "message":
       "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
     "description": "The title shown when the user views their seeds"
   },
-
   "copiedMnemonic": {
     "message": "Copied seed to clipboard",
     "description":
       "A toast message telling the user that the mnemonic seed was copied"
   },
-
   "passwordViewTitle": {
     "message": "Type in your password",
     "description":
@@ -2131,7 +2119,6 @@
     "description":
       "A button action that the user can click to reset the database"
   },
-
   "setPassword": {
     "message": "Set Password",
     "description": "Button action that the user can click to set a password"
@@ -2216,7 +2203,6 @@
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
   },
-
   "conversationsTab": {
     "message": "Conversations",
     "description": "conversation tab title"

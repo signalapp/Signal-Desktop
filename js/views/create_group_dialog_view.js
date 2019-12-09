@@ -99,6 +99,7 @@
       this.cancelText = i18n('cancel');
       this.close = this.close.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
+      this.isPublic = groupConvo.isPublic();
 
       const ourPK = textsecure.storage.user.getNumber();
 
@@ -115,9 +116,30 @@
       this.friendList = allMembers;
 
       // only give members that are not already in the group
-      const existingMembers = groupConvo.get('members');
+      let existingMembers = groupConvo.get('members');
+
+      // at least make sure it's an array
+      if (!Array.isArray(existingMembers)) {
+        existingMembers = [];
+      }
 
       this.existingMembers = existingMembers;
+
+      // public chat settings overrides
+      if (this.isPublic) {
+        // fix the title
+        this.titleText = `${i18n('updatePublicGroupDialogTitle')}: ${
+          this.groupName
+        }`;
+        // I'd much prefer to integrate mods with groupAdmins
+        // but lets discuss first...
+        this.isAdmin = groupConvo.isModerator(
+          window.storage.get('primaryDevicePubKey')
+        );
+        // zero out friendList for now
+        this.friendList = [];
+        this.existingMembers = [];
+      }
 
       this.$el.focus();
       this.render();
@@ -130,6 +152,7 @@
           titleText: this.titleText,
           groupName: this.groupName,
           okText: this.okText,
+          isPublic: this.isPublic,
           cancelText: this.cancelText,
           existingMembers: this.existingMembers,
           friendList: this.friendList,

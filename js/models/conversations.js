@@ -1,5 +1,6 @@
 /* global
   _,
+  log,
   i18n,
   Backbone,
   ConversationController,
@@ -2352,14 +2353,21 @@
     // maybe "Backend" instead of "Source"?
     async setPublicSource(newServer, newChannelId) {
       if (!this.isPublic()) {
+        log.warn(
+          `trying to setPublicSource on non public chat conversation ${this.id}`
+        );
         return;
       }
       if (
         this.get('server') !== newServer ||
         this.get('channelId') !== newChannelId
       ) {
-        this.set({ server: newServer });
-        this.set({ channelId: newChannelId });
+        // mark active so it's not in the friends list but the conversation list
+        this.set({
+          server: newServer,
+          channelId: newChannelId,
+          active_at: Date.now(),
+        });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
@@ -2367,6 +2375,9 @@
     },
     getPublicSource() {
       if (!this.isPublic()) {
+        log.warn(
+          `trying to getPublicSource on non public chat conversation ${this.id}`
+        );
         return null;
       }
       return {
@@ -2376,18 +2387,8 @@
       };
     },
     async getPublicSendData() {
-      const serverAPI = await lokiPublicChatAPI.findOrCreateServer(
-        this.get('server')
-      );
-      if (!serverAPI) {
-        window.log.warn(
-          `Failed to get serverAPI (${this.get('server')}) for conversation (${
-            this.id
-          })`
-        );
-        return null;
-      }
-      const channelAPI = await serverAPI.findOrCreateChannel(
+      const channelAPI = await lokiPublicChatAPI.findOrCreateChannel(
+        this.get('server'),
         this.get('channelId'),
         this.id
       );

@@ -55,12 +55,14 @@ class LokiRssAPI extends EventEmitter {
 
   async getFeed() {
     let response;
-    let success = true;
     try {
       response = await nodeFetch(this.feedUrl);
     } catch (e) {
       log.error('fetcherror', e);
-      success = false;
+      return;
+    }
+    if (!response) {
+      return;
     }
     const responseXML = await response.text();
     let feedDOM = {};
@@ -71,9 +73,6 @@ class LokiRssAPI extends EventEmitter {
       );
     } catch (e) {
       log.error('xmlerror', e);
-      success = false;
-    }
-    if (!success) {
       return;
     }
     const feedObj = xml2json(feedDOM);
