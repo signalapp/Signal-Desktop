@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="16px" viewBox="0 0 15 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>search</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M16.5260392,16.2168725 L13.3593725,12.879521 C13.2567964,12.7688667 13.1425871,12.670895 13.0189558,12.5875028 L12.2272892,12.0118096 L12.2272892,12.0118096 C13.8556873,9.88830358 13.8708099,6.85915463 12.2637039,4.71770761 C10.6565979,2.57626059 7.85617522,1.8940349 5.52036814,3.07492811 C3.18456106,4.25582133 1.93676065,6.98467116 2.51570128,9.64591861 C3.09464191,12.3071661 5.34581319,14.190565 7.93645584,14.1810881 C9.19365936,14.1814736 10.4136244,13.7313239 11.3960392,12.9045511 L11.3960392,12.9045511 L11.9897892,13.738889 C12.0602158,13.8463397 12.1397052,13.9468684 12.2272892,14.0392507 L15.3939558,17.3766021 C15.4682801,17.4555775 15.5694535,17.5 15.6749975,17.5 C15.7805415,17.5 15.8817149,17.4555775 15.9560392,17.3766021 L16.5102058,16.7925656 C16.6604889,16.6359051 16.6674599,16.3824439 16.5260392,16.2168725 Z M7.93645584,12.5124123 C5.7503287,12.5124123 3.9781225,10.6446834 3.9781225,8.340723 C3.9781225,6.03676259 5.7503287,4.16903366 7.93645584,4.16903366 C10.122583,4.16903366 11.8947892,6.03676259 11.8947892,8.340723 C11.8947892,9.44712381 11.4777517,10.5082093 10.7354202,11.2905528 C9.99308868,12.0728963 8.98627111,12.5124123 7.93645584,12.5124123 Z" id="path-1"></path>
+        <filter x="-1.8%" y="-1.7%" width="103.5%" height="103.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0.5" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.25 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Groups_DeSelected" transform="translate(-92.000000, -80.000000)">
+            <g id="Navigation2" transform="translate(80.000000, 70.000000)">
+                <g id="Dropdown/Search">
+                    <g id="PrimaryBar">
+                        <g id="ico-/-24-/-actions-/-search" transform="translate(10.345794, 8.000000)">
+                            <g id="Icon-color">
+                                <use fill-opacity="0.9" fill="#FAFAFA" fill-rule="evenodd" xlink:href="#path-1"></use>
+                                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -22,15 +22,31 @@
   font-style: italic;
 }
 
-$session-font-family: 'SpaceMono';
+
+
+// Session Colors
 $session-color-green: #00f782;
 $session-color-white: #fff;
 $session-color-black: #000;
+
+$session-color-dark-1: #1B1B1B;
+$session-color-dark-2: #151515;
+$session-color-dark-3: #404146;
+$session-color-dark-4: #5C5D5F;
+$session-color-dark-5: #A5A6A8;
+
+
+$session-font-family: 'SpaceMono';
 $session-transition-duration: 0.25s;
 
 $session-icon-size-sm: 15px;
 $session-icon-size-md: 20px;
 $session-icon-size-lg: 30px;
+
+
+
+$session_message-container-border-radius: 5px;
+
 
 .session-button {
   min-width: 165px;
@@ -65,6 +81,16 @@ $session-icon-size-lg: 30px;
   }
 }
 
+
+
+@mixin set-icon-margin($size) {
+  margin: $size / 3;
+}
+.session-icon{
+  &.padded-left{
+    @include set-icon-margin($session-icon-size-md);
+  }
+}
 .session-icon-button {
   opacity: 0.4;
   cursor: pointer;
@@ -73,23 +99,59 @@ $session-icon-size-lg: 30px;
   &:hover {
     opacity: 1;
   }
-  @mixin set-icon-margin($size) {
-    margin: $size / 3;
-  }
+  
 
-  &.small {
+  &.small.padded {
     @include set-icon-margin($session-icon-size-sm);
   }
 
-  &.medium {
-    @include set-icon-margin($session-icon-size-sm);
+  &.medium.padded {
+    @include set-icon-margin($session-icon-size-md);
   }
 
-  &.large {
-    @include set-icon-margin($session-icon-size-sm);
+  &.large.padded {
+    @include set-icon-margin($session-icon-size-lg);
   }
 }
 
 .session-icon {
   fill: $session-color-white;
+}
+
+
+
+/* CONVERSATION AND MESSAGES */
+
+.module-conversation-header__title-flex, .module-conversation-header__title{
+  width: 100%;
+
+  .module-contact-name {
+      width: 100%;
+  }
+
+  .module-contact-name__profile-number{
+      text-align: center;
+  }
+}
+
+.module-conversation-header {
+  border-bottom: none;
+}
+
+
+.module-message__author__profile-name {
+  font-style: normal;
+}
+
+
+.module-message__author-avatar {
+  flex-direction: column;
+  display: inline-flex;
+  margin-right: 20px;
+  padding-top: 5px;
+}
+
+
+.module-message__container {
+  border-radius: $session_message-container-border-radius;
 }

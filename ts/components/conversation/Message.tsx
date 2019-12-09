@@ -31,6 +31,7 @@ import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { SessionIcon, SessionIconTypes, SessionIconSizes } from '../session/SessionIcon';
 
 declare global {
   interface Window {
@@ -311,16 +312,14 @@ export class Message extends React.PureComponent<Props, State> {
             <Spinner size="mini" direction={direction} />
           </div>
         ) : null}
+        <span className="module-message__metadata__spacer" />
         {!textPending && direction === 'outgoing' && status !== 'error' ? (
-          <div
-            className={classNames(
-              'module-message__metadata__status-icon',
-              `module-message__metadata__status-icon--${status}`,
-              withImageNoCaption
-                ? 'module-message__metadata__status-icon--with-image-no-caption'
-                : null
-            )}
-          />
+          <div className="message-read-receipt-container">
+            <SessionIcon
+              iconType = {SessionIconTypes.Check}
+              iconSize = {SessionIconSizes.Small}
+            />
+          </div>
         ) : null}
       </div>
     );

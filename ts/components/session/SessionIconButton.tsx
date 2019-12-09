@@ -9,10 +9,17 @@ export class SessionIconButton extends React.PureComponent<Props> {
     this.clickHandler = this.clickHandler.bind(this);
   }
 
+  public static defaultProps = SessionIcon.defaultProps;
+
   public render() {
+    
     return (
       <div
-        className={classNames('session-icon-button', this.props.iconSize)}
+        className={classNames(
+          'session-icon-button',
+          this.props.iconSize,
+          this.props.iconPadded ? 'padded' : ''
+        )}
         role="button"
         onClick={e => {
           this.clickHandler(e);

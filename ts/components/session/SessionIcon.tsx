@@ -125,6 +125,7 @@ export interface Props {
   iconType: SessionIconTypes;
   iconSize: SessionIconSizes;
   iconColor: string;
+  iconPadded: boolean;
   iconRotation: number;
   onClick: any;
 }
@@ -134,6 +135,8 @@ export class SessionIcon extends React.PureComponent<Props> {
     iconSize: SessionIconSizes.Medium,
     iconColor: '',
     iconRotation: 0,
+    iconPadded: false,
+    onClick: () => null,
   };
 
   constructor(props: any) {
@@ -141,7 +144,7 @@ export class SessionIcon extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { iconType, iconSize, iconColor, iconRotation } = this.props;
+    const { iconType, iconSize, iconColor, iconRotation, iconPadded } = this.props;
 
     let iconDimensions;
     switch (iconSize) {
@@ -225,7 +228,7 @@ export class SessionIcon extends React.PureComponent<Props> {
 
     return (
       <svg
-        className={classNames('session-icon', iconType, iconRotation)}
+        className={classNames('session-icon', iconType, iconRotation, iconPadded ? 'padded' : '')}
         version="1.1"
         preserveAspectRatio="xMidYMid meet"
         viewBox={iconDef.viewBox}

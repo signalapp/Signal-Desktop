@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="7px" height="6px" viewBox="0 0 7 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>check</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M1.76516504,4.60983496 C1.61871843,4.46338835 1.38128157,4.46338835 1.23483496,4.60983496 C1.08838835,4.75628157 1.08838835,4.99371843 1.23483496,5.14016504 L3.10983496,7.01516504 C3.25628157,7.16161165 3.49371843,7.16161165 3.64016504,7.01516504 L7.76516504,2.89016504 C7.91161165,2.74371843 7.91161165,2.50628157 7.76516504,2.35983496 C7.61871843,2.21338835 7.38128157,2.21338835 7.23483496,2.35983496 L3.375,6.21966991 L1.76516504,4.60983496 Z" id="path-1"></path>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.85">
+        <g id="FilledCircleCheck" transform="translate(-3.000000, -4.000000)">
+            <g id="check" transform="translate(2.000000, 2.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
+</svg>
