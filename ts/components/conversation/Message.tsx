@@ -31,6 +31,7 @@ import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 
 declare global {
   interface Window {
@@ -311,16 +312,14 @@ export class Message extends React.PureComponent<Props, State> {
             <Spinner size="mini" direction={direction} />
           </div>
         ) : null}
+        <span className="module-message__metadata__spacer" />
         {!textPending && direction === 'outgoing' && status !== 'error' ? (
-          <div
-            className={classNames(
-              'module-message__metadata__status-icon',
-              `module-message__metadata__status-icon--${status}`,
-              withImageNoCaption
-                ? 'module-message__metadata__status-icon--with-image-no-caption'
-                : null
-            )}
-          />
+          <div className="message-read-receipt-container">
+            <SessionIcon
+              iconType={SessionIconType.Check}
+              iconSize={SessionIconSize.Small}
+            />
+          </div>
         ) : null}
       </div>
     );
@@ -1175,7 +1174,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <div className={classNames(classes)}>
-        <span className="module-message__check-box">✓</span>
+        <SessionIcon iconType={SessionIconType.Check} />
       </div>
     );
   }

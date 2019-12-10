@@ -2,16 +2,19 @@
   font-family: 'SpaceMono';
   src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
 }
+
 @font-face {
   font-family: 'SpaceMono';
   src: url('../fonts/SpaceMono-Bold.ttf') format('truetype');
   font-weight: bold;
 }
+
 @font-face {
   font-family: 'SpaceMono';
   src: url('../fonts/SpaceMono-Italic.ttf') format('truetype');
   font-style: italic;
 }
+
 @font-face {
   font-family: 'SpaceMono';
   src: url('../fonts/SpaceMono-BoldItalic.ttf') format('truetype');
@@ -19,17 +22,27 @@
   font-style: italic;
 }
 
-$session-font-family: 'SpaceMono';
-
+// Session Colors
 $session-color-green: #00f782;
 $session-color-white: #fff;
 $session-color-black: #000;
 
+$session-color-dark-1: #1b1b1b;
+$session-color-dark-2: #151515;
+$session-color-dark-3: #404146;
+$session-color-dark-4: #5c5d5f;
+$session-color-dark-5: #a5a6a8;
+
+$session-color-dark-highlight: #212126;
+
+$session-font-family: 'SpaceMono';
 $session-transition-duration: 0.25s;
 
 $session-icon-size-sm: 15px;
 $session-icon-size-md: 20px;
 $session-icon-size-lg: 30px;
+
+$session_message-container-border-radius: 5px;
 
 .session-button {
   min-width: 165px;
@@ -44,7 +57,6 @@ $session-icon-size-lg: 30px;
   display: flex;
   justify-content: center;
   border-radius: 500px;
-
   @mixin transparent-background($textAndBorderColor) {
     background-color: Transparent;
     background-repeat: no-repeat;
@@ -53,54 +65,82 @@ $session-icon-size-lg: 30px;
     color: $textAndBorderColor;
     border: 2px solid $textAndBorderColor;
   }
-
   &.full-green {
     background-color: $session-color-green;
     color: $session-color-white;
   }
-
   &.green {
     @include transparent-background($session-color-green);
   }
-
   &.white {
     @include transparent-background($session-color-white);
   }
 }
 
+@mixin set-icon-margin($size) {
+  margin: $size / 3;
+}
+.session-icon {
+  &.padded-left {
+    @include set-icon-margin($session-icon-size-md);
+  }
+}
 .session-icon-button {
-  fill: $session-color-white;
   opacity: 0.4;
   cursor: pointer;
   display: inline-block;
   transition: opacity $session-transition-duration;
-
-  @mixin adjust-icon-size($size) {
-    line-height: $size;
-    height: $size;
-    width: $size;
-
-    margin: $size / 3;
-
-    img {
-      height: $size;
-      width: $size;
-    }
-  }
-
-  &.small {
-    @include adjust-icon-size($session-icon-size-sm);
-  }
-
-  &.medium {
-    @include adjust-icon-size($session-icon-size-md);
-  }
-
-  &.large {
-    @include adjust-icon-size($session-icon-size-lg);
-  }
-
   &:hover {
     opacity: 1;
   }
+
+  &.small.padded {
+    @include set-icon-margin($session-icon-size-sm);
+  }
+
+  &.medium.padded {
+    @include set-icon-margin($session-icon-size-md);
+  }
+
+  &.large.padded {
+    @include set-icon-margin($session-icon-size-lg);
+  }
+}
+
+.session-icon {
+  fill: $session-color-white;
+}
+
+/* CONVERSATION AND MESSAGES */
+
+.module-conversation-header__title-flex,
+.module-conversation-header__title {
+  width: 100%;
+
+  .module-contact-name {
+    width: 100%;
+  }
+
+  .module-contact-name__profile-number {
+    text-align: center;
+  }
+}
+
+.module-conversation-header {
+  border-bottom: none;
+}
+
+.module-message__author__profile-name {
+  font-style: normal;
+}
+
+.module-message__author-avatar {
+  flex-direction: column;
+  display: inline-flex;
+  margin-right: 20px;
+  padding-top: 5px;
+}
+
+.module-message__container {
+  border-radius: $session_message-container-border-radius;
 }

@@ -10,6 +10,8 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 
+import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+
 interface TimerOption {
   name: string;
   value: number;
@@ -208,7 +210,19 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderGear(triggerId: string) {
+  public renderSearch() {
+    return (
+      <div>
+        <SessionIconButton
+          iconType={SessionIconType.Search}
+          iconSize={SessionIconSize.Large}
+          iconPadded={true}
+        />
+      </div>
+    );
+  }
+
+  public renderOptions(triggerId: string) {
     const { showBackButton } = this.props;
 
     if (showBackButton) {
@@ -217,10 +231,10 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
-        <div
-          role="button"
+        <SessionIconButton
+          iconType={SessionIconType.Ellipses}
+          iconSize={SessionIconSize.Large}
           onClick={this.showMenuBound}
-          className="module-conversation-header__gear-icon"
         />
       </ContextMenuTrigger>
     );
@@ -283,16 +297,17 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <div className="module-conversation-header">
+        {this.renderOptions(triggerId)}
         {this.renderBackButton()}
         <div className="module-conversation-header__title-container">
           <div className="module-conversation-header__title-flex">
-            {this.renderAvatar()}
             {this.renderTitle()}
             {isPrivateGroup ? this.renderMemberCount() : null}
           </div>
         </div>
         {this.renderExpirationLength()}
-        {this.renderGear(triggerId)}
+        {this.renderSearch()}
+        {this.renderAvatar()}
         {this.renderMenu(triggerId)}
       </div>
     );
