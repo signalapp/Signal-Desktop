@@ -229,6 +229,7 @@
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
           members,
+          selectedMessages: this.model.selectedMessages,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({

@@ -7,6 +7,8 @@ export enum SessionButtonTypes {
   fullGreen = 'fullGreen',
   white = 'white',
   green = 'green',
+  secondary = 'secondary',
+  danger = 'danger',
 }
 
 interface Props {
@@ -20,15 +22,7 @@ export class SessionButton extends React.PureComponent<Props> {
     const { buttonType, text } = this.props;
 
     return (
-      <div
-        className={classNames(
-          'session-button',
-          buttonType === SessionButtonTypes.green ? 'green' : '',
-          buttonType === SessionButtonTypes.fullGreen ? 'full-green' : '',
-          buttonType === SessionButtonTypes.white ? 'white' : ''
-        )}
-        role="button"
-      >
+      <div className={classNames('session-button', buttonType)} role="button">
         {text}
       </div>
     );

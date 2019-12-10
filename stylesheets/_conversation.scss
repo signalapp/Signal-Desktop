@@ -165,18 +165,6 @@
   display: inline-flex;
 }
 
-.check-box-visible {
-  transition-duration: 200ms;
-  opacity: 0.1;
-  width: 40px;
-}
-
-.check-box-invisible {
-  transition-duration: 200ms;
-  opacity: 0;
-  width: 0px;
-}
-
 .check-box-selected {
   opacity: 1;
 }
@@ -288,10 +276,6 @@
 
 .invitation-outgoing {
   align-self: flex-end;
-}
-
-.message-selected {
-  background-color: #60554060;
 }
 
 .bulk-edit-container {

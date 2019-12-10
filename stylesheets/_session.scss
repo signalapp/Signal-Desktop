@@ -24,6 +24,9 @@
 
 // Session Colors
 $session-color-green: #00f782;
+$session-color-green-alt-1: #00f17e;
+$session-color-green-alt-2: #007e42;
+
 $session-color-white: #fff;
 $session-color-black: #000;
 
@@ -33,6 +36,11 @@ $session-color-dark-3: #404146;
 $session-color-dark-4: #5c5d5f;
 $session-color-dark-5: #a5a6a8;
 
+$session-color-secondary: #474646;
+$session-color-danger: #ff4538;
+
+$session-color-white-subtle: rgba($session-color-white, 0.6);
+
 $session-color-dark-highlight: #212126;
 
 $session-font-family: 'SpaceMono';
@@ -41,6 +49,14 @@ $session-transition-duration: 0.25s;
 $session-icon-size-sm: 15px;
 $session-icon-size-md: 20px;
 $session-icon-size-lg: 30px;
+
+$session-conversation-header-height: 60px;
+
+$session-green-gradient: linear-gradient(
+  270deg,
+  rgba($session-color-green-alt-1, 1),
+  rgba($session-color-green-alt-1, 0.6)
+);
 
 $session_message-container-border-radius: 5px;
 
@@ -74,6 +90,18 @@ $session_message-container-border-radius: 5px;
   }
   &.white {
     @include transparent-background($session-color-white);
+  }
+
+  @mixin square-button($background-color) {
+    border-radius: 2px;
+    height: 33px;
+    background-color: $background-color;
+  }
+  &.secondary {
+    @include square-button($session-color-secondary);
+  }
+  &.danger {
+    @include square-button($session-color-danger);
   }
 }
 
@@ -113,6 +141,15 @@ $session_message-container-border-radius: 5px;
 
 /* CONVERSATION AND MESSAGES */
 
+@mixin standard-icon-button() {
+  color: $session-color-white;
+  opacity: 0.9;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
   width: 100%;
@@ -124,10 +161,6 @@ $session_message-container-border-radius: 5px;
   .module-contact-name__profile-number {
     text-align: center;
   }
-}
-
-.module-conversation-header {
-  border-bottom: none;
 }
 
 .module-message__author__profile-name {
@@ -143,4 +176,33 @@ $session_message-container-border-radius: 5px;
 
 .module-message__container {
   border-radius: $session_message-container-border-radius;
+}
+
+.conversation-header .session-icon-button {
+  @include standard-icon-button();
+}
+
+.module-conversation-header,
+.message-selection-overlay {
+  height: $session-conversation-header-height;
+}
+
+.message-selection-overlay {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  display: none;
+
+  .close-button {
+    float: left;
+    margin-top: 10px;
+  }
+}
+.message-selection-overlay div[role='button'] {
+  display: inline-block;
+}
+
+.message-selection-overlay .button-group {
+  float: right;
+  margin-top: 13.5px;
 }

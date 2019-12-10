@@ -10,7 +10,13 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 
-import { SessionIconButton, SessionIconSize, SessionIconType } from '../session/icon';
+import {
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from '../session/icon';
+
+import { SessionButton, SessionButtonTypes } from '../session/SessionButton';
 
 interface TimerOption {
   name: string;
@@ -44,6 +50,8 @@ interface Props {
   isFriend: boolean;
   isFriendRequestPending: boolean;
   isOnline?: boolean;
+
+  selectedMessages: any;
 
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
@@ -212,7 +220,7 @@ export class ConversationHeader extends React.Component<Props> {
 
   public renderSearch() {
     return (
-      <div>
+      <div className="search-icon">
         <SessionIconButton
           iconType={SessionIconType.Search}
           iconSize={SessionIconSize.Large}
@@ -289,6 +297,31 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
+  public renderSelectionOverlay() {
+    return (
+      <div className="message-selection-overlay">
+        <div className="close-button">
+          <SessionIconButton
+            iconType={SessionIconType.Exit}
+            iconSize={SessionIconSize.Large}
+          />
+        </div>
+
+        <div className="button-group">
+          <SessionButton
+            buttonType={SessionButtonTypes.secondary}
+            text={'Forward'}
+          />
+
+          <SessionButton
+            buttonType={SessionButtonTypes.danger}
+            text={'Delete'}
+          />
+        </div>
+      </div>
+    );
+  }
+
   public render() {
     const { id, isGroup, isPublic } = this.props;
     const triggerId = `conversation-${id}`;
@@ -296,20 +329,23 @@ export class ConversationHeader extends React.Component<Props> {
     const isPrivateGroup = isGroup && !isPublic;
 
     return (
-      <div className="module-conversation-header">
-        {this.renderOptions(triggerId)}
-        {this.renderBackButton()}
-        <div className="module-conversation-header__title-container">
-          <div className="module-conversation-header__title-flex">
-            {this.renderTitle()}
-            {isPrivateGroup ? this.renderMemberCount() : null}
+      <>
+        {this.renderSelectionOverlay()}
+        <div className="module-conversation-header">
+          {this.renderBackButton()}
+          <div className="module-conversation-header__title-container">
+            <div className="module-conversation-header__title-flex">
+              {this.renderOptions(triggerId)}
+              {this.renderTitle()}
+              {isPrivateGroup ? this.renderMemberCount() : null}
+            </div>
           </div>
+          {this.renderExpirationLength()}
+          {this.renderSearch()}
+          {this.renderAvatar()}
+          {this.renderMenu(triggerId)}
         </div>
-        {this.renderExpirationLength()}
-        {this.renderSearch()}
-        {this.renderAvatar()}
-        {this.renderMenu(triggerId)}
-      </div>
+      </>
     );
   }
 

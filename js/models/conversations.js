@@ -1,4 +1,5 @@
 /* global
+  $,
   _,
   i18n,
   Backbone,
@@ -231,6 +232,41 @@
       this.messageCollection.forEach(m => m.trigger('change'));
     },
 
+    setMessageSelectionBackdrop() {
+      const messageSelected = this.selectedMessages.size > 0;
+
+      if (messageSelected) {
+        $('.messages li, .messages > div').css({
+          opacity: '0.3',
+        });
+
+        $('.message-selection-overlay').show();
+        $('.module-conversation-header').css({
+          opacity: '0.15',
+          'pointer-events': 'none',
+        });
+
+        let messageId;
+        // eslint-disable-next-line no-restricted-syntax
+        for (const item of this.selectedMessages) {
+          messageId = item.propsForMessage.id;
+          $(`#${messageId}`).css({
+            opacity: '1',
+          });
+        }
+      } else {
+        $('.messages li, .messages > div').css({
+          opacity: '1',
+        });
+
+        $('.message-selection-overlay').hide();
+        $('.module-conversation-header').css({
+          opacity: '1',
+          'pointer-events': 'auto',
+        });
+      }
+    },
+
     addMessageSelection(id) {
       // If the selection is empty, then we chage the mode to
       // multiple selection by making it non-empty
@@ -242,6 +278,7 @@
       }
 
       this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
     },
 
     removeMessageSelection(id) {
@@ -255,6 +292,7 @@
       }
 
       this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
     },
 
     resetMessageSelection() {
@@ -266,6 +304,7 @@
       });
 
       this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
     },
 
     async bumpTyping() {
