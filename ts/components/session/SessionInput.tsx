@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {
   label: string;
@@ -21,6 +22,9 @@ export class SessionInput extends React.PureComponent<Props, State> {
     super(props);
 
     this.updateInputValue = this.updateInputValue.bind(this);
+    this.renderEnableShowHideButton = this.renderEnableShowHideButton.bind(
+      this
+    );
 
     this.state = {
       inputValue: '',
@@ -54,20 +58,35 @@ export class SessionInput extends React.PureComponent<Props, State> {
           onChange={e => {
             this.updateInputValue(e);
           }}
+          className={classNames(
+            enableShowHide ? 'session-input-floating-label-show-hide' : ''
+          )}
         />
-        <button
+
+        {this.renderEnableShowHideButton(enableShowHide)}
+
+        <hr />
+      </div>
+    );
+  }
+
+  private renderEnableShowHideButton(enableShowHide: boolean | undefined) {
+    if (enableShowHide) {
+      return (
+        <SessionIconButton
+          iconType={SessionIconType.Eye}
+          iconSize={SessionIconSize.Small}
+          iconPadded={false}
           onClick={() => {
             this.setState({
               forceShow: !this.state.forceShow,
             });
           }}
-          className={classNames(enableShowHide ? '' : 'hidden')}
-        >
-          SHOW
-        </button>
-        <hr />
-      </div>
-    );
+        />
+      );
+    }
+
+    return undefined;
   }
 
   private updateInputValue(e: any) {

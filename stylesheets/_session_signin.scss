@@ -126,6 +126,10 @@
     }
   }
 
+  &-input-floating-label-show-hide {
+    padding-right: 20px;
+  }
+
   &-input-with-label-container {
     height: 46.5px;
     width: 280px;
@@ -170,7 +174,7 @@
       bottom: 0px;
     }
 
-    button {
+    .session-icon-button {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
