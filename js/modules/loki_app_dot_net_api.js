@@ -329,7 +329,7 @@ class LokiAppDotNetServerAPI {
 
     // if it's a response style with a meta
     if (result.status !== 200) {
-      if (!forceFreshToken && response.meta.code === 401) {
+      if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
         // copy options because lint complains if we modify this directly
         const updatedOptions = options;
         // force it this time
@@ -369,6 +369,60 @@ class LokiAppDotNetServerAPI {
     }
 
     return res.response.data.annotations || [];
+  }
+
+  async getModerators(channelId) {
+    if (!channelId) {
+      log.warn('No channelId provided to getModerators!');
+      return [];
+    }
+    const res = await this.serverRequest(
+      `loki/v1/channels/${channelId}/moderators`
+    );
+
+    return (!res.err && res.response && res.response.moderators) || [];
+  }
+
+  async addModerators(pubKeysParam) {
+    let pubKeys = pubKeysParam;
+    if (!Array.isArray(pubKeys)) {
+      pubKeys = [pubKeys];
+    }
+    pubKeys = pubKeys.map(key => `@${key}`);
+    const users = await this.getUsers(pubKeys);
+    const validUsers = users.filter(user => !!user.id);
+    const results = await Promise.all(
+      validUsers.map(async user => {
+        log.info(`POSTing loki/v1/moderators/${user.id}`);
+        const res = await this.serverRequest(`loki/v1/moderators/${user.id}`, {
+          method: 'POST',
+        });
+        return !!(!res.err && res.response && res.response.data);
+      })
+    );
+    const anyFailures = results.some(test => !test);
+    return anyFailures ? results : true; // return failures or total success
+  }
+
+  async removeModerators(pubKeysParam) {
+    let pubKeys = pubKeysParam;
+    if (!Array.isArray(pubKeys)) {
+      pubKeys = [pubKeys];
+    }
+    pubKeys = pubKeys.map(key => `@${key}`);
+    const users = await this.getUsers(pubKeys);
+    const validUsers = users.filter(user => !!user.id);
+
+    const results = await Promise.all(
+      validUsers.map(async user => {
+        const res = await this.serverRequest(`loki/v1/moderators/${user.id}`, {
+          method: 'DELETE',
+        });
+        return !!(!res.err && res.response && res.response.data);
+      })
+    );
+    const anyFailures = results.some(test => !test);
+    return anyFailures ? results : true; // return failures or total success
   }
 
   async getSubscribers(channelId, wantObjects) {
@@ -643,6 +697,10 @@ class LokiPublicChannelAPI {
 
   getSubscribers() {
     return this.serverAPI.getSubscribers(this.channelId, true);
+  }
+
+  getModerators() {
+    return this.serverAPI.getModerators(this.channelId);
   }
 
   // get moderation actions
@@ -1286,6 +1344,14 @@ class LokiPublicChannelAPI {
 
       // look up primary device once
       const primaryPubKey = slavePrimaryMap[slaveKey];
+
+      if (!Array.isArray(slaveMessages[slaveKey])) {
+        log.warn(
+          `messages for ${slaveKey} is not an array`,
+          slaveMessages[slaveKey]
+        );
+        return;
+      }
 
       // send out remaining messages for this merged identity
       slaveMessages[slaveKey].forEach(messageDataP => {
