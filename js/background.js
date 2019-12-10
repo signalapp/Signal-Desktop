@@ -901,6 +901,12 @@
       }
     });
 
+    Whisper.events.on('openInbox', () => {
+      appView.openInbox({
+        initialLoadComplete,
+      });
+    });
+
     Whisper.events.on('onEditProfile', async () => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(

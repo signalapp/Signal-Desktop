@@ -4,10 +4,27 @@ import classNames from 'classnames';
 import { LocalizerType } from '../../types/Util';
 import { SessionInput } from './SessionInput';
 import { SessionButton, SessionButtonTypes } from './SessionButton';
+import { trigger } from '../../shims/events';
+
+declare global {
+  interface Window {
+    getAccountManager: any;
+    mnemonic: any;
+    passwordUtil: any;
+    dcodeIO: any;
+    libsignal: any;
+    displayNameRegex: any;
+    Signal: any;
+    Whisper: any;
+    ConversationController: any;
+    setPassword: any;
+  }
+}
+
+declare var textsecure: any;
 
 interface Props {
   i18n: LocalizerType;
-  //onItemClick?: (event: ItemClickEvent) => void;
 }
 
 enum SignInMode {
@@ -24,10 +41,13 @@ interface State {
   selectedTab: 'create' | 'signin';
   signInMode: SignInMode;
   signUpMode: SignUpMode;
-  seed: string;
   displayName: string;
   password: string;
   validatePassword: string;
+  passwordErrorString: string;
+  passwordFieldsMatch: boolean;
+  mnemonicSeed: string;
+  hexEncodedPubKey: string;
 }
 
 interface TabSelectEvent {
@@ -66,6 +86,8 @@ const Tab = ({
 };
 
 export class RegistrationTabs extends React.Component<Props, State> {
+  private readonly accountManager: any;
+
   constructor(props: any) {
     super(props);
 
@@ -73,16 +95,27 @@ export class RegistrationTabs extends React.Component<Props, State> {
     this.onDisplayNameChanged = this.onDisplayNameChanged.bind(this);
     this.onPasswordChanged = this.onPasswordChanged.bind(this);
     this.onPasswordVerifyChanged = this.onPasswordVerifyChanged.bind(this);
+    this.onSignUpGenerateSessionIDClick = this.onSignUpGenerateSessionIDClick.bind(
+      this
+    );
+    this.onSignUpGetStartedClick = this.onSignUpGetStartedClick.bind(this);
 
     this.state = {
       selectedTab: 'create',
       signInMode: SignInMode.Default,
       signUpMode: SignUpMode.Default,
-      seed: '',
       displayName: '',
       password: '',
       validatePassword: '',
+      passwordErrorString: '',
+      passwordFieldsMatch: false,
+      mnemonicSeed: '',
+      hexEncodedPubKey: '',
     };
+
+    this.accountManager = window.getAccountManager();
+    // Clean status in case the app closed unexpectedly
+    textsecure.storage.remove('secondaryDeviceStatus');
   }
 
   public render() {
@@ -122,15 +155,17 @@ export class RegistrationTabs extends React.Component<Props, State> {
   };
 
   private onSeedChanged(val: string) {
-    this.setState({ seed: val });
+    this.setState({ mnemonicSeed: val });
   }
 
   private onDisplayNameChanged(val: string) {
-    this.setState({ displayName: val });
+    const sanitizedName = this.sanitiseNameInput(val);
+    this.setState({ displayName: sanitizedName });
   }
 
   private onPasswordChanged(val: string) {
     this.setState({ password: val });
+    this.onValidatePassword(); // FIXME add bubbles or something to help the user know what he did wrong
   }
 
   private onPasswordVerifyChanged(val: string) {
@@ -163,7 +198,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
           <div className="session-registration__unique-session-id">
             {i18n('yourUniqueSessionID')}
           </div>
-          {this.renderEnterSessionID(false)}
+          {this.renderEnterSessionID(false, this.state.hexEncodedPubKey)}
           {this.renderSignUpButton()}
           {this.getRenderTermsConditionAgreement()}
         </div>
@@ -210,15 +245,53 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
     return (
       <SessionButton
-        onClick={() => {
-          this.setState({
-            signUpMode: SignUpMode.SessionIDGenerated,
-          });
+        onClick={async () => {
+          if (signUpMode === SignUpMode.Default) {
+            await this.onSignUpGenerateSessionIDClick();
+          } else {
+            this.onSignUpGetStartedClick();
+          }
         }}
         buttonType={buttonType}
         text={buttonText}
       />
     );
+  }
+
+  private async onSignUpGenerateSessionIDClick() {
+    this.setState({
+      signUpMode: SignUpMode.SessionIDGenerated,
+    });
+
+    const language = 'english';
+    const mnemonic = await this.accountManager.generateMnemonic(language);
+
+    let seedHex = window.mnemonic.mn_decode(mnemonic, language);
+    // handle shorter than 32 bytes seeds
+    const privKeyHexLength = 32 * 2;
+    if (seedHex.length !== privKeyHexLength) {
+      seedHex = seedHex.concat(seedHex);
+      seedHex = seedHex.substring(0, privKeyHexLength);
+    }
+    const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
+    const privKey = window.dcodeIO.ByteBuffer.wrap(
+      privKeyHex,
+      'hex'
+    ).toArrayBuffer();
+    const keyPair = await window.libsignal.Curve.async.createKeyPair(privKey);
+    const hexEncodedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
+
+    this.setState({
+      mnemonicSeed: mnemonic,
+      hexEncodedPubKey, // our 'frontend' sessionID
+    });
+  }
+
+  private onSignUpGetStartedClick() {
+    this.setState({
+      selectedTab: 'signin',
+      signInMode: SignInMode.UsingSeed,
+    });
   }
 
   private renderSignIn() {
@@ -243,7 +316,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
             label={i18n('mnemonicSeed')}
             type="password"
             placeholder={i18n('enterSeed')}
-            value={this.state.seed}
+            value={this.state.mnemonicSeed}
             enableShowHide={true}
             onValueChanged={(val: string) => {
               this.onSeedChanged(val);
@@ -266,6 +339,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
               this.onPasswordChanged(val);
             }}
           />
+
           <SessionInput
             label={i18n('verifyPassword')}
             type="password"
@@ -290,7 +364,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
     }
   }
 
-  private renderEnterSessionID(contentEditable: boolean) {
+  private renderEnterSessionID(contentEditable: boolean, text?: string) {
     const { i18n } = this.props;
     const enterSessionIDHere = i18n('enterSessionIDHere');
 
@@ -299,7 +373,9 @@ export class RegistrationTabs extends React.Component<Props, State> {
         className="session-signin-enter-session-id"
         contentEditable={contentEditable}
         placeholder={enterSessionIDHere}
-      />
+      >
+        {text}
+      </div>
     );
   }
 
@@ -308,43 +384,32 @@ export class RegistrationTabs extends React.Component<Props, State> {
     const { i18n } = this.props;
 
     const or = i18n('or');
-    let greenButtonType: any;
-    let greenText: string;
-    let whiteButtonText: string;
-    if (signInMode !== SignInMode.Default) {
-      greenButtonType = SessionButtonTypes.FullGreen;
-      greenText = i18n('continueYourSession');
-    } else {
-      greenButtonType = SessionButtonTypes.Green;
-      greenText = i18n('restoreUsingSeed');
+
+    if (signInMode === SignInMode.Default) {
+      return (
+        <div>
+          {this.renderRestoreUsingSeedButton(SessionButtonTypes.Green)}
+          <div className="session-registration__or">{or}</div>
+          {this.renderLinkDeviceToExistingAccountButton()}
+        </div>
+      );
     }
+
     if (signInMode === SignInMode.LinkingDevice) {
-      whiteButtonText = i18n('restoreUsingSeed');
-    } else {
-      whiteButtonText = i18n('linkDeviceToExistingAccount');
+      return (
+        <div>
+          {this.renderContinueYourSessionButton()}
+          <div className="session-registration__or">{or}</div>
+          {this.renderRestoreUsingSeedButton(SessionButtonTypes.White)}
+        </div>
+      );
     }
 
     return (
       <div>
-        <SessionButton
-          onClick={() => {
-            this.setState({
-              signInMode: SignInMode.UsingSeed,
-            });
-          }}
-          buttonType={greenButtonType}
-          text={greenText}
-        />
+        {this.renderContinueYourSessionButton()}
         <div className="session-registration__or">{or}</div>
-        <SessionButton
-          onClick={() => {
-            this.setState({
-              signInMode: SignInMode.LinkingDevice,
-            });
-          }}
-          buttonType={SessionButtonTypes.White}
-          text={whiteButtonText}
-        />
+        {this.renderLinkDeviceToExistingAccountButton()}
       </div>
     );
   }
@@ -359,5 +424,172 @@ export class RegistrationTabs extends React.Component<Props, State> {
         <a>Privacy Statement</a>
       </div>
     );
+  }
+
+  private renderContinueYourSessionButton() {
+    return (
+      <SessionButton
+        // tslint:disable-next-line: no-empty
+        onClick={async () => {
+          await this.register('english');
+        }}
+        buttonType={SessionButtonTypes.FullGreen}
+        text={this.props.i18n('continueYourSession')}
+      />
+    );
+  }
+
+  private renderRestoreUsingSeedButton(buttonType: SessionButtonTypes) {
+    return (
+      <SessionButton
+        onClick={() => {
+          this.setState({
+            signInMode: SignInMode.UsingSeed,
+            hexEncodedPubKey: '',
+            mnemonicSeed: '',
+            displayName: '',
+            signUpMode: SignUpMode.Default,
+          });
+        }}
+        buttonType={buttonType}
+        text={this.props.i18n('restoreUsingSeed')}
+      />
+    );
+  }
+
+  private renderLinkDeviceToExistingAccountButton() {
+    return (
+      <SessionButton
+        onClick={() => {
+          this.setState({
+            signInMode: SignInMode.LinkingDevice,
+            hexEncodedPubKey: '',
+            mnemonicSeed: '',
+            displayName: '',
+            signUpMode: SignUpMode.Default,
+          });
+        }}
+        buttonType={SessionButtonTypes.White}
+        text={this.props.i18n('linkDeviceToExistingAccount')}
+      />
+    );
+  }
+
+  private trim(value: string) {
+    return value ? value.trim() : value;
+  }
+
+  private validatePassword() {
+    const input = this.trim(this.state.password);
+    const confirmationInput = this.trim(this.state.validatePassword);
+
+    // If user hasn't set a value then skip
+    if (!input && !confirmationInput) {
+      return null;
+    }
+
+    const error = window.passwordUtil.validatePassword(input, this.props.i18n);
+    if (error) {
+      return error;
+    }
+
+    if (input !== confirmationInput) {
+      return "Password don't match";
+    }
+
+    return null;
+  }
+
+  private onValidatePassword() {
+    const passwordValidation = this.validatePassword();
+    if (passwordValidation) {
+      this.setState({ passwordErrorString: passwordValidation });
+
+      /*this.$passwordInput.addClass('error-input');
+      this.$passwordConfirmationInput.addClass('error-input');
+
+      this.$passwordInput.removeClass('match-input');
+      this.$passwordConfirmationInput.removeClass('match-input');
+
+      this.$passwordInputError.text(passwordValidation);
+      this.$passwordInputError.show();*/
+    } else {
+      // Show green box around inputs that match
+      const input = this.trim(this.state.password);
+      const confirmationInput = this.trim(this.state.validatePassword);
+      const passwordFieldsMatch =
+        input !== undefined && input === confirmationInput;
+
+      this.setState({
+        passwordErrorString: '',
+        passwordFieldsMatch,
+      });
+
+      /*
+      this.$passwordInput.addClass('match-input'); //if password matches each other
+      this.$passwordInput.removeClass('error-input');
+      this.$passwordConfirmationInput.removeClass('error-input');
+      this.$passwordInputError.text('');
+      this.$passwordInputError.hide();*/
+    }
+  }
+
+  private sanitiseNameInput(val: string) {
+    return val.trim().replace(window.displayNameRegex, '');
+
+    /* if (_.isEmpty(newVal)) {
+      this.$('#save-button').attr('disabled', 'disabled');
+
+    }
+    this.$('#save-button').removeAttr('disabled'); */
+  }
+
+  private async resetRegistration() {
+    await window.Signal.Data.removeAllIdentityKeys();
+    await window.Signal.Data.removeAllPrivateConversations();
+    window.Whisper.Registration.remove();
+    // Do not remove all items since they are only set
+    // at startup.
+    textsecure.storage.remove('identityKey');
+    textsecure.storage.remove('secondaryDeviceStatus');
+    window.ConversationController.reset();
+    await window.ConversationController.load();
+    window.Whisper.RotateSignedPreKeyListener.stop(window.Whisper.events);
+  }
+
+  private async register(language: string) {
+    const { password, mnemonicSeed, displayName } = this.state;
+    // Make sure the password is valid
+    if (this.validatePassword()) {
+      //this.showToast(i18n('invalidPassword'));
+
+      return;
+    }
+    if (!mnemonicSeed) {
+      return;
+    }
+    if (!displayName) {
+      return;
+    }
+
+    // Ensure we clear the secondary device registration status
+    textsecure.storage.remove('secondaryDeviceStatus');
+
+    try {
+      await this.resetRegistration();
+
+      await window.setPassword(password);
+      await this.accountManager.registerSingleDevice(
+        mnemonicSeed,
+        language,
+        displayName
+      );
+      trigger('openInbox');
+    } catch (e) {
+      if (typeof e === 'string') {
+        //this.showToast(e);
+      }
+      //this.log(e);
+    }
   }
 }
