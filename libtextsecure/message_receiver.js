@@ -825,7 +825,6 @@ MessageReceiver.prototype.extend({
     } else {
       handleSessionReset = async result => result;
     }
-
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
@@ -975,6 +974,9 @@ MessageReceiver.prototype.extend({
       .catch(error => {
         let errorToThrow = error;
 
+        const noSession =
+          error && error.message.indexOf('No record for device') === 0;
+
         if (error && error.message === 'Unknown identity key') {
           // create an error that the UI will pick up and ask the
           // user if they want to re-negotiate
@@ -984,8 +986,8 @@ MessageReceiver.prototype.extend({
             buffer.toArrayBuffer(),
             error.identityKey
           );
-        } else {
-          // re-throw
+        } else if (!noSession) {
+          // We want to handle "no-session" error, not re-throw it
           throw error;
         }
         const ev = new Event('error');
@@ -1895,6 +1897,8 @@ MessageReceiver.prototype.extend({
       decrypted.body = null;
       decrypted.attachments = [];
     } else if (decrypted.flags & FLAGS.BACKGROUND_FRIEND_REQUEST) {
+      // do nothing
+    } else if (decrypted.flags & FLAGS.SESSION_RESTORE) {
       // do nothing
     } else if (decrypted.flags & FLAGS.UNPAIRING_REQUEST) {
       // do nothing

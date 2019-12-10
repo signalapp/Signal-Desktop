@@ -17,7 +17,13 @@ interface Props {
   onStartConversation: any;
 }
 
-export class UserDetailsDialog extends React.Component<Props> {
+interface State {
+  isEnlargedImageShown: boolean;
+}
+
+export class UserDetailsDialog extends React.Component<Props, State> {
+  private modalRef: any;
+
   constructor(props: any) {
     super(props);
 
@@ -25,6 +31,16 @@ export class UserDetailsDialog extends React.Component<Props> {
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onClickStartConversation = this.onClickStartConversation.bind(this);
     window.addEventListener('keyup', this.onKeyUp);
+    this.modalRef = React.createRef();
+    this.state = { isEnlargedImageShown: false };
+  }
+
+  public componentWillMount() {
+    document.addEventListener('mousedown', this.handleClick, false);
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClick, false);
   }
 
   public render() {
@@ -34,25 +50,27 @@ export class UserDetailsDialog extends React.Component<Props> {
     const startConversation = i18n('startConversation');
 
     return (
-      <div className="content">
-        <div className="avatar-center">
-          <div className="avatar-center-inner">{this.renderAvatar()}</div>
-        </div>
-        <div className="profile-name">{this.props.profileName}</div>
-        <div className="message">{this.props.pubkey}</div>
+      <div ref={element => (this.modalRef = element)}>
+        <div className="content">
+          <div className="avatar-center">
+            <div className="avatar-center-inner">{this.renderAvatar()}</div>
+          </div>
+          <div className="profile-name">{this.props.profileName}</div>
+          <div className="message">{this.props.pubkey}</div>
 
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {cancelText}
-          </button>
+          <div className="buttons">
+            <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
+              {cancelText}
+            </button>
 
-          <button
-            className="ok"
-            tabIndex={0}
-            onClick={this.onClickStartConversation}
-          >
-            {startConversation}
-          </button>
+            <button
+              className="ok"
+              tabIndex={0}
+              onClick={this.onClickStartConversation}
+            >
+              {startConversation}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -61,6 +79,7 @@ export class UserDetailsDialog extends React.Component<Props> {
   private renderAvatar() {
     const avatarPath = this.props.avatarPath;
     const color = this.props.avatarColor;
+    const size = this.state.isEnlargedImageShown ? 300 : 80;
 
     return (
       <Avatar
@@ -71,10 +90,16 @@ export class UserDetailsDialog extends React.Component<Props> {
         name={this.props.profileName}
         phoneNumber={this.props.pubkey}
         profileName={this.props.profileName}
-        size={80}
+        size={size}
+        onAvatarClick={this.handleShowEnlargedDialog}
+        borderWidth={size / 2}
       />
     );
   }
+
+  private readonly handleShowEnlargedDialog = () => {
+    this.setState({ isEnlargedImageShown: !this.state.isEnlargedImageShown });
+  };
 
   private onKeyUp(event: any) {
     switch (event.key) {
@@ -98,4 +123,11 @@ export class UserDetailsDialog extends React.Component<Props> {
     this.props.onStartConversation();
     this.closeDialog();
   }
+
+  private readonly handleClick = (e: any) => {
+    if (this.modalRef.contains(e.target)) {
+      return;
+    }
+    this.closeDialog();
+  };
 }

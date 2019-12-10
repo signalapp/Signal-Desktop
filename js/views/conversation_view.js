@@ -28,6 +28,11 @@
       return { toastMessage: i18n('expiredWarning') };
     },
   });
+  Whisper.ClockOutOfSyncToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('clockOutOfSync') };
+    },
+  });
   Whisper.BlockedToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('unblockToSend') };
@@ -223,6 +228,9 @@
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
+          amMod: this.model.isModerator(
+            window.storage.get('primaryDevicePubKey')
+          ),
           members,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
@@ -1955,6 +1963,11 @@
       let toast;
       if (extension.expired()) {
         toast = new Whisper.ExpiredToast();
+      }
+      if (!window.clientClockSynced) {
+        // Check to see if user has updated their clock to current time
+        const clockSynced = await window.LokiPublicChatAPI.setClockParams();
+        toast = clockSynced ? toast : new Whisper.ClockOutOfSyncToast();
       }
       if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
         toast = new Whisper.BlockedToast();

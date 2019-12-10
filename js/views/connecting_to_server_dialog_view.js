@@ -1,4 +1,4 @@
-/* global Whisper, i18n, lokiPublicChatAPI, ConversationController, friends */
+/* global Whisper, i18n, ConversationController, friends */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -36,23 +36,19 @@
         return this.resolveWith({ errorCode: i18n('publicChatExists') });
       }
 
-      const serverAPI = await lokiPublicChatAPI.findOrCreateServer(
-        sslServerUrl
-      );
-      if (!serverAPI) {
-        // Url incorrect or server not compatible
-        return this.resolveWith({ errorCode: i18n('connectToServerFail') });
-      }
-
+      // create conversation
       const conversation = await ConversationController.getOrCreateAndWait(
         conversationId,
         'group'
       );
-      await serverAPI.findOrCreateChannel(channelId, conversationId);
+      // convert conversation to a public one
       await conversation.setPublicSource(sslServerUrl, channelId);
+      // set friend and appropriate SYNC messages for multidevice
       await conversation.setFriendRequestStatus(
         friends.friendRequestStatusEnum.friends
       );
+      // and finally activate it
+      conversation.getPublicSendData(); // may want "await" if you want to use the API
       return this.resolveWith({ conversation });
     },
     resolveWith(result) {

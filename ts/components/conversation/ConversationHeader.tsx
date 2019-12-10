@@ -30,6 +30,7 @@ interface Props {
   isGroup: boolean;
   isArchived: boolean;
   isPublic: boolean;
+  amMod: boolean;
 
   members: Array<any>;
 
@@ -233,6 +234,7 @@ export class ConversationHeader extends React.Component<Props> {
       isClosable,
       isPublic,
       isGroup,
+      amMod,
       onDeleteMessages,
       onDeleteContact,
       onCopyPublicKey,
@@ -250,7 +252,7 @@ export class ConversationHeader extends React.Component<Props> {
         {this.renderPublicMenuItems()}
         <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {isPrivateGroup ? (
+        {isPrivateGroup || amMod ? (
           <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
         ) : null}
         {isPrivateGroup ? (

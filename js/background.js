@@ -11,7 +11,7 @@
   libloki,
   libsignal,
   StringView,
-  BlockedNumberController
+  BlockedNumberController,
 */
 
 // eslint-disable-next-line func-names
@@ -124,6 +124,9 @@
     'loki/loki_icon_text.png',
     'loki/loki_icon_128.png',
   ]);
+
+  // Set server-client time difference
+  window.LokiPublicChatAPI.setClockParams();
 
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing
@@ -741,6 +744,20 @@
         'group'
       );
 
+      if (convo.isPublic()) {
+        const API = await convo.getPublicSendData();
+        if (await API.setChannelName(groupName)) {
+          // queue update from server
+          // and let that set the conversation
+          API.pollForChannelOnce();
+          // or we could just directly call
+          // convo.setGroupName(groupName);
+          // but gut is saying let the server be the definitive storage of the state
+          // and trickle down from there
+        }
+        return;
+      }
+
       const avatar = '';
       const options = {};
 
@@ -997,6 +1014,13 @@
     });
 
     Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
+      const isMe = userPubKey === textsecure.storage.user.getNumber();
+
+      if (isMe) {
+        Whisper.events.trigger('onEditProfile');
+        return;
+      }
+
       const conversation = await ConversationController.getOrCreateAndWait(
         userPubKey,
         'private'
@@ -1036,6 +1060,12 @@
         appView.inboxView.conversation_stack
       ) {
         appView.inboxView.conversation_stack.showConfirmationDialog(options);
+      }
+    });
+
+    Whisper.events.on('showSessionRestoreConfirmation', options => {
+      if (appView) {
+        appView.showSessionRestoreConfirmation(options);
       }
     });
 
@@ -1930,6 +1960,48 @@
   }
 
   async function onError(ev) {
+    const noSession =
+      ev.error &&
+      ev.error.message &&
+      ev.error.message.indexOf('No record for device') === 0;
+    const pubkey = ev.proto.source;
+
+    if (noSession) {
+      const convo = await ConversationController.getOrCreateAndWait(
+        pubkey,
+        'private'
+      );
+
+      if (!convo.get('sessionRestoreSeen')) {
+        convo.set({ sessionRestoreSeen: true });
+
+        await window.Signal.Data.updateConversation(
+          convo.id,
+          convo.attributes,
+          { Conversation: Whisper.Conversation }
+        );
+
+        window.Whisper.events.trigger('showSessionRestoreConfirmation', {
+          pubkey,
+          onOk: () => {
+            convo.sendMessage('', null, null, null, null, {
+              sessionRestoration: true,
+            });
+          },
+        });
+      } else {
+        window.log.verbose(
+          `Already seen session restore for pubkey: ${pubkey}`
+        );
+        if (ev.confirm) {
+          ev.confirm();
+        }
+      }
+
+      // We don't want to display any failed messages in the conversation:
+      return;
+    }
+
     const { error } = ev;
     window.log.error('background onError:', Errors.toLogFormat(error));
 
