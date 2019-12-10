@@ -266,5 +266,13 @@
       const dialog = new Whisper.InviteFriendsDialogView(groupConvo);
       this.el.append(dialog.el);
     },
+    showAddModeratorsDialog(groupConvo) {
+      const dialog = new Whisper.AddModeratorsDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+    showRemoveModeratorsDialog(groupConvo) {
+      const dialog = new Whisper.RemoveModeratorsDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
   });
 })();

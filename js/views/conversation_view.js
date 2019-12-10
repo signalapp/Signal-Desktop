@@ -299,6 +299,14 @@
             window.Whisper.events.trigger('inviteFriends', this.model);
           },
 
+          onAddModerators: () => {
+            window.Whisper.events.trigger('addModerators', this.model);
+          },
+
+          onRemoveModerators: () => {
+            window.Whisper.events.trigger('removeModerators', this.model);
+          },
+
           onShowUserDetails: pubkey => {
             if (this.model.isPrivate()) {
               window.Whisper.events.trigger('onShowUserDetails', {
