@@ -1,7 +1,7 @@
 import React from 'react';
 
 const styles = {
-  borderRadius: '50px',
+  borderRadius: '50%',
   display: 'inline-block',
   margin: 0,
   overflow: 'hidden',

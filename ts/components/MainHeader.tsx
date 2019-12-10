@@ -232,6 +232,9 @@ export class MainHeader extends React.Component<Props, any> {
           phoneNumber={phoneNumber}
           profileName={profileName}
           size={28}
+          onAvatarClick={() => {
+            trigger('onEditProfile');
+          }}
         />
         <div className="module-main-header__contact-name">
           <ContactName
