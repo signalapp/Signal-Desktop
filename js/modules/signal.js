@@ -59,9 +59,6 @@ const {
 } = require('../../ts/components/conversation/InviteFriendsDialog');
 
 const {
-  ManageModeratorsDialog,
-} = require('../../ts/components/conversation/ManageModeratorsDialog');
-const {
   AddModeratorsDialog,
 } = require('../../ts/components/conversation/ModeratorsAddDialog');
 const {
@@ -253,7 +250,6 @@ exports.setup = (options = {}) => {
     ConfirmDialog,
     UpdateGroupDialog,
     InviteFriendsDialog,
-    ManageModeratorsDialog,
     AddModeratorsDialog,
     RemoveModeratorsDialog,
     GroupInvitation,
