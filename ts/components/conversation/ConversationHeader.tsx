@@ -430,26 +430,23 @@ export class ConversationHeader extends React.Component<Props> {
     const showMembersMenuItem = isGroup && (
       <MenuItem onClick={onShowGroupMembers}>{i18n('showMembers')}</MenuItem>
     );
-    const showSafetyNumberMenuItem = !isGroup &&
-      !isMe && (
-        <MenuItem onClick={onShowSafetyNumber}>
-          {i18n('showSafetyNumber')}
-        </MenuItem>
-      );
+    const showSafetyNumberMenuItem = !isGroup && !isMe && (
+      <MenuItem onClick={onShowSafetyNumber}>
+        {i18n('showSafetyNumber')}
+      </MenuItem>
+    );
     const resetSessionMenuItem = !isGroup && (
       <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
     );
-    const blockHandlerMenuItem = !isMe &&
-      !isGroup && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
-    const changeNicknameMenuItem = !isMe &&
-      !isGroup && (
-        <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
-      );
-    const clearNicknameMenuItem = !isMe &&
-      !isGroup &&
-      hasNickname && (
-        <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
-      );
+    const blockHandlerMenuItem = !isMe && !isGroup && (
+      <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+    );
+    const changeNicknameMenuItem = !isMe && !isGroup && (
+      <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+    );
+    const clearNicknameMenuItem = !isMe && !isGroup && hasNickname && (
+      <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
+    );
     const archiveConversationMenuItem = isArchived ? (
       <MenuItem onClick={onMoveToInbox}>
         {i18n('moveConversationToInbox')}
