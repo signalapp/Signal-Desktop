@@ -235,7 +235,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
       <SessionButton
         onClick={() => {
           if (signUpMode === SignUpMode.Default) {
-            void this.onSignUpGenerateSessionIDClick();
+            this.onSignUpGenerateSessionIDClick().ignore();
           } else {
             this.onSignUpGetStartedClick();
           }
@@ -417,7 +417,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
     return (
       <SessionButton
         onClick={() => {
-          void this.register('english');
+          this.register('english').ignore();
         }}
         buttonType={SessionButtonType.FullGreen}
         text={this.props.i18n('continueYourSession')}

@@ -11,3 +11,7 @@ interface Window {
   setPassword: any;
   textsecure: any;
 }
+
+interface Promise<T> {
+  ignore(): void;
+}
