@@ -997,6 +997,10 @@
   "delete": {
     "message": "Delete"
   },
+  "forwardMessage": {
+    "message": "Forward",
+    "description": "Text of Forward Message button"
+  },
   "deletePublicWarning": {
     "message":
       "Are you sure? Clicking 'delete' will permanently remove this message for everyone in this channel."

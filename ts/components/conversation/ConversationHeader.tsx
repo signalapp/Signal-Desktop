@@ -62,6 +62,9 @@ interface Props {
   onDeleteContact: () => void;
   onResetSession: () => void;
 
+  onCloseOverlay: () => void;
+  onDeleteSelectedMessages: () => void;
+
   onArchive: () => void;
   onMoveToInbox: () => void;
 
@@ -246,7 +249,6 @@ export class ConversationHeader extends React.Component<Props> {
         <SessionIconButton
           iconType={SessionIconType.Ellipses}
           iconSize={SessionIconSize.Large}
-          onClick={this.showMenuBound}
         />
       </ContextMenuTrigger>
     );
@@ -302,7 +304,7 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderSelectionOverlay() {
-    const { onDeleteMessages } = this.props;
+    const { onDeleteSelectedMessages, onCloseOverlay, i18n } = this.props;
 
     return (
       <div className="message-selection-overlay">
@@ -310,6 +312,7 @@ export class ConversationHeader extends React.Component<Props> {
           <SessionIconButton
             iconType={SessionIconType.Exit}
             iconSize={SessionIconSize.Medium}
+            onClick={onCloseOverlay}
           />
         </div>
 
@@ -317,15 +320,14 @@ export class ConversationHeader extends React.Component<Props> {
           <SessionButton
             buttonType={SessionButtonType.Default}
             buttonColor={SessionButtonColor.Primary}
-            text={'Forward'}
-            onClick={onDeleteMessages}
+            text={i18n('forwardMessage')}
           />
 
           <SessionButton
             buttonType={SessionButtonType.Default}
             buttonColor={SessionButtonColor.Danger}
-            text={'Delete'}
-            onClick={onDeleteMessages}
+            text={i18n('delete')}
+            onClick={onDeleteSelectedMessages}
           />
         </div>
       </div>

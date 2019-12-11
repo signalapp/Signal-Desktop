@@ -590,6 +590,7 @@
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
+        onCloseOverlay: () => this.resetMessageSelection(),
       };
 
       this.updateAsyncPropsCache();

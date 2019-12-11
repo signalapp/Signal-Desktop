@@ -152,11 +152,6 @@
         'show-message-detail',
         this.showMessageDetail
       );
-      this.listenTo(
-        this.model,
-        'message-selection-changed',
-        this.onMessageSelectionChanged
-      );
       this.listenTo(this.model.messageCollection, 'navigate-to', url => {
         window.location = url;
       });
@@ -241,6 +236,8 @@
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
           onDeleteMessages: () => this.destroyMessages(),
+          onDeleteSelectedMessages: () => this.deleteSelectedMessages(),
+          onCloseOverlay: () => this.model.resetMessageSelection(),
           onDeleteContact: () => this.model.deleteContact(),
           onResetSession: () => this.endSession(),
 
@@ -1812,18 +1809,6 @@
           error && error.stack ? error.stack : error
         );
       }
-    },
-
-    onMessageSelectionChanged() {
-      const selectionSize = this.model.selectedMessages.size;
-
-      if (selectionSize > 0) {
-        $('.compose').hide();
-      } else {
-        $('.compose').show();
-      }
-
-      this.bulkEditView.update(selectionSize);
     },
 
     resetMessageSelection() {

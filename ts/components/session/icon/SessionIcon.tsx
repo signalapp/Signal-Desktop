@@ -9,7 +9,6 @@ export interface Props {
   iconColor: string;
   iconPadded: boolean;
   iconRotation: number;
-  onClick: any;
 }
 
 export class SessionIcon extends React.PureComponent<Props> {
@@ -18,7 +17,6 @@ export class SessionIcon extends React.PureComponent<Props> {
     iconColor: '',
     iconRotation: 0,
     iconPadded: false,
-    onClick: () => null,
   };
 
   constructor(props: any) {
