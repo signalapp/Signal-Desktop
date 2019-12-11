@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { LocalizerType } from '../../types/Util';
 import { SessionInput } from './SessionInput';
-import { SessionButton, SessionButtonTypes } from './SessionButton';
+import { SessionButton, SessionButtonType } from './SessionButton';
 import { trigger } from '../../shims/events';
 
 interface Props {
@@ -11,17 +11,23 @@ interface Props {
 }
 
 enum SignInMode {
-  Default = 'Default',
-  UsingSeed = 'UsingSeed',
-  LinkingDevice = 'LinkingDevice',
+  Default,
+  UsingSeed,
+  LinkingDevice,
 }
 
 enum SignUpMode {
-  Default = 'Default',
-  SessionIDGenerated = 'SessionIDGenerated',
+  Default,
+  SessionIDGenerated,
 }
+
+enum TabType {
+  Create,
+  SignIn,
+}
+
 interface State {
-  selectedTab: 'create' | 'signin';
+  selectedTab: TabType;
   signInMode: SignInMode;
   signUpMode: SignUpMode;
   displayName: string;
@@ -34,7 +40,7 @@ interface State {
 }
 
 interface TabSelectEvent {
-  type: 'create' | 'signin';
+  type: TabType;
 }
 
 const Tab = ({
@@ -46,12 +52,12 @@ const Tab = ({
   isSelected: boolean;
   label: string;
   onSelect?: (event: TabSelectEvent) => void;
-  type: 'create' | 'signin';
+  type: TabType;
 }) => {
   const handleClick = onSelect
     ? () => {
-        onSelect({ type });
-      }
+      onSelect({ type });
+    }
     : undefined;
 
   return (
@@ -84,7 +90,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
     this.onSignUpGetStartedClick = this.onSignUpGetStartedClick.bind(this);
 
     this.state = {
-      selectedTab: 'create',
+      selectedTab: TabType.Create,
       signInMode: SignInMode.Default,
       signUpMode: SignUpMode.Default,
       displayName: '',
@@ -111,20 +117,22 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
     const createAccount = i18n('createAccount');
     const signIn = i18n('signIn');
+    const isCreateSelected = selectedTab === TabType.Create;
+    const isSignInSelected = selectedTab === TabType.SignIn;
 
     return (
       <div className="session-registration-container">
         <div className="session-registration__tab-container">
           <Tab
             label={createAccount}
-            type="create"
-            isSelected={selectedTab === 'create'}
+            type={TabType.Create}
+            isSelected={isCreateSelected}
             onSelect={this.handleTabSelect}
           />
           <Tab
             label={signIn}
-            type="signin"
-            isSelected={selectedTab === 'signin'}
+            type={TabType.SignIn}
+            isSelected={isSignInSelected}
             onSelect={this.handleTabSelect}
           />
         </div>
@@ -157,7 +165,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderSections() {
     const { selectedTab } = this.state;
-    if (selectedTab === 'create') {
+    if (selectedTab === TabType.Create) {
       return this.renderSignUp();
     }
 
@@ -191,18 +199,14 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private getRenderTermsConditionAgreement() {
     const { selectedTab, signInMode, signUpMode } = this.state;
-    if (selectedTab === 'create') {
-      if (signUpMode !== SignUpMode.Default) {
-        return this.renderTermsConditionAgreement();
-      } else {
-        return null;
-      }
+    if (selectedTab === TabType.Create) {
+      return signUpMode !== SignUpMode.Default
+        ? this.renderTermsConditionAgreement()
+        : null;
     } else {
-      if (signInMode !== SignInMode.Default) {
-        return this.renderTermsConditionAgreement();
-      } else {
-        return null;
-      }
+      return signInMode !== SignInMode.Default
+        ? this.renderTermsConditionAgreement()
+        : null;
     }
   }
 
@@ -219,18 +223,18 @@ export class RegistrationTabs extends React.Component<Props, State> {
     let buttonType: any;
     let buttonText: string;
     if (signUpMode !== SignUpMode.Default) {
-      buttonType = SessionButtonTypes.FullGreen;
+      buttonType = SessionButtonType.FullGreen;
       buttonText = i18n('getStarted');
     } else {
-      buttonType = SessionButtonTypes.Green;
+      buttonType = SessionButtonType.Green;
       buttonText = i18n('generateSessionID');
     }
 
     return (
       <SessionButton
-        onClick={async () => {
+        onClick={() => {
           if (signUpMode === SignUpMode.Default) {
-            await this.onSignUpGenerateSessionIDClick();
+            void this.onSignUpGenerateSessionIDClick();
           } else {
             this.onSignUpGetStartedClick();
           }
@@ -272,7 +276,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private onSignUpGetStartedClick() {
     this.setState({
-      selectedTab: 'signin',
+      selectedTab: TabType.SignIn,
       signInMode: SignInMode.UsingSeed,
     });
   }
@@ -343,7 +347,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
         </div>
       );
     } else {
-      return <div />;
+      return undefined;
     }
   }
 
@@ -371,7 +375,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
     if (signInMode === SignInMode.Default) {
       return (
         <div>
-          {this.renderRestoreUsingSeedButton(SessionButtonTypes.Green)}
+          {this.renderRestoreUsingSeedButton(SessionButtonType.Green)}
           <div className="session-registration__or">{or}</div>
           {this.renderLinkDeviceToExistingAccountButton()}
         </div>
@@ -383,7 +387,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
         <div>
           {this.renderContinueYourSessionButton()}
           <div className="session-registration__or">{or}</div>
-          {this.renderRestoreUsingSeedButton(SessionButtonTypes.White)}
+          {this.renderRestoreUsingSeedButton(SessionButtonType.White)}
         </div>
       );
     }
@@ -412,17 +416,16 @@ export class RegistrationTabs extends React.Component<Props, State> {
   private renderContinueYourSessionButton() {
     return (
       <SessionButton
-        // tslint:disable-next-line: no-empty
-        onClick={async () => {
-          await this.register('english');
+        onClick={() => {
+          void this.register('english');
         }}
-        buttonType={SessionButtonTypes.FullGreen}
+        buttonType={SessionButtonType.FullGreen}
         text={this.props.i18n('continueYourSession')}
       />
     );
   }
 
-  private renderRestoreUsingSeedButton(buttonType: SessionButtonTypes) {
+  private renderRestoreUsingSeedButton(buttonType: SessionButtonType) {
     return (
       <SessionButton
         onClick={() => {
@@ -452,7 +455,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
             signUpMode: SignUpMode.Default,
           });
         }}
-        buttonType={SessionButtonTypes.White}
+        buttonType={SessionButtonType.White}
         text={this.props.i18n('linkDeviceToExistingAccount')}
       />
     );

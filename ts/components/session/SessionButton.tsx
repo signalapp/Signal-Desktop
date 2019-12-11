@@ -46,9 +46,7 @@ export class SessionButton extends React.PureComponent<Props> {
       <div
         className={classNames('session-button', buttonType, buttonColor)}
         role="button"
-        onClick={e => {
-          this.clickHandler(e);
-        }}
+        onClick={this.clickHandler}
       >
         {text}
       </div>
