@@ -75,7 +75,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
       return (
         <SessionIconButton
           iconType={SessionIconType.Eye}
-          iconSize={SessionIconSize.Small}
+          iconSize={SessionIconSize.Medium}
           iconPadded={false}
           onClick={() => {
             this.setState({
