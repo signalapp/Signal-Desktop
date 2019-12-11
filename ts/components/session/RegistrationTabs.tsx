@@ -40,10 +40,6 @@ interface State {
   hexEncodedPubKey: string;
 }
 
-interface TabSelectEvent {
-  type: TabType;
-}
-
 const Tab = ({
   isSelected,
   label,
@@ -52,12 +48,12 @@ const Tab = ({
 }: {
   isSelected: boolean;
   label: string;
-  onSelect?: (event: TabSelectEvent) => void;
+  onSelect?: (event: TabType) => void;
   type: TabType;
 }) => {
   const handleClick = onSelect
     ? () => {
-        onSelect({ type });
+        onSelect(type);
       }
     : undefined;
 
@@ -142,8 +138,8 @@ export class RegistrationTabs extends React.Component<Props, State> {
     );
   }
 
-  private readonly handleTabSelect = (event: TabSelectEvent): void => {
-    this.setState({ selectedTab: event.type });
+  private readonly handleTabSelect = (tabType: TabType): void => {
+    this.setState({ selectedTab: tabType });
   };
 
   private onSeedChanged(val: string) {
@@ -348,7 +344,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
         </div>
       );
     } else {
-      return undefined;
+      return null;
     }
   }
 

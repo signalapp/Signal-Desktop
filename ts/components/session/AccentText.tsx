@@ -20,12 +20,10 @@ export class AccentText extends React.PureComponent<Props> {
         <div className="session-content-accent-text title">
           <SessionHtmlRenderer html={i18n('beginYourSession')} />
         </div>
-        {showSubtitle ? (
+        {showSubtitle && (
           <div className="session-content-accent-text subtitle">
             <SessionHtmlRenderer html={i18n('ensuringPeaceOfMind...')} />
           </div>
-        ) : (
-          ''
         )}
       </div>
     );
