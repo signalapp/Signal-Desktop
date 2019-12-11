@@ -240,7 +240,10 @@
           opacity: '0.3',
         });
 
-        $('.message-selection-overlay').show();
+        $('.message-selection-overlay').css({
+          display: 'block',
+          'z-index': '1',
+        });
         $('.module-conversation-header').css({
           opacity: '0.15',
           'pointer-events': 'none',
@@ -259,7 +262,10 @@
           opacity: '1',
         });
 
-        $('.message-selection-overlay').hide();
+        $('.message-selection-overlay').css({
+          display: 'none',
+          'z-index': '0',
+        });
         $('.module-conversation-header').css({
           opacity: '1',
           'pointer-events': 'auto',

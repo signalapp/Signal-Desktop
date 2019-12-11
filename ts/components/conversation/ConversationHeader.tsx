@@ -16,7 +16,11 @@ import {
   SessionIconType,
 } from '../session/icon';
 
-import { SessionButton, SessionButtonTypes } from '../session/SessionButton';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from '../session/SessionButton';
 
 interface TimerOption {
   name: string;
@@ -298,24 +302,30 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderSelectionOverlay() {
+    const { onDeleteMessages } = this.props;
+
     return (
       <div className="message-selection-overlay">
         <div className="close-button">
           <SessionIconButton
             iconType={SessionIconType.Exit}
-            iconSize={SessionIconSize.Large}
+            iconSize={SessionIconSize.Medium}
           />
         </div>
 
         <div className="button-group">
           <SessionButton
-            buttonType={SessionButtonTypes.secondary}
+            buttonType={SessionButtonType.Default}
+            buttonColor={SessionButtonColor.Primary}
             text={'Forward'}
+            onClick={onDeleteMessages}
           />
 
           <SessionButton
-            buttonType={SessionButtonTypes.danger}
+            buttonType={SessionButtonType.Default}
+            buttonColor={SessionButtonColor.Danger}
             text={'Delete'}
+            onClick={onDeleteMessages}
           />
         </div>
       </div>

@@ -22,28 +22,51 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'Wasa';
+  src: url('../fonts/Wasa-Bold.otf') format('truetype');
+}
+
 // Session Colors
 $session-color-green: #00f782;
-$session-color-green-alt-1: #00f17e;
-$session-color-green-alt-2: #007e42;
+$session-color-green-alt-1: #00f480;
+$session-color-green-alt-2: #00fd73;
+$session-color-green-alt-3: #00f782;
+
+$session-shade-1: #0c0c0c;
+$session-shade-2: #161616;
+$session-shade-3: #191818;
+$session-shade-4: #1b1b1b;
+$session-shade-5: #222325;
+$session-shade-6: #232323;
+$session-shade-7: #2e2e2e;
+$session-shade-8: #2f2f2f;
+$session-shade-9: #313131;
+$session-shade-10: #3e3e3e;
+$session-shade-11: #3f3f3f;
+$session-shade-12: #3f4146;
+$session-shade-13: #474646;
+$session-shade-14: #535865;
+$session-shade-15: #5b6c72;
+$session-shade-16: #979797;
+$session-shade-17: #d8d8d8;
+
+$session-opaque-dark-1: rgba(0, 0, 0, 0.25);
+$session-opaque-dark-2: rgba(0, 0, 0, 0.37);
+$session-opaque-dark-3: rgba(0, 0, 0, 0.5);
 
 $session-color-white: #fff;
 $session-color-black: #000;
-
-$session-color-dark-1: #1b1b1b;
-$session-color-dark-2: #151515;
-$session-color-dark-3: #404146;
-$session-color-dark-4: #5c5d5f;
-$session-color-dark-5: #a5a6a8;
-
-$session-color-secondary: #474646;
 $session-color-danger: #ff4538;
+$session-color-primary: $session-shade-13;
+$session-color-secondary: $session-shade-16;
+$session-color-warning: $session-shade-17;
 
-$session-color-white-subtle: rgba($session-color-white, 0.6);
+@mixin session-color-subtle($color) {
+  color: rgba($color, 0.6);
+}
 
-$session-color-dark-highlight: #212126;
-
-$session-font-family: 'SpaceMono';
+$session-font-family: 'Wasa';
 $session-transition-duration: 0.25s;
 
 $session-icon-size-sm: 15px;
@@ -52,27 +75,27 @@ $session-icon-size-lg: 30px;
 
 $session-conversation-header-height: 60px;
 
-$session-green-gradient: linear-gradient(
+$session-gradient-green: linear-gradient(
   270deg,
   rgba($session-color-green-alt-1, 1),
   rgba($session-color-green-alt-1, 0.6)
 );
+$session-gradient-black: linear-gradient(
+  90deg,
+  rgba($session-shade-3, 1),
+  rgba($session-shade-4, 0.6)
+);
+
+$session-dark-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.37);
 
 $session_message-container-border-radius: 5px;
 
+.button-group > div {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .session-button {
-  min-width: 165px;
-  width: auto;
-  height: 45px;
-  line-height: 45px;
-  padding: 0 35px 0 35px;
-  font-size: 15px;
-  font-family: $session-font-family;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  border-radius: 500px;
   @mixin transparent-background($textAndBorderColor) {
     background-color: Transparent;
     background-repeat: no-repeat;
@@ -81,27 +104,86 @@ $session_message-container-border-radius: 5px;
     color: $textAndBorderColor;
     border: 2px solid $textAndBorderColor;
   }
-  &.full-green {
-    background-color: $session-color-green;
+
+  width: auto;
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  user-select: none;
+  cursor: pointer;
+
+  &.default,
+  &.square,
+  &.brand {
     color: $session-color-white;
-  }
-  &.green {
-    @include transparent-background($session-color-green);
-  }
-  &.white {
-    @include transparent-background($session-color-white);
+
+    &.green {
+      background-color: $session-color-green;
+    }
+    &.white {
+      background-color: $session-color-white;
+    }
+    &.primary {
+      background-color: $session-color-primary;
+    }
+    &.secondary {
+      background-color: $session-color-secondary;
+    }
+    &.danger {
+      background-color: $session-color-danger;
+    }
+    &.warning {
+      background-color: $session-color-warning;
+    }
   }
 
-  @mixin square-button($background-color) {
+  &.brand-outline,
+  &.default-outline,
+  &.square-outline {
+    &.green {
+      @include transparent-background($session-color-green);
+    }
+    &.white {
+      @include transparent-background($session-color-white);
+    }
+    &.primary {
+      @include transparent-background($session-color-primary);
+    }
+    &.secondary {
+      @include transparent-background($session-color-secondary);
+    }
+    &.danger {
+      @include transparent-background($session-color-danger);
+    }
+    &.warning {
+      @include transparent-background($session-color-warning);
+    }
+  }
+
+  &.brand {
+    min-width: 165px;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 35px 0 35px;
+    font-size: 15px;
+    font-family: $session-font-family;
+    border-radius: 500px;
+  }
+
+  &.default,
+  &.square,
+  &.default-outline,
+  &.square-outline {
     border-radius: 2px;
     height: 33px;
-    background-color: $background-color;
+    padding: 0px 18px;
+    line-height: 33px;
+    font-size: 13px;
   }
-  &.secondary {
-    @include square-button($session-color-secondary);
-  }
-  &.danger {
-    @include square-button($session-color-danger);
+
+  &.square,
+  &.square-outline {
+    border-radius: 0px;
   }
 }
 
@@ -178,6 +260,15 @@ $session_message-container-border-radius: 5px;
   border-radius: $session_message-container-border-radius;
 }
 
+.module-message__attachment-container,
+.module-image--curved-bottom-right,
+.module-image--curved-bottom-left {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: $session_message-container-border-radius;
+  border-bottom-right-radius: $session_message-container-border-radius;
+}
+
 .conversation-header .session-icon-button {
   @include standard-icon-button();
 }
@@ -195,7 +286,8 @@ $session_message-container-border-radius: 5px;
 
   .close-button {
     float: left;
-    margin-top: 10px;
+    margin-top: 17px;
+    margin-left: 7px;
   }
 }
 .message-selection-overlay div[role='button'] {

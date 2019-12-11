@@ -1,36 +1,29 @@
 // Messages
 .dark-theme {
   .module-conversation-header {
-    background-color: $session-color-dark-1;
+    background-color: $session-shade-4;
   }
   .discussion-container {
-    background-color: $session-color-dark-2;
+    background-image: $session-gradient-black;
   }
 
   .module-conversation-header {
     border-bottom: none;
   }
 
-  .module-message__author {
-    color: $session-color-dark-5;
-  }
-
-  .module-message__metadata__badge {
-    color: $session-color-dark-4;
-  }
-  .module-message__metadata__date--incoming {
-    color: $session-color-dark-4;
-  }
+  .module-message__author,
+  .module-message__metadata__badge,
+  .module-message__metadata__date--incoming,
   .module-message__metadata__date--outgoing {
-    color: $session-color-dark-5;
+    @include session-color-subtle($session-color-white);
   }
 
   .module-message__container--incoming {
-    background-color: $session-color-dark-1;
+    background-color: $session-shade-11;
   }
 
   .module-message__container--outgoing {
-    background-color: $session-color-dark-3;
+    background-color: $session-shade-5;
   }
 
   .module-message__container {
@@ -38,28 +31,18 @@
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.69);
   }
   .message-highlighted {
-    background-color: $session-color-dark-highlight;
+    background-color: $session-shade-5;
     border-radius: 0;
   }
 
   .message-selected {
     .module-message__container {
-      background-image: $session-green-gradient;
-      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.37);
+      background-image: $session-gradient-green;
+      box-shadow: $session-dark-shadow;
     }
 
     .module-message__author {
       color: $session-color-white;
-    }
-
-    .module-message__metadata__badge {
-      color: $session-color-white;
-    }
-    .module-message__metadata__date--incoming {
-      color: $session-color-white-subtle;
-    }
-    .module-message__metadata__date--outgoing {
-      color: $session-color-white-subtle;
     }
   }
 }
