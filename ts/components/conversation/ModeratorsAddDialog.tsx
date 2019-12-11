@@ -140,7 +140,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
           dir="auto"
           onChange={this.updateSearchBound}
         />
-        <button className="add" tabIndex={2} onClick={this.add}>
+        <button className="add" tabIndex={0} onClick={this.add}>
           {i18n('add')}
         </button>
         From friends:
