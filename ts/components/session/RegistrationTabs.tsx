@@ -6,23 +6,6 @@ import { SessionInput } from './SessionInput';
 import { SessionButton, SessionButtonTypes } from './SessionButton';
 import { trigger } from '../../shims/events';
 
-declare global {
-  interface Window {
-    getAccountManager: any;
-    mnemonic: any;
-    passwordUtil: any;
-    dcodeIO: any;
-    libsignal: any;
-    displayNameRegex: any;
-    Signal: any;
-    Whisper: any;
-    ConversationController: any;
-    setPassword: any;
-  }
-}
-
-declare var textsecure: any;
-
 interface Props {
   i18n: LocalizerType;
 }
@@ -115,7 +98,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
     this.accountManager = window.getAccountManager();
     // Clean status in case the app closed unexpectedly
-    textsecure.storage.remove('secondaryDeviceStatus');
+    window.textsecure.storage.remove('secondaryDeviceStatus');
   }
 
   public render() {
@@ -550,8 +533,8 @@ export class RegistrationTabs extends React.Component<Props, State> {
     window.Whisper.Registration.remove();
     // Do not remove all items since they are only set
     // at startup.
-    textsecure.storage.remove('identityKey');
-    textsecure.storage.remove('secondaryDeviceStatus');
+    window.textsecure.storage.remove('identityKey');
+    window.textsecure.storage.remove('secondaryDeviceStatus');
     window.ConversationController.reset();
     await window.ConversationController.load();
     window.Whisper.RotateSignedPreKeyListener.stop(window.Whisper.events);
@@ -573,7 +556,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
     }
 
     // Ensure we clear the secondary device registration status
-    textsecure.storage.remove('secondaryDeviceStatus');
+    window.textsecure.storage.remove('secondaryDeviceStatus');
 
     try {
       await this.resetRegistration();
