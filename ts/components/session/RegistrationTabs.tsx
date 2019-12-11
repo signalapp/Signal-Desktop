@@ -309,7 +309,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
           <SessionInput
             label={i18n('displayName')}
             type="text"
-            placeholder={i18n('enterOptionalDisplayName')}
+            placeholder={i18n('enterDisplayName')}
             value={this.state.displayName}
             onValueChanged={(val: string) => {
               this.onDisplayNameChanged(val);

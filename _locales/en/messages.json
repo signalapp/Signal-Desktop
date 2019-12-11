@@ -2318,8 +2318,8 @@
   "displayName": {
     "message": "Display Name"
   },
-  "enterOptionalDisplayName": {
-    "message": "Enter Optional Display Name"
+  "enterDisplayName": {
+    "message": "Enter Display Name"
   },
   "optionalPassword": {
     "message": "Optional Password"
