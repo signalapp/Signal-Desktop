@@ -29,9 +29,7 @@ export class Linkify extends React.Component<Props> {
     let count = 1;
 
     if (isRss && text.indexOf('</') !== -1) {
-      results.push(
-        <SessionHtmlRenderer key={count++} html={text} tag="div" />
-      );
+      results.push(<SessionHtmlRenderer key={count++} html={text} tag="div" />);
       // should already have links
 
       return results;

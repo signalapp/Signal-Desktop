@@ -57,8 +57,8 @@ const Tab = ({
 }) => {
   const handleClick = onSelect
     ? () => {
-      onSelect({ type });
-    }
+        onSelect({ type });
+      }
     : undefined;
 
   return (

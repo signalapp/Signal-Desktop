@@ -9,7 +9,11 @@ interface ReceivedProps {
 
 type Props = ReceivedProps;
 
-export const SessionHtmlRenderer: React.SFC<Props> = ({ tag = 'div', key, html }) => {
+export const SessionHtmlRenderer: React.SFC<Props> = ({
+  tag = 'div',
+  key,
+  html,
+}) => {
   const clean = DOMPurify.sanitize(html, {
     USE_PROFILES: { html: true },
     FORBID_ATTR: ['style', 'script'],

@@ -15,7 +15,6 @@ export class AccentText extends React.PureComponent<Props> {
   public render() {
     const { showSubtitle, i18n } = this.props;
 
-
     return (
       <div className="session-content-accent-text">
         <div className="session-content-accent-text title">
@@ -26,8 +25,8 @@ export class AccentText extends React.PureComponent<Props> {
             <SessionHtmlRenderer html={i18n('ensuringPeaceOfMind...')} />
           </div>
         ) : (
-            ''
-          )}
+          ''
+        )}
       </div>
     );
   }
