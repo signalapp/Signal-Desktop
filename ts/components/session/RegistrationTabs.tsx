@@ -5,6 +5,7 @@ import { LocalizerType } from '../../types/Util';
 import { SessionInput } from './SessionInput';
 import { SessionButton, SessionButtonType } from './SessionButton';
 import { trigger } from '../../shims/events';
+import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 
 interface Props {
   i18n: LocalizerType;
@@ -402,13 +403,12 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderTermsConditionAgreement() {
+    const { i18n } = this.props;
     // FIXME link to our Terms and Conditions and privacy statement
-    // FIXME find a better way than dangerouslySetInnerHTML to set this in a localized way
 
     return (
       <div className="session-terms-conditions-agreement">
-        By using this service, you agree to our <a>Terms and Conditions</a> and{' '}
-        <a>Privacy Statement</a>
+        <SessionHtmlRenderer html={i18n('ByUsingThiService...')} />
       </div>
     );
   }

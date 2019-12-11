@@ -4,6 +4,7 @@ import LinkifyIt from 'linkify-it';
 
 import { RenderTextCallbackType } from '../../types/Util';
 import { isLinkSneaky } from '../../../js/modules/link_previews';
+import { SessionHtmlRenderer } from '../session/SessionHTMLRenderer';
 
 const linkify = LinkifyIt();
 
@@ -29,17 +30,7 @@ export class Linkify extends React.Component<Props> {
 
     if (isRss && text.indexOf('</') !== -1) {
       results.push(
-        <div
-          key={count++}
-          dangerouslySetInnerHTML={{
-            __html: text
-              .replace(
-                /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-                ''
-              )
-              .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, ''),
-          }}
-        />
+        <SessionHtmlRenderer key={count++} html={text} tag="div" />
       );
       // should already have links
 

@@ -2348,5 +2348,16 @@
   },
   "or": {
     "message": "or"
+  },
+  "ByUsingThiService...": {
+    "message":
+      "By using this service, you agree to our <a>Terms and Conditions</a> and <a>Privacy Statement</a>"
+  },
+  "beginYourSession": {
+    "message": "Begin<br />your<br />Session."
+  },
+  "ensuringPeaceOfMind...": {
+    "message":
+      " Ensuring <span class=\"redacted\">peace of</span> mind, one <span class=\"redacted\">session</span> at a time."
   }
 }

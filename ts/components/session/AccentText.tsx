@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { LocalizerType } from '../../types/Util';
+import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 
 interface Props {
   i18n: LocalizerType;
@@ -12,26 +13,21 @@ export class AccentText extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { showSubtitle } = this.props;
+    const { showSubtitle, i18n } = this.props;
 
-    // FIXME find a better way than dangerouslySetInnerHTML to set those two strings in a localized way
+
     return (
       <div className="session-content-accent-text">
         <div className="session-content-accent-text title">
-          Begin
-          <br />
-          your
-          <br />
-          Session.
+          <SessionHtmlRenderer html={i18n('beginYourSession')} />
         </div>
         {showSubtitle ? (
           <div className="session-content-accent-text subtitle">
-            Ensuring <span className="redacted">peace of</span> mind, one{' '}
-            <span className="redacted">session</span> at a time.
+            <SessionHtmlRenderer html={i18n('ensuringPeaceOfMind...')} />
           </div>
         ) : (
-          ''
-        )}
+            ''
+          )}
       </div>
     );
   }
