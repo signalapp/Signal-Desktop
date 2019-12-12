@@ -124,37 +124,42 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
 
   public render() {
     const i18n = window.i18n;
-    const titleText = `${i18n('addModerators')} ${this.props.chatName}`;
 
     const hasFriends = this.state.friendList.length !== 0;
 
     return (
       <div className="content">
-        <p className="titleText">{titleText}</p>
-        Add Moderator:
-        <input
-          type="text"
-          ref={this.inputRef}
-          className="module-main-header__search__input"
-          placeholder={i18n('search')}
-          dir="auto"
-          onChange={this.updateSearchBound}
-        />
-        <button className="add" tabIndex={0} onClick={this.add}>
-          {i18n('add')}
-        </button>
-        From friends:
-        <div className="friend-selection-list">
-          <MemberList
-            members={this.state.friendList}
-            selected={{}}
-            i18n={i18n}
-            onMemberClicked={this.onMemberClicked}
+        <p className="titleText">
+          ${i18n('addModerators')} <span>${this.props.chatName}</span>
+        </p>
+        <div className="addModeratorBox">
+          <p>Add Moderator:</p>
+          <input
+            type="text"
+            ref={this.inputRef}
+            className="module-main-header__search__input"
+            placeholder={i18n('search')}
+            dir="auto"
+            onChange={this.updateSearchBound}
           />
+          <button className="add" tabIndex={0} onClick={this.add}>
+            {i18n('add')}
+          </button>
         </div>
-        {hasFriends ? null : (
-          <p className="no-friends">{i18n('noFriendsToAdd')}</p>
-        )}
+        <div className="moderatorList">
+          <p>From friends:</p>
+          <div className="friend-selection-list">
+            <MemberList
+              members={this.state.friendList}
+              selected={{}}
+              i18n={i18n}
+              onMemberClicked={this.onMemberClicked}
+            />
+          </div>
+          {hasFriends ? null : (
+            <p className="no-friends">{i18n('noFriendsToAdd')}</p>
+          )}
+        </div>
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
             {i18n('cancel')}

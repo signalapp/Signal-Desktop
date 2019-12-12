@@ -58,25 +58,27 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
 
   public render() {
     const i18n = window.i18n;
-    const titleText = `${i18n('removeModerators')} ${this.props.chatName}`;
-
     const hasMods = this.state.modList.length !== 0;
 
     return (
       <div className="content">
-        <p className="titleText">{titleText}</p>
-        Existing moderators:
-        <div className="friend-selection-list">
-          <MemberList
-            members={this.state.modList}
-            selected={{}}
-            i18n={i18n}
-            onMemberClicked={this.onModClicked}
-          />
+        <p className="titleText">
+          ${i18n('removeModerators')} <span>${this.props.chatName}</span>
+        </p>
+        <div className="moderatorList">
+          <p>Existing moderators:</p>
+          <div className="friend-selection-list">
+            <MemberList
+              members={this.state.modList}
+              selected={{}}
+              i18n={i18n}
+              onMemberClicked={this.onModClicked}
+            />
+          </div>
+          {hasMods ? null : (
+            <p className="no-friends">{i18n('noModeratorsToRemove')}</p>
+          )}
         </div>
-        {hasMods ? null : (
-          <p className="no-friends">{i18n('noModeratorsToRemove')}</p>
-        )}
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
             {i18n('cancel')}
