@@ -19,7 +19,7 @@ enum SignInMode {
 
 enum SignUpMode {
   Default,
-  SessionIDGenerated,
+  SessionIDShown,
 }
 
 enum TabType {
@@ -37,7 +37,8 @@ interface State {
   passwordErrorString: string;
   passwordFieldsMatch: boolean;
   mnemonicSeed: string;
-  hexEncodedPubKey: string;
+  hexGeneratedPubKey: string;
+  primaryDevicePubKey: string;
 }
 
 const Tab = ({
@@ -85,6 +86,12 @@ export class RegistrationTabs extends React.Component<Props, State> {
       this
     );
     this.onSignUpGetStartedClick = this.onSignUpGetStartedClick.bind(this);
+    this.onSecondDeviceSessionIDChanged = this.onSecondDeviceSessionIDChanged.bind(
+      this
+    );
+    this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(
+      this
+    );
 
     this.state = {
       selectedTab: TabType.Create,
@@ -96,7 +103,8 @@ export class RegistrationTabs extends React.Component<Props, State> {
       passwordErrorString: '',
       passwordFieldsMatch: false,
       mnemonicSeed: '',
-      hexEncodedPubKey: '',
+      hexGeneratedPubKey: '',
+      primaryDevicePubKey: '',
     };
 
     this.accountManager = window.getAccountManager();
@@ -105,7 +113,36 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   public render() {
+    this.generateMnemonicAndKeyPair().ignore();
+
     return this.renderTabs();
+  }
+
+  private async generateMnemonicAndKeyPair() {
+    if (this.state.mnemonicSeed === '') {
+      const language = 'english';
+      const mnemonic = await this.accountManager.generateMnemonic(language);
+
+      let seedHex = window.mnemonic.mn_decode(mnemonic, language);
+      // handle shorter than 32 bytes seeds
+      const privKeyHexLength = 32 * 2;
+      if (seedHex.length !== privKeyHexLength) {
+        seedHex = seedHex.concat(seedHex);
+        seedHex = seedHex.substring(0, privKeyHexLength);
+      }
+      const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
+      const privKey = window.dcodeIO.ByteBuffer.wrap(
+        privKeyHex,
+        'hex'
+      ).toArrayBuffer();
+      const keyPair = await window.libsignal.Curve.async.createKeyPair(privKey);
+      const hexGeneratedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
+
+      this.setState({
+        mnemonicSeed: mnemonic,
+        hexGeneratedPubKey, // our 'frontend' sessionID
+      });
+    }
   }
 
   private renderTabs() {
@@ -139,7 +176,14 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private readonly handleTabSelect = (tabType: TabType): void => {
-    this.setState({ selectedTab: tabType });
+    if (tabType !== TabType.SignIn) {
+      this.cancelSecondaryDevice().ignore();
+    }
+    this.setState({
+      selectedTab: tabType,
+      signInMode: SignInMode.Default,
+      signUpMode: SignUpMode.Default,
+    });
   };
 
   private onSeedChanged(val: string) {
@@ -186,7 +230,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
           <div className="session-registration__unique-session-id">
             {i18n('yourUniqueSessionID')}
           </div>
-          {this.renderEnterSessionID(false, this.state.hexEncodedPubKey)}
+          {this.renderEnterSessionID(false, this.state.hexGeneratedPubKey)}
           {this.renderSignUpButton()}
           {this.getRenderTermsConditionAgreement()}
         </div>
@@ -244,30 +288,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private async onSignUpGenerateSessionIDClick() {
     this.setState({
-      signUpMode: SignUpMode.SessionIDGenerated,
-    });
-
-    const language = 'english';
-    const mnemonic = await this.accountManager.generateMnemonic(language);
-
-    let seedHex = window.mnemonic.mn_decode(mnemonic, language);
-    // handle shorter than 32 bytes seeds
-    const privKeyHexLength = 32 * 2;
-    if (seedHex.length !== privKeyHexLength) {
-      seedHex = seedHex.concat(seedHex);
-      seedHex = seedHex.substring(0, privKeyHexLength);
-    }
-    const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
-    const privKey = window.dcodeIO.ByteBuffer.wrap(
-      privKeyHex,
-      'hex'
-    ).toArrayBuffer();
-    const keyPair = await window.libsignal.Curve.async.createKeyPair(privKey);
-    const hexEncodedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
-
-    this.setState({
-      mnemonicSeed: mnemonic,
-      hexEncodedPubKey, // our 'frontend' sessionID
+      signUpMode: SignUpMode.SessionIDShown,
     });
   }
 
@@ -357,10 +378,23 @@ export class RegistrationTabs extends React.Component<Props, State> {
         className="session-signin-enter-session-id"
         contentEditable={contentEditable}
         placeholder={enterSessionIDHere}
+        onInput={(e: any) => {
+          if (contentEditable) {
+            this.onSecondDeviceSessionIDChanged(e);
+          }
+        }}
       >
         {text}
       </div>
     );
+  }
+
+  private onSecondDeviceSessionIDChanged(e: any) {
+    e.preventDefault();
+    const hexEncodedPubKey = e.target.innerHTML;
+    this.setState({
+      primaryDevicePubKey: hexEncodedPubKey,
+    });
   }
 
   private renderSignInButtons() {
@@ -413,7 +447,11 @@ export class RegistrationTabs extends React.Component<Props, State> {
     return (
       <SessionButton
         onClick={() => {
-          this.register('english').ignore();
+          if (this.state.signInMode === SignInMode.UsingSeed) {
+            this.register('english').ignore();
+          } else {
+            this.registerSecondaryDevice().ignore();
+          }
         }}
         buttonType={SessionButtonType.FullGreen}
         text={this.props.i18n('continueYourSession')}
@@ -425,9 +463,10 @@ export class RegistrationTabs extends React.Component<Props, State> {
     return (
       <SessionButton
         onClick={() => {
+          this.cancelSecondaryDevice().ignore();
           this.setState({
             signInMode: SignInMode.UsingSeed,
-            hexEncodedPubKey: '',
+            primaryDevicePubKey: '',
             mnemonicSeed: '',
             displayName: '',
             signUpMode: SignUpMode.Default,
@@ -445,7 +484,6 @@ export class RegistrationTabs extends React.Component<Props, State> {
         onClick={() => {
           this.setState({
             signInMode: SignInMode.LinkingDevice,
-            hexEncodedPubKey: '',
             mnemonicSeed: '',
             displayName: '',
             signUpMode: SignUpMode.Default,
@@ -486,15 +524,6 @@ export class RegistrationTabs extends React.Component<Props, State> {
     const passwordValidation = this.validatePassword();
     if (passwordValidation) {
       this.setState({ passwordErrorString: passwordValidation });
-
-      /*this.$passwordInput.addClass('error-input');
-      this.$passwordConfirmationInput.addClass('error-input');
-
-      this.$passwordInput.removeClass('match-input');
-      this.$passwordConfirmationInput.removeClass('match-input');
-
-      this.$passwordInputError.text(passwordValidation);
-      this.$passwordInputError.show();*/
     } else {
       // Show green box around inputs that match
       const input = this.trim(this.state.password);
@@ -506,24 +535,11 @@ export class RegistrationTabs extends React.Component<Props, State> {
         passwordErrorString: '',
         passwordFieldsMatch,
       });
-
-      /*
-      this.$passwordInput.addClass('match-input'); //if password matches each other
-      this.$passwordInput.removeClass('error-input');
-      this.$passwordConfirmationInput.removeClass('error-input');
-      this.$passwordInputError.text('');
-      this.$passwordInputError.hide();*/
     }
   }
 
   private sanitiseNameInput(val: string) {
     return val.trim().replace(window.displayNameRegex, '');
-
-    /* if (_.isEmpty(newVal)) {
-      this.$('#save-button').attr('disabled', 'disabled');
-
-    }
-    this.$('#save-button').removeAttr('disabled'); */
   }
 
   private async resetRegistration() {
@@ -544,7 +560,6 @@ export class RegistrationTabs extends React.Component<Props, State> {
     // Make sure the password is valid
     if (this.validatePassword()) {
       //this.showToast(i18n('invalidPassword'));
-
       return;
     }
     if (!mnemonicSeed) {
@@ -573,5 +588,79 @@ export class RegistrationTabs extends React.Component<Props, State> {
       }
       //this.log(e);
     }
+  }
+
+  private async cancelSecondaryDevice() {
+    window.Whisper.events.off(
+      'secondaryDeviceRegistration',
+      this.onSecondaryDeviceRegistered
+    );
+
+    await this.resetRegistration();
+  }
+
+  private async registerSecondaryDevice() {
+    // tslint:disable-next-line: no-backbone-get-set-outside-model
+    if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
+      return;
+    }
+    await this.resetRegistration();
+    window.textsecure.storage.put('secondaryDeviceStatus', 'ongoing');
+
+    const primaryPubKey = this.state.primaryDevicePubKey;
+
+    // Ensure only one listener
+    window.Whisper.events.off(
+      'secondaryDeviceRegistration',
+      this.onSecondaryDeviceRegistered
+    );
+    window.Whisper.events.once(
+      'secondaryDeviceRegistration',
+      this.onSecondaryDeviceRegistered
+    );
+
+    const onError = async (error: any) => {
+      window.console.error(error);
+
+      await this.resetRegistration();
+    };
+
+    const c = new window.Whisper.Conversation({
+      id: primaryPubKey,
+      type: 'private',
+    });
+
+    const validationError = c.validateNumber();
+    if (validationError) {
+      onError('Invalid public key').ignore();
+
+      return;
+    }
+    try {
+      const fakeMnemonic = this.state.mnemonicSeed;
+
+      await this.accountManager.registerSingleDevice(
+        fakeMnemonic,
+        'english',
+        null
+      );
+
+      await this.accountManager.requestPairing(primaryPubKey);
+      const pubkey = window.textsecure.storage.user.getNumber();
+      const words = window.mnemonic.pubkey_to_secret_words(pubkey);
+      window.console.log('pubkey_to_secret_words');
+      window.console.log(`Here is your secret:\n${words}`);
+    } catch (e) {
+      window.console.log(e);
+      //onError(e);
+    }
+  }
+
+  private async onSecondaryDeviceRegistered() {
+    // Ensure the left menu is updated
+    trigger('userChanged', { isSecondaryDevice: true });
+    // will re-run the background initialisation
+    trigger('registration_done');
+    trigger('openInbox');
   }
 }
