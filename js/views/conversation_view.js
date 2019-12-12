@@ -69,6 +69,12 @@
     },
   });
 
+  Whisper.MessageDeletionForbiddenToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('messageDeletionForbidden') };
+    },
+  });
+
   const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
     render_attributes() {
@@ -1397,9 +1403,23 @@
     },
 
     deleteSelectedMessages() {
-      const msgArray = Array.from(this.model.selectedMessages);
+      const selected = Array.from(this.model.selectedMessages);
+      const isModerator = this.model.isModerator(this.model.OUR_NUMBER);
+      let isAllOurs = true;
 
-      this.deleteMessages(msgArray, () => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const message of selected) {
+        isAllOurs = message.attributes.source === message.OUR_NUMBER;
+        if (!isAllOurs && !isModerator) {
+          const toast = new Whisper.MessageDeletionForbiddenToast();
+          toast.$el.appendTo(this.$el);
+          toast.render();
+
+          return;
+        }
+      }
+
+      this.deleteMessages(selected, () => {
         this.resetMessageSelection();
       });
     },

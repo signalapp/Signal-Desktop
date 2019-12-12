@@ -11,7 +11,7 @@ export class SessionIconButton extends React.PureComponent<SProps> {
   public static readonly extendedDefaults = {
     onClick: () => null,
   };
-  public static readonlydefaultProps = {
+  public static readonly defaultProps = {
     ...SessionIcon.defaultProps,
     ...SessionIconButton.extendedDefaults,
   };
