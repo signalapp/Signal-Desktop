@@ -1814,6 +1814,12 @@
     "description":
       "Shown in the sticker pack manager next to sticker packs which are already installed."
   },
+  "stickers--StickerManager--Introduction--Image": {
+    "message":
+      "Introducing Stickers: Bandit the Cat",
+    "description":
+      "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
+  },
   "stickers--StickerManager--Introduction--Title": {
     "message": "Introducing Stickers",
     "description":

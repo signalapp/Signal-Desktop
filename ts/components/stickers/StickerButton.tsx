@@ -266,7 +266,11 @@ export const StickerButton = React.memo(
                 )}
                 onClick={handleClearIntroduction}
               >
-                {/* <div className="module-sticker-button__tooltip--introduction__image" /> */}
+                <img
+                  className="module-sticker-button__tooltip--introduction__image"
+                  srcSet="images/sticker_splash@1x.png 1x, images/sticker_splash@2x.png 2x"
+                  alt={i18n('stickers--StickerManager--Introduction--Image')}
+                />
                 <div className="module-sticker-button__tooltip--introduction__meta">
                   <div className="module-sticker-button__tooltip--introduction__meta__title">
                     {i18n('stickers--StickerManager--Introduction--Title')}
