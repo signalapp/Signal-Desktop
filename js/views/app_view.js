@@ -103,7 +103,7 @@
       }
     },
     openStandalone() {
-      window.addSetupMenuItems(); // FIXME
+      window.addSetupMenuItems();
       this.resetViews();
       this.standaloneView = new Whisper.SessionRegistrationView();
       this.openView(this.standaloneView);
