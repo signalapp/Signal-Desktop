@@ -427,8 +427,7 @@ $session_message-container-border-radius: 5px;
       @include transparent-background($session-color-green);
 
       &:hover {
-        background-color: $session-color-green;
-        color: $session-color-white;
+        @include transparent-background($session-color-white);
       }
     }
 
