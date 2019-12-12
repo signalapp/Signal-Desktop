@@ -194,6 +194,24 @@ class LokiAppDotNetServerAPI {
         this.setProfileName(profileName);
       }
     }
+    if (tokenRes.err) {
+      log.error(`token err`, tokenRes);
+      // didn't already try && this specific error
+      if (
+        !forceRefresh &&
+        tokenRes.response &&
+        tokenRes.response.meta &&
+        tokenRes.response.meta.code === 401
+      ) {
+        // this token is not good
+        this.token = ''; // remove from object
+        await Signal.Data.savePublicServerToken({
+          serverUrl: this.baseServerUrl,
+          token: '',
+        });
+        token = this.getOrRefreshServerToken(true);
+      }
+    }
 
     return token;
   }
@@ -287,18 +305,15 @@ class LokiAppDotNetServerAPI {
       url.search = new URLSearchParams(params);
     }
     let result;
-    const token = await this.getOrRefreshServerToken();
-    if (!token) {
-      log.error('NO TOKEN');
-      return {
-        err: 'noToken',
-      };
-    }
     try {
       const fetchOptions = {};
-      const headers = {
-        Authorization: `Bearer ${this.token}`,
-      };
+      const headers = {};
+      if (forceFreshToken) {
+        await this.getOrRefreshServerToken(true);
+      }
+      if (this.token) {
+        headers.Authorization = `Bearer ${this.token}`;
+      }
       if (method) {
         fetchOptions.method = method;
       }
@@ -1537,6 +1552,16 @@ class LokiPublicChannelAPI {
     if (!res.err && res.response) {
       window.mixpanel.track('Public Message Sent');
       return res.response.data.id;
+    }
+    if (res.err) {
+      log.error(`POST ${this.baseChannelUrl}/messages failed`);
+      if (res.response && res.response.meta && res.response.meta.code === 401) {
+        log.error(`Got invalid token for ${this.serverAPI.token}`);
+      }
+      log.error(res.err);
+      log.error(res.response);
+    } else {
+      log.warn(res.response);
     }
     // there's no retry on desktop
     // this is supposed to be after retries
