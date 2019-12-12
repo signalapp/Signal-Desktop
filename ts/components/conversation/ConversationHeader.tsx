@@ -67,8 +67,10 @@ interface Props {
 
   onUpdateGroup: () => void;
   onLeaveGroup: () => void;
-
+  onAddModerators: () => void;
+  onRemoveModerators: () => void;
   onInviteFriends: () => void;
+
   onShowUserDetails?: (userPubKey: string) => void;
 
   i18n: LocalizerType;
@@ -240,6 +242,8 @@ export class ConversationHeader extends React.Component<Props> {
       onCopyPublicKey,
       onUpdateGroup,
       onLeaveGroup,
+      onAddModerators,
+      onRemoveModerators,
       onInviteFriends,
     } = this.props;
 
@@ -254,6 +258,14 @@ export class ConversationHeader extends React.Component<Props> {
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {isPrivateGroup || amMod ? (
           <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
+        ) : null}
+        {amMod ? (
+          <MenuItem onClick={onAddModerators}>{i18n('addModerators')}</MenuItem>
+        ) : null}
+        {amMod ? (
+          <MenuItem onClick={onRemoveModerators}>
+            {i18n('removeModerators')}
+          </MenuItem>
         ) : null}
         {isPrivateGroup ? (
           <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>

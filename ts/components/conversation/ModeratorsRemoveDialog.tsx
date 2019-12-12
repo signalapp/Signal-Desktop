@@ -2,7 +2,7 @@ import React from 'react';
 import { Contact, MemberList } from './MemberList';
 
 interface Props {
-  friendList: Array<any>;
+  modList: Array<any>;
   chatName: string;
   onSubmit: any;
   onClose: any;
@@ -15,23 +15,26 @@ declare global {
 }
 
 interface State {
-  friendList: Array<Contact>;
+  modList: Array<Contact>;
 }
 
-export class InviteFriendsDialog extends React.Component<Props, State> {
+export class RemoveModeratorsDialog extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    this.onMemberClicked = this.onMemberClicked.bind(this);
+    this.onModClicked = this.onModClicked.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
     this.onClickOK = this.onClickOK.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
 
-    let friends = this.props.friendList;
-    friends = friends.map(d => {
-      const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
-
+    let mods = this.props.modList;
+    mods = mods.map(d => {
+      let name = '';
+      if (d.getLokiProfile) {
+        const lokiProfile = d.getLokiProfile();
+        name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
+      }
+      const authorColor = d.getColor ? d.getColor() : '#000000';
       // TODO: should take existing members into account
       const existingMember = false;
 
@@ -41,51 +44,47 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
         authorProfileName: name,
         selected: false,
         authorName: name,
-        authorColor: d.getColor(),
-        checkmarked: false,
+        authorColor,
+        checkmarked: true,
         existingMember,
       };
     });
-
     this.state = {
-      friendList: friends,
+      modList: mods,
     };
 
     window.addEventListener('keyup', this.onKeyUp);
   }
 
   public render() {
-    const titleText = `${window.i18n('addingFriends')} ${this.props.chatName}`;
-    const cancelText = window.i18n('cancel');
-    const okText = window.i18n('ok');
-
-    const hasFriends = this.state.friendList.length !== 0;
+    const i18n = window.i18n;
+    const hasMods = this.state.modList.length !== 0;
 
     return (
       <div className="content">
-        <p className="titleText">{titleText}</p>
-        <div className="friend-selection-list">
-          <MemberList
-            members={this.state.friendList}
-            selected={{}}
-            i18n={window.i18n}
-            onMemberClicked={this.onMemberClicked}
-          />
+        <p className="titleText">
+          ${i18n('removeModerators')} <span>${this.props.chatName}</span>
+        </p>
+        <div className="moderatorList">
+          <p>Existing moderators:</p>
+          <div className="friend-selection-list">
+            <MemberList
+              members={this.state.modList}
+              selected={{}}
+              i18n={i18n}
+              onMemberClicked={this.onModClicked}
+            />
+          </div>
+          {hasMods ? null : (
+            <p className="no-friends">{i18n('noModeratorsToRemove')}</p>
+          )}
         </div>
-        {hasFriends ? null : (
-          <p className="no-friends">{window.i18n('noFriendsToAdd')}</p>
-        )}
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {cancelText}
+            {i18n('cancel')}
           </button>
-          <button
-            className="ok"
-            disabled={!hasFriends}
-            tabIndex={0}
-            onClick={this.onClickOK}
-          >
-            {okText}
+          <button className="ok" tabIndex={0} onClick={this.onClickOK}>
+            {i18n('ok')}
           </button>
         </div>
       </div>
@@ -93,12 +92,12 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
   }
 
   private onClickOK() {
-    const selectedFriends = this.state.friendList
-      .filter(d => d.checkmarked)
+    const removedMods = this.state.modList
+      .filter(d => !d.checkmarked)
       .map(d => d.id);
 
-    if (selectedFriends.length > 0) {
-      this.props.onSubmit(selectedFriends);
+    if (removedMods.length > 0) {
+      this.props.onSubmit(removedMods);
     }
 
     this.closeDialog();
@@ -123,8 +122,8 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     this.props.onClose();
   }
 
-  private onMemberClicked(selected: any) {
-    const updatedFriends = this.state.friendList.map(member => {
+  private onModClicked(selected: any) {
+    const updatedFriends = this.state.modList.map(member => {
       if (member.id === selected.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {
@@ -135,7 +134,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     this.setState(state => {
       return {
         ...state,
-        friendList: updatedFriends,
+        modList: updatedFriends,
       };
     });
   }

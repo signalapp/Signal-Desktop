@@ -193,11 +193,8 @@ MessageSender.prototype = {
   constructor: MessageSender,
 
   //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  async makeAttachmentPointer(
-    attachment,
-    publicServer = null,
-    { isRaw = false, isAvatar = false }
-  ) {
+  async makeAttachmentPointer(attachment, publicServer = null, options = {}) {
+    const { isRaw = false, isAvatar = false } = options;
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }

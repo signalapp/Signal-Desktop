@@ -851,6 +851,18 @@
       }
     });
 
+    Whisper.events.on('addModerators', async groupConvo => {
+      if (appView) {
+        appView.showAddModeratorsDialog(groupConvo);
+      }
+    });
+
+    Whisper.events.on('removeModerators', async groupConvo => {
+      if (appView) {
+        appView.showRemoveModeratorsDialog(groupConvo);
+      }
+    });
+
     Whisper.events.on(
       'publicChatInvitationAccepted',
       async (serverAddress, channelId) => {

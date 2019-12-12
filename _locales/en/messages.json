@@ -2245,6 +2245,18 @@
   "inviteFriends": {
     "message": "Invite Friends"
   },
+  "manageModerators": {
+    "message": "Manage Moderators"
+  },
+  "addModerators": {
+    "message": "Add Moderators"
+  },
+  "removeModerators": {
+    "message": "Remove Moderators"
+  },
+  "add": {
+    "message": "Add"
+  },
   "groupInvitation": {
     "message": "Group Invitation"
   },
@@ -2253,6 +2265,9 @@
   },
   "noFriendsToAdd": {
     "message": "no friends to add"
+  },
+  "noModeratorsToRemove": {
+    "message": "no moderators to remove"
   },
   "couldNotDecryptMessage": {
     "message": "Couldn't decrypt a message"
