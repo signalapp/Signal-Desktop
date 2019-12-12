@@ -1,15 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { LocalizerType } from '../../types/Util';
 import { SessionInput } from './SessionInput';
 import { SessionButton, SessionButtonType } from './SessionButton';
 import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
-
-interface Props {
-  i18n: LocalizerType;
-}
 
 enum SignInMode {
   Default,
@@ -72,7 +67,7 @@ const Tab = ({
   );
 };
 
-export class RegistrationTabs extends React.Component<Props, State> {
+export class RegistrationTabs extends React.Component<{}, State> {
   private readonly accountManager: any;
 
   constructor(props: any) {
@@ -147,10 +142,9 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderTabs() {
     const { selectedTab } = this.state;
-    const { i18n } = this.props;
 
-    const createAccount = i18n('createAccount');
-    const signIn = i18n('signIn');
+    const createAccount = window.i18n('createAccount');
+    const signIn = window.i18n('signIn');
     const isCreateSelected = selectedTab === TabType.Create;
     const isSignInSelected = selectedTab === TabType.SignIn;
 
@@ -215,7 +209,6 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderSignUp() {
     const { signUpMode } = this.state;
-    const { i18n } = this.props;
     if (signUpMode === SignUpMode.Default) {
       return (
         <div className="session-registration__content">
@@ -228,7 +221,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
         <div className="session-registration__content">
           {this.renderSignUpHeader()}
           <div className="session-registration__unique-session-id">
-            {i18n('yourUniqueSessionID')}
+            {window.i18n('yourUniqueSessionID')}
           </div>
           {this.renderEnterSessionID(false, this.state.hexGeneratedPubKey)}
           {this.renderSignUpButton()}
@@ -252,23 +245,22 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderSignUpHeader() {
-    const allUsersAreRandomly = this.props.i18n('allUsersAreRandomly...');
+    const allUsersAreRandomly = window.i18n('allUsersAreRandomly...');
 
     return <div className="session-signup-header">{allUsersAreRandomly}</div>;
   }
 
   private renderSignUpButton() {
     const { signUpMode } = this.state;
-    const { i18n } = this.props;
 
     let buttonType: any;
     let buttonText: string;
     if (signUpMode !== SignUpMode.Default) {
       buttonType = SessionButtonType.FullGreen;
-      buttonText = i18n('getStarted');
+      buttonText = window.i18n('getStarted');
     } else {
       buttonType = SessionButtonType.Green;
-      buttonText = i18n('generateSessionID');
+      buttonText = window.i18n('generateSessionID');
     }
 
     return (
@@ -317,15 +309,14 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderRegistrationContent() {
     const { signInMode } = this.state;
-    const { i18n } = this.props;
 
     if (signInMode === SignInMode.UsingSeed) {
       return (
         <div className={classNames('session-registration__entry-fields')}>
           <SessionInput
-            label={i18n('mnemonicSeed')}
+            label={window.i18n('mnemonicSeed')}
             type="password"
-            placeholder={i18n('enterSeed')}
+            placeholder={window.i18n('enterSeed')}
             value={this.state.mnemonicSeed}
             enableShowHide={true}
             onValueChanged={(val: string) => {
@@ -333,27 +324,27 @@ export class RegistrationTabs extends React.Component<Props, State> {
             }}
           />
           <SessionInput
-            label={i18n('displayName')}
+            label={window.i18n('displayName')}
             type="text"
-            placeholder={i18n('enterDisplayName')}
+            placeholder={window.i18n('enterDisplayName')}
             value={this.state.displayName}
             onValueChanged={(val: string) => {
               this.onDisplayNameChanged(val);
             }}
           />
           <SessionInput
-            label={i18n('optionalPassword')}
+            label={window.i18n('optionalPassword')}
             type="password"
-            placeholder={i18n('enterOptionalPassword')}
+            placeholder={window.i18n('enterOptionalPassword')}
             onValueChanged={(val: string) => {
               this.onPasswordChanged(val);
             }}
           />
 
           <SessionInput
-            label={i18n('verifyPassword')}
+            label={window.i18n('verifyPassword')}
             type="password"
-            placeholder={i18n('optionalPassword')}
+            placeholder={window.i18n('optionalPassword')}
             onValueChanged={(val: string) => {
               this.onPasswordVerifyChanged(val);
             }}
@@ -364,7 +355,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
       return (
         <div className="">
           <div className="session-signin-device-pairing-header">
-            {i18n('devicePairingHeader')}
+            {window.i18n('devicePairingHeader')}
           </div>
           {this.renderEnterSessionID(true)}
         </div>
@@ -375,8 +366,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderEnterSessionID(contentEditable: boolean, text?: string) {
-    const { i18n } = this.props;
-    const enterSessionIDHere = i18n('enterSessionIDHere');
+    const enterSessionIDHere = window.i18n('enterSessionIDHere');
 
     return (
       <div
@@ -404,9 +394,8 @@ export class RegistrationTabs extends React.Component<Props, State> {
 
   private renderSignInButtons() {
     const { signInMode } = this.state;
-    const { i18n } = this.props;
 
-    const or = i18n('or');
+    const or = window.i18n('or');
 
     if (signInMode === SignInMode.Default) {
       return (
@@ -438,12 +427,11 @@ export class RegistrationTabs extends React.Component<Props, State> {
   }
 
   private renderTermsConditionAgreement() {
-    const { i18n } = this.props;
     // FIXME link to our Terms and Conditions and privacy statement
 
     return (
       <div className="session-terms-conditions-agreement">
-        <SessionHtmlRenderer html={i18n('ByUsingThiService...')} />
+        <SessionHtmlRenderer html={window.i18n('ByUsingThiService...')} />
       </div>
     );
   }
@@ -459,7 +447,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
           }
         }}
         buttonType={SessionButtonType.FullGreen}
-        text={this.props.i18n('continueYourSession')}
+        text={window.i18n('continueYourSession')}
       />
     );
   }
@@ -478,7 +466,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
           });
         }}
         buttonType={buttonType}
-        text={this.props.i18n('restoreUsingSeed')}
+        text={window.i18n('restoreUsingSeed')}
       />
     );
   }
@@ -495,7 +483,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
           });
         }}
         buttonType={SessionButtonType.White}
-        text={this.props.i18n('linkDeviceToExistingAccount')}
+        text={window.i18n('linkDeviceToExistingAccount')}
       />
     );
   }
@@ -513,7 +501,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
       return null;
     }
 
-    const error = window.passwordUtil.validatePassword(input, this.props.i18n);
+    const error = window.passwordUtil.validatePassword(input, window.i18n);
     if (error) {
       return error;
     }
@@ -564,7 +552,7 @@ export class RegistrationTabs extends React.Component<Props, State> {
     const { password, mnemonicSeed, displayName } = this.state;
     // Make sure the password is valid
     if (this.validatePassword()) {
-      //this.showToast(i18n('invalidPassword'));
+      //this.showToast(window.i18n('invalidPassword'));
       return;
     }
     if (!mnemonicSeed) {

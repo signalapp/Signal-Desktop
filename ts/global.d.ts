@@ -11,6 +11,7 @@ interface Window {
   setPassword: any;
   textsecure: any;
   Session: any;
+  i18n: any;
 }
 
 interface Promise<T> {

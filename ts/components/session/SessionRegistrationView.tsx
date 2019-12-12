@@ -1,18 +1,10 @@
 import React from 'react';
 import { AccentText } from './AccentText';
 
-import { LocalizerType } from '../../types/Util';
 import { RegistrationTabs } from './RegistrationTabs';
-
-declare global {
-  interface Window {
-    displayNameRegex: any;
-  }
-}
 
 interface Props {
   showSubtitle: boolean;
-  i18n: LocalizerType;
 }
 
 export class SessionRegistrationView extends React.Component<Props> {
@@ -21,16 +13,16 @@ export class SessionRegistrationView extends React.Component<Props> {
   }
 
   public render() {
-    const { showSubtitle, i18n } = this.props;
+    const { showSubtitle } = this.props;
 
     return (
       <div className="session-content">
         <div id="error" className="collapse" />
         <div className="session-content-accent">
-          <AccentText showSubtitle={showSubtitle || true} i18n={i18n} />
+          <AccentText showSubtitle={showSubtitle || true} />
         </div>
         <div className="session-content-registration">
-          <RegistrationTabs i18n={i18n} />
+          <RegistrationTabs />
         </div>
       </div>
     );
