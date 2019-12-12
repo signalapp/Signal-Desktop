@@ -10,6 +10,7 @@ interface Window {
   ConversationController: any;
   setPassword: any;
   textsecure: any;
+  Session: any;
 }
 
 interface Promise<T> {

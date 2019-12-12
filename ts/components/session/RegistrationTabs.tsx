@@ -289,6 +289,8 @@ export class RegistrationTabs extends React.Component<Props, State> {
   private async onSignUpGenerateSessionIDClick() {
     this.setState({
       signUpMode: SignUpMode.SessionIDShown,
+    }, () => {
+      window.Session.setNewSessionID(this.state.hexGeneratedPubKey);
     });
   }
 
