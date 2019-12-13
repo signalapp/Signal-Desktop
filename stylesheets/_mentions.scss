@@ -29,6 +29,11 @@
   margin-left: 10px;
 }
 
+/* remove scroll bars */
+.loki-dialog .add-moderators-dialog .content {
+  padding: 1.1em;
+}
+
 .invite-friends-dialog,
 .add-moderators-dialog,
 .remove-moderators-dialog,
