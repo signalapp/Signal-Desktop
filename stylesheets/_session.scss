@@ -60,10 +60,18 @@ $session-color-black: #000;
 $session-color-danger: #ff4538;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-16;
-$session-color-warning: $session-shade-17;
+
+$session-color-info: $session-shade-11;
+$session-color-success: #35d388;
+$session-color-error: #edd422;
+$session-color-warning: #e54e45;
 
 $session-shadow-opacity: 0.15;
 $session-overlay-opacity: 0.3;
+
+$session-margin-sm: 10px;
+$session-margin-md: 15px;
+$session-margin-lg: 20px;
 
 @mixin session-color-subtle($color) {
   color: rgba($color, 0.6);
@@ -312,4 +320,83 @@ $session_message-container-border-radius: 5px;
 .message-selection-overlay .button-group {
   float: right;
   margin-top: 13.5px;
+}
+
+.session-toast {
+  position: fixed;
+  right: $session-margin-lg;
+  bottom: $session-margin-lg;
+
+  padding: $session-margin-md $session-margin-md;
+  z-index: 100;
+
+  background-color: rgba($session-shade-6, 0.8);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  .toast-icon,
+  .toast-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .toast-icon {
+    padding-right: $session-icon-size-md;
+  }
+  .toast-info {
+    margin-right: $session-icon-size-sm + $session-icon-size-sm;
+    width: 350px;
+
+    &-container {
+      display: block;
+    }
+  }
+
+  .title,
+  .description {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .title {
+    font-size: 15px;
+    line-height: 13px;
+    margin-bottom: $session-margin-sm;
+    color: $session-color-white;
+  }
+
+  .description {
+    font-size: 12px;
+    @include session-color-subtle($session-color-white);
+  }
+
+  .toast-close {
+    @include session-color-subtle($session-color-white);
+    position: absolute;
+    top: $session-margin-md;
+    right: $session-margin-md;
+
+    &:hover {
+      color: $session-color-white;
+    }
+  }
+
+  @mixin set-toast-theme($color) {
+    border-left: 4px solid $color;
+  }
+  &.info {
+    @include set-toast-theme($session-color-info);
+  }
+  &.success {
+    @include set-toast-theme($session-color-success);
+  }
+  &.warning {
+    @include set-toast-theme($session-color-warning);
+  }
+  &.error {
+    @include set-toast-theme($session-color-error);
+  }
 }
