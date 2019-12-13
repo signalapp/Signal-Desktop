@@ -70,7 +70,9 @@
       }
     },
     focusCancel() {
-      this.$('.cancel').focus();
+      // We delay this call because we might be called inside click handlers
+      //   which would set focus to themselves afterwards!
+      setTimeout(() => this.$('.cancel').focus(), 1);
     },
   });
 })();

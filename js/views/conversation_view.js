@@ -1850,9 +1850,7 @@
       const contact = ConversationController.get(contactId);
       const message = this.model.messageCollection.get(messageId);
       if (!message) {
-        throw new Error(
-          `deleteMessage: Did not find message for id ${messageId}`
-        );
+        throw new Error(`forceSend: Did not find message for id ${messageId}`);
       }
 
       const dialog = new Whisper.ConfirmationDialogView({

@@ -60,6 +60,7 @@
             reject,
           });
           this.$el.append(dialog.el);
+          dialog.focusCancel();
         });
       },
     },

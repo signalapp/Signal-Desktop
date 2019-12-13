@@ -335,10 +335,10 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/confirmation_dialog_view.js",
-    "line": "      this.$('.cancel').focus();",
-    "lineNumber": 73,
+    "line": "      setTimeout(() => this.$('.cancel').focus(), 1);",
+    "lineNumber": 75,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-12-07T02:04:56.987Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -1170,7 +1170,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/whisper_view.js",
     "line": "        $('script[type=\"text/x-tmpl-mustache\"]').each((i, el) => {",
-    "lineNumber": 70,
+    "lineNumber": 71,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1179,7 +1179,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/whisper_view.js",
     "line": "          const $el = $(el);",
-    "lineNumber": 71,
+    "lineNumber": 72,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1188,7 +1188,7 @@
     "rule": "jQuery-html(",
     "path": "js/views/whisper_view.js",
     "line": "          templates[id] = $el.html();",
-    "lineNumber": 73,
+    "lineNumber": 74,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Getting the value, not setting it"
