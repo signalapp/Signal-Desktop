@@ -62,6 +62,9 @@ $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-16;
 $session-color-warning: $session-shade-17;
 
+$session-shadow-opacity: 0.15;
+$session-overlay-opacity: 0.3;
+
 @mixin session-color-subtle($color) {
   color: rgba($color, 0.6);
 }
@@ -89,6 +92,18 @@ $session-gradient-black: linear-gradient(
 $session-dark-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.37);
 
 $session_message-container-border-radius: 5px;
+
+.shadowed {
+  opacity: $session-shadow-opacity;
+}
+.overlayed {
+  opacity: $session-overlay-opacity;
+  pointer-events: none;
+}
+.overlay {
+  display: block !important;
+  z-index: 1;
+}
 
 .button-group > div {
   margin-left: 5px;

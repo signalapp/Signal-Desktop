@@ -1,52 +1,56 @@
 // Messages
 .dark-theme {
   .module-conversation-header {
+    border-bottom: none;
     background-color: $session-shade-4;
   }
   .discussion-container {
     background-image: $session-gradient-black;
   }
 
-  .module-conversation-header {
-    border-bottom: none;
-  }
-
-  .module-message__author,
-  .module-message__metadata__badge,
-  .module-message__metadata__date--incoming,
-  .module-message__metadata__date--outgoing {
-    @include session-color-subtle($session-color-white);
-  }
-
-  .module-message__container--incoming {
-    background-color: $session-shade-11;
-  }
-
-  .module-message__container--outgoing {
-    background-color: $session-shade-5;
-  }
-
-  .module-message__container {
-    transition: background-color 0.25s;
-    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.69);
-  }
-  .message-highlighted {
-    background-color: $session-shade-5;
-    border-radius: 0;
-  }
-
-  .message-selected {
-    .module-message__container {
-      background-image: $session-gradient-green;
-      box-shadow: $session-dark-shadow;
+  .module-message {
+    &__author,
+    &__metadata__badge,
+    &__metadata__date--incoming,
+    &__metadata__date--outgoing {
+      @include session-color-subtle($session-color-white);
     }
 
-    .module-message__author {
-      color: $session-color-white;
+    &__container--incoming {
+      background-color: $session-shade-11;
+    }
+
+    &__container--outgoing {
+      background-color: $session-shade-5;
+    }
+
+    &__container {
+      transition: background-color 0.25s;
+      box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.69);
     }
   }
-}
 
-.message-read-receipt-container {
-  margin-left: 5px;
+  .message {
+    &-highlighted {
+      background-color: $session-shade-5;
+      border-radius: 0;
+    }
+
+    &-selected {
+      .module-message {
+        &__container {
+          background-image: $session-gradient-green;
+          box-shadow: $session-dark-shadow;
+        }
+
+        &__author {
+          color: $session-color-white;
+        }
+      }
+    }
+
+    &-read-receipt-container {
+      margin-left: 5px;
+    }
+  }
 }

@@ -1405,18 +1405,16 @@
     deleteSelectedMessages() {
       const selected = Array.from(this.model.selectedMessages);
       const isModerator = this.model.isModerator(this.model.OUR_NUMBER);
-      let isAllOurs = true;
+      const isAllOurs = selected.every(
+        message => message.attributes.source === message.OUR_NUMBER
+      );
 
-      // eslint-disable-next-line no-restricted-syntax
-      for (const message of selected) {
-        isAllOurs = message.attributes.source === message.OUR_NUMBER;
-        if (!isAllOurs && !isModerator) {
-          const toast = new Whisper.MessageDeletionForbiddenToast();
-          toast.$el.appendTo(this.$el);
-          toast.render();
+      if (!isAllOurs && !isModerator) {
+        const toast = new Whisper.MessageDeletionForbiddenToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
 
-          return;
-        }
+        return;
       }
 
       this.deleteMessages(selected, () => {

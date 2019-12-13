@@ -236,40 +236,20 @@
       const messageSelected = this.selectedMessages.size > 0;
 
       if (messageSelected) {
-        $('.messages li, .messages > div').css({
-          opacity: '0.3',
-        });
-
-        $('.message-selection-overlay').css({
-          display: 'block',
-          'z-index': '1',
-        });
-        $('.module-conversation-header').css({
-          opacity: '0.15',
-          'pointer-events': 'none',
-        });
+        $('.messages li, .messages > div').addClass('shadowed');
+        $('.message-selection-overlay').addClass('overlay');
+        $('.module-conversation-header').addClass('overlayed');
 
         let messageId;
         // eslint-disable-next-line no-restricted-syntax
         for (const item of this.selectedMessages) {
           messageId = item.propsForMessage.id;
-          $(`#${messageId}`).css({
-            opacity: '1',
-          });
+          $(`#${messageId}`).removeClass('shadowed');
         }
       } else {
-        $('.messages li, .messages > div').css({
-          opacity: '1',
-        });
-
-        $('.message-selection-overlay').css({
-          display: 'none',
-          'z-index': '0',
-        });
-        $('.module-conversation-header').css({
-          opacity: '1',
-          'pointer-events': 'auto',
-        });
+        $('.messages li, .messages > div').removeClass('shadowed');
+        $('.message-selection-overlay').removeClass('overlay');
+        $('.module-conversation-header').removeClass('overlayed');
       }
     },
 
