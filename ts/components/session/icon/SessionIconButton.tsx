@@ -3,8 +3,18 @@ import classNames from 'classnames';
 
 import { Props, SessionIcon } from '../icon';
 
-export class SessionIconButton extends React.PureComponent<Props> {
-  public static defaultProps = SessionIcon.defaultProps;
+interface SProps extends Props {
+  onClick: any;
+}
+
+export class SessionIconButton extends React.PureComponent<SProps> {
+  public static readonly extendedDefaults = {
+    onClick: () => null,
+  };
+  public static readonly defaultProps = {
+    ...SessionIcon.defaultProps,
+    ...SessionIconButton.extendedDefaults,
+  };
 
   constructor(props: any) {
     super(props);
@@ -18,7 +28,6 @@ export class SessionIconButton extends React.PureComponent<Props> {
       iconColor,
       iconRotation,
       iconPadded,
-      onClick,
     } = this.props;
 
     return (
@@ -38,7 +47,6 @@ export class SessionIconButton extends React.PureComponent<Props> {
           iconSize={iconSize}
           iconColor={iconColor}
           iconRotation={iconRotation}
-          onClick={onClick}
         />
       </div>
     );

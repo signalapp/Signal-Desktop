@@ -1,46 +1,56 @@
 // Messages
 .dark-theme {
   .module-conversation-header {
-    background-color: $session-color-dark-1;
+    border-bottom: none;
+    background-color: $session-shade-4;
   }
   .discussion-container {
-    background-color: $session-color-dark-2;
+    background-image: $session-gradient-black;
   }
 
-  .module-message__author {
-    color: $session-color-dark-5;
+  .module-message {
+    &__author,
+    &__metadata__badge,
+    &__metadata__date--incoming,
+    &__metadata__date--outgoing {
+      @include session-color-subtle($session-color-white);
+    }
+
+    &__container--incoming {
+      background-color: $session-shade-11;
+    }
+
+    &__container--outgoing {
+      background-color: $session-shade-5;
+    }
+
+    &__container {
+      transition: background-color 0.25s;
+      box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.69);
+    }
   }
 
-  .module-message__metadata__badge {
-    color: $session-color-dark-4;
-  }
-  .module-message__metadata__date--incoming {
-    color: $session-color-dark-4;
-  }
-  .module-message__metadata__date--outgoing {
-    color: $session-color-dark-5;
-  }
+  .message {
+    &-highlighted {
+      background-color: $session-shade-5;
+      border-radius: 0;
+    }
 
-  .module-message__container {
-    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.69);
-  }
-  .module-message__container--incoming {
-    background-color: $session-color-dark-1;
-  }
+    &-selected {
+      .module-message {
+        &__container {
+          background-image: $session-gradient-green;
+          box-shadow: $session-dark-shadow;
+        }
 
-  .module-message__container--outgoing {
-    background-color: $session-color-dark-3;
-  }
+        &__author {
+          color: $session-color-white;
+        }
+      }
+    }
 
-  .message-highlighted {
-    background-color: $session-color-dark-highlight;
-    border-radius: 0;
+    &-read-receipt-container {
+      margin-left: 5px;
+    }
   }
-  .message-selected {
-    background-color: rgba($session-color-dark-highlight, 0.8);
-  }
-}
-
-.message-read-receipt-container {
-  margin-left: 5px;
 }

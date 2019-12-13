@@ -997,6 +997,10 @@
   "delete": {
     "message": "Delete"
   },
+  "forwardMessage": {
+    "message": "Forward",
+    "description": "Text of Forward Message button"
+  },
   "deletePublicWarning": {
     "message":
       "Are you sure? Clicking 'delete' will permanently remove this message for everyone in this channel."
@@ -1012,6 +1016,11 @@
   "deleteMultipleWarning": {
     "message":
       "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
+  },
+  "messageDeletionForbidden": {
+    "message": "You don't have permission to delete others' messages.",
+    "description":
+      "Toast message explaining that the user doens't have the rights to delete other people's messages."
   },
   "deleteThisMessage": {
     "message": "Delete this message"

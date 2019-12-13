@@ -69,6 +69,12 @@
     },
   });
 
+  Whisper.MessageDeletionForbiddenToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('messageDeletionForbidden') };
+    },
+  });
+
   const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
     render_attributes() {
@@ -152,11 +158,6 @@
         'show-message-detail',
         this.showMessageDetail
       );
-      this.listenTo(
-        this.model,
-        'message-selection-changed',
-        this.onMessageSelectionChanged
-      );
       this.listenTo(this.model.messageCollection, 'navigate-to', url => {
         window.location = url;
       });
@@ -229,6 +230,7 @@
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
           members,
+          selectedMessages: this.model.selectedMessages,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
@@ -240,6 +242,8 @@
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
           onDeleteMessages: () => this.destroyMessages(),
+          onDeleteSelectedMessages: () => this.deleteSelectedMessages(),
+          onCloseOverlay: () => this.model.resetMessageSelection(),
           onDeleteContact: () => this.model.deleteContact(),
           onResetSession: () => this.endSession(),
 
@@ -1399,9 +1403,21 @@
     },
 
     deleteSelectedMessages() {
-      const msgArray = Array.from(this.model.selectedMessages);
+      const selected = Array.from(this.model.selectedMessages);
+      const isModerator = this.model.isModerator(this.model.OUR_NUMBER);
+      const isAllOurs = selected.every(
+        message => message.attributes.source === message.OUR_NUMBER
+      );
 
-      this.deleteMessages(msgArray, () => {
+      if (!isAllOurs && !isModerator) {
+        const toast = new Whisper.MessageDeletionForbiddenToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+
+        return;
+      }
+
+      this.deleteMessages(selected, () => {
         this.resetMessageSelection();
       });
     },
@@ -1811,18 +1827,6 @@
           error && error.stack ? error.stack : error
         );
       }
-    },
-
-    onMessageSelectionChanged() {
-      const selectionSize = this.model.selectedMessages.size;
-
-      if (selectionSize > 0) {
-        $('.compose').hide();
-      } else {
-        $('.compose').show();
-      }
-
-      this.bulkEditView.update(selectionSize);
     },
 
     resetMessageSelection() {

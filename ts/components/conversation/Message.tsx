@@ -1087,6 +1087,7 @@ export class Message extends React.PureComponent<Props, State> {
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && this.props.isPublic;
     const divClasses = ['loki-message-wrapper'];
+
     if (shouldHightlight) {
       divClasses.push('message-highlighted');
     }
@@ -1113,7 +1114,6 @@ export class Message extends React.PureComponent<Props, State> {
         }}
       >
         <ContextMenuTrigger id={rightClickTriggerId}>
-          {this.renderCheckBox()}
           {this.renderAvatar()}
           <div
             className={classNames(
@@ -1155,26 +1155,6 @@ export class Message extends React.PureComponent<Props, State> {
               : null}
           </div>
         </ContextMenuTrigger>
-      </div>
-    );
-  }
-
-  private renderCheckBox() {
-    const classes = ['check-box-container'];
-
-    if (this.props.multiSelectMode) {
-      classes.push('check-box-visible');
-    } else {
-      classes.push('check-box-invisible');
-    }
-
-    if (this.props.selected) {
-      classes.push('check-box-selected');
-    }
-
-    return (
-      <div className={classNames(classes)}>
-        <SessionIcon iconType={SessionIconType.Check} />
       </div>
     );
   }
