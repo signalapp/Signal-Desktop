@@ -141,9 +141,9 @@
     "react-no-dangerous-html": [
       true,
       {
-        "file": "ts/components/conversation/Linkify.tsx",
-        "method": "render",
-        "comment": "Usage has been approved by Ryan Tharp on 2019-07-22"
+        "file": "ts/components/session/SessionHTMLRenderer.tsx",
+        "method": "<unknown>",
+        "comment": "Usage has been approved by Maxim on 13 Dec 2019"
       }
     ],
     // Reasonable functions can exceed the default of 100 lines
