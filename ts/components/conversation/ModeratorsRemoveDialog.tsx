@@ -63,7 +63,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     return (
       <div className="content">
         <p className="titleText">
-          ${i18n('removeModerators')} <span>${this.props.chatName}</span>
+          {i18n('removeModerators')} <span>{this.props.chatName}</span>
         </p>
         <div className="moderatorList">
           <p>Existing moderators:</p>
