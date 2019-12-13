@@ -115,6 +115,14 @@
       @include registration-label-mixin;
     }
 
+    &__welcome-session {
+      @include registration-label-mixin;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 12px;
+      padding-top: 2em;
+    }
+
     &__unique-session-id {
       @include registration-label-mixin;
       padding-top: 3em;

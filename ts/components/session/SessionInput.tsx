@@ -10,6 +10,7 @@ interface Props {
   placeholder: string;
   enableShowHide?: boolean;
   onValueChanged?: any;
+  onEnterPressed?: any;
 }
 
 interface State {
@@ -59,6 +60,12 @@ export class SessionInput extends React.PureComponent<Props, State> {
           className={classNames(
             enableShowHide ? 'session-input-floating-label-show-hide' : ''
           )}
+          onKeyPress={event => {
+            event.persist();
+            if (event.key === 'Enter' && this.props.onEnterPressed) {
+              this.props.onEnterPressed();
+            }
+          }}
         />
 
         {enableShowHide && this.renderShowHideButton()}

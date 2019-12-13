@@ -15,6 +15,7 @@ enum SignInMode {
 enum SignUpMode {
   Default,
   SessionIDShown,
+  EnterDetails,
 }
 
 enum TabType {
@@ -85,6 +86,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
       this
     );
     this.onSecondaryDeviceRegistered = this.onSecondaryDeviceRegistered.bind(
+      this
+    );
+    this.onCompleteSignUpClick = this.onCompleteSignUpClick.bind(this);
+    this.handlePressEnter = this.handlePressEnter.bind(this);
+    this.handleContinueYourSessionClick = this.handleContinueYourSessionClick.bind(
       this
     );
 
@@ -177,6 +183,14 @@ export class RegistrationTabs extends React.Component<{}, State> {
       selectedTab: tabType,
       signInMode: SignInMode.Default,
       signUpMode: SignUpMode.Default,
+      displayName: '',
+      password: '',
+      validatePassword: '',
+      passwordErrorString: '',
+      passwordFieldsMatch: false,
+      mnemonicSeed: '',
+      hexGeneratedPubKey: '',
+      primaryDevicePubKey: '',
     });
   };
 
@@ -209,25 +223,44 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
   private renderSignUp() {
     const { signUpMode } = this.state;
-    if (signUpMode === SignUpMode.Default) {
-      return (
-        <div className="session-registration__content">
-          {this.renderSignUpHeader()}
-          {this.renderSignUpButton()}
-        </div>
-      );
-    } else {
-      return (
-        <div className="session-registration__content">
-          {this.renderSignUpHeader()}
-          <div className="session-registration__unique-session-id">
-            {window.i18n('yourUniqueSessionID')}
+    switch (signUpMode) {
+      case SignUpMode.Default:
+        return (
+          <div className="session-registration__content">
+            {this.renderSignUpHeader()}
+            {this.renderSignUpButton()}
           </div>
-          {this.renderEnterSessionID(false, this.state.hexGeneratedPubKey)}
-          {this.renderSignUpButton()}
-          {this.getRenderTermsConditionAgreement()}
-        </div>
-      );
+        );
+      case SignUpMode.SessionIDShown:
+        return (
+          <div className="session-registration__content">
+            {this.renderSignUpHeader()}
+            <div className="session-registration__unique-session-id">
+              {window.i18n('yourUniqueSessionID')}
+            </div>
+            {this.renderEnterSessionID(false, this.state.hexGeneratedPubKey)}
+            {this.renderSignUpButton()}
+            {this.getRenderTermsConditionAgreement()}
+          </div>
+        );
+
+      default:
+        return (
+          <div className="session-registration__content">
+            <div className="session-registration__welcome-session">
+              {window.i18n('welcomeToYourSession')}
+            </div>
+
+            {this.renderRegistrationContent()}
+            <SessionButton
+              onClick={() => {
+                this.onCompleteSignUpClick();
+              }}
+              buttonType={SessionButtonType.FullGreen}
+              text={window.i18n('completeSignUp')}
+            />
+          </div>
+        );
     }
   }
 
@@ -291,9 +324,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
   private onSignUpGetStartedClick() {
     this.setState({
-      selectedTab: TabType.SignIn,
-      signInMode: SignInMode.UsingSeed,
+      signUpMode: SignUpMode.EnterDetails,
     });
+  }
+
+  private onCompleteSignUpClick() {
+    this.register('english').ignore();
   }
 
   private renderSignIn() {
@@ -308,7 +344,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderRegistrationContent() {
-    const { signInMode } = this.state;
+    const { signInMode, signUpMode } = this.state;
 
     if (signInMode === SignInMode.UsingSeed) {
       return (
@@ -317,41 +353,19 @@ export class RegistrationTabs extends React.Component<{}, State> {
             label={window.i18n('mnemonicSeed')}
             type="password"
             placeholder={window.i18n('enterSeed')}
-            value={this.state.mnemonicSeed}
             enableShowHide={true}
             onValueChanged={(val: string) => {
               this.onSeedChanged(val);
             }}
-          />
-          <SessionInput
-            label={window.i18n('displayName')}
-            type="text"
-            placeholder={window.i18n('enterDisplayName')}
-            value={this.state.displayName}
-            onValueChanged={(val: string) => {
-              this.onDisplayNameChanged(val);
+            onEnterPressed={() => {
+              this.handlePressEnter();
             }}
           />
-          <SessionInput
-            label={window.i18n('optionalPassword')}
-            type="password"
-            placeholder={window.i18n('enterOptionalPassword')}
-            onValueChanged={(val: string) => {
-              this.onPasswordChanged(val);
-            }}
-          />
-
-          <SessionInput
-            label={window.i18n('verifyPassword')}
-            type="password"
-            placeholder={window.i18n('optionalPassword')}
-            onValueChanged={(val: string) => {
-              this.onPasswordVerifyChanged(val);
-            }}
-          />
+          {this.renderNamePasswordAndVerifyPasswordFields()}
         </div>
       );
-    } else if (signInMode === SignInMode.LinkingDevice) {
+    }
+    if (signInMode === SignInMode.LinkingDevice) {
       return (
         <div className="">
           <div className="session-signin-device-pairing-header">
@@ -360,9 +374,59 @@ export class RegistrationTabs extends React.Component<{}, State> {
           {this.renderEnterSessionID(true)}
         </div>
       );
-    } else {
-      return null;
     }
+    if (signUpMode === SignUpMode.EnterDetails) {
+      return (
+        <div className={classNames('session-registration__entry-fields')}>
+          {this.renderNamePasswordAndVerifyPasswordFields()};
+        </div>
+      );
+    }
+
+    return null;
+  }
+
+  private renderNamePasswordAndVerifyPasswordFields() {
+    return (
+      <div className="inputfields">
+        <SessionInput
+          label={window.i18n('displayName')}
+          type="text"
+          placeholder={window.i18n('enterDisplayName')}
+          value={this.state.displayName}
+          onValueChanged={(val: string) => {
+            this.onDisplayNameChanged(val);
+          }}
+          onEnterPressed={() => {
+            this.handlePressEnter();
+          }}
+        />
+
+        <SessionInput
+          label={window.i18n('optionalPassword')}
+          type="password"
+          placeholder={window.i18n('enterOptionalPassword')}
+          onValueChanged={(val: string) => {
+            this.onPasswordChanged(val);
+          }}
+          onEnterPressed={() => {
+            this.handlePressEnter();
+          }}
+        />
+
+        <SessionInput
+          label={window.i18n('verifyPassword')}
+          type="password"
+          placeholder={window.i18n('optionalPassword')}
+          onValueChanged={(val: string) => {
+            this.onPasswordVerifyChanged(val);
+          }}
+          onEnterPressed={() => {
+            this.handlePressEnter();
+          }}
+        />
+      </div>
+    );
   }
 
   private renderEnterSessionID(contentEditable: boolean, text?: string) {
@@ -436,15 +500,19 @@ export class RegistrationTabs extends React.Component<{}, State> {
     );
   }
 
+  private handleContinueYourSessionClick() {
+    if (this.state.signInMode === SignInMode.UsingSeed) {
+      this.register('english').ignore();
+    } else {
+      this.registerSecondaryDevice().ignore();
+    }
+  }
+
   private renderContinueYourSessionButton() {
     return (
       <SessionButton
         onClick={() => {
-          if (this.state.signInMode === SignInMode.UsingSeed) {
-            this.register('english').ignore();
-          } else {
-            this.registerSecondaryDevice().ignore();
-          }
+          this.handleContinueYourSessionClick();
         }}
         buttonType={SessionButtonType.FullGreen}
         text={window.i18n('continueYourSession')}
@@ -486,6 +554,21 @@ export class RegistrationTabs extends React.Component<{}, State> {
         text={window.i18n('linkDeviceToExistingAccount')}
       />
     );
+  }
+
+  private handlePressEnter() {
+    const { signInMode, signUpMode } = this.state;
+    if (signUpMode === SignUpMode.EnterDetails) {
+      this.onCompleteSignUpClick();
+
+      return;
+    }
+
+    if (signInMode === SignInMode.UsingSeed) {
+      this.handleContinueYourSessionClick();
+
+      return;
+    }
   }
 
   private trim(value: string) {

@@ -2319,7 +2319,7 @@
     "message": "Display Name"
   },
   "enterDisplayName": {
-    "message": "Enter Display Name"
+    "message": "Enter Display Name / Alias"
   },
   "optionalPassword": {
     "message": "Optional Password"
@@ -2359,5 +2359,11 @@
   "ensuringPeaceOfMind...": {
     "message":
       " Ensuring <span class=\"redacted\">peace of</span> mind, one <span class=\"redacted\">session</span> at a time."
+  },
+  "welcomeToYourSession": {
+    "message": "Welcome to your Session!"
+  },
+  "completeSignUp": {
+    "message": "Complete Sign Up"
   }
 }
