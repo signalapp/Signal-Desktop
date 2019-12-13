@@ -19,7 +19,7 @@ export class SessionRegistrationView extends React.Component<Props> {
       <div className="session-content">
         <div id="error" className="collapse" />
         <div className="session-content-accent">
-          <AccentText showSubtitle={showSubtitle || true} />
+          <AccentText showSubtitle={showSubtitle} />
         </div>
         <div className="session-content-registration">
           <RegistrationTabs />

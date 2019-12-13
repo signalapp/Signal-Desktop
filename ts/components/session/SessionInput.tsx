@@ -22,9 +22,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
     super(props);
 
     this.updateInputValue = this.updateInputValue.bind(this);
-    this.renderEnableShowHideButton = this.renderEnableShowHideButton.bind(
-      this
-    );
+    this.renderShowHideButton = this.renderShowHideButton.bind(this);
 
     this.state = {
       inputValue: '',
@@ -63,30 +61,26 @@ export class SessionInput extends React.PureComponent<Props, State> {
           )}
         />
 
-        {this.renderEnableShowHideButton(enableShowHide)}
+        {enableShowHide && this.renderShowHideButton()}
 
         <hr />
       </div>
     );
   }
 
-  private renderEnableShowHideButton(enableShowHide: boolean | undefined) {
-    if (enableShowHide) {
-      return (
-        <SessionIconButton
-          iconType={SessionIconType.Eye}
-          iconSize={SessionIconSize.Medium}
-          iconPadded={false}
-          onClick={() => {
-            this.setState({
-              forceShow: !this.state.forceShow,
-            });
-          }}
-        />
-      );
-    }
-
-    return undefined;
+  private renderShowHideButton() {
+    return (
+      <SessionIconButton
+        iconType={SessionIconType.Eye}
+        iconSize={SessionIconSize.Medium}
+        iconPadded={false}
+        onClick={() => {
+          this.setState({
+            forceShow: !this.state.forceShow,
+          });
+        }}
+      />
+    );
   }
 
   private updateInputValue(e: any) {
