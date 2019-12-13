@@ -40,6 +40,7 @@
     "test-node-coverage-html": "nyc --reporter=lcov --reporter=html mocha --recursive test/app test/modules ts/test libloki/test/node",
     "eslint": "eslint .",
     "lint": "yarn format --list-different && yarn lint-windows",
+    "dev-lint": "yarn format --list-different; yarn lint-windows",
     "lint-windows": "yarn eslint && yarn tslint",
     "lint-deps": "node ts/util/lint/linter.js",
     "tslint": "tslint --format stylish --project .",
