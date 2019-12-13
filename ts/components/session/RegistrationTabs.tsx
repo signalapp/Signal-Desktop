@@ -238,7 +238,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
             <div className="session-registration__unique-session-id">
               {window.i18n('yourUniqueSessionID')}
             </div>
-            {this.renderEnterSessionID(false, this.state.hexGeneratedPubKey)}
+            {this.renderEnterSessionID(false)}
             {this.renderSignUpButton()}
             {this.getRenderTermsConditionAgreement()}
           </div>
@@ -429,22 +429,20 @@ export class RegistrationTabs extends React.Component<{}, State> {
     );
   }
 
-  private renderEnterSessionID(contentEditable: boolean, text?: string) {
+  private renderEnterSessionID(contentEditable: boolean) {
     const enterSessionIDHere = window.i18n('enterSessionIDHere');
 
     return (
       <div
         className="session-signin-enter-session-id"
-        contentEditable={contentEditable}
         placeholder={enterSessionIDHere}
+        contentEditable={contentEditable}
         onInput={(e: any) => {
           if (contentEditable) {
             this.onSecondDeviceSessionIDChanged(e);
           }
         }}
-      >
-        {text}
-      </div>
+      />
     );
   }
 
@@ -532,6 +530,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
             displayName: '',
             signUpMode: SignUpMode.Default,
           });
+          //FIXME ugly hack to empty the content editable div used on enter session ID
+          window.Session.emptyContentEditableDivs();
         }}
         buttonType={buttonType}
         text={window.i18n('restoreUsingSeed')}

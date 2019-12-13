@@ -125,4 +125,8 @@
     const fx = new TextScramble(el);
     fx.setText(sessionID);
   };
+
+  window.Session.emptyContentEditableDivs = () => {
+    window.$('div[contenteditable]').html('');
+  };
 })();
