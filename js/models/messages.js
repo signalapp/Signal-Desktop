@@ -38,7 +38,7 @@
   } = window.Signal.Stickers;
   const { GoogleChrome } = window.Signal.Util;
 
-  const { addStickerPackReference } = window.Signal.Data;
+  const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
   const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
@@ -1836,6 +1836,34 @@
         window.log.info(
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
         );
+
+        // First, check for duplicates. If we find one, stop processing here.
+        const existingMessage = await getMessageBySender(this.attributes, {
+          Message: Whisper.Message,
+        });
+        if (existingMessage) {
+          window.log.warn('Received duplicate message', this.idForLogging());
+          confirm();
+          return;
+        }
+
+        // Send delivery receipts, but only for incoming sealed sender messages
+        if (
+          type === 'incoming' &&
+          this.get('unidentifiedDeliveryReceived') &&
+          !this.hasErrors()
+        ) {
+          // Note: We both queue and batch because we want to wait until we are done
+          //   processing incoming messages to start sending outgoing delivery receipts.
+          //   The queue can be paused easily.
+          Whisper.deliveryReceiptQueue.add(() => {
+            Whisper.deliveryReceiptBatcher.add({
+              source,
+              timestamp: this.get('sent_at'),
+            });
+          });
+        }
+
         const withQuoteReference = await this.copyFromQuotedMessage(
           initialMessage
         );
