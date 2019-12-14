@@ -140,7 +140,7 @@ function getWordAtIndex(
 
   const word = str.slice(start, end);
 
-  if (word === ':') {
+  if (word === ':' && str.length > 1) {
     return getWordAtIndex(str, index + 1);
   }
 
