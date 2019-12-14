@@ -130,7 +130,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     return (
       <div className="content">
         <p className="titleText">
-          ${i18n('addModerators')} <span>${this.props.chatName}</span>
+          {i18n('addModerators')} <span>{this.props.chatName}</span>
         </p>
         <div className="addModeratorBox">
           <p>Add Moderator:</p>

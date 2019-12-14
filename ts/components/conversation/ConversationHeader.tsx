@@ -30,6 +30,7 @@ interface Props {
   isGroup: boolean;
   isArchived: boolean;
   isPublic: boolean;
+  isRss: boolean;
   amMod: boolean;
 
   members: Array<any>;
@@ -235,6 +236,7 @@ export class ConversationHeader extends React.Component<Props> {
       isMe,
       isClosable,
       isPublic,
+      isRss,
       isGroup,
       amMod,
       onDeleteMessages,
@@ -247,7 +249,7 @@ export class ConversationHeader extends React.Component<Props> {
       onInviteFriends,
     } = this.props;
 
-    const isPrivateGroup = isGroup && !isPublic;
+    const isPrivateGroup = isGroup && !isPublic && !isRss;
 
     const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
 
@@ -340,6 +342,7 @@ export class ConversationHeader extends React.Component<Props> {
       isGroup,
       isArchived,
       isPublic,
+      isRss,
       onResetSession,
       onSetDisappearingMessages,
       // onShowAllMedia,
@@ -355,7 +358,7 @@ export class ConversationHeader extends React.Component<Props> {
       onChangeNickname,
     } = this.props;
 
-    if (isPublic) {
+    if (isPublic || isRss) {
       return null;
     }
 

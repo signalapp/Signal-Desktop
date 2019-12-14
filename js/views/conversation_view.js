@@ -228,6 +228,7 @@
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
+          isRss: this.model.isRss(),
           amMod: this.model.isModerator(
             window.storage.get('primaryDevicePubKey')
           ),

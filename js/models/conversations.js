@@ -210,13 +210,13 @@
       return this.id === window.storage.get('primaryDevicePubKey');
     },
     isPublic() {
-      return this.id && this.id.match(/^publicChat:/);
+      return !!(this.id && this.id.match(/^publicChat:/));
     },
     isClosable() {
       return !this.isRss() || this.get('closable');
     },
     isRss() {
-      return this.id && this.id.match(/^rss:/);
+      return !!(this.id && this.id.match(/^rss:/));
     },
     isBlocked() {
       return BlockedNumberController.isBlocked(this.id);
