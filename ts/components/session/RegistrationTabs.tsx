@@ -2,7 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { SessionInput } from './SessionInput';
-import { SessionButton, SessionButtonType } from './SessionButton';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './SessionButton';
 import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 
@@ -256,7 +260,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
               onClick={() => {
                 this.onCompleteSignUpClick();
               }}
-              buttonType={SessionButtonType.FullGreen}
+              buttonType={SessionButtonType.Brand}
+              buttonColor={SessionButtonColor.Green}
               text={window.i18n('completeSignUp')}
             />
           </div>
@@ -286,13 +291,16 @@ export class RegistrationTabs extends React.Component<{}, State> {
   private renderSignUpButton() {
     const { signUpMode } = this.state;
 
-    let buttonType: any;
+    let buttonType: SessionButtonType;
+    let buttonColor: SessionButtonColor;
     let buttonText: string;
     if (signUpMode !== SignUpMode.Default) {
-      buttonType = SessionButtonType.FullGreen;
+      buttonType = SessionButtonType.Brand;
+      buttonColor = SessionButtonColor.Green;
       buttonText = window.i18n('getStarted');
     } else {
-      buttonType = SessionButtonType.Green;
+      buttonType = SessionButtonType.BrandOutline;
+      buttonColor = SessionButtonColor.Green;
       buttonText = window.i18n('generateSessionID');
     }
 
@@ -306,6 +314,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           }
         }}
         buttonType={buttonType}
+        buttonColor={buttonColor}
         text={buttonText}
       />
     );
@@ -462,7 +471,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (signInMode === SignInMode.Default) {
       return (
         <div>
-          {this.renderRestoreUsingSeedButton(SessionButtonType.Green)}
+          {this.renderRestoreUsingSeedButton(
+            SessionButtonType.BrandOutline,
+            SessionButtonColor.Green
+          )}
           <div className="session-registration__or">{or}</div>
           {this.renderLinkDeviceToExistingAccountButton()}
         </div>
@@ -474,7 +486,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
         <div>
           {this.renderContinueYourSessionButton()}
           <div className="session-registration__or">{or}</div>
-          {this.renderRestoreUsingSeedButton(SessionButtonType.White)}
+          {this.renderRestoreUsingSeedButton(
+            SessionButtonType.BrandOutline,
+            SessionButtonColor.Green
+          )}
         </div>
       );
     }
@@ -512,13 +527,17 @@ export class RegistrationTabs extends React.Component<{}, State> {
         onClick={() => {
           this.handleContinueYourSessionClick();
         }}
-        buttonType={SessionButtonType.FullGreen}
+        buttonType={SessionButtonType.Brand}
+        buttonColor={SessionButtonColor.Green}
         text={window.i18n('continueYourSession')}
       />
     );
   }
 
-  private renderRestoreUsingSeedButton(buttonType: SessionButtonType) {
+  private renderRestoreUsingSeedButton(
+    buttonType: SessionButtonType,
+    buttonColor: SessionButtonColor
+  ) {
     return (
       <SessionButton
         onClick={() => {
@@ -534,6 +553,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           window.Session.emptyContentEditableDivs();
         }}
         buttonType={buttonType}
+        buttonColor={buttonColor}
         text={window.i18n('restoreUsingSeed')}
       />
     );
@@ -550,7 +570,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
             signUpMode: SignUpMode.Default,
           });
         }}
-        buttonType={SessionButtonType.White}
+        buttonType={SessionButtonType.BrandOutline}
+        buttonColor={SessionButtonColor.White}
         text={window.i18n('linkDeviceToExistingAccount')}
       />
     );

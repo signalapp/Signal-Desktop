@@ -42,9 +42,16 @@ export class SessionButton extends React.PureComponent<Props> {
   public render() {
     const { buttonType, buttonColor, text } = this.props;
 
+    const buttonTypes = [];
+
+    buttonTypes.push(buttonType);
+    if (buttonType.includes('-outline')) {
+      buttonTypes.push(buttonType.replace('-outline', ''));
+    }
+
     return (
       <div
-        className={classNames('session-button', buttonType, buttonColor)}
+        className={classNames('session-button', ...buttonTypes, buttonColor)}
         role="button"
         onClick={this.clickHandler}
       >

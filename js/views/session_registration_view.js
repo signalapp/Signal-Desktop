@@ -123,6 +123,7 @@
   window.Session.setNewSessionID = sessionID => {
     const el = document.querySelector('.session-signin-enter-session-id');
     const fx = new TextScramble(el);
+    el.innerHTML = sessionID;
     fx.setText(sessionID);
   };
 

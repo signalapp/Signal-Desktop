@@ -1,34 +1,34 @@
 @font-face {
-  font-family: "SpaceMono";
-  src: url("../fonts/SpaceMono-Regular.ttf") format("truetype");
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "SpaceMono";
-  src: url("../fonts/SpaceMono-Bold.ttf") format("truetype");
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 
 @font-face {
-  font-family: "SpaceMono";
-  src: url("../fonts/SpaceMono-Italic.ttf") format("truetype");
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Italic.ttf') format('truetype');
   font-style: italic;
 }
 
 @font-face {
-  font-family: "SpaceMono";
-  src: url("../fonts/SpaceMono-BoldItalic.ttf") format("truetype");
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-BoldItalic.ttf') format('truetype');
   font-weight: bold;
   font-style: italic;
 }
 @font-face {
-  font-family: "Wasa";
-  src: url("../fonts/Wasa-Bold.otf") format("opentype");
+  font-family: 'Wasa';
+  src: url('../fonts/Wasa-Bold.otf') format('opentype');
   font-weight: bold;
 }
 
 // Session Colors
-$session-font-family: "Wasa";
+$session-font-family: 'Wasa';
 
 $session-color-green: #00f782;
 $session-color-green-alt-1: #00f480;
@@ -98,7 +98,11 @@ $session-gradient-green: linear-gradient(
   rgba($session-color-green-alt-1, 1),
   rgba($session-color-green-alt-1, 0.6)
 );
-$session-gradient-black: linear-gradient(90deg, rgba($session-shade-3, 1), rgba($session-shade-4, 0.6));
+$session-gradient-black: linear-gradient(
+  90deg,
+  rgba($session-shade-3, 1),
+  rgba($session-shade-4, 0.6)
+);
 
 $session-dark-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.37);
 
@@ -137,6 +141,7 @@ $session_message-container-border-radius: 5px;
   font-weight: 700;
   user-select: none;
   cursor: pointer;
+  transition: $session-transition-duration;
 
   &.default,
   &.square,
@@ -144,7 +149,11 @@ $session_message-container-border-radius: 5px;
     color: $session-color-white;
 
     &.green {
+      border: 2px solid $session-color-green;
       background-color: $session-color-green;
+      &:hover {
+        @include transparent-background($session-color-green);
+      }
     }
     &.white {
       background-color: $session-color-white;
@@ -168,9 +177,16 @@ $session_message-container-border-radius: 5px;
   &.square-outline {
     &.green {
       @include transparent-background($session-color-green);
+
+      &:hover {
+        @include transparent-background($session-color-white);
+      }
     }
     &.white {
       @include transparent-background($session-color-white);
+      &:hover {
+        @include transparent-background($session-color-green);
+      }
     }
     &.primary {
       @include transparent-background($session-color-primary);
@@ -190,7 +206,7 @@ $session_message-container-border-radius: 5px;
     min-width: 165px;
     height: 45px;
     line-height: 45px;
-    padding: 0 35px 0 35px;
+    padding: 0;
     font-size: 15px;
     font-family: $session-font-family;
     border-radius: 500px;
@@ -211,125 +227,121 @@ $session_message-container-border-radius: 5px;
   &.square-outline {
     border-radius: 0px;
   }
+}
 
-  .hidden {
-    visibility: hidden;
+@mixin set-icon-margin($size) {
+  margin: $size / 3;
+}
+.session-icon {
+  &.padded-left {
+    @include set-icon-margin($session-icon-size-md);
+  }
+}
+.session-icon-button {
+  opacity: 0.4;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity $session-transition-duration;
+  &:hover {
+    opacity: 1;
   }
 
-  @mixin set-icon-margin($size) {
-    margin: $size / 3;
-  }
-  .session-icon {
-    &.padded-left {
-      @include set-icon-margin($session-icon-size-md);
-    }
-  }
-  .session-icon-button {
-    opacity: 0.4;
-    cursor: pointer;
-    display: inline-block;
-    transition: opacity $session-transition-duration;
-    &:hover {
-      opacity: 1;
-    }
-
-    &.small.padded {
-      @include set-icon-margin($session-icon-size-sm);
-    }
-
-    &.medium.padded {
-      @include set-icon-margin($session-icon-size-md);
-    }
-
-    &.large.padded {
-      @include set-icon-margin($session-icon-size-lg);
-    }
+  &.small.padded {
+    @include set-icon-margin($session-icon-size-sm);
   }
 
-  .session-icon {
-    fill: $session-color-white;
+  &.medium.padded {
+    @include set-icon-margin($session-icon-size-md);
   }
 
-  /* CONVERSATION AND MESSAGES */
-
-  @mixin standard-icon-button() {
-    color: $session-color-white;
-    opacity: 0.9;
-
-    &:hover {
-      opacity: 1;
-    }
+  &.large.padded {
+    @include set-icon-margin($session-icon-size-lg);
   }
+}
 
-  .module-conversation-header__title-flex,
-  .module-conversation-header__title {
+.session-icon {
+  fill: $session-color-white;
+}
+
+/* CONVERSATION AND MESSAGES */
+
+@mixin standard-icon-button() {
+  color: $session-color-white;
+  opacity: 0.9;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.module-conversation-header__title-flex,
+.module-conversation-header__title {
+  width: 100%;
+
+  .module-contact-name {
     width: 100%;
-
-    .module-contact-name {
-      width: 100%;
-    }
-
-    .module-contact-name__profile-number {
-      text-align: center;
-    }
   }
 
-  .module-message__author__profile-name {
-    font-style: normal;
+  .module-contact-name__profile-number {
+    text-align: center;
+  }
+}
+
+.module-message__author__profile-name {
+  font-style: normal;
+}
+
+.module-message__author-avatar {
+  flex-direction: column;
+  display: inline-flex;
+  margin-right: 20px;
+  padding-top: 5px;
+}
+
+.odule-message__container {
+  border-radius: $session_message-container-border-radius;
+
+  label {
+    user-select: none;
   }
 
-  .module-message__author-avatar {
-    flex-direction: column;
-    display: inline-flex;
-    margin-right: 20px;
-    padding-top: 5px;
+  .module-message__attachment-container,
+  .module-image--curved-bottom-right,
+  .module-image--curved-bottom-left {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: $session_message-container-border-radius;
+    border-bottom-right-radius: $session_message-container-border-radius;
   }
 
-  .module-message__container {
-    border-radius: $session_message-container-border-radius;
+  .conversation-header .session-icon-button {
+    @include standard-icon-button();
+  }
 
-    label {
-      user-select: none;
-    }
+  .module-conversation-header,
+  .message-selection-overlay {
+    height: $session-conversation-header-height;
+  }
 
-    .module-message__attachment-container,
-    .module-image--curved-bottom-right,
-    .module-image--curved-bottom-left {
-      border-top-left-radius: 0px;
-      border-top-right-radius: 0px;
-      border-bottom-left-radius: $session_message-container-border-radius;
-      border-bottom-right-radius: $session_message-container-border-radius;
-    }
+  .message-selection-overlay {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    display: none;
 
-    .conversation-header .session-icon-button {
-      @include standard-icon-button();
+    .close-button {
+      float: left;
+      margin-top: 17px;
+      margin-left: 7px;
     }
+  }
+  .message-selection-overlay div[role='button'] {
+    display: inline-block;
+  }
 
-    .module-conversation-header,
-    .message-selection-overlay {
-      height: $session-conversation-header-height;
-    }
-
-    .message-selection-overlay {
-      position: absolute;
-      left: 15px;
-      right: 15px;
-      display: none;
-
-      .close-button {
-        float: left;
-        margin-top: 17px;
-        margin-left: 7px;
-      }
-    }
-    .message-selection-overlay div[role="button"] {
-      display: inline-block;
-    }
-
-    .message-selection-overlay .button-group {
-      float: right;
-      margin-top: 13.5px;
-    }
+  .message-selection-overlay .button-group {
+    float: right;
+    margin-top: 13.5px;
   }
 }
 
@@ -386,57 +398,5 @@ $session_message-container-border-radius: 5px;
     top: 50%;
     transform: translateY(-50%);
     right: 0px;
-  }
-}
-
-.session {
-  &-button {
-    width: 100%;
-    height: 45px;
-    line-height: 45px;
-    padding: 0 18px 0 18px;
-    font-size: 15px;
-    font-family: $session-font-family;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    border-radius: 500px;
-    transition-duration: $session-transition-duration;
-
-    @mixin transparent-background($textAndBorderColor) {
-      background-color: Transparent;
-      background-repeat: no-repeat;
-      overflow: hidden;
-      outline: none;
-      color: $textAndBorderColor;
-      border: 2px solid $textAndBorderColor;
-    }
-
-    &.full-green {
-      background-color: $session-color-green;
-      color: $session-color-white;
-      border: 2px solid $session-color-green;
-
-      &:hover {
-        @include transparent-background($session-color-green);
-      }
-    }
-
-    &.green {
-      @include transparent-background($session-color-green);
-
-      &:hover {
-        @include transparent-background($session-color-white);
-      }
-    }
-
-    &.white {
-      @include transparent-background($session-color-white);
-
-      &:hover {
-        @include transparent-background($session-color-green);
-      }
-    }
   }
 }

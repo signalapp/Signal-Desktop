@@ -223,15 +223,15 @@
   }
 
   &-signin-enter-session-id {
-    height: auto;
+    height: 94px;
     width: 289px;
     border-radius: 8px;
     border: 2px solid $session-color-dark-grey;
     outline: 0;
     background: transparent;
     color: $session-color-white;
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 15px;
+    line-height: 18px;
     text-align: center;
     margin-bottom: 20px;
     overflow-wrap: break-word;
