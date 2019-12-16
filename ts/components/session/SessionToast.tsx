@@ -42,19 +42,19 @@ export class SessionToast extends React.PureComponent<Props> {
     let toastIcon;
     switch (type) {
       case SessionToastType.Info:
-        toastIcon = SessionIconType.Eye;
+        toastIcon = SessionIconType.Info;
         break;
       case SessionToastType.Success:
         toastIcon = SessionIconType.Check;
         break;
       case SessionToastType.Error:
-        toastIcon = SessionIconType.Search;
+        toastIcon = SessionIconType.Error;
         break;
       case SessionToastType.Warning:
-        toastIcon = SessionIconType.Globe;
+        toastIcon = SessionIconType.Warning;
         break;
       default:
-        toastIcon = SessionIconType.Globe;
+        toastIcon = SessionIconType.Info;
     }
 
     return (
