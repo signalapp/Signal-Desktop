@@ -1377,6 +1377,7 @@
         window.pushToast({
           title: i18n('messageDeletionForbidden'),
           type: 'error',
+          id: 'messageDeletionForbidden',
         });
 
         return;

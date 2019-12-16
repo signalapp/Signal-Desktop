@@ -32,21 +32,37 @@
         this.props.description = options.description ? options.description : '';
         this.props.type = options.type ? options.type : '';
         this.props.id = options.id ? options.id : '';
-        this.render();
 
-        setTimeout(this.fadeToast.bind(this), 4000);
+        this.toastView.update(this.props);
+        
+        this.showToast();
+        clearTimeout(this.timer);
+        this.timer = setTimeout(this.fadeToast.bind(this), 4000);
+
+      },
+
+      showToast() {
+        this.toastView.$el.show();
       },
 
       fadeToast() {
         this.toastView.$el.fadeOut(500, () => {
-          this.toastView.remove();
+          this.removeToast();
         });
       },
     
       closeToast() {
         this.toastView.$el.fadeOut(125, () => {
-          this.toastView.remove();
+          this.removeToast();
         });
+      },
+
+      removeToast() {
+        this.toastView.remove();
+
+        if (this.props.id){
+          delete window.toasts[this.props.id];
+        }
       },
 
     });
