@@ -2356,10 +2356,6 @@
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
   },
-  "ensuringPeaceOfMind...": {
-    "message":
-      " Ensuring <span class=\"redacted\">peace of</span> mind, one <span class=\"redacted\">session</span> at a time."
-  },
   "welcomeToYourSession": {
     "message": "Welcome to your Session!"
   },

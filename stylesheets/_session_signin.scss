@@ -24,24 +24,6 @@
           font-weight: 700;
           line-height: 120px;
         }
-
-        .subtitle {
-          font-size: 18px;
-          font-weight: 700;
-
-          .redacted {
-            background: $session-color-white;
-            white-space: nowrap;
-            transition: background-color $session-transition-duration ease;
-            border-radius: 100px;
-            padding-left: 7px;
-            padding-right: 7px;
-
-            &:hover {
-              background-color: $session-color-black;
-            }
-          }
-        }
       }
     }
 
