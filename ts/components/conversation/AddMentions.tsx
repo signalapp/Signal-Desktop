@@ -31,12 +31,13 @@ class Mention extends React.Component<MentionProps, MentionState> {
   }
 
   public componentWillMount() {
-    const found = this.findMember(this.props.text.slice(1));
-    this.setState({ found });
 
-    this.tryRenameMention();
+    this.setState({ found: false });
+
     // TODO: give up after some period of time?
     this.intervalHandle = setInterval(this.tryRenameMention, 30000);
+
+    this.tryRenameMention();
   }
 
   public componentWillUnmount() {
@@ -71,8 +72,8 @@ class Mention extends React.Component<MentionProps, MentionState> {
     clearInterval(this.intervalHandle);
   }
 
-  private tryRenameMention() {
-    const found = this.findMember(this.props.text.slice(1));
+  private async tryRenameMention() {
+    const found = await this.findMember(this.props.text.slice(1));
     if (found) {
       this.setState({ found });
       this.clearOurInterval();
