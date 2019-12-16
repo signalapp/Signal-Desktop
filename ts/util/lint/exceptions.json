@@ -7541,9 +7541,9 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 70,
+    "lineNumber": 71,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-08-01T14:10:37.481Z",
+    "updated": "2019-12-16T14:36:25.614ZZ",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
   },
   {

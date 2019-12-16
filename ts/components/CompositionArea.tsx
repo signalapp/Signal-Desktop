@@ -53,6 +53,7 @@ export type Props = Pick<
     StickerButtonProps,
     | 'knownPacks'
     | 'receivedPacks'
+    | 'installedPack'
     | 'installedPacks'
     | 'blessedPacks'
     | 'recentStickers'
@@ -91,6 +92,7 @@ export const CompositionArea = ({
   // StickerButton
   knownPacks,
   receivedPacks,
+  installedPack,
   installedPacks,
   blessedPacks,
   recentStickers,
@@ -269,6 +271,7 @@ export const CompositionArea = ({
         i18n={i18n}
         knownPacks={knownPacks}
         receivedPacks={receivedPacks}
+        installedPack={installedPack}
         installedPacks={installedPacks}
         blessedPacks={blessedPacks}
         recentStickers={recentStickers}
