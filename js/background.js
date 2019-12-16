@@ -321,7 +321,7 @@
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
 
-      getThemeSetting: () => storage.get('theme-setting', 'light'),
+      getThemeSetting: () => storage.get('theme-setting', 'dark'),
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
