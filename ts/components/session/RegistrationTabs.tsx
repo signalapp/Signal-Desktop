@@ -387,7 +387,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (signUpMode === SignUpMode.EnterDetails) {
       return (
         <div className={classNames('session-registration__entry-fields')}>
-          {this.renderNamePasswordAndVerifyPasswordFields()};
+          {this.renderNamePasswordAndVerifyPasswordFields()}
         </div>
       );
     }

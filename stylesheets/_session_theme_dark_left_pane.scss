@@ -1,0 +1,37 @@
+.dark-theme {
+  .module-conversation-list-item {
+    background-color: $session-shade-4;
+    &:hover {
+      background-color: $session-shade-11;
+    }
+  }
+}
+
+.module-left-pane {
+  border-right: none !important;
+  width: 300px;
+
+  &-session {
+    display: flex;
+  }
+
+  &__sections-container {
+    height: -webkit-fill-available;
+    width: 80px;
+    display: inline-flex;
+    flex-direction: column;
+    background: $session-shade-2;
+
+    .module-avatar,
+    .session-icon-button {
+      margin: 30px auto 30px auto;
+      &:last-child {
+        margin: auto auto 30px auto;
+      }
+    }
+  }
+}
+
+.gutter {
+  width: 380px;
+}

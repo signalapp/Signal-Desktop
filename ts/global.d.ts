@@ -16,6 +16,7 @@ interface Window {
   friends: any;
   generateID: any;
   pushToast: any;
+  storage: any;
 }
 
 interface Promise<T> {

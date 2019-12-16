@@ -12,6 +12,8 @@ import {
 } from './SearchResults';
 import { LocalizerType } from '../types/Util';
 
+import { LeftPaneSections } from './LeftPaneSections';
+
 export interface Props {
   conversations?: Array<ConversationListItemPropsType>;
   friends?: Array<ConversationListItemPropsType>;
@@ -45,7 +47,7 @@ type RowRendererParamsType = {
   style: Object;
 };
 
-export class LeftPane extends React.Component<Props, any> {
+export class LeftPane extends React.Component<Props> {
   public state = {
     currentTab: 'conversations',
   };
@@ -268,11 +270,14 @@ export class LeftPane extends React.Component<Props, any> {
     const { renderMainHeader, showArchived } = this.props;
 
     return (
-      <div className="module-left-pane">
-        <div className="module-left-pane__header">
-          {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
+      <div className="module-left-pane-session">
+        <LeftPaneSections />
+        <div className="module-left-pane">
+          <div className="module-left-pane__header">
+            {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
+          </div>
+          {this.renderList()}
         </div>
-        {this.renderList()}
       </div>
     );
   }

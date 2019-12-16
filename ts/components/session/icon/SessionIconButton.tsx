@@ -5,11 +5,15 @@ import { Props, SessionIcon } from '../icon';
 
 interface SProps extends Props {
   onClick: any;
+  notificationCount: number | undefined;
+  isSelected: boolean;
 }
 
 export class SessionIconButton extends React.PureComponent<SProps> {
   public static readonly extendedDefaults = {
     onClick: () => null,
+    notificationCount: undefined,
+    isSelected: false,
   };
   public static readonly defaultProps = {
     ...SessionIcon.defaultProps,
@@ -28,14 +32,24 @@ export class SessionIconButton extends React.PureComponent<SProps> {
       iconColor,
       iconRotation,
       iconPadded,
+      isSelected,
     } = this.props;
+
+    let { notificationCount } = this.props;
+
+    if (notificationCount === 0) {
+      notificationCount = undefined;
+    } else if (notificationCount !== undefined && notificationCount > 9) {
+      notificationCount = 9;
+    }
 
     return (
       <div
         className={classNames(
           'session-icon-button',
           iconSize,
-          iconPadded ? 'padded' : ''
+          iconPadded ? 'padded' : '',
+          isSelected ? 'no-opacify' : ''
         )}
         role="button"
         onClick={e => {
@@ -48,6 +62,9 @@ export class SessionIconButton extends React.PureComponent<SProps> {
           iconColor={iconColor}
           iconRotation={iconRotation}
         />
+        {notificationCount !== undefined && (
+          <span className="notification-count">{notificationCount}</span>
+        )}
       </div>
     );
   }

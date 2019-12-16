@@ -297,12 +297,23 @@ $session_message-container-border-radius: 5px;
   }
 }
 .session-icon-button {
-  opacity: 0.4;
   cursor: pointer;
   display: inline-block;
-  transition: opacity $session-transition-duration;
-  &:hover {
-    opacity: 1;
+  position: relative;
+
+  svg {
+    transition: opacity $session-transition-duration;
+    opacity: 0.4;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &.no-opacify {
+    svg {
+      opacity: 1;
+    }
   }
 
   &.small.padded {
@@ -315,6 +326,23 @@ $session_message-container-border-radius: 5px;
 
   &.large.padded {
     @include set-icon-margin($session-icon-size-lg);
+  }
+
+  .notification-count {
+    position: absolute;
+    font-size: 12px;
+    font-family: $session-font-family;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    padding: 3px;
+    border-radius: 50%;
+    font-weight: 700;
+    background: red;
+    color: $session-color-white;
+    text-align: center;
+    opacity: 1;
   }
 }
 
