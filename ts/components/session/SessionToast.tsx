@@ -52,6 +52,8 @@ export class SessionToast extends React.PureComponent<Props> {
         toastIcon = SessionIconType.Globe;
     }
 
+    setTimeout(this.fadeToast.bind(this), 5000);
+
     return (
       <div className={classNames('session-toast', type)}>
         <div className="toast-icon">
@@ -75,7 +77,11 @@ export class SessionToast extends React.PureComponent<Props> {
     );
   }
 
+  public fadeToast() {
+    $('.session-toast').fadeOut(500);
+  }
+
   public closeToast() {
-    return;
+    $('.session-toast').fadeOut(125);
   }
 }

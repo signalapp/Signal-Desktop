@@ -25,7 +25,7 @@
         )
       );
       this.$el.show();
-      setTimeout(this.close.bind(this), 2000000);
+      setTimeout(this.close.bind(this), 2000);
     },
   });
 
