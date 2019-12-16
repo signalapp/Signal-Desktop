@@ -1,6 +1,8 @@
 import React from 'react';
 import { Avatar } from './Avatar';
 
+import { SessionToast, SessionToastType } from './session/SessionToast';
+
 declare global {
   interface Window {
     displayNameRegex: any;
@@ -45,6 +47,11 @@ export class UserDetailsDialog extends React.Component<Props> {
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
             {cancelText}
           </button>
+
+          <SessionToast
+            title="This is a notification!"
+            type={SessionToastType.Error}
+          />
 
           <button
             className="ok"

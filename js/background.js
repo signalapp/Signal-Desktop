@@ -802,6 +802,45 @@
       appView.openConversation(groupId, {});
     };
 
+    window.toasts = [];
+    window.pushToast = (options) => {
+      // Toast ID can be used to prevent identical toasts appearing at once.
+      // Eg, no two toasts with ID "messageDeletedAlert" can appear on the screen at once.
+      // If you want to be able to display mutliple, don't use toast IDs.
+      
+      // eslint-disable-next-line no-restricted-syntax
+      for (const toast of window.toasts){
+        if ((!!options.id) && (toast.props.id === options.id)) {
+          return;
+        }
+      }
+      
+      // Make new Toast
+      window.toasts.unshift(
+        new Whisper.SessionToastView({
+          el: window.$('#session-toast-container'),
+        })
+      );
+
+      window.toasts[0].update({
+        title: options.title,
+        description: options.description ? options.description : '',
+        type: options.type ? options.type : '',
+        id: options.id ? options.id : '',
+      });
+
+      console.log(window.toasts[0].props.id);
+
+      // Remove some toasts if too many exist
+      const maxToasts = 6;
+      const numToasts = window.toasts.length;
+
+      if (numToasts > maxToasts){
+        window.toasts[4].fadeToast();
+        window.toasts = window.toasts.slice(0, maxToasts - 1);
+      }
+    }
+
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
         const convo = await ConversationController.getOrCreateAndWait(

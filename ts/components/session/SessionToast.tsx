@@ -17,22 +17,27 @@ export enum SessionToastType {
 
 interface Props {
   title: string;
-  description: string;
-  type: SessionToastType;
+  description?: string;
+  type?: SessionToastType;
+  id?: string;
+  fadeToast: any;
+  closeToast: any;
 }
 
 export class SessionToast extends React.PureComponent<Props> {
   public static defaultProps = {
-    description: '',
-    type: SessionToastType.Info,
+    id: '',
   };
-
+  
   constructor(props: any) {
     super(props);
   }
 
   public render() {
     const { title, description, type } = this.props;
+
+    const toastType = type ? type : SessionToastType.Info;
+    const toastDesc = description ? description : '';
 
     let toastIcon;
     switch (type) {
@@ -52,17 +57,15 @@ export class SessionToast extends React.PureComponent<Props> {
         toastIcon = SessionIconType.Globe;
     }
 
-    setTimeout(this.fadeToast.bind(this), 5000);
-
     return (
-      <div className={classNames('session-toast', type)}>
+      <div className={classNames('session-toast', toastType)}>
         <div className="toast-icon">
-          <SessionIcon iconType={toastIcon} iconSize={SessionIconSize.Large} />
+          <SessionIcon iconType={toastIcon} iconSize={toastDesc ? SessionIconSize.Large : SessionIconSize.Medium } />
         </div>
         <div className="toast-info">
           <div className="toast-info-container">
             <h3 className="title">{title}</h3>
-            <p className="description">{description}</p>
+            <p className="description">{toastDesc}</p>
           </div>
         </div>
 
@@ -70,18 +73,10 @@ export class SessionToast extends React.PureComponent<Props> {
           <SessionIconButton
             iconType={SessionIconType.Exit}
             iconSize={SessionIconSize.Small}
-            onClick={this.closeToast}
+            onClick={this.props.closeToast}
           />
         </div>
       </div>
     );
-  }
-
-  public fadeToast() {
-    $('.session-toast').fadeOut(500);
-  }
-
-  public closeToast() {
-    $('.session-toast').fadeOut(125);
   }
 }

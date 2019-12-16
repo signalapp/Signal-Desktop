@@ -322,19 +322,26 @@ $session_message-container-border-radius: 5px;
   margin-top: 13.5px;
 }
 
-.session-toast {
+#session-toast-container {
   position: fixed;
   right: $session-margin-lg;
   bottom: $session-margin-lg;
 
-  padding: $session-margin-md $session-margin-md;
   z-index: 100;
+}
 
+.session-toast {
+  position: relative;
+  padding: $session-margin-md $session-margin-md;
   background-color: rgba($session-shade-6, 0.8);
-
+  margin-bottom: $session-margin-md;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+
+  &:nth-child(n + 6){
+    display: none;
+  }
 
   .toast-icon,
   .toast-info {
@@ -357,7 +364,6 @@ $session_message-container-border-radius: 5px;
 
   .title,
   .description {
-    white-space: nowrap;
     text-overflow: ellipsis;
   }
 
