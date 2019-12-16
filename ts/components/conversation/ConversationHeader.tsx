@@ -293,7 +293,7 @@ export class ConversationHeader extends React.Component<Props> {
 
   public render() {
     const { id, isGroup, isPublic } = this.props;
-    const triggerId = `conversation-${id}`;
+    const triggerId = `conversation-${id}-${Date.now()}`;
 
     const isPrivateGroup = isGroup && !isPublic;
 

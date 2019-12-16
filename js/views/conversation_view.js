@@ -320,7 +320,7 @@
       this.titleView = new Whisper.ReactWrapperView({
         className: 'title-wrapper',
         Component: window.Signal.Components.ConversationHeader,
-        props: getHeaderProps(this.model),
+        props: getHeaderProps(),
       });
       this.updateHeader = () => this.titleView.update(getHeaderProps());
       this.listenTo(this.model, 'change', this.updateHeader);
