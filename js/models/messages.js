@@ -1837,6 +1837,13 @@
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
         );
 
+        // Drop reaction messages at this time
+        if (initialMessage.reaction) {
+          window.log.info('Dropping reaction message', this.idForLogging());
+          confirm();
+          return;
+        }
+
         // First, check for duplicates. If we find one, stop processing here.
         const existingMessage = await getMessageBySender(this.attributes, {
           Message: Whisper.Message,
