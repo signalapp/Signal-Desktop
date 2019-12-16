@@ -1,6 +1,5 @@
 import React from 'react';
 import { Avatar } from './Avatar';
-
 declare global {
   interface Window {
     displayNameRegex: any;

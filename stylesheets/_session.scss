@@ -21,13 +21,15 @@
   font-weight: bold;
   font-style: italic;
 }
-
 @font-face {
   font-family: 'Wasa';
-  src: url('../fonts/Wasa-Bold.otf') format('truetype');
+  src: url('../fonts/Wasa-Bold.otf') format('opentype');
+  font-weight: bold;
 }
 
 // Session Colors
+$session-font-family: 'Wasa';
+
 $session-color-green: #00f782;
 $session-color-green-alt-1: #00f480;
 $session-color-green-alt-2: #00fd73;
@@ -56,11 +58,13 @@ $session-opaque-dark-2: rgba(0, 0, 0, 0.37);
 $session-opaque-dark-3: rgba(0, 0, 0, 0.5);
 
 $session-color-white: #fff;
+$session-color-dark-grey: #353535;
 $session-color-black: #000;
 $session-color-danger: #ff4538;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-16;
 $session-color-warning: $session-shade-17;
+$session-color-light-grey: #a0a0a0;
 
 $session-shadow-opacity: 0.15;
 $session-overlay-opacity: 0.3;
@@ -69,7 +73,6 @@ $session-overlay-opacity: 0.3;
   color: rgba($color, 0.6);
 }
 
-$session-font-family: 'Wasa';
 $session-transition-duration: 0.25s;
 
 $session-icon-size-sm: 15px;
@@ -77,6 +80,18 @@ $session-icon-size-md: 20px;
 $session-icon-size-lg: 30px;
 
 $session-conversation-header-height: 60px;
+
+@mixin fontWasaBold {
+  font-weight: 700;
+  font-family: $session-font-family;
+}
+
+a,
+div,
+span,
+label {
+  user-select: none;
+}
 
 $session-gradient-green: linear-gradient(
   270deg,
@@ -126,6 +141,7 @@ $session_message-container-border-radius: 5px;
   font-weight: 700;
   user-select: none;
   cursor: pointer;
+  transition: $session-transition-duration;
 
   &.default,
   &.square,
@@ -133,7 +149,11 @@ $session_message-container-border-radius: 5px;
     color: $session-color-white;
 
     &.green {
+      border: 2px solid $session-color-green;
       background-color: $session-color-green;
+      &:hover {
+        @include transparent-background($session-color-green);
+      }
     }
     &.white {
       background-color: $session-color-white;
@@ -157,9 +177,16 @@ $session_message-container-border-radius: 5px;
   &.square-outline {
     &.green {
       @include transparent-background($session-color-green);
+
+      &:hover {
+        @include transparent-background($session-color-white);
+      }
     }
     &.white {
       @include transparent-background($session-color-white);
+      &:hover {
+        @include transparent-background($session-color-green);
+      }
     }
     &.primary {
       @include transparent-background($session-color-primary);
@@ -179,7 +206,7 @@ $session_message-container-border-radius: 5px;
     min-width: 165px;
     height: 45px;
     line-height: 45px;
-    padding: 0 35px 0 35px;
+    padding: 0;
     font-size: 15px;
     font-family: $session-font-family;
     border-radius: 500px;
@@ -271,45 +298,105 @@ $session_message-container-border-radius: 5px;
   padding-top: 5px;
 }
 
-.module-message__container {
+.odule-message__container {
   border-radius: $session_message-container-border-radius;
-}
 
-.module-message__attachment-container,
-.module-image--curved-bottom-right,
-.module-image--curved-bottom-left {
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-bottom-left-radius: $session_message-container-border-radius;
-  border-bottom-right-radius: $session_message-container-border-radius;
-}
+  label {
+    user-select: none;
+  }
 
-.conversation-header .session-icon-button {
-  @include standard-icon-button();
-}
+  .module-message__attachment-container,
+  .module-image--curved-bottom-right,
+  .module-image--curved-bottom-left {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: $session_message-container-border-radius;
+    border-bottom-right-radius: $session_message-container-border-radius;
+  }
 
-.module-conversation-header,
-.message-selection-overlay {
-  height: $session-conversation-header-height;
-}
+  .conversation-header .session-icon-button {
+    @include standard-icon-button();
+  }
 
-.message-selection-overlay {
-  position: absolute;
-  left: 15px;
-  right: 15px;
-  display: none;
+  .module-conversation-header,
+  .message-selection-overlay {
+    height: $session-conversation-header-height;
+  }
 
-  .close-button {
-    float: left;
-    margin-top: 17px;
-    margin-left: 7px;
+  .message-selection-overlay {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    display: none;
+
+    .close-button {
+      float: left;
+      margin-top: 17px;
+      margin-left: 7px;
+    }
+  }
+  .message-selection-overlay div[role='button'] {
+    display: inline-block;
+  }
+
+  .message-selection-overlay .button-group {
+    float: right;
+    margin-top: 13.5px;
   }
 }
-.message-selection-overlay div[role='button'] {
-  display: inline-block;
+
+.hidden {
+  visibility: hidden;
 }
 
-.message-selection-overlay .button-group {
-  float: right;
-  margin-top: 13.5px;
+.input-with-label-container {
+  height: 46.5px;
+  width: 280px;
+  color: $session-color-white;
+  padding: 2px 0 2px 0;
+  transition: opacity $session-transition-duration;
+  opacity: 1;
+  position: relative;
+
+  label {
+    line-height: 14px;
+    opacity: 0;
+    color: #737373;
+    font-size: 10px;
+    line-height: 11px;
+    position: absolute;
+    top: 0px;
+  }
+
+  &.filled {
+    opacity: 1;
+  }
+
+  input {
+    border: none;
+    outline: 0;
+    height: 14px;
+    width: 280px;
+    background: transparent;
+    color: $session-color-white;
+    font-size: 12px;
+    line-height: 14px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  hr {
+    border: 1px solid $session-color-white;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+  }
+
+  button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0px;
+  }
 }

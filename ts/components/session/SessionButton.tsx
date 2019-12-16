@@ -1,8 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-//import { LocalizerType } from '../../types/Util';
-
 export enum SessionButtonType {
   Brand = 'brand',
   BrandOutline = 'brand-outline',
@@ -23,7 +21,6 @@ export enum SessionButtonColor {
 }
 
 interface Props {
-  //i18n: LocalizerType;
   text: string;
   buttonType: SessionButtonType;
   buttonColor: SessionButtonColor;
@@ -45,13 +42,18 @@ export class SessionButton extends React.PureComponent<Props> {
   public render() {
     const { buttonType, buttonColor, text } = this.props;
 
+    const buttonTypes = [];
+
+    buttonTypes.push(buttonType);
+    if (buttonType.includes('-outline')) {
+      buttonTypes.push(buttonType.replace('-outline', ''));
+    }
+
     return (
       <div
-        onClick={e => {
-          this.clickHandler(e);
-        }}
-        className={classNames('session-button', buttonType, buttonColor)}
+        className={classNames('session-button', ...buttonTypes, buttonColor)}
         role="button"
+        onClick={this.clickHandler}
       >
         {text}
       </div>
