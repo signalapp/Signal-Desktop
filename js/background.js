@@ -803,7 +803,7 @@
     };
 
     window.toasts = {};
-    window.pushToast = (options) => {
+    window.pushToast = options => {
       // Setting toasts with the same ID can be used to prevent identical
       // toasts from appearing at once (stacking).
       // If toast already exists, it will be reloaded (updated)
@@ -813,44 +813,46 @@
         description: options.description ? options.description : '',
         type: options.type ? options.type : '',
         id: options.id ? options.id : '',
-      }
+      };
 
       // Give all toasts an ID. User may define.
       const toastID = options.id
         ? options.id
-        : Math.random().toString(36).substring(3);
-    
+        : Math.random()
+            .toString(36)
+            .substring(3);
+
       let toastExists = false;
       // eslint-disable-next-line no-restricted-syntax
       for (const key in window.toasts) {
-        if ((!!options.id) && (key === options.id)) {
+        if (!!options.id && key === options.id) {
           toastExists = true;
           window.toasts[key].update(params);
           break;
         }
       }
-      
-      if (! toastExists){
+
+      if (!toastExists) {
         // Make new Toast
         window.toasts[toastID] = new Whisper.SessionToastView({
-            el: window.$('#session-toast-container'),
+          el: window.$('#session-toast-container'),
         });
 
         window.toasts[toastID].render();
         window.toasts[toastID].update(params);
       }
-      
+
       // Remove some toasts if too many exist
       const maxToasts = 6;
       const numToasts = window.toasts.length;
 
-      if (numToasts > maxToasts){
+      if (numToasts > maxToasts) {
         const finalToastID = window.toasts.keys[window.toasts.length];
         window.toasts[finalToastID].fadeToast();
       }
 
       return toastID;
-    }
+    };
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {

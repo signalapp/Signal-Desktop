@@ -1927,7 +1927,7 @@
       let message = this.memberView.replaceMentions(input.val());
       message = window.Signal.Emoji.replaceColons(message).trim();
 
-      const toastOptions = {type: 'info'};
+      const toastOptions = { type: 'info' };
       if (extension.expired()) {
         toastOptions.title = i18n('expiredWarning');
         toastOptions.id = 'expiredWarning';
@@ -1958,7 +1958,7 @@
       }
 
       if (toastOptions.title) {
-        window.pushToast(toastOptions);       
+        window.pushToast(toastOptions);
         this.focusMessageFieldAndClearDisabled();
         return;
       }
