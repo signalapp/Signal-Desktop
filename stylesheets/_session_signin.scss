@@ -31,6 +31,22 @@
       height: 60%;
       padding-right: 128px;
     }
+
+    &-close-button {
+      position: absolute;
+      top: 17px;
+      left: 20px;
+    }
+
+    &-session-button {
+      position: absolute;
+      top: 17px;
+      right: 20px;
+
+      img {
+        width: 30px;
+      }
+    }
   }
 
   &-registration {
