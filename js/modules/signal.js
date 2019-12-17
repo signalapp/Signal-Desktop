@@ -50,6 +50,7 @@ const {
 } = require('../../ts/components/conversation/CreateGroupDialog');
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
+const { SessionToast } = require('../../ts/components/session/SessionToast');
 const {
   SessionRegistrationView,
 } = require('../../ts/components/session/SessionRegistrationView');
@@ -248,6 +249,7 @@ exports.setup = (options = {}) => {
     InviteFriendsDialog,
     GroupInvitation,
     BulkEdit,
+    SessionToast,
     MediaGallery,
     Message,
     MessageBody,

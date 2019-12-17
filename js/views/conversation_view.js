@@ -23,31 +23,8 @@
     getAbsoluteAttachmentPath,
   } = window.Signal.Migrations;
 
-  Whisper.ExpiredToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('expiredWarning') };
-    },
-  });
-  Whisper.ClockOutOfSyncToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('clockOutOfSync') };
-    },
-  });
-  Whisper.BlockedToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('unblockToSend') };
-    },
-  });
-  Whisper.BlockedGroupToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('unblockGroupToSend') };
-    },
-  });
-  Whisper.LeftGroupToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('youLeftTheGroup') };
-    },
-  });
+  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
+
   Whisper.OriginalNotFoundToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('originalMessageNotFound') };
@@ -66,19 +43,6 @@
   Whisper.VoiceNoteMustBeOnlyAttachmentToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('voiceNoteMustBeOnlyAttachment') };
-    },
-  });
-
-  Whisper.MessageDeletionForbiddenToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('messageDeletionForbidden') };
-    },
-  });
-
-  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
-  Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('messageBodyTooLong') };
     },
   });
 
@@ -1410,9 +1374,11 @@
       );
 
       if (!isAllOurs && !isModerator) {
-        const toast = new Whisper.MessageDeletionForbiddenToast();
-        toast.$el.appendTo(this.$el);
-        toast.render();
+        window.pushToast({
+          title: i18n('messageDeletionForbidden'),
+          type: 'error',
+          id: 'messageDeletionForbidden',
+        });
 
         return;
       }
@@ -1961,31 +1927,38 @@
       let message = this.memberView.replaceMentions(input.val());
       message = window.Signal.Emoji.replaceColons(message).trim();
 
-      let toast;
+      const toastOptions = { type: 'info' };
       if (extension.expired()) {
-        toast = new Whisper.ExpiredToast();
+        toastOptions.title = i18n('expiredWarning');
+        toastOptions.id = 'expiredWarning';
       }
       if (!window.clientClockSynced) {
         // Check to see if user has updated their clock to current time
         const clockSynced = await window.LokiPublicChatAPI.setClockParams();
-        toast = clockSynced ? toast : new Whisper.ClockOutOfSyncToast();
+        if (clockSynced) {
+          toastOptions.title = i18n('clockOutOfSync');
+          toastOptions.id = 'clockOutOfSync';
+        }
       }
       if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
-        toast = new Whisper.BlockedToast();
+        toastOptions.title = i18n('unblockToSend');
+        toastOptions.id = 'unblockToSend';
       }
       if (!this.model.isPrivate() && storage.isGroupBlocked(this.model.id)) {
-        toast = new Whisper.BlockedGroupToast();
+        toastOptions.title = i18n('unblockGroupToSend');
+        toastOptions.id = 'unblockGroupToSend';
       }
       if (!this.model.isPrivate() && this.model.get('left')) {
-        toast = new Whisper.LeftGroupToast();
+        toastOptions.title = i18n('youLeftTheGroup');
+        toastOptions.id = 'youLeftTheGroup';
       }
       if (message.length > MAX_MESSAGE_BODY_LENGTH) {
-        toast = new Whisper.MessageBodyTooLongToast();
+        toastOptions.title = i18n('messageBodyTooLong');
+        toastOptions.id = 'messageBodyTooLong';
       }
 
-      if (toast) {
-        toast.$el.appendTo(this.$el);
-        toast.render();
+      if (toastOptions.title) {
+        window.pushToast(toastOptions);
         this.focusMessageFieldAndClearDisabled();
         return;
       }

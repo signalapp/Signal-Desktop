@@ -802,6 +802,52 @@
       appView.openConversation(groupId, {});
     };
 
+    window.toasts = new Map();
+    window.pushToast = options => {
+      // Setting toasts with the same ID can be used to prevent identical
+      // toasts from appearing at once (stacking).
+      // If toast already exists, it will be reloaded (updated)
+
+      const params = {
+        title: options.title,
+        id:
+          options.id ||
+          Math.random()
+            .toString(36)
+            .substring(3),
+        description: options.description || '',
+        type: options.type || '',
+      };
+
+      // Give all toasts an ID. User may define.
+      const toastID = params.id;
+      const toast = !!toastID && window.toasts.get(toastID);
+      if (toast) {
+        window.toasts.get(toastID).update(params);
+      } else {
+
+        // Make new Toast
+        window.toasts.set(
+          toastID,
+          new Whisper.SessionToastView({
+            el: $('#session-toast-container'),
+          })
+        );
+
+        window.toasts.get(toastID).render();
+        window.toasts.get(toastID).update(params);
+      }
+
+      // Remove some toasts if too many exist
+      const maxToasts = 6;
+      while (window.toasts.size > maxToasts) {
+        const finalToastID = window.toasts.keys().next().value;
+        window.toasts.get(finalToastID).fadeToast();
+      }
+
+      return toastID;
+    };
+
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
         const convo = await ConversationController.getOrCreateAndWait(

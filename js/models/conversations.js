@@ -2648,8 +2648,11 @@
 
     copyPublicKey() {
       clipboard.writeText(this.id);
-      window.Whisper.events.trigger('showToast', {
-        message: i18n('copiedPublicKey'),
+
+      window.pushToast({
+        title: i18n('copiedPublicKey'),
+        type: 'success',
+        id: 'copiedPublicKey',
       });
     },
 

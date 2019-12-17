@@ -74,12 +74,11 @@
     },
     copySeed() {
       window.clipboard.writeText(this.seed);
-
-      const toast = new Whisper.MessageToastView({
-        message: i18n('copiedMnemonic'),
+      window.pushToast({
+        title: i18n('copiedMnemonic'),
+        type: 'success',
+        id: 'copySeedToast',
       });
-      toast.$el.appendTo(this.$el);
-      toast.render();
     },
     onKeyup(event) {
       switch (event.key) {

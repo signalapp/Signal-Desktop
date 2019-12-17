@@ -1021,8 +1021,11 @@
       } else {
         clipboard.writeText(this.OUR_NUMBER);
       }
-      window.Whisper.events.trigger('showToast', {
-        message: i18n('copiedPublicKey'),
+
+      window.pushToast({
+        title: i18n('copiedPublicKey'),
+        type: 'success',
+        id: 'copiedPublicKey',
       });
     },
 
@@ -1037,12 +1040,16 @@
           const success = await channelAPI.banUser(source);
 
           if (success) {
-            window.Whisper.events.trigger('showToast', {
-              message: i18n('userBanned'),
+            window.pushToast({
+              title: i18n('userBanned'),
+              type: 'success',
+              id: 'userBanned',
             });
           } else {
-            window.Whisper.events.trigger('showToast', {
-              message: i18n('userBanFailed'),
+            window.pushToast({
+              title: i18n('userBanFailed'),
+              type: 'error',
+              id: 'userBanFailed',
             });
           }
         },
@@ -1074,8 +1081,11 @@
 
     copyText() {
       clipboard.writeText(this.get('body'));
-      window.Whisper.events.trigger('showToast', {
-        message: i18n('copiedMessage'),
+
+      window.pushToast({
+        title: i18n('copiedMessage'),
+        type: 'success',
+        id: 'copiedMessage',
       });
     },
 
