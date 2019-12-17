@@ -399,6 +399,12 @@
           ),
         });
       },
+
+      installStickerPack: async (packId, key) => {
+        window.Signal.Stickers.downloadStickerPack(packId, key, {
+          finalStatus: 'installed',
+        });
+      },
     };
 
     if (isIndexedDBPresent) {

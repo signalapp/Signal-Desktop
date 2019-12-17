@@ -56,6 +56,7 @@ npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn grunt                     # Generate final JS and CSS assets
 yarn icon-gen                  # Generate full set of icons for Electron
+yarn build:webpack             # Build parts of the app that use webpack (Sticker Creator)
 yarn test                      # A good idea to make sure tests run first
 yarn start                     # Start Signal!
 ```
@@ -74,6 +75,24 @@ while you make changes:
 
 ```
 yarn grunt dev # runs until you stop it, re-generating built assets on file changes
+```
+
+### webpack
+
+Some parts of the app (such as the Sticker Creator) have moved to webpack.
+You can run a development server for these parts of the app with the
+following command:
+
+```
+yarn dev
+```
+
+In order for the app to make requests to the development server you must set
+the `SIGNAL_ENABLE_HTTP` environment variable to a truthy value. On Linux and
+macOS, that simply looks like this:
+
+```
+SIGNAL_ENABLE_HTTP=1 yarn start
 ```
 
 ## Setting up standalone
@@ -261,7 +280,7 @@ To test changes to the build system, build a release using
 
 ```
 yarn generate
-yarn build-release
+yarn build
 ```
 
 Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.

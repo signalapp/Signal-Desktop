@@ -17,6 +17,7 @@ ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
 ts/util/lint/exceptions.json
+sticker-creator/dist/**
 
 # Third-party files
 node_modules/**

@@ -20,6 +20,7 @@ const getRealPath = pify(fs.realpath);
 const {
   app,
   BrowserWindow,
+  dialog,
   ipcMain: ipc,
   Menu,
   protocol: electronProtocol,
@@ -141,9 +142,11 @@ let logger;
 let locale;
 
 function prepareURL(pathSegments, moreKeys) {
+  const parsed = url.parse(path.join(...pathSegments));
+
   return url.format({
-    pathname: path.join.apply(null, pathSegments),
-    protocol: 'file:',
+    ...parsed,
+    protocol: parsed.protocol || 'file:',
     slashes: true,
     query: {
       name: packageJson.productName,
@@ -168,8 +171,10 @@ function prepareURL(pathSegments, moreKeys) {
 
 async function handleUrl(event, target) {
   event.preventDefault();
-  const { protocol } = url.parse(target);
-  if (protocol === 'http:' || protocol === 'https:') {
+  const { protocol, hostname } = url.parse(target);
+  const isDevServer = config.enableHttp && hostname === 'localhost';
+  // We only want to specially handle urls that aren't requesting the dev server
+  if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
     try {
       await shell.openExternal(target);
     } catch (error) {
@@ -557,6 +562,81 @@ async function showSettingsWindow() {
   });
 }
 
+async function getIsLinked() {
+  try {
+    const number = await sql.getItemById('number_id');
+    const password = await sql.getItemById('password');
+    return Boolean(number && password);
+  } catch (e) {
+    return false;
+  }
+}
+
+let stickerCreatorWindow;
+async function showStickerCreator() {
+  if (!await getIsLinked()) {
+    const { message } = locale.messages[
+      'StickerCreator--Authentication--error'
+    ];
+
+    dialog.showMessageBox({
+      type: 'warning',
+      message,
+    });
+
+    return;
+  }
+
+  if (stickerCreatorWindow) {
+    stickerCreatorWindow.show();
+    return;
+  }
+
+  const { x = 0, y = 0 } = windowConfig || {};
+
+  const options = {
+    x: x + 100,
+    y: y + 100,
+    width: 800,
+    minWidth: 800,
+    height: 650,
+    title: locale.messages.signalDesktopStickerCreator,
+    autoHideMenuBar: true,
+    backgroundColor: '#2090EA',
+    show: false,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'sticker-creator/preload.js'),
+      nativeWindowOpen: true,
+    },
+  };
+
+  stickerCreatorWindow = new BrowserWindow(options);
+
+  captureClicks(stickerCreatorWindow);
+
+  const appUrl = config.enableHttp
+    ? prepareURL(['http://localhost:6380/sticker-creator/dist/index.html'])
+    : prepareURL([__dirname, 'sticker-creator/dist/index.html']);
+
+  stickerCreatorWindow.loadURL(appUrl);
+
+  stickerCreatorWindow.on('closed', () => {
+    stickerCreatorWindow = null;
+  });
+
+  stickerCreatorWindow.once('ready-to-show', () => {
+    stickerCreatorWindow.show();
+
+    if (config.get('openDevTools')) {
+      // Open the DevTools.
+      stickerCreatorWindow.webContents.openDevTools();
+    }
+  });
+}
+
 let debugLogWindow;
 async function showDebugLogWindow() {
   if (debugLogWindow) {
@@ -672,6 +752,7 @@ app.on('ready', async () => {
   }
 
   installWebHandler({
+    enableHttp: config.enableHttp,
     protocol: electronProtocol,
   });
 
@@ -778,13 +859,15 @@ app.on('ready', async () => {
 
 function setupMenu(options) {
   const { platform } = process;
-  const menuOptions = Object.assign({}, options, {
+  const menuOptions = {
+    ...options,
     development,
     showDebugLog: showDebugLogWindow,
     showKeyboardShortcuts,
     showWindow,
     showAbout,
     showSettings: showSettingsWindow,
+    showStickerCreator,
     openReleaseNotes,
     openNewBugForm,
     openSupportPage,
@@ -793,7 +876,7 @@ function setupMenu(options) {
     setupWithImport,
     setupAsNewDevice,
     setupAsStandalone,
-  });
+  };
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
@@ -1090,3 +1173,8 @@ function handleSgnlLink(incomingUrl) {
     console.error('Unhandled sgnl link');
   }
 }
+
+ipc.on('install-sticker-pack', (_event, packId, packKeyHex) => {
+  const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
+  mainWindow.webContents.send('install-sticker-pack', { packId, packKey });
+});

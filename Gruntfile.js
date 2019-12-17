@@ -98,6 +98,7 @@ module.exports = grunt => {
       dev: {
         files: {
           'stylesheets/manifest.css': 'stylesheets/manifest.scss',
+          'stylesheets/manifest_bridge.css': 'stylesheets/manifest_bridge.scss',
         },
       },
     },

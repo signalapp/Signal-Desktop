@@ -59,6 +59,7 @@ describe('SignalMenu', () => {
                 showDebugLog: null,
                 showKeyboardShortcuts: null,
                 showSettings: null,
+                showStickerCreator: null,
                 showWindow: null,
               };
               const appLocale = 'en';

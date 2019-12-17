@@ -1,0 +1,24 @@
+@import '../../stylesheets/variables';
+@import '../mixins';
+
+.base {
+  height: 4px;
+  width: 100%;
+  max-width: 448px;
+
+  @include light-theme() {
+    background: $color-gray-15;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-75;
+  }
+}
+
+.bar {
+  height: 4px;
+  width: 0px;
+  background: $color-signal-blue;
+
+  transition: width 100ms ease-out;
+}

@@ -27,3 +27,9 @@ test/test.js
 # React / TypeScript
 ts/**/*.js
 ts/protobuf/*.d.ts
+
+# CSS Modules
+**/*.scss.d.ts
+
+# Sticker Creator
+sticker-creator/dist/*

@@ -48,6 +48,13 @@
       {
         "label": "Set Up as New Device",
         "click": null
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Create/upload sticker pack",
+        "click": null
       }
     ]
   },

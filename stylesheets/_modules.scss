@@ -6179,6 +6179,7 @@ button.module-image__border-overlay:focus {
       padding: 0;
       justify-content: center;
       align-items: center;
+      @include font-body-1;
 
       @include light-theme {
         color: $color-gray-60;
@@ -6288,6 +6289,7 @@ button.module-image__border-overlay:focus {
   @include emoji-size(16px);
   @include emoji-size(18px);
   @include emoji-size(20px);
+  @include emoji-size(24px);
   @include emoji-size(28px);
   @include emoji-size(32px);
   @include emoji-size(64px);
