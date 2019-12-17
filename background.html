@@ -667,93 +667,6 @@
     {{/isError}}
   </script>
 
-  <script type='text/x-tmpl-mustache' id='standalone'>
-    <div class='step standalone'>
-      <div class='inner'>
-        <div class='step-body'>
-          <div class='header'>Create your Loki Messenger Account</div>
-
-          <!-- Registration -->
-          <div class='page'>
-            <!-- New account -->
-            <h4 class='section-toggle section-toggle-visible'>Register a new account</h4>
-            <div class='standalone-register section-content'>
-              <div class='standalone-register-warning'>
-                Please save the seed below in a safe location.
-                </br>
-                They can be used to restore your account if you lose access or migrate to a new device.
-              </div>
-              <div class='standalone-register-language'>
-                <span>Language:</span>
-                <div class='select-container'>
-                  <select id='mnemonic-display-language'></select>
-                </div>
-              </div>
-              <div id='mnemonic-display' />
-              <div class='standalone-register-buttons'>
-                <a class='button grey' id='generate-mnemonic'>Generate Seed</a>
-                <a class='button grey' id='copy-mnemonic'>Copy Seed</a>
-                <a class='button' id='register' data-loading-text='Please wait...'>Register</a>
-              </div>
-            </div>
-            <!-- Restore using seed -->
-            <h4 class='section-toggle'>Restore using seed</h4>
-            <div class='standalone-mnemonic section-content'>
-              <div class='standalone-mnemonic-inputs'>
-                <input class='form-control' type='text' id='mnemonic' placeholder='Mnemonic Seed' autocomplete='off' spellcheck='false' />
-              </div>
-              <div id='error' class='collapse'></div>
-              <div class='restore standalone-register-language'>
-                <span>Language:</span>
-                <div class='select-container'>
-                  <select id='mnemonic-language'></select>
-                </div>
-              </div>
-              <a class='button' id='register-mnemonic'>Restore</a>
-              <div id=status></div>
-            </div>
-            <!-- Link device to an existing account -->
-            <h4 class='section-toggle'>Link device to an existing account</h4>
-            <div class='standalone-secondary-device section-content'>
-              <p class='standalone-register-warning'>
-                You will need your Primary Device handy during this step.
-                </br>
-                Open the Loki Messenger App on your Primary Device
-              </br>
-                and select "Device Pairing" in the main menu.
-              </p>
-              <div class='standalone-secondary-device-inputs'>
-                <input class='form-control' type='text' id='primary-pubkey' placeholder='Primary Account Public Key' autocomplete='off' spellcheck='false' />
-              </div>
-              <div id='pubkey' class='collapse'></div>
-              <div id='error' class='collapse'></div>
-              <button type='button' class='button' id='register-secondary-device'>Link</button>
-              <button type='button' class='button' id='cancel-secondary-device' style="display: none;">Cancel</button>
-            </div>
-          </div>
-
-          <!-- Profile -->
-          <div class='page'>
-            <div class='display-name-input'>
-              <div class='input-header'>Enter your public display name</div>
-              <input class='form-control' type='text' id='display-name' placeholder='Display Name' autocomplete='off' spellcheck='false' maxlength='25'>
-            </div>
-            <div class='password-inputs'>
-                <div class='input-header'>Type an optional password for added security</div>
-                <input class='form-control' type='password' id='password' placeholder='Password (optional)' autocomplete='off' spellcheck='false'>
-                <input class='form-control' type='password' id='password-confirmation' placeholder='Retype your password' autocomplete='off' spellcheck='false'>
-                <div class='error'></div>
-            </div>
-            <div class='buttons'>
-              <button class='button grey' id='back-button' tabindex='2'>Back</button>
-              <button class='button' id='save-button' tabindex='1'>Save</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </script>
 
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/reliable_trigger.js'></script>
@@ -814,7 +727,7 @@
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>
   <script type="text/javascript" src="js/views/phone-input-view.js"></script>
-  <script type='text/javascript' src='js/views/standalone_registration_view.js'></script>
+  <script type='text/javascript' src='js/views/session_registration_view.js'></script>
   <script type='text/javascript' src='js/views/app_view.js'></script>
   <script type='text/javascript' src='js/views/import_view.js'></script>
   <script type='text/javascript' src='js/views/clear_data_view.js'></script>
@@ -825,7 +738,7 @@
   <script type='text/javascript' src='js/views/edit_profile_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/invite_friends_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/user_details_dialog_view.js'></script>
-
+  
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
   <script type='text/javascript' src='js/keychange_listener.js'></script>

@@ -321,7 +321,7 @@
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
 
-      getThemeSetting: () => storage.get('theme-setting', 'light'),
+      getThemeSetting: () => storage.get('theme-setting', 'dark'),
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
@@ -951,6 +951,12 @@
           initialLoadComplete,
         });
       }
+    });
+
+    Whisper.events.on('openInbox', () => {
+      appView.openInbox({
+        initialLoadComplete,
+      });
     });
 
     Whisper.events.on('onEditProfile', async () => {

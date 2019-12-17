@@ -2289,5 +2289,77 @@
         "example": ""
       }
     }
+  },
+  "createAccount": {
+    "message": "Create Account"
+  },
+  "signIn": {
+    "message": "Sign In"
+  },
+  "yourUniqueSessionID": {
+    "message": "Your Unique Session ID"
+  },
+  "allUsersAreRandomly...": {
+    "message":
+      "All users are randomly generated a set of numbers that act as their unique Session ID. Share your Session ID in order to chat with your friends!"
+  },
+  "getStarted": {
+    "message": "Get started"
+  },
+  "generateSessionID": {
+    "message": "Generate Session ID"
+  },
+  "mnemonicSeed": {
+    "message": "Mnemonic Seed"
+  },
+  "enterSeed": {
+    "message": "Enter Seed"
+  },
+  "displayName": {
+    "message": "Display Name"
+  },
+  "enterDisplayName": {
+    "message": "Enter Display Name / Alias"
+  },
+  "optionalPassword": {
+    "message": "Optional Password"
+  },
+  "enterOptionalPassword": {
+    "message": "Enter Optional Password"
+  },
+  "verifyPassword": {
+    "message": "Verify Password"
+  },
+  "devicePairingHeader": {
+    "message":
+      "Open the Loki Messenger App on your primary device and select Device Pairing from the main menu. Then, enter your Session ID below to sign in."
+  },
+  "enterSessionIDHere": {
+    "message": "Enter your Session ID here"
+  },
+  "continueYourSession": {
+    "message": "Continue Your Session"
+  },
+  "restoreUsingSeed": {
+    "message": "Restore Using Seed"
+  },
+  "linkDeviceToExistingAccount": {
+    "message": "Link Device To Existing Account"
+  },
+  "or": {
+    "message": "or"
+  },
+  "ByUsingThiService...": {
+    "message":
+      "By using this service, you agree to our <a>Terms and Conditions</a> and <a>Privacy Statement</a>"
+  },
+  "beginYourSession": {
+    "message": "Begin<br />your<br />Session."
+  },
+  "welcomeToYourSession": {
+    "message": "Welcome to your Session!"
+  },
+  "completeSignUp": {
+    "message": "Complete Sign Up"
   }
 }

@@ -105,7 +105,7 @@
     openStandalone() {
       window.addSetupMenuItems();
       this.resetViews();
-      this.standaloneView = new Whisper.StandaloneRegistrationView();
+      this.standaloneView = new Whisper.SessionRegistrationView();
       this.openView(this.standaloneView);
     },
     closeStandalone() {

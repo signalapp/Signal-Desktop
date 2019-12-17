@@ -472,3 +472,9 @@ window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: false,
 };
+
+// eslint-disable-next-line no-extend-native,func-names
+Promise.prototype.ignore = function() {
+  // eslint-disable-next-line more/no-then
+  this.then(() => {});
+};
