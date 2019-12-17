@@ -5,11 +5,21 @@
       background-color: $session-shade-11;
     }
   }
+  .gutter {
+    width: 380px;
+    background: none;
+  }
+}
+
+.inbox {
+  background: linear-gradient(90deg, $session-shade-2 100%, #171717 0%);
 }
 
 .module-left-pane {
   border-right: none !important;
   width: 300px;
+  height: -webkit-fill-available;
+  background: none !important;
 
   &-session {
     display: flex;
@@ -20,7 +30,6 @@
     width: 80px;
     display: inline-flex;
     flex-direction: column;
-    background: $session-shade-2;
 
     .module-avatar,
     .session-icon-button {
@@ -30,8 +39,50 @@
       }
     }
   }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    margin: 28px 7px 28px 0px;
+  }
+
+  &__title {
+    font-family: $session-font-family;
+    color: $session-color-white;
+    font-size: 25px;
+    flex-grow: 1;
+  }
 }
 
 .gutter {
   width: 380px;
+  padding-right: 5px;
+  background: none;
+}
+
+.session-search-input {
+  height: 34px;
+  width: 100%;
+  margin-right: 1px;
+  margin-bottom: 10px;
+  background: $session-shade-4;
+  color: $session-color-white;
+  display: inline-flex;
+
+  .session-icon-button {
+    margin: auto 10px;
+  }
+
+  input {
+    width: inherit;
+    height: inherit;
+    background: $session-shade-4;
+    color: $session-color-white;
+    border: none;
+    flex-grow: 1;
+
+    &:focus {
+      outline: none !important;
+    }
+  }
 }

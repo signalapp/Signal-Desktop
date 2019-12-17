@@ -435,6 +435,10 @@ label {
   visibility: hidden;
 }
 
+.session-button div[role='button'] {
+  cursor: pointer;
+}
+
 .input-with-label-container {
   height: 46.5px;
   width: 280px;

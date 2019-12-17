@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from './session/icon';
-import { Avatar } from './Avatar';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { Avatar } from '../Avatar';
 
 export enum SectionType {
   Profile,

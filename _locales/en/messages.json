@@ -2387,5 +2387,8 @@
   },
   "completeSignUp": {
     "message": "Complete Sign Up"
+  },
+  "compose": {
+    "message": "Compose"
   }
 }

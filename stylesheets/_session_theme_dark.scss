@@ -1,11 +1,11 @@
 // Messages
 .dark-theme {
+  .conversation {
+    background: none !important;
+  }
   .module-conversation-header {
     border-bottom: none;
     background-color: $session-shade-4;
-  }
-  .discussion-container {
-    background-image: $session-gradient-black;
   }
 
   .module-message {
@@ -53,4 +53,15 @@
       margin-left: 5px;
     }
   }
+
+  .inbox {
+    background-image: $session-gradient-black;
+  }
+}
+.conversation {
+  background: none !important;
+}
+
+.discussion-container {
+  background: none !important;
 }
