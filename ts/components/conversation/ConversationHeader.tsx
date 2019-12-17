@@ -319,12 +319,6 @@ export class ConversationHeader extends React.Component<Props> {
         <div className="button-group">
           <SessionButton
             buttonType={SessionButtonType.Default}
-            buttonColor={SessionButtonColor.Primary}
-            text={i18n('forwardMessage')}
-          />
-
-          <SessionButton
-            buttonType={SessionButtonType.Default}
             buttonColor={SessionButtonColor.Danger}
             text={i18n('delete')}
             onClick={onDeleteSelectedMessages}

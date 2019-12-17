@@ -1,4 +1,4 @@
-/* global Whisper, $ */
+/* global Whisper */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -9,8 +9,8 @@
   Whisper.SessionToastView = Whisper.View.extend({
     initialize(options) {
       this.props = {
-        el: $('#session-toast-container'),
         title: options.title,
+        id: options.id,
         description: options.description,
         fadeToast: this.fadeToast.bind(this),
         closeToast: this.closeToast.bind(this),
@@ -29,13 +29,14 @@
 
     update(options) {
       this.props.title = options.title;
-      this.props.description = options.description ? options.description : '';
-      this.props.type = options.type ? options.type : '';
-      this.props.id = options.id ? options.id : '';
+      this.props.id = options.id;
+      this.props.description = options.description || '';
+      this.props.type = options.type || '';
 
       this.toastView.update(this.props);
 
       this.showToast();
+
       clearTimeout(this.timer);
       this.timer = setTimeout(this.fadeToast.bind(this), 4000);
     },
@@ -45,22 +46,22 @@
     },
 
     fadeToast() {
+      this.removeToast();
       this.toastView.$el.fadeOut(500, () => {
-        this.removeToast();
+        this.toastView.remove();
       });
     },
 
     closeToast() {
+      this.removeToast();
       this.toastView.$el.fadeOut(125, () => {
-        this.removeToast();
+        this.toastView.remove();
       });
     },
 
     removeToast() {
-      this.toastView.remove();
-
       if (this.props.id) {
-        delete window.toasts[this.props.id];
+        window.toasts.delete(this.props.id);
       }
     },
   });

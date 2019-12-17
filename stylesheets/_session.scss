@@ -307,51 +307,50 @@ $session_message-container-border-radius: 5px;
   padding-top: 5px;
 }
 
-.odule-message__container {
+.module-message__container {
   border-radius: $session_message-container-border-radius;
+}
+label {
+  user-select: none;
+}
 
-  label {
-    user-select: none;
-  }
+.module-message__attachment-container,
+.module-image--curved-bottom-right,
+.module-image--curved-bottom-left {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: $session_message-container-border-radius;
+  border-bottom-right-radius: $session_message-container-border-radius;
+}
 
-  .module-message__attachment-container,
-  .module-image--curved-bottom-right,
-  .module-image--curved-bottom-left {
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: $session_message-container-border-radius;
-    border-bottom-right-radius: $session_message-container-border-radius;
-  }
+.conversation-header .session-icon-button {
+  @include standard-icon-button();
+}
 
-  .conversation-header .session-icon-button {
-    @include standard-icon-button();
-  }
+.module-conversation-header,
+.message-selection-overlay {
+  height: $session-conversation-header-height;
+}
 
-  .module-conversation-header,
-  .message-selection-overlay {
-    height: $session-conversation-header-height;
-  }
+.message-selection-overlay {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  display: none;
 
-  .message-selection-overlay {
-    position: absolute;
-    left: 15px;
-    right: 15px;
-    display: none;
+  .close-button {
+    float: left;
+    margin-top: 17px;
+    margin-left: 7px;
+  }
+}
+.message-selection-overlay div[role='button'] {
+  display: inline-block;
+}
 
-    .close-button {
-      float: left;
-      margin-top: 17px;
-      margin-left: 7px;
-    }
-  }
-  .message-selection-overlay div[role='button'] {
-    display: inline-block;
-  }
-
-  .message-selection-overlay .button-group {
-    float: right;
-    margin-top: 13.5px;
-  }
+.message-selection-overlay .button-group {
+  float: right;
+  margin-top: 13.5px;
 }
 
 .hidden {
@@ -426,10 +425,6 @@ $session_message-container-border-radius: 5px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-
-  &:nth-child(n + 6) {
-    display: none;
-  }
 
   .toast-icon,
   .toast-info {

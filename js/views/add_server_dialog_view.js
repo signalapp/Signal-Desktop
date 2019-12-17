@@ -53,8 +53,10 @@
           this.showError(result.errorCode);
           return;
         }
-        window.Whisper.events.trigger('showToast', {
-          message: i18n('connectToServerSuccess'),
+        window.pushToast({
+          title: i18n('connectToServerSuccess'),
+          type: 'success',
+          id: 'connectToServerSuccess',
         });
         this.close();
       });

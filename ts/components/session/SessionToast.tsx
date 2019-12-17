@@ -17,18 +17,14 @@ export enum SessionToastType {
 
 interface Props {
   title: string;
-  description?: string;
-  type?: SessionToastType;
   id?: string;
+  type?: SessionToastType;
+  description?: string;
   fadeToast: any;
   closeToast: any;
 }
 
 export class SessionToast extends React.PureComponent<Props> {
-  public static defaultProps = {
-    id: '',
-  };
-
   constructor(props: any) {
     super(props);
   }
@@ -38,7 +34,9 @@ export class SessionToast extends React.PureComponent<Props> {
 
     const toastType = type ? type : SessionToastType.Info;
     const toastDesc = description ? description : '';
-    const toastIconSize = toastDesc ? SessionIconSize.Large : SessionIconSize.Medium;
+    const toastIconSize = toastDesc
+      ? SessionIconSize.Large
+      : SessionIconSize.Medium;
 
     let toastIcon;
     switch (type) {
@@ -58,14 +56,10 @@ export class SessionToast extends React.PureComponent<Props> {
         toastIcon = SessionIconType.Info;
     }
 
-    
     return (
       <div className={classNames('session-toast', toastType)}>
         <div className="toast-icon">
-          <SessionIcon
-            iconType={toastIcon}
-            iconSize={toastIconSize}
-          />
+          <SessionIcon iconType={toastIcon} iconSize={toastIconSize} />
         </div>
         <div className="toast-info">
           <div className="toast-info-container">
