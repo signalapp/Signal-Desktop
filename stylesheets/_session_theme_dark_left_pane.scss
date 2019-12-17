@@ -86,3 +86,29 @@
     }
   }
 }
+
+.module-conversation-list-item--has-unread {
+  border-left: 4px solid $session-color-green !important;
+}
+
+.module-conversation-list-item__unread-count,
+.dark-theme .module-conversation-list-item__unread-count {
+  color: $color-white;
+  background-color: $session-shade-10;
+  position: static;
+  font-weight: 700;
+}
+
+.module-conversation-list-item__header__date,
+.module-conversation-list-item__header__date--has-unread,
+.dark-theme .module-conversation-list-item__header__date,
+.dark-theme .module-conversation-list-item__header__date--has-unread {
+  flex-grow: 1;
+  text-align: end;
+}
+
+.module-conversation-list-item__header__name,
+.dark-theme .module-conversation-list-item__header__name {
+  flex-grow: 0 !important;
+  padding-right: 5px;
+}

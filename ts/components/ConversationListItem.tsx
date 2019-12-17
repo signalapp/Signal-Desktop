@@ -90,7 +90,6 @@ export class ConversationListItem extends React.PureComponent<Props> {
           size={48}
           borderColor={borderColor}
         />
-        {this.renderUnread()}
       </div>
     );
   }
@@ -147,6 +146,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             />
           )}
         </div>
+        {this.renderUnread()}
         {!isFriendItem && (
           <div
             className={classNames(
