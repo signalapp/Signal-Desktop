@@ -1,6 +1,6 @@
 import React from 'react';
 import { AutoSizer, List } from 'react-virtualized';
-import { debounce } from 'lodash';
+import { debounce, get } from 'lodash';
 
 import {
   ConversationListItem,
@@ -128,7 +128,9 @@ export class LeftPane extends React.Component<PropsType> {
   };
 
   public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    const commandOrCtrl = event.metaKey || event.ctrlKey;
+    const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
+    const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
+    const commandOrCtrl = commandKey || controlKey;
 
     if (commandOrCtrl && !event.shiftKey && event.key === 'ArrowUp') {
       this.scrollToRow(0);

@@ -140,7 +140,7 @@ function getWordAtIndex(
 
   const word = str.slice(start, end);
 
-  if (word === ':') {
+  if (word === ':' && str.length > 1) {
     return getWordAtIndex(str, index + 1);
   }
 
@@ -653,6 +653,9 @@ export const CompositionInput = ({
   const editorKeybindingFn = React.useCallback(
     // tslint:disable-next-line cyclomatic-complexity
     (e: React.KeyboardEvent): CompositionInputEditorCommand | null => {
+      const commandKey = get(window, 'platform') === 'darwin' && e.metaKey;
+      const controlKey = get(window, 'platform') !== 'darwin' && e.ctrlKey;
+
       if (e.key === 'Enter' && emojiResults.length > 0) {
         e.preventDefault();
 
@@ -660,7 +663,7 @@ export const CompositionInput = ({
       }
 
       if (e.key === 'Enter' && !e.shiftKey) {
-        if (large && !(e.ctrlKey || e.metaKey)) {
+        if (large && !(controlKey || commandKey)) {
           return getDefaultKeyBinding(e);
         }
 

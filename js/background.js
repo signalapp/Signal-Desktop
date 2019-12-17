@@ -17,11 +17,11 @@
   'use strict';
 
   const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
-  const deliveryReceiptQueue = new window.PQueue({
+  Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
   });
-  deliveryReceiptQueue.pause();
-  const deliveryReceiptBatcher = window.Signal.Util.createBatcher({
+  Whisper.deliveryReceiptQueue.pause();
+  Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
     wait: 500,
     maxSize: 500,
     processBatch: async items => {
@@ -704,7 +704,9 @@
       const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
 
       const optionOrAlt = altKey;
-      const ctrlOrCommand = metaKey || ctrlKey;
+      const commandKey = window.platform === 'darwin' && metaKey;
+      const controlKey = window.platform !== 'darwin' && ctrlKey;
+      const commandOrCtrl = commandKey || controlKey;
 
       const state = store.getState();
       const selectedId = state.conversations.selectedConversation;
@@ -715,7 +717,7 @@
 
       // Show keyboard shortcuts - handled by Electron-managed keyboard shortcuts
       // However, on linux Ctrl+/ selects all text, so we prevent that
-      if (ctrlOrCommand && key === '/') {
+      if (commandOrCtrl && key === '/') {
         window.showKeyboardShortcuts();
 
         event.stopPropagation();
@@ -725,7 +727,7 @@
       }
 
       // Navigate by section
-      if (ctrlOrCommand && !shiftKey && (key === 't' || key === 'T')) {
+      if (commandOrCtrl && !shiftKey && (key === 't' || key === 'T')) {
         window.enterKeyboardMode();
         const focusedElement = document.activeElement;
 
@@ -924,7 +926,7 @@
       // Open the top-right menu for current conversation
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'l' || key === 'L')
       ) {
@@ -965,7 +967,7 @@
       }
 
       // Search
-      if (ctrlOrCommand && !shiftKey && (key === 'f' || key === 'F')) {
+      if (commandOrCtrl && !shiftKey && (key === 'f' || key === 'F')) {
         const { startSearch } = actions.search;
         startSearch();
 
@@ -977,7 +979,7 @@
       // Search in conversation
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'f' || key === 'F')
       ) {
@@ -995,7 +997,7 @@
       // Focus composer field
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 't' || key === 'T')
       ) {
@@ -1008,7 +1010,7 @@
       // Open all media
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'm' || key === 'M')
       ) {
@@ -1025,7 +1027,7 @@
       // Begin recording voice note
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'v' || key === 'V')
       ) {
@@ -1039,7 +1041,7 @@
       if (
         conversation &&
         !conversation.get('isArchived') &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'a' || key === 'A')
       ) {
@@ -1074,7 +1076,7 @@
       if (
         conversation &&
         conversation.get('isArchived') &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'u' || key === 'U')
       ) {
@@ -1096,7 +1098,7 @@
       // Close conversation
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'c' || key === 'C')
       ) {
@@ -1111,7 +1113,7 @@
       // Show message details
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         !shiftKey &&
         (key === 'd' || key === 'D')
       ) {
@@ -1129,7 +1131,7 @@
       // Toggle reply to message
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'r' || key === 'R')
       ) {
@@ -1144,7 +1146,7 @@
       // Save attachment
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         !shiftKey &&
         (key === 's' || key === 'S')
       ) {
@@ -1161,7 +1163,7 @@
 
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'd' || key === 'D')
       ) {
@@ -1187,7 +1189,7 @@
       // Attach file
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         !shiftKey &&
         (key === 'u' || key === 'U')
       ) {
@@ -1201,7 +1203,7 @@
       // Remove draft link preview
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         !shiftKey &&
         (key === 'p' || key === 'P')
       ) {
@@ -1215,7 +1217,7 @@
       // Attach file
       if (
         conversation &&
-        ctrlOrCommand &&
+        commandOrCtrl &&
         shiftKey &&
         (key === 'p' || key === 'P')
       ) {
@@ -1481,7 +1483,7 @@
       serverTrustRoot: window.getServerTrustRoot(),
     };
 
-    deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
+    Whisper.deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
     Whisper.Notifications.disable(); // avoid notification flood until empty
 
     // initialize the socket and start listening for messages
@@ -1669,7 +1671,7 @@
       }
     }, 500);
 
-    deliveryReceiptQueue.start();
+    Whisper.deliveryReceiptQueue.start();
     Whisper.Notifications.enable();
   }
   function onReconnect() {
@@ -1677,7 +1679,7 @@
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
-    deliveryReceiptQueue.pause();
+    Whisper.deliveryReceiptQueue.pause();
     Whisper.Notifications.disable();
   }
 
@@ -2028,21 +2030,6 @@
       return;
     }
 
-    const isDuplicate = await isMessageDuplicate({
-      source: data.source,
-      sourceDevice: data.sourceDevice,
-      sent_at: data.timestamp,
-    });
-    if (isDuplicate) {
-      window.log.warn(
-        'Received duplicate message',
-        `${data.source}.${data.sourceDevice} ${data.timestamp}`
-      );
-      confirm();
-      return;
-    }
-
-    // We do this after the duplicate check because it might send a delivery receipt
     const message = await initIncomingMessage(data);
 
     const ourNumber = textsecure.storage.user.getNumber();
@@ -2219,15 +2206,8 @@
     }
   }
 
-  async function isMessageDuplicate(data) {
-    const result = await getExistingMessage(data);
-    return Boolean(result);
-  }
-
-  async function initIncomingMessage(data, options = {}) {
-    const { isError } = options;
-
-    const message = new Whisper.Message({
+  async function initIncomingMessage(data) {
+    return new Whisper.Message({
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
@@ -2237,24 +2217,6 @@
       type: 'incoming',
       unread: 1,
     });
-
-    // If we don't return early here, we can get into infinite error loops. So, no
-    //   delivery receipts for sealed sender errors.
-    if (isError || !data.unidentifiedDeliveryReceived) {
-      return message;
-    }
-
-    // Note: We both queue and batch because we want to wait until we are done processing
-    //   incoming messages to start sending outgoing delivery receipts. The queue can be
-    //   paused easily.
-    deliveryReceiptQueue.add(() => {
-      deliveryReceiptBatcher.add({
-        source: data.source,
-        timestamp: data.timestamp,
-      });
-    });
-
-    return message;
   }
 
   async function unlinkAndDisconnect() {
@@ -2350,15 +2312,7 @@
         return;
       }
       const envelope = ev.proto;
-      const message = await initIncomingMessage(envelope, { isError: true });
-      const isDuplicate = await isMessageDuplicate(message.attributes);
-      if (isDuplicate) {
-        ev.confirm();
-        window.log.warn(
-          `Got duplicate error for message ${message.idForLogging()}`
-        );
-        return;
-      }
+      const message = await initIncomingMessage(envelope);
 
       const conversationId = message.get('conversationId');
       const conversation = await ConversationController.getOrCreateAndWait(
@@ -2368,6 +2322,15 @@
 
       // This matches the queueing behavior used in Message.handleDataMessage
       conversation.queueJob(async () => {
+        const existingMessage = await getExistingMessage(message.attributes);
+        if (existingMessage) {
+          ev.confirm();
+          window.log.warn(
+            `Got duplicate error for message ${message.idForLogging()}`
+          );
+          return;
+        }
+
         const model = new Whisper.Message({
           ...message.attributes,
           id: window.getGuid(),

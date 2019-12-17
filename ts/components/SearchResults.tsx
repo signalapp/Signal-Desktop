@@ -5,7 +5,7 @@ import {
   CellMeasurerCache,
   List,
 } from 'react-virtualized';
-import { debounce, isNumber } from 'lodash';
+import { debounce, get, isNumber } from 'lodash';
 
 import { Intl } from './Intl';
 import { Emojify } from './conversation/Emojify';
@@ -136,7 +136,9 @@ export class SearchResults extends React.Component<PropsType, StateType> {
 
   public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const { items } = this.props;
-    const commandOrCtrl = event.metaKey || event.ctrlKey;
+    const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
+    const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
+    const commandOrCtrl = commandKey || controlKey;
 
     if (!items || items.length < 1) {
       return;

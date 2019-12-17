@@ -5779,11 +5779,10 @@ button.module-image__border-overlay:focus {
     display: flex;
     flex-direction: row;
 
-    // &__image {
-    //   width: 52px;
-    //   height: 52px;
-    //   background: $color-gray-05;
-    // }
+    &__image {
+      width: 52px;
+      height: 52px;
+    }
 
     &__meta {
       flex-grow: 1;

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { debounce } from 'lodash';
+import { debounce, get } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 
@@ -222,10 +222,12 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     } = this.props;
 
     const { ctrlKey, metaKey, key } = event;
-    const ctrlOrCommand = ctrlKey || metaKey;
+    const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+    const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+    const commandOrCtrl = commandKey || controlKey;
 
     // On linux, this keyboard combination selects all text
-    if (ctrlOrCommand && key === '/') {
+    if (commandOrCtrl && key === '/') {
       event.preventDefault();
       event.stopPropagation();
 
