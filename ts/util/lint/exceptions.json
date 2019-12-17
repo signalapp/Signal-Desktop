@@ -7577,7 +7577,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 142,
+    "lineNumber": 144,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"

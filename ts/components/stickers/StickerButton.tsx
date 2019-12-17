@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 import { StickerPicker } from './StickerPicker';
@@ -152,7 +152,9 @@ export const StickerButton = React.memo(
       () => {
         const handleKeydown = (event: KeyboardEvent) => {
           const { ctrlKey, key, metaKey, shiftKey } = event;
-          const ctrlOrCommand = metaKey || ctrlKey;
+          const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+          const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+          const commandOrCtrl = commandKey || controlKey;
 
           // We don't want to open up if the conversation has any panels open
           const panels = document.querySelectorAll('.conversation .panel');
@@ -160,7 +162,7 @@ export const StickerButton = React.memo(
             return;
           }
 
-          if (ctrlOrCommand && shiftKey && (key === 's' || key === 'S')) {
+          if (commandOrCtrl && shiftKey && (key === 's' || key === 'S')) {
             event.stopPropagation();
             event.preventDefault();
 

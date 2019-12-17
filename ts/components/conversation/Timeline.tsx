@@ -1,4 +1,4 @@
-import { debounce, isNumber } from 'lodash';
+import { debounce, get, isNumber } from 'lodash';
 import React from 'react';
 import {
   AutoSizer,
@@ -926,7 +926,9 @@ export class Timeline extends React.PureComponent<Props, State> {
 
   public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const { selectMessage, selectedMessageId, items, id } = this.props;
-    const commandOrCtrl = event.metaKey || event.ctrlKey;
+    const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
+    const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
+    const commandOrCtrl = commandKey || controlKey;
 
     if (!items || items.length < 1) {
       return;
