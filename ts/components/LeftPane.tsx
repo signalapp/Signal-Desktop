@@ -12,7 +12,7 @@ import {
 } from './SearchResults';
 import { LocalizerType } from '../types/Util';
 
-import { LeftPaneSections } from './LeftPaneSections';
+import { LeftPaneSections, SectionType } from './LeftPaneSections';
 
 export interface Props {
   conversations?: Array<ConversationListItemPropsType>;
@@ -50,7 +50,12 @@ type RowRendererParamsType = {
 export class LeftPane extends React.Component<Props> {
   public state = {
     currentTab: 'conversations',
+    selectedSection: SectionType.Message,
   };
+  public constructor(props: Props) {
+    super(props);
+    this.handleSectionSelected = this.handleSectionSelected.bind(this);
+  }
 
   public getCurrentConversations():
     | Array<ConversationListItemPropsType>
@@ -266,12 +271,20 @@ export class LeftPane extends React.Component<Props> {
     );
   }
 
+  public handleSectionSelected(section: SectionType) {
+    console.log('section switch to:', section);
+    this.setState({ selectedSection: section });
+  }
+
   public render(): JSX.Element {
     const { renderMainHeader, showArchived } = this.props;
 
     return (
       <div className="module-left-pane-session">
-        <LeftPaneSections />
+        <LeftPaneSections
+          selectedSection={this.state.selectedSection}
+          onSectionSelected={this.handleSectionSelected}
+        />
         <div className="module-left-pane">
           <div className="module-left-pane__header">
             {showArchived ? this.renderArchivedHeader() : renderMainHeader()}

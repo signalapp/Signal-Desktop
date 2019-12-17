@@ -6,7 +6,7 @@ import {
 } from './session/icon';
 import { Avatar } from './Avatar';
 
-enum SectionType {
+export enum SectionType {
   Profile,
   Message,
   People,
@@ -16,8 +16,12 @@ enum SectionType {
 }
 
 interface State {
-  selectedSection: SectionType;
   avatarPath: string;
+}
+
+interface Props {
+  onSectionSelected: any;
+  selectedSection: SectionType;
 }
 
 const Section = ({
@@ -112,12 +116,11 @@ const Section = ({
   }
 };
 
-export class LeftPaneSections extends React.Component<{}, State> {
-  constructor() {
-    super({});
+export class LeftPaneSections extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.state = {
       avatarPath: '',
-      selectedSection: SectionType.Message,
     };
   }
   public componentDidMount() {
@@ -135,14 +138,14 @@ export class LeftPaneSections extends React.Component<{}, State> {
 
   public render(): JSX.Element {
     const isProfileSelected =
-      this.state.selectedSection === SectionType.Profile;
+      this.props.selectedSection === SectionType.Profile;
     const isMessageSelected =
-      this.state.selectedSection === SectionType.Message;
-    const isPeopleSelected = this.state.selectedSection === SectionType.People;
-    const isGlobeSelected = this.state.selectedSection === SectionType.Globe;
+      this.props.selectedSection === SectionType.Message;
+    const isPeopleSelected = this.props.selectedSection === SectionType.People;
+    const isGlobeSelected = this.props.selectedSection === SectionType.Globe;
     const isSettingsSelected =
-      this.state.selectedSection === SectionType.Settings;
-    const isMoonSelected = this.state.selectedSection === SectionType.Moon;
+      this.props.selectedSection === SectionType.Settings;
+    const isMoonSelected = this.props.selectedSection === SectionType.Moon;
 
     return (
       <div className="module-left-pane__sections-container">
@@ -183,6 +186,6 @@ export class LeftPaneSections extends React.Component<{}, State> {
   }
 
   private readonly handleSectionSelect = (section: SectionType): void => {
-    this.setState({ selectedSection: section });
+    this.props.onSectionSelected(section);
   };
 }
