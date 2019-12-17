@@ -447,17 +447,7 @@
       const themeSetting = window.Events.getThemeSetting();
       const newThemeSetting = mapOldThemeToNew(themeSetting);
 
-      if (
-        window.isBeforeVersion(lastVersion, 'v1.25.0') &&
-        window.platform === 'darwin' &&
-        newThemeSetting === window.systemTheme
-      ) {
-        window.Events.setThemeSetting('system');
-      } else {
-        window.Events.setThemeSetting(newThemeSetting);
-      }
-
-      if (window.isBeforeVersion(lastVersion, 'v1.25.0')) {
+      if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {
         // Stickers flags
         await Promise.all([
           storage.put('showStickersIntroduction', true),
@@ -471,6 +461,16 @@
           'hasRegisterSupportForUnauthenticatedDelivery',
           false
         );
+      }
+
+      if (
+        window.isBeforeVersion(lastVersion, 'v1.25.0') &&
+        window.platform === 'darwin' &&
+        newThemeSetting === window.systemTheme
+      ) {
+        window.Events.setThemeSetting('system');
+      } else {
+        window.Events.setThemeSetting(newThemeSetting);
       }
 
       // This one should always be last - it could restart the app
