@@ -812,7 +812,7 @@
         title: options.title,
         description: options.description ? options.description : '',
         type: options.type ? options.type : '',
-        id: options.id ? options.id : '',
+        id: options.id || '',
       };
 
       // Give all toasts an ID. User may define.
