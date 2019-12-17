@@ -816,7 +816,7 @@
       };
 
       // Give all toasts an ID. User may define.
-      const toastID = options.id
+      const toastID = options.id || Math.random().toString(36).substring(3)
         ? options.id
         : Math.random()
             .toString(36)
