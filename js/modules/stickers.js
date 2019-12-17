@@ -8,7 +8,16 @@
   URL
 */
 
-const BLESSED_PACKS = {};
+const BLESSED_PACKS = {
+  '9acc9e8aba563d26a4994e69263e3b25': {
+    key: 'Wm3/OUjCjvubeq+T7MN1xp/DFueAd+0mhnoU0QoPahI=',
+    status: 'installed',
+  },
+  fb535407d2f6497ec074df8b9c51dd1d: {
+    key: 'F+lxwTQDViJ4HS7iSeZHO3dFg3ULaMEbuCt1CcaLbf0=',
+    status: 'installed',
+  },
+};
 
 const { isNumber, pick, reject, groupBy, values } = require('lodash');
 const pMap = require('p-map');
