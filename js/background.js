@@ -811,7 +811,7 @@
       const params = {
         title: options.title,
         description: options.description ? options.description : '',
-        type: options.type ? options.type : '',
+        type: options.type || '',
         id: options.id || '',
       };
 
