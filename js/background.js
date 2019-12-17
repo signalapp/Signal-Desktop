@@ -825,6 +825,7 @@
       if (toast) {
         window.toasts.get(toastID).update(params);
       } else {
+
         // Make new Toast
         window.toasts.set(
           toastID,
