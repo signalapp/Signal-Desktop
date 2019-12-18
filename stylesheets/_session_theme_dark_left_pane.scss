@@ -59,8 +59,15 @@
       }
     }
   }
+  .module-conversation-list-item--is-selected {
+    background-color: $color-dark-70;
+    .module-conversation__user__profile-number,
+    .module-conversation__user__profile-name,
+    .module-conversation-list-item__message__text {
+      color: $session-color-white;
+    }
+  }
 }
-
 .inbox {
   background: linear-gradient(90deg, $session-shade-2 100%, #171717 0%);
 }
