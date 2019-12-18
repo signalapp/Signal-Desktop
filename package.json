@@ -261,6 +261,12 @@
         "libxss1"
       ]
     },
+    "protocols": {
+      "name": "sgnl-url-scheme",
+      "schemes": [
+        "sgnl"
+      ]
+    },
     "files": [
       "package.json",
       "config/default.json",
