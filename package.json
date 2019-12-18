@@ -265,7 +265,7 @@
       "bundleVersion": "1"
     },
     "win": {
-      "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
+      "asarUnpack": ["node_modules/spellchecker/vendor/hunspell_dictionaries", "node_modules/sharp"],
       "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal",
       "publisherName": "Signal (Quiet Riddle Ventures, LLC)",
@@ -298,7 +298,7 @@
       "desktop": {
         "StartupWMClass": "Signal"
       },
-      "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
+      "asarUnpack": ["node_modules/spellchecker/vendor/hunspell_dictionaries", "node_modules/sharp"],
       "target": [
         "deb"
       ],

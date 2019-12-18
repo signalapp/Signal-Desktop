@@ -20,6 +20,9 @@ window.getGuid = require('uuid/v4');
 window.localeMessages = ipc.sendSync('locale-data');
 
 require('../js/logging');
+
+window.log.info('sticker-creator starting up...');
+
 const Signal = require('../js/modules/signal');
 
 window.Signal = Signal.setup({});
@@ -153,7 +156,11 @@ async function applyTheme() {
 
 window.addEventListener('DOMContentLoaded', applyTheme);
 
-systemPreferences.subscribeNotification(
-  'AppleInterfaceThemeChangedNotification',
-  applyTheme
-);
+if (systemPreferences && systemPreferences.subscribeNotification) {
+  systemPreferences.subscribeNotification(
+    'AppleInterfaceThemeChangedNotification',
+    applyTheme
+  );
+}
+
+window.log.info('sticker-creator preload complete...');
