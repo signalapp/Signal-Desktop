@@ -827,3 +827,7 @@ label {
     }
   }
 }
+
+.messages li {
+  transition: $session-transition-duration !important;
+}
