@@ -69,7 +69,7 @@
   }
 }
 .inbox {
-  background: linear-gradient(90deg, $session-shade-2 100%, #171717 0%);
+  @include session-dark-background-gradient;
 }
 
 .module-left-pane {
@@ -136,4 +136,14 @@
       outline: none !important;
     }
   }
+}
+
+.session-logo-128 {
+  @include session-filter-color-green();
+  width: 128px;
+  height: 128px;
+}
+
+.app-loading-screen {
+  @include session-dark-background-gradient;
 }

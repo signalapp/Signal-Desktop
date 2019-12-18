@@ -89,6 +89,11 @@ div.spacer-lg {
   height: $session-margin-lg;
 }
 
+@mixin session-filter-color-green {
+  filter: brightness(0) saturate(100%) invert(67%) sepia(69%) saturate(2367%)
+    hue-rotate(101deg) brightness(107%) contrast(101%);
+}
+
 @mixin session-color-subtle($color) {
   color: rgba($color, 0.6);
 }
@@ -103,6 +108,9 @@ div.spacer-lg {
 
 .fullwidth {
   width: 100%;
+}
+@mixin session-dark-background-gradient {
+  background: linear-gradient(90deg, #121212, #171717) !important;
 }
 
 $session-transition-duration: 0.25s;
