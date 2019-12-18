@@ -360,6 +360,12 @@ describe('Link previews', () => {
       assert.strictEqual(actual, true);
     });
 
+    it('returns true for ASCII and non-ASCII mix', () => {
+      const link = 'https://www.аррӏе.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
+    });
+
     it('returns true for Latin + High Greek domain', () => {
       const link = `https://www.apple${String.fromCodePoint(0x101a0)}.com`;
       const actual = isLinkSneaky(link);
