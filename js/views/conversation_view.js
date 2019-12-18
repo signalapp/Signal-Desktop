@@ -1375,11 +1375,11 @@
 
       if (!isAllOurs && !isModerator) {
         window.pushToast({
-          title: i18n('messageDeletionForbidden'),
-          type: 'error',
-          id: 'messageDeletionForbidden',
+         title: i18n('messageDeletionForbidden'),
+         type: 'error',
+         id: 'messageDeletionForbidden',
         });
-
+                
         return;
       }
 

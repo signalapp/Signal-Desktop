@@ -24,6 +24,8 @@ export class SessionDropdownItem extends React.PureComponent<Props> {
     public static defaultProps = {
       id: generateID(),
       type: SessionDropDownItemType.Default,
+      icon: null,
+      active: false,
       onClick: () => null,
     };
     

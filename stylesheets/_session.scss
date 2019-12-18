@@ -562,7 +562,39 @@ label {
 }
 
 
+// .react-contextmenu {
+//   padding: 0px;
+//   margin: 0px;
+
+//   border: none !important;
+//   border-radius: 0px;
+// }
+
+// .react-contextmenu-item {
+//   display: flex;
+//   align-items: center;
+
+//   height: 25px;
+//   padding: 0px 10px;
+
+//   background-color: #1B1B1B;
+
+//   color: $session-color-white;
+//   font-family: 'Wasa';
+//   font-size: 12px;
+//   line-height: $session-icon-size-sm;
+//   font-weight: 700;
+
+//   &--active, &--selected{
+//     background-color: $session-shade-7 !important;
+//   }
+// }
+
+
 .session-dropdown{
+  position: absolute;
+  top: 50px;
+  left: 50px;
   display: inline-block;
 
   ul {
@@ -603,5 +635,4 @@ label {
       }
     }
   }
-
 }

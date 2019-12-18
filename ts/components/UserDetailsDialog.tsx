@@ -1,8 +1,7 @@
 import React from 'react';
 import { Avatar } from './Avatar';
 
-import { SessionDropdown, SessionDropDownType } from './session/SessionDropdown';
-import { SessionIconType } from './session/icon';
+import { SessionDropdown } from './session/SessionDropdown';
 
 declare global {
   interface Window {
@@ -35,41 +34,41 @@ export class UserDetailsDialog extends React.Component<Props> {
 
     const cancelText = i18n('cancel');
     const startConversation = i18n('startConversation');
-
+    
     const items = [
       {
-        id: "myid1",
-        content: "Copy Chat ID",
-        icon: SessionIconType.Eye,
-        type: SessionDropDownType.Default,
-        active: false
+        content: "sdgsdfg",
+        display: true,//!isPublic && !isMe,
       },
       {
-        id: "myid1",
-        content: "Invite Friends",
-        icon: null,
-        type: SessionDropDownType.Default,
-        active: false
+        content: i18n('changeNickname'),
+        display: true,//!isPublic && !isMe,
       },
       {
-        id: "myid1",
-        content: "Clear Chat History",
-        icon: SessionIconType.Check,
-        type: SessionDropDownType.Default,
-        active: true
+        content: i18n('clearNickname'),
+        display: true,//!isPublic && !isMe && hasNickname,
       },
       {
-        id: "myid1",
-        content: "Leave Group",
-        icon: SessionIconType.Check,
-        type: SessionDropDownType.Danger,
-        active: false
+        content: i18n('copyPublicKey'),
+        display: false,//!isPublic,
+      },
+      {
+        content: i18n('deleteMessages'),
+      },
+      {
+        content: i18n('deleteContact'),
+        display: true,//!isMe && isClosable && !isPublic,
+      },
+      {
+        content: i18n('deletePublicChannel'),
+        display: true,//!isMe && isClosable && !isPublic,
       },
     ];
-    
+
     return (
       <div className="content">
-        <SessionDropdown items={items} />
+        <SessionDropdown items={items}/>
+
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>

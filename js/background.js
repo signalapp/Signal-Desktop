@@ -819,6 +819,7 @@
         type: options.type || '',
       };
 
+
       // Give all toasts an ID. User may define.
       const toastID = params.id;
       const toast = !!toastID && window.toasts.get(toastID);
@@ -831,7 +832,9 @@
           new Whisper.SessionToastView({
             el: $('#session-toast-container'),
           })
+          
         );
+
 
         window.toasts.get(toastID).render();
         window.toasts.get(toastID).update(params);
