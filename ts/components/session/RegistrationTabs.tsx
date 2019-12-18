@@ -506,7 +506,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     return (
       <div className="session-terms-conditions-agreement">
-        <SessionHtmlRenderer html={window.i18n('ByUsingThiService...')} />
+        <SessionHtmlRenderer html={window.i18n('ByUsingThisService...')} />
       </div>
     );
   }
