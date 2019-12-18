@@ -9,6 +9,7 @@ import {
 } from './SessionButton';
 import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
+import { SessionIdEditable } from './SessionIdEditable';
 
 enum SignInMode {
   Default,
@@ -442,14 +443,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
     const enterSessionIDHere = window.i18n('enterSessionIDHere');
 
     return (
-      <div
-        className="session-signin-enter-session-id"
+      <SessionIdEditable
+        editable={contentEditable}
         placeholder={enterSessionIDHere}
-        contentEditable={contentEditable}
-        onInput={(e: any) => {
-          if (contentEditable) {
-            this.onSecondDeviceSessionIDChanged(e);
-          }
+        onChange={(e: any) => {
+          this.onSecondDeviceSessionIDChanged(e);
         }}
       />
     );

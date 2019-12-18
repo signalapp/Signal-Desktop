@@ -14,6 +14,8 @@ import { SessionConversationSearch } from './SessionConversationSearch';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionIdEditable } from './SessionIdEditable';
 
 export interface Props {
   searchTerm: string;
