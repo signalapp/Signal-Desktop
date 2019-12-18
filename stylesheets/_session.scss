@@ -110,7 +110,7 @@ div.spacer-lg {
   width: 100%;
 }
 @mixin session-dark-background-gradient {
-  background: linear-gradient(90deg, #121212, #171717) !important;
+  background: linear-gradient(90deg, #121212 100%, #171717 0%) !important;
 }
 
 $session-transition-duration: 0.25s;

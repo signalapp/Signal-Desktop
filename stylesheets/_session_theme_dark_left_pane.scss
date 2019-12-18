@@ -109,6 +109,57 @@
     font-size: 25px;
     flex-grow: 1;
   }
+
+  &__list {
+    height: -webkit-fill-available;
+  }
+
+  &-compose{
+    @include session-dark-background-gradient;
+    height: -webkit-fill-available;
+    .session-icon .exit {
+      padding: 13px;
+    }
+
+    h3,
+    h2 {
+      color: $session-color-white;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    h3 {
+      font-size: 18px;
+      padding-top: 22px;
+    }
+
+    &-border-container {
+      position: relative;
+      margin-bottom: 50px;
+    }
+
+    .white {
+      position: absolute;
+      color: none;
+      height: 1px;
+      width: -webkit-fill-available;
+      opacity: 0.3;
+    }
+
+    .green {
+      position: absolute;
+      color: $session-color-green;
+      background-color: $session-color-green;
+      height: 6px;
+      width: 130px;
+      left: 50%;
+      margin-left: -65px;
+      top: 50%;
+      margin-top:6px;
+    }
+  }
+
 }
 
 .session-search-input {

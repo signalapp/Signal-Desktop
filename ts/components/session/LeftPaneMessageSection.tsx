@@ -58,6 +58,8 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     };
 
     this.updateSearchBound = this.updateSearch.bind(this);
+    this.handleComposeClick = this.handleComposeClick.bind(this);
+    this.handleOnPasteSessionID = this.handleOnPasteSessionID.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
   }
 
@@ -168,7 +170,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
         <div className="module-left-pane__title">
           {window.i18n('messagesHeader')}
         </div>
-        <SessionButton text={window.i18n('compose')} />
+        <SessionButton text={window.i18n('compose')} onClick={this.handleComposeClick}/>
       </div>
     );
   }
@@ -178,12 +180,45 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       <div className="module-left-pane-session">
         <div className="module-left-pane">
           {this.renderHeader()}
-          <SessionConversationSearch
-            searchString={this.props.searchTerm}
-            onChange={this.updateSearchBound}
-          />
-          {this.renderList()}
+          {this.state.showComposeView ? this.renderCompose() : this.renderConversations()}
         </div>
+      </div>
+    );
+  }
+
+  public renderCompose() : JSX.Element {
+
+    return (
+        <div className="module-left-pane-compose">
+        <SessionIconButton iconSize={SessionIconSize.Small} iconType={SessionIconType.Exit} onClick={this.handleComposeClick} />
+        <h2>
+          {window.i18n('enterRecipient')}
+        </h2>
+        <h3>
+          {window.i18n('enterSessionID')}
+        </h3>
+        <div className="module-left-pane-compose-border-container">
+          <hr className="white" />
+          <hr className="green"/>
+        </div>
+        <SessionIdEditable
+          editable={true}
+          placeholder={window.i18n('pasteSessionIDRecipient')}
+          onChange={this.handleOnPasteSessionID}
+      />
+      </div>
+    );
+  }
+
+  public renderConversations() {
+
+    return (
+      <div>
+        <SessionConversationSearch
+          searchString={this.props.searchTerm}
+          onChange={this.updateSearchBound}
+        />
+        {this.renderList()}
       </div>
     );
   }
@@ -232,5 +267,15 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
         isSecondaryDevice,
       });
     }
+  }
+
+  private handleComposeClick() {
+    this.setState((state: any) => {
+      return { showComposeView: !state.showComposeView };
+    });
+  }
+
+  private handleOnPasteSessionID() {
+    console.log('handleOnPasteSessionID');
   }
 }
