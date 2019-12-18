@@ -813,18 +813,18 @@
 
       const params = {
         title: options.title,
-        id:
-          options.id || window.generateID(),
+        id: options.id || window.generateID(),
         description: options.description || '',
         type: options.type || '',
       };
-
-
+      
       // Give all toasts an ID. User may define.
+      let currentToast;
       const toastID = params.id;
       const toast = !!toastID && window.toasts.get(toastID);
       if (toast) {
-        window.toasts.get(toastID).update(params);
+        currentToast = window.toasts.get(toastID);
+        currentToast.update(params);
       } else {
         // Make new Toast
         window.toasts.set(
@@ -832,12 +832,11 @@
           new Whisper.SessionToastView({
             el: $('#session-toast-container'),
           })
-          
         );
 
-
-        window.toasts.get(toastID).render();
-        window.toasts.get(toastID).update(params);
+        currentToast = window.toasts.get(toastID);
+        currentToast.render();
+        currentToast.update(params);
       }
 
       // Remove some toasts if too many exist

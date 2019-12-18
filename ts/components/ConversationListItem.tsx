@@ -12,6 +12,9 @@ import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { Colors, LocalizerType } from '../types/Util';
 
+import { SessionDropdown } from './session/SessionDropdown';
+import { SessionDropDownItemType } from './session/SessionDropdownItem';
+
 export type PropsData = {
   id: string;
   phoneNumber: string;
@@ -188,36 +191,78 @@ export class ConversationListItem extends React.PureComponent<Props> {
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? onUnblockContact : onBlockContact;
 
+    
+    const items = [
+      {
+        content: blockTitle,
+        display: true,//!isPublic && !isMe,
+        onClick: blockHandler
+      },
+      {
+        content: i18n('changeNickname'),
+        display: true,//!isPublic && !isMe,
+        onClick: onChangeNickname,
+      },
+      {
+        content: i18n('clearNickname'),
+        display: true,//!isPublic && !isMe && hasNickname,
+        onClick: onClearNickname,
+      },
+      {
+        content: i18n('copyPublicKey'),
+        display: true,//!isPublic,
+        onClick: onCopyPublicKey,
+      },
+      {
+        content: i18n('deleteMessages'),
+        onClick: onDeleteMessages,
+      },
+      {
+        content: i18n('deleteContact'),
+        display: true,//!isMe && isClosable && !isPublic,
+        onClick: onDeleteContact,
+      },
+      {
+        content: i18n('deletePublicChannel'),
+        display: true,//!isMe && isClosable && !isPublic,
+        type: SessionDropDownItemType.Default,
+        onClick: onDeleteContact,
+      },
+    ];
+
+    
     return (
-      <ContextMenu id={triggerId}>
-        {!isPublic && !isMe ? (
-          <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
-        ) : null}
-        {!isPublic && !isMe ? (
-          <MenuItem onClick={onChangeNickname}>
-            {i18n('changeNickname')}
-          </MenuItem>
-        ) : null}
-        {!isPublic && !isMe && hasNickname ? (
-          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
-        ) : null}
-        {!isPublic ? (
-          <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
-        ) : null}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe && isClosable ? (
-          !isPublic ? (
-            <MenuItem onClick={onDeleteContact}>
-              {i18n('deleteContact')}
-            </MenuItem>
-          ) : (
-            <MenuItem onClick={onDeleteContact}>
-              {i18n('deletePublicChannel')}
-            </MenuItem>
-          )
-        ) : null}
-      </ContextMenu>
+      <SessionDropdown items={items}/>
     );
+      // <ContextMenu id={triggerId}>
+      //   {!isPublic && !isMe ? (
+      //     <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+      //   ) : null}
+      //   {!isPublic && !isMe ? (
+      //     <MenuItem onClick={onChangeNickname}>
+      //       {i18n('changeNickname')}
+      //     </MenuItem>
+      //   ) : null}
+      //   {!isPublic && !isMe && hasNickname ? (
+      //     <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
+      //   ) : null}
+      //   {!isPublic ? (
+      //     <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+      //   ) : null}
+      //   <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+      //   {!isMe && isClosable ? (
+      //     !isPublic ? (
+      //       <MenuItem onClick={onDeleteContact}>
+      //         {i18n('deleteContact')}
+      //       </MenuItem>
+      //     ) : (
+      //       <MenuItem onClick={onDeleteContact}>
+      //         {i18n('deletePublicChannel')}
+      //       </MenuItem>
+      //     )
+      //   ) : null}
+      // </ContextMenu>
+    //);
   }
 
   public renderMessage() {

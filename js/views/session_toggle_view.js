@@ -6,7 +6,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  Whisper.SessionToastView = Whisper.View.extend({
+  Whisper.SessionToggleView = Whisper.View.extend({
     initialize(options) {
       this.props = {
         active: options.active,
@@ -16,7 +16,7 @@
     render() {
       this.toggleView = new Whisper.ReactWrapperView({
         className: 'session-toggle-wrapper',
-        Component: window.Signal.Components.SessionToast,
+        Component: window.Signal.Components.SessionToggle,
         props: this.props,
       });
 
