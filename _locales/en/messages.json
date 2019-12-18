@@ -2390,5 +2390,8 @@
   },
   "compose": {
     "message": "Compose"
+  },
+  "searchForAKeyPhrase": {
+    "message": "Search for a key phrase or contact"
   }
 }

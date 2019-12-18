@@ -23,6 +23,7 @@ export class SessionConversationSearch extends React.Component<Props> {
         <input
           value={searchString}
           onChange={e => this.props.onChange(e.target.value)}
+          placeholder={window.i18n('searchForAKeyPhrase')}
         />
       </div>
     );
