@@ -167,10 +167,13 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   public renderHeader(): JSX.Element {
     return (
       <div className="module-left-pane__header">
-        <div className="module-left-pane__title">
+        <h1 className="module-left-pane__title">
           {window.i18n('messagesHeader')}
-        </div>
-        <SessionButton text={window.i18n('compose')} onClick={this.handleComposeClick}/>
+        </h1>
+        <SessionButton
+          text={window.i18n('compose')}
+          onClick={this.handleComposeClick}
+        />
       </div>
     );
   }
@@ -180,38 +183,42 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       <div className="module-left-pane-session">
         <div className="module-left-pane">
           {this.renderHeader()}
-          {this.state.showComposeView ? this.renderCompose() : this.renderConversations()}
+          {this.state.showComposeView
+            ? this.renderCompose()
+            : this.renderConversations()}
         </div>
       </div>
     );
   }
 
-  public renderCompose() : JSX.Element {
-
+  public renderCompose(): JSX.Element {
     return (
-        <div className="module-left-pane-compose">
-        <SessionIconButton iconSize={SessionIconSize.Small} iconType={SessionIconType.Exit} onClick={this.handleComposeClick} />
-        <h2>
-          {window.i18n('enterRecipient')}
-        </h2>
-        <h3>
-          {window.i18n('enterSessionID')}
-        </h3>
+      <div className="module-left-pane-compose">
+        <SessionIconButton
+          iconSize={SessionIconSize.Small}
+          iconType={SessionIconType.Exit}
+          onClick={this.handleComposeClick}
+        />
+        <h2>{window.i18n('enterRecipient')}</h2>
+        <h3>{window.i18n('enterSessionID')}</h3>
         <div className="module-left-pane-compose-border-container">
           <hr className="white" />
-          <hr className="green"/>
+          <hr className="green" />
         </div>
         <SessionIdEditable
           editable={true}
           placeholder={window.i18n('pasteSessionIDRecipient')}
           onChange={this.handleOnPasteSessionID}
-      />
+        />
+
+        <div className="session-description-long">
+          {window.i18n('usersCanShareTheir...')}
+        </div>
       </div>
     );
   }
 
   public renderConversations() {
-
     return (
       <div>
         <SessionConversationSearch

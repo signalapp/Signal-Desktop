@@ -104,9 +104,6 @@
   }
 
   &__title {
-    font-family: $session-font-family;
-    color: $session-color-white;
-    font-size: 25px;
     flex-grow: 1;
   }
 
@@ -114,7 +111,7 @@
     height: -webkit-fill-available;
   }
 
-  &-compose{
+  &-compose {
     @include session-dark-background-gradient;
     height: -webkit-fill-available;
     .session-icon .exit {
@@ -123,14 +120,10 @@
 
     h3,
     h2 {
-      color: $session-color-white;
-      font-size: 22px;
-      font-weight: bold;
       text-align: center;
     }
 
     h3 {
-      font-size: 18px;
       padding-top: 22px;
     }
 
@@ -156,10 +149,9 @@
       left: 50%;
       margin-left: -65px;
       top: 50%;
-      margin-top:6px;
+      margin-top: 6px;
     }
   }
-
 }
 
 .session-search-input {

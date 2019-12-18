@@ -65,3 +65,26 @@
 .discussion-container {
   background: none !important;
 }
+
+@mixin session-h-title {
+  color: $session-color-white;
+  font-weight: bold;
+}
+
+h1 {
+  @include session-h-title;
+  font-size: 25px;
+  margin: 0;
+}
+
+h2 {
+  @include session-h-title;
+  font-size: 22px;
+  text-align: center;
+}
+
+h3 {
+  @include session-h-title;
+  font-size: 18px;
+  padding-top: 22px;
+}

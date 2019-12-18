@@ -2404,7 +2404,8 @@
     "message": "Paste Session ID of recipient"
   },
   "usersCanShareTheir...": {
-    "message": "Users can share their Session ID by going into their account settings and clicking \"Share Public Key\"."
+    "message":
+      "Users can share their Session ID by going into their account settings and clicking \"Share Public Key\"."
   },
   "searchByIDOrDisplayName": {
     "message": "Search by ID # or DIsplay Name"

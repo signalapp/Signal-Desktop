@@ -286,7 +286,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
   private renderSignUpHeader() {
     const allUsersAreRandomly = window.i18n('allUsersAreRandomly...');
 
-    return <div className="session-signup-header">{allUsersAreRandomly}</div>;
+    return (
+      <div className="session-description-long">{allUsersAreRandomly}</div>
+    );
   }
 
   private renderSignUpButton() {
