@@ -1,6 +1,9 @@
 import React from 'react';
 import { Avatar } from './Avatar';
 
+import { SessionDropdown, SessionDropDownType } from './session/SessionDropdown';
+import { SessionIconType } from './session/icon';
+
 declare global {
   interface Window {
     displayNameRegex: any;
@@ -33,8 +36,40 @@ export class UserDetailsDialog extends React.Component<Props> {
     const cancelText = i18n('cancel');
     const startConversation = i18n('startConversation');
 
+    const items = [
+      {
+        id: "myid1",
+        content: "Copy Chat ID",
+        icon: SessionIconType.Eye,
+        type: SessionDropDownType.Default,
+        active: false
+      },
+      {
+        id: "myid1",
+        content: "Invite Friends",
+        icon: null,
+        type: SessionDropDownType.Default,
+        active: false
+      },
+      {
+        id: "myid1",
+        content: "Clear Chat History",
+        icon: SessionIconType.Check,
+        type: SessionDropDownType.Default,
+        active: true
+      },
+      {
+        id: "myid1",
+        content: "Leave Group",
+        icon: SessionIconType.Check,
+        type: SessionDropDownType.Danger,
+        active: false
+      },
+    ];
+    
     return (
       <div className="content">
+        <SessionDropdown items={items} />
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>

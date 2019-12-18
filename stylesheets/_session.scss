@@ -60,7 +60,7 @@ $session-opaque-dark-3: rgba(0, 0, 0, 0.5);
 $session-color-white: #fff;
 $session-color-dark-grey: #353535;
 $session-color-black: #000;
-$session-color-danger: #ff4538;
+$session-color-danger: #FF453A;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-16;
 
@@ -488,4 +488,120 @@ label {
   &.error {
     @include set-toast-theme($session-color-error);
   }
+}
+
+.session-modal {
+  z-index: 150;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  box-sizing: border-box;
+  height: 529px;
+  width: 345px;
+  background-color: $session-shade-4;
+  border: 1px solid $session-shade-8;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: $session-margin-lg;
+
+    font-family: 'Wasa';
+    text-align: center;
+    line-height: 18px;
+    font-size: 15px;
+    font-weight: 700;
+
+    .close,
+    .icons {
+      width: 70px;
+    }
+    .close > div {
+      float: left;
+    }
+    .icons > div {
+      float: right;
+    }
+  }
+}
+
+.session-toggle {
+  width: 51px;
+  height: 31px;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 16px;
+  position: relative;
+
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+
+  .knob {
+    position: absolute;
+    top: 0.5px;
+    left: 0.5px;
+    height: 27px;
+    width: 27px;
+    border-radius: 28px;
+    background-color: $session-color-white;
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
+      0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
+
+    transition: transform 0.25s ease, background-color 0.25s ease;
+  }
+
+  &.active {
+    background-color: $session-color-green;
+    border-color: $session-color-green;
+
+    .knob {
+      transform: translateX(20px);
+    }
+  }
+}
+
+
+.session-dropdown{
+  display: inline-block;
+
+  ul {
+    display: block;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+
+    li {
+      cursor: pointer;
+
+      height: 25px;
+      padding-right: 7px;
+      background-color: #1B1B1B;
+
+      color: $session-color-white;
+      font-family: 'Wasa';
+      font-size: 12px;
+      line-height: $session-icon-size-sm;
+      font-weight: 700;
+
+      display: flex;
+      align-items: center;
+      
+      .session-icon {
+        margin-left: 6px;
+      }
+      .item-content {
+        margin-left: 6px;
+      }
+
+      &.active, &:hover{
+        background-color: $session-shade-7;
+      }
+
+      &.danger {
+        color: $session-color-danger;
+      }
+    }
+  }
+
 }

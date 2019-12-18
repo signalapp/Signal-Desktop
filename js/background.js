@@ -802,6 +802,9 @@
       appView.openConversation(groupId, {});
     };
 
+
+    window.generateID = () => Math.random().toString(36).substring(3);
+
     window.toasts = new Map();
     window.pushToast = options => {
       // Setting toasts with the same ID can be used to prevent identical
@@ -811,10 +814,7 @@
       const params = {
         title: options.title,
         id:
-          options.id ||
-          Math.random()
-            .toString(36)
-            .substring(3),
+          options.id || window.generateID(),
         description: options.description || '',
         type: options.type || '',
       };
@@ -825,7 +825,6 @@
       if (toast) {
         window.toasts.get(toastID).update(params);
       } else {
-
         // Make new Toast
         window.toasts.set(
           toastID,
