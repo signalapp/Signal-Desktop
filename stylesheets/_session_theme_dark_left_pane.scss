@@ -6,8 +6,58 @@
     }
   }
   .gutter {
-    width: 380px;
-    background: none;
+    width: 380px !important;
+    background: none !important;
+    padding-right: 5px !important;
+  }
+
+  .module-conversation {
+    &-list-item {
+      &--has-unread {
+        border-left: 4px solid $session-color-green !important;
+      }
+
+      &__unread-count {
+        color: $color-white !important;
+        background-color: $session-shade-10 !important;
+        position: static !important;
+        font-weight: 700 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+      }
+
+      &__header__date,
+      &__header__date--has-unread {
+        flex-grow: 1 !important;
+        text-align: end !important;
+      }
+
+      &__message__text {
+        color: $session-shade-17;
+        &--has-unread {
+          color: $session-color-white !important;
+        }
+      }
+
+      &__header__name {
+        flex-grow: 0 !important;
+        padding-right: 5px !important;
+        color: $session-shade-17;
+      }
+
+      &__header__name--with-unread .module-conversation__user__profile-number,
+      &__header__name--with-unread .module-conversation__user__profile-name {
+        color: $session-color-white;
+      }
+    }
+
+    &__user__profile {
+      &-number,
+      &-name {
+        color: $session-shade-17;
+        font-size: 15px;
+      }
+    }
   }
 }
 
@@ -54,12 +104,6 @@
   }
 }
 
-.gutter {
-  width: 380px;
-  padding-right: 5px;
-  background: none;
-}
-
 .session-search-input {
   height: 34px;
   width: 100%;
@@ -85,30 +129,4 @@
       outline: none !important;
     }
   }
-}
-
-.module-conversation-list-item--has-unread {
-  border-left: 4px solid $session-color-green !important;
-}
-
-.module-conversation-list-item__unread-count,
-.dark-theme .module-conversation-list-item__unread-count {
-  color: $color-white;
-  background-color: $session-shade-10;
-  position: static;
-  font-weight: 700;
-}
-
-.module-conversation-list-item__header__date,
-.module-conversation-list-item__header__date--has-unread,
-.dark-theme .module-conversation-list-item__header__date,
-.dark-theme .module-conversation-list-item__header__date--has-unread {
-  flex-grow: 1;
-  text-align: end;
-}
-
-.module-conversation-list-item__header__name,
-.dark-theme .module-conversation-list-item__header__name {
-  flex-grow: 0 !important;
-  padding-right: 5px;
 }

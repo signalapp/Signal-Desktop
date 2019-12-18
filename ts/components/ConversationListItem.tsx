@@ -114,16 +114,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const {
-      unreadCount,
-      i18n,
-      isMe,
-      lastUpdated,
-      name,
-      phoneNumber,
-      profileName,
-      isFriendItem,
-    } = this.props;
+    const { unreadCount, i18n, isMe, lastUpdated, isFriendItem } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -135,16 +126,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {isMe ? (
-            i18n('noteToSelf')
-          ) : (
-            <ContactName
-              phoneNumber={phoneNumber}
-              name={name}
-              profileName={profileName}
-              i18n={i18n}
-            />
-          )}
+          {isMe ? i18n('noteToSelf') : this.renderUser()}
         </div>
         {this.renderUnread()}
         {!isFriendItem && (
@@ -332,6 +314,27 @@ export class ConversationListItem extends React.PureComponent<Props> {
           </div>
         </ContextMenuTrigger>
         <Portal>{this.renderContextMenu(triggerId)}</Portal>
+      </div>
+    );
+  }
+
+  private renderUser() {
+    const { name, phoneNumber, profileName } = this.props;
+
+    const shortenedPubkey = window.shortenPubkey(phoneNumber);
+
+    const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
+
+    return (
+      <div className="module-conversation__user">
+        <ContactName
+          phoneNumber={displayedPubkey}
+          name={name}
+          profileName={profileName}
+          module="module-conversation__user"
+          i18n={window.i18n}
+          boldProfileName={true}
+        />
       </div>
     );
   }
