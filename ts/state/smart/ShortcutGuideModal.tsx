@@ -30,7 +30,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       blessedPacks,
       installedPacks,
       receivedPacks,
-    }) === 0;
+    }) > 0;
 
   const platform = getPlatform(state);
 
