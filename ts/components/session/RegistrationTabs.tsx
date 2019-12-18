@@ -549,8 +549,6 @@ export class RegistrationTabs extends React.Component<{}, State> {
             displayName: '',
             signUpMode: SignUpMode.Default,
           });
-          //FIXME ugly hack to empty the content editable div used on enter session ID
-          window.Session.emptyContentEditableDivs();
         }}
         buttonType={buttonType}
         buttonColor={buttonColor}
