@@ -1,4 +1,4 @@
-/* global log, libloki, textsecure, getStoragePubKey */
+/* global log, libloki, textsecure, getStoragePubKey, lokiSnodeAPI */
 
 const nodeFetch = require('node-fetch');
 const { parse } = require('url');
@@ -21,8 +21,63 @@ const decryptResponse = async (response, address) => {
   return {};
 };
 
+// TODO: Don't allow arbitrary URLs, only snodes and loki servers
+const sendToProxy = async (options = {}, targetNode) => {
+
+  const rand_snode = await lokiSnodeAPI.getRandomSnodeAddress();
+
+  const url = `https://${rand_snode.ip}:${rand_snode.port}/proxy`;
+
+  log.info(`Proxy snode reqeust to ${targetNode.pubkey_ed25519} via ${rand_snode.pubkey_ed25519}`);
+
+  const sn_pub_key_hex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
+
+  const my_keys = window.libloki.crypto.snodeCipher._ephemeralKeyPair;
+
+  const symmetricKey = libsignal.Curve.calculateAgreement(
+    sn_pub_key_hex,
+    my_keys.privKey
+  );
+
+  const textEncoder = new TextEncoder();
+  const body = JSON.stringify(options);
+
+  const plainText = textEncoder.encode(body);
+  const ivAndCiphertext = await window.libloki.crypto.DHEncrypt(symmetricKey, plainText);
+
+  const firstHopOptions = {
+    method: 'POST',
+    body: ivAndCiphertext,
+    headers: {
+      "X-Sender-Public-Key": StringView.arrayBufferToHex(my_keys.pubKey),
+      "X-Target-Snode-Key": targetNode.pubkey_ed25519,
+    }
+  }
+
+  const response = await nodeFetch(url, firstHopOptions);
+  const ciphertext = await response.text();
+
+  const ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
+    ciphertext, 'base64'
+  ).toArrayBuffer();
+
+  const plaintextBuffer = await window.libloki.crypto.DHDecrypt(symmetricKey, ciphertextBuffer);
+
+  const textDecoder = new TextDecoder();
+  const plaintext = textDecoder.decode(plaintextBuffer);
+
+  const json_res = JSON.parse(plaintext);
+
+  json_res.json = () => {
+    return JSON.parse(json_res.body);
+  }
+
+  return json_res;
+  
+}
+
 // A small wrapper around node-fetch which deserializes response
-const fetch = async (url, options = {}) => {
+const loki_fetch = async (url, options = {}, targetNode = null) => {
   const timeout = options.timeout || 10000;
   const method = options.method || 'GET';
 
@@ -47,12 +102,18 @@ const fetch = async (url, options = {}) => {
     }
   }
 
+  const fetchOptions = {
+    ...options, timeout, method,
+  };
+
   try {
-    const response = await nodeFetch(url, {
-      ...options,
-      timeout,
-      method,
-    });
+
+    if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
+      const result = await sendToProxy(fetchOptions, targetNode);
+      return result.json();
+    }
+
+    const response = await nodeFetch(url, fetchOptions);
 
     let result;
     // Wrong swarm
@@ -107,13 +168,14 @@ const fetch = async (url, options = {}) => {
 };
 
 // Wrapper for a JSON RPC request
-const rpc = (
+const loki_rpc = (
   address,
   port,
   method,
   params,
   options = {},
-  endpoint = endpointBase
+  endpoint = endpointBase,
+  targetNode,
 ) => {
   const headers = options.headers || {};
   const portString = port ? `:${port}` : '';
@@ -144,9 +206,9 @@ const rpc = (
     },
   };
 
-  return fetch(url, fetchOptions);
+  return loki_fetch(url, fetchOptions, targetNode);
 };
 
 module.exports = {
-  rpc,
+  loki_rpc,
 };

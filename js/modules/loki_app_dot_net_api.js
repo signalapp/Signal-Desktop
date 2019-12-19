@@ -291,6 +291,26 @@ class LokiAppDotNetServerAPI {
     }
   }
 
+  async _sendToProxy(fetchOptions, endpoint, method) {
+
+    const rand_snode = await lokiSnodeAPI.getRandomSnodeAddress();
+    const url = `https://${rand_snode.ip}:${rand_snode.port}/file_proxy`;
+
+    const body = fetchOptions.body;
+
+    const firstHopOptions = {
+      method: 'POST',
+      body,
+      headers: {
+        "X-Loki-File-Server-Target": `/${endpoint}`,
+        "X-Loki-File-Server-Verb": method,
+        "X-Loki-File-Server-Headers": JSON.stringify(fetchOptions.headers),
+      }
+    }
+
+    return await nodeFetch(url, firstHopOptions);
+  }
+
   // make a request to the server
   async serverRequest(endpoint, options = {}) {
     const {
@@ -324,7 +344,13 @@ class LokiAppDotNetServerAPI {
         fetchOptions.body = rawBody;
       }
       fetchOptions.headers = new Headers(headers);
-      result = await nodeFetch(url, fetchOptions || undefined);
+
+      if (window.lokiFeatureFlags.useSnodeProxy && this.baseServerUrl === "https://file.lokinet.org") {
+        log.info("Sending a proxy request to https://file.lokinet.org");
+        result = await this._sendToProxy({...fetchOptions, headers}, endpoint, method);
+      } else {
+        result = await nodeFetch(url, fetchOptions || undefined);
+      }
     } catch (e) {
       log.info(`e ${e}`);
       return {
