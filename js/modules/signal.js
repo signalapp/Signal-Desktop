@@ -53,7 +53,9 @@ const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
-const { SessionDropdown } = require('../../ts/components/session/SessionDropdown');
+const {
+  SessionDropdown,
+} = require('../../ts/components/session/SessionDropdown');
 const {
   SessionRegistrationView,
 } = require('../../ts/components/session/SessionRegistrationView');

@@ -34,40 +34,40 @@ export class UserDetailsDialog extends React.Component<Props> {
 
     const cancelText = i18n('cancel');
     const startConversation = i18n('startConversation');
-    
+
     const items = [
       {
-        content: "sdgsdfg",
-        display: true,//!isPublic && !isMe,
+        content: 'sdgsdfg',
+        display: true, //!isPublic && !isMe,
       },
       {
         content: i18n('changeNickname'),
-        display: true,//!isPublic && !isMe,
+        display: true, //!isPublic && !isMe,
       },
       {
         content: i18n('clearNickname'),
-        display: true,//!isPublic && !isMe && hasNickname,
+        display: true, //!isPublic && !isMe && hasNickname,
       },
       {
         content: i18n('copyPublicKey'),
-        display: false,//!isPublic,
+        display: false, //!isPublic,
       },
       {
         content: i18n('deleteMessages'),
       },
       {
         content: i18n('deleteContact'),
-        display: true,//!isMe && isClosable && !isPublic,
+        display: true, //!isMe && isClosable && !isPublic,
       },
       {
         content: i18n('deletePublicChannel'),
-        display: true,//!isMe && isClosable && !isPublic,
+        display: true, //!isMe && isClosable && !isPublic,
       },
     ];
 
     return (
       <div className="content">
-        <SessionDropdown items={items}/>
+        <SessionDropdown items={items} />
 
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>

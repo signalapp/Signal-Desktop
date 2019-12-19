@@ -22,6 +22,8 @@ import {
   SessionButtonType,
 } from '../session/SessionButton';
 
+import { SessionDropdownTrigger } from '../session/SessionDropdownTrigger';
+
 interface TimerOption {
   name: string;
   value: number;
@@ -245,12 +247,12 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
+      <SessionDropdownTrigger>
         <SessionIconButton
           iconType={SessionIconType.Ellipses}
           iconSize={SessionIconSize.Large}
         />
-      </ContextMenuTrigger>
+      </SessionDropdownTrigger>
     );
   }
 

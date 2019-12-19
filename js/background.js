@@ -802,8 +802,10 @@
       appView.openConversation(groupId, {});
     };
 
-
-    window.generateID = () => Math.random().toString(36).substring(3);
+    window.generateID = () =>
+      Math.random()
+        .toString(36)
+        .substring(3);
 
     window.toasts = new Map();
     window.pushToast = options => {
@@ -817,7 +819,7 @@
         description: options.description || '',
         type: options.type || '',
       };
-      
+
       // Give all toasts an ID. User may define.
       let currentToast;
       const toastID = params.id;
