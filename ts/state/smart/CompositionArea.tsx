@@ -13,7 +13,6 @@ import {
   getInstalledStickerPacks,
   getKnownStickerPacks,
   getReceivedStickerPacks,
-  getRecentlyInstalledStickerPack,
   getRecentStickers,
 } from '../selectors/stickers';
 
@@ -42,7 +41,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const knownPacks = getKnownStickerPacks(state);
 
   const recentStickers = getRecentStickers(state);
-  const installedPack = getRecentlyInstalledStickerPack(state);
   const showIntroduction = get(
     state.items,
     ['showStickersIntroduction'],
@@ -63,7 +61,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     skinTone: get(state, ['items', 'skinTone'], 0),
     // Stickers
     receivedPacks,
-    installedPack,
+    // 'Installed Pack' tooltip disabled for now
+    installedPack: null,
     blessedPacks,
     knownPacks,
     installedPacks,
