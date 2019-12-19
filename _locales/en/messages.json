@@ -2212,7 +2212,7 @@
   },
   "StickerCreator--DropStage--help": {
     "message":
-      "Stickers must be in PNG format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+      "Stickers must be in PNG format with a transparent background and 512x512 pixels. Recommended margin is 16px. Sticker packs must have between 4 and 40 stickers.",
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
