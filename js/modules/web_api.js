@@ -6,7 +6,7 @@ const { Agent } = require('https');
 const is = require('@sindresorhus/is');
 const { redactPackId } = require('./stickers');
 
-/* global Signal, Buffer, setTimeout, log, _, getGuid */
+/* global Signal, Buffer, setTimeout, log, _, getGuid, PQueue */
 
 /* eslint-disable more/no-then, no-bitwise, no-nested-ternary */
 
@@ -936,7 +936,6 @@ function initialize({
       // This is going to the CDN, not the service, so we use _outerAjax
       await _outerAjax(`${cdnUrl}/`, {
         ...manifestParams,
-        key: 'stickers/asdfasdf/manifest.proto',
         certificateAuthority,
         proxyUrl,
         timeout: 0,
@@ -945,17 +944,20 @@ function initialize({
       });
 
       // Upload stickers
+      const queue = new PQueue({ concurrency: 3 });
       await Promise.all(
         stickers.map(async (s, id) => {
           const stickerParams = makePutParams(s, encryptedStickers[id]);
-          await _outerAjax(`${cdnUrl}/`, {
-            ...stickerParams,
-            certificateAuthority,
-            proxyUrl,
-            timeout: 0,
-            type: 'POST',
-            processData: false,
-          });
+          await queue.add(async () =>
+            _outerAjax(`${cdnUrl}/`, {
+              ...stickerParams,
+              certificateAuthority,
+              proxyUrl,
+              timeout: 0,
+              type: 'POST',
+              processData: false,
+            })
+          );
           if (onProgress) {
             onProgress();
           }

@@ -22,15 +22,19 @@ export const MetaStage = () => {
 
   const onDrop = React.useCallback(
     async ([{ path }]: Array<FileWithPath>) => {
-      const webp = await convertToWebp(path);
-      actions.setCover(webp);
+      try {
+        const webp = await convertToWebp(path);
+        actions.setCover(webp);
+      } catch (e) {
+        actions.removeSticker(path);
+      }
     },
     [actions]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: ['image/png'],
+    accept: ['image/png', 'image/webp'],
   });
 
   const onNext = React.useCallback(

@@ -2212,13 +2212,23 @@
   },
   "StickerCreator--DropStage--help": {
     "message":
-      "Stickers must be in PNG format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+      "Stickers must be in PNG or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
     "message": "Show margins",
     "description":
       "Text for the show margins toggle on the drop stage of the sticker creator"
+  },
+  "StickerCreator--DropStage--addMore": {
+    "message": "Add $count$ or more",
+    "description": "Text to show user how many more stickers they must add",
+    "placeholders": {
+      "hashtag": {
+        "content": "$1",
+        "example": "4"
+      }
+    }
   },
   "StickerCreator--EmojiStage--title": {
     "message": "Add an emoji to each sticker",
@@ -2339,6 +2349,11 @@
         "example": "3"
       }
     }
+  },
+  "StickerCreator--Toasts--animated": {
+    "message": "Animated stickers are not currently supported",
+    "description":
+      "Text for the toast when an image that is animated was dropped"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "Dropped image is too large",

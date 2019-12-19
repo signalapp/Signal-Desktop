@@ -34,7 +34,7 @@ export const DropZone = (props: Props) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
-    accept: ['image/png'],
+    accept: ['image/png', 'image/webp'],
   });
 
   React.useEffect(

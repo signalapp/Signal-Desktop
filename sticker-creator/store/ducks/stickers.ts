@@ -9,7 +9,7 @@ import {
 } from 'redux-ts-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { clamp, pull, take, uniq } from 'lodash';
+import { clamp, isNumber, pull, take, uniq } from 'lodash';
 import { SortEnd } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { AppState } from '../reducer';
@@ -24,6 +24,7 @@ export const addWebp = createAction<WebpData>('stickers/addSticker');
 export const removeSticker = createAction<string>('stickers/removeSticker');
 export const moveSticker = createAction<SortEnd>('stickers/moveSticker');
 export const setCover = createAction<WebpData>('stickers/setCover');
+export const resetCover = createAction<WebpData>('stickers/resetCover');
 export const setEmoji = createAction<{ id: string; emoji: EmojiPickDataType }>(
   'stickers/setEmoji'
 );
@@ -34,7 +35,7 @@ export const resetStatus = createAction<void>('stickers/resetStatus');
 export const reset = createAction<void>('stickers/reset');
 
 export const minStickers = 4;
-export const maxStickers = 40;
+export const maxStickers = 200;
 export const maxByteSize = 100 * 1024;
 
 export type State = {
@@ -45,6 +46,7 @@ export type State = {
   readonly packId: string;
   readonly packKey: string;
   readonly tooLarge: number;
+  readonly animated: number;
   readonly imagesAdded: number;
   readonly data: {
     readonly [src: string]: {
@@ -62,6 +64,7 @@ const defaultState: State = {
   packId: '',
   packKey: '',
   tooLarge: 0,
+  animated: 0,
   imagesAdded: 0,
 };
 
@@ -91,7 +94,11 @@ export const reducer = reduceReducers<State>(
     }),
 
     handleAction(addWebp, (state, { payload }) => {
-      if (payload.buffer.byteLength > maxByteSize) {
+      if (isNumber(payload.meta.pages)) {
+        state.animated = clamp(state.animated + 1, 0, state.order.length);
+        pull(state.order, payload.path);
+        delete state.data[payload.path];
+      } else if (payload.buffer.byteLength > maxByteSize) {
         state.tooLarge = clamp(state.tooLarge + 1, 0, state.order.length);
         pull(state.order, payload.path);
         delete state.data[payload.path];
@@ -126,6 +133,10 @@ export const reducer = reduceReducers<State>(
       state.cover = payload;
     }),
 
+    handleAction(resetCover, state => {
+      adjustCover(state);
+    }),
+
     handleAction(setEmoji, (state, { payload }) => {
       const data = state.data[payload.id];
       if (data) {
@@ -148,6 +159,7 @@ export const reducer = reduceReducers<State>(
 
     handleAction(resetStatus, state => {
       state.tooLarge = 0;
+      state.animated = 0;
       state.imagesAdded = 0;
     }),
 
@@ -202,8 +214,14 @@ const selectUrl = createSelector(
 export const usePackUrl = () => useSelector(selectUrl);
 export const useHasTooLarge = () =>
   useSelector(({ stickers }: AppState) => stickers.tooLarge > 0);
+export const useHasAnimated = () =>
+  useSelector(({ stickers }: AppState) => stickers.animated > 0);
 export const useImageAddedCount = () =>
   useSelector(({ stickers }: AppState) => stickers.imagesAdded);
+export const useAddMoreCount = () =>
+  useSelector(({ stickers }: AppState) =>
+    clamp(minStickers - stickers.order.length, 0, minStickers)
+  );
 
 const selectOrderedData = createSelector(
   ({ stickers }: AppState) => stickers.order,

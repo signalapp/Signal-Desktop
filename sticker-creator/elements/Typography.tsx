@@ -10,6 +10,7 @@ export type HeadingProps = React.HTMLProps<HTMLHeadingElement>;
 export type ParagraphProps = React.HTMLProps<HTMLParagraphElement> & {
   center?: boolean;
   wide?: boolean;
+  secondary?: boolean;
 };
 export type SpanProps = React.HTMLProps<HTMLSpanElement>;
 
@@ -30,10 +31,18 @@ export const H2 = React.memo(
 );
 
 export const Text = React.memo(
-  ({ children, className, center, wide, ...rest }: Props & ParagraphProps) => (
+  ({
+    children,
+    className,
+    center,
+    wide,
+    secondary,
+    ...rest
+  }: Props & ParagraphProps) => (
     <p
       className={classnames(
         center ? styles.textCenter : styles.text,
+        secondary ? styles.secondary : null,
         className
       )}
       {...rest}

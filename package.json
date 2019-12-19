@@ -131,7 +131,7 @@
     "testcheck": "1.0.0-rc.2",
     "tmp": "0.0.33",
     "to-arraybuffer": "1.0.1",
-    "typeface-inter": "^3.10.0",
+    "typeface-inter": "3.10.0",
     "underscore": "1.9.0",
     "uuid": "3.3.2",
     "websocket": "1.0.28"
@@ -141,7 +141,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-class-properties": "7.7.4",
     "@babel/preset-react": "7.0.0",
     "@babel/preset-typescript": "7.3.3",
     "@storybook/addon-actions": "5.1.11",
@@ -177,6 +177,7 @@
     "@types/redux-logger": "3.0.7",
     "@types/rimraf": "2.0.2",
     "@types/semver": "5.5.0",
+    "@types/sharp": "0.23.1",
     "@types/sinon": "4.3.1",
     "@types/storybook__addon-actions": "3.4.3",
     "@types/storybook__addon-knobs": "5.0.3",
@@ -265,7 +266,10 @@
       "bundleVersion": "1"
     },
     "win": {
-      "asarUnpack": ["node_modules/spellchecker/vendor/hunspell_dictionaries", "node_modules/sharp"],
+      "asarUnpack": [
+        "node_modules/spellchecker/vendor/hunspell_dictionaries",
+        "node_modules/sharp"
+      ],
       "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal",
       "publisherName": "Signal (Quiet Riddle Ventures, LLC)",
@@ -298,7 +302,10 @@
       "desktop": {
         "StartupWMClass": "Signal"
       },
-      "asarUnpack": ["node_modules/spellchecker/vendor/hunspell_dictionaries", "node_modules/sharp"],
+      "asarUnpack": [
+        "node_modules/spellchecker/vendor/hunspell_dictionaries",
+        "node_modules/sharp"
+      ],
       "target": [
         "deb"
       ],

@@ -5,6 +5,7 @@ const pify = require('pify');
 const { readFile } = require('fs');
 const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
+const pMap = require('p-map');
 const { deriveStickerPackKey } = require('../js/modules/crypto');
 const { makeGetter } = require('../preload_utils');
 
@@ -16,6 +17,7 @@ window.PROTO_ROOT = '../../protos';
 window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getGuid = require('uuid/v4');
+window.PQueue = require('p-queue');
 
 window.localeMessages = ipc.sendSync('locale-data');
 
@@ -38,8 +40,11 @@ const WebAPI = initializeWebAPI({
 });
 
 window.convertToWebp = async (path, width = 512, height = 512) => {
-  const pngBuffer = await pify(readFile)(path);
-  const buffer = await sharp(pngBuffer)
+  const imgBuffer = await pify(readFile)(path);
+  const sharpImg = sharp(imgBuffer);
+  const meta = await sharpImg.metadata();
+
+  const buffer = await sharpImg
     .resize({
       width,
       height,
@@ -53,6 +58,7 @@ window.convertToWebp = async (path, width = 512, height = 512) => {
     path,
     buffer,
     src: `data:image/webp;base64,${buffer.toString('base64')}`,
+    meta,
   };
 };
 
@@ -110,8 +116,10 @@ window.encryptAndUpload = async (
     encryptionKey,
     iv
   );
-  const encryptedStickers = await Promise.all(
-    uniqueStickers.map(({ webp }) => encrypt(webp.buffer, encryptionKey, iv))
+  const encryptedStickers = await pMap(
+    uniqueStickers,
+    ({ webp }) => encrypt(webp.buffer, encryptionKey, iv),
+    { concurrency: 3 }
   );
 
   const packId = await server.putStickers(

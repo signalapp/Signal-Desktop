@@ -1,7 +1,10 @@
+import { Metadata } from 'sharp';
+
 export type WebpData = {
   buffer: Buffer;
   src: string;
   path: string;
+  meta: Metadata & { pages?: number }; // Pages is not currently in the sharp metadata type
 };
 
 export type ConvertToWebpFn = (

@@ -29,6 +29,12 @@
   align-items: center;
 }
 
+.footer-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .button {
   margin-left: 12px;
 }

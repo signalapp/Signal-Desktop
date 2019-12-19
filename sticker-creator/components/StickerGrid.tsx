@@ -11,7 +11,7 @@ import { stickersDuck } from '../store';
 import { DropZone, Props as DropZoneProps } from '../elements/DropZone';
 import { convertToWebp } from '../util/preload';
 
-const queue = new PQueue({ concurrency: 5 });
+const queue = new PQueue({ concurrency: 3 });
 
 const SmartStickerFrame = SortableElement(
   ({ id, showGuide, mode }: StickerFrameProps) => {

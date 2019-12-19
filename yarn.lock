@@ -334,7 +334,7 @@
     "@babel/helper-create-class-features-plugin" "^7.5.5"
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@babel/plugin-proposal-class-properties@^7.7.4":
+"@babel/plugin-proposal-class-properties@7.7.4":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.7.4.tgz#2f964f0cb18b948450362742e33e15211e77c2ba"
   integrity sha512-EcuXeV4Hv1X3+Q1TsuOmyyxeTRiSqurGJ26+I/FW1WbymmRRapVORm6x1Zl3iDIHyRxEs+VXWp6qnlcfcJSbbw==
@@ -2002,6 +2002,13 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
+
+"@types/sharp@0.23.1":
+  version "0.23.1"
+  resolved "https://registry.yarnpkg.com/@types/sharp/-/sharp-0.23.1.tgz#1e02560371d6603adc121389512f0745028aa507"
+  integrity sha512-iBRM9RjRF9pkIkukk6imlxfaKMRuiRND8L0yYKl5PJu5uLvxuNzp5f0x8aoTG5VX85M8O//BwbttzFVZL1j/FQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/sinon@4.3.1":
   version "4.3.1"
@@ -15947,7 +15954,7 @@ typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typeface-inter@^3.10.0:
+typeface-inter@3.10.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/typeface-inter/-/typeface-inter-3.10.0.tgz#04a55d62e2dc3f60db3afab5d8a547e067692bc6"
   integrity sha512-WuXE+TaJLB8pdMuvIVY3LfT5UQqndR8+Js0xfhNpdXlsEx0Abwd1bzg4w4YWl2eoOmmLYrRpx6UJJ7a7/q6wZQ==

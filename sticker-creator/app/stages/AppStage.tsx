@@ -3,6 +3,8 @@ import * as styles from './AppStage.scss';
 import { history } from '../../util/history';
 import { Button } from '../../elements/Button';
 import { useI18n } from '../../util/i18n';
+import { Text } from '../../elements/Typography';
+import { stickersDuck } from '../../store';
 
 export type Props = {
   readonly children: React.ReactNode;
@@ -56,6 +58,8 @@ export const AppStage = (props: Props) => {
     [prev]
   );
 
+  const addMoreCount = stickersDuck.useAddMoreCount();
+
   return (
     <>
       <main className={getClassName(props)}>{children}</main>
@@ -64,6 +68,11 @@ export const AppStage = (props: Props) => {
           <Button className={styles.button} onClick={onPrev || handlePrev}>
             {prevText || i18n('StickerCreator--AppStage--prev')}
           </Button>
+        ) : null}
+        {addMoreCount > 0 ? (
+          <Text secondary={true}>
+            {i18n('StickerCreator--DropStage--addMore', [addMoreCount])}
+          </Text>
         ) : null}
         {next || onNext ? (
           <Button
