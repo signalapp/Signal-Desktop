@@ -475,7 +475,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
             SessionButtonType.BrandOutline,
             SessionButtonColor.Green
           )}
-          <div className="session-registration__or">{or}</div>
+          <h4>{or}</h4>
           {this.renderLinkDeviceToExistingAccountButton()}
         </div>
       );
@@ -485,7 +485,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return (
         <div>
           {this.renderContinueYourSessionButton()}
-          <div className="session-registration__or">{or}</div>
+          <h4>{or}</h4>
           {this.renderRestoreUsingSeedButton(
             SessionButtonType.BrandOutline,
             SessionButtonColor.Green
@@ -497,7 +497,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return (
       <div>
         {this.renderContinueYourSessionButton()}
-        <div className="session-registration__or">{or}</div>
+        <h4>{or}</h4>
         {this.renderLinkDeviceToExistingAccountButton()}
       </div>
     );

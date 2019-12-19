@@ -52,6 +52,7 @@ $session-shade-14: #535865;
 $session-shade-15: #5b6c72;
 $session-shade-16: #979797;
 $session-shade-17: #d8d8d8;
+$session-shade-18: #141414;
 
 $session-opaque-dark-1: rgba(0, 0, 0, 0.25);
 $session-opaque-dark-2: rgba(0, 0, 0, 0.37);
@@ -109,8 +110,15 @@ div.spacer-lg {
 .fullwidth {
   width: 100%;
 }
-@mixin session-dark-background-gradient {
-  background: linear-gradient(90deg, #121212 100%, #171717 0%) !important;
+
+@mixin session-dark-background {
+  background-color: $session-shade-2 !important;
+}
+@mixin session-dark-background-lighter {
+  background-color: $session-shade-18 !important;
+}
+@mixin session-dark-background-hover {
+  background-color: $session-shade-7 !important;
 }
 
 $session-transition-duration: 0.25s;

@@ -1,8 +1,8 @@
 .dark-theme {
   .module-conversation-list-item {
-    background-color: $session-shade-4;
+    @include session-dark-background-lighter;
     &:hover {
-      background-color: $session-shade-11;
+      @include session-dark-background-hover;
     }
   }
   .gutter {
@@ -69,7 +69,7 @@
   }
 }
 .inbox {
-  @include session-dark-background-gradient;
+  @include session-dark-background;
 }
 
 .module-left-pane {
@@ -112,7 +112,10 @@
   }
 
   &-compose {
-    @include session-dark-background-gradient;
+    @include session-dark-background-lighter;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     height: -webkit-fill-available;
     .session-icon .exit {
       padding: 13px;
@@ -128,28 +131,54 @@
     }
 
     &-border-container {
+      width: -webkit-fill-available;
       position: relative;
       margin-bottom: 50px;
+      .green {
+        position: absolute;
+        color: $session-color-green;
+        background-color: $session-color-green;
+        height: 6px;
+        width: 130px;
+        left: 50%;
+        margin-left: -65px;
+        top: 50%;
+        margin-top: 6px;
+      }
+
+      .white {
+        position: absolute;
+        color: none;
+        height: 1px;
+        width: -webkit-fill-available;
+        opacity: 0.3;
+      }
+    }
+    .exit {
+      margin-top: 10px;
+      margin-left: 13px;
+      align-self: flex-start;
     }
 
-    .white {
-      position: absolute;
-      color: none;
-      height: 1px;
+    .session-search-input {
+      margin: 10px 20px;
       width: -webkit-fill-available;
-      opacity: 0.3;
     }
 
-    .green {
-      position: absolute;
-      color: $session-color-green;
-      background-color: $session-color-green;
-      height: 6px;
-      width: 130px;
-      left: 50%;
-      margin-left: -65px;
-      top: 50%;
-      margin-top: 6px;
+    .session-description-long {
+      font-size: 14px;
+      margin: 0px 20px;
+    }
+
+    .session-id-editable {
+      margin: 0px 20px;
+      width: -webkit-fill-available;
+    }
+
+    .session-button {
+      width: fit-content;
+      margin-top: auto;
+      margin-bottom: 16px;
     }
   }
 }
@@ -188,5 +217,5 @@
 }
 
 .app-loading-screen {
-  @include session-dark-background-gradient;
+  @include session-dark-background;
 }

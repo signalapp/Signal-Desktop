@@ -9,8 +9,12 @@ import {
   PropsData as SearchResultsProps,
   SearchResults,
 } from '../SearchResults';
-import { SessionButton } from './SessionButton';
-import { SessionConversationSearch } from './SessionConversationSearch';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './SessionButton';
+import { SessionSearchInput } from './SessionSearchInput';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
@@ -194,11 +198,13 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   public renderCompose(): JSX.Element {
     return (
       <div className="module-left-pane-compose">
-        <SessionIconButton
-          iconSize={SessionIconSize.Small}
-          iconType={SessionIconType.Exit}
-          onClick={this.handleComposeClick}
-        />
+        <div className="exit">
+          <SessionIconButton
+            iconSize={SessionIconSize.Small}
+            iconType={SessionIconType.Exit}
+            onClick={this.handleComposeClick}
+          />
+        </div>
         <h2>{window.i18n('enterRecipient')}</h2>
         <h3>{window.i18n('enterSessionID')}</h3>
         <div className="module-left-pane-compose-border-container">
@@ -214,6 +220,17 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
         <div className="session-description-long">
           {window.i18n('usersCanShareTheir...')}
         </div>
+        <h4>{window.i18n('or')}</h4>
+        <SessionSearchInput
+          searchString={this.props.searchTerm}
+          onChange={this.updateSearchBound}
+          placeholder={window.i18n('searchByIDOrDisplayName')}
+        />
+        <SessionButton
+          buttonColor={SessionButtonColor.Green}
+          buttonType={SessionButtonType.BrandOutline}
+          text={window.i18n('message')}
+        />
       </div>
     );
   }
@@ -221,9 +238,10 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   public renderConversations() {
     return (
       <div>
-        <SessionConversationSearch
+        <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
+          placeholder={window.i18n('searchForAKeyPhrase')}
         />
         {this.renderList()}
       </div>

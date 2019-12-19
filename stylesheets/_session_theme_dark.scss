@@ -88,3 +88,9 @@ h3 {
   font-size: 18px;
   padding-top: 22px;
 }
+
+h4 {
+  @include session-h-title;
+  font-size: 17px;
+  text-align: center;
+}

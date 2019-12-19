@@ -4,9 +4,10 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 interface Props {
   searchString: string;
   onChange: any;
+  placeholder: string;
 }
 
-export class SessionConversationSearch extends React.Component<Props> {
+export class SessionSearchInput extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
   }
@@ -23,7 +24,7 @@ export class SessionConversationSearch extends React.Component<Props> {
         <input
           value={searchString}
           onChange={e => this.props.onChange(e.target.value)}
-          placeholder={window.i18n('searchForAKeyPhrase')}
+          placeholder={this.props.placeholder}
         />
       </div>
     );
