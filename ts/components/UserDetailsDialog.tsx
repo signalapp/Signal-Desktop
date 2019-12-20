@@ -1,7 +1,8 @@
 import React from 'react';
 import { Avatar } from './Avatar';
 
-import { SessionDropdown } from './session/SessionDropdown';
+import { SessionModal } from './session/SessionModal';
+import { SessionButton, SessionButtonType, SessionButtonColor } from './session/SessionButton';
 
 declare global {
   interface Window {
@@ -31,64 +32,27 @@ export class UserDetailsDialog extends React.Component<Props> {
 
   public render() {
     const i18n = this.props.i18n;
-
-    const cancelText = i18n('cancel');
-    const startConversation = i18n('startConversation');
-
-    const items = [
-      {
-        content: 'sdgsdfg',
-        display: true, //!isPublic && !isMe,
-      },
-      {
-        content: i18n('changeNickname'),
-        display: true, //!isPublic && !isMe,
-      },
-      {
-        content: i18n('clearNickname'),
-        display: true, //!isPublic && !isMe && hasNickname,
-      },
-      {
-        content: i18n('copyPublicKey'),
-        display: false, //!isPublic,
-      },
-      {
-        content: i18n('deleteMessages'),
-      },
-      {
-        content: i18n('deleteContact'),
-        display: true, //!isMe && isClosable && !isPublic,
-      },
-      {
-        content: i18n('deletePublicChannel'),
-        display: true, //!isMe && isClosable && !isPublic,
-      },
-    ];
-
+    
     return (
-      <div className="content">
-        <SessionDropdown items={items} />
-
+      <SessionModal
+        title={this.props.profileName}
+        onOk={() => null}
+        onClose={this.closeDialog}
+      >
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>
-        <div className="profile-name">{this.props.profileName}</div>
         <div className="message">{this.props.pubkey}</div>
 
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {cancelText}
-          </button>
-
-          <button
-            className="ok"
-            tabIndex={0}
-            onClick={this.onClickStartConversation}
-          >
-            {startConversation}
-          </button>
+        <div className="session-modal__button-group__center">
+          <SessionButton
+              text={i18n('startConversation')}
+              buttonType={SessionButtonType.Default}
+              buttonColor={SessionButtonColor.Primary}
+              onClick={this.onClickStartConversation}
+          />
         </div>
-      </div>
+      </SessionModal>
     );
   }
 

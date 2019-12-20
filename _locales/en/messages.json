@@ -1817,7 +1817,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Start new conversation…",
+    "message": "Start New Conversation",
     "description":
       "Label underneath number a user enters that is not an existing contact"
   },
@@ -2259,6 +2259,14 @@
   "editProfileDialogTitle": {
     "message": "Editing Profile"
   },
+
+
+  "editProfileModalTitle": {
+    "message": "Edit Profile",
+    "description": "Title for the Edit Profile modal"
+  },
+
+
   "profileName": {
     "message": "Profile Name"
   },

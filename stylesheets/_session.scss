@@ -78,6 +78,16 @@ $session-margin-sm: 10px;
 $session-margin-md: 15px;
 $session-margin-lg: 20px;
 
+div.spacer-sm {
+  height: $session-margin-sm;
+}
+div.spacer-md {
+  height: $session-margin-md;
+}
+div.spacer-lg {
+  height: $session-margin-lg;
+}
+
 @mixin session-color-subtle($color) {
   color: rgba($color, 0.6);
 }
@@ -172,6 +182,9 @@ $session_message-container-border-radius: 5px;
     }
     &.secondary {
       background-color: $session-color-secondary;
+    }
+    &.success {
+      background-color: $session-color-success;
     }
     &.danger {
       background-color: $session-color-danger;
@@ -493,19 +506,21 @@ label {
 .session-modal {
   z-index: 150;
   position: fixed;
-  top: 50%;
   left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
   box-sizing: border-box;
-  height: 529px;
-  width: 345px;
+  max-height: 70vh;
+  max-width: 70vw;
   background-color: $session-shade-4;
   border: 1px solid $session-shade-8;
 
-  .header {
+  &__header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
     padding: $session-margin-lg;
 
     font-family: 'Wasa';
@@ -514,17 +529,45 @@ label {
     font-size: 15px;
     font-weight: 700;
 
-    .close,
-    .icons {
-      width: 70px;
+    &__icons, &__close {
+      width: 60px;
     }
-    .close > div {
-      float: left;
-    }
-    .icons > div {
+    &__icons {
       float: right;
     }
+    &__close > div {
+      float: left;
+    }
+    &__icons > div {
+      float: right;
+      padding-left: 10px;
+    }
   }
+
+  &__body {
+    padding: $session-margin-lg;
+
+    font-family: 'Wasa';
+    line-height: 16px;
+    font-size: 13px;
+
+    .message{
+      text-align: center;
+    }
+  }
+
+  &__button-group {
+    display: flex;
+    justify-content: flex-end;
+
+    &__center{
+      align-items: center;
+    }
+    .session-button {
+      margin-left: $session-margin-sm;
+    }
+  }
+
 }
 
 .session-toggle {
@@ -635,4 +678,12 @@ label {
       }
     }
   }
+}
+
+
+
+.edit-profile-dialog .image-upload-section {
+  position: absolute;
+  margin-top: 50px;
+  margin-left: 75px;
 }
