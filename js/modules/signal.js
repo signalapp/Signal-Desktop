@@ -51,6 +51,7 @@ const {
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const { DevicePairingDialog } = require('../../ts/components/DevicePairingDialog');
+const { SessionSettings } = require('../../ts/components/session/SessionSettings');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
@@ -256,6 +257,7 @@ exports.setup = (options = {}) => {
     InviteFriendsDialog,
     GroupInvitation,
     BulkEdit,
+    SessionSettings,
     SessionToast,
     SessionToggle,
     SessionModal,
