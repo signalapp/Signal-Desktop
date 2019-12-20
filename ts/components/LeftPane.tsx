@@ -17,12 +17,6 @@ interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
 
-  // Action Creators
-  startNewConversation: (
-    query: string,
-    options: { regionCode: string }
-  ) => void;
-
   openConversationInternal: (id: string, messageId?: string) => void;
   updateSearchTerm: (searchTerm: string) => void;
   search: (query: string, options: SearchOptions) => void;
@@ -60,7 +54,6 @@ export class LeftPane extends React.Component<Props, State> {
 
   private renderMessageSection() {
     const {
-      startNewConversation,
       openConversationInternal,
       conversations,
       searchResults,
@@ -73,7 +66,6 @@ export class LeftPane extends React.Component<Props, State> {
 
     return (
       <LeftPaneMessageSection
-        startNewConversation={startNewConversation}
         openConversationInternal={openConversationInternal}
         conversations={conversations}
         searchResults={searchResults}

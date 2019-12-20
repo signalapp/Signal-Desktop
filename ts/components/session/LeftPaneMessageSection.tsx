@@ -27,14 +27,8 @@ export interface Props {
 
   conversations?: Array<ConversationListItemPropsType>;
 
-  friends?: Array<ConversationListItemPropsType>;
   searchResults?: SearchResultsProps;
 
-  // Action Creators
-  startNewConversation: (
-    query: string,
-    options: { regionCode: string }
-  ) => void;
   updateSearchTerm: (searchTerm: string) => void;
   search: (query: string, options: SearchOptions) => void;
   openConversationInternal: (id: string, messageId?: string) => void;
@@ -109,18 +103,13 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   };
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
-    const {
-      openConversationInternal,
-      startNewConversation,
-      searchResults,
-    } = this.props;
+    const { openConversationInternal, searchResults } = this.props;
 
     if (searchResults) {
       return (
         <SearchResults
           {...searchResults}
           openConversation={openConversationInternal}
-          startNewConversation={startNewConversation}
           i18n={window.i18n}
         />
       );
