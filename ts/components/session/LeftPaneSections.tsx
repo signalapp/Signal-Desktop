@@ -72,7 +72,7 @@ const Section = ({
   let iconType: SessionIconType;
   switch (type) {
     case SectionType.Message:
-      iconType = SessionIconType.Reply;
+      iconType = SessionIconType.ChatBubble;
       break;
     case SectionType.People:
       iconType = SessionIconType.Users;
