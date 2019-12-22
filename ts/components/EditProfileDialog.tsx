@@ -2,10 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import { Avatar } from './Avatar';
 
-import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
-import { SessionIconButton, SessionIconType, SessionIconSize } from './session/icon';
-
+import {
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from './session/icon';
+import { SessionModal } from './session/SessionModal';
 
 declare global {
   interface Window {
@@ -85,23 +88,23 @@ export class EditProfileDialog extends React.Component<Props, State> {
                 name="name"
                 onChange={this.onFileSelected}
               />
-              
-                <SessionIconButton
-                  iconType = {SessionIconType.Upload}
-                  iconSize = {SessionIconSize.Large}
-                  onClick={() => {
-                    const el = this.inputEl.current;
-                    if (el) {
-                      el.click();
-                    }
-                  }}
-                />
+
+              <SessionIconButton
+                iconType={SessionIconType.Upload}
+                iconSize={SessionIconSize.Large}
+                onClick={() => {
+                  const el = this.inputEl.current;
+                  if (el) {
+                    el.click();
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
 
-        <div className="spacer md"></div>
-        
+        <div className="spacer md" />
+
         <input
           type="text"
           className="profile-name"
@@ -114,8 +117,8 @@ export class EditProfileDialog extends React.Component<Props, State> {
         />
         <div className="message">{i18n('editProfileDisplayNameWarning')}</div>
         <span className={errorMessageClasses}>{this.state.errorMessage}</span>
-        
-        <div className="spacer-lg"></div>
+
+        <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
           <SessionButton

@@ -529,7 +529,8 @@ label {
     font-size: 15px;
     font-weight: 700;
 
-    &__icons, &__close {
+    &__icons,
+    &__close {
       width: 60px;
     }
     &__icons {
@@ -551,7 +552,7 @@ label {
     line-height: 16px;
     font-size: 13px;
 
-    .message{
+    .message {
       text-align: center;
     }
   }
@@ -560,14 +561,13 @@ label {
     display: flex;
     justify-content: flex-end;
 
-    &__center{
+    &__center {
       align-items: center;
     }
     .session-button {
       margin-left: $session-margin-sm;
     }
   }
-
 }
 
 .session-toggle {
@@ -680,16 +680,8 @@ label {
   }
 }
 
-
-
 .edit-profile-dialog .image-upload-section {
   position: absolute;
   margin-top: 50px;
   margin-left: 75px;
-}
-
-#settings-container {
-  width: 100%;
-  height: 100%;
-  background-color: blue;
 }

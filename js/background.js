@@ -802,17 +802,13 @@
       appView.openConversation(groupId, {});
     };
 
+    // $(document).ready(() => {
+    //   window.settingsView = new Whisper.SessionSettingsView({
+    //     el: $('#settings-container'),
+    //   });
+    //   window.settingsView.render();
+    // });
 
-    
-    $(document).ready(() => {
-      window.settingsView = new Whisper.SessionSettingsView({
-        el: $('#settings-container'),
-      });
-      window.settingsView.render();
-    });
-
-
-    
     window.generateID = () =>
       Math.random()
         .toString(36)

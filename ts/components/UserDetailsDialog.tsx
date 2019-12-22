@@ -2,7 +2,11 @@ import React from 'react';
 import { Avatar } from './Avatar';
 
 import { SessionModal } from './session/SessionModal';
-import { SessionButton, SessionButtonType, SessionButtonColor } from './session/SessionButton';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './session/SessionButton';
 
 declare global {
   interface Window {
@@ -32,7 +36,7 @@ export class UserDetailsDialog extends React.Component<Props> {
 
   public render() {
     const i18n = this.props.i18n;
-    
+
     return (
       <SessionModal
         title={this.props.profileName}
@@ -46,10 +50,10 @@ export class UserDetailsDialog extends React.Component<Props> {
 
         <div className="session-modal__button-group__center">
           <SessionButton
-              text={i18n('startConversation')}
-              buttonType={SessionButtonType.Default}
-              buttonColor={SessionButtonColor.Primary}
-              onClick={this.onClickStartConversation}
+            text={i18n('startConversation')}
+            buttonType={SessionButtonType.Default}
+            buttonColor={SessionButtonColor.Primary}
+            onClick={this.onClickStartConversation}
           />
         </div>
       </SessionModal>

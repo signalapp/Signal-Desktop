@@ -2,6 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { Contact, MemberList } from './MemberList';
 
+import { SessionModal } from './../session/SessionModal';
+
 declare global {
   interface Window {
     SMALL_GROUP_SIZE_LIMIT: number;
@@ -105,9 +107,11 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
     );
 
     return (
-      <div className="content">
-        <p className="titleText">{titleText}</p>
+      <SessionModal title={titleText} onClose={() => null} onOk={() => null}>
+        <div className="spacer-md" />
         <p className={errorMessageClasses}>{errorMsg}</p>
+        <div className="spacer-md" />
+
         <input
           type="text"
           id="group-name"
@@ -121,6 +125,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
           aria-required={true}
           autoFocus={true}
         />
+
         <div className="friend-selection-list">
           <MemberList
             members={this.state.friendList}
@@ -140,7 +145,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
             {okText}
           </button>
         </div>
-      </div>
+      </SessionModal>
     );
   }
 

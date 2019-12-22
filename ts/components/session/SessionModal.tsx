@@ -19,7 +19,6 @@ interface State {
 }
 
 export class SessionModal extends React.PureComponent<Props, State> {
-
   constructor(props: any) {
     super(props);
     this.state = {
@@ -37,34 +36,34 @@ export class SessionModal extends React.PureComponent<Props, State> {
     const { isVisible } = this.state;
 
     return isVisible ? (
-        <div className={classNames('session-modal')}>
-          <div className="session-modal__header">
-            <div className="session-modal__header__close">
-              <SessionIconButton
-                iconType={SessionIconType.Exit}
-                iconSize={SessionIconSize.Small}
-                onClick={this.close}
-              />
-            </div>
-            <div className="session-modal__header__title">{title}</div>
-            <div className="session-modal__header__icons">
-              { headerIconButtons ? headerIconButtons.map((iconItem: any) => {
-                return (
-                  <SessionIconButton
-                    iconType={iconItem.type}
-                    iconSize={SessionIconSize.Medium}
-                  />
-                )
-                }) : null
-              }
-            </div>
+      <div className={classNames('session-modal')}>
+        <div className="session-modal__header">
+          <div className="session-modal__header__close">
+            <SessionIconButton
+              iconType={SessionIconType.Exit}
+              iconSize={SessionIconSize.Small}
+              onClick={this.close}
+            />
           </div>
-
-          <div className="session-modal__body">
-            {this.props.children}
+          <div className="session-modal__header__title">{title}</div>
+          <div className="session-modal__header__icons">
+            {headerIconButtons
+              ? headerIconButtons.map((iconItem: any) => {
+                  return (
+                    <SessionIconButton
+                      key={iconItem.type}
+                      iconType={iconItem.type}
+                      iconSize={SessionIconSize.Medium}
+                    />
+                  );
+                })
+              : null}
           </div>
         </div>
-      ) : null;
+
+        <div className="session-modal__body">{this.props.children}</div>
+      </div>
+    ) : null;
   }
 
   public close() {
@@ -76,7 +75,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
     this.props.onClose();
   }
 
-  public onKeyUp(event: any){
+  public onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
         this.props.onOk();

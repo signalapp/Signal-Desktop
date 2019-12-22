@@ -19,20 +19,24 @@ export class ConfirmDialog extends React.Component<Props> {
 
   public render() {
     return (
-      <SessionModal title={this.props.titleText} onClose={() => null} onOk={() => null}>
-        <div className="spacer-md"></div>
+      <SessionModal
+        title={this.props.titleText}
+        onClose={() => null}
+        onOk={() => null}
+      >
+        <div className="spacer-md" />
         <p className="messageText">{this.props.messageText}</p>
-        <div className="spacer-md"></div>
+        <div className="spacer-md" />
 
         <div className="session-modal__button-group">
-          <SessionButton 
-            text = {this.props.okText}
-            onClick = {this.props.onConfirm}
+          <SessionButton
+            text={this.props.okText}
+            onClick={this.props.onConfirm}
           />
-          
-          <SessionButton 
-            text = {this.props.cancelText}
-            onClick = {this.props.onClose}
+
+          <SessionButton
+            text={this.props.cancelText}
+            onClick={this.props.onClose}
           />
         </div>
       </SessionModal>

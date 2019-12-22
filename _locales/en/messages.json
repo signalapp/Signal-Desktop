@@ -2260,12 +2260,10 @@
     "message": "Editing Profile"
   },
 
-
   "editProfileModalTitle": {
     "message": "Edit Profile",
     "description": "Title for the Edit Profile modal"
   },
-
 
   "profileName": {
     "message": "Profile Name"
