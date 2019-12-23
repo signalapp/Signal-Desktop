@@ -20,7 +20,7 @@ export class SessionDropdownTrigger extends React.Component<Props> {
     event.preventDefault();
     event.stopPropagation();
 
-    let x = event.clientX || (event.touches && event.touches[0].pageX);
+    /*let x = event.clientX || (event.touches && event.touches[0].pageX);
     let y = event.clientY || (event.touches && event.touches[0].pageY);
 
     if (this.props.posX) {
@@ -28,7 +28,7 @@ export class SessionDropdownTrigger extends React.Component<Props> {
     }
     if (this.props.posY) {
       y -= this.props.posY;
-    }
+    }*/
   };
 
   public render() {
