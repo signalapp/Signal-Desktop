@@ -74,6 +74,7 @@ $session-color-light-grey: #a0a0a0;
 $session-shadow-opacity: 0.15;
 $session-overlay-opacity: 0.3;
 
+$session-margin-xs: 5px;
 $session-margin-sm: 10px;
 $session-margin-md: 15px;
 $session-margin-lg: 20px;
@@ -90,6 +91,10 @@ div.spacer-lg {
 
 @mixin session-color-subtle($color) {
   color: rgba($color, 0.6);
+}
+
+.text-subtle {
+  opacity: 0.6;
 }
 
 $session-transition-duration: 0.25s;
@@ -560,14 +565,23 @@ label {
   &__button-group {
     display: flex;
     justify-content: flex-end;
-
-    &__center {
-      align-items: center;
-    }
+    
     .session-button {
       margin-left: $session-margin-sm;
     }
+
+    &__center {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .session-button {
+      margin: 0 $session-margin-xs;
+    
+    }
+    
   }
+  
 }
 
 .session-toggle {

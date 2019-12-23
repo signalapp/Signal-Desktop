@@ -960,6 +960,9 @@
   "pairedDevices": {
     "message": "Paired Devices"
   },
+  "noPairedDevices": {
+    "message": "No paired devices"
+  },
   "allowPairing": {
     "message": "Allow Pairing"
   },

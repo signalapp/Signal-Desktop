@@ -4,6 +4,7 @@ interface Window {
   passwordUtil: any;
   dcodeIO: any;
   libsignal: any;
+  libloki: any;
   displayNameRegex: any;
   Signal: any;
   Whisper: any;
