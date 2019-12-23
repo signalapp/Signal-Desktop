@@ -20,6 +20,7 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { SessionIdEditable } from './SessionIdEditable';
+import { UserSearchDropdown } from './UserSearchDropdown';
 
 export interface Props {
   searchTerm: string;
@@ -185,6 +186,8 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   }
 
   public renderCompose(): JSX.Element {
+    const { searchResults } = this.props;
+
     return (
       <div className="module-left-pane-compose">
         <div className="exit">
@@ -210,10 +213,12 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
           {window.i18n('usersCanShareTheir...')}
         </div>
         <h4>{window.i18n('or')}</h4>
-        <SessionSearchInput
-          searchString={this.props.searchTerm}
-          onChange={this.updateSearchBound}
+
+        <UserSearchDropdown
+          searchTerm={this.props.searchTerm}
+          updateSearch={this.updateSearchBound}
           placeholder={window.i18n('searchByIDOrDisplayName')}
+          searchResults={searchResults}
         />
         <SessionButton
           buttonColor={SessionButtonColor.Green}
@@ -287,6 +292,8 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     this.setState((state: any) => {
       return { showComposeView: !state.showComposeView };
     });
+    // empty our generalized searchedString (one for the whole app)
+    this.updateSearch('');
   }
 
   private handleOnPasteSessionID() {

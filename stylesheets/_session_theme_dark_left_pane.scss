@@ -1,3 +1,5 @@
+$session-compose-margin: 20px;
+
 .dark-theme {
   .module-conversation-list-item {
     @include session-dark-background-lighter;
@@ -144,6 +146,7 @@
         margin-left: -65px;
         top: 50%;
         margin-top: 6px;
+        border: none;
       }
 
       .white {
@@ -161,7 +164,11 @@
     }
 
     .session-search-input {
-      margin: 10px 20px;
+      margin: 10px $session-compose-margin 0 $session-compose-margin;
+      width: -webkit-fill-available;
+    }
+
+    .module-search-results {
       width: -webkit-fill-available;
     }
 
@@ -218,4 +225,24 @@
 
 .app-loading-screen {
   @include session-dark-background;
+}
+
+.contacts-dropdown {
+  width: -webkit-fill-available;
+
+  &-row {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 5px 20px;
+    margin: 0px $session-compose-margin;
+    background: $session-shade-4;
+    color: $session-color-light-grey;
+
+    &-selected,
+    &:hover {
+      font-weight: bold;
+      color: $session-color-white;
+    }
+  }
 }
