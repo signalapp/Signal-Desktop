@@ -21,6 +21,7 @@ import { SearchOptions } from '../../types/Search';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { SessionIdEditable } from './SessionIdEditable';
 import { UserSearchDropdown } from './UserSearchDropdown';
+import { validateNumber } from '../../types/PhoneNumber';
 
 export interface Props {
   searchTerm: string;
@@ -54,12 +55,18 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     super(props);
     this.state = {
       showComposeView: false,
+      pubKeyPasted: '',
     };
 
     this.updateSearchBound = this.updateSearch.bind(this);
     this.handleComposeClick = this.handleComposeClick.bind(this);
     this.handleOnPasteSessionID = this.handleOnPasteSessionID.bind(this);
+    this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
+  }
+
+  public componentWillUnmount() {
+    this.updateSearch('');
   }
 
   public getCurrentConversations():
@@ -224,6 +231,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
           buttonColor={SessionButtonColor.Green}
           buttonType={SessionButtonType.BrandOutline}
           text={window.i18n('message')}
+          onClick={this.handleMessageButtonClick}
         />
       </div>
     );
@@ -250,6 +258,10 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
       return;
     }
+    // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
+    this.setState({ pubKeyPasted: '' }, () => {
+      window.Session.emptyContentEditableDivs();
+    });
 
     if (updateSearchTerm) {
       updateSearchTerm(searchTerm);
@@ -296,7 +308,30 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     this.updateSearch('');
   }
 
-  private handleOnPasteSessionID() {
-    console.log('handleOnPasteSessionID');
+  private handleOnPasteSessionID(e: any) {
+    // reset our search, we can either have a pasted sessionID or a sessionID got from a search
+    this.updateSearch('');
+    this.setState({ pubKeyPasted: e.target.innerHTML });
+  }
+
+  private handleMessageButtonClick() {
+    const { openConversationInternal } = this.props;
+
+    if (!this.state.pubKeyPasted && !this.props.searchTerm) {
+      return;
+    }
+    let pubkey: string;
+    pubkey = this.state.pubKeyPasted || this.props.searchTerm;
+
+    const error = validateNumber(pubkey);
+    if (!error) {
+      openConversationInternal(pubkey);
+    } else {
+      window.pushToast({
+        title: error,
+        type: 'error',
+        id: 'invalidPubKey',
+      });
+    }
   }
 }

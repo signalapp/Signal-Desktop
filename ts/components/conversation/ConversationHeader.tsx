@@ -241,7 +241,7 @@ export class ConversationHeader extends React.Component<Props> {
 
   public renderOptions(triggerId: string) {
     const { showBackButton } = this.props;
-    console.log('FIXME:', triggerId)
+    console.log('FIXME:', triggerId);
 
     if (showBackButton) {
       return null;
