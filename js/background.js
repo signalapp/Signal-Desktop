@@ -802,6 +802,18 @@
       appView.openConversation(groupId, {});
     };
 
+    // $(document).ready(() => {
+    //   window.settingsView = new Whisper.SessionSettingsView({
+    //     el: $('#settings-container'),
+    //   });
+    //   window.settingsView.render();
+    // });
+
+    window.generateID = () =>
+      Math.random()
+        .toString(36)
+        .substring(3);
+
     window.toasts = new Map();
     window.pushToast = options => {
       // Setting toasts with the same ID can be used to prevent identical
@@ -810,22 +822,19 @@
 
       const params = {
         title: options.title,
-        id:
-          options.id ||
-          Math.random()
-            .toString(36)
-            .substring(3),
+        id: options.id || window.generateID(),
         description: options.description || '',
         type: options.type || '',
       };
 
       // Give all toasts an ID. User may define.
+      let currentToast;
       const toastID = params.id;
       const toast = !!toastID && window.toasts.get(toastID);
       if (toast) {
-        window.toasts.get(toastID).update(params);
+        currentToast = window.toasts.get(toastID);
+        currentToast.update(params);
       } else {
-
         // Make new Toast
         window.toasts.set(
           toastID,
@@ -834,8 +843,9 @@
           })
         );
 
-        window.toasts.get(toastID).render();
-        window.toasts.get(toastID).update(params);
+        currentToast = window.toasts.get(toastID);
+        currentToast.render();
+        currentToast.update(params);
       }
 
       // Remove some toasts if too many exist

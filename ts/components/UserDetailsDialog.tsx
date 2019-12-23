@@ -1,11 +1,12 @@
 import React from 'react';
 import { Avatar } from './Avatar';
 
-declare global {
-  interface Window {
-    displayNameRegex: any;
-  }
-}
+import { SessionModal } from './session/SessionModal';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './session/SessionButton';
 
 interface Props {
   i18n: any;
@@ -30,31 +31,26 @@ export class UserDetailsDialog extends React.Component<Props> {
   public render() {
     const i18n = this.props.i18n;
 
-    const cancelText = i18n('cancel');
-    const startConversation = i18n('startConversation');
-
     return (
-      <div className="content">
+      <SessionModal
+        title={this.props.profileName}
+        onOk={() => null}
+        onClose={this.closeDialog}
+      >
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>
-        <div className="profile-name">{this.props.profileName}</div>
         <div className="message">{this.props.pubkey}</div>
 
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {cancelText}
-          </button>
-
-          <button
-            className="ok"
-            tabIndex={0}
+        <div className="session-modal__button-group__center">
+          <SessionButton
+            text={i18n('startConversation')}
+            buttonType={SessionButtonType.Default}
+            buttonColor={SessionButtonColor.Primary}
             onClick={this.onClickStartConversation}
-          >
-            {startConversation}
-          </button>
+          />
         </div>
-      </div>
+      </SessionModal>
     );
   }
 

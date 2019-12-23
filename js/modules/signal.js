@@ -50,7 +50,15 @@ const {
 } = require('../../ts/components/conversation/CreateGroupDialog');
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
+const {
+  SessionSettings,
+} = require('../../ts/components/session/SessionSettings');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
+const { SessionToggle } = require('../../ts/components/session/SessionToggle');
+const { SessionModal } = require('../../ts/components/session/SessionModal');
+const {
+  SessionDropdown,
+} = require('../../ts/components/session/SessionDropdown');
 const {
   SessionRegistrationView,
 } = require('../../ts/components/session/SessionRegistrationView');
@@ -249,7 +257,11 @@ exports.setup = (options = {}) => {
     InviteFriendsDialog,
     GroupInvitation,
     BulkEdit,
+    SessionSettings,
     SessionToast,
+    SessionToggle,
+    SessionModal,
+    SessionDropdown,
     MediaGallery,
     Message,
     MessageBody,
