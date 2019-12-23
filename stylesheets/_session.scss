@@ -631,6 +631,11 @@ label {
   &--selected {
     background-color: $session-shade-7 !important;
   }
+  &:active,
+  &:visited,
+  &:focus {
+    outline: none;
+  }
 }
 
 .session-dropdown {

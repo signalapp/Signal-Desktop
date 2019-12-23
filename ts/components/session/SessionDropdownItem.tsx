@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
-import { generateID } from './tools/ComponentTools';
 
 export enum SessionDropDownItemType {
   Default = 'default',
@@ -20,7 +19,6 @@ interface Props {
 
 export class SessionDropdownItem extends React.PureComponent<Props> {
   public static defaultProps = {
-    id: generateID(),
     type: SessionDropDownItemType.Default,
     icon: null,
     active: false,
@@ -33,7 +31,8 @@ export class SessionDropdownItem extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { id, content, type, icon, active } = this.props;
+    const { content, type, icon, active } = this.props;
+    const id = this.props.id || window.generateID();
 
     return (
       <li

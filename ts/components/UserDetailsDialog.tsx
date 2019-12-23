@@ -8,12 +8,6 @@ import {
   SessionButtonType,
 } from './session/SessionButton';
 
-declare global {
-  interface Window {
-    displayNameRegex: any;
-  }
-}
-
 interface Props {
   i18n: any;
   profileName: string;

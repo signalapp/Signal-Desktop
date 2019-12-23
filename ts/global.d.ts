@@ -12,6 +12,7 @@ interface Window {
   textsecure: any;
   Session: any;
   i18n: any;
+  generateID: any;
 }
 
 interface Promise<T> {

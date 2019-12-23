@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 interface Props {
   active: boolean;
+  onClick: any;
 }
 
 interface State {
@@ -10,7 +11,7 @@ interface State {
 }
 
 export class SessionToggle extends React.PureComponent<Props, State> {
-  public static readonly extendedDefaults = {
+  public static defaultProps = {
     onClick: () => null,
   };
 
@@ -40,9 +41,14 @@ export class SessionToggle extends React.PureComponent<Props, State> {
     );
   }
 
-  private clickHandler() {
+  private clickHandler(e: any) {
     this.setState({
       active: !this.state.active,
     });
+
+    if (this.props.onClick) {
+      e.stopPropagation();
+      this.props.onClick();
+    }
   }
 }
