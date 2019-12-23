@@ -8,7 +8,7 @@ export type PropsData = {
   contacts: Array<ConversationListItemPropsType>;
   regionCode: string;
   searchTerm: string;
-  selectedContact: Number;
+  selectedContact: number;
   onContactSelected: any;
 };
 

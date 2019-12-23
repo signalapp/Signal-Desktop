@@ -25,7 +25,7 @@ export class UserSearchDropdown extends React.Component<Props, State> {
     this.handleNavigation = this.handleNavigation.bind(this);
     this.handleContactSelected = this.handleContactSelected.bind(this);
     this.state = {
-      selectedContact: 0,
+      selectedContact: -1,
     };
   }
 
@@ -86,7 +86,7 @@ export class UserSearchDropdown extends React.Component<Props, State> {
   }
 
   public updateSearch(data: string) {
-    this.setState({ selectedContact: 0 });
+    this.setState({ selectedContact: -1 });
     this.props.updateSearch(data);
   }
 
