@@ -17,6 +17,7 @@ interface Window {
   generateID: any;
   pushToast: any;
   storage: any;
+  pushToast: any;
 }
 
 interface Promise<T> {
