@@ -180,18 +180,22 @@ $session-compose-margin: 20px;
     .session-id-editable {
       margin: 0px 20px;
       width: -webkit-fill-available;
+      flex-shrink: 0;
     }
 
     .session-button {
       width: fit-content;
       margin-top: auto;
       margin-bottom: 16px;
+      flex-shrink: 0;
     }
   }
 }
 
 .user-search-dropdown {
   width: 100%;
+  flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .session-search-input {
@@ -238,7 +242,7 @@ $session-compose-margin: 20px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 5px 20px;
+    padding: 8px 20px;
     margin: 0px $session-compose-margin;
     background: $session-shade-4;
     color: $session-color-light-grey;
