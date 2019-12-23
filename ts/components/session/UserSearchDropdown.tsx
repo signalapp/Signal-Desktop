@@ -66,7 +66,7 @@ export class UserSearchDropdown extends React.Component<Props, State> {
     const { selectedContact } = this.state;
 
     return (
-      <div>
+      <div className="user-search-dropdown">
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
