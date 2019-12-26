@@ -67,30 +67,37 @@
 }
 
 @mixin session-h-title {
-  color: $session-color-white;
   font-weight: bold;
 }
 
 h1 {
   @include session-h-title;
+  color: $session-shade-16;
   font-size: 25px;
   margin: 0;
+
+  &.active {
+    color: $session-color-white;
+  }
 }
 
 h2 {
   @include session-h-title;
+  color: $session-color-white;
   font-size: 22px;
   text-align: center;
 }
 
 h3 {
   @include session-h-title;
+  color: $session-color-white;
   font-size: 18px;
   padding-top: 22px;
 }
 
 h4 {
   @include session-h-title;
+  color: $session-color-white;
   font-size: 17px;
   text-align: center;
 }

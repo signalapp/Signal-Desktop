@@ -107,6 +107,7 @@ $session-compose-margin: 20px;
 
   &__title {
     flex-grow: 1;
+    cursor: pointer;
   }
 
   &__list {
@@ -130,6 +131,10 @@ $session-compose-margin: 20px;
 
     h3 {
       padding-top: 22px;
+    }
+
+    h4 {
+      text-transform: uppercase;
     }
 
     &-border-container {

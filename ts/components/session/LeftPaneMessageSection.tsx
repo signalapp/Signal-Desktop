@@ -22,6 +22,7 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { SessionIdEditable } from './SessionIdEditable';
 import { UserSearchDropdown } from './UserSearchDropdown';
 import { validateNumber } from '../../types/PhoneNumber';
+import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 export interface Props {
   searchTerm: string;
@@ -166,16 +167,19 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   }
 
   public renderHeader(): JSX.Element {
+    const labels = [];
+    labels.push(window.i18n('messagesHeader'));
+
     return (
-      <div className="module-left-pane__header">
-        <h1 className="module-left-pane__title">
-          {window.i18n('messagesHeader')}
-        </h1>
-        <SessionButton
-          text={window.i18n('compose')}
-          onClick={this.handleComposeClick}
-        />
-      </div>
+      <LeftPaneSectionHeader
+        onTabSelected={() => {
+          console.log('tabselected');
+        }}
+        selectedTab={0}
+        labels={labels}
+        buttonLabel={window.i18n('compose')}
+        buttonClicked={this.handleComposeClick}
+      />
     );
   }
 
