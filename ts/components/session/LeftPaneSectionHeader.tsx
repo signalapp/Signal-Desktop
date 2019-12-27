@@ -58,7 +58,12 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
 
   private renderTabs() {
     const { selectedTab } = this.state;
-    const { labels, buttonLabel, buttonClicked } = this.props;
+    const {
+      labels,
+      buttonLabel,
+      buttonClicked,
+      notificationCount,
+    } = this.props;
 
     const children = [];
     //loop to create children
@@ -81,6 +86,17 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
           onClick={buttonClicked}
           key={window.i18n('compose')}
         />
+      );
+    } else if (notificationCount && notificationCount > 0) {
+      const shortenedNotificationCount =
+        notificationCount > 9 ? 9 : notificationCount;
+      children.push(
+        <div
+          className="contact-notification-count-bubble"
+          onClick={buttonClicked}
+        >
+          {shortenedNotificationCount}
+        </div>
       );
     }
 

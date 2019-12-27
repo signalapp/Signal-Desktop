@@ -114,11 +114,13 @@ export class LeftPane extends React.Component<Props, State> {
     );
   }
 
+  // this static function is set here to be used by all subsections (message, contacts,...) to render their headers
   static renderHeader(
     labels: Array<string>,
     onTabSelected?: any,
     buttonLabel?: string,
-    buttonClicked?: any
+    buttonClicked?: any,
+    notificationCount?: number
   ): JSX.Element {
     return (
       <LeftPaneSectionHeader
@@ -127,6 +129,7 @@ export class LeftPane extends React.Component<Props, State> {
         labels={labels}
         buttonLabel={buttonLabel}
         buttonClicked={buttonClicked}
+        notificationCount={notificationCount}
       />
     );
   }

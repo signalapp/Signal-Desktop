@@ -264,3 +264,16 @@ $session-compose-margin: 20px;
     }
   }
 }
+
+.contact-notification-count-bubble {
+  background: $session-color-danger;
+  line-height: 30px;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  margin-left: auto;
+  text-align: center;
+  border-radius: 50%;
+  color: $session-color-white;
+  font-weight: bold;
+}
