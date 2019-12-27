@@ -112,7 +112,7 @@ const Section = ({
   }
 };
 
-export class LeftPaneSections extends React.Component<Props, State> {
+export class ActionsPanel extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -133,48 +133,40 @@ export class LeftPaneSections extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const isProfileSelected =
-      this.props.selectedSection === SectionType.Profile;
-    const isMessageSelected =
-      this.props.selectedSection === SectionType.Message;
-    const isPeopleSelected = this.props.selectedSection === SectionType.People;
-    const isGlobeSelected = this.props.selectedSection === SectionType.Globe;
-    const isSettingsSelected =
-      this.props.selectedSection === SectionType.Settings;
-    const isMoonSelected = this.props.selectedSection === SectionType.Moon;
+    const { selectedSection } = this.props;
 
     return (
       <div className="module-left-pane__sections-container">
         <Section
           type={SectionType.Profile}
           avatarPath={this.state.avatarPath}
-          isSelected={isProfileSelected}
+          isSelected={selectedSection === SectionType.Profile}
           onSelect={this.handleSectionSelect}
         />
         <Section
           type={SectionType.Message}
-          isSelected={isMessageSelected}
+          isSelected={selectedSection === SectionType.Message}
           onSelect={this.handleSectionSelect}
           notificationCount={0}
         />
         <Section
           type={SectionType.People}
-          isSelected={isPeopleSelected}
+          isSelected={selectedSection === SectionType.People}
           onSelect={this.handleSectionSelect}
         />
         <Section
           type={SectionType.Globe}
-          isSelected={isGlobeSelected}
+          isSelected={selectedSection === SectionType.Globe}
           onSelect={this.handleSectionSelect}
         />
         <Section
           type={SectionType.Settings}
-          isSelected={isSettingsSelected}
+          isSelected={selectedSection === SectionType.Settings}
           onSelect={this.handleSectionSelect}
         />
         <Section
           type={SectionType.Moon}
-          isSelected={isMoonSelected}
+          isSelected={selectedSection === SectionType.Moon}
           onSelect={this.handleSectionSelect}
         />
       </div>

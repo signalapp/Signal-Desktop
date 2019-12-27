@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LeftPaneSections, SectionType } from './session/LeftPaneSections';
+import { ActionsPanel, SectionType } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 
 import { PropsData as ConversationListItemPropsType } from './ConversationListItem';
@@ -40,7 +40,7 @@ export class LeftPane extends React.Component<Props, State> {
   public render(): JSX.Element {
     return (
       <div className="module-left-pane-session">
-        <LeftPaneSections
+        <ActionsPanel
           selectedSection={this.state.selectedSection}
           onSectionSelected={this.handleSectionSelected}
         />

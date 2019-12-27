@@ -185,13 +185,11 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   public render(): JSX.Element {
     return (
-      <div className="module-left-pane-session">
-        <div className="module-left-pane">
-          {this.renderHeader()}
-          {this.state.showComposeView
-            ? this.renderCompose()
-            : this.renderConversations()}
-        </div>
+      <div>
+        {this.renderHeader()}
+        {this.state.showComposeView
+          ? this.renderCompose()
+          : this.renderConversations()}
       </div>
     );
   }
