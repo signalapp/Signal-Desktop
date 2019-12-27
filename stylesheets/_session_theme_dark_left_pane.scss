@@ -103,11 +103,15 @@ $session-compose-margin: 20px;
     display: flex;
     flex-direction: row;
     margin: 28px 7px 28px 0px;
+
+    .session-button {
+      margin-left: auto;
+    }
   }
 
   &__title {
-    flex-grow: 1;
     cursor: pointer;
+    padding-right: 10px;
   }
 
   &__list {

@@ -5,7 +5,7 @@ import { Avatar } from '../Avatar';
 export enum SectionType {
   Profile,
   Message,
-  People,
+  Contact,
   Globe,
   Settings,
   Moon,
@@ -74,7 +74,7 @@ const Section = ({
     case SectionType.Message:
       iconType = SessionIconType.ChatBubble;
       break;
-    case SectionType.People:
+    case SectionType.Contact:
       iconType = SessionIconType.Users;
       break;
     case SectionType.Globe:
@@ -150,8 +150,8 @@ export class ActionsPanel extends React.Component<Props, State> {
           notificationCount={0}
         />
         <Section
-          type={SectionType.People}
-          isSelected={selectedSection === SectionType.People}
+          type={SectionType.Contact}
+          isSelected={selectedSection === SectionType.Contact}
           onSelect={this.handleSectionSelect}
         />
         <Section
