@@ -14,6 +14,7 @@ interface Window {
   Session: any;
   i18n: any;
   generateID: any;
+  pushToast: any;
 }
 
 interface Promise<T> {

@@ -97,6 +97,14 @@ div.spacer-lg {
   opacity: 0.6;
 }
 
+.text-soft {
+  opacity: 0.4;
+}
+
+.fullwidth {
+  width: 100%;
+}
+
 $session-transition-duration: 0.25s;
 
 $session-icon-size-sm: 15px;
@@ -253,6 +261,30 @@ $session_message-container-border-radius: 5px;
   &.square,
   &.square-outline {
     border-radius: 0px;
+  }
+}
+
+.session-label {
+  color: $session-color-white;
+  padding: $session-margin-sm;
+  width: 100%;
+  border-radius: 2px;
+  text-align: center;
+
+  &.primary {
+    background-color: $session-color-primary;
+  }
+  &.secondary {
+    background-color: $session-color-secondary;
+  }
+  &.success {
+    background-color: $session-color-success;
+  }
+  &.danger {
+    background-color: $session-color-danger;
+  }
+  &.warning {
+    background-color: $session-color-warning;
   }
 }
 
@@ -551,8 +583,7 @@ label {
   }
 
   &__body {
-    padding: $session-margin-lg;
-
+    padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
     font-family: 'Wasa';
     line-height: 16px;
     font-size: 13px;
@@ -562,10 +593,16 @@ label {
     }
   }
 
+  &__centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   &__button-group {
     display: flex;
     justify-content: flex-end;
-    
+
     .session-button {
       margin-left: $session-margin-sm;
     }
@@ -574,14 +611,11 @@ label {
       display: flex;
       justify-content: center;
     }
-    
+
     .session-button {
       margin: 0 $session-margin-xs;
-    
     }
-    
   }
-  
 }
 
 .session-toggle {

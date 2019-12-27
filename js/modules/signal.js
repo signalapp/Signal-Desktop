@@ -50,9 +50,13 @@ const {
 } = require('../../ts/components/conversation/CreateGroupDialog');
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
-const { DevicePairingDialog } = require('../../ts/components/DevicePairingDialog');
-  
-const { SessionSettings,
+const {
+  DevicePairingDialog,
+} = require('../../ts/components/DevicePairingDialog');
+const { AddServerDialog } = require('../../ts/components/AddServerDialog');
+
+const {
+  SessionSettings,
 } = require('../../ts/components/session/SessionSettings');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
@@ -253,6 +257,7 @@ exports.setup = (options = {}) => {
     EditProfileDialog,
     UserDetailsDialog,
     DevicePairingDialog,
+    AddServerDialog,
     SessionRegistrationView,
     ConfirmDialog,
     UpdateGroupDialog,

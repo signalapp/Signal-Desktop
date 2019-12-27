@@ -660,6 +660,9 @@
   "unableToLoadAttachment": {
     "message": "Unable to load selected attachment."
   },
+  "connect": {
+    "message": "Connect"
+  },
   "disconnected": {
     "message": "Disconnected",
     "description":
@@ -946,7 +949,7 @@
     "message": "Close"
   },
   "pairNewDevice": {
-    "message": "Pair new Device"
+    "message": "Pair New Device"
   },
   "devicePairingAccepted": {
     "message": "Device Pairing Accepted"
@@ -956,6 +959,9 @@
   },
   "waitingForDeviceToRegister": {
     "message": "Waiting for device to register..."
+  },
+  "pairNewDevicePrompt": {
+    "message": "Scan the QR Code on your secondary device"
   },
   "pairedDevices": {
     "message": "Paired Devices"
@@ -2107,7 +2113,7 @@
       "Button action that the user can click to connect to a new public server"
   },
   "addServerDialogTitle": {
-    "message": "Connect to new public server",
+    "message": "Connect To New Public Server",
     "description":
       "Title for the dialog box used to connect to a new public server"
   },

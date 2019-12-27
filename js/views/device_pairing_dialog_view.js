@@ -1,11 +1,4 @@
-/* global
-  Whisper,
-  i18n,
-  libloki,
-  textsecure,
-  ConversationController,
-  $,
-*/
+/* global Whisper, i18n, */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -17,12 +10,10 @@
     className: 'loki-dialog device-pairing-dialog modal',
     initialize() {
       this.close = this.close.bind(this);
-
       this.render();
-      
     },
 
-    render(){
+    render() {
       this.dialogView = new Whisper.ReactWrapperView({
         className: 'device-pairing-dialog',
         Component: window.Signal.Components.DevicePairingDialog,
@@ -35,7 +26,6 @@
       this.$el.append(this.dialogView.el);
       return this;
     },
-
 
     close() {
       this.remove();
