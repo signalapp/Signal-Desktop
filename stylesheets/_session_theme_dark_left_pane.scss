@@ -277,3 +277,25 @@ $session-compose-margin: 20px;
   color: $session-color-white;
   font-weight: bold;
 }
+
+
+.left-pane-contact {
+  &-section,
+  &-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-bottom-buttons {
+    display: flex;
+    flex-direction: row;
+    
+    .session-button.square-outline.square.green,
+    .session-button.square-outline.square.white {
+      flex-grow: 1;
+      border: 1px solid $session-shade-8;
+      height: 50px;
+      line-height: 50px;
+    }
+  }
+}

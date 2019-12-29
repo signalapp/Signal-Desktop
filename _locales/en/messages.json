@@ -2415,5 +2415,14 @@
   },
   "lists": {
     "message": "Lists"
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "addContact": {
+    "message": "Add Contact"
+  },
+  "createGroup": {
+    "message": "Create Group"
   }
 }

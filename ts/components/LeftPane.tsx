@@ -9,6 +9,17 @@ import { SearchOptions } from '../types/Search';
 import { LeftPaneSectionHeader } from './session/LeftPaneSectionHeader';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 
+// from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
+export type RowRendererParamsType = {
+  index: number;
+  isScrolling: boolean;
+  isVisible: boolean;
+  key: string;
+  parent: Object;
+  style: Object;
+};
+
+
 interface State {
   selectedSection: SectionType;
 }

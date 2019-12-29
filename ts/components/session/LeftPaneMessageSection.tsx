@@ -22,7 +22,7 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { SessionIdEditable } from './SessionIdEditable';
 import { UserSearchDropdown } from './UserSearchDropdown';
 import { validateNumber } from '../../types/PhoneNumber';
-import { LeftPane } from '../LeftPane';
+import {  RowRendererParamsType, LeftPane } from '../LeftPane';
 
 export interface Props {
   searchTerm: string;
@@ -38,15 +38,7 @@ export interface Props {
   clearSearch: () => void;
 }
 
-// from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
-type RowRendererParamsType = {
-  index: number;
-  isScrolling: boolean;
-  isVisible: boolean;
-  key: string;
-  parent: Object;
-  style: Object;
-};
+
 
 export class LeftPaneMessageSection extends React.Component<Props, any> {
   private readonly updateSearchBound: (searchedString: string) => void;
@@ -132,13 +124,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       );
     }
 
-    // That extra 1 element added to the list is the 'archived conversations' button
     const length = conversations.length;
-
-    // We ensure that the listKey differs between inbox and archive views, which ensures
-    //   that AutoSizer properly detects the new size of its slot in the flexbox. The
-    //   archive explainer text at the top of the archive view causes problems otherwise.
-    //   It also ensures that we scroll to the top when switching views.
     const listKey = 0;
 
     // Note: conversations is not a known prop for List, but it is required to ensure that
