@@ -14,7 +14,6 @@ import {
 import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
 
-
 export interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
@@ -44,13 +43,14 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     this.handleTabSelected = this.handleTabSelected.bind(this);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleOnAddContact = this.handleOnAddContact.bind(this);
-    this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(this);
-    
+    this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(
+      this
+    );
   }
 
   public componentWillUnmount() {
     this.updateSearch('');
-    this.setState({addContactRecipientID: ''});
+    this.setState({ addContactRecipientID: '' });
   }
 
   public handleTabSelected(tabType: number) {
@@ -107,8 +107,8 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
 
   private handleRecipientSessionIDChanged(event: any) {
     if (event.target.innerHTML) {
-      // remove br elements or div elements 
-      const cleanText = event.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, "");
+      // remove br elements or div elements
+      const cleanText = event.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
       this.setState({ addContactRecipientID: cleanText });
     }
   }
