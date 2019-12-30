@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
+import {
+  PropsData as ConversationListItemPropsType,
+  ConversationListItem,
+} from '../ConversationListItem';
 import { PropsData as SearchResultsProps } from '../SearchResults';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
-import { LeftPane } from '../LeftPane';
+import { LeftPane, RowRendererParamsType } from '../LeftPane';
 import {
   SessionButton,
   SessionButtonType,
@@ -13,6 +16,7 @@ import {
 } from './SessionButton';
 import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
+import { ActionsPanel } from './ActionsPanel';
 
 export interface Props {
   searchTerm: string;
@@ -59,11 +63,14 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
 
   public renderHeader(): JSX.Element | undefined {
     const labels = [window.i18n('contactsHeader'), window.i18n('lists')];
+    const friendRequestCount = ActionsPanel.getFriendRequestsCount(this.props.conversations);
+    
     return LeftPane.renderHeader(
       labels,
       this.handleTabSelected,
       undefined,
-      null
+      undefined,
+      friendRequestCount
     );
   }
 
@@ -161,7 +168,8 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     let conversationList = conversations;
     if (conversationList !== undefined) {
       conversationList = conversationList.filter(
-        conversation => !conversation.isSecondary
+        conversation =>
+          !conversation.isSecondary && conversation.showFriendRequestIndicator
       );
     }
 
@@ -176,8 +184,6 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
         'render: must provided conversations if no search results are provided'
       );
     }
-
-    console.log('conversations length;', conversations.length);
 
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
@@ -203,37 +209,31 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     return [list];
   }
 
-  public renderRow() {
-    return undefined;
-  }
+  public renderRow = ({
+    index,
+    key,
+    style,
+  }: RowRendererParamsType): JSX.Element | undefined => {
+    const { openConversationInternal } = this.props;
 
-  // public renderRow = ({
-  //   ,
-  // }: // index,
-  // key,
-  // style,
-  // RowRendererParamsType): JSX.Element | undefined => {
-  //   const { openConversationInternal } = this.props;
+    const conversations = this.getCurrentConversations();
 
-  //   const conversations = this.getCurrentConversations();
+    if (!conversations) {
+      throw new Error('renderRow: Tried to render without conversations');
+    }
 
-  //   if (!conversations) {
-  //     throw new Error('renderRow: Tried to render without conversations');
-  //   }
+    const conversation = conversations[index];
 
-  //   const conversation = conversations[index];
-
-  //   return (
-  //     <ConversationListItem
-  //       key={key}
-  //       style={style}
-  //       {...conversation}
-  //       onClick={openConversationInternal}
-  //       i18n={window.i18n}
-  //     />
-  //   );
-  //   return undefined;
-  // };
+    return (
+      <ConversationListItem
+        key={key}
+        style={style}
+        {...conversation}
+        onClick={openConversationInternal}
+        i18n={window.i18n}
+      />
+    );
+  };
 
   public updateSearch(searchTerm: string) {
     const { updateSearchTerm, clearSearch } = this.props;

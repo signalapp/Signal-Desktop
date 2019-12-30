@@ -84,7 +84,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
         <SessionButton
           text={window.i18n('compose')}
           onClick={buttonClicked}
-          key={window.i18n('compose')}
+          key='compose'
         />
       );
     } else if (notificationCount && notificationCount > 0) {
@@ -93,7 +93,6 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
       children.push(
         <div
           className="contact-notification-count-bubble"
-          onClick={buttonClicked}
         >
           {shortenedNotificationCount}
         </div>

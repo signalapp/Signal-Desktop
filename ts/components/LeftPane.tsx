@@ -67,6 +67,7 @@ export class LeftPane extends React.Component<Props, State> {
         <ActionsPanel
           selectedSection={this.state.selectedSection}
           onSectionSelected={this.handleSectionSelected}
+          conversations={this.props.conversations}
         />
         <div className="module-left-pane">{this.renderSection()}</div>
       </div>

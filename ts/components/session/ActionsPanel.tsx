@@ -1,6 +1,7 @@
 import React from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
+import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
 
 export enum SectionType {
   Profile,
@@ -18,6 +19,7 @@ interface State {
 interface Props {
   onSectionSelected: any;
   selectedSection: SectionType;
+  conversations: Array<ConversationListItemPropsType> | undefined;
 }
 
 const Section = ({
@@ -133,7 +135,10 @@ export class ActionsPanel extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { selectedSection } = this.props;
+    const { selectedSection, conversations } = this.props;
+
+    const friendRequestCount = ActionsPanel.getFriendRequestsCount(conversations);
+    const unreadMessageCount = this.getUnreadMessageCount();
 
     return (
       <div className="module-left-pane__sections-container">
@@ -147,12 +152,13 @@ export class ActionsPanel extends React.Component<Props, State> {
           type={SectionType.Message}
           isSelected={selectedSection === SectionType.Message}
           onSelect={this.handleSectionSelect}
-          notificationCount={0}
+          notificationCount={unreadMessageCount}
         />
         <Section
           type={SectionType.Contact}
           isSelected={selectedSection === SectionType.Contact}
           onSelect={this.handleSectionSelect}
+          notificationCount={friendRequestCount}
         />
         <Section
           type={SectionType.Globe}
@@ -171,6 +177,36 @@ export class ActionsPanel extends React.Component<Props, State> {
         />
       </div>
     );
+  }
+
+  private getUnreadMessageCount(): number {
+    const { conversations } = this.props;
+    let unreadCount = 0;
+    if (conversations !== undefined) {
+      unreadCount = conversations.reduce((accu, conversation) => {
+        return accu + conversation.unreadCount;
+      }, 0);
+    }
+
+    return unreadCount;
+  }
+
+  static getFriendRequestsCount(conversations: Array<ConversationListItemPropsType> | undefined): number {
+    let unreadCount = 0;
+    if (conversations !== undefined) {
+      // We assume a friend request already read is no longer a friend request (has been ignored)
+      unreadCount = conversations.reduce((accu, conversation) => {
+        return (
+          accu +
+          (conversation.showFriendRequestIndicator &&
+          conversation.unreadCount > 0
+            ? 1
+            : 0)
+        );
+      }, 0);
+    }
+    
+    return unreadCount;
   }
 
   private readonly handleSectionSelect = (section: SectionType): void => {
