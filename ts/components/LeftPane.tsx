@@ -8,6 +8,18 @@ import { PropsData as SearchResultsProps } from './SearchResults';
 import { SearchOptions } from '../types/Search';
 import { LeftPaneSectionHeader } from './session/LeftPaneSectionHeader';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
+import {
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from './session/icon';
+import { SessionIdEditable } from './session/SessionIdEditable';
+import { UserSearchDropdown } from './session/UserSearchDropdown';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './session/SessionButton';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -18,7 +30,6 @@ export type RowRendererParamsType = {
   parent: Object;
   style: Object;
 };
-
 
 interface State {
   selectedSection: SectionType;
@@ -38,7 +49,7 @@ interface Props {
 
 export class LeftPane extends React.Component<Props, State> {
   public state = {
-    selectedSection: SectionType.Message,
+    selectedSection: SectionType.Contact,
   };
 
   public constructor(props: any) {
@@ -142,6 +153,81 @@ export class LeftPane extends React.Component<Props, State> {
         buttonClicked={buttonClicked}
         notificationCount={notificationCount}
       />
+    );
+  }
+
+  static renderClosableOverlay(
+    isAddContactView: boolean,
+    onChangeSessionID: any,
+    onCloseClick: any,
+    onButtonClick: any,
+    searchTerm: string,
+    searchResults?: any,
+    updateSearch?: any
+  ): JSX.Element {
+    const title = isAddContactView
+      ? window.i18n('addContact')
+      : window.i18n('enterRecipient');
+    const buttonText = isAddContactView
+      ? window.i18n('addContact')
+      : window.i18n('message');
+    const ourSessionID = window.textsecure.storage.user.getNumber();
+
+    return (
+      <div className="module-left-pane-compose">
+        <div className="exit">
+          <SessionIconButton
+            iconSize={SessionIconSize.Small}
+            iconType={SessionIconType.Exit}
+            onClick={onCloseClick}
+          />
+        </div>
+        <h2>{title}</h2>
+        <h3>{window.i18n('enterSessionID')}</h3>
+        <div className="module-left-pane-compose-border-container">
+          <hr className="white" />
+          <hr className="green" />
+        </div>
+        <SessionIdEditable
+          editable={true}
+          placeholder={window.i18n('pasteSessionIDRecipient')}
+          onChange={onChangeSessionID}
+        />
+
+        <div className="session-description-long">
+          {window.i18n('usersCanShareTheir...')}
+        </div>
+        {isAddContactView || <h4>{window.i18n('or')}</h4>}
+
+        {isAddContactView || (
+          <UserSearchDropdown
+            searchTerm={searchTerm}
+            updateSearch={updateSearch}
+            placeholder={window.i18n('searchByIDOrDisplayName')}
+            searchResults={searchResults}
+          />
+        )}
+
+        {isAddContactView && (
+          <div className="panel-text-divider">
+            <span>{window.i18n('yourPublicKey')}</span>
+          </div>
+        )}
+
+        {isAddContactView && (
+          <SessionIdEditable
+            editable={false}
+            placeholder=""
+            text={ourSessionID}
+          />
+        )}
+        <SessionButton
+          buttonColor={SessionButtonColor.Green}
+          buttonType={SessionButtonType.BrandOutline}
+          text={buttonText}
+          onClick={onButtonClick}
+        />
+      </div>
     );
   }
 }

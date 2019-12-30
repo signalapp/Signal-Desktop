@@ -504,7 +504,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderTermsConditionAgreement() {
-    // FIXME link to our Terms and Conditions and privacy statement
+    // FIXME
+    console.log(
+      'FIXME: add link to our Terms and Conditions and privacy statement'
+    );
 
     return (
       <div className="session-terms-conditions-agreement">

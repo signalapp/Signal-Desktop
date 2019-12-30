@@ -114,11 +114,6 @@
       padding-top: 2em;
     }
 
-    &__unique-session-id {
-      @include registration-label-mixin;
-      padding-top: 3em;
-    }
-
     &__entry-fields {
       margin: 0px;
       padding-bottom: 30px;
@@ -229,6 +224,7 @@
     padding: 20px 5px 20px 5px;
     display: inline-block;
     font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    user-select: all;
   }
 }
 

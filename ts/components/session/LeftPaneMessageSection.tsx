@@ -9,20 +9,12 @@ import {
   PropsData as SearchResultsProps,
   SearchResults,
 } from '../SearchResults';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './SessionButton';
 import { SessionSearchInput } from './SessionSearchInput';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
-import { SessionIdEditable } from './SessionIdEditable';
-import { UserSearchDropdown } from './UserSearchDropdown';
 import { validateNumber } from '../../types/PhoneNumber';
-import {  RowRendererParamsType, LeftPane } from '../LeftPane';
+import { RowRendererParamsType, LeftPane } from '../LeftPane';
 
 export interface Props {
   searchTerm: string;
@@ -37,8 +29,6 @@ export interface Props {
   openConversationInternal: (id: string, messageId?: string) => void;
   clearSearch: () => void;
 }
-
-
 
 export class LeftPaneMessageSection extends React.Component<Props, any> {
   private readonly updateSearchBound: (searchedString: string) => void;
@@ -167,53 +157,16 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       <div>
         {this.renderHeader()}
         {this.state.showComposeView
-          ? this.renderCompose()
+          ? LeftPane.renderClosableOverlay(
+              false,
+              this.handleOnPasteSessionID,
+              this.handleComposeClick,
+              this.handleMessageButtonClick,
+              this.props.searchTerm,
+              this.props.searchResults,
+              this.updateSearchBound
+            )
           : this.renderConversations()}
-      </div>
-    );
-  }
-
-  public renderCompose(): JSX.Element {
-    const { searchResults } = this.props;
-
-    return (
-      <div className="module-left-pane-compose">
-        <div className="exit">
-          <SessionIconButton
-            iconSize={SessionIconSize.Small}
-            iconType={SessionIconType.Exit}
-            onClick={this.handleComposeClick}
-          />
-        </div>
-        <h2>{window.i18n('enterRecipient')}</h2>
-        <h3>{window.i18n('enterSessionID')}</h3>
-        <div className="module-left-pane-compose-border-container">
-          <hr className="white" />
-          <hr className="green" />
-        </div>
-        <SessionIdEditable
-          editable={true}
-          placeholder={window.i18n('pasteSessionIDRecipient')}
-          onChange={this.handleOnPasteSessionID}
-        />
-
-        <div className="session-description-long">
-          {window.i18n('usersCanShareTheir...')}
-        </div>
-        <h4>{window.i18n('or')}</h4>
-
-        <UserSearchDropdown
-          searchTerm={this.props.searchTerm}
-          updateSearch={this.updateSearchBound}
-          placeholder={window.i18n('searchByIDOrDisplayName')}
-          searchResults={searchResults}
-        />
-        <SessionButton
-          buttonColor={SessionButtonColor.Green}
-          buttonType={SessionButtonType.BrandOutline}
-          text={window.i18n('message')}
-          onClick={this.handleMessageButtonClick}
-        />
       </div>
     );
   }

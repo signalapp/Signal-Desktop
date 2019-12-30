@@ -2,6 +2,7 @@ import React from 'react';
 
 interface Props {
   placeholder: string;
+  text?: string;
   editable?: boolean;
   onChange?: any;
 }
@@ -13,7 +14,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { placeholder, editable, onChange } = this.props;
+    const { placeholder, editable, onChange, text } = this.props;
 
     return (
       <div
@@ -25,7 +26,9 @@ export class SessionIdEditable extends React.PureComponent<Props> {
             onChange(e);
           }
         }}
-      />
+      >
+        {text}
+      </div>
     );
   }
 }

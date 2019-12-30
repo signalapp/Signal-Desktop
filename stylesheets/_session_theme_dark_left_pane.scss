@@ -190,6 +190,7 @@ $session-compose-margin: 20px;
       margin: 0px 20px;
       width: -webkit-fill-available;
       flex-shrink: 0;
+      user-select: all;
     }
 
     .session-button {
@@ -278,7 +279,6 @@ $session-compose-margin: 20px;
   font-weight: bold;
 }
 
-
 .left-pane-contact {
   &-section,
   &-content {
@@ -289,7 +289,7 @@ $session-compose-margin: 20px;
   &-bottom-buttons {
     display: flex;
     flex-direction: row;
-    
+
     .session-button.square-outline.square.green,
     .session-button.square-outline.square.white {
       flex-grow: 1;
@@ -297,5 +297,21 @@ $session-compose-margin: 20px;
       height: 50px;
       line-height: 50px;
     }
+  }
+}
+
+.panel-text-divider {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid $session-color-dark-grey;
+  line-height: 0.1em;
+  margin: 50px 0 50px;
+
+  span {
+    padding: 5px 10px;
+    border-radius: 50px;
+    background-color: $session-shade-18;
+    color: $session-color-light-grey;
+    border: 1px solid $session-color-dark-grey;
   }
 }

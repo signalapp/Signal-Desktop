@@ -2424,5 +2424,8 @@
   },
   "createGroup": {
     "message": "Create Group"
+  },
+  "yourPublicKey": {
+    "message": "Your Public Key"
   }
 }

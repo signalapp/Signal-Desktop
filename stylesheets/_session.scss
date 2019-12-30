@@ -139,6 +139,10 @@ div,
 span,
 label {
   user-select: none;
+
+  &::selection {
+    background: $session-shade-17;
+  }
 }
 
 $session-gradient-green: linear-gradient(
