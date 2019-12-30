@@ -114,6 +114,12 @@
       padding-top: 2em;
     }
 
+    &__unique-session-id {
+      @include registration-label-mixin;
+      padding-top: 3em;
+      text-align: center;
+    }
+
     &__entry-fields {
       margin: 0px;
       padding-bottom: 30px;
