@@ -183,30 +183,34 @@ export class ActionsPanel extends React.Component<Props, State> {
     const { conversations } = this.props;
     let unreadCount = 0;
     if (conversations !== undefined) {
-      unreadCount = conversations.reduce((accu, conversation) => {
-        return accu + conversation.unreadCount;
-      }, 0);
+      conversations.some(function (conversation) {
+        unreadCount += conversation.unreadCount;
+        if (unreadCount > 9) {
+            return true;
+        }
+        return false;
+    });
     }
 
     return unreadCount;
   }
 
   static getFriendRequestsCount(conversations: Array<ConversationListItemPropsType> | undefined): number {
-    let unreadCount = 0;
+    let friendRequestCount = 0;
     if (conversations !== undefined) {
       // We assume a friend request already read is no longer a friend request (has been ignored)
-      unreadCount = conversations.reduce((accu, conversation) => {
-        return (
-          accu +
-          (conversation.showFriendRequestIndicator &&
-          conversation.unreadCount > 0
-            ? 1
-            : 0)
-        );
-      }, 0);
+      conversations.some(function (conversation) {
+        const isUnreadFriendRequest = (conversation.showFriendRequestIndicator &&
+          conversation.unreadCount > 0);
+        friendRequestCount += isUnreadFriendRequest ? 1 : 0;
+        if (friendRequestCount > 9) {
+          return true;
+        }
+        return false;
+      });
     }
     
-    return unreadCount;
+    return friendRequestCount;
   }
 
   private readonly handleSectionSelect = (section: SectionType): void => {
