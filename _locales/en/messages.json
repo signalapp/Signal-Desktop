@@ -167,7 +167,7 @@
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
   "connectingLoad": {
-    "message": "Connecting...",
+    "message": "Connecting To Server",
     "description":
       "Message shown on the as a loading screen while we are connecting to something"
   },
@@ -2111,6 +2111,14 @@
     "message": "Add public server",
     "description":
       "Button action that the user can click to connect to a new public server"
+  },
+  "serverUrl": {
+    "message": "Server URL",
+    "description": "Placeholder for server URL input"
+  },
+  "noServerUrl": {
+    "message": "Please enter a server URL",
+    "description": "Error message when no server url entered"
   },
   "addServerDialogTitle": {
     "message": "Connect To New Public Server",

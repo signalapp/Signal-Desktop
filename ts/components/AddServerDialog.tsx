@@ -1,8 +1,8 @@
 import React from 'react';
-import { ImpulseSpinner } from 'react-spinners-kit';
 
 import { SessionModal } from './session/SessionModal';
 import { SessionButton } from './session/SessionButton';
+import { SessionSpinner } from './session/SessionSpinner';
 
 interface Props {
   i18n: any;
@@ -13,7 +13,9 @@ interface State {
   title: string;
   error: string | null;
   connecting: boolean;
+  success: boolean;
   view: 'connecting' | 'default';
+  serverUrl: string;
 }
 
 export class AddServerDialog extends React.Component<Props, State> {
@@ -21,18 +23,21 @@ export class AddServerDialog extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      title: '',
+      title: this.props.i18n('addServerDialogTitle'),
       error: null,
       connecting: false,
+      success: false,
       view: 'default',
+      serverUrl: '',
     };
 
-    this.confirm = this.confirm.bind(this);
     this.showError = this.showError.bind(this);
     this.showView = this.showView.bind(this);
+    this.attemptConnection = this.attemptConnection.bind(this);
 
     this.closeDialog = this.closeDialog.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
+    
   }
 
   public render() {
@@ -48,7 +53,12 @@ export class AddServerDialog extends React.Component<Props, State> {
           <>
             <div className="spacer-lg" />
 
-            <input type="text" id="server-url" placeholder="Server Url" />
+            <input
+              type="text"
+              id="server-url"
+              placeholder={i18n('serverUrl')}
+              defaultValue={this.state.serverUrl}
+            />
             <div className="spacer-sm" />
 
             {this.showError()}
@@ -66,12 +76,12 @@ export class AddServerDialog extends React.Component<Props, State> {
 
         {this.state.view === 'connecting' ? (
           <>
-            connecting!
-            <br />
-            <ClipLoader/>
+            <div className="session-modal__centered">
+              <div className="spacer-lg"></div>
+              <SessionSpinner/>
+              <div className="spacer-lg" />
+            </div>
 
-
-            <div className="spacer-lg" />
             <div className="session-modal__button-group">
               <SessionButton
                 text={i18n('cancel')}
@@ -92,43 +102,83 @@ export class AddServerDialog extends React.Component<Props, State> {
         title: i18n('addServerDialogTitle'),
         error: null,
         view: 'default',
+        connecting: false,
+        success: false,
       });
     }
 
     if (view === 'connecting') {
+
+
+      // TODO: Make this not hard coded
+      const channelId = 1;
+      const serverUrl = String($('.session-modal #server-url').val()).toLowerCase();
+
+      this.setState({
+        error: null,
+        serverUrl: serverUrl,
+      })
+
+      if (serverUrl.length == 0){
+        this.setState({
+          error: i18n('noServerUrl'),
+          view: 'default',
+        });
+
+        return;
+      }
+
       this.setState({
         title: i18n('connectingLoad'),
-        error: null,
         view: 'connecting',
+        connecting: true,
       });
-    }
-  }
 
-  private confirm() {
-    // const { i18n } = this.props;
 
-    // Remove error if there is one
-    this.setState({
-      error: null,
-    });
+      const connectionResult = this.attemptConnection(serverUrl, channelId);
 
-    const connected = false;
+      // Give 5s maximum for promise to revole. Else, throw error.
+      const max_connection_duration = 5000;
+      const connectionTimeout = setTimeout(() => {
+          if (!this.state.success){
+            this.showView('default');
+            
+            this.setState({
+              connecting: false,
+              success: false,
+              error: i18n('connectToServerFail'),
+            });
 
-    const serverUrl = String(
-      $('.add-server-dialog #server-url').val()
-    ).toLowerCase();
-    // // TODO: Make this not hard coded
-    const channelId = 1;
+            return;
+          }
+      }, max_connection_duration);
 
-    console.log(serverUrl);
+      connectionResult
+        .then(() => {
+          clearTimeout(connectionTimeout);
 
-    if (connected) {
-      //   window.pushToast({
-      //     title: i18n('connectToServerSuccess'),
-      //     type: 'success',
-      //     id: 'connectToServerSuccess',
-      //   });
-      this.closeDialog();
+          if (this.state.connecting) {
+            this.setState({
+              success: true,
+            })
+            window.pushToast({
+              title: i18n('connectToServerSuccess'),
+              id: 'connectToServerSuccess',
+              type: 'success',
+            });
+            this.closeDialog();
+          }
+        })
+        .catch((error) => {
+          clearTimeout(connectionTimeout);
+          
+          this.showView('default');
+          this.setState({
+            connecting: false,
+            success: false,
+            error: error,
+          });
+        });
     }
   }
 
@@ -156,6 +206,11 @@ export class AddServerDialog extends React.Component<Props, State> {
 
   private onKeyUp(event: any) {
     switch (event.key) {
+      case 'Enter':
+        if (this.state.view == 'default'){
+          this.showView('connecting');
+        }
+        break;
       case 'Esc':
       case 'Escape':
         this.closeDialog();
@@ -167,5 +222,52 @@ export class AddServerDialog extends React.Component<Props, State> {
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
     this.props.onClose();
+  }
+
+  private async attemptConnection(serverUrl: string, channelId: number) {
+    const { i18n } = this.props;
+    
+    const rawServerUrl = serverUrl
+      .replace(/^https?:\/\//i, '')
+      .replace(/[/\\]+$/i, '');
+    const sslServerUrl = `https://${rawServerUrl}`;
+    const conversationId = `publicChat:${channelId}@${rawServerUrl}`;
+
+    const conversationExists = window.ConversationController.get(conversationId);
+    if (conversationExists) {
+      // We are already a member of this public chat    
+      return new Promise((resolve, reject) => {
+        if (false){
+          resolve();
+        }
+        reject(i18n('publicChatExists'));
+      });
+    }
+
+    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
+      sslServerUrl
+    );
+    if (!serverAPI) {
+      // Url incorrect or server not compatible
+      return new Promise((resolve, reject) => {
+        if (false){
+          resolve();
+        }
+        reject(i18n('connectToServerFail'));
+      });
+    }
+
+    const conversation = await window.ConversationController.getOrCreateAndWait(
+      conversationId,
+      'group'
+    );
+
+    await serverAPI.findOrCreateChannel(channelId, conversationId);
+    await conversation.setPublicSource(sslServerUrl, channelId);
+    await conversation.setFriendRequestStatus(
+      window.friends.friendRequestStatusEnum.friends
+    );
+
+    return conversation;
   }
 }

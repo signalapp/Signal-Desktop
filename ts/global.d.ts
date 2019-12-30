@@ -13,6 +13,7 @@ interface Window {
   textsecure: any;
   Session: any;
   i18n: any;
+  friends: any;
   generateID: any;
   pushToast: any;
 }
