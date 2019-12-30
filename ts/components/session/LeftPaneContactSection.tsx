@@ -12,6 +12,8 @@ import {
   SessionButtonColor,
 } from './SessionButton';
 import { AutoSizer, List } from 'react-virtualized';
+import { validateNumber } from '../../types/PhoneNumber';
+
 
 export interface Props {
   searchTerm: string;
@@ -35,15 +37,20 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     this.state = {
       showAddContactView: false,
       selectedTab: 0,
+      addContactRecipientID: '',
     };
 
     this.debouncedSearch = debounce(this.search.bind(this), 20);
     this.handleTabSelected = this.handleTabSelected.bind(this);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
+    this.handleOnAddContact = this.handleOnAddContact.bind(this);
+    this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(this);
+    
   }
 
   public componentWillUnmount() {
     this.updateSearch('');
+    this.setState({addContactRecipientID: ''});
   }
 
   public handleTabSelected(tabType: number) {
@@ -67,9 +74,9 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
         {this.state.showAddContactView
           ? LeftPane.renderClosableOverlay(
               true,
-              undefined,
+              this.handleRecipientSessionIDChanged,
               this.handleToggleOverlay,
-              undefined,
+              this.handleOnAddContact,
               ''
             )
           : this.renderContacts()}
@@ -81,6 +88,29 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     this.setState((prevState: { showAddContactView: any }) => ({
       showAddContactView: !prevState.showAddContactView,
     }));
+  }
+
+  private handleOnAddContact() {
+    const sessionID = this.state.addContactRecipientID;
+    const error = validateNumber(sessionID, window.i18n);
+
+    if (error) {
+      window.pushToast({
+        title: error,
+        type: 'error',
+        id: 'addContact',
+      });
+    } else {
+      window.Whisper.events.trigger('showConversation', sessionID);
+    }
+  }
+
+  private handleRecipientSessionIDChanged(event: any) {
+    if (event.target.innerHTML) {
+      // remove br elements or div elements 
+      const cleanText = event.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, "");
+      this.setState({ addContactRecipientID: cleanText });
+    }
   }
 
   private renderContacts() {

@@ -64,6 +64,9 @@ $session-color-black: #000;
 $session-color-danger: #ff453a;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-16;
+$session-background-overlay: #191919;
+$session-background: #121212;
+
 
 $session-color-info: $session-shade-11;
 $session-color-success: #35d388;
@@ -112,10 +115,10 @@ div.spacer-lg {
 }
 
 @mixin session-dark-background {
-  background-color: $session-shade-2 !important;
+  background-color: $session-background !important;
 }
 @mixin session-dark-background-lighter {
-  background-color: $session-shade-18 !important;
+  background-color: $session-background-overlay !important;
 }
 @mixin session-dark-background-hover {
   background-color: $session-shade-7 !important;
