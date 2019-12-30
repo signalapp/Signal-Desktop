@@ -7,7 +7,6 @@ import { PropsData as ConversationListItemPropsType } from './ConversationListIt
 import { PropsData as SearchResultsProps } from './SearchResults';
 import { SearchOptions } from '../types/Search';
 import { LeftPaneSectionHeader } from './session/LeftPaneSectionHeader';
-import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import {
   SessionIconButton,
   SessionIconSize,
@@ -20,6 +19,8 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './session/SessionButton';
+import { ConversationType } from '../state/ducks/conversations';
+import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -36,11 +37,12 @@ interface State {
 }
 
 interface Props {
-  conversations?: Array<ConversationListItemPropsType>;
+  conversations: Array<ConversationListItemPropsType>;
+  friends: Array<ConversationType>;
   searchResults?: SearchResultsProps;
   searchTerm: string;
   isSecondaryDevice: boolean;
-
+  
   openConversationInternal: (id: string, messageId?: string) => void;
   updateSearchTerm: (searchTerm: string) => void;
   search: (query: string, options: SearchOptions) => void;
@@ -111,9 +113,12 @@ export class LeftPane extends React.Component<Props, State> {
     );
   }
 
+
+
   private renderContactSection() {
     const {
       openConversationInternal,
+      friends,
       conversations,
       searchResults,
       searchTerm,
@@ -127,6 +132,7 @@ export class LeftPane extends React.Component<Props, State> {
       <LeftPaneContactSection
         openConversationInternal={openConversationInternal}
         conversations={conversations}
+        friends={friends}
         searchResults={searchResults}
         searchTerm={searchTerm}
         isSecondaryDevice={isSecondaryDevice}

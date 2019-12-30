@@ -17,12 +17,14 @@ import {
 import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
 import { ActionsPanel } from './ActionsPanel';
+import { ConversationType } from '../../state/ducks/conversations';
 
 export interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
 
-  conversations?: Array<ConversationListItemPropsType>;
+  conversations: Array<ConversationListItemPropsType>;
+  friends: Array<ConversationType>;
 
   searchResults?: SearchResultsProps;
 
@@ -64,7 +66,7 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
   public renderHeader(): JSX.Element | undefined {
     const labels = [window.i18n('contactsHeader'), window.i18n('lists')];
     const friendRequestCount = ActionsPanel.getFriendRequestsCount(this.props.conversations);
-    
+
     return LeftPane.renderHeader(
       labels,
       this.handleTabSelected,
@@ -160,30 +162,47 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     );
   }
 
-  public getCurrentConversations():
-    | Array<ConversationListItemPropsType>
-    | undefined {
-    const { conversations } = this.props;
+  public getCurrentFriends():
+    | Array<ConversationType> {
+    const { friends } = this.props;
 
-    let conversationList = conversations;
-    if (conversationList !== undefined) {
-      conversationList = conversationList.filter(
-        conversation =>
-          !conversation.isSecondary && conversation.showFriendRequestIndicator
+    let friendList = friends;
+    console.log('friends:', friendList);
+    if (friendList !== undefined) {
+      friendList = friendList.filter(
+        friend =>
+        friend.type ==='direct' && !friend.isMe
       );
     }
 
-    return conversationList;
+    return friendList;
+  }
+
+
+  public getFriendRequests(): Array<ConversationListItemPropsType> {
+    const { conversations } = this.props;
+
+    let conversationsList = conversations;
+    console.log('conversations:', conversationsList);
+    if (conversationsList !== undefined) {
+      conversationsList = conversationsList.filter(
+        conversation => conversation.showFriendRequestIndicator
+      );
+    }
+
+    return conversationsList;
   }
 
   private renderList() {
-    const conversations = this.getCurrentConversations();
+    const friends = this.getCurrentFriends();
+    const friendsRequest = this.getFriendRequests();
 
-    if (!conversations) {
+    if (!friends) {
       throw new Error(
-        'render: must provided conversations if no search results are provided'
+        'render: must provided friends if no search results are provided'
       );
     }
+    const length = friends.length + (friendsRequest?friendsRequest.length:0);
 
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
@@ -195,7 +214,7 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
             <List
               className="module-left-pane__virtual-list"
               height={height}
-              rowCount={conversations.length}
+              rowCount={length}
               rowHeight={64}
               rowRenderer={this.renderRow}
               width={width}
@@ -216,19 +235,22 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
   }: RowRendererParamsType): JSX.Element | undefined => {
     const { openConversationInternal } = this.props;
 
-    const conversations = this.getCurrentConversations();
+    const friends = this.getCurrentFriends();
+    const friendRequest = this.getFriendRequests();
 
-    if (!conversations) {
-      throw new Error('renderRow: Tried to render without conversations');
+    let item;
+    if(index<friendRequest.length) {
+      item = friendRequest[index];
     }
-
-    const conversation = conversations[index];
+    else {
+      item = friends[index-friendRequest.length];
+    }
 
     return (
       <ConversationListItem
         key={key}
         style={style}
-        {...conversation}
+        {...item}
         onClick={openConversationInternal}
         i18n={window.i18n}
       />

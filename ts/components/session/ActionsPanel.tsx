@@ -184,6 +184,9 @@ export class ActionsPanel extends React.Component<Props, State> {
     let unreadCount = 0;
     if (conversations !== undefined) {
       conversations.some(function (conversation) {
+        if (conversation.showFriendRequestIndicator) {
+          return false;
+        }
         unreadCount += conversation.unreadCount;
         if (unreadCount > 9) {
             return true;
