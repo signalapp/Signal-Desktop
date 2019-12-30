@@ -2665,13 +2665,18 @@
     },
 
     deleteContact() {
+      const title = this.isPublic()
+        ? i18n('deletePublicChannel')
+        : i18n('deleteContact');
+
       const message = this.isPublic()
         ? i18n('deletePublicChannelConfirmation')
         : i18n('deleteContactConfirmation');
 
-      Whisper.events.trigger('showConfirmationDialog', {
+      window.confirmationDialog({
+        title,
         message,
-        onOk: () => ConversationController.deleteContact(this.id),
+        resolve: () => ConversationController.deleteContact(this.id),
       });
     },
 
@@ -2721,17 +2726,23 @@
 
     deleteMessages() {
       this.resetMessageSelection();
+
+      let params;
       if (this.isPublic()) {
-        Whisper.events.trigger('showConfirmationDialog', {
+        params = {
+          title: i18n('deleteMessages'),
           message: i18n('deletePublicConversationConfirmation'),
-          onOk: () => ConversationController.deleteContact(this.id),
-        });
+          resolve: () => ConversationController.deleteContact(this.id),
+        };
       } else {
-        Whisper.events.trigger('showConfirmationDialog', {
+        params = {
+          title: i18n('deleteMessages'),
           message: i18n('deleteConversationConfirmation'),
-          onOk: () => this.destroyMessages(),
-        });
+          resolve: () => this.destroyMessages(),
+        };
       }
+
+      window.confirmationDialog(params);
     },
 
     async destroyMessages() {

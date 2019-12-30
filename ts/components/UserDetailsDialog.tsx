@@ -7,6 +7,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './session/SessionButton';
+import { SessionConfirm } from './session/SessionConfirm';
 
 interface Props {
   i18n: any;

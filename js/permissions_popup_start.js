@@ -8,11 +8,8 @@ $(document).on('keyup', e => {
   }
 });
 
-const $body = $(document.body);
-$body.addClass(`${window.theme}-theme`);
-
-window.view = new Whisper.ConfirmationDialogView({
-  message: i18n('audioPermissionNeeded'),
+const dialogParams = {
+  title: i18n('audioPermissionNeeded'),
   okText: i18n('allowAccess'),
   resolve: () => {
     'use strict';
@@ -20,7 +17,7 @@ window.view = new Whisper.ConfirmationDialogView({
     window.setMediaPermissions(true);
     window.closePermissionsPopup();
   },
-  reject: window.closePermissionsPopup,
-});
+  onClose: window.closePermissionsPopup,
+};
+window.confirmationDialog(dialogParams);
 
-window.view.$el.appendTo($body);

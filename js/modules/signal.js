@@ -61,6 +61,7 @@ const {
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
+const { SessionConfirm } = require('../../ts/components/session/SessionConfirm');
 const {
   SessionDropdown,
 } = require('../../ts/components/session/SessionDropdown');
@@ -267,6 +268,7 @@ exports.setup = (options = {}) => {
     SessionSettings,
     SessionToast,
     SessionToggle,
+    SessionConfirm,
     SessionModal,
     SessionDropdown,
     MediaGallery,

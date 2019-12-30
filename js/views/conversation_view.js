@@ -1328,6 +1328,7 @@
 
           message.resend(contact.id);
         },
+
       });
 
       this.$el.prepend(dialog.el);
