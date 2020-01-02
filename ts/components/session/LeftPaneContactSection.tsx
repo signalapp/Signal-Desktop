@@ -233,7 +233,6 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     key,
     style,
   }: RowRendererParamsType): JSX.Element | undefined => {
-    const { openConversationInternal } = this.props;
 
     const friends = this.getCurrentFriends();
     const friendRequest = this.getFriendRequests();
@@ -251,7 +250,6 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
         key={key}
         style={style}
         {...item}
-        onClick={openConversationInternal}
         i18n={window.i18n}
       />
     );
