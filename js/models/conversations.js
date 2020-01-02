@@ -231,7 +231,28 @@
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
     },
+    async acceptFriendRequest() {
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
 
+      const lastMessageModel = messages.at(0);
+      if (lastMessageModel) {
+        lastMessageModel.acceptFriendRequest();
+      }
+    },
+    async declineFriendRequest() {
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
+
+      const lastMessageModel = messages.at(0);
+      if (lastMessageModel) {
+        lastMessageModel.declineFriendRequest();
+      }
+    },
     setMessageSelectionBackdrop() {
       const messageSelected = this.selectedMessages.size > 0;
 
@@ -571,6 +592,8 @@
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
         onCloseOverlay: () => this.resetMessageSelection(),
+        acceptFriendRequest: () => this.acceptFriendRequest(),
+        declineFriendRequest: () => this.declineFriendRequest(),
       };
 
       this.updateAsyncPropsCache();
@@ -962,6 +985,7 @@
       }
       if (this.hasReceivedFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends, options);
+
         await this.respondToAllFriendRequests({
           response: 'accepted',
           direction: 'incoming',

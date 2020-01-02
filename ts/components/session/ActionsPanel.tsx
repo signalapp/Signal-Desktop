@@ -201,9 +201,14 @@ export class ActionsPanel extends React.Component<Props, State> {
   static getFriendRequestsCount(conversations: Array<ConversationListItemPropsType> | undefined): number {
     let friendRequestCount = 0;
     if (conversations !== undefined) {
-      // We assume a friend request already read is no longer a friend request (has been ignored)
+      // We assume a friend request already read is still a friend valid request
       conversations.some(function (conversation) {
-        friendRequestCount += conversation.showFriendRequestIndicator ? 1 : 0;
+        // Ignore friend request with lastmessage status as sent as this is a friend request we made ourself
+        const isValidFriendRequest = conversation.showFriendRequestIndicator
+          && conversation.lastMessage
+          && conversation.lastMessage.status !== 'sent'
+          && conversation.lastMessage.status !== 'sending';
+        friendRequestCount += isValidFriendRequest ? 1 : 0;
         if (friendRequestCount > 9) {
           return true;
         }

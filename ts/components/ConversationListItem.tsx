@@ -57,6 +57,8 @@ type PropsHousekeeping = {
   onClearNickname?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
+  acceptFriendRequest?: () => void;
+  declineFriendRequest?: () => void;
 };
 
 type Props = PropsData & PropsHousekeeping;
@@ -280,10 +282,11 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
   public renderFriendRequestButtons() {
 
+    const { acceptFriendRequest, declineFriendRequest } = this.props;
     return (
       <div className="module-conversation-list-item__buttons">
-        <SessionButton text={window.i18n('decline')} buttonColor={SessionButtonColor.None}/>
-        <SessionButton text={window.i18n('accept')} />
+        <SessionButton text={window.i18n('decline')} buttonColor={SessionButtonColor.None} onClick={declineFriendRequest}/>
+        <SessionButton text={window.i18n('accept')} onClick={acceptFriendRequest}/>
       </div>
     );
   }

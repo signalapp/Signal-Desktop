@@ -185,8 +185,9 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     let conversationsList = conversations;
     console.log('conversations:', conversationsList);
     if (conversationsList !== undefined) {
+      // ignore friend request we made ourself
       conversationsList = conversationsList.filter(
-        conversation => conversation.showFriendRequestIndicator
+        conversation => conversation.showFriendRequestIndicator && conversation.lastMessage && conversation.lastMessage.status !== 'sent' && conversation.lastMessage.status !== 'sending'
       );
     }
 
@@ -202,8 +203,7 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
         'render: must provided friends if no search results are provided'
       );
     }
-    const length = friends.length + (friendsRequest?friendsRequest.length:0);
-
+    const length = friends.length + (friendsRequest ? friendsRequest.length : 0);
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
     //   on startup and scroll.
