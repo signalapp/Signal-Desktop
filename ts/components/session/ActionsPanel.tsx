@@ -203,9 +203,7 @@ export class ActionsPanel extends React.Component<Props, State> {
     if (conversations !== undefined) {
       // We assume a friend request already read is no longer a friend request (has been ignored)
       conversations.some(function (conversation) {
-        const isUnreadFriendRequest = (conversation.showFriendRequestIndicator &&
-          conversation.unreadCount > 0);
-        friendRequestCount += isUnreadFriendRequest ? 1 : 0;
+        friendRequestCount += conversation.showFriendRequestIndicator ? 1 : 0;
         if (friendRequestCount > 9) {
           return true;
         }
