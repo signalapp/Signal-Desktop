@@ -2427,5 +2427,11 @@
   },
   "yourPublicKey": {
     "message": "Your Public Key"
+  },
+  "accept": {
+    "message": "Accept"
+  },
+  "decline": {
+    "message": "Decline"
   }
 }

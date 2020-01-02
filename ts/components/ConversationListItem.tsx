@@ -11,6 +11,7 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { Colors, LocalizerType } from '../types/Util';
+import { SessionButton, SessionButtonColor } from './session/SessionButton';
 
 export type PropsData = {
   id: string;
@@ -72,9 +73,15 @@ export class ConversationListItem extends React.PureComponent<Props> {
       phoneNumber,
       profileName,
       isOnline,
+      showFriendRequestIndicator,
     } = this.props;
 
-    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
+
+    let borderColor = undefined;
+    if (!showFriendRequestIndicator) {
+      borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
+    }
+    const iconSize = showFriendRequestIndicator ? 28 : 48;
 
     return (
       <div className="module-conversation-list-item__avatar-container">
@@ -87,7 +94,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={48}
+          size={iconSize}
           borderColor={borderColor}
         />
       </div>
@@ -114,7 +121,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const { unreadCount, i18n, isMe, lastUpdated, isFriendItem } = this.props;
+    const { unreadCount, i18n, isMe, lastUpdated, isFriendItem, showFriendRequestIndicator } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -128,7 +135,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         >
           {isMe ? i18n('noteToSelf') : this.renderUser()}
         </div>
-        {this.renderUnread()}
+        {showFriendRequestIndicator || this.renderUnread()}
         {!isFriendItem && (
           <div
             className={classNames(
@@ -138,12 +145,13 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 : null
             )}
           >
-            <Timestamp
+            {showFriendRequestIndicator || (<Timestamp
               timestamp={lastUpdated}
               extended={false}
               module="module-conversation-list-item__header__timestamp"
               i18n={i18n}
-            />
+            />)
+            }
           </div>
         )}
       </div>
@@ -209,6 +217,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       unreadCount,
       i18n,
       isFriendItem,
+      showFriendRequestIndicator,
     } = this.props;
 
     if (isFriendItem) {
@@ -224,6 +233,10 @@ export class ConversationListItem extends React.PureComponent<Props> {
     if (lastMessage && lastMessage.isRss) {
       // strip any HTML
       text = text.replace(/<[^>]*>?/gm, '');
+    }
+
+    if (showFriendRequestIndicator) {
+      text = text.replace('Friend Request: ', '');
     }
 
     if (isEmpty(text)) {
@@ -265,6 +278,16 @@ export class ConversationListItem extends React.PureComponent<Props> {
     );
   }
 
+  public renderFriendRequestButtons() {
+
+    return (
+      <div className="module-conversation-list-item__buttons">
+        <SessionButton text={window.i18n('decline')} buttonColor={SessionButtonColor.None}/>
+        <SessionButton text={window.i18n('accept')} />
+      </div>
+    );
+  }
+
   public render() {
     const {
       phoneNumber,
@@ -277,6 +300,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       style,
       mentionedUs,
     } = this.props;
+
 
     const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
 
@@ -311,6 +335,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
               {this.renderHeader()}
               {this.renderMessage()}
             </div>
+            {showFriendRequestIndicator && this.renderFriendRequestButtons()}
           </div>
         </ContextMenuTrigger>
         <Portal>{this.renderContextMenu(triggerId)}</Portal>

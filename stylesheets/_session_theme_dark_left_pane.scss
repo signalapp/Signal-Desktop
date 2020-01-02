@@ -284,6 +284,28 @@ $session-compose-margin: 20px;
   &-content {
     display: flex;
     flex-direction: column;
+    .module-conversation-list-item {
+      &--has-friend-request {
+        border: 1px solid $session-shade-8 !important;
+        
+        .module-conversation__user__profile-number,
+        .module-conversation__user__profile-name {
+          font-size: 13px !important;
+        }
+      }
+
+      &__buttons {
+        display: flex;
+
+        .session-button {
+          font-size: 11px;
+          padding: 6px;
+          height: auto;
+          margin: 0px;
+          line-height: 14px;      
+        }
+      }
+    }
   }
 
   &-bottom-buttons {
@@ -298,6 +320,8 @@ $session-compose-margin: 20px;
       line-height: 50px;
     }
   }
+
+  
 }
 
 .panel-text-divider {
