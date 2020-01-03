@@ -287,7 +287,7 @@ $session-compose-margin: 20px;
     .module-conversation-list-item {
       &--has-friend-request {
         border: 1px solid $session-shade-8 !important;
-        
+
         .module-conversation__user__profile-number,
         .module-conversation__user__profile-name {
           font-size: 13px !important;
@@ -302,7 +302,7 @@ $session-compose-margin: 20px;
           padding: 6px;
           height: auto;
           margin: 0px;
-          line-height: 14px;      
+          line-height: 14px;
         }
       }
     }
@@ -320,8 +320,6 @@ $session-compose-margin: 20px;
       line-height: 50px;
     }
   }
-
-  
 }
 
 .panel-text-divider {

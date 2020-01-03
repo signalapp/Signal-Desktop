@@ -84,16 +84,14 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
         <SessionButton
           text={window.i18n('compose')}
           onClick={buttonClicked}
-          key='compose'
+          key="compose"
         />
       );
     } else if (notificationCount && notificationCount > 0) {
       const shortenedNotificationCount =
         notificationCount > 9 ? 9 : notificationCount;
       children.push(
-        <div
-          className="contact-notification-count-bubble"
-        >
+        <div className="contact-notification-count-bubble">
           {shortenedNotificationCount}
         </div>
       );

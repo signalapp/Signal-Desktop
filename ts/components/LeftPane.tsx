@@ -42,7 +42,7 @@ interface Props {
   searchResults?: SearchResultsProps;
   searchTerm: string;
   isSecondaryDevice: boolean;
-  
+
   openConversationInternal: (id: string, messageId?: string) => void;
   updateSearchTerm: (searchTerm: string) => void;
   search: (query: string, options: SearchOptions) => void;
@@ -59,92 +59,8 @@ export class LeftPane extends React.Component<Props, State> {
     this.handleSectionSelected = this.handleSectionSelected.bind(this);
   }
 
-  public handleSectionSelected(section: SectionType) {
-    this.setState({ selectedSection: section });
-  }
-
-  public render(): JSX.Element {
-    return (
-      <div className="module-left-pane-session">
-        <ActionsPanel
-          selectedSection={this.state.selectedSection}
-          onSectionSelected={this.handleSectionSelected}
-          conversations={this.props.conversations}
-        />
-        <div className="module-left-pane">{this.renderSection()}</div>
-      </div>
-    );
-  }
-
-  private renderSection(): JSX.Element | undefined {
-    switch (this.state.selectedSection) {
-      case SectionType.Message:
-        return this.renderMessageSection();
-      case SectionType.Contact:
-        return this.renderContactSection();
-      default:
-        return undefined;
-    }
-  }
-
-  private renderMessageSection() {
-    const {
-      openConversationInternal,
-      conversations,
-      searchResults,
-      searchTerm,
-      isSecondaryDevice,
-      updateSearchTerm,
-      search,
-      clearSearch,
-    } = this.props;
-
-    return (
-      <LeftPaneMessageSection
-        openConversationInternal={openConversationInternal}
-        conversations={conversations}
-        searchResults={searchResults}
-        searchTerm={searchTerm}
-        isSecondaryDevice={isSecondaryDevice}
-        updateSearchTerm={updateSearchTerm}
-        search={search}
-        clearSearch={clearSearch}
-      />
-    );
-  }
-
-
-
-  private renderContactSection() {
-    const {
-      openConversationInternal,
-      friends,
-      conversations,
-      searchResults,
-      searchTerm,
-      isSecondaryDevice,
-      updateSearchTerm,
-      search,
-      clearSearch,
-    } = this.props;
-
-    return (
-      <LeftPaneContactSection
-        openConversationInternal={openConversationInternal}
-        conversations={conversations}
-        friends={friends}
-        searchResults={searchResults}
-        searchTerm={searchTerm}
-        isSecondaryDevice={isSecondaryDevice}
-        updateSearchTerm={updateSearchTerm}
-        search={search}
-        clearSearch={clearSearch}
-      />
-    );
-  }
-
   // this static function is set here to be used by all subsections (message, contacts,...) to render their headers
-  static renderHeader(
+  public static RENDER_HEADER(
     labels: Array<string>,
     onTabSelected?: any,
     buttonLabel?: string,
@@ -163,7 +79,7 @@ export class LeftPane extends React.Component<Props, State> {
     );
   }
 
-  static renderClosableOverlay(
+  public static RENDER_CLOSABLE_OVERLAY(
     isAddContactView: boolean,
     onChangeSessionID: any,
     onCloseClick: any,
@@ -235,6 +151,88 @@ export class LeftPane extends React.Component<Props, State> {
           onClick={onButtonClick}
         />
       </div>
+    );
+  }
+
+  public handleSectionSelected(section: SectionType) {
+    this.setState({ selectedSection: section });
+  }
+
+  public render(): JSX.Element {
+    return (
+      <div className="module-left-pane-session">
+        <ActionsPanel
+          selectedSection={this.state.selectedSection}
+          onSectionSelected={this.handleSectionSelected}
+          conversations={this.props.conversations}
+        />
+        <div className="module-left-pane">{this.renderSection()}</div>
+      </div>
+    );
+  }
+
+  private renderSection(): JSX.Element | undefined {
+    switch (this.state.selectedSection) {
+      case SectionType.Message:
+        return this.renderMessageSection();
+      case SectionType.Contact:
+        return this.renderContactSection();
+      default:
+        return undefined;
+    }
+  }
+
+  private renderMessageSection() {
+    const {
+      openConversationInternal,
+      conversations,
+      searchResults,
+      searchTerm,
+      isSecondaryDevice,
+      updateSearchTerm,
+      search,
+      clearSearch,
+    } = this.props;
+
+    return (
+      <LeftPaneMessageSection
+        openConversationInternal={openConversationInternal}
+        conversations={conversations}
+        searchResults={searchResults}
+        searchTerm={searchTerm}
+        isSecondaryDevice={isSecondaryDevice}
+        updateSearchTerm={updateSearchTerm}
+        search={search}
+        clearSearch={clearSearch}
+      />
+    );
+  }
+
+  private renderContactSection() {
+    const {
+      openConversationInternal,
+      friends,
+      conversations,
+      searchResults,
+      searchTerm,
+      isSecondaryDevice,
+      updateSearchTerm,
+      search,
+      clearSearch,
+    } = this.props;
+
+    return (
+      <LeftPaneContactSection
+        openConversationInternal={openConversationInternal}
+        conversations={conversations}
+        friends={friends}
+        searchResults={searchResults}
+        searchTerm={searchTerm}
+        isSecondaryDevice={isSecondaryDevice}
+        updateSearchTerm={updateSearchTerm}
+        search={search}
+        clearSearch={clearSearch}
+      />
     );
   }
 }

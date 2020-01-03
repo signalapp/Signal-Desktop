@@ -14,7 +14,7 @@ import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
-import { RowRendererParamsType, LeftPane } from '../LeftPane';
+import { LeftPane, RowRendererParamsType } from '../LeftPane';
 
 export interface Props {
   searchTerm: string;
@@ -60,8 +60,8 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     let conversationList = conversations;
     if (conversationList !== undefined) {
       conversationList = conversationList.filter(
-        conversation => !conversation.isSecondary 
-        && !conversation.isPendingFriendRequest
+        conversation =>
+          !conversation.isSecondary && !conversation.isPendingFriendRequest
       );
     }
 
@@ -145,7 +145,8 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   public renderHeader(): JSX.Element {
     const labels = [window.i18n('messagesHeader')];
-    return LeftPane.renderHeader(
+
+    return LeftPane.RENDER_HEADER(
       labels,
       null,
       window.i18n('compose'),
@@ -158,7 +159,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       <div>
         {this.renderHeader()}
         {this.state.showComposeView
-          ? LeftPane.renderClosableOverlay(
+          ? LeftPane.RENDER_CLOSABLE_OVERLAY(
               false,
               this.handleOnPasteSessionID,
               this.handleComposeClick,

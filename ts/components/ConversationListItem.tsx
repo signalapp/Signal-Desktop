@@ -80,8 +80,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isPendingFriendRequest,
     } = this.props;
 
-
-    let borderColor = undefined;
+    let borderColor;
     if (!isPendingFriendRequest) {
       borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
     }
@@ -125,7 +124,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const { unreadCount, i18n, isMe, lastUpdated, isFriendItem, hasReceivedFriendRequest } = this.props;
+    const {
+      unreadCount,
+      i18n,
+      isMe,
+      lastUpdated,
+      isFriendItem,
+      hasReceivedFriendRequest,
+    } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -139,7 +145,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         >
           {isMe ? i18n('noteToSelf') : this.renderUser()}
         </div>
-        {hasReceivedFriendRequest || this.renderUnread()}
+        {hasReceivedFriendRequest || this.renderUnread()}
         {!isFriendItem && (
           <div
             className={classNames(
@@ -149,13 +155,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 : null
             )}
           >
-            {!hasReceivedFriendRequest && (<Timestamp
-              timestamp={lastUpdated}
-              extended={false}
-              module="module-conversation-list-item__header__timestamp"
-              i18n={i18n}
-            />)
-            }
+            {!hasReceivedFriendRequest && (
+              <Timestamp
+                timestamp={lastUpdated}
+                extended={false}
+                module="module-conversation-list-item__header__timestamp"
+                i18n={i18n}
+              />
+            )}
           </div>
         )}
       </div>
@@ -283,12 +290,19 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderFriendRequestButtons() {
-
     const { acceptFriendRequest, declineFriendRequest } = this.props;
+
     return (
       <div className="module-conversation-list-item__buttons">
-        <SessionButton text={window.i18n('decline')} buttonColor={SessionButtonColor.None} onClick={declineFriendRequest}/>
-        <SessionButton text={window.i18n('accept')} onClick={acceptFriendRequest}/>
+        <SessionButton
+          text={window.i18n('decline')}
+          buttonColor={SessionButtonColor.None}
+          onClick={declineFriendRequest}
+        />
+        <SessionButton
+          text={window.i18n('accept')}
+          onClick={acceptFriendRequest}
+        />
       </div>
     );
   }
@@ -305,7 +319,6 @@ export class ConversationListItem extends React.PureComponent<Props> {
       style,
       mentionedUs,
     } = this.props;
-
 
     const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
 

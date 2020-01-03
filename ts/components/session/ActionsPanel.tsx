@@ -121,6 +121,27 @@ export class ActionsPanel extends React.Component<Props, State> {
       avatarPath: '',
     };
   }
+
+  public static GET_FRIEND_REQUESTS_COUNT(
+    conversations: Array<ConversationListItemPropsType> | undefined
+  ): number {
+    let friendRequestCount = 0;
+    if (conversations !== undefined) {
+      // We assume a friend request already read is still a friend valid request
+      conversations.some(conversation => {
+        // Ignore friend request with lastmessage status as sent as this is a friend request we made ourself
+        friendRequestCount += conversation.hasReceivedFriendRequest ? 1 : 0;
+        if (friendRequestCount > 9) {
+          return true;
+        }
+
+        return false;
+      });
+    }
+
+    return friendRequestCount;
+  }
+
   public componentDidMount() {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     const ourNumber = window.storage.get('primaryDevicePubKey');
@@ -137,42 +158,51 @@ export class ActionsPanel extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { selectedSection, conversations } = this.props;
 
-    const friendRequestCount = ActionsPanel.getFriendRequestsCount(conversations);
+    const friendRequestCount = ActionsPanel.GET_FRIEND_REQUESTS_COUNT(
+      conversations
+    );
     const unreadMessageCount = this.getUnreadMessageCount();
+
+    const isProfilePageSelected = selectedSection === SectionType.Profile;
+    const isMessagePageSelected = selectedSection === SectionType.Message;
+    const isContactPageSelected = selectedSection === SectionType.Contact;
+    const isGlobePageSelected = selectedSection === SectionType.Globe;
+    const isSettingsPageSelected = selectedSection === SectionType.Settings;
+    const isMoonPageSelected = selectedSection === SectionType.Moon;
 
     return (
       <div className="module-left-pane__sections-container">
         <Section
           type={SectionType.Profile}
           avatarPath={this.state.avatarPath}
-          isSelected={selectedSection === SectionType.Profile}
+          isSelected={isProfilePageSelected}
           onSelect={this.handleSectionSelect}
         />
         <Section
           type={SectionType.Message}
-          isSelected={selectedSection === SectionType.Message}
+          isSelected={isMessagePageSelected}
           onSelect={this.handleSectionSelect}
           notificationCount={unreadMessageCount}
         />
         <Section
           type={SectionType.Contact}
-          isSelected={selectedSection === SectionType.Contact}
+          isSelected={isContactPageSelected}
           onSelect={this.handleSectionSelect}
           notificationCount={friendRequestCount}
         />
         <Section
           type={SectionType.Globe}
-          isSelected={selectedSection === SectionType.Globe}
+          isSelected={isGlobePageSelected}
           onSelect={this.handleSectionSelect}
         />
         <Section
           type={SectionType.Settings}
-          isSelected={selectedSection === SectionType.Settings}
+          isSelected={isSettingsPageSelected}
           onSelect={this.handleSectionSelect}
         />
         <Section
           type={SectionType.Moon}
-          isSelected={selectedSection === SectionType.Moon}
+          isSelected={isMoonPageSelected}
           onSelect={this.handleSectionSelect}
         />
       </div>
@@ -183,36 +213,21 @@ export class ActionsPanel extends React.Component<Props, State> {
     const { conversations } = this.props;
     let unreadCount = 0;
     if (conversations !== undefined) {
-      conversations.some(function (conversation) {
+      conversations.some(conversation => {
         if (conversation.isPendingFriendRequest) {
           return false;
         }
         unreadCount += conversation.unreadCount;
         if (unreadCount > 9) {
-            return true;
-        }
-        return false;
-    });
-    }
 
-    return unreadCount;
-  }
-
-  static getFriendRequestsCount(conversations: Array<ConversationListItemPropsType> | undefined): number {
-    let friendRequestCount = 0;
-    if (conversations !== undefined) {
-      // We assume a friend request already read is still a friend valid request
-      conversations.some(function (conversation) {
-        // Ignore friend request with lastmessage status as sent as this is a friend request we made ourself
-        friendRequestCount += conversation.hasReceivedFriendRequest ? 1 : 0;
-        if (friendRequestCount > 9) {
           return true;
         }
+
         return false;
       });
     }
-    
-    return friendRequestCount;
+
+    return unreadCount;
   }
 
   private readonly handleSectionSelect = (section: SectionType): void => {
