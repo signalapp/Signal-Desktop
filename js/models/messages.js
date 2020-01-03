@@ -1030,9 +1030,10 @@
     },
 
     banUser() {
-      window.Whisper.events.trigger('showConfirmationDialog', {
+      window.confirmationDialog({
+        title: i18n('banUser'),
         message: i18n('banUserConfirm'),
-        onOk: async () => {
+        resolve: async () => {
           const source = this.get('source');
           const conversation = this.getConversation();
 

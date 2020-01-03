@@ -1308,7 +1308,7 @@
     },
 
     forceSend({ contact, message }) {
-      const dialog = new Whisper.ConfirmationDialogView({
+      window.confirmationDialog({
         message: i18n('identityKeyErrorOnSend', [
           contact.getTitle(),
           contact.getTitle(),
@@ -1329,9 +1329,6 @@
           message.resend(contact.id);
         },
       });
-
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
     },
 
     showSafetyNumber(providedModel) {
@@ -1438,14 +1435,11 @@
         return;
       }
 
-      const dialog = new Whisper.ConfirmationDialogView({
+      window.confirmationDialog({
         message: warningMessage,
         okText: i18n('delete'),
         resolve: doDelete,
       });
-
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
     },
 
     deleteMessage(message) {
@@ -1669,7 +1663,8 @@
         }
       }
 
-      const dialog = new Whisper.ConfirmationDialogView({
+      window.confirmationDialog({
+        title: i18n('changedSinceVerifiedTitle'),
         message,
         okText: i18n('sendAnyway'),
         resolve: () => {
@@ -1679,9 +1674,6 @@
           this.focusMessageFieldAndClearDisabled();
         },
       });
-
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
     },
 
     stripQuery(text, cursorPos) {

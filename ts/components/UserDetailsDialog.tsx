@@ -10,6 +10,7 @@ import {
 
 interface Props {
   i18n: any;
+  isRss: boolean;
   profileName: string;
   avatarPath: string;
   avatarColor: string;
@@ -29,7 +30,7 @@ export class UserDetailsDialog extends React.Component<Props> {
   }
 
   public render() {
-    const i18n = this.props.i18n;
+    const { i18n, isRss } = this.props;
 
     return (
       <SessionModal
@@ -43,12 +44,14 @@ export class UserDetailsDialog extends React.Component<Props> {
         <div className="message">{this.props.pubkey}</div>
 
         <div className="session-modal__button-group__center">
-          <SessionButton
-            text={i18n('startConversation')}
-            buttonType={SessionButtonType.Default}
-            buttonColor={SessionButtonColor.Primary}
-            onClick={this.onClickStartConversation}
-          />
+          {!isRss && (
+            <SessionButton
+              text={i18n('startConversation')}
+              buttonType={SessionButtonType.Default}
+              buttonColor={SessionButtonColor.Primary}
+              onClick={this.onClickStartConversation}
+            />
+          )}
         </div>
       </SessionModal>
     );

@@ -802,12 +802,19 @@
       appView.openConversation(groupId, {});
     };
 
-    // $(document).ready(() => {
-    //   window.settingsView = new Whisper.SessionSettingsView({
-    //     el: $('#settings-container'),
-    //   });
-    //   window.settingsView.render();
-    // });
+    window.confirmationDialog = params => {
+      const confirmDialog = new Whisper.SessionConfirmView({
+        el: $('#session-confirm-container'),
+        title: params.title,
+        message: params.message,
+        resolve: params.resolve || undefined,
+        reject: params.reject || undefined,
+        okText: params.okText || undefined,
+        cancelText: params.cancelText || undefined,
+        hideCancel: params.hideCancel || false,
+      });
+      confirmDialog.render();
+    };
 
     window.generateID = () =>
       Math.random()
@@ -825,6 +832,7 @@
         id: options.id || window.generateID(),
         description: options.description || '',
         type: options.type || '',
+        shouldFade: options.shouldFade,
       };
 
       // Give all toasts an ID. User may define.
@@ -1077,6 +1085,7 @@
           pubkey: userPubKey,
           avatarPath,
           avatarColor: conversation.getColor(),
+          isRss: conversation.isRss(),
           onStartConversation: () => {
             Whisper.events.trigger('showConversation', userPubKey);
           },

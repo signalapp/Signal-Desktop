@@ -167,7 +167,7 @@
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
   "connectingLoad": {
-    "message": "Connecting...",
+    "message": "Connecting To Server",
     "description":
       "Message shown on the as a loading screen while we are connecting to something"
   },
@@ -394,6 +394,9 @@
       "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
     "description":
       "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+  },
+  "changedSinceVerifiedTitle": {
+    "message": "Safety Number Changed"
   },
   "changedSinceVerifiedMultiple": {
     "message":
@@ -659,6 +662,9 @@
   },
   "unableToLoadAttachment": {
     "message": "Unable to load selected attachment."
+  },
+  "connect": {
+    "message": "Connect"
   },
   "disconnected": {
     "message": "Disconnected",
@@ -946,7 +952,7 @@
     "message": "Close"
   },
   "pairNewDevice": {
-    "message": "Pair new Device"
+    "message": "Pair New Device"
   },
   "devicePairingAccepted": {
     "message": "Device Pairing Accepted"
@@ -957,8 +963,14 @@
   "waitingForDeviceToRegister": {
     "message": "Waiting for device to register..."
   },
+  "pairNewDevicePrompt": {
+    "message": "Scan the QR Code on your secondary device"
+  },
   "pairedDevices": {
     "message": "Paired Devices"
+  },
+  "noPairedDevices": {
+    "message": "No paired devices"
   },
   "allowPairing": {
     "message": "Allow Pairing"
@@ -1118,7 +1130,7 @@
       "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessages": {
-    "message": "Delete messages",
+    "message": "Delete Messages",
     "description": "Menu item for deleting messages, title case."
   },
   "deletePublicConversationConfirmation": {
@@ -1143,7 +1155,7 @@
       "Confirmation dialog text that tells the user what will happen if they leave the public channel."
   },
   "deleteContact": {
-    "message": "Delete contact",
+    "message": "Delete Contact",
     "description":
       "Confirmation dialog title that asks the user if they really wish to delete the contact. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
@@ -2015,7 +2027,7 @@
   },
 
   "banUser": {
-    "message": "Ban user",
+    "message": "Ban User",
     "description": "Ban user from public chat by public key."
   },
 
@@ -2103,8 +2115,16 @@
     "description":
       "Button action that the user can click to connect to a new public server"
   },
+  "serverUrl": {
+    "message": "Server URL",
+    "description": "Placeholder for server URL input"
+  },
+  "noServerUrl": {
+    "message": "Please enter a server URL",
+    "description": "Error message when no server url entered"
+  },
   "addServerDialogTitle": {
-    "message": "Connect to new public server",
+    "message": "Connect To New Public Server",
     "description":
       "Title for the dialog box used to connect to a new public server"
   },

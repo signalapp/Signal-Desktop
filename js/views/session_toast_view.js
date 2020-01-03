@@ -32,13 +32,18 @@
       this.props.id = options.id;
       this.props.description = options.description || '';
       this.props.type = options.type || '';
+      this.props.shouldFade = options.shouldFade !== false;
 
       this.toastView.update(this.props);
 
       this.showToast();
 
-      clearTimeout(this.timer);
-      this.timer = setTimeout(this.fadeToast.bind(this), 4000);
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
+      if (this.props.shouldFade) {
+        this.timer = setTimeout(this.fadeToast.bind(this), 4000);
+      }
     },
 
     showToast() {
