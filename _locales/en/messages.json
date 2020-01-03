@@ -1397,7 +1397,7 @@
     "placeholders": {
       "time": {
         "content": "$1",
-        "example": "10m"
+        "example": "10 min"
       }
     }
   },
@@ -1408,7 +1408,7 @@
     "placeholders": {
       "time": {
         "content": "$1",
-        "example": "10m"
+        "example": "10 min"
       }
     }
   },
@@ -1423,7 +1423,7 @@
       },
       "time": {
         "content": "$2",
-        "example": "10m"
+        "example": "10 min"
       }
     }
   },
@@ -1497,57 +1497,57 @@
       "Short format indicating current timer setting in the conversation list snippet"
   },
   "timerOption_5_seconds_abbreviated": {
-    "message": "5s",
+    "message": "5 s",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_10_seconds_abbreviated": {
-    "message": "10s",
+    "message": "10 s",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_30_seconds_abbreviated": {
-    "message": "30s",
+    "message": "30 s",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_minute_abbreviated": {
-    "message": "1min",
+    "message": "1 min",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_5_minutes_abbreviated": {
-    "message": "5min",
+    "message": "5 min",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_30_minutes_abbreviated": {
-    "message": "30min",
+    "message": "30 min",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_hour_abbreviated": {
-    "message": "1h",
+    "message": "1 h",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_6_hours_abbreviated": {
-    "message": "6h",
+    "message": "6 h",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_12_hours_abbreviated": {
-    "message": "12h",
+    "message": "12 h",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_day_abbreviated": {
-    "message": "1d",
+    "message": "1 d",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_week_abbreviated": {
-    "message": "1w",
+    "message": "1 w",
     "description":
       "Very short format indicating current timer setting in the conversation header"
   },
@@ -1578,7 +1578,7 @@
     "placeholders": {
       "time": {
         "content": "$1",
-        "example": "1w"
+        "example": "1 w"
       }
     }
   },
