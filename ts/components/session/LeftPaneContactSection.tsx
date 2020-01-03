@@ -167,7 +167,6 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     const { friends } = this.props;
 
     let friendList = friends;
-    console.log('friends:', friendList);
     if (friendList !== undefined) {
       friendList = friendList.filter(
         friend =>
@@ -178,35 +177,33 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     return friendList;
   }
 
-
-  public getFriendRequests(): Array<ConversationListItemPropsType> {
+  // true: received only, false: sent only
+  private getFriendRequests(received:boolean): Array<ConversationListItemPropsType> {
     const { conversations } = this.props;
 
     let conversationsList = conversations;
-    console.log('conversations:', conversationsList);
     if (conversationsList !== undefined) {
-      // ignore friend request we made ourself
-      conversationsList = conversationsList.filter(
-        conversation => conversation.showFriendRequestIndicator && conversation.lastMessage && conversation.lastMessage.status !== 'sent' && conversation.lastMessage.status !== 'sending'
-      );
+      if (received) {
+        conversationsList = conversationsList.filter(
+          conversation => (conversation.hasReceivedFriendRequest));
+      } else {
+        conversationsList = conversationsList.filter(
+          conversation => (conversation.hasSentFriendRequest));
+      }
     }
 
     return conversationsList;
   }
 
   private renderList() {
+    const receivedFriendsRequest = this.getFriendRequests(true);
+    const sentFriendsRequest = this.getFriendRequests(false);
     const friends = this.getCurrentFriends();
-    const friendsRequest = this.getFriendRequests();
 
-    if (!friends) {
-      throw new Error(
-        'render: must provided friends if no search results are provided'
-      );
-    }
-    const length = friends.length + (friendsRequest ? friendsRequest.length : 0);
-    // Note: conversations is not a known prop for List, but it is required to ensure that
-    //   it re-renders when our conversation data changes. Otherwise it would just render
-    //   on startup and scroll.
+    const combined = [...receivedFriendsRequest, ...sentFriendsRequest, ...friends];
+
+    const length = combined.length;
+
     const list = (
       <div className="module-left-pane__list" key={0}>
         <AutoSizer>
@@ -234,23 +231,24 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     style,
   }: RowRendererParamsType): JSX.Element | undefined => {
 
+    const receivedFriendsRequest = this.getFriendRequests(true);
+    const sentFriendsRequest = this.getFriendRequests(false);
     const friends = this.getCurrentFriends();
-    const friendRequest = this.getFriendRequests();
 
-    let item;
-    if(index<friendRequest.length) {
-      item = friendRequest[index];
-    }
-    else {
-      item = friends[index-friendRequest.length];
-    }
+    const combined = [...receivedFriendsRequest, ...sentFriendsRequest, ...friends];
 
+    const item = combined[index];
+    let onClick = undefined;
+    if (index >= receivedFriendsRequest.length) {
+      onClick = this.props.openConversationInternal;
+    }
     return (
       <ConversationListItem
         key={key}
         style={style}
         {...item}
         i18n={window.i18n}
+        onClick={onClick}
       />
     );
   };

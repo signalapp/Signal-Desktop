@@ -61,7 +61,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     if (conversationList !== undefined) {
       conversationList = conversationList.filter(
         conversation => !conversation.isSecondary 
-        && !conversation.showFriendRequestIndicator
+        && !conversation.isPendingFriendRequest
       );
     }
 

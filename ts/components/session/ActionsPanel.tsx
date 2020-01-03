@@ -184,7 +184,7 @@ export class ActionsPanel extends React.Component<Props, State> {
     let unreadCount = 0;
     if (conversations !== undefined) {
       conversations.some(function (conversation) {
-        if (conversation.showFriendRequestIndicator) {
+        if (conversation.isPendingFriendRequest) {
           return false;
         }
         unreadCount += conversation.unreadCount;
@@ -204,11 +204,7 @@ export class ActionsPanel extends React.Component<Props, State> {
       // We assume a friend request already read is still a friend valid request
       conversations.some(function (conversation) {
         // Ignore friend request with lastmessage status as sent as this is a friend request we made ourself
-        const isValidFriendRequest = conversation.showFriendRequestIndicator
-          && conversation.lastMessage
-          && conversation.lastMessage.status !== 'sent'
-          && conversation.lastMessage.status !== 'sending';
-        friendRequestCount += isValidFriendRequest ? 1 : 0;
+        friendRequestCount += conversation.hasReceivedFriendRequest ? 1 : 0;
         if (friendRequestCount > 9) {
           return true;
         }

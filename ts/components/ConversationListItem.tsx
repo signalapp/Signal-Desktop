@@ -37,7 +37,9 @@ export type PropsData = {
     isRss: boolean;
   };
 
-  showFriendRequestIndicator?: boolean;
+  isPendingFriendRequest?: boolean;
+  hasReceivedFriendRequest?: boolean;
+  hasSentFriendRequest?: boolean;
   isBlocked?: boolean;
   isOnline?: boolean;
   hasNickname?: boolean;
@@ -75,15 +77,15 @@ export class ConversationListItem extends React.PureComponent<Props> {
       phoneNumber,
       profileName,
       isOnline,
-      showFriendRequestIndicator,
+      isPendingFriendRequest,
     } = this.props;
 
 
     let borderColor = undefined;
-    if (!showFriendRequestIndicator) {
+    if (!isPendingFriendRequest) {
       borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
     }
-    const iconSize = showFriendRequestIndicator ? 28 : 48;
+    const iconSize = isPendingFriendRequest ? 28 : 48;
 
     return (
       <div className="module-conversation-list-item__avatar-container">
@@ -123,7 +125,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const { unreadCount, i18n, isMe, lastUpdated, isFriendItem, showFriendRequestIndicator } = this.props;
+    const { unreadCount, i18n, isMe, lastUpdated, isFriendItem, hasReceivedFriendRequest } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -137,7 +139,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         >
           {isMe ? i18n('noteToSelf') : this.renderUser()}
         </div>
-        {showFriendRequestIndicator || this.renderUnread()}
+        {hasReceivedFriendRequest || this.renderUnread()}
         {!isFriendItem && (
           <div
             className={classNames(
@@ -147,7 +149,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 : null
             )}
           >
-            {showFriendRequestIndicator || (<Timestamp
+            {!hasReceivedFriendRequest && (<Timestamp
               timestamp={lastUpdated}
               extended={false}
               module="module-conversation-list-item__header__timestamp"
@@ -219,7 +221,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       unreadCount,
       i18n,
       isFriendItem,
-      showFriendRequestIndicator,
+      isPendingFriendRequest,
     } = this.props;
 
     if (isFriendItem) {
@@ -237,7 +239,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       text = text.replace(/<[^>]*>?/gm, '');
     }
 
-    if (showFriendRequestIndicator) {
+    if (isPendingFriendRequest) {
       text = text.replace('Friend Request: ', '');
     }
 
@@ -298,7 +300,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       onClick,
       id,
       isSelected,
-      showFriendRequestIndicator,
+      hasReceivedFriendRequest,
       isBlocked,
       style,
       mentionedUs,
@@ -327,7 +329,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 ? 'module-conversation-list-item--mentioned-us'
                 : null,
               isSelected ? 'module-conversation-list-item--is-selected' : null,
-              showFriendRequestIndicator
+              hasReceivedFriendRequest
                 ? 'module-conversation-list-item--has-friend-request'
                 : null,
               isBlocked ? 'module-conversation-list-item--is-blocked' : null
@@ -338,7 +340,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
               {this.renderHeader()}
               {this.renderMessage()}
             </div>
-            {showFriendRequestIndicator && this.renderFriendRequestButtons()}
+            {hasReceivedFriendRequest && this.renderFriendRequestButtons()}
           </div>
         </ContextMenuTrigger>
         <Portal>{this.renderContextMenu(triggerId)}</Portal>

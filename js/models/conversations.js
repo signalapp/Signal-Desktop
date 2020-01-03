@@ -565,10 +565,11 @@
         title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
-        showFriendRequestIndicator: this.isPendingFriendRequest(),
+        isPendingFriendRequest: this.isPendingFriendRequest(),
+        hasReceivedFriendRequest: this.hasReceivedFriendRequest(),
+        hasSentFriendRequest: this.hasSentFriendRequest(),
         isBlocked: this.isBlocked(),
         isSecondary: !!this.get('secondaryStatus'),
-
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
         }),
