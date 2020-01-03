@@ -39,7 +39,7 @@ export class SessionConfirm extends React.Component<Props> {
         showExitIcon={false}
         showHeader={showHeader}
       >
-        {showHeader ? null : <div className="spacer-lg" />}
+        {!showHeader && <div className="spacer-lg" />}
 
         <div className="session-modal__centered">
           <span className="text-subtle">{message}</span>
@@ -50,7 +50,7 @@ export class SessionConfirm extends React.Component<Props> {
         <div className="session-modal__button-group">
           <SessionButton text={okText} onClick={onClickOk} />
 
-          {hideCancel ? null : (
+          {!hideCancel && (
             <SessionButton text={cancelText} onClick={onClickClose} />
           )}
         </div>

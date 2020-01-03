@@ -49,42 +49,43 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.getSecondaryDevices();
-  }
-
-  private async getSecondaryDevices() {
-    const secondaryDevices = await window.libloki.storage.getSecondaryDevicesFor(
-      this.state.currentPubKey
-    );
-    this.setState({
-      data: secondaryDevices,
-      loading: false,
-    });
   }
 
   public render() {
     const { i18n } = this.props;
 
-    const newData = [
-      '053e18835c106a5f9f463a44a9d7ff9a26281d529285a047bd969cfc59d4ab8607',
-      '053e18835c106a5f9f463a44a9d7ff9a26281d529285a047bd969cfc59d4ab8604',
-    ];
-    setTimeout(() => {
-      this.setState({
-        data: newData,
-      });
-    }, 2000);
+    const waitingForRequest = this.state.view === 'waitingForRequest';
+    const nothingPaired = this.state.data.length === 0;
+
+    const renderPairedDevices = this.state.data.map((pubKey: any) => {
+      const pubKeyInfo = this.getPubkeyName(pubKey);
+      const isFinalItem =
+        this.state.data[this.state.data.length - 1] === pubKey;
+
+      return (
+        <div key={pubKey}>
+          <p>
+            {pubKeyInfo.deviceAlias}
+            <br />
+            <span className="text-subtle">Pairing Secret:</span>{' '}
+            {pubKeyInfo.secretWords}
+          </p>
+          {!isFinalItem ? <hr className="text-soft fullwidth" /> : null}
+        </div>
+      );
+    });
 
     return (
       <>
-        {!this.state.loading ? (
+        {!this.state.loading && (
           <SessionModal
             title={i18n('pairedDevices')}
             onOk={() => null}
             onClose={this.closeDialog}
           >
-            {this.state.view === 'waitingForRequest' ? (
+            {waitingForRequest ? (
               <div className="session-modal__centered">
                 <h3>{i18n('waitingForDeviceToRegister')}</h3>
                 <small className="text-subtle">
@@ -106,33 +107,13 @@ export class DevicePairingDialog extends React.Component<Props, State> {
               </div>
             ) : (
               <>
-                {this.state.data.length == 0 ? (
+                {nothingPaired ? (
                   <div className="session-modal__centered">
                     <div>{i18n('noPairedDevices')}</div>
                   </div>
                 ) : (
                   <div className="session-modal__centered">
-                    {this.state.data.map((pubKey: any) => {
-                      const pubKeyInfo = this.getPubkeyName(pubKey);
-                      const isFinalItem =
-                        this.state.data[this.state.data.length - 1] === pubKey;
-
-                      return (
-                        <div key={pubKey}>
-                          <p>
-                            {pubKeyInfo.deviceAlias}
-                            <br />
-                            <span className="text-subtle">
-                              Pairing Secret:
-                            </span>{' '}
-                            {pubKeyInfo.secretWords}
-                          </p>
-                          {!isFinalItem ? (
-                            <hr className="text-soft fullwidth" />
-                          ) : null}
-                        </div>
-                      );
-                    })}
+                    {renderPairedDevices}
                   </div>
                 )}
 
@@ -146,7 +127,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
               </>
             )}
           </SessionModal>
-        ) : null}
+        )}
       </>
     );
   }
@@ -167,25 +148,30 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       return;
     }
 
+    if (view === 'waitingForRequest') {
+      this.setState({
+        view,
+        isListening: true,
+      });
+
+      return;
+    }
     this.setState({ view });
   }
 
-  private startReceivingRequests() {
-    this.setState({
-      isListening: true,
-    });
-
-    this.showView('waitingForRequest');
-
-    //TESTING
-    //TESTING
-    //TESTING
-    setTimeout(() => {
-      this.setState({
-        accepted: true,
-        success: true,
+  private getSecondaryDevices() {
+    const secondaryDevices = window.libloki.storage
+      .getSecondaryDevicesFor(this.state.currentPubKey)
+      .then(() => {
+        this.setState({
+          data: secondaryDevices,
+          loading: false,
+        });
       });
-    }, 3000);
+  }
+
+  private startReceivingRequests() {
+    this.showView('waitingForRequest');
   }
 
   private getPubkeyName(pubKey: string | null) {
@@ -196,14 +182,17 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     const secretWords = window.mnemonic.pubkey_to_secret_words(pubKey);
     const conv = window.ConversationController.get(this.state.currentPubKey);
     const deviceAlias = conv ? conv.getNickname() : 'Unnamed Device';
+
     return { deviceAlias, secretWords };
   }
 
   private stopReceivingRequests() {
     if (this.state.success) {
+      const aliasKey = 'deviceAlias';
       const deviceAlias = this.getPubkeyName(this.state.currentPubKey)[
-        'deviceAlias'
+        aliasKey
       ];
+
       const conv = window.ConversationController.get(this.state.currentPubKey);
       if (conv) {
         conv.setNickname(deviceAlias);
@@ -223,42 +212,33 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     }
   }
 
-  allowDevice() {
+  private allowDevice() {
     this.setState({
       accepted: true,
     });
     window.Whisper.trigger(
       'devicePairingRequestAccepted',
       this.state.currentPubKey,
-      (errors: any) => this.transmisssionCB(errors)
+      (errors: any) => {
+        this.transmisssionCB(errors);
+
+        return true;
+      }
     );
     this.showView();
   }
 
-  transmisssionCB(errors: any) {
+  private transmisssionCB(errors: any) {
     if (!errors) {
-      // this.$('.transmissionStatus').text(i18n('provideDeviceAlias'));
-      // this.$('#deviceAliasView').show();
-      // this.$('#deviceAlias').on('input', e => {
-      //   if (e.target.value.trim()) {
-      //     this.$('.requestAcceptedView .ok').removeAttr('disabled');
-      //   } else {
-      //     this.$('.requestAcceptedView .ok').attr('disabled', true);
-      //   }
-      // });
-      // this.$('.requestAcceptedView .ok').show();
-      // this.$('.requestAcceptedView .ok').attr('disabled', true);
-
       this.setState({
         success: true,
       });
     } else {
-      // this.$('.transmissionStatus').text(errors);
-      // this.$('.requestAcceptedView .ok').show();
+      return;
     }
   }
 
-  skipDevice() {
+  private skipDevice() {
     window.Whisper.trigger(
       'devicePairingRequestRejected',
       this.state.currentPubKey
@@ -267,7 +247,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     this.showView();
   }
 
-  nextPubKey() {
+  private nextPubKey() {
     // FIFO: pop at the back of the array using pop()
     const pubKeyRequests = this.state.pubKeyRequests;
     this.setState({

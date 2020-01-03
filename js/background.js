@@ -1085,6 +1085,7 @@
           pubkey: userPubKey,
           avatarPath,
           avatarColor: conversation.getColor(),
+          isRss: conversation.isRss(),
           onStartConversation: () => {
             Whisper.events.trigger('showConversation', userPubKey);
           },
