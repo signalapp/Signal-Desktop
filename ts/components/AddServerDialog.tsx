@@ -55,7 +55,7 @@ export class AddServerDialog extends React.Component<Props, State> {
             <input
               type="text"
               id="server-url"
-              placeholder={i18n('serverURL')}
+              placeholder={i18n('serverUrl')}
               defaultValue={this.state.serverURL}
             />
             <div className="spacer-sm" />
@@ -217,7 +217,7 @@ export class AddServerDialog extends React.Component<Props, State> {
     const rawserverURL = serverURL
       .replace(/^https?:\/\//i, '')
       .replace(/[/\\]+$/i, '');
-    const sslserverURL = `https://${rawserverURL}`;
+    const sslServerURL = `https://${rawserverURL}`;
     const conversationId = `publicChat:${channelId}@${rawserverURL}`;
 
     const conversationExists = window.ConversationController.get(
@@ -231,7 +231,7 @@ export class AddServerDialog extends React.Component<Props, State> {
     }
 
     const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-      sslserverURL
+      sslServerURL
     );
     if (!serverAPI) {
       // Url incorrect or server not compatible
@@ -246,7 +246,7 @@ export class AddServerDialog extends React.Component<Props, State> {
     );
 
     await serverAPI.findOrCreateChannel(channelId, conversationId);
-    await conversation.setPublicSource(sslserverURL, channelId);
+    await conversation.setPublicSource(sslServerURL, channelId);
     await conversation.setFriendRequestStatus(
       window.friends.friendRequestStatusEnum.friends
     );

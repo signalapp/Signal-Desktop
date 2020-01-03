@@ -45,7 +45,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       loading: true,
       view: 'default',
       pubKeyRequests: [],
-      data: [],
+      data: ['22452653255643252533'],
     };
   }
 
@@ -59,23 +59,30 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     const waitingForRequest = this.state.view === 'waitingForRequest';
     const nothingPaired = this.state.data.length === 0;
 
-    const renderPairedDevices = this.state.data.map((pubKey: any) => {
-      const pubKeyInfo = this.getPubkeyName(pubKey);
-      const isFinalItem =
-        this.state.data[this.state.data.length - 1] === pubKey;
+    console.log(this.state);
+    console.log(this.state);
+    console.log(this.state);
+    console.log(this.state);
+    console.log(this.state);
 
-      return (
-        <div key={pubKey}>
-          <p>
-            {pubKeyInfo.deviceAlias}
-            <br />
-            <span className="text-subtle">Pairing Secret:</span>{' '}
-            {pubKeyInfo.secretWords}
-          </p>
-          {!isFinalItem ? <hr className="text-soft fullwidth" /> : null}
-        </div>
-      );
-    });
+    console.log('dAAVIHN');
+    // const renderPairedDevices = this.state.data.map((pubKey: any) => {
+    //   const pubKeyInfo = this.getPubkeyName(pubKey);
+    //   const isFinalItem =
+    //     this.state.data[this.state.data.length - 1] === pubKey;
+
+    //   return (
+    //     <div key={pubKey}>
+    //       <p>
+    //         {pubKeyInfo.deviceAlias}
+    //         <br />
+    //         <span className="text-subtle">Pairing Secret:</span>{' '}
+    //         {pubKeyInfo.secretWords}
+    //       </p>
+    //       {!isFinalItem ? <hr className="text-soft fullwidth" /> : null}
+    //     </div>
+    //   );
+    // });
 
     return (
       <>
@@ -113,7 +120,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
                   </div>
                 ) : (
                   <div className="session-modal__centered">
-                    {renderPairedDevices}
+                    {'renderPairedDevices'}
                   </div>
                 )}
 
