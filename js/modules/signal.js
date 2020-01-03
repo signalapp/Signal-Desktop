@@ -61,7 +61,9 @@ const {
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
-const { SessionConfirm } = require('../../ts/components/session/SessionConfirm');
+const {
+  SessionConfirm,
+} = require('../../ts/components/session/SessionConfirm');
 const {
   SessionDropdown,
 } = require('../../ts/components/session/SessionDropdown');

@@ -802,8 +802,6 @@
       appView.openConversation(groupId, {});
     };
 
-
-
     window.confirmationDialog = params => {
       const confirmDialog = new Whisper.SessionConfirmView({
         el: $('#session-confirm-container'),
@@ -816,7 +814,7 @@
         hideCancel: params.hideCancel || false,
       });
       confirmDialog.render();
-    }
+    };
 
     window.generateID = () =>
       Math.random()
@@ -834,6 +832,7 @@
         id: options.id || window.generateID(),
         description: options.description || '',
         type: options.type || '',
+        shouldFade: options.shouldFade,
       };
 
       // Give all toasts an ID. User may define.

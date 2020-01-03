@@ -35,14 +35,14 @@
 
     ok() {
       this.$('.session-confirm-wrapper').remove();
-      if (this.props.resolve){
-        this.props.resolve()
+      if (this.props.resolve) {
+        this.props.resolve();
       }
     },
     cancel() {
       this.$('.session-confirm-wrapper').remove();
       if (this.props.reject) {
-        this.props.reject()
+        this.props.reject();
       }
     },
     onKeyup(event) {
@@ -50,6 +50,5 @@
         this.cancel();
       }
     },
-
   });
 })();

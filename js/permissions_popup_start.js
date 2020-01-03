@@ -1,4 +1,4 @@
-/* global $, Whisper, i18n */
+/* global $, i18n */
 
 $(document).on('keyup', e => {
   'use strict';
@@ -8,7 +8,7 @@ $(document).on('keyup', e => {
   }
 });
 
-const dialogParams = {
+window.confirmationDialog({
   title: i18n('audioPermissionNeeded'),
   okText: i18n('allowAccess'),
   resolve: () => {
@@ -18,6 +18,4 @@ const dialogParams = {
     window.closePermissionsPopup();
   },
   onClose: window.closePermissionsPopup,
-};
-window.confirmationDialog(dialogParams);
-
+});

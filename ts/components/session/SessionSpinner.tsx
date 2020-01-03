@@ -1,14 +1,14 @@
 import React from 'react';
 
 interface Props {
-    loading: boolean;
+  loading: boolean;
 }
 
 export class SessionSpinner extends React.Component<Props> {
   public static defaultProps = {
     loading: true,
-  }
-  
+  };
+
   constructor(props: any) {
     super(props);
   }
@@ -17,11 +17,16 @@ export class SessionSpinner extends React.Component<Props> {
     const { loading } = this.props;
 
     return (
-        <>
-        { loading ? (
-            <div className="session-loader"><div></div><div></div><div></div><div></div></div>
-        ) : null }
-        </>
+      <>
+        {loading ? (
+          <div className="session-loader">
+            <div />
+            <div />
+            <div />
+            <div />
+          </div>
+        ) : null}
+      </>
     );
   }
 }

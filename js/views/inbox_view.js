@@ -54,13 +54,12 @@
       toast.render();
     },
     showConfirmationDialog({ title, message, onOk, onCancel }) {
-      const dialog = new Whisper.ConfirmationDialogView({
+      window.confirmationDialog({
         title,
         message,
         resolve: onOk,
         reject: onCancel,
       });
-      this.el.append(dialog.el);
     },
   });
 

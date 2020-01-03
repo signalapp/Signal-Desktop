@@ -395,6 +395,9 @@
     "description":
       "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
+  "changedSinceVerifiedTitle": {
+    "message": "Safety Number Changed"
+  },
   "changedSinceVerifiedMultiple": {
     "message":
       "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
@@ -2024,7 +2027,7 @@
   },
 
   "banUser": {
-    "message": "Ban user",
+    "message": "Ban User",
     "description": "Ban user from public chat by public key."
   },
 

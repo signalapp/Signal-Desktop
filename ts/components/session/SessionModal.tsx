@@ -19,12 +19,12 @@ interface State {
   isVisible: boolean;
 }
 
-export class SessionModal extends React.PureComponent<Props, State> {  
+export class SessionModal extends React.PureComponent<Props, State> {
   public static defaultProps = {
     showExitIcon: true,
     showHeader: true,
   };
-  
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -43,7 +43,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
 
     return isVisible ? (
       <div className={'session-modal'}>
-        { showHeader ? (
+        {showHeader ? (
           <>
             <div className="session-modal__header">
               <div className="session-modal__header__close">
@@ -53,7 +53,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
                     iconSize={SessionIconSize.Small}
                     onClick={this.close}
                   />
-                ) : null }
+                ) : null}
               </div>
               <div className="session-modal__header__title">{title}</div>
               <div className="session-modal__header__icons">
@@ -71,7 +71,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
               </div>
             </div>
           </>
-        ) : null }
+        ) : null}
 
         <div className="session-modal__body">{this.props.children}</div>
       </div>
