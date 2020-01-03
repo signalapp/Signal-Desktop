@@ -66,8 +66,7 @@
   Whisper.AppLoadingScreen = Whisper.View.extend({
     templateName: 'app-loading-screen',
     className: 'app-loading-screen',
-    updateProgress() {
-    },
+    updateProgress() {},
     render_attributes: {
       message: i18n('loading'),
     },

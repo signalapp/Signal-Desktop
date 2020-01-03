@@ -235,8 +235,7 @@ $session-compose-margin: 20px;
   }
 }
 
-.session-logo{
-
+.session-logo {
   &-128 {
     @include session-filter-color-green();
     width: 128px;
@@ -246,13 +245,11 @@ $session-compose-margin: 20px;
   &-text {
     font-size: 70px;
     font-weight: bold;
-    margin:0px;
+    margin: 0px;
     color: $session-color-white;
     font-family: $session-font-family;
   }
 }
-
-
 
 .app-loading-screen {
   @include session-dark-background;

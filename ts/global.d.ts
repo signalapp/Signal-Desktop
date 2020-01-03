@@ -15,7 +15,6 @@ interface Window {
   i18n: any;
   friends: any;
   generateID: any;
-  pushToast: any;
   storage: any;
   pushToast: any;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   ConversationListItem,
-  PropsData as ConversationListItemPropsType
+  PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
 import { PropsData as SearchResultsProps } from '../SearchResults';
 import { debounce } from 'lodash';
@@ -257,7 +257,6 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
       </div>
     );
   }
-
 
   // true: received only, false: sent only
   private getFriendRequests(

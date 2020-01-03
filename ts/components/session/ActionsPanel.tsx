@@ -219,7 +219,6 @@ export class ActionsPanel extends React.Component<Props, State> {
         }
         unreadCount += conversation.unreadCount;
         if (unreadCount > 9) {
-
           return true;
         }
 
