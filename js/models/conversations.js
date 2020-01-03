@@ -978,6 +978,12 @@
         direction: 'incoming',
       });
       await window.libloki.storage.removeContactPreKeyBundle(this.id);
+      await this.destroyMessages();
+      window.pushToast({
+        title: i18n('friendRequestDeclined'),
+        type: 'success',
+        id: 'declineFriendRequest',
+      });
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest(options = {}) {
