@@ -470,7 +470,7 @@
   line-height: 16px;
   text-transform: uppercase;
 }
-
+.module-conversation__user,
 .module-message__author {
   color: $color-white;
   font-size: 13px;
@@ -482,7 +482,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
+.module-conversation__user__profile-name,
 .module-message__author__profile-name {
   font-style: italic;
 }
@@ -3233,8 +3233,7 @@
 
   display: inline-flex;
   flex-direction: column;
-
-  width: 300px;
+  width: 380px;
   height: 100%;
 }
 

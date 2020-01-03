@@ -66,12 +66,7 @@
   Whisper.AppLoadingScreen = Whisper.View.extend({
     templateName: 'app-loading-screen',
     className: 'app-loading-screen',
-    updateProgress(count) {
-      if (count > 0) {
-        const message = i18n('loadingMessages', count.toString());
-        this.$('.message').text(message);
-      }
-    },
+    updateProgress() {},
     render_attributes: {
       message: i18n('loading'),
     },

@@ -11,6 +11,7 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { Colors, LocalizerType } from '../types/Util';
+import { SessionButton, SessionButtonColor } from './session/SessionButton';
 
 export type PropsData = {
   id: string;
@@ -36,7 +37,9 @@ export type PropsData = {
     isRss: boolean;
   };
 
-  showFriendRequestIndicator?: boolean;
+  isPendingFriendRequest?: boolean;
+  hasReceivedFriendRequest?: boolean;
+  hasSentFriendRequest?: boolean;
   isBlocked?: boolean;
   isOnline?: boolean;
   hasNickname?: boolean;
@@ -56,6 +59,8 @@ type PropsHousekeeping = {
   onClearNickname?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
+  acceptFriendRequest?: () => void;
+  declineFriendRequest?: () => void;
 };
 
 type Props = PropsData & PropsHousekeeping;
@@ -72,9 +77,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
       phoneNumber,
       profileName,
       isOnline,
+      isPendingFriendRequest,
     } = this.props;
 
-    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
+    let borderColor;
+    if (!isPendingFriendRequest) {
+      borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
+    }
+    const iconSize = isPendingFriendRequest ? 28 : 48;
 
     return (
       <div className="module-conversation-list-item__avatar-container">
@@ -87,10 +97,9 @@ export class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={48}
+          size={iconSize}
           borderColor={borderColor}
         />
-        {this.renderUnread()}
       </div>
     );
   }
@@ -120,10 +129,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
       i18n,
       isMe,
       lastUpdated,
-      name,
-      phoneNumber,
-      profileName,
       isFriendItem,
+      hasReceivedFriendRequest,
     } = this.props;
 
     return (
@@ -136,17 +143,9 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {isMe ? (
-            i18n('noteToSelf')
-          ) : (
-            <ContactName
-              phoneNumber={phoneNumber}
-              name={name}
-              profileName={profileName}
-              i18n={i18n}
-            />
-          )}
+          {isMe ? i18n('noteToSelf') : this.renderUser()}
         </div>
+        {hasReceivedFriendRequest || this.renderUnread()}
         {!isFriendItem && (
           <div
             className={classNames(
@@ -156,12 +155,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 : null
             )}
           >
-            <Timestamp
-              timestamp={lastUpdated}
-              extended={false}
-              module="module-conversation-list-item__header__timestamp"
-              i18n={i18n}
-            />
+            {!hasReceivedFriendRequest && (
+              <Timestamp
+                timestamp={lastUpdated}
+                extended={false}
+                module="module-conversation-list-item__header__timestamp"
+                i18n={i18n}
+              />
+            )}
           </div>
         )}
       </div>
@@ -227,6 +228,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       unreadCount,
       i18n,
       isFriendItem,
+      isPendingFriendRequest,
     } = this.props;
 
     if (isFriendItem) {
@@ -242,6 +244,10 @@ export class ConversationListItem extends React.PureComponent<Props> {
     if (lastMessage && lastMessage.isRss) {
       // strip any HTML
       text = text.replace(/<[^>]*>?/gm, '');
+    }
+
+    if (isPendingFriendRequest) {
+      text = text.replace('Friend Request: ', '');
     }
 
     if (isEmpty(text)) {
@@ -283,6 +289,24 @@ export class ConversationListItem extends React.PureComponent<Props> {
     );
   }
 
+  public renderFriendRequestButtons() {
+    const { acceptFriendRequest, declineFriendRequest } = this.props;
+
+    return (
+      <div className="module-conversation-list-item__buttons">
+        <SessionButton
+          text={window.i18n('decline')}
+          buttonColor={SessionButtonColor.None}
+          onClick={declineFriendRequest}
+        />
+        <SessionButton
+          text={window.i18n('accept')}
+          onClick={acceptFriendRequest}
+        />
+      </div>
+    );
+  }
+
   public render() {
     const {
       phoneNumber,
@@ -290,7 +314,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       onClick,
       id,
       isSelected,
-      showFriendRequestIndicator,
+      hasReceivedFriendRequest,
       isBlocked,
       style,
       mentionedUs,
@@ -318,7 +342,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 ? 'module-conversation-list-item--mentioned-us'
                 : null,
               isSelected ? 'module-conversation-list-item--is-selected' : null,
-              showFriendRequestIndicator
+              hasReceivedFriendRequest
                 ? 'module-conversation-list-item--has-friend-request'
                 : null,
               isBlocked ? 'module-conversation-list-item--is-blocked' : null
@@ -329,9 +353,31 @@ export class ConversationListItem extends React.PureComponent<Props> {
               {this.renderHeader()}
               {this.renderMessage()}
             </div>
+            {hasReceivedFriendRequest && this.renderFriendRequestButtons()}
           </div>
         </ContextMenuTrigger>
         <Portal>{this.renderContextMenu(triggerId)}</Portal>
+      </div>
+    );
+  }
+
+  private renderUser() {
+    const { name, phoneNumber, profileName } = this.props;
+
+    const shortenedPubkey = window.shortenPubkey(phoneNumber);
+
+    const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
+
+    return (
+      <div className="module-conversation__user">
+        <ContactName
+          phoneNumber={displayedPubkey}
+          name={name}
+          profileName={profileName}
+          module="module-conversation__user"
+          i18n={window.i18n}
+          boldProfileName={true}
+        />
       </div>
     );
   }

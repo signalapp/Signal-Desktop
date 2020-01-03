@@ -5,7 +5,7 @@ import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
 import {
   ContextMenu,
-  ContextMenuTrigger,
+  //ContextMenuTrigger,
   MenuItem,
   SubMenu,
 } from 'react-contextmenu';
@@ -241,6 +241,7 @@ export class ConversationHeader extends React.Component<Props> {
 
   public renderOptions(triggerId: string) {
     const { showBackButton } = this.props;
+    console.log('FIXME:', triggerId);
 
     if (showBackButton) {
       return null;

@@ -231,7 +231,28 @@
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
     },
+    async acceptFriendRequest() {
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
 
+      const lastMessageModel = messages.at(0);
+      if (lastMessageModel) {
+        lastMessageModel.acceptFriendRequest();
+      }
+    },
+    async declineFriendRequest() {
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
+
+      const lastMessageModel = messages.at(0);
+      if (lastMessageModel) {
+        lastMessageModel.declineFriendRequest();
+      }
+    },
     setMessageSelectionBackdrop() {
       const messageSelected = this.selectedMessages.size > 0;
 
@@ -544,10 +565,11 @@
         title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
-        showFriendRequestIndicator: this.isPendingFriendRequest(),
+        isPendingFriendRequest: this.isPendingFriendRequest(),
+        hasReceivedFriendRequest: this.hasReceivedFriendRequest(),
+        hasSentFriendRequest: this.hasSentFriendRequest(),
         isBlocked: this.isBlocked(),
         isSecondary: !!this.get('secondaryStatus'),
-
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
         }),
@@ -571,6 +593,8 @@
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
         onCloseOverlay: () => this.resetMessageSelection(),
+        acceptFriendRequest: () => this.acceptFriendRequest(),
+        declineFriendRequest: () => this.declineFriendRequest(),
       };
 
       this.updateAsyncPropsCache();
@@ -954,6 +978,12 @@
         direction: 'incoming',
       });
       await window.libloki.storage.removeContactPreKeyBundle(this.id);
+      await this.destroyMessages();
+      window.pushToast({
+        title: i18n('friendRequestDeclined'),
+        type: 'success',
+        id: 'declineFriendRequest',
+      });
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest(options = {}) {
@@ -962,6 +992,7 @@
       }
       if (this.hasReceivedFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends, options);
+
         await this.respondToAllFriendRequests({
           response: 'accepted',
           direction: 'incoming',

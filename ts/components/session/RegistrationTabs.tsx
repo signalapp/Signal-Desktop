@@ -9,6 +9,7 @@ import {
 } from './SessionButton';
 import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
+import { SessionIdEditable } from './SessionIdEditable';
 
 enum SignInMode {
   Default,
@@ -285,7 +286,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
   private renderSignUpHeader() {
     const allUsersAreRandomly = window.i18n('allUsersAreRandomly...');
 
-    return <div className="session-signup-header">{allUsersAreRandomly}</div>;
+    return (
+      <div className="session-description-long">{allUsersAreRandomly}</div>
+    );
   }
 
   private renderSignUpButton() {
@@ -387,7 +390,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (signUpMode === SignUpMode.EnterDetails) {
       return (
         <div className={classNames('session-registration__entry-fields')}>
-          {this.renderNamePasswordAndVerifyPasswordFields()};
+          {this.renderNamePasswordAndVerifyPasswordFields()}
         </div>
       );
     }
@@ -442,14 +445,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
     const enterSessionIDHere = window.i18n('enterSessionIDHere');
 
     return (
-      <div
-        className="session-signin-enter-session-id"
+      <SessionIdEditable
+        editable={contentEditable}
         placeholder={enterSessionIDHere}
-        contentEditable={contentEditable}
-        onInput={(e: any) => {
-          if (contentEditable) {
-            this.onSecondDeviceSessionIDChanged(e);
-          }
+        onChange={(e: any) => {
+          this.onSecondDeviceSessionIDChanged(e);
         }}
       />
     );
@@ -475,7 +475,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
             SessionButtonType.BrandOutline,
             SessionButtonColor.Green
           )}
-          <div className="session-registration__or">{or}</div>
+          <h4>{or}</h4>
           {this.renderLinkDeviceToExistingAccountButton()}
         </div>
       );
@@ -485,7 +485,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return (
         <div>
           {this.renderContinueYourSessionButton()}
-          <div className="session-registration__or">{or}</div>
+          <h4>{or}</h4>
           {this.renderRestoreUsingSeedButton(
             SessionButtonType.BrandOutline,
             SessionButtonColor.Green
@@ -497,18 +497,21 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return (
       <div>
         {this.renderContinueYourSessionButton()}
-        <div className="session-registration__or">{or}</div>
+        <h4>{or}</h4>
         {this.renderLinkDeviceToExistingAccountButton()}
       </div>
     );
   }
 
   private renderTermsConditionAgreement() {
-    // FIXME link to our Terms and Conditions and privacy statement
+    // FIXME
+    console.log(
+      'FIXME: add link to our Terms and Conditions and privacy statement'
+    );
 
     return (
       <div className="session-terms-conditions-agreement">
-        <SessionHtmlRenderer html={window.i18n('ByUsingThiService...')} />
+        <SessionHtmlRenderer html={window.i18n('ByUsingThisService...')} />
       </div>
     );
   }
@@ -549,8 +552,6 @@ export class RegistrationTabs extends React.Component<{}, State> {
             displayName: '',
             signUpMode: SignUpMode.Default,
           });
-          //FIXME ugly hack to empty the content editable div used on enter session ID
-          window.Session.emptyContentEditableDivs();
         }}
         buttonType={buttonType}
         buttonColor={buttonColor}

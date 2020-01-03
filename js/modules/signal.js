@@ -42,7 +42,6 @@ const {
 } = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
-const { MainHeader } = require('../../ts/components/MainHeader');
 const { MemberList } = require('../../ts/components/conversation/MemberList');
 const { BulkEdit } = require('../../ts/components/conversation/BulkEdit');
 const {
@@ -254,7 +253,6 @@ exports.setup = (options = {}) => {
     GroupNotification,
     Lightbox,
     LightboxGallery,
-    MainHeader,
     MemberList,
     CreateGroupDialog,
     EditProfileDialog,

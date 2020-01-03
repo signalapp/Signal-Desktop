@@ -778,7 +778,7 @@
     "description": "Shown to separate the types of search results"
   },
   "welcomeToSignal": {
-    "message": "Welcome to Loki Messenger"
+    "message": "Welcome to Session"
   },
   "selectAContact": {
     "message": "Select a contact or group to start chatting."
@@ -2375,7 +2375,7 @@
   "or": {
     "message": "or"
   },
-  "ByUsingThiService...": {
+  "ByUsingThisService...": {
     "message":
       "By using this service, you agree to our <a>Terms and Conditions</a> and <a>Privacy Statement</a>"
   },
@@ -2387,5 +2387,51 @@
   },
   "completeSignUp": {
     "message": "Complete Sign Up"
+  },
+  "compose": {
+    "message": "Compose"
+  },
+  "searchForAKeyPhrase": {
+    "message": "Search for a key phrase or contact"
+  },
+  "enterRecipient": {
+    "message": "Enter Recipient"
+  },
+  "enterSessionID": {
+    "message": "Enter Session ID"
+  },
+  "pasteSessionIDRecipient": {
+    "message": "Paste Session ID of recipient"
+  },
+  "usersCanShareTheir...": {
+    "message":
+      "Users can share their Session ID by going into their account settings and clicking \"Share Public Key\"."
+  },
+  "searchByIDOrDisplayName": {
+    "message": "Search by ID # or Display Name"
+  },
+  "message": {
+    "message": "Message"
+  },
+  "lists": {
+    "message": "Lists"
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "addContact": {
+    "message": "Add Contact"
+  },
+  "createGroup": {
+    "message": "Create Group"
+  },
+  "yourPublicKey": {
+    "message": "Your Public Key"
+  },
+  "accept": {
+    "message": "Accept"
+  },
+  "decline": {
+    "message": "Decline"
   }
 }

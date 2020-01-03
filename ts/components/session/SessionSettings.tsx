@@ -10,7 +10,7 @@ export class SessionSettings extends React.Component<Props> {
   }
 
   public render() {
-    const i18n = this.props.i18n;
+    //const i18n = this.props.i18n;
 
     return <div />;
   }
