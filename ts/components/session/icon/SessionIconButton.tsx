@@ -49,7 +49,7 @@ export class SessionIconButton extends React.PureComponent<SProps> {
           'session-icon-button',
           iconSize,
           iconPadded ? 'padded' : '',
-          isSelected ? 'no-opacify' : ''
+          isSelected ? 'no-opacity' : ''
         )}
         role="button"
         onClick={e => {
