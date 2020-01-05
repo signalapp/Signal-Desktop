@@ -243,20 +243,9 @@ $session-compose-margin: 20px;
   }
 }
 
-.session-logo {
-  &-128 {
-    @include session-filter-color-green();
-    width: 128px;
-    height: 128px;
-  }
-
-  &-text {
-    font-size: 70px;
-    font-weight: bold;
-    margin: 0px;
-    color: $session-color-white;
-    font-family: $session-font-family;
-  }
+.session-full-logo {
+  width: 250px;
+  height: 250px;
 }
 
 .app-loading-screen {
