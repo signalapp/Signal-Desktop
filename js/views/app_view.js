@@ -205,7 +205,9 @@
       this.el.append(dialog.el);
     },
     showQRDialog(string) {
-      const dialog = new Whisper.QRDialogView({ string });
+      const dialog = new Whisper.QRDialogView({
+        value: string,
+      });
       this.el.append(dialog.el);
     },
     showDevicePairingDialog() {

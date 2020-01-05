@@ -1,4 +1,4 @@
-/* global Whisper, i18n, QRCode */
+/* global Whisper */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -7,28 +7,27 @@
   window.Whisper = window.Whisper || {};
 
   Whisper.QRDialogView = Whisper.View.extend({
-    templateName: 'qr-code-template',
     className: 'loki-dialog qr-dialog modal',
-    initialize(options = {}) {
-      this.okText = options.okText || i18n('ok');
+    initialize(options) {
+      this.value = options.value || '';
+      this.close = this.close.bind(this);
+      this.onKeyup = this.onKeyup.bind(this);
       this.render();
-      this.$('.qr-dialog').bind('keyup', event => this.onKeyup(event));
+    },
 
-      if (options.string) {
-        this.qr = new QRCode(this.$('#qr')[0], {
-          correctLevel: QRCode.CorrectLevel.L,
-        }).makeCode(options.string);
-        this.$('#qr').addClass('ready');
-      }
+    render() {
+      this.dialogView = new Whisper.ReactWrapperView({
+        className: 'qr-dialog',
+        Component: window.Signal.Components.SessionQRModal,
+        props: {
+          value: this.value,
+        },
+      });
+
+      this.$el.append(this.dialogView.el);
+      return this;
     },
-    events: {
-      'click .ok': 'close',
-    },
-    render_attributes() {
-      return {
-        ok: this.okText,
-      };
-    },
+
     close() {
       this.remove();
     },

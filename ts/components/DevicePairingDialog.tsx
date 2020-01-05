@@ -1,5 +1,5 @@
 import React from 'react';
-import { QRCode } from 'react-qrcode';
+import { QRCode } from 'react-qr-svg';
 
 import { SessionModal } from './session/SessionModal';
 import { SessionButton } from './session/SessionButton';
@@ -45,11 +45,11 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       loading: true,
       view: 'default',
       pubKeyRequests: [],
-      data: ['22452653255643252533'],
+      data: [],
     };
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     this.getSecondaryDevices();
   }
 
@@ -59,13 +59,6 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     const waitingForRequest = this.state.view === 'waitingForRequest';
     const nothingPaired = this.state.data.length === 0;
 
-    console.log(this.state);
-    console.log(this.state);
-    console.log(this.state);
-    console.log(this.state);
-    console.log(this.state);
-
-    console.log('dAAVIHN');
     // const renderPairedDevices = this.state.data.map((pubKey: any) => {
     //   const pubKeyInfo = this.getPubkeyName(pubKey);
     //   const isFinalItem =
@@ -101,7 +94,12 @@ export class DevicePairingDialog extends React.Component<Props, State> {
                 <div className="spacer-lg" />
 
                 <div id="qr">
-                  <QRCode value={window.textsecure.storage.user.getNumber()} />
+                  <QRCode
+                    value={window.textsecure.storage.user.getNumber()}
+                    bgColor="#FFFFFF"
+                    fgColor="#000000"
+                    level="L" 
+                  />
                 </div>
 
                 <div className="spacer-lg" />

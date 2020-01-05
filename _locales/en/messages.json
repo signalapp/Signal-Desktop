@@ -2106,6 +2106,14 @@
     "description":
       "Button action that the user can click to view their unique seed"
   },
+  "QRCodeTitle": {
+    "message": "Your Public Key QRCode",
+    "description": "Title given to QRCode modal"
+  },
+  "QRCodeDescription": {
+    "message": "Your friends can scan this QR code to start a conversation with you.",
+    "description": "Description given to QRCode modal"
+  },
   "showQRCode": {
     "message": "Show QR code",
     "description": "Button action that the user can click to view their QR code"

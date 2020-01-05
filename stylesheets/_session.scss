@@ -101,6 +101,10 @@ div.spacer-lg {
   opacity: 0.4;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .fullwidth {
   width: 100%;
 }
@@ -110,6 +114,8 @@ $session-transition-duration: 0.25s;
 $session-icon-size-sm: 15px;
 $session-icon-size-md: 20px;
 $session-icon-size-lg: 30px;
+
+$session-modal-size: 220px;
 
 $session-conversation-header-height: 60px;
 
@@ -793,5 +799,20 @@ label {
     100% {
       transform: translate(24px, 0);
     }
+  }
+}
+
+#qr svg {
+  width: $session-modal-size;
+  height: $session-modal-size;
+  border: 6px solid white;
+  border-radius: 3px;
+}
+
+.qr-dialog {
+  &__description {
+    max-width: $session-modal-size;
+    text-align: center;
+    margin: 0 auto;
   }
 }
