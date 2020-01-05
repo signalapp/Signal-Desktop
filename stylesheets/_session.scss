@@ -222,7 +222,10 @@ $session_message-container-border-radius: 5px;
     border: 2px solid $textAndBorderColor;
   }
 
+  
+
   width: auto;
+  border: none;
   display: flex;
   justify-content: center;
   font-weight: 700;
@@ -243,12 +246,9 @@ $session_message-container-border-radius: 5px;
       border: 2px solid $session-color-green;
       background-color: $session-color-green;
 
-      &.disabled {
+      &.disabled,
+      &:disabled {
         background-color: rgba($session-color-green, 0.6);
-      }
-
-      &:hover {
-        @include transparent-background($session-color-green);
       }
     }
     &.white {
@@ -295,15 +295,9 @@ $session_message-container-border-radius: 5px;
     &.green {
       @include transparent-background($session-color-green);
 
-      &:hover {
-        @include transparent-background($session-color-white);
-      }
     }
     &.white {
       @include transparent-background($session-color-white);
-      &:hover {
-        @include transparent-background($session-color-green);
-      }
     }
     &.primary {
       @include transparent-background($session-color-primary);
@@ -343,6 +337,11 @@ $session_message-container-border-radius: 5px;
   &.square,
   &.square-outline {
     border-radius: 0px;
+  }
+  
+
+  &:hover {
+    filter: brightness(80%);
   }
 }
 
