@@ -71,9 +71,6 @@ $session-compose-margin: 20px;
     }
   }
 }
-.inbox {
-  @include session-dark-background;
-}
 
 .module-left-pane {
   border-right: none !important;
@@ -313,6 +310,8 @@ $session-compose-margin: 20px;
   &-content {
     display: flex;
     flex-direction: column;
+    
+
     .module-conversation-list-item {
       &--has-friend-request {
         &:first-child{
@@ -339,6 +338,10 @@ $session-compose-margin: 20px;
         }
       }
     }
+  }
+  
+  &-content {
+    @include session-dark-background-lighter;
   }
 
   &-bottom-buttons {
@@ -381,6 +384,7 @@ $session-compose-margin: 20px;
     &:hover {
       background-color: $session-shade-7;
     }
+
 
     &__buttons {
       display: flex;

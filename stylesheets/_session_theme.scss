@@ -91,7 +91,7 @@
 }
 
 .inbox {
-  background-image: $session-gradient-black;
+  @include session-dark-background;
 }
 
 .conversation {
