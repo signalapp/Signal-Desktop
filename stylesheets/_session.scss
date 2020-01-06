@@ -223,7 +223,6 @@ $session_message-container-border-radius: 5px;
   }
 
   width: auto;
-  border: none;
   display: flex;
   justify-content: center;
   font-weight: 700;
@@ -240,6 +239,7 @@ $session_message-container-border-radius: 5px;
   &.square,
   &.brand {
     color: $session-color-white;
+    border: none;
 
     &.green {
       border: 2px solid $session-color-green;
@@ -290,6 +290,8 @@ $session_message-container-border-radius: 5px;
   &.brand-outline,
   &.default-outline,
   &.square-outline {
+    border: none;
+
     &.green {
       @include transparent-background($session-color-green);
     }
@@ -1063,5 +1065,10 @@ label {
 
   label:before {
     transition: all $session-transition-duration ease;
+  }
+}
+.user-details-dialog {
+  .message {
+    user-select: all;
   }
 }
