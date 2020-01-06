@@ -210,6 +210,12 @@ $session-compose-margin: 20px;
   }
 }
 
+
+.session-left-pane-section-content {
+  display: flex;
+  flex-direction: column;
+}
+
 .user-search-dropdown {
   width: 100%;
   flex-grow: 1;

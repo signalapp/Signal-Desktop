@@ -160,7 +160,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     MainViewController.renderMessageView();
 
     return (
-      <div>
+      <div className="session-left-pane-section-content">
         {this.renderHeader()}
         {this.state.showComposeView
           ? LeftPane.RENDER_CLOSABLE_OVERLAY(
