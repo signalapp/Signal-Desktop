@@ -336,7 +336,7 @@ export class ConversationHeader extends React.Component<Props> {
           {this.renderBackButton()}
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
-              {this.renderOptions(triggerId)}
+              {this.renderOptions()}
               {this.renderTitle()}
               {isPrivateGroup ? this.renderMemberCount() : null}
             </div>

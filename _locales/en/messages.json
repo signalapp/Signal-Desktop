@@ -2110,10 +2110,16 @@
     "message": "Please enter your password",
     "description": "Request for user to enter password to show seed."
   },
-  "seedSavePrompt": {
+  "seedSavePromptMain": {
+    "message": "Please save the seed below in a safe location.",
+    "description":
+      "Prompt on seed modal requesting user to save their seed. Line one"
+  },
+  "seedSavePromptAlt": {
     "message":
-      "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
-    "description": "Prompt on seed modal requesting user to save their seed"
+      "They can be used to restore your account if you lose access or migrate to a new device.",
+    "description":
+      "Prompt on seed modal requesting user to save their seed. Line two"
   },
   "QRCodeTitle": {
     "message": "Your Public Key QRCode",

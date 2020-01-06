@@ -92,9 +92,6 @@ export class SessionModal extends React.PureComponent<Props, State> {
 
   public onKeyUp(event: any) {
     switch (event.key) {
-      case 'Enter':
-        this.props.onOk();
-        break;
       case 'Esc':
       case 'Escape':
         this.close();

@@ -35,6 +35,9 @@ export class SessionSeedModal extends React.Component<Props, State> {
     this.getSeed = this.getSeed.bind(this);
     this.confirmPassword = this.confirmPassword.bind(this);
     this.checkHasPassword = this.checkHasPassword.bind(this);
+    this.onEnter = this.onEnter.bind(this);
+
+    window.addEventListener('keyup', this.onEnter);
   }
 
   public render() {
@@ -44,7 +47,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
     const maxPasswordLen = 64;
 
     this.checkHasPassword();
-    this.getSeed();
+    void this.getSeed();
 
     const error = this.state.error;
     const hasPassword = this.state.hasPassword;
@@ -53,13 +56,13 @@ export class SessionSeedModal extends React.Component<Props, State> {
     const loading = this.state.loadingPassword || this.state.loadingSeed;
 
     return (
-      <SessionModal
-        title={i18n('showSeed')}
-        onOk={() => null}
-        onClose={onClose}
-      >
+      <>
         {!loading && (
-          <>
+          <SessionModal
+            title={i18n('showSeed')}
+            onOk={() => null}
+            onClose={onClose}
+          >
             <div className="spacer-sm" />
 
             {hasPassword && !passwordValid ? (
@@ -94,9 +97,13 @@ export class SessionSeedModal extends React.Component<Props, State> {
               <>
                 <div className="session-modal__centered text-center">
                   <p className="session-modal__description">
-                    {i18n('seedSavePrompt')}
+                    {i18n('seedSavePromptMain')}
+                    <br />
+                    <span className="text-subtle">
+                      {i18n('seedSavePromptAlt')}
+                    </span>
                   </p>
-                  <div className="spacer-md" />
+                  <div className="spacer-xs" />
 
                   <i className="session-modal__text-highlight">
                     {this.state.seed}
@@ -116,9 +123,9 @@ export class SessionSeedModal extends React.Component<Props, State> {
                 </div>
               </>
             )}
-          </>
+          </SessionModal>
         )}
-      </SessionModal>
+      </>
     );
   }
 
@@ -151,6 +158,8 @@ export class SessionSeedModal extends React.Component<Props, State> {
       error: '',
     });
 
+    window.removeEventListener('keyup', this.onEnter);
+
     return true;
   }
 
@@ -172,7 +181,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
   private async getSeed() {
     if (this.state.seed) {
-      return this.state.seed;
+      return false;
     }
 
     const manager = await window.getAccountManager();
@@ -183,7 +192,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
       loadingSeed: false,
     });
 
-    return seed;
+    return true;
   }
 
   private copySeed(seed: string) {
@@ -194,5 +203,13 @@ export class SessionSeedModal extends React.Component<Props, State> {
       type: 'success',
       id: 'copySeedToast',
     });
+  }
+
+  private onEnter(event: any) {
+    if (event.key === 'Enter') {
+      if ($('#seed-input-password').is(':focus')) {
+        this.confirmPassword();
+      }
+    }
   }
 }
