@@ -3,6 +3,7 @@ import { QRCode } from 'react-qr-svg';
 
 import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
+import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 
 interface Props {
   value: string;
@@ -15,15 +16,13 @@ export class SessionQRModal extends React.Component<Props> {
   }
   public render() {
     const { value, onClose } = this.props;
-    
+
     const theme = window.Events.getThemeSetting();
 
     // Foreground equivalent to .session-modal background color
     const bgColor = 'rgba(0, 0, 0, 0)';
-    const fgColor = theme === 'dark'
-      ? '#FFFFFF'
-      : '#1B1B1B';
-    
+    const fgColor = theme === 'dark' ? '#FFFFFF' : '#1B1B1B';
+
     return (
       <SessionModal
         title={window.i18n('QRCodeTitle')}
@@ -33,7 +32,9 @@ export class SessionQRModal extends React.Component<Props> {
         <div className="spacer-sm" />
 
         <div className="qr-dialog__description text-subtle">
-          <p>{window.i18n('QRCodeDescription')}</p>
+          <p>
+            <SessionHtmlRenderer html={window.i18n('QRCodeDescription')} />
+          </p>
         </div>
         <div className="spacer-lg" />
 

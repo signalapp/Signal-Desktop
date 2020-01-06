@@ -63,9 +63,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
     // Foreground equivalent to .session-modal background color
     const bgColor = 'rgba(0, 0, 0, 0)';
-    const fgColor = theme === 'dark'
-      ? '#FFFFFF'
-      : '#1B1B1B';
+    const fgColor = theme === 'dark' ? '#FFFFFF' : '#1B1B1B';
 
     // const renderPairedDevices = this.state.data.map((pubKey: any) => {
     //   const pubKeyInfo = this.getPubkeyName(pubKey);

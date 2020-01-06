@@ -2122,12 +2122,12 @@
       "Prompt on seed modal requesting user to save their seed. Line two"
   },
   "QRCodeTitle": {
-    "message": "Your Public Key QRCode",
-    "description": "Title given to QRCode modal"
+    "message": "View My QR Code",
+    "description": "Title given to QR Code modal"
   },
   "QRCodeDescription": {
     "message":
-      "Your friends can scan this QR code to start a conversation with you.",
+      "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
     "description": "Description given to QRCode modal"
   },
   "showQRCode": {
