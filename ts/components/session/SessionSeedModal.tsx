@@ -40,19 +40,83 @@ export class SessionSeedModal extends React.Component<Props, State> {
     window.addEventListener('keyup', this.onEnter);
   }
 
-  public render() {
+  private renderPasswordView() {
+    const maxPasswordLen = 64;
+    const error = this.state.error;
     const i18n = window.i18n;
     const { onClose } = this.props;
 
-    const maxPasswordLen = 64;
+    return (
+      <>
+        <p>{i18n('showSeedPasswordRequest')}</p>
+        <input
+          type="password"
+          id="seed-input-password"
+          placeholder={i18n('password')}
+          maxLength={maxPasswordLen}
+        />
+
+        {error && (
+          <>
+            <div className="spacer-xs" />
+            <div className="session-label danger">{error}</div>
+          </>
+        )}
+
+        <div className="spacer-lg" />
+
+        <div className="session-modal__button-group">
+          <SessionButton
+            text={i18n('confirm')}
+            onClick={this.confirmPassword}
+          />
+
+          <SessionButton text={i18n('cancel')} onClick={onClose} />
+        </div>
+      </>
+    );
+  }
+
+  private renderSeedView() {
+    const i18n = window.i18n;
+    const { onClose } = this.props;
+
+    return (
+      <>
+        <div className="session-modal__centered text-center">
+          <p className="session-modal__description">
+            {i18n('seedSavePromptMain')}
+            <br />
+            <span className="text-subtle">{i18n('seedSavePromptAlt')}</span>
+          </p>
+          <div className="spacer-xs" />
+
+          <i className="session-modal__text-highlight">{this.state.seed}</i>
+        </div>
+        <div className="spacer-lg" />
+
+        <div className="session-modal__button-group">
+          <SessionButton text={i18n('ok')} onClick={onClose} />
+
+          <SessionButton
+            text={i18n('copySeed')}
+            onClick={() => {
+              this.copySeed(this.state.seed);
+            }}
+          />
+        </div>
+      </>
+    );
+  }
+
+  public render() {
+    const i18n = window.i18n;
 
     this.checkHasPassword();
     void this.getSeed();
 
-    const error = this.state.error;
-    const hasPassword = this.state.hasPassword;
-    const passwordValid = this.state.passwordValid;
-
+    const { onClose } = this.props;
+    const { hasPassword, passwordValid } = this.state;
     const loading = this.state.loadingPassword || this.state.loadingSeed;
 
     return (
@@ -66,62 +130,9 @@ export class SessionSeedModal extends React.Component<Props, State> {
             <div className="spacer-sm" />
 
             {hasPassword && !passwordValid ? (
-              <div>
-                <p>{i18n('showSeedPasswordRequest')}</p>
-                <input
-                  type="password"
-                  id="seed-input-password"
-                  placeholder={i18n('password')}
-                  maxLength={maxPasswordLen}
-                />
-
-                {error && (
-                  <>
-                    <div className="spacer-xs" />
-                    <div className="session-label danger">{error}</div>
-                  </>
-                )}
-
-                <div className="spacer-lg" />
-
-                <div className="session-modal__button-group">
-                  <SessionButton
-                    text={i18n('confirm')}
-                    onClick={this.confirmPassword}
-                  />
-
-                  <SessionButton text={i18n('cancel')} onClick={onClose} />
-                </div>
-              </div>
+              <>{this.renderPasswordView()}</>
             ) : (
-              <>
-                <div className="session-modal__centered text-center">
-                  <p className="session-modal__description">
-                    {i18n('seedSavePromptMain')}
-                    <br />
-                    <span className="text-subtle">
-                      {i18n('seedSavePromptAlt')}
-                    </span>
-                  </p>
-                  <div className="spacer-xs" />
-
-                  <i className="session-modal__text-highlight">
-                    {this.state.seed}
-                  </i>
-                </div>
-                <div className="spacer-lg" />
-
-                <div className="session-modal__button-group">
-                  <SessionButton text={i18n('ok')} onClick={onClose} />
-
-                  <SessionButton
-                    text={i18n('copySeed')}
-                    onClick={() => {
-                      this.copySeed(this.state.seed);
-                    }}
-                  />
-                </div>
-              </>
+              <>{this.renderSeedView()}</>
             )}
           </SessionModal>
         )}
