@@ -3,12 +3,7 @@ import React from 'react';
 import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
-import {
-  ContextMenu,
-  ContextMenuTrigger,
-  MenuItem,
-  SubMenu,
-} from 'react-contextmenu';
+import { ContextMenu, MenuItem, SubMenu } from 'react-contextmenu';
 
 import {
   SessionIconButton,
@@ -21,8 +16,6 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../session/SessionButton';
-
-import { SessionDropdownTrigger } from '../session/SessionDropdownTrigger';
 
 interface TimerOption {
   name: string;
@@ -239,7 +232,7 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderOptions(triggerId: string) {
+  public renderOptions() {
     const { showBackButton } = this.props;
 
     if (showBackButton) {
@@ -247,12 +240,12 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <SessionDropdownTrigger>
+      <>
         <SessionIconButton
           iconType={SessionIconType.Ellipses}
           iconSize={SessionIconSize.Large}
         />
-      </SessionDropdownTrigger>
+      </>
     );
   }
 

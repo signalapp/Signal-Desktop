@@ -2102,16 +2102,26 @@
   },
 
   "showSeed": {
-    "message": "Show seed",
+    "message": "Show Seed",
     "description":
       "Button action that the user can click to view their unique seed"
+  },
+  "showSeedPasswordRequest": {
+    "message": "Please enter your password",
+    "description": "Request for user to enter password to show seed."
+  },
+  "seedSavePrompt": {
+    "message":
+      "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
+    "description": "Prompt on seed modal requesting user to save their seed"
   },
   "QRCodeTitle": {
     "message": "Your Public Key QRCode",
     "description": "Title given to QRCode modal"
   },
   "QRCodeDescription": {
-    "message": "Your friends can scan this QR code to start a conversation with you.",
+    "message":
+      "Your friends can scan this QR code to start a conversation with you.",
     "description": "Description given to QRCode modal"
   },
   "showQRCode": {
@@ -2168,7 +2178,10 @@
     "description":
       "A button action that the user can click to reset the database"
   },
-
+  "password": {
+    "message": "Password",
+    "description": "Placeholder for password input"
+  },
   "setPassword": {
     "message": "Set Password",
     "description": "Button action that the user can click to set a password"
@@ -2189,6 +2202,9 @@
   },
   "invalidPassword": {
     "message": "Invalid password"
+  },
+  "noGivenPassword": {
+    "message": "Please enter your password"
   },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match"

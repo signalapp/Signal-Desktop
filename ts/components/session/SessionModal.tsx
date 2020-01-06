@@ -84,7 +84,10 @@ export class SessionModal extends React.PureComponent<Props, State> {
     });
 
     window.removeEventListener('keyup', this.onKeyUp);
-    this.props.onClose();
+
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
   }
 
   public onKeyUp(event: any) {

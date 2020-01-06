@@ -2,9 +2,11 @@ import React from 'react';
 import { QRCode } from 'react-qr-svg';
 
 import { SessionModal } from './SessionModal';
+import { SessionButton } from './SessionButton';
 
 interface Props {
   value: string;
+  onClose: any;
 }
 
 export class SessionQRModal extends React.Component<Props> {
@@ -13,37 +15,30 @@ export class SessionQRModal extends React.Component<Props> {
   }
 
   public render() {
-    const { value } = this.props;
-
-    console.log('skbsvbsgb');
-    console.log('skbsvbsgb');
-    console.log('skbsvbsgb');
+    const { value, onClose } = this.props;
 
     return (
       <SessionModal
         title={window.i18n('QRCodeTitle')}
         onOk={() => null}
-        onClose={() => null}
+        onClose={onClose}
       >
-        <div className="spacer-sm"></div>
-        
-        <div className='qr-dialog__description text-subtle'>
-            <p>
-                {window.i18n('QRCodeDescription')}
-            </p>
+        <div className="spacer-sm" />
+
+        <div className="qr-dialog__description text-subtle">
+          <p>{window.i18n('QRCodeDescription')}</p>
         </div>
-        <div className="spacer-lg"></div>
+        <div className="spacer-lg" />
 
         <div id="qr">
-            <QRCode
-                value={value}
-                bgColor="#FFFFFF"
-                fgColor="#000000"
-                level="L"
-            />
+          <QRCode value={value} bgColor="#FFFFFF" fgColor="#000000" level="L" />
         </div>
-        
+
+        <div className="spacer-lg" />
+        <div className="session-modal__button-group">
+          <SessionButton text={window.i18n('close')} onClick={onClose} />
+        </div>
       </SessionModal>
-      );
-    }
+    );
   }
+}

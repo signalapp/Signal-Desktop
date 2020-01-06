@@ -11,16 +11,17 @@
     initialize(options) {
       this.value = options.value || '';
       this.close = this.close.bind(this);
-      this.onKeyup = this.onKeyup.bind(this);
+
       this.render();
     },
 
     render() {
       this.dialogView = new Whisper.ReactWrapperView({
-        className: 'qr-dialog',
+        className: 'qr-dialog-wrapper',
         Component: window.Signal.Components.SessionQRModal,
         props: {
           value: this.value,
+          onClose: this.close,
         },
       });
 
@@ -30,17 +31,6 @@
 
     close() {
       this.remove();
-    },
-    onKeyup(event) {
-      switch (event.key) {
-        case 'Enter':
-        case 'Escape':
-        case 'Esc':
-          this.close();
-          break;
-        default:
-          break;
-      }
     },
   });
 })();

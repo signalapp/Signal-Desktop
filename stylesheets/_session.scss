@@ -105,6 +105,13 @@ div.spacer-lg {
   text-align: center;
 }
 
+@mixin text-highlight($color) {
+  background-color: rgba($color, 0.8);
+  padding: $session-margin-xs;
+  border-radius: 3px;
+  display: inline-block;
+}
+
 .fullwidth {
   width: 100%;
 }
@@ -115,7 +122,9 @@ $session-icon-size-sm: 15px;
 $session-icon-size-md: 20px;
 $session-icon-size-lg: 30px;
 
-$session-modal-size: 220px;
+$session-modal-size-sm: 220px;
+$session-modal-size-md: 400px;
+$session-modal-size-lg: 650px;
 
 $session-conversation-header-height: 60px;
 
@@ -470,7 +479,7 @@ label {
   right: $session-margin-lg;
   bottom: $session-margin-lg;
 
-  z-index: 100;
+  z-index: 10000;
 }
 
 .session-toast {
@@ -552,6 +561,7 @@ label {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  min-width: 300px;
 
   box-sizing: border-box;
   max-height: 70vh;
@@ -621,6 +631,10 @@ label {
     .session-button {
       margin: 0 $session-margin-xs;
     }
+  }
+
+  &__text-highlight {
+    @include text-highlight($session-shade-15);
   }
 }
 
@@ -803,16 +817,22 @@ label {
 }
 
 #qr svg {
-  width: $session-modal-size;
-  height: $session-modal-size;
+  width: $session-modal-size-sm;
+  height: $session-modal-size-sm;
   border: 6px solid white;
   border-radius: 3px;
 }
 
 .qr-dialog {
   &__description {
-    max-width: $session-modal-size;
+    max-width: $session-modal-size-sm;
     text-align: center;
     margin: 0 auto;
+  }
+}
+
+.seed-dialog {
+  &__description {
+    max-width: $session-modal-size-lg;
   }
 }
