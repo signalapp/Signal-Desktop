@@ -199,6 +199,7 @@ $session-compose-margin: 20px;
       width: -webkit-fill-available;
       flex-shrink: 0;
       user-select: all;
+      overflow: hidden;
     }
 
     .session-button {
@@ -441,7 +442,7 @@ $session-compose-margin: 20px;
   span {
     padding: 5px 10px;
     border-radius: 50px;
-    background-color: $session-shade-18;
+    @include session-dark-background-lighter;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
   }
