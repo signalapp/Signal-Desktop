@@ -68,7 +68,7 @@ $session-color-black: #000;
 $session-color-danger: #ff453a;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-16;
-$session-background-overlay: #191919;
+$session-background-overlay: #212121;
 $session-background: #121212;
 
 $session-color-info: $session-shade-11;
@@ -230,6 +230,7 @@ $session_message-container-border-radius: 5px;
   user-select: none;
   cursor: pointer;
   transition: $session-transition-duration;
+  background-color: rgba(0,0,0,0);
 
   &.disabled {
     cursor: default;

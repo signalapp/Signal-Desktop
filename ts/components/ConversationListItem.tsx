@@ -359,7 +359,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         <Portal>{this.renderContextMenu(triggerId)}</Portal>
       </div>
     );
-  }
+
 
   private renderUser() {
     const { name, phoneNumber, profileName } = this.props;

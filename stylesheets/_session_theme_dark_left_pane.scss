@@ -126,7 +126,7 @@ $session-compose-margin: 20px;
     height: -webkit-fill-available;
   }
 
-  &-compose {
+  &-overlay {
     @include session-dark-background-lighter;
     display: flex;
     flex-direction: column;
@@ -314,6 +314,10 @@ $session-compose-margin: 20px;
     flex-direction: column;
     .module-conversation-list-item {
       &--has-friend-request {
+        &:first-child{
+          border-top: none !important;
+        }
+
         border: 1px solid $session-shade-8 !important;
 
         .module-conversation__user__profile-number,
@@ -415,6 +419,16 @@ $session-compose-margin: 20px;
       }
     }
   }
+}
+
+.friend-request-title {
+  font-weight: bold;
+  font-size: 13px;
+  padding: 11px;
+  border-right:1px solid #2f2f2f !important;
+  border-top:1px solid #2f2f2f !important;
+  border-left:1px solid #2f2f2f !important;
+  @include session-dark-background-lighter;
 }
 
 .panel-text-divider {

@@ -2538,5 +2538,8 @@
   },
   "displayNameEmpty": {
     "message": "Display Name Is Mandatory"
+  },
+  "youHaveFriendRequestFrom": {
+    "message": "You have friend requests from..."
   }
 }

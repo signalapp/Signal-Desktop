@@ -276,7 +276,7 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
       }
     }
 
-    return conversationsList;
+    return conversationsList || [];
   }
 
   private renderList() {
@@ -291,9 +291,12 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     ];
 
     const length = combined.length;
+    const hasReceivedFriendRequest = receivedFriendsRequest.length > 0;
+    const frTitle = window.i18n('youHaveFriendRequestFrom');
 
     const list = (
       <div className="module-left-pane__list" key={0}>
+        {hasReceivedFriendRequest && <div className="friend-request-title">{frTitle}</div>}
         <AutoSizer>
           {({ height, width }) => (
             <List

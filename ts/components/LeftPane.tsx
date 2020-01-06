@@ -100,7 +100,7 @@ export class LeftPane extends React.Component<Props, State> {
     const ourSessionID = window.textsecure.storage.user.getNumber();
 
     return (
-      <div className="module-left-pane-compose">
+      <div className="module-left-pane-overlay">
         <div className="exit">
           <SessionIconButton
             iconSize={SessionIconSize.Small}
@@ -110,7 +110,7 @@ export class LeftPane extends React.Component<Props, State> {
         </div>
         <h2>{title}</h2>
         <h3>{window.i18n('enterSessionID')}</h3>
-        <div className="module-left-pane-compose-border-container">
+        <div className="module-left-pane-overlay-border-container">
           <hr className="white" />
           <hr className="green" />
         </div>
