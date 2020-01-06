@@ -222,8 +222,6 @@ $session_message-container-border-radius: 5px;
     border: 2px solid $textAndBorderColor;
   }
 
-  
-
   width: auto;
   border: none;
   display: flex;
@@ -246,8 +244,7 @@ $session_message-container-border-radius: 5px;
       border: 2px solid $session-color-green;
       background-color: $session-color-green;
 
-      &.disabled,
-      &:disabled {
+      &.disabled {
         background-color: rgba($session-color-green, 0.6);
       }
     }
@@ -294,7 +291,6 @@ $session_message-container-border-radius: 5px;
   &.square-outline {
     &.green {
       @include transparent-background($session-color-green);
-
     }
     &.white {
       @include transparent-background($session-color-white);
@@ -338,7 +334,6 @@ $session_message-container-border-radius: 5px;
   &.square-outline {
     border-radius: 0px;
   }
-  
 
   &:hover {
     filter: brightness(80%);
@@ -518,64 +513,6 @@ label {
 
 .session-button div[role='button'] {
   cursor: pointer;
-}
-
-.input-with-label-container {
-  height: 46.5px;
-  width: 280px;
-  color: $session-color-white;
-  padding: 2px 0 2px 0;
-  transition: opacity $session-transition-duration;
-  opacity: 1;
-  position: relative;
-
-  label {
-    line-height: 14px;
-    opacity: 0;
-    color: #737373;
-    font-size: 10px;
-    line-height: 11px;
-    position: absolute;
-    top: 0px;
-  }
-
-  &.filled {
-    opacity: 1;
-  }
-
-  input {
-    border: none;
-    outline: 0;
-    height: 14px;
-    width: 280px;
-    background: transparent;
-    color: $session-color-white;
-    font-size: 12px;
-    line-height: 14px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  hr {
-    border: 1px solid $session-color-white;
-    width: 100%;
-    position: absolute;
-    bottom: 0px;
-  }
-
-  button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 0px;
-  }
-}
-
-.user-details-dialog {
-  .message {
-    word-break: break-all;
-  }
 }
 
 #session-toast-container {

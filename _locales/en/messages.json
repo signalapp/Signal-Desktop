@@ -2532,5 +2532,11 @@
   },
   "devicesSettingsDescription": {
     "message": "Managed linked devices"
+  },
+  "mnemonicEmpty": {
+    "message": "Seed is mandatory"
+  },
+  "displayNameEmpty": {
+    "message": "Display Name Is Mandatory"
   }
 }

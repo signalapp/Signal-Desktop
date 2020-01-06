@@ -62,7 +62,6 @@
 
     &__content {
       width: 100%;
-      overflow-y: auto;
       padding-top: 20px;
     }
 
@@ -112,10 +111,11 @@
 
     &__welcome-session {
       @include registration-label-mixin;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
-      line-height: 12px;
+      line-height: 14px;
       padding-top: 2em;
+      text-align: center;
     }
 
     &__unique-session-id {
@@ -155,6 +155,10 @@
 
     &.filled {
       opacity: 1;
+    }
+
+    &.error {
+      color: red;
     }
 
     input {
