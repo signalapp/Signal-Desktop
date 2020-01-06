@@ -1,4 +1,5 @@
 interface Window {
+  Events: any;
   getAccountManager: any;
   mnemonic: any;
   clipboard: any;

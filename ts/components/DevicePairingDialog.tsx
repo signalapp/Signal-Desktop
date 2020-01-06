@@ -59,6 +59,14 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     const waitingForRequest = this.state.view === 'waitingForRequest';
     const nothingPaired = this.state.data.length === 0;
 
+    const theme = window.Events.getThemeSetting();
+
+    // Foreground equivalent to .session-modal background color
+    const bgColor = 'rgba(0, 0, 0, 0)';
+    const fgColor = theme === 'dark'
+      ? '#FFFFFF'
+      : '#1B1B1B';
+
     // const renderPairedDevices = this.state.data.map((pubKey: any) => {
     //   const pubKeyInfo = this.getPubkeyName(pubKey);
     //   const isFinalItem =
@@ -96,8 +104,8 @@ export class DevicePairingDialog extends React.Component<Props, State> {
                 <div id="qr">
                   <QRCode
                     value={window.textsecure.storage.user.getNumber()}
-                    bgColor="#FFFFFF"
-                    fgColor="#000000"
+                    bgColor={bgColor}
+                    fgColor={fgColor}
                     level="L"
                   />
                 </div>

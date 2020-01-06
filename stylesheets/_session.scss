@@ -106,7 +106,7 @@ div.spacer-lg {
 }
 
 @mixin text-highlight($color) {
-  background-color: rgba($color, 0.8);
+  background-color: rgba($color, 0.4);
   padding: $session-margin-xs;
   border-radius: 3px;
   display: inline-block;
@@ -474,6 +474,12 @@ label {
   }
 }
 
+.user-details-dialog {
+  .message {
+    word-break: break-all;
+  }
+}
+
 #session-toast-container {
   position: fixed;
   right: $session-margin-lg;
@@ -819,7 +825,6 @@ label {
 #qr svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
-  border: 6px solid white;
   border-radius: 3px;
 }
 

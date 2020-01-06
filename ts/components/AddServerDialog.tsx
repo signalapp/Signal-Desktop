@@ -36,7 +36,9 @@ export class AddServerDialog extends React.Component<Props, State> {
     this.attemptConnection = this.attemptConnection.bind(this);
 
     this.closeDialog = this.closeDialog.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
+    this.onEnter = this.onEnter.bind(this);
+
+    window.addEventListener('keyup', this.onEnter);
   }
 
   public render() {
@@ -191,23 +193,16 @@ export class AddServerDialog extends React.Component<Props, State> {
     );
   }
 
-  private onKeyUp(event: any) {
-    switch (event.key) {
-      case 'Enter':
-        if (this.state.view === 'default') {
-          this.showView('connecting');
-        }
-        break;
-      case 'Esc':
-      case 'Escape':
-        this.closeDialog();
-        break;
-      default:
+  private onEnter(event: any) {
+    if (event.key === 'Enter') {
+      if ($('#server-url').is(':focus')) {
+        this.showView('connecting');
+      }
     }
   }
 
   private closeDialog() {
-    window.removeEventListener('keyup', this.onKeyUp);
+    window.removeEventListener('keyup', this.onEnter);
     this.props.onClose();
   }
 
