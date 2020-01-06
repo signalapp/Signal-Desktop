@@ -188,6 +188,7 @@
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
+          isRss: this.model.isRss(),
           members,
           selectedMessages: this.model.selectedMessages,
           expirationSettingName,

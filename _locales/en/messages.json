@@ -2317,8 +2317,8 @@
     "message": "Friends",
     "description": "friend tab title"
   },
-  "pending": {
-    "message": "pending",
+  "pendingAcceptance": {
+    "message": "Pending Acceptance",
     "description": "Indicates that a friend request is pending"
   },
   "notFriends": {
@@ -2541,5 +2541,14 @@
   },
   "youHaveFriendRequestFrom": {
     "message": "You have friend requests from..."
+  },
+  "members": {
+    "message": "$count$ members",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "26"
+      }
+    }
   }
 }

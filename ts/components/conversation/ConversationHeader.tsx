@@ -37,6 +37,7 @@ interface Props {
   isGroup: boolean;
   isArchived: boolean;
   isPublic: boolean;
+  isRss: boolean;
 
   members: Array<any>;
 
@@ -127,6 +128,8 @@ export class ConversationHeader extends React.Component<Props> {
       profileName,
       isFriend,
       isGroup,
+      isRss,
+      members,
       isFriendRequestPending,
       isMe,
       name,
@@ -142,9 +145,12 @@ export class ConversationHeader extends React.Component<Props> {
 
     let text = '';
     if (isFriendRequestPending) {
-      text = `(${i18n('pending')})`;
+      text = i18n('pendingAcceptance');
     } else if (!isFriend && !isGroup) {
-      text = `(${i18n('notFriends')})`;
+      text = i18n('notFriends');
+    } else if (isGroup && !isRss && members.length > 0) {
+      const count = String(members.length);
+      text = i18n('members', [count]);
     }
 
     const textEl =
@@ -152,14 +158,22 @@ export class ConversationHeader extends React.Component<Props> {
         <span className="module-conversation-header__title-text">{text}</span>
       );
 
+    let title;
+    if (profileName) {
+      title = `${profileName} ${window.shortenPubkey(phoneNumber)}`;
+    } else {
+      if (name) {
+        title = `${name}`;
+      } else {
+        title = phoneNumber;
+      }
+    }
+
     return (
       <div className="module-conversation-header__title">
-        <ContactName
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          name={name}
-          i18n={i18n}
-        />
+        <span className="module-contact-name__profile-name">
+          {title}
+        </span>
         {textEl}
       </div>
     );
