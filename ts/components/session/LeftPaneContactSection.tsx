@@ -301,7 +301,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     return (
       <div className="module-left-pane__list-popup">
         <div className="friend-request-title">{frTitle}</div>
-        <div className="module-left-pane__list" key={0}>
+        <div className="module-left-pane__list-popup" key={0}>
           <AutoSizer>
             {({ height, width }) => (
               <List

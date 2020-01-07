@@ -121,10 +121,9 @@ $session-compose-margin: 20px;
   }
 
   &__list {
-    height: -webkit-fill-available;
-
     &-popup {
       width: -webkit-fill-available;
+      height: -webkit-fill-available;
       position: absolute;
     }
   }
@@ -214,9 +213,18 @@ $session-compose-margin: 20px;
   }
 }
 
+.module-conversations-list-content {
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+}
+
 .session-left-pane-section-content {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .user-search-dropdown {
@@ -233,6 +241,7 @@ $session-compose-margin: 20px;
   background: $session-shade-4;
   color: $session-color-white;
   display: inline-flex;
+  flex-shrink: 0;
 
   .session-icon-button {
     margin: auto 10px;
@@ -321,6 +330,7 @@ $session-compose-margin: 20px;
   &-content {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 
     .module-conversation-list-item {
       &--has-friend-request {

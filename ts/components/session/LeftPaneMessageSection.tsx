@@ -179,7 +179,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   public renderConversations() {
     return (
-      <div>
+      <div className="module-conversations-list-content">
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}

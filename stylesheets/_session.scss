@@ -444,7 +444,6 @@ $session_message-container-border-radius: 5px;
 .module-conversation-header__title {
   width: 100%;
   display: flex;
-  flex-direction: column;
 
   .module-contact-name {
     width: 100%;
@@ -453,6 +452,13 @@ $session_message-container-border-radius: 5px;
   .module-contact-name__profile-number {
     text-align: center;
   }
+}
+
+.module-conversation-header__title {
+  flex-direction: column;
+}
+.module-conversation-header__title-flex {
+  flex-direction: row;
 }
 .module-conversation__user__profile-name,
 .module-message__author__profile-name {
@@ -1071,4 +1077,8 @@ label {
   .message {
     user-select: all;
   }
+}
+
+input {
+  user-select: text;
 }
