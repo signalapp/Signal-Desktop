@@ -110,6 +110,8 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
     this.setState({
       selectedTab: tabType,
     });
-    this.props.onTabSelected(tabType);
+    if (this.props.onTabSelected) {
+      this.props.onTabSelected(tabType);
+    }
   };
 }
