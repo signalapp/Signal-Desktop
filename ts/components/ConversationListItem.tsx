@@ -164,7 +164,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
     return (
       <div className="module-conversation-list-item__message">
-        <div
+        <div 
+          dir="auto"
           className={classNames(
             'module-conversation-list-item__message__text',
             unreadCount > 0
