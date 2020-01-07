@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
 import { ContextMenu, MenuItem, SubMenu } from 'react-contextmenu';
