@@ -162,6 +162,7 @@ export class LeftPane extends React.Component<Props, State> {
   }
 
   public handleSectionSelected(section: SectionType) {
+    this.props.clearSearch();
     this.setState({ selectedSection: section });
   }
 
@@ -234,6 +235,7 @@ export class LeftPane extends React.Component<Props, State> {
       updateSearchTerm,
       search,
       clearSearch,
+      receivedFriendRequestCount,
     } = this.props;
 
     return (
@@ -249,6 +251,7 @@ export class LeftPane extends React.Component<Props, State> {
         clearSearch={clearSearch}
         sentFriendsRequest={sentFriendsRequest}
         receivedFriendsRequest={receivedFriendsRequest}
+        receivedFriendRequestCount={receivedFriendRequestCount}
       />
     );
   }

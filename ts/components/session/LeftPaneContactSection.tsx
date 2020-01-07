@@ -25,6 +25,7 @@ export interface Props {
   conversations: Array<ConversationListItemPropsType>;
   friends: Array<ConversationType>;
   receivedFriendsRequest: Array<ConversationListItemPropsType>;
+  receivedFriendRequestCount: number;
   sentFriendsRequest: Array<ConversationListItemPropsType>;
 
   searchResults?: SearchResultsProps;
@@ -78,16 +79,15 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public renderHeader(): JSX.Element | undefined {
-    const { receivedFriendsRequest } = this.props;
+    const { receivedFriendRequestCount } = this.props;
     const labels = [window.i18n('contactsHeader'), window.i18n('lists')];
-    const friendRequestCount = receivedFriendsRequest.length;
 
     return LeftPane.RENDER_HEADER(
       labels,
       this.handleTabSelected,
       undefined,
       this.handleToggleFriendRequestPopup,
-      friendRequestCount
+      receivedFriendRequestCount
     );
   }
 
