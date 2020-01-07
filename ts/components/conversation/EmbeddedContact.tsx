@@ -16,6 +16,7 @@ interface Props {
   isIncoming: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
+  tabIndex: number;
   onClick?: () => void;
 }
 
@@ -26,6 +27,7 @@ export class EmbeddedContact extends React.Component<Props> {
       i18n,
       isIncoming,
       onClick,
+      tabIndex,
       withContentAbove,
       withContentBelow,
     } = this.props;
@@ -33,9 +35,10 @@ export class EmbeddedContact extends React.Component<Props> {
     const direction = isIncoming ? 'incoming' : 'outgoing';
 
     return (
-      <div
+      <button
         className={classNames(
           'module-embedded-contact',
+          `module-embedded-contact--${direction}`,
           withContentAbove
             ? 'module-embedded-contact--with-content-above'
             : null,
@@ -43,15 +46,34 @@ export class EmbeddedContact extends React.Component<Props> {
             ? 'module-embedded-contact--with-content-below'
             : null
         )}
-        role="button"
-        onClick={onClick}
+        onKeyDown={(event: React.KeyboardEvent) => {
+          if (event.key !== 'Enter' && event.key !== 'Space') {
+            return;
+          }
+
+          if (onClick) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClick();
+          }
+        }}
+        onClick={(event: React.MouseEvent) => {
+          if (onClick) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClick();
+          }
+        }}
+        tabIndex={tabIndex}
       >
-        {renderAvatar({ contact, i18n, size: 48, direction })}
+        {renderAvatar({ contact, i18n, size: 52, direction })}
         <div className="module-embedded-contact__text-container">
           {renderName({ contact, isIncoming, module })}
           {renderContactShorthand({ contact, isIncoming, module })}
         </div>
-      </div>
+      </button>
     );
   }
 }

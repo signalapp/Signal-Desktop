@@ -13,7 +13,7 @@ script:
   - yarn lint
   - yarn lint-deps
   - yarn prepare-beta-build
-  - $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never --config.directories.output=release
+  - yarn build
   - ./travis.sh
 env:
   global:

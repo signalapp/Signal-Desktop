@@ -6,6 +6,8 @@ import {
   PropsActions as MessageActionsType,
   PropsData as MessageProps,
 } from './Message';
+
+import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import {
   PropsActions as UnsupportedMessageActionsType,
   PropsData as UnsupportedMessageProps,
@@ -67,27 +69,35 @@ export type TimelineItemType =
   | ResetSessionNotificationType
   | GroupNotificationType;
 
-type PropsData = {
+type PropsLocalType = {
+  conversationId: string;
   item?: TimelineItemType;
-};
-
-type PropsHousekeeping = {
+  id: string;
+  isSelected: boolean;
+  selectMessage: (messageId: string, conversationId: string) => unknown;
   i18n: LocalizerType;
 };
 
-type PropsActions = MessageActionsType &
+type PropsActionsType = MessageActionsType &
   UnsupportedMessageActionsType &
   SafetyNumberActionsType;
 
-type Props = PropsData & PropsHousekeeping & PropsActions;
+type PropsType = PropsLocalType & PropsActionsType;
 
-export class TimelineItem extends React.PureComponent<Props> {
+export class TimelineItem extends React.PureComponent<PropsType> {
   public render() {
-    const { item, i18n } = this.props;
+    const {
+      conversationId,
+      id,
+      isSelected,
+      item,
+      i18n,
+      selectMessage,
+    } = this.props;
 
     if (!item) {
       // tslint:disable-next-line:no-console
-      console.warn('TimelineItem: item provided was falsey');
+      console.warn(`TimelineItem: item ${id} provided was falsey`);
 
       return null;
     }
@@ -95,31 +105,46 @@ export class TimelineItem extends React.PureComponent<Props> {
     if (item.type === 'message') {
       return <Message {...this.props} {...item.data} i18n={i18n} />;
     }
+
+    let notification;
+
     if (item.type === 'unsupportedMessage') {
-      return <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />;
-    }
-    if (item.type === 'timerNotification') {
-      return <TimerNotification {...this.props} {...item.data} i18n={i18n} />;
-    }
-    if (item.type === 'safetyNumberNotification') {
-      return (
+      notification = (
+        <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'timerNotification') {
+      notification = (
+        <TimerNotification {...this.props} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'safetyNumberNotification') {
+      notification = (
         <SafetyNumberNotification {...this.props} {...item.data} i18n={i18n} />
       );
-    }
-    if (item.type === 'verificationNotification') {
-      return (
+    } else if (item.type === 'verificationNotification') {
+      notification = (
         <VerificationNotification {...this.props} {...item.data} i18n={i18n} />
       );
-    }
-    if (item.type === 'groupNotification') {
-      return <GroupNotification {...this.props} {...item.data} i18n={i18n} />;
-    }
-    if (item.type === 'resetSessionNotification') {
-      return (
+    } else if (item.type === 'groupNotification') {
+      notification = (
+        <GroupNotification {...this.props} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'resetSessionNotification') {
+      notification = (
         <ResetSessionNotification {...this.props} {...item.data} i18n={i18n} />
       );
+    } else {
+      throw new Error('TimelineItem: Unknown type!');
     }
 
-    throw new Error('TimelineItem: Unknown type!');
+    return (
+      <InlineNotificationWrapper
+        id={id}
+        conversationId={conversationId}
+        isSelected={isSelected}
+        selectMessage={selectMessage}
+      >
+        {notification}
+      </InlineNotificationWrapper>
+    );
   }
 }

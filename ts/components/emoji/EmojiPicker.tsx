@@ -24,16 +24,16 @@ export type EmojiPickDataType = { skinTone?: number; shortName: string };
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
-  readonly doSend: () => unknown;
+  readonly doSend?: () => unknown;
   readonly skinTone: number;
   readonly onSetSkinTone: (tone: number) => unknown;
-  readonly recentEmojis: Array<string>;
+  readonly recentEmojis?: Array<string>;
   readonly onClose: () => unknown;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
 
-function focusRef(el: HTMLElement | null) {
+function focusOnRender(el: HTMLElement | null) {
   if (el) {
     el.focus();
   }
@@ -63,12 +63,13 @@ export const EmojiPicker = React.memo(
         onPickEmoji,
         skinTone = 0,
         onSetSkinTone,
-        recentEmojis,
+        recentEmojis = [],
         style,
         onClose,
       }: Props,
       ref
     ) => {
+      const focusRef = React.useRef<HTMLButtonElement>(null);
       // Per design: memoize the initial recent emojis so the grid only updates after re-opening the picker.
       const firstRecent = React.useMemo(() => {
         return recentEmojis;
@@ -125,7 +126,9 @@ export const EmojiPicker = React.memo(
           if ('key' in e) {
             if (e.key === 'Enter') {
               e.preventDefault();
-              doSend();
+              if (doSend) {
+                doSend();
+              }
             }
           } else {
             const { shortName } = e.currentTarget.dataset;
@@ -140,11 +143,14 @@ export const EmojiPicker = React.memo(
       // Handle escape key
       React.useEffect(
         () => {
-          const handler = (e: KeyboardEvent) => {
-            if (searchMode && e.key === 'Escape') {
+          const handler = (event: KeyboardEvent) => {
+            if (searchMode && event.key === 'Escape') {
               setSearchText('');
               setSearchMode(false);
               setScrollToRow(0);
+
+              event.preventDefault();
+              event.stopPropagation();
             } else if (
               !searchMode &&
               ![
@@ -155,20 +161,37 @@ export const EmojiPicker = React.memo(
                 'Shift',
                 'Tab',
                 ' ', // Space
-              ].includes(e.key)
+              ].includes(event.key)
             ) {
               onClose();
+
+              event.preventDefault();
+              event.stopPropagation();
             }
           };
 
-          document.addEventListener('keyup', handler);
+          document.addEventListener('keydown', handler);
 
           return () => {
-            document.removeEventListener('keyup', handler);
+            document.removeEventListener('keydown', handler);
           };
         },
         [onClose, searchMode]
       );
+
+      // Restore focus on teardown
+      React.useEffect(() => {
+        const lastFocused = document.activeElement as any;
+        if (focusRef.current) {
+          focusRef.current.focus();
+        }
+
+        return () => {
+          if (lastFocused && lastFocused.focus) {
+            lastFocused.focus();
+          }
+        };
+      }, []);
 
       const emojiGrid = React.useMemo(
         () => {
@@ -287,6 +310,7 @@ export const EmojiPicker = React.memo(
         <div className="module-emoji-picker" ref={ref} style={style}>
           <header className="module-emoji-picker__header">
             <button
+              ref={focusRef}
               onClick={handleToggleSearch}
               title={i18n('EmojiPicker--search-placeholder')}
               className={classNames(
@@ -300,7 +324,7 @@ export const EmojiPicker = React.memo(
             {searchMode ? (
               <div className="module-emoji-picker__header__search-field">
                 <input
-                  ref={focusRef}
+                  ref={focusOnRender}
                   className="module-emoji-picker__header__search-field__input"
                   placeholder={i18n('EmojiPicker--search-placeholder')}
                   onChange={handleSearchChange}

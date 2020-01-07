@@ -1,11 +1,10 @@
 const path = require('path');
-
-const electronIsDev = require('electron-is-dev');
+const { app } = require('electron');
 
 let environment;
 
 // In production mode, NODE_ENV cannot be customized by the user
-if (electronIsDev) {
+if (!app.isPackaged) {
   environment = process.env.NODE_ENV || 'development';
 } else {
   environment = 'production';
@@ -24,12 +23,14 @@ if (environment === 'production') {
   process.env.ALLOW_CONFIG_MUTATIONS = '';
   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
+  process.env.SIGNAL_ENABLE_HTTP = '';
 }
 
 // We load config after we've made our modifications to NODE_ENV
 const config = require('config');
 
 config.environment = environment;
+config.enableHttp = process.env.SIGNAL_ENABLE_HTTP;
 
 // Log resulting env vars in use by config
 [
@@ -40,6 +41,7 @@ config.environment = environment;
   'HOSTNAME',
   'NODE_APP_INSTANCE',
   'SUPPRESS_NO_CONFIG_WARNING',
+  'SIGNAL_ENABLE_HTTP',
 ].forEach(s => {
   console.log(`${s} ${config.util.getEnv(s)}`);
 });

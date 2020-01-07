@@ -16,6 +16,7 @@ interface Props {
   documents: Array<MediaItemType>;
   i18n: LocalizerType;
   media: Array<MediaItemType>;
+
   onItemClick?: (event: ItemClickEvent) => void;
 }
 
@@ -54,6 +55,7 @@ const Tab = ({
       )}
       onClick={handleClick}
       role="tab"
+      tabIndex={0}
     >
       {label}
     </div>
@@ -61,15 +63,26 @@ const Tab = ({
 };
 
 export class MediaGallery extends React.Component<Props, State> {
+  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();
   public state: State = {
     selectedTab: 'media',
   };
+
+  public componentDidMount() {
+    // When this component is created, it's initially not part of the DOM, and then it's
+    //   added off-screen and animated in. This ensures that the focus takes.
+    setTimeout(() => {
+      if (this.focusRef.current) {
+        this.focusRef.current.focus();
+      }
+    });
+  }
 
   public render() {
     const { selectedTab } = this.state;
 
     return (
-      <div className="module-media-gallery">
+      <div className="module-media-gallery" tabIndex={-1} ref={this.focusRef}>
         <div className="module-media-gallery__tab-container">
           <Tab
             label="Media"

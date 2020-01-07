@@ -31,7 +31,7 @@ module.exports = {
   fetch,
 };
 
-function initialize() {
+async function initialize() {
   if (logger) {
     throw new Error('Already called initialize!');
   }
@@ -40,55 +40,81 @@ function initialize() {
   const logPath = path.join(basePath, 'logs');
   mkdirp.sync(logPath);
 
-  return cleanupLogs(logPath).then(() => {
-    const logFile = path.join(logPath, 'log.log');
-    const loggerOptions = {
-      name: 'log',
-      streams: [
-        {
-          type: 'rotating-file',
-          path: logFile,
-          period: '1d',
-          count: 3,
-        },
-      ],
-    };
+  try {
+    await cleanupLogs(logPath);
+  } catch (error) {
+    const errorString = `Failed to clean logs; deleting all. Error: ${
+      error.stack
+    }`;
+    console.error(errorString);
+    await deleteAllLogs(logPath);
+    mkdirp.sync(logPath);
 
-    if (isRunningFromConsole) {
-      loggerOptions.streams.push({
-        level: 'debug',
-        stream: process.stdout,
-      });
-    }
+    // If we want this log entry to persist on disk, we need to wait until we've
+    //   set up our logging infrastructure.
+    setTimeout(() => {
+      console.error(errorString);
+    }, 500);
+  }
 
-    logger = bunyan.createLogger(loggerOptions);
+  const logFile = path.join(logPath, 'log.log');
+  const loggerOptions = {
+    name: 'log',
+    streams: [
+      {
+        type: 'rotating-file',
+        path: logFile,
+        period: '1d',
+        count: 3,
+      },
+    ],
+  };
 
-    LEVELS.forEach(level => {
-      ipc.on(`log-${level}`, (first, ...rest) => {
-        logger[level](...rest);
-      });
+  if (isRunningFromConsole) {
+    loggerOptions.streams.push({
+      level: 'debug',
+      stream: process.stdout,
     });
+  }
 
-    ipc.on('fetch-log', event => {
-      fetch(logPath).then(
-        data => {
-          event.sender.send('fetched-log', data);
+  logger = bunyan.createLogger(loggerOptions);
+
+  LEVELS.forEach(level => {
+    ipc.on(`log-${level}`, (first, ...rest) => {
+      logger[level](...rest);
+    });
+  });
+
+  ipc.on('batch-log', (first, batch) => {
+    batch.forEach(item => {
+      logger[item.level](
+        {
+          time: new Date(item.timestamp),
         },
-        error => {
-          logger.error(`Problem loading log from disk: ${error.stack}`);
-        }
+        item.logText
       );
     });
+  });
 
-    ipc.on('delete-all-logs', async event => {
-      try {
-        await deleteAllLogs(logPath);
-      } catch (error) {
-        logger.error(`Problem deleting all logs: ${error.stack}`);
+  ipc.on('fetch-log', event => {
+    fetch(logPath).then(
+      data => {
+        event.sender.send('fetched-log', data);
+      },
+      error => {
+        logger.error(`Problem loading log from disk: ${error.stack}`);
       }
+    );
+  });
 
-      event.sender.send('delete-all-logs-complete');
-    });
+  ipc.on('delete-all-logs', async event => {
+    try {
+      await deleteAllLogs(logPath);
+    } catch (error) {
+      logger.error(`Problem deleting all logs: ${error.stack}`);
+    }
+
+    event.sender.send('delete-all-logs-complete');
   });
 }
 

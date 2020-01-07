@@ -147,9 +147,24 @@
     },
   });
 
-  function SignalProtocolStore() {}
+  function SignalProtocolStore() {
+    this.sessionUpdateBatcher = window.Signal.Util.createBatcher({
+      wait: 500,
+      maxSize: 20,
+      processBatch: async items => {
+        // We only care about the most recent update for each session
+        const byId = _.groupBy(items, item => item.id);
+        const ids = Object.keys(byId);
+        const mostRecent = ids.map(id => _.last(byId[id]));
 
-  async function _hydrateCache(object, field, items, idField) {
+        await window.Signal.Data.createOrUpdateSessions(mostRecent);
+      },
+    });
+  }
+
+  async function _hydrateCache(object, field, itemsPromise, idField) {
+    const items = await itemsPromise;
+
     const cache = Object.create(null);
     for (let i = 0, max = items.length; i < max; i += 1) {
       const item = items[i];
@@ -167,10 +182,18 @@
     constructor: SignalProtocolStore,
     async hydrateCaches() {
       await Promise.all([
+        (async () => {
+          const item = await window.Signal.Data.getItemById('identityKey');
+          this.ourIdentityKey = item ? item.value : undefined;
+        })(),
+        (async () => {
+          const item = await window.Signal.Data.getItemById('registrationId');
+          this.ourRegistrationId = item ? item.value : undefined;
+        })(),
         _hydrateCache(
           this,
           'identityKeys',
-          await window.Signal.Data.getAllIdentityKeys(),
+          window.Signal.Data.getAllIdentityKeys(),
           'id'
         ),
         _hydrateCache(
@@ -182,33 +205,23 @@
         _hydrateCache(
           this,
           'preKeys',
-          await window.Signal.Data.getAllPreKeys(),
+          window.Signal.Data.getAllPreKeys(),
           'id'
         ),
         _hydrateCache(
           this,
           'signedPreKeys',
-          await window.Signal.Data.getAllSignedPreKeys(),
+          window.Signal.Data.getAllSignedPreKeys(),
           'id'
         ),
       ]);
     },
 
     async getIdentityKeyPair() {
-      const item = await window.Signal.Data.getItemById('identityKey');
-      if (item) {
-        return item.value;
-      }
-
-      return undefined;
+      return this.ourIdentityKey;
     },
     async getLocalRegistrationId() {
-      const item = await window.Signal.Data.getItemById('registrationId');
-      if (item) {
-        return item.value;
-      }
-
-      return undefined;
+      return this.ourRegistrationId;
     },
 
     // PreKeys
@@ -337,7 +350,10 @@
       };
 
       this.sessions[encodedNumber] = data;
-      await window.Signal.Data.createOrUpdateSession(data);
+
+      // Note: Because these are cached in memory, we batch and make these database
+      //   updates out of band.
+      this.sessionUpdateBatcher.add(data);
     },
     async getDeviceIds(number) {
       if (number === null || number === undefined) {
@@ -845,14 +861,24 @@
         forceSave: true,
       });
     },
+    addMultipleUnprocessed(array) {
+      // We need to pass forceSave because the data has an id already, which will cause
+      //   an update instead of an insert.
+      return window.Signal.Data.saveUnprocesseds(array, {
+        forceSave: true,
+      });
+    },
     updateUnprocessedAttempts(id, attempts) {
       return window.Signal.Data.updateUnprocessedAttempts(id, attempts);
     },
     updateUnprocessedWithData(id, data) {
       return window.Signal.Data.updateUnprocessedWithData(id, data);
     },
-    removeUnprocessed(id) {
-      return window.Signal.Data.removeUnprocessed(id);
+    updateUnprocessedsWithData(items) {
+      return window.Signal.Data.updateUnprocessedsWithData(items);
+    },
+    removeUnprocessed(idOrArray) {
+      return window.Signal.Data.removeUnprocessed(idOrArray);
     },
     removeAllUnprocessed() {
       return window.Signal.Data.removeAllUnprocessed();

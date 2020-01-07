@@ -1,14 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
-import { debounce } from 'lodash';
+import { debounce, get } from 'lodash';
+import { Manager, Popper, Reference } from 'react-popper';
+import { createPortal } from 'react-dom';
 
+import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
+import { AvatarPopup } from './AvatarPopup';
 import { LocalizerType } from '../types/Util';
 
 export interface PropsType {
   searchTerm: string;
   searchConversationName?: string;
   searchConversationId?: string;
+  startSearchCounter: number;
 
   // To be used as an ID
   ourNumber: string;
@@ -25,11 +30,16 @@ export interface PropsType {
 
   i18n: LocalizerType;
   updateSearchTerm: (searchTerm: string) => void;
-  search: (
+  searchMessages: (
     query: string,
     options: {
       searchConversationId?: string;
       regionCode: string;
+    }
+  ) => void;
+  searchDiscussions: (
+    query: string,
+    options: {
       ourNumber: string;
       noteToSelf: string;
     }
@@ -37,19 +47,31 @@ export interface PropsType {
 
   clearConversationSearch: () => void;
   clearSearch: () => void;
+
+  showArchivedConversations: () => void;
 }
 
-export class MainHeader extends React.Component<PropsType> {
+interface StateType {
+  showingAvatarPopup: boolean;
+  popperRoot: HTMLDivElement | null;
+}
+
+export class MainHeader extends React.Component<PropsType, StateType> {
   private readonly inputRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: PropsType) {
     super(props);
 
     this.inputRef = React.createRef();
+
+    this.state = {
+      showingAvatarPopup: false,
+      popperRoot: null,
+    };
   }
 
   public componentDidUpdate(prevProps: PropsType) {
-    const { searchConversationId } = this.props;
+    const { searchConversationId, startSearchCounter } = this.props;
 
     // When user chooses to search in a given conversation we focus the field for them
     if (
@@ -57,6 +79,67 @@ export class MainHeader extends React.Component<PropsType> {
       searchConversationId !== prevProps.searchConversationId
     ) {
       this.setFocus();
+    }
+    // When user chooses to start a new search, we focus the field
+    if (startSearchCounter !== prevProps.startSearchCounter) {
+      this.setSelected();
+    }
+  }
+
+  public handleOutsideClick = ({ target }: MouseEvent) => {
+    const { popperRoot, showingAvatarPopup } = this.state;
+
+    if (
+      showingAvatarPopup &&
+      popperRoot &&
+      !popperRoot.contains(target as Node)
+    ) {
+      this.hideAvatarPopup();
+    }
+  };
+
+  public handleOutsideKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.hideAvatarPopup();
+    }
+  };
+
+  public showAvatarPopup = () => {
+    const popperRoot = document.createElement('div');
+    document.body.appendChild(popperRoot);
+
+    this.setState({
+      showingAvatarPopup: true,
+      popperRoot,
+    });
+    document.addEventListener('click', this.handleOutsideClick);
+    document.addEventListener('keydown', this.handleOutsideKeyDown);
+  };
+
+  public hideAvatarPopup = () => {
+    const { popperRoot } = this.state;
+
+    document.removeEventListener('click', this.handleOutsideClick);
+    document.removeEventListener('keydown', this.handleOutsideKeyDown);
+
+    this.setState({
+      showingAvatarPopup: false,
+      popperRoot: null,
+    });
+
+    if (popperRoot && document.body.contains(popperRoot)) {
+      document.body.removeChild(popperRoot);
+    }
+  };
+
+  public componentWillUnmount() {
+    const { popperRoot } = this.state;
+
+    document.removeEventListener('click', this.handleOutsideClick);
+    document.removeEventListener('keydown', this.handleOutsideKeyDown);
+
+    if (popperRoot && document.body.contains(popperRoot)) {
+      document.body.removeChild(popperRoot);
     }
   }
 
@@ -66,19 +149,25 @@ export class MainHeader extends React.Component<PropsType> {
       i18n,
       ourNumber,
       regionCode,
-      search,
+      searchDiscussions,
+      searchMessages,
       searchConversationId,
     } = this.props;
 
-    if (search) {
-      search(searchTerm, {
-        searchConversationId,
+    if (searchDiscussions && !searchConversationId) {
+      searchDiscussions(searchTerm, {
         noteToSelf: i18n('noteToSelf').toLowerCase(),
         ourNumber,
+      });
+    }
+
+    if (searchMessages) {
+      searchMessages(searchTerm, {
+        searchConversationId,
         regionCode,
       });
     }
-  }, 50);
+  }, 200);
 
   public updateSearch = (event: React.FormEvent<HTMLInputElement>) => {
     const {
@@ -124,7 +213,7 @@ export class MainHeader extends React.Component<PropsType> {
     this.setFocus();
   };
 
-  public handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const {
       clearConversationSearch,
       clearSearch,
@@ -132,7 +221,20 @@ export class MainHeader extends React.Component<PropsType> {
       searchTerm,
     } = this.props;
 
-    if (event.key !== 'Escape') {
+    const { ctrlKey, metaKey, key } = event;
+    const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+    const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+    const commandOrCtrl = commandKey || controlKey;
+
+    // On linux, this keyboard combination selects all text
+    if (commandOrCtrl && key === '/') {
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
+    if (key !== 'Escape') {
       return;
     }
 
@@ -141,6 +243,9 @@ export class MainHeader extends React.Component<PropsType> {
     } else {
       clearSearch();
     }
+
+    event.preventDefault();
+    event.stopPropagation();
   };
 
   public handleXButton = () => {
@@ -166,6 +271,14 @@ export class MainHeader extends React.Component<PropsType> {
     }
   };
 
+  public setSelected = () => {
+    if (this.inputRef.current) {
+      // @ts-ignore
+      this.inputRef.current.select();
+    }
+  };
+
+  // tslint:disable-next-line:max-func-body-length
   public render() {
     const {
       avatarPath,
@@ -177,7 +290,9 @@ export class MainHeader extends React.Component<PropsType> {
       searchConversationId,
       searchConversationName,
       searchTerm,
+      showArchivedConversations,
     } = this.props;
+    const { showingAvatarPopup, popperRoot } = this.state;
 
     const placeholder = searchConversationName
       ? i18n('searchIn', [searchConversationName])
@@ -185,21 +300,59 @@ export class MainHeader extends React.Component<PropsType> {
 
     return (
       <div className="module-main-header">
-        <Avatar
-          avatarPath={avatarPath}
-          color={color}
-          conversationType="direct"
-          i18n={i18n}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          size={28}
-        />
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <Avatar
+                avatarPath={avatarPath}
+                color={color}
+                conversationType="direct"
+                i18n={i18n}
+                name={name}
+                phoneNumber={phoneNumber}
+                profileName={profileName}
+                size={28}
+                innerRef={ref}
+                onClick={this.showAvatarPopup}
+              />
+            )}
+          </Reference>
+          {showingAvatarPopup && popperRoot
+            ? createPortal(
+                <Popper placement="bottom-end">
+                  {({ ref, style }) => (
+                    <AvatarPopup
+                      innerRef={ref}
+                      i18n={i18n}
+                      style={style}
+                      color={color}
+                      conversationType="direct"
+                      name={name}
+                      phoneNumber={phoneNumber}
+                      profileName={profileName}
+                      avatarPath={avatarPath}
+                      size={28}
+                      onViewPreferences={() => {
+                        showSettings();
+                        this.hideAvatarPopup();
+                      }}
+                      onViewArchive={() => {
+                        showArchivedConversations();
+                        this.hideAvatarPopup();
+                      }}
+                    />
+                  )}
+                </Popper>,
+                popperRoot
+              )
+            : null}
+        </Manager>
         <div className="module-main-header__search">
           {searchConversationId ? (
             <button
               className="module-main-header__search__in-conversation-pill"
               onClick={this.clearSearch}
+              tabIndex={-1}
             >
               <div className="module-main-header__search__in-conversation-pill__avatar-container">
                 <div className="module-main-header__search__in-conversation-pill__avatar" />
@@ -210,6 +363,7 @@ export class MainHeader extends React.Component<PropsType> {
             <button
               className="module-main-header__search__icon"
               onClick={this.setFocus}
+              tabIndex={-1}
             />
           )}
           <input
@@ -226,13 +380,13 @@ export class MainHeader extends React.Component<PropsType> {
             )}
             placeholder={placeholder}
             dir="auto"
-            onKeyUp={this.handleKeyUp}
+            onKeyDown={this.handleKeyDown}
             value={searchTerm}
             onChange={this.updateSearch}
           />
           {searchTerm ? (
-            <div
-              role="button"
+            <button
+              tabIndex={-1}
               className="module-main-header__search__cancel-icon"
               onClick={this.handleXButton}
             />

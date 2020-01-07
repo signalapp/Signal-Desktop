@@ -6,14 +6,17 @@ const {
   cloneDeep,
   forEach,
   get,
+  groupBy,
   isFunction,
   isObject,
+  last,
   map,
   set,
 } = require('lodash');
 
 const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
 const MessageType = require('./types/message');
+const { createBatcher } = require('../../ts/util/batcher');
 
 const { ipcRenderer } = electron;
 
@@ -78,6 +81,7 @@ module.exports = {
   removeAllItems,
 
   createOrUpdateSession,
+  createOrUpdateSessions,
   getSessionById,
   getSessionsByNumber,
   bulkAddSessions,
@@ -91,6 +95,7 @@ module.exports = {
   saveConversations,
   getConversationById,
   updateConversation,
+  updateConversations,
   removeConversation,
   _removeConversations,
 
@@ -134,6 +139,7 @@ module.exports = {
   saveUnprocesseds,
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
+  updateUnprocessedsWithData,
   removeUnprocessed,
   removeAllUnprocessed,
 
@@ -205,20 +211,21 @@ function _cleanData(data) {
 }
 
 async function _shutdown() {
+  const jobKeys = Object.keys(_jobs);
+  window.log.info(
+    `data.shutdown: shutdown requested. ${jobKeys.length} jobs outstanding`
+  );
+
   if (_shutdownPromise) {
-    return _shutdownPromise;
+    await _shutdownPromise;
+    return;
   }
 
   _shuttingDown = true;
 
-  const jobKeys = Object.keys(_jobs);
-  window.log.info(
-    `data.shutdown: starting process. ${jobKeys.length} jobs outstanding`
-  );
-
   // No outstanding jobs, return immediately
-  if (jobKeys.length === 0) {
-    return null;
+  if (jobKeys.length === 0 || _DEBUG) {
+    return;
   }
 
   // Outstanding jobs; we need to wait until the last one is done
@@ -233,7 +240,7 @@ async function _shutdown() {
     };
   });
 
-  return _shutdownPromise;
+  await _shutdownPromise;
 }
 
 function _makeJob(fnName) {
@@ -268,7 +275,7 @@ function _updateJob(id, data) {
       _removeJob(id);
       const end = Date.now();
       const delta = end - start;
-      if (delta > 10) {
+      if (delta > 10 || _DEBUG) {
         window.log.info(
           `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
         );
@@ -281,6 +288,14 @@ function _updateJob(id, data) {
       window.log.info(
         `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
       );
+
+      if (error && error.message && error.message.includes('SQLITE_CORRUPT')) {
+        window.log.error(
+          'Detected SQLITE_CORRUPT error; restarting the application immediately'
+        );
+        window.restart();
+      }
+
       return reject(error);
     },
   };
@@ -548,6 +563,9 @@ async function removeAllItems() {
 async function createOrUpdateSession(data) {
   await channels.createOrUpdateSession(data);
 }
+async function createOrUpdateSessions(items) {
+  await channels.createOrUpdateSessions(items);
+}
 async function getSessionById(id) {
   const session = await channels.getSessionById(id);
   return session;
@@ -592,17 +610,25 @@ async function getConversationById(id, { Conversation }) {
   return new Conversation(data);
 }
 
-async function updateConversation(id, data, { Conversation }) {
-  const existing = await getConversationById(id, { Conversation });
-  if (!existing) {
-    throw new Error(`Conversation ${id} does not exist!`);
-  }
+const updateConversationBatcher = createBatcher({
+  wait: 500,
+  maxSize: 20,
+  processBatch: async items => {
+    // We only care about the most recent update for each conversation
+    const byId = groupBy(items, item => item.id);
+    const ids = Object.keys(byId);
+    const mostRecent = ids.map(id => last(byId[id]));
 
-  const merged = {
-    ...existing.attributes,
-    ...data,
-  };
-  await channels.updateConversation(merged);
+    await updateConversations(mostRecent);
+  },
+});
+
+function updateConversation(id, data) {
+  updateConversationBatcher.add(data);
+}
+
+async function updateConversations(data) {
+  await channels.updateConversations(data);
 }
 
 async function removeConversation(id, { Conversation }) {
@@ -923,6 +949,9 @@ async function updateUnprocessedAttempts(id, attempts) {
 }
 async function updateUnprocessedWithData(id, data) {
   await channels.updateUnprocessedWithData(id, data);
+}
+async function updateUnprocessedsWithData(items) {
+  await channels.updateUnprocessedsWithData(items);
 }
 
 async function removeUnprocessed(id) {

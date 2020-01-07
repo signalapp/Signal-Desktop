@@ -4,20 +4,27 @@ import classNames from 'classnames';
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
 
-interface Props {
+export interface Props {
   avatarPath?: string;
   color?: string;
   conversationType: 'group' | 'direct';
-  i18n: LocalizerType;
   noteToSelf?: boolean;
   name?: string;
   phoneNumber?: string;
   profileName?: string;
-  size: number;
+  size: 28 | 52 | 80;
+
+  onClick?: () => unknown;
+
+  // Matches Popper's RefHandler type
+  innerRef?: (ref: HTMLElement | null) => void;
+
+  i18n: LocalizerType;
 }
 
 interface State {
   imageBroken: boolean;
+  lastAvatarPath?: string;
 }
 
 export class Avatar extends React.Component<Props, State> {
@@ -29,8 +36,21 @@ export class Avatar extends React.Component<Props, State> {
     this.handleImageErrorBound = this.handleImageError.bind(this);
 
     this.state = {
+      lastAvatarPath: props.avatarPath,
       imageBroken: false,
     };
+  }
+
+  public static getDerivedStateFromProps(props: Props, state: State): State {
+    if (props.avatarPath !== state.lastAvatarPath) {
+      return {
+        ...state,
+        lastAvatarPath: props.avatarPath,
+        imageBroken: false,
+      };
+    }
+
+    return state;
   }
 
   public handleImageError() {
@@ -63,9 +83,15 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderNoImage() {
-    const { conversationType, name, noteToSelf, size } = this.props;
+    const {
+      conversationType,
+      name,
+      noteToSelf,
+      profileName,
+      size,
+    } = this.props;
 
-    const initials = getInitials(name);
+    const initials = getInitials(name || profileName);
     const isGroup = conversationType === 'group';
 
     if (noteToSelf) {
@@ -105,13 +131,32 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public render() {
-    const { avatarPath, color, size, noteToSelf } = this.props;
+    const {
+      avatarPath,
+      color,
+      innerRef,
+      noteToSelf,
+      onClick,
+      size,
+    } = this.props;
     const { imageBroken } = this.state;
 
     const hasImage = !noteToSelf && avatarPath && !imageBroken;
 
-    if (size !== 28 && size !== 36 && size !== 48 && size !== 80) {
+    if (size !== 28 && size !== 52 && size !== 80) {
       throw new Error(`Size ${size} is not supported!`);
+    }
+
+    let contents;
+
+    if (onClick) {
+      contents = (
+        <button className="module-avatar-button" onClick={onClick}>
+          {hasImage ? this.renderImage() : this.renderNoImage()}
+        </button>
+      );
+    } else {
+      contents = hasImage ? this.renderImage() : this.renderNoImage();
     }
 
     return (
@@ -122,8 +167,9 @@ export class Avatar extends React.Component<Props, State> {
           hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
           !hasImage ? `module-avatar--${color}` : null
         )}
+        ref={innerRef}
       >
-        {hasImage ? this.renderImage() : this.renderNoImage()}
+        {contents}
       </div>
     );
   }

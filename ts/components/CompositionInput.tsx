@@ -29,6 +29,7 @@ import {
 } from './emoji/lib';
 import { LocalizerType } from '../types/Util';
 
+const MAX_LENGTH = 64 * 1024;
 const colonsRegex = /(?:^|\s):[a-z0-9-_+]+:?/gi;
 const triggerEmojiRegex = /^(?:[-+]\d|[a-z]{2})/i;
 
@@ -43,6 +44,7 @@ export type Props = {
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(messageText: string, caretLocation: number): unknown;
   onEditorSizeChange?(rect: ContentRect): unknown;
+  onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
   onSubmit(message: string): unknown;
 };
@@ -78,17 +80,74 @@ function getTrimmedMatchAtIndex(str: string, index: number, pattern: RegExp) {
   return null;
 }
 
-function getWordAtIndex(str: string, index: number) {
+function getLengthOfSelectedText(state: EditorState): number {
+  const currentSelection = state.getSelection();
+  let length = 0;
+
+  const currentContent = state.getCurrentContent();
+  const startKey = currentSelection.getStartKey();
+  const endKey = currentSelection.getEndKey();
+  const startBlock = currentContent.getBlockForKey(startKey);
+  const isStartAndEndBlockAreTheSame = startKey === endKey;
+  const startBlockTextLength = startBlock.getLength();
+  const startSelectedTextLength =
+    startBlockTextLength - currentSelection.getStartOffset();
+  const endSelectedTextLength = currentSelection.getEndOffset();
+  const keyAfterEnd = currentContent.getKeyAfter(endKey);
+
+  if (isStartAndEndBlockAreTheSame) {
+    length +=
+      currentSelection.getEndOffset() - currentSelection.getStartOffset();
+  } else {
+    let currentKey = startKey;
+
+    while (currentKey && currentKey !== keyAfterEnd) {
+      if (currentKey === startKey) {
+        length += startSelectedTextLength + 1;
+      } else if (currentKey === endKey) {
+        length += endSelectedTextLength;
+      } else {
+        length += currentContent.getBlockForKey(currentKey).getLength() + 1;
+      }
+
+      currentKey = currentContent.getKeyAfter(currentKey);
+    }
+  }
+
+  return length;
+}
+
+function getWordAtIndex(
+  str: string,
+  index: number
+): { start: number; end: number; word: string } {
   const start = str
     .slice(0, index + 1)
     .replace(/\s+$/, '')
     .search(/\S+$/);
-  const end = str.slice(index).search(/(?:[^a-z0-9-_+]|$)/) + index;
+
+  let end =
+    str
+      .slice(index)
+      .split('')
+      .findIndex(c => /[^a-z0-9-_]/i.test(c) || c === ':') + index;
+
+  const endChar = str[end];
+
+  if (/\w|:/.test(endChar)) {
+    end += 1;
+  }
+
+  const word = str.slice(start, end);
+
+  if (word === ':' && str.length > 1) {
+    return getWordAtIndex(str, index + 1);
+  }
 
   return {
     start,
     end,
-    word: str.slice(start, end),
+    word,
   };
 }
 
@@ -172,6 +231,7 @@ export const CompositionInput = ({
   onDirtyChange,
   onEditorStateChange,
   onEditorSizeChange,
+  onTextTooLong,
   onPickEmoji,
   onSubmit,
   skinTone,
@@ -205,7 +265,10 @@ export const CompositionInput = ({
 
   const updateExternalStateListeners = React.useCallback(
     (newState: EditorState) => {
-      const plainText = newState.getCurrentContent().getPlainText();
+      const plainText = newState
+        .getCurrentContent()
+        .getPlainText()
+        .trim();
       const cursorBlockKey = newState.getSelection().getStartKey();
       const cursorBlockIndex = editorStateRef.current
         .getCurrentContent()
@@ -298,6 +361,51 @@ export const CompositionInput = ({
     ]
   );
 
+  const handleBeforeInput = React.useCallback(
+    (): DraftHandleValue => {
+      if (!editorStateRef.current) {
+        return 'not-handled';
+      }
+
+      const editorState = editorStateRef.current;
+      const plainText = editorState.getCurrentContent().getPlainText();
+      const selectedTextLength = getLengthOfSelectedText(editorState);
+
+      if (plainText.length - selectedTextLength > MAX_LENGTH - 1) {
+        onTextTooLong();
+
+        return 'handled';
+      }
+
+      return 'not-handled';
+    },
+    [onTextTooLong, editorStateRef]
+  );
+
+  const handlePastedText = React.useCallback(
+    (pastedText: string): DraftHandleValue => {
+      if (!editorStateRef.current) {
+        return 'not-handled';
+      }
+
+      const editorState = editorStateRef.current;
+      const plainText = editorState.getCurrentContent().getPlainText();
+      const selectedTextLength = getLengthOfSelectedText(editorState);
+
+      if (
+        plainText.length + pastedText.length - selectedTextLength >
+        MAX_LENGTH
+      ) {
+        onTextTooLong();
+
+        return 'handled';
+      }
+
+      return 'not-handled';
+    },
+    [onTextTooLong, editorStateRef]
+  );
+
   const resetEditorState = React.useCallback(
     () => {
       const newEmptyState = EditorState.createEmpty(compositeDecorator);
@@ -312,7 +420,8 @@ export const CompositionInput = ({
       const { current: state } = editorStateRef;
       const text = state.getCurrentContent().getPlainText();
       const emojidText = replaceColons(text);
-      onSubmit(emojidText);
+      const trimmedText = emojidText.trim();
+      onSubmit(trimmedText);
     },
     [editorStateRef, onSubmit]
   );
@@ -414,24 +523,18 @@ export const CompositionInput = ({
         .getLastCreatedEntityKey();
       const word = getWordAtCaret();
 
-      let newContent = replaceWord
-        ? Modifier.replaceText(
-            oldContent,
-            selection.merge({
+      let newContent = Modifier.replaceText(
+        oldContent,
+        replaceWord
+          ? (selection.merge({
               anchorOffset: word.start,
               focusOffset: word.end,
-            }) as SelectionState,
-            emojiContent,
-            undefined,
-            emojiEntityKey
-          )
-        : Modifier.insertText(
-            oldContent,
-            selection,
-            emojiContent,
-            undefined,
-            emojiEntityKey
-          );
+            }) as SelectionState)
+          : selection,
+        emojiContent,
+        undefined,
+        emojiEntityKey
+      );
 
       const afterSelection = newContent.getSelectionAfter();
 
@@ -548,7 +651,11 @@ export const CompositionInput = ({
   );
 
   const editorKeybindingFn = React.useCallback(
+    // tslint:disable-next-line cyclomatic-complexity
     (e: React.KeyboardEvent): CompositionInputEditorCommand | null => {
+      const commandKey = get(window, 'platform') === 'darwin' && e.metaKey;
+      const controlKey = get(window, 'platform') !== 'darwin' && e.ctrlKey;
+
       if (e.key === 'Enter' && emojiResults.length > 0) {
         e.preventDefault();
 
@@ -556,7 +663,7 @@ export const CompositionInput = ({
       }
 
       if (e.key === 'Enter' && !e.shiftKey) {
-        if (large && !(e.ctrlKey || e.metaKey)) {
+        if (large && !(controlKey || commandKey)) {
           return getDefaultKeyBinding(e);
         }
 
@@ -587,6 +694,20 @@ export const CompositionInput = ({
         if (e.key === 'Delete' && e.shiftKey) {
           return null;
         }
+      }
+
+      // Get rid of Ctrl-Shift-M, which by default adds a newline
+      if ((e.key === 'm' || e.key === 'M') && e.shiftKey && e.ctrlKey) {
+        e.preventDefault();
+
+        return null;
+      }
+
+      // Get rid of Ctrl-/, which on GNOME is bound to 'select all'
+      if (e.key === '/' && !e.shiftKey && e.ctrlKey) {
+        e.preventDefault();
+
+        return null;
       }
 
       return getDefaultKeyBinding(e);
@@ -694,6 +815,8 @@ export const CompositionInput = ({
                     onEscape={handleEscapeKey}
                     onTab={onTab}
                     handleKeyCommand={handleEditorCommand}
+                    handleBeforeInput={handleBeforeInput}
+                    handlePastedText={handlePastedText}
                     keyBindingFn={editorKeybindingFn}
                     spellCheck={true}
                     stripPastedStyles={true}

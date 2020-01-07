@@ -145,7 +145,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/about_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 19,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -164,7 +164,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 169,
+    "lineNumber": 171,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-31T00:19:18.696Z"
   },
@@ -172,14 +172,14 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 204,
+    "lineNumber": 216,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/debug_log_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 4,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -231,22 +231,22 @@
     "rule": "jQuery-load(",
     "path": "js/modules/emojis.js",
     "line": "async function load() {",
-    "lineNumber": 13,
+    "lineNumber": 11,
     "reasonCategory": "falseMatch",
-    "updated": "2019-05-23T22:27:53.554Z"
+    "updated": "2019-10-31T17:28:08.684Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "js/modules/stickers.js",
     "line": "async function load() {",
-    "lineNumber": 57,
+    "lineNumber": 66,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-26T17:48:30.675Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/permissions_popup_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 3,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -273,7 +273,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/settings_start.js",
-    "line": "$(document).on('keyup', e => {",
+    "line": "$(document).on('keydown', e => {",
     "lineNumber": 3,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -301,25 +301,9 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 868,
+    "lineNumber": 894,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/util_worker_tasks.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/util_worker_tasks.js",
-    "line": "  return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -351,10 +335,10 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/confirmation_dialog_view.js",
-    "line": "      this.$('.cancel').focus();",
-    "lineNumber": 55,
+    "line": "      setTimeout(() => this.$('.cancel').focus(), 1);",
+    "lineNumber": 75,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-12-07T02:04:56.987Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -477,150 +461,141 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        view.$el.appendTo(this.el);",
-    "lineNumber": 32,
+    "lineNumber": 35,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 63,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 80,
+    "lineNumber": 85,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 90,
+    "lineNumber": 92,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 107,
+    "lineNumber": 109,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 111,
+    "lineNumber": 113,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 117,
+    "lineNumber": 119,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 137,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 137,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 180,
+    "lineNumber": 189,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 184,
+    "lineNumber": 193,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 188,
+    "lineNumber": 197,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 190,
+    "lineNumber": 199,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 210,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 213,
+    "lineNumber": 222,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr img').remove();",
-    "lineNumber": 133,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.$('#qr .container').show();",
     "lineNumber": 135,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -629,8 +604,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
+    "line": "      this.$('#qr .container').show();",
+    "lineNumber": 137,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-09-19T21:59:32.770Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/install_view.js",
     "line": "      if ($('#qr').length === 0) {",
-    "lineNumber": 139,
+    "lineNumber": 141,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -639,7 +623,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr .container').hide();",
-    "lineNumber": 144,
+    "lineNumber": 146,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -648,15 +632,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.qr = new QRCode(this.$('#qr')[0]).makeCode(url);",
-    "lineNumber": 145,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.$('#qr').addClass('ready');",
     "lineNumber": 147,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -665,8 +640,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
+    "line": "      this.$('#qr').addClass('ready');",
+    "lineNumber": 149,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-09-19T21:59:32.770Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/install_view.js",
     "line": "      this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());",
-    "lineNumber": 152,
+    "lineNumber": 154,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -675,7 +659,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#link-phone').submit();",
-    "lineNumber": 157,
+    "lineNumber": 159,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -684,7 +668,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "        this.$('#link-phone').submit(e => {",
-    "lineNumber": 167,
+    "lineNumber": 169,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -693,7 +677,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "          let name = this.$(DEVICE_NAME_SELECTOR).val();",
-    "lineNumber": 171,
+    "lineNumber": 173,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -702,7 +686,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "            this.$(DEVICE_NAME_SELECTOR).focus();",
-    "lineNumber": 174,
+    "lineNumber": 176,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -827,7 +811,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
     "line": "      this.$('.time').text(`${minutes}:${seconds}`);",
-    "lineNumber": 38,
+    "lineNumber": 49,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -836,7 +820,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
     "line": "      $(window).off('blur', this.onSwitchAwayBound);",
-    "lineNumber": 69,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-11T19:22:47.331Z",
     "reasonDetail": "Operating on already-existing DOM elements"
@@ -962,7 +946,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 183,
+    "lineNumber": 181,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -971,7 +955,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 187,
+    "lineNumber": 185,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -980,7 +964,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 199,
+    "lineNumber": 197,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -989,7 +973,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 204,
+    "lineNumber": 202,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -998,7 +982,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('input.number').val(number);",
-    "lineNumber": 21,
+    "lineNumber": 23,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1007,15 +991,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        el: this.$('#phone-number-input'),",
-    "lineNumber": 24,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/standalone_registration_view.js",
-    "line": "      this.$('#error').hide();",
     "lineNumber": 26,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -1024,8 +999,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
+    "line": "      this.$('#error').hide();",
+    "lineNumber": 28,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-09-19T21:59:32.770Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/standalone_registration_view.js",
     "line": "      const verificationCode = $('#code')",
-    "lineNumber": 37,
+    "lineNumber": 39,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1034,7 +1018,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      this.$('#status').text(s);",
-    "lineNumber": 50,
+    "lineNumber": 52,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1043,7 +1027,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      const verificationCode = $('#code')",
-    "lineNumber": 53,
+    "lineNumber": 55,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1052,7 +1036,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      this.$('#error')",
-    "lineNumber": 64,
+    "lineNumber": 66,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1061,7 +1045,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      if (this.$('#number-container').hasClass('valid')) {",
-    "lineNumber": 71,
+    "lineNumber": 73,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1070,7 +1054,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#request-sms, #request-voice').prop('disabled', 'disabled');",
-    "lineNumber": 74,
+    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1079,15 +1063,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#code').addClass('invalid');",
-    "lineNumber": 79,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/standalone_registration_view.js",
-    "line": "        this.$('#code').removeClass('invalid');",
     "lineNumber": 81,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -1096,8 +1071,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
+    "line": "        this.$('#code').removeClass('invalid');",
+    "lineNumber": 83,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-09-19T21:59:32.770Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/standalone_registration_view.js",
     "line": "      this.$('#error').hide();",
-    "lineNumber": 86,
+    "lineNumber": 88,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1106,7 +1090,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#step2')",
-    "lineNumber": 92,
+    "lineNumber": 94,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1115,7 +1099,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#number-container').addClass('invalid');",
-    "lineNumber": 96,
+    "lineNumber": 98,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1124,7 +1108,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "      $('#error').hide();",
-    "lineNumber": 101,
+    "lineNumber": 103,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1133,7 +1117,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#step2')",
-    "lineNumber": 107,
+    "lineNumber": 109,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1142,7 +1126,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/standalone_registration_view.js",
     "line": "        this.$('#number-container').addClass('invalid');",
-    "lineNumber": 111,
+    "lineNumber": 113,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1154,6 +1138,15 @@
     "lineNumber": 21,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-appendTo(",
+    "path": "js/views/toast_view.js",
+    "line": "    toast.$el.appendTo(el);",
+    "lineNumber": 34,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-html(",
@@ -1177,7 +1170,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/whisper_view.js",
     "line": "        $('script[type=\"text/x-tmpl-mustache\"]').each((i, el) => {",
-    "lineNumber": 70,
+    "lineNumber": 71,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1186,7 +1179,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/whisper_view.js",
     "line": "          const $el = $(el);",
-    "lineNumber": 71,
+    "lineNumber": 72,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1195,7 +1188,7 @@
     "rule": "jQuery-html(",
     "path": "js/views/whisper_view.js",
     "line": "          templates[id] = $el.html();",
-    "lineNumber": 73,
+    "lineNumber": 74,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Getting the value, not setting it"
@@ -1227,34 +1220,50 @@
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
-    "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer());",
-    "lineNumber": 148,
+    "line": "  dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();",
+    "lineNumber": 62,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-09-20T18:36:19.909Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
-    "line": "  Promise.resolve(dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary'));",
-    "lineNumber": 150,
+    "line": "  dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');",
+    "lineNumber": 64,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-09-20T18:36:19.909Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/message_receiver.js",
+    "line": "  dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
+    "lineNumber": 66,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-09-20T18:36:19.909Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/message_receiver.js",
+    "line": "  dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');",
+    "lineNumber": 68,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-09-20T18:36:19.909Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 827,
+    "lineNumber": 752,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-10-21T22:30:15.622Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 852,
+    "lineNumber": 777,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-10-21T22:30:15.622Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -1283,41 +1292,26 @@
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sync_request.js",
-    "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
+    "line": "    wrap(sender.sendRequestBlockSyncMessage(sendOptions));",
     "lineNumber": 36,
     "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
+    "updated": "2019-12-03T00:28:08.683Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/sync_request.js",
+    "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
+    "lineNumber": 39,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-03T00:28:08.683Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sync_request.js",
     "line": "        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 39,
+    "lineNumber": 42,
     "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
-    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
-    "lineNumber": 36,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
-    "line": "      wrap(innerFn, outerFn, self, tryLocsList)",
-    "lineNumber": 228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/@develar/schema-utils/node_modules/ajv/dist/ajv.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-15T17:10:42.360Z"
+    "updated": "2019-12-03T00:28:08.683Z"
   },
   {
     "rule": "eval",
@@ -1392,537 +1386,6 @@
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/ansi-colors/index.js",
-    "line": "    return typeof style === 'function' ? style(input) : style.wrap(input, newline);",
-    "lineNumber": 33,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/ansi-colors/index.js",
-    "line": "    while (n-- > 0) str = wrap(colors.styles[stack[n]], str, nl);",
-    "lineNumber": 46,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9992,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10044,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10619,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/archiver/lib/core.js",
-    "line": "  this._module.append(source, data, function(err) {",
-    "lineNumber": 179,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/archiver/lib/plugins/tar.js",
-    "line": "  function append(err, sourceBuffer) {",
-    "lineNumber": 68,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/archiver/lib/plugins/tar.js",
-    "line": "    append(null, source);",
-    "lineNumber": 80,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "function wrap(defer) {",
-    "lineNumber": 62,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "var setImmediate$1 = wrap(_defer);",
-    "lineNumber": 81,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "    if (this.head) this.insertBefore(this.head, node);",
-    "lineNumber": 2151,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "    if (this.tail) this.insertAfter(this.tail, node);",
-    "lineNumber": 2156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "var nextTick = wrap(_defer$1);",
-    "lineNumber": 3823,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "                q._tasks.insertBefore(nextNode, item);",
-    "lineNumber": 4107,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/internal/DoublyLinkedList.js",
-    "line": "    if (this.head) this.insertBefore(this.head, node);else setInitial(this, node);",
-    "lineNumber": 52,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/archiver/node_modules/async/internal/DoublyLinkedList.js",
-    "line": "    if (this.tail) this.insertAfter(this.tail, node);else setInitial(this, node);",
-    "lineNumber": 56,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/internal/setImmediate.js",
-    "line": "function wrap(defer) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/internal/setImmediate.js",
-    "line": "exports.default = wrap(_defer);",
-    "lineNumber": 42,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/priorityQueue.js",
-    "line": "                q._tasks.insertBefore(nextNode, item);",
-    "lineNumber": 42,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/archiver/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9992,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10044,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10619,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/ast-types/lib/path.js",
     "line": "    Pp.insertBefore = function insertBefore(node) {",
@@ -1937,6 +1400,256 @@
     "lineNumber": 242,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/build/index.js",
+    "line": "              if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/build/index.js",
+    "line": "  function in$(x, xs){",
+    "lineNumber": 99,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "      reCopy = new RegExp('^' + re.source + '$(?!\\\\s)', regexpFlags.call(re));",
+    "lineNumber": 2498,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 4362,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 4379,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "var SUBSTITUTION_SYMBOLS = /\\$([$&`']|\\d\\d?|<[^>]*>)/g;",
+    "lineNumber": 6331,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "var SUBSTITUTION_SYMBOLS_NO_NAMED = /\\$([$&`']|\\d\\d?)/g;",
+    "lineNumber": 6332,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 8752,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.min.js",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 4059,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 4076,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 7820,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "      reCopy = new RegExp('^' + re.source + '$(?!\\\\s)', regexpFlags.call(re));",
+    "lineNumber": 2422,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 4260,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 4277,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "var SUBSTITUTION_SYMBOLS = /\\$([$&`']|\\d\\d?|<[^>]*>)/g;",
+    "lineNumber": 6229,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "var SUBSTITUTION_SYMBOLS_NO_NAMED = /\\$([$&`']|\\d\\d?)/g;",
+    "lineNumber": 6230,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 8650,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/library/modules/es6.symbol.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 144,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/library/modules/es6.symbol.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 161,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/library/modules/web.timers.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/_regexp-exec.js",
+    "line": "      reCopy = new RegExp('^' + re.source + '$(?!\\\\s)', regexpFlags.call(re));",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/es6.regexp.replace.js",
+    "line": "var SUBSTITUTION_SYMBOLS = /\\$([$&`']|\\d\\d?|<[^>]*>)/g;",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/es6.regexp.replace.js",
+    "line": "var SUBSTITUTION_SYMBOLS_NO_NAMED = /\\$([$&`']|\\d\\d?)/g;",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/es6.symbol.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 144,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/es6.symbol.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 161,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/web.timers.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-$(",
@@ -2844,190 +2557,18 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/build/index.js",
-    "line": "            if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
-    "lineNumber": 43,
+    "rule": "jQuery-append(",
+    "path": "node_modules/copy-text-to-clipboard/index.js",
+    "line": "\tdocument.body.append(element);",
+    "lineNumber": 22,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/core-js/build/index.js",
-    "line": "  function in$(x, xs){",
-    "lineNumber": 93,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1082,
-    "reasonCategory": "falseMatch"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/core.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1135,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/core.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4496,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1033,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/library.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1086,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/library.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4136,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1068,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/shim.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1121,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/shim.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4482,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 142,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 195,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/library/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 18,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:26:59.689Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 142,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/modules/es6.symbol.js",
-    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 195,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 18,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:26:59.689Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-prepend(",
     "path": "node_modules/css/node_modules/source-map/lib/source-map/source-node.js",
     "line": "        this.prepend(aChunk[i]);",
     "lineNumber": 199,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/csso/dist/csso-browser.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/dist/csso-browser.js",
-    "lineNumber": 3,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/node_modules/source-map/dist/source-map.debug.js",
-    "line": "\t      this.prepend(aChunk[i]);",
-    "lineNumber": 2836,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/node_modules/source-map/dist/source-map.js",
-    "line": "\t      this.prepend(aChunk[i]);",
-    "lineNumber": 2836,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/node_modules/source-map/dist/source-map.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/node_modules/source-map/lib/source-node.js",
-    "line": "      this.prepend(aChunk[i]);",
-    "lineNumber": 194,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -3051,17 +2592,17 @@
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 154,
+    "lineNumber": 156,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "exports.enable(load());",
-    "lineNumber": 246,
+    "lineNumber": 248,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3353,68 +2894,76 @@
     "updated": "2019-04-10T19:08:25.356Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/electron/electron.d.ts",
-    "line": "    eval(code: string): void;",
-    "lineNumber": 2137,
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
     "reasonCategory": "falseMatch",
-    "updated": "2019-08-15T17:10:42.360Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "node_modules/electron/electron.d.ts",
-    "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3748,
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
     "reasonCategory": "falseMatch",
-    "updated": "2019-08-15T17:10:42.360Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
-    "line": "        wrap(oldStream: ReadableStream): this;",
-    "lineNumber": 573,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2019-04-03T00:52:04.925Z"
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
-    "line": "        static wrap(code: string): string;",
-    "lineNumber": 976,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2019-04-03T00:52:04.925Z"
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
-    "line": "         * Default: an async wrapper for the JavaScript `eval()` function. An `eval` function can",
-    "lineNumber": 31,
-    "reasonCategory": "exampleCode",
-    "updated": "2019-04-03T00:52:04.925Z"
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
-    "line": "         * for the JavaScript `eval()` function.",
-    "lineNumber": 180,
-    "reasonCategory": "exampleCode",
-    "updated": "2019-04-03T00:52:04.925Z"
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/stream.d.ts",
-    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
-    "lineNumber": 32,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2019-04-03T00:52:04.925Z"
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 211,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "node_modules/electron/node_modules/@types/node/url.d.ts",
-    "line": "        append(name: string, value: string): void;",
-    "lineNumber": 90,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2019-04-03T00:52:04.925Z"
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-10-10T18:29:02.491Z"
   },
   {
     "rule": "thenify-multiArgs",
@@ -3455,82 +3004,6 @@
     "lineNumber": 235,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
-    "lineNumber": 58,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Need a rule for createNodesFromMarkup"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = markup;",
-    "lineNumber": 65,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Need a rule for createNodesFromMarkup"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<link />';",
-    "lineNumber": 83,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
-    "lineNumber": 85,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "nodeName is limited to set of safe tag names."
   },
   {
     "rule": "jQuery-load(",
@@ -3581,38 +3054,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/globby/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -3624,7 +3065,7 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
-    "lineNumber": 232,
+    "lineNumber": 233,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Hard-coded string used for testing capabilities."
@@ -3633,7 +3074,7 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "  eval(a);",
-    "lineNumber": 267,
+    "lineNumber": 268,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Used to load dependencies; parent function loadModuleFromSource_ is used in one place only."
@@ -3641,17 +3082,8 @@
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        eval(g + \"\\n//# sourceURL=\" + f);",
-    "lineNumber": 298,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2019-04-12T00:50:12.124Z",
-    "reasonDetail": "Used for google closure compiler transpilation scenarios"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "          goog.global.eval(\"var _evalTest_ = 1;\");",
-    "lineNumber": 444,
+    "lineNumber": 445,
     "reasonCategory": "usageTrusted",
     "updated": "2019-04-12T00:50:12.124Z",
     "reasonDetail": "Hard-coded string used for testing capabilities"
@@ -3660,7 +3092,7 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "        goog.global.eval(a);",
-    "lineNumber": 458,
+    "lineNumber": 459,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "More transpilation logic"
@@ -3668,16 +3100,16 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, d) {",
-    "lineNumber": 498,
+    "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, c) {",
+    "lineNumber": 500,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:31:13.384Z"
+    "updated": "2019-12-03T19:24:21.611Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      return !!eval(a);",
-    "lineNumber": 640,
+    "lineNumber": 642,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "More transpilation logic"
@@ -3686,7 +3118,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "        d.load(f);",
-    "lineNumber": 796,
+    "lineNumber": 794,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2019-04-12T00:50:12.124Z",
     "reasonDetail": "Part of their google closure 'debug loader'"
@@ -3703,11 +3135,29 @@
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "    e || (d.innerHTML = a + \" \", e = d.firstChild.nodeValue.slice(0, -1));",
-    "lineNumber": 2045,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "An odd technique of unescaping content by putting it into the dom"
+    "line": "  a.innerHTML = goog.html.SafeHtml.unwrapTrustedHTML(goog.html.SafeHtml.EMPTY);",
+    "lineNumber": 3448,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-12-03T19:24:21.611Z",
+    "reasonDetail": "HTML is escaped"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "  a.innerHTML = goog.html.SafeHtml.unwrapTrustedHTML(b);",
+    "lineNumber": 3457,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-12-03T19:24:21.611Z",
+    "reasonDetail": "HTML is escaped"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "  a.outerHTML = goog.html.SafeHtml.unwrapTrustedHTML(b);",
+    "lineNumber": 3469,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-12-03T19:24:21.611Z",
+    "reasonDetail": "HTML is escaped"
   },
   {
     "rule": "DOM-innerHTML",
@@ -3724,6 +3174,20 @@
     "lineNumber": 133,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/history/node_modules/js-tokens/index.js",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/history/umd/history.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-load(",
@@ -5118,6 +4582,14 @@
     "updated": "2019-08-15T17:10:42.360Z"
   },
   {
+    "rule": "jQuery-after(",
+    "path": "node_modules/mime/src/test.js",
+    "line": "  after(function() {",
+    "lineNumber": 151,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
     "line": "        } else if (elem.innerHTML) {",
@@ -5320,38 +4792,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/neo-async/async.js",
     "line": "      this.insertBefore(this.head, node);",
@@ -5402,27 +4842,6 @@
     "lineNumber": 40,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/node-forge/dist/forge.all.min.js",
-    "lineNumber": 4,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/node-forge/dist/forge.min.js",
-    "lineNumber": 3,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/node-forge/dist/prime.worker.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5545,6 +4964,38 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/nugget/node_modules/form-data/lib/form_data.js",
     "line": "  append(header);",
@@ -5583,24 +5034,6 @@
     "lineNumber": 326,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/object.getownpropertydescriptors/node_modules/es-abstract/operations/getOps.js",
-    "line": "var root = $(specHTML);",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z",
-    "reasonDetail": "$ in this case is cheerio"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/object.getownpropertydescriptors/node_modules/es-abstract/operations/getOps.js",
-    "line": "  var op = $(x);",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z",
-    "reasonDetail": "$ in this case is cheerio"
   },
   {
     "rule": "jQuery-wrap(",
@@ -5740,14 +5173,6 @@
   },
   {
     "rule": "thenify-multiArgs",
-    "path": "node_modules/path-type/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "lineNumber": 16,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
     "path": "node_modules/pify/index.js",
     "line": "\t\t\t\tif (opts.multiArgs) {",
     "lineNumber": 14,
@@ -5806,78 +5231,6 @@
     "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "function createNodesFromMarkup(markup, handleScript) {",
-    "lineNumber": 51,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
-    "lineNumber": 53,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
-    "lineNumber": 58,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = markup;",
-    "lineNumber": 65,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
-    "lineNumber": 70,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "module.exports = createNodesFromMarkup;",
-    "lineNumber": 81,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<link />';",
-    "lineNumber": 83,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
-    "lineNumber": 85,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "eval",
@@ -6097,86 +5450,6 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "export function load(filename: (string|string[]), root: Root, callback: LoadCallback): void;",
-    "lineNumber": 414,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "export function load(filename: (string|string[]), callback: LoadCallback): void;",
-    "lineNumber": 422,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "export function load(filename: (string|string[]), root?: Root): Promise<Root>;",
-    "lineNumber": 431,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "    public load(filename: (string|string[]), options: IParseOptions, callback: LoadCallback): void;",
-    "lineNumber": 1250,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "    public load(filename: (string|string[]), callback: LoadCallback): void;",
-    "lineNumber": 1257,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "    public load(filename: (string|string[]), options?: IParseOptions): Promise<Root>;",
-    "lineNumber": 1265,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
-    "line": "        wrap(oldStream: ReadableStream): this;",
-    "lineNumber": 456,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
-    "line": "        static wrap(code: string): string;",
-    "lineNumber": 824,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
-    "line": "        append(name: string, value: string): void;",
-    "lineNumber": 2411,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
-    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
-    "lineNumber": 5464,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/src/index-light.js",
     "line": "function load(filename, root, callback) {",
     "lineNumber": 23,
@@ -6298,10 +5571,10 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/regenerate/regenerate.js",
-    "line": "\t\t\t//     $()*+-./?[\\]^{|}",
-    "lineNumber": 550,
+    "line": "\t\t\t//     $()*+./?[\\]^{|}",
+    "lineNumber": 558,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-12-13T17:08:12.581Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -6315,25 +5588,9 @@
     "rule": "jQuery-wrap(",
     "path": "node_modules/regenerator-runtime/runtime.js",
     "line": "      wrap(innerFn, outerFn, self, tryLocsList)",
-    "lineNumber": 236,
+    "lineNumber": 228,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/regexpu-core/rewrite-pattern.js",
-    "line": "\t\t\ttree = wrap(tree, pattern);",
-    "lineNumber": 79,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/regexpu-core/rewrite-pattern.js",
-    "line": "function wrap(tree, pattern) {",
-    "lineNumber": 84,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-html(",
@@ -6390,10 +5647,11 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/schema-utils/node_modules/ajv/dist/ajv.min.js",
-    "lineNumber": 2,
+    "path": "node_modules/sharp/lib/libvips.js",
+    "line": "    const brewPkgConfigPath = spawnSync('which brew >/dev/null 2>&1 && eval $(brew --env) && echo $PKG_CONFIG_LIBDIR', spawnSyncOptions).stdout || '';",
+    "lineNumber": 76,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-load(",
@@ -6416,14 +5674,6 @@
     "path": "node_modules/socks/build/common/receivebuffer.js",
     "line": "    append(data) {",
     "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/socks/typings/common/receiveBuffer.d.ts",
-    "line": "    append(data: Buffer): number;",
-    "lineNumber": 8,
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T18:02:26.186Z"
   },
@@ -6494,14 +5744,6 @@
     "path": "node_modules/source-map/lib/source-node.js",
     "line": "      this.prepend(aChunk[i]);",
     "lineNumber": 200,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/source-map/source-map.d.ts",
-    "line": "    prepend(chunk: string): void;",
-    "lineNumber": 90,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -6697,12 +5939,44 @@
     "updated": "2019-07-16T21:56:03.429Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/svg2png/node_modules/yargs/yargs.js",
     "line": "    usage.wrap(cols)",
     "lineNumber": 643,
     "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-append(",
@@ -6711,6 +5985,83 @@
     "lineNumber": 153,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-after(",
@@ -6907,7 +6258,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/tar-stream/extract.js",
     "line": "    b.append(data)",
-    "lineNumber": 224,
+    "lineNumber": 231,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -6915,7 +6266,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/tar-stream/extract.js",
     "line": "  else b.append(data)",
-    "lineNumber": 240,
+    "lineNumber": 247,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -6992,47 +6343,6 @@
     "reasonCategory": "ruleNeeded",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "Add rule. multiArgs are the only way to get arbitrary information into string returned by createWrapper"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/tiny-lr/node_modules/debug/browser.js",
-    "line": "function load() {",
-    "lineNumber": 139,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/tiny-lr/node_modules/debug/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 151,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/tiny-lr/node_modules/debug/node.js",
-    "line": "function load() {",
-    "lineNumber": 133,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/tiny-lr/node_modules/debug/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 209,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/to-fast-properties/index.js",
-    "line": "\teval(\"o\" + o); // ensure no dead code elimination",
-    "lineNumber": 10,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "The line is never run, since it's after a return statement"
   },
   {
     "rule": "jQuery-before(",
@@ -7122,6 +6432,38 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/whatwg-fetch/fetch.js",
     "line": "        this.append(name, value)",
@@ -7176,46 +6518,6 @@
     "lineNumber": 2066,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/yargs/lib/completion-templates.js",
-    "line": "    type_list=$({{app_path}} --get-yargs-completions \"\\${args[@]}\")",
-    "lineNumber": 17,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T21:47:42.627Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/yargs/lib/completion-templates.js",
-    "line": "    COMPREPLY=( $(compgen -W \"\\${type_list}\" -- \\${cur_word}) )",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T21:47:42.627Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/yargs/lib/completion-templates.js",
-    "line": "  IFS=$'\\n' reply=($(COMP_CWORD=\"$((CURRENT-1))\" COMP_LINE=\"$BUFFER\" COMP_POINT=\"$CURSOR\" {{app_path}} --get-yargs-completions \"\\${words[@]}\"))",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T21:47:42.627Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/yargs/node_modules/cliui/index.js",
-    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), { hard: true }).split('\\n')",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T21:47:42.627Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/yargs/yargs.js",
-    "line": "    usage.wrap(cols)",
-    "lineNumber": 756,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z"
   },
   {
     "rule": "jQuery-after(",
@@ -7475,34 +6777,43 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 65,
+    "lineNumber": 71,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-08-01T14:10:37.481Z",
+    "updated": "2019-12-16T14:36:25.614ZZ",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/Lightbox.js",
-    "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 185,
+    "path": "ts/components/LeftPane.js",
+    "line": "        this.listRef = react_1.default.createRef();",
+    "lineNumber": 15,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used to auto-start playback on videos"
+    "updated": "2019-11-05T01:14:21.081Z",
+    "reasonDetail": "Used for focus management"
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/Lightbox.tsx",
-    "line": "    this.videoRef = React.createRef();",
-    "lineNumber": 181,
+    "path": "ts/components/Lightbox.js",
+    "line": "        this.containerRef = react_1.default.createRef();",
+    "lineNumber": 141,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used to auto-start playback on videos"
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to double-check outside clicks"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/Lightbox.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 143,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 83,
+    "lineNumber": 144,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
@@ -7511,7 +6822,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 48,
+    "lineNumber": 65,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T21:17:57.798Z",
     "reasonDetail": "Used only to set focus"
@@ -7520,7 +6831,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SearchResults.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 21,
+    "lineNumber": 26,
     "reasonCategory": "usageTrusted",
     "updated": "2019-08-09T00:44:31.008Z",
     "reasonDetail": "SearchResults needs to interact with its child List directly"
@@ -7545,12 +6856,84 @@
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/conversation/InlineNotificationWrapper.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 10,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 11,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-06T19:56:38.557Z",
+    "reasonDetail": "Used to manage focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 32,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 155,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/MessageDetail.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/conversation/Timeline.js",
     "line": "        this.listRef = react_1.default.createRef();",
     "lineNumber": 27,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Timeline needs to interact with its child List directly"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 25,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
+    "line": "  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 66,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-01T22:46:33.013Z",
+    "reasonDetail": "Used for setting focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/stickers/StickerManager.js",
+    "line": "    const focusRef = React.createRef();",
+    "lineNumber": 20,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-11-21T06:13:49.384Z",
+    "reasonDetail": "Used for setting focus only"
   },
   {
     "rule": "jQuery-wrap(",

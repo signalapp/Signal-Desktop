@@ -6,6 +6,7 @@ import { MessageBody } from './conversation/MessageBody';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
+import { cleanId } from './_util';
 
 import { LocalizerType } from '../types/Util';
 
@@ -65,7 +66,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={48}
+          size={52}
         />
         {this.renderUnread()}
       </div>
@@ -129,6 +130,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             timestamp={lastUpdated}
             extended={false}
             module="module-conversation-list-item__header__timestamp"
+            withUnread={unreadCount > 0}
             i18n={i18n}
           />
         </div>
@@ -148,6 +150,11 @@ export class ConversationListItem extends React.PureComponent<Props> {
     if (!lastMessage && !typingContact) {
       return null;
     }
+
+    const showingDraft = shouldShowDraft && draftPreview;
+
+    // Note: instead of re-using showingDraft here we explode it because
+    //   typescript can't tell that draftPreview is truthy otherwise
     const text =
       shouldShowDraft && draftPreview
         ? draftPreview
@@ -170,13 +177,13 @@ export class ConversationListItem extends React.PureComponent<Props> {
             <TypingAnimation i18n={i18n} />
           ) : (
             <>
-              {shouldShowDraft ? (
+              {showingDraft ? (
                 <span className="module-conversation-list-item__message__draft-prefix">
                   {i18n('ConversationListItem--draft-prefix')}
                 </span>
               ) : null}
               <MessageBody
-                text={text}
+                text={text.split('\n')[0]}
                 disableJumbomoji={true}
                 disableLinks={true}
                 i18n={i18n}
@@ -184,7 +191,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             </>
           )}
         </div>
-        {lastMessage && lastMessage.status ? (
+        {!showingDraft && lastMessage && lastMessage.status ? (
           <div
             className={classNames(
               'module-conversation-list-item__message__status-icon',
@@ -202,8 +209,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     const { unreadCount, onClick, id, isSelected, style } = this.props;
 
     return (
-      <div
-        role="button"
+      <button
         onClick={() => {
           if (onClick) {
             onClick(id);
@@ -215,13 +221,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
           unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
           isSelected ? 'module-conversation-list-item--is-selected' : null
         )}
+        data-id={cleanId(id)}
       >
         {this.renderAvatar()}
         <div className="module-conversation-list-item__content">
           {this.renderHeader()}
           {this.renderMessage()}
         </div>
-      </div>
+      </button>
     );
   }
 }

@@ -19,10 +19,6 @@ const {
   pick,
 } = require('lodash');
 
-// To get long stack traces
-//   https://github.com/mapbox/node-sqlite3/wiki/API#sqlite3verbose
-sql.verbose();
-
 module.exports = {
   initialize,
   close,
@@ -58,6 +54,7 @@ module.exports = {
   removeAllItems,
 
   createOrUpdateSession,
+  createOrUpdateSessions,
   getSessionById,
   getSessionsByNumber,
   bulkAddSessions,
@@ -71,6 +68,7 @@ module.exports = {
   saveConversations,
   getConversationById,
   updateConversation,
+  updateConversations,
   removeConversation,
   getAllConversations,
   getAllConversationIds,
@@ -105,6 +103,7 @@ module.exports = {
   saveUnprocessed,
   updateUnprocessedAttempts,
   updateUnprocessedWithData,
+  updateUnprocessedsWithData,
   getUnprocessedById,
   saveUnprocesseds,
   removeUnprocessed,
@@ -214,10 +213,19 @@ async function getSQLCipherVersion(instance) {
   }
 }
 
-async function getSQLIntegrityCheck(instance) {
+async function getSQLCipherIntegrityCheck(instance) {
   const row = await instance.get('PRAGMA cipher_integrity_check;');
   if (row) {
     return row.cipher_integrity_check;
+  }
+
+  return null;
+}
+
+async function getSQLIntegrityCheck(instance) {
+  const row = await instance.get('PRAGMA integrity_check;');
+  if (row && row.integrity_check !== 'ok') {
+    return row.integrity_check;
   }
 
   return null;
@@ -1250,10 +1258,20 @@ async function initialize({ configDir, key, messages }) {
     promisified = await openAndSetUpSQLCipher(filePath, { key });
 
     // promisified.on('trace', async statement => {
-    //   if (!db || statement.startsWith('--')) {
-    //     console._log(statement);
+    //   if (
+    //     !db ||
+    //     statement.startsWith('--') ||
+    //     statement.includes('COMMIT') ||
+    //     statement.includes('BEGIN') ||
+    //     statement.includes('ROLLBACK')
+    //   ) {
     //     return;
     //   }
+
+    //   // Note that this causes problems when attempting to commit transactions - this
+    //   //   statement is running, and we get at SQLITE_BUSY error. So we delay.
+    //   await new Promise(resolve => setTimeout(resolve, 1000));
+
     //   const data = await db.get(`EXPLAIN QUERY PLAN ${statement}`);
     //   console._log(`EXPLAIN QUERY PLAN ${statement}\n`, data && data.detail);
     // });
@@ -1262,10 +1280,20 @@ async function initialize({ configDir, key, messages }) {
 
     // test database
 
-    const result = await getSQLIntegrityCheck(promisified);
-    if (result) {
-      console.log('Database integrity check failed:', result);
-      throw new Error(`Integrity check failed: ${result}`);
+    const cipherIntegrityResult = await getSQLCipherIntegrityCheck(promisified);
+    if (cipherIntegrityResult) {
+      console.log(
+        'Database cipher integrity check failed:',
+        cipherIntegrityResult
+      );
+      throw new Error(
+        `Cipher integrity check failed: ${cipherIntegrityResult}`
+      );
+    }
+    const integrityResult = await getSQLIntegrityCheck(promisified);
+    if (integrityResult) {
+      console.log('Database integrity check failed:', integrityResult);
+      throw new Error(`Integrity check failed: ${integrityResult}`);
     }
 
     // At this point we can allow general access to the database
@@ -1450,6 +1478,19 @@ async function createOrUpdateSession(data) {
     }
   );
 }
+async function createOrUpdateSessions(array) {
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([...map(array, item => createOrUpdateSession(item))]);
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
+}
+createOrUpdateSessions.needsSerial = true;
+
 async function getSessionById(id) {
   return getById(SESSIONS_TABLE, id);
 }
@@ -1616,6 +1657,7 @@ async function saveConversations(arrayOfConversations) {
     throw error;
   }
 }
+saveConversations.needsSerial = true;
 
 async function updateConversation(data) {
   // eslint-disable-next-line camelcase
@@ -1643,6 +1685,18 @@ async function updateConversation(data) {
     }
   );
 }
+async function updateConversations(array) {
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([...map(array, item => updateConversation(item))]);
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
+}
+updateConversations.needsSerial = true;
 
 async function removeConversation(id) {
   if (!Array.isArray(id)) {
@@ -1717,7 +1771,7 @@ async function searchConversations(query, { limit } = {}) {
         name LIKE $name OR
         profileName LIKE $profileName
       )
-     ORDER BY id ASC
+     ORDER BY active_at DESC
      LIMIT $limit`,
     {
       $id: `%${query}%`,
@@ -1943,6 +1997,7 @@ async function saveMessages(arrayOfMessages, { forceSave } = {}) {
     throw error;
   }
 }
+saveMessages.needsSerial = true;
 
 async function removeMessage(id) {
   if (!Array.isArray(id)) {
@@ -2144,6 +2199,7 @@ async function getMessageMetricsForConversation(conversationId) {
     totalUnread,
   };
 }
+getMessageMetricsForConversation.needsSerial = true;
 
 async function getMessagesBySentAt(sentAt) {
   const rows = await db.all(
@@ -2177,6 +2233,7 @@ async function getExpiredMessages() {
 async function getOutgoingWithoutExpiresAt() {
   const rows = await db.all(`
     SELECT json FROM messages
+    INDEXED BY messages_without_timer
     WHERE
       expireTimer > 0 AND
       expires_at IS NULL AND
@@ -2218,7 +2275,6 @@ async function getNextTapToViewMessageToAgeOut() {
 
 async function getTapToViewMessagesNeedingErase() {
   const THIRTY_DAYS_AGO = Date.now() - 30 * 24 * 60 * 60 * 1000;
-  const NOW = Date.now();
 
   const rows = await db.all(
     `SELECT json FROM messages
@@ -2228,7 +2284,6 @@ async function getTapToViewMessagesNeedingErase() {
       AND received_at <= $THIRTY_DAYS_AGO
     ORDER BY received_at ASC;`,
     {
-      $NOW: NOW,
       $THIRTY_DAYS_AGO: THIRTY_DAYS_AGO,
     }
   );
@@ -2304,6 +2359,7 @@ async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
     throw error;
   }
 }
+saveUnprocesseds.needsSerial = true;
 
 async function updateUnprocessedAttempts(id, attempts) {
   await db.run('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;', {
@@ -2330,6 +2386,23 @@ async function updateUnprocessedWithData(id, data = {}) {
     }
   );
 }
+async function updateUnprocessedsWithData(arrayOfUnprocessed) {
+  await db.run('BEGIN TRANSACTION;');
+
+  try {
+    await Promise.all([
+      ...map(arrayOfUnprocessed, ({ id, data }) =>
+        updateUnprocessedWithData(id, data)
+      ),
+    ]);
+
+    await db.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await db.run('ROLLBACK;');
+    throw error;
+  }
+}
+updateUnprocessedsWithData.needsSerial = true;
 
 async function getUnprocessedById(id) {
   const row = await db.get('SELECT * FROM unprocessed WHERE id = $id;', {
@@ -2745,6 +2818,8 @@ async function deleteStickerPackReference(messageId, packId) {
     throw error;
   }
 }
+deleteStickerPackReference.needsSerial = true;
+
 async function deleteStickerPack(packId) {
   if (!packId) {
     throw new Error(
@@ -2783,6 +2858,8 @@ async function deleteStickerPack(packId) {
     throw error;
   }
 }
+deleteStickerPack.needsSerial = true;
+
 async function getStickerCount() {
   const row = await db.get('SELECT count(*) from stickers;');
 
@@ -2854,6 +2931,7 @@ async function updateEmojiUsage(shortName, timeUsed = Date.now()) {
     throw error;
   }
 }
+updateEmojiUsage.needsSerial = true;
 
 async function getRecentEmojis(limit = 32) {
   const rows = await db.all(
@@ -2893,6 +2971,7 @@ async function removeAll() {
     throw error;
   }
 }
+removeAll.needsSerial = true;
 
 // Anything that isn't user-visible data
 async function removeAllConfiguration() {
@@ -2914,6 +2993,7 @@ async function removeAllConfiguration() {
     throw error;
   }
 }
+removeAllConfiguration.needsSerial = true;
 
 async function getMessagesNeedingUpgrade(limit, { maxVersion }) {
   const rows = await db.all(

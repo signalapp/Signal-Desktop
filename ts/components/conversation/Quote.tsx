@@ -90,25 +90,29 @@ function getTypeLabel({
 }
 
 export class Quote extends React.Component<Props, State> {
-  public handleImageErrorBound: () => void;
+  public state = {
+    imageBroken: false,
+  };
 
-  public constructor(props: Props) {
-    super(props);
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    const { onClick } = this.props;
 
-    this.handleImageErrorBound = this.handleImageError.bind(this);
+    // This is important to ensure that using this quote to navigate to the referenced
+    //   message doesn't also trigger its parent message's keydown.
+    if (onClick && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      event.stopPropagation();
+      onClick();
+    }
+  };
 
-    this.state = {
-      imageBroken: false,
-    };
-  }
-
-  public handleImageError() {
+  public handleImageError = () => {
     // tslint:disable-next-line no-console
     console.log('Message: Image failed to load; failing over to placeholder');
     this.setState({
       imageBroken: true,
     });
-  }
+  };
 
   public renderImage(url: string, i18n: LocalizerType, icon?: string) {
     const iconElement = icon ? (
@@ -129,7 +133,7 @@ export class Quote extends React.Component<Props, State> {
         <img
           src={url}
           alt={i18n('quoteThumbnailAlt')}
-          onError={this.handleImageErrorBound}
+          onError={this.handleImageError}
         />
         {iconElement}
       </div>
@@ -260,20 +264,31 @@ export class Quote extends React.Component<Props, State> {
       return null;
     }
 
-    // We don't want the overall click handler for the quote to fire, so we stop
-    //   propagation before handing control to the caller's callback.
-    const onClick = (e: React.MouseEvent<{}>): void => {
+    const clickHandler = (e: React.MouseEvent): void => {
       e.stopPropagation();
+      e.preventDefault();
+
       onClose();
+    };
+    const keyDownHandler = (e: React.KeyboardEvent): void => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.stopPropagation();
+        e.preventDefault();
+
+        onClose();
+      }
     };
 
     // We need the container to give us the flexibility to implement the iOS design.
     return (
       <div className="module-quote__close-container">
         <div
-          className="module-quote__close-button"
+          tabIndex={0}
+          // We can't be a button because the overall quote is a button; can't nest them
           role="button"
-          onClick={onClick}
+          className="module-quote__close-button"
+          onKeyDown={keyDownHandler}
+          onClick={clickHandler}
         />
       </div>
     );
@@ -365,9 +380,9 @@ export class Quote extends React.Component<Props, State> {
           withContentAbove ? 'module-quote-container--with-content-above' : null
         )}
       >
-        <div
+        <button
           onClick={onClick}
-          role="button"
+          onKeyDown={this.handleKeyDown}
           className={classNames(
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
@@ -388,7 +403,7 @@ export class Quote extends React.Component<Props, State> {
           </div>
           {this.renderIconContainer()}
           {this.renderClose()}
-        </div>
+        </button>
         {this.renderReferenceWarning()}
       </div>
     );

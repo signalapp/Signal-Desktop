@@ -143,6 +143,10 @@
         "message": "Инсталиране като отделно устройство",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "avatarMenuViewArchive": {
+        "message": "View Archive",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "Зареждане...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -263,10 +267,6 @@
         "message": "Превъртете до края на разговора",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
-    "messageBelow": {
-        "message": "Ново съобщение по-долу",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
     "messagesBelow": {
         "message": "Нови съобщения по-долу",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
@@ -368,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Номерът ви за безопасност с $name$ се е променил. Това може да означава, че някой се опитва да прихване комуникацията ви или че $name$ просто повторно е инсталирал Сигнал. Вероятно желаете да потвърдите вашия номер за безопасност с този контакт.",
+        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -603,9 +603,13 @@
         "message": "Доклад (debug log)",
         "description": "View menu item to open the debug log (title case)"
     },
+    "helpMenuShowKeyboardShortcuts": {
+        "message": "Show Keyboard Shortcuts",
+        "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
+    },
     "goToReleaseNotes": {
         "message": "Отворете бележките за изданието",
-        "description": ""
+        "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
         "message": "Към форумите",
@@ -651,6 +655,16 @@
         "message": "Търсене",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Search in $conversationName$",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "No results for \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
@@ -658,6 +672,16 @@
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "No results for \"$searchTerm$\" in $conversationName$",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -752,7 +776,7 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice note must be the only attachment included in a message.",
+        "message": "A voice message must have only one attachment.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
@@ -842,8 +866,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "to",
+        "message": "До",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "to",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "Изпратено",
@@ -936,7 +964,7 @@
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Add a caption...",
+        "message": "Добави надпис...",
         "description": ""
     },
     "save": {
@@ -1120,7 +1148,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Мултимедиино съобщение",
+        "message": "Media Message",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -1156,25 +1184,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 минута",
+        "message": "1м",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 час",
+        "message": "1ч",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ hr",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "$hours$ hr ago",
+        "message": "$hours$h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1183,18 +1201,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "$minutes$ min ago",
+        "message": "$minutes$m",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1210,6 +1218,10 @@
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "messageBodyTooLong": {
+        "message": "Message body is too long.",
+        "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
         "message": "Отблокирай този контакт за да изпратиш съобщение.",
@@ -1421,8 +1433,12 @@
         "message": "Dark",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "System",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
-        "message": "Note to Self",
+        "message": "\nНапомняне за мен",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
@@ -1526,6 +1542,368 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Чернова:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Sticker message",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Unsupported message",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Disappearing Photo",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "message--getDescription--disappearing-video": {
+        "message": "Disappearing Video",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "Sticker pack could not be installed",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Инсталирани стикери",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "Няма инсталирани стикери",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Signal Artist серии",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "No Signal Artist stickers available",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Получени стикери",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Стикери от входящи съобщения ще се появяват тук",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Инсталирай",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Uninstall",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "You may not be able to re-install this sticker pack if you no longer have the source message.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "Introducing Stickers",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Why use words when you can use stickers?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "Some stickers could not be downloaded.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "Installing sticker pack...",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "No stickers found",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "New sticker packs from your messages are available to install",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "No sticker packs found",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Recently used stickers will appear here.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Sticker Pack",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Error opening sticker pack. Check your internet connection and try again.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "No emoji found",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Search Emoji",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "Skin tone $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Отказ",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Update Signal",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Viewed",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Медия",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Снимка",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "Видео",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(attachment)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(quote)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(draft)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Keyboard--navigate-by-section": {
+        "message": "Navigate by section",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--previous-conversation": {
+        "message": "Previous conversation",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--next-conversation": {
+        "message": "Next conversation",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--previous-unread-conversation": {
+        "message": "Previous unread conversation",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--next-unread-conversation": {
+        "message": "Next unread conversation",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--preferences": {
+        "message": "Preferences",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-conversation-menu": {
+        "message": "Open conversation menu",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--archive-conversation": {
+        "message": "Archive conversation",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--unarchive-conversation": {
+        "message": "Unarchive conversation",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--search": {
+        "message": "Търсене",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--search-in-conversation": {
+        "message": "Search in conversation",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--focus-composer": {
+        "message": "Focus composer",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-all-media-view": {
+        "message": "Open All Media view",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-emoji-chooser": {
+        "message": "Open emoji chooser",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-sticker-chooser": {
+        "message": "Open sticker chooser",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--begin-recording-voice-note": {
+        "message": "Begin recording voice note",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--default-message-action": {
+        "message": "Default action for selected message",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--view-details-for-selected-message": {
+        "message": "View selected message details",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-reply": {
+        "message": "Toggle reply to selected message",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--save-attachment": {
+        "message": "Save attachment from selected message",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--delete-message": {
+        "message": "Delete selected message",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--add-newline": {
+        "message": "Add newline to message",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--expand-composer": {
+        "message": "Expand composer",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--send-in-expanded-composer": {
+        "message": "Send (in expanded composer)",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--attach-file": {
+        "message": "Attach file",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--remove-draft-link-preview": {
+        "message": "Remove draft link preview",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--remove-draft-attachments": {
+        "message": "Remove all draft attachments",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--Key--ctrl": {
+        "message": "Ctrl",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--option": {
+        "message": "Option",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--alt": {
+        "message": "Alt",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--shift": {
+        "message": "Shift",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--enter": {
+        "message": "Enter",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--header": {
+        "message": "Keyboard Shortcuts",
+        "description": "Title header of the keyboard shortcuts guide"
+    },
+    "Keyboard--navigation-header": {
+        "message": "Navigation",
+        "description": "Header of the keyboard shortcuts guide - navigation section"
+    },
+    "Keyboard--messages-header": {
+        "message": "Съобщения",
+        "description": "Header of the keyboard shortcuts guide - messages section"
+    },
+    "Keyboard--composer-header": {
+        "message": "Composer",
+        "description": "Header of the keyboard shortcuts guide - composer section"
+    },
+    "Keyboard--scroll-to-top": {
+        "message": "Scroll to top of list",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--scroll-to-bottom": {
+        "message": "Scroll to bottom of list",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--close-curent-conversation": {
+        "message": "Close current conversation",
+        "description": "Shown in the shortcuts guide"
+    },
+    "close-popup": {
+        "message": "Close Popup",
+        "description": "Used as alt text for any button closing a popup"
+    },
+    "add-image-attachment": {
+        "message": "Add image attachment",
+        "description": "Used in draft attachment list for the big 'add new attachment' button"
+    },
+    "remove-attachment": {
+        "message": "Remove attachment",
+        "description": "Used in draft attachment list to remove an individual attachment"
+    },
+    "backToInbox": {
+        "message": "Back to inbox",
+        "description": "Used as alt-text of button on archived conversations screen"
+    },
+    "conversationArchived": {
+        "message": "Conversation archived",
+        "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationReturnedToInbox": {
+        "message": "Conversation returned to inbox",
+        "description": "A toast that shows up when the user unarchives a conversation"
     },
     "privacyPolicy": {
         "message": "Terms & Privacy Policy",

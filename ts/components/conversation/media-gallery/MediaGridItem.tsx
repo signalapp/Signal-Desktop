@@ -109,13 +109,9 @@ export class MediaGridItem extends React.Component<Props, State> {
 
   public render() {
     return (
-      <div
-        className="module-media-grid-item"
-        role="button"
-        onClick={this.props.onClick}
-      >
+      <button className="module-media-grid-item" onClick={this.props.onClick}>
         {this.renderContent()}
-      </div>
+      </button>
     );
   }
 }

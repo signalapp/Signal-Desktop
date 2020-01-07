@@ -1,4 +1,3 @@
-import { AnyAction } from 'redux';
 import { LocalizerType } from '../../types/Util';
 
 // State
@@ -8,8 +7,10 @@ export type UserStateType = {
   stickersPath: string;
   tempPath: string;
   ourNumber: string;
+  platform: string;
   regionCode: string;
   i18n: LocalizerType;
+  interactionMode: 'mouse' | 'keyboard';
 };
 
 // Actions
@@ -17,12 +18,13 @@ export type UserStateType = {
 type UserChangedActionType = {
   type: 'USER_CHANGED';
   payload: {
-    ourNumber: string;
-    regionCode: string;
+    ourNumber?: string;
+    regionCode?: string;
+    interactionMode?: 'mouse' | 'keyboard';
   };
 };
 
-export type UserActionType = AnyAction | UserChangedActionType;
+export type UserActionType = UserChangedActionType;
 
 // Action Creators
 
@@ -31,6 +33,7 @@ export const actions = {
 };
 
 function userChanged(attributes: {
+  interactionMode?: 'mouse' | 'keyboard';
   ourNumber: string;
   regionCode: string;
 }): UserChangedActionType {
@@ -49,6 +52,8 @@ function getEmptyState(): UserStateType {
     tempPath: 'missing',
     ourNumber: 'missing',
     regionCode: 'missing',
+    platform: 'missing',
+    interactionMode: 'mouse',
     i18n: () => 'missing',
   };
 }

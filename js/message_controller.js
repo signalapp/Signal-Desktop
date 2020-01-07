@@ -54,6 +54,11 @@
     }
   }
 
+  function getById(id) {
+    const existing = messageLookup[id];
+    return existing && existing.message ? existing.message : null;
+  }
+
   function _get() {
     return messageLookup;
   }
@@ -64,6 +69,7 @@
     register,
     unregister,
     cleanup,
+    getById,
     _get,
   };
 })();

@@ -157,8 +157,6 @@
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         generalHeader: i18n('general'),
         spellCheckDescription: i18n('spellCheckDescription'),
-        sendLinkPreviews: i18n('sendLinkPreviews'),
-        linkPreviewsDescription: i18n('linkPreviewsDescription'),
       };
     },
     onClose() {

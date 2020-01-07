@@ -27,12 +27,14 @@ describe('SignalProtocolStore', () => {
 
   describe('getLocalRegistrationId', () => {
     it('retrieves my registration id', async () => {
+      await store.hydrateCaches();
       const id = await store.getLocalRegistrationId();
       assert.strictEqual(id, 1337);
     });
   });
   describe('getIdentityKeyPair', () => {
     it('retrieves my identity key', async () => {
+      await store.hydrateCaches();
       const key = await store.getIdentityKeyPair();
       assertEqualArrayBuffers(key.pubKey, identityKey.pubKey);
       assertEqualArrayBuffers(key.privKey, identityKey.privKey);

@@ -12,6 +12,8 @@
     templateName: 'standalone',
     className: 'full-screen-flow',
     initialize() {
+      window.readyForUpdates();
+
       this.accountManager = getAccountManager();
 
       this.render();

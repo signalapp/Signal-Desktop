@@ -143,6 +143,10 @@
         "message": "Configura com a aparell únic",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "avatarMenuViewArchive": {
+        "message": "Veure Arxiu",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "S'està carregant...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -152,7 +156,7 @@
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "S'estan optimitzant els missatges... $status$ finalitzat.",
+        "message": "S'optimitzen els missatges... $status$ acabat.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -218,7 +222,7 @@
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Finalitzat!",
+        "message": "Acabat!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
@@ -238,7 +242,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "S'estan carregant els missatges. Manquen $count$...",
+        "message": "Es carreguen els missatges. Manquen $count$...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -260,12 +264,8 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Vés al final de la conversa",
+        "message": "Ves al final de la conversa",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Missatge nou a continuació",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
         "message": "Missatges nous a continuació",
@@ -603,16 +603,20 @@
         "message": "Registre de depuració",
         "description": "View menu item to open the debug log (title case)"
     },
+    "helpMenuShowKeyboardShortcuts": {
+        "message": "Mostra les dreceres del teclat",
+        "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
+    },
     "goToReleaseNotes": {
-        "message": "Vés a les notes de versió",
-        "description": ""
+        "message": "Ves a les notes de versió",
+        "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "Vés als fòrums",
+        "message": "Ves als fòrums",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Vés a la pàgina de suport",
+        "message": "Ves a la pàgina de suport",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
@@ -651,6 +655,16 @@
         "message": "Cerca",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Cerca a $conversationName$",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "No hi ha cap resultat per a \"$searchTerm$\".",
         "description": "Shown in the search left pane when no results were found",
@@ -658,6 +672,16 @@
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "No hi ha resultats per a \"$searchTerm$\" a $conversationName$",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -752,7 +776,7 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Una nota de veu ha de ser l'únic adjunt inclòs en un missatge.",
+        "message": "Un missatge de veu només pot tenir un adjunt.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
@@ -794,15 +818,15 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "No es pot actualitzar.",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "El Signal Desktop no es pot actualitzar, però n'hi ha una versió nova disponible. Si us plau, aneu a https://signal.org/download i instal·leu-ne la nova versió manualment. Després o bé contacteu amb el personal de suport o bé feu un informe d'error sobre aquest problema.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "El Signal Desktop es troba probablement en una quarentena de macOS i no es podrà actualitzar automàticament. Si us plau, proveu de moure Signal.app a /Aplicacions amb el Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
@@ -842,8 +866,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "a",
+        "message": "A",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "a",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "Enviament",
@@ -1156,25 +1184,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minut",
+        "message": "1 min",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 hora",
+        "message": "1 h",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ h",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "fa $hours$ h",
+        "message": "$hours$h",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1183,18 +1201,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "fa $minutes$ min",
+        "message": "$minutes$min",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1210,6 +1218,10 @@
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "messageBodyTooLong": {
+        "message": "El cos del missatge és massa llarg.",
+        "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
         "message": "Desbloca aquest contacte per a enviar-li un missatge.",
@@ -1421,6 +1433,10 @@
         "message": "Fosc",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "Sistema",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
         "message": "Notifica-m'ho",
         "description": "Name for the conversation with your own phone number"
@@ -1526,6 +1542,368 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Esborrany:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Missatge adhesiu",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Missatge no compatible",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Fotografia efímera",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "message--getDescription--disappearing-video": {
+        "message": "Vídeo efímer",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "No s'ha pogut instal·lar el paquet d'adhesius.",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Adhesius instal·lats",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "No hi ha adhesius instal·lats.",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Sèries d'artistes de Signal",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "No hi ha adhesius d'artistes de Signal disponibles.",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Adhesius que heu rebut",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Els adhesius dels missatges d'entrada apareixeran aquí.",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Instal·la",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Desinstal·la",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "Potser no podreu reinstal·lar aquest paquet d'adhesius si ja no teniu el missatge original.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "S'introdueixen els adhesius.",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Per què usar paraules quan podeu fer servir adhesius?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "No s'han pogut baixar alguns adhesius.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "S'instal·la el paquet d'adhesius...",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "No s'ha trobat cap adhesiu.",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "Hi ha paquets d'adhesius nous procedents dels missatges per instal·lar.",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "No s'ha trobat cap paquet d'adhesius.",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Els adhesius usats recentment apareixeran aquí.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Paquet d'adhesius",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Error en processar el paquet d'adhesius. Comproveu la connexió a Internet i torneu-ho a provar.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "No s'ha trobat cap emoticona.",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Cerca una emoticona",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "To de la pell $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Cancel·la",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ us ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "Podeu demanar a $contact$ que torni a enviar aquest missatge ara que useu una versió actualitzada del Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "Un dels vostres dispositius ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Missatges futurs com aquest se sincronitzaran ara que useu una versió actualitzada del Signal.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Actualitza el Signal",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Vista",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Contingut",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Foto",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "Vídeo",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(adjunt)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(citació)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(esborrany)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Keyboard--navigate-by-section": {
+        "message": "Navega per seccions",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--previous-conversation": {
+        "message": "Conversa anterior",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--next-conversation": {
+        "message": "Conversa següent",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--previous-unread-conversation": {
+        "message": "Conversa anterior sense llegir",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--next-unread-conversation": {
+        "message": "Conversa següent sense llegir",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--preferences": {
+        "message": "Preferències",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-conversation-menu": {
+        "message": "Obre el menú de conversa",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--archive-conversation": {
+        "message": "Arxiva la conversa",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--unarchive-conversation": {
+        "message": "No arxivis la conversa",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--search": {
+        "message": "Cerca",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--search-in-conversation": {
+        "message": "Cerca a la conversa",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--focus-composer": {
+        "message": "Focalitza l'editor",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-all-media-view": {
+        "message": "Obre la vista de tot el contingut",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-emoji-chooser": {
+        "message": "Obre el selector d'emoticones",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-sticker-chooser": {
+        "message": "Obre el selector d'addhesius",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--begin-recording-voice-note": {
+        "message": "Comença la gravació d'una nota de veu",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--default-message-action": {
+        "message": "Acció per defecte per al missatge seleccionat",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--view-details-for-selected-message": {
+        "message": "Mostra els detalls del missatge seleccionat",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-reply": {
+        "message": "Commuta la resposta al missatge seleccionat",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--save-attachment": {
+        "message": "Desa l'adjunt del missatge seleccionat",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--delete-message": {
+        "message": "Suprimeix el missatge seleccionat",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--add-newline": {
+        "message": "Afegeix una línia nova al missatge",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--expand-composer": {
+        "message": "Expandeix l'editor",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--send-in-expanded-composer": {
+        "message": "Envia (a l'editor expandit)",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--attach-file": {
+        "message": "Adjunta un fitxer",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--remove-draft-link-preview": {
+        "message": "Suprimeix l'enllaç de la previsualització d'esborrany",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--remove-draft-attachments": {
+        "message": "Suprimeix tots els adjunts de l'esborrany",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--Key--ctrl": {
+        "message": "Ctrl",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--option": {
+        "message": "Opció",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--alt": {
+        "message": "Alt",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--shift": {
+        "message": "Maj.",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--enter": {
+        "message": "Retorn",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--header": {
+        "message": "Dreceres del teclat",
+        "description": "Title header of the keyboard shortcuts guide"
+    },
+    "Keyboard--navigation-header": {
+        "message": "Navegació",
+        "description": "Header of the keyboard shortcuts guide - navigation section"
+    },
+    "Keyboard--messages-header": {
+        "message": "Missatges",
+        "description": "Header of the keyboard shortcuts guide - messages section"
+    },
+    "Keyboard--composer-header": {
+        "message": "Editor",
+        "description": "Header of the keyboard shortcuts guide - composer section"
+    },
+    "Keyboard--scroll-to-top": {
+        "message": "Ves al capdamunt de la llista",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--scroll-to-bottom": {
+        "message": "Ves al capdavall de la llista",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--close-curent-conversation": {
+        "message": "Tanca la conversa actual",
+        "description": "Shown in the shortcuts guide"
+    },
+    "close-popup": {
+        "message": "Tanca la finestra emergent",
+        "description": "Used as alt text for any button closing a popup"
+    },
+    "add-image-attachment": {
+        "message": "Afegeix un adjunt d'imatge",
+        "description": "Used in draft attachment list for the big 'add new attachment' button"
+    },
+    "remove-attachment": {
+        "message": "Suprimeix l'adjunt",
+        "description": "Used in draft attachment list to remove an individual attachment"
+    },
+    "backToInbox": {
+        "message": "Torna a la bústia d'entrada",
+        "description": "Used as alt-text of button on archived conversations screen"
+    },
+    "conversationArchived": {
+        "message": "Conversa arxivada",
+        "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationReturnedToInbox": {
+        "message": "La conversa ha tornat a la bústia d'entrada",
+        "description": "A toast that shows up when the user unarchives a conversation"
     },
     "privacyPolicy": {
         "message": "Condicions de servei i política de privadesa",

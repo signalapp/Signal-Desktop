@@ -1,0 +1,34 @@
+diff --git a/node_modules/react-contextmenu/modules/ContextMenu.js b/node_modules/react-contextmenu/modules/ContextMenu.js
+index 622a1f9..61c8e70 100644
+--- a/node_modules/react-contextmenu/modules/ContextMenu.js
++++ b/node_modules/react-contextmenu/modules/ContextMenu.js
+@@ -226,6 +226,9 @@ var ContextMenu = function (_AbstractMenu) {
+ 
+             if (this.state.isVisible) {
+                 var wrapper = window.requestAnimationFrame || setTimeout;
++                if (!this.previousFocus) {
++                    this.previousFocus = document.activeElement;
++                }
+ 
+                 wrapper(function () {
+                     var _state = _this2.state,
+@@ -242,12 +245,19 @@ var ContextMenu = function (_AbstractMenu) {
+                         _this2.menu.style.left = left + 'px';
+                         _this2.menu.style.opacity = 1;
+                         _this2.menu.style.pointerEvents = 'auto';
++
++                        _this2.menu.focus();
+                     });
+                 });
+             } else {
+                 if (!this.menu) return;
+                 this.menu.style.opacity = 0;
+                 this.menu.style.pointerEvents = 'none';
++
++                if (this.previousFocus && this.previousFocus.focus) {
++                    this.previousFocus.focus();
++                    this.previousFocus = null;
++                }
+             }
+         }
+     }, {

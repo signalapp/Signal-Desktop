@@ -1,4 +1,4 @@
-import { debounce, isNumber } from 'lodash';
+import { debounce, get, isNumber } from 'lodash';
 import React from 'react';
 import {
   AutoSizer,
@@ -14,7 +14,7 @@ import { LocalizerType } from '../../types/Util';
 import { PropsActions as MessageActionsType } from './Message';
 import { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
 
-const AT_BOTTOM_THRESHOLD = 1;
+const AT_BOTTOM_THRESHOLD = 15;
 const NEAR_BOTTOM_THRESHOLD = 15;
 const AT_TOP_THRESHOLD = 10;
 const LOAD_MORE_THRESHOLD = 30;
@@ -25,9 +25,10 @@ export type PropsDataType = {
   haveNewest: boolean;
   haveOldest: boolean;
   isLoadingMessages: boolean;
+  isNearBottom?: boolean;
   items: Array<string>;
   loadCountdownStart?: number;
-  messageHeightChanges: boolean;
+  messageHeightChangeIndex?: number;
   oldestUnreadIndex?: number;
   resetCounter: number;
   scrollToIndex?: number;
@@ -39,10 +40,15 @@ type PropsHousekeepingType = {
   id: string;
   unreadCount?: number;
   typingContact?: Object;
+  selectedMessageId?: string;
 
   i18n: LocalizerType;
 
-  renderItem: (id: string, actions: Object) => JSX.Element;
+  renderItem: (
+    id: string,
+    conversationId: string,
+    actions: Object
+  ) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
   renderLoadingRow: (id: string) => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
@@ -59,8 +65,10 @@ type PropsActionsType = {
   loadAndScroll: (messageId: string) => unknown;
   loadOlderMessages: (messageId: string) => unknown;
   loadNewerMessages: (messageId: string) => unknown;
-  loadNewestMessages: (messageId: string) => unknown;
-  markMessageRead: (messageId: string, forceFocus?: boolean) => unknown;
+  loadNewestMessages: (messageId: string, setFocus?: boolean) => unknown;
+  markMessageRead: (messageId: string) => unknown;
+  selectMessage: (messageId: string, conversationId: string) => unknown;
+  clearSelectedMessage: () => unknown;
 } & MessageActionsType &
   SafetyNumberActionsType;
 
@@ -123,7 +131,7 @@ export class Timeline extends React.PureComponent<Props, State> {
   public mostRecentWidth = 0;
   public mostRecentHeight = 0;
   public offsetFromBottom: number | undefined = 0;
-  public resizeAllFlag = false;
+  public resizeFlag = false;
   public listRef = React.createRef<any>();
   public visibleRows: VisibleRowsType | undefined;
   public loadCountdownTimeout: any;
@@ -229,13 +237,17 @@ export class Timeline extends React.PureComponent<Props, State> {
     grid.scrollToPosition({ scrollTop: scrollContainer.scrollTop + delta });
   };
 
-  public resizeAll = () => {
+  public resize = (row?: number) => {
     this.offsetFromBottom = undefined;
-    this.resizeAllFlag = false;
-    this.cellSizeCache.clearAll();
+    this.resizeFlag = false;
+    if (isNumber(row) && row > 0) {
+      // @ts-ignore
+      this.cellSizeCache.clearPlus(row, 0);
+    } else {
+      this.cellSizeCache.clearAll();
+    }
 
-    const rowCount = this.getRowCount();
-    this.recomputeRowHeights(rowCount - 1);
+    this.recomputeRowHeights(row || 0);
   };
 
   public onScroll = (data: OnScrollParamsType) => {
@@ -255,8 +267,6 @@ export class Timeline extends React.PureComponent<Props, State> {
     //  pop the user back down to the bottom.
     const { clientHeight, scrollHeight, scrollTop } = data;
     if (scrollTop + clientHeight > scrollHeight) {
-      this.resizeAll();
-
       return;
     }
 
@@ -321,7 +331,9 @@ export class Timeline extends React.PureComponent<Props, State> {
         setLoadCountdownStart(id, loadCountdownStart);
       }
 
-      setIsNearBottom(id, isNearBottom);
+      if (isNearBottom !== this.props.isNearBottom) {
+        setIsNearBottom(id, isNearBottom);
+      }
 
       this.setState({
         atBottom,
@@ -397,7 +409,7 @@ export class Timeline extends React.PureComponent<Props, State> {
 
   // tslint:disable-next-line member-ordering cyclomatic-complexity
   public updateWithVisibleRows = debounce(
-    (forceFocus?: boolean) => {
+    () => {
       const {
         unreadCount,
         haveNewest,
@@ -421,7 +433,7 @@ export class Timeline extends React.PureComponent<Props, State> {
         return;
       }
 
-      markMessageRead(newest.id, forceFocus);
+      markMessageRead(newest.id);
 
       const rowCount = this.getRowCount();
 
@@ -505,13 +517,13 @@ export class Timeline extends React.PureComponent<Props, State> {
 
     if (!haveOldest && row === 0) {
       rowContents = (
-        <div data-row={row} style={styleWithWidth}>
+        <div data-row={row} style={styleWithWidth} role="row">
           {renderLoadingRow(id)}
         </div>
       );
     } else if (oldestUnreadRow === row) {
       rowContents = (
-        <div data-row={row} style={styleWithWidth}>
+        <div data-row={row} style={styleWithWidth} role="row">
           {renderLastSeenIndicator(id)}
         </div>
       );
@@ -521,6 +533,7 @@ export class Timeline extends React.PureComponent<Props, State> {
           data-row={row}
           className="module-timeline__message-container"
           style={styleWithWidth}
+          role="row"
         >
           {renderTypingBubble(id)}
         </div>
@@ -539,8 +552,9 @@ export class Timeline extends React.PureComponent<Props, State> {
           data-row={row}
           className="module-timeline__message-container"
           style={styleWithWidth}
+          role="row"
         >
-          {renderItem(messageId, this.props)}
+          {renderItem(messageId, id, this.props)}
         </div>
       );
     }
@@ -597,8 +611,8 @@ export class Timeline extends React.PureComponent<Props, State> {
     return itemsCount + extraRows;
   }
 
-  public fromRowToItemIndex(row: number): number | undefined {
-    const { haveOldest, items } = this.props;
+  public fromRowToItemIndex(row: number, props?: Props): number | undefined {
+    const { haveOldest, items } = props || this.props;
 
     let subtraction = 0;
 
@@ -619,8 +633,8 @@ export class Timeline extends React.PureComponent<Props, State> {
     return index;
   }
 
-  public getLastSeenIndicatorRow() {
-    const { oldestUnreadIndex } = this.props;
+  public getLastSeenIndicatorRow(props?: Props) {
+    const { oldestUnreadIndex } = props || this.props;
     if (!isNumber(oldestUnreadIndex)) {
       return;
     }
@@ -655,7 +669,15 @@ export class Timeline extends React.PureComponent<Props, State> {
     }
   };
 
-  public scrollToBottom = () => {
+  public scrollToBottom = (setFocus?: boolean) => {
+    const { selectMessage, id, items } = this.props;
+
+    if (setFocus && items && items.length > 0) {
+      const lastIndex = items.length - 1;
+      const lastMessageId = items[lastIndex];
+      selectMessage(lastMessageId, id);
+    }
+
     this.setState({
       propScrollToIndex: undefined,
       oneTimeScrollRow: undefined,
@@ -664,20 +686,31 @@ export class Timeline extends React.PureComponent<Props, State> {
   };
 
   public onClickScrollDownButton = () => {
+    this.scrollDown(false);
+  };
+
+  public scrollDown = (setFocus?: boolean) => {
     const {
       haveNewest,
+      id,
       isLoadingMessages,
       items,
       loadNewestMessages,
+      oldestUnreadIndex,
+      selectMessage,
     } = this.props;
+    if (!items || items.length < 1) {
+      return;
+    }
+
     const lastId = items[items.length - 1];
     const lastSeenIndicatorRow = this.getLastSeenIndicatorRow();
 
     if (!this.visibleRows) {
       if (haveNewest) {
-        this.scrollToBottom();
+        this.scrollToBottom(setFocus);
       } else if (!isLoadingMessages) {
-        loadNewestMessages(lastId);
+        loadNewestMessages(lastId, setFocus);
       }
 
       return;
@@ -690,55 +723,60 @@ export class Timeline extends React.PureComponent<Props, State> {
       isNumber(lastSeenIndicatorRow) &&
       newest.row < lastSeenIndicatorRow
     ) {
+      if (setFocus && isNumber(oldestUnreadIndex)) {
+        const messageId = items[oldestUnreadIndex];
+        selectMessage(messageId, id);
+      }
       this.setState({
         oneTimeScrollRow: lastSeenIndicatorRow,
       });
     } else if (haveNewest) {
-      this.scrollToBottom();
+      this.scrollToBottom(setFocus);
     } else if (!isLoadingMessages) {
-      loadNewestMessages(lastId);
+      loadNewestMessages(lastId, setFocus);
     }
   };
 
   public componentDidMount() {
     this.updateWithVisibleRows();
     // @ts-ignore
-    window.registerForFocus(this.forceFocusVisibleRowUpdate);
+    window.registerForActive(this.updateWithVisibleRows);
   }
 
   public componentWillUnmount() {
     // @ts-ignore
-    window.unregisterForFocus(this.forceFocusVisibleRowUpdate);
+    window.unregisterForActive(this.updateWithVisibleRows);
   }
 
-  public forceFocusVisibleRowUpdate = () => {
-    const forceFocus = true;
-    this.updateWithVisibleRows(forceFocus);
-  };
-
-  // tslint:disable-next-line cyclomatic-complexity
+  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   public componentDidUpdate(prevProps: Props) {
     const {
       id,
       clearChangedMessages,
       items,
-      messageHeightChanges,
+      messageHeightChangeIndex,
       oldestUnreadIndex,
       resetCounter,
       scrollToIndex,
       typingContact,
     } = this.props;
 
-    // There are a number of situations which can necessitate that we drop our row height
-    //   cache and start over. It can cause the scroll position to do weird things, so we
-    //   try to minimize those situations. In some cases we could reset a smaller set
-    //   of cached row data, but we currently don't have an API for that. We'd need to
-    //   create it.
+    // There are a number of situations which can necessitate that we forget about row
+    //   heights previously calculated. We reset the minimum number of rows to minimize
+    //   unexpected changes to the scroll position. Those changes happen because
+    //   react-virtualized doesn't know what to expect (variable row heights) when it
+    //   renders, so it does have a fixed row it's attempting to scroll to, and you ask it
+    //   to render a given point it space, it will do pretty random things.
+
     if (
       !prevProps.items ||
       prevProps.items.length === 0 ||
       resetCounter !== prevProps.resetCounter
     ) {
+      if (prevProps.items && prevProps.items.length > 0) {
+        this.resize();
+      }
+
       const oneTimeScrollRow = this.getLastSeenIndicatorRow();
       this.setState({
         oneTimeScrollRow,
@@ -747,14 +785,10 @@ export class Timeline extends React.PureComponent<Props, State> {
         prevPropScrollToIndex: scrollToIndex,
       });
 
-      if (prevProps.items && prevProps.items.length > 0) {
-        this.resizeAll();
-      }
-    } else if (!typingContact && prevProps.typingContact) {
-      this.resizeAll();
-    } else if (oldestUnreadIndex !== prevProps.oldestUnreadIndex) {
-      this.resizeAll();
-    } else if (
+      return;
+    }
+
+    if (
       items &&
       items.length > 0 &&
       prevProps.items &&
@@ -767,7 +801,7 @@ export class Timeline extends React.PureComponent<Props, State> {
 
         const newFirstIndex = items.findIndex(item => item === oldFirstId);
         if (newFirstIndex < 0) {
-          this.resizeAll();
+          this.resize();
 
           return;
         }
@@ -776,7 +810,7 @@ export class Timeline extends React.PureComponent<Props, State> {
         const delta = newFirstIndex - oldFirstIndex;
         if (delta > 0) {
           // We're loading more new messages at the top; we want to stay at the top
-          this.resizeAll();
+          this.resize();
           this.setState({ oneTimeScrollRow: newRow });
 
           return;
@@ -792,7 +826,7 @@ export class Timeline extends React.PureComponent<Props, State> {
 
       const newLastIndex = items.findIndex(item => item === oldLastId);
       if (newLastIndex < 0) {
-        this.resizeAll();
+        this.resize();
 
         return;
       }
@@ -802,20 +836,59 @@ export class Timeline extends React.PureComponent<Props, State> {
       // If we've just added to the end of the list, then the index of the last id's
       //   index won't have changed, and we can rely on List's detection that items is
       //   different for the necessary re-render.
-      if (indexDelta !== 0) {
-        this.resizeAll();
-      } else if (typingContact && prevProps.typingContact) {
-        // The last row will be off, because it was previously the typing indicator
-        this.resizeAll();
+      if (indexDelta === 0) {
+        if (typingContact || prevProps.typingContact) {
+          // The last row will be off, because it was previously the typing indicator
+          const rowCount = this.getRowCount();
+          this.resize(rowCount - 2);
+        }
+
+        // no resize because we just add to the end
+        return;
       }
-    } else if (messageHeightChanges) {
-      this.resizeAll();
-      clearChangedMessages(id);
-    } else if (this.resizeAllFlag) {
-      this.resizeAll();
-    } else {
-      this.updateWithVisibleRows();
+
+      this.resize();
+
+      return;
     }
+
+    if (this.resizeFlag) {
+      this.resize();
+
+      return;
+    }
+
+    if (oldestUnreadIndex !== prevProps.oldestUnreadIndex) {
+      const prevRow = this.getLastSeenIndicatorRow(prevProps);
+      const newRow = this.getLastSeenIndicatorRow();
+      const rowCount = this.getRowCount();
+      const lastRow = rowCount - 1;
+
+      const targetRow = Math.min(
+        isNumber(prevRow) ? prevRow : lastRow,
+        isNumber(newRow) ? newRow : lastRow
+      );
+      this.resize(targetRow);
+
+      return;
+    }
+
+    if (isNumber(messageHeightChangeIndex)) {
+      const rowIndex = this.fromItemIndexToRow(messageHeightChangeIndex);
+      this.resize(rowIndex);
+      clearChangedMessages(id);
+
+      return;
+    }
+
+    if (Boolean(typingContact) !== Boolean(prevProps.typingContact)) {
+      const rowCount = this.getRowCount();
+      this.resize(rowCount - 2);
+
+      return;
+    }
+
+    this.updateWithVisibleRows();
   }
 
   public getScrollTarget = () => {
@@ -838,6 +911,95 @@ export class Timeline extends React.PureComponent<Props, State> {
     return scrollToBottom;
   };
 
+  public handleBlur = (event: React.FocusEvent) => {
+    const { clearSelectedMessage } = this.props;
+
+    const { currentTarget } = event;
+
+    // Thanks to https://gist.github.com/pstoica/4323d3e6e37e8a23dd59
+    setTimeout(() => {
+      if (!currentTarget.contains(document.activeElement)) {
+        clearSelectedMessage();
+      }
+    }, 0);
+  };
+
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const { selectMessage, selectedMessageId, items, id } = this.props;
+    const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
+    const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
+    const commandOrCtrl = commandKey || controlKey;
+
+    if (!items || items.length < 1) {
+      return;
+    }
+
+    if (selectedMessageId && !commandOrCtrl && event.key === 'ArrowUp') {
+      const selectedMessageIndex = items.findIndex(
+        item => item === selectedMessageId
+      );
+      if (selectedMessageIndex < 0) {
+        return;
+      }
+
+      const targetIndex = selectedMessageIndex - 1;
+      if (targetIndex < 0) {
+        return;
+      }
+
+      const messageId = items[targetIndex];
+      selectMessage(messageId, id);
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
+    if (selectedMessageId && !commandOrCtrl && event.key === 'ArrowDown') {
+      const selectedMessageIndex = items.findIndex(
+        item => item === selectedMessageId
+      );
+      if (selectedMessageIndex < 0) {
+        return;
+      }
+
+      const targetIndex = selectedMessageIndex + 1;
+      if (targetIndex >= items.length) {
+        return;
+      }
+
+      const messageId = items[targetIndex];
+      selectMessage(messageId, id);
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
+    if (commandOrCtrl && event.key === 'ArrowUp') {
+      this.setState({ oneTimeScrollRow: 0 });
+
+      const firstMessageId = items[0];
+      selectMessage(firstMessageId, id);
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
+    if (commandOrCtrl && event.key === 'ArrowDown') {
+      this.scrollDown(true);
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+  };
+
   public render() {
     const { i18n, id, items } = this.props;
     const {
@@ -853,13 +1015,19 @@ export class Timeline extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div className="module-timeline">
+      <div
+        className="module-timeline"
+        role="group"
+        tabIndex={-1}
+        onBlur={this.handleBlur}
+        onKeyDown={this.handleKeyDown}
+      >
         <AutoSizer>
           {({ height, width }) => {
             if (this.mostRecentWidth && this.mostRecentWidth !== width) {
-              this.resizeAllFlag = true;
+              this.resizeFlag = true;
 
-              setTimeout(this.resizeAll, 0);
+              setTimeout(this.resize, 0);
             } else if (
               this.mostRecentHeight &&
               this.mostRecentHeight !== height
@@ -882,6 +1050,7 @@ export class Timeline extends React.PureComponent<Props, State> {
                 rowRenderer={this.rowRenderer}
                 scrollToAlignment="start"
                 scrollToIndex={scrollToIndex}
+                tabIndex={-1}
                 width={width}
               />
             );

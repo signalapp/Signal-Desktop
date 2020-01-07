@@ -4,7 +4,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: $color-black-alpha-20;
   padding: 0 20px;
   z-index: 100;
   overflow-y: auto;
@@ -14,9 +14,16 @@
     max-width: 350px;
     margin: 100px auto;
     padding: 1em;
-    background-color: $color-white;
-    border-radius: $border-radius;
+    border-radius: 5px;
     overflow: auto;
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+
+    @include light-theme {
+      background-color: $color-white;
+      box-shadow: 0px 3px 5px 0px $color-black-alpha-20;
+    }
+    @include dark-theme {
+      background-color: $color-gray-95;
+      box-shadow: 0px 3px 5px 0px $color-white-alpha-20;
+    }
   }
 }

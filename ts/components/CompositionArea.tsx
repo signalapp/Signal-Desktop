@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Editor } from 'draft-js';
-import { noop } from 'lodash';
+import { get, noop } from 'lodash';
 import classNames from 'classnames';
 import {
   EmojiButton,
@@ -23,6 +23,7 @@ export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly compositionApi?: React.MutableRefObject<{
     focusInput: () => void;
+    isDirty: () => boolean;
     setDisabled: (disabled: boolean) => void;
     setShowMic: (showMic: boolean) => void;
     setMicActive: (micActive: boolean) => void;
@@ -38,7 +39,11 @@ export type OwnProps = {
 
 export type Props = Pick<
   CompositionInputProps,
-  'onSubmit' | 'onEditorSizeChange' | 'onEditorStateChange' | 'startingText'
+  | 'onSubmit'
+  | 'onEditorSizeChange'
+  | 'onEditorStateChange'
+  | 'onTextTooLong'
+  | 'startingText'
 > &
   Pick<
     EmojiButtonProps,
@@ -48,6 +53,7 @@ export type Props = Pick<
     StickerButtonProps,
     | 'knownPacks'
     | 'receivedPacks'
+    | 'installedPack'
     | 'installedPacks'
     | 'blessedPacks'
     | 'recentStickers'
@@ -76,6 +82,7 @@ export const CompositionArea = ({
   compositionApi,
   onEditorSizeChange,
   onEditorStateChange,
+  onTextTooLong,
   startingText,
   // EmojiButton
   onPickEmoji,
@@ -85,6 +92,7 @@ export const CompositionArea = ({
   // StickerButton
   knownPacks,
   receivedPacks,
+  installedPack,
   installedPacks,
   blessedPacks,
   recentStickers,
@@ -143,6 +151,7 @@ export const CompositionArea = ({
 
   if (compositionApi) {
     compositionApi.current = {
+      isDirty: () => dirty,
       focusInput,
       setDisabled,
       setShowMic,
@@ -215,7 +224,6 @@ export const CompositionArea = ({
         recentEmojis={recentEmojis}
         skinTone={skinTone}
         onSetSkinTone={onSetSkinTone}
-        onClose={focusInput}
       />
     </div>
   );
@@ -225,7 +233,10 @@ export const CompositionArea = ({
       className={classNames(
         'module-composition-area__button-cell',
         micActive ? 'module-composition-area__button-cell--mic-active' : null,
-        large ? 'module-composition-area__button-cell--large-right' : null
+        large ? 'module-composition-area__button-cell--large-right' : null,
+        micActive && large
+          ? 'module-composition-area__button-cell--large-right-mic-active'
+          : null
       )}
       ref={micCellRef}
     />
@@ -260,6 +271,7 @@ export const CompositionArea = ({
         i18n={i18n}
         knownPacks={knownPacks}
         receivedPacks={receivedPacks}
+        installedPack={installedPack}
         installedPacks={installedPacks}
         blessedPacks={blessedPacks}
         recentStickers={recentStickers}
@@ -281,9 +293,12 @@ export const CompositionArea = ({
         const { key, shiftKey, ctrlKey, metaKey } = e;
         // When using the ctrl key, `key` is `'X'`. When using the cmd key, `key` is `'x'`
         const xKey = key === 'x' || key === 'X';
-        const cmdOrCtrl = ctrlKey || metaKey;
+        const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+        const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+        const commandOrCtrl = commandKey || controlKey;
+
         // cmd/ctrl-shift-x
-        if (xKey && shiftKey && cmdOrCtrl) {
+        if (xKey && shiftKey && commandOrCtrl) {
           e.preventDefault();
           setLarge(x => !x);
         }
@@ -300,18 +315,16 @@ export const CompositionArea = ({
 
   return (
     <div className="module-composition-area">
-      <div
-        className={classNames(
-          'module-composition-area__row',
-          'module-composition-area__row--center',
-          'module-composition-area__row--show-on-focus'
-        )}
-      >
+      <div className="module-composition-area__toggle-large">
         <button
           className={classNames(
-            'module-composition-area__toggle-large',
-            large ? 'module-composition-area__toggle-large--large-active' : null
+            'module-composition-area__toggle-large__button',
+            large
+              ? 'module-composition-area__toggle-large__button--large-active'
+              : null
           )}
+          // This prevents the user from tabbing here
+          tabIndex={-1}
           onClick={handleToggleLarge}
         />
       </div>
@@ -340,6 +353,7 @@ export const CompositionArea = ({
             onSubmit={handleSubmit}
             onEditorSizeChange={onEditorSizeChange}
             onEditorStateChange={onEditorStateChange}
+            onTextTooLong={onTextTooLong}
             onDirtyChange={setDirty}
             skinTone={skinTone}
             startingText={startingText}

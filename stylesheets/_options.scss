@@ -1,3 +1,4 @@
+@import 'fontfaces';
 @import 'variables';
 @import '../node_modules/intl-tel-input/build/css/intlTelInput.css';
 @import 'progress';
@@ -11,5 +12,5 @@
 }
 
 .intl-tel-input .country-list .country .country-name {
-  color: #000;
+  color: $color-black;
 }

@@ -11,13 +11,26 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: $roboto;
-  font-size: 14px;
-  color: $color-light-90;
+
+  color: $color-gray-90;
+
+  @include font-body-1;
+}
+
+body.light-theme {
+  background-color: $color-white;
+  color: $color-gray-90;
+}
+body.dark-theme {
+  background-color: $color-gray-95;
+  color: $color-gray-05;
 }
 
 ::-webkit-scrollbar {
+  // For vertical scrollbars
   width: 9px;
+  // For horizontal scrollbars
+  height: 9px;
 }
 
 ::-webkit-scrollbar-track {
@@ -25,16 +38,32 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $color-light-35;
-  border: 2px solid $color-white;
+  @include light-theme {
+    background: $color-gray-25;
+    border: 2px solid $color-white;
+  }
+  @include dark-theme {
+    background: $color-gray-45;
+    border: 2px solid $color-gray-90;
+  }
 
   &:hover {
-    background: $color-light-45;
+    @include light-theme {
+      background: $color-gray-45;
+    }
+    @include dark-theme {
+      background: $color-gray-25;
+    }
   }
 }
 
 ::-webkit-scrollbar-corner {
-  background: $color-white;
+  @include light-theme {
+    background: $color-white;
+  }
+  @include dark-theme {
+    background: $color-black;
+  }
 }
 
 audio {
@@ -47,9 +76,16 @@ audio {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: $color-black;
+
   opacity: 0.25;
   z-index: 200;
+
+  @include light-theme {
+    background-color: $color-black;
+  }
+  @include dark-theme {
+    background-color: $color-gray-95;
+  }
 }
 
 .clearfix:before,
@@ -70,18 +106,32 @@ button {
   font-size: inherit;
 }
 button.grey {
-  border-radius: $border-radius;
-  border: solid 1px #ccc;
+  border-radius: 5px;
+  border: solid 1px $color-gray-25;
   cursor: pointer;
   margin: 1em auto;
   padding: 1em;
   font-family: inherit;
-  color: $grey;
-  background: $grey_l;
-  box-shadow: 0 0 10px -5px rgba($grey, 0.5);
+
+  @include light-theme {
+    color: $color-gray-60;
+    background: $color-gray-02;
+    box-shadow: 0 0 10px -5px $color-black-alpha-40;
+  }
+  @include dark-theme {
+    border: solid 1px $color-gray-25;
+    color: $color-gray-60;
+    background: $color-gray-02;
+    box-shadow: 0 0 10px -5px $color-white-alpha-60;
+  }
 
   &:hover {
-    box-shadow: 0 0 10px -3px rgba($grey, 0.7);
+    @include light-theme {
+      box-shadow: 0 0 10px -3px $color-black-alpha-60;
+    }
+    @include dark-theme {
+      box-shadow: 0 0 10px -3px $color-white-alpha-80;
+    }
   }
 
   &[disabled='disabled'] {
@@ -95,7 +145,7 @@ button.grey {
 }
 
 a {
-  color: $blue;
+  color: $color-signal-blue;
 }
 
 .file-input {
@@ -105,25 +155,32 @@ a {
   }
 
   .paperclip {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     opacity: 0.5;
     border: none;
     background: transparent;
 
-    &:before {
-      content: '';
-      display: inline-block;
-      width: $button-height;
-      height: $button-height;
-      @include color-svg('../images/paperclip.svg', $grey);
-      transform: rotateZ(-45deg) translateY(-2px);
-    }
-
     &:focus,
     &:hover {
       opacity: 1;
+    }
+
+    outline: none;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+
+      @include light-theme {
+        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-25);
+      }
     }
   }
 
@@ -140,31 +197,33 @@ a {
   }
 }
 
-.group-member-list,
-.new-group-update {
-  .summary {
-    margin: 10px;
+.group-member-list {
+  .container {
+    outline: none;
   }
 
   .members .contact {
-    box-shadow: none;
-    border-bottom: 1px solid #eee;
-    .last-message,
-    .last-timestamp {
-      display: none;
+    @include light-theme {
+      border-bottom: 1px solid $color-gray-05;
+      &:last-of-type {
+        border-bottom: none;
+      }
+    }
+    @include dark-theme {
+      border-bottom: 1px solid $color-gray-75;
+      &:last-of-type {
+        border-bottom: none;
+      }
     }
   }
 }
 
-$unread-badge-size: 21px;
-
 .banner {
   z-index: 100;
 
-  // what's the right color?
-  background-color: $blue_l;
-  color: black;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+  background-color: $color-ios-blue-tint;
+  color: $color-black;
+  box-shadow: 0px 3px 5px 0px $color-black-alpha-20;
 
   position: absolute;
   top: 25px;
@@ -183,7 +242,7 @@ $unread-badge-size: 21px;
     height: 18px;
     display: inline-block;
     vertical-align: text-bottom;
-    @include color-svg('../images/warning.svg', black);
+    @include color-svg('../images/icons/v2/error-solid-24.svg', black);
   }
 
   .dismiss {
@@ -193,7 +252,7 @@ $unread-badge-size: 21px;
 
     height: 23px;
     width: 23px;
-    @include color-svg('../images/x.svg', black);
+    @include color-svg('../images/icons/v2/x-24.svg', black);
   }
 }
 
@@ -208,9 +267,11 @@ $loading-height: 16px;
     height: $loading-height;
     width: $loading-height;
     border-radius: 2 * $loading-height;
-    border: solid 3px;
-    border-color: $blue_l $blue_l $grey_l $grey_l !important;
     animation: rotate 1s linear infinite;
+
+    border: solid 3px;
+    border-color: $color-ios-blue-tint $color-ios-blue-tint $color-gray-02
+      $color-gray-02 !important;
   }
 
   @keyframes rotate {
@@ -228,31 +289,32 @@ $loading-height: 16px;
   width: 22px;
   height: 22px;
   padding: 3px;
-  background: $grey;
+  background: $color-gray-60;
 
   &:before {
     content: '';
     display: block;
     width: 100%;
     height: 100%;
-    @include color-svg('../images/x.svg', white);
+    @include color-svg('../images/icons/v2/x-24.svg', $color-white);
   }
 }
 
 .expiredAlert {
-  background: #f3f3a7;
+  background: $color-accent-yellow;
   padding: 10px;
 
   button {
     float: right;
     border: none;
-    border-radius: $border-radius;
-    color: white;
+    border-radius: 5px;
     font-weight: bold;
     line-height: 36px;
     padding: 0 20px;
-    background: $blue;
     margin-left: 20px;
+
+    color: $color-white;
+    background: $color-signal-blue;
   }
 
   .message {
@@ -324,16 +386,15 @@ $loading-height: 16px;
   right: 0;
   top: 0;
   bottom: 0;
-  font-family: roboto-light;
 
   &.overlay {
     // .modal, used for the settings view, is 100
     z-index: 200;
   }
 
-  color: black;
+  color: $color-black;
   a {
-    color: $blue;
+    color: $color-signal-blue;
   }
   background: linear-gradient(
     to bottom,
@@ -352,8 +413,7 @@ $loading-height: 16px;
   input {
     margin-top: 1em;
     font-size: 12pt;
-    font-family: roboto-light;
-    border: 2px solid $blue;
+    border: 2px solid $color-signal-blue;
     padding: 0.5em;
     text-align: center;
     width: 20em;
@@ -371,13 +431,13 @@ $loading-height: 16px;
     display: inline-block;
 
     &.ready {
-      border: 5px solid $blue;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      border: 5px solid $color-signal-blue;
+      box-shadow: 2px 2px 4px $color-black-alpha-40;
     }
 
     img {
       height: 20em;
-      border: 5px solid white;
+      border: 5px solid $color-white;
     }
 
     @media (max-height: 475px) {
@@ -390,7 +450,7 @@ $loading-height: 16px;
     .dot {
       width: 14px;
       height: 14px;
-      border: 3px solid $blue;
+      border: 3px solid $color-signal-blue;
       border-radius: 50%;
       float: left;
       margin: 0 6px;
@@ -418,10 +478,10 @@ $loading-height: 16px;
     margin: 0.5em;
 
     &.apple {
-      @include color-svg('../images/apple.svg', black);
+      @include color-svg('../images/full-screen-flow/apple.svg', black);
     }
     &.android {
-      @include color-svg('../images/android.svg', black);
+      @include color-svg('../images/full-screen-flow/android.svg', black);
     }
   }
 
@@ -496,37 +556,55 @@ $loading-height: 16px;
 
     // generic
     &.check-circle-outline {
-      @include color-svg('../images/check-circle-outline.svg', #dedede);
+      @include color-svg(
+        '../images/full-screen-flow/check-circle-outline.svg',
+        $color-gray-15
+      );
     }
     &.alert-outline {
-      @include color-svg('../images/alert-outline.svg', #dedede);
+      @include color-svg(
+        '../images/full-screen-flow/alert-outline.svg',
+        $color-gray-15
+      );
     }
 
     // import and export
     &.folder-outline {
-      @include color-svg('../images/folder-outline.svg', #dedede);
+      @include color-svg(
+        '../images/full-screen-flow/folder-outline.svg',
+        $color-gray-15
+      );
     }
     &.import {
-      @include color-svg('../images/import.svg', #dedede);
-    }
-    &.export {
-      @include color-svg('../images/export.svg', #dedede);
+      @include color-svg(
+        '../images/full-screen-flow/import.svg',
+        $color-gray-15
+      );
     }
 
     // registration process
     &.lead-pencil {
-      @include color-svg('../images/lead-pencil.svg', #dedede);
+      @include color-svg(
+        '../images/full-screen-flow/lead-pencil.svg',
+        $color-gray-15
+      );
     }
     &.sync {
-      @include color-svg('../images/sync.svg', #dedede);
+      @include color-svg('../images/full-screen-flow/sync.svg', $color-gray-15);
     }
 
     // delete
     &.alert-outline-red {
-      @include color-svg('../images/alert-outline.svg', red);
+      @include color-svg(
+        '../images/full-screen-flow/alert-outline.svg',
+        $color-accent-red
+      );
     }
     &.delete {
-      @include color-svg('../images/delete.svg', #dedede);
+      @include color-svg(
+        '../images/full-screen-flow/delete.svg',
+        $color-gray-15
+      );
     }
   }
 
@@ -539,18 +617,18 @@ $loading-height: 16px;
     margin-top: 1em;
     margin-left: 0.5em;
     margin-right: 0.5em;
-    color: white;
-    background: $blue;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: $color-white;
+    background: $color-signal-blue;
+    box-shadow: 2px 2px 4px $color-black-alpha-40;
 
     font-size: 12pt;
 
     &.neutral {
-      color: black;
-      background: #dedede;
+      color: $color-black;
+      background: $color-gray-15;
     }
     &.destructive {
-      background: red;
+      background: $color-accent-red;
     }
 
     @media (min-height: 750px) and (min-width: 700px) {
@@ -562,7 +640,7 @@ $loading-height: 16px;
     cursor: pointer;
     text-decoration: underline;
     margin: 0.5em;
-    color: #2090ea;
+    color: $color-signal-blue;
   }
 
   .progress {
@@ -574,14 +652,14 @@ $loading-height: 16px;
     .bar-container {
       height: 1em;
       margin: 1em;
-      background-color: $grey_l;
+      background-color: $color-gray-02;
     }
     .bar {
       width: 100%;
       height: 100%;
-      background-color: $blue_l;
+      background-color: $color-ios-blue-tint;
       transition: width 0.25s;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      box-shadow: 2px 2px 4px $color-black-alpha-40;
     }
   }
 

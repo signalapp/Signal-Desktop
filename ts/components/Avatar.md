@@ -3,19 +3,49 @@
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <Avatar
-    size={28}
-    color="pink"
-    name="John Smith"
+    size={80}
+    color="blue"
+    avatarPath={util.gifObjectUrl}
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={52}
+    color="blue"
     avatarPath={util.gifObjectUrl}
     conversationType="direct"
     i18n={util.i18n}
   />
   <Avatar
     size={28}
-    color="pink"
-    name="Puppies"
+    color="blue"
     avatarPath={util.gifObjectUrl}
-    conversationType="group"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <hr />
+  <Avatar
+    size={80}
+    color="blue"
+    avatarPath={util.gifObjectUrl}
+    conversationType="direct"
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={52}
+    color="blue"
+    avatarPath={util.gifObjectUrl}
+    conversationType="direct"
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={28}
+    color="blue"
+    avatarPath={util.gifObjectUrl}
+    conversationType="direct"
+    onClick={() => console.log('onClick')}
     i18n={util.i18n}
   />
 </util.ConversationContext>
@@ -39,13 +69,6 @@
     conversationType="direct"
     i18n={util.i18n}
   />
-  <Avatar
-    size={28}
-    color="red"
-    name="Puppies"
-    conversationType="group"
-    i18n={util.i18n}
-  />
 </util.ConversationContext>
 ```
 
@@ -58,6 +81,59 @@
     color="pink"
     phoneNumber="(555) 353-3433"
     conversationType="direct"
+    i18n={util.i18n}
+  />
+</util.ConversationContext>
+```
+
+### Letters
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar
+    size={80}
+    color="blue"
+    name="One"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={52}
+    color="blue"
+    name="One"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={28}
+    color="blue"
+    name="One"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <hr />
+  <Avatar
+    size={80}
+    color="blue"
+    name="One"
+    conversationType="direct"
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={52}
+    color="blue"
+    name="One"
+    conversationType="direct"
+    onClick={() => console.log('onClick')}
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={28}
+    color="blue"
+    name="One"
+    conversationType="direct"
+    onClick={() => console.log('onClick')}
     i18n={util.i18n}
   />
 </util.ConversationContext>
@@ -76,15 +152,7 @@
     i18n={util.i18n}
   />
   <Avatar
-    size={48}
-    color="pink"
-    noteToSelf={true}
-    phoneNumber="(555) 353-3433"
-    conversationType="direct"
-    i18n={util.i18n}
-  />
-  <Avatar
-    size={36}
+    size={52}
     color="pink"
     noteToSelf={true}
     phoneNumber="(555) 353-3433"
@@ -102,10 +170,36 @@
 </util.ConversationContext>
 ```
 
-### All colors
+### Group Icon
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar size={80} color="blue" conversationType="group" i18n={util.i18n} />
+  <Avatar size={52} color="blue" conversationType="group" i18n={util.i18n} />
+  <Avatar size={28} color="blue" conversationType="group" i18n={util.i18n} />
+</util.ConversationContext>
+```
+
+### Contact Icon
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar size={80} color="blue" conversationType="direct" i18n={util.i18n} />
+  <Avatar size={52} color="blue" conversationType="direct" i18n={util.i18n} />
+  <Avatar size={28} color="blue" conversationType="direct" i18n={util.i18n} />
+</util.ConversationContext>
+```
+
+### All colors, 28px
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar
+    size={28}
+    color="signal-blue"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
   <Avatar
     size={28}
     color="signal-blue"
@@ -193,12 +287,12 @@
 </util.ConversationContext>
 ```
 
-### 36px
+### 52px
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <Avatar
-    size={36}
+    size={52}
     color="teal"
     name="John Smith"
     avatarPath={util.gifObjectUrl}
@@ -206,59 +300,22 @@
     i18n={util.i18n}
   />
   <Avatar
-    size={36}
+    size={52}
     color="teal"
     name="John"
     conversationType="direct"
     i18n={util.i18n}
   />
   <Avatar
-    size={36}
+    size={52}
     color="teal"
     name="John Smith"
     conversationType="direct"
     i18n={util.i18n}
   />
-  <Avatar size={36} color="teal" conversationType="direct" i18n={util.i18n} />
+  <Avatar size={52} color="teal" conversationType="direct" i18n={util.i18n} />
   <Avatar
-    size={36}
-    color="teal"
-    name="Pupplies"
-    conversationType="group"
-    i18n={util.i18n}
-  />
-</util.ConversationContext>
-```
-
-### 48px
-
-```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <Avatar
-    size={48}
-    color="teal"
-    name="John Smith"
-    avatarPath={util.gifObjectUrl}
-    conversationType="direct"
-    i18n={util.i18n}
-  />
-  <Avatar
-    size={48}
-    color="teal"
-    name="John"
-    conversationType="direct"
-    i18n={util.i18n}
-  />
-  <Avatar
-    size={48}
-    color="teal"
-    name="John Smith"
-    conversationType="direct"
-    i18n={util.i18n}
-  />
-  <Avatar size={48} color="teal" conversationType="direct" i18n={util.i18n} />
-  <Avatar
-    size={48}
+    size={52}
     color="teal"
     name="Pupplies"
     conversationType="group"

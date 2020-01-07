@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
+import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 import { StickerPicker } from './StickerPicker';
@@ -147,12 +147,43 @@ export const StickerButton = React.memo(
       [open, setOpen, setPopperRoot]
     );
 
+    // Install keyboard shortcut to open sticker picker
+    React.useEffect(
+      () => {
+        const handleKeydown = (event: KeyboardEvent) => {
+          const { ctrlKey, key, metaKey, shiftKey } = event;
+          const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+          const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+          const commandOrCtrl = commandKey || controlKey;
+
+          // We don't want to open up if the conversation has any panels open
+          const panels = document.querySelectorAll('.conversation .panel');
+          if (panels && panels.length > 1) {
+            return;
+          }
+
+          if (commandOrCtrl && shiftKey && (key === 's' || key === 'S')) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            setOpen(!open);
+          }
+        };
+        document.addEventListener('keydown', handleKeydown);
+
+        return () => {
+          document.removeEventListener('keydown', handleKeydown);
+        };
+      },
+      [open, setOpen]
+    );
+
     // Clear the installed pack after one minute
     React.useEffect(
       () => {
         if (installedPack) {
           // tslint:disable-next-line:no-string-based-set-timeout
-          const timerId = setTimeout(clearInstalledStickerPack, 60 * 1000);
+          const timerId = setTimeout(clearInstalledStickerPack, 10 * 1000);
 
           return () => {
             clearTimeout(timerId);
@@ -192,11 +223,10 @@ export const StickerButton = React.memo(
         {!open && !showIntroduction && installedPack ? (
           <Popper placement={position} key={installedPack.id}>
             {({ ref, style, placement, arrowProps }) => (
-              <div
+              <button
                 ref={ref}
                 style={style}
                 className="module-sticker-button__tooltip"
-                role="button"
                 onClick={clearInstalledStickerPack}
               >
                 {installedPack.cover ? (
@@ -222,24 +252,27 @@ export const StickerButton = React.memo(
                     `module-sticker-button__tooltip__triangle--${placement}`
                   )}
                 />
-              </div>
+              </button>
             )}
           </Popper>
         ) : null}
         {!open && showIntroduction ? (
           <Popper placement={position}>
             {({ ref, style, placement, arrowProps }) => (
-              <div
+              <button
                 ref={ref}
                 style={style}
                 className={classNames(
                   'module-sticker-button__tooltip',
                   'module-sticker-button__tooltip--introduction'
                 )}
-                role="button"
                 onClick={handleClearIntroduction}
               >
-                {/* <div className="module-sticker-button__tooltip--introduction__image" /> */}
+                <img
+                  className="module-sticker-button__tooltip--introduction__image"
+                  srcSet="images/sticker_splash@1x.png 1x, images/sticker_splash@2x.png 2x"
+                  alt={i18n('stickers--StickerManager--Introduction--Image')}
+                />
                 <div className="module-sticker-button__tooltip--introduction__meta">
                   <div className="module-sticker-button__tooltip--introduction__meta__title">
                     {i18n('stickers--StickerManager--Introduction--Title')}
@@ -263,7 +296,7 @@ export const StickerButton = React.memo(
                     `module-sticker-button__tooltip__triangle--${placement}`
                   )}
                 />
-              </div>
+              </button>
             )}
           </Popper>
         ) : null}

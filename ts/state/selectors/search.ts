@@ -50,6 +50,11 @@ export const getSearchConversationName = createSelector(
   (state: SearchStateType): string | undefined => state.searchConversationName
 );
 
+export const getStartSearchCounter = createSelector(
+  getSearch,
+  (state: SearchStateType): number => state.startSearchCounter
+);
+
 export const isSearching = createSelector(
   getSearch,
   (state: SearchStateType) => {
@@ -63,19 +68,28 @@ export const getMessageSearchResultLookup = createSelector(
   getSearch,
   (state: SearchStateType) => state.messageLookup
 );
-
 export const getSearchResults = createSelector(
-  [getSearch, getRegionCode, getConversationLookup, getSelectedConversation],
+  [
+    getSearch,
+    getRegionCode,
+    getConversationLookup,
+    getSelectedConversation,
+    getSelectedMessage,
+  ],
   (
     state: SearchStateType,
     regionCode: string,
     lookup: ConversationLookupType,
-    selectedConversation?: string
+    selectedConversationId?: string,
+    selectedMessageId?: string
+    // tslint:disable-next-line max-func-body-length
   ): SearchResultsPropsType | undefined => {
     const {
       contacts,
       conversations,
+      discussionsLoading,
       messageIds,
+      messagesLoading,
       searchConversationName,
     } = state;
 
@@ -86,6 +100,8 @@ export const getSearchResults = createSelector(
     const haveContacts = contacts && contacts.length;
     const haveMessages = messageIds && messageIds.length;
     const noResults =
+      !discussionsLoading &&
+      !messagesLoading &&
       !showStartNewConversation &&
       !haveConversations &&
       !haveContacts &&
@@ -111,9 +127,18 @@ export const getSearchResults = createSelector(
           type: 'conversation',
           data: {
             ...data,
-            isSelected: Boolean(data && id === selectedConversation),
+            isSelected: Boolean(data && id === selectedConversationId),
           },
         });
+      });
+    } else if (discussionsLoading) {
+      items.push({
+        type: 'conversations-header',
+        data: undefined,
+      });
+      items.push({
+        type: 'spinner',
+        data: undefined,
       });
     }
 
@@ -128,7 +153,7 @@ export const getSearchResults = createSelector(
           type: 'contact',
           data: {
             ...data,
-            isSelected: Boolean(data && id === selectedConversation),
+            isSelected: Boolean(data && id === selectedConversationId),
           },
         });
       });
@@ -145,14 +170,27 @@ export const getSearchResults = createSelector(
           data: messageId,
         });
       });
+    } else if (messagesLoading) {
+      items.push({
+        type: 'messages-header',
+        data: undefined,
+      });
+      items.push({
+        type: 'spinner',
+        data: undefined,
+      });
     }
 
     return {
+      discussionsLoading,
       items,
+      messagesLoading,
       noResults,
       regionCode: regionCode,
       searchConversationName,
       searchTerm: state.query,
+      selectedConversationId,
+      selectedMessageId,
     };
   }
 );

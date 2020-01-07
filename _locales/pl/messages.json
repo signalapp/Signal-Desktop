@@ -143,6 +143,10 @@
         "message": "Skonfiguruj jako samodzielne urządzenie",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "avatarMenuViewArchive": {
+        "message": "Zobacz archiwum",
+        "description": "One of the menu options available in the Avatar Popup menu"
+    },
     "loading": {
         "message": "Ładowanie...",
         "description": "Message shown on the loading screen before we've loaded any messages"
@@ -262,10 +266,6 @@
     "scrollDown": {
         "message": "Przewiń na koniec konwersacji",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nowa wiadomość poniżej",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "messagesBelow": {
         "message": "Nowe wiadomości poniżej",
@@ -603,9 +603,13 @@
         "message": "Dziennik Debugowania",
         "description": "View menu item to open the debug log (title case)"
     },
+    "helpMenuShowKeyboardShortcuts": {
+        "message": "Pokaż skróty klawiszowe",
+        "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
+    },
     "goToReleaseNotes": {
         "message": "Przejdź do informacji o wersji",
-        "description": ""
+        "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
         "message": "Przejdź do forum",
@@ -651,6 +655,16 @@
         "message": "Szukaj",
         "description": "Placeholder text in the search input"
     },
+    "searchIn": {
+        "message": "Szukaj w $conversationName$",
+        "description": "Shown in the search box before text is entered when searching in a specific conversation",
+        "placeholders": {
+            "conversationName": {
+                "content": "$1",
+                "example": "Friends"
+            }
+        }
+    },
     "noSearchResults": {
         "message": "Brak wyników dla \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
@@ -658,6 +672,16 @@
             "searchTerm": {
                 "content": "$1",
                 "example": "dog"
+            }
+        }
+    },
+    "noSearchResultsInConversation": {
+        "message": "Nie znaleziono \"$searchTerm$\" w $conversationName$",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$2",
+                "example": "Friends"
             }
         }
     },
@@ -752,7 +776,7 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Notatka głosowa musi być jedynym załącznikiem zawartym w wiadomości.",
+        "message": "Wiadomość głosowa musi mieć tylko jeden załącznik.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
@@ -794,15 +818,15 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Cannot Update",
+        "message": "Nie można zaktualizować",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Dostępna jest nowa wersja Signal Desktop, ale automatyczna aktualizacja nie powiodła się. Przejdź do https://signal.org/download i ręcznie zainstaluj nową wersję, a następnie skontaktuj się z pomocą techniczną lub zgłoś błąd dotyczący tego problemu.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "message": "Signal Desktop prawdopodobnie znajduje się w kwarantannie systemu MacOS i nie będzie można dokonać automatycznej aktualizacji. Spróbuj przenieść Signal.app do / Aplikacje za pomocą Findera.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
@@ -842,8 +866,12 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "do",
+        "message": "Do",
         "description": "Label for the receiver of a message"
+    },
+    "toJoiner": {
+        "message": "do",
+        "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
         "message": "Wysłano",
@@ -1112,7 +1140,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Ta wersja Signal Desktop jest przestarzała. Aby nadal wysyłać wiadomości, wykonaj aktualizację.",
+        "message": "Ta wersja Signal Desktop jest przestarzała. Aby nadal móc wysyłać wiadomości, zaktualizuj Signal Desktop do najnowszej wersji.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1156,25 +1184,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 minuta",
+        "message": "1 min.",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 godzina",
+        "message": "1 godz.",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
-    "hoursAgoShort": {
-        "message": "$hours$ godz",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
     "hoursAgo": {
-        "message": "$hours$ godz temu",
+        "message": "$hours$g",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1183,18 +1201,8 @@
             }
         }
     },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
     "minutesAgo": {
-        "message": "$minutes$ min temu",
+        "message": "$minutes$m",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1210,6 +1218,10 @@
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "messageBodyTooLong": {
+        "message": "Wiadomość jest za długa.",
+        "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
         "message": "Odblokuj ten kontakt, aby wysłać wiadomość.",
@@ -1421,6 +1433,10 @@
         "message": "Ciemny",
         "description": "Label text for dark theme"
     },
+    "themeSystem": {
+        "message": "System",
+        "description": "Label text for system theme"
+    },
     "noteToSelf": {
         "message": "Moje notatki",
         "description": "Name for the conversation with your own phone number"
@@ -1526,6 +1542,368 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--draft-prefix": {
+        "message": "Szkic:",
+        "description": "Prefix shown in italic in conversation view when a draft is saved"
+    },
+    "message--getNotificationText--stickers": {
+        "message": "Naklejka",
+        "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getDescription--unsupported-message": {
+        "message": "Nieobsługiwana wiadomość",
+        "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
+    },
+    "message--getDescription--disappearing-photo": {
+        "message": "Znikające zdjęcie",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    },
+    "message--getDescription--disappearing-video": {
+        "message": "Znikające wideo",
+        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    },
+    "stickers--toast--InstallFailed": {
+        "message": "Nie można zainstalować pakietu naklejek",
+        "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
+    },
+    "stickers--StickerManager--InstalledPacks": {
+        "message": "Zainstalowane naklejki",
+        "description": "Shown in the sticker pack manager above your installed sticker packs."
+    },
+    "stickers--StickerManager--InstalledPacks--Empty": {
+        "message": "Brak naklejek",
+        "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks": {
+        "message": "Signal Artist Series",
+        "description": "Shown in the sticker pack manager above the default sticker packs."
+    },
+    "stickers--StickerManager--BlessedPacks--Empty": {
+        "message": "No Signal Artist stickers available",
+        "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
+    },
+    "stickers--StickerManager--ReceivedPacks": {
+        "message": "Naklejki, które odebrano",
+        "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
+    },
+    "stickers--StickerManager--ReceivedPacks--Empty": {
+        "message": "Tutaj pojawią się naklejki z wiadomości przychodzących",
+        "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
+    },
+    "stickers--StickerManager--Install": {
+        "message": "Zainstaluj",
+        "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
+    },
+    "stickers--StickerManager--Uninstall": {
+        "message": "Odinstaluj",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--UninstallWarning": {
+        "message": "Nie można ponownie zainstalować pakietu naklejek, jeśli nie jest dostępny wiadomość źródłowa.",
+        "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Title": {
+        "message": "Przedstawiamy naklejki",
+        "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerManager--Introduction--Body": {
+        "message": "Po co używać słów, gdy można używać naklejek?",
+        "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--DownloadError": {
+        "message": "Niektóre naklejki mogły nie zostać pobrane.",
+        "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
+    },
+    "stickers--StickerPicker--DownloadPending": {
+        "message": "Instalowanie pakietu naklejek...",
+        "description": "Shown in the sticker picker when one or more stickers are still downloading."
+    },
+    "stickers--StickerPicker--Empty": {
+        "message": "Nie znaleziono naklejek",
+        "description": "Shown in the sticker picker when there are no stickers to show."
+    },
+    "stickers--StickerPicker--Hint": {
+        "message": "Nowe pakiety naklejek z Twoich wiadomości są dostępne do zainstalowania",
+        "description": "Shown in the sticker picker the first time you have received new packs you can install."
+    },
+    "stickers--StickerPicker--NoPacks": {
+        "message": "Nie znaleziono pakietów naklejek",
+        "description": "Shown in the sticker picker when there are no installed sticker packs."
+    },
+    "stickers--StickerPicker--NoRecents": {
+        "message": "Tutaj pojawią się ostatnio używane naklejki.",
+        "description": "Shown in the sticker picker when there are no recent stickers to show."
+    },
+    "stickers--StickerPreview--Title": {
+        "message": "Pakiet naklejek",
+        "description": "The title that appears in the sticker pack preview modal."
+    },
+    "stickers--StickerPreview--Error": {
+        "message": "Błąd podczas otwierania pakietu naklejek. Sprawdź połączenie internetowe i spróbuj ponownie.",
+        "description": "The message that appears in the sticker preview modal when there is an error."
+    },
+    "EmojiPicker--empty": {
+        "message": "Nie znaleziono emoji",
+        "description": "Shown in the emoji picker when a search yields 0 results."
+    },
+    "EmojiPicker--search-placeholder": {
+        "message": "Szukaj emoji",
+        "description": "Shown as a placeholder inside the emoji picker search field."
+    },
+    "EmojiPicker--skin-tone": {
+        "message": "Odcień skóry $tone$",
+        "description": "Shown as a tooltip over the emoji tone buttons.",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
+    },
+    "confirmation-dialog--Cancel": {
+        "message": "Anuluj",
+        "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "Message--unsupported-message": {
+        "message": "$contact$ wysłał(a) wiadomość, która nie może zostać przetworzona lub wyświetlona, ponieważ wykorzystuje nową funkcję Signal.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--unsupported-message-ask-to-resend": {
+        "message": "Używasz aktualnej wersji Signal. Możesz teraz poprosić $contact$ o ponowne wysłanie tej wiadomości.",
+        "description": "",
+        "placeholders": {
+            "contact": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "Message--from-me-unsupported-message": {
+        "message": "Z jednego z Twoich urządzeń wysłało wiadomość, która nie może zostać przetworzona lub wyświetlona, ponieważ wykorzystuje nową funkcję Signal.",
+        "description": ""
+    },
+    "Message--from-me-unsupported-message-ask-to-resend": {
+        "message": "Używasz aktualnej wersji Signal. Kolejne wiadomości takie jak ta, zostaną teraz zsynchronizowane.",
+        "description": ""
+    },
+    "Message--update-signal": {
+        "message": "Zaktualizuj Signal",
+        "description": "Text for a button which will take user to Signal download page"
+    },
+    "Message--tap-to-view-expired": {
+        "message": "Wyświetlono",
+        "description": "Text shown on messages with with individual timers, after user has viewed it"
+    },
+    "Message--tap-to-view--outgoing": {
+        "message": "Multimedia",
+        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+    },
+    "Message--tap-to-view--incoming": {
+        "message": "Zdjęcie",
+        "description": "Text shown on photo messages with with individual timers, before user has viewed it"
+    },
+    "Message--tap-to-view--incoming-video": {
+        "message": "Wideo",
+        "description": "Text shown on video messages with with individual timers, before user has viewed it"
+    },
+    "Conversation--getDraftPreview--attachment": {
+        "message": "(załącznik)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--quote": {
+        "message": "(cytat)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Conversation--getDraftPreview--draft": {
+        "message": "(szkic)",
+        "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+    },
+    "Keyboard--navigate-by-section": {
+        "message": "Przechodź między sekcjami",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--previous-conversation": {
+        "message": "Poprzednia konwersacja",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--next-conversation": {
+        "message": "Następna konwersacja",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--previous-unread-conversation": {
+        "message": "Poprzednia nieczytana konwersacja",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--next-unread-conversation": {
+        "message": "Następna nieczytana konwersacja",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--preferences": {
+        "message": "Ustawienia",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-conversation-menu": {
+        "message": "Otwórz menu konwersacji",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--archive-conversation": {
+        "message": "Zarchiwizuj konwersację",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--unarchive-conversation": {
+        "message": "Przywróć konwersację",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--search": {
+        "message": "Szukaj",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--search-in-conversation": {
+        "message": "Szukaj w konwersacji",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--focus-composer": {
+        "message": "Uaktywnij pole tekstowe",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-all-media-view": {
+        "message": "Otwórz podgląd multimediów",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-emoji-chooser": {
+        "message": "Otwórz okno emotikon",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--open-sticker-chooser": {
+        "message": "Otwórz okno naklejek",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--begin-recording-voice-note": {
+        "message": "Nagrywaj notatkę głosową",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--default-message-action": {
+        "message": "Domyślna akcja dla wybranej wiadomości",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--view-details-for-selected-message": {
+        "message": "Pokaż szczegóły wybranej wiadomości",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-reply": {
+        "message": "Odpowiedz na wybraną wiadomość",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--save-attachment": {
+        "message": "Zapisz załącznik z wybranej wiadomości",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--delete-message": {
+        "message": "Usuń wybraną wiadomość",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--add-newline": {
+        "message": "Nowa linia w wiadomości",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--expand-composer": {
+        "message": "Powiększ pole tekstowe",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--send-in-expanded-composer": {
+        "message": "Wyślij (przy rozszerzonym polu tekstowym)",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--attach-file": {
+        "message": "Dołącz plik",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--remove-draft-link-preview": {
+        "message": "Usuń projekt podglądu linku",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--remove-draft-attachments": {
+        "message": "Usuń wszystkie projekty załączników",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--Key--ctrl": {
+        "message": "Ctrl",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--option": {
+        "message": "Option",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--alt": {
+        "message": "Alt",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--shift": {
+        "message": "Shift",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--enter": {
+        "message": "Enter",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--header": {
+        "message": "Skróty klawiszowe",
+        "description": "Title header of the keyboard shortcuts guide"
+    },
+    "Keyboard--navigation-header": {
+        "message": "Nawigacja",
+        "description": "Header of the keyboard shortcuts guide - navigation section"
+    },
+    "Keyboard--messages-header": {
+        "message": "Wiadomości",
+        "description": "Header of the keyboard shortcuts guide - messages section"
+    },
+    "Keyboard--composer-header": {
+        "message": "Pole tekstowe",
+        "description": "Header of the keyboard shortcuts guide - composer section"
+    },
+    "Keyboard--scroll-to-top": {
+        "message": "Przewiń na początek listy",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--scroll-to-bottom": {
+        "message": "Przewiń na koniec listy",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--close-curent-conversation": {
+        "message": "Zamknij obecną konwersację",
+        "description": "Shown in the shortcuts guide"
+    },
+    "close-popup": {
+        "message": "Zamknij wyskakujące okienko",
+        "description": "Used as alt text for any button closing a popup"
+    },
+    "add-image-attachment": {
+        "message": "Dołącz obraz",
+        "description": "Used in draft attachment list for the big 'add new attachment' button"
+    },
+    "remove-attachment": {
+        "message": "Usuń załącznik",
+        "description": "Used in draft attachment list to remove an individual attachment"
+    },
+    "backToInbox": {
+        "message": "Przywróć do skrzynki odbiorczej",
+        "description": "Used as alt-text of button on archived conversations screen"
+    },
+    "conversationArchived": {
+        "message": "Zarchiwizowano rozmowę",
+        "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationReturnedToInbox": {
+        "message": "Przywrócono konwersację do skrzynki odbiorczej",
+        "description": "A toast that shows up when the user unarchives a conversation"
     },
     "privacyPolicy": {
         "message": "Warunki korzystania & Polityka prywatności",

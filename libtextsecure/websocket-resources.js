@@ -191,7 +191,7 @@
         ev.code = code;
         ev.reason = reason;
         this.dispatchEvent(ev);
-      }, 1000);
+      }, 5000);
     };
   };
   window.WebSocketResource.prototype = new textsecure.EventTarget();
@@ -227,7 +227,7 @@
           this.disconnectTimer = setTimeout(() => {
             clearTimeout(this.keepAliveTimer);
             this.wsr.close(3001, 'No response to keepalive request');
-          }, 1000);
+          }, 10000);
         } else {
           this.reset();
         }

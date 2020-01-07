@@ -1,8 +1,8 @@
 /* global Signal:false */
 /* global Backbone: false */
 
+/* global drawAttention: false */
 /* global i18n: false */
-/* global isFocused: false */
 /* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
@@ -53,7 +53,7 @@
       }
 
       const { isEnabled } = this;
-      const isAppFocused = isFocused();
+      const isAppFocused = window.isActive();
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
@@ -134,6 +134,8 @@
       if (shouldHideExpiringMessageBody) {
         message = i18n('newMessage');
       }
+
+      drawAttention();
 
       this.lastNotification = new Notification(title, {
         body: window.platform === 'linux' ? filter(message) : message,

@@ -14,7 +14,7 @@ export type PropsDataType = {
 
   id: string;
   conversationId: string;
-  receivedAt: number;
+  sentAt: number;
 
   snippet: string;
 
@@ -82,7 +82,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
     if (!to.isMe && !isSearchingInConversation) {
       return (
         <div className="module-message-search-result__header__from">
-          {fromName} {i18n('to')}{' '}
+          {fromName} {i18n('toJoiner')}{' '}
           <span className="module-mesages-search-result__header__group">
             <ContactName
               phoneNumber={to.phoneNumber}
@@ -115,7 +115,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
         noteToSelf={isNoteToSelf}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
-        size={48}
+        size={52}
       />
     );
   }
@@ -128,7 +128,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
       isSelected,
       conversationId,
       openConversationInternal,
-      receivedAt,
+      sentAt,
       snippet,
       to,
     } = this.props;
@@ -138,8 +138,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
     }
 
     return (
-      <div
-        role="button"
+      <button
         onClick={() => {
           if (openConversationInternal) {
             openConversationInternal(conversationId, id);
@@ -149,20 +148,21 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
           'module-message-search-result',
           isSelected ? 'module-message-search-result--is-selected' : null
         )}
+        data-id={id}
       >
         {this.renderAvatar()}
         <div className="module-message-search-result__text">
           <div className="module-message-search-result__header">
             {this.renderFrom()}
             <div className="module-message-search-result__header__timestamp">
-              <Timestamp timestamp={receivedAt} i18n={i18n} />
+              <Timestamp timestamp={sentAt} i18n={i18n} />
             </div>
           </div>
           <div className="module-message-search-result__body">
             <MessageBodyHighlight text={snippet} i18n={i18n} />
           </div>
         </div>
-      </div>
+      </button>
     );
   }
 }

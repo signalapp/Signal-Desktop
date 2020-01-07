@@ -1,5 +1,5 @@
 import memoizee from 'memoizee';
-import { isNumber } from 'lodash';
+import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';
 import { format } from '../../types/PhoneNumber';
 
@@ -18,7 +18,12 @@ import { getBubbleProps } from '../../shims/Whisper';
 import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { TimelineItemType } from '../../components/conversation/TimelineItem';
 
-import { getIntl, getRegionCode, getUserNumber } from './user';
+import {
+  getInteractionMode,
+  getIntl,
+  getRegionCode,
+  getUserNumber,
+} from './user';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -245,6 +250,7 @@ export function _messageSelector(
   ourNumber: string,
   // @ts-ignore
   regionCode: string,
+  interactionMode: 'mouse' | 'keyboard',
   // @ts-ignore
   conversation?: ConversationType,
   // @ts-ignore
@@ -263,13 +269,20 @@ export function _messageSelector(
       ...props,
       data: {
         ...props.data,
+        interactionMode,
         isSelected: true,
         isSelectedCounter: selectedMessageCounter,
       },
     };
   }
 
-  return props;
+  return {
+    ...props,
+    data: {
+      ...props.data,
+      interactionMode,
+    },
+  };
 }
 
 // A little optimization to reset our selector cache whenever high-level application data
@@ -278,6 +291,7 @@ type CachedMessageSelectorType = (
   message: MessageType,
   ourNumber: string,
   regionCode: string,
+  interactionMode: 'mouse' | 'keyboard',
   conversation?: ConversationType,
   author?: ConversationType,
   quoted?: ConversationType,
@@ -302,13 +316,15 @@ export const getMessageSelector = createSelector(
   getConversationSelector,
   getRegionCode,
   getUserNumber,
+  getInteractionMode,
   (
     messageSelector: CachedMessageSelectorType,
     messageLookup: MessageLookupType,
     selectedMessage: SelectedMessageType | undefined,
     conversationSelector: GetConversationByIdType,
     regionCode: string,
-    ourNumber: string
+    ourNumber: string,
+    interactionMode: 'keyboard' | 'mouse'
   ): GetMessageByIdType => {
     return (id: string) => {
       const message = messageLookup[id];
@@ -335,6 +351,7 @@ export const getMessageSelector = createSelector(
         message,
         ourNumber,
         regionCode,
+        interactionMode,
         conversation,
         author,
         quoted,
@@ -351,6 +368,7 @@ export function _conversationMessagesSelector(
   const {
     heightChangeMessageIds,
     isLoadingMessages,
+    isNearBottom,
     loadCountdownStart,
     messageIds,
     metrics,
@@ -370,9 +388,15 @@ export function _conversationMessagesSelector(
     !metrics.oldest || !firstId || firstId === metrics.oldest.id;
 
   const items = messageIds;
-  const messageHeightChanges = Boolean(
+
+  const messageHeightChangeLookup =
     heightChangeMessageIds && heightChangeMessageIds.length
-  );
+      ? fromPairs(heightChangeMessageIds.map(id => [id, true]))
+      : null;
+  const messageHeightChangeIndex = messageHeightChangeLookup
+    ? messageIds.findIndex(id => messageHeightChangeLookup[id])
+    : undefined;
+
   const oldestUnreadIndex = oldestUnread
     ? messageIds.findIndex(id => id === oldestUnread.id)
     : undefined;
@@ -387,14 +411,18 @@ export function _conversationMessagesSelector(
     isLoadingMessages,
     loadCountdownStart,
     items,
-    messageHeightChanges,
+    isNearBottom,
+    messageHeightChangeIndex:
+      isNumber(messageHeightChangeIndex) && messageHeightChangeIndex >= 0
+        ? messageHeightChangeIndex
+        : undefined,
     oldestUnreadIndex:
       isNumber(oldestUnreadIndex) && oldestUnreadIndex >= 0
         ? oldestUnreadIndex
         : undefined,
     resetCounter,
     scrollToIndex:
-      scrollToIndex && scrollToIndex >= 0 ? scrollToIndex : undefined,
+      isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : undefined,
     scrollToIndexCounter: scrollToMessageCounter,
     totalUnread,
   };

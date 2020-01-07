@@ -17,10 +17,42 @@
   'use strict';
 
   const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
-  const deliveryReceiptQueue = new window.PQueue({
+  Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
   });
-  deliveryReceiptQueue.pause();
+  Whisper.deliveryReceiptQueue.pause();
+  Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
+    wait: 500,
+    maxSize: 500,
+    processBatch: async items => {
+      const bySource = _.groupBy(items, item => item.source);
+      const sources = Object.keys(bySource);
+
+      for (let i = 0, max = sources.length; i < max; i += 1) {
+        const source = sources[i];
+        const timestamps = bySource[source].map(item => item.timestamp);
+
+        try {
+          const { wrap, sendOptions } = ConversationController.prepareForSend(
+            source
+          );
+          // eslint-disable-next-line no-await-in-loop
+          await wrap(
+            textsecure.messaging.sendDeliveryReceipt(
+              source,
+              timestamps,
+              sendOptions
+            )
+          );
+        } catch (error) {
+          window.log.error(
+            `Failed to send delivery receipt to ${source} for timestamps ${timestamps}:`,
+            error && error.stack ? error.stack : error
+          );
+        }
+      }
+    },
+  });
 
   // Globally disable drag and drop
   document.body.addEventListener(
@@ -40,93 +72,109 @@
     false
   );
 
+  // Idle timer - you're active for ACTIVE_TIMEOUT after one of these events
+  const ACTIVE_TIMEOUT = 15 * 1000;
+  const ACTIVE_EVENTS = [
+    'click',
+    'keydown',
+    'mousedown',
+    'mousemove',
+    // 'scroll', // this is triggered by Timeline re-renders, can't use
+    'touchstart',
+    'wheel',
+  ];
+
+  const LISTENER_DEBOUNCE = 5 * 1000;
+  let activeHandlers = [];
+  let activeTimestamp = Date.now();
+
+  window.resetActiveTimer = _.throttle(() => {
+    const previouslyActive = window.isActive();
+    activeTimestamp = Date.now();
+    if (!previouslyActive) {
+      activeHandlers.forEach(handler => handler());
+    }
+  }, LISTENER_DEBOUNCE);
+
+  ACTIVE_EVENTS.forEach(name => {
+    document.addEventListener(name, window.resetActiveTimer, true);
+  });
+
+  window.isActive = () => {
+    const now = Date.now();
+    return window.isFocused() && now <= activeTimestamp + ACTIVE_TIMEOUT;
+  };
+  window.registerForActive = handler => activeHandlers.push(handler);
+  window.unregisterForActive = handler => {
+    activeHandlers = activeHandlers.filter(item => item !== handler);
+  };
+
+  // Keyboard/mouse mode
+  let interactionMode = 'mouse';
+  $(document.body).addClass('mouse-mode');
+
+  window.enterKeyboardMode = () => {
+    if (interactionMode === 'keyboard') {
+      return;
+    }
+
+    interactionMode = 'keyboard';
+    $(document.body)
+      .addClass('keyboard-mode')
+      .removeClass('mouse-mode');
+    const { userChanged } = window.reduxActions.user;
+    const { clearSelectedMessage } = window.reduxActions.conversations;
+    if (clearSelectedMessage) {
+      clearSelectedMessage();
+    }
+    if (userChanged) {
+      userChanged({ interactionMode });
+    }
+  };
+  window.enterMouseMode = () => {
+    if (interactionMode === 'mouse') {
+      return;
+    }
+
+    interactionMode = 'mouse';
+    $(document.body)
+      .addClass('mouse-mode')
+      .removeClass('keyboard-mode');
+    const { userChanged } = window.reduxActions.user;
+    const { clearSelectedMessage } = window.reduxActions.conversations;
+    if (clearSelectedMessage) {
+      clearSelectedMessage();
+    }
+    if (userChanged) {
+      userChanged({ interactionMode });
+    }
+  };
+
+  document.addEventListener(
+    'keydown',
+    event => {
+      if (event.key === 'Tab') {
+        window.enterKeyboardMode();
+      }
+    },
+    true
+  );
+  document.addEventListener('wheel', window.enterMouseMode, true);
+  document.addEventListener('mousedown', window.enterMouseMode, true);
+
+  window.getInteractionMode = () => interactionMode;
+
   // Load these images now to ensure that they don't flicker on first use
-  window.Signal.EmojiLib.preloadImages();
-  const images = [];
+  window.preloadedImages = [];
   function preload(list) {
     for (let index = 0, max = list.length; index < max; index += 1) {
       const image = new Image();
       image.src = `./images/${list[index]}`;
-      images.push(image);
+      window.preloadedImages.push(image);
     }
   }
-  preload([
-    'alert-outline.svg',
-    'android.svg',
-    'apple.svg',
-    'appstore.svg',
-    'audio.svg',
-    'back.svg',
-    'chat-bubble-outline.svg',
-    'chat-bubble.svg',
-    'check-circle-outline.svg',
-    'check.svg',
-    'clock.svg',
-    'close-circle.svg',
-    'delete.svg',
-    'dots-horizontal.svg',
-    'double-check.svg',
-    'down.svg',
-    'download.svg',
-    'ellipsis.svg',
-    'error.svg',
-    'error_red.svg',
-    'file-gradient.svg',
-    'file.svg',
-    'folder-outline.svg',
-    'forward.svg',
-    'gear.svg',
-    'group_default.png',
-    'hourglass_empty.svg',
-    'hourglass_full.svg',
-    'icon_1024.png',
-    'icon_128.png',
-    'icon_16.png',
-    'icon_250.png',
-    'icon_256.png',
-    'icon_32.png',
-    'icon_48.png',
-    'image.svg',
-    'import.svg',
-    'lead-pencil.svg',
-    'menu.svg',
-    'microphone.svg',
-    'movie.svg',
-    'open_link.svg',
-    'paperclip.svg',
-    'play.svg',
-    'playstore.png',
-    'read.svg',
-    'reply.svg',
-    'save.svg',
-    'search.svg',
-    'sending.svg',
-    'shield.svg',
-    'signal-laptop.png',
-    'signal-phone.png',
-    'smile.svg',
-    'sync.svg',
-    'timer-00.svg',
-    'timer-05.svg',
-    'timer-10.svg',
-    'timer-15.svg',
-    'timer-20.svg',
-    'timer-25.svg',
-    'timer-30.svg',
-    'timer-35.svg',
-    'timer-40.svg',
-    'timer-45.svg',
-    'timer-50.svg',
-    'timer-55.svg',
-    'timer-60.svg',
-    'timer.svg',
-    'verified-check.svg',
-    'video.svg',
-    'voice.svg',
-    'warning.svg',
-    'x.svg',
-    'x_white.svg',
-  ]);
+  const builtInImages = await window.getBuiltInImages();
+  preload(builtInImages);
 
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing
@@ -145,6 +193,7 @@
     upgradeMessageSchema,
     writeNewAttachmentData,
     deleteAttachmentData,
+    doesAttachmentExist,
   } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
@@ -289,6 +338,8 @@
         $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
       },
       removeDarkOverlay: () => $('.dark-overlay').remove(),
+      showKeyboardShortcuts: () => window.showKeyboardShortcuts(),
+
       deleteAllData: () => {
         const clearDataView = new window.Whisper.ClearDataView().render();
         $('body').append(clearDataView.el);
@@ -304,14 +355,31 @@
         // Stop processing incoming messages
         if (messageReceiver) {
           await messageReceiver.stopProcessing();
+          await window.waitForAllBatchers();
+        }
+
+        if (messageReceiver) {
+          messageReceiver.unregisterBatchers();
           messageReceiver = null;
         }
+
+        // A number of still-to-queue database queries might be waiting inside batchers.
+        //   We wait for these to empty first, and then shut down the data interface.
+        await Promise.all([
+          window.waitForAllBatchers(),
+          window.waitForAllWaitBatchers(),
+        ]);
 
         // Shut down the data interface cleanly
         await window.Signal.Data.shutdown();
       },
 
       showStickerPack: async (packId, key) => {
+        // We can get these events even if the user has never linked this instance.
+        if (Whisper.Import.isIncomplete() || !Whisper.Registration.everDone()) {
+          return;
+        }
+
         // Kick off the download
         window.Signal.Stickers.downloadEphemeralPack(packId, key);
 
@@ -329,6 +397,12 @@
             window.reduxStore,
             props
           ),
+        });
+      },
+
+      installStickerPack: async (packId, key) => {
+        window.Signal.Stickers.downloadStickerPack(packId, key, {
+          finalStatus: 'installed',
         });
       },
     };
@@ -351,6 +425,21 @@
       await storage.put('indexeddb-delete-needed', true);
     }
 
+    // How long since we were last running?
+    const now = Date.now();
+    const lastHeartbeat = storage.get('lastHeartbeat');
+    await storage.put('lastStartup', Date.now());
+
+    const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+    if (lastHeartbeat > 0 && now - lastHeartbeat > THIRTY_DAYS) {
+      await unlinkAndDisconnect();
+    }
+
+    // Start heartbeat timer
+    storage.put('lastHeartbeat', Date.now());
+    const TWELVE_HOURS = 12 * 60 * 60 * 1000;
+    setInterval(() => storage.put('lastHeartbeat', Date.now()), TWELVE_HOURS);
+
     const currentVersion = window.getVersion();
     const lastVersion = storage.get('version');
     newVersion = !lastVersion || currentVersion !== lastVersion;
@@ -364,17 +453,7 @@
       const themeSetting = window.Events.getThemeSetting();
       const newThemeSetting = mapOldThemeToNew(themeSetting);
 
-      if (
-        window.isBeforeVersion(lastVersion, 'v1.25.0') &&
-        window.platform === 'darwin' &&
-        newThemeSetting === window.systemTheme
-      ) {
-        window.Events.setThemeSetting('system');
-      } else {
-        window.Events.setThemeSetting(newThemeSetting);
-      }
-
-      if (window.isBeforeVersion(lastVersion, 'v1.25.0')) {
+      if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {
         // Stickers flags
         await Promise.all([
           storage.put('showStickersIntroduction', true),
@@ -388,6 +467,16 @@
           'hasRegisterSupportForUnauthenticatedDelivery',
           false
         );
+      }
+
+      if (
+        window.isBeforeVersion(lastVersion, 'v1.25.0') &&
+        window.platform === 'darwin' &&
+        newThemeSetting === window.systemTheme
+      ) {
+        window.Events.setThemeSetting('system');
+      } else {
+        window.Events.setThemeSetting(newThemeSetting);
       }
 
       // This one should always be last - it could restart the app
@@ -494,7 +583,9 @@
         tempPath: window.baseTempPath,
         regionCode: window.storage.get('regionCode'),
         ourNumber: textsecure.storage.user.getNumber(),
+        platform: window.platform,
         i18n: window.i18n,
+        interactionMode: window.getInteractionMode(),
       },
     };
 
@@ -557,26 +648,593 @@
     Whisper.events.on('messageExpired', messageExpired);
     Whisper.events.on('userChanged', userChanged);
 
-    // In the future this listener will be added by the conversation view itself. But
-    //   because we currently have multiple converations open at once, we install just
-    //   one global handler.
-    // $(document).on('keydown', event => {
-    //   const { ctrlKey, key } = event;
+    let shortcutGuideView = null;
 
-    // We can add Command-E as the Mac shortcut when we add it to our Electron menus:
-    //   https://stackoverflow.com/questions/27380018/when-cmd-key-is-kept-pressed-keyup-is-not-triggered-for-any-other-key
-    // For now, it will stay as CTRL-E only
-    //   if (key === 'e' && ctrlKey) {
-    //     const state = store.getState();
-    //     const selectedId = state.conversations.selectedConversation;
-    //     const conversation = ConversationController.get(selectedId);
+    window.showKeyboardShortcuts = () => {
+      if (!shortcutGuideView) {
+        shortcutGuideView = new Whisper.ReactWrapperView({
+          className: 'shortcut-guide-wrapper',
+          JSX: Signal.State.Roots.createShortcutGuideModal(window.reduxStore, {
+            close: () => {
+              if (shortcutGuideView) {
+                shortcutGuideView.remove();
+                shortcutGuideView = null;
+              }
+            },
+          }),
+          onClose: () => {
+            shortcutGuideView = null;
+          },
+        });
+      }
+    };
 
-    //     if (conversation && !conversation.get('isArchived')) {
-    //       conversation.setArchived(true);
-    //       conversation.trigger('unload');
-    //     }
-    //   }
-    // });
+    function findConversation(conversationId, direction, unreadOnly) {
+      const state = store.getState();
+      const lists = Signal.State.Selectors.conversations.getLeftPaneLists(
+        state
+      );
+      const toSearch = state.conversations.showArchived
+        ? lists.archivedConversations
+        : lists.conversations;
+
+      const increment = direction === 'up' ? -1 : 1;
+      let startIndex;
+
+      if (conversationId) {
+        const index = toSearch.findIndex(item => item.id === conversationId);
+        if (index >= 0) {
+          startIndex = index + increment;
+        }
+      } else {
+        startIndex = direction === 'up' ? toSearch.length - 1 : 0;
+      }
+
+      for (
+        let i = startIndex, max = toSearch.length;
+        i >= 0 && i < max;
+        i += increment
+      ) {
+        const target = toSearch[i];
+        if (!unreadOnly) {
+          return target.id;
+        } else if (target.unreadCount > 0) {
+          return target.id;
+        }
+      }
+
+      return null;
+    }
+
+    document.addEventListener('keydown', event => {
+      const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
+
+      const optionOrAlt = altKey;
+      const commandKey = window.platform === 'darwin' && metaKey;
+      const controlKey = window.platform !== 'darwin' && ctrlKey;
+      const commandOrCtrl = commandKey || controlKey;
+
+      const state = store.getState();
+      const selectedId = state.conversations.selectedConversation;
+      const conversation = ConversationController.get(selectedId);
+      const isSearching = Signal.State.Selectors.search.isSearching(state);
+
+      // NAVIGATION
+
+      // Show keyboard shortcuts - handled by Electron-managed keyboard shortcuts
+      // However, on linux Ctrl+/ selects all text, so we prevent that
+      if (commandOrCtrl && key === '/') {
+        window.showKeyboardShortcuts();
+
+        event.stopPropagation();
+        event.preventDefault();
+
+        return;
+      }
+
+      // Navigate by section
+      if (commandOrCtrl && !shiftKey && (key === 't' || key === 'T')) {
+        window.enterKeyboardMode();
+        const focusedElement = document.activeElement;
+
+        const targets = [
+          document.querySelector('.module-main-header .module-avatar-button'),
+          document.querySelector('.module-left-pane__to-inbox-button'),
+          document.querySelector('.module-main-header__search__input'),
+          document.querySelector('.module-left-pane__list'),
+          document.querySelector('.module-search-results'),
+          document.querySelector(
+            '.module-composition-area .public-DraftEditor-content'
+          ),
+        ];
+        const focusedIndex = targets.findIndex(target => {
+          if (!target || !focusedElement) {
+            return false;
+          }
+
+          if (target === focusedElement) {
+            return true;
+          }
+
+          if (target.contains(focusedElement)) {
+            return true;
+          }
+
+          return false;
+        });
+        const lastIndex = targets.length - 1;
+
+        let index;
+        if (focusedIndex < 0 || focusedIndex >= lastIndex) {
+          index = 0;
+        } else {
+          index = focusedIndex + 1;
+        }
+
+        while (!targets[index]) {
+          index += 1;
+          if (index > lastIndex) {
+            index = 0;
+          }
+        }
+
+        targets[index].focus();
+      }
+
+      // Cancel out of keyboard shortcut screen - has first precedence
+      if (shortcutGuideView && key === 'Escape') {
+        shortcutGuideView.remove();
+        shortcutGuideView = null;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Escape is heavily overloaded - here we avoid clashes with other Escape handlers
+      if (key === 'Escape') {
+        // Check origin - if within a react component which handles escape, don't handle.
+        //   Why? Because React's synthetic events can cause events to be handled twice.
+        const target = document.activeElement;
+
+        if (
+          target &&
+          target.attributes &&
+          target.attributes.class &&
+          target.attributes.class.value
+        ) {
+          const className = target.attributes.class.value;
+
+          // These want to handle events internally
+
+          // CaptionEditor text box
+          if (className.includes('module-caption-editor__caption-input')) {
+            return;
+          }
+
+          // MainHeader search box
+          if (className.includes('module-main-header__search__input')) {
+            return;
+          }
+        }
+
+        // These add listeners to document, but we'll run first
+        const confirmationModal = document.querySelector(
+          '.module-confirmation-dialog__overlay'
+        );
+        if (confirmationModal) {
+          return;
+        }
+
+        const emojiPicker = document.querySelector('.module-emoji-picker');
+        if (emojiPicker) {
+          return;
+        }
+
+        const lightBox = document.querySelector('.module-lightbox');
+        if (lightBox) {
+          return;
+        }
+
+        const stickerPicker = document.querySelector('.module-sticker-picker');
+        if (stickerPicker) {
+          return;
+        }
+
+        const stickerPreview = document.querySelector(
+          '.module-sticker-manager__preview-modal__overlay'
+        );
+        if (stickerPreview) {
+          return;
+        }
+      }
+
+      // Close Backbone-based confirmation dialog
+      if (Whisper.activeConfirmationView && key === 'Escape') {
+        Whisper.activeConfirmationView.remove();
+        Whisper.activeConfirmationView = null;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Send Escape to active conversation so it can close panels
+      if (conversation && key === 'Escape') {
+        conversation.trigger('escape-pressed');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Change currently selected conversation - up/down, to next/previous unread
+      if (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') {
+        const unreadOnly = false;
+        const targetId = findConversation(
+          conversation ? conversation.id : null,
+          'up',
+          unreadOnly
+        );
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+      if (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') {
+        const unreadOnly = false;
+        const targetId = findConversation(
+          conversation ? conversation.id : null,
+          'down',
+          unreadOnly
+        );
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowUp') {
+        const unreadOnly = true;
+        const targetId = findConversation(
+          conversation ? conversation.id : null,
+          'up',
+          unreadOnly
+        );
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+      if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowDown') {
+        const unreadOnly = true;
+        const targetId = findConversation(
+          conversation ? conversation.id : null,
+          'down',
+          unreadOnly
+        );
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      // Preferences - handled by Electron-managed keyboard shortcuts
+
+      // Open the top-right menu for current conversation
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'l' || key === 'L')
+      ) {
+        const button = document.querySelector(
+          '.module-conversation-header__more-button'
+        );
+        if (!button) {
+          return;
+        }
+
+        // Because the menu is shown at a location based on the initiating click, we need
+        //   to fake up a mouse event to get the menu to show somewhere other than (0,0).
+        const { x, y, width, height } = button.getBoundingClientRect();
+        const mouseEvent = document.createEvent('MouseEvents');
+        mouseEvent.initMouseEvent(
+          'click',
+          true, // bubbles
+          false, // cancelable
+          null, // view
+          null, // detail
+          0, // screenX,
+          0, // screenY,
+          x + width / 2,
+          y + height / 2,
+          false, // ctrlKey,
+          false, // altKey,
+          false, // shiftKey,
+          false, // metaKey,
+          false, // button,
+          document.body
+        );
+
+        button.dispatchEvent(mouseEvent);
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Search
+      if (commandOrCtrl && !shiftKey && (key === 'f' || key === 'F')) {
+        const { startSearch } = actions.search;
+        startSearch();
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Search in conversation
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'f' || key === 'F')
+      ) {
+        const { searchInConversation } = actions.search;
+        const name = conversation.isMe()
+          ? window.i18n('noteToSelf')
+          : conversation.getTitle();
+        searchInConversation(conversation.id, name);
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Focus composer field
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 't' || key === 'T')
+      ) {
+        conversation.trigger('focus-composer');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Open all media
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'm' || key === 'M')
+      ) {
+        conversation.trigger('open-all-media');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Open emoji picker - handled by component
+
+      // Open sticker picker - handled by component
+
+      // Begin recording voice note
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'v' || key === 'V')
+      ) {
+        conversation.trigger('begin-recording');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Archive or unarchive conversation
+      if (
+        conversation &&
+        !conversation.get('isArchived') &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'a' || key === 'A')
+      ) {
+        conversation.setArchived(true);
+        conversation.trigger('unload', 'keyboard shortcut archive');
+        Whisper.ToastView.show(
+          Whisper.ConversationArchivedToast,
+          document.body
+        );
+
+        // It's very likely that the act of archiving a conversation will set focus to
+        //   'none,' or the top-level body element. This resets it to the left pane,
+        //   whether in the normal conversation list or search results.
+        if (document.activeElement === document.body) {
+          const leftPaneEl = document.querySelector('.module-left-pane__list');
+          if (leftPaneEl) {
+            leftPaneEl.focus();
+          }
+
+          const searchResultsEl = document.querySelector(
+            '.module-search-results'
+          );
+          if (searchResultsEl) {
+            searchResultsEl.focus();
+          }
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      if (
+        conversation &&
+        conversation.get('isArchived') &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'u' || key === 'U')
+      ) {
+        conversation.setArchived(false);
+        Whisper.ToastView.show(
+          Whisper.ConversationUnarchivedToast,
+          document.body
+        );
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Scroll to bottom of list - handled by component
+
+      // Scroll to top of list - handled by component
+
+      // Close conversation
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'c' || key === 'C')
+      ) {
+        conversation.trigger('unload', 'keyboard shortcut close');
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // MESSAGES
+
+      // Show message details
+      if (
+        conversation &&
+        commandOrCtrl &&
+        !shiftKey &&
+        (key === 'd' || key === 'D')
+      ) {
+        const { selectedMessage } = state.conversations;
+        if (!selectedMessage) {
+          return;
+        }
+
+        conversation.trigger('show-message-details', selectedMessage);
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Toggle reply to message
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'r' || key === 'R')
+      ) {
+        const { selectedMessage } = state.conversations;
+
+        conversation.trigger('toggle-reply', selectedMessage);
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Save attachment
+      if (
+        conversation &&
+        commandOrCtrl &&
+        !shiftKey &&
+        (key === 's' || key === 'S')
+      ) {
+        const { selectedMessage } = state.conversations;
+
+        if (selectedMessage) {
+          conversation.trigger('save-attachment', selectedMessage);
+
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'd' || key === 'D')
+      ) {
+        const { selectedMessage } = state.conversations;
+
+        if (selectedMessage) {
+          conversation.trigger('delete-message', selectedMessage);
+
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      // COMPOSER
+
+      // Create a newline in your message - handled by component
+
+      // Expand composer - handled by component
+
+      // Send in expanded composer - handled by component
+
+      // Attach file
+      if (
+        conversation &&
+        commandOrCtrl &&
+        !shiftKey &&
+        (key === 'u' || key === 'U')
+      ) {
+        conversation.trigger('attach-file');
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Remove draft link preview
+      if (
+        conversation &&
+        commandOrCtrl &&
+        !shiftKey &&
+        (key === 'p' || key === 'P')
+      ) {
+        conversation.trigger('remove-link-review');
+
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // Attach file
+      if (
+        conversation &&
+        commandOrCtrl &&
+        shiftKey &&
+        (key === 'p' || key === 'P')
+      ) {
+        conversation.trigger('remove-all-draft-attachments');
+
+        event.preventDefault();
+        event.stopPropagation();
+        // Commented out because this is the last item
+        // return;
+      }
+    });
   }
 
   Whisper.events.on('setupWithImport', () => {
@@ -712,7 +1370,7 @@
       }
     });
 
-    window.addEventListener('focus', () => Whisper.Notifications.clear());
+    window.registerForActive(() => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
 
     Whisper.events.on('showConversation', (id, messageId) => {
@@ -813,7 +1471,12 @@
     }
 
     if (messageReceiver) {
-      messageReceiver.close();
+      await messageReceiver.stopProcessing();
+
+      await window.waitForAllBatchers();
+      messageReceiver.unregisterBatchers();
+
+      messageReceiver = null;
     }
 
     const USERNAME = storage.get('number_id');
@@ -826,7 +1489,7 @@
       serverTrustRoot: window.getServerTrustRoot(),
     };
 
-    deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
+    Whisper.deliveryReceiptQueue.pause(); // avoid flood of delivery receipts until we catch up
     Whisper.Notifications.disable(); // avoid notification flood until empty
 
     // initialize the socket and start listening for messages
@@ -839,7 +1502,18 @@
 
     function addQueuedEventListener(name, handler) {
       messageReceiver.addEventListener(name, (...args) =>
-        eventHandlerQueue.add(() => handler(...args))
+        eventHandlerQueue.add(async () => {
+          try {
+            await handler(...args);
+          } finally {
+            // message/sent: Message.handleDataMessage has its own queue and will trigger
+            //   this event itself when complete.
+            // error: Error processing (below) also has its own queue and self-trigger.
+            if (name !== 'message' && name !== 'sent' && name !== 'error') {
+              Whisper.events.trigger('incrementProgress');
+            }
+          }
+        })
       );
     }
 
@@ -854,7 +1528,6 @@
     addQueuedEventListener('error', onError);
     addQueuedEventListener('empty', onEmpty);
     addQueuedEventListener('reconnect', onReconnect);
-    addQueuedEventListener('progress', onProgress);
     addQueuedEventListener('configuration', onConfiguration);
     addQueuedEventListener('typing', onTyping);
     addQueuedEventListener('sticker-pack', onStickerPack);
@@ -985,7 +1658,12 @@
       view.applyTheme();
     }
   }
-  function onEmpty() {
+  async function onEmpty() {
+    await Promise.all([
+      window.waitForAllBatchers(),
+      window.waitForAllWaitBatchers(),
+    ]);
+    window.log.info('onEmpty: All outstanding database requests complete');
     initialLoadComplete = true;
 
     window.readyForUpdates();
@@ -999,7 +1677,7 @@
       }
     }, 500);
 
-    deliveryReceiptQueue.start();
+    Whisper.deliveryReceiptQueue.start();
     Whisper.Notifications.enable();
   }
   function onReconnect() {
@@ -1007,19 +1685,33 @@
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
-    deliveryReceiptQueue.pause();
+    Whisper.deliveryReceiptQueue.pause();
     Whisper.Notifications.disable();
   }
-  function onProgress(ev) {
-    const { count } = ev;
-    window.log.info(`onProgress: Message count is ${count}`);
+
+  let initialStartupCount = 0;
+  Whisper.events.on('incrementProgress', incrementProgress);
+  function incrementProgress() {
+    initialStartupCount += 1;
+
+    // Only update progress every 10 items
+    if (initialStartupCount % 10 !== 0) {
+      return;
+    }
+
+    window.log.info(
+      `incrementProgress: Message count is ${initialStartupCount}`
+    );
 
     const view = window.owsDesktopApp.appView;
     if (view) {
-      view.onProgress(count);
+      view.onProgress(initialStartupCount);
     }
   }
+
   function onConfiguration(ev) {
+    ev.confirm();
+
     const { configuration } = ev;
     const {
       readReceipts,
@@ -1047,11 +1739,11 @@
     if (linkPreviews === true || linkPreviews === false) {
       storage.put('linkPreviews', linkPreviews);
     }
-
-    ev.confirm();
   }
 
   function onTyping(ev) {
+    // Note: this type of message is automatically removed from cache in MessageReceiver
+
     const { typing, sender, senderDevice } = ev;
     const { groupId, started } = typing || {};
 
@@ -1081,6 +1773,8 @@
   }
 
   async function onStickerPack(ev) {
+    ev.confirm();
+
     const packs = ev.stickerPacks || [];
 
     packs.forEach(pack => {
@@ -1112,8 +1806,6 @@
         }
       }
     });
-
-    ev.confirm();
   }
 
   async function onContactReceived(ev) {
@@ -1186,14 +1878,14 @@
           {
             writeNewAttachmentData,
             deleteAttachmentData,
+            doesAttachmentExist,
           }
         );
         conversation.set(newAttributes);
       }
 
-      await window.Signal.Data.updateConversation(id, conversation.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      window.Signal.Data.updateConversation(id, conversation.attributes);
+
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
@@ -1270,14 +1962,14 @@
         {
           writeNewAttachmentData,
           deleteAttachmentData,
+          doesAttachmentExist,
         }
       );
       conversation.set(newAttributes);
     }
 
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
+    window.Signal.Data.updateConversation(id, conversation.attributes);
+
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (!isValidExpireTimer) {
@@ -1289,8 +1981,6 @@
     await conversation.updateExpirationTimer(expireTimer, source, receivedAt, {
       fromSync: true,
     });
-
-    ev.confirm();
   }
 
   // Descriptors
@@ -1338,19 +2028,15 @@
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
-      return handleMessageReceivedProfileUpdate({
+      await handleMessageReceivedProfileUpdate({
         data,
         confirm,
         messageDescriptor,
       });
+      return;
     }
 
     const message = await initIncomingMessage(data);
-    const isDuplicate = await isMessageDuplicate(message);
-    if (isDuplicate) {
-      window.log.warn('Received duplicate message', message.idForLogging());
-      return event.confirm();
-    }
 
     const ourNumber = textsecure.storage.user.getNumber();
     const isGroupUpdate =
@@ -1369,7 +2055,8 @@
       window.log.warn(
         `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
       );
-      return event.confirm();
+      confirm();
+      return;
     }
 
     await ConversationController.getOrCreateAndWait(
@@ -1377,7 +2064,8 @@
       messageDescriptor.type
     );
 
-    return message.handleDataMessage(data.message, event.confirm, {
+    // Don't wait for handleDataMessage, as it has its own per-conversation queueing
+    message.handleDataMessage(data.message, event.confirm, {
       initialLoadComplete,
     });
   }
@@ -1396,9 +2084,7 @@
     );
 
     conversation.set({ profileSharing: true });
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
+    window.Signal.Data.updateConversation(id, conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
     const ourNumber = textsecure.storage.user.getNumber();
@@ -1459,7 +2145,7 @@
     }
 
     const message = await createSentMessage(data);
-    const existing = await getExistingMessage(message);
+    const existing = await getExistingMessage(message.attributes);
     const isUpdate = Boolean(data.isRecipientUpdate);
 
     if (isUpdate && existing) {
@@ -1501,16 +2187,17 @@
         messageDescriptor.id,
         messageDescriptor.type
       );
-      await message.handleDataMessage(data.message, event.confirm, {
+
+      // Don't wait for handleDataMessage, as it has its own per-conversation queueing
+      message.handleDataMessage(data.message, event.confirm, {
         initialLoadComplete,
       });
     }
   }
 
-  async function getExistingMessage(message) {
+  async function getExistingMessage(data) {
     try {
-      const { attributes } = message;
-      const result = await window.Signal.Data.getMessageBySender(attributes, {
+      const result = await window.Signal.Data.getMessageBySender(data, {
         Message: Whisper.Message,
       });
 
@@ -1525,15 +2212,8 @@
     }
   }
 
-  async function isMessageDuplicate(message) {
-    const result = await getExistingMessage(message);
-    return Boolean(result);
-  }
-
-  async function initIncomingMessage(data, options = {}) {
-    const { isError } = options;
-
-    const message = new Whisper.Message({
+  async function initIncomingMessage(data) {
+    return new Whisper.Message({
       source: data.source,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
@@ -1543,36 +2223,65 @@
       type: 'incoming',
       unread: 1,
     });
+  }
 
-    // If we don't return early here, we can get into infinite error loops. So, no
-    //   delivery receipts for sealed sender errors.
-    if (isError || !data.unidentifiedDeliveryReceived) {
-      return message;
+  async function unlinkAndDisconnect() {
+    Whisper.events.trigger('unauthorized');
+
+    if (messageReceiver) {
+      await messageReceiver.stopProcessing();
+
+      await window.waitForAllBatchers();
+      messageReceiver.unregisterBatchers();
+
+      messageReceiver = null;
     }
 
-    deliveryReceiptQueue.add(async () => {
-      try {
-        const { wrap, sendOptions } = ConversationController.prepareForSend(
-          data.source
-        );
-        await wrap(
-          textsecure.messaging.sendDeliveryReceipt(
-            data.source,
-            data.timestamp,
-            sendOptions
-          )
-        );
-      } catch (error) {
-        window.log.error(
-          `Failed to send delivery receipt to ${data.source} for message ${
-            data.timestamp
-          }:`,
-          error && error.stack ? error.stack : error
-        );
-      }
-    });
+    onEmpty();
 
-    return message;
+    window.log.warn(
+      'Client is no longer authorized; deleting local configuration'
+    );
+    Whisper.Registration.remove();
+
+    const NUMBER_ID_KEY = 'number_id';
+    const VERSION_KEY = 'version';
+    const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
+    const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
+
+    const previousNumberId = textsecure.storage.get(NUMBER_ID_KEY);
+    const lastProcessedIndex = textsecure.storage.get(LAST_PROCESSED_INDEX_KEY);
+    const isMigrationComplete = textsecure.storage.get(
+      IS_MIGRATION_COMPLETE_KEY
+    );
+
+    try {
+      await textsecure.storage.protocol.removeAllConfiguration();
+
+      // These two bits of data are important to ensure that the app loads up
+      //   the conversation list, instead of showing just the QR code screen.
+      Whisper.Registration.markEverDone();
+      textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+
+      // These two are important to ensure we don't rip through every message
+      //   in the database attempting to upgrade it after starting up again.
+      textsecure.storage.put(
+        IS_MIGRATION_COMPLETE_KEY,
+        isMigrationComplete || false
+      );
+      textsecure.storage.put(
+        LAST_PROCESSED_INDEX_KEY,
+        lastProcessedIndex || null
+      );
+      textsecure.storage.put(VERSION_KEY, window.getVersion());
+
+      window.log.info('Successfully cleared local configuration');
+    } catch (eraseError) {
+      window.log.error(
+        'Something went wrong clearing local configuration',
+        eraseError && eraseError.stack ? eraseError.stack : eraseError
+      );
+    }
   }
 
   async function onError(ev) {
@@ -1584,61 +2293,7 @@
       error.name === 'HTTPError' &&
       (error.code === 401 || error.code === 403)
     ) {
-      Whisper.events.trigger('unauthorized');
-
-      if (messageReceiver) {
-        await messageReceiver.stopProcessing();
-        messageReceiver = null;
-      }
-
-      onEmpty();
-
-      window.log.warn(
-        'Client is no longer authorized; deleting local configuration'
-      );
-      Whisper.Registration.remove();
-
-      const NUMBER_ID_KEY = 'number_id';
-      const VERSION_KEY = 'version';
-      const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
-      const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
-
-      const previousNumberId = textsecure.storage.get(NUMBER_ID_KEY);
-      const lastProcessedIndex = textsecure.storage.get(
-        LAST_PROCESSED_INDEX_KEY
-      );
-      const isMigrationComplete = textsecure.storage.get(
-        IS_MIGRATION_COMPLETE_KEY
-      );
-
-      try {
-        await textsecure.storage.protocol.removeAllConfiguration();
-
-        // These two bits of data are important to ensure that the app loads up
-        //   the conversation list, instead of showing just the QR code screen.
-        Whisper.Registration.markEverDone();
-        textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
-
-        // These two are important to ensure we don't rip through every message
-        //   in the database attempting to upgrade it after starting up again.
-        textsecure.storage.put(
-          IS_MIGRATION_COMPLETE_KEY,
-          isMigrationComplete || false
-        );
-        textsecure.storage.put(
-          LAST_PROCESSED_INDEX_KEY,
-          lastProcessedIndex || null
-        );
-        textsecure.storage.put(VERSION_KEY, window.getVersion());
-
-        window.log.info('Successfully cleared local configuration');
-      } catch (eraseError) {
-        window.log.error(
-          'Something went wrong clearing local configuration',
-          eraseError && eraseError.stack ? eraseError.stack : eraseError
-        );
-      }
-
+      await unlinkAndDisconnect();
       return;
     }
 
@@ -1663,58 +2318,75 @@
         return;
       }
       const envelope = ev.proto;
-      const message = await initIncomingMessage(envelope, { isError: true });
-      const isDuplicate = await isMessageDuplicate(message);
-      if (isDuplicate) {
-        ev.confirm();
-        window.log.warn(
-          `Got duplicate error for message ${message.idForLogging()}`
-        );
-        return;
-      }
-
-      const id = await window.Signal.Data.saveMessage(message.attributes, {
-        Message: Whisper.Message,
-      });
-      message.set({ id });
-      await message.saveErrors(error || new Error('Error was null'));
+      const message = await initIncomingMessage(envelope);
 
       const conversationId = message.get('conversationId');
       const conversation = await ConversationController.getOrCreateAndWait(
         conversationId,
         'private'
       );
-      conversation.set({
-        active_at: Date.now(),
-        unreadCount: conversation.get('unreadCount') + 1,
-      });
 
-      const conversationTimestamp = conversation.get('timestamp');
-      const messageTimestamp = message.get('timestamp');
-      if (!conversationTimestamp || messageTimestamp > conversationTimestamp) {
-        conversation.set({ timestamp: message.get('sent_at') });
-      }
-
-      conversation.trigger('newmessage', message);
-      conversation.notify(message);
-
-      if (ev.confirm) {
-        ev.confirm();
-      }
-
-      await window.Signal.Data.updateConversation(
-        conversationId,
-        conversation.attributes,
-        {
-          Conversation: Whisper.Conversation,
+      // This matches the queueing behavior used in Message.handleDataMessage
+      conversation.queueJob(async () => {
+        const existingMessage = await getExistingMessage(message.attributes);
+        if (existingMessage) {
+          ev.confirm();
+          window.log.warn(
+            `Got duplicate error for message ${message.idForLogging()}`
+          );
+          return;
         }
-      );
+
+        const model = new Whisper.Message({
+          ...message.attributes,
+          id: window.getGuid(),
+        });
+        await model.saveErrors(error || new Error('Error was null'), {
+          skipSave: true,
+        });
+
+        MessageController.register(model.id, model);
+        await window.Signal.Data.saveMessage(model.attributes, {
+          Message: Whisper.Message,
+          forceSave: true,
+        });
+
+        conversation.set({
+          active_at: Date.now(),
+          unreadCount: conversation.get('unreadCount') + 1,
+        });
+
+        const conversationTimestamp = conversation.get('timestamp');
+        const messageTimestamp = model.get('timestamp');
+        if (
+          !conversationTimestamp ||
+          messageTimestamp > conversationTimestamp
+        ) {
+          conversation.set({ timestamp: model.get('sent_at') });
+        }
+
+        conversation.trigger('newmessage', model);
+        conversation.notify(model);
+
+        Whisper.events.trigger('incrementProgress');
+
+        if (ev.confirm) {
+          ev.confirm();
+        }
+
+        window.Signal.Data.updateConversation(
+          conversationId,
+          conversation.attributes
+        );
+      });
     }
 
     throw error;
   }
 
   async function onViewSync(ev) {
+    ev.confirm();
+
     const { source, timestamp } = ev;
     window.log.info(`view sync ${source} ${timestamp}`);
 
@@ -1723,10 +2395,7 @@
       timestamp,
     });
 
-    sync.on('remove', ev.confirm);
-
-    // Calling this directly so we can wait for completion
-    return Whisper.ViewSyncs.onSync(sync);
+    Whisper.ViewSyncs.onSync(sync);
   }
 
   function onReadReceipt(ev) {
@@ -1735,8 +2404,10 @@
     const { reader } = ev.read;
     window.log.info('read receipt', reader, timestamp);
 
+    ev.confirm();
+
     if (!storage.get('read-receipt-setting')) {
-      return ev.confirm();
+      return;
     }
 
     const receipt = Whisper.ReadReceipts.add({
@@ -1745,10 +2416,8 @@
       read_at: readAt,
     });
 
-    receipt.on('remove', ev.confirm);
-
-    // Calling this directly so we can wait for completion
-    return Whisper.ReadReceipts.onReceipt(receipt);
+    // Note: We do not wait for completion here
+    Whisper.ReadReceipts.onReceipt(receipt);
   }
 
   function onReadSync(ev) {
@@ -1765,7 +2434,8 @@
 
     receipt.on('remove', ev.confirm);
 
-    // Calling this directly so we can wait for completion
+    // Note: Here we wait, because we want read states to be in the database
+    //   before we move on.
     return Whisper.ReadSyncs.onReceipt(receipt);
   }
 
@@ -1773,6 +2443,10 @@
     const number = ev.verified.destination;
     const key = ev.verified.identityKey;
     let state;
+
+    if (ev.confirm) {
+      ev.confirm();
+    }
 
     const c = new Whisper.Conversation({
       id: number,
@@ -1824,10 +2498,6 @@
     } else {
       await contact.setUnverified(options);
     }
-
-    if (ev.confirm) {
-      ev.confirm();
-    }
   }
 
   function onDeliveryReceipt(ev) {
@@ -1838,14 +2508,14 @@
       deliveryReceipt.timestamp
     );
 
+    ev.confirm();
+
     const receipt = Whisper.DeliveryReceipts.add({
       timestamp: deliveryReceipt.timestamp,
       source: deliveryReceipt.source,
     });
 
-    ev.confirm();
-
-    // Calling this directly so we can wait for completion
-    return Whisper.DeliveryReceipts.onReceipt(receipt);
+    // Note: We don't wait for completion here
+    Whisper.DeliveryReceipts.onReceipt(receipt);
   }
 })();

@@ -1,6 +1,6 @@
 /* global $, Whisper */
 
-$(document).on('keyup', e => {
+$(document).on('keydown', e => {
   'use strict';
 
   if (e.keyCode === 27) {

@@ -83,7 +83,7 @@
       checkTapToViewMessages();
     }, wait);
   }
-  const throttledCheckTapToViewMessages = _.throttle(
+  const debouncedCheckTapToViewMessages = _.debounce(
     checkTapToViewMessages,
     1000
   );
@@ -92,8 +92,8 @@
     nextCheck: null,
     init(events) {
       checkTapToViewMessages();
-      events.on('timetravel', throttledCheckTapToViewMessages);
+      events.on('timetravel', debouncedCheckTapToViewMessages);
     },
-    update: throttledCheckTapToViewMessages,
+    update: debouncedCheckTapToViewMessages,
   };
 })();

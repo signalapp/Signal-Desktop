@@ -68,6 +68,7 @@ export const StickerPicker = React.memo(
       }: Props,
       ref
     ) => {
+      const focusRef = React.useRef<HTMLButtonElement>(null);
       const tabIds = React.useMemo(
         () => ['recents', ...packs.map(({ id }) => id)],
         packs
@@ -84,6 +85,7 @@ export const StickerPicker = React.memo(
       } =
         selectedPack || {};
 
+      const [isUsingKeyboard, setIsUsingKeyboard] = React.useState(false);
       const [packsPage, setPacksPage] = React.useState(0);
       const onClickPrevPackPage = React.useCallback(
         () => {
@@ -101,22 +103,50 @@ export const StickerPicker = React.memo(
       // Handle escape key
       React.useEffect(
         () => {
-          const handler = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
+          const handler = (event: KeyboardEvent) => {
+            if (event.key === 'Tab') {
+              // We do NOT prevent default here to allow Tab to be used normally
+
+              setIsUsingKeyboard(true);
+
+              return;
+            }
+
+            if (event.key === 'Escape') {
+              event.stopPropagation();
+              event.preventDefault();
+
               onClose();
+
+              return;
             }
           };
 
-          document.addEventListener('keyup', handler);
+          document.addEventListener('keydown', handler);
 
           return () => {
-            document.removeEventListener('keyup', handler);
+            document.removeEventListener('keydown', handler);
           };
         },
         [onClose]
       );
 
+      // Focus popup on after initial render, restore focus on teardown
+      React.useEffect(() => {
+        const lastFocused = document.activeElement as any;
+        if (focusRef.current) {
+          focusRef.current.focus();
+        }
+
+        return () => {
+          if (lastFocused && lastFocused.focus) {
+            lastFocused.focus();
+          }
+        };
+      }, []);
+
       const isEmpty = stickers.length === 0;
+      const addPackRef = isEmpty ? focusRef : undefined;
       const downloadError =
         selectedPack &&
         selectedPack.status === 'error' &&
@@ -186,7 +216,7 @@ export const StickerPicker = React.memo(
                   </button>
                 ))}
               </div>
-              {packsPage > 0 ? (
+              {!isUsingKeyboard && packsPage > 0 ? (
                 <button
                   className={classNames(
                     'module-sticker-picker__header__button',
@@ -195,7 +225,7 @@ export const StickerPicker = React.memo(
                   onClick={onClickPrevPackPage}
                 />
               ) : null}
-              {!isLastPacksPage(packsPage, packs.length) ? (
+              {!isUsingKeyboard && !isLastPacksPage(packsPage, packs.length) ? (
                 <button
                   className={classNames(
                     'module-sticker-picker__header__button',
@@ -206,6 +236,7 @@ export const StickerPicker = React.memo(
               ) : null}
             </div>
             <button
+              ref={addPackRef}
               className={classNames(
                 'module-sticker-picker__header__button',
                 'module-sticker-picker__header__button--add-pack',
@@ -274,19 +305,24 @@ export const StickerPicker = React.memo(
                   'module-sticker-picker__body__content--under-long-text': showLongText,
                 })}
               >
-                {stickers.map(({ packId, id, url }) => (
-                  <button
-                    key={`${packId}-${id}`}
-                    className="module-sticker-picker__body__cell"
-                    onClick={() => onPickSticker(packId, id)}
-                  >
-                    <img
-                      className="module-sticker-picker__body__cell__image"
-                      src={url}
-                      alt={packTitle}
-                    />
-                  </button>
-                ))}
+                {stickers.map(({ packId, id, url }, index: number) => {
+                  const maybeFocusRef = index === 0 ? focusRef : undefined;
+
+                  return (
+                    <button
+                      ref={maybeFocusRef}
+                      key={`${packId}-${id}`}
+                      className="module-sticker-picker__body__cell"
+                      onClick={() => onPickSticker(packId, id)}
+                    >
+                      <img
+                        className="module-sticker-picker__body__cell__image"
+                        src={url}
+                        alt={packTitle}
+                      />
+                    </button>
+                  );
+                })}
                 {Array(pendingCount)
                   .fill(0)
                   .map((_, i) => (

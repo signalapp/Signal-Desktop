@@ -38,7 +38,7 @@ export class ContactListItem extends React.Component<Props> {
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
-        size={48}
+        size={52}
       />
     );
   }
@@ -68,8 +68,7 @@ export class ContactListItem extends React.Component<Props> {
     const showVerified = !isMe && verified;
 
     return (
-      <div
-        role="button"
+      <button
         onClick={onClick}
         className={classNames(
           'module-contact-list-item',
@@ -90,7 +89,7 @@ export class ContactListItem extends React.Component<Props> {
             {showNumber ? phoneNumber : null}
           </div>
         </div>
-      </div>
+      </button>
     );
   }
 }

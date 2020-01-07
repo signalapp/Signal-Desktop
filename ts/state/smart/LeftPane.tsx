@@ -6,7 +6,11 @@ import { StateType } from '../reducer';
 
 import { getSearchResults, isSearching } from '../selectors/search';
 import { getIntl } from '../selectors/user';
-import { getLeftPaneLists, getShowArchived } from '../selectors/conversations';
+import {
+  getLeftPaneLists,
+  getSelectedConversation,
+  getShowArchived,
+} from '../selectors/conversations';
 
 import { SmartMainHeader } from './MainHeader';
 import { SmartMessageSearchResult } from './MessageSearchResult';
@@ -28,10 +32,12 @@ const mapStateToProps = (state: StateType) => {
 
   const lists = showSearch ? undefined : getLeftPaneLists(state);
   const searchResults = showSearch ? getSearchResults(state) : undefined;
+  const selectedConversationId = getSelectedConversation(state);
 
   return {
     ...lists,
     searchResults,
+    selectedConversationId,
     showArchived: getShowArchived(state),
     i18n: getIntl(state),
     renderMainHeader,
