@@ -84,14 +84,14 @@ export class SessionModal extends React.PureComponent<Props, State> {
     });
 
     window.removeEventListener('keyup', this.onKeyUp);
-    this.props.onClose();
+
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
   }
 
   public onKeyUp(event: any) {
     switch (event.key) {
-      case 'Enter':
-        this.props.onOk();
-        break;
       case 'Esc':
       case 'Escape':
         this.close();

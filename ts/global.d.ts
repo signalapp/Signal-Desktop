@@ -1,6 +1,8 @@
 interface Window {
+  Events: any;
   getAccountManager: any;
   mnemonic: any;
+  clipboard: any;
   passwordUtil: any;
   dcodeIO: any;
   libsignal: any;

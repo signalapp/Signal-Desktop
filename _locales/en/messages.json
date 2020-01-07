@@ -2021,7 +2021,7 @@
   },
 
   "copyPublicKey": {
-    "message": "Copy public key",
+    "message": "Copy Public Key",
     "description":
       "Button action that the user can click to copy their public keys"
   },
@@ -2086,7 +2086,7 @@
       "A toast message telling the user that the message text was copied"
   },
   "editProfile": {
-    "message": "Edit profile",
+    "message": "Edit Profile",
     "description": "Button action that the user can click to edit their profile"
   },
 
@@ -2102,16 +2102,40 @@
   },
 
   "showSeed": {
-    "message": "Show seed",
+    "message": "Show Seed",
     "description":
       "Button action that the user can click to view their unique seed"
   },
+  "showSeedPasswordRequest": {
+    "message": "Please enter your password",
+    "description": "Request for user to enter password to show seed."
+  },
+  "seedSavePromptMain": {
+    "message": "Please save the seed below in a safe location.",
+    "description":
+      "Prompt on seed modal requesting user to save their seed. Line one"
+  },
+  "seedSavePromptAlt": {
+    "message":
+      "They can be used to restore your account if you lose access or migrate to a new device.",
+    "description":
+      "Prompt on seed modal requesting user to save their seed. Line two"
+  },
+  "QRCodeTitle": {
+    "message": "View My QR Code",
+    "description": "Title given to QR Code modal"
+  },
+  "QRCodeDescription": {
+    "message":
+      "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
+    "description": "Description given to QRCode modal"
+  },
   "showQRCode": {
-    "message": "Show QR code",
+    "message": "Show QR Code",
     "description": "Button action that the user can click to view their QR code"
   },
   "showAddServer": {
-    "message": "Add public server",
+    "message": "Add Public Server",
     "description":
       "Button action that the user can click to connect to a new public server"
   },
@@ -2160,7 +2184,10 @@
     "description":
       "A button action that the user can click to reset the database"
   },
-
+  "password": {
+    "message": "Password",
+    "description": "Placeholder for password input"
+  },
   "setPassword": {
     "message": "Set Password",
     "description": "Button action that the user can click to set a password"
@@ -2181,6 +2208,9 @@
   },
   "invalidPassword": {
     "message": "Invalid password"
+  },
+  "noGivenPassword": {
+    "message": "Please enter your password"
   },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match"

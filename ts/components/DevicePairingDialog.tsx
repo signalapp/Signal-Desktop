@@ -1,5 +1,5 @@
 import React from 'react';
-import { QRCode } from 'react-qrcode';
+import { QRCode } from 'react-qr-svg';
 
 import { SessionModal } from './session/SessionModal';
 import { SessionButton } from './session/SessionButton';
@@ -59,23 +59,29 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     const waitingForRequest = this.state.view === 'waitingForRequest';
     const nothingPaired = this.state.data.length === 0;
 
-    const renderPairedDevices = this.state.data.map((pubKey: any) => {
-      const pubKeyInfo = this.getPubkeyName(pubKey);
-      const isFinalItem =
-        this.state.data[this.state.data.length - 1] === pubKey;
+    const theme = window.Events.getThemeSetting();
 
-      return (
-        <div key={pubKey}>
-          <p>
-            {pubKeyInfo.deviceAlias}
-            <br />
-            <span className="text-subtle">Pairing Secret:</span>{' '}
-            {pubKeyInfo.secretWords}
-          </p>
-          {!isFinalItem ? <hr className="text-soft fullwidth" /> : null}
-        </div>
-      );
-    });
+    // Foreground equivalent to .session-modal background color
+    const bgColor = 'rgba(0, 0, 0, 0)';
+    const fgColor = theme === 'dark' ? '#FFFFFF' : '#1B1B1B';
+
+    // const renderPairedDevices = this.state.data.map((pubKey: any) => {
+    //   const pubKeyInfo = this.getPubkeyName(pubKey);
+    //   const isFinalItem =
+    //     this.state.data[this.state.data.length - 1] === pubKey;
+
+    //   return (
+    //     <div key={pubKey}>
+    //       <p>
+    //         {pubKeyInfo.deviceAlias}
+    //         <br />
+    //         <span className="text-subtle">Pairing Secret:</span>{' '}
+    //         {pubKeyInfo.secretWords}
+    //       </p>
+    //       {!isFinalItem ? <hr className="text-soft fullwidth" /> : null}
+    //     </div>
+    //   );
+    // });
 
     return (
       <>
@@ -94,7 +100,12 @@ export class DevicePairingDialog extends React.Component<Props, State> {
                 <div className="spacer-lg" />
 
                 <div id="qr">
-                  <QRCode value={window.textsecure.storage.user.getNumber()} />
+                  <QRCode
+                    value={window.textsecure.storage.user.getNumber()}
+                    bgColor={bgColor}
+                    fgColor={fgColor}
+                    level="L"
+                  />
                 </div>
 
                 <div className="spacer-lg" />
@@ -113,7 +124,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
                   </div>
                 ) : (
                   <div className="session-modal__centered">
-                    {renderPairedDevices}
+                    {'renderPairedDevices'}
                   </div>
                 )}
 
@@ -202,58 +213,58 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     this.showView();
   }
 
-  private requestReceived(secondaryDevicePubKey: string | EventHandlerNonNull) {
-    // FIFO: push at the front of the array with unshift()
-    this.state.pubKeyRequests.unshift(secondaryDevicePubKey);
-    if (!this.state.currentPubKey) {
-      this.nextPubKey();
+  // private requestReceived(secondaryDevicePubKey: string | EventHandlerNonNull) {
+  //   // FIFO: push at the front of the array with unshift()
+  //   this.state.pubKeyRequests.unshift(secondaryDevicePubKey);
+  //   if (!this.state.currentPubKey) {
+  //     this.nextPubKey();
 
-      this.showView('requestReceived');
-    }
-  }
+  //     this.showView('requestReceived');
+  //   }
+  // }
 
-  private allowDevice() {
-    this.setState({
-      accepted: true,
-    });
-    window.Whisper.trigger(
-      'devicePairingRequestAccepted',
-      this.state.currentPubKey,
-      (errors: any) => {
-        this.transmisssionCB(errors);
+  // private allowDevice() {
+  //   this.setState({
+  //     accepted: true,
+  //   });
+  //   window.Whisper.trigger(
+  //     'devicePairingRequestAccepted',
+  //     this.state.currentPubKey,
+  //     (errors: any) => {
+  //       this.transmisssionCB(errors);
 
-        return true;
-      }
-    );
-    this.showView();
-  }
+  //       return true;
+  //     }
+  //   );
+  //   this.showView();
+  // }
 
-  private transmisssionCB(errors: any) {
-    if (!errors) {
-      this.setState({
-        success: true,
-      });
-    } else {
-      return;
-    }
-  }
+  // private transmisssionCB(errors: any) {
+  //   if (!errors) {
+  //     this.setState({
+  //       success: true,
+  //     });
+  //   } else {
+  //     return;
+  //   }
+  // }
 
-  private skipDevice() {
-    window.Whisper.trigger(
-      'devicePairingRequestRejected',
-      this.state.currentPubKey
-    );
-    this.nextPubKey();
-    this.showView();
-  }
+  // private skipDevice() {
+  //   window.Whisper.trigger(
+  //     'devicePairingRequestRejected',
+  //     this.state.currentPubKey
+  //   );
+  //   this.nextPubKey();
+  //   this.showView();
+  // }
 
-  private nextPubKey() {
-    // FIFO: pop at the back of the array using pop()
-    const pubKeyRequests = this.state.pubKeyRequests;
-    this.setState({
-      currentPubKey: pubKeyRequests.pop(),
-    });
-  }
+  // private nextPubKey() {
+  //   // FIFO: pop at the back of the array using pop()
+  //   const pubKeyRequests = this.state.pubKeyRequests;
+  //   this.setState({
+  //     currentPubKey: pubKeyRequests.pop(),
+  //   });
+  // }
 
   private onKeyUp(event: any) {
     switch (event.key) {

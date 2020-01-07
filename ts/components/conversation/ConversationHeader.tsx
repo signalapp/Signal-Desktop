@@ -3,12 +3,7 @@ import React from 'react';
 import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
-import {
-  ContextMenu,
-  //ContextMenuTrigger,
-  MenuItem,
-  SubMenu,
-} from 'react-contextmenu';
+import { ContextMenu, MenuItem, SubMenu } from 'react-contextmenu';
 
 import {
   SessionIconButton,
@@ -21,8 +16,6 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../session/SessionButton';
-
-import { SessionDropdownTrigger } from '../session/SessionDropdownTrigger';
 
 interface TimerOption {
   name: string;
@@ -239,21 +232,20 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderOptions(triggerId: string) {
+  public renderOptions() {
     const { showBackButton } = this.props;
-    console.log('FIXME:', triggerId);
 
     if (showBackButton) {
       return null;
     }
 
     return (
-      <SessionDropdownTrigger>
+      <>
         <SessionIconButton
           iconType={SessionIconType.Ellipses}
           iconSize={SessionIconSize.Large}
         />
-      </SessionDropdownTrigger>
+      </>
     );
   }
 
@@ -344,7 +336,7 @@ export class ConversationHeader extends React.Component<Props> {
           {this.renderBackButton()}
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
-              {this.renderOptions(triggerId)}
+              {this.renderOptions()}
               {this.renderTitle()}
               {isPrivateGroup ? this.renderMemberCount() : null}
             </div>

@@ -36,7 +36,9 @@ export class AddServerDialog extends React.Component<Props, State> {
     this.attemptConnection = this.attemptConnection.bind(this);
 
     this.closeDialog = this.closeDialog.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
+    this.onEnter = this.onEnter.bind(this);
+
+    window.addEventListener('keyup', this.onEnter);
   }
 
   public render() {
@@ -55,7 +57,7 @@ export class AddServerDialog extends React.Component<Props, State> {
             <input
               type="text"
               id="server-url"
-              placeholder={i18n('serverURL')}
+              placeholder={i18n('serverUrl')}
               defaultValue={this.state.serverURL}
             />
             <div className="spacer-sm" />
@@ -191,23 +193,16 @@ export class AddServerDialog extends React.Component<Props, State> {
     );
   }
 
-  private onKeyUp(event: any) {
-    switch (event.key) {
-      case 'Enter':
-        if (this.state.view === 'default') {
-          this.showView('connecting');
-        }
-        break;
-      case 'Esc':
-      case 'Escape':
-        this.closeDialog();
-        break;
-      default:
+  private onEnter(event: any) {
+    if (event.key === 'Enter') {
+      if ($('#server-url').is(':focus')) {
+        this.showView('connecting');
+      }
     }
   }
 
   private closeDialog() {
-    window.removeEventListener('keyup', this.onKeyUp);
+    window.removeEventListener('keyup', this.onEnter);
     this.props.onClose();
   }
 
@@ -217,7 +212,7 @@ export class AddServerDialog extends React.Component<Props, State> {
     const rawserverURL = serverURL
       .replace(/^https?:\/\//i, '')
       .replace(/[/\\]+$/i, '');
-    const sslserverURL = `https://${rawserverURL}`;
+    const sslServerURL = `https://${rawserverURL}`;
     const conversationId = `publicChat:${channelId}@${rawserverURL}`;
 
     const conversationExists = window.ConversationController.get(
@@ -231,7 +226,7 @@ export class AddServerDialog extends React.Component<Props, State> {
     }
 
     const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-      sslserverURL
+      sslServerURL
     );
     if (!serverAPI) {
       // Url incorrect or server not compatible
@@ -246,7 +241,7 @@ export class AddServerDialog extends React.Component<Props, State> {
     );
 
     await serverAPI.findOrCreateChannel(channelId, conversationId);
-    await conversation.setPublicSource(sslserverURL, channelId);
+    await conversation.setPublicSource(sslServerURL, channelId);
     await conversation.setFriendRequestStatus(
       window.friends.friendRequestStatusEnum.friends
     );

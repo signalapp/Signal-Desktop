@@ -196,8 +196,8 @@
       this.el.append(dialog.el);
       dialog.focusInput();
     },
-    showPasswordDialog({ type, resolve, reject }) {
-      const dialog = Whisper.getPasswordDialogView(type, resolve, reject);
+    showPasswordDialog() {
+      const dialog = Whisper.PasswordDialogView();
       this.el.append(dialog.el);
     },
     showSeedDialog(seed) {
@@ -205,7 +205,9 @@
       this.el.append(dialog.el);
     },
     showQRDialog(string) {
-      const dialog = new Whisper.QRDialogView({ string });
+      const dialog = new Whisper.QRDialogView({
+        value: string,
+      });
       this.el.append(dialog.el);
     },
     showDevicePairingDialog() {
