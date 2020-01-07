@@ -103,13 +103,14 @@ async function doSearch(
     queryMessages(query),
   ]);
   const { conversations, contacts } = discussions;
+  const filteredMessages = messages.filter(message => message !== undefined);
 
   return {
     query,
     normalizedPhoneNumber: normalize(query, { regionCode }),
     conversations,
     contacts,
-    messages: getMessageProps(messages) || [],
+    messages: getMessageProps(filteredMessages) || [],
   };
 }
 function clearSearch(): ClearSearchActionType {
@@ -262,17 +263,23 @@ export function reducer(
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, messages } = payload;
+    const { query, messages, normalizedPhoneNumber, conversations, contacts } = payload;
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
     }
+    const filteredMessage = messages.filter(message => message !== undefined);
+
 
     return {
       ...state,
-      ...payload,
-      messageLookup: makeLookup(messages, 'id'),
+      query,
+      normalizedPhoneNumber,
+      conversations,
+      contacts,
+      messages: filteredMessage,
+      messageLookup: makeLookup(filteredMessage, 'id'),
     };
   }
 
