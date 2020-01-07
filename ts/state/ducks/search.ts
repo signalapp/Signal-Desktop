@@ -3,11 +3,11 @@ import { omit, reject } from 'lodash';
 import { normalize } from '../../types/PhoneNumber';
 import { SearchOptions } from '../../types/Search';
 import { trigger } from '../../shims/events';
-// import { getMessageModel } from '../../shims/Whisper';
-// import { cleanSearchTerm } from '../../util/cleanSearchTerm';
+import { getMessageModel } from '../../shims/Whisper';
+import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import {
   getPrimaryDeviceFor,
-  searchConversations /*, searchMessages */,
+  searchConversations, searchMessages,
 } from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
 
@@ -97,9 +97,9 @@ async function doSearch(
 ): Promise<SearchResultsPayloadType> {
   const { regionCode } = options;
 
-  const [discussions /*, messages */] = await Promise.all([
+  const [discussions, messages] = await Promise.all([
     queryConversationsAndContacts(query, options),
-    // queryMessages(query),
+    queryMessages(query),
   ]);
   const { conversations, contacts } = discussions;
 
@@ -108,7 +108,7 @@ async function doSearch(
     normalizedPhoneNumber: normalize(query, { regionCode }),
     conversations,
     contacts,
-    messages: [], // getMessageProps(messages) || [],
+    messages: getMessageProps(messages) || [],
   };
 }
 function clearSearch(): ClearSearchActionType {
@@ -144,27 +144,27 @@ function startNewConversation(
 
 // Helper functions for search
 
-// const getMessageProps = (messages: Array<MessageType>) => {
-//   if (!messages || !messages.length) {
-//     return [];
-//   }
+const getMessageProps = (messages: Array<MessageType>) => {
+  if (!messages || !messages.length) {
+    return [];
+  }
 
-//   return messages.map(message => {
-//     const model = getMessageModel(message);
+  return messages.map(message => {
+    const model = getMessageModel(message);
 
-//     return model.propsForSearchResult;
-//   });
-// };
+    return model.propsForSearchResult;
+  });
+};
 
-// async function queryMessages(query: string) {
-//   try {
-//     const normalized = cleanSearchTerm(query);
+async function queryMessages(query: string) {
+  try {
+    const normalized = cleanSearchTerm(query);
 
-//     return searchMessages(normalized);
-//   } catch (e) {
-//     return [];
-//   }
-// }
+    return searchMessages(normalized);
+  } catch (e) {
+    return [];
+  }
+}
 
 async function queryConversationsAndContacts(
   providedQuery: string,
