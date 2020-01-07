@@ -1917,17 +1917,6 @@
             sticker: dataMessage.sticker,
           });
 
-          const conversationTimestamp = conversation.get('timestamp');
-          if (
-            !conversationTimestamp ||
-            message.get('sent_at') > conversationTimestamp
-          ) {
-            conversation.set({
-              lastMessage: message.getNotificationText(),
-              timestamp: message.get('sent_at'),
-            });
-          }
-
           const isSupported = !message.isUnsupportedMessage();
           if (!isSupported) {
             await message.eraseContents();
@@ -2149,6 +2138,17 @@
                 await Whisper.ViewSyncs.onSync(viewSync);
               }
             }
+          }
+
+          const conversationTimestamp = conversation.get('timestamp');
+          if (
+            !conversationTimestamp ||
+            message.get('sent_at') > conversationTimestamp
+          ) {
+            conversation.set({
+              lastMessage: message.getNotificationText(),
+              timestamp: message.get('sent_at'),
+            });
           }
 
           MessageController.register(message.id, message);
