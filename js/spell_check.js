@@ -153,12 +153,12 @@ window.enableSpellCheck = () => {
 };
 
 const defaultContextMenuHandler = () => {
-    const menu = buildEditorContextMenu({});
+  const menu = buildEditorContextMenu({});
 
-    // @see js/spell_check.js:183
-    setTimeout(() => {
-        menu.popup(remote.getCurrentWindow());
-    }, 30);
+  // @see js/spell_check.js:183
+  setTimeout(() => {
+    menu.popup(remote.getCurrentWindow());
+  }, 30);
 };
 
 const spellCheckHandler = e => {
