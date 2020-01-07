@@ -16,7 +16,7 @@ import {
 } from 'draft-js';
 import Measure, { ContentRect } from 'react-measure';
 import { Manager, Popper, Reference } from 'react-popper';
-import { get, head, noop, trimEnd } from 'lodash';
+import { get, head, isFunction, noop, trimEnd } from 'lodash';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import { Emoji } from './emoji/Emoji';
@@ -188,16 +188,16 @@ const compositeDecorator = new CompositeDecorator([
   },
 ]);
 
-type FunctionRef = (el: HTMLElement | null) => unknown;
-
 // A selector which combines multiple react refs into a single, referentially-equal functional ref.
 const combineRefs = createSelector(
-  (r1: FunctionRef) => r1,
-  (_r1: any, r2: FunctionRef) => r2,
+  (r1: React.Ref<HTMLDivElement>) => r1,
+  (_r1: any, r2: React.Ref<HTMLDivElement>) => r2,
   (_r1: any, _r2: any, r3: React.MutableRefObject<HTMLDivElement>) => r3,
   (r1, r2, r3) => (el: HTMLDivElement) => {
-    r1(el);
-    r2(el);
+    if (isFunction(r1) && isFunction(r2)) {
+      r1(el);
+      r2(el);
+    }
     r3.current = el;
   }
 );

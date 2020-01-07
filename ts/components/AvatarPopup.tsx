@@ -12,7 +12,7 @@ export type Props = {
   onViewArchive: () => unknown;
 
   // Matches Popper's RefHandler type
-  innerRef?: (ref: HTMLElement | null) => void;
+  innerRef?: React.Ref<HTMLDivElement>;
   style: React.CSSProperties;
 } & AvatarProps;
 

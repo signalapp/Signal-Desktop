@@ -17,7 +17,7 @@ export interface Props {
   onClick?: () => unknown;
 
   // Matches Popper's RefHandler type
-  innerRef?: (ref: HTMLElement | null) => void;
+  innerRef?: React.Ref<HTMLDivElement>;
 
   i18n: LocalizerType;
 }
