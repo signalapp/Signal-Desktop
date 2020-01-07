@@ -1126,9 +1126,21 @@
     color: $color-white;
   }
 }
-.module-message__metadata__date--incoming-with-tap-to-view-expired {
+.module-message__metadata__date.module-message__metadata__date--incoming-with-tap-to-view-expired {
   color: $color-gray-75;
+
+  @include dark-theme {
+    color: $color-white-alpha-80;
+  }
 }
+.module-message__metadata__date.module-message__metadata__date--outgoing-with-tap-to-view-expired {
+  color: $color-gray-75;
+
+  @include dark-theme {
+    color: $color-white-alpha-80;
+  }
+}
+
 .module-message__metadata__date--with-sticker {
   @include ios-theme {
     color: $color-gray-60;
@@ -1366,8 +1378,19 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     background-color: $color-gray-25;
   }
 }
-.module-expire-timer--incoming-with-tap-to-view-expired {
+.module-expire-timer.module-expire-timer--incoming-with-tap-to-view-expired {
   background-color: $color-gray-75;
+
+  @include dark-theme {
+    background-color: $color-white-alpha-80;
+  }
+}
+.module-expire-timer.module-expire-timer--outgoing-with-tap-to-view-expired {
+  background-color: $color-gray-75;
+
+  @include dark-theme {
+    background-color: $color-white-alpha-80;
+  }
 }
 .module-expire-timer--with-sticker {
   @include ios-theme {
