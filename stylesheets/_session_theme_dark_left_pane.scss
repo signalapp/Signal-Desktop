@@ -121,6 +121,11 @@ $session-compose-margin: 20px;
 
   &__list {
     height: -webkit-fill-available;
+
+    &-popup {
+      width: -webkit-fill-available;
+      position: absolute;
+    }
   }
 
   &-overlay {
@@ -207,7 +212,6 @@ $session-compose-margin: 20px;
     }
   }
 }
-
 
 .session-left-pane-section-content {
   display: flex;
@@ -303,6 +307,12 @@ $session-compose-margin: 20px;
   border-radius: 50%;
   color: $session-color-white;
   font-weight: bold;
+  cursor: pointer;
+  transition: $session-transition-duration;
+
+  &:hover {
+    filter: brightness(80%);
+  }
 }
 
 .left-pane-contact {
@@ -310,11 +320,10 @@ $session-compose-margin: 20px;
   &-content {
     display: flex;
     flex-direction: column;
-    
 
     .module-conversation-list-item {
       &--has-friend-request {
-        &:first-child{
+        &:first-child {
           border-top: none !important;
         }
 
@@ -330,16 +339,16 @@ $session-compose-margin: 20px;
         display: flex;
 
         .session-button {
-          font-size: 11px;
-          padding: 6px;
+          font-size: 10px;
+          padding: 4px;
           height: auto;
           margin: 0px;
-          line-height: 14px;
+          line-height: 10px;
         }
       }
     }
   }
-  
+
   &-content {
     @include session-dark-background-lighter;
   }
@@ -385,7 +394,6 @@ $session-compose-margin: 20px;
       background-color: $session-shade-7;
     }
 
-
     &__buttons {
       display: flex;
 
@@ -423,6 +431,13 @@ $session-compose-margin: 20px;
         fill: $session-color-green;
       }
     }
+    .session-button.square-outline.square.green,
+    .session-button.square-outline.square.white {
+      flex-grow: 1;
+      border: 1px solid $session-shade-8;
+      height: 50px;
+      line-height: 50px;
+    }
   }
 }
 
@@ -430,9 +445,9 @@ $session-compose-margin: 20px;
   font-weight: bold;
   font-size: 13px;
   padding: 11px;
-  border-right:1px solid #2f2f2f !important;
-  border-top:1px solid #2f2f2f !important;
-  border-left:1px solid #2f2f2f !important;
+  border-right: 1px solid #2f2f2f !important;
+  border-top: 1px solid #2f2f2f !important;
+  border-left: 1px solid #2f2f2f !important;
   @include session-dark-background-lighter;
 }
 

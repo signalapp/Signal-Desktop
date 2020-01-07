@@ -229,7 +229,7 @@ $session_message-container-border-radius: 5px;
   user-select: none;
   cursor: pointer;
   transition: $session-transition-duration;
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
 
   &.disabled {
     cursor: default;

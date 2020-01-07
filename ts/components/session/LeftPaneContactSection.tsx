@@ -25,6 +25,8 @@ export interface Props {
 
   conversations: Array<ConversationListItemPropsType>;
   friends: Array<ConversationType>;
+  receivedFriendsRequest: Array<ConversationListItemPropsType>;
+  sentFriendsRequest: Array<ConversationListItemPropsType>;
 
   searchResults?: SearchResultsProps;
 
@@ -34,7 +36,15 @@ export interface Props {
   clearSearch: () => void;
 }
 
-export class LeftPaneContactSection extends React.Component<Props, any> {
+interface State {
+  showAddContactView: boolean;
+  selectedTab: number;
+  addContactRecipientID: string;
+  showFriendRequestsPopup: boolean;
+  pubKeyPasted: string;
+}
+
+export class LeftPaneContactSection extends React.Component<Props, State> {
   private readonly debouncedSearch: (searchTerm: string) => void;
 
   public constructor(props: Props) {
@@ -43,6 +53,8 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
       showAddContactView: false,
       selectedTab: 0,
       addContactRecipientID: '',
+      pubKeyPasted: '',
+      showFriendRequestsPopup: false,
     };
 
     this.debouncedSearch = debounce(this.search.bind(this), 20);
@@ -50,6 +62,9 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleOnAddContact = this.handleOnAddContact.bind(this);
     this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(
+      this
+    );
+    this.handleToggleFriendRequestPopup = this.handleToggleFriendRequestPopup.bind(
       this
     );
   }
@@ -73,7 +88,7 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
       labels,
       this.handleTabSelected,
       undefined,
-      undefined,
+      this.handleToggleFriendRequestPopup,
       friendRequestCount
     );
   }
@@ -95,39 +110,37 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     );
   }
 
-  public getCurrentFriends(): Array<ConversationType> {
-    const { friends } = this.props;
+  public renderRowFriendRequest = ({
+    index,
+    key,
+    style,
+  }: RowRendererParamsType): JSX.Element | undefined => {
+    const receivedFriendsRequest = this.props.receivedFriendsRequest;
 
-    let friendList = friends;
-    if (friendList !== undefined) {
-      friendList = friendList.filter(
-        friend => friend.type === 'direct' && !friend.isMe
-      );
-    }
+    const item = receivedFriendsRequest[index];
+    const onClick = this.props.openConversationInternal;
 
-    return friendList;
-  }
+    return (
+      <ConversationListItem
+        key={key}
+        style={style}
+        {...item}
+        i18n={window.i18n}
+        onClick={onClick}
+      />
+    );
+  };
 
   public renderRow = ({
     index,
     key,
     style,
   }: RowRendererParamsType): JSX.Element | undefined => {
-    const receivedFriendsRequest = this.getFriendRequests(true);
-    const sentFriendsRequest = this.getFriendRequests(false);
+    const { sentFriendsRequest } = this.props;
     const friends = this.getCurrentFriends();
-
-    const combined = [
-      ...receivedFriendsRequest,
-      ...sentFriendsRequest,
-      ...friends,
-    ];
-
+    const combined = [...sentFriendsRequest, ...friends];
     const item = combined[index];
-    let onClick;
-    if (index >= receivedFriendsRequest.length) {
-      onClick = this.props.openConversationInternal;
-    }
+    const onClick = this.props.openConversationInternal;
 
     return (
       <ConversationListItem
@@ -187,9 +200,28 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     }
   }
 
+  private getCurrentFriends(): Array<ConversationType> {
+    const { friends } = this.props;
+
+    let friendList = friends;
+    if (friendList !== undefined) {
+      friendList = friendList.filter(
+        friend => friend.type === 'direct' && !friend.isMe
+      );
+    }
+
+    return friendList;
+  }
+
   private handleToggleOverlay() {
-    this.setState((prevState: { showAddContactView: any }) => ({
+    this.setState((prevState: { showAddContactView: boolean }) => ({
       showAddContactView: !prevState.showAddContactView,
+    }));
+  }
+
+  private handleToggleFriendRequestPopup() {
+    this.setState((prevState: { showFriendRequestsPopup: boolean }) => ({
+      showFriendRequestsPopup: !prevState.showFriendRequestsPopup,
     }));
   }
 
@@ -217,9 +249,16 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
   }
 
   private renderContacts() {
+    const { showFriendRequestsPopup } = this.state;
+    const hasReceivedFriendRequest =
+      this.props.receivedFriendsRequest.length > 0;
+
     return (
       <div className="left-pane-contact-content">
         {this.renderList()}
+        {showFriendRequestsPopup &&
+          hasReceivedFriendRequest &&
+          this.renderFriendRequestPopup()}
         {this.renderBottomButtons()}
       </div>
     );
@@ -257,46 +296,39 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
     );
   }
 
-  // true: received only, false: sent only
-  private getFriendRequests(
-    received: boolean
-  ): Array<ConversationListItemPropsType> {
-    const { conversations } = this.props;
+  private renderFriendRequestPopup() {
+    const frTitle = window.i18n('youHaveFriendRequestFrom');
+    const length = this.props.receivedFriendsRequest.length;
 
-    let conversationsList = conversations;
-    if (conversationsList !== undefined) {
-      if (received) {
-        conversationsList = conversationsList.filter(
-          conversation => conversation.hasReceivedFriendRequest
-        );
-      } else {
-        conversationsList = conversationsList.filter(
-          conversation => conversation.hasSentFriendRequest
-        );
-      }
-    }
-
-    return conversationsList || [];
+    return (
+      <div className="module-left-pane__list-popup">
+        <div className="friend-request-title">{frTitle}</div>
+        <div className="module-left-pane__list" key={0}>
+          <AutoSizer>
+            {({ height, width }) => (
+              <List
+                className="module-left-pane__virtual-list"
+                height={height}
+                rowCount={length}
+                rowHeight={64}
+                rowRenderer={this.renderRowFriendRequest}
+                width={width}
+                autoHeight={true}
+              />
+            )}
+          </AutoSizer>
+        </div>
+      </div>
+    );
   }
 
   private renderList() {
-    const receivedFriendsRequest = this.getFriendRequests(true);
-    const sentFriendsRequest = this.getFriendRequests(false);
+    const { sentFriendsRequest } = this.props;
     const friends = this.getCurrentFriends();
-
-    const combined = [
-      ...receivedFriendsRequest,
-      ...sentFriendsRequest,
-      ...friends,
-    ];
-
-    const length = combined.length;
-    const hasReceivedFriendRequest = receivedFriendsRequest.length > 0;
-    const frTitle = window.i18n('youHaveFriendRequestFrom');
+    const length = sentFriendsRequest.length + friends.length;
 
     const list = (
       <div className="module-left-pane__list" key={0}>
-        {hasReceivedFriendRequest && <div className="friend-request-title">{frTitle}</div>}
         <AutoSizer>
           {({ height, width }) => (
             <List

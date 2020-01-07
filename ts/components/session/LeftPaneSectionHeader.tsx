@@ -92,7 +92,11 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
       const shortenedNotificationCount =
         notificationCount > 9 ? 9 : notificationCount;
       children.push(
-        <div className="contact-notification-count-bubble">
+        <div
+          className="contact-notification-count-bubble"
+          onClick={this.props.buttonClicked}
+          role="button"
+        >
           {shortenedNotificationCount}
         </div>
       );

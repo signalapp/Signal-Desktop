@@ -10,6 +10,7 @@ import {
 } from '../ducks/conversations';
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
+import { PropsData as ConversationListItemPropsType } from '../../components/ConversationListItem';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -97,6 +98,8 @@ export const _getLeftPaneLists = (
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
   friends: Array<ConversationType>;
+  receivedFriendsRequest: Array<ConversationListItemPropsType>;
+  sentFriendsRequest: Array<ConversationListItemPropsType>;
 } => {
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
@@ -104,6 +107,8 @@ export const _getLeftPaneLists = (
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
   const friends: Array<ConversationType> = [];
+  const receivedFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const sentFriendsRequest: Array<ConversationListItemPropsType> = [];
 
   const max = sorted.length;
   for (let i = 0; i < max; i += 1) {
@@ -120,6 +125,13 @@ export const _getLeftPaneLists = (
       friends.push(conversation);
     }
 
+    if (conversation.hasReceivedFriendRequest) {
+      receivedFriendsRequest.push(conversation);
+    }
+    if (conversation.hasSentFriendRequest) {
+      sentFriendsRequest.push(conversation);
+    }
+
     if (!conversation.activeAt) {
       continue;
     }
@@ -131,7 +143,13 @@ export const _getLeftPaneLists = (
     }
   }
 
-  return { conversations, archivedConversations, friends };
+  return {
+    conversations,
+    archivedConversations,
+    friends,
+    receivedFriendsRequest,
+    sentFriendsRequest,
+  };
 };
 
 export const getLeftPaneLists = createSelector(

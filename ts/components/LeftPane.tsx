@@ -42,6 +42,8 @@ interface State {
 interface Props {
   conversations: Array<ConversationListItemPropsType>;
   friends: Array<ConversationType>;
+  sentFriendsRequest: Array<ConversationListItemPropsType>;
+  receivedFriendsRequest: Array<ConversationListItemPropsType>;
   searchResults?: SearchResultsProps;
   searchTerm: string;
   isSecondaryDevice: boolean;
@@ -54,7 +56,7 @@ interface Props {
 
 export class LeftPane extends React.Component<Props, State> {
   public state = {
-    selectedSection: SectionType.Contact,
+    selectedSection: SectionType.Message,
   };
 
   public constructor(props: any) {
@@ -219,6 +221,8 @@ export class LeftPane extends React.Component<Props, State> {
     const {
       openConversationInternal,
       friends,
+      sentFriendsRequest,
+      receivedFriendsRequest,
       conversations,
       searchResults,
       searchTerm,
@@ -239,6 +243,8 @@ export class LeftPane extends React.Component<Props, State> {
         updateSearchTerm={updateSearchTerm}
         search={search}
         clearSearch={clearSearch}
+        sentFriendsRequest={sentFriendsRequest}
+        receivedFriendsRequest={receivedFriendsRequest}
       />
     );
   }

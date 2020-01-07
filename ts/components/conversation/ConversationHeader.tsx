@@ -171,9 +171,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <div className="module-conversation-header__title">
-        <span className="module-contact-name__profile-name">
-          {title}
-        </span>
+        <span className="module-contact-name__profile-name">{title}</span>
         {textEl}
       </div>
     );
