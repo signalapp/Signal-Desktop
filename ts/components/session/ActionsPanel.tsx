@@ -20,8 +20,8 @@ interface Props {
   onSectionSelected: any;
   selectedSection: SectionType;
   conversations: Array<ConversationListItemPropsType> | undefined;
-  receivedFriendsRequest: Array<ConversationListItemPropsType>;
   unreadMessageCount: number;
+  receivedFriendRequestCount: number;
 }
 
 const Section = ({
@@ -140,11 +140,9 @@ export class ActionsPanel extends React.Component<Props, State> {
   public render(): JSX.Element {
     const {
       selectedSection,
-      receivedFriendsRequest,
       unreadMessageCount,
+      receivedFriendRequestCount,
     } = this.props;
-
-    const friendRequestCount = receivedFriendsRequest.length;
 
     const isProfilePageSelected = selectedSection === SectionType.Profile;
     const isMessagePageSelected = selectedSection === SectionType.Message;
@@ -171,7 +169,7 @@ export class ActionsPanel extends React.Component<Props, State> {
           type={SectionType.Contact}
           isSelected={isContactPageSelected}
           onSelect={this.handleSectionSelect}
-          notificationCount={friendRequestCount}
+          notificationCount={receivedFriendRequestCount}
         />
         <Section
           type={SectionType.Globe}

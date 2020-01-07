@@ -45,6 +45,7 @@ interface Props {
   sentFriendsRequest: Array<ConversationListItemPropsType>;
   receivedFriendsRequest: Array<ConversationListItemPropsType>;
   unreadMessageCount: number;
+  receivedFriendRequestCount: number;
   searchResults?: SearchResultsProps;
   searchTerm: string;
   isSecondaryDevice: boolean;
@@ -171,7 +172,7 @@ export class LeftPane extends React.Component<Props, State> {
           selectedSection={this.state.selectedSection}
           onSectionSelected={this.handleSectionSelected}
           conversations={this.props.conversations}
-          receivedFriendsRequest={this.props.receivedFriendsRequest}
+          receivedFriendRequestCount={this.props.receivedFriendRequestCount}
           unreadMessageCount={this.props.unreadMessageCount}
         />
         <div className="module-left-pane">{this.renderSection()}</div>
