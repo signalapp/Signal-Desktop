@@ -30,6 +30,8 @@
       // the actual next step happens in confirmNumber() on submit form #link-phone
     },
     initialize(options = {}) {
+      window.readyForUpdates();
+
       this.selectStep(Steps.SCAN_QR_CODE);
       this.connect();
       this.on('disconnected', this.reconnect);
@@ -193,7 +195,7 @@
               'confirmNumber: error clearing database',
               error && error.stack ? error.stack : error
             );
-            finish();
+            return finish();
           });
         });
       });

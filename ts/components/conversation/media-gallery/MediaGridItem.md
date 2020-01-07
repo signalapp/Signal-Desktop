@@ -1,108 +1,94 @@
 #### With image
 
 ```jsx
-const message = {
-  id: '1',
+const mediaItem = {
   thumbnailObjectUrl: 'https://placekitten.com/76/67',
-  attachments: [
-    {
-      fileName: 'foo.jpg',
-      contentType: 'image/jpeg',
-    },
-  ],
+  contentType: 'image/jpeg',
+  attachment: {
+    fileName: 'foo.jpg',
+    contentType: 'image/jpeg',
+  },
 };
-<MediaGridItem i18n={util.i18n} message={message} />;
+<MediaGridItem i18n={util.i18n} mediaItem={mediaItem} />;
 ```
 
 #### With video
 
 ```jsx
-const message = {
-  id: '1',
+const mediaItem = {
   thumbnailObjectUrl: 'https://placekitten.com/76/67',
-  attachments: [
-    {
-      fileName: 'foo.jpg',
-      contentType: 'video/mp4',
-    },
-  ],
+  contentType: 'video/mp4',
+  attachment: {
+    fileName: 'foo.jpg',
+    contentType: 'video/mp4',
+  },
 };
-<MediaGridItem i18n={util.i18n} message={message} />;
+<MediaGridItem i18n={util.i18n} mediaItem={mediaItem} />;
 ```
 
 #### Missing image
 
 ```jsx
-const message = {
-  id: '1',
-  attachments: [
-    {
-      fileName: 'foo.jpg',
-      contentType: 'image/jpeg',
-    },
-  ],
+const mediaItem = {
+  contentType: 'image/jpeg',
+  attachment: {
+    fileName: 'foo.jpg',
+    contentType: 'image/jpeg',
+  },
 };
-<MediaGridItem i18n={util.i18n} message={message} />;
+<MediaGridItem i18n={util.i18n} mediaItem={mediaItem} />;
 ```
 
 #### Missing video
 
 ```jsx
-const message = {
-  id: '1',
-  attachments: [
-    {
-      fileName: 'foo.jpg',
-      contentType: 'video/mp4',
-    },
-  ],
+const mediaItem = {
+  contentType: 'video/mp4',
+  attachment: {
+    fileName: 'foo.jpg',
+    contentType: 'video/mp4',
+  },
 };
-<MediaGridItem i18n={util.i18n} message={message} />;
+<MediaGridItem i18n={util.i18n} mediaItem={mediaItem} />;
 ```
 
 #### Image thumbnail failed to load
 
 ```jsx
-const message = {
-  id: '1',
+const mediaItem = {
   thumbnailObjectUrl: 'nonexistent',
-  attachments: [
-    {
-      fileName: 'foo.jpg',
-      contentType: 'image/jpeg',
-    },
-  ],
+  contentType: 'image/jpeg',
+  attachment: {
+    fileName: 'foo.jpg',
+    contentType: 'image/jpeg',
+  },
 };
-<MediaGridItem i18n={util.i18n} message={message} />;
+<MediaGridItem i18n={util.i18n} mediaItem={mediaItem} />;
 ```
 
 #### Video thumbnail failed to load
 
 ```jsx
-const message = {
-  id: '1',
+const mediaItem = {
   thumbnailObjectUrl: 'nonexistent',
-  attachments: [
-    {
-      fileName: 'foo.jpg',
-      contentType: 'video/mp4',
-    },
-  ],
+  contentType: 'video/mp4',
+  attachment: {
+    fileName: 'foo.jpg',
+    contentType: 'video/mp4',
+  },
 };
-<MediaGridItem i18n={util.i18n} message={message} />;
+<MediaGridItem i18n={util.i18n} mediaItem={mediaItem} />;
 ```
 
 #### Other contentType
 
 ```jsx
-const message = {
-  id: '1',
-  attachments: [
-    {
-      fileName: 'foo.jpg',
-      contentType: 'application/json',
-    },
-  ],
+const mediaItem = {
+  contentType: 'application/json',
+  attachment: {
+    fileName: 'foo.jpg',
+    contentType: 'application/json',
+  },
 };
-<MediaGridItem i18n={util.i18n} message={message} />;
+<MediaGridItem i18n={util.i18n} mediaItem={mediaItem} />;
 ```

@@ -1,4 +1,11 @@
-/* global Whisper, Backbone, _, ConversationController, window */
+/* global
+  Whisper,
+  Backbone,
+  _,
+  ConversationController,
+  MessageController,
+  window
+*/
 
 /* eslint-disable more/no-then */
 
@@ -37,18 +44,23 @@
         item => item.isOutgoing() && reader === item.get('conversationId')
       );
       if (message) {
-        return message;
+        return MessageController.register(message.id, message);
       }
 
-      const groups = new Whisper.GroupCollection();
-      return groups.fetchGroups(reader).then(() => {
-        const ids = groups.pluck('id');
-        ids.push(reader);
-        return messages.find(
-          item =>
-            item.isOutgoing() && _.contains(ids, item.get('conversationId'))
-        );
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(reader, {
+        ConversationCollection: Whisper.ConversationCollection,
       });
+      const ids = groups.pluck('id');
+      ids.push(reader);
+
+      const target = messages.find(
+        item => item.isOutgoing() && _.contains(ids, item.get('conversationId'))
+      );
+      if (!target) {
+        return null;
+      }
+
+      return MessageController.register(target.id, target);
     },
     async onReceipt(receipt) {
       try {
@@ -86,13 +98,12 @@
         });
 
         if (message.isExpiring() && !expirationStartTimestamp) {
-          // This will save the message for us while starting the timer
-          await message.setToExpire();
-        } else {
-          await window.Signal.Data.saveMessage(message.attributes, {
-            Message: Whisper.Message,
-          });
+          await message.setToExpire(false, { skipSave: true });
         }
+
+        await window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
+        });
 
         // notify frontend listeners
         const conversation = ConversationController.get(

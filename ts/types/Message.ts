@@ -1,5 +1,5 @@
 import { Attachment } from './Attachment';
-import { Contact } from './Contact';
+import { ContactType } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
 export type Message = UserMessage | VerifiedChangeMessage;
@@ -18,6 +18,8 @@ export type IncomingMessage = Readonly<
     decrypted_at?: number;
     errors?: Array<any>;
     expireTimer?: number;
+    messageTimer?: number; // deprecated
+    isViewOnce?: number;
     flags?: number;
     source?: string;
     sourceDevice?: number;
@@ -46,6 +48,8 @@ export type OutgoingMessage = Readonly<
     body?: string;
     expires_at?: number;
     expireTimer?: number;
+    messageTimer?: number; // deprecated
+    isViewOnce?: number;
     recipients?: Array<string>; // Array<PhoneNumber>
     synced: boolean;
   } & SharedMessageProperties &
@@ -87,7 +91,7 @@ type MessageSchemaVersion5 = Partial<
 
 type MessageSchemaVersion6 = Partial<
   Readonly<{
-    contact: Array<Contact>;
+    contact: Array<ContactType>;
   }>
 >;
 

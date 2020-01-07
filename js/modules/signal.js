@@ -1,73 +1,89 @@
 // The idea with this file is to make it webpackable for the style guide
 
+const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
 const Crypto = require('./crypto');
 const Data = require('./data');
 const Database = require('./database');
-const Emoji = require('../../ts/util/emoji');
+const Emojis = require('./emojis');
+const EmojiLib = require('../../ts/components/emoji/lib');
+const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
+const Stickers = require('./stickers');
 const Settings = require('./settings');
-const Startup = require('./startup');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
+const Metadata = require('./metadata/SecretSessionCipher');
+const RefreshSenderCertificate = require('./refresh_sender_certificate');
+const LinkPreviews = require('./link_previews');
+const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
+const {
+  AttachmentList,
+} = require('../../ts/components/conversation/AttachmentList');
+const { CaptionEditor } = require('../../ts/components/CaptionEditor');
 const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
 const { ContactListItem } = require('../../ts/components/ContactListItem');
-const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
-const {
-  ConversationListItem,
-} = require('../../ts/components/ConversationListItem');
-const {
-  EmbeddedContact,
-} = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
-const {
-  GroupNotification,
-} = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
-const { Message } = require('../../ts/components/conversation/Message');
-const { MessageBody } = require('../../ts/components/conversation/MessageBody');
 const {
   MessageDetail,
 } = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
 const {
-  ResetSessionNotification,
-} = require('../../ts/components/conversation/ResetSessionNotification');
+  StagedLinkPreview,
+} = require('../../ts/components/conversation/StagedLinkPreview');
+
+// State
+const { createTimeline } = require('../../ts/state/roots/createTimeline');
 const {
-  SafetyNumberNotification,
-} = require('../../ts/components/conversation/SafetyNumberNotification');
+  createCompositionArea,
+} = require('../../ts/state/roots/createCompositionArea');
+const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
 const {
-  TimerNotification,
-} = require('../../ts/components/conversation/TimerNotification');
+  createStickerManager,
+} = require('../../ts/state/roots/createStickerManager');
 const {
-  VerificationNotification,
-} = require('../../ts/components/conversation/VerificationNotification');
+  createStickerPreviewModal,
+} = require('../../ts/state/roots/createStickerPreviewModal');
+const {
+  createShortcutGuideModal,
+} = require('../../ts/state/roots/createShortcutGuideModal');
+
+const { createStore } = require('../../ts/state/createStore');
+const conversationsDuck = require('../../ts/state/ducks/conversations');
+const emojisDuck = require('../../ts/state/ducks/emojis');
+const itemsDuck = require('../../ts/state/ducks/items');
+const searchDuck = require('../../ts/state/ducks/search');
+const stickersDuck = require('../../ts/state/ducks/stickers');
+const userDuck = require('../../ts/state/ducks/user');
+
+const conversationsSelectors = require('../../ts/state/selectors/conversations');
+const searchSelectors = require('../../ts/state/selectors/search');
 
 // Migrations
 const {
   getPlaceholderMigrations,
+  getCurrentVersion,
 } = require('./migrations/get_placeholder_migrations');
-
-const Migrations0DatabaseWithAttachmentData = require('./migrations/migrations_0_database_with_attachment_data');
-const Migrations1DatabaseWithoutAttachmentData = require('./migrations/migrations_1_database_without_attachment_data');
+const { run } = require('./migrations/migrations');
 
 // Types
 const AttachmentType = require('./types/attachment');
 const VisualAttachment = require('./types/visual_attachment');
 const Contact = require('../../ts/types/Contact');
-const Conversation = require('../../ts/types/Conversation');
+const Conversation = require('./types/conversation');
 const Errors = require('./types/errors');
 const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
 const MessageType = require('./types/message');
@@ -94,45 +110,118 @@ function initializeMigrations({
     return null;
   }
   const {
-    getPath,
-    createReader,
     createAbsolutePathGetter,
-    createWriterForNew,
+    createReader,
     createWriterForExisting,
+    createWriterForNew,
+    createDoesExist,
+    getDraftPath,
+    getPath,
+    getStickersPath,
+    getTempPath,
   } = Attachments;
   const {
-    makeObjectUrl,
-    revokeObjectUrl,
     getImageDimensions,
     makeImageThumbnail,
+    makeObjectUrl,
     makeVideoScreenshot,
+    revokeObjectUrl,
   } = VisualType;
 
   const attachmentsPath = getPath(userDataPath);
   const readAttachmentData = createReader(attachmentsPath);
   const loadAttachmentData = Type.loadData(readAttachmentData);
-  const loadQuoteData = MessageType.loadQuoteData(readAttachmentData);
+  const loadPreviewData = MessageType.loadPreviewData(loadAttachmentData);
+  const loadQuoteData = MessageType.loadQuoteData(loadAttachmentData);
+  const loadStickerData = MessageType.loadStickerData(loadAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
+  const writeNewAttachmentData = createWriterForNew(attachmentsPath);
+  const copyIntoAttachmentsDirectory = Attachments.copyIntoAttachmentsDirectory(
+    attachmentsPath
+  );
+  const doesAttachmentExist = createDoesExist(attachmentsPath);
+
+  const stickersPath = getStickersPath(userDataPath);
+  const writeNewStickerData = createWriterForNew(stickersPath);
+  const getAbsoluteStickerPath = createAbsolutePathGetter(stickersPath);
+  const deleteSticker = Attachments.createDeleter(stickersPath);
+  const readStickerData = createReader(stickersPath);
+
+  const tempPath = getTempPath(userDataPath);
+  const getAbsoluteTempPath = createAbsolutePathGetter(tempPath);
+  const writeNewTempData = createWriterForNew(tempPath);
+  const deleteTempFile = Attachments.createDeleter(tempPath);
+  const readTempData = createReader(tempPath);
+  const copyIntoTempDirectory = Attachments.copyIntoAttachmentsDirectory(
+    tempPath
+  );
+
+  const draftPath = getDraftPath(userDataPath);
+  const getAbsoluteDraftPath = createAbsolutePathGetter(draftPath);
+  const writeNewDraftData = createWriterForNew(draftPath);
+  const deleteDraftFile = Attachments.createDeleter(draftPath);
+  const readDraftData = createReader(draftPath);
 
   return {
     attachmentsPath,
+    copyIntoAttachmentsDirectory,
+    copyIntoTempDirectory,
+    deleteAttachmentData: deleteOnDisk,
+    deleteDraftFile,
     deleteExternalMessageFiles: MessageType.deleteAllExternalFiles({
       deleteAttachmentData: Type.deleteData(deleteOnDisk),
       deleteOnDisk,
     }),
+    deleteSticker,
+    deleteTempFile,
+    doesAttachmentExist,
     getAbsoluteAttachmentPath,
+    getAbsoluteDraftPath,
+    getAbsoluteStickerPath,
+    getAbsoluteTempPath,
     getPlaceholderMigrations,
+    getCurrentVersion,
     loadAttachmentData,
-    loadQuoteData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
-    Migrations0DatabaseWithAttachmentData,
-    Migrations1DatabaseWithoutAttachmentData,
+    loadPreviewData,
+    loadQuoteData,
+    loadStickerData,
+    readAttachmentData,
+    readDraftData,
+    readStickerData,
+    readTempData,
+    run,
+    processNewAttachment: attachment =>
+      MessageType.processNewAttachment(attachment, {
+        writeNewAttachmentData,
+        getAbsoluteAttachmentPath,
+        makeObjectUrl,
+        revokeObjectUrl,
+        getImageDimensions,
+        makeImageThumbnail,
+        makeVideoScreenshot,
+        logger,
+      }),
+    processNewSticker: stickerData =>
+      MessageType.processNewSticker(stickerData, {
+        writeNewStickerData,
+        getAbsoluteStickerPath,
+        getImageDimensions,
+        logger,
+      }),
+    processNewEphemeralSticker: stickerData =>
+      MessageType.processNewSticker(stickerData, {
+        writeNewStickerData: writeNewTempData,
+        getAbsoluteStickerPath: getAbsoluteTempPath,
+        getImageDimensions,
+        logger,
+      }),
     upgradeMessageSchema: (message, options = {}) => {
       const { maxVersion } = options;
 
       return MessageType.upgradeSchema(message, {
-        writeNewAttachmentData: createWriterForNew(attachmentsPath),
+        writeNewAttachmentData,
         getRegionCode,
         getAbsoluteAttachmentPath,
         makeObjectUrl,
@@ -148,6 +237,8 @@ function initializeMigrations({
       writeExistingAttachmentData: createWriterForExisting(attachmentsPath),
       logger,
     }),
+    writeNewAttachmentData: createWriterForNew(attachmentsPath),
+    writeNewDraftData,
   };
 }
 
@@ -164,28 +255,50 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
+    AttachmentList,
+    CaptionEditor,
     ContactDetail,
     ContactListItem,
-    ContactName,
     ConversationHeader,
-    ConversationListItem,
-    EmbeddedContact,
     Emojify,
-    GroupNotification,
     Lightbox,
     LightboxGallery,
     MediaGallery,
-    Message,
-    MessageBody,
     MessageDetail,
     Quote,
-    ResetSessionNotification,
-    SafetyNumberNotification,
-    TimerNotification,
+    StagedLinkPreview,
     Types: {
       Message: MediaGalleryMessage,
     },
-    VerificationNotification,
+  };
+
+  const Roots = {
+    createCompositionArea,
+    createLeftPane,
+    createShortcutGuideModal,
+    createStickerManager,
+    createStickerPreviewModal,
+    createTimeline,
+  };
+  const Ducks = {
+    conversations: conversationsDuck,
+    emojis: emojisDuck,
+    items: itemsDuck,
+    user: userDuck,
+    search: searchDuck,
+    stickers: stickersDuck,
+  };
+  const Selectors = {
+    conversations: conversationsSelectors,
+    search: searchSelectors,
+  };
+
+  const State = {
+    bindActionCreators,
+    createStore,
+    Roots,
+    Ducks,
+    Selectors,
   };
 
   const Types = {
@@ -210,21 +323,28 @@ exports.setup = (options = {}) => {
   };
 
   return {
+    AttachmentDownloads,
     Backbone,
     Components,
     Crypto,
     Data,
     Database,
-    Emoji,
+    Emojis,
+    EmojiLib,
+    IndexedDB,
+    LinkPreviews,
+    Metadata,
+    migrateToSQL,
     Migrations,
     Notifications,
     OS,
+    RefreshSenderCertificate,
     Settings,
-    Startup,
+    State,
+    Stickers,
     Types,
     Util,
     Views,
     Workflow,
-    migrateToSQL,
   };
 };

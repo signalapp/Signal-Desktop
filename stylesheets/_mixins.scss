@@ -1,30 +1,177 @@
+// Fonts
+
+@mixin font-title-1 {
+  font-family: $inter;
+  font-weight: bolder;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: -0.56px;
+}
+
+@mixin font-title-2 {
+  font-family: $inter;
+  font-weight: bolder;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.34px;
+}
+
+@mixin font-body-1 {
+  font-family: $inter;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.14px;
+}
+@mixin font-body-1-bold {
+  @include font-body-1;
+  font-weight: bold;
+}
+@mixin font-body-1-italic {
+  @include font-body-1;
+  font-style: italic;
+}
+@mixin font-body-1-bold-italic {
+  @include font-body-1;
+  font-weight: bold;
+  font-style: italic;
+}
+
+@mixin font-body-2 {
+  font-family: $inter;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.03px;
+}
+@mixin font-body-2-bold {
+  @include font-body-2;
+  font-weight: bold;
+}
+@mixin font-body-2-italic {
+  @include font-body-2;
+  font-style: italic;
+}
+@mixin font-body-2-bold-italic {
+  @include font-body-2;
+  font-weight: bold;
+  font-style: italic;
+}
+
+@mixin font-subtitle {
+  font-family: $inter;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0px;
+}
+
+@mixin font-caption {
+  font-family: $inter;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.06px;
+}
+@mixin font-caption-bold {
+  @include font-caption;
+  font-weight: bold;
+}
+@mixin font-caption-bold-italic {
+  @include font-caption;
+  font-weight: bold;
+  font-style: italic;
+}
+
+// Themes
+
+@mixin light-theme() {
+  @content;
+}
+
+@mixin dark-theme() {
+  .dark-theme & {
+    @content;
+  }
+}
+
+@mixin ios-theme() {
+  .ios-theme & {
+    @content;
+  }
+}
+
+@mixin ios-dark-theme() {
+  .dark-theme.ios-theme & {
+    @content;
+  }
+}
+
+// Icons
+
+@mixin color-svg($svg, $color, $stretch: true) {
+  -webkit-mask: url($svg) no-repeat center;
+  @if $stretch {
+    -webkit-mask-size: 100%;
+  }
+  background-color: $color;
+}
+
+@mixin header-icon-white($svg) {
+  @include color-svg($svg, $color-white-alpha-80);
+  &:focus,
+  &:hover {
+    @include color-svg($svg, $color-white);
+  }
+}
+@mixin header-icon-black($svg) {
+  @include color-svg($svg, $color-black-alpha-40);
+  &:focus,
+  &:hover {
+    @include color-svg($svg, black);
+  }
+}
+
+// Keyboard
+
+@mixin keyboard-mode() {
+  .keyboard-mode & {
+    @content;
+  }
+}
+
+@mixin mouse-mode() {
+  .mouse-mode & {
+    @content;
+  }
+}
+
+@mixin dark-keyboard-mode() {
+  .dark-theme.keyboard-mode & {
+    @content;
+  }
+}
+@mixin ios-keyboard-mode() {
+  .ios-theme.keyboard-mode & {
+    @content;
+  }
+}
+@mixin dark-ios-keyboard-mode() {
+  .dark-theme.ios-theme.keyboard-mode & {
+    @content;
+  }
+}
+
+// Other
+
+@mixin popper-shadow() {
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3), 0px 0px 8px rgba(0, 0, 0, 0.05);
+}
+
 @mixin button-reset {
   background: none;
   color: inherit;
   border: none;
   padding: 0;
+  margin: 0;
   font: inherit;
   cursor: pointer;
   outline: inherit;
-}
-
-@mixin color-svg($svg, $color) {
-  -webkit-mask: url($svg) no-repeat center;
-  -webkit-mask-size: 100%;
-  background-color: $color;
-}
-
-@mixin header-icon-white($svg) {
-  @include color-svg($svg, rgba(255, 255, 255, 0.8));
-  &:focus,
-  &:hover {
-    @include color-svg($svg, white);
-  }
-}
-@mixin header-icon-black($svg) {
-  @include color-svg($svg, rgba(0, 0, 0, 0.5));
-  &:focus,
-  &:hover {
-    @include color-svg($svg, black);
-  }
+  text-align: inherit;
 }

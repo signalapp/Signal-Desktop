@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage, wrapDeferred */
+/* global _, Whisper, Backbone, storage */
 
 /* eslint-disable more/no-then */
 
@@ -8,11 +8,11 @@
 
   window.Whisper = window.Whisper || {};
 
+  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
+
   const conversations = new Whisper.ConversationCollection();
   const inboxCollection = new (Backbone.Collection.extend({
     initialize() {
-      this.on('change:timestamp change:name change:number', this.sort);
-
       this.listenTo(conversations, 'add change:active_at', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
 
@@ -20,26 +20,6 @@
         'add remove change:unreadCount',
         _.debounce(this.updateUnreadCount.bind(this), 1000)
       );
-      this.startPruning();
-
-      this.collator = new Intl.Collator();
-    },
-    comparator(m1, m2) {
-      const timestamp1 = m1.get('timestamp');
-      const timestamp2 = m2.get('timestamp');
-      if (timestamp1 && !timestamp2) {
-        return -1;
-      }
-      if (timestamp2 && !timestamp1) {
-        return 1;
-      }
-      if (timestamp1 && timestamp2 && timestamp1 !== timestamp2) {
-        return timestamp2 - timestamp1;
-      }
-
-      const title1 = m1.getTitle().toLowerCase();
-      const title2 = m2.getTitle().toLowerCase();
-      return this.collator.compare(title1, title2);
     },
     addActive(model) {
       if (model.get('active_at')) {
@@ -65,31 +45,12 @@
       }
       window.updateTrayIcon(newUnreadCount);
     },
-    startPruning() {
-      const halfHour = 30 * 60 * 1000;
-      this.interval = setInterval(() => {
-        this.forEach(conversation => {
-          conversation.trigger('prune');
-        });
-      }, halfHour);
-    },
   }))();
 
   window.getInboxCollection = () => inboxCollection;
+  window.getConversations = () => conversations;
 
   window.ConversationController = {
-    markAsSelected(toSelect) {
-      conversations.each(conversation => {
-        const current = conversation.isSelected || false;
-        const newValue = conversation.id === toSelect.id;
-
-        // eslint-disable-next-line no-param-reassign
-        conversation.isSelected = newValue;
-        if (current !== newValue) {
-          conversation.trigger('change');
-        }
-      });
-    },
     get(id) {
       if (!this._initialFetchComplete) {
         throw new Error(
@@ -131,8 +92,10 @@
       conversation = conversations.add({
         id,
         type,
+        version: 2,
       });
-      conversation.initialPromise = new Promise((resolve, reject) => {
+
+      const create = async () => {
         if (!conversation.isValid()) {
           const validationError = conversation.validationError || {};
           window.log.error(
@@ -141,19 +104,28 @@
             validationError.stack
           );
 
-          return resolve(conversation);
+          return conversation;
         }
 
-        const deferred = conversation.save();
-        if (!deferred) {
-          window.log.error('Conversation save failed! ', id, type);
-          return reject(new Error('getOrCreate: Conversation save failed'));
+        try {
+          await window.Signal.Data.saveConversation(conversation.attributes, {
+            Conversation: Whisper.Conversation,
+          });
+        } catch (error) {
+          window.log.error(
+            'Conversation save failed! ',
+            id,
+            type,
+            'Error:',
+            error && error.stack ? error.stack : error
+          );
+          throw error;
         }
 
-        return deferred.then(() => {
-          resolve(conversation);
-        }, reject);
-      });
+        return conversation;
+      };
+
+      conversation.initialPromise = create();
 
       return conversation;
     },
@@ -170,11 +142,23 @@
         );
       });
     },
-    getAllGroupsInvolvingId(id) {
-      const groups = new Whisper.GroupCollection();
-      return groups
-        .fetchGroups(id)
-        .then(() => groups.map(group => conversations.add(group)));
+    prepareForSend(id, options) {
+      // id is either a group id or an individual user's id
+      const conversation = this.get(id);
+      const sendOptions = conversation
+        ? conversation.getSendOptions(options)
+        : null;
+      const wrap = conversation
+        ? conversation.wrapSend.bind(conversation)
+        : promise => promise;
+
+      return { wrap, sendOptions };
+    },
+    async getAllGroupsInvolvingId(id) {
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(id, {
+        ConversationCollection: Whisper.ConversationCollection,
+      });
+      return groups.map(group => conversations.add(group));
     },
     loadPromise() {
       return this._initialPromise;
@@ -193,10 +177,31 @@
 
       const load = async () => {
         try {
-          await wrapDeferred(conversations.fetch());
+          const collection = await window.Signal.Data.getAllConversations({
+            ConversationCollection: Whisper.ConversationCollection,
+          });
+
+          conversations.add(collection.models);
+
           this._initialFetchComplete = true;
           await Promise.all(
-            conversations.map(conversation => conversation.updateLastMessage())
+            conversations.map(async conversation => {
+              if (!conversation.get('lastMessage')) {
+                await conversation.updateLastMessage();
+              }
+
+              // In case a too-large draft was saved to the database
+              const draft = conversation.get('draft');
+              if (draft && draft.length > MAX_MESSAGE_BODY_LENGTH) {
+                this.model.set({
+                  draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
+                });
+                window.Signal.Data.updateConversation(
+                  conversation.id,
+                  conversation.attributes
+                );
+              }
+            })
           );
           window.log.info('ConversationController: done with initial fetch');
         } catch (error) {

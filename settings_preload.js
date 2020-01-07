@@ -1,6 +1,7 @@
 /* global window */
 
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, remote } = require('electron');
+
 const url = require('url');
 const i18n = require('./js/modules/i18n');
 
@@ -8,8 +9,34 @@ const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 
+const { systemPreferences } = remote.require('electron');
+
+window.platform = process.platform;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);
+
+function setSystemTheme() {
+  window.systemTheme = systemPreferences.isDarkMode() ? 'dark' : 'light';
+}
+
+setSystemTheme();
+
+window.subscribeToSystemThemeChange = fn => {
+  if (!systemPreferences.subscribeNotification) {
+    return;
+  }
+  systemPreferences.subscribeNotification(
+    'AppleInterfaceThemeChangedNotification',
+    () => {
+      setSystemTheme();
+      fn();
+    }
+  );
+};
+
+window.getEnvironment = () => config.environment;
+window.getVersion = () => config.version;
+window.getAppInstance = () => config.appInstance;
 
 // So far we're only using this for Signal.Types
 const Signal = require('./js/modules/signal');
@@ -19,10 +46,6 @@ window.Signal = Signal.setup({
   userDataPath: null,
   getRegionCode: () => null,
 });
-
-window.getEnvironment = () => config.environment;
-window.getVersion = () => config.version;
-window.getAppInstance = () => config.appInstance;
 
 window.closeSettings = () => ipcRenderer.send('close-settings');
 

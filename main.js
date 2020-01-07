@@ -5,6 +5,7 @@ const url = require('url');
 const os = require('os');
 const fs = require('fs');
 const crypto = require('crypto');
+const qs = require('qs');
 
 const _ = require('lodash');
 const pify = require('pify');
@@ -19,6 +20,7 @@ const getRealPath = pify(fs.realpath);
 const {
   app,
   BrowserWindow,
+  dialog,
   ipcMain: ipc,
   Menu,
   protocol: electronProtocol,
@@ -46,6 +48,10 @@ const startInTray = process.argv.some(arg => arg === '--start-in-tray');
 const usingTrayIcon =
   startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 
+const disableFlashFrame = process.argv.some(
+  arg => arg === '--disable-flash-frame'
+);
+
 const config = require('./app/config');
 
 // Very important to put before the single instance check, since it is based on the
@@ -61,8 +67,9 @@ const development = config.environment === 'development';
 //   data directory has been set.
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
-const autoUpdate = require('./app/auto_update');
+const updater = require('./ts/updater/index');
 const createTrayIcon = require('./app/tray_icon');
+const dockIcon = require('./app/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
 const sql = require('./app/sql');
@@ -94,25 +101,35 @@ function showWindow() {
   if (tray) {
     tray.updateContextMenu();
   }
+
+  // show the app on the Dock in case it was hidden before
+  dockIcon.show();
 }
 
 if (!process.mas) {
   console.log('making app single instance');
-  const shouldQuit = app.makeSingleInstance(() => {
-    // Someone tried to run a second instance, we should focus our window
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) {
-        mainWindow.restore();
-      }
-
-      showWindow();
-    }
-    return true;
-  });
-
-  if (shouldQuit) {
+  const gotLock = app.requestSingleInstanceLock();
+  if (!gotLock) {
     console.log('quitting; we are the second instance');
     app.exit();
+  } else {
+    app.on('second-instance', (e, argv) => {
+      // Someone tried to run a second instance, we should focus our window
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        }
+
+        showWindow();
+      }
+      // Are they trying to open a sgnl link?
+      const incomingUrl = getIncomingUrl(argv);
+      if (incomingUrl) {
+        handleSgnlLink(incomingUrl);
+      }
+      // Handled
+      return true;
+    });
   }
 }
 
@@ -131,9 +148,11 @@ let logger;
 let locale;
 
 function prepareURL(pathSegments, moreKeys) {
+  const parsed = url.parse(path.join(...pathSegments));
+
   return url.format({
-    pathname: path.join.apply(null, pathSegments),
-    protocol: 'file:',
+    ...parsed,
+    protocol: parsed.protocol || 'file:',
     slashes: true,
     query: {
       name: packageJson.productName,
@@ -148,17 +167,25 @@ function prepareURL(pathSegments, moreKeys) {
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
+      contentProxyUrl: config.contentProxyUrl,
       importMode: importMode ? true : undefined, // for stringify()
+      serverTrustRoot: config.get('serverTrustRoot'),
       ...moreKeys,
     },
   });
 }
 
-function handleUrl(event, target) {
+async function handleUrl(event, target) {
   event.preventDefault();
-  const { protocol } = url.parse(target);
-  if (protocol === 'http:' || protocol === 'https:') {
-    shell.openExternal(target);
+  const { protocol, hostname } = url.parse(target);
+  const isDevServer = config.enableHttp && hostname === 'localhost';
+  // We only want to specially handle urls that aren't requesting the dev server
+  if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
+    try {
+      await shell.openExternal(target);
+    } catch (error) {
+      console.log(`Failed to open url: ${error.stack}`);
+    }
   }
 }
 
@@ -170,7 +197,7 @@ function captureClicks(window) {
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 610;
 const MIN_WIDTH = 640;
-const MIN_HEIGHT = 360;
+const MIN_HEIGHT = 550;
 const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {
@@ -208,23 +235,21 @@ function createWindow() {
       minWidth: MIN_WIDTH,
       minHeight: MIN_HEIGHT,
       autoHideMenuBar: false,
+      backgroundColor:
+        config.environment === 'test' || config.environment === 'test-lib'
+          ? '#ffffff' // Tests should always be rendered on a white background
+          : '#2090EA',
+      vibrancy: 'appearance-based',
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        // sandbox: true,
+        contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
       },
       icon: path.join(__dirname, 'images', 'icon_256.png'),
     },
-    _.pick(windowConfig, [
-      'maximized',
-      'autoHideMenuBar',
-      'width',
-      'height',
-      'x',
-      'y',
-    ])
+    _.pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y'])
   );
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
@@ -232,9 +257,6 @@ function createWindow() {
   }
   if (!_.isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
     windowOptions.height = DEFAULT_HEIGHT;
-  }
-  if (!_.isBoolean(windowOptions.maximized)) {
-    delete windowOptions.maximized;
   }
   if (!_.isBoolean(windowOptions.autoHideMenuBar)) {
     delete windowOptions.autoHideMenuBar;
@@ -253,10 +275,6 @@ function createWindow() {
     delete windowOptions.y;
   }
 
-  if (windowOptions.fullscreen === false) {
-    delete windowOptions.fullscreen;
-  }
-
   logger.info(
     'Initializing BrowserWindow config: %s',
     JSON.stringify(windowOptions)
@@ -264,6 +282,12 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  if (windowConfig && windowConfig.maximized) {
+    mainWindow.maximize();
+  }
+  if (windowConfig && windowConfig.fullscreen) {
+    mainWindow.setFullScreen(true);
+  }
 
   function captureAndSaveWindowStats() {
     if (!mainWindow) {
@@ -277,17 +301,12 @@ function createWindow() {
     windowConfig = {
       maximized: mainWindow.isMaximized(),
       autoHideMenuBar: mainWindow.isMenuBarAutoHide(),
+      fullscreen: mainWindow.isFullScreen(),
       width: size[0],
       height: size[1],
       x: position[0],
       y: position[1],
     };
-
-    if (mainWindow.isFullScreen()) {
-      // Only include this property if true, because when explicitly set to
-      // false the fullscreen button will be disabled on osx
-      windowConfig.fullscreen = true;
-    }
 
     logger.info(
       'Updating BrowserWindow config: %s',
@@ -299,10 +318,6 @@ function createWindow() {
   const debouncedCaptureStats = _.debounce(captureAndSaveWindowStats, 500);
   mainWindow.on('resize', debouncedCaptureStats);
   mainWindow.on('move', debouncedCaptureStats);
-
-  mainWindow.on('focus', () => {
-    mainWindow.flashFrame(false);
-  });
 
   // Ingested in preload.js via a sendSync call
   ipc.on('locale-data', event => {
@@ -328,27 +343,50 @@ function createWindow() {
   captureClicks(mainWindow);
 
   // Emitted when the window is about to be closed.
-  mainWindow.on('close', e => {
+  // Note: We do most of our shutdown logic here because all windows are closed by
+  //   Electron before the app quits.
+  mainWindow.on('close', async e => {
+    console.log('close event', {
+      readyForShutdown: mainWindow ? mainWindow.readyForShutdown : null,
+      shouldQuit: windowState.shouldQuit(),
+    });
     // If the application is terminating, just do the default
     if (
-      windowState.shouldQuit() ||
       config.environment === 'test' ||
-      config.environment === 'test-lib'
+      config.environment === 'test-lib' ||
+      (mainWindow.readyForShutdown && windowState.shouldQuit())
     ) {
       return;
     }
 
+    // Prevent the shutdown
+    e.preventDefault();
+    mainWindow.hide();
+
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
-    if (usingTrayIcon || process.platform === 'darwin') {
-      e.preventDefault();
-      mainWindow.hide();
-
+    if (
+      !windowState.shouldQuit() &&
+      (usingTrayIcon || process.platform === 'darwin')
+    ) {
       // toggle the visibility of the show/hide tray icon menu entries
       if (tray) {
         tray.updateContextMenu();
       }
+
+      // hide the app from the Dock on macOS if the tray icon is enabled
+      if (usingTrayIcon) {
+        dockIcon.hide();
+      }
+
+      return;
     }
+
+    await requestShutdown();
+    if (mainWindow) {
+      mainWindow.readyForShutdown = true;
+    }
+    app.quit();
   });
 
   // Emitted when the window is closed.
@@ -358,11 +396,41 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-
-  ipc.on('show-window', () => {
-    showWindow();
-  });
 }
+
+ipc.on('show-window', () => {
+  showWindow();
+});
+
+let isReadyForUpdates = false;
+async function readyForUpdates() {
+  if (isReadyForUpdates) {
+    return;
+  }
+
+  isReadyForUpdates = true;
+
+  // First, install requested sticker pack
+  const incomingUrl = getIncomingUrl(process.argv);
+  if (incomingUrl) {
+    handleSgnlLink(incomingUrl);
+  }
+
+  // Second, start checking for app updates
+  try {
+    await updater.start(getMainWindow, locale.messages, logger);
+  } catch (error) {
+    logger.error(
+      'Error starting update checks:',
+      error && error.stack ? error.stack : error
+    );
+  }
+}
+
+ipc.once('ready-for-updates', readyForUpdates);
+
+const TEN_MINUTES = 10 * 60 * 1000;
+setTimeout(readyForUpdates, TEN_MINUTES);
 
 function openReleaseNotes() {
   shell.openExternal(
@@ -382,6 +450,12 @@ function openSupportPage() {
 
 function openForums() {
   shell.openExternal('https://community.signalusers.org/');
+}
+
+function showKeyboardShortcuts() {
+  if (mainWindow) {
+    mainWindow.webContents.send('show-keyboard-shortcuts');
+  }
 }
 
 function setupWithImport() {
@@ -417,11 +491,12 @@ function showAbout() {
     autoHideMenuBar: true,
     backgroundColor: '#2090EA',
     show: false,
+    vibrancy: 'appearance-based',
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'about_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -452,7 +527,8 @@ async function showSettingsWindow() {
     return;
   }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
+  addDarkOverlay();
+
   const size = mainWindow.getSize();
   const options = {
     width: Math.min(500, size[0]),
@@ -460,14 +536,15 @@ async function showSettingsWindow() {
     resizable: false,
     title: locale.messages.signalDesktopPreferences.message,
     autoHideMenuBar: true,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#2090EA',
     show: false,
     modal: true,
+    vibrancy: 'appearance-based',
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'settings_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -477,7 +554,7 @@ async function showSettingsWindow() {
 
   captureClicks(settingsWindow);
 
-  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html'], { theme }));
+  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html']));
 
   settingsWindow.on('closed', () => {
     removeDarkOverlay();
@@ -485,8 +562,82 @@ async function showSettingsWindow() {
   });
 
   settingsWindow.once('ready-to-show', () => {
-    addDarkOverlay();
     settingsWindow.show();
+  });
+}
+
+async function getIsLinked() {
+  try {
+    const number = await sql.getItemById('number_id');
+    const password = await sql.getItemById('password');
+    return Boolean(number && password);
+  } catch (e) {
+    return false;
+  }
+}
+
+let stickerCreatorWindow;
+async function showStickerCreator() {
+  if (!await getIsLinked()) {
+    const { message } = locale.messages[
+      'StickerCreator--Authentication--error'
+    ];
+
+    dialog.showMessageBox({
+      type: 'warning',
+      message,
+    });
+
+    return;
+  }
+
+  if (stickerCreatorWindow) {
+    stickerCreatorWindow.show();
+    return;
+  }
+
+  const { x = 0, y = 0 } = windowConfig || {};
+
+  const options = {
+    x: x + 100,
+    y: y + 100,
+    width: 800,
+    minWidth: 800,
+    height: 650,
+    title: locale.messages.signalDesktopStickerCreator,
+    autoHideMenuBar: true,
+    backgroundColor: '#2090EA',
+    show: false,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'sticker-creator/preload.js'),
+      nativeWindowOpen: true,
+    },
+  };
+
+  stickerCreatorWindow = new BrowserWindow(options);
+
+  captureClicks(stickerCreatorWindow);
+
+  const appUrl = config.enableHttp
+    ? prepareURL(['http://localhost:6380/sticker-creator/dist/index.html'])
+    : prepareURL([__dirname, 'sticker-creator/dist/index.html']);
+
+  stickerCreatorWindow.loadURL(appUrl);
+
+  stickerCreatorWindow.on('closed', () => {
+    stickerCreatorWindow = null;
+  });
+
+  stickerCreatorWindow.once('ready-to-show', () => {
+    stickerCreatorWindow.show();
+
+    if (config.get('openDevTools')) {
+      // Open the DevTools.
+      stickerCreatorWindow.webContents.openDevTools();
+    }
   });
 }
 
@@ -503,16 +654,17 @@ async function showDebugLogWindow() {
     width: Math.max(size[0] - 100, MIN_WIDTH),
     height: Math.max(size[1] - 100, MIN_HEIGHT),
     resizable: false,
-    title: locale.messages.signalDesktopPreferences.message,
+    title: locale.messages.debugLog.message,
     autoHideMenuBar: true,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#2090EA',
     show: false,
     modal: true,
+    vibrancy: 'appearance-based',
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'debug_log_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -551,16 +703,17 @@ async function showPermissionsPopupWindow() {
     width: Math.min(400, size[0]),
     height: Math.min(150, size[1]),
     resizable: false,
-    title: locale.messages.signalDesktopPreferences.message,
+    title: locale.messages.allowAccess.message,
     autoHideMenuBar: true,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#2090EA',
     show: false,
     modal: true,
+    vibrancy: 'appearance-based',
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'permissions_popup_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -603,29 +756,23 @@ app.on('ready', async () => {
   }
 
   installWebHandler({
+    enableHttp: config.enableHttp,
     protocol: electronProtocol,
   });
 
   installPermissionsHandler({ session, userConfig });
 
-  let loggingSetupError;
-  try {
-    await logging.initialize();
-  } catch (error) {
-    loggingSetupError = error;
-  }
-
+  await logging.initialize();
   logger = logging.getLogger();
   logger.info('app ready');
-
-  if (loggingSetupError) {
-    logger.error('Problem setting up logging', loggingSetupError.stack);
-  }
+  logger.info(`starting version ${packageJson.version}`);
 
   if (!locale) {
     const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
     locale = loadLocale({ appLocale, logger });
   }
+
+  GlobalErrors.updateLocale(locale.messages);
 
   let key = userConfig.get('key');
   if (!key) {
@@ -636,8 +783,30 @@ app.on('ready', async () => {
     key = crypto.randomBytes(32).toString('hex');
     userConfig.set('key', key);
   }
-  await sql.initialize({ configDir: userDataPath, key });
+  const success = await sql.initialize({
+    configDir: userDataPath,
+    key,
+    messages: locale.messages,
+  });
+  if (!success) {
+    console.log('sql.initialize was unsuccessful; returning early');
+    return;
+  }
   await sqlChannels.initialize();
+
+  try {
+    const IDB_KEY = 'indexeddb-delete-needed';
+    const item = await sql.getItemById(IDB_KEY);
+    if (item && item.value) {
+      await sql.removeIndexedDBFiles();
+      await sql.removeItemById(IDB_KEY);
+    }
+  } catch (error) {
+    console.log(
+      '(ready event handler) error deleting IndexedDB:',
+      error && error.stack ? error.stack : error
+    );
+  }
 
   async function cleanupOrphanedAttachments() {
     const allAttachments = await attachments.getAllAttachments(userDataPath);
@@ -648,16 +817,40 @@ app.on('ready', async () => {
       userDataPath,
       attachments: orphanedAttachments,
     });
+
+    const allStickers = await attachments.getAllStickers(userDataPath);
+    const orphanedStickers = await sql.removeKnownStickers(allStickers);
+    await attachments.deleteAllStickers({
+      userDataPath,
+      stickers: orphanedStickers,
+    });
+
+    const allDraftAttachments = await attachments.getAllDraftAttachments(
+      userDataPath
+    );
+    const orphanedDraftAttachments = await sql.removeKnownDraftAttachments(
+      allDraftAttachments
+    );
+    await attachments.deleteAllDraftAttachments({
+      userDataPath,
+      stickers: orphanedDraftAttachments,
+    });
   }
 
+  try {
+    await attachments.clearTempPath(userDataPath);
+  } catch (error) {
+    logger.error(
+      'main/ready: Error deleting temp dir:',
+      error && error.stack ? error.stack : error
+    );
+  }
   await attachmentChannel.initialize({
     configDir: userDataPath,
     cleanupOrphanedAttachments,
   });
 
   ready = true;
-
-  autoUpdate.initialize(getMainWindow, locale.messages);
 
   createWindow();
 
@@ -670,12 +863,15 @@ app.on('ready', async () => {
 
 function setupMenu(options) {
   const { platform } = process;
-  const menuOptions = Object.assign({}, options, {
+  const menuOptions = {
+    ...options,
     development,
     showDebugLog: showDebugLogWindow,
+    showKeyboardShortcuts,
     showWindow,
     showAbout,
     showSettings: showSettingsWindow,
+    showStickerCreator,
     openReleaseNotes,
     openNewBugForm,
     openSupportPage,
@@ -684,13 +880,58 @@ function setupMenu(options) {
     setupWithImport,
     setupAsNewDevice,
     setupAsStandalone,
-  });
+  };
   const template = createTemplate(menuOptions, locale.messages);
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 }
 
+async function requestShutdown() {
+  if (!mainWindow || !mainWindow.webContents) {
+    return;
+  }
+
+  console.log('requestShutdown: Requesting close of mainWindow...');
+  const request = new Promise((resolve, reject) => {
+    ipc.once('now-ready-for-shutdown', (_event, error) => {
+      console.log('requestShutdown: Response received');
+
+      if (error) {
+        return reject(error);
+      }
+
+      return resolve();
+    });
+    mainWindow.webContents.send('get-ready-for-shutdown');
+
+    // We'll wait two minutes, then force the app to go down. This can happen if someone
+    //   exits the app before we've set everything up in preload() (so the browser isn't
+    //   yet listening for these events), or if there are a whole lot of stacked-up tasks.
+    // Note: two minutes is also our timeout for SQL tasks in data.js in the browser.
+    setTimeout(() => {
+      console.log(
+        'requestShutdown: Response never received; forcing shutdown.'
+      );
+      resolve();
+    }, 2 * 60 * 1000);
+  });
+
+  try {
+    await request;
+  } catch (error) {
+    console.log(
+      'requestShutdown error:',
+      error && error.stack ? error.stack : error
+    );
+  }
+}
+
 app.on('before-quit', () => {
+  console.log('before-quit event', {
+    readyForShutdown: mainWindow ? mainWindow.readyForShutdown : null,
+    shouldQuit: windowState.shouldQuit(),
+  });
+
   windowState.markShouldQuit();
 });
 
@@ -731,6 +972,16 @@ app.on('web-contents-created', (createEvent, contents) => {
   });
 });
 
+app.setAsDefaultProtocolClient('sgnl');
+app.on('will-finish-launching', () => {
+  // open-url must be set from within will-finish-launching for macOS
+  // https://stackoverflow.com/a/43949291
+  app.on('open-url', (event, incomingUrl) => {
+    event.preventDefault();
+    handleSgnlLink(incomingUrl);
+  });
+});
+
 ipc.on('set-badge-count', (event, count) => {
   app.setBadgeCount(count);
 });
@@ -746,11 +997,14 @@ ipc.on('add-setup-menu-items', () => {
 });
 
 ipc.on('draw-attention', () => {
-  if (process.platform === 'darwin') {
-    app.dock.bounce();
-  } else if (process.platform === 'win32') {
-    mainWindow.flashFrame(true);
-  } else if (process.platform === 'linux') {
+  if (!mainWindow) {
+    return;
+  }
+  if (disableFlashFrame) {
+    return;
+  }
+
+  if (process.platform === 'win32' || process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }
 });
@@ -865,6 +1119,19 @@ ipc.on('delete-all-data', () => {
   }
 });
 
+ipc.on('get-built-in-images', async () => {
+  try {
+    const images = await attachments.getBuiltInImages();
+    mainWindow.webContents.send('get-success-built-in-images', null, images);
+  } catch (error) {
+    if (mainWindow && mainWindow.webContents) {
+      mainWindow.webContents.send('get-success-built-in-images', error.message);
+    } else {
+      console.error('Error handling get-built-in-images:', error.stack);
+    }
+  }
+});
+
 function getDataFromMainWindow(name, callback) {
   ipc.once(`get-success-${name}`, (_event, error, value) =>
     callback(error, value)
@@ -875,9 +1142,14 @@ function getDataFromMainWindow(name, callback) {
 function installSettingsGetter(name) {
   ipc.on(`get-${name}`, event => {
     if (mainWindow && mainWindow.webContents) {
-      getDataFromMainWindow(name, (error, value) =>
-        event.sender.send(`get-success-${name}`, error, value)
-      );
+      getDataFromMainWindow(name, (error, value) => {
+        const contents = event.sender;
+        if (contents.isDestroyed()) {
+          return;
+        }
+
+        contents.send(`get-success-${name}`, error, value);
+      });
     }
   });
 }
@@ -885,10 +1157,37 @@ function installSettingsGetter(name) {
 function installSettingsSetter(name) {
   ipc.on(`set-${name}`, (event, value) => {
     if (mainWindow && mainWindow.webContents) {
-      ipc.once(`set-success-${name}`, (_event, error) =>
-        event.sender.send(`set-success-${name}`, error)
-      );
+      ipc.once(`set-success-${name}`, (_event, error) => {
+        const contents = event.sender;
+        if (contents.isDestroyed()) {
+          return;
+        }
+
+        contents.send(`set-success-${name}`, error);
+      });
       mainWindow.webContents.send(`set-${name}`, value);
     }
   });
 }
+
+function getIncomingUrl(argv) {
+  return argv.find(arg => arg.startsWith('sgnl://'));
+}
+
+function handleSgnlLink(incomingUrl) {
+  const { host: command, query } = url.parse(incomingUrl);
+  const args = qs.parse(query);
+  if (command === 'addstickers' && mainWindow && mainWindow.webContents) {
+    console.log('Opening sticker pack from sgnl protocol link');
+    const { pack_id: packId, pack_key: packKeyHex } = args;
+    const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
+    mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
+  } else {
+    console.error('Unhandled sgnl link');
+  }
+}
+
+ipc.on('install-sticker-pack', (_event, packId, packKeyHex) => {
+  const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
+  mainWindow.webContents.send('install-sticker-pack', { packId, packKey });
+});

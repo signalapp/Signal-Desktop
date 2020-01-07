@@ -5,9 +5,9 @@ interface Props {
   /**
    * Corresponds to the theme setting in the app, and the class added to the root element.
    */
-  theme: 'light-theme' | 'dark-theme';
-  type: 'private' | 'group';
   ios: boolean;
+  theme: 'light-theme' | 'dark-theme';
+  mode: 'mouse-mode' | 'keyboard-mode';
 }
 
 /**
@@ -16,16 +16,21 @@ interface Props {
  */
 export class ConversationContext extends React.Component<Props> {
   public render() {
-    const { theme, type, ios } = this.props;
+    const { ios, theme, mode } = this.props;
 
     return (
       <div
-        className={classNames(theme || 'light-theme', ios ? 'ios-theme' : null)}
+        className={classNames(
+          theme || 'light-theme',
+          ios ? 'ios-theme' : null,
+          mode
+        )}
+        style={{
+          backgroundColor: theme === 'dark-theme' ? 'black' : undefined,
+        }}
       >
-        <div className={classNames('conversation', type || 'private')}>
-          <div className="discussion-container" style={{ padding: '0.5em' }}>
-            <ul className="message-list">{this.props.children}</ul>
-          </div>
+        <div className="timeline-placeholder">
+          <div className="timeline-wrapper">{this.props.children}</div>
         </div>
       </div>
     );

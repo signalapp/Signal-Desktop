@@ -1,5 +1,4 @@
-/* global Backbone, Whisper */
-
+/* global _ */
 /* eslint-disable more/no-then */
 
 // eslint-disable-next-line func-names
@@ -7,89 +6,125 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
-  const Item = Backbone.Model.extend({
-    database: Whisper.Database,
-    storeName: 'items',
-  });
-  const ItemCollection = Backbone.Collection.extend({
-    model: Item,
-    storeName: 'items',
-    database: Whisper.Database,
-  });
 
   let ready = false;
-  const items = new ItemCollection();
-  items.on('reset', () => {
+  let items;
+  let callbacks = [];
+
+  reset();
+
+  async function put(key, value) {
+    if (value === undefined) {
+      throw new Error('Tried to store undefined');
+    }
+    if (!ready) {
+      window.log.warn('Called storage.put before storage is ready. key:', key);
+    }
+
+    const data = { id: key, value };
+
+    items[key] = data;
+    await window.Signal.Data.createOrUpdateItem(data);
+
+    if (_.has(window, ['reduxActions', 'items', 'putItemExternal'])) {
+      window.reduxActions.items.putItemExternal(key, value);
+    }
+  }
+
+  function get(key, defaultValue) {
+    if (!ready) {
+      window.log.warn('Called storage.get before storage is ready. key:', key);
+    }
+
+    const item = items[key];
+    if (!item) {
+      return defaultValue;
+    }
+
+    return item.value;
+  }
+
+  async function remove(key) {
+    if (!ready) {
+      window.log.warn(
+        'Called storage.remove before storage is ready. key:',
+        key
+      );
+    }
+
+    delete items[key];
+    await window.Signal.Data.removeItemById(key);
+
+    if (_.has(window, ['reduxActions', 'items', 'removeItemExternal'])) {
+      window.reduxActions.items.removeItemExternal(key);
+    }
+  }
+
+  function onready(callback) {
+    if (ready) {
+      callback();
+    } else {
+      callbacks.push(callback);
+    }
+  }
+
+  function callListeners() {
+    if (ready) {
+      callbacks.forEach(callback => callback());
+      callbacks = [];
+    }
+  }
+
+  async function fetch() {
+    this.reset();
+    const array = await window.Signal.Data.getAllItems();
+
+    for (let i = 0, max = array.length; i < max; i += 1) {
+      const item = array[i];
+      const { id } = item;
+      items[id] = item;
+    }
+
     ready = true;
-  });
-  window.storage = {
-    /** ***************************
-     *** Base Storage Routines ***
-     **************************** */
-    put(key, value) {
-      if (value === undefined) {
-        throw new Error('Tried to store undefined');
-      }
-      if (!ready) {
-        window.log.warn(
-          'Called storage.put before storage is ready. key:',
-          key
-        );
-      }
-      const item = items.add({ id: key, value }, { merge: true });
-      return new Promise((resolve, reject) => {
-        item.save().then(resolve, reject);
-      });
-    },
+    callListeners();
+  }
 
-    get(key, defaultValue) {
-      const item = items.get(`${key}`);
-      if (!item) {
-        return defaultValue;
-      }
-      return item.get('value');
-    },
+  function getItemsState() {
+    const data = _.clone(items);
+    const ids = Object.keys(data);
+    ids.forEach(id => {
+      data[id] = data[id].value;
+    });
 
-    remove(key) {
-      const item = items.get(`${key}`);
-      if (item) {
-        items.remove(item);
-        return new Promise((resolve, reject) => {
-          item.destroy().then(resolve, reject);
-        });
-      }
-      return Promise.resolve();
-    },
+    return data;
+  }
 
-    onready(callback) {
-      if (ready) {
-        callback();
-      } else {
-        items.on('reset', callback);
-      }
-    },
+  function reset() {
+    ready = false;
+    items = Object.create(null);
+  }
 
-    fetch() {
-      return new Promise((resolve, reject) => {
-        items
-          .fetch({ reset: true })
-          .fail(() =>
-            reject(
-              new Error(
-                'Failed to fetch from storage.' +
-                  ' This may be due to an unexpected database version.'
-              )
-            )
-          )
-          .always(resolve);
-      });
-    },
-
-    reset() {
-      items.reset();
-    },
+  const storage = {
+    fetch,
+    put,
+    get,
+    getItemsState,
+    remove,
+    onready,
+    reset,
   };
+
+  // Keep a reference to this storage system, since there are scenarios where
+  //   we need to replace it with the legacy storage system for a while.
+  window.newStorage = storage;
+
   window.textsecure = window.textsecure || {};
   window.textsecure.storage = window.textsecure.storage || {};
-  window.textsecure.storage.impl = window.storage;
+
+  window.installStorage = newStorage => {
+    window.storage = newStorage;
+    window.textsecure.storage.impl = newStorage;
+  };
+
+  window.installStorage(storage);
 })();

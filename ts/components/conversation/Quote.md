@@ -3,8 +3,8 @@
 #### Plain text
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -12,14 +12,14 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -28,21 +28,21 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Name variations
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -50,14 +50,14 @@
       text="Profile name"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         authorProfileName: 'OnFire',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -66,14 +66,14 @@
       text="Profile name"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         authorProfileName: 'OnFire',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -81,15 +81,15 @@
       text="Profile name"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         authorProfileName: 'OnFire',
         authorName: 'Mr. Fire',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -98,22 +98,22 @@
       text="Profile name"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         authorProfileName: 'OnFire',
         authorName: 'Mr. Fire',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### With emoji
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -121,13 +121,13 @@
       text="About 🔥six🔥"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many 🔥ferrets🔥 do you have?',
         authorName: 'Mr. 🔥Fire🔥',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -136,20 +136,20 @@
       text="About 🔥six🔥"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many 🔥ferrets🔥 do you have?',
         authorName: 'Mr. 🔥Fire🔥',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Replies to you or yourself
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -157,14 +157,14 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         isFromMe: true,
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -173,21 +173,26 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         isFromMe: true,
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### In a group conversation
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios} type="group">
-  <li>
+<util.ConversationContext
+  theme={util.theme}
+  type="group"
+  ios={util.ios}
+  mode={util.mode}
+>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -197,14 +202,14 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -215,21 +220,403 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
-  </li>
+  </div>
+</util.ConversationContext>
+```
+
+#### All colors
+
+Note: for incoming messages, quote color is taken from the parent message. For outgoing
+messages the color is taken from the contact who wrote the quoted message.
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="red"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'red',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="red"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'red',
+        text: 'red',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="red"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'deep_orange',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="deep_orange"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'deep_orange',
+        text: 'deep_orange',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="brown"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'brown',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="brown"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'brown',
+        text: 'brown',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="pink"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'pink',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="pink"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'pink',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="purple"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'purple',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="purple"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        text: 'purple',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="indigo"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'indigo',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="indigo"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'indigo',
+        text: 'indigo',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="blue"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'blue',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="blue"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'blue',
+        text: 'blue',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="teal"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'teal',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="teal"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'teal',
+        text: 'teal',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'green',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="green"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'green',
+        text: 'green',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="light_green"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'light_green',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="light_green"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'light_green',
+        text: 'light_green',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="blue_grey"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'blue_grey',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="blue_grey"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'blue_grey',
+        text: 'blue_grey',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="grey"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'pink',
+        text: 'grey',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="grey"
+      text="Nice!"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'grey',
+        text: 'grey',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
 </util.ConversationContext>
 ```
 
 #### Referenced message not found
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -237,15 +624,15 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         isFromMe: true,
         referencedMessageNotFound: true,
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -254,15 +641,15 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         isFromMe: true,
         referencedMessageNotFound: true,
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -272,15 +659,15 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         referencedMessageNotFound: true,
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -291,22 +678,22 @@
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         referencedMessageNotFound: true,
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Long names and context
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios} type="group">
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -314,7 +701,7 @@
       text="Woo, otters!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text:
           'A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9',
         authorPhoneNumber: '(202) 555-0011',
@@ -322,8 +709,8 @@
           'Really really really really really really really really really long!',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -332,7 +719,7 @@
       text="Woo, otters!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text:
           'A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9',
         authorPhoneNumber: '(202) 555-0011',
@@ -340,15 +727,15 @@
           'Really really really really really really really really really long!',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### A lot of text in quotation
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -356,7 +743,7 @@
       text="Woo, otters!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text:
           'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
           'After that, probably dogs. And then, you know, reptiles of all types. ' +
@@ -365,8 +752,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -375,7 +762,7 @@
       text="Woo, otters!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text:
           'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
           'After that, probably dogs. And then, you know, reptiles of all types. ' +
@@ -384,15 +771,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### A lot of text in quotation, with icon
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -400,7 +787,7 @@
       text="Woo, otters!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text:
           'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
           'After that, probably dogs. And then, you know, reptiles of all types. ' +
@@ -413,8 +800,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -423,7 +810,7 @@
       text="Woo, otters!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text:
           'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
           'After that, probably dogs. And then, you know, reptiles of all types. ' +
@@ -436,15 +823,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### A lot of text in quotation, with image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -452,7 +839,7 @@
       text="Woo, otters!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text:
           'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
           'After that, probably dogs. And then, you know, reptiles of all types. ' +
@@ -469,8 +856,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -479,7 +866,7 @@
       text="Woo, otters!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text:
           'I have lots of things to say. First, I enjoy otters. Second best are cats. ' +
           'After that, probably dogs. And then, you know, reptiles of all types. ' +
@@ -496,15 +883,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Image with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -512,7 +899,7 @@
       text="Totally, it's a pretty unintuitive concept."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'I am pretty confused about Pi.',
         attachment: {
           contentType: 'image/gif',
@@ -525,8 +912,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -535,7 +922,7 @@
       text="Totally, it's a pretty unintuitive concept."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'I am pretty confused about Pi.',
         attachment: {
           contentType: 'image/gif',
@@ -548,15 +935,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -564,7 +951,7 @@
       text="Yeah, pi. Tough to wrap your head around."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'image/gif',
           fileName: 'pi.gif',
@@ -576,8 +963,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -586,7 +973,7 @@
       text="Yeah, pi. Tough to wrap your head around."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'image/gif',
           fileName: 'pi.gif',
@@ -598,15 +985,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Image with no thumbnail
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -614,7 +1001,7 @@
       text="Yeah, pi. Tough to wrap your head around."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'image/gif',
           fileName: 'pi.gif',
@@ -622,8 +1009,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -632,7 +1019,32 @@
       text="Yeah, pi. Tough to wrap your head around."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
+        attachment: {
+          pending: true,
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+        },
+        authorPhoneNumber: '(202) 555-0011',
+      }}
+    />
+  </div>
+</util.ConversationContext>
+```
+
+#### Pending image download
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="Yeah, pi. Tough to wrap your head around."
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
         attachment: {
           contentType: 'image/gif',
           fileName: 'pi.gif',
@@ -640,15 +1052,34 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="green"
+      text="Yeah, pi. Tough to wrap your head around."
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        attachment: {
+          pending: true,
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+        },
+        authorPhoneNumber: '(202) 555-0011',
+      }}
+    />
+  </div>
 </util.ConversationContext>
 ```
 
 #### Video with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -656,7 +1087,7 @@
       text="Sweet the way the video sneaks up on you!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'Check out this video I found!',
         attachment: {
           contentType: 'video/mp4',
@@ -669,8 +1100,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -679,7 +1110,7 @@
       text="Sweet the way the video sneaks up on you!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'Check out this video I found!',
         attachment: {
           contentType: 'video/mp4',
@@ -692,15 +1123,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Video
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -708,7 +1139,7 @@
       text="Awesome!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'video/mp4',
           fileName: 'freezing_bubble.mp4',
@@ -720,8 +1151,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -730,7 +1161,7 @@
       text="Awesome!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'video/mp4',
           fileName: 'freezing_bubble.mp4',
@@ -742,15 +1173,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Video with no thumbnail
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -758,7 +1189,7 @@
       text="Awesome!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'video/mp4',
           fileName: 'freezing_bubble.mp4',
@@ -769,8 +1200,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -779,7 +1210,7 @@
       text="Awesome!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'video/mp4',
           fileName: 'freezing_bubble.mp4',
@@ -790,15 +1221,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Audio with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -806,7 +1237,7 @@
       text="I really like it!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'Check out this beautiful song!',
         attachment: {
           contentType: 'audio/mp3',
@@ -815,8 +1246,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -825,7 +1256,7 @@
       text="I really like it!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'Check out this beautiful song!',
         attachment: {
           contentType: 'audio/mp3',
@@ -834,15 +1265,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Audio
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -850,7 +1281,7 @@
       text="I really like it!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'audio/mp3',
           fileName: 'agnus_dei.mp4',
@@ -858,8 +1289,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -868,7 +1299,7 @@
       text="I really like it!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'audio/mp3',
           fileName: 'agnus_dei.mp4',
@@ -876,15 +1307,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Voice message
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -892,7 +1323,7 @@
       text="Thanks for letting me know!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'audio/mp3',
           fileName: 'agnus_dei.mp4',
@@ -903,8 +1334,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -913,7 +1344,7 @@
       text="Thanks for letting me know!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'audio/mp3',
           fileName: 'agnus_dei.mp4',
@@ -922,15 +1353,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Other file type with caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -938,7 +1369,7 @@
       text="I can't read latin."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'This is my manifesto. Tell me what you think!',
         attachment: {
           contentType: 'text/plain',
@@ -947,8 +1378,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -957,7 +1388,7 @@
       text="I can't read latin."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'This is my manifesto. Tell me what you think!',
         attachment: {
           contentType: 'text/plain',
@@ -966,8 +1397,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -975,7 +1406,7 @@
       text="I can't read latin."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'This is my manifesto. Tell me what you think!',
         attachment: {
           contentType: 'text/plain',
@@ -985,8 +1416,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -995,7 +1426,7 @@
       text="I can't read latin."
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'This is my manifesto. Tell me what you think!',
         attachment: {
           contentType: 'text/plain',
@@ -1005,15 +1436,15 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Other file type
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1021,7 +1452,7 @@
       text="Sorry, I can't read latin!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'text/plain',
           fileName: 'lorum_ipsum.txt',
@@ -1029,8 +1460,8 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1039,7 +1470,7 @@
       text="Sorry, I can't read latin!"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         attachment: {
           contentType: 'text/plain',
           fileName: 'lorum_ipsum.txt',
@@ -1047,7 +1478,7 @@
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1056,8 +1487,8 @@
 #### Quote, image attachment, and caption
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1066,17 +1497,19 @@
         url: util.gifObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 320,
+        height: 240,
       }}
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1085,25 +1518,27 @@
         url: util.gifObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 320,
+        height: 240,
       }}
       authorColor="green"
       text="About six"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Quote, image attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1112,16 +1547,18 @@
         url: util.gifObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 320,
+        height: 240,
       }}
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1130,24 +1567,26 @@
         url: util.gifObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 320,
+        height: 240,
       }}
       authorColor="green"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Quote, portrait image attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1156,16 +1595,18 @@
         url: util.portraitYellowObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 20,
+        height: 200,
       }}
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1174,24 +1615,26 @@
         url: util.portraitYellowObjectUrl,
         fileName: 'pi.gif',
         contentType: 'image/gif',
+        width: 20,
+        height: 200,
       }}
       authorColor="green"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Quote, video attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1200,19 +1643,23 @@
         screenshot: {
           url: util.pngObjectUrl,
           contentType: 'image/png',
+          width: 800,
+          height: 1200,
         },
         fileName: 'freezing_bubble.mp4',
         contentType: 'video/mp4',
+        width: 800,
+        height: 1200,
       }}
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1221,27 +1668,31 @@
         screenshot: {
           url: util.pngObjectUrl,
           contentType: 'image/png',
+          width: 800,
+          height: 1200,
         },
         fileName: 'freezing_bubble.mp4',
         contentType: 'video/mp4',
+        width: 800,
+        height: 1200,
       }}
       authorColor="green"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Quote, audio attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1253,13 +1704,13 @@
       }}
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1272,20 +1723,20 @@
       authorColor="green"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
 #### Quote, file attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
-  <li>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
     <Message
       direction="incoming"
       timestamp={Date.now()}
@@ -1298,13 +1749,13 @@
       }}
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
-  <li>
+  </div>
+  <div className="module-message-container">
     <Message
       direction="outgoing"
       timestamp={Date.now()}
@@ -1318,12 +1769,12 @@
       authorColor="green"
       i18n={util.i18n}
       quote={{
-        authorColor: 'red',
+        authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
       }}
     />
-  </li>
+  </div>
 </util.ConversationContext>
 ```
 
@@ -1332,7 +1783,7 @@
 #### Plain text
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1350,7 +1801,7 @@
 #### With an icon
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1372,7 +1823,7 @@
 #### With an image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1397,7 +1848,7 @@
 #### With attachment and no text
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       authorColor="blue"
@@ -1421,7 +1872,7 @@
 #### With generic attachment
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1443,7 +1894,7 @@
 #### With a close button
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1462,7 +1913,7 @@
 #### With a close button and icon
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"
@@ -1485,7 +1936,7 @@
 #### With a close button and image
 
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios}>
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="bottom-bar">
     <Quote
       text="How many ferrets do you have?"

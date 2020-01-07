@@ -1,6 +1,7 @@
 import { instance, PhoneNumberFormat } from '../util/libphonenumberInstance';
+import memoizee from 'memoizee';
 
-export function format(
+function _format(
   phoneNumber: string,
   options: {
     ourRegionCode: string;
@@ -21,6 +22,13 @@ export function format(
   }
 }
 
+export const format = memoizee(_format, {
+  primitive: true,
+  // Convert the arguments to a unique string, required for primitive mode.
+  normalizer: (...args) => JSON.stringify(args),
+  max: 5000,
+});
+
 export function parse(
   phoneNumber: string,
   options: {
@@ -35,4 +43,22 @@ export function parse(
   }
 
   return phoneNumber;
+}
+
+export function normalize(
+  phoneNumber: string,
+  options: { regionCode: string }
+): string | undefined {
+  const { regionCode } = options;
+  try {
+    const parsedNumber = instance.parse(phoneNumber, regionCode);
+
+    if (instance.isValidNumber(parsedNumber)) {
+      return instance.format(parsedNumber, PhoneNumberFormat.E164);
+    }
+
+    return;
+  } catch (error) {
+    return;
+  }
 }

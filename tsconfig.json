@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Basic Options
-    "target": "es2016", // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
+    "target": "es2017", // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
     "module": "commonjs", // Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
     // Specify library files to be included in the compilation.
     "lib": [
@@ -51,5 +51,6 @@
     // Experimental Options
     // "experimentalDecorators": true,        // Enables experimental support for ES7 decorators.
     // "emitDecoratorMetadata": true,         // Enables experimental support for emitting type metadata for decorators.
-  }
+  },
+  "include": ["ts/**/*"]
 }

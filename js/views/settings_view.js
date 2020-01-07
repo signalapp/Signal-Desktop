@@ -88,7 +88,9 @@
           $(document.body)
             .removeClass('dark-theme')
             .removeClass('light-theme')
-            .addClass(`${theme}-theme`);
+            .addClass(
+              `${theme === 'system' ? window.systemTheme : theme}-theme`
+            );
           window.setThemeSetting(theme);
         },
       });
@@ -106,12 +108,14 @@
         value: window.initialData.spellCheck,
         setFn: window.setSpellCheck,
       });
-      new CheckboxView({
-        el: this.$('.menu-bar-setting'),
-        name: 'menu-bar-setting',
-        value: window.initialData.hideMenuBar,
-        setFn: window.setHideMenuBar,
-      });
+      if (Settings.isHideMenuBarSupported()) {
+        new CheckboxView({
+          el: this.$('.menu-bar-setting'),
+          name: 'menu-bar-setting',
+          value: window.initialData.hideMenuBar,
+          setFn: window.setHideMenuBar,
+        });
+      }
       new MediaPermissionsSettingView({
         el: this.$('.media-permissions'),
         value: window.initialData.mediaPermissions,
@@ -140,15 +144,18 @@
         nameOnly: i18n('nameOnly'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
+        isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
+        hasSystemTheme: window.platform === 'darwin',
         themeLight: i18n('themeLight'),
         themeDark: i18n('themeDark'),
+        themeSystem: i18n('themeSystem'),
         hideMenuBar: i18n('hideMenuBar'),
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),
         clearDataExplanation: i18n('clearDataExplanation'),
         permissions: i18n('permissions'),
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
-        spellCheckHeader: i18n('spellCheck'),
+        generalHeader: i18n('general'),
         spellCheckDescription: i18n('spellCheckDescription'),
       };
     },

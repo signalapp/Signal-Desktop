@@ -72,6 +72,7 @@ describe('Message', () => {
           },
         ],
         contact: [],
+        preview: [],
       };
 
       const writeExistingAttachmentData = attachment => {
@@ -119,6 +120,7 @@ describe('Message', () => {
           ],
         },
         contact: [],
+        preview: [],
       };
 
       const writeExistingAttachmentData = attachment => {
@@ -169,6 +171,7 @@ describe('Message', () => {
             },
           },
         ],
+        preview: [],
       };
 
       const writeExistingAttachmentData = attachment => {
@@ -572,17 +575,22 @@ describe('Message', () => {
         body: 'hey there!',
         quote: {
           text: 'hey!',
-          attachments: [],
+          attachments: [
+            {
+              fileName: 'manifesto.txt',
+              contentType: 'text/plain',
+            },
+          ],
         },
       };
       const result = await upgradeVersion(message, { logger });
       assert.deepEqual(result, message);
     });
 
-    it('eliminates thumbnails with no data field', async () => {
+    it('does not eliminate thumbnails with missing data field', async () => {
       const upgradeAttachment = sinon
         .stub()
-        .throws(new Error("Shouldn't be called"));
+        .returns({ fileName: 'processed!' });
       const upgradeVersion = Message._mapQuotedAttachments(upgradeAttachment);
 
       const message = {
@@ -594,7 +602,7 @@ describe('Message', () => {
               fileName: 'cat.gif',
               contentType: 'image/gif',
               thumbnail: {
-                fileName: 'failed to download!',
+                fileName: 'not yet downloaded!',
               },
             },
           ],
@@ -608,6 +616,9 @@ describe('Message', () => {
             {
               contentType: 'image/gif',
               fileName: 'cat.gif',
+              thumbnail: {
+                fileName: 'processed!',
+              },
             },
           ],
         },

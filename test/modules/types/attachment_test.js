@@ -12,13 +12,11 @@ describe('Attachment', () => {
     it('should sanitize left-to-right order override character', async () => {
       const input = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\u202Dfig.exe',
         size: 1111,
       };
       const expected = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\uFFFDfig.exe',
         size: 1111,
       };
@@ -30,13 +28,11 @@ describe('Attachment', () => {
     it('should sanitize right-to-left order override character', async () => {
       const input = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\u202Efig.exe',
         size: 1111,
       };
       const expected = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\uFFFDfig.exe',
         size: 1111,
       };
@@ -48,13 +44,11 @@ describe('Attachment', () => {
     it('should sanitize multiple override characters', async () => {
       const input = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\u202e\u202dlol\u202efig.exe',
         size: 1111,
       };
       const expected = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'test\uFFFD\uFFFDlol\uFFFDfig.exe',
         size: 1111,
       };
@@ -72,7 +66,6 @@ describe('Attachment', () => {
       fileName => {
         const input = {
           contentType: 'image/jpeg',
-          data: null,
           fileName,
           size: 1111,
         };
@@ -83,11 +76,54 @@ describe('Attachment', () => {
     );
   });
 
+  describe('replaceUnicodeV2', () => {
+    it('should remove all bad characters', async () => {
+      const input = {
+        size: 1111,
+        fileName:
+          'file\u202A\u202B\u202C\u202D\u202E\u2066\u2067\u2068\u2069\u200E\u200F\u061C.jpeg',
+      };
+      const expected = {
+        fileName:
+          'file\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD.jpeg',
+        size: 1111,
+      };
+
+      const actual = await Attachment.replaceUnicodeV2(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should should leave normal filename alone', async () => {
+      const input = {
+        fileName: 'normal.jpeg',
+        size: 1111,
+      };
+      const expected = {
+        fileName: 'normal.jpeg',
+        size: 1111,
+      };
+
+      const actual = await Attachment.replaceUnicodeV2(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should handle missing fileName', async () => {
+      const input = {
+        size: 1111,
+      };
+      const expected = {
+        size: 1111,
+      };
+
+      const actual = await Attachment.replaceUnicodeV2(input);
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('removeSchemaVersion', () => {
     it('should remove existing schema version', () => {
       const input = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'foo.jpg',
         size: 1111,
         schemaVersion: 1,
@@ -95,7 +131,6 @@ describe('Attachment', () => {
 
       const expected = {
         contentType: 'image/jpeg',
-        data: null,
         fileName: 'foo.jpg',
         size: 1111,
       };

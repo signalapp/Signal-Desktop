@@ -1,9 +1,11 @@
+/* global ContactBuffer, GroupBuffer, textsecure */
+
 describe('ContactBuffer', () => {
   function getTestBuffer() {
     const buffer = new dcodeIO.ByteBuffer();
     const avatarBuffer = new dcodeIO.ByteBuffer();
     const avatarLen = 255;
-    for (var i = 0; i < avatarLen; ++i) {
+    for (let i = 0; i < avatarLen; i += 1) {
       avatarBuffer.writeUint8(i);
     }
     avatarBuffer.limit = avatarBuffer.offset;
@@ -15,7 +17,7 @@ describe('ContactBuffer', () => {
     });
     const contactInfoBuffer = contactInfo.encode().toArrayBuffer();
 
-    for (var i = 0; i < 3; ++i) {
+    for (let i = 0; i < 3; i += 1) {
       buffer.writeVarint32(contactInfoBuffer.byteLength);
       buffer.append(contactInfoBuffer);
       buffer.append(avatarBuffer.clone());
@@ -32,14 +34,14 @@ describe('ContactBuffer', () => {
     let contact = contactBuffer.next();
     let count = 0;
     while (contact !== undefined) {
-      count++;
+      count += 1;
       assert.strictEqual(contact.name, 'Zero Cool');
       assert.strictEqual(contact.number, '+10000000000');
       assert.strictEqual(contact.avatar.contentType, 'image/jpeg');
       assert.strictEqual(contact.avatar.length, 255);
       assert.strictEqual(contact.avatar.data.byteLength, 255);
       const avatarBytes = new Uint8Array(contact.avatar.data);
-      for (let j = 0; j < 255; ++j) {
+      for (let j = 0; j < 255; j += 1) {
         assert.strictEqual(avatarBytes[j], j);
       }
       contact = contactBuffer.next();
@@ -53,7 +55,7 @@ describe('GroupBuffer', () => {
     const buffer = new dcodeIO.ByteBuffer();
     const avatarBuffer = new dcodeIO.ByteBuffer();
     const avatarLen = 255;
-    for (var i = 0; i < avatarLen; ++i) {
+    for (let i = 0; i < avatarLen; i += 1) {
       avatarBuffer.writeUint8(i);
     }
     avatarBuffer.limit = avatarBuffer.offset;
@@ -66,7 +68,7 @@ describe('GroupBuffer', () => {
     });
     const groupInfoBuffer = groupInfo.encode().toArrayBuffer();
 
-    for (var i = 0; i < 3; ++i) {
+    for (let i = 0; i < 3; i += 1) {
       buffer.writeVarint32(groupInfoBuffer.byteLength);
       buffer.append(groupInfoBuffer);
       buffer.append(avatarBuffer.clone());
@@ -83,7 +85,7 @@ describe('GroupBuffer', () => {
     let group = groupBuffer.next();
     let count = 0;
     while (group !== undefined) {
-      count++;
+      count += 1;
       assert.strictEqual(group.name, 'Hackers');
       assertEqualArrayBuffers(
         group.id.toArrayBuffer(),
@@ -94,7 +96,7 @@ describe('GroupBuffer', () => {
       assert.strictEqual(group.avatar.length, 255);
       assert.strictEqual(group.avatar.data.byteLength, 255);
       const avatarBytes = new Uint8Array(group.avatar.data);
-      for (let j = 0; j < 255; ++j) {
+      for (let j = 0; j < 255; j += 1) {
         assert.strictEqual(avatarBytes[j], j);
       }
       group = groupBuffer.next();

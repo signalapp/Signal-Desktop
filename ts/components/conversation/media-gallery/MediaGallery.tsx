@@ -4,29 +4,30 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import { AttachmentSection } from './AttachmentSection';
-import { AttachmentType } from './types/AttachmentType';
 import { EmptyState } from './EmptyState';
-import { groupMessagesByDate } from './groupMessagesByDate';
+import { groupMediaItemsByDate } from './groupMediaItemsByDate';
 import { ItemClickEvent } from './types/ItemClickEvent';
-import { Message } from './types/Message';
 import { missingCaseError } from '../../../util/missingCaseError';
-import { Localizer } from '../../../types/Util';
+import { LocalizerType } from '../../../types/Util';
+
+import { MediaItemType } from '../../LightboxGallery';
 
 interface Props {
-  documents: Array<Message>;
-  i18n: Localizer;
-  media: Array<Message>;
+  documents: Array<MediaItemType>;
+  i18n: LocalizerType;
+  media: Array<MediaItemType>;
+
   onItemClick?: (event: ItemClickEvent) => void;
 }
 
 interface State {
-  selectedTab: AttachmentType;
+  selectedTab: 'media' | 'documents';
 }
 
 const MONTH_FORMAT = 'MMMM YYYY';
 
 interface TabSelectEvent {
-  type: AttachmentType;
+  type: 'media' | 'documents';
 }
 
 const Tab = ({
@@ -38,7 +39,7 @@ const Tab = ({
   isSelected: boolean;
   label: string;
   onSelect?: (event: TabSelectEvent) => void;
-  type: AttachmentType;
+  type: 'media' | 'documents';
 }) => {
   const handleClick = onSelect
     ? () => {
@@ -54,6 +55,7 @@ const Tab = ({
       )}
       onClick={handleClick}
       role="tab"
+      tabIndex={0}
     >
       {label}
     </div>
@@ -61,15 +63,26 @@ const Tab = ({
 };
 
 export class MediaGallery extends React.Component<Props, State> {
+  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();
   public state: State = {
     selectedTab: 'media',
   };
+
+  public componentDidMount() {
+    // When this component is created, it's initially not part of the DOM, and then it's
+    //   added off-screen and animated in. This ensures that the focus takes.
+    setTimeout(() => {
+      if (this.focusRef.current) {
+        this.focusRef.current.focus();
+      }
+    });
+  }
 
   public render() {
     const { selectedTab } = this.state;
 
     return (
-      <div className="module-media-gallery">
+      <div className="module-media-gallery" tabIndex={-1} ref={this.focusRef}>
         <div className="module-media-gallery__tab-container">
           <Tab
             label="Media"
@@ -91,7 +104,7 @@ export class MediaGallery extends React.Component<Props, State> {
     );
   }
 
-  private handleTabSelect = (event: TabSelectEvent): void => {
+  private readonly handleTabSelect = (event: TabSelectEvent): void => {
     this.setState({ selectedTab: event.type });
   };
 
@@ -99,10 +112,10 @@ export class MediaGallery extends React.Component<Props, State> {
     const { i18n, media, documents, onItemClick } = this.props;
     const { selectedTab } = this.state;
 
-    const messages = selectedTab === 'media' ? media : documents;
+    const mediaItems = selectedTab === 'media' ? media : documents;
     const type = selectedTab;
 
-    if (!messages || messages.length === 0) {
+    if (!mediaItems || mediaItems.length === 0) {
       const label = (() => {
         switch (type) {
           case 'media':
@@ -120,9 +133,10 @@ export class MediaGallery extends React.Component<Props, State> {
     }
 
     const now = Date.now();
-    const sections = groupMessagesByDate(now, messages).map(section => {
-      const first = section.messages[0];
-      const date = moment(first.received_at);
+    const sections = groupMediaItemsByDate(now, mediaItems).map(section => {
+      const first = section.mediaItems[0];
+      const { message } = first;
+      const date = moment(message.received_at);
       const header =
         section.type === 'yearMonth'
           ? date.format(MONTH_FORMAT)
@@ -134,7 +148,7 @@ export class MediaGallery extends React.Component<Props, State> {
           header={header}
           i18n={i18n}
           type={type}
-          messages={section.messages}
+          mediaItems={section.mediaItems}
           onItemClick={onItemClick}
         />
       );

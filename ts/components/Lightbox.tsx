@@ -8,11 +8,11 @@ import is from '@sindresorhus/is';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
 
-import { Localizer } from '../types/Util';
+import { formatDuration } from '../util/formatDuration';
+import { LocalizerType } from '../types/Util';
 
 const Colors = {
-  TEXT_SECONDARY: '#bbb',
-  ICON_SECONDARY: '#ccc',
+  ICON_SECONDARY: '#b9b9b9',
 };
 
 const colorSVG = (url: string, color: string) => {
@@ -26,11 +26,16 @@ const colorSVG = (url: string, color: string) => {
 interface Props {
   close: () => void;
   contentType: MIME.MIMEType | undefined;
-  i18n: Localizer;
+  i18n: LocalizerType;
   objectURL: string;
+  caption?: string;
+  isViewOnce: boolean;
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
+}
+interface State {
+  videoTime?: number;
 }
 
 const CONTROLS_WIDTH = 50;
@@ -55,8 +60,12 @@ const styles = {
     paddingLeft: 40,
     paddingRight: 40,
     paddingBottom: 0,
+    // To ensure that a large image doesn't overflow the flex layout
+    minHeight: '50px',
+    outline: 'none',
   } as React.CSSProperties,
   objectContainer: {
+    position: 'relative',
     flexGrow: 1,
     display: 'inline-flex',
     justifyContent: 'center',
@@ -67,6 +76,19 @@ const styles = {
     maxWidth: '100%',
     maxHeight: '100%',
     objectFit: 'contain',
+    outline: 'none',
+  } as React.CSSProperties,
+  caption: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    color: 'white',
+    padding: '1em',
+    paddingLeft: '3em',
+    paddingRight: '3em',
+    backgroundColor: 'rgba(192, 192, 192, .20)',
   } as React.CSSProperties,
   controlsOffsetPlaceholder: {
     width: CONTROLS_WIDTH,
@@ -90,11 +112,27 @@ const styles = {
   saveButton: {
     marginTop: 10,
   },
+  countdownContainer: {
+    padding: 8,
+  },
   iconButtonPlaceholder: {
     // Dimensions match `.iconButton`:
     display: 'inline-block',
     width: 50,
     height: 50,
+  },
+  timestampPill: {
+    borderRadius: '15px',
+    backgroundColor: '#000000',
+    color: '#eeefef',
+    fontSize: '16px',
+    letterSpacing: '0px',
+    lineHeight: '18px',
+    // This cast is necessary or typescript chokes
+    textAlign: 'center' as 'center',
+    padding: '6px',
+    paddingLeft: '18px',
+    paddingRight: '18px',
   },
 };
 
@@ -105,7 +143,7 @@ interface IconButtonProps {
 }
 
 const IconButton = ({ onClick, style, type }: IconButtonProps) => {
-  const clickHandler = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+  const clickHandler = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     if (!onClick) {
       return;
@@ -115,11 +153,9 @@ const IconButton = ({ onClick, style, type }: IconButtonProps) => {
   };
 
   return (
-    <a
-      href="#"
+    <button
       onClick={clickHandler}
       className={classNames('iconButton', type)}
-      role="button"
       style={style}
     />
   );
@@ -133,88 +169,124 @@ const Icon = ({
   onClick,
   url,
 }: {
-  onClick?: (
-    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
-  ) => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   url: string;
 }) => (
-  <div
+  <button
     style={{
       ...styles.object,
       ...colorSVG(url, Colors.ICON_SECONDARY),
       maxWidth: 200,
     }}
     onClick={onClick}
-    role="button"
   />
 );
 
-export class Lightbox extends React.Component<Props> {
-  private containerRef: HTMLDivElement | null = null;
-  private videoRef: HTMLVideoElement | null = null;
+export class Lightbox extends React.Component<Props, State> {
+  public readonly containerRef = React.createRef<HTMLDivElement>();
+  public readonly videoRef = React.createRef<HTMLVideoElement>();
+  public readonly focusRef = React.createRef<HTMLDivElement>();
+  public previousFocus: any;
 
-  private captureVideoBound: (element: HTMLVideoElement) => void;
-  private playVideoBound: () => void;
-
-  constructor(props: Props) {
-    super(props);
-
-    this.captureVideoBound = this.captureVideo.bind(this);
-    this.playVideoBound = this.playVideo.bind(this);
-  }
+  public state = {
+    videoTime: undefined,
+  };
 
   public componentDidMount() {
-    const useCapture = true;
-    document.addEventListener('keyup', this.onKeyUp, useCapture);
+    this.previousFocus = document.activeElement;
 
-    this.playVideo();
+    const { isViewOnce } = this.props;
+
+    const useCapture = true;
+    document.addEventListener('keydown', this.onKeyDown, useCapture);
+
+    const video = this.getVideo();
+    if (video && isViewOnce) {
+      video.addEventListener('timeupdate', this.onTimeUpdate);
+    }
+
+    // Wait until we're added to the DOM. ConversationView first creates this view, then
+    //   appends its elements into the DOM.
+    setTimeout(() => {
+      this.playVideo();
+
+      if (this.focusRef && this.focusRef.current) {
+        this.focusRef.current.focus();
+      }
+    });
   }
 
   public componentWillUnmount() {
+    if (this.previousFocus && this.previousFocus.focus) {
+      this.previousFocus.focus();
+    }
+
+    const { isViewOnce } = this.props;
+
     const useCapture = true;
-    document.removeEventListener('keyup', this.onKeyUp, useCapture);
+    document.removeEventListener('keydown', this.onKeyDown, useCapture);
+
+    const video = this.getVideo();
+    if (video && isViewOnce) {
+      video.removeEventListener('timeupdate', this.onTimeUpdate);
+    }
   }
 
-  public captureVideo(element: HTMLVideoElement) {
-    this.videoRef = element;
-  }
-
-  public playVideo() {
+  public getVideo() {
     if (!this.videoRef) {
       return;
     }
 
-    if (this.videoRef.paused) {
+    const { current } = this.videoRef;
+    if (!current) {
+      return;
+    }
+
+    return current;
+  }
+
+  public playVideo() {
+    const video = this.getVideo();
+    if (!video) {
+      return;
+    }
+
+    if (video.paused) {
       // tslint:disable-next-line no-floating-promises
-      this.videoRef.play();
+      video.play();
     } else {
-      this.videoRef.pause();
+      video.pause();
     }
   }
 
   public render() {
     const {
+      caption,
       contentType,
+      i18n,
+      isViewOnce,
       objectURL,
       onNext,
       onPrevious,
       onSave,
-      i18n,
     } = this.props;
+    const { videoTime } = this.state;
 
     return (
       <div
+        className="module-lightbox"
         style={styles.container}
         onClick={this.onContainerClick}
-        ref={this.setContainerRef}
+        ref={this.containerRef}
         role="dialog"
       >
-        <div style={styles.mainContainer}>
+        <div style={styles.mainContainer} tabIndex={-1} ref={this.focusRef}>
           <div style={styles.controlsOffsetPlaceholder} />
           <div style={styles.objectContainer}>
             {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType, i18n })
+              ? this.renderObject({ objectURL, contentType, i18n, isViewOnce })
               : null}
+            {caption ? <div style={styles.caption}>{caption}</div> : null}
           </div>
           <div style={styles.controls}>
             <IconButton type="close" onClick={this.onClose} />
@@ -227,30 +299,38 @@ export class Lightbox extends React.Component<Props> {
             ) : null}
           </div>
         </div>
-        <div style={styles.navigationContainer}>
-          {onPrevious ? (
-            <IconButton type="previous" onClick={onPrevious} />
-          ) : (
-            <IconButtonPlaceholder />
-          )}
-          {onNext ? (
-            <IconButton type="next" onClick={onNext} />
-          ) : (
-            <IconButtonPlaceholder />
-          )}
-        </div>
+        {isViewOnce && is.number(videoTime) ? (
+          <div style={styles.navigationContainer}>
+            <div style={styles.timestampPill}>{formatDuration(videoTime)}</div>
+          </div>
+        ) : (
+          <div style={styles.navigationContainer}>
+            {onPrevious ? (
+              <IconButton type="previous" onClick={onPrevious} />
+            ) : (
+              <IconButtonPlaceholder />
+            )}
+            {onNext ? (
+              <IconButton type="next" onClick={onNext} />
+            ) : (
+              <IconButtonPlaceholder />
+            )}
+          </div>
+        )}
       </div>
     );
   }
 
-  private renderObject = ({
+  private readonly renderObject = ({
     objectURL,
     contentType,
     i18n,
+    isViewOnce,
   }: {
     objectURL: string;
     contentType: MIME.MIMEType;
-    i18n: Localizer;
+    i18n: LocalizerType;
+    isViewOnce: boolean;
   }) => {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     if (isImageTypeSupported) {
@@ -268,11 +348,11 @@ export class Lightbox extends React.Component<Props> {
     if (isVideoTypeSupported) {
       return (
         <video
-          role="button"
-          ref={this.captureVideoBound}
-          onClick={this.playVideoBound}
-          controls={true}
+          ref={this.videoRef}
+          loop={isViewOnce}
+          controls={!isViewOnce}
           style={styles.object}
+          key={objectURL}
         >
           <source src={objectURL} />
         </video>
@@ -284,12 +364,11 @@ export class Lightbox extends React.Component<Props> {
     const isUnsupportedVideoType =
       !isVideoTypeSupported && MIME.isVideo(contentType);
     if (isUnsupportedImageType || isUnsupportedVideoType) {
-      return (
-        <Icon
-          url={isUnsupportedVideoType ? 'images/video.svg' : 'images/image.svg'}
-          onClick={this.onObjectClick}
-        />
-      );
+      const iconUrl = isUnsupportedVideoType
+        ? 'images/video.svg'
+        : 'images/image.svg';
+
+      return <Icon url={iconUrl} onClick={this.onObjectClick} />;
     }
 
     // tslint:disable-next-line no-console
@@ -298,11 +377,7 @@ export class Lightbox extends React.Component<Props> {
     return <Icon onClick={this.onObjectClick} url="images/file.svg" />;
   };
 
-  private setContainerRef = (value: HTMLDivElement) => {
-    this.containerRef = value;
-  };
-
-  private onClose = () => {
+  private readonly onClose = () => {
     const { close } = this.props;
     if (!close) {
       return;
@@ -311,22 +386,42 @@ export class Lightbox extends React.Component<Props> {
     close();
   };
 
-  private onKeyUp = (event: KeyboardEvent) => {
+  private readonly onTimeUpdate = () => {
+    const video = this.getVideo();
+    if (!video) {
+      return;
+    }
+    this.setState({
+      videoTime: video.currentTime,
+    });
+  };
+
+  private readonly onKeyDown = (event: KeyboardEvent) => {
     const { onNext, onPrevious } = this.props;
     switch (event.key) {
       case 'Escape':
         this.onClose();
+
+        event.preventDefault();
+        event.stopPropagation();
+
         break;
 
       case 'ArrowLeft':
         if (onPrevious) {
           onPrevious();
+
+          event.preventDefault();
+          event.stopPropagation();
         }
         break;
 
       case 'ArrowRight':
         if (onNext) {
           onNext();
+
+          event.preventDefault();
+          event.stopPropagation();
         }
         break;
 
@@ -334,15 +429,17 @@ export class Lightbox extends React.Component<Props> {
     }
   };
 
-  private onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target !== this.containerRef) {
+  private readonly onContainerClick = (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (this.containerRef && event.target !== this.containerRef.current) {
       return;
     }
     this.onClose();
   };
 
-  private onObjectClick = (
-    event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
+  private readonly onObjectClick = (
+    event: React.MouseEvent<HTMLButtonElement | HTMLImageElement>
   ) => {
     event.stopPropagation();
     this.onClose();

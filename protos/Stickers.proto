@@ -1,0 +1,13 @@
+package signalservice;
+
+message StickerPack {
+  message Sticker {
+    optional uint32 id    = 1;
+    optional string emoji = 2;
+  }
+
+  optional string  title    = 1;
+  optional string  author   = 2;
+  optional Sticker cover    = 3;
+  repeated Sticker stickers = 4;
+}

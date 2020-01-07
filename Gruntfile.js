@@ -7,6 +7,7 @@ const spectron = require('spectron');
 const asar = require('asar');
 const fs = require('fs');
 const assert = require('assert');
+const sass = require('node-sass');
 
 /* eslint-disable more/no-then, no-console  */
 
@@ -32,14 +33,6 @@ module.exports = grunt => {
       components: {
         src: components,
         dest: 'js/components.js',
-      },
-      util_worker: {
-        src: [
-          'components/bytebuffer/dist/ByteBufferAB.js',
-          'components/long/dist/Long.js',
-          'js/util_worker_tasks.js',
-        ],
-        dest: 'js/util_worker.js',
       },
       libtextsecurecomponents: {
         src: libtextsecurecomponents,
@@ -98,12 +91,14 @@ module.exports = grunt => {
     },
     sass: {
       options: {
+        implementation: sass,
         sourceMap: true,
         importer: importOnce,
       },
       dev: {
         files: {
           'stylesheets/manifest.css': 'stylesheets/manifest.scss',
+          'stylesheets/manifest_bridge.css': 'stylesheets/manifest_bridge.scss',
         },
       },
     },
@@ -135,11 +130,14 @@ module.exports = grunt => {
         tasks: ['sass'],
       },
       transpile: {
-        files: ['./ts/**/*.ts'],
+        files: ['./ts/**/*.ts', './ts/**/*.tsx'],
         tasks: ['exec:transpile'],
       },
     },
     exec: {
+      'tx-pull-new': {
+        cmd: 'tx pull -a --minimum-perc=80',
+      },
       'tx-pull': {
         cmd: 'tx pull',
       },
@@ -155,16 +153,12 @@ module.exports = grunt => {
         archive: `mac/${
           packageJson.productName
         }.app/Contents/Resources/app.asar`,
-        appUpdateYML: `mac/${
-          packageJson.productName
-        }.app/Contents/Resources/app-update.yml`,
         exe: `mac/${packageJson.productName}.app/Contents/MacOS/${
           packageJson.productName
         }`,
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
-        appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
         exe: `mas/${packageJson.productName}.app/Contents/MacOS/${
           packageJson.productName
         }`,
@@ -175,7 +169,6 @@ module.exports = grunt => {
       },
       win: {
         archive: 'win-unpacked/resources/app.asar',
-        appUpdateYML: 'win-unpacked/resources/app-update.yml',
         exe: `win-unpacked/${packageJson.productName}.exe`,
       },
     },
@@ -218,8 +211,8 @@ module.exports = grunt => {
   grunt.registerTask('getExpireTime', () => {
     grunt.task.requires('gitinfo');
     const gitinfo = grunt.config.get('gitinfo');
-    const commited = gitinfo.local.branch.current.lastCommitTime;
-    const time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
+    const committed = gitinfo.local.branch.current.lastCommitTime;
+    const time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
     grunt.file.write(
       'config/local-production.json',
       `${JSON.stringify({ buildExpiration: time })}\n`
@@ -258,7 +251,7 @@ module.exports = grunt => {
             app.client
               .execute(getMochaResults)
               .then(data => Boolean(data.value)),
-          10000,
+          25000,
           'Expected to find window.mochaResults set!'
         )
       )
@@ -345,7 +338,7 @@ module.exports = grunt => {
     'test-release',
     'Test packaged releases',
     function thisNeeded() {
-      const dir = grunt.option('dir') || 'dist';
+      const dir = grunt.option('dir') || 'release';
       const environment = grunt.option('env') || 'production';
       const config = this.data;
       const archive = [dir, config.archive].join('/');
@@ -422,7 +415,11 @@ module.exports = grunt => {
     }
   );
 
-  grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
+  grunt.registerTask('tx', [
+    'exec:tx-pull-new',
+    'exec:tx-pull',
+    'locale-patch',
+  ]);
   grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('test', ['unit-tests', 'lib-unit-tests']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);

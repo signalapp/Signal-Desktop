@@ -5,13 +5,13 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../../util/GoogleChrome';
-import { Message } from './types/Message';
-import { Localizer } from '../../../types/Util';
+import { LocalizerType } from '../../../types/Util';
+import { MediaItemType } from '../../LightboxGallery';
 
 interface Props {
-  message: Message;
+  mediaItem: MediaItemType;
   onClick?: () => void;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 interface State {
@@ -19,7 +19,7 @@ interface State {
 }
 
 export class MediaGridItem extends React.Component<Props, State> {
-  private onImageErrorBound: () => void;
+  private readonly onImageErrorBound: () => void;
 
   constructor(props: Props) {
     super(props);
@@ -42,19 +42,16 @@ export class MediaGridItem extends React.Component<Props, State> {
   }
 
   public renderContent() {
-    const { message, i18n } = this.props;
+    const { mediaItem, i18n } = this.props;
     const { imageBroken } = this.state;
-    const { attachments } = message;
+    const { attachment, contentType } = mediaItem;
 
-    if (!attachments || !attachments.length) {
+    if (!attachment) {
       return null;
     }
 
-    const first = attachments[0];
-    const { contentType } = first;
-
     if (contentType && isImageTypeSupported(contentType)) {
-      if (imageBroken || !message.thumbnailObjectUrl) {
+      if (imageBroken || !mediaItem.thumbnailObjectUrl) {
         return (
           <div
             className={classNames(
@@ -69,12 +66,12 @@ export class MediaGridItem extends React.Component<Props, State> {
         <img
           alt={i18n('lightboxImageAlt')}
           className="module-media-grid-item__image"
-          src={message.thumbnailObjectUrl}
+          src={mediaItem.thumbnailObjectUrl}
           onError={this.onImageErrorBound}
         />
       );
     } else if (contentType && isVideoTypeSupported(contentType)) {
-      if (imageBroken || !message.thumbnailObjectUrl) {
+      if (imageBroken || !mediaItem.thumbnailObjectUrl) {
         return (
           <div
             className={classNames(
@@ -90,7 +87,7 @@ export class MediaGridItem extends React.Component<Props, State> {
           <img
             alt={i18n('lightboxImageAlt')}
             className="module-media-grid-item__image"
-            src={message.thumbnailObjectUrl}
+            src={mediaItem.thumbnailObjectUrl}
             onError={this.onImageErrorBound}
           />
           <div className="module-media-grid-item__circle-overlay">
@@ -112,13 +109,9 @@ export class MediaGridItem extends React.Component<Props, State> {
 
   public render() {
     return (
-      <div
-        className="module-media-grid-item"
-        role="button"
-        onClick={this.props.onClick}
-      >
+      <button className="module-media-grid-item" onClick={this.props.onClick}>
         {this.renderContent()}
-      </div>
+      </button>
     );
   }
 }

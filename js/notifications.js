@@ -1,10 +1,8 @@
 /* global Signal:false */
 /* global Backbone: false */
 
-/* global ConversationController: false */
 /* global drawAttention: false */
 /* global i18n: false */
-/* global isFocused: false */
 /* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
@@ -23,6 +21,15 @@
     MESSAGE: 'message',
   };
 
+  function filter(text) {
+    return (text || '')
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
   Whisper.Notifications = new (Backbone.Collection.extend({
     initialize() {
       this.isEnabled = false;
@@ -39,10 +46,6 @@
       this.fastUpdate = this.update;
       this.update = _.debounce(this.update, 1000);
     },
-    onClick(conversationId) {
-      const conversation = ConversationController.get(conversationId);
-      this.trigger('click', conversation);
-    },
     update() {
       if (this.lastNotification) {
         this.lastNotification.close();
@@ -50,11 +53,10 @@
       }
 
       const { isEnabled } = this;
-      const isAppFocused = isFocused();
+      const isAppFocused = window.isActive();
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
-      const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const numNotifications = this.length;
       const userSetting = this.getUserSetting();
 
@@ -66,13 +68,6 @@
         numNotifications,
         userSetting,
       });
-
-      window.log.info(
-        'Update notifications:',
-        Object.assign({}, status, {
-          isNotificationGroupingSupported,
-        })
-      );
 
       if (status.type !== 'ok') {
         if (status.shouldClearNotifications) {
@@ -142,14 +137,13 @@
 
       drawAttention();
 
-      const notification = new Notification(title, {
-        body: message,
+      this.lastNotification = new Notification(title, {
+        body: window.platform === 'linux' ? filter(message) : message,
         icon: iconUrl,
-        tag: isNotificationGroupingSupported ? 'signal' : undefined,
         silent: !status.shouldPlayNotificationSound,
       });
-      notification.onclick = () => this.onClick(last.conversationId);
-      this.lastNotification = notification;
+      this.lastNotification.onclick = () =>
+        this.trigger('click', last.conversationId, last.messageId);
 
       // We continue to build up more and more messages for our notifications
       // until the user comes back to our app or closes the app. Then we’ll

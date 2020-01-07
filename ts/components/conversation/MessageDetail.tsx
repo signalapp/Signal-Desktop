@@ -2,9 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
+import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message, Props as MessageProps } from './Message';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Contact {
   status: string;
@@ -14,8 +15,10 @@ interface Contact {
   avatarPath?: string;
   color: string;
   isOutgoingKeyError: boolean;
+  isUnidentifiedDelivery: boolean;
 
   errors?: Array<Error>;
+
   onSendAnyway: () => void;
   onShowSafetyNumber: () => void;
 }
@@ -28,43 +31,36 @@ interface Props {
   errors: Array<Error>;
   contacts: Array<Contact>;
 
-  i18n: Localizer;
-}
-
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
+  i18n: LocalizerType;
 }
 
 export class MessageDetail extends React.Component<Props> {
+  private readonly focusRef = React.createRef<HTMLDivElement>();
+
+  public componentDidMount() {
+    // When this component is created, it's initially not part of the DOM, and then it's
+    //   added off-screen and animated in. This ensures that the focus takes.
+    setTimeout(() => {
+      if (this.focusRef.current) {
+        this.focusRef.current.focus();
+      }
+    });
+  }
+
   public renderAvatar(contact: Contact) {
     const { i18n } = this.props;
     const { avatarPath, color, phoneNumber, name, profileName } = contact;
 
-    if (!avatarPath) {
-      const initial = getInitial(name || '');
-
-      return (
-        <div
-          className={classNames(
-            'module-message-detail__contact__avatar',
-            'module-message-detail__contact__default-avatar',
-            `module-message-detail__contact__default-avatar--${color}`
-          )}
-        >
-          {initial}
-        </div>
-      );
-    }
-
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
-
     return (
-      <img
-        className="module-message-detail__contact__avatar"
-        alt={i18n('contactAvatarAlt', [title])}
-        src={avatarPath}
+      <Avatar
+        avatarPath={avatarPath}
+        color={color}
+        conversationType="direct"
+        i18n={i18n}
+        name={name}
+        phoneNumber={phoneNumber}
+        profileName={profileName}
+        size={52}
       />
     );
   }
@@ -75,7 +71,9 @@ export class MessageDetail extends React.Component<Props> {
     return (
       <div className="module-message-detail__delete-button-container">
         <button
-          onClick={message.onDelete}
+          onClick={() => {
+            message.deleteMessage(message.id);
+          }}
           className="module-message-detail__delete-button"
         >
           {i18n('deleteThisMessage')}
@@ -112,6 +110,9 @@ export class MessageDetail extends React.Component<Props> {
         )}
       />
     ) : null;
+    const unidentifiedDeliveryComponent = contact.isUnidentifiedDelivery ? (
+      <div className="module-message-detail__contact__unidentified-delivery-icon" />
+    ) : null;
 
     return (
       <div key={contact.phoneNumber} className="module-message-detail__contact">
@@ -122,7 +123,6 @@ export class MessageDetail extends React.Component<Props> {
               phoneNumber={contact.phoneNumber}
               name={contact.name}
               profileName={contact.profileName}
-              i18n={i18n}
             />
           </div>
           {errors.map((error, index) => (
@@ -132,6 +132,7 @@ export class MessageDetail extends React.Component<Props> {
           ))}
         </div>
         {errorComponent}
+        {unidentifiedDeliveryComponent}
         {statusComponent}
       </div>
     );
@@ -155,7 +156,7 @@ export class MessageDetail extends React.Component<Props> {
     const { errors, message, receivedAt, sentAt, i18n } = this.props;
 
     return (
-      <div className="module-message-detail">
+      <div className="module-message-detail" tabIndex={0} ref={this.focusRef}>
         <div className="module-message-detail__message-container">
           <Message i18n={i18n} {...message} />
         </div>

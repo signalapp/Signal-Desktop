@@ -1,6 +1,8 @@
 const path = require('path');
 
+const fs = require('fs');
 const { app, Menu, Tray } = require('electron');
+const dockIcon = require('./dock_icon');
 
 let trayContextMenu = null;
 let tray = null;
@@ -17,21 +19,41 @@ function createTrayIcon(getMainWindow, messages) {
 
   tray = new Tray(iconNoNewMessages);
 
+  tray.forceOnTop = mainWindow => {
+    if (mainWindow) {
+      // On some versions of GNOME the window may not be on top when restored.
+      // This trick should fix it.
+      // Thanks to: https://github.com/Enrico204/Whatsapp-Desktop/commit/6b0dc86b64e481b455f8fce9b4d797e86d000dc1
+      mainWindow.setAlwaysOnTop(true);
+      mainWindow.focus();
+      mainWindow.setAlwaysOnTop(false);
+    }
+  };
+
   tray.toggleWindowVisibility = () => {
     const mainWindow = getMainWindow();
     if (mainWindow) {
       if (mainWindow.isVisible()) {
         mainWindow.hide();
+        dockIcon.hide();
       } else {
         mainWindow.show();
+        dockIcon.show();
 
-        // On some versions of GNOME the window may not be on top when restored.
-        // This trick should fix it.
-        // Thanks to: https://github.com/Enrico204/Whatsapp-Desktop/commit/6b0dc86b64e481b455f8fce9b4d797e86d000dc1
-        mainWindow.setAlwaysOnTop(true);
-        mainWindow.focus();
-        mainWindow.setAlwaysOnTop(false);
+        tray.forceOnTop(mainWindow);
       }
+    }
+    tray.updateContextMenu();
+  };
+
+  tray.showWindow = () => {
+    const mainWindow = getMainWindow();
+    if (mainWindow) {
+      if (!mainWindow.isVisible()) {
+        mainWindow.show();
+      }
+
+      tray.forceOnTop(mainWindow);
     }
     tray.updateContextMenu();
   };
@@ -60,19 +82,32 @@ function createTrayIcon(getMainWindow, messages) {
   };
 
   tray.updateIcon = unreadCount => {
+    let image;
+
     if (unreadCount > 0) {
       const filename = `${String(unreadCount >= 10 ? 10 : unreadCount)}.png`;
-      tray.setImage(
-        path.join(__dirname, '..', 'images', 'alert', iconSize, filename)
-      );
+      image = path.join(__dirname, '..', 'images', 'alert', iconSize, filename);
     } else {
-      tray.setImage(iconNoNewMessages);
+      image = iconNoNewMessages;
+    }
+
+    if (!fs.existsSync(image)) {
+      console.log('tray.updateIcon: Image for tray update does not exist!');
+      return;
+    }
+    try {
+      tray.setImage(image);
+    } catch (error) {
+      console.log(
+        'tray.setImage error:',
+        error && error.stack ? error.stack : error
+      );
     }
   };
 
-  tray.on('click', tray.toggleWindowVisibility);
+  tray.on('click', tray.showWindow);
 
-  tray.setToolTip(messages.trayTooltip.message);
+  tray.setToolTip(messages.signalDesktop.message);
   tray.updateContextMenu();
 
   return tray;

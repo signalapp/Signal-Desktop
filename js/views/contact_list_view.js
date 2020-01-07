@@ -16,6 +16,7 @@
       initialize(options) {
         this.ourNumber = textsecure.storage.user.getNumber();
         this.listenBack = options.listenBack;
+        this.loading = false;
 
         this.listenTo(this.model, 'change', this.render);
       },
@@ -25,9 +26,6 @@
           this.contactView = null;
         }
 
-        const avatar = this.model.getAvatar();
-        const avatarPath = avatar && avatar.url;
-        const color = avatar && avatar.color;
         const isMe = this.ourNumber === this.model.id;
 
         this.contactView = new Whisper.ReactWrapperView({
@@ -35,26 +33,35 @@
           Component: window.Signal.Components.ContactListItem,
           props: {
             isMe,
-            color,
-            avatarPath,
+            color: this.model.getColor(),
+            avatarPath: this.model.getAvatarPath(),
             phoneNumber: this.model.getNumber(),
             name: this.model.getName(),
             profileName: this.model.getProfileName(),
             verified: this.model.isVerified(),
             onClick: this.showIdentity.bind(this),
+            disabled: this.loading,
           },
         });
         this.$el.append(this.contactView.el);
         return this;
       },
       showIdentity() {
-        if (this.model.id === this.ourNumber) {
+        if (this.model.id === this.ourNumber || this.loading) {
           return;
         }
-        const view = new Whisper.KeyVerificationPanelView({
+
+        this.loading = true;
+        this.render();
+
+        this.panelView = new Whisper.KeyVerificationPanelView({
           model: this.model,
+          onLoad: view => {
+            this.loading = false;
+            this.listenBack(view);
+            this.render();
+          },
         });
-        this.listenBack(view);
       },
     }),
   });

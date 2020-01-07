@@ -4,9 +4,11 @@
   libsignal,
   WebSocketResource,
   btoa,
+  Signal,
   getString,
   libphonenumber,
-  Event
+  Event,
+  ConversationController
 */
 
 /* eslint-disable more/no-then */
@@ -44,6 +46,68 @@
     requestSMSVerification(number) {
       return this.server.requestVerificationSMS(number);
     },
+    async encryptDeviceName(name, providedIdentityKey) {
+      if (!name) {
+        return null;
+      }
+      const identityKey =
+        providedIdentityKey ||
+        (await textsecure.storage.protocol.getIdentityKeyPair());
+      if (!identityKey) {
+        throw new Error(
+          'Identity key was not provided and is not in database!'
+        );
+      }
+      const encrypted = await Signal.Crypto.encryptDeviceName(
+        name,
+        identityKey.pubKey
+      );
+
+      const proto = new textsecure.protobuf.DeviceName();
+      proto.ephemeralPublic = encrypted.ephemeralPublic;
+      proto.syntheticIv = encrypted.syntheticIv;
+      proto.ciphertext = encrypted.ciphertext;
+
+      const arrayBuffer = proto.encode().toArrayBuffer();
+      return Signal.Crypto.arrayBufferToBase64(arrayBuffer);
+    },
+    async decryptDeviceName(base64) {
+      const identityKey = await textsecure.storage.protocol.getIdentityKeyPair();
+
+      const arrayBuffer = Signal.Crypto.base64ToArrayBuffer(base64);
+      const proto = textsecure.protobuf.DeviceName.decode(arrayBuffer);
+      const encrypted = {
+        ephemeralPublic: proto.ephemeralPublic.toArrayBuffer(),
+        syntheticIv: proto.syntheticIv.toArrayBuffer(),
+        ciphertext: proto.ciphertext.toArrayBuffer(),
+      };
+
+      const name = await Signal.Crypto.decryptDeviceName(
+        encrypted,
+        identityKey.privKey
+      );
+
+      return name;
+    },
+    async maybeUpdateDeviceName() {
+      const isNameEncrypted = textsecure.storage.user.getDeviceNameEncrypted();
+      if (isNameEncrypted) {
+        return;
+      }
+      const deviceName = await textsecure.storage.user.getDeviceName();
+      const base64 = await this.encryptDeviceName(deviceName);
+
+      await this.server.updateDeviceName(base64);
+    },
+    async deviceNameIsEncrypted() {
+      await textsecure.storage.user.setDeviceNameEncrypted();
+    },
+    async maybeDeleteSignalingKey() {
+      const key = await textsecure.storage.user.getSignalingKey();
+      if (key) {
+        await this.server.removeSignalingKey();
+      }
+    },
     registerSingleDevice(number, verificationCode) {
       const registerKeys = this.server.registerKeys.bind(this.server);
       const createAccount = this.createAccount.bind(this);
@@ -52,19 +116,29 @@
       const confirmKeys = this.confirmKeys.bind(this);
       const registrationDone = this.registrationDone.bind(this);
       return this.queueTask(() =>
-        libsignal.KeyHelper.generateIdentityKeyPair().then(identityKeyPair => {
-          const profileKey = textsecure.crypto.getRandomBytes(32);
-          return createAccount(
-            number,
-            verificationCode,
-            identityKeyPair,
-            profileKey
-          )
-            .then(clearSessionsAndPreKeys)
-            .then(generateKeys)
-            .then(keys => registerKeys(keys).then(() => confirmKeys(keys)))
-            .then(registrationDone);
-        })
+        libsignal.KeyHelper.generateIdentityKeyPair().then(
+          async identityKeyPair => {
+            const profileKey = textsecure.crypto.getRandomBytes(32);
+            const accessKey = await window.Signal.Crypto.deriveAccessKey(
+              profileKey
+            );
+
+            return createAccount(
+              number,
+              verificationCode,
+              identityKeyPair,
+              profileKey,
+              null,
+              null,
+              null,
+              { accessKey }
+            )
+              .then(clearSessionsAndPreKeys)
+              .then(generateKeys)
+              .then(keys => registerKeys(keys).then(() => confirmKeys(keys)))
+              .then(() => registrationDone(number));
+          }
+        )
       );
     },
     registerSecondDevice(setProvisioningUrl, confirmNumber, progressCallback) {
@@ -147,7 +221,9 @@
                                     confirmKeys(keys)
                                   )
                                 )
-                                .then(registrationDone);
+                                .then(() =>
+                                  registrationDone(provisionMessage.number)
+                                );
                             }
                           )
                         )
@@ -185,8 +261,6 @@
         const store = textsecure.storage.protocol;
         const { server, cleanSignedPreKeys } = this;
 
-        // TODO: harden this against missing identity key? Otherwise, we get
-        //   retries every five seconds.
         return store
           .getIdentityKeyPair()
           .then(
@@ -196,6 +270,8 @@
                 signedKeyId
               ),
             () => {
+              // We swallow any error here, because we don't want to get into
+              //   a loop of repeated retries.
               window.log.error(
                 'Failed to get identity key. Canceling key rotation.'
               );
@@ -251,10 +327,11 @@
       });
     },
     queueTask(task) {
+      this.pendingQueue =
+        this.pendingQueue || new window.PQueue({ concurrency: 1 });
       const taskWithTimeout = textsecure.createTaskWithTimeout(task);
-      this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
-      return this.pending;
+      return this.pendingQueue.add(taskWithTimeout);
     },
     cleanSignedPreKeys() {
       const MINIMUM_KEYS = 3;
@@ -262,7 +339,7 @@
       return store.loadSignedPreKeys().then(allKeys => {
         allKeys.sort((a, b) => (a.created_at || 0) - (b.created_at || 0));
         allKeys.reverse(); // we want the most recent first
-        let confirmed = allKeys.filter(key => key.confirmed);
+        const confirmed = allKeys.filter(key => key.confirmed);
         const unconfirmed = allKeys.filter(key => !key.confirmed);
 
         const recent = allKeys[0] ? allKeys[0].keyId : 'none';
@@ -280,7 +357,7 @@
         let confirmedCount = confirmed.length;
 
         // Keep MINIMUM_KEYS confirmed keys, then drop if older than a week
-        confirmed = confirmed.forEach((key, index) => {
+        confirmed.forEach((key, index) => {
           if (index < MINIMUM_KEYS) {
             return;
           }
@@ -292,7 +369,7 @@
               'Removing confirmed signed prekey:',
               key.keyId,
               'with timestamp:',
-              createdAt
+              new Date(createdAt).toJSON()
             );
             store.removeSignedPreKey(key.keyId);
             confirmedCount -= 1;
@@ -315,130 +392,133 @@
               'Removing unconfirmed signed prekey:',
               key.keyId,
               'with timestamp:',
-              createdAt
+              new Date(createdAt).toJSON()
             );
             store.removeSignedPreKey(key.keyId);
           }
         });
       });
     },
-    createAccount(
+    async createAccount(
       number,
       verificationCode,
       identityKeyPair,
       profileKey,
       deviceName,
       userAgent,
-      readReceipts
+      readReceipts,
+      options = {}
     ) {
-      const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
+      const { accessKey } = options;
       let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
       password = password.substring(0, password.length - 2);
       const registrationId = libsignal.KeyHelper.generateRegistrationId();
 
       const previousNumber = getNumber(textsecure.storage.get('number_id'));
 
-      return this.server
-        .confirmCode(
-          number,
-          verificationCode,
-          password,
-          signalingKey,
-          registrationId,
-          deviceName
-        )
-        .then(response => {
-          if (previousNumber && previousNumber !== number) {
-            window.log.warn(
-              'New number is different from old number; deleting all previous data'
-            );
+      const encryptedDeviceName = await this.encryptDeviceName(
+        deviceName,
+        identityKeyPair
+      );
+      await this.deviceNameIsEncrypted();
 
-            return textsecure.storage.protocol.removeAllData().then(
-              () => {
-                window.log.info('Successfully deleted previous data');
-                return response;
-              },
-              error => {
-                window.log.error(
-                  'Something went wrong deleting data from previous number',
-                  error && error.stack ? error.stack : error
-                );
+      window.log.info(
+        `createAccount: Number is ${number}, password has length: ${
+          password ? password.length : 'none'
+        }`
+      );
 
-                return response;
-              }
-            );
-          }
+      const response = await this.server.confirmCode(
+        number,
+        verificationCode,
+        password,
+        registrationId,
+        encryptedDeviceName,
+        { accessKey }
+      );
 
-          return response;
-        })
-        .then(response => {
-          textsecure.storage.remove('identityKey');
-          textsecure.storage.remove('signaling_key');
-          textsecure.storage.remove('password');
-          textsecure.storage.remove('registrationId');
-          textsecure.storage.remove('number_id');
-          textsecure.storage.remove('device_name');
-          textsecure.storage.remove('regionCode');
-          textsecure.storage.remove('userAgent');
-          textsecure.storage.remove('profileKey');
-          textsecure.storage.remove('read-receipts-setting');
+      if (previousNumber && previousNumber !== number) {
+        window.log.warn(
+          'New number is different from old number; deleting all previous data'
+        );
 
-          // update our own identity key, which may have changed
-          // if we're relinking after a reinstall on the master device
-          textsecure.storage.protocol.saveIdentityWithAttributes(number, {
-            id: number,
-            publicKey: identityKeyPair.pubKey,
-            firstUse: true,
-            timestamp: Date.now(),
-            verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
-            nonblockingApproval: true,
-          });
-
-          textsecure.storage.put('identityKey', identityKeyPair);
-          textsecure.storage.put('signaling_key', signalingKey);
-          textsecure.storage.put('password', password);
-          textsecure.storage.put('registrationId', registrationId);
-          if (profileKey) {
-            textsecure.storage.put('profileKey', profileKey);
-          }
-          if (userAgent) {
-            textsecure.storage.put('userAgent', userAgent);
-          }
-          if (readReceipts) {
-            textsecure.storage.put('read-receipt-setting', true);
-          } else {
-            textsecure.storage.put('read-receipt-setting', false);
-          }
-
-          textsecure.storage.user.setNumberAndDeviceId(
-            number,
-            response.deviceId || 1,
-            deviceName
+        try {
+          await textsecure.storage.protocol.removeAllData();
+          window.log.info('Successfully deleted previous data');
+        } catch (error) {
+          window.log.error(
+            'Something went wrong deleting data from previous number',
+            error && error.stack ? error.stack : error
           );
-          textsecure.storage.put(
-            'regionCode',
-            libphonenumber.util.getRegionCodeForNumber(number)
-          );
-        });
+        }
+      }
+
+      await Promise.all([
+        textsecure.storage.remove('identityKey'),
+        textsecure.storage.remove('password'),
+        textsecure.storage.remove('registrationId'),
+        textsecure.storage.remove('number_id'),
+        textsecure.storage.remove('device_name'),
+        textsecure.storage.remove('regionCode'),
+        textsecure.storage.remove('userAgent'),
+        textsecure.storage.remove('profileKey'),
+        textsecure.storage.remove('read-receipts-setting'),
+      ]);
+
+      // update our own identity key, which may have changed
+      // if we're relinking after a reinstall on the master device
+      await textsecure.storage.protocol.saveIdentityWithAttributes(number, {
+        id: number,
+        publicKey: identityKeyPair.pubKey,
+        firstUse: true,
+        timestamp: Date.now(),
+        verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
+        nonblockingApproval: true,
+      });
+
+      await textsecure.storage.put('identityKey', identityKeyPair);
+      await textsecure.storage.put('password', password);
+      await textsecure.storage.put('registrationId', registrationId);
+      if (profileKey) {
+        await textsecure.storage.put('profileKey', profileKey);
+      }
+      if (userAgent) {
+        await textsecure.storage.put('userAgent', userAgent);
+      }
+
+      await textsecure.storage.put(
+        'read-receipt-setting',
+        Boolean(readReceipts)
+      );
+
+      await textsecure.storage.user.setNumberAndDeviceId(
+        number,
+        response.deviceId || 1,
+        deviceName
+      );
+
+      const regionCode = libphonenumber.util.getRegionCodeForNumber(number);
+      await textsecure.storage.put('regionCode', regionCode);
+      await textsecure.storage.protocol.hydrateCaches();
     },
-    clearSessionsAndPreKeys() {
+    async clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;
 
       window.log.info('clearing all sessions, prekeys, and signed prekeys');
-      return Promise.all([
+      await Promise.all([
         store.clearPreKeyStore(),
         store.clearSignedPreKeysStore(),
         store.clearSessionStore(),
       ]);
     },
     // Takes the same object returned by generateKeys
-    confirmKeys(keys) {
+    async confirmKeys(keys) {
       const store = textsecure.storage.protocol;
       const key = keys.signedPreKey;
       const confirmed = true;
 
       window.log.info('confirmKeys: confirming key', key.keyId);
-      return store.storeSignedPreKey(key.keyId, key.keyPair, confirmed);
+      await store.storeSignedPreKey(key.keyId, key.keyPair, confirmed);
     },
     generateKeys(count, providedProgressCallback) {
       const progressCallback =
@@ -499,8 +579,12 @@
         );
       });
     },
-    registrationDone() {
+    async registrationDone(number) {
       window.log.info('registration done');
+
+      // Ensure that we always have a conversation for ourself
+      await ConversationController.getOrCreateAndWait(number, 'private');
+
       this.dispatchEvent(new Event('registration'));
     },
   });

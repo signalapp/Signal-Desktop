@@ -1,3 +1,5 @@
+/* global libsignal */
+
 describe('AccountManager', () => {
   let accountManager;
 
@@ -10,9 +12,14 @@ describe('AccountManager', () => {
     let signedPreKeys;
     const DAY = 1000 * 60 * 60 * 24;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+      const identityKey = await libsignal.KeyHelper.generateIdentityKeyPair();
+
       originalProtocolStorage = window.textsecure.storage.protocol;
       window.textsecure.storage.protocol = {
+        getIdentityKeyPair() {
+          return identityKey;
+        },
         loadSignedPreKeys() {
           return Promise.resolve(signedPreKeys);
         },
@@ -20,6 +27,22 @@ describe('AccountManager', () => {
     });
     afterEach(() => {
       window.textsecure.storage.protocol = originalProtocolStorage;
+    });
+
+    describe('encrypted device name', () => {
+      it('roundtrips', async () => {
+        const deviceName = 'v2.5.0 on Ubunto 20.04';
+        const encrypted = await accountManager.encryptDeviceName(deviceName);
+        assert.strictEqual(typeof encrypted, 'string');
+        const decrypted = await accountManager.decryptDeviceName(encrypted);
+
+        assert.strictEqual(decrypted, deviceName);
+      });
+
+      it('handles null deviceName', async () => {
+        const encrypted = await accountManager.encryptDeviceName(null);
+        assert.strictEqual(encrypted, null);
+      });
     });
 
     it('keeps three confirmed keys even if over a week old', () => {
@@ -46,7 +69,7 @@ describe('AccountManager', () => {
       return accountManager.cleanSignedPreKeys();
     });
 
-    it('eliminates confirmed keys over a week old, if more than three', () => {
+    it('eliminates confirmed keys over a week old, if more than three', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -77,20 +100,19 @@ describe('AccountManager', () => {
       ];
 
       let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
+      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
         if (keyId !== 1 && keyId !== 4) {
           throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
-        count++;
+        count += 1;
       };
 
-      return accountManager.cleanSignedPreKeys().then(() => {
-        assert.strictEqual(count, 2);
-      });
+      await accountManager.cleanSignedPreKeys();
+      assert.strictEqual(count, 2);
     });
 
-    it('keeps at least three unconfirmed keys if no confirmed', () => {
+    it('keeps at least three unconfirmed keys if no confirmed', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -112,20 +134,19 @@ describe('AccountManager', () => {
       ];
 
       let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
+      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
         if (keyId !== 2) {
           throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
-        count++;
+        count += 1;
       };
 
-      return accountManager.cleanSignedPreKeys().then(() => {
-        assert.strictEqual(count, 1);
-      });
+      await accountManager.cleanSignedPreKeys();
+      assert.strictEqual(count, 1);
     });
 
-    it('if some confirmed keys, keeps unconfirmed to addd up to three total', () => {
+    it('if some confirmed keys, keeps unconfirmed to addd up to three total', async () => {
       const now = Date.now();
       signedPreKeys = [
         {
@@ -149,17 +170,16 @@ describe('AccountManager', () => {
       ];
 
       let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = function(keyId) {
+      window.textsecure.storage.protocol.removeSignedPreKey = keyId => {
         if (keyId !== 3) {
           throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }
 
-        count++;
+        count += 1;
       };
 
-      return accountManager.cleanSignedPreKeys().then(() => {
-        assert.strictEqual(count, 1);
-      });
+      await accountManager.cleanSignedPreKeys();
+      assert.strictEqual(count, 1);
     });
   });
 });

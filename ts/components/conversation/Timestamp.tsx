@@ -4,15 +4,18 @@ import moment from 'moment';
 
 import { formatRelativeTime } from '../../util/formatRelativeTime';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
-  timestamp: number | null;
-  extended: boolean;
+  timestamp?: number;
+  extended?: boolean;
   module?: string;
   withImageNoCaption?: boolean;
+  withSticker?: boolean;
+  withTapToViewExpired?: boolean;
+  withUnread?: boolean;
   direction?: 'incoming' | 'outgoing';
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 const UPDATE_FREQUENCY = 60 * 1000;
@@ -48,6 +51,9 @@ export class Timestamp extends React.Component<Props> {
       module,
       timestamp,
       withImageNoCaption,
+      withSticker,
+      withTapToViewExpired,
+      withUnread,
       extended,
     } = this.props;
     const moduleName = module || 'module-timestamp';
@@ -61,7 +67,12 @@ export class Timestamp extends React.Component<Props> {
         className={classNames(
           moduleName,
           direction ? `${moduleName}--${direction}` : null,
-          withImageNoCaption ? `${moduleName}--with-image-no-caption` : null
+          withTapToViewExpired && direction
+            ? `${moduleName}--${direction}-with-tap-to-view-expired`
+            : null,
+          withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
+          withSticker ? `${moduleName}--with-sticker` : null,
+          withUnread ? `${moduleName}--with-unread` : null
         )}
         title={moment(timestamp).format('llll')}
       >

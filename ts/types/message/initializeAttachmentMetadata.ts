@@ -16,13 +16,21 @@ export const initializeAttachmentMetadata = async (
   if (message.type === 'verified-change') {
     return message;
   }
+  if (message.messageTimer || message.isViewOnce) {
+    return message;
+  }
 
-  const hasAttachments = IndexedDB.toIndexableBoolean(
-    message.attachments.length > 0
+  const attachments = message.attachments.filter(
+    (attachment: Attachment.Attachment) =>
+      attachment.contentType !== 'text/x-signal-plain'
   );
+  const hasAttachments = IndexedDB.toIndexableBoolean(attachments.length > 0);
 
-  const hasFileAttachments = hasFileAttachment(message);
-  const hasVisualMediaAttachments = hasVisualMediaAttachment(message);
+  const hasFileAttachments = hasFileAttachment({ ...message, attachments });
+  const hasVisualMediaAttachments = hasVisualMediaAttachment({
+    ...message,
+    attachments,
+  });
 
   return {
     ...message,

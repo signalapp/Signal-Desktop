@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   AddressType,
-  Contact,
+  ContactFormType,
   ContactType,
   Email,
   Phone,
@@ -14,48 +14,51 @@ import {
   renderAvatar,
   renderContactShorthand,
   renderName,
-} from './EmbeddedContact';
+} from './_contactUtil';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
-  contact: Contact;
+  contact: ContactType;
   hasSignalAccount: boolean;
-  i18n: Localizer;
+  i18n: LocalizerType;
   onSendMessage: () => void;
 }
 
-function getLabelForEmail(method: Email, i18n: Localizer): string {
+function getLabelForEmail(method: Email, i18n: LocalizerType): string {
   switch (method.type) {
-    case ContactType.CUSTOM:
+    case ContactFormType.CUSTOM:
       return method.label || i18n('email');
-    case ContactType.HOME:
+    case ContactFormType.HOME:
       return i18n('home');
-    case ContactType.MOBILE:
+    case ContactFormType.MOBILE:
       return i18n('mobile');
-    case ContactType.WORK:
+    case ContactFormType.WORK:
       return i18n('work');
     default:
       throw missingCaseError(method.type);
   }
 }
 
-function getLabelForPhone(method: Phone, i18n: Localizer): string {
+function getLabelForPhone(method: Phone, i18n: LocalizerType): string {
   switch (method.type) {
-    case ContactType.CUSTOM:
+    case ContactFormType.CUSTOM:
       return method.label || i18n('phone');
-    case ContactType.HOME:
+    case ContactFormType.HOME:
       return i18n('home');
-    case ContactType.MOBILE:
+    case ContactFormType.MOBILE:
       return i18n('mobile');
-    case ContactType.WORK:
+    case ContactFormType.WORK:
       return i18n('work');
     default:
       throw missingCaseError(method.type);
   }
 }
 
-function getLabelForAddress(address: PostalAddress, i18n: Localizer): string {
+function getLabelForAddress(
+  address: PostalAddress,
+  i18n: LocalizerType
+): string {
   switch (address.type) {
     case AddressType.CUSTOM:
       return address.label || i18n('address');
@@ -90,21 +93,16 @@ export class ContactDetail extends React.Component<Props> {
     };
 
     return (
-      <div
-        className="module-contact-detail__send-message"
-        role="button"
-        // tslint:disable-next-line react-this-binding-issue
-        onClick={onClick}
-      >
-        <button className="module-contact-detail__send-message__inner">
+      <button className="module-contact-detail__send-message" onClick={onClick}>
+        <div className="module-contact-detail__send-message__inner">
           <div className="module-contact-detail__send-message__bubble-icon" />
           {i18n('sendMessageToContact')}
-        </button>
-      </div>
+        </div>
+      </button>
     );
   }
 
-  public renderEmail(items: Array<Email> | undefined, i18n: Localizer) {
+  public renderEmail(items: Array<Email> | undefined, i18n: LocalizerType) {
     if (!items || items.length === 0) {
       return;
     }
@@ -124,7 +122,7 @@ export class ContactDetail extends React.Component<Props> {
     });
   }
 
-  public renderPhone(items: Array<Phone> | undefined, i18n: Localizer) {
+  public renderPhone(items: Array<Phone> | undefined, i18n: LocalizerType) {
     if (!items || items.length === 0) {
       return;
     }
@@ -152,7 +150,7 @@ export class ContactDetail extends React.Component<Props> {
     return <div>{value}</div>;
   }
 
-  public renderPOBox(poBox: string | undefined, i18n: Localizer) {
+  public renderPOBox(poBox: string | undefined, i18n: LocalizerType) {
     if (!poBox) {
       return null;
     }
@@ -178,7 +176,7 @@ export class ContactDetail extends React.Component<Props> {
 
   public renderAddresses(
     addresses: Array<PostalAddress> | undefined,
-    i18n: Localizer
+    i18n: LocalizerType
   ) {
     if (!addresses || addresses.length === 0) {
       return;
@@ -207,7 +205,9 @@ export class ContactDetail extends React.Component<Props> {
 
     return (
       <div className="module-contact-detail">
-        {renderAvatar({ contact, i18n, module })}
+        <div className="module-contact-detail__avatar">
+          {renderAvatar({ contact, i18n, size: 80 })}
+        </div>
         {renderName({ contact, isIncoming, module })}
         {renderContactShorthand({ contact, isIncoming, module })}
         {this.renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}

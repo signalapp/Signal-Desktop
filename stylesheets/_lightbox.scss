@@ -9,6 +9,8 @@
 }
 
 .iconButton {
+  @include button-reset;
+
   // NOTE: Cannot move these to inline styles as hover breaks due to precedence.
   // We use vanilla CSS-in-JS which outputs inline styles. The `:hover`
   // pseudo-class cannot be expressed using vanilla CSS-in-JS, so we define it
@@ -21,7 +23,6 @@
   height: 50px;
 
   display: inline-block;
-  cursor: pointer;
   border-radius: 50%;
   padding: 3px;
 
@@ -32,31 +33,41 @@
     height: 100%;
   }
 
-  &:hover {
-    background: $grey;
+  &:hover,
+  &:focus {
+    background: $color-gray-60;
   }
 
   &.save {
     &:before {
-      @include color-svg('../images/save.svg', white);
+      @include color-svg(
+        '../images/icons/v2/save-outline-24.svg',
+        $color-white
+      );
     }
   }
 
   &.close {
     &:before {
-      @include color-svg('../images/x.svg', white);
+      @include color-svg('../images/icons/v2/x-24.svg', $color-white);
     }
   }
 
   &.previous {
     &:before {
-      @include color-svg('../images/back.svg', white);
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-white
+      );
     }
   }
 
   &.next {
     &:before {
-      @include color-svg('../images/forward.svg', white);
+      @include color-svg(
+        '../images/icons/v2/chevron-right-24.svg',
+        $color-white
+      );
     }
   }
 }

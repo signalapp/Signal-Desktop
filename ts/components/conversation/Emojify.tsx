@@ -1,49 +1,36 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import is from '@sindresorhus/is';
 
-import {
-  findImage,
-  getRegex,
-  getReplacementData,
-  getTitle,
-} from '../../util/emoji';
+import emojiRegex from 'emoji-regex';
 
-import { Localizer, RenderTextCallback } from '../../types/Util';
+import { RenderTextCallbackType } from '../../types/Util';
+import { emojiToImage, SizeClassType } from '../emoji/lib';
 
 // Some of this logic taken from emoji-js/replacement
 function getImageTag({
   match,
   sizeClass,
   key,
-  i18n,
 }: {
   match: any;
-  sizeClass: string | undefined;
+  sizeClass?: SizeClassType;
   key: string | number;
-  i18n: Localizer;
 }) {
-  const result = getReplacementData(match[0], match[1], match[2]);
+  const img = emojiToImage(match[0]);
 
-  if (is.string(result)) {
-    return <span key={key}>{match[0]}</span>;
+  if (!img) {
+    return match[0];
   }
-
-  const img = findImage(result.value, result.variation);
-  const title = getTitle(result.value);
 
   return (
     // tslint:disable-next-line react-a11y-img-has-alt
     <img
       key={key}
-      src={img.path}
-      // We can't use alt or it will be what is captured when a user copies message
-      //   contents ("Emoji of ':1'"). Instead, we want the title to be copied (':+1:').
-      aria-label={i18n('emojiAlt', [title || ''])}
+      src={img}
+      aria-label={match[0]}
       className={classNames('emoji', sizeClass)}
-      data-codepoints={img.full_idx}
-      title={`:${title}:`}
+      title={match[0]}
     />
   );
 }
@@ -51,10 +38,9 @@ function getImageTag({
 interface Props {
   text: string;
   /** A class name to be added to the generated emoji images */
-  sizeClass?: '' | 'small' | 'medium' | 'large' | 'jumbo';
+  sizeClass?: SizeClassType;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
-  renderNonEmoji?: RenderTextCallback;
-  i18n: Localizer;
+  renderNonEmoji?: RenderTextCallbackType;
 }
 
 export class Emojify extends React.Component<Props> {
@@ -63,9 +49,9 @@ export class Emojify extends React.Component<Props> {
   };
 
   public render() {
-    const { text, sizeClass, renderNonEmoji, i18n } = this.props;
+    const { text, sizeClass, renderNonEmoji } = this.props;
     const results: Array<any> = [];
-    const regex = getRegex();
+    const regex = emojiRegex();
 
     // We have to do this, because renderNonEmoji is not required in our Props object,
     //  but it is always provided via defaultProps.
@@ -87,7 +73,7 @@ export class Emojify extends React.Component<Props> {
         results.push(renderNonEmoji({ text: textWithNoEmoji, key: count++ }));
       }
 
-      results.push(getImageTag({ match, sizeClass, key: count++, i18n }));
+      results.push(getImageTag({ match, sizeClass, key: count++ }));
 
       last = regex.lastIndex;
       match = regex.exec(text);

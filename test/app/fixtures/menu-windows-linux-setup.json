@@ -14,6 +14,11 @@
         "type": "separator"
       },
       {
+        "label": "Create/upload sticker pack",
+        "click": null
+      },
+      {
+        "accelerator": "CommandOrControl+,",
         "label": "Preferences…",
         "click": null
       },
@@ -74,6 +79,7 @@
         "role": "resetzoom"
       },
       {
+        "accelerator": "Control+=",
         "label": "Zoom In",
         "role": "zoomin"
       },
@@ -119,11 +125,16 @@
     "role": "help",
     "submenu": [
       {
-        "label": "Go to Release Notes",
+        "label": "Show Keyboard Shortcuts",
+        "accelerator": "CmdOrCtrl+/",
         "click": null
       },
       {
         "type": "separator"
+      },
+      {
+        "label": "Go to Release Notes",
+        "click": null
       },
       {
         "label": "Go to Forums",

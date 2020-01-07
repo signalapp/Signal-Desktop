@@ -8,6 +8,14 @@
 
   window.Whisper = window.Whisper || {};
 
+  function resolveTheme() {
+    const theme = storage.get('theme-setting') || 'light';
+    if (window.platform === 'darwin' && theme === 'system') {
+      return window.systemTheme;
+    }
+    return theme;
+  }
+
   Whisper.AppView = Backbone.View.extend({
     initialize() {
       this.inboxView = null;
@@ -15,14 +23,18 @@
 
       this.applyTheme();
       this.applyHideMenu();
+
+      window.subscribeToSystemThemeChange(() => {
+        this.applyTheme();
+      });
     },
     events: {
       'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
       openInbox: 'openInbox',
     },
     applyTheme() {
+      const theme = resolveTheme();
       const iOS = storage.get('userAgent') === 'OWI';
-      const theme = storage.get('theme-setting') || 'light';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
@@ -154,7 +166,7 @@
       if (!$.contains(this.el, this.inboxView.el)) {
         this.openView(this.inboxView);
       }
-      window.focus(); // FIXME
+
       return Promise.resolve();
     },
     onEmpty() {
@@ -171,10 +183,10 @@
         view.onProgress(count);
       }
     },
-    openConversation(conversation) {
-      if (conversation) {
+    openConversation(id, messageId) {
+      if (id) {
         this.openInbox().then(() => {
-          this.inboxView.openConversation(conversation);
+          this.inboxView.openConversation(id, messageId);
         });
       }
     },

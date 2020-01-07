@@ -4,7 +4,7 @@ import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
@@ -21,10 +21,15 @@ interface Change {
   contacts?: Array<Contact>;
 }
 
-interface Props {
+export type PropsData = {
   changes: Array<Change>;
-  i18n: Localizer;
-}
+};
+
+type PropsHousekeeping = {
+  i18n: LocalizerType;
+};
+
+type Props = PropsData & PropsHousekeeping;
 
 export class GroupNotification extends React.Component<Props> {
   public renderChange(change: Change) {
@@ -40,7 +45,6 @@ export class GroupNotification extends React.Component<Props> {
               className="module-group-notification__contact"
             >
               <ContactName
-                i18n={i18n}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
                 name={contact.name}
@@ -61,31 +65,23 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
-        return (
-          <Intl
-            i18n={i18n}
-            id={
-              contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup'
-            }
-            components={[people]}
-          />
-        );
-      case 'remove':
-        if (!contacts || !contacts.length) {
-          throw new Error('Group update is missing contacts');
-        }
+        const joinKey =
+          contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
 
+        return <Intl i18n={i18n} id={joinKey} components={[people]} />;
+      case 'remove':
         if (isMe) {
           return i18n('youLeftTheGroup');
         }
 
-        return (
-          <Intl
-            i18n={i18n}
-            id={contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup'}
-            components={[people]}
-          />
-        );
+        if (!contacts || !contacts.length) {
+          throw new Error('Group update is missing contacts');
+        }
+
+        const leftKey =
+          contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
+
+        return <Intl i18n={i18n} id={leftKey} components={[people]} />;
       case 'general':
         return i18n('updatedTheGroup');
       default:

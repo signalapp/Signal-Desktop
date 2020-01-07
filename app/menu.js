@@ -17,7 +17,9 @@ exports.createTemplate = (options, messages) => {
     setupWithImport,
     showAbout,
     showDebugLog,
+    showKeyboardShortcuts,
     showSettings,
+    showStickerCreator,
   } = options;
 
   const template = [
@@ -25,7 +27,12 @@ exports.createTemplate = (options, messages) => {
       label: messages.mainMenuFile.message,
       submenu: [
         {
+          label: messages.mainMenuCreateStickers.message,
+          click: showStickerCreator,
+        },
+        {
           label: messages.mainMenuSettings.message,
+          accelerator: 'CommandOrControl+,',
           click: showSettings,
         },
         {
@@ -85,6 +92,7 @@ exports.createTemplate = (options, messages) => {
           label: messages.viewMenuResetZoom.message,
         },
         {
+          accelerator: platform === 'darwin' ? 'Command+=' : 'Control+=',
           role: 'zoomin',
           label: messages.viewMenuZoomIn.message,
         },
@@ -130,11 +138,16 @@ exports.createTemplate = (options, messages) => {
       role: 'help',
       submenu: [
         {
-          label: messages.goToReleaseNotes.message,
-          click: openReleaseNotes,
+          label: messages.helpMenuShowKeyboardShortcuts.message,
+          accelerator: 'CmdOrCtrl+/',
+          click: showKeyboardShortcuts,
         },
         {
           type: 'separator',
+        },
+        {
+          label: messages.goToReleaseNotes.message,
+          click: openReleaseNotes,
         },
         {
           label: messages.goToForums.message,
@@ -191,52 +204,22 @@ exports.createTemplate = (options, messages) => {
 };
 
 function updateForMac(template, messages, options) {
-  const {
-    includeSetup,
-    setupAsNewDevice,
-    setupAsStandalone,
-    setupWithImport,
-    showAbout,
-    showSettings,
-    showWindow,
-  } = options;
+  const { showAbout, showSettings, showWindow } = options;
 
-  // Remove About item and separator from Help menu, since it's on the first menu
+  // Remove About item and separator from Help menu, since they're in the app menu
   template[4].submenu.pop();
   template[4].submenu.pop();
 
-  // Remove File menu
-  template.shift();
-
-  if (includeSetup) {
-    // Add a File menu just for these setup options. Because we're using unshift(), we add
-    //   the file menu first, though it ends up to the right of the Signal Desktop menu.
-    const fileMenu = {
-      label: messages.mainMenuFile.message,
-      submenu: [
-        {
-          label: messages.menuSetupWithImport.message,
-          click: setupWithImport,
-        },
-        {
-          label: messages.menuSetupAsNewDevice.message,
-          click: setupAsNewDevice,
-        },
-      ],
-    };
-
-    if (options.development) {
-      fileMenu.submenu.push({
-        label: messages.menuSetupAsStandalone.message,
-        click: setupAsStandalone,
-      });
-    }
-
-    template.unshift(fileMenu);
-  }
+  // Remove preferences, separator, and quit from the File menu, since they're
+  // in the app menu
+  const fileMenu = template[0];
+  fileMenu.submenu.pop();
+  fileMenu.submenu.pop();
+  fileMenu.submenu.pop();
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
+    label: messages.signalDesktop.message,
     submenu: [
       {
         label: messages.aboutSignalDesktop.message,
@@ -276,8 +259,7 @@ function updateForMac(template, messages, options) {
   });
 
   // Add to Edit menu
-  const editIndex = includeSetup ? 2 : 1;
-  template[editIndex].submenu.push(
+  template[2].submenu.push(
     {
       type: 'separator',
     },
@@ -297,9 +279,8 @@ function updateForMac(template, messages, options) {
   );
 
   // Replace Window menu
-  const windowMenuTemplateIndex = includeSetup ? 4 : 3;
   // eslint-disable-next-line no-param-reassign
-  template[windowMenuTemplateIndex].submenu = [
+  template[4].submenu = [
     {
       label: messages.windowMenuClose.message,
       accelerator: 'CmdOrCtrl+W',

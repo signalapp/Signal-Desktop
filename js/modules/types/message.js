@@ -44,6 +44,11 @@ const PRIVATE = 'private';
 // Version 8
 //   - Attachments: Capture video/image dimensions and thumbnails, as well as a
 //       full-size screenshot for video.
+// Version 9
+//   - Attachments: Expand the set of unicode characters we filter out of
+//     attachment filenames
+// Version 10
+//   - Preview: A new type of attachment can be included in a message.
 
 const INITIAL_SCHEMA_VERSION = 0;
 
@@ -129,8 +134,7 @@ exports._withSchemaVersion = ({ schemaVersion, upgrade }) => {
       logger.warn(
         'WARNING: Message._withSchemaVersion: Unexpected version:',
         `Expected message to have version ${expectedVersion},`,
-        `but got ${message.schemaVersion}.`,
-        message
+        `but got ${message.schemaVersion}.`
       );
       return message;
     }
@@ -198,17 +202,11 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
   if (!context || !isObject(context.logger)) {
     throw new Error('_mapQuotedAttachments: context must have logger object');
   }
-  const { logger } = context;
 
   const upgradeWithContext = async attachment => {
     const { thumbnail } = attachment;
     if (!thumbnail) {
       return attachment;
-    }
-
-    if (!thumbnail.data && !thumbnail.path) {
-      logger.warn('Quoted attachment did not have thumbnail data; removing it');
-      return omit(attachment, ['thumbnail']);
     }
 
     const upgradedThumbnail = await upgradeAttachment(thumbnail, context);
@@ -226,6 +224,40 @@ exports._mapQuotedAttachments = upgradeAttachment => async (
     quote: Object.assign({}, message.quote, {
       attachments,
     }),
+  });
+};
+
+//      _mapPreviewAttachments :: (PreviewAttachment -> Promise PreviewAttachment) ->
+//                               (Message, Context) ->
+//                               Promise Message
+exports._mapPreviewAttachments = upgradeAttachment => async (
+  message,
+  context
+) => {
+  if (!message.preview) {
+    return message;
+  }
+  if (!context || !isObject(context.logger)) {
+    throw new Error('_mapPreviewAttachments: context must have logger object');
+  }
+
+  const upgradeWithContext = async preview => {
+    const { image } = preview;
+    if (!image) {
+      return preview;
+    }
+
+    const upgradedImage = await upgradeAttachment(image, context);
+    return Object.assign({}, preview, {
+      image: upgradedImage,
+    });
+  };
+
+  const preview = await Promise.all(
+    (message.preview || []).map(upgradeWithContext)
+  );
+  return Object.assign({}, message, {
+    preview,
   });
 };
 
@@ -270,6 +302,41 @@ const toVersion8 = exports._withSchemaVersion({
   upgrade: exports._mapAttachments(Attachment.captureDimensionsAndScreenshot),
 });
 
+const toVersion9 = exports._withSchemaVersion({
+  schemaVersion: 9,
+  upgrade: exports._mapAttachments(Attachment.replaceUnicodeV2),
+});
+const toVersion10 = exports._withSchemaVersion({
+  schemaVersion: 10,
+  upgrade: async (message, context) => {
+    const processPreviews = exports._mapPreviewAttachments(
+      Attachment.migrateDataToFileSystem
+    );
+    const processSticker = async (stickerMessage, stickerContext) => {
+      const { sticker } = stickerMessage;
+      if (!sticker || !sticker.data || !sticker.data.data) {
+        return stickerMessage;
+      }
+
+      return {
+        ...stickerMessage,
+        sticker: {
+          ...sticker,
+          data: await Attachment.migrateDataToFileSystem(
+            sticker.data,
+            stickerContext
+          ),
+        },
+      };
+    };
+
+    const previewProcessed = await processPreviews(message, context);
+    const stickerProcessed = await processSticker(previewProcessed, context);
+
+    return stickerProcessed;
+  },
+});
+
 const VERSIONS = [
   toVersion0,
   toVersion1,
@@ -280,8 +347,13 @@ const VERSIONS = [
   toVersion6,
   toVersion7,
   toVersion8,
+  toVersion9,
+  toVersion10,
 ];
 exports.CURRENT_SCHEMA_VERSION = VERSIONS.length - 1;
+
+// We need dimensions and screenshots for images for proper display
+exports.VERSION_NEEDED_FOR_DISPLAY = 9;
 
 // UpgradeStep
 exports.upgradeSchema = async (
@@ -354,6 +426,106 @@ exports.upgradeSchema = async (
   return message;
 };
 
+// Runs on attachments outside of the schema upgrade process, since attachments are
+//   downloaded out of band.
+exports.processNewAttachment = async (
+  attachment,
+  {
+    writeNewAttachmentData,
+    getAbsoluteAttachmentPath,
+    makeObjectUrl,
+    revokeObjectUrl,
+    getImageDimensions,
+    makeImageThumbnail,
+    makeVideoScreenshot,
+    logger,
+  } = {}
+) => {
+  if (!isFunction(writeNewAttachmentData)) {
+    throw new TypeError('context.writeNewAttachmentData is required');
+  }
+  if (!isFunction(getAbsoluteAttachmentPath)) {
+    throw new TypeError('context.getAbsoluteAttachmentPath is required');
+  }
+  if (!isFunction(makeObjectUrl)) {
+    throw new TypeError('context.makeObjectUrl is required');
+  }
+  if (!isFunction(revokeObjectUrl)) {
+    throw new TypeError('context.revokeObjectUrl is required');
+  }
+  if (!isFunction(getImageDimensions)) {
+    throw new TypeError('context.getImageDimensions is required');
+  }
+  if (!isFunction(makeImageThumbnail)) {
+    throw new TypeError('context.makeImageThumbnail is required');
+  }
+  if (!isFunction(makeVideoScreenshot)) {
+    throw new TypeError('context.makeVideoScreenshot is required');
+  }
+  if (!isObject(logger)) {
+    throw new TypeError('context.logger is required');
+  }
+
+  const rotatedAttachment = await Attachment.autoOrientJPEG(attachment);
+  const onDiskAttachment = await Attachment.migrateDataToFileSystem(
+    rotatedAttachment,
+    { writeNewAttachmentData }
+  );
+  const finalAttachment = await Attachment.captureDimensionsAndScreenshot(
+    onDiskAttachment,
+    {
+      writeNewAttachmentData,
+      getAbsoluteAttachmentPath,
+      makeObjectUrl,
+      revokeObjectUrl,
+      getImageDimensions,
+      makeImageThumbnail,
+      makeVideoScreenshot,
+      logger,
+    }
+  );
+
+  return finalAttachment;
+};
+
+exports.processNewSticker = async (
+  stickerData,
+  {
+    writeNewStickerData,
+    getAbsoluteStickerPath,
+    getImageDimensions,
+    logger,
+  } = {}
+) => {
+  if (!isFunction(writeNewStickerData)) {
+    throw new TypeError('context.writeNewStickerData is required');
+  }
+  if (!isFunction(getAbsoluteStickerPath)) {
+    throw new TypeError('context.getAbsoluteStickerPath is required');
+  }
+  if (!isFunction(getImageDimensions)) {
+    throw new TypeError('context.getImageDimensions is required');
+  }
+  if (!isObject(logger)) {
+    throw new TypeError('context.logger is required');
+  }
+
+  const path = await writeNewStickerData(stickerData);
+  const absolutePath = await getAbsoluteStickerPath(path);
+
+  const { width, height } = await getImageDimensions({
+    objectUrl: absolutePath,
+    logger,
+  });
+
+  return {
+    contentType: 'image/webp',
+    path,
+    width,
+    height,
+  };
+};
+
 exports.createAttachmentLoader = loadAttachmentData => {
   if (!isFunction(loadAttachmentData)) {
     throw new TypeError(
@@ -399,6 +571,48 @@ exports.loadQuoteData = loadAttachmentData => {
   };
 };
 
+exports.loadPreviewData = loadAttachmentData => {
+  if (!isFunction(loadAttachmentData)) {
+    throw new TypeError('loadPreviewData: loadAttachmentData is required');
+  }
+
+  return async preview => {
+    if (!preview || !preview.length) {
+      return [];
+    }
+
+    return Promise.all(
+      preview.map(async item => {
+        if (!item.image) {
+          return item;
+        }
+
+        return {
+          ...item,
+          image: await loadAttachmentData(item.image),
+        };
+      })
+    );
+  };
+};
+
+exports.loadStickerData = loadAttachmentData => {
+  if (!isFunction(loadAttachmentData)) {
+    throw new TypeError('loadStickerData: loadAttachmentData is required');
+  }
+
+  return async sticker => {
+    if (!sticker || !sticker.data) {
+      return null;
+    }
+
+    return {
+      ...sticker,
+      data: await loadAttachmentData(sticker.data),
+    };
+  };
+};
+
 exports.deleteAllExternalFiles = ({ deleteAttachmentData, deleteOnDisk }) => {
   if (!isFunction(deleteAttachmentData)) {
     throw new TypeError(
@@ -413,7 +627,7 @@ exports.deleteAllExternalFiles = ({ deleteAttachmentData, deleteOnDisk }) => {
   }
 
   return async message => {
-    const { attachments, quote, contact } = message;
+    const { attachments, quote, contact, preview, sticker } = message;
 
     if (attachments && attachments.length) {
       await Promise.all(attachments.map(deleteAttachmentData));
@@ -424,7 +638,10 @@ exports.deleteAllExternalFiles = ({ deleteAttachmentData, deleteOnDisk }) => {
         quote.attachments.map(async attachment => {
           const { thumbnail } = attachment;
 
-          if (thumbnail && thumbnail.path) {
+          // To prevent spoofing, we copy the original image from the quoted message.
+          //   If so, it will have a 'copied' field. We don't want to delete it if it has
+          //   that field set to true.
+          if (thumbnail && thumbnail.path && !thumbnail.copied) {
             await deleteOnDisk(thumbnail.path);
           }
         })
@@ -441,6 +658,26 @@ exports.deleteAllExternalFiles = ({ deleteAttachmentData, deleteOnDisk }) => {
           }
         })
       );
+    }
+
+    if (preview && preview.length) {
+      await Promise.all(
+        preview.map(async item => {
+          const { image } = item;
+
+          if (image && image.path) {
+            await deleteOnDisk(image.path);
+          }
+        })
+      );
+    }
+
+    if (sticker && sticker.data && sticker.data.path) {
+      await deleteOnDisk(sticker.data.path);
+
+      if (sticker.data.thumbnail && sticker.data.thumbnail.path) {
+        await deleteOnDisk(sticker.data.thumbnail.path);
+      }
     }
   };
 };
@@ -471,11 +708,12 @@ exports.createAttachmentDataWriter = ({
       logger,
     });
 
-    const { attachments, quote, contact } = message;
+    const { attachments, quote, contact, preview } = message;
     const hasFilesToWrite =
       (quote && quote.attachments && quote.attachments.length > 0) ||
       (attachments && attachments.length > 0) ||
-      (contact && contact.length > 0);
+      (contact && contact.length > 0) ||
+      (preview && preview.length > 0);
 
     if (!hasFilesToWrite) {
       return message;
@@ -536,17 +774,45 @@ exports.createAttachmentDataWriter = ({
       });
     };
 
-    // TODO: need to handle attachment thumbnails and video screenshots
+    const writePreviewImage = async item => {
+      const { image } = item;
+      if (!image) {
+        return omit(item, ['image']);
+      }
+
+      await writeExistingAttachmentData(image);
+
+      return Object.assign({}, item, {
+        image: omit(image, ['data']),
+      });
+    };
 
     const messageWithoutAttachmentData = Object.assign(
       {},
       await writeThumbnails(message, { logger }),
       {
         contact: await Promise.all((contact || []).map(writeContactAvatar)),
+        preview: await Promise.all((preview || []).map(writePreviewImage)),
         attachments: await Promise.all(
           (attachments || []).map(async attachment => {
             await writeExistingAttachmentData(attachment);
-            return omit(attachment, ['data']);
+
+            if (attachment.screenshot && attachment.screenshot.data) {
+              await writeExistingAttachmentData(attachment.screenshot);
+            }
+            if (attachment.thumbnail && attachment.thumbnail.data) {
+              await writeExistingAttachmentData(attachment.thumbnail);
+            }
+
+            return {
+              ...omit(attachment, ['data']),
+              ...(attachment.thumbnail
+                ? { thumbnail: omit(attachment.thumbnail, ['data']) }
+                : null),
+              ...(attachment.screenshot
+                ? { screenshot: omit(attachment.screenshot, ['data']) }
+                : null),
+            };
           })
         ),
       }

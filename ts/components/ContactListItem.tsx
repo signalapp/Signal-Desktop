@@ -1,51 +1,45 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { Avatar } from './Avatar';
 import { Emojify } from './conversation/Emojify';
 
-import { Localizer } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 
 interface Props {
   phoneNumber: string;
   isMe?: boolean;
   name?: string;
-  color?: string;
+  color: string;
   verified: boolean;
   profileName?: string;
   avatarPath?: string;
-  i18n: Localizer;
+  i18n: LocalizerType;
   onClick?: () => void;
 }
 
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
-}
-
 export class ContactListItem extends React.Component<Props> {
-  public renderAvatar({ displayName }: { displayName: string }) {
-    const { avatarPath, i18n, color, name } = this.props;
-
-    if (avatarPath) {
-      return (
-        <div className="module-contact-list-item__avatar">
-          <img alt={i18n('contactAvatarAlt', [displayName])} src={avatarPath} />
-        </div>
-      );
-    }
-
-    const title = name ? getInitial(name) : '#';
+  public renderAvatar() {
+    const {
+      avatarPath,
+      i18n,
+      color,
+      name,
+      phoneNumber,
+      profileName,
+    } = this.props;
 
     return (
-      <div
-        className={classNames(
-          'module-contact-list-item__avatar-default',
-          `module-contact-list-item__avatar-default--${color}`
-        )}
-      >
-        <div className="module-contact-list-item__avatar-default__label">
-          {title}
-        </div>
-      </div>
+      <Avatar
+        avatarPath={avatarPath}
+        color={color}
+        conversationType="direct"
+        i18n={i18n}
+        name={name}
+        phoneNumber={phoneNumber}
+        profileName={profileName}
+        size={52}
+      />
     );
   }
 
@@ -66,7 +60,7 @@ export class ContactListItem extends React.Component<Props> {
     const profileElement =
       !isMe && profileName && !name ? (
         <span className="module-contact-list-item__text__profile-name">
-          ~<Emojify text={profileName} i18n={i18n} />
+          ~<Emojify text={profileName} />
         </span>
       ) : null;
 
@@ -74,18 +68,17 @@ export class ContactListItem extends React.Component<Props> {
     const showVerified = !isMe && verified;
 
     return (
-      <div
-        role="button"
+      <button
         onClick={onClick}
         className={classNames(
           'module-contact-list-item',
           onClick ? 'module-contact-list-item--with-click-handler' : null
         )}
       >
-        {this.renderAvatar({ displayName })}
+        {this.renderAvatar()}
         <div className="module-contact-list-item__text">
           <div className="module-contact-list-item__text__name">
-            <Emojify text={displayName} i18n={i18n} /> {profileElement}
+            <Emojify text={displayName} /> {profileElement}
           </div>
           <div className="module-contact-list-item__text__additional-data">
             {showVerified ? (
@@ -96,7 +89,7 @@ export class ContactListItem extends React.Component<Props> {
             {showNumber ? phoneNumber : null}
           </div>
         </div>
-      </div>
+      </button>
     );
   }
 }

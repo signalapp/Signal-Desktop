@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 
-import { getName } from '../../types/Contact';
+import { contactSelector, getName } from '../../types/Contact';
 
 describe('Contact', () => {
   describe('getName', () => {
@@ -59,6 +59,124 @@ describe('Contact', () => {
       const expected = 'familyName';
       const actual = getName(contact);
       assert.strictEqual(actual, expected);
+    });
+  });
+  describe('contactSelector', () => {
+    const regionCode = '1';
+    const signalAccount = '+1202555000';
+    const getAbsoluteAttachmentPath = (path: string) => `absolute:${path}`;
+
+    it('eliminates avatar if it has had an attachment download error', () => {
+      const contact = {
+        name: {
+          displayName: 'displayName',
+          givenName: 'givenName',
+          familyName: 'familyName',
+        },
+        organization: 'Somewhere, Inc.',
+        avatar: {
+          isProfile: true,
+          avatar: {
+            error: true,
+          },
+        },
+      };
+      const expected = {
+        name: {
+          displayName: 'displayName',
+          givenName: 'givenName',
+          familyName: 'familyName',
+        },
+        organization: 'Somewhere, Inc.',
+        avatar: undefined,
+        signalAccount,
+        number: undefined,
+      };
+      const actual = contactSelector(contact, {
+        regionCode,
+        signalAccount,
+        getAbsoluteAttachmentPath,
+      });
+      assert.deepEqual(actual, expected);
+    });
+
+    it('does not calculate absolute path if avatar is pending', () => {
+      const contact = {
+        name: {
+          displayName: 'displayName',
+          givenName: 'givenName',
+          familyName: 'familyName',
+        },
+        organization: 'Somewhere, Inc.',
+        avatar: {
+          isProfile: true,
+          avatar: {
+            pending: true,
+          },
+        },
+      };
+      const expected = {
+        name: {
+          displayName: 'displayName',
+          givenName: 'givenName',
+          familyName: 'familyName',
+        },
+        organization: 'Somewhere, Inc.',
+        avatar: {
+          isProfile: true,
+          avatar: {
+            pending: true,
+            path: undefined,
+          },
+        },
+        signalAccount,
+        number: undefined,
+      };
+      const actual = contactSelector(contact, {
+        regionCode,
+        signalAccount,
+        getAbsoluteAttachmentPath,
+      });
+      assert.deepEqual(actual, expected);
+    });
+
+    it('calculates absolute path', () => {
+      const contact = {
+        name: {
+          displayName: 'displayName',
+          givenName: 'givenName',
+          familyName: 'familyName',
+        },
+        organization: 'Somewhere, Inc.',
+        avatar: {
+          isProfile: true,
+          avatar: {
+            path: 'somewhere',
+          },
+        },
+      };
+      const expected = {
+        name: {
+          displayName: 'displayName',
+          givenName: 'givenName',
+          familyName: 'familyName',
+        },
+        organization: 'Somewhere, Inc.',
+        avatar: {
+          isProfile: true,
+          avatar: {
+            path: 'absolute:somewhere',
+          },
+        },
+        signalAccount,
+        number: undefined,
+      };
+      const actual = contactSelector(contact, {
+        regionCode,
+        signalAccount,
+        getAbsoluteAttachmentPath,
+      });
+      assert.deepEqual(actual, expected);
     });
   });
 });

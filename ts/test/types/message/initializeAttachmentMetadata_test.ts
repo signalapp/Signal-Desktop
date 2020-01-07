@@ -133,5 +133,73 @@ describe('Message', () => {
       const actual = await Message.initializeAttachmentMetadata(input);
       assert.deepEqual(actual, expected);
     });
+
+    it('does not include long message attachments', async () => {
+      const input: IncomingMessage = {
+        type: 'incoming',
+        conversationId: 'foo',
+        id: '11111111-1111-1111-1111-111111111111',
+        timestamp: 1523317140899,
+        received_at: 1523317140899,
+        sent_at: 1523317140800,
+        attachments: [
+          {
+            contentType: MIME.LONG_MESSAGE,
+            data: stringToArrayBuffer('foo'),
+            fileName: 'message.txt',
+            size: 1111,
+          },
+        ],
+      };
+      const expected: IncomingMessage = {
+        type: 'incoming',
+        conversationId: 'foo',
+        id: '11111111-1111-1111-1111-111111111111',
+        timestamp: 1523317140899,
+        received_at: 1523317140899,
+        sent_at: 1523317140800,
+        attachments: [
+          {
+            contentType: MIME.LONG_MESSAGE,
+            data: stringToArrayBuffer('foo'),
+            fileName: 'message.txt',
+            size: 1111,
+          },
+        ],
+        hasAttachments: 0,
+        hasVisualMediaAttachments: undefined,
+        hasFileAttachments: undefined,
+      };
+
+      const actual = await Message.initializeAttachmentMetadata(input);
+      assert.deepEqual(actual, expected);
+    });
+
+    it('handles not attachments', async () => {
+      const input: IncomingMessage = {
+        type: 'incoming',
+        conversationId: 'foo',
+        id: '11111111-1111-1111-1111-111111111111',
+        timestamp: 1523317140899,
+        received_at: 1523317140899,
+        sent_at: 1523317140800,
+        attachments: [],
+      };
+      const expected: IncomingMessage = {
+        type: 'incoming',
+        conversationId: 'foo',
+        id: '11111111-1111-1111-1111-111111111111',
+        timestamp: 1523317140899,
+        received_at: 1523317140899,
+        sent_at: 1523317140800,
+        attachments: [],
+        hasAttachments: 0,
+        hasVisualMediaAttachments: undefined,
+        hasFileAttachments: undefined,
+      };
+
+      const actual = await Message.initializeAttachmentMetadata(input);
+      assert.deepEqual(actual, expected);
+    });
   });
 });

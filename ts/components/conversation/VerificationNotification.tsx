@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
@@ -13,12 +13,17 @@ interface Contact {
   name?: string;
 }
 
-interface Props {
+export type PropsData = {
   type: 'markVerified' | 'markNotVerified';
   isLocal: boolean;
   contact: Contact;
-  i18n: Localizer;
-}
+};
+
+type PropsHousekeeping = {
+  i18n: LocalizerType;
+};
+
+type Props = PropsData & PropsHousekeeping;
 
 export class VerificationNotification extends React.Component<Props> {
   public getStringId() {
@@ -47,7 +52,6 @@ export class VerificationNotification extends React.Component<Props> {
         id={id}
         components={[
           <ContactName
-            i18n={i18n}
             key="external-1"
             name={contact.name}
             profileName={contact.profileName}

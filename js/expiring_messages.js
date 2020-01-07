@@ -1,8 +1,11 @@
-/* global _: false */
-/* global Backbone: false */
-/* global i18n: false */
-/* global moment: false */
-/* global Whisper: false */
+/* global
+  _,
+  Backbone,
+  i18n,
+  MessageController,
+  moment,
+  Whisper
+*/
 
 // eslint-disable-next-line func-names
 (function() {
@@ -18,7 +21,9 @@
       });
 
       await Promise.all(
-        messages.map(async message => {
+        messages.map(async fromDB => {
+          const message = MessageController.register(fromDB.id, fromDB);
+
           window.log.info('Message expired', {
             sentAt: message.get('sent_at'),
           });
@@ -28,6 +33,12 @@
           await window.Signal.Data.removeMessage(message.id, {
             Message: Whisper.Message,
           });
+
+          Whisper.events.trigger(
+            'messageExpired',
+            message.id,
+            message.conversationId
+          );
 
           const conversation = message.getConversation();
           if (conversation) {
@@ -77,7 +88,7 @@
     clearTimeout(timeout);
     timeout = setTimeout(destroyExpiredMessages, wait);
   }
-  const throttledCheckExpiringMessages = _.throttle(
+  const debouncedCheckExpiringMessages = _.debounce(
     checkExpiringMessages,
     1000
   );
@@ -86,9 +97,9 @@
     nextExpiration: null,
     init(events) {
       checkExpiringMessages();
-      events.on('timetravel', throttledCheckExpiringMessages);
+      events.on('timetravel', debouncedCheckExpiringMessages);
     },
-    update: throttledCheckExpiringMessages,
+    update: debouncedCheckExpiringMessages,
   };
 
   const TimerOption = Backbone.Model.extend({

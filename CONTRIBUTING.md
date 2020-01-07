@@ -10,11 +10,6 @@ It's a good idea to gauge interest in your intended work by finding the current 
 for it or creating a new one yourself. You can use also that issue as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
 
-You're most likely to have your pull request accepted easily if it addresses bugs already
-in the [Next Steps project](https://github.com/signalapp/Signal-Desktop/projects/1),
-especially if they are near the top of the Backlog column. Those are what we'll be looking
-at next, so it would be great if you helped us out!
-
 Once you've spent a little bit of time planning your solution, it's a good idea to go
 back to the issue and talk about your approach. We'd be happy to provide feedback. [An
 ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ounce-of-prevention-is-worth-a-pound-of-cure)
@@ -61,6 +56,7 @@ npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn grunt                     # Generate final JS and CSS assets
 yarn icon-gen                  # Generate full set of icons for Electron
+yarn build:webpack             # Build parts of the app that use webpack (Sticker Creator)
 yarn test                      # A good idea to make sure tests run first
 yarn start                     # Start Signal!
 ```
@@ -81,14 +77,35 @@ while you make changes:
 yarn grunt dev # runs until you stop it, re-generating built assets on file changes
 ```
 
+### webpack
+
+Some parts of the app (such as the Sticker Creator) have moved to webpack.
+You can run a development server for these parts of the app with the
+following command:
+
+```
+yarn dev
+```
+
+In order for the app to make requests to the development server you must set
+the `SIGNAL_ENABLE_HTTP` environment variable to a truthy value. On Linux and
+macOS, that simply looks like this:
+
+```
+SIGNAL_ENABLE_HTTP=1 yarn start
+```
+
 ## Setting up standalone
 
 By default the application will connect to the **staging** servers, which means that you
 **will not** be able to link it with your primary mobile device.
 
-Fear not! You don't have to link the app with your phone. During setup in development
-mode, you'll be presented with a 'Standalone' button which goes through the registration
-process like you would on a phone. But you won't be linked to any other devices.
+Fear not! You don't have to link the app with your phone. On the QR code screen, you can
+select 'Set Up as Standalone Device' from the File menu, which goes through the
+registration process like you would on a phone.
+
+Note: you won't be linked to a primary phone, which will make testing certain things very
+difficult (contacts, profiles, and groups are all solely managed on your phone).
 
 ## The staging environment
 
@@ -172,6 +189,8 @@ the report with `yarn open-coverage`.
 
 So you wanna make a pull request? Please observe the following guidelines.
 
+* First, make sure that your `yarn ready` run passes - it's very similar to what our
+  Continuous Integration servers do to test the app.
 * Please do not submit pull requests for translation fixes. Anyone can update
   the translations in
   [Transifex](https://www.transifex.com/projects/p/signal-desktop).
@@ -238,11 +257,15 @@ Developer Tools) and entering this into the Console and pressing enter: `window.
 
 If you're completely sure that your changes will have no impact to the production servers,
 you can connect your development build to the production server by putting a file called
-`local-development.json` in the `config` directory that looks like this:
+`local-development.json` in the `config` directory with the same contents as
+`production.json`, except that you should also remove the `updatesEnabled` setting so that
+the auto update infrastructure doesn't kick in while you are developing.
+`local-development.json` should look something like this:
 
-```
+```json
 {
   "serverUrl": "https://textsecure-service.whispersystems.org",
+  "serverTrustRoot": "SOME_ALPHANUMERIC_STRING_MATCHING_PRODUCTION_JSON",
   "cdnUrl": "https://cdn.signal.org"
 }
 ```
@@ -257,7 +280,7 @@ To test changes to the build system, build a release using
 
 ```
 yarn generate
-yarn build-release
+yarn build
 ```
 
 Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.

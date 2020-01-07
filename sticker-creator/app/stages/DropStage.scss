@@ -1,0 +1,24 @@
+.message {
+  max-width: 450px;
+}
+
+.main {
+  flex-grow: 1;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 186px);
+  grid-gap: 8px;
+  justify-content: center;
+}

@@ -1,17 +1,22 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Contact, getName } from '../../types/Contact';
+import { ContactType } from '../../types/Contact';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import {
+  renderAvatar,
+  renderContactShorthand,
+  renderName,
+} from './_contactUtil';
 
 interface Props {
-  contact: Contact;
-  hasSignalAccount: boolean;
-  i18n: Localizer;
+  contact: ContactType;
+  i18n: LocalizerType;
   isIncoming: boolean;
   withContentAbove: boolean;
   withContentBelow: boolean;
+  tabIndex: number;
   onClick?: () => void;
 }
 
@@ -22,15 +27,18 @@ export class EmbeddedContact extends React.Component<Props> {
       i18n,
       isIncoming,
       onClick,
+      tabIndex,
       withContentAbove,
       withContentBelow,
     } = this.props;
     const module = 'embedded-contact';
+    const direction = isIncoming ? 'incoming' : 'outgoing';
 
     return (
-      <div
+      <button
         className={classNames(
           'module-embedded-contact',
+          `module-embedded-contact--${direction}`,
           withContentAbove
             ? 'module-embedded-contact--with-content-above'
             : null,
@@ -38,100 +46,34 @@ export class EmbeddedContact extends React.Component<Props> {
             ? 'module-embedded-contact--with-content-below'
             : null
         )}
-        role="button"
-        onClick={onClick}
+        onKeyDown={(event: React.KeyboardEvent) => {
+          if (event.key !== 'Enter' && event.key !== 'Space') {
+            return;
+          }
+
+          if (onClick) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClick();
+          }
+        }}
+        onClick={(event: React.MouseEvent) => {
+          if (onClick) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClick();
+          }
+        }}
+        tabIndex={tabIndex}
       >
-        {renderAvatar({ contact, i18n, module })}
+        {renderAvatar({ contact, i18n, size: 52, direction })}
         <div className="module-embedded-contact__text-container">
           {renderName({ contact, isIncoming, module })}
           {renderContactShorthand({ contact, isIncoming, module })}
         </div>
-      </div>
+      </button>
     );
   }
-}
-
-// Note: putting these below the main component so style guide picks up EmbeddedContact
-
-function getInitial(name: string): string {
-  return name.trim()[0] || '#';
-}
-
-export function renderAvatar({
-  contact,
-  i18n,
-  module,
-}: {
-  contact: Contact;
-  i18n: Localizer;
-  module: string;
-}) {
-  const { avatar } = contact;
-
-  const path = avatar && avatar.avatar && avatar.avatar.path;
-  const name = getName(contact) || '';
-
-  if (!path) {
-    const initials = getInitial(name);
-
-    return (
-      <div className={`module-${module}__image-container`}>
-        <div className={`module-${module}__image-container__default-avatar`}>
-          {initials}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className={`module-${module}__image-container`}>
-      <img src={path} alt={i18n('contactAvatarAlt', [name])} />
-    </div>
-  );
-}
-
-export function renderName({
-  contact,
-  isIncoming,
-  module,
-}: {
-  contact: Contact;
-  isIncoming: boolean;
-  module: string;
-}) {
-  return (
-    <div
-      className={classNames(
-        `module-${module}__contact-name`,
-        isIncoming ? `module-${module}__contact-name--incoming` : null
-      )}
-    >
-      {getName(contact)}
-    </div>
-  );
-}
-
-export function renderContactShorthand({
-  contact,
-  isIncoming,
-  module,
-}: {
-  contact: Contact;
-  isIncoming: boolean;
-  module: string;
-}) {
-  const { number: phoneNumber, email } = contact;
-  const firstNumber = phoneNumber && phoneNumber[0] && phoneNumber[0].value;
-  const firstEmail = email && email[0] && email[0].value;
-
-  return (
-    <div
-      className={classNames(
-        `module-${module}__contact-method`,
-        isIncoming ? `module-${module}__contact-method--incoming` : null
-      )}
-    >
-      {firstNumber || firstEmail}
-    </div>
-  );
 }

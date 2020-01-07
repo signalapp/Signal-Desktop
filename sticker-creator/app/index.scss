@@ -1,0 +1,16 @@
+@import '../mixins';
+@import '../../stylesheets/variables';
+
+.container {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 47px calc(100vh - 47px - 68px) 68px;
+
+  @include light-theme() {
+    background-color: $color-white;
+  }
+
+  @include dark-theme() {
+    background-color: $color-gray-90;
+  }
+}

@@ -7,16 +7,16 @@ import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { Color, Localizer } from '../../types/Util';
+import { ColorType, LocalizerType } from '../../types/Util';
 import { ContactName } from './ContactName';
 
 interface Props {
-  attachment?: QuotedAttachment;
+  attachment?: QuotedAttachmentType;
   authorPhoneNumber: string;
   authorProfileName?: string;
   authorName?: string;
-  authorColor: Color;
-  i18n: Localizer;
+  authorColor?: ColorType;
+  i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
   withContentAbove: boolean;
@@ -26,7 +26,11 @@ interface Props {
   referencedMessageNotFound: boolean;
 }
 
-export interface QuotedAttachment {
+interface State {
+  imageBroken: boolean;
+}
+
+export interface QuotedAttachmentType {
   contentType: MIME.MIMEType;
   fileName: string;
   /** Not included in protobuf */
@@ -52,12 +56,12 @@ function validateQuote(quote: Props): boolean {
   return false;
 }
 
-function getObjectUrl(thumbnail: Attachment | undefined): string | null {
+function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
   if (thumbnail && thumbnail.objectUrl) {
     return thumbnail.objectUrl;
   }
 
-  return null;
+  return;
 }
 
 function getTypeLabel({
@@ -65,10 +69,10 @@ function getTypeLabel({
   contentType,
   isVoiceMessage,
 }: {
-  i18n: Localizer;
+  i18n: LocalizerType;
   contentType: MIME.MIMEType;
   isVoiceMessage: boolean;
-}): string | null {
+}): string | undefined {
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
     return i18n('video');
   }
@@ -82,11 +86,35 @@ function getTypeLabel({
     return i18n('audio');
   }
 
-  return null;
+  return;
 }
 
-export class Quote extends React.Component<Props> {
-  public renderImage(url: string, i18n: Localizer, icon?: string) {
+export class Quote extends React.Component<Props, State> {
+  public state = {
+    imageBroken: false,
+  };
+
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    const { onClick } = this.props;
+
+    // This is important to ensure that using this quote to navigate to the referenced
+    //   message doesn't also trigger its parent message's keydown.
+    if (onClick && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      event.stopPropagation();
+      onClick();
+    }
+  };
+
+  public handleImageError = () => {
+    // tslint:disable-next-line no-console
+    console.log('Message: Image failed to load; failing over to placeholder');
+    this.setState({
+      imageBroken: true,
+    });
+  };
+
+  public renderImage(url: string, i18n: LocalizerType, icon?: string) {
     const iconElement = icon ? (
       <div className="module-quote__icon-container__inner">
         <div className="module-quote__icon-container__circle-background">
@@ -102,7 +130,11 @@ export class Quote extends React.Component<Props> {
 
     return (
       <div className="module-quote__icon-container">
-        <img src={url} alt={i18n('quoteThumbnailAlt')} />
+        <img
+          src={url}
+          alt={i18n('quoteThumbnailAlt')}
+          onError={this.handleImageError}
+        />
         {iconElement}
       </div>
     );
@@ -159,6 +191,8 @@ export class Quote extends React.Component<Props> {
 
   public renderIconContainer() {
     const { attachment, i18n } = this.props;
+    const { imageBroken } = this.state;
+
     if (!attachment) {
       return null;
     }
@@ -167,12 +201,12 @@ export class Quote extends React.Component<Props> {
     const objectUrl = getObjectUrl(thumbnail);
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
-      return objectUrl
+      return objectUrl && !imageBroken
         ? this.renderImage(objectUrl, i18n, 'play')
         : this.renderIcon('movie');
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return objectUrl
+      return objectUrl && !imageBroken
         ? this.renderImage(objectUrl, i18n)
         : this.renderIcon('image');
     }
@@ -195,7 +229,7 @@ export class Quote extends React.Component<Props> {
             isIncoming ? 'module-quote__primary__text--incoming' : null
           )}
         >
-          <MessageBody text={text} i18n={i18n} />
+          <MessageBody text={text} disableLinks={true} i18n={i18n} />
         </div>
       );
     }
@@ -230,20 +264,31 @@ export class Quote extends React.Component<Props> {
       return null;
     }
 
-    // We don't want the overall click handler for the quote to fire, so we stop
-    //   propagation before handing control to the caller's callback.
-    const onClick = (e: React.MouseEvent<{}>): void => {
+    const clickHandler = (e: React.MouseEvent): void => {
       e.stopPropagation();
+      e.preventDefault();
+
       onClose();
+    };
+    const keyDownHandler = (e: React.KeyboardEvent): void => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.stopPropagation();
+        e.preventDefault();
+
+        onClose();
+      }
     };
 
     // We need the container to give us the flexibility to implement the iOS design.
     return (
       <div className="module-quote__close-container">
         <div
-          className="module-quote__close-button"
+          tabIndex={0}
+          // We can't be a button because the overall quote is a button; can't nest them
           role="button"
-          onClick={onClick}
+          className="module-quote__close-button"
+          onKeyDown={keyDownHandler}
+          onClick={clickHandler}
         />
       </div>
     );
@@ -254,7 +299,6 @@ export class Quote extends React.Component<Props> {
       authorProfileName,
       authorPhoneNumber,
       authorName,
-      authorColor,
       i18n,
       isFromMe,
       isIncoming,
@@ -264,7 +308,6 @@ export class Quote extends React.Component<Props> {
       <div
         className={classNames(
           'module-quote__primary__author',
-          !isFromMe ? `module-quote__primary__author--${authorColor}` : null,
           isIncoming ? 'module-quote__primary__author--incoming' : null
         )}
       >
@@ -275,7 +318,6 @@ export class Quote extends React.Component<Props> {
             phoneNumber={authorPhoneNumber}
             name={authorName}
             profileName={authorProfileName}
-            i18n={i18n}
           />
         )}
       </div>
@@ -321,7 +363,6 @@ export class Quote extends React.Component<Props> {
   public render() {
     const {
       authorColor,
-      isFromMe,
       isIncoming,
       onClick,
       referencedMessageNotFound,
@@ -339,16 +380,15 @@ export class Quote extends React.Component<Props> {
           withContentAbove ? 'module-quote-container--with-content-above' : null
         )}
       >
-        <div
+        <button
           onClick={onClick}
-          role="button"
+          onKeyDown={this.handleKeyDown}
           className={classNames(
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
-            !isIncoming && !isFromMe
-              ? `module-quote--outgoing-${authorColor}`
-              : null,
-            !isIncoming && isFromMe ? 'module-quote--outgoing-you' : null,
+            isIncoming
+              ? `module-quote--incoming-${authorColor}`
+              : `module-quote--outgoing-${authorColor}`,
             !onClick ? 'module-quote--no-click' : null,
             withContentAbove ? 'module-quote--with-content-above' : null,
             referencedMessageNotFound
@@ -363,7 +403,7 @@ export class Quote extends React.Component<Props> {
           </div>
           {this.renderIconContainer()}
           {this.renderClose()}
-        </div>
+        </button>
         {this.renderReferenceWarning()}
       </div>
     );

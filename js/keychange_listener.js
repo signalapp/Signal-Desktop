@@ -14,18 +14,17 @@
         throw new Error('KeyChangeListener requires a SignalProtocolStore');
       }
 
-      signalProtocolStore.on('keychange', id => {
-        ConversationController.getOrCreateAndWait(id, 'private').then(
-          conversation => {
-            conversation.addKeyChange(id);
-
-            ConversationController.getAllGroupsInvolvingId(id).then(groups => {
-              _.forEach(groups, group => {
-                group.addKeyChange(id);
-              });
-            });
-          }
+      signalProtocolStore.on('keychange', async id => {
+        const conversation = await ConversationController.getOrCreateAndWait(
+          id,
+          'private'
         );
+        conversation.addKeyChange(id);
+
+        const groups = await ConversationController.getAllGroupsInvolvingId(id);
+        _.forEach(groups, group => {
+          group.addKeyChange(id);
+        });
       });
     },
   };

@@ -1,6 +1,6 @@
 /* global $, Whisper */
 
-$(document).on('keyup', e => {
+$(document).on('keydown', e => {
   'use strict';
 
   if (e.keyCode === 27) {
@@ -9,7 +9,23 @@ $(document).on('keyup', e => {
 });
 
 const $body = $(document.body);
-$body.addClass(`${window.theme}-theme`);
+
+async function applyTheme() {
+  'use strict';
+
+  const theme = await window.getThemeSetting();
+  $body.removeClass('light-theme');
+  $body.removeClass('dark-theme');
+  $body.addClass(`${theme === 'system' ? window.systemTheme : theme}-theme`);
+}
+
+applyTheme();
+
+window.subscribeToSystemThemeChange(() => {
+  'use strict';
+
+  applyTheme();
+});
 
 // eslint-disable-next-line strict
 const getInitialData = async () => ({
@@ -32,10 +48,21 @@ const getInitialData = async () => ({
 window.initialRequest = getInitialData();
 
 // eslint-disable-next-line more/no-then
-window.initialRequest.then(data => {
-  'use strict';
+window.initialRequest.then(
+  data => {
+    'use strict';
 
-  window.initialData = data;
-  window.view = new Whisper.SettingsView();
-  window.view.$el.appendTo($body);
-});
+    window.initialData = data;
+    window.view = new Whisper.SettingsView();
+    window.view.$el.appendTo($body);
+  },
+  error => {
+    'use strict';
+
+    window.log.error(
+      'settings.initialRequest error:',
+      error && error.stack ? error.stack : error
+    );
+    window.closeSettings();
+  }
+);

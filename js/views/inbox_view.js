@@ -1,8 +1,11 @@
-/* global ConversationController: false */
-/* global extension: false */
-/* global getInboxCollection: false */
-/* global i18n: false */
-/* global Whisper: false */
+/* global
+  ConversationController,
+  extension,
+  getInboxCollection,
+  i18n,
+  Whisper,
+  Signal
+*/
 
 // eslint-disable-next-line func-names
 (function() {
@@ -10,61 +13,50 @@
 
   window.Whisper = window.Whisper || {};
 
-  Whisper.ConversationStack = Whisper.View.extend({
-    className: 'conversation-stack',
-    open(conversation) {
-      const id = `conversation-${conversation.cid}`;
-      if (id !== this.el.firstChild.id) {
-        this.$el
-          .first()
-          .find('video, audio')
-          .each(function pauseMedia() {
-            this.pause();
-          });
-        let $el = this.$(`#${id}`);
-        if ($el === null || $el.length === 0) {
-          const view = new Whisper.ConversationView({
-            model: conversation,
-            window: this.model.window,
-          });
-          // eslint-disable-next-line prefer-destructuring
-          $el = view.$el;
-        }
-        $el.prependTo(this.el);
-      }
-      conversation.trigger('opened');
+  Whisper.StickerPackInstallFailedToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('stickers--toast--InstallFailed') };
     },
   });
 
-  Whisper.FontSizeView = Whisper.View.extend({
-    defaultSize: 14,
-    maxSize: 30,
-    minSize: 14,
-    initialize() {
-      this.currentSize = this.defaultSize;
-      this.render();
-    },
-    events: { keydown: 'zoomText' },
-    zoomText(e) {
-      if (!e.ctrlKey) {
-        return;
-      }
-      const keyCode = e.which || e.keyCode;
-      const maxSize = 22; // if bigger text goes outside send-message textarea
-      const minSize = 14;
-      if (keyCode === 189 || keyCode === 109) {
-        if (this.currentSize > minSize) {
-          this.currentSize -= 1;
+  Whisper.ConversationStack = Whisper.View.extend({
+    className: 'conversation-stack',
+    lastConversation: null,
+    open(conversation, messageId) {
+      const id = `conversation-${conversation.cid}`;
+      if (id !== this.el.lastChild.id) {
+        const view = new Whisper.ConversationView({
+          model: conversation,
+          window: this.model.window,
+        });
+        this.listenTo(conversation, 'unload', () =>
+          this.onUnload(conversation)
+        );
+        view.$el.appendTo(this.el);
+
+        if (this.lastConversation && this.lastConversation !== conversation) {
+          this.lastConversation.trigger(
+            'unload',
+            'opened another conversation'
+          );
+          this.stopListening(this.lastConversation);
+          this.lastConversation = null;
         }
-      } else if (keyCode === 187 || keyCode === 107) {
-        if (this.currentSize < maxSize) {
-          this.currentSize += 1;
-        }
+
+        this.lastConversation = conversation;
+        conversation.trigger('opened', messageId);
+      } else if (messageId) {
+        conversation.trigger('scroll-to-message', messageId);
       }
-      this.render();
+
+      // Make sure poppers are positioned properly
+      window.dispatchEvent(new Event('resize'));
     },
-    render() {
-      this.$el.css('font-size', `${this.currentSize}px`);
+    onUnload(conversation) {
+      if (this.lastConversation === conversation) {
+        this.stopListening(this.lastConversation);
+        this.lastConversation = null;
+      }
     },
   });
 
@@ -88,10 +80,6 @@
     initialize(options = {}) {
       this.ready = false;
       this.render();
-      this.$el.attr('tabindex', '1');
-
-      // eslint-disable-next-line no-new
-      new Whisper.FontSizeView({ el: this.$el });
 
       this.conversation_stack = new Whisper.ConversationStack({
         el: this.$('.conversation-stack'),
@@ -103,76 +91,52 @@
         this.appLoadingScreen.render();
         this.appLoadingScreen.$el.prependTo(this.el);
         this.startConnectionListener();
+      } else {
+        this.setupLeftPane();
       }
 
       const inboxCollection = getInboxCollection();
 
       this.listenTo(inboxCollection, 'messageError', () => {
         if (this.networkStatusView) {
-          this.networkStatusView.render();
+          this.networkStatusView.update();
         }
       });
-      this.listenTo(inboxCollection, 'select', this.openConversation);
-
-      this.inboxListView = new Whisper.ConversationListView({
-        el: this.$('.inbox'),
-        collection: inboxCollection,
-      }).render();
-
-      this.inboxListView.listenTo(
-        inboxCollection,
-        'add change:timestamp change:name change:number',
-        this.inboxListView.updateLocation
-      );
-      this.inboxListView.listenTo(
-        inboxCollection,
-        'remove',
-        this.inboxListView.removeItem
-      );
-
-      this.searchView = new Whisper.ConversationSearchView({
-        el: this.$('.search-results'),
-        input: this.$('input.search'),
-      });
-
-      this.searchView.$el.hide();
-
-      this.listenTo(this.searchView, 'hide', function toggleVisibility() {
-        this.searchView.$el.hide();
-        this.inboxListView.$el.show();
-      });
-      this.listenTo(this.searchView, 'show', function toggleVisibility() {
-        this.searchView.$el.show();
-        this.inboxListView.$el.hide();
-      });
-      this.listenTo(this.searchView, 'open', this.openConversation);
 
       this.networkStatusView = new Whisper.NetworkStatusView();
       this.$el
         .find('.network-status-container')
         .append(this.networkStatusView.render().el);
 
-      extension.windows.onClosed(() => {
-        this.inboxListView.stopListening();
-      });
-
       if (extension.expired()) {
         const banner = new Whisper.ExpiredAlertBanner().render();
         banner.$el.prependTo(this.$el);
         this.$el.addClass('expired');
       }
+
+      Whisper.events.on('pack-install-failed', () => {
+        const toast = new Whisper.StickerPackInstallFailedToast();
+        toast.$el.appendTo(this.$el);
+        toast.render();
+      });
     },
     render_attributes: {
       welcomeToSignal: i18n('welcomeToSignal'),
       selectAContact: i18n('selectAContact'),
-      searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
-      settings: i18n('settings'),
     },
     events: {
       click: 'onClick',
-      'click #header': 'focusHeader',
-      'click .conversation': 'focusConversation',
-      'input input.search': 'filterContacts',
+    },
+    setupLeftPane() {
+      if (this.leftPaneView) {
+        return;
+      }
+      this.leftPaneView = new Whisper.ReactWrapperView({
+        className: 'left-pane-wrapper',
+        JSX: Signal.State.Roots.createLeftPane(window.reduxStore),
+      });
+
+      this.$('.left-pane-placeholder').append(this.leftPaneView.el);
     },
     startConnectionListener() {
       this.interval = setInterval(() => {
@@ -193,20 +157,26 @@
             this.onEmpty();
             break;
           default:
-            window.log.error(
-              'Whisper.InboxView::startConnectionListener:',
-              'Unknown web socket status:',
-              status
-            );
+            // We also replicate empty here
+            this.onEmpty();
             break;
         }
       }, 1000);
     },
     onEmpty() {
+      this.setupLeftPane();
+
       const view = this.appLoadingScreen;
       if (view) {
         this.appLoadingScreen = null;
         view.remove();
+
+        const searchInput = document.querySelector(
+          '.module-main-header__search__input'
+        );
+        if (searchInput && searchInput.focus) {
+          searchInput.focus();
+        }
       }
     },
     onProgress(count) {
@@ -231,30 +201,19 @@
     reloadBackgroundPage() {
       window.location.reload();
     },
-    filterContacts(e) {
-      this.searchView.filterContacts(e);
-      const input = this.$('input.search');
-      if (input.val().length > 0) {
-        input.addClass('active');
-        const textDir = window.getComputedStyle(input[0]).direction;
-        if (textDir === 'ltr') {
-          input.removeClass('rtl').addClass('ltr');
-        } else if (textDir === 'rtl') {
-          input.removeClass('ltr').addClass('rtl');
-        }
-      } else {
-        input.removeClass('active');
+    async openConversation(id, messageId) {
+      const conversation = await ConversationController.getOrCreateAndWait(
+        id,
+        'private'
+      );
+
+      const { openConversationExternal } = window.reduxActions.conversations;
+      if (openConversationExternal) {
+        openConversationExternal(id, messageId);
       }
-    },
-    openConversation(conversation) {
-      this.searchView.hideHints();
-      if (conversation) {
-        ConversationController.markAsSelected(conversation);
-        this.conversation_stack.open(
-          ConversationController.get(conversation.id)
-        );
-        this.focusConversation();
-      }
+
+      this.conversation_stack.open(conversation, messageId);
+      this.focusConversation();
     },
     closeRecording(e) {
       if (e && this.$(e.target).closest('.capture-audio').length > 0) {

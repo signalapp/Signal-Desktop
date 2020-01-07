@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { RenderTextCallback } from '../../types/Util';
+import { RenderTextCallbackType } from '../../types/Util';
 
 interface Props {
   text: string;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
-  renderNonNewLine?: RenderTextCallback;
+  renderNonNewLine?: RenderTextCallbackType;
 }
 
 export class AddNewLines extends React.Component<Props> {

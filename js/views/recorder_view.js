@@ -1,4 +1,4 @@
-/* global Whisper, moment, WebAudioRecorder */
+/* global $, Whisper, moment, WebAudioRecorder */
 
 /* eslint-disable more/no-then */
 
@@ -14,12 +14,30 @@
     initialize() {
       this.startTime = Date.now();
       this.interval = setInterval(this.updateTime.bind(this), 1000);
+
+      this.onSwitchAwayBound = this.onSwitchAway.bind(this);
+      $(window).on('blur', this.onSwitchAwayBound);
+
+      this.handleKeyDownBound = this.handleKeyDown.bind(this);
+      this.$el.on('keydown', this.handleKeyDownBound);
+
       this.start();
     },
     events: {
       'click .close': 'close',
       'click .finish': 'finish',
       close: 'close',
+    },
+    onSwitchAway() {
+      this.close();
+    },
+    handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        this.close();
+
+        event.preventDefault();
+        event.stopPropagation();
+      }
     },
     updateTime() {
       const duration = moment.duration(Date.now() - this.startTime, 'ms');
@@ -58,17 +76,25 @@
 
       this.remove();
       this.trigger('closed');
+
+      $(window).off('blur', this.onSwitchAwayBound);
+
+      this.$el.off('keydown', this.handleKeyDownBound);
     },
     finish() {
+      this.clickedFinish = true;
       this.recorder.finishRecording();
       this.close();
     },
     handleBlob(recorder, blob) {
-      if (blob) {
+      if (blob && this.clickedFinish) {
         this.trigger('send', blob);
+      } else {
+        this.close();
       }
     },
     start() {
+      this.clickedFinish = false;
       this.context = new AudioContext();
       this.input = this.context.createGain();
       this.recorder = new WebAudioRecorder(this.input, {
@@ -76,7 +102,7 @@
         workerDir: 'js/', // must end with slash
       });
       this.recorder.onComplete = this.handleBlob.bind(this);
-      this.recorder.onError = this.onError;
+      this.recorder.onError = this.onError.bind(this);
       navigator.webkitGetUserMedia(
         { audio: true },
         stream => {
@@ -96,7 +122,7 @@
 
       this.close();
 
-      if (error && error.name === 'PermissionDeniedError') {
+      if (error && error.name === 'NotAllowedError') {
         window.log.warn(
           'RecorderView.onError: Microphone access is not allowed!'
         );

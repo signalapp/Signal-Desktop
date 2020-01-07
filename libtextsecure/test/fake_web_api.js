@@ -22,7 +22,7 @@ const fakeAPI = {
   // sendMessages: fakeCall,
   setSignedPreKey: fakeCall,
 
-  getKeysForNumber(number, deviceId) {
+  getKeysForNumber(number) {
     const res = getKeysForNumberMap[number];
     if (res !== undefined) {
       delete getKeysForNumberMap[number];
@@ -32,14 +32,14 @@ const fakeAPI = {
   },
 
   sendMessages(destination, messageArray) {
-    for (i in messageArray) {
+    for (let i = 0, max = messageArray.length; i < max; i += 1) {
       const msg = messageArray[i];
       if (
-        (msg.type != 1 && msg.type != 3) ||
+        (msg.type !== 1 && msg.type !== 3) ||
         msg.destinationDeviceId === undefined ||
         msg.destinationRegistrationId === undefined ||
         msg.body === undefined ||
-        msg.timestamp == undefined ||
+        msg.timestamp === undefined ||
         msg.relay !== undefined ||
         msg.destination !== undefined
       )

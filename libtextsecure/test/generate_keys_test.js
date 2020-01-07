@@ -1,4 +1,6 @@
-describe('Key generation', function() {
+/* global libsignal, textsecure */
+
+describe('Key generation', function thisNeeded() {
   const count = 10;
   this.timeout(count * 2000);
 
@@ -60,7 +62,7 @@ describe('Key generation', function() {
         result = res;
       });
     });
-    for (let i = 1; i <= count; i++) {
+    for (let i = 1; i <= count; i += 1) {
       itStoresPreKey(i);
     }
     itStoresSignedPreKey(1);
@@ -68,12 +70,12 @@ describe('Key generation', function() {
     it(`result contains ${count} preKeys`, () => {
       assert.isArray(result.preKeys);
       assert.lengthOf(result.preKeys, count);
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < count; i += 1) {
         assert.isObject(result.preKeys[i]);
       }
     });
     it('result contains the correct keyIds', () => {
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < count; i += 1) {
         assert.strictEqual(result.preKeys[i].keyId, i + 1);
       }
     });
@@ -93,7 +95,7 @@ describe('Key generation', function() {
         result = res;
       });
     });
-    for (let i = 1; i <= 2 * count; i++) {
+    for (let i = 1; i <= 2 * count; i += 1) {
       itStoresPreKey(i);
     }
     itStoresSignedPreKey(1);
@@ -101,12 +103,12 @@ describe('Key generation', function() {
     it(`result contains ${count} preKeys`, () => {
       assert.isArray(result.preKeys);
       assert.lengthOf(result.preKeys, count);
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < count; i += 1) {
         assert.isObject(result.preKeys[i]);
       }
     });
     it('result contains the correct keyIds', () => {
-      for (let i = 1; i <= count; i++) {
+      for (let i = 1; i <= count; i += 1) {
         assert.strictEqual(result.preKeys[i - 1].keyId, i + count);
       }
     });
@@ -126,7 +128,7 @@ describe('Key generation', function() {
         result = res;
       });
     });
-    for (let i = 1; i <= 3 * count; i++) {
+    for (let i = 1; i <= 3 * count; i += 1) {
       itStoresPreKey(i);
     }
     itStoresSignedPreKey(2);
@@ -134,12 +136,12 @@ describe('Key generation', function() {
     it(`result contains ${count} preKeys`, () => {
       assert.isArray(result.preKeys);
       assert.lengthOf(result.preKeys, count);
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < count; i += 1) {
         assert.isObject(result.preKeys[i]);
       }
     });
     it('result contains the correct keyIds', () => {
-      for (let i = 1; i <= count; i++) {
+      for (let i = 1; i <= count; i += 1) {
         assert.strictEqual(result.preKeys[i - 1].keyId, i + 2 * count);
       }
     });

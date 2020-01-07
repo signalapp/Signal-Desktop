@@ -646,11 +646,11 @@ function allocate(slab, types, allocator, ptr) {
     assert((ret & 3) == 0);
     stop = ret + (size & ~3);
     for (; ptr < stop; ptr += 4) {
-      HEAP32[((ptr)>>2)]=0;
+      HEAP32[ptr>>2]=0;
     }
     stop = ret + size;
     while (ptr < stop) {
-      HEAP8[((ptr++)>>0)]=0;
+      HEAP8[ptr++>>0]=0;
     }
     return ret;
   }
@@ -22853,7 +22853,7 @@ function _memset(ptr, value, num) {
       }
     }
     while ((ptr|0) < (stop|0)) {
-      HEAP8[((ptr)>>0)]=value;
+      HEAP8[ptr>>0]=value;
       ptr = (ptr+1)|0;
     }
     return (ptr-num)|0;
@@ -22898,7 +22898,7 @@ function _memcpy(dest, src, num) {
     if ((dest&3) == (src&3)) {
       while (dest & 3) {
         if ((num|0) == 0) return ret|0;
-        HEAP8[((dest)>>0)]=((HEAP8[((src)>>0)])|0);
+        HEAP8[dest>>0]=((HEAP8[src>>0])|0);
         dest = (dest+1)|0;
         src = (src+1)|0;
         num = (num-1)|0;
@@ -22911,7 +22911,7 @@ function _memcpy(dest, src, num) {
       }
     }
     while ((num|0) > 0) {
-      HEAP8[((dest)>>0)]=((HEAP8[((src)>>0)])|0);
+      HEAP8[dest>>0]=((HEAP8[src>>0])|0);
       dest = (dest+1)|0;
       src = (src+1)|0;
       num = (num-1)|0;

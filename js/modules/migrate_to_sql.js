@@ -2,10 +2,26 @@
 
 const { includes, isFunction, isString, last, map } = require('lodash');
 const {
+  bulkAddSessions,
+  bulkAddIdentityKeys,
+  bulkAddPreKeys,
+  bulkAddSignedPreKeys,
+  bulkAddItems,
+
+  removeSessionById,
+  removeIdentityKeyById,
+  removePreKeyById,
+  removeSignedPreKeyById,
+  removeItemById,
+
   saveMessages,
   _removeMessages,
+
   saveUnprocesseds,
   removeUnprocessed,
+
+  saveConversations,
+  _removeConversations,
 } = require('./data');
 const {
   getMessageExportLastIndex,
@@ -15,6 +31,7 @@ const {
   getUnprocessedExportLastIndex,
   setUnprocessedExportLastIndex,
 } = require('./settings');
+const { migrateConversation } = require('./types/conversation');
 
 module.exports = {
   migrateToSQL,
@@ -26,6 +43,7 @@ async function migrateToSQL({
   handleDOMException,
   countCallback,
   arrayBufferToString,
+  writeNewAttachmentData,
 }) {
   if (!db) {
     throw new Error('Need db for IndexedDB connection!');
@@ -74,6 +92,11 @@ async function migrateToSQL({
     }
   }
   window.log.info('migrateToSQL: migrate of messages complete');
+  try {
+    await clearStores(['messages']);
+  } catch (error) {
+    window.log.warn('Failed to clear messages store');
+  }
 
   lastIndex = await getUnprocessedExportLastIndex(db);
   complete = false;
@@ -94,11 +117,11 @@ async function migrateToSQL({
 
             if (item.envelope) {
               // eslint-disable-next-line no-param-reassign
-              item.envelope = await arrayBufferToString(item.envelope);
+              item.envelope = arrayBufferToString(item.envelope);
             }
             if (item.decrypted) {
               // eslint-disable-next-line no-param-reassign
-              item.decrypted = await arrayBufferToString(item.decrypted);
+              item.decrypted = arrayBufferToString(item.decrypted);
             }
           })
         );
@@ -116,8 +139,167 @@ async function migrateToSQL({
     await setUnprocessedExportLastIndex(db, lastIndex);
   }
   window.log.info('migrateToSQL: migrate of unprocessed complete');
+  try {
+    await clearStores(['unprocessed']);
+  } catch (error) {
+    window.log.warn('Failed to clear unprocessed store');
+  }
 
-  await clearStores(['messages', 'unprocessed']);
+  complete = false;
+  lastIndex = null;
+
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const status = await migrateStoreToSQLite({
+      db,
+      // eslint-disable-next-line no-loop-func
+      save: async array => {
+        const conversations = await Promise.all(
+          map(array, async conversation =>
+            migrateConversation(conversation, { writeNewAttachmentData })
+          )
+        );
+
+        saveConversations(conversations);
+      },
+      remove: _removeConversations,
+      storeName: 'conversations',
+      handleDOMException,
+      lastIndex,
+      // Because we're doing real-time moves to the filesystem, minimize parallelism
+      batchSize: 5,
+    });
+
+    ({ complete, lastIndex } = status);
+  }
+  window.log.info('migrateToSQL: migrate of conversations complete');
+  try {
+    await clearStores(['conversations']);
+  } catch (error) {
+    window.log.warn('Failed to clear conversations store');
+  }
+
+  complete = false;
+  lastIndex = null;
+
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const status = await migrateStoreToSQLite({
+      db,
+      // eslint-disable-next-line no-loop-func
+      save: bulkAddSessions,
+      remove: removeSessionById,
+      storeName: 'sessions',
+      handleDOMException,
+      lastIndex,
+      batchSize: 10,
+    });
+
+    ({ complete, lastIndex } = status);
+  }
+  window.log.info('migrateToSQL: migrate of sessions complete');
+  try {
+    await clearStores(['sessions']);
+  } catch (error) {
+    window.log.warn('Failed to clear sessions store');
+  }
+
+  complete = false;
+  lastIndex = null;
+
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const status = await migrateStoreToSQLite({
+      db,
+      // eslint-disable-next-line no-loop-func
+      save: bulkAddIdentityKeys,
+      remove: removeIdentityKeyById,
+      storeName: 'identityKeys',
+      handleDOMException,
+      lastIndex,
+      batchSize: 10,
+    });
+
+    ({ complete, lastIndex } = status);
+  }
+  window.log.info('migrateToSQL: migrate of identityKeys complete');
+  try {
+    await clearStores(['identityKeys']);
+  } catch (error) {
+    window.log.warn('Failed to clear identityKeys store');
+  }
+
+  complete = false;
+  lastIndex = null;
+
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const status = await migrateStoreToSQLite({
+      db,
+      // eslint-disable-next-line no-loop-func
+      save: bulkAddPreKeys,
+      remove: removePreKeyById,
+      storeName: 'preKeys',
+      handleDOMException,
+      lastIndex,
+      batchSize: 10,
+    });
+
+    ({ complete, lastIndex } = status);
+  }
+  window.log.info('migrateToSQL: migrate of preKeys complete');
+  try {
+    await clearStores(['preKeys']);
+  } catch (error) {
+    window.log.warn('Failed to clear preKeys store');
+  }
+
+  complete = false;
+  lastIndex = null;
+
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const status = await migrateStoreToSQLite({
+      db,
+      // eslint-disable-next-line no-loop-func
+      save: bulkAddSignedPreKeys,
+      remove: removeSignedPreKeyById,
+      storeName: 'signedPreKeys',
+      handleDOMException,
+      lastIndex,
+      batchSize: 10,
+    });
+
+    ({ complete, lastIndex } = status);
+  }
+  window.log.info('migrateToSQL: migrate of signedPreKeys complete');
+  try {
+    await clearStores(['signedPreKeys']);
+  } catch (error) {
+    window.log.warn('Failed to clear signedPreKeys store');
+  }
+
+  complete = false;
+  lastIndex = null;
+
+  while (!complete) {
+    // eslint-disable-next-line no-await-in-loop
+    const status = await migrateStoreToSQLite({
+      db,
+      // eslint-disable-next-line no-loop-func
+      save: bulkAddItems,
+      remove: removeItemById,
+      storeName: 'items',
+      handleDOMException,
+      lastIndex,
+      batchSize: 10,
+    });
+
+    ({ complete, lastIndex } = status);
+  }
+  window.log.info('migrateToSQL: migrate of items complete');
+  // Note: we don't clear the items store because it contains important metadata which,
+  //   if this process fails, will be crucial to going through this process again.
 
   window.log.info('migrateToSQL: complete');
 }

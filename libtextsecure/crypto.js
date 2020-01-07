@@ -90,9 +90,10 @@
 
       return verifyMAC(ivAndCiphertext, macKey, mac, 32)
         .then(() => {
-          if (theirDigest !== null) {
+          if (theirDigest) {
             return verifyDigest(encryptedBin, theirDigest);
           }
+
           return null;
         })
         .then(() => decrypt(aesKey, ciphertext, iv));

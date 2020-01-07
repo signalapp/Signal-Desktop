@@ -199,6 +199,42 @@ const contact = {
 />;
 ```
 
+### With all data types
+
+```jsx
+const contact = {
+  avatar: {
+    avatar: {
+      pending: true,
+    },
+  },
+  name: {
+    displayName: 'Someone Somewhere',
+  },
+  number: [
+    {
+      value: '(202) 555-0000',
+      type: 3,
+    },
+  ],
+  address: [
+    {
+      street: '5 Pike Place',
+      city: 'Seattle',
+      region: 'WA',
+      postcode: '98101',
+      type: 1,
+    },
+  ],
+};
+<ContactDetail
+  contact={contact}
+  hasSignalAccount={true}
+  i18n={util.i18n}
+  onSendMessage={() => console.log('onSendMessage')}
+/>;
+```
+
 ### Empty contact
 
 ```jsx
