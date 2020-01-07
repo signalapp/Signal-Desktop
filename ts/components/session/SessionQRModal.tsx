@@ -32,9 +32,7 @@ export class SessionQRModal extends React.Component<Props> {
         <div className="spacer-sm" />
 
         <div className="qr-dialog__description text-subtle">
-          <p>
             <SessionHtmlRenderer html={window.i18n('QRCodeDescription')} />
-          </p>
         </div>
         <div className="spacer-lg" />
 

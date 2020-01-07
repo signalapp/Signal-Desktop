@@ -113,7 +113,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
     const i18n = window.i18n;
 
     this.checkHasPassword();
-    void this.getSeed();
+    this.getSeed().ignore();
 
     const { onClose } = this.props;
     const { hasPassword, passwordValid } = this.state;
