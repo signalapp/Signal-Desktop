@@ -2,6 +2,7 @@ build/**
 components/**
 coverage/**
 dist/**
+release/**
 
 # Generated files
 js/curve/*
