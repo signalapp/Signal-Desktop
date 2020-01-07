@@ -777,6 +777,10 @@
     "message": "Messages",
     "description": "Shown to separate the types of search results"
   },
+  "settingsHeader": {
+    "message": "Settings",
+    "description": "Shown to separate the types of search results"
+  },
   "welcomeToSignal": {
     "message": "Welcome to Session"
   },
@@ -1153,6 +1157,10 @@
     "message": "Leave this public channel?",
     "description":
       "Confirmation dialog text that tells the user what will happen if they leave the public channel."
+  },
+  "deleteAccount": {
+    "message": "Delete Account",
+    "description": "Text for button in settings view to delete account"
   },
   "deleteContact": {
     "message": "Delete Contact",

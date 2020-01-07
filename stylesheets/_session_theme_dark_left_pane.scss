@@ -78,7 +78,7 @@ $session-compose-margin: 20px;
   border-right: none !important;
   width: 300px;
   height: -webkit-fill-available;
-  background: none !important;
+  background: $session-shade-4 !important;
 
   &-session {
     display: flex;
@@ -104,6 +104,8 @@ $session-compose-margin: 20px;
     flex-direction: row;
     margin: 28px 7px 28px 0px;
 
+    background-color: $session-shade-3;
+
     .session-button {
       margin-left: auto;
     }
@@ -111,7 +113,8 @@ $session-compose-margin: 20px;
 
   &__title {
     cursor: pointer;
-    padding-right: 10px;
+    padding-right: $session-margin-sm;
+    padding-left: $session-margin-sm;
   }
 
   &__list {
@@ -255,6 +258,22 @@ $session-compose-margin: 20px;
   @include session-dark-background;
 }
 
+@mixin bottom-buttons() {
+  display: flex;
+  flex-direction: row;
+  background-color: $session-shade-2;
+
+  .session-button.square-outline.square.green,
+  .session-button.square-outline.square.white,
+  .session-button.square-outline.square.danger
+  {
+    flex-grow: 1;
+    border: 1px solid $session-shade-7;
+    height: 50px;
+    line-height: 50px;
+  }
+}
+
 .contacts-dropdown {
   width: -webkit-fill-available;
 
@@ -319,18 +338,62 @@ $session-compose-margin: 20px;
   }
 
   &-bottom-buttons {
+    @include bottom-buttons();
+  }
+}
+
+
+.left-pane-setting {
+  &-bottom-buttons {
+    @include bottom-buttons();
+  }
+
+  &-content, &-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-category-list-item {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 74px;
+    line-height: 1.4;
 
-    .session-button.square-outline.square.green,
-    .session-button.square-outline.square.white {
-      flex-grow: 1;
-      border: 1px solid $session-shade-8;
-      height: 50px;
-      line-height: 50px;
+    padding: 0px 12px;
+
+    cursor: pointer;
+    transition: $session-transition-duration !important;   
+
+    &>div {
+      display: block;
+    }
+
+    &.active{
+      background-color: $session-shade-9;
+    }
+
+    &:hover{
+      background-color: $session-shade-7;
+    }
+
+
+
+    &__buttons {
+      display: flex;
+
+      .session-button {
+        font-size: 11px;
+        padding: 6px;
+        height: auto;
+        margin: 0px;
+        line-height: 14px;
+      }
     }
   }
 }
+
 
 .panel-text-divider {
   width: 100%;

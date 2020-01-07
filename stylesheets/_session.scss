@@ -37,7 +37,7 @@ $session-color-green-alt-3: #00f782;
 
 $session-shade-1: #0c0c0c;
 $session-shade-2: #161616;
-$session-shade-3: #191818;
+$session-shade-3: #161616;
 $session-shade-4: #1b1b1b;
 $session-shade-5: #222325;
 $session-shade-6: #232323;
@@ -895,7 +895,6 @@ label {
     max-width: $session-modal-size-lg;
   }
 }
-
 
 .messages li {
   transition: $session-transition-duration !important;
