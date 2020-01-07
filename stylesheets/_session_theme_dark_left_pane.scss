@@ -117,6 +117,7 @@ $session-compose-margin: 20px;
     cursor: pointer;
     padding-right: $session-margin-sm;
     padding-left: $session-margin-sm;
+    transition: $session-transition-duration;
   }
 
   &__list {
