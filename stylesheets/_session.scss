@@ -52,6 +52,7 @@ $session-shade-14: #535865;
 $session-shade-15: #5b6c72;
 $session-shade-16: #979797;
 $session-shade-17: #d8d8d8;
+$session-shade-18: #141414;
 
 $session-opaque-dark-1: rgba(0, 0, 0, 0.25);
 $session-opaque-dark-2: rgba(0, 0, 0, 0.37);
@@ -63,6 +64,8 @@ $session-color-black: #000;
 $session-color-danger: #ff453a;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-16;
+$session-background-overlay: #191919;
+$session-background: #121212;
 
 $session-color-info: $session-shade-11;
 $session-color-success: #35d388;
@@ -87,6 +90,11 @@ div.spacer-md {
 }
 div.spacer-lg {
   height: $session-margin-lg;
+}
+
+@mixin session-filter-color-green {
+  filter: brightness(0) saturate(100%) invert(67%) sepia(69%) saturate(2367%)
+    hue-rotate(101deg) brightness(107%) contrast(101%);
 }
 
 @mixin session-color-subtle($color) {
@@ -116,6 +124,16 @@ div.spacer-lg {
   width: 100%;
 }
 
+@mixin session-dark-background {
+  background-color: $session-background !important;
+}
+@mixin session-dark-background-lighter {
+  background-color: $session-background-overlay !important;
+}
+@mixin session-dark-background-hover {
+  background-color: $session-shade-7 !important;
+}
+
 $session-transition-duration: 0.25s;
 
 $session-icon-size-sm: 15px;
@@ -138,6 +156,10 @@ div,
 span,
 label {
   user-select: none;
+
+  &::selection {
+    background: $session-shade-17;
+  }
 }
 
 $session-gradient-green: linear-gradient(
@@ -312,12 +334,23 @@ $session_message-container-border-radius: 5px;
   }
 }
 .session-icon-button {
-  opacity: 0.4;
   cursor: pointer;
   display: inline-block;
-  transition: opacity $session-transition-duration;
-  &:hover {
-    opacity: 1;
+  position: relative;
+
+  svg {
+    transition: opacity $session-transition-duration;
+    opacity: 0.4;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &.no-opacity {
+    svg {
+      opacity: 1;
+    }
   }
 
   &.small.padded {
@@ -330,6 +363,23 @@ $session_message-container-border-radius: 5px;
 
   &.large.padded {
     @include set-icon-margin($session-icon-size-lg);
+  }
+
+  .notification-count {
+    position: absolute;
+    font-size: 12px;
+    font-family: $session-font-family;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    padding: 3px;
+    border-radius: 50%;
+    font-weight: 700;
+    background: red;
+    color: $session-color-white;
+    text-align: center;
+    opacity: 1;
   }
 }
 
@@ -360,7 +410,7 @@ $session_message-container-border-radius: 5px;
     text-align: center;
   }
 }
-
+.module-conversation__user__profile-name,
 .module-message__author__profile-name {
   font-style: normal;
 }
@@ -420,6 +470,10 @@ label {
 
 .hidden {
   visibility: hidden;
+}
+
+.session-button div[role='button'] {
+  cursor: pointer;
 }
 
 .input-with-label-container {
@@ -840,4 +894,9 @@ label {
   &__description {
     max-width: $session-modal-size-lg;
   }
+
+
+.messages li {
+  transition: $session-transition-duration !important;
 }
+

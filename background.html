@@ -29,24 +29,15 @@
   
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
-      <img src='images/loki/loki_icon_128.png'>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
-      </div>
-      <div class='message'>{{ message }}</div>
+      <img src='images/session/brand.svg' class='session-filter-color-green session-logo-128' />
+        <p class='session-logo-text'>SESSION</p>
     </div>
   </script>
 
   <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
     <div class='content'>
-      <img src='images/loki/loki_icon_128.png'>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
-      </div>
+      <img src='images/session/brand.svg' class='session-filter-color-green session-logo-128' />
+      <p class='session-logo-text'>SESSION</p>
     </div>
   </script>
 
@@ -56,33 +47,19 @@
     <div class='gutter'>
       <div class='network-status-container'></div>
       <div class='left-pane-placeholder'></div>
-      <div class='loki'>
-        <img src='images/loki/loki_icon_text.png' />
-      </div>
     </div>
     <div class='conversation-stack'>
       <div class='conversation placeholder'>
         <div class='conversation-header'></div>
         <div class='container'>
           <div class='content'>
-            <img src='images/loki/loki_icon_128.png' />
-            <h3>{{ welcomeToSignal }}</h3>
-            <p>{{ selectAContact }}</p>
+            <img src='images/session/brand.svg' class='session-filter-color-green session-logo-128' />
+            <p class='session-logo-text'>SESSION</p>
           </div>
         </div>
       </div>
     </div>
     <div class='lightbox-container'></div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='main-header-placeholder'>
-    <div class='main-header-title-wrapper'>
-      <div class='main-header-content-toggle'/>
-    </div>
-    <div class='main-header-content-wrapper'>
-      {{ #items }}
-        <div role='button' id='{{ id }}'>{{ text }}</div>
-      {{ /items }}
-    </div>
   </script>
 
   <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
@@ -709,7 +686,6 @@
   <script type='text/javascript' src='js/views/file_input_view.js'></script>
   <script type='text/javascript' src='js/views/list_view.js'></script>
   <script type='text/javascript' src='js/views/contact_list_view.js'></script>
-  <script type='text/javascript' src='js/views/main_header_view.js'></script>
   <script type='text/javascript' src='js/views/message_view.js'></script>
   <script type='text/javascript' src='js/views/key_verification_view.js'></script>
   <script type='text/javascript' src='js/views/message_list_view.js'></script>
@@ -751,14 +727,8 @@
 <body>
   <div class='app-loading-screen'>
     <div class='content'>
-      <img src='images/loki/loki_icon_128.png'>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
-      </div>
-      <div class='message'></div>
-    </div>
+      <img src='images/session/brand.svg' class='session-filter-color-green session-logo-128' />
+      <p class='session-logo-text'>SESSION</p>
   </div>
 
   <script type='text/javascript' src='js/background.js'></script>

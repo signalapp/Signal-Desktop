@@ -121,7 +121,7 @@
   window.Session = window.Session || {};
 
   window.Session.setNewSessionID = sessionID => {
-    const el = document.querySelector('.session-signin-enter-session-id');
+    const el = document.querySelector('.session-id-editable');
     const fx = new TextScramble(el);
     el.innerHTML = sessionID;
     fx.setText(sessionID);

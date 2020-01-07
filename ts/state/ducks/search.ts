@@ -204,10 +204,9 @@ async function queryConversationsAndContacts(
       } else {
         conversations.push(primaryDevice);
       }
-    } else if (
-      conversation.type === 'direct' &&
-      !Boolean(conversation.lastMessage)
-    ) {
+    } else if (conversation.type === 'direct') {
+      contacts.push(conversation.id);
+    } else if (conversation.type !== 'group') {
       contacts.push(conversation.id);
     } else {
       conversations.push(conversation.id);

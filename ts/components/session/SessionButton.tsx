@@ -19,6 +19,7 @@ export enum SessionButtonColor {
   Success = 'success',
   Danger = 'danger',
   Warning = 'warning',
+  None = '',
 }
 
 interface Props {

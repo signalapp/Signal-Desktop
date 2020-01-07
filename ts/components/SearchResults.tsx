@@ -7,11 +7,8 @@ import {
   MessageSearchResult,
   PropsData as MessageSearchResultPropsType,
 } from './MessageSearchResult';
-import { StartNewConversation } from './StartNewConversation';
 
 import { LocalizerType } from '../types/Util';
-
-declare var mixpanel: any;
 
 export type PropsData = {
   contacts: Array<ConversationListItemPropsType>;
@@ -27,21 +24,11 @@ export type PropsData = {
 type PropsHousekeeping = {
   i18n: LocalizerType;
   openConversation: (id: string, messageId?: string) => void;
-  startNewConversation: (
-    query: string,
-    options: { regionCode: string }
-  ) => void;
 };
 
 type Props = PropsData & PropsHousekeeping;
 
 export class SearchResults extends React.Component<Props> {
-  public handleStartNewConversation = () => {
-    const { regionCode, searchTerm, startNewConversation } = this.props;
-    mixpanel.track('New Conversation Started');
-    startNewConversation(searchTerm, { regionCode });
-  };
-
   public render() {
     const {
       conversations,
@@ -73,13 +60,6 @@ export class SearchResults extends React.Component<Props> {
             {i18n('noSearchResults', [searchTerm])}
           </div>
         ) : null}
-        {showStartNewConversation ? (
-          <StartNewConversation
-            phoneNumber={searchTerm}
-            i18n={i18n}
-            onClick={this.handleStartNewConversation}
-          />
-        ) : null}
         {haveConversations ? (
           <div className="module-search-results__conversations">
             <div className="module-search-results__conversations-header">
@@ -95,12 +75,6 @@ export class SearchResults extends React.Component<Props> {
             ))}
           </div>
         ) : null}
-        {haveFriends
-          ? this.renderContacts(i18n('friendsHeader'), friends, true)
-          : null}
-        {haveContacts
-          ? this.renderContacts(i18n('contactsHeader'), contacts)
-          : null}
         {haveMessages ? (
           <div className="module-search-results__messages">
             {hideMessagesHeader ? null : (
@@ -118,29 +92,6 @@ export class SearchResults extends React.Component<Props> {
             ))}
           </div>
         ) : null}
-      </div>
-    );
-  }
-
-  private renderContacts(
-    header: string,
-    items: Array<ConversationListItemPropsType>,
-    friends?: boolean
-  ) {
-    const { i18n, openConversation } = this.props;
-
-    return (
-      <div className="module-search-results__contacts">
-        <div className="module-search-results__contacts-header">{header}</div>
-        {items.map(contact => (
-          <ConversationListItem
-            key={contact.phoneNumber}
-            isFriendItem={friends}
-            {...contact}
-            onClick={openConversation}
-            i18n={i18n}
-          />
-        ))}
       </div>
     );
   }

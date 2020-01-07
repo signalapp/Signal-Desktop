@@ -1,8 +1,8 @@
 .session {
   &-fullscreen {
+    @include session-dark-background;
     overflow-y: auto;
     height: 100%;
-    background: linear-gradient(90deg, #121212 100%, #171717 0%);
   }
 
   &-content {
@@ -102,15 +102,8 @@
 
     @mixin registration-label-mixin {
       color: $session-color-white;
-      text-align: center;
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 17px;
+      font-weight: bold;
       padding: 12px;
-    }
-
-    &__or {
-      @include registration-label-mixin;
     }
 
     &__welcome-session {
@@ -124,6 +117,7 @@
     &__unique-session-id {
       @include registration-label-mixin;
       padding-top: 3em;
+      text-align: center;
     }
 
     &__entry-fields {
@@ -210,7 +204,7 @@
     }
   }
 
-  &-signup-header,
+  &-description-long,
   &-signin-device-pairing-header {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -220,9 +214,9 @@
     line-height: 20px;
   }
 
-  &-signin-enter-session-id {
+  &-id-editable {
     height: 94px;
-    width: 289px;
+    width: 100%;
     border-radius: 8px;
     border: 2px solid $session-color-dark-grey;
     outline: 0;
@@ -236,10 +230,12 @@
     padding: 20px 5px 20px 5px;
     display: inline-block;
     font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    user-select: all;
   }
 }
 
 [contenteditable='true']:empty::before {
   content: attr(placeholder);
   color: $session-color-light-grey;
+  font-size: 13px;
 }

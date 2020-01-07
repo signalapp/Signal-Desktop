@@ -398,7 +398,6 @@
         return;
       }
       const conversation = await this.getSourceDeviceConversation();
-
       // If we somehow received an old friend request (e.g. after having restored
       // from seed, we won't be able to accept it, we should initiate our own
       // friend request to reset the session:
@@ -408,7 +407,6 @@
         });
         return;
       }
-
       this.set({ friendStatus: 'accepted' });
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
