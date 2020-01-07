@@ -16,7 +16,6 @@ import {
 } from './SessionButton';
 import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
-import { ActionsPanel } from './ActionsPanel';
 import { ConversationType } from '../../state/ducks/conversations';
 
 export interface Props {
@@ -79,10 +78,9 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public renderHeader(): JSX.Element | undefined {
+    const { receivedFriendsRequest } = this.props;
     const labels = [window.i18n('contactsHeader'), window.i18n('lists')];
-    const friendRequestCount = ActionsPanel.GET_FRIEND_REQUESTS_COUNT(
-      this.props.conversations
-    );
+    const friendRequestCount = receivedFriendsRequest.length;
 
     return LeftPane.RENDER_HEADER(
       labels,

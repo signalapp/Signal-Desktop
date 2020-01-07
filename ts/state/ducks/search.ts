@@ -7,7 +7,8 @@ import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import {
   getPrimaryDeviceFor,
-  searchConversations, searchMessages,
+  searchConversations,
+  searchMessages,
 } from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
 

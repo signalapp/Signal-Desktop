@@ -100,6 +100,7 @@ export const _getLeftPaneLists = (
   friends: Array<ConversationType>;
   receivedFriendsRequest: Array<ConversationListItemPropsType>;
   sentFriendsRequest: Array<ConversationListItemPropsType>;
+  unreadCount: number;
 } => {
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
@@ -111,6 +112,8 @@ export const _getLeftPaneLists = (
   const sentFriendsRequest: Array<ConversationListItemPropsType> = [];
 
   const max = sorted.length;
+  let unreadCount = 0;
+
   for (let i = 0; i < max; i += 1) {
     let conversation = sorted[i];
 
@@ -127,6 +130,12 @@ export const _getLeftPaneLists = (
 
     if (conversation.hasReceivedFriendRequest) {
       receivedFriendsRequest.push(conversation);
+    } else if (
+      unreadCount < 9 &&
+      conversation.isFriend &&
+      conversation.unreadCount > 0
+    ) {
+      unreadCount += conversation.unreadCount;
     }
     if (conversation.hasSentFriendRequest) {
       sentFriendsRequest.push(conversation);
@@ -149,6 +158,7 @@ export const _getLeftPaneLists = (
     friends,
     receivedFriendsRequest,
     sentFriendsRequest,
+    unreadCount,
   };
 };
 
