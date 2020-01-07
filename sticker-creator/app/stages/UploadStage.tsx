@@ -9,6 +9,7 @@ import { Button } from '../../elements/Button';
 import { stickersDuck } from '../../store';
 import { encryptAndUpload } from '../../util/preload';
 import { useI18n } from '../../util/i18n';
+import { Toaster } from '../../components/Toaster';
 
 const handleCancel = () => history.push('/add-meta');
 
@@ -36,6 +37,9 @@ export const UploadStage = () => {
           actions.setPackMeta(packMeta);
           history.push('/share');
         } catch (e) {
+          actions.addToast('StickerCreator--Toasts--errorUploading', [
+            e.message,
+          ]);
           history.push('/add-meta');
         }
       })();

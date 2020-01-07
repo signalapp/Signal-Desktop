@@ -4,6 +4,7 @@ import { history } from '../../util/history';
 import { Button } from '../../elements/Button';
 import { useI18n } from '../../util/i18n';
 import { Text } from '../../elements/Typography';
+import { Toaster } from '../../components/Toaster';
 import { stickersDuck } from '../../store';
 
 export type Props = {
@@ -59,6 +60,8 @@ export const AppStage = (props: Props) => {
   );
 
   const addMoreCount = stickersDuck.useAddMoreCount();
+  const toasts = stickersDuck.useToasts();
+  const { dismissToast } = stickersDuck.useStickerActions();
 
   return (
     <>
@@ -85,6 +88,14 @@ export const AppStage = (props: Props) => {
           </Button>
         ) : null}
       </footer>
+      <Toaster
+        className={styles.toaster}
+        loaf={toasts.map((slice, id) => ({
+          id,
+          text: i18n(slice.key, slice.subs),
+        }))}
+        onDismiss={dismissToast}
+      />
     </>
   );
 };

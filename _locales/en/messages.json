@@ -2353,12 +2353,27 @@
   "StickerCreator--Toasts--animated": {
     "message": "Animated stickers are not currently supported",
     "description":
-      "Text for the toast when an image that is animated was dropped"
+      "Text for the toast when an image that is animated was dropped on the sticker creator"
   },
   "StickerCreator--Toasts--tooLarge": {
     "message": "Dropped image is too large",
     "description":
-      "Text for the toast when an image that is too large was dropped"
+      "Text for the toast when an image that is too large was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorProcessing": {
+    "message": "Error processing image",
+    "description":
+      "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+  },
+  "StickerCreator--Toasts--errorUploading": {
+    "message": "Error uploading stickers: $message$",
+    "description": "Text for the toast when a sticker pack cannot be uploaded",
+    "placeholders": {
+      "message": {
+        "content": "$1",
+        "example": "Not connected"
+      }
+    }
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "Link copied",

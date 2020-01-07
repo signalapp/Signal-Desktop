@@ -51,8 +51,13 @@ const InnerGrid = SortableContainer(
         actions.initializeStickers(paths);
         paths.forEach(path => {
           queue.add(async () => {
-            const webp = await convertToWebp(path);
-            actions.addWebp(webp);
+            try {
+              const webp = await convertToWebp(path);
+              actions.addWebp(webp);
+            } catch (e) {
+              actions.removeSticker(path);
+              actions.addToast('StickerCreator--Toasts--errorProcessing');
+            }
           });
         });
       },

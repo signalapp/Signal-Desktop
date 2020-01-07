@@ -9,7 +9,7 @@ import {
 } from 'redux-ts-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { clamp, isNumber, pull, take, uniq } from 'lodash';
+import { clamp, find, isNumber, pull, remove, take, uniq } from 'lodash';
 import { SortEnd } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { AppState } from '../reducer';
@@ -31,6 +31,13 @@ export const setEmoji = createAction<{ id: string; emoji: EmojiPickDataType }>(
 export const setTitle = createAction<string>('stickers/setTitle');
 export const setAuthor = createAction<string>('stickers/setAuthor');
 export const setPackMeta = createAction<PackMetaData>('stickers/setPackMeta');
+
+export const addToast = createAction<{
+  key: string;
+  subs?: Array<number | string>;
+}>('stickers/addToast');
+export const dismissToast = createAction<void>('stickers/dismissToast');
+
 export const resetStatus = createAction<void>('stickers/resetStatus');
 export const reset = createAction<void>('stickers/reset');
 
@@ -45,9 +52,7 @@ export type State = {
   readonly author: string;
   readonly packId: string;
   readonly packKey: string;
-  readonly tooLarge: number;
-  readonly animated: number;
-  readonly imagesAdded: number;
+  readonly toasts: Array<{ key: string; subs?: Array<number | string> }>;
   readonly data: {
     readonly [src: string]: {
       readonly webp?: WebpData;
@@ -63,9 +68,7 @@ const defaultState: State = {
   author: '',
   packId: '',
   packKey: '',
-  tooLarge: 0,
-  animated: 0,
-  imagesAdded: 0,
+  toasts: [],
 };
 
 const adjustCover = (state: Draft<State>) => {
@@ -95,23 +98,38 @@ export const reducer = reduceReducers<State>(
 
     handleAction(addWebp, (state, { payload }) => {
       if (isNumber(payload.meta.pages)) {
-        state.animated = clamp(state.animated + 1, 0, state.order.length);
+        state.toasts.push({ key: 'StickerCreator--Toasts--animated' });
         pull(state.order, payload.path);
         delete state.data[payload.path];
       } else if (payload.buffer.byteLength > maxByteSize) {
-        state.tooLarge = clamp(state.tooLarge + 1, 0, state.order.length);
+        state.toasts.push({ key: 'StickerCreator--Toasts--tooLarge' });
         pull(state.order, payload.path);
         delete state.data[payload.path];
       } else {
         const data = state.data[payload.path];
 
-        if (data) {
+        // If we are adding webp data, proceed to update the state and add/update a toast
+        if (data && !data.webp) {
           data.webp = payload;
-          state.imagesAdded = clamp(
-            state.imagesAdded + 1,
-            0,
-            state.order.length
-          );
+
+          const key = 'StickerCreator--Toasts--imagesAdded';
+
+          const toast = (() => {
+            const oldToast = find(state.toasts, { key });
+
+            if (oldToast) {
+              return oldToast;
+            }
+
+            const newToast = { key, subs: [0] };
+            state.toasts.push(newToast);
+
+            return newToast;
+          })();
+
+          if (toast.subs && isNumber(toast.subs[0])) {
+            toast.subs[0] = (toast.subs[0] || 0) + 1;
+          }
         }
       }
 
@@ -122,7 +140,6 @@ export const reducer = reduceReducers<State>(
       pull(state.order, payload);
       delete state.data[payload];
       adjustCover(state);
-      state.imagesAdded = clamp(state.imagesAdded - 1, 0, state.order.length);
     }),
 
     handleAction(moveSticker, (state, { payload }) => {
@@ -157,10 +174,17 @@ export const reducer = reduceReducers<State>(
       state.packKey = key;
     }),
 
+    handleAction(addToast, (state, { payload: toast }) => {
+      remove(state.toasts, { key: toast.key });
+      state.toasts.push(toast);
+    }),
+
+    handleAction(dismissToast, state => {
+      state.toasts.pop();
+    }),
+
     handleAction(resetStatus, state => {
-      state.tooLarge = 0;
-      state.animated = 0;
-      state.imagesAdded = 0;
+      state.toasts = [];
     }),
 
     handleAction(reset, () => defaultState),
@@ -212,12 +236,8 @@ const selectUrl = createSelector(
 );
 
 export const usePackUrl = () => useSelector(selectUrl);
-export const useHasTooLarge = () =>
-  useSelector(({ stickers }: AppState) => stickers.tooLarge > 0);
-export const useHasAnimated = () =>
-  useSelector(({ stickers }: AppState) => stickers.animated > 0);
-export const useImageAddedCount = () =>
-  useSelector(({ stickers }: AppState) => stickers.imagesAdded);
+export const useToasts = () =>
+  useSelector(({ stickers }: AppState) => stickers.toasts);
 export const useAddMoreCount = () =>
   useSelector(({ stickers }: AppState) =>
     clamp(minStickers - stickers.order.length, 0, minStickers)
@@ -260,6 +280,9 @@ export const useStickerActions = () => {
       setTitle: (title: string) => dispatch(setTitle(title)),
       setAuthor: (author: string) => dispatch(setAuthor(author)),
       setPackMeta: (e: PackMetaData) => dispatch(setPackMeta(e)),
+      addToast: (key: string, subs?: Array<number>) =>
+        dispatch(addToast({ key, subs })),
+      dismissToast: () => dispatch(dismissToast()),
       reset: () => dispatch(reset()),
       resetStatus: () => dispatch(resetStatus()),
     }),
