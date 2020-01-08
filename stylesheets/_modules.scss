@@ -374,7 +374,7 @@
   }
   @include dark-theme {
     border: 1px solid $color-gray-60;
-    background-color: $color-black;
+    background-color: $color-gray-95;
   }
   @include ios-theme {
     border: 1px solid $color-gray-15;
@@ -382,7 +382,7 @@
   }
   @include ios-dark-theme {
     border: 1px solid $color-gray-60;
-    background-color: $color-black;
+    background-color: $color-gray-95;
   }
 }
 
