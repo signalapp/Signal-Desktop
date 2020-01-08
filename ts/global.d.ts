@@ -1,5 +1,7 @@
 interface Window {
   Events: any;
+  deleteAllData: any;
+  deleteAccount: any;
   getAccountManager: any;
   mnemonic: any;
   clipboard: any;
@@ -19,6 +21,8 @@ interface Window {
   generateID: any;
   storage: any;
   pushToast: any;
+  confirmationDialog: any;
+  showSeedDialog: any;
 }
 
 interface Promise<T> {

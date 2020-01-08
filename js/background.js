@@ -807,14 +807,20 @@
         el: $('#session-confirm-container'),
         title: params.title,
         message: params.message,
+        messageSub: params.messageSub || undefined,
         resolve: params.resolve || undefined,
         reject: params.reject || undefined,
         okText: params.okText || undefined,
+        okTheme: params.okTheme || undefined,
+        closeTheme: params.closeTheme || undefined,
         cancelText: params.cancelText || undefined,
         hideCancel: params.hideCancel || false,
       });
+
       confirmDialog.render();
     };
+
+    window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
 
     window.generateID = () =>
       Math.random()
@@ -865,6 +871,13 @@
 
       return toastID;
     };
+
+    window.deleteAccount = () => {
+      // Delete local data
+      // TOOD. MAKE THIS PROCESS SECURED WITH rm-secure
+      // https://www.npmjs.com/package/secure-rm
+      alert('YOUR ACCOUNT HAS BEEN DELETED');
+    }
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
@@ -1132,10 +1145,8 @@
     });
 
     Whisper.events.on('showSeedDialog', async () => {
-      const manager = await getAccountManager();
-      if (appView && manager) {
-        const seed = manager.getCurrentMnemonic();
-        appView.showSeedDialog(seed);
+      if (appView) {
+        appView.showSeedDialog();
       }
     });
 

@@ -213,6 +213,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
       title: window.i18n('copiedMnemonic'),
       type: 'success',
       id: 'copySeedToast',
+      shouldFade: false,
     });
   }
 

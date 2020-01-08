@@ -240,12 +240,8 @@ export class LeftPane extends React.Component<Props, State> {
   }
 
   private renderSettingSection() {
-    const {
-    } = this.props;
+    const {} = this.props;
 
-    return (
-      <LeftPaneSettingSection
-      />
-    );
+    return <LeftPaneSettingSection />;
   }
 }

@@ -148,7 +148,7 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
 
       return;
     }
-    // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
+    
     this.setState({ pubKeyPasted: '' }, () => {
       window.Session.emptyContentEditableDivs();
     });
@@ -171,7 +171,6 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
 
   public clearSearch() {
     this.props.clearSearch();
-    //this.setFocus();
   }
 
   public search() {

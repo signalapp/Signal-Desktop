@@ -9,47 +9,48 @@ import {
   SessionButtonType,
 } from './SessionButton';
 
-import {
-  SessionIcon,
-  SessionIconSize,
-  SessionIconType,
-} from './icon';
+import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { SessionSearchInput } from './SessionSearchInput';
+import { Session } from 'inspector';
 
 
 export enum SessionSettingCategory {
+  Account = 'account',
   Privacy = 'privacy',
   Notifications = 'notifications',
   Devices = 'devices',
 }
 
-export interface Props {
-  
-}
+export interface Props {}
 
 export interface State {
   settingCategory: SessionSettingCategory;
+  searchQuery: string;
 }
 
 export class LeftPaneSettingSection extends React.Component<Props, State> {
-  
+  //private readonly updateSearchBound: (searchedString: string) => void;
+
   public constructor(props: Props) {
     super(props);
 
     this.state = {
       settingCategory: SessionSettingCategory.Privacy,
+      searchQuery: '',
     };
 
     this.setCategory = this.setCategory.bind(this);
     this.renderRows = this.renderRows.bind(this);
 
+    //this.updateSearchBound = this.updateSearch.bind(this);
   }
 
   public render(): JSX.Element {
     return (
       <div className="left-pane-setting-section">
-          {this.renderHeader()}
-          
-          {this.renderSettings()}
+        {this.renderHeader()}
+
+        {this.renderSettings()}
       </div>
     );
   }
@@ -62,66 +63,77 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       null,
       undefined,
       undefined,
-      undefined,
+      undefined
     );
   }
 
-  public renderRows () {
-
+  public renderRows(): JSX.Element {
     const categories = this.getCategories();
 
     return (
       <>
-        {categories.map((item) => (
-            <div
-              key={item.id}
-              className={classNames('left-pane-setting-category-list-item', item.id === this.state.settingCategory ? 'active' : '')}
-              onClick={() => this.setCategory(item.id)}
-            >
-              <div>
-                <strong>{ item.title }</strong>
-                <br/>
-                <span className="text-subtle">
-                  {item.description }
-                </span>
-              </div>
-
-              <div>
-                { item.id === this.state.settingCategory &&
-                  <SessionIcon
-                    iconSize={SessionIconSize.Medium}
-                    iconType={SessionIconType.Chevron}
-                    iconRotation={270}
-                  />
-                }
-              </div>
+        {categories.map(item => (
+          <div
+            key={item.id}
+            className={classNames(
+              'left-pane-setting-category-list-item',
+              item.id === this.state.settingCategory ? 'active' : ''
+            )}
+            onClick={() => this.setCategory(item.id)}
+          >
+            <div>
+              <strong>{item.title}</strong>
+              <br />
+              <span className="text-subtle">{item.description}</span>
             </div>
-          ))}
 
+            <div>
+              {item.id === this.state.settingCategory && (
+                <SessionIcon
+                  iconSize={SessionIconSize.Medium}
+                  iconType={SessionIconType.Chevron}
+                  iconRotation={270}
+                />
+              )}
+            </div>
+          </div>
+        ))}
       </>
     );
   }
 
-  public renderCategories() {
-
+  public renderCategories(): JSX.Element {
     return (
       <div className="module-left-pane__list" key={0}>
-          <div className="left-pane-setting-category-list">
-            {this.renderRows()}
-          </div>
+        <div className="left-pane-setting-category-list">
+          {this.renderRows()}
+        </div>
       </div>
-    )
+    );
   }
 
   public renderSettings(): JSX.Element {
     return (
       <div className="left-pane-setting-content">
+        <div className="left-pane-setting-input-group">
+          <SessionSearchInput
+            searchString={this.state.searchQuery}
+            onChange={() => null}
+            placeholder=''
+          />
+          <div className="left-pane-setting-input-button">
+            <SessionButton
+              buttonType={SessionButtonType.Square}
+              buttonColor={SessionButtonColor.Green}
+              text={'>'}
+            />
+          </div>
+        </div>
         {this.renderCategories()}
         {this.renderBottomButtons()}
       </div>
     );
   }
-
 
   public renderBottomButtons(): JSX.Element {
     const deleteAccount = window.i18n('deleteAccount');
@@ -133,33 +145,54 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
           text={deleteAccount}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.Danger}
+          onClick={this.onDeleteAccount}
         />
         <SessionButton
           text={showSeed}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
+          onClick={window.showSeedDialog}
         />
       </div>
     );
   }
 
-  public getCategories(){
+  public onDeleteAccount() {
+
+    const params = {
+      title: window.i18n('deleteAccount'),
+      message: window.i18n('deleteAccountWarning'),
+      messageSub: window.i18n('deleteAccountWarningSub'),
+      resolve: window.deleteAccount,
+      okTheme: 'danger',
+    };
+    
+    window.confirmationDialog(params);
+
+  }
+
+  public getCategories() {
     return [
       {
+        id: SessionSettingCategory.Account,
+        title: window.i18n('accountSettingsTitle'),
+        description: window.i18n('accountSettingsDescription'),
+      },
+      {
         id: SessionSettingCategory.Privacy,
-        title: 'Privacy',
-        description: 'Privacy description',
+        title: window.i18n('privacySettingsTitle'),
+        description: window.i18n('privacySettingsDescription'),
       },
       {
         id: SessionSettingCategory.Notifications,
-        title: 'Notifications',
-        description: "Choose what you're notified about."
+        title: window.i18n('notificationSettingsTitle'),
+        description: window.i18n('notificationSettingsDescription'),
       },
       {
         id: SessionSettingCategory.Devices,
-        title: 'Linked Devices',
-        description: "Managed linked devices."
-      }
+        title: window.i18n('devicesSettingsTitle'),
+        description: window.i18n('devicesSettingsDescription'),
+      },
     ];
   }
 
@@ -168,4 +201,34 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       settingCategory: category,
     });
   }
+
+  // public updateSearch(searchTerm: string) {
+  //   const { updateSearchTerm, clearSearch } = this.props;
+
+  //   if (!searchTerm) {
+  //     clearSearch();
+
+  //     return;
+  //   }
+  //   // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
+  //   this.setState({ pubKeyPasted: '' }, () => {
+  //     window.Session.emptyContentEditableDivs();
+  //   });
+
+  //   if (updateSearchTerm) {
+  //     updateSearchTerm(searchTerm);
+  //   }
+
+  //   if (searchTerm.length < 2) {
+  //     return;
+  //   }
+
+  //   const cleanedTerm = cleanSearchTerm(searchTerm);
+  //   if (!cleanedTerm) {
+  //     return;
+  //   }
+
+  //   this.debouncedSearch(cleanedTerm);
+  // }
+
 }

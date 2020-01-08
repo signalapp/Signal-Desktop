@@ -1162,6 +1162,14 @@
     "message": "Delete Account",
     "description": "Text for button in settings view to delete account"
   },
+  "deleteAccountWarning": {
+    "message": "Are you sure you want to delete your account?",
+    "description": "Warning for account deletion in settings view"
+  },
+  "deleteAccountWarningSub": {
+    "message": "This is completely irreversible and will leave no trace.",
+    "description": "Warning for account deletion in settings view"
+  },
   "deleteContact": {
     "message": "Delete Contact",
     "description":
@@ -1341,7 +1349,7 @@
     "description": "Text describing what the clear data button will do."
   },
   "clearDataButton": {
-    "message": "Clear data",
+    "message": "Clear Data",
     "description":
       "Button in the settings dialog starting process to delete all data"
   },
@@ -2471,5 +2479,29 @@
   },
   "decline": {
     "message": "Decline"
+  },
+  "accountSettingsTitle": {
+    "message": "Account"
+  },
+  "accountSettingsDescription": {
+    "message": "Manage your account"
+  },
+  "privacySettingsTitle": {
+    "message": "Privacy"
+  },
+  "privacySettingsDescription": {
+    "message": "Privacy description"
+  },
+  "notificationSettingsTitle": {
+    "message": "Notifications"
+  },
+  "notificationSettingsDescription": {
+    "message": "Choose what you're notified about."
+  },
+  "devicesSettingsTitle": {
+    "message": "Devices"
+  },
+  "devicesSettingsDescription": {
+    "message": "Managed linked devices."
   }
 }

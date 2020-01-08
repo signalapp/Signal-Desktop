@@ -579,6 +579,7 @@ label {
     font-size: 15px;
     line-height: 13px;
     margin-bottom: $session-margin-sm;
+    padding-top: 0px;
     color: $session-color-white;
   }
 
@@ -695,6 +696,21 @@ label {
 
   &__text-highlight {
     @include text-highlight($session-shade-15);
+  }
+}
+
+.session-confirm {
+  &-wrapper {
+    .session-modal__body .session-modal__centered{
+      margin: $session-margin-lg
+    }
+  }
+
+  &-main-message{
+    font-size: 15px;
+  }
+  &-sub-message {
+    margin-top: 5px;
   }
 }
 
@@ -899,4 +915,3 @@ label {
 .messages li {
   transition: $session-transition-duration !important;
 }
-

@@ -265,8 +265,7 @@ $session-compose-margin: 20px;
 
   .session-button.square-outline.square.green,
   .session-button.square-outline.square.white,
-  .session-button.square-outline.square.danger
-  {
+  .session-button.square-outline.square.danger {
     flex-grow: 1;
     border: 1px solid $session-shade-7;
     height: 50px;
@@ -342,13 +341,13 @@ $session-compose-margin: 20px;
   }
 }
 
-
 .left-pane-setting {
   &-bottom-buttons {
     @include bottom-buttons();
   }
 
-  &-content, &-section {
+  &-content,
+  &-section {
     display: flex;
     flex-direction: column;
   }
@@ -364,21 +363,19 @@ $session-compose-margin: 20px;
     padding: 0px 12px;
 
     cursor: pointer;
-    transition: $session-transition-duration !important;   
+    transition: $session-transition-duration !important;
 
-    &>div {
+    & > div {
       display: block;
     }
 
-    &.active{
+    &.active {
       background-color: $session-shade-9;
     }
 
-    &:hover{
+    &:hover {
       background-color: $session-shade-7;
     }
-
-
 
     &__buttons {
       display: flex;
@@ -392,8 +389,11 @@ $session-compose-margin: 20px;
       }
     }
   }
-}
 
+  &-input-group {
+    display: inline-flex;
+  }
+}
 
 .panel-text-divider {
   width: 100%;

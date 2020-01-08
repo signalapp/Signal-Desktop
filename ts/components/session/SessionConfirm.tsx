@@ -1,9 +1,10 @@
 import React from 'react';
 import { SessionModal } from './SessionModal';
-import { SessionButton } from './SessionButton';
+import { SessionButton, SessionButtonColor } from './SessionButton';
 
 interface Props {
   message: string;
+  messageSub: string;
   title: string;
   onOk?: any;
   onClose?: any;
@@ -12,11 +13,16 @@ interface Props {
   okText?: string;
   cancelText?: string;
   hideCancel: boolean;
+  okTheme: SessionButtonColor;
+  closeTheme: SessionButtonColor;
 }
 
 export class SessionConfirm extends React.Component<Props> {
   public static defaultProps = {
     title: '',
+    messageSub: '',
+    okTheme: SessionButtonColor.Primary,
+    closeTheme: SessionButtonColor.Primary,
     hideCancel: false,
   };
 
@@ -25,7 +31,7 @@ export class SessionConfirm extends React.Component<Props> {
   }
 
   public render() {
-    const { title, message, onClickOk, onClickClose, hideCancel } = this.props;
+    const { title, message, messageSub, okTheme, closeTheme, onClickOk, onClickClose, hideCancel } = this.props;
 
     const okText = this.props.okText || window.i18n('ok');
     const cancelText = this.props.cancelText || window.i18n('cancel');
@@ -42,19 +48,31 @@ export class SessionConfirm extends React.Component<Props> {
         {!showHeader && <div className="spacer-lg" />}
 
         <div className="session-modal__centered">
-          <span className="text-subtle">{message}</span>
+          <span className={ messageSub ? "session-confirm-main-message" : "text-subtle" }>{message}</span>
+          { messageSub && (
+            <span className="session-confirm-sub-message text-subtle">{messageSub}</span>
+          )}
         </div>
 
         <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
-          <SessionButton text={okText} onClick={onClickOk} />
+          <SessionButton
+            text={okText}
+            buttonColor={okTheme}
+            onClick={onClickOk}
+          />
 
           {!hideCancel && (
-            <SessionButton text={cancelText} onClick={onClickClose} />
+            <SessionButton
+              text={cancelText}
+              buttonColor={closeTheme}
+              onClick={onClickClose}
+            />
           )}
         </div>
       </SessionModal>
     );
   }
+  
 }
