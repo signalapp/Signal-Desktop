@@ -7,7 +7,7 @@ export enum SectionType {
   Profile,
   Message,
   Contact,
-  Globe,
+  Channel,
   Settings,
   Moon,
 }
@@ -81,7 +81,7 @@ const Section = ({
     case SectionType.Contact:
       iconType = SessionIconType.Users;
       break;
-    case SectionType.Globe:
+    case SectionType.Channel:
       iconType = SessionIconType.Globe;
       break;
     case SectionType.Settings:
@@ -147,7 +147,7 @@ export class ActionsPanel extends React.Component<Props, State> {
     const isProfilePageSelected = selectedSection === SectionType.Profile;
     const isMessagePageSelected = selectedSection === SectionType.Message;
     const isContactPageSelected = selectedSection === SectionType.Contact;
-    const isGlobePageSelected = selectedSection === SectionType.Globe;
+    const isChannelPageSelected = selectedSection === SectionType.Channel;
     const isSettingsPageSelected = selectedSection === SectionType.Settings;
     const isMoonPageSelected = selectedSection === SectionType.Moon;
 
@@ -172,8 +172,8 @@ export class ActionsPanel extends React.Component<Props, State> {
           notificationCount={receivedFriendRequestCount}
         />
         <Section
-          type={SectionType.Globe}
-          isSelected={isGlobePageSelected}
+          type={SectionType.Channel}
+          isSelected={isChannelPageSelected}
           onSelect={this.handleSectionSelect}
         />
         <Section

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { MainViewController } from './MainViewController';
 
 import { ActionsPanel, SectionType } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
@@ -9,21 +8,11 @@ import { PropsData as ConversationListItemPropsType } from './ConversationListIt
 import { PropsData as SearchResultsProps } from './SearchResults';
 import { SearchOptions } from '../types/Search';
 import { LeftPaneSectionHeader } from './session/LeftPaneSectionHeader';
-import {
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from './session/icon';
-import { SessionIdEditable } from './session/SessionIdEditable';
-import { UserSearchDropdown } from './session/UserSearchDropdown';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from './session/SessionButton';
+
 import { ConversationType } from '../state/ducks/conversations';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
+import { LeftPaneChannelSection } from './session/LeftPaneChannelSection';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -86,81 +75,6 @@ export class LeftPane extends React.Component<Props, State> {
     );
   }
 
-  public static RENDER_CLOSABLE_OVERLAY(
-    isAddContactView: boolean,
-    onChangeSessionID: any,
-    onCloseClick: any,
-    onButtonClick: any,
-    searchTerm: string,
-    searchResults?: any,
-    updateSearch?: any
-  ): JSX.Element {
-    const title = isAddContactView
-      ? window.i18n('addContact')
-      : window.i18n('enterRecipient');
-    const buttonText = isAddContactView
-      ? window.i18n('addContact')
-      : window.i18n('message');
-    const ourSessionID = window.textsecure.storage.user.getNumber();
-
-    return (
-      <div className="module-left-pane-overlay">
-        <div className="exit">
-          <SessionIconButton
-            iconSize={SessionIconSize.Small}
-            iconType={SessionIconType.Exit}
-            onClick={onCloseClick}
-          />
-        </div>
-        <h2>{title}</h2>
-        <h3>{window.i18n('enterSessionID')}</h3>
-        <div className="module-left-pane-overlay-border-container">
-          <hr className="white" />
-          <hr className="green" />
-        </div>
-        <SessionIdEditable
-          editable={true}
-          placeholder={window.i18n('pasteSessionIDRecipient')}
-          onChange={onChangeSessionID}
-        />
-
-        <div className="session-description-long">
-          {window.i18n('usersCanShareTheir...')}
-        </div>
-        {isAddContactView || <h4>{window.i18n('or')}</h4>}
-
-        {isAddContactView || (
-          <UserSearchDropdown
-            searchTerm={searchTerm}
-            updateSearch={updateSearch}
-            placeholder={window.i18n('searchByIDOrDisplayName')}
-            searchResults={searchResults}
-          />
-        )}
-
-        {isAddContactView && (
-          <div className="panel-text-divider">
-            <span>{window.i18n('yourPublicKey')}</span>
-          </div>
-        )}
-
-        {isAddContactView && (
-          <SessionIdEditable
-            editable={false}
-            placeholder=""
-            text={ourSessionID}
-          />
-        )}
-        <SessionButton
-          buttonColor={SessionButtonColor.Green}
-          buttonType={SessionButtonType.BrandOutline}
-          text={buttonText}
-          onClick={onButtonClick}
-        />
-      </div>
-    );
-  }
-
   public handleSectionSelected(section: SectionType) {
     this.props.clearSearch();
     this.setState({ selectedSection: section });
@@ -187,6 +101,8 @@ export class LeftPane extends React.Component<Props, State> {
         return this.renderMessageSection();
       case SectionType.Contact:
         return this.renderContactSection();
+      case SectionType.Channel:
+          return this.renderChannelSection();
       case SectionType.Settings:
         return this.renderSettingSection();
       case SectionType.Moon:
@@ -258,5 +174,31 @@ export class LeftPane extends React.Component<Props, State> {
 
   private renderSettingSection() {
     return <LeftPaneSettingSection />;
+  }
+
+  private renderChannelSection() {
+    const {
+      openConversationInternal,
+      conversations,
+      searchResults,
+      searchTerm,
+      isSecondaryDevice,
+      updateSearchTerm,
+      search,
+      clearSearch,
+    } = this.props;
+
+    return (
+      <LeftPaneChannelSection
+        openConversationInternal={openConversationInternal}
+        conversations={conversations}
+        searchResults={searchResults}
+        searchTerm={searchTerm}
+        isSecondaryDevice={isSecondaryDevice}
+        updateSearchTerm={updateSearchTerm}
+        search={search}
+        clearSearch={clearSearch}
+      />
+    );
   }
 }

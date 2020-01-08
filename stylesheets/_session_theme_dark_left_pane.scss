@@ -211,6 +211,9 @@ $session-compose-margin: 20px;
     }
   }
 }
+.module-search-results {
+  flex-grow: 1;
+}
 
 .module-conversations-list-content {
   overflow-x: hidden;
@@ -395,6 +398,8 @@ $session-compose-margin: 20px;
     & > div {
       display: block;
     }
+    flex-shrink: 0;
+    @include session-dark-background;
 
     &.active {
       background-color: $session-shade-9;

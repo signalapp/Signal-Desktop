@@ -17,6 +17,7 @@ import {
 import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
 import { ConversationType } from '../../state/ducks/conversations';
+import { SessionClosableOverlay } from './SessionClosableOverlay';
 
 export interface Props {
   searchTerm: string;
@@ -96,13 +97,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       <div className="left-pane-contact-section">
         {this.renderHeader()}
         {this.state.showAddContactView
-          ? LeftPane.RENDER_CLOSABLE_OVERLAY(
-              true,
-              this.handleRecipientSessionIDChanged,
-              this.handleToggleOverlay,
-              this.handleOnAddContact,
-              ''
-            )
+          ? this.renderClosableOverlay()
           : this.renderContacts()}
       </div>
     );
@@ -196,6 +191,12 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
         isSecondaryDevice,
       });
     }
+  }
+
+  private renderClosableOverlay() {
+    return (
+      <SessionClosableOverlay overlayMode="contact" onChangeSessionID={this.handleRecipientSessionIDChanged} onCloseClick={this.handleToggleOverlay} onButtonClick={this.handleOnAddContact} />
+    );
   }
 
   private getCurrentFriends(): Array<ConversationType> {

@@ -498,7 +498,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
   private onSecondDeviceSessionIDChanged(e: any) {
     e.preventDefault();
-    const hexEncodedPubKey = e.target.innerHTML;
+    const cleanText = e.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
+    const hexEncodedPubKey = cleanText;
     this.setState({
       primaryDevicePubKey: hexEncodedPubKey,
     });

@@ -748,7 +748,7 @@
     "message": "Loki Messenger"
   },
   "search": {
-    "message": "Enter name or public key",
+    "message": "Search",
     "description": "Placeholder text in the search input"
   },
   "noSearchResults": {
@@ -2550,5 +2550,26 @@
         "example": "26"
       }
     }
+  },
+  "channels": {
+    "message": "Channels"
+  },
+  "addChannel": {
+    "message": "Add channel"
+  },
+  "enterChannelURL": {
+    "message": "Enter Channel URL"
+  },
+  "channelUrlPlaceholder": {
+    "message": "https://yourchannel.lokinet.org"
+  },
+  "addChannelDescription": {
+    "message": "Enter the URL of the public channel you'd like to join in the format above."
+  },
+  "joinChannel": {
+    "message": "Join Channel"
+  },
+  "next": {
+    "message": "Next"
   }
 }
