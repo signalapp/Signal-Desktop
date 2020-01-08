@@ -31,9 +31,9 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 ### Windows
 
 1.  **Windows 7 only:**
-    * Install Microsoft .NET Framework 4.5.1:
+    - Install Microsoft .NET Framework 4.5.1:
       https://www.microsoft.com/en-us/download/details.aspx?id=40773
-    * Install Windows SDK version 8.1: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive
+    - Install Windows SDK version 8.1: https://developer.microsoft.com/en-us/windows/downloads/sdk-archive
 1.  Install _Windows Build Tools_: Open the [Command Prompt (`cmd.exe`) as Administrator](<https://technet.microsoft.com/en-us/library/cc947813(v=ws.10).aspx>)
     and run: `npm install --global --production --add-python-to-path windows-build-tools`
 
@@ -115,9 +115,9 @@ Desktop to populate your testing application!
 
 First, find your application data:
 
-* macOS: `~/Library/Application Support/Signal`
-* Linux: `~/.config/Signal`
-* Windows 10: `C:\Users\<YourName>\AppData\Roaming\Signal`
+- macOS: `~/Library/Application Support/Signal`
+- Linux: `~/.config/Signal`
+- Windows 10: `C:\Users\<YourName>\AppData\Roaming\Signal`
 
 Now make a copy of this production data directory in the same place, and call it
 `Signal-development`. Now start up the development version of the app as normal,
@@ -189,31 +189,31 @@ the report with `yarn open-coverage`.
 
 So you wanna make a pull request? Please observe the following guidelines.
 
-* First, make sure that your `yarn ready` run passes - it's very similar to what our
+- First, make sure that your `yarn ready` run passes - it's very similar to what our
   Continuous Integration servers do to test the app.
-* Please do not submit pull requests for translation fixes. Anyone can update
+- Please do not submit pull requests for translation fixes. Anyone can update
   the translations in
   [Transifex](https://www.transifex.com/projects/p/signal-desktop).
-* Never use plain strings right in the source code - pull them from `messages.json`!
+- Never use plain strings right in the source code - pull them from `messages.json`!
   You **only** need to modify the default locale
   [`_locales/en/messages.json`](_locales/en/messages.json). Other locales are generated
   automatically based on that file and then periodically uploaded to Transifex for
   translation.
-* [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
+- [Rebase](https://nathanleclaire.com/blog/2014/09/14/dont-be-scared-of-git-rebase/) your
   changes on the latest `development` branch, resolving any conflicts.
   This ensures that your changes will merge cleanly when you open your PR.
-* Be sure to add and run tests!
-* Make sure the diff between our master and your branch contains only the
+- Be sure to add and run tests!
+- Make sure the diff between our master and your branch contains only the
   minimal set of changes needed to implement your feature or bugfix. This will
   make it easier for the person reviewing your code to approve the changes.
   Please do not submit a PR with commented out code or unfinished features.
-* Avoid meaningless or too-granular commits. If your branch contains commits like
+- Avoid meaningless or too-granular commits. If your branch contains commits like
   the lines of "Oops, reverted this change" or "Just experimenting, will
   delete this later", please [squash or rebase those changes away](https://robots.thoughtbot.com/git-interactive-rebase-squash-amend-rewriting-history).
-* Don't have too few commits. If you have a complicated or long lived feature
+- Don't have too few commits. If you have a complicated or long lived feature
   branch, it may make sense to break the changes up into logical atomic chunks
   to aid in the review process.
-* Provide a well written and nicely formatted commit message. See [this
+- Provide a well written and nicely formatted commit message. See [this
   link](http://chris.beams.io/posts/git-commit/)
   for some tips on formatting. As far as content, try to include in your
   summary

@@ -12,22 +12,19 @@ const DEFAULT_DISMISS = 1e4;
 export const Toaster = React.memo(({ loaf, onDismiss, className }: Props) => {
   const slice = last(loaf);
 
-  React.useEffect(
-    () => {
-      if (!slice) {
-        return noop;
-      }
+  React.useEffect(() => {
+    if (!slice) {
+      return noop;
+    }
 
-      const timer = setTimeout(() => {
-        onDismiss();
-      }, DEFAULT_DISMISS);
+    const timer = setTimeout(() => {
+      onDismiss();
+    }, DEFAULT_DISMISS);
 
-      return () => {
-        clearTimeout(timer);
-      };
-    },
-    [slice, onDismiss]
-  );
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [slice, onDismiss]);
 
   if (!slice) {
     return null;

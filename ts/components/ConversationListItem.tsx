@@ -159,8 +159,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
       shouldShowDraft && draftPreview
         ? draftPreview
         : lastMessage && lastMessage.text
-          ? lastMessage.text
-          : '';
+        ? lastMessage.text
+        : '';
 
     return (
       <div className="module-conversation-list-item__message">
@@ -195,9 +195,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           <div
             className={classNames(
               'module-conversation-list-item__message__status-icon',
-              `module-conversation-list-item__message__status-icon--${
-                lastMessage.status
-              }`
+              `module-conversation-list-item__message__status-icon--${lastMessage.status}`
             )}
           />
         ) : null}

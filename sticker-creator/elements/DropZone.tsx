@@ -37,14 +37,11 @@ export const DropZone = (props: Props) => {
     accept: ['image/png', 'image/webp'],
   });
 
-  React.useEffect(
-    () => {
-      if (onDragActive) {
-        onDragActive(isDragActive);
-      }
-    },
-    [isDragActive, onDragActive]
-  );
+  React.useEffect(() => {
+    if (onDragActive) {
+      onDragActive(isDragActive);
+    }
+  }, [isDragActive, onDragActive]);
 
   return (
     <div {...getRootProps({ className: getClassName(props, isDragActive) })}>

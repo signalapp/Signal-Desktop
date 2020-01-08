@@ -150,18 +150,12 @@ module.exports = grunt => {
     },
     'test-release': {
       osx: {
-        archive: `mac/${
-          packageJson.productName
-        }.app/Contents/Resources/app.asar`,
-        exe: `mac/${packageJson.productName}.app/Contents/MacOS/${
-          packageJson.productName
-        }`,
+        archive: `mac/${packageJson.productName}.app/Contents/Resources/app.asar`,
+        exe: `mac/${packageJson.productName}.app/Contents/MacOS/${packageJson.productName}`,
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
-        exe: `mas/${packageJson.productName}.app/Contents/MacOS/${
-          packageJson.productName
-        }`,
+        exe: `mas/${packageJson.productName}.app/Contents/MacOS/${packageJson.productName}`,
       },
       linux: {
         archive: 'linux-unpacked/resources/app.asar',

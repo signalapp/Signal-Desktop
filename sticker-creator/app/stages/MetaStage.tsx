@@ -37,26 +37,17 @@ export const MetaStage = () => {
     accept: ['image/png', 'image/webp'],
   });
 
-  const onNext = React.useCallback(
-    () => {
-      setConfirming(true);
-    },
-    [setConfirming]
-  );
+  const onNext = React.useCallback(() => {
+    setConfirming(true);
+  }, [setConfirming]);
 
-  const onCancel = React.useCallback(
-    () => {
-      setConfirming(false);
-    },
-    [setConfirming]
-  );
+  const onCancel = React.useCallback(() => {
+    setConfirming(false);
+  }, [setConfirming]);
 
-  const onConfirm = React.useCallback(
-    () => {
-      history.push('/upload');
-    },
-    [setConfirming]
-  );
+  const onConfirm = React.useCallback(() => {
+    history.push('/upload');
+  }, [setConfirming]);
 
   const coverFrameClass = isDragActive
     ? styles.coverFrameActive

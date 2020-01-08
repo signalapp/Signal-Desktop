@@ -307,14 +307,11 @@ export const CompositionInput = ({
     [onDirtyChange, onEditorStateChange, editorStateRef]
   );
 
-  const resetEmojiResults = React.useCallback(
-    () => {
-      setEmojiResults([]);
-      setEmojiResultsIndex(0);
-      setSearchText('');
-    },
-    [setEmojiResults, setEmojiResultsIndex, setSearchText]
-  );
+  const resetEmojiResults = React.useCallback(() => {
+    setEmojiResults([]);
+    setEmojiResultsIndex(0);
+    setSearchText('');
+  }, [setEmojiResults, setEmojiResultsIndex, setSearchText]);
 
   const handleEditorStateChange = React.useCallback(
     (newState: EditorState) => {
@@ -361,26 +358,23 @@ export const CompositionInput = ({
     ]
   );
 
-  const handleBeforeInput = React.useCallback(
-    (): DraftHandleValue => {
-      if (!editorStateRef.current) {
-        return 'not-handled';
-      }
-
-      const editorState = editorStateRef.current;
-      const plainText = editorState.getCurrentContent().getPlainText();
-      const selectedTextLength = getLengthOfSelectedText(editorState);
-
-      if (plainText.length - selectedTextLength > MAX_LENGTH - 1) {
-        onTextTooLong();
-
-        return 'handled';
-      }
-
+  const handleBeforeInput = React.useCallback((): DraftHandleValue => {
+    if (!editorStateRef.current) {
       return 'not-handled';
-    },
-    [onTextTooLong, editorStateRef]
-  );
+    }
+
+    const editorState = editorStateRef.current;
+    const plainText = editorState.getCurrentContent().getPlainText();
+    const selectedTextLength = getLengthOfSelectedText(editorState);
+
+    if (plainText.length - selectedTextLength > MAX_LENGTH - 1) {
+      onTextTooLong();
+
+      return 'handled';
+    }
+
+    return 'not-handled';
+  }, [onTextTooLong, editorStateRef]);
 
   const handlePastedText = React.useCallback(
     (pastedText: string): DraftHandleValue => {
@@ -406,25 +400,19 @@ export const CompositionInput = ({
     [onTextTooLong, editorStateRef]
   );
 
-  const resetEditorState = React.useCallback(
-    () => {
-      const newEmptyState = EditorState.createEmpty(compositeDecorator);
-      setAndTrackEditorState(newEmptyState);
-      resetEmojiResults();
-    },
-    [editorStateRef, resetEmojiResults, setAndTrackEditorState]
-  );
+  const resetEditorState = React.useCallback(() => {
+    const newEmptyState = EditorState.createEmpty(compositeDecorator);
+    setAndTrackEditorState(newEmptyState);
+    resetEmojiResults();
+  }, [editorStateRef, resetEmojiResults, setAndTrackEditorState]);
 
-  const submit = React.useCallback(
-    () => {
-      const { current: state } = editorStateRef;
-      const text = state.getCurrentContent().getPlainText();
-      const emojidText = replaceColons(text);
-      const trimmedText = emojidText.trim();
-      onSubmit(trimmedText);
-    },
-    [editorStateRef, onSubmit]
-  );
+  const submit = React.useCallback(() => {
+    const { current: state } = editorStateRef;
+    const text = state.getCurrentContent().getPlainText();
+    const emojidText = replaceColons(text);
+    const trimmedText = emojidText.trim();
+    onSubmit(trimmedText);
+  }, [editorStateRef, onSubmit]);
 
   const handleEditorSizeChange = React.useCallback(
     (rect: ContentRect) => {
@@ -716,67 +704,55 @@ export const CompositionInput = ({
   );
 
   // Create popper root
-  React.useEffect(
-    () => {
-      if (emojiResults.length > 0) {
-        const root = document.createElement('div');
-        setPopperRoot(root);
-        document.body.appendChild(root);
+  React.useEffect(() => {
+    if (emojiResults.length > 0) {
+      const root = document.createElement('div');
+      setPopperRoot(root);
+      document.body.appendChild(root);
 
-        return () => {
-          document.body.removeChild(root);
-          setPopperRoot(null);
-        };
-      }
+      return () => {
+        document.body.removeChild(root);
+        setPopperRoot(null);
+      };
+    }
 
-      return noop;
-    },
-    [setPopperRoot, emojiResults]
-  );
+    return noop;
+  }, [setPopperRoot, emojiResults]);
 
-  const onFocus = React.useCallback(
-    () => {
-      focusRef.current = true;
-    },
-    [focusRef]
-  );
+  const onFocus = React.useCallback(() => {
+    focusRef.current = true;
+  }, [focusRef]);
 
-  const onBlur = React.useCallback(
-    () => {
-      focusRef.current = false;
-    },
-    [focusRef]
-  );
+  const onBlur = React.useCallback(() => {
+    focusRef.current = false;
+  }, [focusRef]);
 
   // Manage focus
   // Chromium places the editor caret at the beginning of contenteditable divs on focus
   // Here, we force the last known selection on focusin (doing this with onFocus wasn't behaving properly)
   // This needs to be done in an effect because React doesn't support focus{In,Out}
   // https://github.com/facebook/react/issues/6410
-  React.useLayoutEffect(
-    () => {
-      const { current: rootEl } = rootElRef;
+  React.useLayoutEffect(() => {
+    const { current: rootEl } = rootElRef;
 
-      if (rootEl) {
-        const onFocusIn = () => {
-          const { current: oldState } = editorStateRef;
-          // Force selection to be old selection
-          setAndTrackEditorState(
-            EditorState.forceSelection(oldState, oldState.getSelection())
-          );
-        };
+    if (rootEl) {
+      const onFocusIn = () => {
+        const { current: oldState } = editorStateRef;
+        // Force selection to be old selection
+        setAndTrackEditorState(
+          EditorState.forceSelection(oldState, oldState.getSelection())
+        );
+      };
 
-        rootEl.addEventListener('focusin', onFocusIn);
+      rootEl.addEventListener('focusin', onFocusIn);
 
-        return () => {
-          rootEl.removeEventListener('focusin', onFocusIn);
-        };
-      }
+      return () => {
+        rootEl.removeEventListener('focusin', onFocusIn);
+      };
+    }
 
-      return noop;
-    },
-    [editorStateRef, rootElRef, setAndTrackEditorState]
-  );
+    return noop;
+  }, [editorStateRef, rootElRef, setAndTrackEditorState]);
 
   if (inputApi) {
     inputApi.current = {
@@ -843,9 +819,7 @@ export const CompositionInput = ({
                   }}
                   role="listbox"
                   aria-expanded={true}
-                  aria-activedescendant={`emoji-result--${
-                    emojiResults[emojiResultsIndex].short_name
-                  }`}
+                  aria-activedescendant={`emoji-result--${emojiResults[emojiResultsIndex].short_name}`}
                 >
                   {emojiResults.map((emoji, index) => (
                     <button

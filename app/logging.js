@@ -43,9 +43,7 @@ async function initialize() {
   try {
     await cleanupLogs(logPath);
   } catch (error) {
-    const errorString = `Failed to clean logs; deleting all. Error: ${
-      error.stack
-    }`;
+    const errorString = `Failed to clean logs; deleting all. Error: ${error.stack}`;
     console.error(errorString);
     await deleteAllLogs(logPath);
     mkdirp.sync(logPath);

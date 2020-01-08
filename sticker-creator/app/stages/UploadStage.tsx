@@ -23,31 +23,26 @@ export const UploadStage = () => {
   const total = orderedData.length;
   const [complete, setComplete] = React.useState(0);
 
-  React.useEffect(
-    () => {
-      (async () => {
-        const onProgress = () => setComplete(i => i + 1);
-        try {
-          const packMeta = await encryptAndUpload(
-            { title, author },
-            orderedData,
-            cover,
-            onProgress
-          );
-          actions.setPackMeta(packMeta);
-          history.push('/share');
-        } catch (e) {
-          actions.addToast('StickerCreator--Toasts--errorUploading', [
-            e.message,
-          ]);
-          history.push('/add-meta');
-        }
-      })();
+  React.useEffect(() => {
+    (async () => {
+      const onProgress = () => setComplete(i => i + 1);
+      try {
+        const packMeta = await encryptAndUpload(
+          { title, author },
+          orderedData,
+          cover,
+          onProgress
+        );
+        actions.setPackMeta(packMeta);
+        history.push('/share');
+      } catch (e) {
+        actions.addToast('StickerCreator--Toasts--errorUploading', [e.message]);
+        history.push('/add-meta');
+      }
+    })();
 
-      return noop;
-    },
-    [title, author, cover, orderedData]
-  );
+    return noop;
+  }, [title, author, cover, orderedData]);
 
   return (
     <AppStage empty={true}>

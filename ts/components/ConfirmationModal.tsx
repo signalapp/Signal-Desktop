@@ -39,24 +39,21 @@ export const ConfirmationModal = React.memo(
       };
     }, []);
 
-    React.useEffect(
-      () => {
-        const handler = (event: KeyboardEvent) => {
-          if (event.key === 'Escape') {
-            onClose();
+    React.useEffect(() => {
+      const handler = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          onClose();
 
-            event.preventDefault();
-            event.stopPropagation();
-          }
-        };
-        document.addEventListener('keydown', handler);
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      };
+      document.addEventListener('keydown', handler);
 
-        return () => {
-          document.removeEventListener('keydown', handler);
-        };
-      },
-      [onClose]
-    );
+      return () => {
+        document.removeEventListener('keydown', handler);
+      };
+    }, [onClose]);
 
     const handleCancel = React.useCallback(
       (e: React.MouseEvent) => {

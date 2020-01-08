@@ -1098,9 +1098,7 @@
       const data = await readDraftData(attachment.path);
       if (data.byteLength !== attachment.size) {
         window.log.error(
-          `Attachment size from disk ${
-            data.byteLength
-          } did not match attachment size ${attachment.size}`
+          `Attachment size from disk ${data.byteLength} did not match attachment size ${attachment.size}`
         );
         return null;
       }
@@ -1411,7 +1409,7 @@
             blob = window.dataURLToBlobSync(
               canvas.toDataURL(targetContentType, quality)
             );
-            quality = quality * maxSize / blob.size;
+            quality = (quality * maxSize) / blob.size;
             // NOTE: During testing with a large image, we observed the
             // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
             // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax

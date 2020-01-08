@@ -29,8 +29,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const loadingState: STATE_ENUM = isLoadingMessages
     ? 'loading'
     : isNumber(loadCountdownStart)
-      ? 'countdown'
-      : 'idle';
+    ? 'countdown'
+    : 'idle';
   const duration = loadingState === 'countdown' ? LOAD_COUNTDOWN : undefined;
   const expiresAt =
     loadingState === 'countdown' && loadCountdownStart

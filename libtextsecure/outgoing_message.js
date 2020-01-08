@@ -207,7 +207,7 @@ OutgoingMessage.prototype = {
     }
 
     return promise.catch(e => {
-      if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
+      if (e.name === 'HTTPError' && e.code !== 409 && e.code !== 410) {
         // 409 and 410 should bubble and be handled by doSendMessage
         // 404 should throw UnregisteredUserError
         // all other network errors can be retried later.

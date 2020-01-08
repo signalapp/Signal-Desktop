@@ -82,12 +82,9 @@ export const StickerFrame = React.memo(
     ] = React.useState<HTMLElement | null>(null);
     const timerRef = React.useRef<number>();
 
-    const handleToggleEmojiPicker = React.useCallback(
-      () => {
-        setEmojiPickerOpen(open => !open);
-      },
-      [setEmojiPickerOpen]
-    );
+    const handleToggleEmojiPicker = React.useCallback(() => {
+      setEmojiPickerOpen(open => !open);
+    }, [setEmojiPickerOpen]);
 
     const handlePickEmoji = React.useCallback(
       (emoji: EmojiPickDataType) => {
@@ -97,30 +94,21 @@ export const StickerFrame = React.memo(
       [id, onPickEmoji, setEmojiPickerOpen]
     );
 
-    const handleRemove = React.useCallback(
-      () => {
-        onRemove(id);
-      },
-      [onRemove, id]
-    );
+    const handleRemove = React.useCallback(() => {
+      onRemove(id);
+    }, [onRemove, id]);
 
-    const handleMouseEnter = React.useCallback(
-      () => {
-        window.clearTimeout(timerRef.current);
-        timerRef.current = window.setTimeout(() => {
-          setPreviewActive(true);
-        }, 500);
-      },
-      [timerRef, setPreviewActive]
-    );
+    const handleMouseEnter = React.useCallback(() => {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = window.setTimeout(() => {
+        setPreviewActive(true);
+      }, 500);
+    }, [timerRef, setPreviewActive]);
 
-    const handleMouseLeave = React.useCallback(
-      () => {
-        clearTimeout(timerRef.current);
-        setPreviewActive(false);
-      },
-      [timerRef, setPreviewActive]
-    );
+    const handleMouseLeave = React.useCallback(() => {
+      clearTimeout(timerRef.current);
+      setPreviewActive(false);
+    }, [timerRef, setPreviewActive]);
 
     React.useEffect(
       () => () => {
@@ -130,46 +118,40 @@ export const StickerFrame = React.memo(
     );
 
     // Create popper root and handle outside clicks
-    React.useEffect(
-      () => {
-        if (emojiPickerOpen) {
-          const root = document.createElement('div');
-          setEmojiPopperRoot(root);
-          document.body.appendChild(root);
-          const handleOutsideClick = ({ target }: MouseEvent) => {
-            if (!root.contains(target as Node)) {
-              setEmojiPickerOpen(false);
-            }
-          };
-          document.addEventListener('click', handleOutsideClick);
+    React.useEffect(() => {
+      if (emojiPickerOpen) {
+        const root = document.createElement('div');
+        setEmojiPopperRoot(root);
+        document.body.appendChild(root);
+        const handleOutsideClick = ({ target }: MouseEvent) => {
+          if (!root.contains(target as Node)) {
+            setEmojiPickerOpen(false);
+          }
+        };
+        document.addEventListener('click', handleOutsideClick);
 
-          return () => {
-            document.body.removeChild(root);
-            document.removeEventListener('click', handleOutsideClick);
-          };
-        }
+        return () => {
+          document.body.removeChild(root);
+          document.removeEventListener('click', handleOutsideClick);
+        };
+      }
 
-        return noop;
-      },
-      [emojiPickerOpen, setEmojiPickerOpen, setEmojiPopperRoot]
-    );
+      return noop;
+    }, [emojiPickerOpen, setEmojiPickerOpen, setEmojiPopperRoot]);
 
-    React.useEffect(
-      () => {
-        if (mode !== 'pick-emoji' && image && previewActive) {
-          const root = document.createElement('div');
-          setPreviewPopperRoot(root);
-          document.body.appendChild(root);
+    React.useEffect(() => {
+      if (mode !== 'pick-emoji' && image && previewActive) {
+        const root = document.createElement('div');
+        setPreviewPopperRoot(root);
+        document.body.appendChild(root);
 
-          return () => {
-            document.body.removeChild(root);
-          };
-        }
+        return () => {
+          document.body.removeChild(root);
+        };
+      }
 
-        return noop;
-      },
-      [mode, image, previewActive, setPreviewPopperRoot]
-    );
+      return noop;
+    }, [mode, image, previewActive, setPreviewPopperRoot]);
 
     const [dragActive, setDragActive] = React.useState<boolean>(false);
     const containerClass = dragActive ? styles.dragActive : styles.container;

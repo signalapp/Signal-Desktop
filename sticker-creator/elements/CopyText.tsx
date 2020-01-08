@@ -12,15 +12,12 @@ export type Props = {
 
 export const CopyText = React.memo(({ label, onCopy, value }: Props) => {
   const i18n = useI18n();
-  const handleClick = React.useCallback(
-    () => {
-      copy(value);
-      if (onCopy) {
-        onCopy();
-      }
-    },
-    [onCopy, value]
-  );
+  const handleClick = React.useCallback(() => {
+    copy(value);
+    if (onCopy) {
+      onCopy();
+    }
+  }, [onCopy, value]);
 
   return (
     <div className={styles.container}>

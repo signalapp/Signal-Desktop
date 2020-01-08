@@ -82,14 +82,11 @@ export const EmojiPicker = React.memo(
       const [scrollToRow, setScrollToRow] = React.useState(0);
       const [selectedTone, setSelectedTone] = React.useState(skinTone);
 
-      const handleToggleSearch = React.useCallback(
-        () => {
-          setSearchText('');
-          setSelectedCategory(categories[0]);
-          setSearchMode(m => !m);
-        },
-        [setSearchText, setSearchMode]
-      );
+      const handleToggleSearch = React.useCallback(() => {
+        setSearchText('');
+        setSelectedCategory(categories[0]);
+        setSearchMode(m => !m);
+      }, [setSearchText, setSearchMode]);
 
       const debounceSearchChange = React.useMemo(
         () =>
@@ -141,43 +138,40 @@ export const EmojiPicker = React.memo(
       );
 
       // Handle escape key
-      React.useEffect(
-        () => {
-          const handler = (event: KeyboardEvent) => {
-            if (searchMode && event.key === 'Escape') {
-              setSearchText('');
-              setSearchMode(false);
-              setScrollToRow(0);
+      React.useEffect(() => {
+        const handler = (event: KeyboardEvent) => {
+          if (searchMode && event.key === 'Escape') {
+            setSearchText('');
+            setSearchMode(false);
+            setScrollToRow(0);
 
-              event.preventDefault();
-              event.stopPropagation();
-            } else if (
-              !searchMode &&
-              ![
-                'ArrowUp',
-                'ArrowDown',
-                'ArrowLeft',
-                'ArrowRight',
-                'Shift',
-                'Tab',
-                ' ', // Space
-              ].includes(event.key)
-            ) {
-              onClose();
+            event.preventDefault();
+            event.stopPropagation();
+          } else if (
+            !searchMode &&
+            ![
+              'ArrowUp',
+              'ArrowDown',
+              'ArrowLeft',
+              'ArrowRight',
+              'Shift',
+              'Tab',
+              ' ', // Space
+            ].includes(event.key)
+          ) {
+            onClose();
 
-              event.preventDefault();
-              event.stopPropagation();
-            }
-          };
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        };
 
-          document.addEventListener('keydown', handler);
+        document.addEventListener('keydown', handler);
 
-          return () => {
-            document.removeEventListener('keydown', handler);
-          };
-        },
-        [onClose, searchMode]
-      );
+        return () => {
+          document.removeEventListener('keydown', handler);
+        };
+      }, [onClose, searchMode]);
 
       // Restore focus on teardown
       React.useEffect(() => {
@@ -193,50 +187,47 @@ export const EmojiPicker = React.memo(
         };
       }, []);
 
-      const emojiGrid = React.useMemo(
-        () => {
-          if (searchText) {
-            return chunk(search(searchText).map(e => e.short_name), COL_COUNT);
-          }
-
-          const [, ...cats] = categories;
-
-          const chunks = flatMap(cats, cat =>
-            chunk(dataByCategory[cat].map(e => e.short_name), COL_COUNT)
+      const emojiGrid = React.useMemo(() => {
+        if (searchText) {
+          return chunk(
+            search(searchText).map(e => e.short_name),
+            COL_COUNT
           );
+        }
 
-          return [...chunk(firstRecent, COL_COUNT), ...chunks];
-        },
-        [dataByCategory, categories, firstRecent, searchText]
-      );
+        const [, ...cats] = categories;
 
-      const catRowEnds = React.useMemo(
-        () => {
-          const rowEnds: Array<number> = [
-            Math.ceil(firstRecent.length / COL_COUNT) - 1,
-          ];
-          const [, ...cats] = categories;
+        const chunks = flatMap(cats, cat =>
+          chunk(
+            dataByCategory[cat].map(e => e.short_name),
+            COL_COUNT
+          )
+        );
 
-          cats.forEach(cat => {
-            rowEnds.push(
-              Math.ceil(dataByCategory[cat].length / COL_COUNT) +
-                (last(rowEnds) as number)
-            );
-          });
+        return [...chunk(firstRecent, COL_COUNT), ...chunks];
+      }, [dataByCategory, categories, firstRecent, searchText]);
 
-          return rowEnds;
-        },
-        [categories, dataByCategory]
-      );
+      const catRowEnds = React.useMemo(() => {
+        const rowEnds: Array<number> = [
+          Math.ceil(firstRecent.length / COL_COUNT) - 1,
+        ];
+        const [, ...cats] = categories;
 
-      const catToRowOffsets = React.useMemo(
-        () => {
-          const offsets = initial(catRowEnds).map(i => i + 1);
+        cats.forEach(cat => {
+          rowEnds.push(
+            Math.ceil(dataByCategory[cat].length / COL_COUNT) +
+              (last(rowEnds) as number)
+          );
+        });
 
-          return zipObject(categories, [0, ...offsets]);
-        },
-        [categories, catRowEnds]
-      );
+        return rowEnds;
+      }, [categories, dataByCategory]);
+
+      const catToRowOffsets = React.useMemo(() => {
+        const offsets = initial(catRowEnds).map(i => i + 1);
+
+        return zipObject(categories, [0, ...offsets]);
+      }, [categories, catRowEnds]);
 
       const catOffsetEntries = React.useMemo(
         () => Object.entries(catToRowOffsets),
@@ -331,24 +322,23 @@ export const EmojiPicker = React.memo(
                 />
               </div>
             ) : (
-              categories.map(
-                cat =>
-                  cat === 'recents' && firstRecent.length === 0 ? null : (
-                    <button
-                      key={cat}
-                      data-category={cat}
-                      title={cat}
-                      onClick={handleSelectCategory}
-                      className={classNames(
-                        'module-emoji-picker__button',
-                        'module-emoji-picker__button--icon',
-                        `module-emoji-picker__button--icon--${cat}`,
-                        selectedCategory === cat
-                          ? 'module-emoji-picker__button--selected'
-                          : null
-                      )}
-                    />
-                  )
+              categories.map(cat =>
+                cat === 'recents' && firstRecent.length === 0 ? null : (
+                  <button
+                    key={cat}
+                    data-category={cat}
+                    title={cat}
+                    onClick={handleSelectCategory}
+                    className={classNames(
+                      'module-emoji-picker__button',
+                      'module-emoji-picker__button--icon',
+                      `module-emoji-picker__button--icon--${cat}`,
+                      selectedCategory === cat
+                        ? 'module-emoji-picker__button--selected'
+                        : null
+                    )}
+                  />
+                )
               )
             )}
           </header>

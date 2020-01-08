@@ -16,12 +16,9 @@ const checkSvg = (
 
 export const LabeledCheckbox = React.memo(
   ({ children, value, onChange }: Props) => {
-    const handleChange = React.useCallback(
-      () => {
-        onChange(!value);
-      },
-      [onChange, value]
-    );
+    const handleChange = React.useCallback(() => {
+      onChange(!value);
+    }, [onChange, value]);
 
     const className = value ? styles.checkboxChecked : styles.checkbox;
 

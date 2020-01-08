@@ -110,29 +110,24 @@ export type PropsActions = {
   showMessageDetail: (id: string) => void;
 
   openConversation: (conversationId: string, messageId?: string) => void;
-  showContactDetail: (
-    options: { contact: ContactType; signalAccount?: string }
-  ) => void;
+  showContactDetail: (options: {
+    contact: ContactType;
+    signalAccount?: string;
+  }) => void;
 
-  showVisualAttachment: (
-    options: { attachment: AttachmentType; messageId: string }
-  ) => void;
-  downloadAttachment: (
-    options: {
-      attachment: AttachmentType;
-      timestamp: number;
-      isDangerous: boolean;
-    }
-  ) => void;
+  showVisualAttachment: (options: {
+    attachment: AttachmentType;
+    messageId: string;
+  }) => void;
+  downloadAttachment: (options: {
+    attachment: AttachmentType;
+    timestamp: number;
+    isDangerous: boolean;
+  }) => void;
   displayTapToViewMessage: (messageId: string) => unknown;
 
   openLink: (url: string) => void;
-  scrollToQuotedMessage: (
-    options: {
-      author: string;
-      sentAt: number;
-    }
-  ) => void;
+  scrollToQuotedMessage: (options: { author: string; sentAt: number }) => void;
   selectMessage?: (messageId: string, conversationId: string) => unknown;
 };
 
@@ -1241,8 +1236,8 @@ export class Message extends React.PureComponent<Props, State> {
     return isTapToViewError
       ? i18n('incomingError')
       : direction === 'outgoing'
-        ? outgoingString
-        : incomingString;
+      ? outgoingString
+      : incomingString;
   }
 
   public renderTapToView() {

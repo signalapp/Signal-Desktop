@@ -12,25 +12,22 @@ export const ConfirmModal = React.memo(
     const [popperRoot, setPopperRoot] = React.useState<HTMLDivElement>();
 
     // Create popper root and handle outside clicks
-    React.useEffect(
-      () => {
-        const root = document.createElement('div');
-        setPopperRoot(root);
-        document.body.appendChild(root);
-        const handleOutsideClick = ({ target }: MouseEvent) => {
-          if (!root.contains(target as Node)) {
-            onCancel();
-          }
-        };
-        document.addEventListener('click', handleOutsideClick);
+    React.useEffect(() => {
+      const root = document.createElement('div');
+      setPopperRoot(root);
+      document.body.appendChild(root);
+      const handleOutsideClick = ({ target }: MouseEvent) => {
+        if (!root.contains(target as Node)) {
+          onCancel();
+        }
+      };
+      document.addEventListener('click', handleOutsideClick);
 
-        return () => {
-          document.body.removeChild(root);
-          document.removeEventListener('click', handleOutsideClick);
-        };
-      },
-      [onCancel]
-    );
+      return () => {
+        document.body.removeChild(root);
+        document.removeEventListener('click', handleOutsideClick);
+      };
+    }, [onCancel]);
 
     return popperRoot
       ? createPortal(

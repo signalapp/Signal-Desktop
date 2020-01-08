@@ -45,19 +45,13 @@ export const AppStage = (props: Props) => {
   } = props;
   const i18n = useI18n();
 
-  const handleNext = React.useCallback(
-    () => {
-      history.push(next);
-    },
-    [next]
-  );
+  const handleNext = React.useCallback(() => {
+    history.push(next);
+  }, [next]);
 
-  const handlePrev = React.useCallback(
-    () => {
-      history.push(prev);
-    },
-    [prev]
-  );
+  const handlePrev = React.useCallback(() => {
+    history.push(prev);
+  }, [prev]);
 
   const addMoreCount = stickersDuck.useAddMoreCount();
   const toasts = stickersDuck.useToasts();

@@ -1198,9 +1198,7 @@ MessageReceiver.prototype.extend({
 
     if (!_.isNumber(size)) {
       throw new Error(
-        `downloadAttachment: Size was not provided, actual size was ${
-          data.byteLength
-        }`
+        `downloadAttachment: Size was not provided, actual size was ${data.byteLength}`
       );
     }
 
@@ -1251,11 +1249,7 @@ MessageReceiver.prototype.extend({
 
       if (envelopeTimestamp !== decryptedTimestamp) {
         throw new Error(
-          `Timestamp ${
-            decrypted.timestamp
-          } in DataMessage did not match envelope timestamp ${
-            envelope.timestamp
-          }`
+          `Timestamp ${decrypted.timestamp} in DataMessage did not match envelope timestamp ${envelope.timestamp}`
         );
       }
     }

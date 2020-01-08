@@ -26,12 +26,9 @@ export const StickerManagerPackRow = React.memo(
     const { id, key, isBlessed } = pack;
     const [uninstalling, setUninstalling] = React.useState(false);
 
-    const clearUninstalling = React.useCallback(
-      () => {
-        setUninstalling(false);
-      },
-      [setUninstalling]
-    );
+    const clearUninstalling = React.useCallback(() => {
+      setUninstalling(false);
+    }, [setUninstalling]);
 
     const handleInstall = React.useCallback(
       (e: React.MouseEvent) => {
@@ -55,15 +52,12 @@ export const StickerManagerPackRow = React.memo(
       [setUninstalling, id, key, isBlessed]
     );
 
-    const handleConfirmUninstall = React.useCallback(
-      () => {
-        clearUninstalling();
-        if (uninstallStickerPack) {
-          uninstallStickerPack(id, key);
-        }
-      },
-      [id, key, clearUninstalling]
-    );
+    const handleConfirmUninstall = React.useCallback(() => {
+      clearUninstalling();
+      if (uninstallStickerPack) {
+        uninstallStickerPack(id, key);
+      }
+    }, [id, key, clearUninstalling]);
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent) => {

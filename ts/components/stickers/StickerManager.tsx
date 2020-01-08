@@ -53,12 +53,9 @@ export const StickerManager = React.memo(
       });
     }, []);
 
-    const clearPackToPreview = React.useCallback(
-      () => {
-        setPackToPreview(null);
-      },
-      [setPackToPreview]
-    );
+    const clearPackToPreview = React.useCallback(() => {
+      setPackToPreview(null);
+    }, [setPackToPreview]);
 
     const previewPack = React.useCallback(
       (pack: StickerPackType) => {
