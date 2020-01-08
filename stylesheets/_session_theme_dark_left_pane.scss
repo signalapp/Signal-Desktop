@@ -102,7 +102,7 @@ $session-compose-margin: 20px;
   &__header {
     display: flex;
     flex-direction: row;
-    margin: 28px 7px 28px 0px;
+    padding: 28px 7px 28px 0px;
 
     background-color: $session-shade-3;
 
@@ -212,7 +212,7 @@ $session-compose-margin: 20px;
 }
 
 .session-search-input {
-  height: 34px;
+  height: $session-search-input-height;
   width: 100%;
   margin-right: 1px;
   margin-bottom: 10px;
@@ -392,6 +392,28 @@ $session-compose-margin: 20px;
 
   &-input-group {
     display: inline-flex;
+  }
+
+  &-input-button .session-button.square{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    height: $session-search-input-height;
+    width: $session-search-input-height;
+
+    padding: 0px;
+    margin: 0px;
+    
+    svg {
+      transition: $session-transition-duration;
+    }
+
+    &:hover{
+      svg {
+        fill: $session-color-green;
+      }
+    }
   }
 }
 

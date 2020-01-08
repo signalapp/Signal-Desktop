@@ -82,6 +82,9 @@ $session-margin-sm: 10px;
 $session-margin-md: 15px;
 $session-margin-lg: 20px;
 
+$session-search-input-height: 34px;
+
+
 div.spacer-sm {
   height: $session-margin-sm;
 }
@@ -193,6 +196,9 @@ $session_message-container-border-radius: 5px;
   margin-left: 5px;
   margin-right: 5px;
 }
+
+
+
 
 .session-button {
   @mixin transparent-background($textAndBorderColor) {

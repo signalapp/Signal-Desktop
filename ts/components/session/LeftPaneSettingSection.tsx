@@ -125,8 +125,13 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
             <SessionButton
               buttonType={SessionButtonType.Square}
               buttonColor={SessionButtonColor.Green}
-              text={'>'}
-            />
+            >
+              <SessionIcon 
+                iconType={SessionIconType.Caret}
+                iconSize={SessionIconSize.Large}
+
+              />
+            </SessionButton>
           </div>
         </div>
         {this.renderCategories()}

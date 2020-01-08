@@ -23,7 +23,7 @@ export enum SessionButtonColor {
 }
 
 interface Props {
-  text: string;
+  text?: string;
   buttonType: SessionButtonType;
   buttonColor: SessionButtonColor;
   onClick: any;
@@ -57,7 +57,7 @@ export class SessionButton extends React.PureComponent<Props> {
         role="button"
         onClick={this.clickHandler}
       >
-        {text}
+        {this.props.children || text}
       </div>
     );
   }
