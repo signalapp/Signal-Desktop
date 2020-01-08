@@ -1194,12 +1194,6 @@
       }
     });
 
-    Whisper.events.on('showAddServerDialog', async options => {
-      if (appView) {
-        appView.showAddServerDialog(options);
-      }
-    });
-
     Whisper.events.on('showQRDialog', async () => {
       if (appView) {
         const ourNumber = textsecure.storage.user.getNumber();

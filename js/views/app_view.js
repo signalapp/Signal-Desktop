@@ -244,10 +244,6 @@
       const dialog = new Whisper.DevicePairingWordsDialogView();
       this.el.append(dialog.el);
     },
-    showAddServerDialog() {
-      const dialog = new Whisper.AddServerDialogView();
-      this.el.append(dialog.el);
-    },
     showCreateGroup() {
       // TODO: make it impossible to open 2 dialogs as once
       // Curretnly, if the button is in focus, it is possible to
