@@ -7,7 +7,11 @@ import {
 } from '../ConversationListItem';
 
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
-import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './SessionButton';
 import {
   PropsData as SearchResultsProps,
   SearchResults,
@@ -32,7 +36,6 @@ export interface Props {
   clearSearch: () => void;
 }
 
-
 interface State {
   showAddChannelView: boolean;
   channelUrlPasted: string;
@@ -54,12 +57,13 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     };
 
     this.handleOnPasteUrl = this.handleOnPasteUrl.bind(this);
-    this.handleJoinChannelButtonClick = this.handleJoinChannelButtonClick.bind(this);
+    this.handleJoinChannelButtonClick = this.handleJoinChannelButtonClick.bind(
+      this
+    );
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.updateSearchBound = this.updateSearch.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
     this.attemptConnection = this.attemptConnection.bind(this);
-
   }
 
   public componentWillUnmount() {
@@ -76,13 +80,14 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       conversationList = conversationList.filter(
         // a channel is either a public group or a rss group
         conversation =>
-          conversation.type === 'group' && (conversation.isPublic || (conversation.lastMessage && conversation.lastMessage.isRss))
+          conversation.type === 'group' &&
+          (conversation.isPublic ||
+            (conversation.lastMessage && conversation.lastMessage.isRss))
       );
     }
 
     return conversationList;
   }
-
 
   public renderRow = ({
     index,
@@ -161,10 +166,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   public renderHeader(): JSX.Element {
     const labels = [window.i18n('channels')];
 
-    return LeftPane.RENDER_HEADER(
-      labels,
-      null
-    );
+    return LeftPane.RENDER_HEADER(labels, null);
   }
 
   public render(): JSX.Element {
@@ -179,9 +181,8 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   public renderGroups() {
-
     return (
-      <div className="module-conversations-list-content" >
+      <div className="module-conversations-list-content">
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
@@ -189,7 +190,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
         />
         {this.renderList()}
         {this.renderBottomButtons()}
-        </div>
+      </div>
     );
   }
 
@@ -241,7 +242,9 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   private handleToggleOverlay() {
-    this.setState(prevState => ({ showAddChannelView: !prevState.showAddChannelView }));
+    this.setState(prevState => ({
+      showAddChannelView: !prevState.showAddChannelView,
+    }));
   }
 
   private renderClosableOverlay() {
@@ -249,7 +252,15 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     const { loading } = this.state;
 
     return (
-      <SessionClosableOverlay overlayMode="channel" onChangeSessionID={this.handleOnPasteUrl} onCloseClick={this.handleToggleOverlay} onButtonClick={this.handleJoinChannelButtonClick} searchTerm={searchTerm} updateSearch={this.updateSearchBound} showSpinner={loading}/>
+      <SessionClosableOverlay
+        overlayMode="channel"
+        onChangeSessionID={this.handleOnPasteUrl}
+        onCloseClick={this.handleToggleOverlay}
+        onButtonClick={this.handleJoinChannelButtonClick}
+        searchTerm={searchTerm}
+        updateSearch={this.updateSearchBound}
+        showSpinner={loading}
+      />
     );
   }
 
@@ -274,7 +285,6 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     );
   }
 
-
   private handleOnPasteUrl(e: any) {
     if (e.target.innerHTML) {
       const cleanText = e.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
@@ -283,11 +293,9 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   private handleJoinChannelButtonClick() {
-
     const { loading, channelUrlPasted } = this.state;
 
     if (loading) {
-
       return false;
     }
 
@@ -304,7 +312,10 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     // TODO: Make this not hard coded
     const channelId = 1;
     this.setState({ loading: true });
-    const connectionResult = this.attemptConnection(channelUrlPasted, channelId);
+    const connectionResult = this.attemptConnection(
+      channelUrlPasted,
+      channelId
+    );
 
     // Give 5s maximum for promise to revole. Else, throw error.
     const maxConnectionDuration = 5000;
@@ -322,40 +333,39 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     }, maxConnectionDuration);
 
     connectionResult
-    .then(() => {
-      clearTimeout(connectionTimeout);
+      .then(() => {
+        clearTimeout(connectionTimeout);
 
-      if (this.state.loading) {
+        if (this.state.loading) {
+          this.setState({
+            connectSuccess: true,
+            loading: false,
+          });
+          window.pushToast({
+            title: window.i18n('connectToServerSuccess'),
+            id: 'connectToServerSuccess',
+            type: 'success',
+          });
+          this.handleToggleOverlay();
+        }
+      })
+      .catch((connectionError: string) => {
+        clearTimeout(connectionTimeout);
         this.setState({
           connectSuccess: true,
           loading: false,
         });
         window.pushToast({
-          title: window.i18n('connectToServerSuccess'),
-          id: 'connectToServerSuccess',
-          type: 'success',
+          title: connectionError,
+          id: 'connectToServerFail',
+          type: 'error',
         });
-        this.handleToggleOverlay();
-      }
-    })
-    .catch((connectionError: string) => {
-      clearTimeout(connectionTimeout);
-      this.setState({
-        connectSuccess: true,
-        loading: false,
-      });
-      window.pushToast({
-        title: connectionError,
-        id: 'connectToServerFail',
-        type: 'error',
-      });
 
-      return false;
-    });
+        return false;
+      });
 
     return true;
   }
-
 
   private async attemptConnection(serverURL: string, channelId: number) {
     const rawserverURL = serverURL

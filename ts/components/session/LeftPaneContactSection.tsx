@@ -195,7 +195,12 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
   private renderClosableOverlay() {
     return (
-      <SessionClosableOverlay overlayMode="contact" onChangeSessionID={this.handleRecipientSessionIDChanged} onCloseClick={this.handleToggleOverlay} onButtonClick={this.handleOnAddContact} />
+      <SessionClosableOverlay
+        overlayMode="contact"
+        onChangeSessionID={this.handleRecipientSessionIDChanged}
+        onCloseClick={this.handleToggleOverlay}
+        onButtonClick={this.handleOnAddContact}
+      />
     );
   }
 

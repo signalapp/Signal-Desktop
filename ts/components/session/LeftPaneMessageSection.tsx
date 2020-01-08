@@ -234,7 +234,15 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     const { searchTerm, searchResults } = this.props;
 
     return (
-      <SessionClosableOverlay overlayMode="message" onChangeSessionID={this.handleOnPasteSessionID} onCloseClick={this.handleToggleOverlay} onButtonClick={this.handleMessageButtonClick} searchTerm={searchTerm}  searchResults={searchResults} updateSearch={this.updateSearchBound} />
+      <SessionClosableOverlay
+        overlayMode="message"
+        onChangeSessionID={this.handleOnPasteSessionID}
+        onCloseClick={this.handleToggleOverlay}
+        onButtonClick={this.handleMessageButtonClick}
+        searchTerm={searchTerm}
+        searchResults={searchResults}
+        updateSearch={this.updateSearchBound}
+      />
     );
   }
 

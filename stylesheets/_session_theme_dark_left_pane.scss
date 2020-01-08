@@ -128,7 +128,7 @@ $session-compose-margin: 20px;
 
   &-overlay {
     background: linear-gradient(180deg, #171717 0%, #121212 100%);
-    box-shadow: 0 0 100px 0 rgba(0,0,0,0.5);
+    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -220,7 +220,6 @@ $session-compose-margin: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-
 }
 
 .session-left-pane-section-content {

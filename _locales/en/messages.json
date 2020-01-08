@@ -2564,7 +2564,8 @@
     "message": "https://yourchannel.lokinet.org"
   },
   "addChannelDescription": {
-    "message": "Enter the URL of the public channel you'd like to join in the format above."
+    "message":
+      "Enter the URL of the public channel you'd like to join in the format above."
   },
   "joinChannel": {
     "message": "Join Channel"

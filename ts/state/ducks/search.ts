@@ -263,14 +263,19 @@ export function reducer(
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, messages, normalizedPhoneNumber, conversations, contacts } = payload;
+    const {
+      query,
+      messages,
+      normalizedPhoneNumber,
+      conversations,
+      contacts,
+    } = payload;
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
     }
     const filteredMessage = messages.filter(message => message !== undefined);
-
 
     return {
       ...state,
