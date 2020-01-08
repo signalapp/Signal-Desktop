@@ -104,9 +104,7 @@ $session-compose-margin: 20px;
   &__header {
     display: flex;
     flex-direction: row;
-    padding: 28px 7px 28px 0px;
-
-    background-color: $session-shade-3;
+    margin: 15px 7px 14px 0px;
 
     .session-button {
       margin-left: auto;
@@ -129,7 +127,8 @@ $session-compose-margin: 20px;
   }
 
   &-overlay {
-    @include session-dark-background-lighter;
+    background: linear-gradient(180deg, #171717 0%, #121212 100%);
+    box-shadow: 0 0 100px 0 rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -230,7 +229,7 @@ $session-compose-margin: 20px;
 .user-search-dropdown {
   width: 100%;
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .session-search-input {

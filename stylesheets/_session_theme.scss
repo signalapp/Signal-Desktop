@@ -91,7 +91,7 @@
 }
 
 .inbox {
-  @include session-dark-background;
+  background: linear-gradient(180deg, #171717 0%, #121212 100%);
 }
 
 .conversation {
