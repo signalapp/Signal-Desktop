@@ -256,6 +256,12 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     const { openConversationInternal } = this.props;
 
     if (!this.state.pubKeyPasted && !this.props.searchTerm) {
+      window.pushToast({
+        title: window.i18n('invalidNumberError'),
+        type: 'error',
+        id: 'invalidPubKey',
+      });
+
       return;
     }
     let pubkey: string;
