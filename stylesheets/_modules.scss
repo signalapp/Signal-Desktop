@@ -5213,7 +5213,7 @@ button.module-image__border-overlay:focus {
     &__image,
     &__placeholder {
       width: 100%;
-      height: 100%;
+      height: auto;
     }
 
     &__placeholder {

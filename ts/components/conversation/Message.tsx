@@ -39,7 +39,7 @@ interface Trigger {
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
-const STICKER_SIZE = 128;
+const STICKER_SIZE = 200;
 const SELECTED_TIMEOUT = 1000;
 
 interface LinkPreviewType {

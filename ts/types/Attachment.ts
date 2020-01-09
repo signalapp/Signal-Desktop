@@ -166,7 +166,10 @@ type DimensionsType = {
   width: number;
 };
 
-export function getImageDimensions(attachment: AttachmentType): DimensionsType {
+export function getImageDimensions(
+  attachment: AttachmentType,
+  forcedWidth?: number
+): DimensionsType {
   const { height, width } = attachment;
   if (!height || !width) {
     return {
@@ -176,7 +179,8 @@ export function getImageDimensions(attachment: AttachmentType): DimensionsType {
   }
 
   const aspectRatio = height / width;
-  const targetWidth = Math.max(Math.min(MAX_WIDTH, width), MIN_WIDTH);
+  const targetWidth =
+    forcedWidth || Math.max(Math.min(MAX_WIDTH, width), MIN_WIDTH);
   const candidateHeight = Math.round(targetWidth * aspectRatio);
 
   return {

@@ -997,6 +997,92 @@ First set is in a 1:1 conversation, second set is in a group.
 </util.ConversationContext>
 ```
 
+#### Sticker with non-square aspect ratio
+
+First set is in a 1:1 conversation, second set is in a group.
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/png',
+          width: 200,
+          height: 50,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/png',
+          width: 200,
+          height: 50,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      authorName="Mr. Sticker"
+      conversationType="group"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/png',
+          width: 200,
+          height: 50,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      conversationType="group"
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/png',
+          width: 200,
+          height: 50,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+</util.ConversationContext>
+```
+
 #### Sticker with pending image
 
 A sticker with no attachments (what our selectors produce for a pending sticker) is not displayed at all.

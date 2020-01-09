@@ -60,10 +60,10 @@ export class ImageGrid extends React.Component<Props> {
     }
 
     if (attachments.length === 1 || !areAllAttachmentsVisual(attachments)) {
-      const { height, width } = getImageDimensions(attachments[0]);
-
-      const finalHeight = isSticker ? stickerSize : height;
-      const finalWidth = isSticker ? stickerSize : width;
+      const { height, width } = getImageDimensions(
+        attachments[0],
+        isSticker ? stickerSize : undefined
+      );
 
       return (
         <div
@@ -85,8 +85,8 @@ export class ImageGrid extends React.Component<Props> {
             curveBottomRight={curveBottomRight}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
-            height={finalHeight}
-            width={finalWidth}
+            height={height}
+            width={width}
             url={getUrl(attachments[0])}
             tabIndex={tabIndex}
             onClick={onClick}
