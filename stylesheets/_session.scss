@@ -132,13 +132,13 @@ div.spacer-lg {
 }
 
 @mixin session-dark-background {
-  background-color: $session-background !important;
+  background-color: $session-background;
 }
 @mixin session-dark-background-lighter {
-  background-color: $session-background-overlay !important;
+  background-color: $session-background-overlay;
 }
 @mixin session-dark-background-hover {
-  background-color: $session-shade-7 !important;
+  background-color: $session-shade-7;
 }
 
 $session-transition-duration: 0.25s;

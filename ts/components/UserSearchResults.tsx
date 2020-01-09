@@ -28,7 +28,9 @@ export class UserSearchResults extends React.Component<Props> {
           <div className="module-search-results__no-results">
             {window.i18n('noSearchResults', [searchTerm])}
           </div>
-        ) : this.renderContacts(friends)}
+        ) : (
+          this.renderContacts(friends)
+        )}
       </div>
     );
   }

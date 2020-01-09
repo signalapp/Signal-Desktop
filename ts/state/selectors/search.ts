@@ -48,7 +48,6 @@ export const getSearchResults = createSelector(
     selectedConversation?: string,
     selectedMessage?: string
   ) => {
-
     return {
       contacts: compact(
         state.contacts.map(id => {
