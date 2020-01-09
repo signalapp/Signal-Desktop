@@ -51,7 +51,7 @@ $session-shade-13: #474646;
 $session-shade-14: #535865;
 $session-shade-15: #5b6c72;
 $session-shade-16: #979797;
-$session-shade-17: #d8d8d8;
+$session-shade-17: #180a0a;
 $session-shade-18: #141414;
 
 $session-opaque-dark-1: rgba(0, 0, 0, 0.25);
@@ -921,25 +921,27 @@ label {
     font-size: 15px;
     font-weight: bold;
     color: $session-color-white;
+    background-color: $session-shade-1;
 
-    height: 90px;
-    padding: 0px 15px;
+    padding: $session-margin-lg;
+    border-bottom: 2px solid $session-shade-5;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
   
     &__info {
-      background-color: $session-shade-1;
+      padding-right: $session-margin-lg;
+    }
+    
+    &__title {
+      line-height: 1.7;
     }
     
     &__description {
       font-size: 13px;
+      font-weight: 100;
       @include session-color-subtle($session-color-white);
-    }
-
-    &:not(:last-child){
-      border-bottom: 1px solid $session-shade-3;
     }
   }
 

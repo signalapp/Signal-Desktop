@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { SessionSettingListItem } from './session/settings/SessionSettingListItem';
+import { SessionSettingListItem, SessionSettingType } from './session/settings/SessionSettingListItem';
 
 // interface State {
 // }
@@ -51,7 +51,36 @@ export class MainViewController {
     public static renderSettingsView() {
         const element = (
             <div className="session-settings-list">
-                <SessionSettingListItem />
+                <SessionSettingListItem
+                    title = "Typing Indicators"
+                    description = "See and share when messages are being typed. This setting is optional and applies to all conversations."
+                    type = { SessionSettingType.Toggle }
+                    value = { true }
+                />
+                <SessionSettingListItem
+                    title = "Screen Lock"
+                    description = "Unlock Loki Session using your password. Visit notification settings to customise."
+                    type = { SessionSettingType.Toggle }
+                    value = { false }
+                />
+                <SessionSettingListItem
+                    title = "Enable Screen Security"
+                    description = "Prevent Loki Session previews from appearing in the app switcher"
+                    type = { SessionSettingType.Toggle }
+                    value = { true }
+                />
+                <SessionSettingListItem
+                    title = "Send Link Previews"
+                    description = "Supported for imgur, Instagram, Pinterest, Reddit and YouTube."
+                    type = { SessionSettingType.Toggle }
+                    value = { true }
+                />
+                <SessionSettingListItem
+                    title = "Clear Conversation History"
+                    type = { SessionSettingType.Button }
+                    value = { false }
+                    onClick = { () => alert("Cleaaarred!") }
+                />
             </div>
         );
         

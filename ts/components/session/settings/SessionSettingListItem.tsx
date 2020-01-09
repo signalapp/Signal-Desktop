@@ -1,18 +1,21 @@
 import React from 'react';
 import { SessionToggle } from '../SessionToggle';
+import { SessionButton, SessionButtonColor } from '../SessionButton';
 
-interface Props {
+
+export enum SessionSettingType {
+  Toggle = 'toggle',
+  Options = 'options',
+  Button = 'button',
 }
 
-
-// export settings = {
-//   id
-//   category
-//   name
-//   description
-//   type (toggle, dropdown, etc)
-// }
-
+interface Props {
+  title: string;
+  description?: string;
+  type: SessionSettingType;
+  value: boolean | string;
+  onClick?: any;
+}
 
 export class SessionSettingListItem extends React.Component<Props> {
   public constructor(props: Props) {
@@ -24,21 +27,35 @@ export class SessionSettingListItem extends React.Component<Props> {
 
 
   public render(): JSX.Element {
+    const { title, description, type, value, onClick } = this.props
+
     return (
       <div className="session-settings-item">
         <div className="session-settings-item__info">
           <div className="session-settings-item__title">
-                Typing indicators
+            { title }
           </div>
 
-          <div className="session-settings-item__description">
-              This is the description of the super usper awesome setting item
-          </div>
+          { description && (
+            <div className="session-settings-item__description">
+              { description }
+            </div>
+          )}
         </div>
 
-        <div className="session-sessings-item__selection">
-          <SessionToggle active={true} />
-        </div>
+        { type === SessionSettingType.Toggle && (
+          <div className="session-sessings-item__selection">
+            <SessionToggle active={ Boolean(value) } />
+          </div>
+        )}
+
+        { type === SessionSettingType.Button && (
+          <SessionButton
+            text = "Clear"
+            buttonColor = {SessionButtonColor.Danger}
+            onClick = { onClick }
+          />
+        )}
         
       </div>
     );
