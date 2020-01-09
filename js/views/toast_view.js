@@ -11,6 +11,7 @@
     templateName: 'toast',
     initialize() {
       this.$el.hide();
+      this.timeout = 2000;
     },
 
     close() {
@@ -24,8 +25,9 @@
           _.result(this, 'render_attributes', '')
         )
       );
+      this.$el.attr('tabIndex', 0);
       this.$el.show();
-      setTimeout(this.close.bind(this), 2000);
+      setTimeout(this.close.bind(this), this.timeout);
     },
   });
 

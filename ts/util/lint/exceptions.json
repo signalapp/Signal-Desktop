@@ -1135,7 +1135,7 @@
     "rule": "jQuery-html(",
     "path": "js/views/toast_view.js",
     "line": "      this.$el.html(",
-    "lineNumber": 21,
+    "lineNumber": 22,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -1143,7 +1143,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/toast_view.js",
     "line": "    toast.$el.appendTo(el);",
-    "lineNumber": 34,
+    "lineNumber": 36,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Protected from arbitrary input"

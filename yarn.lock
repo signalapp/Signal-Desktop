@@ -7396,6 +7396,11 @@ fs-write-stream-atomic@^1.0.8:
     imurmurhash "^0.1.4"
     readable-stream "1 || 2"
 
+fs-xattr@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/fs-xattr/-/fs-xattr-0.3.0.tgz#019642eacc49f343061af19de4c13543895589ad"
+  integrity sha512-BixjoRM9etRFyWOtJRcflfu5HqBWLGTYbeHiL196VRUcc/nYgS2px6w4yVaj3XmrN1bk4rZBH82A8u5Z64YcXQ==
+
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
@@ -14327,6 +14332,13 @@ safe-regex@^1.1.0:
 samsam@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.3.0.tgz#8d1d9350e25622da30de3e44ba692b5221ab7c50"
+
+sanitize-filename@1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/sanitize-filename/-/sanitize-filename-1.6.3.tgz#755ebd752045931977e30b2025d340d7c9090378"
+  integrity sha512-y/52Mcy7aw3gRm7IrcGDFx/bCk4AhRh2eI9luHOQM86nZsqwiRkkq2GekHXBBD+SmPidc8i2PqtYZl+pWJ8Oeg==
+  dependencies:
+    truncate-utf8-bytes "^1.0.0"
 
 sanitize-filename@^1.6.2:
   version "1.6.2"

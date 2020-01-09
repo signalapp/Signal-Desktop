@@ -26,8 +26,11 @@
     getAbsoluteTempPath,
     deleteDraftFile,
     deleteTempFile,
+    openFileInDownloads,
+    readAttachmentData,
     readDraftData,
     writeNewDraftData,
+    writeToDownloads,
   } = window.Signal.Migrations;
   const {
     getOlderMessagesByConversation,
@@ -85,6 +88,44 @@
   Whisper.ConversationUnarchivedToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('conversationReturnedToInbox') };
+    },
+  });
+  Whisper.FileSavedToast = Whisper.ToastView.extend({
+    className: 'toast toast-clickable',
+    initialize(options) {
+      if (!options.name) {
+        throw new Error('FileSavedToast: name option was not provided!');
+      }
+      this.name = options.name;
+      this.timeout = 10000;
+
+      if (window.getInteractionMode() === 'keyboard') {
+        setTimeout(() => {
+          this.$el.focus();
+        }, 1);
+      }
+    },
+    events: {
+      click: 'onClick',
+      keydown: 'onKeydown',
+    },
+    onClick() {
+      openFileInDownloads(this.name);
+      this.close();
+    },
+    onKeydown(event) {
+      if (event.key !== 'Enter' && event.key !== ' ') {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      openFileInDownloads(this.name);
+      this.close();
+    },
+    render_attributes() {
+      return { toastMessage: i18n('attachmentSavedToDownloads', this.name) };
     },
   });
 
@@ -588,9 +629,16 @@
       this.$('.timeline-placeholder').append(this.timelineView.el);
     },
 
-    showToast(ToastView) {
-      const toast = new ToastView();
-      toast.$el.appendTo(this.$el);
+    showToast(ToastView, options) {
+      const toast = new ToastView(options);
+
+      const lightboxEl = $('.module-lightbox');
+      if (lightboxEl.length > 0) {
+        toast.$el.appendTo(lightboxEl);
+      } else {
+        toast.$el.appendTo(this.$el);
+      }
+
       toast.render();
     },
 
@@ -1726,12 +1774,13 @@
 
         const saveAttachment = async ({ attachment, message } = {}) => {
           const timestamp = message.sent_at;
-          Signal.Types.Attachment.save({
+          const name = await Signal.Types.Attachment.save({
             attachment,
-            document,
-            getAbsolutePath: getAbsoluteAttachmentPath,
+            readAttachmentData,
+            writeToDownloads,
             timestamp,
           });
+          this.showToast(Whisper.FileSavedToast, { name });
         };
 
         const onItemClick = async ({ message, attachment, type }) => {
@@ -1916,18 +1965,19 @@
       this.downloadAttachment({ attachment, timestamp, isDangerous });
     },
 
-    downloadAttachment({ attachment, timestamp, isDangerous }) {
+    async downloadAttachment({ attachment, timestamp, isDangerous }) {
       if (isDangerous) {
         this.showToast(Whisper.DangerousFileTypeToast);
         return;
       }
 
-      Signal.Types.Attachment.save({
+      const name = await Signal.Types.Attachment.save({
         attachment,
-        document,
-        getAbsolutePath: getAbsoluteAttachmentPath,
+        readAttachmentData,
+        writeToDownloads,
         timestamp,
       });
+      this.showToast(Whisper.FileSavedToast, { name });
     },
 
     async displayTapToViewMessage(messageId) {
@@ -2124,13 +2174,14 @@
       );
 
       const onSave = async (options = {}) => {
-        Signal.Types.Attachment.save({
+        const name = await Signal.Types.Attachment.save({
           attachment: options.attachment,
-          document,
           index: options.index + 1,
-          getAbsolutePath: getAbsoluteAttachmentPath,
+          readAttachmentData,
+          writeToDownloads,
           timestamp: options.message.get('sent_at'),
         });
+        this.showToast(Whisper.FileSavedToast, { name });
       };
 
       const props = {

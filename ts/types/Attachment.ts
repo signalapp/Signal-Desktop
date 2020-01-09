@@ -3,8 +3,6 @@ import moment from 'moment';
 import { isNumber, padStart } from 'lodash';
 
 import * as MIME from './MIME';
-import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
-import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import {
   isImageTypeSupported,
@@ -326,31 +324,37 @@ export const isVoiceMessage = (attachment: Attachment): boolean => {
   return false;
 };
 
-export const save = ({
+export const save = async ({
   attachment,
-  document,
   index,
-  getAbsolutePath,
+  readAttachmentData,
+  writeToDownloads,
   timestamp,
 }: {
   attachment: Attachment;
-  document: Document;
   index: number;
-  getAbsolutePath: (relativePath: string) => string;
+  readAttachmentData: (relativePath: string) => Promise<ArrayBuffer>;
+  writeToDownloads: (options: {
+    data: ArrayBuffer;
+    name: string;
+  }) => Promise<{ name: string; fullPath: string }>;
   timestamp?: number;
-}): void => {
-  const isObjectURLRequired = is.undefined(attachment.path);
-  const url = !is.undefined(attachment.path)
-    ? getAbsolutePath(attachment.path)
-    : arrayBufferToObjectURL({
-        data: attachment.data,
-        type: MIME.APPLICATION_OCTET_STREAM,
-      });
-  const filename = getSuggestedFilename({ attachment, timestamp, index });
-  saveURLAsFile({ url, filename, document });
-  if (isObjectURLRequired) {
-    URL.revokeObjectURL(url);
+}): Promise<string> => {
+  if (!attachment.path && !attachment.data) {
+    throw new Error('Attachment had neither path nor data');
   }
+
+  const data = attachment.path
+    ? await readAttachmentData(attachment.path)
+    : attachment.data;
+  const name = getSuggestedFilename({ attachment, timestamp, index });
+
+  const { name: savedFilename } = await writeToDownloads({
+    data,
+    name,
+  });
+
+  return savedFilename;
 };
 
 export const getSuggestedFilename = ({

@@ -47,6 +47,7 @@
     "dev:typed-scss": "yarn build:typed-scss -w",
     "dev:storybook": "start-storybook -p 6006 -s ./",
     "build": "run-s --print-label build:grunt build:typed-scss build:webpack build:release",
+    "build:dev": "run-s --print-label build:grunt build:typed-scss build:webpack",
     "build:grunt": "yarn grunt",
     "build:typed-scss": "tsm sticker-creator",
     "build:webpack": "cross-env NODE_ENV=production webpack",
@@ -55,6 +56,9 @@
     "preverify:ts": "yarn build:typed-scss",
     "verify": "run-p --print-label verify:*",
     "verify:ts": "tsc --noEmit"
+  },
+  "optionalDependencies": {
+    "fs-xattr": "0.3.0"
   },
   "dependencies": {
     "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#00fd0f8a6623c6683280976d2a92b41d09c744bc",
@@ -124,6 +128,7 @@
     "reselect": "4.0.0",
     "rimraf": "2.6.2",
     "sanitize.css": "11.0.0",
+    "sanitize-filename": "1.6.3",
     "semver": "5.4.1",
     "sharp": "0.23.0",
     "spellchecker": "3.7.0",

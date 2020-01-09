@@ -782,6 +782,16 @@
     "message": "A voice message must have only one attachment.",
     "description": "Shown in toast if tries to record a voice note with any staged attachments"
   },
+  "attachmentSavedToDownloads": {
+    "message": "Attachment saved as \"$name$\" in your Downloads folder. Click to show.",
+    "description": "Shown after user selects to save to downloads",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "proof.jpg"
+      }
+    }
+  },
   "you": {
     "message": "You",
     "description": "In Android theme, shown in quote if you or someone else replies to you"
