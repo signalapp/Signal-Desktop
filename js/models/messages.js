@@ -1113,8 +1113,8 @@
       }
       return msFromNow;
     },
-    async setToExpire(force = false, options = {}) {
-      const { skipSave } = options;
+    async setToExpire(force = false, options) {
+      const { skipSave } = options || {};
 
       if (this.isExpiring() && (force || !this.get('expires_at'))) {
         const start = this.get('expirationStartTimestamp');
