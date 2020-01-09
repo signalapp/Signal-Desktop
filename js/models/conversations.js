@@ -321,6 +321,7 @@
       this.debouncedUpdateLastMessage();
     },
 
+    // For outgoing messages, we can call this directly. We're already loaded.
     addSingleMessage(message) {
       const { id } = message;
       const existing = this.messageCollection.get(id);
@@ -340,6 +341,15 @@
       }
 
       return model;
+    },
+
+    // For incoming messages, they might arrive while we're in the middle of a bulk fetch
+    //   from the database. We'll wait until that is done to process this newly-arrived
+    //   message.
+    async addIncomingMessage(message) {
+      await this.inProgressFetch;
+
+      this.addSingleMessage(message);
     },
 
     format() {

@@ -1827,7 +1827,7 @@
       // We do this here because we don't want convo.messageCollection to have
       //   anything in it unless it has an associated view. This is so, when we
       //   fetch on open, it's clean.
-      this.model.addSingleMessage(message);
+      this.model.addIncomingMessage(message);
     },
 
     async showMembers(e, providedMembers, options = {}) {
