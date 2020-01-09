@@ -48,6 +48,7 @@ export const getSearchResults = createSelector(
     selectedConversation?: string,
     selectedMessage?: string
   ) => {
+
     return {
       contacts: compact(
         state.contacts.map(id => {
@@ -85,7 +86,6 @@ export const getSearchResults = createSelector(
       friends: compact(
         state.conversations.map(id => {
           const value = lookup[id];
-
           const friend = value && value.isFriend ? { ...value } : null;
 
           if (friend && id === selectedConversation) {
