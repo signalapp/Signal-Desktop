@@ -282,6 +282,8 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  // Disable system main menu
+  mainWindow.setMenu(null);
 
   function captureAndSaveWindowStats() {
     if (!mainWindow) {

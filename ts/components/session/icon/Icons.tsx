@@ -49,8 +49,7 @@ export const icons = {
     viewBox: '0 -4 37 37',
   },
   [SessionIconType.Caret]: {
-    path:
-      'M127.5 191.25L255 63.75L0 63.75L127.5 191.25Z',
+    path: 'M127.5 191.25L255 63.75L0 63.75L127.5 191.25Z',
     viewBox: '-200 -200 640 640',
   },
   [SessionIconType.ChatBubble]: {

@@ -15,7 +15,7 @@
 
       this.applyTheme();
       this.applyHideMenu();
-      
+
       this.showSeedDialog = this.showSeedDialog.bind(this);
     },
     events: {

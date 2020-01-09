@@ -37,7 +37,7 @@ $session-color-green-alt-3: #00f782;
 
 $session-shade-1: #0c0c0c;
 $session-shade-2: #161616;
-$session-shade-3: #161616;
+$session-shade-3: #191818;
 $session-shade-4: #1b1b1b;
 $session-shade-5: #222325;
 $session-shade-6: #232323;
@@ -84,7 +84,6 @@ $session-margin-lg: 20px;
 
 $session-search-input-height: 34px;
 
-
 div.spacer-sm {
   height: $session-margin-sm;
 }
@@ -116,15 +115,15 @@ div.spacer-lg {
   text-align: center;
 }
 
-@mixin text-highlight($color) {
-  background-color: rgba($color, 0.4);
-  padding: $session-margin-xs;
-  border-radius: 3px;
-  display: inline-block;
-}
-
 .fullwidth {
   width: 100%;
+}
+
+@mixin text-highlight($color) {
+  background-color: $color;
+  padding: $session-margin-xs $session-margin-sm;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 @mixin session-dark-background {
@@ -192,7 +191,6 @@ $session_message-container-border-radius: 5px;
   z-index: 1;
 }
 
-
 #main-view {
   height: 100vh;
   display: flex;
@@ -204,15 +202,10 @@ $session_message-container-border-radius: 5px;
   }
 }
 
-
-
 .button-group > div {
   margin-left: 5px;
   margin-right: 5px;
 }
-
-
-
 
 .session-button {
   @mixin transparent-background($textAndBorderColor) {
@@ -715,18 +708,24 @@ label {
   }
 
   &__text-highlight {
-    @include text-highlight($session-shade-15);
+    @include text-highlight($session-color-green);
+
+    color: black;
+    
+    font-family: monospace;
+    font-style: normal;
+    font-size: 11px;
   }
 }
 
 .session-confirm {
   &-wrapper {
-    .session-modal__body .session-modal__centered{
-      margin: $session-margin-lg
+    .session-modal__body .session-modal__centered {
+      margin: $session-margin-lg;
     }
   }
 
-  &-main-message{
+  &-main-message {
     font-size: 15px;
   }
   &-sub-message {
@@ -913,8 +912,10 @@ label {
 }
 
 .session-settings {
-  &-list{
+  &-list {
     width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
   }
 
   &-item {
@@ -928,25 +929,22 @@ label {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  
+
     &__info {
       padding-right: $session-margin-lg;
     }
-    
+
     &__title {
       line-height: 1.7;
     }
-    
+
     &__description {
       font-size: 13px;
       font-weight: 100;
       @include session-color-subtle($session-color-white);
     }
   }
-
 }
-
-
 
 #qr svg {
   width: $session-modal-size-sm;

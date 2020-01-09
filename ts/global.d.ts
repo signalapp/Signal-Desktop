@@ -23,6 +23,7 @@ interface Window {
   pushToast: any;
   confirmationDialog: any;
   showSeedDialog: any;
+  toggleTheme: any;
 }
 
 interface Promise<T> {

@@ -148,7 +148,7 @@ export class LeftPaneContactSection extends React.Component<Props, any> {
 
       return;
     }
-    
+
     this.setState({ pubKeyPasted: '' }, () => {
       window.Session.emptyContentEditableDivs();
     });

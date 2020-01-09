@@ -182,6 +182,8 @@ export class LeftPane extends React.Component<Props, State> {
         return this.renderContactSection();
       case SectionType.Settings:
         return this.renderSettingSection();
+      case SectionType.Moon:
+        return window.toggleTheme();
       default:
         return undefined;
     }

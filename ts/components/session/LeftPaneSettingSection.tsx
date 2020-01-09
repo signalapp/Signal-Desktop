@@ -29,8 +29,6 @@ export interface State {
 }
 
 export class LeftPaneSettingSection extends React.Component<Props, State> {
-  //private readonly updateSearchBound: (searchedString: string) => void;
-
   public constructor(props: Props) {
     super(props);
 
@@ -46,7 +44,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    MainViewController.renderSettingsView();
+    MainViewController.renderSettingsView(this.state.settingCategory);
 
     return (
       <div className="left-pane-setting-section">
@@ -120,17 +118,16 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
           <SessionSearchInput
             searchString={this.state.searchQuery}
             onChange={() => null}
-            placeholder=''
+            placeholder=""
           />
           <div className="left-pane-setting-input-button">
             <SessionButton
               buttonType={SessionButtonType.Square}
               buttonColor={SessionButtonColor.Green}
             >
-              <SessionIcon 
+              <SessionIcon
                 iconType={SessionIconType.Caret}
                 iconSize={SessionIconSize.Large}
-
               />
             </SessionButton>
           </div>
@@ -164,7 +161,6 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public onDeleteAccount() {
-
     const params = {
       title: window.i18n('deleteAccount'),
       message: window.i18n('deleteAccountWarning'),
@@ -172,9 +168,8 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       resolve: window.deleteAccount,
       okTheme: 'danger',
     };
-    
-    window.confirmationDialog(params);
 
+    window.confirmationDialog(params);
   }
 
   public getCategories() {
@@ -236,5 +231,4 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
 
   //   this.debouncedSearch(cleanedTerm);
   // }
-
 }

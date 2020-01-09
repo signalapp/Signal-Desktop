@@ -157,7 +157,6 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   }
 
   public render(): JSX.Element {
-
     MainViewController.renderMessageView();
 
     return (

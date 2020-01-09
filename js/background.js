@@ -877,6 +877,18 @@
       // TOOD. MAKE THIS PROCESS SECURED WITH rm-secure
       // https://www.npmjs.com/package/secure-rm
       alert('YOUR ACCOUNT HAS BEEN DELETED');
+    };
+
+    window.toggleTheme = () => {
+
+      const theme = window.Events.getThemeSetting();
+      const updatedTheme = (theme === 'dark') ? 'light' : 'dark';
+
+      $(document.body)
+            .removeClass('dark-theme')
+            .removeClass('light-theme')
+            .addClass(`${updatedTheme}-theme`);
+      window.Events.setThemeSetting(updatedTheme);
     }
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {

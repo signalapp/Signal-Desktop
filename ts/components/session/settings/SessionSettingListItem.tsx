@@ -1,8 +1,10 @@
 import React from 'react';
 import { SessionToggle } from '../SessionToggle';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
-
-
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from '../SessionButton';
 
 export enum SessionSettingType {
   Toggle = 'toggle',
@@ -23,48 +25,46 @@ interface Props {
 export class SessionSettingListItem extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
-
-
   public render(): JSX.Element {
-    const { title, description, type, value, onClick, buttonText, buttonColor } = this.props
+    const {
+      title,
+      description,
+      type,
+      value,
+      onClick,
+      buttonText,
+      buttonColor,
+    } = this.props;
 
     return (
       <div className="session-settings-item">
         <div className="session-settings-item__info">
-          <div className="session-settings-item__title">
-            { title }
-          </div>
+          <div className="session-settings-item__title">{title}</div>
 
-          { description && (
+          {description && (
             <div className="session-settings-item__description">
-              { description }
+              {description}
             </div>
           )}
         </div>
 
-        { type === SessionSettingType.Toggle && (
+        {type === SessionSettingType.Toggle && (
           <div className="session-sessings-item__selection">
-            <SessionToggle
-              active={ Boolean(value) }
-              onClick = { onClick }
-            />
+            <SessionToggle active={Boolean(value)} onClick={onClick} />
           </div>
         )}
 
-        { type === SessionSettingType.Button && (
+        {type === SessionSettingType.Button && (
           <SessionButton
-            text = { buttonText }
-            buttonColor = { buttonColor }
-            onClick = { onClick }
+            text={buttonText}
+            buttonColor={buttonColor}
+            onClick={onClick}
           />
         )}
-        
       </div>
     );
   }
-
 }
