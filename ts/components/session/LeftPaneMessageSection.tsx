@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { AutoSizer, List } from 'react-virtualized';
 
+import { MainViewController } from '../MainViewController';
 import {
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
@@ -155,6 +157,9 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   }
 
   public render(): JSX.Element {
+
+    MainViewController.renderMessageView();
+
     return (
       <div>
         {this.renderHeader()}

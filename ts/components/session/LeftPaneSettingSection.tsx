@@ -3,6 +3,8 @@ import classNames from 'classnames';
 
 import { LeftPane } from '../LeftPane';
 
+import { MainViewController } from '../MainViewController';
+
 import {
   SessionButton,
   SessionButtonColor,
@@ -11,8 +13,6 @@ import {
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
-import { Session } from 'inspector';
-
 
 export enum SessionSettingCategory {
   Account = 'account',
@@ -35,7 +35,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      settingCategory: SessionSettingCategory.Privacy,
+      settingCategory: SessionSettingCategory.Account,
       searchQuery: '',
     };
 
@@ -46,10 +46,11 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
+    MainViewController.renderSettingsView();
+
     return (
       <div className="left-pane-setting-section">
         {this.renderHeader()}
-
         {this.renderSettings()}
       </div>
     );

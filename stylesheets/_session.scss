@@ -192,6 +192,20 @@ $session_message-container-border-radius: 5px;
   z-index: 1;
 }
 
+
+#main-view {
+  height: 100vh;
+  display: flex;
+  flex-grow: 1;
+
+  .conversation-stack {
+    display: block;
+    width: 100%;
+  }
+}
+
+
+
 .button-group > div {
   margin-left: 5px;
   margin-right: 5px;
@@ -897,6 +911,41 @@ label {
     }
   }
 }
+
+.session-settings {
+  &-list{
+    width: 100%;
+  }
+
+  &-item {
+    font-size: 15px;
+    font-weight: bold;
+    color: $session-color-white;
+
+    height: 90px;
+    padding: 0px 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    &__info {
+      background-color: $session-shade-1;
+    }
+    
+    &__description {
+      font-size: 13px;
+      @include session-color-subtle($session-color-white);
+    }
+
+    &:not(:last-child){
+      border-bottom: 1px solid $session-shade-3;
+    }
+  }
+
+}
+
+
 
 #qr svg {
   width: $session-modal-size-sm;

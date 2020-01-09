@@ -47,11 +47,10 @@
       }
     },
     showToast({ message }) {
-      const toast = new Whisper.MessageToastView({
-        message,
+      window.pushToast({
+        title: message,
+        type: 'success',
       });
-      toast.$el.appendTo(this.$el);
-      toast.render();
     },
     showConfirmationDialog({ title, message, onOk, onCancel }) {
       window.confirmationDialog({

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { MainViewController } from './MainViewController';
+
 import { ActionsPanel, SectionType } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 
@@ -209,6 +211,8 @@ export class LeftPane extends React.Component<Props, State> {
         clearSearch={clearSearch}
       />
     );
+
+    // Render Message View Also!
   }
 
   private renderContactSection() {
@@ -240,8 +244,6 @@ export class LeftPane extends React.Component<Props, State> {
   }
 
   private renderSettingSection() {
-    const {} = this.props;
-
     return <LeftPaneSettingSection />;
   }
 }
