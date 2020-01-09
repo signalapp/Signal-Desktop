@@ -475,7 +475,7 @@ $session-compose-margin: 20px;
   span {
     padding: 5px 10px;
     border-radius: 50px;
-    @include session-dark-background-lighter;
+    background-color: #121212;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
   }

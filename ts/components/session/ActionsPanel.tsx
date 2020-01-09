@@ -40,38 +40,25 @@ const Section = ({
 }) => {
   const handleClick = onSelect
     ? () => {
-        onSelect(type);
+      if(type !== SectionType.Profile) {
+          onSelect(type);
+        }
       }
     : undefined;
 
   if (type === SectionType.Profile) {
-    if (!isSelected) {
-      return (
-        <Avatar
-          avatarPath={avatarPath}
-          conversationType="direct"
-          i18n={window.i18n}
-          // tslint:disable-next-line: no-backbone-get-set-outside-model
-          phoneNumber={window.storage.get('primaryDevicePubKey')}
-          size={28}
-          onAvatarClick={handleClick}
-        />
-      );
-    } else {
-      return (
-        <Avatar
-          avatarPath={avatarPath}
-          conversationType="direct"
-          i18n={window.i18n}
-          // tslint:disable-next-line: no-backbone-get-set-outside-model
-          phoneNumber={window.storage.get('primaryDevicePubKey')}
-          size={28}
-          onAvatarClick={handleClick}
-          borderColor={'#fff'}
-        />
-      );
-    }
-  }
+    return (
+      <Avatar
+        avatarPath={avatarPath}
+        conversationType="direct"
+        i18n={window.i18n}
+        // tslint:disable-next-line: no-backbone-get-set-outside-model
+        phoneNumber={window.storage.get('primaryDevicePubKey')}
+        size={28}
+        onAvatarClick={handleClick}
+      />
+    );
+}
 
   let iconType: SessionIconType;
   switch (type) {
