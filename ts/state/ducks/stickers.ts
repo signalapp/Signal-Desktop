@@ -103,6 +103,7 @@ type StickerAddedAction = {
 
 type InstallStickerPackPayloadType = {
   packId: string;
+  fromSync: boolean;
   status: 'installed';
   installedAt: number;
   recentStickers: Array<RecentStickerType>;
@@ -121,6 +122,7 @@ type ClearInstalledStickerPackAction = {
 
 type UninstallStickerPackPayloadType = {
   packId: string;
+  fromSync: boolean;
   status: 'downloaded';
   installedAt: null;
   recentStickers: Array<RecentStickerType>;
@@ -258,8 +260,9 @@ async function doInstallStickerPack(
 
   return {
     packId,
-    installedAt: timestamp,
+    fromSync,
     status,
+    installedAt: timestamp,
     recentStickers: recentStickers.map(item => ({
       packId: item.packId,
       stickerId: item.id,
@@ -298,6 +301,7 @@ async function doUninstallStickerPack(
 
   return {
     packId,
+    fromSync,
     status,
     installedAt: null,
     recentStickers: recentStickers.map(item => ({
@@ -426,7 +430,7 @@ export function reducer(
     action.type === 'stickers/UNINSTALL_STICKER_PACK_FULFILLED'
   ) {
     const { payload } = action;
-    const { installedAt, packId, status, recentStickers } = payload;
+    const { fromSync, installedAt, packId, status, recentStickers } = payload;
     const { packs } = state;
     const existingPack = packs[packId];
 
@@ -440,9 +444,12 @@ export function reducer(
       };
     }
 
+    const isBlessed = state.blessedPacks[packId];
+    const installedPack = !fromSync && !isBlessed ? packId : null;
+
     return {
       ...state,
-      installedPack: packId,
+      installedPack,
       packs: {
         ...packs,
         [packId]: {
