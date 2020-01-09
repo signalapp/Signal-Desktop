@@ -5642,13 +5642,15 @@ button.module-image__border-overlay:focus {
       }
 
       &__info {
-        flex-grow: 1;
+        width: 317px;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
         &__title {
           margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
           @include font-body-1-bold;
 
@@ -5663,7 +5665,9 @@ button.module-image__border-overlay:focus {
 
         &__author {
           margin: 0;
-          height: 18px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
 
           @include light-theme {
             color: $color-gray-45;
