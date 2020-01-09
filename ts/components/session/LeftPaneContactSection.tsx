@@ -81,7 +81,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
   public renderHeader(): JSX.Element | undefined {
     const { receivedFriendRequestCount } = this.props;
-    const labels = [window.i18n('contactsHeader'), window.i18n('lists')];
+    // The feature "organize your friends as custom list" is not included in the first release
+    const labels = [window.i18n('contactsHeader')/*, window.i18n('lists')*/];
 
     return LeftPane.RENDER_HEADER(
       labels,
