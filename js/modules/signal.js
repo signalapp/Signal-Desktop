@@ -54,9 +54,6 @@ const {
 } = require('../../ts/components/DevicePairingDialog');
 const { AddServerDialog } = require('../../ts/components/AddServerDialog');
 
-const {
-  SessionSettings,
-} = require('../../ts/components/session/SessionSettings');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
@@ -272,7 +269,6 @@ exports.setup = (options = {}) => {
     InviteFriendsDialog,
     GroupInvitation,
     BulkEdit,
-    SessionSettings,
     SessionToast,
     SessionToggle,
     SessionConfirm,
