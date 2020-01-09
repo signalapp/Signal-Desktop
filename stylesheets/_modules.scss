@@ -1169,7 +1169,7 @@
     @include color-svg('../images/sending.svg', $color-white-alpha-80);
   }
   @include ios-theme {
-    @include color-svg('../images/sending.svg', $color-gray-60);
+    @include color-svg('../images/sending.svg', $color-white);
   }
   @include ios-dark-theme {
     @include color-svg('../images/sending.svg', $color-white);
