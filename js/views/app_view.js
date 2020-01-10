@@ -44,7 +44,7 @@
     openView(view) {
       this.el.innerHTML = '';
       this.el.append(view.el);
-      this.delegateEvents();
+      this.delegateEvents();      
     },
     openDebugLog() {
       this.closeDebugLog();

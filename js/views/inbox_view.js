@@ -1,4 +1,6 @@
-/* global
+/*
+  global
+  $
   ConversationController,
   extension,
   ConversationController
@@ -20,7 +22,19 @@
     className: 'conversation-stack',
     open(conversation) {
       const id = `conversation-${conversation.cid}`;
-      if (id !== this.el.firstChild.id) {
+      const container = $('#main-view .conversation-stack');
+      const conversationOpened = container.children()[0].id === id
+
+      // To limit the size of the DOM for speed
+      const maxNumConversations = 5;
+      const numConversations = container.children().not('.conversation.placeholder').length;
+      const shouldRemoveConversation = numConversations > maxNumConversations;
+
+      if (shouldRemoveConversation){
+        container.children()[numConversations - 1].remove();
+      }
+
+      if (! conversationOpened) {
         this.$el
           .first()
           .find('video, audio')
@@ -33,15 +47,19 @@
             model: conversation,
             window: this.model.window,
           });
+          view.view.resetScrollPosition();
+
           // eslint-disable-next-line prefer-destructuring
           $el = view.$el;
         }
-        $el.prependTo(this.el);
+
+        container.prepend($el);
+        
       }
       conversation.trigger('opened');
     },
     close(conversation) {
-      const $el = this.$(`#conversation-${conversation.cid}`);
+      const $el = $(`#conversation-${conversation.cid}`);
       if ($el && $el.length > 0) {
         $el.remove();
       }

@@ -51,7 +51,7 @@ $session-shade-13: #474646;
 $session-shade-14: #535865;
 $session-shade-15: #5b6c72;
 $session-shade-16: #979797;
-$session-shade-17: #180a0a;
+$session-shade-17: #a0a0a0;
 $session-shade-18: #141414;
 
 $session-opaque-dark-1: rgba(0, 0, 0, 0.25);
@@ -711,7 +711,7 @@ label {
     @include text-highlight($session-color-green);
 
     color: black;
-    
+
     font-family: monospace;
     font-style: normal;
     font-size: 11px;
@@ -782,7 +782,7 @@ label {
   height: 25px;
   padding: 0px 10px;
 
-  background-color: #1b1b1b;
+  background-color: $session-shade-4;
 
   color: $session-color-white;
   font-family: 'Wasa';
@@ -818,7 +818,7 @@ label {
 
       height: 25px;
       padding-right: 7px;
-      background-color: #1b1b1b;
+      background-color: $session-shade-4;
 
       color: $session-color-white;
       font-family: 'Wasa';

@@ -880,16 +880,15 @@
     };
 
     window.toggleTheme = () => {
-
       const theme = window.Events.getThemeSetting();
-      const updatedTheme = (theme === 'dark') ? 'light' : 'dark';
+      const updatedTheme = theme === 'dark' ? 'light' : 'dark';
 
       $(document.body)
-            .removeClass('dark-theme')
-            .removeClass('light-theme')
-            .addClass(`${updatedTheme}-theme`);
+        .removeClass('dark-theme')
+        .removeClass('light-theme')
+        .addClass(`${updatedTheme}-theme`);
       window.Events.setThemeSetting(updatedTheme);
-    }
+    };
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
