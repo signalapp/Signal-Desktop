@@ -23,15 +23,29 @@
     open(conversation) {
       const id = `conversation-${conversation.cid}`;
       const container = $('#main-view .conversation-stack');
-      const conversationOpened = container.children()[0].id === id
+      
+      // Has been opened since app sart, but not focussed
+      const conversationExists = container.children(`#${id}`).length > 0;
+      // Is focussed
+      const conversationOpened = container.children().first().id === id
 
       // To limit the size of the DOM for speed
-      const maxNumConversations = 5;
+      const maxNumConversations = 10;
       const numConversations = container.children().not('.conversation.placeholder').length;
-      const shouldRemoveConversation = numConversations > maxNumConversations;
+      const shouldTrimConversations = numConversations > maxNumConversations;
 
-      if (shouldRemoveConversation){
+      if (shouldTrimConversations){
+        // Removes conversation which has been hidden the longest
         container.children()[numConversations - 1].remove();
+      }
+
+      if (conversationExists) {
+        // User opened conversation, move it to top of stack, rather than re-rendering
+        const conversations = container.children().not('.conversation.placeholder');
+        container.children(`#${id}`).first().insertBefore(conversations.first());
+        conversation.trigger('opened');
+       
+        return;
       }
 
       if (! conversationOpened) {
@@ -88,6 +102,7 @@
       message: i18n('loading'),
     },
   });
+  
 
   Whisper.InboxView = Whisper.View.extend({
     templateName: 'two-column',

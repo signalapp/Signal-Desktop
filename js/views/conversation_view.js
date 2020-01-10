@@ -46,11 +46,6 @@
     },
   });
 
-  Whisper.ConversationLoadingScreen = Whisper.View.extend({
-    templateName: 'conversation-loading-screen',
-    className: 'conversation-loading-screen',
-  });
-
   Whisper.ConversationView = Whisper.View.extend({
     className() {
       return ['conversation', this.model.get('type')].join(' ');
@@ -148,6 +143,7 @@
       this.loadingScreen.render();
       this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
 
+      
       this.window = options.window;
       this.fileInput = new Whisper.FileInputView({
         el: this.$('.attachment-list'),

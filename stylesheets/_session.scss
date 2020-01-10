@@ -854,6 +854,19 @@ label {
   margin-left: 75px;
 }
 
+
+.conversation-loader {
+  height: 100%;
+  margin-top: 45vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &>div{
+    display: block;
+  }
+}
+
 .session-loader {
   display: inline-block;
   position: relative;
