@@ -90,6 +90,20 @@
       return { toastMessage: i18n('conversationReturnedToInbox') };
     },
   });
+  Whisper.TapToViewExpiredIncomingToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return {
+        toastMessage: i18n('Message--tap-to-view--incoming--expired-toast'),
+      };
+    },
+  });
+  Whisper.TapToViewExpiredOutgoingToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return {
+        toastMessage: i18n('Message--tap-to-view--outgoing--expired-toast'),
+      };
+    },
+  });
   Whisper.FileSavedToast = Whisper.ToastView.extend({
     className: 'toast toast-clickable',
     initialize(options) {
@@ -459,6 +473,12 @@
       const downloadNewVersion = () => {
         this.downloadNewVersion();
       };
+      const showExpiredIncomingTapToViewToast = () => {
+        this.showToast(Whisper.TapToViewExpiredIncomingToast);
+      };
+      const showExpiredOutgoingTapToViewToast = () => {
+        this.showToast(Whisper.TapToViewExpiredOutgoingToast);
+      };
 
       const scrollToQuotedMessage = async options => {
         const { author, sentAt } = options;
@@ -623,6 +643,8 @@
           showIdentity,
           showMessageDetail,
           showVisualAttachment,
+          showExpiredIncomingTapToViewToast,
+          showExpiredOutgoingTapToViewToast,
         }),
       });
 

@@ -741,7 +741,7 @@
       }
       if (this.isTapToView()) {
         if (this.isErased()) {
-          return i18n('mediaMessage');
+          return i18n('message--getDescription--disappearing-media');
         }
 
         const attachments = this.get('attachments');

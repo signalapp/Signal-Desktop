@@ -1547,13 +1547,17 @@
     "message": "Unsupported message",
     "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
   },
+  "message--getDescription--disappearing-media": {
+    "message": "View-once Media",
+    "description": "Shown in notifications and in the left pane after view-once message is deleted."
+  },
   "message--getDescription--disappearing-photo": {
-    "message": "Disappearing Photo",
-    "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+    "message": "View-once Photo",
+    "description": "Shown in notifications and in the left pane when a message is a view once photo."
   },
   "message--getDescription--disappearing-video": {
-    "message": "Disappearing Video",
-    "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+    "message": "View-once Video",
+    "description": "Shown in notifications and in the left pane when a message is a view once video."
   },
   "stickers--toast--InstallFailed": {
     "message": "Sticker pack could not be installed",
@@ -1697,12 +1701,20 @@
     "message": "Media",
     "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
   },
+  "Message--tap-to-view--incoming--expired-toast": {
+    "message": "You already viewed this message.",
+    "description": "Shown when user clicks on an expired incoming view-once bubble"
+  },
+  "Message--tap-to-view--outgoing--expired-toast": {
+    "message": "View-once messages are not stored in your conversation history.",
+    "description": "Shown when user clicks on an expired outgoing view-once bubble"
+  },
   "Message--tap-to-view--incoming": {
-    "message": "Photo",
+    "message": "View Photo",
     "description": "Text shown on photo messages with with individual timers, before user has viewed it"
   },
   "Message--tap-to-view--incoming-video": {
-    "message": "Video",
+    "message": "View Video",
     "description": "Text shown on video messages with with individual timers, before user has viewed it"
   },
   "Conversation--getDraftPreview--attachment": {

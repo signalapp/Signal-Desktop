@@ -129,6 +129,9 @@ export type PropsActions = {
   openLink: (url: string) => void;
   scrollToQuotedMessage: (options: { author: string; sentAt: number }) => void;
   selectMessage?: (messageId: string, conversationId: string) => unknown;
+
+  showExpiredIncomingTapToViewToast: () => unknown;
+  showExpiredOutgoingTapToViewToast: () => unknown;
 };
 
 export type Props = PropsData & PropsHousekeeping & PropsActions;
@@ -1311,7 +1314,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  // tslint:disable-next-line cyclomatic-complexity
+  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   public handleOpen = (
     event: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent
   ) => {
@@ -1319,19 +1322,32 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       contact,
       displayTapToViewMessage,
+      direction,
       id,
       isTapToView,
       isTapToViewExpired,
       openConversation,
       showContactDetail,
       showVisualAttachment,
+      showExpiredIncomingTapToViewToast,
+      showExpiredOutgoingTapToViewToast,
     } = this.props;
     const { imageBroken } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
 
     if (isTapToView) {
-      if (!isTapToViewExpired && !isAttachmentPending) {
+      if (isAttachmentPending) {
+        return;
+      }
+
+      if (isTapToViewExpired) {
+        const action =
+          direction === 'outgoing'
+            ? showExpiredOutgoingTapToViewToast
+            : showExpiredIncomingTapToViewToast;
+        action();
+      } else {
         event.preventDefault();
         event.stopPropagation();
 

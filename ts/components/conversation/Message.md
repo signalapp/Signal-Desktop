@@ -3685,6 +3685,32 @@ Sticker link previews are forced to use the small link preview form, no matter t
     <Message
       direction="incoming"
       timestamp={Date.now()}
+      authorColor="pink"
+      conversationType="direct"
+      authorPhoneNumber="(202) 555-0003"
+      isTapToViewExpired={false}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'video/mp4',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId1"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
       authorColor="blue"
       isTapToViewExpired={true}
       isTapToView={true}

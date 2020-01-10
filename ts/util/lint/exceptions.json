@@ -9234,7 +9234,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 150,
+    "lineNumber": 153,
     "reasonCategory": "usageTrusted",
     "updated": "2020-01-06T17:05:33.013Z",
     "reasonDetail": "Used for setting focus only"

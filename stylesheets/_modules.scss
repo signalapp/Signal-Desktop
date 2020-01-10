@@ -366,8 +366,6 @@
 }
 
 .module-message__container--with-tap-to-view-expired {
-  cursor: default;
-
   @include light-theme {
     border: 1px solid $color-gray-15;
     background-color: $color-white;
@@ -440,16 +438,16 @@
   height: 20px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-white);
+    @include color-svg('../images/icons/v2/view-once-24.svg', $color-white);
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-05);
+    @include color-svg('../images/icons/v2/view-once-24.svg', $color-gray-05);
   }
   @include ios-theme {
-    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-90);
+    @include color-svg('../images/icons/v2/view-once-24.svg', $color-gray-90);
   }
   @include ios-dark-theme {
-    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-05);
+    @include color-svg('../images/icons/v2/view-once-24.svg', $color-gray-05);
   }
 }
 .module-message__tap-to-view__icon--outgoing {
@@ -465,28 +463,16 @@
 }
 .module-message__tap-to-view__icon--expired {
   @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/play-outline-24.svg',
-      $color-gray-75
-    );
+    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-75);
   }
   @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/play-outline-24.svg',
-      $color-gray-05
-    );
+    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-05);
   }
   @include ios-theme {
-    @include color-svg(
-      '../images/icons/v2/play-outline-24.svg',
-      $color-gray-75
-    );
+    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-75);
   }
   @include ios-dark-theme {
-    @include color-svg(
-      '../images/icons/v2/play-outline-24.svg',
-      $color-gray-05
-    );
+    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-05);
   }
 }
 .module-message__tap-to-view__text {
