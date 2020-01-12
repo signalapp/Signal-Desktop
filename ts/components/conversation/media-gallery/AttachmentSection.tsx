@@ -9,7 +9,6 @@ import { LocalizerType } from '../../../types/Util';
 
 interface Props {
   i18n: LocalizerType;
-  header?: string;
   type: 'media' | 'documents';
   mediaItems: Array<MediaItemType>;
   onItemClick?: (event: ItemClickEvent) => void;
@@ -17,11 +16,9 @@ interface Props {
 
 export class AttachmentSection extends React.Component<Props> {
   public render() {
-    const { header } = this.props;
 
     return (
       <div className="module-attachment-section">
-        <h2 className="module-attachment-section__header">{header}</h2>
         <div className="module-attachment-section__items">
           {this.renderItems()}
         </div>

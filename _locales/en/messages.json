@@ -2572,5 +2572,8 @@
   },
   "next": {
     "message": "Next"
+  },
+  "description": {
+    "message": "Description"
   }
 }
