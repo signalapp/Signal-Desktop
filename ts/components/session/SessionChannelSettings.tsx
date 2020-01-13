@@ -19,6 +19,7 @@ interface Props {
   onGoBack: () => void;
   onInviteFriends: () => void;
   onLeaveGroup: () => void;
+  onShowLightBox: (options: any) => void;
 }
 
 export class SessionChannelSettings extends React.Component<Props, any> {
@@ -147,29 +148,18 @@ export class SessionChannelSettings extends React.Component<Props, any> {
 
     const onItemClick = async ({ message, attachment, type }: any) => {
       switch (type) {
-        case 'documents':
-        case 'media': {
+        case 'documents': {
           saveAttachment({ message, attachment }).ignore();
           break;
         }
 
-        /*case 'media': {
-                const selectedIndex = media.findIndex(
-                mediaMessage => mediaMessage.attachment.path === attachment.path
-                );
-                this.lightboxGalleryView = new Whisper.ReactWrapperView({
-                className: 'lightbox-wrapper',
-                Component: Signal.Components.LightboxGallery,
-                props: {
-                    media,
-                    onSave: saveAttachment,
-                    selectedIndex,
-                },
-                onClose: () => Signal.Backbone.Views.Lightbox.hide(),
-                });
-                Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
-                break;
-            }*/
+          case 'media': {
+            const lightBoxOptions = {
+                media, attachment, message,
+            };
+          this.onShowLightBox(lightBoxOptions);
+          break;
+        }
 
         default:
           throw new TypeError(`Unknown attachment type: '${type}'`);
@@ -177,10 +167,14 @@ export class SessionChannelSettings extends React.Component<Props, any> {
     };
 
     return {
-      documents,
-      media,
-      onItemClick,
+        media,
+        documents,
+        onItemClick,
     };
+  }
+
+  public onShowLightBox(options: any) {
+    this.props.onShowLightBox(options);
   }
 
   public render() {

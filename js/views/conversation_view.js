@@ -260,7 +260,7 @@
               window.Whisper.events.trigger('onShowUserDetails', {
                 userPubKey: pubkey,
               });
-            } else {
+            } else if (!this.model.isRss()){
               this.showGroupSettings();
             }
           },
@@ -285,6 +285,7 @@
           isPublic: this.model.isPublic(),
           isRss: this.model.isRss(),
           memberCount: members.length,
+
           /* timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
             name: item.getName(),
             value: item.get('seconds'),
@@ -308,6 +309,9 @@
 
           onInviteFriends: () => {
             window.Whisper.events.trigger('inviteFriends', this.model);
+          },
+          onShowLightBox: (lightBoxOptions = {}) => {
+            this.showChannelLightbox(lightBoxOptions);
           },
         };
       };
@@ -1263,7 +1267,6 @@
         toast.render();
         return;
       }
-
       Signal.Types.Attachment.save({
         attachment,
         document,
@@ -1353,6 +1356,23 @@
 
     deleteMessage(message) {
       this.deleteMessages([message]);
+    },
+
+    showChannelLightbox({ media, attachment, message }) {
+      const selectedIndex = media.findIndex(
+        mediaMessage => mediaMessage.attachment.path === attachment.path
+      );
+      this.lightboxGalleryView = new Whisper.ReactWrapperView({
+        className: 'lightbox-wrapper',
+        Component: Signal.Components.LightboxGallery,
+        props: {
+        media,
+        onSave: () => this.downloadAttachment({ attachment, message }),
+        selectedIndex,
+        },
+        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+      });
+      Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
     showLightbox({ attachment, message }) {
