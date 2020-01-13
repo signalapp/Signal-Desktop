@@ -83,6 +83,7 @@ $session-margin-md: 15px;
 $session-margin-lg: 20px;
 
 $session-search-input-height: 34px;
+$main-view-header-height: 85px;
 
 div.spacer-sm {
   height: $session-margin-sm;
@@ -924,11 +925,32 @@ label {
   }
 }
 
+
 .session-settings {
+  width: 100%;
+  height: 100vh;
+
   &-list {
-    width: 100%;
-    height: 100vh;
     overflow-y: scroll;
+  }
+
+  &-header {
+    display: flex;
+    justify-content: center;
+    background-color: $session-shade-6;
+    height: $main-view-header-height;
+    line-height: $main-view-header-height;
+    font-weight: bold;
+    font-size: 18px;
+
+    .session-icon-button {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      right: $session-margin-lg;
+      align-items: center;
+      height: $main-view-header-height;
+    }
   }
 
   &-item {

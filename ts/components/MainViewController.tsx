@@ -8,6 +8,7 @@ import {
 
 import { SessionSettingCategory } from './session/LeftPaneSettingSection';
 import { SessionButtonColor } from './session/SessionButton';
+import { SessionIconButton, SessionIconType, SessionIconSize } from './session/icon';
 
 // Grab initial values from database on startup
 const localSettings = [
@@ -77,8 +78,75 @@ const localSettings = [
 ];
 
 export class MainViewController {
+
   public static renderMessageView() {
-    const element = (
+    ReactDOM.render(
+      <MessageView/>,
+      document.getElementById('main-view')
+    );
+  }
+
+  public static renderSettingsView(category: SessionSettingCategory) {
+    ReactDOM.render(
+        <SettingsView category={category}/>,
+      document.getElementById('main-view')
+    );
+  }
+}
+
+
+interface SettingsViewProps {
+  category: SessionSettingCategory
+}
+
+export class SettingsView extends React.Component<SettingsViewProps>{
+  public settingsViewRef: React.RefObject<HTMLDivElement>;
+
+  public constructor(props: any) {
+    super(props);
+    this.settingsViewRef = React.createRef();
+  }
+
+  render() {
+    const { category } = this.props;
+
+    return (
+      <div className="session-settings">
+        <SettingsHeader category={category}/>
+        <div
+          ref = {this.settingsViewRef}
+          className="session-settings-list"
+        >
+          
+          
+          {localSettings.map(setting => {
+            return (
+              <div key={setting.id}>
+                {setting.category === category && (
+                  <SessionSettingListItem
+                    title={setting.title}
+                    description={setting.description}
+                    type={setting.type}
+                    value={setting.value}
+                    onClick={() => {
+                      SettingsManager.updateSetting(setting);
+                    }}
+                    buttonText={setting.buttonText || undefined}
+                    buttonColor={setting.buttonColor || undefined}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    )
+  }
+}
+
+export class MessageView extends React.Component {
+  render() {
+    return (
       <div className="conversation-stack">
         <div className="conversation placeholder">
           <div className="conversation-header" />
@@ -94,38 +162,34 @@ export class MainViewController {
         </div>
       </div>
     );
-
-    ReactDOM.render(element, document.getElementById('main-view'));
-  }
-
-  public static renderSettingsView(category: SessionSettingCategory) {
-    const element = (
-      <div className="session-settings-list">
-        {localSettings.map(setting => {
-          return (
-            <div key={setting.id}>
-              {setting.category === category && (
-                <SessionSettingListItem
-                  title={setting.title}
-                  description={setting.description}
-                  type={setting.type}
-                  value={setting.value}
-                  onClick={() => {
-                    SettingsManager.updateSetting(setting);
-                  }}
-                  buttonText={setting.buttonText || undefined}
-                  buttonColor={setting.buttonColor || undefined}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
-    );
-
-    ReactDOM.render(element, document.getElementById('main-view'));
   }
 }
+
+export class SettingsHeader extends React.Component<SettingsViewProps>{
+  public constructor(props: any) {
+    super(props);
+  }
+
+  public focusSearch(){
+    $('.left-pane-setting-section .session-search-input input').focus();
+  }
+
+  render() {
+    const category = String(this.props.category)
+
+    return (
+      <div className="session-settings-header">
+        {category[0].toUpperCase() + category.substr(1)} Settings
+        <SessionIconButton
+          iconType={SessionIconType.Search}
+          iconSize={SessionIconSize.Large}
+          onClick={this.focusSearch}
+        />
+      </div>
+    );
+  }
+}
+
 
 export class SettingsManager {
   public static updateSetting({ id, type, value }) {

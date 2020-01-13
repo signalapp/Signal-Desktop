@@ -15,6 +15,7 @@ import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
 
 export enum SessionSettingCategory {
+  General = 'general',
   Account = 'account',
   Privacy = 'privacy',
   Notifications = 'notifications',
@@ -33,7 +34,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      settingCategory: SessionSettingCategory.Account,
+      settingCategory: SessionSettingCategory.General,
       searchQuery: '',
     };
 
