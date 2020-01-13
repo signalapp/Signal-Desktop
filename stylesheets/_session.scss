@@ -498,10 +498,11 @@ label {
 }
 
 .message-selection-overlay {
-  position: absolute;
   left: 15px;
-  right: 15px;
   display: none;
+
+  position: relative;
+  margin-right: 30px;
 
   .close-button {
     float: left;
