@@ -1212,10 +1212,18 @@
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/crypto.js",
-    "line": "        return dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 220,
+    "line": "          given: dcodeIO.ByteBuffer.wrap(padded)",
+    "lineNumber": 235,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-01-10T23:53:06.768Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/crypto.js",
+    "line": "            ? dcodeIO.ByteBuffer.wrap(padded)",
+    "lineNumber": 239,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-10T23:53:06.768Z"
   },
   {
     "rule": "jQuery-wrap(",

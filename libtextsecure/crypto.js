@@ -9,7 +9,7 @@
   const PROFILE_IV_LENGTH = 12; // bytes
   const PROFILE_KEY_LENGTH = 32; // bytes
   const PROFILE_TAG_LENGTH = 128; // bits
-  const PROFILE_NAME_PADDED_LENGTH = 26; // bytes
+  const PROFILE_NAME_PADDED_LENGTH = 53; // bytes
 
   function verifyDigest(data, theirDigest) {
     return crypto.subtle.digest({ name: 'SHA-256' }, data).then(ourDigest => {
@@ -208,18 +208,39 @@
         'base64'
       ).toArrayBuffer();
       return textsecure.crypto.decryptProfile(data, key).then(decrypted => {
-        // unpad
         const padded = new Uint8Array(decrypted);
-        let i;
-        for (i = padded.length; i > 0; i -= 1) {
-          if (padded[i - 1] !== 0x00) {
+
+        // Given name is the start of the string to the first null character
+        let givenEnd;
+        for (givenEnd = 0; givenEnd < padded.length; givenEnd += 1) {
+          if (padded[givenEnd] === 0x00) {
             break;
           }
         }
 
-        return dcodeIO.ByteBuffer.wrap(padded)
-          .slice(0, i)
-          .toArrayBuffer();
+        // Family name is the next chunk of non-null characters after that first null
+        let familyEnd;
+        for (
+          familyEnd = givenEnd + 1;
+          familyEnd < padded.length;
+          familyEnd += 1
+        ) {
+          if (padded[familyEnd] === 0x00) {
+            break;
+          }
+        }
+        const foundFamilyName = familyEnd > givenEnd + 1;
+
+        return {
+          given: dcodeIO.ByteBuffer.wrap(padded)
+            .slice(0, givenEnd)
+            .toArrayBuffer(),
+          family: foundFamilyName
+            ? dcodeIO.ByteBuffer.wrap(padded)
+                .slice(givenEnd + 1, familyEnd)
+                .toArrayBuffer()
+            : null,
+        };
       });
     },
 
