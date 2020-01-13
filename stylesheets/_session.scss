@@ -26,6 +26,10 @@
   src: url('../fonts/Wasa-Bold.otf') format('opentype');
   font-weight: bold;
 }
+@font-face {
+  font-family: 'SFPro';
+  src: url('../fonts/SFProText-Regular.ttf') format('truetype');
+}
 
 // Session Colors
 $session-font-family: 'Wasa';
@@ -1035,4 +1039,36 @@ label {
 
 .network-status-container{
 
+}
+
+
+.discussion-container {
+
+  .module-message {
+    font-family: SFPro;
+    border-radius: 5px;
+  }
+}
+
+
+.bottom-bar textarea.send-message  {
+  height: 60px;
+  background-color: $session-shade-4;
+  border: none;
+  margin: 0px;
+  padding: 0px $session-margin-lg;
+  font-size: 15px;
+  line-height: 60px;
+
+  @include session-color-subtle($session-color-white);
+}
+
+.bottom-bar form {
+  &.send {
+    background-color: $session-shade-4;
+  }
+
+  &.active textarea {
+    border: none;
+  }
 }

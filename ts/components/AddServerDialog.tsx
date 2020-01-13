@@ -141,8 +141,8 @@ export class AddServerDialog extends React.Component<Props, State> {
 
       const connectionResult = this.attemptConnection(serverURL, channelId);
 
-      // Give 5s maximum for promise to revole. Else, throw error.
-      const maxConnectionDuration = 5000;
+      // Give 10s maximum for promise to revole. Else, throw error.
+      const maxConnectionDuration = 10000;
       const connectionTimeout = setTimeout(() => {
         if (!this.state.success) {
           this.showView('default', i18n('connectToServerFail'));

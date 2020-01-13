@@ -42,7 +42,7 @@
       @include session-color-subtle($session-color-white);
     }
     @at-root .dark-theme #{&} {
-      background-color: $session-shade-11;
+      background-color: $session-shade-8;
     }
   }
 
@@ -101,7 +101,7 @@
 }
 
 .discussion-container {
-  background: none !important;
+  background-color: #141414;
 }
 
 @mixin session-h-title {
