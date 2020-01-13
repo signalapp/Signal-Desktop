@@ -260,7 +260,7 @@
               window.Whisper.events.trigger('onShowUserDetails', {
                 userPubKey: pubkey,
               });
-            } else if (!this.model.isRss()){
+            } else if (!this.model.isRss()) {
               this.showGroupSettings();
             }
           },
@@ -1366,9 +1366,9 @@
         className: 'lightbox-wrapper',
         Component: Signal.Components.LightboxGallery,
         props: {
-        media,
-        onSave: () => this.downloadAttachment({ attachment, message }),
-        selectedIndex,
+          media,
+          onSave: () => this.downloadAttachment({ attachment, message }),
+          selectedIndex,
         },
         onClose: () => Signal.Backbone.Views.Lightbox.hide(),
       });

@@ -153,10 +153,12 @@ export class SessionChannelSettings extends React.Component<Props, any> {
           break;
         }
 
-          case 'media': {
-            const lightBoxOptions = {
-                media, attachment, message,
-            };
+        case 'media': {
+          const lightBoxOptions = {
+            media,
+            attachment,
+            message,
+          };
           this.onShowLightBox(lightBoxOptions);
           break;
         }
@@ -167,9 +169,9 @@ export class SessionChannelSettings extends React.Component<Props, any> {
     };
 
     return {
-        media,
-        documents,
-        onItemClick,
+      media,
+      documents,
+      onItemClick,
     };
   }
 
