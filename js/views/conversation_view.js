@@ -1271,7 +1271,7 @@
         attachment,
         document,
         getAbsolutePath: getAbsoluteAttachmentPath,
-        timestamp: message.get('sent_at'),
+        timestamp: message.get? message.get('sent_at'): message.sent_at,
       });
     },
 
