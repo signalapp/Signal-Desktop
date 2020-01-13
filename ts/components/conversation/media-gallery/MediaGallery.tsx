@@ -18,7 +18,6 @@ interface State {
   selectedTab: 'media' | 'documents';
 }
 
-
 interface TabSelectEvent {
   type: 'media' | 'documents';
 }
@@ -115,13 +114,13 @@ export class MediaGallery extends React.Component<Props, State> {
 
     return (
       <div className="module-media-gallery__sections">
-      <AttachmentSection
+        <AttachmentSection
           key="mediaItems"
           i18n={window.i18n}
           type={type}
           mediaItems={mediaItems}
           onItemClick={onItemClick}
-      />
+        />
       </div>
     );
   }

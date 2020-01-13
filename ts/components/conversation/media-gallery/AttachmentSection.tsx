@@ -16,7 +16,6 @@ interface Props {
 
 export class AttachmentSection extends React.Component<Props> {
   public render() {
-
     return (
       <div className="module-attachment-section">
         <div className="module-attachment-section__items">

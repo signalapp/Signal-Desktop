@@ -40,7 +40,7 @@ const Section = ({
 }) => {
   const handleClick = onSelect
     ? () => {
-      if(type !== SectionType.Profile) {
+        if (type !== SectionType.Profile) {
           onSelect(type);
         }
       }
@@ -58,7 +58,7 @@ const Section = ({
         onAvatarClick={handleClick}
       />
     );
-}
+  }
 
   let iconType: SessionIconType;
   switch (type) {

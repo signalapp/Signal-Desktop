@@ -233,7 +233,7 @@ function createWindow() {
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
       },
-      icon: path.join(__dirname, 'images', 'session','icon_64.png'),
+      icon: path.join(__dirname, 'images', 'session', 'icon_64.png'),
     },
     _.pick(windowConfig, [
       'maximized',

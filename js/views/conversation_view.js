@@ -17,11 +17,7 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
-  const { Message } = window.Signal.Types;
-  const {
-    upgradeMessageSchema,
-    getAbsoluteAttachmentPath,
-  } = window.Signal.Migrations;
+  const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
   const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -337,7 +333,7 @@
       });
 
       this.showGroupSettings = () => {
-        if(!this.groupSettings) {
+        if (!this.groupSettings) {
           this.groupSettings = new Whisper.ReactWrapperView({
             className: 'group-settings',
             Component: window.Signal.Components.SessionChannelSettings,
@@ -346,11 +342,11 @@
           this.$('.conversation-content-right').append(this.groupSettings.el);
         }
         this.$('.conversation-content-right').show();
-      }
+      };
 
       this.hideGroupSettings = () => {
         this.$('.conversation-content-right').hide();
-      }
+      };
 
       this.memberView.render();
 
@@ -962,7 +958,6 @@
 
       el[0].scrollIntoView();
     },
-
 
     scrollToBottom() {
       // If we're above the last seen indicator, we should scroll there instead
