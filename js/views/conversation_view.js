@@ -264,7 +264,54 @@
               window.Whisper.events.trigger('onShowUserDetails', {
                 userPubKey: pubkey,
               });
+            } else {
+              this.showGroupSettings();
             }
+          },
+        };
+      };
+      const getGroupSettingsProp = () => {
+        /* const expireTimer = this.model.get('expireTimer');
+        const expirationSettingName = expireTimer
+          ? Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
+          : null; */
+
+        const members = this.model.get('members') || [];
+
+        return {
+          id: this.model.id,
+          name: this.model.getName(),
+          phoneNumber: this.model.getNumber(),
+          profileName: this.model.getProfileName(),
+          color: this.model.getColor(),
+          avatarPath: this.model.getAvatarPath(),
+          isGroup: !this.model.isPrivate(),
+          isPublic: this.model.isPublic(),
+          isRss: this.model.isRss(),
+          memberCount: members.length,
+          /* timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
+            name: item.getName(),
+            value: item.get('seconds'),
+          })),
+
+          onSetDisappearingMessages: seconds =>
+            this.setDisappearingMessages(seconds),
+
+           */
+          onGoBack: () => {
+            this.$('.conversation-content-right').hide();
+          },
+
+          onUpdateGroup: () => {
+            window.Whisper.events.trigger('updateGroup', this.model);
+          },
+
+          onLeaveGroup: () => {
+            window.Whisper.events.trigger('leaveGroup', this.model);
+          },
+
+          onInviteFriends: () => {
+            window.Whisper.events.trigger('inviteFriends', this.model);
           },
         };
       };
@@ -288,6 +335,22 @@
         el: this.$('.member-list-container'),
         onClicked: this.selectMember.bind(this),
       });
+
+      this.showGroupSettings = () => {
+        if(!this.groupSettings) {
+          this.groupSettings = new Whisper.ReactWrapperView({
+            className: 'group-settings',
+            Component: window.Signal.Components.SessionChannelSettings,
+            props: getGroupSettingsProp(this.model),
+          });
+          this.$('.conversation-content-right').append(this.groupSettings.el);
+        }
+        this.$('.conversation-content-right').show();
+      }
+
+      this.hideGroupSettings = () => {
+        this.$('.conversation-content-right').hide();
+      }
 
       this.memberView.render();
 

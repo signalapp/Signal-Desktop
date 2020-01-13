@@ -34,6 +34,9 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
+  SessionChannelSettings,
+} = require('../../ts/components/session/SessionChannelSettings');
+const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
@@ -256,6 +259,7 @@ exports.setup = (options = {}) => {
     ContactListItem,
     ContactName,
     ConversationHeader,
+    SessionChannelSettings,
     EmbeddedContact,
     Emojify,
     FriendRequest,

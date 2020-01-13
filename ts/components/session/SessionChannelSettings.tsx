@@ -7,13 +7,14 @@ import _ from 'lodash';
 
 
 interface Props {
-    channelPubKey: string;
-    channelName: string;
+    id: string;
+    name: string;
     memberCount: number;
     description: string;
+    avatarPath: string;
 
-    onHidePanel: () => void;
-    onAddPeopleToGroup: () => void;
+    onGoBack: () => void;
+    onInviteFriends: () => void;
     onLeaveGroup: () => void;
 }
 
@@ -44,7 +45,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
         // into memory right away. Revisit this once we have infinite scrolling:
         const DEFAULT_MEDIA_FETCH_COUNT = 50;
         const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
-        const conversationId = this.props.channelPubKey;
+        const conversationId = this.props.id;
         const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
             conversationId,
             {
@@ -170,34 +171,32 @@ export class SessionChannelSettings extends React.Component<Props, any> {
 
 
     public render() {
-        const { memberCount, channelName } = this.props;
-        const { documents, media, onItemClick} = this.state;
+        const { memberCount, name, onLeaveGroup } = this.props;
+        const { documents, media, onItemClick } = this.state;
 
         return (
         <div className="group-settings">
             {this.renderHeader()}
-            <h2>{channelName}</h2>
-            <div className="text-subtle">{window.i18n('members', memberCount)}</div>
+            <h2>{name}</h2>
+            {memberCount && <div className="text-subtle">{window.i18n('members', memberCount)}</div>}
             <input className="description" placeholder={window.i18n('description')} />
 
             <div className="group-settings-item" >{window.i18n('notifications')}</div>
             <div className="group-settings-item" >{window.i18n('disappearingMessages')}</div>
             <MediaGallery documents={documents} media={media} onItemClick={onItemClick} />
-
-
-            <SessionButton text={window.i18n('leaveGroup')} buttonColor={SessionButtonColor.Danger} buttonType={SessionButtonType.SquareOutline} />
+            <SessionButton text={window.i18n('leaveGroup')} buttonColor={SessionButtonColor.Danger} buttonType={SessionButtonType.SquareOutline} onClick={onLeaveGroup}/>
         </div>);
     }
 
 
     private renderHeader() {
-        const { channelPubKey } = this.props;
+        const { id, onGoBack, onInviteFriends, avatarPath } = this.props;
 
         return (
             <div className="group-settings-header">
-                <SessionIconButton iconType={SessionIconType.Chevron} iconSize={SessionIconSize.Medium} iconRotation={90} />
-                <Avatar phoneNumber={channelPubKey} conversationType="group" size={80} />
-                <SessionIconButton iconType={SessionIconType.AddUser} iconSize={SessionIconSize.Medium} />
+                <SessionIconButton iconType={SessionIconType.Chevron} iconSize={SessionIconSize.Medium} iconRotation={90} onClick={onGoBack} />
+                <Avatar avatarPath={avatarPath} phoneNumber={id} conversationType="group" size={80} />
+                <SessionIconButton iconType={SessionIconType.AddUser} iconSize={SessionIconSize.Medium} onClick={onInviteFriends} />
             </div>
         );
     }
