@@ -259,7 +259,7 @@
             window.Whisper.events.trigger('inviteFriends', this.model);
           },
 
-          onShowUserDetails: pubkey => {
+          onAvatarClick: pubkey => {
             if (this.model.isPrivate()) {
               window.Whisper.events.trigger('onShowUserDetails', {
                 userPubKey: pubkey,
