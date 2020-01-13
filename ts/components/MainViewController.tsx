@@ -176,10 +176,15 @@ export class SettingsHeader extends React.Component<SettingsViewProps>{
 
   render() {
     const category = String(this.props.category)
+    const categoryTitlePrefix = category[0].toUpperCase() + category.substr(1);
+    // Remove 's' on the end to keep words in singular form
+    const categoryTitle = categoryTitlePrefix[categoryTitlePrefix.length - 1] === 's'
+      ? categoryTitlePrefix.slice(0, -1) + ' Settings'
+      : categoryTitlePrefix + ' Settings';
 
     return (
       <div className="session-settings-header">
-        {category[0].toUpperCase() + category.substr(1)} Settings
+        { categoryTitle } 
         <SessionIconButton
           iconType={SessionIconType.Search}
           iconSize={SessionIconSize.Large}

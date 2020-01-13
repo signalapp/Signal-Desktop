@@ -17,6 +17,7 @@
       this.applyHideMenu();
 
       this.showSeedDialog = this.showSeedDialog.bind(this);
+      this.showAddServerDialog = this.showAddServerDialog.bind(this);
     },
     events: {
       'click .openInstaller': 'openInstaller', // NetworkStatusView has this button

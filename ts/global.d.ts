@@ -23,6 +23,7 @@ interface Window {
   pushToast: any;
   confirmationDialog: any;
   showSeedDialog: any;
+  showAddServerDialog: any;
   toggleTheme: any;
 }
 

@@ -173,6 +173,16 @@ $session-compose-margin: 20px;
     .session-button {
       margin-left: auto;
     }
+
+    &-buttons {
+      margin-bottom: $session-margin-sm;
+      display: inline-flex;
+      width: 100%;
+
+      .session-button {
+        flex: 1;
+      }
+    }
   }
 
   &__title {

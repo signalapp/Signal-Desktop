@@ -2480,6 +2480,12 @@
   "decline": {
     "message": "Decline"
   },
+  "generalSettingsTitle": {
+    "message": "Generals"
+  },
+  "generalSettingsDescription": {
+    "message": "General settings and configuration"
+  },
   "accountSettingsTitle": {
     "message": "Account"
   },
@@ -2496,12 +2502,12 @@
     "message": "Notifications"
   },
   "notificationSettingsDescription": {
-    "message": "Choose what you're notified about."
+    "message": "Choose what you're notified about"
   },
   "devicesSettingsTitle": {
     "message": "Devices"
   },
   "devicesSettingsDescription": {
-    "message": "Managed linked devices."
+    "message": "Managed linked devices"
   }
 }

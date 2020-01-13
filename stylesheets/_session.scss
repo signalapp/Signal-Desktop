@@ -226,6 +226,10 @@ $session_message-container-border-radius: 5px;
   cursor: pointer;
   transition: $session-transition-duration;
 
+  &.disabled {
+    cursor: default;
+  }
+
   &.default,
   &.square,
   &.brand {
@@ -234,27 +238,50 @@ $session_message-container-border-radius: 5px;
     &.green {
       border: 2px solid $session-color-green;
       background-color: $session-color-green;
+      
+      &.disabled{
+        background-color: rgba($session-color-green, 0.6);
+      }
+
       &:hover {
         @include transparent-background($session-color-green);
       }
     }
     &.white {
       background-color: $session-color-white;
+      &.disabled{
+        background-color: rgba($session-color-white, 0.6);
+      }
     }
     &.primary {
       background-color: $session-color-primary;
+      &.disabled{
+        background-color: rgba($session-color-primary, 0.6);
+      }
     }
     &.secondary {
       background-color: $session-color-secondary;
+      &.disabled{
+        background-color: rgba($session-color-secondary, 0.6);
+      }
     }
     &.success {
       background-color: $session-color-success;
+      &.disabled{
+        background-color: rgba($session-color-success, 0.6);
+      }
     }
     &.danger {
       background-color: $session-color-danger;
+      &.disabled{
+        background-color: rgba($session-color-danger, 0.6);
+      }
     }
     &.warning {
       background-color: $session-color-warning;
+      &.disabled{
+        background-color: rgba($session-color-warning, 0.6);
+      }
     }
   }
 
@@ -1003,4 +1030,9 @@ label {
 
 .messages li {
   transition: $session-transition-duration !important;
+}
+
+
+.network-status-container{
+
 }

@@ -176,6 +176,11 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
   public getCategories() {
     return [
       {
+        id: SessionSettingCategory.General,
+        title: window.i18n('generalSettingsTitle'),
+        description: window.i18n('generalSettingsDescription'),
+      },
+      {
         id: SessionSettingCategory.Account,
         title: window.i18n('accountSettingsTitle'),
         description: window.i18n('accountSettingsDescription'),

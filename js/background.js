@@ -821,6 +821,7 @@
     };
 
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
+    window.showAddServerDialog = window.owsDesktopApp.appView.showAddServerDialog;
 
     window.generateID = () =>
       Math.random()
@@ -872,10 +873,10 @@
       return toastID;
     };
 
-    window.deleteAccount = () => {
-      // Delete local data
-      // TOOD. MAKE THIS PROCESS SECURED WITH rm-secure
-      // https://www.npmjs.com/package/secure-rm
+    window.deleteAccount = async () => {
+      await window.Signal.Data.removeAll();
+      await window.storage.fetch();
+
       alert('YOUR ACCOUNT HAS BEEN DELETED');
     };
 

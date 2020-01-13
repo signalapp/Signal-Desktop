@@ -85,6 +85,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
           text={window.i18n('compose')}
           onClick={buttonClicked}
           key="compose"
+          disabled={false}
         />
       );
     } else if (notificationCount && notificationCount > 0) {
