@@ -267,11 +267,6 @@
         };
       };
       const getGroupSettingsProp = () => {
-        /* const expireTimer = this.model.get('expireTimer');
-        const expirationSettingName = expireTimer
-          ? Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
-          : null; */
-
         const members = this.model.get('members') || [];
 
         return {
