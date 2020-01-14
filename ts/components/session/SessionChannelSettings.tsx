@@ -8,6 +8,7 @@ import {
 } from './SessionButton';
 import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
+import { TimerOption } from '../conversation/ConversationHeader';
 
 interface Props {
   id: string;
@@ -15,11 +16,13 @@ interface Props {
   memberCount: number;
   description: string;
   avatarPath: string;
+  timerOptions: Array<TimerOption>;
 
   onGoBack: () => void;
   onInviteFriends: () => void;
   onLeaveGroup: () => void;
   onShowLightBox: (options: any) => void;
+  onSetDisappearingMessages: (seconds: number) => void;
 }
 
 export class SessionChannelSettings extends React.Component<Props, any> {

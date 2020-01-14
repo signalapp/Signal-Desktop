@@ -16,7 +16,7 @@ import {
   SessionButtonType,
 } from '../session/SessionButton';
 
-interface TimerOption {
+export interface TimerOption {
   name: string;
   value: number;
 }

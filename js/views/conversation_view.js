@@ -286,7 +286,7 @@
           isRss: this.model.isRss(),
           memberCount: members.length,
 
-          /* timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
+          timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
             name: item.getName(),
             value: item.get('seconds'),
           })),
@@ -294,7 +294,6 @@
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
 
-           */
           onGoBack: () => {
             this.$('.conversation-content-right').hide();
           },
