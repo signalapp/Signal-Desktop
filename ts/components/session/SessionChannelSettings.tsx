@@ -182,12 +182,13 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   public render() {
     const { memberCount, name, onLeaveGroup } = this.props;
     const { documents, media, onItemClick } = this.state;
+    const showMemberCount = !!(memberCount && memberCount > 0);
 
     return (
       <div className="group-settings">
         {this.renderHeader()}
         <h2>{name}</h2>
-        {memberCount && (
+        {showMemberCount && (
           <div className="text-subtle">
             {window.i18n('members', memberCount)}
           </div>
