@@ -2135,7 +2135,7 @@
             if (type === 'incoming' && message.isTapToView()) {
               const viewSync = Whisper.ViewSyncs.forMessage(message);
               if (viewSync) {
-                await Whisper.ViewSyncs.onSync(viewSync);
+                await message.markViewed({ fromSync: true });
               }
             }
           }
