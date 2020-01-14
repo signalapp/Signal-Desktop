@@ -73,7 +73,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
           />
         </div>
         {hasFriends ? null : (
-          <p className="no-friends">`(${window.i18n('noFriendsToAdd')})`</p>
+          <p className="no-friends">{window.i18n('noFriendsToAdd')}</p>
         )}
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
