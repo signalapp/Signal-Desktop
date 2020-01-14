@@ -491,12 +491,15 @@ label {
   height: $session-conversation-header-height;
 }
 
-.message-selection-overlay {
-  left: 15px;
-  display: none;
-
+.title-wrapper {
   position: relative;
-  margin-right: 30px;
+}
+
+.message-selection-overlay {
+  display: none;
+  position: absolute;
+  right: 15px;
+  left: 15px;
 
   .close-button {
     float: left;
