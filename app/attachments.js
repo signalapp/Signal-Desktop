@@ -12,7 +12,8 @@ const getGuid = require('uuid/v4');
 
 let xattr;
 try {
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies
+  // eslint-disable-next-line max-len
+  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   xattr = require('fs-xattr');
 } catch (e) {
   console.log('x-attr dependncy did not load successfully');
