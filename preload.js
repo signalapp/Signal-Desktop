@@ -185,6 +185,32 @@ ipc.on('remove-dark-overlay', () => {
   }
 });
 
+
+window.getSettingValue = settingID => {
+  console.log("EXECUTED");
+  console.log("EXECUTED");
+  console.log("EXECUTED");
+  console.log("EXECUTED");
+  
+  const theme = window.storage.get('theme-setting', 'dark');
+  console.log(`THEME: ${theme}`);
+  console.log(`THEME: ${theme}`);
+  console.log(`THEME: ${theme}`);
+  console.log(`THEME: ${theme}`);
+  console.log(`THEME: ${theme}`);
+
+  if (settingID === 'theme'){
+    const theme = window.storage.get('theme-setting', 'dark');
+    console.log(`THEME: ${theme}`);
+  }
+}
+
+window.setSettingValue = settingID => {
+  const those = settingID;
+  return those;
+}
+
+
 installGetter('device-name', 'getDeviceName');
 
 installGetter('theme-setting', 'getThemeSetting');

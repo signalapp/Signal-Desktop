@@ -17,7 +17,7 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
-import { SessionButton, SessionButtonType, SessionButtonColor } from './SessionButton';
+import { SessionButton, SessionButtonType } from './SessionButton';
 
 export interface Props {
   searchTerm: string;
@@ -146,18 +146,6 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     return [list];
   }
 
-  public renderMessagePanelButtons(): JSX.Element {
-    return (
-      <div className="module-left-pane__header-buttons">
-        <SessionButton
-          text={window.i18n('showAddServer')}
-          buttonType={SessionButtonType.Square}
-          onClick={window.showAddServerDialog}
-        />
-      </div>
-    );
-  }
-
   public renderHeader(): JSX.Element {
     const labels = [window.i18n('messagesHeader')];
 
@@ -193,7 +181,6 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   public renderConversations() {
     return (
       <div>
-        {this.renderMessagePanelButtons()}
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}

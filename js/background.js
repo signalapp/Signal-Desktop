@@ -821,7 +821,8 @@
     };
 
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
-    window.showAddServerDialog = window.owsDesktopApp.appView.showAddServerDialog;
+    window.showAddServerDialog =
+      window.owsDesktopApp.appView.showAddServerDialog;
 
     window.generateID = () =>
       Math.random()
@@ -874,10 +875,24 @@
     };
 
     window.deleteAccount = async () => {
-      await window.Signal.Data.removeAll();
-      await window.storage.fetch();
+      try {
+        window.log.info('Deleting everything!');
 
-      alert('YOUR ACCOUNT HAS BEEN DELETED');
+        const { Logs } = window.Signal;
+        await Logs.deleteAll();
+
+        await window.Signal.Data.removeAll();
+        await window.Signal.Data.close();
+        await window.Signal.Data.removeDB();
+
+        await window.Signal.Data.removeOtherData();
+      } catch (error) {
+        window.log.error(
+          'Something went wrong deleting all data:',
+          error && error.stack ? error.stack : error
+        );
+      }
+      window.restart();
     };
 
     window.toggleTheme = () => {

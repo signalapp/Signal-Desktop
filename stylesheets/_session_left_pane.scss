@@ -13,7 +13,6 @@ $session-compose-margin: 20px;
       @include session-dark-background-hover;
     }
   }
-
 }
 .gutter {
   width: 380px !important;
@@ -36,7 +35,7 @@ $session-compose-margin: 20px;
         color: $session-color-white !important;
         background-color: $session-shade-10 !important;
       }
-      
+
       position: static !important;
       font-weight: 700 !important;
       box-shadow: none !important;
@@ -71,8 +70,6 @@ $session-compose-margin: 20px;
       @at-root .dark-theme #{&} {
         color: $session-shade-17;
       }
-      
-
     }
 
     &__header__name--with-unread .module-conversation__user__profile-number,
@@ -95,7 +92,7 @@ $session-compose-margin: 20px;
       @at-root .dark-theme #{&} {
         color: $session-shade-17;
       }
-      
+
       font-size: 15px;
     }
   }
@@ -112,12 +109,10 @@ $session-compose-margin: 20px;
     @at-root .dark-theme #{&} {
       color: $session-color-white;
     }
-    
   }
 }
 
 .inbox {
-  
   @at-root .light-theme #{&} {
     color: $session-color-black;
   }
@@ -125,7 +120,6 @@ $session-compose-margin: 20px;
     @include session-dark-background;
   }
 }
-
 
 .module-left-pane {
   border-right: none !important;
@@ -169,7 +163,7 @@ $session-compose-margin: 20px;
     @at-root .dark-theme #{&} {
       background-color: $session-shade-3;
     }
-    
+
     .session-button {
       margin-left: auto;
     }
@@ -320,7 +314,7 @@ $session-compose-margin: 20px;
     &:focus {
       outline: none !important;
     }
-    
+
     @at-root .light-theme #{&} {
       color: $session-color-black;
       background: $session-color-white;
@@ -403,7 +397,6 @@ $session-compose-margin: 20px;
       background: $session-shade-4;
       color: $session-color-light-grey;
     }
-    
 
     &-selected,
     &:hover {
@@ -417,7 +410,6 @@ $session-compose-margin: 20px;
         color: $session-color-white;
         background: $session-shade-8;
       }
-      
     }
   }
 }

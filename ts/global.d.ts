@@ -1,7 +1,6 @@
 interface Window {
   Events: any;
   deleteAllData: any;
-  deleteAccount: any;
   getAccountManager: any;
   mnemonic: any;
   clipboard: any;
@@ -25,6 +24,9 @@ interface Window {
   showSeedDialog: any;
   showAddServerDialog: any;
   toggleTheme: any;
+  deleteAccount: any;
+  getSettingValue: any;
+  setSettingValue: any;
 }
 
 interface Promise<T> {

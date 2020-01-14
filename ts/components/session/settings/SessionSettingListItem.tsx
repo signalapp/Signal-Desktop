@@ -1,22 +1,14 @@
 import React from 'react';
 import { SessionToggle } from '../SessionToggle';
-import {
-  SessionButton,
-  SessionButtonColor,
-  SessionButtonType,
-} from '../SessionButton';
-
-export enum SessionSettingType {
-  Toggle = 'toggle',
-  Options = 'options',
-  Button = 'button',
-}
+import { SessionButton, SessionButtonColor } from '../SessionButton';
+import { SessionSettingType } from './SessionSettings';
 
 interface Props {
   title: string;
   description?: string;
   type: SessionSettingType;
-  value: boolean | string;
+  value: any;
+  options?: Array<any>;
   onClick?: any;
   buttonText?: string;
   buttonColor?: SessionButtonColor;
@@ -26,6 +18,8 @@ export class SessionSettingListItem extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
     this.state = {};
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   public render(): JSX.Element {
@@ -34,7 +28,6 @@ export class SessionSettingListItem extends React.Component<Props> {
       description,
       type,
       value,
-      onClick,
       buttonText,
       buttonColor,
     } = this.props;
@@ -53,7 +46,7 @@ export class SessionSettingListItem extends React.Component<Props> {
 
         {type === SessionSettingType.Toggle && (
           <div className="session-sessings-item__selection">
-            <SessionToggle active={Boolean(value)} onClick={onClick} />
+            <SessionToggle active={Boolean(value)} onClick={this.handleClick} />
           </div>
         )}
 
@@ -61,10 +54,14 @@ export class SessionSettingListItem extends React.Component<Props> {
           <SessionButton
             text={buttonText}
             buttonColor={buttonColor}
-            onClick={onClick}
+            onClick={this.handleClick}
           />
         )}
       </div>
     );
+  }
+
+  private handleClick() {
+    this.props.onClick && this.props.onClick();
   }
 }

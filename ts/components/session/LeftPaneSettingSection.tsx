@@ -13,14 +13,7 @@ import {
 
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
-
-export enum SessionSettingCategory {
-  General = 'general',
-  Account = 'account',
-  Privacy = 'privacy',
-  Notifications = 'notifications',
-  Devices = 'devices',
-}
+import { SessionSettingCategory } from './settings/SessionSettings';
 
 export interface Props {}
 

@@ -97,7 +97,7 @@ $session-compose-margin: 20px;
       margin: 30px auto 30px auto;
       &:last-child {
         margin: auto auto 30px auto;
-        
+
         /* Hide theme icon until light theme is ready */
         display: none;
       }
@@ -208,7 +208,6 @@ $session-compose-margin: 20px;
       flex-shrink: 0;
     }
   }
-
 }
 
 .user-search-dropdown {
@@ -438,4 +437,3 @@ $session-compose-margin: 20px;
     border: 1px solid $session-color-dark-grey;
   }
 }
-

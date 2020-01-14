@@ -143,7 +143,6 @@
       this.loadingScreen.render();
       this.loadingScreen.$el.prependTo(this.$('.discussion-container'));
 
-      
       this.window = options.window;
       this.fileInput = new Whisper.FileInputView({
         el: this.$('.attachment-list'),

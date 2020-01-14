@@ -55,7 +55,12 @@ export class SessionButton extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classNames('session-button', ...buttonTypes, buttonColor, disabled && 'disabled')}
+        className={classNames(
+          'session-button',
+          ...buttonTypes,
+          buttonColor,
+          disabled && 'disabled'
+        )}
         role="button"
         onClick={disabled ? () => null : this.clickHandler}
       >

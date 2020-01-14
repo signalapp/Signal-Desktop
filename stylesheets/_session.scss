@@ -242,8 +242,8 @@ $session_message-container-border-radius: 5px;
     &.green {
       border: 2px solid $session-color-green;
       background-color: $session-color-green;
-      
-      &.disabled{
+
+      &.disabled {
         background-color: rgba($session-color-green, 0.6);
       }
 
@@ -253,37 +253,37 @@ $session_message-container-border-radius: 5px;
     }
     &.white {
       background-color: $session-color-white;
-      &.disabled{
+      &.disabled {
         background-color: rgba($session-color-white, 0.6);
       }
     }
     &.primary {
       background-color: $session-color-primary;
-      &.disabled{
+      &.disabled {
         background-color: rgba($session-color-primary, 0.6);
       }
     }
     &.secondary {
       background-color: $session-color-secondary;
-      &.disabled{
+      &.disabled {
         background-color: rgba($session-color-secondary, 0.6);
       }
     }
     &.success {
       background-color: $session-color-success;
-      &.disabled{
+      &.disabled {
         background-color: rgba($session-color-success, 0.6);
       }
     }
     &.danger {
       background-color: $session-color-danger;
-      &.disabled{
+      &.disabled {
         background-color: rgba($session-color-danger, 0.6);
       }
     }
     &.warning {
       background-color: $session-color-warning;
-      &.disabled{
+      &.disabled {
         background-color: rgba($session-color-warning, 0.6);
       }
     }
@@ -886,7 +886,6 @@ label {
   margin-left: 75px;
 }
 
-
 .conversation-loader {
   height: 100%;
   margin-top: 45vh;
@@ -894,7 +893,7 @@ label {
   align-items: center;
   justify-content: center;
 
-  &>div{
+  & > div {
     display: block;
   }
 }
@@ -955,7 +954,6 @@ label {
     }
   }
 }
-
 
 .session-settings {
   width: 100%;
@@ -1036,22 +1034,17 @@ label {
   transition: $session-transition-duration !important;
 }
 
-
-.network-status-container{
-
+.network-status-container {
 }
 
-
 .discussion-container {
-
   .module-message {
     font-family: SFPro;
     border-radius: 5px;
   }
 }
 
-
-.bottom-bar textarea.send-message  {
+.bottom-bar textarea.send-message {
   height: 60px;
   background-color: $session-shade-4;
   border: none;

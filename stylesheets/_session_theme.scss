@@ -28,7 +28,6 @@
   &__metadata__badge,
   &__metadata__date--incoming,
   &__metadata__date--outgoing {
-    
     @at-root .light-theme #{&} {
       @include session-color-subtle($session-color-black);
     }
@@ -53,7 +52,6 @@
     @at-root .dark-theme #{&} {
       background-color: $session-shade-11;
     }
-    
   }
 
   &__container {
@@ -65,7 +63,7 @@
 .message {
   &-highlighted {
     border-radius: 0;
-    
+
     @at-root .light-theme #{&} {
       background-color: $session-shade-5;
     }
