@@ -728,6 +728,7 @@
 
       ev.data = {
         source: ourKey,
+        timestamp: Date.now(),
         message: {
           group: {
             id: groupId,
