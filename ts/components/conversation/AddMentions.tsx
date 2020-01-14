@@ -31,7 +31,6 @@ class Mention extends React.Component<MentionProps, MentionState> {
   }
 
   public componentWillMount() {
-
     this.setState({ found: false });
 
     // TODO: give up after some period of time?

@@ -105,18 +105,18 @@
 
       this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
 
-      const convos = window.getConversations().models;
+      const convos = window.getConversations().models.filter(d => !!d);
 
-      let allMembers = convos.filter(d => !!d);
-      allMembers = allMembers.filter(
-        d => d.isFriend() && d.isPrivate() && !d.isMe()
-      );
-      allMembers = _.uniq(allMembers, true, d => d.id);
-
-      this.friendList = allMembers;
-
-      // only give members that are not already in the group
       let existingMembers = groupConvo.get('members');
+
+      // Show a contact if they are our friend or if they are a member
+      let friendsAndMembers = convos.filter(
+        d =>
+          (d.isFriend() || existingMembers.includes(d.id)) &&
+          d.isPrivate() &&
+          !d.isMe()
+      );
+      this.friendsAndMembers = _.uniq(friendsAndMembers, true, d => d.id);
 
       // at least make sure it's an array
       if (!Array.isArray(existingMembers)) {
@@ -137,7 +137,7 @@
           window.storage.get('primaryDevicePubKey')
         );
         // zero out friendList for now
-        this.friendList = [];
+        this.friendsAndMembers = [];
         this.existingMembers = [];
       }
 
@@ -155,7 +155,7 @@
           isPublic: this.isPublic,
           cancelText: this.cancelText,
           existingMembers: this.existingMembers,
-          friendList: this.friendList,
+          friendList: this.friendsAndMembers,
           isAdmin: this.isAdmin,
           onClose: this.close,
           onSubmit: this.onSubmit,
