@@ -23,10 +23,12 @@ interface Window {
   confirmationDialog: any;
   showSeedDialog: any;
   showAddServerDialog: any;
-  toggleTheme: any;
   deleteAccount: any;
+  toggleTheme: any;
+  setHideMenuBar: any;
   getSettingValue: any;
   setSettingValue: any;
+  
 }
 
 interface Promise<T> {

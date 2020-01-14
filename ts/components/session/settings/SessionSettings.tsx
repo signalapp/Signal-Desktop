@@ -18,18 +18,33 @@ export enum SessionSettingType {
   Button = 'button',
 }
 
+//const { Settings } = window.Signal.Types;
+
 // Grab initial values from database on startup
 const localSettings = [
   {
-    id: 'theme',
+    id: 'theme-setting',
     title: 'Light Mode',
+    hidden: true,
+    comparisonValue: 'light',
     description: 'Choose the theme best suited to you',
     type: SessionSettingType.Toggle,
     category: SessionSettingCategory.General,
-    afterClick: () => window.toggleTheme(),
+    setFn: window.toggleTheme,
   },
   {
-    id: 'typingIndicators',
+    id: 'hide-menu-bar',
+    title: 'Hide Menu Bar',
+    //hidden: !Settings.isHideMenuBarSupported(),
+    type: SessionSettingType.Toggle,
+    category: SessionSettingCategory.General,
+    setFn: window.setHideMenuBar,
+  },
+
+
+
+  {
+    id: 'typing-indicators-setting',
     title: 'Typing Indicators',
     description:
       'See and share when messages are being typed. This setting is optional and applies to all conversations.',
@@ -37,7 +52,7 @@ const localSettings = [
     category: SessionSettingCategory.Privacy,
   },
   {
-    id: 'screenLock',
+    id: 'qwer',
     title: 'Screen Lock',
     description:
       'Unlock Loki Session using your password. Visit notification settings to customise.',
@@ -45,7 +60,7 @@ const localSettings = [
     category: SessionSettingCategory.Privacy,
   },
   {
-    id: 'screenSecurity',
+    id: 'qewrtrg',
     title: 'Screen Security',
     description:
       'Prevent Loki Session previews from appearing in desktop notifications.',
@@ -53,7 +68,7 @@ const localSettings = [
     category: SessionSettingCategory.Privacy,
   },
   {
-    id: 'linkPreviews',
+    id: 'erhe',
     title: 'Send Link Previews',
     description:
       'Supported for Imgur, Instagram, Pinterest, Reddit and YouTube.',
@@ -61,7 +76,7 @@ const localSettings = [
     category: SessionSettingCategory.Privacy,
   },
   {
-    id: 'clearConversationHistory',
+    id: 'qwefwef',
     title: 'Clear Conversation History',
     category: SessionSettingCategory.Privacy,
     type: SessionSettingType.Button,
@@ -69,7 +84,7 @@ const localSettings = [
     buttonColor: SessionButtonColor.Danger,
   },
   {
-    id: 'changePassword',
+    id: 'ergreg',
     title: 'Change Password',
     category: SessionSettingCategory.Account,
     type: SessionSettingType.Button,
@@ -77,7 +92,7 @@ const localSettings = [
     buttonColor: SessionButtonColor.Primary,
   },
   {
-    id: 'removePassword',
+    id: 'etyjhnyth',
     title: 'Remove Password',
     category: SessionSettingCategory.Account,
     type: SessionSettingType.Button,
@@ -99,6 +114,12 @@ export class SettingsView extends React.Component<SettingsViewProps> {
   }
 
   public renderSettingInCategory() {
+    const { Settings } = window.Signal.Types;
+    console.log(Settings);
+    console.log(Settings);
+    console.log(Settings);
+    console.log(Settings);
+    
     return (
       <>
         {localSettings.map(setting => {
@@ -107,19 +128,19 @@ export class SettingsView extends React.Component<SettingsViewProps> {
 
           return (
             <div key={setting.id}>
-              {renderSettings && (
+                {renderSettings && !(setting.hidden) && (
                 <SessionSettingListItem
-                  title={setting.title}
-                  description={setting.description}
-                  type={setting.type}
-                  value={window.getSettingValue(setting.id)}
-                  onClick={() => {
-                    SettingsManager.updateSetting(setting);
-                  }}
-                  buttonText={setting.buttonText || undefined}
-                  buttonColor={setting.buttonColor || undefined}
+                title={setting.title}
+                description={setting.description}
+                type={setting.type}
+                value={ window.getSettingValue(setting.id, setting.comparisonValue || null) }
+                onClick={() => {
+                    this.updateSetting(setting);
+                }}
+                buttonText={setting.buttonText || undefined}
+                buttonColor={setting.buttonColor || undefined}
                 />
-              )}
+            )}
             </div>
           );
         })}
@@ -139,17 +160,20 @@ export class SettingsView extends React.Component<SettingsViewProps> {
       </div>
     );
   }
-}
 
-export class SettingsManager {
-  public static updateSetting(item: any) {
+  public updateSetting(item: any) {
     if (item.type === SessionSettingType.Toggle) {
-      //alert(`You clicked a toggle with ID: ${item.id}`);
-      // Manage toggle events
+      // If no custom afterClick function given, alter values in storage here
+      if (!item.setFn) {
+        // Switch to opposite state
+        const newValue = !window.getSettingValue(item.id);
+        window.setSettingValue(item.id, newValue);
+      }
     }
 
-    // If there's an onClick function, execute it
-    item.afterClick && item.afterClick();
+    // If there's a custom afterClick function,
+    // execute it instead of automatically updating settings
+    item.setFn && item.setFn();
 
     return;
   }

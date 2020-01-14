@@ -186,30 +186,17 @@ ipc.on('remove-dark-overlay', () => {
 });
 
 
-window.getSettingValue = settingID => {
-  console.log("EXECUTED");
-  console.log("EXECUTED");
-  console.log("EXECUTED");
-  console.log("EXECUTED");
-  
-  const theme = window.storage.get('theme-setting', 'dark');
-  console.log(`THEME: ${theme}`);
-  console.log(`THEME: ${theme}`);
-  console.log(`THEME: ${theme}`);
-  console.log(`THEME: ${theme}`);
-  console.log(`THEME: ${theme}`);
-
-  if (settingID === 'theme'){
-    const theme = window.storage.get('theme-setting', 'dark');
-    console.log(`THEME: ${theme}`);
-  }
+window.getSettingValue = (settingID, comparisonValue = null) => {
+  // Comparison value allows you to pull boolean values from any type.
+  // Eg. window.getSettingValue('theme', 'light')
+  // returns 'false' when the value is 'dark'.
+  const settingVal = window.storage.get(settingID);
+  return comparisonValue ? !!settingVal === comparisonValue : settingVal;
 }
 
-window.setSettingValue = settingID => {
-  const those = settingID;
-  return those;
+window.setSettingValue = (settingID, value) => {
+  window.storage.put(settingID, value);
 }
-
 
 installGetter('device-name', 'getDeviceName');
 
