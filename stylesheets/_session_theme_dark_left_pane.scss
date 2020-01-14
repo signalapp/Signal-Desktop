@@ -91,12 +91,18 @@ $session-compose-margin: 20px;
     .module-avatar,
     .session-icon-button {
       cursor: pointer;
-      margin: 30px auto 30px auto;
-      &:last-child {
-        margin: auto auto 30px auto;
 
+      padding: 30px;
+
+      &:last-child {
+        margin: auto auto 0px auto;
         /* Hide theme icon until light theme is ready */
         display: none;
+      }
+
+      &:first-child {
+        padding: 0;
+        margin: 30px auto;
       }
     }
   }
