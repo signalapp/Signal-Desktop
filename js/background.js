@@ -906,6 +906,11 @@
       window.Events.setThemeSetting(updatedTheme);
     };
 
+    window.toggleMenuBar = () => {
+      const newValue = ! window.getSettingValue('hide-menu-bar');
+      window.Events.setHideMenuBar(newValue);
+    }
+
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
         const convo = await ConversationController.getOrCreateAndWait(

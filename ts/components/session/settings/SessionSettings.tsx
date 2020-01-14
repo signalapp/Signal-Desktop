@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
-import { SessionButtonColor } from '../SessionButton';
+
 
 export enum SessionSettingCategory {
   General = 'general',
@@ -16,90 +16,10 @@ export enum SessionSettingType {
   Toggle = 'toggle',
   Options = 'options',
   Button = 'button',
+  Slider = 'slider',
 }
 
 //const { Settings } = window.Signal.Types;
-
-// Grab initial values from database on startup
-const localSettings = [
-  {
-    id: 'theme-setting',
-    title: 'Light Mode',
-    hidden: true,
-    comparisonValue: 'light',
-    description: 'Choose the theme best suited to you',
-    type: SessionSettingType.Toggle,
-    category: SessionSettingCategory.General,
-    setFn: window.toggleTheme,
-  },
-  {
-    id: 'hide-menu-bar',
-    title: 'Hide Menu Bar',
-    //hidden: !Settings.isHideMenuBarSupported(),
-    type: SessionSettingType.Toggle,
-    category: SessionSettingCategory.General,
-    setFn: window.setHideMenuBar,
-  },
-
-
-
-  {
-    id: 'typing-indicators-setting',
-    title: 'Typing Indicators',
-    description:
-      'See and share when messages are being typed. This setting is optional and applies to all conversations.',
-    type: SessionSettingType.Toggle,
-    category: SessionSettingCategory.Privacy,
-  },
-  {
-    id: 'qwer',
-    title: 'Screen Lock',
-    description:
-      'Unlock Loki Session using your password. Visit notification settings to customise.',
-    type: SessionSettingType.Toggle,
-    category: SessionSettingCategory.Privacy,
-  },
-  {
-    id: 'qewrtrg',
-    title: 'Screen Security',
-    description:
-      'Prevent Loki Session previews from appearing in desktop notifications.',
-    type: SessionSettingType.Toggle,
-    category: SessionSettingCategory.Privacy,
-  },
-  {
-    id: 'erhe',
-    title: 'Send Link Previews',
-    description:
-      'Supported for Imgur, Instagram, Pinterest, Reddit and YouTube.',
-    type: SessionSettingType.Toggle,
-    category: SessionSettingCategory.Privacy,
-  },
-  {
-    id: 'qwefwef',
-    title: 'Clear Conversation History',
-    category: SessionSettingCategory.Privacy,
-    type: SessionSettingType.Button,
-    buttonText: 'Clear',
-    buttonColor: SessionButtonColor.Danger,
-  },
-  {
-    id: 'ergreg',
-    title: 'Change Password',
-    category: SessionSettingCategory.Account,
-    type: SessionSettingType.Button,
-    buttonText: 'Change',
-    buttonColor: SessionButtonColor.Primary,
-  },
-  {
-    id: 'etyjhnyth',
-    title: 'Remove Password',
-    category: SessionSettingCategory.Account,
-    type: SessionSettingType.Button,
-    buttonText: 'Remove',
-    buttonColor: SessionButtonColor.Danger,
-  },
-];
 
 export interface SettingsViewProps {
   category: SessionSettingCategory;
@@ -115,11 +35,63 @@ export class SettingsView extends React.Component<SettingsViewProps> {
 
   public renderSettingInCategory() {
     const { Settings } = window.Signal.Types;
-    console.log(Settings);
-    console.log(Settings);
-    console.log(Settings);
-    console.log(Settings);
-    
+
+    // Grab initial values from database on startup
+    // ID corresponds to instalGetter parameters in preload.js
+    // They are NOT arbitrary; add with caution
+    const localSettings = [
+        {
+            id: 'theme-setting',
+            title: 'Light Mode',
+            description: 'Choose the theme best suited to you',
+            hidden: true,
+            comparisonValue: 'light',
+            type: SessionSettingType.Options,
+            category: SessionSettingCategory.General,
+            setFn: window.toggleTheme,
+            childProps: {},
+        },
+        {
+            id: 'hide-menu-bar',
+            title: 'Hide Menu Bar',
+            description: 'Toggle system menu bar visibi',
+            hidden: !Settings.isHideMenuBarSupported(),
+            type: SessionSettingType.Toggle,
+            category: SessionSettingCategory.General,
+            setFn: window.toggleMenuBar,
+            childProps: {},
+        },
+        {
+            id: 'notification-setting',
+            title: 'Notifications',
+            description: 'When messages arive, display notifications that reveal:',
+            type: SessionSettingType.Options,
+            category: SessionSettingCategory.Notifications,
+            setFn: () => window.setSettingValue(this.getNotificationPreference()),
+            childProps: {
+                options: [
+                    {
+                        id: 'default',
+                        desc: 'Both sender name and message',
+                    },
+                    {
+                        id: 'name',
+                        desc: 'Only sender name',
+                    },
+                    {
+                        id: 'count',
+                        desc: 'Neither name nor messsage',
+                    },
+                    {
+                        id: 'off',
+                        desc: 'Disable notificationss',
+                    },
+                ],
+                activeIndex: 0
+            },
+        },
+    ];
+
     return (
       <>
         {localSettings.map(setting => {
@@ -130,15 +102,15 @@ export class SettingsView extends React.Component<SettingsViewProps> {
             <div key={setting.id}>
                 {renderSettings && !(setting.hidden) && (
                 <SessionSettingListItem
-                title={setting.title}
-                description={setting.description}
-                type={setting.type}
-                value={ window.getSettingValue(setting.id, setting.comparisonValue || null) }
-                onClick={() => {
-                    this.updateSetting(setting);
-                }}
-                buttonText={setting.buttonText || undefined}
-                buttonColor={setting.buttonColor || undefined}
+                    title={setting.title}
+                    description={setting.description}
+                    type={setting.type}
+                    value={ window.getSettingValue(setting.id, setting.comparisonValue || null) }
+                    onClick={() => {
+                        this.updateSetting(setting);
+                    }}
+                    buttonText={setting.childProps.buttonText || undefined}
+                    buttonColor={setting.childProps.buttonColor || undefined}
                 />
             )}
             </div>
@@ -163,18 +135,26 @@ export class SettingsView extends React.Component<SettingsViewProps> {
 
   public updateSetting(item: any) {
     if (item.type === SessionSettingType.Toggle) {
-      // If no custom afterClick function given, alter values in storage here
-      if (!item.setFn) {
-        // Switch to opposite state
-        const newValue = !window.getSettingValue(item.id);
-        window.setSettingValue(item.id, newValue);
-      }
+        // If no custom afterClick function given, alter values in storage here
+        if (!item.setFn) {
+            // Switch to opposite state
+            const newValue = !window.getSettingValue(item.id);
+            window.setSettingValue(item.id, newValue);
+        }
     }
 
     // If there's a custom afterClick function,
     // execute it instead of automatically updating settings
-    item.setFn && item.setFn();
+    if (item.setFn) {
+        item.setFn();
+    }
 
     return;
   }
+
+  public getNotificationPreference(){
+    const value = window.getSettingValue('notification-setting');
+    return value || 'default';
+  }
+
 }

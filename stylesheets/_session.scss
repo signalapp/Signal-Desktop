@@ -990,9 +990,11 @@ label {
     padding: $session-margin-lg;
     border-bottom: 2px solid $session-shade-5;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    &.inline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
     &__info {
       padding-right: $session-margin-lg;
@@ -1063,5 +1065,45 @@ label {
 
   &.active textarea {
     border: none;
+  }
+}
+
+.session-radio {
+  input[type="radio"] {
+    border: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+  }
+
+  label {
+    margin-right: 1em;
+  }
+
+  label:before {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.5em;
+    border-radius: 100%;
+    vertical-align: -3px;
+    border: 2px solid $session-color-white;
+    padding: 0.2em;
+    background-color: transparent;
+    background-clip: content-box;
+  }
+
+  input:hover + label:before {
+    border-color: $session-color-white;
+  }
+
+  input:checked + label:before {
+    background-color: $session-color-white;
+    border-color: $session-color-white;
+  }
+
+  label:before {
+    transition: all $session-transition-duration ease;
   }
 }

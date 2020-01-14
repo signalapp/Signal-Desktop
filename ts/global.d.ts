@@ -25,7 +25,7 @@ interface Window {
   showAddServerDialog: any;
   deleteAccount: any;
   toggleTheme: any;
-  setHideMenuBar: any;
+  toggleMenuBar: any;
   getSettingValue: any;
   setSettingValue: any;
   

@@ -1,7 +1,11 @@
 import React from 'react';
+import classNames from 'classnames';
+
 import { SessionToggle } from '../SessionToggle';
 import { SessionButton, SessionButtonColor } from '../SessionButton';
 import { SessionSettingType } from './SessionSettings';
+
+import { SessionRadio } from '../SessionRadio';
 
 interface Props {
   title: string;
@@ -10,11 +14,16 @@ interface Props {
   value: any;
   options?: Array<any>;
   onClick?: any;
+  inline?: boolean;
   buttonText?: string;
   buttonColor?: SessionButtonColor;
 }
 
 export class SessionSettingListItem extends React.Component<Props> {
+  public static defaultProps = {
+    inline: true,
+  }
+  
   public constructor(props: Props) {
     super(props);
     this.state = {};
@@ -28,6 +37,7 @@ export class SessionSettingListItem extends React.Component<Props> {
       description,
       type,
       value,
+      inline,
       buttonText,
       buttonColor,
     } = this.props;
@@ -35,7 +45,7 @@ export class SessionSettingListItem extends React.Component<Props> {
     return (
       <div className="session-settings-item">
         <div className="session-settings-item__info">
-          <div className="session-settings-item__title">{title}</div>
+          <div className={classNames('session-settings-item__title', inline && 'inline')}>{title}</div>
 
           {description && (
             <div className="session-settings-item__description">
@@ -55,6 +65,13 @@ export class SessionSettingListItem extends React.Component<Props> {
             text={buttonText}
             buttonColor={buttonColor}
             onClick={this.handleClick}
+          />
+        )}
+
+        {type === SessionSettingType.Options && (
+          <SessionRadio
+            label="Both sender name and message"
+            active={false}
           />
         )}
       </div>
