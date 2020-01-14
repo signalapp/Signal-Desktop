@@ -379,20 +379,14 @@ $session_message-container-border-radius: 5px;
   cursor: pointer;
   display: inline-block;
   position: relative;
-
-  svg {
-    transition: opacity $session-transition-duration;
-    opacity: 0.4;
-
-    &:hover {
-      opacity: 1;
-    }
+  opacity: 0.4;
+  &:hover {
+    opacity: 1;
   }
+  transition: opacity $session-transition-duration;
 
   &.no-opacity {
-    svg {
-      opacity: 1;
-    }
+    opacity: 1;
   }
 
   &.small.padded {
@@ -411,8 +405,8 @@ $session_message-container-border-radius: 5px;
     position: absolute;
     font-size: 12px;
     font-family: $session-font-family;
-    top: -10px;
-    right: -10px;
+    top: 20px;
+    right: 20px;
     width: 20px;
     height: 20px;
     padding: 3px;
