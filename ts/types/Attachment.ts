@@ -328,13 +328,13 @@ export const save = async ({
   attachment,
   index,
   readAttachmentData,
-  writeToDownloads,
+  saveAttachmentToDisk,
   timestamp,
 }: {
   attachment: Attachment;
   index: number;
   readAttachmentData: (relativePath: string) => Promise<ArrayBuffer>;
-  writeToDownloads: (options: {
+  saveAttachmentToDisk: (options: {
     data: ArrayBuffer;
     name: string;
   }) => Promise<{ name: string; fullPath: string }>;
@@ -349,12 +349,12 @@ export const save = async ({
     : attachment.data;
   const name = getSuggestedFilename({ attachment, timestamp, index });
 
-  const { name: savedFilename } = await writeToDownloads({
+  const { fullPath } = await saveAttachmentToDisk({
     data,
     name,
   });
 
-  return savedFilename;
+  return fullPath;
 };
 
 export const getSuggestedFilename = ({

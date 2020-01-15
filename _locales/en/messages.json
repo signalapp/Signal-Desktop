@@ -782,8 +782,8 @@
     "message": "A voice message must have only one attachment.",
     "description": "Shown in toast if tries to record a voice note with any staged attachments"
   },
-  "attachmentSavedToDownloads": {
-    "message": "Attachment saved as \"$name$\" in your Downloads folder. Click to show.",
+  "attachmentSaved": {
+    "message": "Attachment saved. Click to show in folder.",
     "description": "Shown after user selects to save to downloads",
     "placeholders": {
       "name": {

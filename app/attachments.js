@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const path = require('path');
-const { app, shell, remote } = require('electron');
+const { app, dialog, shell, remote } = require('electron');
 
 const pify = require('pify');
 const glob = require('glob');
@@ -189,7 +189,16 @@ exports.writeToDownloads = async ({ data, name }) => {
     throw new Error('Invalid filename!');
   }
 
-  await fse.writeFile(normalized, Buffer.from(data));
+  writeWithAttributes(normalized, Buffer.from(data));
+
+  return {
+    fullPath: normalized,
+    name: candidateName,
+  };
+};
+
+async function writeWithAttributes(target, data) {
+  await fse.writeFile(target, Buffer.from(data));
 
   if (process.platform === 'darwin' && xattr) {
     // kLSQuarantineTypeInstantMessageAttachment
@@ -204,14 +213,9 @@ exports.writeToDownloads = async ({ data, name }) => {
     // https://ilostmynotes.blogspot.com/2012/06/gatekeeper-xprotect-and-quarantine.html
     const attrValue = `${type};${timestamp};${appName};${guid}`;
 
-    await xattr.set(normalized, 'com.apple.quarantine', attrValue);
+    await xattr.set(target, 'com.apple.quarantine', attrValue);
   }
-
-  return {
-    fullPath: normalized,
-    name: candidateName,
-  };
-};
+}
 
 exports.openFileInDownloads = async name => {
   const shellToUse = shell || remote.shell;
@@ -227,6 +231,37 @@ exports.openFileInDownloads = async name => {
   }
 
   shellToUse.showItemInFolder(normalized);
+};
+
+exports.saveAttachmentToDisk = async ({ data, name }) => {
+  const dialogToUse = dialog || remote.dialog;
+  const browserWindow = remote.getCurrentWindow();
+
+  const { canceled, filePath } = await dialogToUse.showSaveDialog(
+    browserWindow,
+    {
+      defaultPath: name,
+    }
+  );
+
+  if (canceled) {
+    return null;
+  }
+
+  await writeWithAttributes(filePath, Buffer.from(data));
+
+  const basename = path.basename(filePath);
+
+  return {
+    fullPath: filePath,
+    name: basename,
+  };
+};
+
+exports.openFileInFolder = async target => {
+  const shellToUse = shell || remote.shell;
+
+  shellToUse.showItemInFolder(target);
 };
 
 //      createWriterForNew :: AttachmentsPath ->
