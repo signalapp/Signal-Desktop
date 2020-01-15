@@ -4,6 +4,12 @@
 const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
 const sticker2 = { id: 2, url: util.kitten264ObjectUrl, packId: 'bar' };
 const sticker3 = { id: 3, url: util.kitten364ObjectUrl, packId: 'baz' };
+const wideSticker = {
+  id: 4,
+  url: util.landscapeGreenObjectUrl,
+  packId: 'wide',
+};
+const tallSticker = { id: 4, url: util.portraitTealObjectUrl, packId: 'tall' };
 
 const packs = [
   {
@@ -32,6 +38,24 @@ const packs = [
     stickers: Array(101)
       .fill(0)
       .map((n, id) => ({ ...sticker3, id })),
+  },
+  {
+    id: 'wide',
+    cover: wideSticker,
+    title: 'Wide',
+    author: 'Wide',
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...wideSticker, id })),
+  },
+  {
+    id: 'tall',
+    cover: tallSticker,
+    title: 'Tall',
+    author: 'Tall',
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...tallSticker, id })),
   },
 ];
 

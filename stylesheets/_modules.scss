@@ -5146,10 +5146,9 @@ button.module-image__border-overlay:focus {
 }
 
 .module-sticker-picker__header__button__image {
-  min-width: 20px;
-  min-height: 20px;
-  max-width: 20px;
-  max-height: 20px;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 .module-sticker-picker__header__button__image--placeholder {
@@ -5199,7 +5198,8 @@ button.module-image__border-overlay:focus {
     &__image,
     &__placeholder {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: contain;
     }
 
     &__placeholder {
@@ -5385,6 +5385,7 @@ button.module-image__border-overlay:focus {
   &__cover {
     width: 48px;
     height: 48px;
+    object-fit: contain;
   }
   &__cover-placeholder {
     width: 48px;
@@ -5590,7 +5591,8 @@ button.module-image__border-overlay:focus {
 
         &__image {
           width: 100%;
-          height: auto;
+          height: 100%;
+          object-fit: contain;
         }
 
         &--placeholder {
@@ -5787,6 +5789,7 @@ button.module-image__border-overlay:focus {
   &__image {
     width: 20px;
     height: 20px;
+    object-fit: contain;
   }
   &__image-placeholder {
     width: 20px;
