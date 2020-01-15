@@ -17,7 +17,6 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
-import { SessionButton, SessionButtonType } from './SessionButton';
 
 export interface Props {
   searchTerm: string;

@@ -213,8 +213,6 @@ export class LeftPane extends React.Component<Props, State> {
         clearSearch={clearSearch}
       />
     );
-
-    // Render Message View Also!
   }
 
   private renderContactSection() {
