@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { MainViewController } from './MainViewController';
+
 import { ActionsPanel, SectionType } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 
@@ -21,6 +23,7 @@ import {
 } from './session/SessionButton';
 import { ConversationType } from '../state/ducks/conversations';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
+import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -177,6 +180,10 @@ export class LeftPane extends React.Component<Props, State> {
         return this.renderMessageSection();
       case SectionType.Contact:
         return this.renderContactSection();
+      case SectionType.Settings:
+        return this.renderSettingSection();
+      case SectionType.Moon:
+        return window.toggleTheme();
       default:
         return undefined;
     }
@@ -234,5 +241,9 @@ export class LeftPane extends React.Component<Props, State> {
         clearSearch={clearSearch}
       />
     );
+  }
+
+  private renderSettingSection() {
+    return <LeftPaneSettingSection />;
   }
 }

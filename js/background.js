@@ -807,14 +807,22 @@
         el: $('#session-confirm-container'),
         title: params.title,
         message: params.message,
+        messageSub: params.messageSub || undefined,
         resolve: params.resolve || undefined,
         reject: params.reject || undefined,
         okText: params.okText || undefined,
+        okTheme: params.okTheme || undefined,
+        closeTheme: params.closeTheme || undefined,
         cancelText: params.cancelText || undefined,
         hideCancel: params.hideCancel || false,
       });
+
       confirmDialog.render();
     };
+
+    window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
+    window.showAddServerDialog =
+      window.owsDesktopApp.appView.showAddServerDialog;
 
     window.generateID = () =>
       Math.random()
@@ -865,6 +873,55 @@
 
       return toastID;
     };
+
+    window.deleteAccount = async () => {
+      try {
+        window.log.info('Deleting everything!');
+
+        const { Logs } = window.Signal;
+        await Logs.deleteAll();
+
+        await window.Signal.Data.removeAll();
+        await window.Signal.Data.close();
+        await window.Signal.Data.removeDB();
+
+        await window.Signal.Data.removeOtherData();
+      } catch (error) {
+        window.log.error(
+          'Something went wrong deleting all data:',
+          error && error.stack ? error.stack : error
+        );
+      }
+      window.restart();
+    };
+
+    window.toggleTheme = () => {
+      const theme = window.Events.getThemeSetting();
+      const updatedTheme = theme === 'dark' ? 'light' : 'dark';
+
+      $(document.body)
+        .removeClass('dark-theme')
+        .removeClass('light-theme')
+        .addClass(`${updatedTheme}-theme`);
+      window.Events.setThemeSetting(updatedTheme);
+    };
+
+    window.toggleMenuBar = () => {
+      const newValue = !window.getSettingValue('hide-menu-bar');
+      window.Events.setHideMenuBar(newValue);
+    };
+
+    window.toggleSpellCheck = () => {
+      const newValue = !window.getSettingValue('spell-check');
+      window.Events.setSpellCheck(newValue);
+    };
+
+    window.toggleLinkPreview = () => {
+      const newValue = !window.getSettingValue('link-preview-setting');
+      window.Events.setLinkPreviewSetting(newValue);
+    };
+
+    window.toggleMediaPermissions = () => {};
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
@@ -1132,10 +1189,8 @@
     });
 
     Whisper.events.on('showSeedDialog', async () => {
-      const manager = await getAccountManager();
-      if (appView && manager) {
-        const seed = manager.getCurrentMnemonic();
-        appView.showSeedDialog(seed);
+      if (appView) {
+        appView.showSeedDialog();
       }
     });
 

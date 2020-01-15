@@ -11,12 +11,15 @@
       this.props = {
         title: options.title,
         message: options.message,
+        messageSub: options.messageSub,
         onClickOk: this.ok.bind(this),
         onClickClose: this.cancel.bind(this),
         resolve: options.resolve,
         reject: options.reject,
         okText: options.okText,
         cancelText: options.cancelText,
+        okTheme: options.okTheme,
+        closeTheme: options.closeTheme,
         hideCancel: options.hideCancel,
       };
     },

@@ -777,6 +777,10 @@
     "message": "Messages",
     "description": "Shown to separate the types of search results"
   },
+  "settingsHeader": {
+    "message": "Settings",
+    "description": "Shown to separate the types of search results"
+  },
   "welcomeToSignal": {
     "message": "Welcome to Session"
   },
@@ -1154,6 +1158,18 @@
     "description":
       "Confirmation dialog text that tells the user what will happen if they leave the public channel."
   },
+  "deleteAccount": {
+    "message": "Delete Account",
+    "description": "Text for button in settings view to delete account"
+  },
+  "deleteAccountWarning": {
+    "message": "Are you sure you want to delete your account?",
+    "description": "Warning for account deletion in settings view"
+  },
+  "deleteAccountWarningSub": {
+    "message": "This is completely irreversible and will leave no trace.",
+    "description": "Warning for account deletion in settings view"
+  },
   "deleteContact": {
     "message": "Delete Contact",
     "description":
@@ -1301,22 +1317,29 @@
     "message": "Permissions",
     "description": "Header for permissions section of settings"
   },
-  "mediaPermissionsDescription": {
-    "message": "Allow access to camera and microphone",
-    "description": "Description of the media permission description"
-  },
   "general": {
     "message": "General",
     "description": "Header for general options on the settings screen"
   },
-  "linkPreviews": {
+  "linkPreviewsTitle": {
     "message": "Link Previews",
     "description":
       "Option to control creation and send of link previews in setting screen"
   },
-  "linkPreviewsSettingDescription": {
+  "linkPreviewDescription": {
     "message": "Enable link previews",
     "description": "Description shown for the Link Preview option "
+  },
+  "mediaPermissionsTitle": {
+    "message": "Microphone and Camera"
+  },
+  "mediaPermissionsDescription": {
+    "message": "Allow access to camera and microphone",
+    "description": "Description of the media permission description"
+  },
+  "spellCheckTitle": {
+    "message": "Spell Check",
+    "description": "Description of the media permission description"
   },
   "spellCheckDescription": {
     "message": "Enable spell check of text entered in message composition box",
@@ -1333,7 +1356,7 @@
     "description": "Text describing what the clear data button will do."
   },
   "clearDataButton": {
-    "message": "Clear data",
+    "message": "Clear Data",
     "description":
       "Button in the settings dialog starting process to delete all data"
   },
@@ -1383,7 +1406,7 @@
     "description": "Warning for the time to live setting"
   },
   "notificationSettingsDialog": {
-    "message": "When messages arrive, display notifications that reveal:",
+    "message": "When messages arrive, display notifications that reveal...",
     "description": "Explain the purpose of the notification settings"
   },
   "disableNotifications": {
@@ -1820,12 +1843,22 @@
     "message": "Dark",
     "description": "Label text for dark theme"
   },
+  "themeToggleTitle": {
+    "message": "Light Mode"
+  },
+  "themeToggleDescription": {
+    "message": "Choose the theme best suited to you"
+  },
   "noteToSelf": {
     "message": "Note to Self",
     "description": "Name for the conversation with your own phone number"
   },
-  "hideMenuBar": {
-    "message": "Hide menu bar",
+  "hideMenuBarTitle": {
+    "message": "Hide Menu Bar",
+    "description": "Label text for menu bar visibility setting"
+  },
+  "hideMenuBarDescription": {
+    "message": "Toggle system menu bar visibility",
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
@@ -2463,5 +2496,41 @@
   },
   "decline": {
     "message": "Decline"
+  },
+  "generalSettingsTitle": {
+    "message": "General"
+  },
+  "generalSettingsDescription": {
+    "message": "General settings and configuration"
+  },
+  "accountSettingsTitle": {
+    "message": "Account"
+  },
+  "accountSettingsDescription": {
+    "message": "Manage your account"
+  },
+  "permissionSettingsTitle": {
+    "message": "Permissions"
+  },
+  "permissionSettingsDescription": {
+    "message": "Set Session's permissions"
+  },
+  "privacySettingsTitle": {
+    "message": "Privacy"
+  },
+  "privacySettingsDescription": {
+    "message": "Manage your privacy settings"
+  },
+  "notificationSettingsTitle": {
+    "message": "Notifications"
+  },
+  "notificationSettingsDescription": {
+    "message": "Choose what you're notified about"
+  },
+  "devicesSettingsTitle": {
+    "message": "Devices"
+  },
+  "devicesSettingsDescription": {
+    "message": "Managed linked devices"
   }
 }

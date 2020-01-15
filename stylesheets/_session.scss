@@ -26,6 +26,10 @@
   src: url('../fonts/Wasa-Bold.otf') format('opentype');
   font-weight: bold;
 }
+@font-face {
+  font-family: 'SFPro';
+  src: url('../fonts/SFProText-Regular.ttf') format('truetype');
+}
 
 // Session Colors
 $session-font-family: 'Wasa';
@@ -51,7 +55,7 @@ $session-shade-13: #474646;
 $session-shade-14: #535865;
 $session-shade-15: #5b6c72;
 $session-shade-16: #979797;
-$session-shade-17: #d8d8d8;
+$session-shade-17: #a0a0a0;
 $session-shade-18: #141414;
 
 $session-opaque-dark-1: rgba(0, 0, 0, 0.25);
@@ -81,6 +85,9 @@ $session-margin-xs: 5px;
 $session-margin-sm: 10px;
 $session-margin-md: 15px;
 $session-margin-lg: 20px;
+
+$session-search-input-height: 34px;
+$main-view-header-height: 85px;
 
 div.spacer-sm {
   height: $session-margin-sm;
@@ -113,15 +120,15 @@ div.spacer-lg {
   text-align: center;
 }
 
-@mixin text-highlight($color) {
-  background-color: rgba($color, 0.4);
-  padding: $session-margin-xs;
-  border-radius: 3px;
-  display: inline-block;
-}
-
 .fullwidth {
   width: 100%;
+}
+
+@mixin text-highlight($color) {
+  background-color: $color;
+  padding: $session-margin-xs $session-margin-sm;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 @mixin session-dark-background {
@@ -189,6 +196,17 @@ $session_message-container-border-radius: 5px;
   z-index: 1;
 }
 
+#main-view {
+  height: 100vh;
+  display: flex;
+  flex-grow: 1;
+
+  .conversation-stack {
+    display: block;
+    width: 100%;
+  }
+}
+
 .button-group > div {
   margin-left: 5px;
   margin-right: 5px;
@@ -212,6 +230,10 @@ $session_message-container-border-radius: 5px;
   cursor: pointer;
   transition: $session-transition-duration;
 
+  &.disabled {
+    cursor: default;
+  }
+
   &.default,
   &.square,
   &.brand {
@@ -220,27 +242,50 @@ $session_message-container-border-radius: 5px;
     &.green {
       border: 2px solid $session-color-green;
       background-color: $session-color-green;
+
+      &.disabled {
+        background-color: rgba($session-color-green, 0.6);
+      }
+
       &:hover {
         @include transparent-background($session-color-green);
       }
     }
     &.white {
       background-color: $session-color-white;
+      &.disabled {
+        background-color: rgba($session-color-white, 0.6);
+      }
     }
     &.primary {
       background-color: $session-color-primary;
+      &.disabled {
+        background-color: rgba($session-color-primary, 0.6);
+      }
     }
     &.secondary {
       background-color: $session-color-secondary;
+      &.disabled {
+        background-color: rgba($session-color-secondary, 0.6);
+      }
     }
     &.success {
       background-color: $session-color-success;
+      &.disabled {
+        background-color: rgba($session-color-success, 0.6);
+      }
     }
     &.danger {
       background-color: $session-color-danger;
+      &.disabled {
+        background-color: rgba($session-color-danger, 0.6);
+      }
     }
     &.warning {
       background-color: $session-color-warning;
+      &.disabled {
+        background-color: rgba($session-color-warning, 0.6);
+      }
     }
   }
 
@@ -579,6 +624,7 @@ label {
     font-size: 15px;
     line-height: 13px;
     margin-bottom: $session-margin-sm;
+    padding-top: 0px;
     color: $session-color-white;
   }
 
@@ -694,7 +740,28 @@ label {
   }
 
   &__text-highlight {
-    @include text-highlight($session-shade-15);
+    @include text-highlight($session-color-green);
+
+    color: black;
+
+    font-family: monospace;
+    font-style: normal;
+    font-size: 11px;
+  }
+}
+
+.session-confirm {
+  &-wrapper {
+    .session-modal__body .session-modal__centered {
+      margin: $session-margin-lg;
+    }
+  }
+
+  &-main-message {
+    font-size: 15px;
+  }
+  &-sub-message {
+    margin-top: 5px;
   }
 }
 
@@ -747,7 +814,7 @@ label {
   height: 25px;
   padding: 0px 10px;
 
-  background-color: #1b1b1b;
+  background-color: $session-shade-4;
 
   color: $session-color-white;
   font-family: 'Wasa';
@@ -783,7 +850,7 @@ label {
 
       height: 25px;
       padding-right: 7px;
-      background-color: #1b1b1b;
+      background-color: $session-shade-4;
 
       color: $session-color-white;
       font-family: 'Wasa';
@@ -817,6 +884,18 @@ label {
   position: absolute;
   margin-top: 50px;
   margin-left: 75px;
+}
+
+.conversation-loader {
+  height: 100%;
+  margin-top: 45vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > div {
+    display: block;
+  }
 }
 
 .session-loader {
@@ -876,6 +955,71 @@ label {
   }
 }
 
+.session-settings {
+  width: 100%;
+  height: 100vh;
+
+  &-list {
+    overflow-y: scroll;
+  }
+
+  &-header {
+    display: flex;
+    justify-content: center;
+    background-color: $session-shade-6;
+    height: $main-view-header-height;
+    line-height: $main-view-header-height;
+    font-weight: bold;
+    font-size: 18px;
+
+    .session-icon-button {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      right: $session-margin-lg;
+      align-items: center;
+      height: $main-view-header-height;
+    }
+  }
+
+  &-item {
+    font-size: 15px;
+    color: $session-color-white;
+    background-color: $session-shade-1;
+
+    padding: $session-margin-lg;
+    border-bottom: 2px solid $session-shade-5;
+
+    &.inline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__info {
+      padding-right: $session-margin-lg;
+    }
+
+    &__title {
+      line-height: 1.7;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    &__description {
+      font-size: 13px;
+      font-weight: 100;
+      @include session-color-subtle($session-color-white);
+    }
+
+    &__content {
+      label {
+        @include session-color-subtle($session-color-white);
+      }
+    }
+  }
+}
+
 #qr svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
@@ -896,8 +1040,89 @@ label {
   }
 }
 
-
 .messages li {
   transition: $session-transition-duration !important;
 }
 
+.network-status-container {
+}
+
+.discussion-container {
+  .module-message {
+    font-family: SFPro;
+    border-radius: 5px;
+  }
+}
+
+.bottom-bar textarea.send-message {
+  height: 60px;
+  background-color: $session-shade-4;
+  border: none;
+  margin: 0px;
+  padding: 0px $session-margin-lg;
+  font-size: 15px;
+  line-height: 60px;
+
+  @include session-color-subtle($session-color-white);
+}
+
+.bottom-bar form {
+  &.send {
+    background-color: $session-shade-4;
+  }
+
+  &.active textarea {
+    border: none;
+  }
+}
+
+.session-radio-group fieldset {
+  border: none;
+  margin-left: $session-margin-sm;
+  margin-top: $session-margin-sm;
+
+  .session-radio {
+    padding: $session-margin-xs 0px;
+  }
+}
+
+.session-radio {
+  input[type='radio'] {
+    border: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  label {
+    margin-right: 1em;
+  }
+
+  label:before {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.8em;
+    border-radius: 100%;
+    vertical-align: -3px;
+    border: 2px solid rgba($session-color-white, 0.6);
+    padding: 0.2em;
+    background-color: transparent;
+    background-clip: content-box;
+  }
+
+  input:hover + label:before {
+    border-color: $session-color-white;
+  }
+
+  input:checked + label:before {
+    background-color: $session-color-white;
+    border-color: $session-color-white;
+  }
+
+  label:before {
+    transition: all $session-transition-duration ease;
+  }
+}

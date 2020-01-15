@@ -185,6 +185,18 @@ ipc.on('remove-dark-overlay', () => {
   }
 });
 
+window.getSettingValue = (settingID, comparisonValue = null) => {
+  // Comparison value allows you to pull boolean values from any type.
+  // Eg. window.getSettingValue('theme', 'light')
+  // returns 'false' when the value is 'dark'.
+  const settingVal = window.storage.get(settingID);
+  return comparisonValue ? !!settingVal === comparisonValue : settingVal;
+};
+
+window.setSettingValue = (settingID, value) => {
+  window.storage.put(settingID, value);
+};
+
 installGetter('device-name', 'getDeviceName');
 
 installGetter('theme-setting', 'getThemeSetting');

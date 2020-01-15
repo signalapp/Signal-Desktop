@@ -46,11 +46,6 @@
     },
   });
 
-  Whisper.ConversationLoadingScreen = Whisper.View.extend({
-    templateName: 'conversation-loading-screen',
-    className: 'conversation-loading-screen',
-  });
-
   Whisper.ConversationView = Whisper.View.extend({
     className() {
       return ['conversation', this.model.get('type')].join(' ');

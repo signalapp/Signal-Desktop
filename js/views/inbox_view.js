@@ -1,4 +1,6 @@
-/* global
+/*
+  global
+  $
   ConversationController,
   extension,
   ConversationController
@@ -20,7 +22,40 @@
     className: 'conversation-stack',
     open(conversation) {
       const id = `conversation-${conversation.cid}`;
-      if (id !== this.el.firstChild.id) {
+      const container = $('#main-view .conversation-stack');
+
+      // Has been opened since app start, but not focussed
+      const conversationExists = container.children(`#${id}`).length > 0;
+      // Is focussed
+      const conversationOpened = container.children().first().id === id;
+
+      // To limit the size of the DOM for speed
+      const maxNumConversations = 10;
+      const numConversations = container
+        .children()
+        .not('.conversation.placeholder').length;
+      const shouldTrimConversations = numConversations > maxNumConversations;
+
+      if (shouldTrimConversations) {
+        // Removes conversation which has been hidden the longest
+        container.children()[numConversations - 1].remove();
+      }
+
+      if (conversationExists) {
+        // User opened conversation, move it to top of stack, rather than re-rendering
+        const conversations = container
+          .children()
+          .not('.conversation.placeholder');
+        container
+          .children(`#${id}`)
+          .first()
+          .insertBefore(conversations.first());
+        conversation.trigger('opened');
+
+        return;
+      }
+
+      if (!conversationOpened) {
         this.$el
           .first()
           .find('video, audio')
@@ -33,25 +68,27 @@
             model: conversation,
             window: this.model.window,
           });
+          view.view.resetScrollPosition();
+
           // eslint-disable-next-line prefer-destructuring
           $el = view.$el;
         }
-        $el.prependTo(this.el);
+
+        container.prepend($el);
       }
       conversation.trigger('opened');
     },
     close(conversation) {
-      const $el = this.$(`#conversation-${conversation.cid}`);
+      const $el = $(`#conversation-${conversation.cid}`);
       if ($el && $el.length > 0) {
         $el.remove();
       }
     },
     showToast({ message }) {
-      const toast = new Whisper.MessageToastView({
-        message,
+      window.pushToast({
+        title: message,
+        type: 'success',
       });
-      toast.$el.appendTo(this.$el);
-      toast.render();
     },
     showConfirmationDialog({ title, message, onOk, onCancel }) {
       window.confirmationDialog({

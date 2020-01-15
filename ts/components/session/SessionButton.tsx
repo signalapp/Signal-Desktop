@@ -23,7 +23,8 @@ export enum SessionButtonColor {
 }
 
 interface Props {
-  text: string;
+  text?: string;
+  disabled?: boolean;
   buttonType: SessionButtonType;
   buttonColor: SessionButtonColor;
   onClick: any;
@@ -33,6 +34,7 @@ export class SessionButton extends React.PureComponent<Props> {
   public static defaultProps = {
     buttonType: SessionButtonType.Default,
     buttonColor: SessionButtonColor.Primary,
+    disabled: false,
     onClick: () => null,
   };
 
@@ -42,9 +44,10 @@ export class SessionButton extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { buttonType, buttonColor, text } = this.props;
+    const { buttonType, buttonColor, text, disabled } = this.props;
 
     const buttonTypes = [];
+    const onClickFn = disabled ? () => null : this.clickHandler;
 
     buttonTypes.push(buttonType);
     if (buttonType.includes('-outline')) {
@@ -53,11 +56,16 @@ export class SessionButton extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classNames('session-button', ...buttonTypes, buttonColor)}
+        className={classNames(
+          'session-button',
+          ...buttonTypes,
+          buttonColor,
+          disabled && 'disabled'
+        )}
         role="button"
-        onClick={this.clickHandler}
+        onClick={onClickFn}
       >
-        {text}
+        {this.props.children || text}
       </div>
     );
   }

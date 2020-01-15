@@ -20,7 +20,6 @@ interface Props {
   id?: string;
   type?: SessionToastType;
   description?: string;
-  fadeToast: any;
   closeToast: any;
 }
 

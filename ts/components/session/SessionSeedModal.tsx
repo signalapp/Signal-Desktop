@@ -40,6 +40,37 @@ export class SessionSeedModal extends React.Component<Props, State> {
     window.addEventListener('keyup', this.onEnter);
   }
 
+  public render() {
+    const i18n = window.i18n;
+
+    this.checkHasPassword();
+    this.getSeed().ignore();
+
+    const { onClose } = this.props;
+    const { hasPassword, passwordValid } = this.state;
+    const loading = this.state.loadingPassword || this.state.loadingSeed;
+
+    return (
+      <>
+        {!loading && (
+          <SessionModal
+            title={i18n('showSeed')}
+            onOk={() => null}
+            onClose={onClose}
+          >
+            <div className="spacer-sm" />
+
+            {hasPassword && !passwordValid ? (
+              <>{this.renderPasswordView()}</>
+            ) : (
+              <>{this.renderSeedView()}</>
+            )}
+          </SessionModal>
+        )}
+      </>
+    );
+  }
+
   private renderPasswordView() {
     const maxPasswordLen = 64;
     const error = this.state.error;
@@ -105,37 +136,6 @@ export class SessionSeedModal extends React.Component<Props, State> {
             }}
           />
         </div>
-      </>
-    );
-  }
-
-  public render() {
-    const i18n = window.i18n;
-
-    this.checkHasPassword();
-    this.getSeed().ignore();
-
-    const { onClose } = this.props;
-    const { hasPassword, passwordValid } = this.state;
-    const loading = this.state.loadingPassword || this.state.loadingSeed;
-
-    return (
-      <>
-        {!loading && (
-          <SessionModal
-            title={i18n('showSeed')}
-            onOk={() => null}
-            onClose={onClose}
-          >
-            <div className="spacer-sm" />
-
-            {hasPassword && !passwordValid ? (
-              <>{this.renderPasswordView()}</>
-            ) : (
-              <>{this.renderSeedView()}</>
-            )}
-          </SessionModal>
-        )}
       </>
     );
   }

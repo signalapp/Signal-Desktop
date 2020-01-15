@@ -1,85 +1,137 @@
 $session-compose-margin: 20px;
 
-.dark-theme {
-  .module-conversation-list-item {
+.module-conversation-list-item {
+  @at-root .light-theme #{&} {
     @include session-dark-background-lighter;
-    transition: $session-transition-duration;
     &:hover {
       @include session-dark-background-hover;
     }
   }
-  .gutter {
-    width: 380px !important;
-    background: none !important;
-    padding-right: 5px !important;
+  @at-root .dark-theme #{&} {
+    @include session-dark-background-lighter;
+    &:hover {
+      @include session-dark-background-hover;
+    }
   }
+}
+.gutter {
+  width: 380px !important;
+  background: none !important;
+  padding-right: 5px !important;
+}
 
-  .module-conversation {
-    &-list-item {
-      &--has-unread {
-        border-left: 4px solid $session-color-green !important;
+.module-conversation {
+  &-list-item {
+    &--has-unread {
+      border-left: 4px solid $session-color-green !important;
+    }
+
+    &__unread-count {
+      @at-root .light-theme #{&} {
+        color: $session-color-black !important;
+        background-color: $session-color-white !important;
       }
-
-      &__unread-count {
-        color: $color-white !important;
+      @at-root .dark-theme #{&} {
+        color: $session-color-white !important;
         background-color: $session-shade-10 !important;
-        position: static !important;
-        font-weight: 700 !important;
-        box-shadow: none !important;
-        margin: 0 !important;
       }
 
-      &__header__date,
-      &__header__date--has-unread {
-        flex-grow: 1 !important;
-        text-align: end !important;
-      }
+      position: static !important;
+      font-weight: 700 !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+    }
 
-      &__message__text {
-        color: $session-shade-17;
-        &--has-unread {
+    &__header__date,
+    &__header__date--has-unread {
+      flex-grow: 1 !important;
+      text-align: end !important;
+    }
+
+    &__message__text {
+      color: $session-shade-17;
+      &--has-unread {
+        @at-root .light-theme #{&} {
+          color: $session-shade-4 !important;
+        }
+        @at-root .dark-theme #{&} {
           color: $session-color-white !important;
         }
       }
+    }
 
-      &__header__name {
-        flex-grow: 0 !important;
-        padding-right: 5px !important;
+    &__header__name {
+      flex-grow: 0 !important;
+      padding-right: 5px !important;
+
+      @at-root .light-theme #{&} {
+        color: $session-color-black;
+      }
+      @at-root .dark-theme #{&} {
         color: $session-shade-17;
       }
+    }
 
-      &__header__name--with-unread .module-conversation__user__profile-number,
-      &__header__name--with-unread .module-conversation__user__profile-name {
+    &__header__name--with-unread .module-conversation__user__profile-number,
+    &__header__name--with-unread .module-conversation__user__profile-name {
+      @at-root .light-theme #{&} {
+        color: $session-color-black;
+      }
+      @at-root .dark-theme #{&} {
         color: $session-color-white;
       }
     }
+  }
 
-    &__user__profile {
-      &-number,
-      &-name {
-        color: $session-shade-17;
-        font-size: 15px;
+  &__user__profile {
+    &-number,
+    &-name {
+      @at-root .light-theme #{&} {
+        color: $session-color-white;
       }
+      @at-root .dark-theme #{&} {
+        color: $session-shade-17;
+      }
+
+      font-size: 15px;
     }
   }
-  .module-conversation-list-item--is-selected {
-    background-color: $color-dark-70;
-    .module-conversation__user__profile-number,
-    .module-conversation__user__profile-name,
-    .module-conversation-list-item__message__text {
+}
+
+.module-conversation-list-item--is-selected {
+  background-color: $color-dark-70;
+  .module-conversation__user__profile-number,
+  .module-conversation__user__profile-name,
+  .module-conversation-list-item__message__text {
+    @at-root .light-theme #{&} {
+      color: $session-color-black;
+    }
+    @at-root .dark-theme #{&} {
       color: $session-color-white;
     }
   }
 }
+
 .inbox {
-  @include session-dark-background;
+  @at-root .light-theme #{&} {
+    color: $session-color-black;
+  }
+  @at-root .dark-theme #{&} {
+    @include session-dark-background;
+  }
 }
 
 .module-left-pane {
   border-right: none !important;
   width: 300px;
   height: -webkit-fill-available;
-  background: $session-shade-4 !important;
+
+  @at-root .light-theme #{&} {
+    background: $session-color-white !important;
+  }
+  @at-root .dark-theme #{&} {
+    background: $session-shade-4 !important;
+  }
 
   &-session {
     display: flex;
@@ -93,13 +145,9 @@ $session-compose-margin: 20px;
 
     .module-avatar,
     .session-icon-button {
-      cursor: pointer;
       margin: 30px auto 30px auto;
       &:last-child {
         margin: auto auto 30px auto;
-
-        /* Hide theme icon until light theme is ready */
-        display: none;
       }
     }
   }
@@ -109,10 +157,25 @@ $session-compose-margin: 20px;
     flex-direction: row;
     padding: 28px 7px 28px 0px;
 
-    background-color: $session-shade-3;
+    @at-root .light-theme #{&} {
+      background-color: $session-color-white;
+    }
+    @at-root .dark-theme #{&} {
+      background-color: $session-shade-3;
+    }
 
     .session-button {
       margin-left: auto;
+    }
+
+    &-buttons {
+      margin-bottom: $session-margin-sm;
+      display: inline-flex;
+      width: 100%;
+
+      .session-button {
+        flex: 1;
+      }
     }
   }
 
@@ -127,7 +190,13 @@ $session-compose-margin: 20px;
   }
 
   &-compose {
-    @include session-dark-background-lighter;
+    @at-root .light-theme #{&} {
+      background: $session-color-white;
+    }
+    @at-root .dark-theme #{&} {
+      @include session-dark-background-lighter;
+    }
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -221,9 +290,16 @@ $session-compose-margin: 20px;
   width: 100%;
   margin-right: 1px;
   margin-bottom: 10px;
-  background: $session-shade-4;
-  color: $session-color-white;
   display: inline-flex;
+
+  @at-root .light-theme #{&} {
+    color: $session-color-black;
+    background: $session-color-white;
+  }
+  @at-root .dark-theme #{&} {
+    color: $session-color-white;
+    background: $session-shade-4;
+  }
 
   .session-icon-button {
     margin: auto 10px;
@@ -232,13 +308,20 @@ $session-compose-margin: 20px;
   input {
     width: inherit;
     height: inherit;
-    background: $session-shade-4;
-    color: $session-color-white;
     border: none;
     flex-grow: 1;
 
     &:focus {
       outline: none !important;
+    }
+
+    @at-root .light-theme #{&} {
+      color: $session-color-black;
+      background: $session-color-white;
+    }
+    @at-root .dark-theme #{&} {
+      color: $session-color-white;
+      background: $session-shade-4;
     }
   }
 }
@@ -254,8 +337,14 @@ $session-compose-margin: 20px;
     font-size: 70px;
     font-weight: bold;
     margin: 0px;
-    color: $session-color-white;
     font-family: $session-font-family;
+
+    @at-root .light-theme #{&} {
+      color: $session-color-black;
+    }
+    @at-root .dark-theme #{&} {
+      color: $session-color-white;
+    }
   }
 }
 
@@ -266,15 +355,27 @@ $session-compose-margin: 20px;
 @mixin bottom-buttons() {
   display: flex;
   flex-direction: row;
-  background-color: $session-shade-2;
+
+  @at-root .light-theme #{&} {
+    background-color: $session-color-white;
+  }
+  @at-root .dark-theme #{&} {
+    background-color: $session-shade-2;
+  }
 
   .session-button.square-outline.square.green,
   .session-button.square-outline.square.white,
   .session-button.square-outline.square.danger {
     flex-grow: 1;
-    border: 1px solid $session-shade-7;
     height: 50px;
     line-height: 50px;
+
+    @at-root .light-theme #{&} {
+      border: 1px solid $session-shade-15;
+    }
+    @at-root .dark-theme #{&} {
+      border: 1px solid $session-shade-7;
+    }
   }
 }
 
@@ -287,14 +388,28 @@ $session-compose-margin: 20px;
     text-overflow: ellipsis;
     padding: 8px 20px;
     margin: 0px $session-compose-margin;
-    background: $session-shade-4;
-    color: $session-color-light-grey;
+
+    @at-root .light-theme #{&} {
+      background: $session-shade-15;
+      color: $session-color-black;
+    }
+    @at-root .dark-theme #{&} {
+      background: $session-shade-4;
+      color: $session-color-light-grey;
+    }
 
     &-selected,
     &:hover {
       font-weight: bold;
-      color: $session-color-white;
-      background: $session-shade-8;
+
+      @at-root .light-theme #{&} {
+        color: $session-color-black;
+        background: $session-color-white;
+      }
+      @at-root .dark-theme #{&} {
+        color: $session-color-white;
+        background: $session-shade-8;
+      }
     }
   }
 }
@@ -308,8 +423,14 @@ $session-compose-margin: 20px;
   margin-left: auto;
   text-align: center;
   border-radius: 50%;
-  color: $session-color-white;
   font-weight: bold;
+
+  @at-root .light-theme #{&} {
+    color: $session-color-white;
+  }
+  @at-root .dark-theme #{&} {
+    color: $session-color-black;
+  }
 }
 
 .left-pane-contact {
