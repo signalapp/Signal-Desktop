@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 277px;
+  width: 22vw;
   flex-shrink: 0;
-  border: 1px solid #2f2f2f;
+  border: $session-separator-element-border;
   background-color: $session-shade-4;
   align-items: center;
 
@@ -30,7 +30,7 @@
 
   .description {
     margin: $session-margin-md 0;
-    border: 1px solid $session-shade-6;
+    border: $session-separator-element-border;
     background-color: $session-shade-1;
     min-height: 4rem;
     width: inherit;
@@ -47,8 +47,8 @@
     color: $session-color-white;
     width: -webkit-fill-available;
     padding: 0 $session-margin-md;
-    border-bottom: 1px solid $session-shade-6;
-    border-top: 1px solid $session-shade-6;
+    border-bottom: $session-separator-element-border;
+    border-top: $session-separator-element-border;
     transition: $session-transition-duration;
     cursor: pointer;
 
@@ -102,8 +102,8 @@
             display: block;
             margin: 0 auto;
             width: 70%;
-            padding-top: 8px;
-            border-bottom: 4px solid $session-color-green;
+            padding-top: 0.5rem;
+            border-bottom: $session-element-border-green;
           }
         }
       }
@@ -113,8 +113,8 @@
 
         .module-media-grid-item__image,
         .module-media-grid-item {
-          height: 80px;
-          width: 80px;
+          height: calc(22vw/3.5); //.group-settings is 22vw and we want threee rows with some space so divide it by 3.5
+          width: calc(22vw/3.5); //.group-settings is 22vw and we want threee rows with some space so divide it by 3.5
           margin-right: 0;
         }
       }

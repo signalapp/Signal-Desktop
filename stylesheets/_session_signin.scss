@@ -99,7 +99,7 @@
       font-size: 15px;
 
       &--active {
-        border-bottom: 4px solid $session-color-green;
+        border-bottom: $session-element-border-green;
       }
     }
 

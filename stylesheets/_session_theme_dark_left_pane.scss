@@ -17,7 +17,7 @@ $session-compose-margin: 20px;
   .module-conversation {
     &-list-item {
       &--has-unread {
-        border-left: 4px solid $session-color-green !important;
+        border-left: $session-element-border-green !important;
       }
 
       &__unread-count {

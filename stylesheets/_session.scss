@@ -423,6 +423,10 @@ $session_message-container-border-radius: 5px;
   fill: $session-color-white;
 }
 
+
+$session-separator-element-border: 1px solid $session-shade-6;
+$session-element-border-green: 4px solid $session-color-green;
+
 /* CONVERSATION AND MESSAGES */
 
 @mixin standard-icon-button() {
