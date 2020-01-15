@@ -15,6 +15,7 @@ interface Window {
   setPassword: any;
   textsecure: any;
   Session: any;
+  log: any;
   i18n: any;
   friends: any;
   generateID: any;
@@ -31,7 +32,6 @@ interface Window {
   toggleMediaPermissions: any;
   getSettingValue: any;
   setSettingValue: any;
-  
 }
 
 interface Promise<T> {

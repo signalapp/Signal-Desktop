@@ -20,8 +20,8 @@ interface Props {
 export class SessionSettingListItem extends React.Component<Props> {
   public static defaultProps = {
     inline: true,
-  }
-  
+  };
+
   public constructor(props: Props) {
     super(props);
     this.state = {};
@@ -30,20 +30,17 @@ export class SessionSettingListItem extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const {
-      title,
-      description,
-      type,
-      value,
-      content,
-    } = this.props;
+    const { title, description, type, value, content } = this.props;
 
-    const inline = ![SessionSettingType.Options, SessionSettingType.Slider].includes(type);
+    const inline = ![
+      SessionSettingType.Options,
+      SessionSettingType.Slider,
+    ].includes(type);
 
     return (
       <div className={classNames('session-settings-item', inline && 'inline')}>
-        <div className='session-settings-item__info'>
-          <div className='session-settings-item__title'>{title}</div>
+        <div className="session-settings-item__info">
+          <div className="session-settings-item__title">{title}</div>
 
           {description && (
             <div className="session-settings-item__description">
@@ -55,7 +52,10 @@ export class SessionSettingListItem extends React.Component<Props> {
         <div className="session-settings-item__content">
           {type === SessionSettingType.Toggle && (
             <div className="session-sessings-item__selection">
-              <SessionToggle active={Boolean(value)} onClick={this.handleClick} />
+              <SessionToggle
+                active={Boolean(value)}
+                onClick={this.handleClick}
+              />
             </div>
           )}
 

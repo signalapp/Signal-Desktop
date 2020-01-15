@@ -1843,10 +1843,10 @@
     "message": "Dark",
     "description": "Label text for dark theme"
   },
-  "themeToggleTitle" : {
+  "themeToggleTitle": {
     "message": "Light Mode"
   },
-  "themeToggleDescription" : {
+  "themeToggleDescription": {
     "message": "Choose the theme best suited to you"
   },
   "noteToSelf": {

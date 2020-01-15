@@ -46,6 +46,10 @@ export class SessionConfirm extends React.Component<Props> {
     const cancelText = this.props.cancelText || window.i18n('cancel');
     const showHeader = !!this.props.title;
 
+    const messageSubText = messageSub
+      ? 'session-confirm-main-message'
+      : 'text-subtle';
+
     return (
       <SessionModal
         title={title}
@@ -57,13 +61,7 @@ export class SessionConfirm extends React.Component<Props> {
         {!showHeader && <div className="spacer-lg" />}
 
         <div className="session-modal__centered">
-          <span
-            className={
-              messageSub ? 'session-confirm-main-message' : 'text-subtle'
-            }
-          >
-            {message}
-          </span>
+          <span className={messageSubText}>{message}</span>
           {messageSub && (
             <span className="session-confirm-sub-message text-subtle">
               {messageSub}

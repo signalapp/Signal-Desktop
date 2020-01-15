@@ -6,23 +6,21 @@ import {
   SettingsView,
 } from './session/settings/SessionSettings';
 
-export class MainViewController {
-  constructor() {}
-
-  static renderMessageView() {
+export const MainViewController = {
+  renderMessageView: () => {
     ReactDOM.render(<MessageView />, document.getElementById('main-view'));
-  }
+  },
 
-  static renderSettingsView(category: SessionSettingCategory) {
+  renderSettingsView: (category: SessionSettingCategory) => {
     ReactDOM.render(
       <SettingsView category={category} />,
       document.getElementById('main-view')
     );
-  }
-}
+  },
+};
 
 export class MessageView extends React.Component {
-  render() {
+  public render() {
     return (
       <div className="conversation-stack">
         <div className="conversation placeholder">

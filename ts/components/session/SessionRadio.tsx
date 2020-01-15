@@ -15,32 +15,32 @@ interface State {
 export class SessionRadio extends React.PureComponent<Props, State> {
   public static defaultProps = {
     onClick: () => null,
-  }
+  };
 
   constructor(props: any) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
-    
+
     this.state = {
       active: this.props.active,
-    }
+    };
   }
 
   public render() {
     const active = this.state.active;
     const { label, group, value } = this.props;
 
-    
     return (
-      <div className='session-radio'>
+      <div className="session-radio">
         <input
           type="radio"
-          name={group || ''} 
+          name={group || ''}
           value={value}
-          defaultChecked={ active }
+          defaultChecked={active}
+          aria-checked={active}
           onClick={this.clickHandler}
         />
-        <label>{ label } </label>
+        <label>{label} </label>
       </div>
     );
   }
@@ -53,7 +53,6 @@ export class SessionRadio extends React.PureComponent<Props, State> {
       this.setState({
         active: !this.state.active,
       });
-      
     }
   }
 }

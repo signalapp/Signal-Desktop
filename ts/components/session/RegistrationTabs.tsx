@@ -505,7 +505,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
   private renderTermsConditionAgreement() {
     // FIXME
-    console.log(
+    window.log.info(
       'FIXME: add link to our Terms and Conditions and privacy statement'
     );
 
@@ -718,7 +718,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     );
 
     const onError = async (error: any) => {
-      window.console.error(error);
+      window.log.error.error(error);
 
       await this.resetRegistration();
     };

@@ -1011,8 +1011,8 @@ label {
       font-weight: 100;
       @include session-color-subtle($session-color-white);
     }
-    
-    &__content{
+
+    &__content {
       label {
         @include session-color-subtle($session-color-white);
       }
@@ -1076,7 +1076,6 @@ label {
   }
 }
 
-
 .session-radio-group fieldset {
   border: none;
   margin-left: $session-margin-sm;
@@ -1088,7 +1087,7 @@ label {
 }
 
 .session-radio {
-  input[type="radio"] {
+  input[type='radio'] {
     border: 0;
     opacity: 0;
     padding: 0;
@@ -1101,11 +1100,11 @@ label {
   }
 
   label:before {
-    content: "";
+    content: '';
     display: inline-block;
     width: 0.5em;
     height: 0.5em;
-    margin-right: 0.80em;
+    margin-right: 0.8em;
     border-radius: 100%;
     vertical-align: -3px;
     border: 2px solid rgba($session-color-white, 0.6);
@@ -1127,4 +1126,3 @@ label {
     transition: all $session-transition-duration ease;
   }
 }
-

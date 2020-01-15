@@ -15,15 +15,13 @@ import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionSettingCategory } from './settings/SessionSettings';
 
-export interface Props {}
-
 export interface State {
   settingCategory: SessionSettingCategory;
   searchQuery: string;
 }
 
-export class LeftPaneSettingSection extends React.Component<Props, State> {
-  public constructor(props: Props) {
+export class LeftPaneSettingSection extends React.Component<any, State> {
+  public constructor(props: any) {
     super(props);
 
     this.state = {
@@ -72,7 +70,8 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
               'left-pane-setting-category-list-item',
               item.id === this.state.settingCategory ? 'active' : ''
             )}
-            onClick={() => this.setCategory(item.id)}
+            role="link"
+            onClick={(): void => this.setCategory(item.id)}
           >
             <div>
               <strong>{item.title}</strong>

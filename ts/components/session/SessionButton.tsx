@@ -47,6 +47,7 @@ export class SessionButton extends React.PureComponent<Props> {
     const { buttonType, buttonColor, text, disabled } = this.props;
 
     const buttonTypes = [];
+    const onClickFn = disabled ? () => null : this.clickHandler;
 
     buttonTypes.push(buttonType);
     if (buttonType.includes('-outline')) {
@@ -62,7 +63,7 @@ export class SessionButton extends React.PureComponent<Props> {
           disabled && 'disabled'
         )}
         role="button"
-        onClick={disabled ? () => null : this.clickHandler}
+        onClick={onClickFn}
       >
         {this.props.children || text}
       </div>
