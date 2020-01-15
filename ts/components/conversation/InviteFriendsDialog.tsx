@@ -1,5 +1,6 @@
 import React from 'react';
 import { Contact, MemberList } from './MemberList';
+import { SessionIconButton, SessionIconType, SessionIconSize } from '../session/icon';
 
 interface Props {
   friendList: Array<any>;
@@ -63,6 +64,13 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
 
     return (
       <div className="content">
+        <div className="session-modal__header__close">
+        <SessionIconButton
+          iconType={SessionIconType.Exit}
+          iconSize={SessionIconSize.Small}
+          onClick={this.closeDialog}
+        />
+              </div>
         <p className="titleText">{titleText}</p>
         <div className="friend-selection-list">
           <MemberList
