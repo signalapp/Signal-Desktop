@@ -3,11 +3,11 @@ import React from 'react';
 import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
 
-
 export enum SessionSettingCategory {
   General = 'general',
   Account = 'account',
   Privacy = 'privacy',
+  Permissions = 'permissions',
   Notifications = 'notifications',
   Devices = 'devices',
 }
@@ -42,54 +42,86 @@ export class SettingsView extends React.Component<SettingsViewProps> {
     const localSettings = [
         {
             id: 'theme-setting',
-            title: 'Light Mode',
+            title: window.i18n('themeToggleTitle'),
             description: 'Choose the theme best suited to you',
             hidden: true,
             comparisonValue: 'light',
-            type: SessionSettingType.Options,
+            type: SessionSettingType.Toggle,
             category: SessionSettingCategory.General,
             setFn: window.toggleTheme,
-            childProps: {},
+            content: {},
         },
         {
             id: 'hide-menu-bar',
-            title: 'Hide Menu Bar',
-            description: 'Toggle system menu bar visibi',
+            title: window.i18n('hideMenuBarTitle'),
+            description: window.i18n('hideMenuBarDescription'),
             hidden: !Settings.isHideMenuBarSupported(),
             type: SessionSettingType.Toggle,
             category: SessionSettingCategory.General,
             setFn: window.toggleMenuBar,
-            childProps: {},
+            content: {},
         },
         {
+            id: 'spell-check',
+            title: window.i18n('spellCheckTitle'),
+            description: window.i18n('spellCheckDescription'),
+            hidden: false,
+            type: SessionSettingType.Toggle,
+            category: SessionSettingCategory.General,
+            setFn: window.toggleSpellCheck,
+            content: {},
+        },
+        {
+            id: 'link-preview-setting',
+            title: window.i18n('linkPreviewsTitle'),
+            description: window.i18n('linkPreviewDescription'),
+            hidden: false,
+            type: SessionSettingType.Toggle,
+            category: SessionSettingCategory.General,
+            setFn: window.toggleLinkPreview,
+            content: {},
+        },
+
+        {
             id: 'notification-setting',
-            title: 'Notifications',
-            description: 'When messages arive, display notifications that reveal:',
+            title: window.i18n('notificationSettingsDialog'),
             type: SessionSettingType.Options,
             category: SessionSettingCategory.Notifications,
-            setFn: () => window.setSettingValue(this.getNotificationPreference()),
-            childProps: {
-                options: [
-                    {
-                        id: 'default',
-                        desc: 'Both sender name and message',
-                    },
-                    {
-                        id: 'name',
-                        desc: 'Only sender name',
-                    },
-                    {
-                        id: 'count',
-                        desc: 'Neither name nor messsage',
-                    },
-                    {
-                        id: 'off',
-                        desc: 'Disable notificationss',
-                    },
-                ],
-                activeIndex: 0
+            setFn: () => this.setOptionsSetting('notification-setting'),
+            content: {
+                options: {
+                  group: 'notification-setting',
+                  initalItem: window.getSettingValue('notification-setting'),
+                  items: [{
+                      label: window.i18n('nameAndMessage'),
+                      value: 'message'
+                    },{
+                      label: window.i18n('nameOnly'),
+                      value: 'name'
+                    },{
+                      label: window.i18n('noNameOrMessage'),
+                      value: 'count'
+                    },{
+                      label: window.i18n('disableNotifications'),
+                      value: 'off'
+                  }],
+                },
             },
         },
+
+
+        {
+          id: 'media-permissions',
+          title: window.i18n('mediaPermissionsTitle'),
+          description: window.i18n('mediaPermissionsDescription'),
+          hidden: false,
+          type: SessionSettingType.Toggle,
+          category: SessionSettingCategory.Permissions,
+          setFn: window.toggleMediaPermissions,
+          content: {},
+      },
+
+        
     ];
 
     return (
@@ -103,14 +135,13 @@ export class SettingsView extends React.Component<SettingsViewProps> {
                 {renderSettings && !(setting.hidden) && (
                 <SessionSettingListItem
                     title={setting.title}
-                    description={setting.description}
+                    description={setting.description || ''}
                     type={setting.type}
                     value={ window.getSettingValue(setting.id, setting.comparisonValue || null) }
                     onClick={() => {
                         this.updateSetting(setting);
                     }}
-                    buttonText={setting.childProps.buttonText || undefined}
-                    buttonColor={setting.childProps.buttonColor || undefined}
+                    content={setting.content || undefined}
                 />
             )}
             </div>
@@ -134,27 +165,25 @@ export class SettingsView extends React.Component<SettingsViewProps> {
   }
 
   public updateSetting(item: any) {
-    if (item.type === SessionSettingType.Toggle) {
-        // If no custom afterClick function given, alter values in storage here
-        if (!item.setFn) {
-            // Switch to opposite state
-            const newValue = !window.getSettingValue(item.id);
-            window.setSettingValue(item.id, newValue);
-        }
-    }
 
     // If there's a custom afterClick function,
     // execute it instead of automatically updating settings
     if (item.setFn) {
         item.setFn();
+    } else {
+      if (item.type === SessionSettingType.Toggle) {
+        // If no custom afterClick function given, alter values in storage here
+        // Switch to opposite state
+        const newValue = !window.getSettingValue(item.id);
+        window.setSettingValue(item.id, newValue);
+      }
     }
 
-    return;
   }
 
-  public getNotificationPreference(){
-    const value = window.getSettingValue('notification-setting');
-    return value || 'default';
+  public setOptionsSetting(settingID: string){
+    const selectedValue = $(`#${settingID} .session-radio input:checked`).val();
+    window.setSettingValue(settingID, selectedValue);
   }
 
 }

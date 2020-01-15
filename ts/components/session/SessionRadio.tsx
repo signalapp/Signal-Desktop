@@ -1,10 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
-
 
 interface Props {
   label: string;
+  value: string;
   active: boolean;
+  group?: string;
+  onClick: any;
 }
 
 interface State {
@@ -12,6 +13,10 @@ interface State {
 }
 
 export class SessionRadio extends React.PureComponent<Props, State> {
+  public static defaultProps = {
+    onClick: () => null,
+  }
+
   constructor(props: any) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
@@ -23,20 +28,32 @@ export class SessionRadio extends React.PureComponent<Props, State> {
 
   public render() {
     const active = this.state.active;
-    const { label } = this.props;
+    const { label, group, value } = this.props;
 
     
     return (
-      <div className={classNames('session-radio', active && 'checked')}>
-        <input type="radio" />
+      <div className='session-radio'>
+        <input
+          type="radio"
+          name={group || ''} 
+          value={value}
+          defaultChecked={ active }
+          onClick={this.clickHandler}
+        />
         <label>{ label } </label>
       </div>
     );
   }
 
-  private clickHandler() {
-    this.setState({
-      active: !this.state.active,
-    });
+  private clickHandler(e: any) {
+    if (this.props.onClick) {
+      e.stopPropagation();
+      this.props.onClick();
+
+      this.setState({
+        active: !this.state.active,
+      });
+      
+    }
   }
 }

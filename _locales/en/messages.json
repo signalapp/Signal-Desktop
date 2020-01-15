@@ -1317,22 +1317,29 @@
     "message": "Permissions",
     "description": "Header for permissions section of settings"
   },
-  "mediaPermissionsDescription": {
-    "message": "Allow access to camera and microphone",
-    "description": "Description of the media permission description"
-  },
   "general": {
     "message": "General",
     "description": "Header for general options on the settings screen"
   },
-  "linkPreviews": {
+  "linkPreviewsTitle": {
     "message": "Link Previews",
     "description":
       "Option to control creation and send of link previews in setting screen"
   },
-  "linkPreviewsSettingDescription": {
+  "linkPreviewDescription": {
     "message": "Enable link previews",
     "description": "Description shown for the Link Preview option "
+  },
+  "mediaPermissionsTitle": {
+    "message": "Microphone and Camera"
+  },
+  "mediaPermissionsDescription": {
+    "message": "Allow access to camera and microphone",
+    "description": "Description of the media permission description"
+  },
+  "spellCheckTitle": {
+    "message": "Spell Check",
+    "description": "Description of the media permission description"
   },
   "spellCheckDescription": {
     "message": "Enable spell check of text entered in message composition box",
@@ -1399,7 +1406,7 @@
     "description": "Warning for the time to live setting"
   },
   "notificationSettingsDialog": {
-    "message": "When messages arrive, display notifications that reveal:",
+    "message": "When messages arrive, display notifications that reveal...",
     "description": "Explain the purpose of the notification settings"
   },
   "disableNotifications": {
@@ -1836,12 +1843,22 @@
     "message": "Dark",
     "description": "Label text for dark theme"
   },
+  "themeToggleTitle" : {
+    "message": "Light Mode"
+  },
+  "themeToggleDescription" : {
+    "message": "Choose the theme best suited to you"
+  },
   "noteToSelf": {
     "message": "Note to Self",
     "description": "Name for the conversation with your own phone number"
   },
-  "hideMenuBar": {
-    "message": "Hide menu bar",
+  "hideMenuBarTitle": {
+    "message": "Hide Menu Bar",
+    "description": "Label text for menu bar visibility setting"
+  },
+  "hideMenuBarDescription": {
+    "message": "Toggle system menu bar visibility",
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
@@ -2481,7 +2498,7 @@
     "message": "Decline"
   },
   "generalSettingsTitle": {
-    "message": "Generals"
+    "message": "General"
   },
   "generalSettingsDescription": {
     "message": "General settings and configuration"
@@ -2492,11 +2509,17 @@
   "accountSettingsDescription": {
     "message": "Manage your account"
   },
+  "permissionSettingsTitle": {
+    "message": "Permissions"
+  },
+  "permissionSettingsDescription": {
+    "message": "Set Session's permissions"
+  },
   "privacySettingsTitle": {
     "message": "Privacy"
   },
   "privacySettingsDescription": {
-    "message": "Privacy description"
+    "message": "Manage your privacy settings"
   },
   "notificationSettingsTitle": {
     "message": "Notifications"

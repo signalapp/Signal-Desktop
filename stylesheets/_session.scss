@@ -1002,12 +1002,20 @@ label {
 
     &__title {
       line-height: 1.7;
+      font-size: 16px;
+      font-weight: bold;
     }
 
     &__description {
       font-size: 13px;
       font-weight: 100;
       @include session-color-subtle($session-color-white);
+    }
+    
+    &__content{
+      label {
+        @include session-color-subtle($session-color-white);
+      }
     }
   }
 }
@@ -1068,12 +1076,24 @@ label {
   }
 }
 
+
+.session-radio-group fieldset {
+  border: none;
+  margin-left: $session-margin-sm;
+  margin-top: $session-margin-sm;
+
+  .session-radio {
+    padding: $session-margin-xs 0px;
+  }
+}
+
 .session-radio {
   input[type="radio"] {
     border: 0;
     opacity: 0;
     padding: 0;
     position: absolute;
+    cursor: pointer;
   }
 
   label {
@@ -1085,10 +1105,10 @@ label {
     display: inline-block;
     width: 0.5em;
     height: 0.5em;
-    margin-right: 0.5em;
+    margin-right: 0.80em;
     border-radius: 100%;
     vertical-align: -3px;
-    border: 2px solid $session-color-white;
+    border: 2px solid rgba($session-color-white, 0.6);
     padding: 0.2em;
     background-color: transparent;
     background-clip: content-box;
@@ -1107,3 +1127,4 @@ label {
     transition: all $session-transition-duration ease;
   }
 }
+

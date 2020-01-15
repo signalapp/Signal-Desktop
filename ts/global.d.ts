@@ -26,6 +26,9 @@ interface Window {
   deleteAccount: any;
   toggleTheme: any;
   toggleMenuBar: any;
+  toggleSpellCheck: any;
+  toggleLinkPreview: any;
+  toggleMediaPermissions: any;
   getSettingValue: any;
   setSettingValue: any;
   

@@ -911,6 +911,20 @@
       window.Events.setHideMenuBar(newValue);
     }
 
+    window.toggleSpellCheck = () => {
+      const newValue = ! window.getSettingValue('spell-check');
+      window.Events.setSpellCheck(newValue);
+    }
+
+    window.toggleLinkPreview = () => {
+      const newValue = ! window.getSettingValue('link-preview-setting');
+      window.Events.setLinkPreviewSetting(newValue);
+    }
+
+    window.toggleMediaPermissions= () => {
+      
+    }
+
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
         const convo = await ConversationController.getOrCreateAndWait(

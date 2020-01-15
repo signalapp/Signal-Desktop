@@ -1,12 +1,16 @@
 import React from 'react';
-import classNames from 'classnames';
+
+import { SessionRadio } from './SessionRadio';
 
 interface Props {
-  activeItem: Number;
+  initalItem: string;
+  items: Array<any>;
+  group: string;
+  onClick?: any;
 }
 
 interface State {
-  activeItem: Number;
+  activeItem: string;
 }
 
 export class SessionRadioGroup extends React.PureComponent<Props, State> {
@@ -17,23 +21,41 @@ export class SessionRadioGroup extends React.PureComponent<Props, State> {
   constructor(props: any) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
+
+    this.state = {
+      activeItem: this.props.initalItem,
+    }
   }
 
   public render() {
+    const { items, group } = this.props;
+    
     return (
       <div
         className='session-radio-group'
-        onClick={this.clickHandler}
       >
-        <label className="radio-container">Four
-            <input type="checkbox"/>>
-            <span className="radio-checkmark"></span>
-        </label>
+        <fieldset id={group}>
+          { items.map(item => {
+              return (
+                <SessionRadio
+                  key={item.value}
+                  label={item.label}
+                  active={item.value === this.state.activeItem}
+                  value={item.value}
+                  group={group}
+                  onClick={this.clickHandler}
+                />
+              );
+            })
+          }
+        </fieldset>
       </div>
     );
   }
 
-  private clickHandler(e: any) {
-    return;
+  private clickHandler() {
+    if (this.props.onClick) {
+      this.props.onClick();      
+    }
   }
 }

@@ -174,24 +174,19 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
         description: window.i18n('generalSettingsDescription'),
       },
       {
-        id: SessionSettingCategory.Account,
-        title: window.i18n('accountSettingsTitle'),
-        description: window.i18n('accountSettingsDescription'),
-      },
-      {
         id: SessionSettingCategory.Privacy,
         title: window.i18n('privacySettingsTitle'),
         description: window.i18n('privacySettingsDescription'),
       },
       {
+        id: SessionSettingCategory.Permissions,
+        title: window.i18n('permissionSettingsTitle'),
+        description: window.i18n('permissionSettingsDescription'),
+      },
+      {
         id: SessionSettingCategory.Notifications,
         title: window.i18n('notificationSettingsTitle'),
         description: window.i18n('notificationSettingsDescription'),
-      },
-      {
-        id: SessionSettingCategory.Devices,
-        title: window.i18n('devicesSettingsTitle'),
-        description: window.i18n('devicesSettingsDescription'),
       },
     ];
   }
