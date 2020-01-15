@@ -10,13 +10,13 @@
     initialize() {},
 
     render() {
-      this.toastView = new Whisper.ReactWrapperView({
+      this.dialogView = new Whisper.ReactWrapperView({
         className: 'app-loading-wrapper',
         Component: window.Signal.Components.ConversationLoadingScreen,
         props: this.props,
       });
 
-      this.$el.append(this.toastView.el);
+      this.$el.append(this.dialogView.el);
     },
   });
 })();

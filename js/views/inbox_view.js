@@ -24,7 +24,7 @@
       const id = `conversation-${conversation.cid}`;
       const container = $('#main-view .conversation-stack');
 
-      // Has been opened since app sart, but not focussed
+      // Has been opened since app start, but not focussed
       const conversationExists = container.children(`#${id}`).length > 0;
       // Is focussed
       const conversationOpened = container.children().first().id === id;
