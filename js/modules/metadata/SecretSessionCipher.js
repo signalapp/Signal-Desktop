@@ -102,37 +102,17 @@ function _createServerCertificateFromBuffer(serialized) {
 
 // public SenderCertificate(byte[] serialized)
 function _createSenderCertificateFromBuffer(serialized) {
-  const wrapper = textsecure.protobuf.SenderCertificate.decode(serialized);
+  const cert = textsecure.protobuf.SenderCertificate.decode(serialized);
 
-  if (!wrapper.signature || !wrapper.certificate) {
-    throw new Error('Missing fields');
-  }
-
-  const certificate = textsecure.protobuf.SenderCertificate.Certificate.decode(
-    wrapper.certificate.toArrayBuffer()
-  );
-
-  if (
-    !certificate.signer ||
-    !certificate.identityKey ||
-    !certificate.senderDevice ||
-    !certificate.expires ||
-    !certificate.sender
-  ) {
+  if (!cert.senderDevice || !cert.sender) {
     throw new Error('Missing fields');
   }
 
   return {
-    sender: certificate.sender,
-    senderDevice: certificate.senderDevice,
-    expires: certificate.expires.toNumber(),
-    identityKey: certificate.identityKey.toArrayBuffer(),
-    signer: _createServerCertificateFromBuffer(
-      certificate.signer.toArrayBuffer()
-    ),
+    sender: cert.sender,
+    senderDevice: cert.senderDevice,
 
-    certificate: wrapper.certificate.toArrayBuffer(),
-    signature: wrapper.signature.toArrayBuffer(),
+    certificate: cert.toArrayBuffer(),
 
     serialized,
   };
@@ -257,9 +237,7 @@ function _createUnidentifiedSenderMessageContent(
 ) {
   const innerMessage = new textsecure.protobuf.UnidentifiedSenderMessage.Message();
   innerMessage.type = _getProtoMessageType(type);
-  innerMessage.senderCertificate = textsecure.protobuf.SenderCertificate.decode(
-    senderCertificate.serialized
-  );
+  innerMessage.senderCertificate = senderCertificate;
   innerMessage.content = content;
 
   return {
@@ -391,15 +369,6 @@ SecretSessionCipher.prototype = {
     const content = _createUnidentifiedSenderMessageContentFromBuffer(
       messageBytes
     );
-
-    await validator.validate(content.senderCertificate, timestamp);
-    if (
-      !constantTimeEqual(content.senderCertificate.identityKey, staticKeyBytes)
-    ) {
-      throw new Error(
-        "Sender's certificate key does not match key used in message"
-      );
-    }
 
     const { sender, senderDevice } = content.senderCertificate;
     const { number, deviceId } = me || {};

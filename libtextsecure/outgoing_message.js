@@ -429,16 +429,47 @@ OutgoingMessage.prototype = {
           options.messageKeysLimit = false;
         }
 
-        ciphers[address.getDeviceId()] = sessionCipher;
+        let content;
+        let type;
+        let destinationRegistrationId;
 
-        // Encrypt our plain text
-        const ciphertext = await sessionCipher.encrypt(plaintext);
-        if (!enableFallBackEncryption) {
-          // eslint-disable-next-line no-param-reassign
-          ciphertext.body = new Uint8Array(
-            dcodeIO.ByteBuffer.wrap(ciphertext.body, 'binary').toArrayBuffer()
+        if (window.lokiFeatureFlags.useSealedSender) {
+          const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
+            textsecure.storage.protocol
           );
+          ciphers[address.getDeviceId()] = secretSessionCipher;
+
+          var senderCert = new textsecure.protobuf.SenderCertificate();
+
+          senderCert.sender = ourKey;
+          senderCert.senderDevice = deviceId;
+
+          const ciphertext = await secretSessionCipher.encrypt(
+            address,
+            senderCert,
+            plaintext
+          );
+
+          type = textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER;
+          content = window.Signal.Crypto.arrayBufferToBase64(ciphertext);
+
+          destinationRegistrationId = null;
+        } else {
+          ciphers[address.getDeviceId()] = sessionCipher;
+
+          const ciphertext = await sessionCipher.encrypt(plaintext);
+          if (!enableFallBackEncryption) {
+            // eslint-disable-next-line no-param-reassign
+            ciphertext.body = new Uint8Array(
+              dcodeIO.ByteBuffer.wrap(ciphertext.body, 'binary').toArrayBuffer()
+            );
+          }
+
+          type = ciphertext.type;
+          content = ciphertext.body;
+          destinationRegistrationId = ciphertext.registrationId;
         }
+
         const getTTL = type => {
           switch (type) {
             case 'friend-request':
@@ -458,12 +489,12 @@ OutgoingMessage.prototype = {
         const ttl = getTTL(thisDeviceMessageType);
 
         return {
-          type: ciphertext.type, // FallBackSessionCipher sets this to FRIEND_REQUEST
+          type, // FallBackSessionCipher sets this to FRIEND_REQUEST
           ttl,
           ourKey,
           sourceDevice: 1,
-          destinationRegistrationId: ciphertext.registrationId,
-          content: ciphertext.body,
+          destinationRegistrationId,
+          content,
           pubKey: devicePubKey,
         };
       })
