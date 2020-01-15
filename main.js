@@ -533,6 +533,7 @@ async function showSettingsWindow() {
   const options = {
     width: Math.min(500, size[0]),
     height: Math.max(size[1] - 100, MIN_HEIGHT),
+    frame: false,
     resizable: false,
     title: locale.messages.signalDesktopPreferences.message,
     autoHideMenuBar: true,
