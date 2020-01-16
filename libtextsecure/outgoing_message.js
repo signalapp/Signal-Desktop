@@ -257,10 +257,8 @@ OutgoingMessage.prototype = {
     const { accessKey } = info || {};
 
     if (accessKey && !senderCertificate) {
-      return Promise.reject(
-        new Error(
-          'OutgoingMessage.doSendMessage: accessKey was provided, but senderCertificate was not'
-        )
+      window.log.warn(
+        'OutgoingMessage.doSendMessage: accessKey was provided, but senderCertificate was not'
       );
     }
 
