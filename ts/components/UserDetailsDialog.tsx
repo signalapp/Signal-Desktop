@@ -7,6 +7,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './session/SessionButton';
+import { SessionIdEditable } from './session/SessionIdEditable';
 
 interface Props {
   i18n: any;
@@ -41,7 +42,7 @@ export class UserDetailsDialog extends React.Component<Props> {
         <div className="avatar-center">
           <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>
-        <div className="message">{this.props.pubkey}</div>
+        <SessionIdEditable editable={false} text={this.props.pubkey} />
 
         <div className="session-modal__button-group__center">
           {!isRss && (
