@@ -137,3 +137,11 @@ h4 {
   font-size: 17px;
   text-align: center;
 }
+
+.dark-theme .network-status-container .network-status {
+  background-color: rgba($session-color-green, 0.6);
+
+  .network-status-message {
+    color: $session-color-white;
+  }
+}
