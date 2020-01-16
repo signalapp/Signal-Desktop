@@ -47,8 +47,15 @@ function initialize({ events, storage, navigator, logger }) {
     );
     const expires = decoded.expires.toNumber();
 
-    const time = Math.min(now + ONE_DAY, expires - MINIMUM_TIME_LEFT);
+    // If we have a time in place and it's already before the safety zone before expire,
+    //   we keep it
+    if (scheduledTime && scheduledTime <= expires - MINIMUM_TIME_LEFT) {
+      setTimeoutForNextRun(scheduledTime);
+      return;
+    }
 
+    // Otherwise, we reset every day, or earlier if the safety zone requires it
+    const time = Math.min(now + ONE_DAY, expires - MINIMUM_TIME_LEFT);
     setTimeoutForNextRun(time);
   }
 
@@ -71,13 +78,18 @@ function initialize({ events, storage, navigator, logger }) {
       decoded.serialized = arrayBuffer;
 
       storage.put('senderCertificate', decoded);
+      scheduledTime = null;
+
       scheduleNextRotation();
     } catch (error) {
       logger.error(
         'refreshSenderCertificate: Get failed. Trying again in two minutes...',
         error && error.stack ? error.stack : error
       );
-      setTimeout(runWhenOnline, 2 * 60 * 1000);
+
+      scheduledTime = Date.now() + 5 * 60 * 1000;
+
+      scheduleNextRotation();
     }
 
     refreshOurProfile();
