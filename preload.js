@@ -127,6 +127,7 @@ window.onUnblockNumber = number => ipc.send('on-unblock-number', number);
 
 ipc.on('mediaPermissionsChanged', () => {
   Whisper.events.trigger('mediaPermissionsChanged');
+  W;
 });
 
 ipc.on('on-unblock-number', (event, number) => {
@@ -189,6 +190,17 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   // Comparison value allows you to pull boolean values from any type.
   // Eg. window.getSettingValue('theme', 'light')
   // returns 'false' when the value is 'dark'.
+
+  if (settingID === 'media-permissions') {
+    let permissionValue;
+    // eslint-disable-next-line more/no-then
+    window.getMediaPermissions().then(value => {
+      permissionValue = value;
+    });
+
+    return permissionValue;
+  }
+
   const settingVal = window.storage.get(settingID);
   return comparisonValue ? !!settingVal === comparisonValue : settingVal;
 };
@@ -225,6 +237,9 @@ installSetter('link-preview-setting', 'setLinkPreviewSetting');
 
 installGetter('spell-check', 'getSpellCheck');
 installSetter('spell-check', 'setSpellCheck');
+
+installGetter('media-permissions', 'getMediaPermissions');
+installGetter('media-permissions', 'setMediaPermissions');
 
 window.getMediaPermissions = () =>
   new Promise((resolve, reject) => {

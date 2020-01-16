@@ -921,7 +921,10 @@
       window.Events.setLinkPreviewSetting(newValue);
     };
 
-    window.toggleMediaPermissions = () => {};
+    window.toggleMediaPermissions = async () => {
+      const mediaPermissions = await window.getMediaPermissions();
+      window.setMediaPermissions(!mediaPermissions);
+    };
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {

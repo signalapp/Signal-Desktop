@@ -19,8 +19,6 @@ export enum SessionSettingType {
   Slider = 'slider',
 }
 
-//const { Settings } = window.Signal.Types;
-
 export interface SettingsViewProps {
   category: SessionSettingCategory;
 }
@@ -113,7 +111,6 @@ export class SettingsView extends React.Component<SettingsViewProps> {
           },
         },
       },
-
       {
         id: 'media-permissions',
         title: window.i18n('mediaPermissionsTitle'),
@@ -124,19 +121,34 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         setFn: window.toggleMediaPermissions,
         content: {},
       },
+      {
+        id: 'message-ttl',
+        title: window.i18n('messageTTL'),
+        description: window.i18n('messageTTLSettingDescription'),
+        hidden: false,
+        type: SessionSettingType.Slider,
+        category: SessionSettingCategory.Privacy,
+        setFn: undefined,
+        content: {},
+      },
     ];
 
     return (
       <>
         {localSettings.map(setting => {
           const { category } = this.props;
-          const renderSettings = setting.category === category;
+          const shouldRenderSettings = setting.category === category;
           const description = setting.description || '';
           const comparisonValue = setting.comparisonValue || null;
 
+          const sliderFn =
+            setting.type === SessionSettingType.Slider
+              ? (value: any) => window.setSettingValue(setting.id, value)
+              : () => null;
+
           return (
             <div key={setting.id}>
-              {renderSettings &&
+              {shouldRenderSettings &&
                 !setting.hidden && (
                   <SessionSettingListItem
                     title={setting.title}
@@ -146,6 +158,7 @@ export class SettingsView extends React.Component<SettingsViewProps> {
                     onClick={() => {
                       this.updateSetting(setting);
                     }}
+                    onSliderChange={sliderFn}
                     content={setting.content || undefined}
                   />
                 )}

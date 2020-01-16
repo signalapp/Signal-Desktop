@@ -63,32 +63,36 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
 
     return (
       <>
-        {categories.map(item => (
-          <div
-            key={item.id}
-            className={classNames(
-              'left-pane-setting-category-list-item',
-              item.id === this.state.settingCategory ? 'active' : ''
-            )}
-            role="link"
-            onClick={(): void => this.setCategory(item.id)}
-          >
-            <div>
-              <strong>{item.title}</strong>
-              <br />
-              <span className="text-subtle">{item.description}</span>
-            </div>
+        {!categories.map(item => (
+          <>
+            {!item.hidden && (
+              <div
+                key={item.id}
+                className={classNames(
+                  'left-pane-setting-category-list-item',
+                  item.id === this.state.settingCategory ? 'active' : ''
+                )}
+                role="link"
+                onClick={(): void => this.setCategory(item.id)}
+              >
+                <div>
+                  <strong>{item.title}</strong>
+                  <br />
+                  <span className="text-subtle">{item.description}</span>
+                </div>
 
-            <div>
-              {item.id === this.state.settingCategory && (
-                <SessionIcon
-                  iconSize={SessionIconSize.Medium}
-                  iconType={SessionIconType.Chevron}
-                  iconRotation={270}
-                />
-              )}
-            </div>
-          </div>
+                <div>
+                  {item.id === this.state.settingCategory && (
+                    <SessionIcon
+                      iconSize={SessionIconSize.Medium}
+                      iconType={SessionIconType.Chevron}
+                      iconRotation={270}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+          </>
         ))}
       </>
     );
@@ -181,6 +185,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
         id: SessionSettingCategory.Permissions,
         title: window.i18n('permissionSettingsTitle'),
         description: window.i18n('permissionSettingsDescription'),
+        hidden: true,
       },
       {
         id: SessionSettingCategory.Notifications,
