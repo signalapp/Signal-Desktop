@@ -821,8 +821,6 @@
     };
 
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
-    window.showAddServerDialog =
-      window.owsDesktopApp.appView.showAddServerDialog;
 
     window.generateID = () =>
       Math.random()

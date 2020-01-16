@@ -87,7 +87,9 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         title: window.i18n('notificationSettingsDialog'),
         type: SessionSettingType.Options,
         category: SessionSettingCategory.Notifications,
-        setFn: () => this.setOptionsSetting('notification-setting'),
+        setFn: () => {
+          this.setOptionsSetting('notification-setting');
+        },
         content: {
           options: {
             group: 'notification-setting',

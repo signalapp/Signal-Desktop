@@ -260,6 +260,7 @@ exports.setup = (options = {}) => {
     ContactName,
     ConversationHeader,
     SessionChannelSettings,
+    SessionSettings,
     EmbeddedContact,
     Emojify,
     FriendRequest,

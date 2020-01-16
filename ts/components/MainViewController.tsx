@@ -8,7 +8,9 @@ import {
 
 export const MainViewController = {
   renderMessageView: () => {
-    ReactDOM.render(<MessageView />, document.getElementById('main-view'));
+    if(document.getElementById('main-view')) {
+      ReactDOM.render(<MessageView />, document.getElementById('main-view'));
+    }
   },
 
   renderSettingsView: (category: SessionSettingCategory) => {
@@ -27,12 +29,7 @@ export class MessageView extends React.Component {
           <div className="conversation-header" />
           <div className="container">
             <div className="content">
-              <img
-                src="images/session/brand.svg"
-                className="session-filter-color-green session-logo-128"
-                alt="Brand"
-              />
-              <p className="session-logo-text">SESSION</p>
+              <img src="images/session/full-logo.svg" className="session-full-logo" alt="full-brand-logo"/>
             </div>
           </div>
         </div>

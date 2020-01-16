@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import { ActionsPanel, SectionType } from './session/ActionsPanel';
 import { LeftPaneMessageSection } from './session/LeftPaneMessageSection';
 
@@ -102,7 +101,7 @@ export class LeftPane extends React.Component<Props, State> {
       case SectionType.Contact:
         return this.renderContactSection();
       case SectionType.Channel:
-          return this.renderChannelSection();
+        return this.renderChannelSection();
       case SectionType.Settings:
         return this.renderSettingSection();
       case SectionType.Moon:

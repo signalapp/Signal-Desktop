@@ -423,7 +423,6 @@ $session_message-container-border-radius: 5px;
   fill: $session-color-white;
 }
 
-
 $session-separator-element-border: 1px solid $session-shade-6;
 $session-element-border-green: 4px solid $session-color-green;
 
@@ -1094,26 +1093,25 @@ input {
   transition: $session-transition-duration;
 
   .module-avatar,
-  .name-part {  
+  .name-part {
     margin: auto $session-margin-md;
   }
 
-  .check-mark{
+  .check-mark {
     margin: auto $session-margin-xs;
   }
 
   .name-part {
     flex-grow: 1;
   }
-
 }
 
-.dark-theme .modal .content{
+.dark-theme .modal .content {
   background-color: $session-shade-4;
 }
 
 .loki-dialog button {
-  border:none;
+  border: none;
 }
 
 .friend-selection-list {

@@ -113,8 +113,12 @@
 
         .module-media-grid-item__image,
         .module-media-grid-item {
-          height: calc(22vw/3.5); //.group-settings is 22vw and we want threee rows with some space so divide it by 3.5
-          width: calc(22vw/3.5); //.group-settings is 22vw and we want threee rows with some space so divide it by 3.5
+          height: calc(
+            22vw / 3.5
+          ); //.group-settings is 22vw and we want threee rows with some space so divide it by 3.5
+          width: calc(
+            22vw / 3.5
+          ); //.group-settings is 22vw and we want threee rows with some space so divide it by 3.5
           margin-right: 0;
         }
       }

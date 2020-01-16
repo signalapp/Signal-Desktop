@@ -23,7 +23,6 @@ interface Window {
   pushToast: any;
   confirmationDialog: any;
   showSeedDialog: any;
-  showAddServerDialog: any;
   deleteAccount: any;
   toggleTheme: any;
   toggleMenuBar: any;

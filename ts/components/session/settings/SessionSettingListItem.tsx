@@ -81,6 +81,8 @@ export class SessionSettingListItem extends React.Component<Props> {
   }
 
   private handleClick() {
-    this.props.onClick && this.props.onClick();
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
   }
 }
