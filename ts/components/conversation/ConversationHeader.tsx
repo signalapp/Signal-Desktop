@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
-import { ContextMenu, MenuItem, SubMenu } from 'react-contextmenu';
+import { ContextMenu, ContextMenuTrigger, MenuItem, SubMenu } from 'react-contextmenu';
 
 import {
   SessionIconButton,
@@ -243,7 +243,7 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderOptions() {
+  public renderOptions(triggerId: string) {
     const { showBackButton } = this.props;
 
     if (showBackButton) {
@@ -251,12 +251,13 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <>
-        <SessionIconButton
-          iconType={SessionIconType.Ellipses}
-          iconSize={SessionIconSize.Large}
-        />
-      </>
+      <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef} holdToDisplay={1}>
+          <SessionIconButton
+            iconType={SessionIconType.Ellipses}
+            iconSize={SessionIconSize.Large}
+            onClick={this.showMenuBound}
+          />
+      </ContextMenuTrigger>
     );
   }
 
@@ -277,7 +278,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     const isPrivateGroup = isGroup && !isPublic;
 
-    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
+    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');   
 
     return (
       <ContextMenu id={triggerId}>
@@ -347,7 +348,7 @@ export class ConversationHeader extends React.Component<Props> {
           {this.renderBackButton()}
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
-              {this.renderOptions()}
+              {this.renderOptions(triggerId)}
               {this.renderTitle()}
               {isPrivateGroup ? this.renderMemberCount() : null}
             </div>

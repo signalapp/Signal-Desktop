@@ -430,7 +430,7 @@ $session-element-border-green: 4px solid $session-color-green;
 
 @mixin standard-icon-button() {
   color: $session-color-white;
-  opacity: 0.9;
+  opacity: 0.6;
 
   &:hover {
     opacity: 1;
@@ -439,6 +439,7 @@ $session-element-border-green: 4px solid $session-color-green;
 
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
+  font-family: Wasa;
   width: 100%;
   display: flex;
 
@@ -489,9 +490,9 @@ label {
   @include standard-icon-button();
 }
 
-.module-conversation-header,
-.message-selection-overlay {
-  height: $session-conversation-header-height;
+.module-conversation-header {
+  position: relative;
+  padding: 0px $session-margin-lg 0px $session-margin-sm
 }
 
 .title-wrapper {
@@ -1177,3 +1178,4 @@ button.module-scroll-down {
     background-color: $session-shade-8;
   }
 }
+
