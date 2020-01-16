@@ -838,11 +838,10 @@ label {
 }
 
 .conversation-loader {
-  height: 100%;
-  margin-top: 45vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -40px 0 0 -40px;
 
   & > div {
     display: block;
