@@ -302,7 +302,19 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return false;
     }
 
+    const regexURL = /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/;
+
     if (channelUrlPasted.length <= 0) {
+      window.pushToast({
+        title: window.i18n('noServerURL'),
+        type: 'error',
+        id: 'connectToServerFail',
+      });
+
+      return false;
+    }
+
+    if (!regexURL.test(channelUrlPasted)) {
       window.pushToast({
         title: window.i18n('noServerURL'),
         type: 'error',
