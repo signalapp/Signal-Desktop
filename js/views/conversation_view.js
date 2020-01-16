@@ -17,11 +17,7 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
-  const { Message } = window.Signal.Types;
-  const {
-    upgradeMessageSchema,
-    getAbsoluteAttachmentPath,
-  } = window.Signal.Migrations;
+  const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
   const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -188,6 +184,7 @@
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
+          isRss: this.model.isRss(),
           members,
           selectedMessages: this.model.selectedMessages,
           expirationSettingName,
@@ -212,7 +209,6 @@
             this.showSafetyNumber();
           },
           onShowAllMedia: async () => {
-            await this.showAllMedia();
             this.updateHeader();
           },
           onShowGroupMembers: async () => {
@@ -259,12 +255,57 @@
             window.Whisper.events.trigger('inviteFriends', this.model);
           },
 
-          onShowUserDetails: pubkey => {
+          onAvatarClick: pubkey => {
             if (this.model.isPrivate()) {
               window.Whisper.events.trigger('onShowUserDetails', {
                 userPubKey: pubkey,
               });
+            } else if (!this.model.isRss()) {
+              this.showGroupSettings();
             }
+          },
+        };
+      };
+      const getGroupSettingsProp = () => {
+        const members = this.model.get('members') || [];
+
+        return {
+          id: this.model.id,
+          name: this.model.getName(),
+          phoneNumber: this.model.getNumber(),
+          profileName: this.model.getProfileName(),
+          color: this.model.getColor(),
+          avatarPath: this.model.getAvatarPath(),
+          isGroup: !this.model.isPrivate(),
+          isPublic: this.model.isPublic(),
+          isRss: this.model.isRss(),
+          memberCount: members.length,
+
+          timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
+            name: item.getName(),
+            value: item.get('seconds'),
+          })),
+
+          onSetDisappearingMessages: seconds =>
+            this.setDisappearingMessages(seconds),
+
+          onGoBack: () => {
+            this.$('.conversation-content-right').hide();
+          },
+
+          onUpdateGroup: () => {
+            window.Whisper.events.trigger('updateGroup', this.model);
+          },
+
+          onLeaveGroup: () => {
+            window.Whisper.events.trigger('leaveGroup', this.model);
+          },
+
+          onInviteFriends: () => {
+            window.Whisper.events.trigger('inviteFriends', this.model);
+          },
+          onShowLightBox: (lightBoxOptions = {}) => {
+            this.showChannelLightbox(lightBoxOptions);
           },
         };
       };
@@ -288,6 +329,22 @@
         el: this.$('.member-list-container'),
         onClicked: this.selectMember.bind(this),
       });
+
+      this.showGroupSettings = () => {
+        if (!this.groupSettings) {
+          this.groupSettings = new Whisper.ReactWrapperView({
+            className: 'group-settings',
+            Component: window.Signal.Components.SessionChannelSettings,
+            props: getGroupSettingsProp(this.model),
+          });
+          this.$('.conversation-content-right').append(this.groupSettings.el);
+        }
+        this.$('.conversation-content-right').show();
+      };
+
+      this.hideGroupSettings = () => {
+        this.$('.conversation-content-right').hide();
+      };
 
       this.memberView.render();
 
@@ -900,151 +957,6 @@
       el[0].scrollIntoView();
     },
 
-    async showAllMedia() {
-      // We fetch more documents than media as they don’t require to be loaded
-      // into memory right away. Revisit this once we have infinite scrolling:
-      const DEFAULT_MEDIA_FETCH_COUNT = 50;
-      const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
-
-      const conversationId = this.model.get('id');
-
-      const getProps = async () => {
-        const rawMedia = await Signal.Data.getMessagesWithVisualMediaAttachments(
-          conversationId,
-          {
-            limit: DEFAULT_MEDIA_FETCH_COUNT,
-            MessageCollection: Whisper.MessageCollection,
-          }
-        );
-        const rawDocuments = await Signal.Data.getMessagesWithFileAttachments(
-          conversationId,
-          {
-            limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
-            MessageCollection: Whisper.MessageCollection,
-          }
-        );
-
-        // First we upgrade these messages to ensure that they have thumbnails
-        for (let max = rawMedia.length, i = 0; i < max; i += 1) {
-          const message = rawMedia[i];
-          const { schemaVersion } = message;
-
-          if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
-            // Yep, we really do want to wait for each of these
-            // eslint-disable-next-line no-await-in-loop
-            rawMedia[i] = await upgradeMessageSchema(message);
-            // eslint-disable-next-line no-await-in-loop
-            await window.Signal.Data.saveMessage(rawMedia[i], {
-              Message: Whisper.Message,
-            });
-          }
-        }
-
-        const media = _.flatten(
-          rawMedia.map(message => {
-            const { attachments } = message;
-            return (attachments || [])
-              .filter(
-                attachment =>
-                  attachment.thumbnail &&
-                  !attachment.pending &&
-                  !attachment.error
-              )
-              .map((attachment, index) => {
-                const { thumbnail } = attachment;
-
-                return {
-                  objectURL: getAbsoluteAttachmentPath(attachment.path),
-                  thumbnailObjectUrl: thumbnail
-                    ? getAbsoluteAttachmentPath(thumbnail.path)
-                    : null,
-                  contentType: attachment.contentType,
-                  index,
-                  attachment,
-                  message,
-                };
-              });
-          })
-        );
-
-        // Unlike visual media, only one non-image attachment is supported
-        const documents = rawDocuments.map(message => {
-          const attachments = message.attachments || [];
-          const attachment = attachments[0];
-          return {
-            contentType: attachment.contentType,
-            index: 0,
-            attachment,
-            message,
-          };
-        });
-
-        const saveAttachment = async ({ attachment, message } = {}) => {
-          const timestamp = message.received_at;
-          Signal.Types.Attachment.save({
-            attachment,
-            document,
-            getAbsolutePath: getAbsoluteAttachmentPath,
-            timestamp,
-          });
-        };
-
-        const onItemClick = async ({ message, attachment, type }) => {
-          switch (type) {
-            case 'documents': {
-              saveAttachment({ message, attachment });
-              break;
-            }
-
-            case 'media': {
-              const selectedIndex = media.findIndex(
-                mediaMessage => mediaMessage.attachment.path === attachment.path
-              );
-              this.lightboxGalleryView = new Whisper.ReactWrapperView({
-                className: 'lightbox-wrapper',
-                Component: Signal.Components.LightboxGallery,
-                props: {
-                  media,
-                  onSave: saveAttachment,
-                  selectedIndex,
-                },
-                onClose: () => Signal.Backbone.Views.Lightbox.hide(),
-              });
-              Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
-              break;
-            }
-
-            default:
-              throw new TypeError(`Unknown attachment type: '${type}'`);
-          }
-        };
-
-        return {
-          documents,
-          media,
-          onItemClick,
-        };
-      };
-
-      const view = new Whisper.ReactWrapperView({
-        className: 'panel-wrapper',
-        Component: Signal.Components.MediaGallery,
-        props: await getProps(),
-        onClose: () => {
-          this.stopListening(this.model.messageCollection, 'remove', update);
-          this.resetPanel();
-        },
-      });
-
-      const update = async () => {
-        view.update(await getProps());
-      };
-
-      this.listenTo(this.model.messageCollection, 'remove', update);
-
-      this.listenBack(view);
-    },
-
     scrollToBottom() {
       // If we're above the last seen indicator, we should scroll there instead
       // Note: if we don't end up at the bottom of the conversation, button won't go away!
@@ -1349,12 +1261,11 @@
         toast.render();
         return;
       }
-
       Signal.Types.Attachment.save({
         attachment,
         document,
         getAbsolutePath: getAbsoluteAttachmentPath,
-        timestamp: message.get('sent_at'),
+        timestamp: message.get ? message.get('sent_at') : message.sent_at,
       });
     },
 
@@ -1439,6 +1350,23 @@
 
     deleteMessage(message) {
       this.deleteMessages([message]);
+    },
+
+    showChannelLightbox({ media, attachment, message }) {
+      const selectedIndex = media.findIndex(
+        mediaMessage => mediaMessage.attachment.path === attachment.path
+      );
+      this.lightboxGalleryView = new Whisper.ReactWrapperView({
+        className: 'lightbox-wrapper',
+        Component: Signal.Components.LightboxGallery,
+        props: {
+          media,
+          onSave: () => this.downloadAttachment({ attachment, message }),
+          selectedIndex,
+        },
+        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+      });
+      Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
     showLightbox({ attachment, message }) {

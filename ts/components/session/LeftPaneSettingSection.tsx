@@ -63,7 +63,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
 
     return (
       <>
-        {!categories.map(item => (
+        {categories.map(item => (
           <>
             {!item.hidden && (
               <div
@@ -175,11 +175,13 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
         id: SessionSettingCategory.General,
         title: window.i18n('generalSettingsTitle'),
         description: window.i18n('generalSettingsDescription'),
+        hidden: false,
       },
       {
         id: SessionSettingCategory.Privacy,
         title: window.i18n('privacySettingsTitle'),
         description: window.i18n('privacySettingsDescription'),
+        hidden: false,
       },
       {
         id: SessionSettingCategory.Permissions,
@@ -191,6 +193,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
         id: SessionSettingCategory.Notifications,
         title: window.i18n('notificationSettingsTitle'),
         description: window.i18n('notificationSettingsDescription'),
+        hidden: false,
       },
     ];
   }

@@ -821,8 +821,6 @@
     };
 
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
-    window.showAddServerDialog =
-      window.owsDesktopApp.appView.showAddServerDialog;
 
     window.generateID = () =>
       Math.random()
@@ -1194,12 +1192,6 @@
     Whisper.events.on('showSeedDialog', async () => {
       if (appView) {
         appView.showSeedDialog();
-      }
-    });
-
-    Whisper.events.on('showAddServerDialog', async options => {
-      if (appView) {
-        appView.showAddServerDialog(options);
       }
     });
 

@@ -124,6 +124,7 @@ $session-compose-margin: 20px;
 .module-left-pane {
   border-right: none !important;
   width: 300px;
+  position: relative;
   height: -webkit-fill-available;
 
   @at-root .light-theme #{&} {
@@ -355,6 +356,9 @@ $session-compose-margin: 20px;
 @mixin bottom-buttons() {
   display: flex;
   flex-direction: row;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
 
   @at-root .light-theme #{&} {
     background-color: $session-color-white;
@@ -377,6 +381,7 @@ $session-compose-margin: 20px;
       border: 1px solid $session-shade-7;
     }
   }
+
 }
 
 .contacts-dropdown {

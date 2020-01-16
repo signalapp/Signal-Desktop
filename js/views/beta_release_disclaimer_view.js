@@ -1,4 +1,4 @@
-/* global Whisper, i18n, window */
+/* global Whisper, window */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -8,13 +8,31 @@
 
   Whisper.BetaReleaseDisclaimer = Whisper.View.extend({
     className: 'loki-dialog beta-disclaimer-dialog modal',
-    templateName: 'beta-disclaimer-dialog',
     initialize() {
-
+      this.close = this.close.bind(this);
+      this.render();
     },
     
     render() {
-          
+      this.dialogView = new Whisper.ReactWrapperView({
+        className: 'session-beta-disclaimer',
+        Component: window.Signal.Components.SessionConfirm,
+        props: {
+          title: window.i18n('betaDisclaimerTitle'),
+          message: window.i18n('betaDisclaimerSubtitle'  2),
+          messageSub: window.i18n('betaDisclaimerDescription'),
+          hideCancel: true,
+          onClickOk: this.close,
+        },
+      });
+      
+      this.$el.append(this.dialogView.el);
+      return this;
+    },
+
+    close () {
+      window.storage.put('betaReleaseDisclaimerAccepted', true);
+      this.remove();
     },
   });
 

@@ -54,11 +54,14 @@
       display: flex;
       flex-direction: column;
       width: 289px;
+
+      .session-button {
+        width: 100%;
+      }
     }
 
     &__content {
       width: 100%;
-      overflow-y: auto;
       padding-top: 20px;
     }
 
@@ -96,7 +99,7 @@
       font-size: 15px;
 
       &--active {
-        border-bottom: 4px solid $session-color-green;
+        border-bottom: $session-element-border-green;
       }
     }
 
@@ -108,10 +111,11 @@
 
     &__welcome-session {
       @include registration-label-mixin;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
-      line-height: 12px;
+      line-height: 14px;
       padding-top: 2em;
+      text-align: center;
     }
 
     &__unique-session-id {
@@ -153,6 +157,10 @@
       opacity: 1;
     }
 
+    &.error {
+      color: red;
+    }
+
     input {
       border: none;
       outline: 0;
@@ -191,6 +199,7 @@
     a {
       white-space: nowrap;
       font-weight: bold;
+      text-decoration: none;
       color: $session-color-light-grey;
       transition: $session-transition-duration;
 

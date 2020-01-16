@@ -361,7 +361,7 @@ export const getSuggestedFilename = ({
     return attachment.fileName;
   }
 
-  const prefix = 'signal-attachment';
+  const prefix = 'session-attachment';
   const suffix = timestamp
     ? moment(timestamp).format('-YYYY-MM-DD-HHmmss')
     : '';

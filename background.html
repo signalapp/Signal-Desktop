@@ -29,12 +29,14 @@
   
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
-      <img src='images/session/brand.svg' class='session-filter-color-green session-logo-128' />
-        <p class='session-logo-text'>SESSION</p>
+      <img src='images/session/full-logo.svg' class='session-full-logo' />
     </div>
   </script>
 
   <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
+    <div class='content'>
+      <img src='images/session/full-logo.svg' class='session-full-logo' />
+    </div>
   </script>
 
   <script type='text/x-tmpl-mustache' id='two-column'>
@@ -50,9 +52,7 @@
           <div class='conversation-header'></div>
           <div class='container'>
             <div class='content'>
-              <img src='images/session/brand.svg' class='session-filter-color-green session-logo-128' />
-              <p class='session-logo-text'>SESSION</p>
-              
+              <img src='images/session/full-logo.svg' class='session-full-logo' />
             </div>
           </div>
         </div>
@@ -90,35 +90,42 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='conversation'>
-    <div class='conversation-header'></div>
-    <div class='main panel'>
-      <div class='discussion-container'>
-          <div class='bar-container hide'>
-            <div class='bar active progress-bar-striped progress-bar'></div>
+    <div class='conversation-content'>
+      <div class='conversation-content-left'>
+        <div class='conversation-header'></div>
+        <div class='main panel'>
+          <div class='discussion-container'>
+              <div class='bar-container hide'>
+                <div class='bar active progress-bar-striped progress-bar'></div>
+              </div>
           </div>
+
+          <div class='bottom-bar' id='footer'>
+              <div class='emoji-panel-container'></div>
+              <div class='member-list-container'></div>
+              <div id='bulk-edit-view'></div>
+              <div class='attachment-list'></div>
+              <div class='compose'>
+                <form class='send clearfix file-input'>
+                  <div class='flex'>
+                    <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                    <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
+                    <div class='capture-audio'>
+                        <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                    </div>
+                    <div id='choose-file' class='choose-file'>
+                        <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                        <input type='file' class='file-input' multiple='multiple'>
+                    </div>
+                  </div>
+                </form>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class='conversation-content-right'>
       </div>
 
-      <div class='bottom-bar' id='footer'>
-          <div class='emoji-panel-container'></div>
-          <div class='member-list-container'></div>
-          <div id='bulk-edit-view'></div>
-          <div class='attachment-list'></div>
-          <div class='compose'>
-            <form class='send clearfix file-input'>
-              <div class='flex'>
-                <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
-                <div class='capture-audio'>
-                    <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                </div>
-                <div id='choose-file' class='choose-file'>
-                    <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    <input type='file' class='file-input' multiple='multiple'>
-                </div>
-              </div>
-            </form>
-          </div>
-      </div>
     </div>
   </script>
 
@@ -594,7 +601,6 @@
   <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/qr_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/connecting_to_server_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/add_server_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/beta_release_disclaimer_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>
@@ -618,6 +624,9 @@
 </head>
 <body>
   <div class='app-loading-screen'>
+    <div class='content'>
+      <img src='images/session/full-logo.svg' class='session-full-logo' />
+    </div>
   </div>
 
   <script type='text/javascript' src='js/background.js'></script>

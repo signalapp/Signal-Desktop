@@ -748,7 +748,7 @@
     "message": "Loki Messenger"
   },
   "search": {
-    "message": "Enter name or public key",
+    "message": "Search",
     "description": "Placeholder text in the search input"
   },
   "noSearchResults": {
@@ -1194,6 +1194,18 @@
     "message": "Secure session reset succeeded",
     "description":
       "This is a past tense, informational message. In other words, your secure session has been reset."
+  },
+  "betaDisclaimerTitle": {
+    "message": "Thanks for using Session Messenger!",
+    "description": "Title for beta disclaimer modal"
+  },
+  "betaDisclaimerSubtitle": {
+    "message": "This software is still in its beta phase.",
+    "description": "Subtitle for beta disclaimer modal"
+  },
+  "betaDisclaimerDescription": {
+    "message": "While your messages are secured with end-to-end encryption, third parties like your ISP can see who you're talking to while in the beta version. It is also possible that third parties could correlate your public key to your IP address and real identity if they learn your public key.",
+    "description": "Description for beta disclaimer modal"
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
@@ -2317,8 +2329,8 @@
     "message": "Friends",
     "description": "friend tab title"
   },
-  "pending": {
-    "message": "pending",
+  "pendingAcceptance": {
+    "message": "Pending Acceptance",
     "description": "Indicates that a friend request is pending"
   },
   "notFriends": {
@@ -2440,7 +2452,7 @@
   },
   "ByUsingThisService...": {
     "message":
-      "By using this service, you agree to our <a>Terms and Conditions</a> and <a>Privacy Statement</a>"
+      "By using this service, you agree to our <a>Terms and Conditions</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Statement</a>"
   },
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
@@ -2532,5 +2544,48 @@
   },
   "devicesSettingsDescription": {
     "message": "Managed linked devices"
+  },
+  "mnemonicEmpty": {
+    "message": "Seed is mandatory"
+  },
+  "displayNameEmpty": {
+    "message": "Display Name Is Mandatory"
+  },
+  "youHaveFriendRequestFrom": {
+    "message": "You have friend requests from..."
+  },
+  "members": {
+    "message": "$count$ members",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "26"
+      }
+    }
+  },
+  "channels": {
+    "message": "Channels"
+  },
+  "addChannel": {
+    "message": "Add channel"
+  },
+  "enterChannelURL": {
+    "message": "Enter Channel URL"
+  },
+  "channelUrlPlaceholder": {
+    "message": "https://yourchannel.lokinet.org"
+  },
+  "addChannelDescription": {
+    "message":
+      "Enter the URL of the public channel you'd like to join in the format above."
+  },
+  "joinChannel": {
+    "message": "Join Channel"
+  },
+  "next": {
+    "message": "Next"
+  },
+  "description": {
+    "message": "Description"
   }
 }

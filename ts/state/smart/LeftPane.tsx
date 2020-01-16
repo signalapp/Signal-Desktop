@@ -18,7 +18,8 @@ import { getLeftPaneLists, getShowArchived } from '../selectors/conversations';
 const mapStateToProps = (state: StateType) => {
   const showSearch = isSearching(state);
 
-  const lists = showSearch ? undefined : getLeftPaneLists(state);
+  const leftPaneList = getLeftPaneLists(state);
+  const lists = showSearch ? undefined : leftPaneList;
   const searchResults = showSearch ? getSearchResults(state) : undefined;
 
   return {
@@ -30,6 +31,8 @@ const mapStateToProps = (state: StateType) => {
     searchResults,
     showArchived: getShowArchived(state),
     i18n: getIntl(state),
+    unreadMessageCount: leftPaneList.unreadCount,
+    receivedFriendRequestCount: leftPaneList.receivedFriendsRequest.length,
   };
 };
 

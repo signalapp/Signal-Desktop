@@ -68,7 +68,7 @@ $session-color-black: #000;
 $session-color-danger: #ff453a;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-16;
-$session-background-overlay: #191919;
+$session-background-overlay: #212121;
 $session-background: #121212;
 
 $session-color-info: $session-shade-11;
@@ -132,13 +132,13 @@ div.spacer-lg {
 }
 
 @mixin session-dark-background {
-  background-color: $session-background !important;
+  background-color: $session-background;
 }
 @mixin session-dark-background-lighter {
-  background-color: $session-background-overlay !important;
+  background-color: $session-background-overlay;
 }
 @mixin session-dark-background-hover {
-  background-color: $session-shade-7 !important;
+  background-color: $session-shade-7;
 }
 
 $session-transition-duration: 0.25s;
@@ -229,6 +229,7 @@ $session_message-container-border-radius: 5px;
   user-select: none;
   cursor: pointer;
   transition: $session-transition-duration;
+  background-color: rgba(0, 0, 0, 0);
 
   &.disabled {
     cursor: default;
@@ -238,6 +239,7 @@ $session_message-container-border-radius: 5px;
   &.square,
   &.brand {
     color: $session-color-white;
+    border: none;
 
     &.green {
       border: 2px solid $session-color-green;
@@ -245,10 +247,6 @@ $session_message-container-border-radius: 5px;
 
       &.disabled {
         background-color: rgba($session-color-green, 0.6);
-      }
-
-      &:hover {
-        @include transparent-background($session-color-green);
       }
     }
     &.white {
@@ -292,18 +290,13 @@ $session_message-container-border-radius: 5px;
   &.brand-outline,
   &.default-outline,
   &.square-outline {
+    border: none;
+
     &.green {
       @include transparent-background($session-color-green);
-
-      &:hover {
-        @include transparent-background($session-color-white);
-      }
     }
     &.white {
       @include transparent-background($session-color-white);
-      &:hover {
-        @include transparent-background($session-color-green);
-      }
     }
     &.primary {
       @include transparent-background($session-color-primary);
@@ -344,6 +337,10 @@ $session_message-container-border-radius: 5px;
   &.square-outline {
     border-radius: 0px;
   }
+
+  &:hover {
+    filter: brightness(80%);
+  }
 }
 
 .session-label {
@@ -382,20 +379,14 @@ $session_message-container-border-radius: 5px;
   cursor: pointer;
   display: inline-block;
   position: relative;
-
-  svg {
-    transition: opacity $session-transition-duration;
-    opacity: 0.4;
-
-    &:hover {
-      opacity: 1;
-    }
+  opacity: 0.4;
+  &:hover {
+    opacity: 1;
   }
+  transition: opacity $session-transition-duration;
 
   &.no-opacity {
-    svg {
-      opacity: 1;
-    }
+    opacity: 1;
   }
 
   &.small.padded {
@@ -414,8 +405,8 @@ $session_message-container-border-radius: 5px;
     position: absolute;
     font-size: 12px;
     font-family: $session-font-family;
-    top: -10px;
-    right: -10px;
+    top: 20px;
+    right: 20px;
     width: 20px;
     height: 20px;
     padding: 3px;
@@ -432,6 +423,9 @@ $session_message-container-border-radius: 5px;
   fill: $session-color-white;
 }
 
+$session-separator-element-border: 1px solid $session-shade-6;
+$session-element-border-green: 4px solid $session-color-green;
+
 /* CONVERSATION AND MESSAGES */
 
 @mixin standard-icon-button() {
@@ -446,6 +440,7 @@ $session_message-container-border-radius: 5px;
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
   width: 100%;
+  display: flex;
 
   .module-contact-name {
     width: 100%;
@@ -454,6 +449,13 @@ $session_message-container-border-radius: 5px;
   .module-contact-name__profile-number {
     text-align: center;
   }
+}
+
+.module-conversation-header__title {
+  flex-direction: column;
+}
+.module-conversation-header__title-flex {
+  flex-direction: row;
 }
 .module-conversation__user__profile-name,
 .module-message__author__profile-name {
@@ -492,11 +494,15 @@ label {
   height: $session-conversation-header-height;
 }
 
+.title-wrapper {
+  position: relative;
+}
+
 .message-selection-overlay {
-  position: absolute;
-  left: 15px;
-  right: 15px;
   display: none;
+  position: absolute;
+  right: 15px;
+  left: 15px;
 
   .close-button {
     float: left;
@@ -519,64 +525,6 @@ label {
 
 .session-button div[role='button'] {
   cursor: pointer;
-}
-
-.input-with-label-container {
-  height: 46.5px;
-  width: 280px;
-  color: $session-color-white;
-  padding: 2px 0 2px 0;
-  transition: opacity $session-transition-duration;
-  opacity: 1;
-  position: relative;
-
-  label {
-    line-height: 14px;
-    opacity: 0;
-    color: #737373;
-    font-size: 10px;
-    line-height: 11px;
-    position: absolute;
-    top: 0px;
-  }
-
-  &.filled {
-    opacity: 1;
-  }
-
-  input {
-    border: none;
-    outline: 0;
-    height: 14px;
-    width: 280px;
-    background: transparent;
-    color: $session-color-white;
-    font-size: 12px;
-    line-height: 14px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  hr {
-    border: 1px solid $session-color-white;
-    width: 100%;
-    position: absolute;
-    bottom: 0px;
-  }
-
-  button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 0px;
-  }
-}
-
-.user-details-dialog {
-  .message {
-    word-break: break-all;
-  }
 }
 
 #session-toast-container {
@@ -626,6 +574,7 @@ label {
     margin-bottom: $session-margin-sm;
     padding-top: 0px;
     color: $session-color-white;
+    padding-top: 0px;
   }
 
   .description {
@@ -1125,4 +1074,73 @@ label {
   label:before {
     transition: all $session-transition-duration ease;
   }
+}
+.user-details-dialog {
+  .message {
+    user-select: all;
+  }
+}
+
+input {
+  user-select: text;
+}
+
+.dark-theme .invite-friends-dialog .member-item {
+  height: 64px;
+  background-color: $session-shade-4;
+  border: $session-separator-element-border;
+  display: flex;
+  transition: $session-transition-duration;
+
+  .module-avatar,
+  .name-part {
+    margin: auto $session-margin-md;
+  }
+
+  .check-mark {
+    margin: auto $session-margin-xs;
+  }
+
+  .name-part {
+    flex-grow: 1;
+  }
+}
+
+.dark-theme .modal .content {
+  background-color: $session-shade-4;
+}
+
+.loki-dialog button {
+  border: none;
+}
+
+.friend-selection-list {
+  width: 40vh;
+}
+
+
+.session-beta-disclaimer {
+
+  .session-modal {
+    width: 600px;
+
+    &__header {
+      font-size: 17px;
+    }
+
+    &__body > div:first-child{
+      padding: $session-margin-lg;
+    }
+
+    .session-confirm-main-message {
+      opacity: 0.8;
+      margin-bottom: $session-margin-xs;
+    }
+
+    .session-confirm-sub-message {
+      text-align: center;
+    }
+  }
+  
+
 }

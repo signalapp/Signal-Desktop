@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
 import { ContextMenu, MenuItem, SubMenu } from 'react-contextmenu';
@@ -17,7 +16,7 @@ import {
   SessionButtonType,
 } from '../session/SessionButton';
 
-interface TimerOption {
+export interface TimerOption {
   name: string;
   value: number;
 }
@@ -37,6 +36,7 @@ interface Props {
   isGroup: boolean;
   isArchived: boolean;
   isPublic: boolean;
+  isRss: boolean;
 
   members: Array<any>;
 
@@ -80,14 +80,14 @@ interface Props {
   onLeaveGroup: () => void;
 
   onInviteFriends: () => void;
-  onShowUserDetails?: (userPubKey: string) => void;
+  onAvatarClick?: (userPubKey: string) => void;
 
   i18n: LocalizerType;
 }
 
 export class ConversationHeader extends React.Component<Props> {
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
-  public onShowUserDetailsBound: (userPubKey: string) => void;
+  public onAvatarClickBound: (userPubKey: string) => void;
   public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
@@ -95,7 +95,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     this.menuTriggerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
-    this.onShowUserDetailsBound = this.onShowUserDetails.bind(this);
+    this.onAvatarClickBound = this.onAvatarClick.bind(this);
   }
 
   public showMenu(event: React.MouseEvent<HTMLDivElement>) {
@@ -127,6 +127,8 @@ export class ConversationHeader extends React.Component<Props> {
       profileName,
       isFriend,
       isGroup,
+      isRss,
+      members,
       isFriendRequestPending,
       isMe,
       name,
@@ -142,9 +144,12 @@ export class ConversationHeader extends React.Component<Props> {
 
     let text = '';
     if (isFriendRequestPending) {
-      text = `(${i18n('pending')})`;
+      text = i18n('pendingAcceptance');
     } else if (!isFriend && !isGroup) {
-      text = `(${i18n('notFriends')})`;
+      text = i18n('notFriends');
+    } else if (isGroup && !isRss && members.length > 0) {
+      const count = String(members.length);
+      text = i18n('members', [count]);
     }
 
     const textEl =
@@ -152,14 +157,20 @@ export class ConversationHeader extends React.Component<Props> {
         <span className="module-conversation-header__title-text">{text}</span>
       );
 
+    let title;
+    if (profileName) {
+      title = `${profileName} ${window.shortenPubkey(phoneNumber)}`;
+    } else {
+      if (name) {
+        title = `${name}`;
+      } else {
+        title = phoneNumber;
+      }
+    }
+
     return (
       <div className="module-conversation-header__title">
-        <ContactName
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          name={name}
-          i18n={i18n}
-        />
+        <span className="module-contact-name__profile-name">{title}</span>
         {textEl}
       </div>
     );
@@ -196,7 +207,7 @@ export class ConversationHeader extends React.Component<Props> {
           borderColor={borderColor}
           borderWidth={2}
           onAvatarClick={() => {
-            this.onShowUserDetailsBound(phoneNumber);
+            this.onAvatarClickBound(phoneNumber);
           }}
         />
       </span>
@@ -350,9 +361,9 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public onShowUserDetails(userPubKey: string) {
-    if (this.props.onShowUserDetails) {
-      this.props.onShowUserDetails(userPubKey);
+  public onAvatarClick(userPubKey: string) {
+    if (this.props.onAvatarClick) {
+      this.props.onAvatarClick(userPubKey);
     }
   }
 

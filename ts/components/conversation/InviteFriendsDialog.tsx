@@ -1,5 +1,10 @@
 import React from 'react';
 import { Contact, MemberList } from './MemberList';
+import {
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from '../session/icon';
 
 interface Props {
   friendList: Array<any>;
@@ -63,6 +68,13 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
 
     return (
       <div className="content">
+        <div className="session-modal__header__close">
+          <SessionIconButton
+            iconType={SessionIconType.Exit}
+            iconSize={SessionIconSize.Small}
+            onClick={this.closeDialog}
+          />
+        </div>
         <p className="titleText">{titleText}</p>
         <div className="friend-selection-list">
           <MemberList
@@ -73,7 +85,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
           />
         </div>
         {hasFriends ? null : (
-          <p className="no-friends">`(${window.i18n('noFriendsToAdd')})`</p>
+          <p className="no-friends">{window.i18n('noFriendsToAdd')}</p>
         )}
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
