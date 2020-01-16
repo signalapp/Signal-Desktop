@@ -1,6 +1,7 @@
 $session-compose-margin: 20px;
 
 .module-conversation-list-item {
+  transition: $session-transition-duration;
   @at-root .light-theme #{&} {
     @include session-dark-background-lighter;
     &:hover {
@@ -23,7 +24,7 @@ $session-compose-margin: 20px;
 .module-conversation {
   &-list-item {
     &--has-unread {
-      border-left: 4px solid $session-color-green !important;
+      border-left: $session-element-border-green !important;
     }
 
     &__unread-count {
@@ -146,9 +147,18 @@ $session-compose-margin: 20px;
 
     .module-avatar,
     .session-icon-button {
-      margin: 30px auto 30px auto;
+      cursor: pointer;
+      padding: 30px;
+
       &:last-child {
-        margin: auto auto 30px auto;
+        margin: auto auto 0px auto;
+        /* Hide theme icon until light theme is ready */
+        display: none;
+      }
+
+      &:first-child {
+        padding: 0;
+        margin: 30px auto;
       }
     }
   }
@@ -156,7 +166,7 @@ $session-compose-margin: 20px;
   &__header {
     display: flex;
     flex-direction: row;
-    padding: 28px 7px 28px 0px;
+    margin: 15px 7px 14px 0px;
 
     @at-root .light-theme #{&} {
       background-color: $session-color-white;
@@ -184,10 +194,16 @@ $session-compose-margin: 20px;
     cursor: pointer;
     padding-right: $session-margin-sm;
     padding-left: $session-margin-sm;
+    transition: $session-transition-duration;
   }
 
   &__list {
     height: -webkit-fill-available;
+    &-popup {
+      width: -webkit-fill-available;
+      height: -webkit-fill-available;
+      position: absolute;
+    }
   }
 
   &-compose {
@@ -197,7 +213,11 @@ $session-compose-margin: 20px;
     @at-root .dark-theme #{&} {
       @include session-dark-background-lighter;
     }
+  }
 
+  &-overlay {
+    background: linear-gradient(180deg, #171717 0%, #121212 100%);
+    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -269,6 +289,7 @@ $session-compose-margin: 20px;
       width: -webkit-fill-available;
       flex-shrink: 0;
       user-select: all;
+      overflow: hidden;
     }
 
     .session-button {
@@ -279,11 +300,27 @@ $session-compose-margin: 20px;
     }
   }
 }
+.module-search-results {
+  flex-grow: 1;
+}
+
+.module-conversations-list-content {
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.session-left-pane-section-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
 
 .user-search-dropdown {
   width: 100%;
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .session-search-input {
@@ -292,6 +329,7 @@ $session-compose-margin: 20px;
   margin-right: 1px;
   margin-bottom: 10px;
   display: inline-flex;
+  flex-shrink: 0;
 
   @at-root .light-theme #{&} {
     color: $session-color-black;
@@ -327,26 +365,9 @@ $session-compose-margin: 20px;
   }
 }
 
-.session-logo {
-  &-128 {
-    @include session-filter-color-green();
-    width: 128px;
-    height: 128px;
-  }
-
-  &-text {
-    font-size: 70px;
-    font-weight: bold;
-    margin: 0px;
-    font-family: $session-font-family;
-
-    @at-root .light-theme #{&} {
-      color: $session-color-black;
-    }
-    @at-root .dark-theme #{&} {
-      color: $session-color-white;
-    }
-  }
+.session-full-logo {
+  width: 250px;
+  height: 250px;
 }
 
 .app-loading-screen {
@@ -428,12 +449,12 @@ $session-compose-margin: 20px;
   text-align: center;
   border-radius: 50%;
   font-weight: bold;
+  cursor: pointer;
+  transition: $session-transition-duration;
 
-  @at-root .light-theme #{&} {
-    color: $session-color-white;
-  }
-  @at-root .dark-theme #{&} {
-    color: $session-color-black;
+  color: $session-color-white;
+  &:hover {
+    filter: brightness(80%);
   }
 }
 
@@ -442,8 +463,14 @@ $session-compose-margin: 20px;
   &-content {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+
     .module-conversation-list-item {
       &--has-friend-request {
+        &:first-child {
+          border-top: none !important;
+        }
+
         border: 1px solid $session-shade-8 !important;
 
         .module-conversation__user__profile-number,
@@ -464,6 +491,10 @@ $session-compose-margin: 20px;
         }
       }
     }
+  }
+
+  &-content {
+    @include session-dark-background-lighter;
   }
 
   &-bottom-buttons {
@@ -489,9 +520,9 @@ $session-compose-margin: 20px;
     align-items: center;
     height: 74px;
     line-height: 1.4;
-
     padding: 0px 12px;
-
+    flex-shrink: 0;
+    @include session-dark-background;
     cursor: pointer;
     transition: $session-transition-duration !important;
 
@@ -544,7 +575,24 @@ $session-compose-margin: 20px;
         fill: $session-color-green;
       }
     }
+    .session-button.square-outline.square.green,
+    .session-button.square-outline.square.white {
+      flex-grow: 1;
+      border: 1px solid $session-shade-8;
+      height: 50px;
+      line-height: 50px;
+    }
   }
+}
+
+.friend-request-title {
+  font-weight: bold;
+  font-size: 13px;
+  padding: 11px;
+  border-right: 1px solid #2f2f2f !important;
+  border-top: 1px solid #2f2f2f !important;
+  border-left: 1px solid #2f2f2f !important;
+  @include session-dark-background-lighter;
 }
 
 .panel-text-divider {
@@ -557,7 +605,7 @@ $session-compose-margin: 20px;
   span {
     padding: 5px 10px;
     border-radius: 50px;
-    background-color: $session-shade-18;
+    background-color: #121212;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
   }
