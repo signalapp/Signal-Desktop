@@ -14,6 +14,31 @@ $session-compose-margin: 20px;
       @include session-dark-background-hover;
     }
   }
+
+  &--is-selected {
+    @at-root .light-theme #{&} {
+      @include session-dark-background-hover;
+      &:hover {
+        @include session-dark-background-hover;
+      }
+    }
+    @at-root .dark-theme #{&} {
+      @include session-dark-background-hover;
+      &:hover {
+        @include session-dark-background-hover;
+      }
+    }
+    .module-conversation__user__profile-number,
+    .module-conversation__user__profile-name,
+    .module-conversation-list-item__message__text {
+      @at-root .light-theme #{&} {
+        color: $session-color-black;
+      }
+      @at-root .dark-theme #{&} {
+        color: $session-color-white;
+      }
+    }
+  }
 }
 .gutter {
   width: 380px !important;
@@ -95,20 +120,6 @@ $session-compose-margin: 20px;
       }
 
       font-size: 15px;
-    }
-  }
-}
-
-.module-conversation-list-item--is-selected {
-  background-color: $color-dark-70;
-  .module-conversation__user__profile-number,
-  .module-conversation__user__profile-name,
-  .module-conversation-list-item__message__text {
-    @at-root .light-theme #{&} {
-      color: $session-color-black;
-    }
-    @at-root .dark-theme #{&} {
-      color: $session-color-white;
     }
   }
 }

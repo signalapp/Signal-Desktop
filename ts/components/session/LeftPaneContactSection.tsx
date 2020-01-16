@@ -137,7 +137,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const friends = this.getCurrentFriends();
     const combined = [...sentFriendsRequest, ...friends];
     const item = combined[index];
-    const onClick = this.props.openConversationInternal;
 
     return (
       <ConversationListItem
@@ -145,7 +144,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
         style={style}
         {...item}
         i18n={window.i18n}
-        onClick={onClick}
+        onClick={this.props.openConversationInternal}
       />
     );
   };

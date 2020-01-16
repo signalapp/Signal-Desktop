@@ -13,13 +13,13 @@
   background: none !important;
 }
 .module-conversation-header {
-  border-bottom: none;
-
   @at-root .light-theme #{&} {
     background-color: $session-color-white;
+    border-bottom: none;
   }
   @at-root .dark-theme #{&} {
     background-color: $session-shade-4;
+    border-bottom: none;
   }
 }
 
