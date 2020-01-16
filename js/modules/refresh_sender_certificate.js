@@ -47,15 +47,8 @@ function initialize({ events, storage, navigator, logger }) {
     );
     const expires = decoded.expires.toNumber();
 
-    // If we have a time in place and it's already before the safety zone before expire,
-    //   we keep it
-    if (scheduledTime && scheduledTime <= expires - MINIMUM_TIME_LEFT) {
-      setTimeoutForNextRun(scheduledTime);
-      return;
-    }
-
-    // Otherwise, we reset every day, or earlier if the safety zone requires it
     const time = Math.min(now + ONE_DAY, expires - MINIMUM_TIME_LEFT);
+
     setTimeoutForNextRun(time);
   }
 
