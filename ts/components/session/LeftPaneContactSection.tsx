@@ -18,6 +18,7 @@ import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
 import { ConversationType } from '../../state/ducks/conversations';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
+import { MainViewController } from '../MainViewController';
 
 export interface Props {
   searchTerm: string;
@@ -94,6 +95,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
+    MainViewController.renderMessageView();
+
     return (
       <div className="left-pane-contact-section">
         {this.renderHeader()}

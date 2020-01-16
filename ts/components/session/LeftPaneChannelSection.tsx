@@ -21,6 +21,7 @@ import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
+import { MainViewController } from '../MainViewController';
 
 export interface Props {
   searchTerm: string;
@@ -170,6 +171,8 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
+    MainViewController.renderMessageView();
+
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
