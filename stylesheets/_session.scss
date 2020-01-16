@@ -1141,6 +1141,22 @@ input {
       text-align: center;
     }
   }
-  
+}
 
+button.module-scroll-down {
+  &__button {
+    background-color: $session-shade-6;
+  }
+
+  &__button:hover{
+    &__icon {
+      transition: $session-transition-duration;
+      @include color-svg('../images/down.svg', $session-color-white);
+    }
+  }
+
+  &__icon {
+    @include color-svg('../images/down.svg', rgba($session-color-white, 0.6));
+  }
+  
 }
