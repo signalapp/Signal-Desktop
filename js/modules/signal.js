@@ -34,6 +34,9 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
+  SessionChannelSettings,
+} = require('../../ts/components/session/SessionChannelSettings');
+const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
@@ -55,8 +58,9 @@ const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const {
   DevicePairingDialog,
 } = require('../../ts/components/DevicePairingDialog');
-const { AddServerDialog } = require('../../ts/components/AddServerDialog');
-
+const {
+  SessionSettings,
+} = require('../../ts/components/session/SessionSettings');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
@@ -255,6 +259,8 @@ exports.setup = (options = {}) => {
     ContactListItem,
     ContactName,
     ConversationHeader,
+    SessionChannelSettings,
+    SessionSettings,
     EmbeddedContact,
     Emojify,
     FriendRequest,
@@ -266,7 +272,6 @@ exports.setup = (options = {}) => {
     EditProfileDialog,
     UserDetailsDialog,
     DevicePairingDialog,
-    AddServerDialog,
     SessionRegistrationView,
     ConfirmDialog,
     UpdateGroupDialog,

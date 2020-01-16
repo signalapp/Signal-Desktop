@@ -76,7 +76,6 @@ export class UserSearchDropdown extends React.Component<Props, State> {
         {searchResults && (
           <UserSearchResults
             {...searchResults}
-            i18n={window.i18n}
             selectedContact={selectedContact}
             onContactSelected={this.handleContactSelected}
           />

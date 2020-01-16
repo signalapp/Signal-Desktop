@@ -7,7 +7,7 @@ export enum SectionType {
   Profile,
   Message,
   Contact,
-  Globe,
+  Channel,
   Settings,
   Moon,
 }
@@ -20,6 +20,8 @@ interface Props {
   onSectionSelected: any;
   selectedSection: SectionType;
   conversations: Array<ConversationListItemPropsType> | undefined;
+  unreadMessageCount: number;
+  receivedFriendRequestCount: number;
 }
 
 const Section = ({
@@ -38,37 +40,24 @@ const Section = ({
 }) => {
   const handleClick = onSelect
     ? () => {
-        onSelect(type);
+        if (type !== SectionType.Profile) {
+          onSelect(type);
+        }
       }
     : undefined;
 
   if (type === SectionType.Profile) {
-    if (!isSelected) {
-      return (
-        <Avatar
-          avatarPath={avatarPath}
-          conversationType="direct"
-          i18n={window.i18n}
-          // tslint:disable-next-line: no-backbone-get-set-outside-model
-          phoneNumber={window.storage.get('primaryDevicePubKey')}
-          size={28}
-          onAvatarClick={handleClick}
-        />
-      );
-    } else {
-      return (
-        <Avatar
-          avatarPath={avatarPath}
-          conversationType="direct"
-          i18n={window.i18n}
-          // tslint:disable-next-line: no-backbone-get-set-outside-model
-          phoneNumber={window.storage.get('primaryDevicePubKey')}
-          size={28}
-          onAvatarClick={handleClick}
-          borderColor={'#fff'}
-        />
-      );
-    }
+    return (
+      <Avatar
+        avatarPath={avatarPath}
+        conversationType="direct"
+        i18n={window.i18n}
+        // tslint:disable-next-line: no-backbone-get-set-outside-model
+        phoneNumber={window.storage.get('primaryDevicePubKey')}
+        size={28}
+        onAvatarClick={handleClick}
+      />
+    );
   }
 
   let iconType: SessionIconType;
@@ -79,7 +68,7 @@ const Section = ({
     case SectionType.Contact:
       iconType = SessionIconType.Users;
       break;
-    case SectionType.Globe:
+    case SectionType.Channel:
       iconType = SessionIconType.Globe;
       break;
     case SectionType.Settings:
@@ -122,26 +111,6 @@ export class ActionsPanel extends React.Component<Props, State> {
     };
   }
 
-  public static GET_FRIEND_REQUESTS_COUNT(
-    conversations: Array<ConversationListItemPropsType> | undefined
-  ): number {
-    let friendRequestCount = 0;
-    if (conversations !== undefined) {
-      // We assume a friend request already read is still a friend valid request
-      conversations.some(conversation => {
-        // Ignore friend request with lastmessage status as sent as this is a friend request we made ourself
-        friendRequestCount += conversation.hasReceivedFriendRequest ? 1 : 0;
-        if (friendRequestCount > 9) {
-          return true;
-        }
-
-        return false;
-      });
-    }
-
-    return friendRequestCount;
-  }
-
   public componentDidMount() {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     const ourNumber = window.storage.get('primaryDevicePubKey');
@@ -156,17 +125,16 @@ export class ActionsPanel extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { selectedSection, conversations } = this.props;
-
-    const friendRequestCount = ActionsPanel.GET_FRIEND_REQUESTS_COUNT(
-      conversations
-    );
-    const unreadMessageCount = this.getUnreadMessageCount();
+    const {
+      selectedSection,
+      unreadMessageCount,
+      receivedFriendRequestCount,
+    } = this.props;
 
     const isProfilePageSelected = selectedSection === SectionType.Profile;
     const isMessagePageSelected = selectedSection === SectionType.Message;
     const isContactPageSelected = selectedSection === SectionType.Contact;
-    const isGlobePageSelected = selectedSection === SectionType.Globe;
+    const isChannelPageSelected = selectedSection === SectionType.Channel;
     const isSettingsPageSelected = selectedSection === SectionType.Settings;
     const isMoonPageSelected = selectedSection === SectionType.Moon;
 
@@ -188,11 +156,11 @@ export class ActionsPanel extends React.Component<Props, State> {
           type={SectionType.Contact}
           isSelected={isContactPageSelected}
           onSelect={this.handleSectionSelect}
-          notificationCount={friendRequestCount}
+          notificationCount={receivedFriendRequestCount}
         />
         <Section
-          type={SectionType.Globe}
-          isSelected={isGlobePageSelected}
+          type={SectionType.Channel}
+          isSelected={isChannelPageSelected}
           onSelect={this.handleSectionSelect}
         />
         <Section
@@ -207,26 +175,6 @@ export class ActionsPanel extends React.Component<Props, State> {
         />
       </div>
     );
-  }
-
-  private getUnreadMessageCount(): number {
-    const { conversations } = this.props;
-    let unreadCount = 0;
-    if (conversations !== undefined) {
-      conversations.some(conversation => {
-        if (conversation.isPendingFriendRequest) {
-          return false;
-        }
-        unreadCount += conversation.unreadCount;
-        if (unreadCount > 9) {
-          return true;
-        }
-
-        return false;
-      });
-    }
-
-    return unreadCount;
   }
 
   private readonly handleSectionSelect = (section: SectionType): void => {

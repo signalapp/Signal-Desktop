@@ -17,6 +17,7 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
+import { SessionClosableOverlay } from './SessionClosableOverlay';
 
 export interface Props {
   searchTerm: string;
@@ -44,7 +45,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     };
 
     this.updateSearchBound = this.updateSearch.bind(this);
-    this.handleComposeClick = this.handleComposeClick.bind(this);
+    this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleOnPasteSessionID = this.handleOnPasteSessionID.bind(this);
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
@@ -110,7 +111,6 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     }
 
     const conversations = this.getCurrentConversations();
-
     if (!conversations) {
       throw new Error(
         'render: must provided conversations if no search results are provided'
@@ -152,7 +152,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       labels,
       null,
       window.i18n('compose'),
-      this.handleComposeClick
+      this.handleToggleOverlay
     );
   }
 
@@ -160,18 +160,10 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     MainViewController.renderMessageView();
 
     return (
-      <div>
+      <div className="session-left-pane-section-content">
         {this.renderHeader()}
         {this.state.showComposeView
-          ? LeftPane.RENDER_CLOSABLE_OVERLAY(
-              false,
-              this.handleOnPasteSessionID,
-              this.handleComposeClick,
-              this.handleMessageButtonClick,
-              this.props.searchTerm,
-              this.props.searchResults,
-              this.updateSearchBound
-            )
+          ? this.renderClosableOverlay()
           : this.renderConversations()}
       </div>
     );
@@ -179,7 +171,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   public renderConversations() {
     return (
-      <div>
+      <div className="module-conversations-list-content">
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
@@ -221,7 +213,6 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   public clearSearch() {
     this.props.clearSearch();
-    //this.setFocus();
   }
 
   public search() {
@@ -238,7 +229,23 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     }
   }
 
-  private handleComposeClick() {
+  private renderClosableOverlay() {
+    const { searchTerm, searchResults } = this.props;
+
+    return (
+      <SessionClosableOverlay
+        overlayMode="message"
+        onChangeSessionID={this.handleOnPasteSessionID}
+        onCloseClick={this.handleToggleOverlay}
+        onButtonClick={this.handleMessageButtonClick}
+        searchTerm={searchTerm}
+        searchResults={searchResults}
+        updateSearch={this.updateSearchBound}
+      />
+    );
+  }
+
+  private handleToggleOverlay() {
     this.setState((state: any) => {
       return { showComposeView: !state.showComposeView };
     });
@@ -249,13 +256,21 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   private handleOnPasteSessionID(e: any) {
     // reset our search, we can either have a pasted sessionID or a sessionID got from a search
     this.updateSearch('');
-    this.setState({ pubKeyPasted: e.target.innerHTML });
+    const cleanText = e.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
+
+    this.setState({ pubKeyPasted: cleanText });
   }
 
   private handleMessageButtonClick() {
     const { openConversationInternal } = this.props;
 
     if (!this.state.pubKeyPasted && !this.props.searchTerm) {
+      window.pushToast({
+        title: window.i18n('invalidNumberError'),
+        type: 'error',
+        id: 'invalidPubKey',
+      });
+
       return;
     }
     let pubkey: string;

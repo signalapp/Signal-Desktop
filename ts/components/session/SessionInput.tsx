@@ -5,6 +5,7 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {
   label: string;
+  error?: string;
   type: string;
   value?: string;
   placeholder: string;
@@ -32,23 +33,14 @@ export class SessionInput extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const { placeholder, type, label, value, enableShowHide } = this.props;
-    const { inputValue, forceShow } = this.state;
+    const { placeholder, type, value, enableShowHide, error } = this.props;
+    const { forceShow } = this.state;
 
     const correctType = forceShow ? 'text' : type;
 
     return (
       <div className="session-input-with-label-container">
-        <label
-          htmlFor="session-input-floating-label"
-          className={classNames(
-            inputValue !== ''
-              ? 'session-input-with-label-container filled'
-              : 'session-input-with-label-container'
-          )}
-        >
-          {label}
-        </label>
+        {error ? this.renderError() : this.renderLabel()}
         <input
           id="session-input-floating-label"
           type={correctType}
@@ -72,6 +64,39 @@ export class SessionInput extends React.PureComponent<Props, State> {
 
         <hr />
       </div>
+    );
+  }
+
+  private renderLabel() {
+    const { inputValue } = this.state;
+    const { label } = this.props;
+
+    return (
+      <label
+        htmlFor="session-input-floating-label"
+        className={classNames(
+          inputValue !== ''
+            ? 'session-input-with-label-container filled'
+            : 'session-input-with-label-container'
+        )}
+      >
+        {label}
+      </label>
+    );
+  }
+
+  private renderError() {
+    const { error } = this.props;
+
+    return (
+      <label
+        htmlFor="session-input-floating-label"
+        className={classNames(
+          'session-input-with-label-container filled error'
+        )}
+      >
+        {error}
+      </label>
     );
   }
 

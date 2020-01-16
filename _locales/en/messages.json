@@ -748,7 +748,7 @@
     "message": "Loki Messenger"
   },
   "search": {
-    "message": "Enter name or public key",
+    "message": "Search",
     "description": "Placeholder text in the search input"
   },
   "noSearchResults": {
@@ -2317,8 +2317,8 @@
     "message": "Friends",
     "description": "friend tab title"
   },
-  "pending": {
-    "message": "pending",
+  "pendingAcceptance": {
+    "message": "Pending Acceptance",
     "description": "Indicates that a friend request is pending"
   },
   "notFriends": {
@@ -2440,7 +2440,7 @@
   },
   "ByUsingThisService...": {
     "message":
-      "By using this service, you agree to our <a>Terms and Conditions</a> and <a>Privacy Statement</a>"
+      "By using this service, you agree to our <a>Terms and Conditions</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Statement</a>"
   },
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
@@ -2532,5 +2532,48 @@
   },
   "devicesSettingsDescription": {
     "message": "Managed linked devices"
+  },
+  "mnemonicEmpty": {
+    "message": "Seed is mandatory"
+  },
+  "displayNameEmpty": {
+    "message": "Display Name Is Mandatory"
+  },
+  "youHaveFriendRequestFrom": {
+    "message": "You have friend requests from..."
+  },
+  "members": {
+    "message": "$count$ members",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "26"
+      }
+    }
+  },
+  "channels": {
+    "message": "Channels"
+  },
+  "addChannel": {
+    "message": "Add channel"
+  },
+  "enterChannelURL": {
+    "message": "Enter Channel URL"
+  },
+  "channelUrlPlaceholder": {
+    "message": "https://yourchannel.lokinet.org"
+  },
+  "addChannelDescription": {
+    "message":
+      "Enter the URL of the public channel you'd like to join in the format above."
+  },
+  "joinChannel": {
+    "message": "Join Channel"
+  },
+  "next": {
+    "message": "Next"
+  },
+  "description": {
+    "message": "Description"
   }
 }

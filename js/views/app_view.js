@@ -17,7 +17,6 @@
       this.applyHideMenu();
 
       this.showSeedDialog = this.showSeedDialog.bind(this);
-      this.showAddServerDialog = this.showAddServerDialog.bind(this);
     },
     events: {
       'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
@@ -242,10 +241,6 @@
     },
     showDevicePairingWordsDialog() {
       const dialog = new Whisper.DevicePairingWordsDialogView();
-      this.el.append(dialog.el);
-    },
-    showAddServerDialog() {
-      const dialog = new Whisper.AddServerDialogView();
       this.el.append(dialog.el);
     },
     showCreateGroup() {

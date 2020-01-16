@@ -9,7 +9,6 @@ interface Props {
   avatarPath?: string;
   color?: string;
   conversationType: 'group' | 'direct';
-  i18n: LocalizerType;
   noteToSelf?: boolean;
   name?: string;
   phoneNumber?: string;
@@ -17,6 +16,7 @@ interface Props {
   size: number;
   borderColor?: string;
   borderWidth?: number;
+  i18n?: LocalizerType;
   onAvatarClick?: () => void;
 }
 
@@ -66,7 +66,6 @@ export class Avatar extends React.PureComponent<Props, State> {
   public renderImage() {
     const {
       avatarPath,
-      i18n,
       name,
       phoneNumber,
       profileName,
@@ -89,7 +88,7 @@ export class Avatar extends React.PureComponent<Props, State> {
       <img
         style={borderStyle}
         onError={this.handleImageErrorBound}
-        alt={i18n('contactAvatarAlt', [title])}
+        alt={window.i18n('contactAvatarAlt', [title])}
         src={avatarPath}
       />
     );

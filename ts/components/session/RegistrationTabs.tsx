@@ -40,6 +40,8 @@ interface State {
   mnemonicSeed: string;
   hexGeneratedPubKey: string;
   primaryDevicePubKey: string;
+  mnemonicError: string | undefined;
+  displayNameError: string | undefined;
 }
 
 const Tab = ({
@@ -111,6 +113,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
       mnemonicSeed: '',
       hexGeneratedPubKey: '',
       primaryDevicePubKey: '',
+      mnemonicError: undefined,
+      displayNameError: undefined,
     };
 
     this.accountManager = window.getAccountManager();
@@ -196,25 +200,39 @@ export class RegistrationTabs extends React.Component<{}, State> {
       mnemonicSeed: '',
       hexGeneratedPubKey: '',
       primaryDevicePubKey: '',
+      mnemonicError: undefined,
+      displayNameError: undefined,
     });
   };
 
   private onSeedChanged(val: string) {
-    this.setState({ mnemonicSeed: val });
+    this.setState({
+      mnemonicSeed: val,
+      mnemonicError: !val ? window.i18n('mnemonicEmpty') : undefined,
+    });
   }
 
   private onDisplayNameChanged(val: string) {
     const sanitizedName = this.sanitiseNameInput(val);
-    this.setState({ displayName: sanitizedName });
+    this.setState({
+      displayName: sanitizedName,
+      displayNameError: !sanitizedName
+        ? window.i18n('displayNameEmpty')
+        : undefined,
+    });
   }
 
   private onPasswordChanged(val: string) {
-    this.setState({ password: val });
-    this.onValidatePassword(); // FIXME add bubbles or something to help the user know what he did wrong
+    this.setState({ password: val }, () => {
+      this.validatePassword();
+    });
   }
 
   private onPasswordVerifyChanged(val: string) {
     this.setState({ validatePassword: val });
+    this.setState({ validatePassword: val }, () => {
+      this.validatePassword();
+    });
   }
 
   private renderSections() {
@@ -250,6 +268,21 @@ export class RegistrationTabs extends React.Component<{}, State> {
         );
 
       default:
+        const {
+          passwordErrorString,
+          passwordFieldsMatch,
+          displayNameError,
+          displayName,
+          password,
+        } = this.state;
+
+        let enableCompleteSignUp = true;
+        const displayNameOK = !displayNameError && !!displayName; //display name required
+        const passwordsOK =
+          !password || (!passwordErrorString && passwordFieldsMatch); // password is valid if empty, or if no error and fields are matching
+
+        enableCompleteSignUp = displayNameOK && passwordsOK;
+
         return (
           <div className="session-registration__content">
             <div className="session-registration__welcome-session">
@@ -264,6 +297,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
               buttonType={SessionButtonType.Brand}
               buttonColor={SessionButtonColor.Green}
               text={window.i18n('completeSignUp')}
+              enabled={enableCompleteSignUp}
             />
           </div>
         );
@@ -399,6 +433,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderNamePasswordAndVerifyPasswordFields() {
+    const passwordDoesNotMatchString =
+      !this.state.passwordFieldsMatch && this.state.password
+        ? window.i18n('passwordsDoNotMatch')
+        : undefined;
+
     return (
       <div className="inputfields">
         <SessionInput
@@ -416,6 +455,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
         <SessionInput
           label={window.i18n('optionalPassword')}
+          error={this.state.passwordErrorString}
           type="password"
           placeholder={window.i18n('enterOptionalPassword')}
           onValueChanged={(val: string) => {
@@ -428,6 +468,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
         <SessionInput
           label={window.i18n('verifyPassword')}
+          error={passwordDoesNotMatchString}
           type="password"
           placeholder={window.i18n('optionalPassword')}
           onValueChanged={(val: string) => {
@@ -457,7 +498,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
   private onSecondDeviceSessionIDChanged(e: any) {
     e.preventDefault();
-    const hexEncodedPubKey = e.target.innerHTML;
+    const cleanText = e.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
+    const hexEncodedPubKey = cleanText;
     this.setState({
       primaryDevicePubKey: hexEncodedPubKey,
     });
@@ -488,7 +530,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           <h4>{or}</h4>
           {this.renderRestoreUsingSeedButton(
             SessionButtonType.BrandOutline,
-            SessionButtonColor.Green
+            SessionButtonColor.White
           )}
         </div>
       );
@@ -525,6 +567,32 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderContinueYourSessionButton() {
+    const {
+      signUpMode,
+      signInMode,
+      passwordErrorString,
+      passwordFieldsMatch,
+      displayNameError,
+      mnemonicError,
+      primaryDevicePubKey,
+      displayName,
+      mnemonicSeed,
+      password,
+    } = this.state;
+
+    let enableContinue = true;
+    const displayNameOK = !displayNameError && !!displayName; //display name required
+    const mnemonicOK = !mnemonicError && !!mnemonicSeed; //Mnemonic required
+    const passwordsOK =
+      !password || (!passwordErrorString && passwordFieldsMatch); // password is valid if empty, or if no error and fields are matching
+    if (signInMode === SignInMode.UsingSeed) {
+      enableContinue = displayNameOK && mnemonicOK && passwordsOK;
+    } else if (signInMode === SignInMode.LinkingDevice) {
+      enableContinue = !!primaryDevicePubKey;
+    } else if (signUpMode === SignUpMode.EnterDetails) {
+      enableContinue = displayNameOK && passwordsOK;
+    }
+
     return (
       <SessionButton
         onClick={() => {
@@ -533,6 +601,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         buttonType={SessionButtonType.Brand}
         buttonColor={SessionButtonColor.Green}
         text={window.i18n('continueYourSession')}
+        enabled={enableContinue}
       />
     );
   }
@@ -603,37 +672,37 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     // If user hasn't set a value then skip
     if (!input && !confirmationInput) {
-      return null;
+      this.setState({
+        passwordErrorString: '',
+        passwordFieldsMatch: true,
+      });
+
+      return;
     }
 
     const error = window.passwordUtil.validatePassword(input, window.i18n);
     if (error) {
-      return error;
+      this.setState({
+        passwordErrorString: error,
+        passwordFieldsMatch: true,
+      });
+
+      return;
     }
 
     if (input !== confirmationInput) {
-      return "Password don't match";
-    }
-
-    return null;
-  }
-
-  private onValidatePassword() {
-    const passwordValidation = this.validatePassword();
-    if (passwordValidation) {
-      this.setState({ passwordErrorString: passwordValidation });
-    } else {
-      // Show green box around inputs that match
-      const input = this.trim(this.state.password);
-      const confirmationInput = this.trim(this.state.validatePassword);
-      const passwordFieldsMatch =
-        input !== undefined && input === confirmationInput;
-
       this.setState({
         passwordErrorString: '',
-        passwordFieldsMatch,
+        passwordFieldsMatch: false,
       });
+
+      return;
     }
+
+    this.setState({
+      passwordErrorString: '',
+      passwordFieldsMatch: true,
+    });
   }
 
   private sanitiseNameInput(val: string) {
@@ -654,10 +723,21 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private async register(language: string) {
-    const { password, mnemonicSeed, displayName } = this.state;
+    const {
+      password,
+      mnemonicSeed,
+      displayName,
+      passwordErrorString,
+      passwordFieldsMatch,
+    } = this.state;
     // Make sure the password is valid
-    if (this.validatePassword()) {
-      //this.showToast(window.i18n('invalidPassword'));
+    if (passwordErrorString || passwordFieldsMatch) {
+      window.pushToast({
+        title: window.i18n('invalidPassword'),
+        type: 'success',
+        id: 'invalidPassword',
+      });
+
       return;
     }
     if (!mnemonicSeed) {

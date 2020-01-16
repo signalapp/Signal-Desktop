@@ -43,7 +43,7 @@ export type PropsData = {
   isBlocked?: boolean;
   isOnline?: boolean;
   hasNickname?: boolean;
-  isFriendItem?: boolean;
+  isFriend?: boolean;
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
 };
@@ -129,7 +129,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       i18n,
       isMe,
       lastUpdated,
-      isFriendItem,
+      isFriend,
       hasReceivedFriendRequest,
     } = this.props;
 
@@ -146,7 +146,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           {isMe ? i18n('noteToSelf') : this.renderUser()}
         </div>
         {hasReceivedFriendRequest || this.renderUnread()}
-        {!isFriendItem && (
+        {!isFriend && (
           <div
             className={classNames(
               'module-conversation-list-item__header__date',
@@ -227,11 +227,11 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isTyping,
       unreadCount,
       i18n,
-      isFriendItem,
+      isFriend,
       isPendingFriendRequest,
     } = this.props;
 
-    if (isFriendItem) {
+    if (isFriend) {
       return null;
     }
 

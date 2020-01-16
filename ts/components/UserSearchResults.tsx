@@ -1,10 +1,9 @@
 import React from 'react';
 import { PropsData as ConversationListItemPropsType } from './ConversationListItem';
 
-import { LocalizerType } from '../types/Util';
 import classNames from 'classnames';
 
-export type PropsData = {
+export type Props = {
   contacts: Array<ConversationListItemPropsType>;
   regionCode: string;
   searchTerm: string;
@@ -12,31 +11,26 @@ export type PropsData = {
   onContactSelected: any;
 };
 
-type PropsHousekeeping = {
-  i18n: LocalizerType;
-};
-
-type Props = PropsData & PropsHousekeeping;
-
 export class UserSearchResults extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
   }
 
   public render() {
-    const { contacts, i18n, searchTerm } = this.props;
+    const { contacts, searchTerm } = this.props;
+    const friends = contacts.filter(contact => contact.isFriend);
 
-    const haveContacts = contacts && contacts.length;
-    const noResults = !haveContacts;
+    const noResults = !friends || friends.length <= 0;
 
     return (
       <div className="module-search-results">
         {noResults ? (
           <div className="module-search-results__no-results">
-            {i18n('noSearchResults', [searchTerm])}
+            {window.i18n('noSearchResults', [searchTerm])}
           </div>
-        ) : null}
-        {haveContacts ? this.renderContacts(contacts) : null}
+        ) : (
+          this.renderContacts(friends)
+        )}
       </div>
     );
   }
@@ -44,12 +38,12 @@ export class UserSearchResults extends React.Component<Props> {
   private renderContacts(items: Array<ConversationListItemPropsType>) {
     return (
       <div className="contacts-dropdown">
-        {items.map((contact, index) => this.renderContact(contact, index))}
+        {items.map((friend, index) => this.renderFriend(friend, index))}
       </div>
     );
   }
 
-  private renderContact(contact: ConversationListItemPropsType, index: Number) {
+  private renderFriend(contact: ConversationListItemPropsType, index: Number) {
     const { profileName, phoneNumber } = contact;
     const { selectedContact } = this.props;
 
