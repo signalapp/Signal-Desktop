@@ -88,9 +88,15 @@
   let activeHandlers = [];
   let activeTimestamp = Date.now();
 
+  window.addEventListener('blur', () => {
+    // Force inactivity
+    activeTimestamp = Date.now() - ACTIVE_TIMEOUT;
+  });
+
   window.resetActiveTimer = _.throttle(() => {
     const previouslyActive = window.isActive();
     activeTimestamp = Date.now();
+
     if (!previouslyActive) {
       activeHandlers.forEach(handler => handler());
     }
@@ -102,7 +108,7 @@
 
   window.isActive = () => {
     const now = Date.now();
-    return window.isFocused() && now <= activeTimestamp + ACTIVE_TIMEOUT;
+    return now <= activeTimestamp + ACTIVE_TIMEOUT;
   };
   window.registerForActive = handler => activeHandlers.push(handler);
   window.unregisterForActive = handler => {
