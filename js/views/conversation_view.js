@@ -795,10 +795,10 @@
         let scrollToLatestUnread = true;
 
         if (newestMessageId) {
-          const message = await getMessageById(newestMessageId, {
+          const newestInMemoryMessage = await getMessageById(newestMessageId, {
             Message: Whisper.Message,
           });
-          if (!message) {
+          if (!newestInMemoryMessage) {
             window.log.warn(
               `loadNewestMessages: did not find message ${newestMessageId}`
             );
@@ -806,7 +806,9 @@
 
           // If newest in-memory message is unread, scrolling down would mean going to
           //   the very bottom, not the oldest unread.
-          scrollToLatestUnread = !message.isUnread();
+          if (newestInMemoryMessage.isUnread()) {
+            scrollToLatestUnread = false;
+          }
         }
 
         const metrics = await getMessageMetricsForConversation(conversationId);
