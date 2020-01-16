@@ -79,7 +79,6 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         setFn: window.toggleLinkPreview,
         content: {},
       },
-
       {
         id: 'notification-setting',
         title: window.i18n('notificationSettingsDialog'),

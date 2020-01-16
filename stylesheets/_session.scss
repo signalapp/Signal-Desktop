@@ -338,7 +338,7 @@ $session_message-container-border-radius: 5px;
     border-radius: 0px;
   }
 
-  &:hover {
+  & > *:not(svg):hover{
     filter: brightness(80%);
   }
 }
@@ -1159,4 +1159,21 @@ button.module-scroll-down {
     @include color-svg('../images/down.svg', rgba($session-color-white, 0.6));
   }
   
+}
+
+/* Memberlist */
+.member-list-container .member {
+
+  &-item{
+    padding: $session-margin-sm;
+    background-color: $session-shade-5;
+
+    &:hover:not(.member-selected) {
+      background-color: $session-shade-7;
+    }
+  }
+
+  &-selected {
+    background-color: $session-shade-8;
+  }
 }

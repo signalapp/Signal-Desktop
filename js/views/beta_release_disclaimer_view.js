@@ -19,7 +19,7 @@
         Component: window.Signal.Components.SessionConfirm,
         props: {
           title: window.i18n('betaDisclaimerTitle'),
-          message: window.i18n('betaDisclaimerSubtitle'  2),
+          message: window.i18n('betaDisclaimerSubtitle'),
           messageSub: window.i18n('betaDisclaimerDescription'),
           hideCancel: true,
           onClickOk: this.close,
