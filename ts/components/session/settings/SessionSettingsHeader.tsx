@@ -20,15 +20,16 @@ export class SettingsHeader extends React.Component<SettingsViewProps> {
       categoryTitlePrefix[categoryTitlePrefix.length - 1] === 's'
         ? `${categoryTitlePrefix.slice(0, -1)} Settings`
         : `${categoryTitlePrefix} Settings`;
+    const showSearch = false;
 
     return (
       <div className="session-settings-header">
         {categoryTitle}
-        <SessionIconButton
+        {showSearch && <SessionIconButton
           iconType={SessionIconType.Search}
           iconSize={SessionIconSize.Huge}
           onClick={this.focusSearch}
-        />
+        />}
       </div>
     );
   }

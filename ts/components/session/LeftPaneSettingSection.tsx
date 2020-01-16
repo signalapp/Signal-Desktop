@@ -110,7 +110,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     );
   }
 
-  public renderSettings(): JSX.Element {
+  public renderSearch() {
     return (
       <div className="left-pane-setting-content">
         <div className="left-pane-setting-input-group">
@@ -129,8 +129,19 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
                 iconSize={SessionIconSize.Huge}
               />
             </SessionButton>
+
+          </div>
           </div>
         </div>
+    );
+  }
+
+  public renderSettings(): JSX.Element {
+    const showSearch = false;
+
+    return (
+      <div className="left-pane-setting-content">
+        {showSearch && this.renderSearch()}
         {this.renderCategories()}
         {this.renderBottomButtons()}
       </div>
