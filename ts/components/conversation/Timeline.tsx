@@ -918,6 +918,17 @@ export class Timeline extends React.PureComponent<Props, State> {
 
     // Thanks to https://gist.github.com/pstoica/4323d3e6e37e8a23dd59
     setTimeout(() => {
+      // If focus moved to one of our portals, we do not clear the selected
+      // message so that focus stays inside the portal. We need to be careful
+      // to not create colliding keyboard shortcuts between selected messages
+      // and our portals!
+      const portals = Array.from(
+        document.querySelectorAll('body > div:not(.inbox)')
+      );
+      if (portals.some(el => el.contains(document.activeElement))) {
+        return;
+      }
+
       if (!currentTarget.contains(document.activeElement)) {
         clearSelectedMessage();
       }

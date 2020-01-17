@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { createSelector } from 'reselect';
 import {
   CompositeDecorator,
   ContentBlock,
@@ -16,7 +15,7 @@ import {
 } from 'draft-js';
 import Measure, { ContentRect } from 'react-measure';
 import { Manager, Popper, Reference } from 'react-popper';
-import { get, head, isFunction, noop, trimEnd } from 'lodash';
+import { get, head, noop, trimEnd } from 'lodash';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import { Emoji } from './emoji/Emoji';
@@ -28,6 +27,7 @@ import {
   search,
 } from './emoji/lib';
 import { LocalizerType } from '../types/Util';
+import { mergeRefs } from './_util';
 
 const MAX_LENGTH = 64 * 1024;
 const colonsRegex = /(?:^|\s):[a-z0-9-_+]+:?/gi;
@@ -187,20 +187,6 @@ const compositeDecorator = new CompositeDecorator([
       ),
   },
 ]);
-
-// A selector which combines multiple react refs into a single, referentially-equal functional ref.
-const combineRefs = createSelector(
-  (r1: React.Ref<HTMLDivElement>) => r1,
-  (_r1: any, r2: React.Ref<HTMLDivElement>) => r2,
-  (_r1: any, _r2: any, r3: React.MutableRefObject<HTMLDivElement>) => r3,
-  (r1, r2, r3) => (el: HTMLDivElement) => {
-    if (isFunction(r1) && isFunction(r2)) {
-      r1(el);
-      r2(el);
-    }
-    r3.current = el;
-  }
-);
 
 const getInitialEditorState = (startingText?: string) => {
   if (!startingText) {
@@ -771,7 +757,7 @@ export const CompositionInput = ({
             {({ measureRef }) => (
               <div
                 className="module-composition-input__input"
-                ref={combineRefs(popperRef, measureRef, rootElRef)}
+                ref={mergeRefs(popperRef, measureRef, rootElRef)}
               >
                 <div
                   className={classNames(

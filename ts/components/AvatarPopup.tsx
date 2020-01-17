@@ -1,9 +1,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { LocalizerType } from '../types/Util';
-import { Avatar, Props as AvatarProps } from './Avatar';
-
 import { isEmpty } from 'lodash';
+
+import { Avatar, Props as AvatarProps } from './Avatar';
+import { useRestoreFocus } from './hooks';
+
+import { LocalizerType } from '../types/Util';
 
 export type Props = {
   readonly i18n: LocalizerType;
@@ -32,18 +34,7 @@ export const AvatarPopup = (props: Props) => {
   // Note: mechanisms to dismiss this view are all in its host, MainHeader
 
   // Focus first button after initial render, restore focus on teardown
-  React.useEffect(() => {
-    const lastFocused = document.activeElement as any;
-    if (focusRef.current) {
-      focusRef.current.focus();
-    }
-
-    return () => {
-      if (lastFocused && lastFocused.focus) {
-        lastFocused.focus();
-      }
-    };
-  }, []);
+  useRestoreFocus(focusRef);
 
   return (
     <div style={style} className="module-avatar-popup">

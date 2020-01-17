@@ -2,6 +2,7 @@
 /* tslint:disable:cyclomatic-complexity */
 import * as React from 'react';
 import classNames from 'classnames';
+import { useRestoreFocus } from '../hooks';
 import { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import { LocalizerType } from '../../types/Util';
 
@@ -122,18 +123,7 @@ export const StickerPicker = React.memo(
       }, [onClose]);
 
       // Focus popup on after initial render, restore focus on teardown
-      React.useEffect(() => {
-        const lastFocused = document.activeElement as any;
-        if (focusRef.current) {
-          focusRef.current.focus();
-        }
-
-        return () => {
-          if (lastFocused && lastFocused.focus) {
-            lastFocused.focus();
-          }
-        };
-      }, []);
+      useRestoreFocus(focusRef);
 
       const isEmpty = stickers.length === 0;
       const addPackRef = isEmpty ? focusRef : undefined;

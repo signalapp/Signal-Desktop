@@ -2070,33 +2070,35 @@
       });
     },
 
-    notify(message) {
-      if (!message.isIncoming()) {
-        return Promise.resolve();
+    async notify(message, reaction) {
+      if (!message.isIncoming() && !reaction) {
+        return;
       }
+
       const conversationId = this.id;
 
-      return ConversationController.getOrCreateAndWait(
-        message.get('source'),
+      const sender = await ConversationController.getOrCreateAndWait(
+        reaction ? reaction.get('fromId') : message.get('source'),
         'private'
-      ).then(sender =>
-        sender.getNotificationIcon().then(iconUrl => {
-          const messageJSON = message.toJSON();
-          const messageSentAt = messageJSON.sent_at;
-          const messageId = message.id;
-          const isExpiringMessage = Message.hasExpiration(messageJSON);
-
-          Whisper.Notifications.add({
-            conversationId,
-            iconUrl,
-            isExpiringMessage,
-            message: message.getNotificationText(),
-            messageId,
-            messageSentAt,
-            title: sender.getTitle(),
-          });
-        })
       );
+
+      const iconUrl = await sender.getNotificationIcon();
+
+      const messageJSON = message.toJSON();
+      const messageSentAt = messageJSON.sent_at;
+      const messageId = message.id;
+      const isExpiringMessage = Message.hasExpiration(messageJSON);
+
+      Whisper.Notifications.add({
+        conversationId,
+        iconUrl,
+        isExpiringMessage,
+        message: message.getNotificationText(),
+        messageId,
+        messageSentAt,
+        title: sender.getTitle(),
+        reaction: reaction ? reaction.toJSON() : null,
+      });
     },
 
     notifyTyping(options = {}) {

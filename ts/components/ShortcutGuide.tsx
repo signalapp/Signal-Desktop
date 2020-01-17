@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { useRestoreFocus } from './hooks';
 import { LocalizerType } from '../types/Util';
 
 export type Props = {
@@ -172,18 +173,7 @@ export const ShortcutGuide = (props: Props) => {
   const isMacOS = platform === 'darwin';
 
   // Restore focus on teardown
-  React.useEffect(() => {
-    const lastFocused = document.activeElement as any;
-    if (focusRef.current) {
-      focusRef.current.focus();
-    }
-
-    return () => {
-      if (lastFocused && lastFocused.focus) {
-        lastFocused.focus();
-      }
-    };
-  }, []);
+  useRestoreFocus(focusRef);
 
   return (
     <div className="module-shortcut-guide">

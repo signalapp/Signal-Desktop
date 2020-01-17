@@ -125,6 +125,7 @@ export const preloadImages = async () => {
 
 const dataByShortName = keyBy(data, 'short_name');
 const imageByEmoji: { [key: string]: string } = {};
+const dataByEmoji: { [key: string]: EmojiData } = {};
 
 export const dataByCategory = mapValues(
   groupBy(data, ({ category }) => {
@@ -314,12 +315,14 @@ data.forEach(emoji => {
   }
 
   imageByEmoji[convertShortName(short_name)] = makeImagePath(image);
+  dataByEmoji[convertShortName(short_name)] = emoji;
 
   if (skin_variations) {
     Object.entries(skin_variations).forEach(([tone, variation]) => {
       imageByEmoji[
         convertShortName(short_name, tone as SkinToneKey)
       ] = makeImagePath(variation.image);
+      dataByEmoji[convertShortName(short_name, tone as SkinToneKey)] = emoji;
     });
   }
 });

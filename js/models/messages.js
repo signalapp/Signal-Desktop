@@ -496,6 +496,25 @@
 
       const isTapToView = this.isTapToView();
 
+      const reactions = (this.get('reactions') || []).map(re => {
+        const c = this.findAndFormatContact(re.fromId);
+
+        if (!c) {
+          return {
+            emoji: re.emoji,
+            from: {
+              id: re.fromId,
+            },
+          };
+        }
+
+        return {
+          emoji: re.emoji,
+          timestamp: re.timestamp,
+          from: c,
+        };
+      });
+
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
         textPending: this.get('bodyPending'),
@@ -518,6 +537,7 @@
         isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
+        reactions,
 
         isTapToView,
         isTapToViewExpired: isTapToView && this.get('isErased'),
@@ -1841,13 +1861,6 @@
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
         );
 
-        // Drop reaction messages at this time
-        if (initialMessage.reaction) {
-          window.log.info('Dropping reaction message', this.idForLogging());
-          confirm();
-          return;
-        }
-
         // First, check for duplicates. If we find one, stop processing here.
         const existingMessage = await getMessageBySender(this.attributes, {
           Message: Whisper.Message,
@@ -2173,6 +2186,12 @@
             await conversation.notify(message);
           }
 
+          // Does this message have a pending, previously-received associated reaction?
+          const reaction = Whisper.Reactions.forMessage(message);
+          if (reaction) {
+            message.handleReaction(reaction);
+          }
+
           Whisper.events.trigger('incrementProgress');
           confirm();
         } catch (error) {
@@ -2185,6 +2204,38 @@
           );
           throw error;
         }
+      });
+    },
+
+    async handleReaction(reaction) {
+      const reactions = this.get('reactions') || [];
+
+      if (reaction.get('remove')) {
+        const newReactions = reactions.filter(
+          re =>
+            re.emoji !== reaction.get('emoji') ||
+            re.fromId !== reaction.get('fromId')
+        );
+        this.set({ reactions: newReactions });
+      } else {
+        const newReactions = reactions.filter(
+          re => re.fromId !== reaction.get('fromId')
+        );
+        newReactions.push(reaction.toJSON());
+        this.set({ reactions: newReactions });
+
+        const conversation = ConversationController.get(
+          this.get('conversationId')
+        );
+
+        // Only notify for reactions to our own messages
+        if (conversation && this.isOutgoing()) {
+          conversation.notify(this, reaction);
+        }
+      }
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
       });
     },
   });

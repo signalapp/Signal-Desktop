@@ -8,7 +8,7 @@
   Signal,
   storage,
   textsecure,
-  WebAPI
+  WebAPI,
   Whisper,
 */
 
@@ -848,6 +848,13 @@
           '.module-sticker-manager__preview-modal__overlay'
         );
         if (stickerPreview) {
+          return;
+        }
+
+        const reactionViewer = document.querySelector(
+          '.module-reaction-viewer'
+        );
+        if (reactionViewer) {
           return;
         }
       }
@@ -2070,6 +2077,23 @@
       messageDescriptor.type
     );
 
+    if (data.message.reaction) {
+      const { reaction } = data.message;
+      const reactionModel = Whisper.Reactions.add({
+        emoji: reaction.emoji,
+        remove: reaction.remove,
+        targetAuthorE164: reaction.targetAuthorE164,
+        targetAuthorUuid: reaction.targetAuthorUuid,
+        targetTimestamp: reaction.targetTimestamp.toNumber(),
+        timestamp: Date.now(),
+        fromId: messageDescriptor.id,
+      });
+      // Note: We do not wait for completion here
+      Whisper.Reactions.onReaction(reactionModel);
+      confirm();
+      return;
+    }
+
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     message.handleDataMessage(data.message, event.confirm, {
       initialLoadComplete,
@@ -2187,6 +2211,20 @@
       window.log.warn(
         `onSentMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
       );
+      event.confirm();
+    } else if (data.message.reaction) {
+      const { reaction } = data.message;
+      const reactionModel = Whisper.Reactions.add({
+        emoji: reaction.emoji,
+        remove: reaction.remove,
+        targetAuthorE164: reaction.targetAuthorE164,
+        targetAuthorUuid: reaction.targetAuthorUuid,
+        targetTimestamp: reaction.targetTimestamp.toNumber(),
+        timestamp: Date.now(),
+        fromId: messageDescriptor.id,
+      });
+      // Note: We do not wait for completion here
+      Whisper.Reactions.onReaction(reactionModel);
       event.confirm();
     } else {
       await ConversationController.getOrCreateAndWait(

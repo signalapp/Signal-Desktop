@@ -17,6 +17,7 @@ import {
 } from 'lodash';
 import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
+import { useRestoreFocus } from '../hooks';
 import { LocalizerType } from '../../types/Util';
 
 export type EmojiPickDataType = { skinTone?: number; shortName: string };
@@ -173,19 +174,8 @@ export const EmojiPicker = React.memo(
         };
       }, [onClose, searchMode]);
 
-      // Restore focus on teardown
-      React.useEffect(() => {
-        const lastFocused = document.activeElement as any;
-        if (focusRef.current) {
-          focusRef.current.focus();
-        }
-
-        return () => {
-          if (lastFocused && lastFocused.focus) {
-            lastFocused.focus();
-          }
-        };
-      }, []);
+      // Focus after initial render, restore focus on teardown
+      useRestoreFocus(focusRef);
 
       const emojiGrid = React.useMemo(() => {
         if (searchText) {

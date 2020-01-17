@@ -7,6 +7,7 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 import { LocalizerType } from '../../types/Util';
 import { StickerPackType } from '../../state/ducks/stickers';
 import { Spinner } from '../Spinner';
+import { useRestoreFocus } from '../hooks';
 
 export type OwnProps = {
   readonly onClose: () => unknown;
@@ -79,22 +80,7 @@ export const StickerPreviewModal = React.memo(
     const [confirmingUninstall, setConfirmingUninstall] = React.useState(false);
 
     // Restore focus on teardown
-    React.useEffect(() => {
-      if (!root) {
-        return;
-      }
-
-      const lastFocused = document.activeElement as any;
-      if (focusRef.current) {
-        focusRef.current.focus();
-      }
-
-      return () => {
-        if (lastFocused && lastFocused.focus) {
-          lastFocused.focus();
-        }
-      };
-    }, [root]);
+    useRestoreFocus(focusRef, root);
 
     React.useEffect(() => {
       const div = document.createElement('div');

@@ -1122,6 +1122,32 @@
     "message": "Most recent:",
     "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
   },
+  "notificationReaction": {
+    "message": "$sender$ reacted $emoji$ to your message",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "John"
+      },
+      "emoji": {
+        "content": "$2",
+        "example": "👍"
+      }
+    }
+  },
+  "notificationReactionMostRecent": {
+    "message": "Most recent: $sender$ reacted $emoji$ to your message",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "John"
+      },
+      "emoji": {
+        "content": "$2",
+        "example": "👍"
+      }
+    }
+  },
   "sendFailed": {
     "message": "Send failed",
     "description": "Shown on outgoing message if it fails to send"

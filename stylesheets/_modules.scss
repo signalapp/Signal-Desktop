@@ -90,9 +90,15 @@
 
 .module-message__buttons--incoming {
   left: 100%;
+  &.module-message__buttons--has-reactions {
+    padding-left: 40px - 12px; // Adjust 40px by 12px margin on the button
+  }
 }
 .module-message__buttons--outgoing {
   right: 100%;
+  &.module-message__buttons--has-reactions {
+    padding-right: 40px - 12px; // Adjust 40px by 12px margin on the button
+  }
 }
 
 .module-message__buttons__download {
@@ -1300,6 +1306,82 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.module-message__reactions {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  height: 100%;
+
+  &--incoming {
+    right: -28px;
+  }
+
+  &--outgoing {
+    left: -28px;
+  }
+}
+
+.module-message__reactions__reaction {
+  @include button-reset;
+
+  width: 33px;
+  height: 33px;
+  border: 1px solid;
+  border-radius: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+
+  &:first-of-type {
+    z-index: 2;
+  }
+
+  &--incoming {
+    right: 0;
+  }
+
+  &--outgoing {
+    left: 0;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
+
+  @include light-theme() {
+    border-color: $color-white;
+    background: $color-gray-05;
+  }
+
+  @include dark-theme() {
+    border-color: $color-gray-95;
+    background: $color-gray-75;
+  }
+
+  &--is-me {
+    @include light-theme() {
+      background: $color-gray-25;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-45;
+    }
+
+    @include ios-theme() {
+      background: $color-accent-blue;
+    }
+  }
 }
 
 // Module: Expire Timer
@@ -3372,6 +3454,51 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   line-height: 28px;
 }
 
+.module-avatar--32 {
+  height: 32px;
+  width: 32px;
+
+  img {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+.module-avatar__icon--32.module-avatar__icon--group {
+  height: 20px;
+  width: 20px;
+  @include light-theme {
+    @include color-svg('../images/icons/v2/group-outline-20.svg', $color-white);
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-05
+    );
+  }
+}
+.module-avatar__icon--32.module-avatar__icon--direct {
+  height: 20px;
+  width: 20px;
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-outline-20.svg',
+      $color-white
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-outline-20.svg',
+      $color-gray-05
+    );
+  }
+}
+
+.module-avatar__label--32 {
+  font-size: 14px;
+  line-height: 32px;
+}
+
 .module-avatar--52 {
   height: 52px;
   width: 52px;
@@ -4676,6 +4803,121 @@ button.module-image__border-overlay:focus {
   //   all languages. More resources:
   //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
   //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
+}
+
+// Module: Reaction Viewer
+
+.module-reaction-viewer {
+  width: 320px;
+  height: 320px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+
+  @include popper-shadow();
+
+  @include light-theme() {
+    background: $color-white;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-75;
+  }
+
+  &__header {
+    width: 100%;
+    min-height: 44px;
+    padding: 0px 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+
+    &__button {
+      min-width: 45px;
+      min-height: 28px;
+      border: none;
+      border-radius: 18px;
+      padding: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:not(:first-of-type) {
+        margin-left: 4px;
+      }
+
+      &:focus {
+        outline: none;
+      }
+      @include keyboard-mode {
+        &:focus {
+          box-shadow: 0px 0px 0px 2px $color-signal-blue;
+        }
+      }
+
+      background: none;
+
+      &--selected {
+        @include light-theme() {
+          background: $color-gray-05;
+        }
+
+        @include dark-theme() {
+          background: $color-gray-60;
+        }
+      }
+
+      &__count {
+        @include font-body-2-bold();
+        margin-left: 2px;
+
+        @include light-theme() {
+          color: $color-gray-90;
+        }
+
+        @include dark-theme() {
+          color: $color-gray-05;
+        }
+      }
+    }
+  }
+
+  &__body {
+    flex-grow: 1;
+    padding: 0 16px;
+    overflow: auto;
+
+    &__row {
+      margin-top: 8px;
+      min-height: 32px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      &_avatar {
+        min-width: 32px;
+      }
+
+      &__name {
+        @include font-body-1-bold();
+        margin-left: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @include light-theme() {
+          color: $color-gray-90;
+        }
+
+        @include dark-theme() {
+          color: $color-gray-05;
+        }
+      }
+    }
+  }
 }
 
 // Module: Left Pane
