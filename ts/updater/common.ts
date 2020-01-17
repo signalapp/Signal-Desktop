@@ -273,7 +273,7 @@ function getGotOptions(): GotOptions<null> {
     ca,
     headers: {
       'Cache-Control': 'no-cache',
-      'User-Agent': 'Signal Desktop (+https://signal.org/download)',
+      'User-Agent': `Signal Desktop ${packageJson.version}`,
     },
     useElectronNet: false,
   };

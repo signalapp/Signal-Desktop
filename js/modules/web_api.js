@@ -210,7 +210,7 @@ function _promiseAjax(providedUrl, options) {
       method: options.type,
       body: options.data || null,
       headers: {
-        'User-Agent': 'Signal Desktop (+https://signal.org/download)',
+        'User-Agent': `Signal Desktop ${options.version}`,
         'X-Signal-Agent': 'OWD',
         ...options.headers,
       },
@@ -413,6 +413,7 @@ function initialize({
   certificateAuthority,
   contentProxyUrl,
   proxyUrl,
+  version,
 }) {
   if (!is.string(url)) {
     throw new Error('WebAPI.initialize: Invalid server url');
@@ -425,6 +426,9 @@ function initialize({
   }
   if (!is.string(contentProxyUrl)) {
     throw new Error('WebAPI.initialize: Invalid contentProxyUrl');
+  }
+  if (!is.string(version)) {
+    throw new Error('WebAPI.initialize: Invalid version');
   }
 
   // Thanks to function-hoisting, we can put this return statement before all of the
@@ -489,6 +493,7 @@ function initialize({
         type: param.httpType,
         user: username,
         validateResponse: param.validateResponse,
+        version,
         unauthenticated: param.unauthenticated,
         accessKey: param.accessKey,
       }).catch(e => {
@@ -576,6 +581,7 @@ function initialize({
         responseType: 'arraybuffer',
         timeout: 0,
         type: 'GET',
+        version,
       });
     }
 
@@ -855,6 +861,7 @@ function initialize({
         responseType: 'arraybuffer',
         type: 'GET',
         redactUrl: redactStickerUrl,
+        version,
       });
     }
 
@@ -865,6 +872,7 @@ function initialize({
         responseType: 'arraybuffer',
         type: 'GET',
         redactUrl: redactStickerUrl,
+        version,
       });
     }
 
@@ -942,6 +950,7 @@ function initialize({
         timeout: 0,
         type: 'POST',
         processData: false,
+        version,
       });
 
       // Upload stickers
@@ -957,6 +966,7 @@ function initialize({
               timeout: 0,
               type: 'POST',
               processData: false,
+              version,
             })
           );
           if (onProgress) {
@@ -977,6 +987,7 @@ function initialize({
         responseType: 'arraybuffer',
         timeout: 0,
         type: 'GET',
+        version,
       });
     }
 
@@ -999,6 +1010,7 @@ function initialize({
         timeout: 0,
         type: 'POST',
         processData: false,
+        version,
       });
 
       return attachmentIdString;
@@ -1036,6 +1048,7 @@ function initialize({
         redirect: 'follow',
         redactUrl: () => '[REDACTED_URL]',
         headers,
+        version,
       });
 
       if (!returnArrayBuffer) {
@@ -1071,9 +1084,10 @@ function initialize({
         .replace('http://', 'ws://');
       const login = encodeURIComponent(username);
       const pass = encodeURIComponent(password);
+      const clientVersion = encodeURIComponent(version);
 
       return _createSocket(
-        `${fixedScheme}/v1/websocket/?login=${login}&password=${pass}&agent=OWD`,
+        `${fixedScheme}/v1/websocket/?login=${login}&password=${pass}&agent=OWD&version=${clientVersion}`,
         { certificateAuthority, proxyUrl }
       );
     }
@@ -1083,9 +1097,10 @@ function initialize({
       const fixedScheme = url
         .replace('https://', 'wss://')
         .replace('http://', 'ws://');
+      const clientVersion = encodeURIComponent(version);
 
       return _createSocket(
-        `${fixedScheme}/v1/websocket/provisioning/?agent=OWD`,
+        `${fixedScheme}/v1/websocket/provisioning/?agent=OWD&version=${clientVersion}`,
         { certificateAuthority, proxyUrl }
       );
     }
