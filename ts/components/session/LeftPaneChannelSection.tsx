@@ -270,14 +270,15 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   private renderBottomButtons(): JSX.Element {
     const edit = window.i18n('edit');
     const addChannel = window.i18n('addChannel');
+    const showEditButton = false;
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        <SessionButton
+        {showEditButton && <SessionButton
           text={edit}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
-        />
+        />}
         <SessionButton
           text={addChannel}
           buttonType={SessionButtonType.SquareOutline}
