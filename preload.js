@@ -280,6 +280,7 @@ window.WebAPI = initializeWebAPI({
   certificateAuthority: config.certificateAuthority,
   contentProxyUrl: config.contentProxyUrl,
   proxyUrl: config.proxyUrl,
+  version: config.version,
 });
 
 // Linux seems to periodically let the event loop stop, so this is a global workaround
