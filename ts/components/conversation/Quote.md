@@ -1016,6 +1016,50 @@ messages the color is taken from the contact who wrote the quoted message.
       quote={{
         authorColor: 'purple',
         attachment: {
+          pending: true,
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+        },
+        authorPhoneNumber: '(202) 555-0011',
+      }}
+    />
+  </li>
+</util.ConversationContext>
+```
+
+#### Pending image download
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <li>
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="Yeah, pi. Tough to wrap your head around."
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        attachment: {
+          contentType: 'image/gif',
+          fileName: 'pi.gif',
+        },
+        authorPhoneNumber: '(202) 555-0011',
+      }}
+    />
+  </li>
+  <li>
+    <Message
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="green"
+      text="Yeah, pi. Tough to wrap your head around."
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        attachment: {
+          pending: true,
           contentType: 'image/gif',
           fileName: 'pi.gif',
         },

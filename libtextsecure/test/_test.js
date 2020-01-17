@@ -51,8 +51,9 @@ window.assertEqualArrayBuffers = (ab1, ab2) => {
 window.hexToArrayBuffer = str => {
   const ret = new ArrayBuffer(str.length / 2);
   const array = new Uint8Array(ret);
-  for (let i = 0; i < str.length / 2; i += 1)
+  for (let i = 0; i < str.length / 2; i += 1) {
     array[i] = parseInt(str.substr(i * 2, 2), 16);
+  }
   return ret;
 };
 

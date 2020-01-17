@@ -48,15 +48,15 @@ export const groupMediaItemsByDate = (
 
 const toSection = (
   messagesWithSection: Array<MediaItemWithSection> | undefined
-): Section | null => {
+): Section | undefined => {
   if (!messagesWithSection || messagesWithSection.length === 0) {
-    return null;
+    return;
   }
 
   const firstMediaItemWithSection: MediaItemWithSection =
     messagesWithSection[0];
   if (!firstMediaItemWithSection) {
-    return null;
+    return;
   }
 
   const mediaItems = messagesWithSection.map(
@@ -83,7 +83,7 @@ const toSection = (
       // error TS2345: Argument of type 'any' is not assignable to parameter
       // of type 'never'.
       // return missingCaseError(firstMediaItemWithSection.type);
-      return null;
+      return;
   }
 };
 

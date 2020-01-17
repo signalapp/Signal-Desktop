@@ -1,14 +1,18 @@
-/* global _: false */
-/* global Backbone: false */
-/* global storage: false */
-/* global filesize: false */
-/* global ConversationController: false */
-/* global clipboard: false */
-/* global getAccountManager: false */
-/* global i18n: false */
-/* global Signal: false */
-/* global textsecure: false */
-/* global Whisper: false */
+/* global
+  _,
+  Backbone,
+  storage,
+  filesize,
+  ConversationController,
+  MessageController,
+  getAccountManager,
+  i18n,
+  Signal,
+  textsecure,
+  Whisper,
+  clipboard,
+  libloki,
+*/
 
 /* eslint-disable more/no-then */
 
@@ -18,22 +22,17 @@
 
   window.Whisper = window.Whisper || {};
 
+  const { Message: TypedMessage, Contact, PhoneNumber, Errors } = Signal.Types;
+
   const {
-    Message: TypedMessage,
-    Contact,
-    PhoneNumber,
-    Attachment,
-  } = Signal.Types;
-  const {
-    deleteAttachmentData,
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
-    writeNewAttachmentData,
-    writeAttachment,
+    upgradeMessageSchema,
   } = window.Signal.Migrations;
+  const { bytesFromString } = window.Signal.Crypto;
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
@@ -91,8 +90,50 @@
       this.on('unload', this.unload);
       this.on('expired', this.onExpired);
       this.setToExpire();
+      // Keep props ready
+      const generateProps = () => {
+        if (this.isExpirationTimerUpdate()) {
+          this.propsForTimerNotification = this.getPropsForTimerNotification();
+        } else if (this.isKeyChange()) {
+          this.propsForSafetyNumberNotification = this.getPropsForSafetyNumberNotification();
+        } else if (this.isVerifiedChange()) {
+          this.propsForVerificationNotification = this.getPropsForVerificationNotification();
+        } else if (this.isEndSession()) {
+          this.propsForResetSessionNotification = this.getPropsForResetSessionNotification();
+        } else if (this.isGroupUpdate()) {
+          this.propsForGroupNotification = this.getPropsForGroupNotification();
+        } else if (this.isSessionRestoration()) {
+          // do nothing
+        } else if (this.isFriendRequest()) {
+          this.propsForFriendRequest = this.getPropsForFriendRequest();
+        } else if (this.isGroupInvitation()) {
+          this.propsForGroupInvitation = this.getPropsForGroupInvitation();
+        } else {
+          this.propsForSearchResult = this.getPropsForSearchResult();
+          this.propsForMessage = this.getPropsForMessage();
+        }
+      };
+      this.on('change', generateProps);
 
-      this.updatePreview();
+      const applicableConversationChanges =
+        'change:color change:name change:number change:profileName change:profileAvatar';
+
+      const conversation = this.getConversation();
+      const fromContact = this.getIncomingContact();
+
+      this.listenTo(conversation, applicableConversationChanges, generateProps);
+      if (fromContact) {
+        this.listenTo(
+          fromContact,
+          applicableConversationChanges,
+          generateProps
+        );
+      }
+
+      this.selected = false;
+      window.contextMenuShown = false;
+
+      generateProps();
     },
     idForLogging() {
       return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
@@ -117,73 +158,6 @@
       const flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
-    },
-    async updatePreview() {
-      // Don't generate link previews if user has turned them off
-      if (!storage.get('linkPreviews', false)) {
-        return;
-      }
-
-      if (this.updatingPreview) {
-        return;
-      }
-
-      // Only update the preview if we don't have any set
-      const preview = this.get('preview');
-      if (!_.isEmpty(preview)) {
-        return;
-      }
-
-      // Make sure we have links we can preview
-      const links = Signal.LinkPreviews.findLinks(this.get('body'));
-      const firstLink = links.find(link =>
-        Signal.LinkPreviews.isLinkInWhitelist(link)
-      );
-      if (!firstLink) {
-        return;
-      }
-
-      this.updatingPreview = true;
-
-      try {
-        const result = await Signal.LinkPreviews.helper.getPreview(firstLink);
-
-        const { image, title, hash } = result;
-
-        // A link preview isn't worth showing unless we have either a title or an image
-        if (!result || !(image || title)) {
-          this.updatingPreview = false;
-          return;
-        }
-
-        // Save the image to disk
-        const { data } = image;
-        const extension = Attachment.getFileExtension(image);
-        if (data && extension) {
-          const hash32 = hash.substring(0, 32);
-          try {
-            const filePath = await writeAttachment({
-              data,
-              path: `previews/${hash32}.${extension}`,
-            });
-
-            // return the image without the data
-            result.image = _.omit({ ...image, path: filePath }, 'data');
-          } catch (e) {
-            window.log.warn('Failed to write preview to disk', e);
-          }
-        }
-
-        // Save it!!
-        this.set({ preview: [result] });
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-      } catch (e) {
-        window.log.warn(`Failed to load previews for message: ${this.id}`);
-      } finally {
-        this.updatingPreview = false;
-      }
     },
     getEndSessionTranslationKey() {
       const sessionType = this.get('endSessionType');
@@ -238,8 +212,12 @@
           return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
         }
 
+        if (groupUpdate.kicked === 'You') {
+          return i18n('youGotKickedFromGroup');
+        }
+
         const messages = [];
-        if (!groupUpdate.name && !groupUpdate.joined) {
+        if (!groupUpdate.name && !groupUpdate.joined && !groupUpdate.kicked) {
           messages.push(i18n('updatedTheGroup'));
         }
         if (groupUpdate.name) {
@@ -257,6 +235,18 @@
           }
         }
 
+        if (groupUpdate.kicked && groupUpdate.kicked.length) {
+          const names = _.map(
+            groupUpdate.kicked,
+            this.getNameForNumber.bind(this)
+          );
+
+          if (names.length > 1) {
+            messages.push(i18n('multipleKickedFromTheGroup', names.join(', ')));
+          } else {
+            messages.push(i18n('kickedFromTheGroup', names[0]));
+          }
+        }
         return messages.join(', ');
       }
       if (this.isEndSession()) {
@@ -264,6 +254,9 @@
       }
       if (this.isIncoming() && this.hasErrors()) {
         return i18n('incomingError');
+      }
+      if (this.isGroupInvitation()) {
+        return `<${i18n('groupInvitation')}>`;
       }
       return this.get('body');
     },
@@ -276,10 +269,22 @@
     isFriendRequest() {
       return this.get('type') === 'friend-request';
     },
+    isGroupInvitation() {
+      return !!this.get('groupInvitation');
+    },
+    isSessionRestoration() {
+      const flag = textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
+      // eslint-disable-next-line no-bitwise
+      const sessionRestoreFlag = !!(this.get('flags') & flag);
+
+      return !!this.get('sessionRestoration') || sessionRestoreFlag;
+    },
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
-        if (this.isFriendRequest()) return `Friend Request: ${description}`;
+        if (this.isFriendRequest()) {
+          return `Friend Request: ${description}`;
+        }
         return description;
       }
       if (this.get('attachments').length > 0) {
@@ -315,6 +320,7 @@
       this.cleanup();
     },
     async cleanup() {
+      MessageController.unregister(this.id);
       this.unload();
       await deleteExternalMessageFiles(this.attributes);
     },
@@ -327,9 +333,12 @@
       this.hasExpired = true;
     },
     getPropsForTimerNotification() {
-      const { expireTimer, fromSync, source } = this.get(
-        'expirationTimerUpdate'
-      );
+      const timerUpdate = this.get('expirationTimerUpdate');
+      if (!timerUpdate) {
+        return null;
+      }
+
+      const { expireTimer, fromSync, source } = timerUpdate;
       const timespan = Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
       const disabled = !expireTimer;
 
@@ -385,8 +394,20 @@
     },
 
     async acceptFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') return;
-      const conversation = this.getConversation();
+      if (this.get('friendStatus') !== 'pending') {
+        return;
+      }
+      const conversation = await this.getSourceDeviceConversation();
+
+      // If we somehow received an old friend request (e.g. after having restored
+      // from seed, we won't be able to accept it, we should initiate our own
+      // friend request to reset the session:
+      if (conversation.get('sessionRestoreSeen')) {
+        conversation.sendMessage('', null, null, null, null, {
+          sessionRestoration: true,
+        });
+        return;
+      }
 
       this.set({ friendStatus: 'accepted' });
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -395,7 +416,9 @@
       conversation.onAcceptFriendRequest();
     },
     async declineFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') return;
+      if (this.get('friendStatus') !== 'pending') {
+        return;
+      }
       const conversation = this.getConversation();
 
       this.set({ friendStatus: 'declined' });
@@ -430,6 +453,7 @@
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
+        timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
         direction,
         friendStatus,
@@ -440,6 +464,27 @@
         onBlockUser,
         onUnblockUser,
         onRetrySend,
+      };
+    },
+    getPropsForGroupInvitation() {
+      const invitation = this.get('groupInvitation');
+
+      let direction = this.get('direction');
+      if (!direction) {
+        direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
+      }
+
+      return {
+        serverName: invitation.serverName,
+        serverAddress: invitation.serverAddress,
+        direction,
+        onClick: () => {
+          Whisper.events.trigger(
+            'publicChatInvitationAccepted',
+            invitation.serverAddress,
+            invitation.channelId
+          );
+        },
       };
     },
     findContact(phoneNumber) {
@@ -480,6 +525,23 @@
             Array.isArray(groupUpdate.joined)
               ? groupUpdate.joined
               : [groupUpdate.joined],
+            phoneNumber => this.findAndFormatContact(phoneNumber)
+          ),
+        });
+      }
+
+      if (groupUpdate.kicked === 'You') {
+        changes.push({
+          type: 'kicked',
+          isMe: true,
+        });
+      } else if (groupUpdate.kicked) {
+        changes.push({
+          type: 'kicked',
+          contacts: _.map(
+            Array.isArray(groupUpdate.kicked)
+              ? groupUpdate.kicked
+              : [groupUpdate.kicked],
             phoneNumber => this.findAndFormatContact(phoneNumber)
           ),
         });
@@ -544,11 +606,42 @@
         return 'sent';
       }
       const calculatingPoW = this.get('calculatingPoW');
-      if (calculatingPoW) return 'pow';
+      if (calculatingPoW) {
+        return 'pow';
+      }
 
       return 'sending';
     },
-    getPropsForMessage() {
+    getPropsForSearchResult() {
+      const fromNumber = this.getSource();
+      const from = this.findAndFormatContact(fromNumber);
+      if (fromNumber === this.OUR_NUMBER) {
+        from.isMe = true;
+      }
+
+      const toNumber = this.get('conversationId');
+      let to = this.findAndFormatContact(toNumber);
+      if (toNumber === this.OUR_NUMBER) {
+        to.isMe = true;
+      } else if (fromNumber === toNumber) {
+        to = {
+          isMe: true,
+        };
+      }
+
+      return {
+        from,
+        to,
+
+        isSelected: this.isSelected,
+
+        id: this.id,
+        conversationId: this.get('conversationId'),
+        receivedAt: this.get('received_at'),
+        snippet: this.get('snippet'),
+      };
+    },
+    getPropsForMessage(options) {
       const phoneNumber = this.getSource();
       const contact = this.findAndFormatContact(phoneNumber);
       const contactModel = this.findContact(phoneNumber);
@@ -565,14 +658,22 @@
           ? expireTimerStart + expirationLength
           : null;
 
+      // TODO: investigate why conversation is undefined
+      // for the public group chat
       const conversation = this.getConversation();
-      const isGroup = conversation && !conversation.isPrivate();
+
+      const isModerator =
+        conversation && !!conversation.isModerator(this.OUR_NUMBER);
+
+      const convoId = conversation ? conversation.id : undefined;
+      const isGroup = !!conversation && !conversation.isPrivate();
 
       const attachments = this.get('attachments') || [];
       const firstAttachment = attachments[0];
 
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
+        textPending: this.get('bodyPending'),
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
@@ -583,18 +684,36 @@
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
         conversationType: isGroup ? 'group' : 'direct',
-        attachments: attachments.map(attachment =>
-          this.getPropsForAttachment(attachment)
-        ),
+        convoId,
+        attachments: attachments
+          .filter(attachment => !attachment.error)
+          .map(attachment => this.getPropsForAttachment(attachment)),
         previews: this.getPropsForPreview(),
-        quote: this.getPropsForQuote(),
+        quote: this.getPropsForQuote(options),
         authorAvatarPath,
         isExpired: this.hasExpired,
         expirationLength,
         expirationTimestamp,
+        selected: this.selected,
+        multiSelectMode: conversation && conversation.selectedMessages.size > 0,
         isP2p: !!this.get('isP2p'),
+        isPublic: !!this.get('isPublic'),
+        isRss: !!this.get('isRss'),
+        senderIsModerator:
+          !!this.get('isPublic') &&
+          conversation &&
+          conversation.isModerator(phoneNumber),
+        isDeletable:
+          !this.get('isPublic') ||
+          isModerator ||
+          phoneNumber === this.OUR_NUMBER,
+        isModerator,
 
         onCopyText: () => this.copyText(),
+        onSelectMessage: () => this.selectMessage(),
+        onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
+        onCopyPubKey: () => this.copyPubKey(),
+        onBanUser: () => this.banUser(),
         onReply: () => this.trigger('reply', this),
         onRetrySend: () => this.retrySend(),
         onShowDetail: () => this.trigger('show-message-detail', this),
@@ -612,6 +731,10 @@
             message: this,
             isDangerous,
           }),
+        onShowUserDetails: pubkey =>
+          window.Whisper.events.trigger('onShowUserDetails', {
+            userPubKey: pubkey,
+          }),
       };
     },
     createNonBreakingLastSeparator(text) {
@@ -622,11 +745,10 @@
       const nbsp = '\xa0';
       const regex = /(\S)( +)(\S+\s*)$/;
       return text.replace(regex, (match, start, spaces, end) => {
-        const newSpaces = _.reduce(
-          spaces,
-          accumulator => accumulator + nbsp,
-          ''
-        );
+        const newSpaces =
+          end.length < 12
+            ? _.reduce(spaces, accumulator => accumulator + nbsp, '')
+            : spaces;
         return `${start}${newSpaces}${end}`;
       });
     },
@@ -660,7 +782,7 @@
       // Would be nice to do this before render, on initial load of message
       if (!window.isSignalAccountCheckComplete(firstNumber)) {
         window.checkForSignalAccount(firstNumber).then(() => {
-          this.trigger('change');
+          this.trigger('change', this);
         });
       }
 
@@ -717,7 +839,8 @@
         };
       });
     },
-    getPropsForQuote() {
+    getPropsForQuote(options = {}) {
+      const { noClick } = options;
       const quote = this.get('quote');
       if (!quote) {
         return null;
@@ -736,13 +859,16 @@
       const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
       const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
-      const onClick = () => {
-        this.trigger('scroll-to-message', {
-          author,
-          id,
-          referencedMessageNotFound,
-        });
-      };
+      const onClick = noClick
+        ? null
+        : event => {
+            event.stopPropagation();
+            this.trigger('scroll-to-message', {
+              author,
+              id,
+              referencedMessageNotFound,
+            });
+          };
 
       const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -765,7 +891,7 @@
         return null;
       }
 
-      const { path, flags, size, screenshot, thumbnail } = attachment;
+      const { path, pending, flags, size, screenshot, thumbnail } = attachment;
 
       return {
         ...attachment,
@@ -774,7 +900,8 @@
           flags &&
           // eslint-disable-next-line no-bitwise
           flags & textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE,
-        url: getAbsoluteAttachmentPath(path),
+        pending,
+        url: path ? getAbsoluteAttachmentPath(path) : null,
         screenshot: screenshot
           ? {
               ...screenshot,
@@ -808,11 +935,15 @@
         return accumulator;
       }, Object.create(null));
 
+      // We include numbers we didn't successfully send to so we can display errors.
       // Older messages don't have the recipients included on the message, so we fall
       //   back to the conversation's current recipients
       const phoneNumbers = this.isIncoming()
         ? [this.get('source')]
-        : this.get('recipients') || this.conversation.getRecipients();
+        : _.union(
+            this.get('sent_to') || [],
+            this.get('recipients') || this.getConversation().getRecipients()
+          );
 
       // This will make the error message for outgoing key errors a bit nicer
       const allErrors = (this.get('errors') || []).map(error => {
@@ -828,6 +959,7 @@
       //   that contact. Otherwise, it will be a standalone entry.
       const errors = _.reject(allErrors, error => Boolean(error.number));
       const errorsGroupedById = _.groupBy(allErrors, 'number');
+      const primaryDevicePubKey = this.get('conversationId');
       const finalContacts = (phoneNumbers || []).map(id => {
         const errorsForContact = errorsGroupedById[id];
         const isOutgoingKeyError = Boolean(
@@ -837,12 +969,20 @@
           storage.get('unidentifiedDeliveryIndicators') &&
           this.isUnidentifiedDelivery(id, unidentifiedLookup);
 
+        const isPrimaryDevice = id === primaryDevicePubKey;
+
+        const contact = this.findAndFormatContact(id);
+        const profileName = isPrimaryDevice
+          ? contact.profileName
+          : `${contact.profileName} (Secondary Device)`;
         return {
-          ...this.findAndFormatContact(id),
+          ...contact,
           status: this.getStatus(id),
           errors: errorsForContact,
           isOutgoingKeyError,
           isUnidentifiedDelivery,
+          isPrimaryDevice,
+          profileName,
           onSendAnyway: () =>
             this.trigger('force-send', {
               contact: this.findContact(id),
@@ -857,14 +997,15 @@
       //   first; otherwise it's alphabetical
       const sortedContacts = _.sortBy(
         finalContacts,
-        contact => `${contact.errors ? '0' : '1'}${contact.title}`
+        contact =>
+          `${contact.isPrimaryDevice ? '0' : '1'}${contact.phoneNumber}`
       );
 
       return {
         sentAt: this.get('sent_at'),
         receivedAt: this.get('received_at'),
         message: {
-          ...this.getPropsForMessage(),
+          ...this.getPropsForMessage({ noClick: true }),
           disableMenu: true,
           // To ensure that group avatar doesn't show up
           conversationType: 'direct',
@@ -872,6 +1013,63 @@
         errors,
         contacts: sortedContacts,
       };
+    },
+
+    copyPubKey() {
+      if (this.isIncoming()) {
+        clipboard.writeText(this.get('source'));
+      } else {
+        clipboard.writeText(this.OUR_NUMBER);
+      }
+      window.Whisper.events.trigger('showToast', {
+        message: i18n('copiedPublicKey'),
+      });
+    },
+
+    banUser() {
+      window.Whisper.events.trigger('showConfirmationDialog', {
+        message: i18n('banUserConfirm'),
+        onOk: async () => {
+          const source = this.get('source');
+          const conversation = this.getConversation();
+
+          const channelAPI = await conversation.getPublicSendData();
+          const success = await channelAPI.banUser(source);
+
+          if (success) {
+            window.Whisper.events.trigger('showToast', {
+              message: i18n('userBanned'),
+            });
+          } else {
+            window.Whisper.events.trigger('showToast', {
+              message: i18n('userBanFailed'),
+            });
+          }
+        },
+      });
+    },
+
+    // Select message even if the context menu is shown
+    selectMessageUnchecked() {
+      this.selected = !this.selected;
+
+      const convo = this.getConversation();
+
+      if (this.selected) {
+        convo.addMessageSelection(this);
+      } else {
+        convo.removeMessageSelection(this);
+      }
+
+      this.trigger('change');
+    },
+
+    selectMessage() {
+      if (window.contextMenuShown || this.get('isRss')) {
+        return;
+      }
+
+      this.selectMessageUnchecked();
     },
 
     copyText() {
@@ -888,52 +1086,66 @@
         return null;
       }
 
-      const [retries, errors] = _.partition(
-        this.get('errors'),
-        this.isReplayableError.bind(this)
-      );
+      this.set({ errors: null });
 
-      // Remove the errors that aren't replayable
-      this.set({ errors });
+      const conversation = this.getConversation();
+      const intendedRecipients = this.get('recipients') || [];
+      const successfulRecipients = this.get('sent_to') || [];
+      const currentRecipients = conversation.getRecipients();
 
-      const profileKey = null;
-      let numbers = retries
-        .map(retry => retry.number)
-        .filter(item => Boolean(item));
+      const profileKey = conversation.get('profileSharing')
+        ? storage.get('profileKey')
+        : null;
 
-      if (!numbers.length) {
-        window.log.warn(
-          'retrySend: No numbers in error set, using all recipients'
-        );
-        const conversation = this.getConversation();
-        if (conversation) {
-          numbers = conversation.getRecipients();
-          this.set({ errors: null });
-        } else {
-          throw new Error(
-            'No numbers in error set, did not find conversation for message'
-          );
-        }
+      let recipients = _.intersection(intendedRecipients, currentRecipients);
+      recipients = _.without(recipients, successfulRecipients);
+
+      if (!recipients.length) {
+        window.log.warn('retrySend: Nobody to send to!');
+
+        return window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
       }
 
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
+      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
-      const conversation = this.getConversation();
+      // Special-case the self-send case - we send only a sync message
+      if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
+        const [number] = recipients;
+        const dataMessage = await textsecure.messaging.getMessageProto(
+          number,
+          body,
+          attachments,
+          quoteWithData,
+          previewWithData,
+          this.get('sent_at'),
+          this.get('expireTimer'),
+          profileKey
+        );
+        return this.sendSyncMessageOnly(dataMessage);
+      }
+
+      let promise;
       const options = conversation.getSendOptions();
       options.messageType = this.get('type');
 
-      let promise;
-
       if (conversation.isPrivate()) {
-        const [number] = numbers;
+        const [number] = recipients;
         promise = textsecure.messaging.sendMessageToNumber(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
@@ -947,10 +1159,10 @@
 
         promise = textsecure.messaging.sendMessage(
           {
-            recipients: numbers,
-            body: this.get('body'),
+            recipients,
+            body,
             timestamp: this.get('sent_at'),
-            attachments: attachmentsWithData,
+            attachments,
             quote: quoteWithData,
             preview: previewWithData,
             needsSync: !this.get('synced'),
@@ -984,31 +1196,55 @@
     //   One caller today: ConversationView.forceSend()
     async resend(number) {
       const error = this.removeOutgoingErrors(number);
-      if (error) {
-        const profileKey = null;
-        const attachmentsWithData = await Promise.all(
-          (this.get('attachments') || []).map(loadAttachmentData)
-        );
-        const quoteWithData = await loadQuoteData(this.get('quote'));
-        const previewWithData = await loadPreviewData(this.get('preview'));
+      if (!error) {
+        window.log.warn('resend: requested number was not present in errors');
+        return null;
+      }
 
-        const { wrap, sendOptions } = ConversationController.prepareForSend(
-          number
-        );
-        const promise = textsecure.messaging.sendMessageToNumber(
+      const profileKey = null;
+      const attachmentsWithData = await Promise.all(
+        (this.get('attachments') || []).map(loadAttachmentData)
+      );
+      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
+      const quoteWithData = await loadQuoteData(this.get('quote'));
+      const previewWithData = await loadPreviewData(this.get('preview'));
+
+      // Special-case the self-send case - we send only a sync message
+      if (number === this.OUR_NUMBER) {
+        const dataMessage = await textsecure.messaging.getMessageProto(
           number,
-          this.get('body'),
-          attachmentsWithData,
+          body,
+          attachments,
           quoteWithData,
           previewWithData,
           this.get('sent_at'),
           this.get('expireTimer'),
-          profileKey,
-          sendOptions
+          profileKey
         );
-
-        this.send(wrap(promise));
+        return this.sendSyncMessageOnly(dataMessage);
       }
+
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        number
+      );
+      const promise = textsecure.messaging.sendMessageToNumber(
+        number,
+        body,
+        attachments,
+        quoteWithData,
+        previewWithData,
+        this.get('sent_at'),
+        this.get('expireTimer'),
+        profileKey,
+        sendOptions
+      );
+
+      return this.send(wrap(promise));
     },
     removeOutgoingErrors(number) {
       const errors = _.partition(
@@ -1030,6 +1266,14 @@
       //   initial module setup. We may be in the middle of the initial fetch to
       //   the database.
       return ConversationController.getUnsafe(this.get('conversationId'));
+    },
+    getSourceDeviceConversation() {
+      // This gets the conversation of the device that sent this message
+      // while getConversation will return the primary device conversation
+      return ConversationController.getOrCreateAndWait(
+        this.get('source'),
+        'private'
+      );
     },
     getIncomingContact() {
       if (!this.isIncoming()) {
@@ -1095,7 +1339,9 @@
       return null;
     },
     async setCalculatingPoW() {
-      if (this.calculatingPoW) return;
+      if (this.calculatingPoW) {
+        return;
+      }
 
       this.set({
         calculatingPoW: true,
@@ -1106,10 +1352,41 @@
       });
     },
     async setIsP2p(isP2p) {
-      if (_.isEqual(this.get('isP2p'), isP2p)) return;
+      if (_.isEqual(this.get('isP2p'), isP2p)) {
+        return;
+      }
 
       this.set({
         isP2p: !!isP2p,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    getServerId() {
+      return this.get('serverId');
+    },
+    async setServerId(serverId) {
+      if (_.isEqual(this.get('serverId'), serverId)) {
+        return;
+      }
+
+      this.set({
+        serverId,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    async setIsPublic(isPublic) {
+      if (_.isEqual(this.get('isPublic'), isPublic)) {
+        return;
+      }
+
+      this.set({
+        isPublic: !!isPublic,
       });
 
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1123,7 +1400,7 @@
           this.trigger('done');
 
           // This is used by sendSyncMessage, then set to null
-          if (result.dataMessage) {
+          if (!this.get('synced') && result.dataMessage) {
             this.set({ dataMessage: result.dataMessage });
           }
 
@@ -1140,7 +1417,13 @@
           });
 
           this.trigger('sent', this);
-          this.sendSyncMessage();
+          if (this.get('type') !== 'friend-request') {
+            const c = this.getConversation();
+            // Don't bother sending sync messages to public chats
+            if (!c.isPublic()) {
+              this.sendSyncMessage();
+            }
+          }
         })
         .catch(result => {
           this.trigger('done');
@@ -1224,6 +1507,45 @@
       return false;
     },
 
+    async sendSyncMessageOnly(dataMessage) {
+      this.set({ dataMessage });
+
+      try {
+        this.set({
+          // These are the same as a normal send()
+          sent_to: [this.OUR_NUMBER],
+          sent: true,
+          expirationStartTimestamp: Date.now(),
+        });
+        const result = await this.sendSyncMessage();
+        this.set({
+          // We have to do this afterward, since we didn't have a previous send!
+          unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
+
+          // These are unique to a Note to Self message - immediately read/delivered
+          delivered_to: [this.OUR_NUMBER],
+          read_by: [this.OUR_NUMBER],
+        });
+      } catch (result) {
+        const errors = (result && result.errors) || [
+          new Error('Unknown error'),
+        ];
+        this.set({ errors });
+      } finally {
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        this.trigger('done');
+
+        const errors = this.get('errors');
+        if (errors) {
+          this.trigger('send-error', errors);
+        } else {
+          this.trigger('sent');
+        }
+      }
+    },
+
     sendSyncMessage() {
       const ourNumber = textsecure.storage.user.getNumber();
       const { wrap, sendOptions } = ConversationController.prepareForSend(
@@ -1232,7 +1554,7 @@
       );
 
       this.syncPromise = this.syncPromise || Promise.resolve();
-      this.syncPromise = this.syncPromise.then(() => {
+      const next = () => {
         const dataMessage = this.get('dataMessage');
         if (this.get('synced') || !dataMessage) {
           return Promise.resolve();
@@ -1247,16 +1569,20 @@
             this.get('unidentifiedDeliveries'),
             sendOptions
           )
-        ).then(() => {
+        ).then(result => {
           this.set({
             synced: true,
             dataMessage: null,
           });
           return window.Signal.Data.saveMessage(this.attributes, {
             Message: Whisper.Message,
-          });
+          }).then(() => result);
         });
-      });
+      };
+
+      this.syncPromise = this.syncPromise.then(next, next);
+
+      return this.syncPromise;
     },
 
     async saveErrors(providedErrors) {
@@ -1304,23 +1630,416 @@
       );
       return !!error;
     },
-    handleDataMessage(dataMessage, confirm) {
+    async queueAttachmentDownloads() {
+      const messageId = this.id;
+      let count = 0;
+      let bodyPending;
+
+      const [longMessageAttachments, normalAttachments] = _.partition(
+        this.get('attachments') || [],
+        attachment =>
+          attachment.contentType === Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
+      );
+
+      if (longMessageAttachments.length > 1) {
+        window.log.error(
+          `Received more than one long message attachment in message ${this.idForLogging()}`
+        );
+      }
+      if (longMessageAttachments.length > 0) {
+        count += 1;
+        bodyPending = true;
+        await window.Signal.AttachmentDownloads.addJob(
+          longMessageAttachments[0],
+          {
+            messageId,
+            type: 'long-message',
+            index: 0,
+          }
+        );
+      }
+
+      const attachments = await Promise.all(
+        normalAttachments.map((attachment, index) => {
+          count += 1;
+          return window.Signal.AttachmentDownloads.addJob(attachment, {
+            messageId,
+            type: 'attachment',
+            index,
+          });
+        })
+      );
+
+      const preview = await Promise.all(
+        (this.get('preview') || []).map(async (item, index) => {
+          if (!item.image) {
+            return item;
+          }
+
+          count += 1;
+          return {
+            ...item,
+            image: await window.Signal.AttachmentDownloads.addJob(item.image, {
+              messageId,
+              type: 'preview',
+              index,
+            }),
+          };
+        })
+      );
+
+      const contact = await Promise.all(
+        (this.get('contact') || []).map(async (item, index) => {
+          if (!item.avatar || !item.avatar.avatar) {
+            return item;
+          }
+
+          count += 1;
+          return {
+            ...item,
+            avatar: {
+              ...item.avatar,
+              avatar: await window.Signal.AttachmentDownloads.addJob(
+                item.avatar.avatar,
+                {
+                  messageId,
+                  type: 'contact',
+                  index,
+                }
+              ),
+            },
+          };
+        })
+      );
+
+      let quote = this.get('quote');
+      if (quote && quote.attachments && quote.attachments.length) {
+        quote = {
+          ...quote,
+          attachments: await Promise.all(
+            (quote.attachments || []).map(async (item, index) => {
+              // If we already have a path, then we copied this image from the quoted
+              //    message and we don't need to download the attachment.
+              if (!item.thumbnail || item.thumbnail.path) {
+                return item;
+              }
+
+              count += 1;
+              return {
+                ...item,
+                thumbnail: await window.Signal.AttachmentDownloads.addJob(
+                  item.thumbnail,
+                  {
+                    messageId,
+                    type: 'quote',
+                    index,
+                  }
+                ),
+              };
+            })
+          ),
+        };
+      }
+
+      let group = this.get('group');
+      if (group && group.avatar) {
+        group = {
+          ...group,
+          avatar: await window.Signal.AttachmentDownloads.addJob(group.avatar, {
+            messageId,
+            type: 'group-avatar',
+            index: 0,
+          }),
+        };
+      }
+
+      if (count > 0) {
+        this.set({ bodyPending, attachments, preview, contact, quote, group });
+
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+
+        return true;
+      }
+
+      return false;
+    },
+
+    async copyFromQuotedMessage(message, attemptCount = 1) {
+      const { quote } = message;
+      if (!quote) {
+        return message;
+      }
+
+      const { attachments, id, author } = quote;
+      const firstAttachment = attachments[0];
+
+      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
+        MessageCollection: Whisper.MessageCollection,
+      });
+      const found = collection.find(item => {
+        const messageAuthor = item.getContact();
+
+        return messageAuthor && author === messageAuthor.id;
+      });
+
+      if (!found) {
+        // Exponential backoff, giving up after 5 attempts:
+        if (attemptCount < 5) {
+          setTimeout(() => {
+            window.log.info(
+              `Looking for the message id : ${id}, attempt: ${attemptCount + 1}`
+            );
+            this.copyFromQuotedMessage(message, attemptCount + 1);
+          }, attemptCount * attemptCount * 500);
+        }
+
+        quote.referencedMessageNotFound = true;
+        return message;
+      }
+
+      window.log.info(`Found quoted message id: ${id}`);
+      quote.referencedMessageNotFound = false;
+
+      const queryMessage = MessageController.register(found.id, found);
+      quote.text = queryMessage.get('body');
+
+      if (attemptCount > 1) {
+        // Normally the caller would save the message, but in case we are
+        // called by a timer, we need to update the message manually
+        this.set({ quote });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        return null;
+      }
+
+      if (firstAttachment) {
+        firstAttachment.thumbnail = null;
+      }
+
+      if (
+        !firstAttachment ||
+        (!window.Signal.Util.GoogleChrome.isImageTypeSupported(
+          firstAttachment.contentType
+        ) &&
+          !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
+            firstAttachment.contentType
+          ))
+      ) {
+        return message;
+      }
+
+      try {
+        if (
+          queryMessage.get('schemaVersion') <
+          TypedMessage.VERSION_NEEDED_FOR_DISPLAY
+        ) {
+          const upgradedMessage = await upgradeMessageSchema(
+            queryMessage.attributes
+          );
+          queryMessage.set(upgradedMessage);
+          await window.Signal.Data.saveMessage(upgradedMessage, {
+            Message: Whisper.Message,
+          });
+        }
+      } catch (error) {
+        window.log.error(
+          'Problem upgrading message quoted message from database',
+          Errors.toLogFormat(error)
+        );
+        return message;
+      }
+
+      const queryAttachments = queryMessage.get('attachments') || [];
+
+      if (queryAttachments.length > 0) {
+        const queryFirst = queryAttachments[0];
+        const { thumbnail } = queryFirst;
+
+        if (thumbnail && thumbnail.path) {
+          firstAttachment.thumbnail = {
+            ...thumbnail,
+            copied: true,
+          };
+        }
+      }
+
+      const queryPreview = queryMessage.get('preview') || [];
+      if (queryPreview.length > 0) {
+        const queryFirst = queryPreview[0];
+        const { image } = queryFirst;
+
+        if (image && image.path) {
+          firstAttachment.thumbnail = {
+            ...image,
+            copied: true,
+          };
+        }
+      }
+
+      return message;
+    },
+
+    async handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
       //   2. on a sent message sync'd from another device
       //   3. in rare cases, an incoming message can be retried, though it will
       //      still go through one of the previous two codepaths
+      const ourNumber = textsecure.storage.user.getNumber();
       const message = this;
       const source = message.get('source');
       const type = message.get('type');
       let conversationId = message.get('conversationId');
-      if (dataMessage.group) {
-        conversationId = dataMessage.group.id;
+      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        source
+      );
+      if (initialMessage.group) {
+        conversationId = initialMessage.group.id;
+      } else if (source !== ourNumber && authorisation) {
+        // Ignore auth from our devices
+        conversationId = authorisation.primaryDevicePubKey;
       }
+
       const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
 
       const conversation = ConversationController.get(conversationId);
+
+      // NOTE: we use friends status to tell if this is
+      // the creation of the group (initial update)
+      const newGroup = !conversation.isFriend();
+      const knownMembers = conversation.get('members');
+
+      if (!newGroup && knownMembers) {
+        const fromMember = knownMembers.includes(source);
+
+        if (!fromMember) {
+          window.log.warn(`Ignoring group message from non-member: ${source}`);
+          confirm();
+          return null;
+        }
+      }
+
+      if (
+        initialMessage.group &&
+        initialMessage.group.members &&
+        initialMessage.group.type === GROUP_TYPES.UPDATE
+      ) {
+        if (newGroup) {
+          conversation.updateGroupAdmins(initialMessage.group.admins);
+
+          conversation.setFriendRequestStatus(
+            window.friends.friendRequestStatusEnum.friends
+          );
+        }
+
+        const fromAdmin = conversation.get('groupAdmins').includes(source);
+
+        if (!fromAdmin) {
+          // Make sure the message is not removing members / renaming the group
+          const nameChanged =
+            conversation.get('name') !== initialMessage.group.name;
+
+          if (nameChanged) {
+            window.log.warn(
+              'Non-admin attempts to change the name of the group'
+            );
+          }
+
+          const membersMissing =
+            _.difference(
+              conversation.get('members'),
+              initialMessage.group.members
+            ).length > 0;
+
+          if (membersMissing) {
+            window.log.warn('Non-admin attempts to remove group members');
+          }
+
+          const messageAllowed = !nameChanged && !membersMissing;
+
+          if (!messageAllowed) {
+            confirm();
+            return null;
+          }
+        }
+        // For every member, see if we need to establish a session:
+        initialMessage.group.members.forEach(memberPubKey => {
+          const haveSession = _.some(
+            textsecure.storage.protocol.sessions,
+            s => s.number === memberPubKey
+          );
+
+          const ourPubKey = textsecure.storage.user.getNumber();
+          if (!haveSession && memberPubKey !== ourPubKey) {
+            ConversationController.getOrCreateAndWait(
+              memberPubKey,
+              'private'
+            ).then(() => {
+              textsecure.messaging.sendMessageToNumber(
+                memberPubKey,
+                '(If you see this message, you must be using an out-of-date client)',
+                [],
+                undefined,
+                [],
+                Date.now(),
+                undefined,
+                undefined,
+                { messageType: 'friend-request', backgroundFriendReq: true }
+              );
+            });
+          }
+        });
+      }
+
+      const backgroundFrReq =
+        initialMessage.flags ===
+        textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST;
+
+      if (
+        // eslint-disable-next-line no-bitwise
+        initialMessage.flags &
+        textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE
+      ) {
+        // Show that the session reset is "in progress" even though we had a valid session
+        this.set({ endSessionType: 'ongoing' });
+      }
+
+      if (message.isFriendRequest() && backgroundFrReq) {
+        // Check if the contact is a member in one of our private groups:
+        const groupMember = window
+          .getConversations()
+          .models.filter(c => c.get('members'))
+          .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
+          .includes(source);
+
+        if (groupMember) {
+          window.log.info(
+            `Auto accepting a 'group' friend request for a known group member: ${groupMember}`
+          );
+
+          window.libloki.api.sendBackgroundMessage(message.get('source'));
+
+          confirm();
+        }
+
+        // Wether or not we accepted the FR, we exit early so background friend requests
+        // cannot be used for establishing regular private conversations
+        return null;
+      }
+
       return conversation.queueJob(async () => {
+        window.log.info(
+          `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+        );
+
+        const withQuoteReference = await this.copyFromQuotedMessage(
+          initialMessage
+        );
+        const dataMessage = await upgradeMessageSchema(withQuoteReference);
+
         try {
           const now = new Date().getTime();
           let attributes = {
@@ -1337,39 +2056,48 @@
               attributes = {
                 ...attributes,
                 name: dataMessage.group.name,
-                members: _.union(
-                  dataMessage.group.members,
-                  conversation.get('members')
-                ),
+                members: dataMessage.group.members,
               };
-
-              // Update this group conversations's avatar on disk if it has changed.
-              if (dataMessage.group.avatar) {
-                attributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-                  attributes,
-                  dataMessage.group.avatar.data,
-                  {
-                    writeNewAttachmentData,
-                    deleteAttachmentData,
-                  }
-                );
-              }
 
               groupUpdate =
                 conversation.changedAttributes(
                   _.pick(dataMessage.group, 'name', 'avatar')
                 ) || {};
 
-              const difference = _.difference(
+              const addedMembers = _.difference(
                 attributes.members,
                 conversation.get('members')
               );
-              if (difference.length > 0) {
-                groupUpdate.joined = difference;
+              if (addedMembers.length > 0) {
+                groupUpdate.joined = addedMembers;
               }
               if (conversation.get('left')) {
+                // TODO: Maybe we shouldn't assume this message adds us:
+                // we could maybe still get this message by mistake
                 window.log.warn('re-added to a left group');
                 attributes.left = false;
+              }
+
+              if (attributes.isKickedFromGroup) {
+                // Assume somebody re-invited us since we received this update
+                attributes.isKickedFromGroup = false;
+              }
+
+              // Check if anyone got kicked:
+              const removedMembers = _.difference(
+                conversation.get('members'),
+                attributes.members
+              );
+
+              if (removedMembers.length > 0) {
+                if (
+                  removedMembers.includes(textsecure.storage.user.getNumber())
+                ) {
+                  groupUpdate.kicked = 'You';
+                  attributes.isKickedFromGroup = true;
+                } else {
+                  groupUpdate.kicked = removedMembers;
+                }
               }
             } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
               if (source === textsecure.storage.user.getNumber()) {
@@ -1387,6 +2115,10 @@
             if (groupUpdate !== null) {
               message.set({ group_update: groupUpdate });
             }
+          }
+
+          if (initialMessage.groupInvitation) {
+            message.set({ groupInvitation: initialMessage.groupInvitation });
           }
 
           const urls = window.Signal.LinkPreviews.findLinks(dataMessage.body);
@@ -1420,9 +2152,6 @@
             schemaVersion: dataMessage.schemaVersion,
           });
 
-          // Update the previews if we need to
-          message.updatePreview();
-
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(
               conversation,
@@ -1439,6 +2168,9 @@
           }
           attributes.active_at = now;
           conversation.set(attributes);
+
+          // Re-enable typing if re-joined the group
+          conversation.updateTextInputState();
 
           if (message.isExpirationTimerUpdate()) {
             message.set({
@@ -1517,10 +2249,17 @@
                 c.onReadMessage(message);
               }
             } else {
-              conversation.set(
-                'unreadCount',
-                conversation.get('unreadCount') + 1
-              );
+              if (
+                message.attributes.body &&
+                message.attributes.body.indexOf(`@${ourNumber}`) !== -1
+              ) {
+                conversation.set({ mentionedUs: true });
+              }
+
+              conversation.set({
+                unreadCount: conversation.get('unreadCount') + 1,
+                isArchived: false,
+              });
             }
           }
 
@@ -1533,6 +2272,14 @@
               const readBy = reads.map(receipt => receipt.get('reader'));
               message.set({
                 read_by: _.union(message.get('read_by'), readBy),
+              });
+            }
+
+            // A sync'd message to ourself is automatically considered read and delivered
+            if (conversation.isMe()) {
+              message.set({
+                read_by: conversation.getRecipients(),
+                delivered_to: conversation.getRecipients(),
               });
             }
 
@@ -1550,6 +2297,10 @@
             });
           }
 
+          const sendingDeviceConversation = await ConversationController.getOrCreateAndWait(
+            source,
+            'private'
+          );
           if (dataMessage.profileKey) {
             const profileKey = dataMessage.profileKey.toString('base64');
             if (source === textsecure.storage.user.getNumber()) {
@@ -1557,34 +2308,55 @@
             } else if (conversation.isPrivate()) {
               conversation.setProfileKey(profileKey);
             } else {
-              ConversationController.getOrCreateAndWait(source, 'private').then(
-                sender => {
-                  sender.setProfileKey(profileKey);
-                }
-              );
+              sendingDeviceConversation.setProfileKey(profileKey);
             }
           }
 
           let autoAccept = false;
           if (message.get('type') === 'friend-request') {
-            if (conversation.hasSentFriendRequest()) {
-              // Automatically accept incoming friend requests if we have send one already
-              autoAccept = true;
+            /*
+            Here is the before and after state diagram for the operation before.
+
+            None -> RequestReceived
+            PendingSend -> RequestReceived
+            RequestReceived -> RequestReceived
+            Sent -> Friends
+            Expired -> Friends
+            Friends -> Friends
+
+            The cases where we auto accept are the following:
+              - We sent the user a friend request and that user sent us a friend request.
+              - We are friends with the user, and that user just sent us a friend request.
+            */
+            const isFriend = sendingDeviceConversation.isFriend();
+            const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
+            autoAccept = isFriend || hasSentFriendRequest;
+
+            if (autoAccept) {
               message.set({ friendStatus: 'accepted' });
-              await conversation.onFriendRequestAccepted();
-              window.libloki.api.sendFriendRequestAccepted(
-                message.get('source')
-              );
-            } else if (!conversation.isFriend()) {
-              await conversation.onFriendRequestReceived();
             }
-          } else {
-            await conversation.onFriendRequestAccepted();
+
+            if (isFriend) {
+              window.Whisper.events.trigger('endSession', source);
+            } else if (hasSentFriendRequest) {
+              await sendingDeviceConversation.onFriendRequestAccepted();
+            } else {
+              await sendingDeviceConversation.onFriendRequestReceived();
+            }
+          } else if (message.get('type') !== 'outgoing') {
+            // Ignore 'outgoing' messages because they are sync messages
+            await sendingDeviceConversation.onFriendRequestAccepted();
           }
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,
           });
           message.set({ id });
+          MessageController.register(message.id, message);
+
+          // Note that this can save the message again, if jobs were queued. We need to
+          //   call it after we have an id for this message, because the jobs refer back
+          //   to their source message.
+          await message.queueAttachmentDownloads();
 
           await window.Signal.Data.updateConversation(
             conversationId,
@@ -1629,9 +2401,11 @@
 
           if (message.get('unread')) {
             // Need to do this here because the conversation has already changed states
-            if (autoAccept)
+            if (autoAccept) {
               await conversation.notifyFriendRequest(source, 'accepted');
-            else await conversation.notify(message);
+            } else {
+              await conversation.notify(message);
+            }
           }
 
           confirm();
@@ -1709,6 +2483,31 @@
     },
   });
 
+  // Receive will be enabled before we enable send
+  Whisper.Message.LONG_MESSAGE_CONTENT_TYPE = 'text/x-signal-plain';
+
+  Whisper.Message.getLongMessageAttachment = ({ body, attachments, now }) => {
+    if (body.length <= 2048) {
+      return {
+        body,
+        attachments,
+      };
+    }
+
+    const data = bytesFromString(body);
+    const attachment = {
+      contentType: Whisper.Message.LONG_MESSAGE_CONTENT_TYPE,
+      fileName: `long-message-${now}.txt`,
+      data,
+      size: data.byteLength,
+    };
+
+    return {
+      body: body.slice(0, 2048),
+      attachments: [attachment, ...attachments],
+    };
+  };
+
   Whisper.Message.refreshExpirationTimer = () =>
     Whisper.ExpiringMessagesListener.update();
 
@@ -1761,7 +2560,9 @@
         }
       );
 
-      const models = messages.filter(message => Boolean(message.id));
+      const models = messages
+        .filter(message => Boolean(message.id))
+        .map(message => MessageController.register(message.id, message));
       const eliminated = messages.length - models.length;
       if (eliminated > 0) {
         window.log.warn(

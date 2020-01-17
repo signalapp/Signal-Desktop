@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { RenderTextCallback } from '../../types/Util';
+import { RenderTextCallbackType } from '../../types/Util';
 
 interface Props {
   text: string;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
-  renderNonNewLine?: RenderTextCallback;
+  renderNonNewLine?: RenderTextCallbackType;
+  convoId: string;
 }
 
 export class AddNewLines extends React.Component<Props> {
@@ -14,7 +15,7 @@ export class AddNewLines extends React.Component<Props> {
   };
 
   public render() {
-    const { text, renderNonNewLine } = this.props;
+    const { text, renderNonNewLine, convoId } = this.props;
     const results: Array<any> = [];
     const FIND_NEWLINES = /\n/g;
 
@@ -29,14 +30,14 @@ export class AddNewLines extends React.Component<Props> {
     let count = 1;
 
     if (!match) {
-      return renderNonNewLine({ text, key: 0 });
+      return renderNonNewLine({ text, key: 0, convoId });
     }
 
     while (match) {
       if (last < match.index) {
         const textWithNoNewline = text.slice(last, match.index);
         results.push(
-          renderNonNewLine({ text: textWithNoNewline, key: count++ })
+          renderNonNewLine({ text: textWithNoNewline, key: count++, convoId })
         );
       }
 
@@ -48,7 +49,9 @@ export class AddNewLines extends React.Component<Props> {
     }
 
     if (last < text.length) {
-      results.push(renderNonNewLine({ text: text.slice(last), key: count++ }));
+      results.push(
+        renderNonNewLine({ text: text.slice(last), key: count++, convoId })
+      );
     }
 
     return results;

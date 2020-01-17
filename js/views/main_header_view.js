@@ -10,8 +10,6 @@
     templateName: 'main-header-placeholder',
     events: {
       'click .main-header-title-wrapper': 'onClick',
-      'click .edit-name': 'onEditProfile',
-      'click .copy-key': 'onCopyKey',
     },
     initialize(options) {
       this.ourNumber = textsecure.storage.user.getNumber();

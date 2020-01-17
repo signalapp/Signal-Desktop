@@ -60,10 +60,12 @@
       </div>
     </div>
     <br />
+    {{ #isHideMenuBarSupported }}
     <div class='menu-bar-setting'>
       <input type='checkbox' name='hide-menu-bar' id='hide-menu-bar'/>
       <label for='hide-menu-bar'>{{ hideMenuBar }}</label>
     </div>
+    {{ /isHideMenuBarSupported }}
     <hr>
     <div class='notification-settings'>
       <h3>{{ notifications }}</h3>
@@ -98,15 +100,11 @@
         <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
         <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
       </div>
+      <div class='link-preview-setting'>
+        <input type='checkbox' name='link-preview-setting' id='link-preview-setting' />
+        <label for='link-preview-setting'>{{ linkPreviewsSettingDescription }}</label>
+      </div>
 
-    <hr>
-    <h3>{{ linkPreviews }}</h3>
-    <div>{{ linkPreviewsDescription }}<div>
-    </br>
-    <div class='link-preview-setting'>
-      <input type='checkbox' name='link-preview-setting' id='link-preview-setting' />
-      <label for='link-preview-setting'>{{ linkPreviewsSettingDescription }}</label>
-    </div>
   <hr>
     <div class='permissions-setting'>
       <h3>{{ permissions }}</h3>
@@ -117,6 +115,10 @@
       <div class='read-receipt-setting'>
         <input type='checkbox' name='read-receipt-setting' id='read-receipt-setting' />
         <label for='read-receipt-setting'>{{ readReceiptSettingDescription }}</label>
+      </div>
+      <div class='typing-indicators-setting'>
+        <input type='checkbox' name='typing-indicators-setting' id='typing-indicators-setting' /> 
+        <label for='typing-indicators-setting'>{{ typingIndicatorsSettingDescription }}</label>
       </div>
     </div>
     <div class='sync-setting'></div>

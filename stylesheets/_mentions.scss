@@ -1,0 +1,254 @@
+.leave-group-dialog {
+  .content {
+    max-width: 100% !important;
+  }
+
+  .titleText {
+    font-size: large;
+    text-align: center;
+    margin: 2px;
+  }
+
+  .ok {
+    background-color: orangered;
+    min-width: 70px;
+    border: none;
+
+    &:hover {
+      background-color: red;
+    }
+  }
+
+  .cancel {
+    border: none;
+    min-width: 70px;
+  }
+}
+
+.member-preview {
+  margin-left: 10px;
+}
+
+/* remove scroll bars */
+.loki-dialog .add-moderators-dialog .content {
+  padding: 1.1em;
+}
+
+.invite-friends-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
+.create-group-dialog {
+  .content {
+    max-width: 100% !important;
+  }
+
+  .buttons {
+    margin: 8px;
+  }
+
+  .group-name {
+    font-size: larger;
+  }
+
+  .titleText {
+    font-size: large;
+    text-align: center;
+  }
+}
+
+.create-group-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
+.invite-friends-dialog {
+  .no-friends {
+    text-align: center;
+  }
+
+  .hidden {
+    display: none;
+  }
+}
+
+.create-group-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
+.edit-profile-dialog {
+  .error-message {
+    text-align: center;
+    color: red;
+    display: block;
+    user-select: none;
+  }
+
+  .error-faded {
+    opacity: 0;
+    margin-top: -20px;
+    transition: all 100ms linear;
+  }
+
+  .error-shown {
+    opacity: 1;
+    transition: all 250ms linear;
+  }
+}
+
+.friend-selection-list {
+  max-height: 240px;
+  overflow-y: scroll;
+  margin: 4px;
+
+  .check-mark {
+    float: right;
+    text-align: center;
+    color: darkslategrey;
+    margin: 4px;
+    min-width: 20px;
+  }
+
+  .invisible {
+    visibility: hidden;
+  }
+
+  .existing-member {
+    color: green;
+  }
+
+  .existing-member-kicked {
+    color: red;
+  }
+}
+
+.dark-theme {
+  .friend-selection-list {
+    .check-mark {
+      color: rgb(230, 230, 230);
+    }
+  }
+}
+
+.member-list-container {
+  margin: 0;
+  padding: 0;
+
+  max-height: 240px;
+  overflow-y: scroll;
+
+  .check-mark {
+    display: none;
+  }
+}
+
+.member-list-container,
+.create-group-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
+.invite-friends-dialog {
+  .member-item {
+    padding: 4px;
+    user-select: none;
+
+    &:hover:not(.member-selected) {
+      background-color: $color-light-20;
+    }
+
+    background-color: $color-light-10;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    .name-part {
+      font-weight: 300;
+      margin-left: 6px;
+    }
+
+    .pubkey-part {
+      margin-left: 6px;
+      color: darkslategrey;
+    }
+  }
+
+  .member-selected {
+    background-color: $color-light-35;
+  }
+}
+
+.mention-profile-name {
+  color: rgb(194, 244, 255);
+  background-color: rgb(66, 121, 150);
+  text-decoration: underline;
+  border-radius: 4px;
+  margin: 2px;
+  padding: 2px;
+  user-select: none;
+}
+
+.mention-profile-name-us {
+  background-color: rgba(255, 197, 50, 1);
+  color: black;
+}
+
+.message-highlighted {
+  border-radius: $message-container-border-radius;
+  background-color: rgba(255, 197, 50, 0.2);
+}
+
+.dark-theme {
+  .member-list-container,
+  .create-group-dialog,
+  .add-moderators-dialog,
+  .remove-moderators-dialog,
+  .invite-friends-dialog {
+    .member-item {
+      &:hover:not(.member-selected) {
+        background-color: $color-dark-55;
+      }
+
+      background-color: $color-dark-70;
+
+      color: white;
+
+      .pubkey-part {
+        color: rgb(230, 230, 230);
+      }
+    }
+
+    .member-selected {
+      background-color: $color-dark-60;
+    }
+  }
+}
+
+.add-moderators-dialog {
+  .module-main-header__search__input {
+    color: rgb(32, 32, 32);
+  }
+}
+
+.module-conversation-list-item--mentioned-us {
+  border-left: 4px solid #ffb000 !important;
+}
+
+.at-symbol {
+  background-color: #ffb000;
+
+  color: $color-black;
+  text-align: center;
+
+  padding-top: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+
+  position: absolute;
+  right: -6px;
+  top: 12px;
+
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.25px;
+
+  height: 16px;
+  min-width: 16px;
+  border-radius: 8px;
+
+  box-shadow: 0px 0px 0px 1px $color-dark-85;
+}

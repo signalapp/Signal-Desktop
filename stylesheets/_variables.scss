@@ -22,8 +22,13 @@
   font-weight: bold;
 }
 
-$roboto: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-$roboto-light: Roboto-Light, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+$roboto: Roboto, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
+  'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
+  'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
+$roboto-light: Roboto-Light, 'Helvetica Neue', 'Source Sans Pro Light',
+  'Source Han Sans SC Light', 'Source Han Sans CN Light',
+  'Hiragino Sans GB Light', 'Hiragino Kaku Gothic Light',
+  'Microsoft Yahei UI Light', Helvetica, Arial, sans-serif;
 
 // Loki colors
 $color-loki-light-gray: #e9e9e9;
@@ -109,6 +114,7 @@ $color-white-08: rgba($color-white, 0.8);
 $color-white-085: rgba($color-white, 0.85);
 $color-light-02: #f9fafa;
 $color-light-10: #eeefef;
+$color-light-20: #c1c5cd;
 $color-light-35: #a4a6a9;
 $color-light-45: #8b8e91;
 $color-light-60: #62656a;
@@ -124,6 +130,7 @@ $color-dark-75: #292c33;
 $color-dark-85: #1a1c20;
 $color-dark-90: #121417;
 $color-black-008: rgba($color-black, 0.08);
+$color-black-005: rgba($color-black, 0.05);
 $color-black-008-no-tranparency: #ededed;
 $color-black-016-no-tranparency: #d9d9d9;
 $color-black-012: rgba($color-black, 0.12);
@@ -192,6 +199,7 @@ $header-height: 55px;
 $button-height: 24px;
 
 $border-radius: 5px;
+$message-container-border-radius: 16px;
 
 $font-size: 14px;
 $font-size-small: (13/14) + em;

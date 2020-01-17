@@ -4,17 +4,17 @@ import classNames from 'classnames';
 import { Avatar } from './Avatar';
 import { Emojify } from './conversation/Emojify';
 
-import { Localizer } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 
 interface Props {
   phoneNumber: string;
   isMe?: boolean;
   name?: string;
-  color?: string;
+  color: string;
   verified: boolean;
   profileName?: string;
   avatarPath?: string;
-  i18n: Localizer;
+  i18n: LocalizerType;
   onClick?: () => void;
 }
 

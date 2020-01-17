@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage, lokiP2pAPI, textsecure, libsignal */
+/* global _, Whisper, Backbone, storage, textsecure, libsignal, log */
 
 /* eslint-disable more/no-then */
 
@@ -11,8 +11,6 @@
   const conversations = new Whisper.ConversationCollection();
   const inboxCollection = new (Backbone.Collection.extend({
     initialize() {
-      this.on('change:timestamp change:name change:number', this.sort);
-
       this.listenTo(conversations, 'add change:active_at', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
       this.listenTo(conversations, 'remove', this.remove);
@@ -22,25 +20,6 @@
         _.debounce(this.updateUnreadCount.bind(this), 1000)
       );
       this.startPruning();
-
-      this.collator = new Intl.Collator();
-    },
-    comparator(m1, m2) {
-      const timestamp1 = m1.get('timestamp');
-      const timestamp2 = m2.get('timestamp');
-      if (timestamp1 && !timestamp2) {
-        return -1;
-      }
-      if (timestamp2 && !timestamp1) {
-        return 1;
-      }
-      if (timestamp1 && timestamp2 && timestamp1 !== timestamp2) {
-        return timestamp2 - timestamp1;
-      }
-
-      const title1 = m1.getTitle().toLowerCase();
-      const title2 = m2.getTitle().toLowerCase();
-      return this.collator.compare(title1, title2);
     },
     addActive(model) {
       if (model.get('active_at')) {
@@ -78,58 +57,9 @@
   }))();
 
   window.getInboxCollection = () => inboxCollection;
-
-  const contactCollection = new (Backbone.Collection.extend({
-    initialize() {
-      this.on(
-        'change:timestamp change:name change:number change:profileName',
-        this.sort
-      );
-
-      this.listenTo(
-        conversations,
-        'add change:active_at change:friendRequestStatus',
-        this.addActive
-      );
-      this.listenTo(conversations, 'remove', this.remove);
-      this.listenTo(conversations, 'reset', () => this.reset([]));
-
-      this.collator = new Intl.Collator();
-    },
-    comparator(m1, m2) {
-      const title1 = m1.getTitle().toLowerCase();
-      const title2 = m2.getTitle().toLowerCase();
-      return this.collator.compare(title1, title2);
-    },
-    addActive(model) {
-      // We only want models which we are friends with
-      if (model.isFriend() && !model.isMe()) {
-        this.add(model);
-        model.updateLastMessage();
-      } else {
-        this.remove(model);
-      }
-    },
-  }))();
-
-  window.getContactCollection = () => contactCollection;
+  window.getConversations = () => conversations;
 
   window.ConversationController = {
-    getCollection() {
-      return conversations;
-    },
-    markAsSelected(toSelect) {
-      conversations.each(conversation => {
-        const current = conversation.isSelected || false;
-        const newValue = conversation.id === toSelect.id;
-
-        // eslint-disable-next-line no-param-reassign
-        conversation.isSelected = newValue;
-        if (current !== newValue) {
-          conversation.trigger('change');
-        }
-      });
-    },
     get(id) {
       if (!this._initialFetchComplete) {
         throw new Error(
@@ -229,6 +159,14 @@
       if (!conversation) {
         return;
       }
+      if (conversation.isPublic()) {
+        const channelAPI = await conversation.getPublicSendData();
+        if (channelAPI === null) {
+          log.warn(`Could not get API for public conversation ${id}`);
+        } else {
+          channelAPI.serverAPI.partChannel(channelAPI.channelId);
+        }
+      }
       await conversation.destroyMessages();
       const deviceIds = await textsecure.storage.protocol.getDeviceIds(id);
       await Promise.all(
@@ -288,14 +226,6 @@
     async load() {
       window.log.info('ConversationController: starting initial fetch');
 
-      // We setup online and offline listeners here because we want
-      //  to minimize the amount of listeners we have to avoid memory leaks
-      if (!this.p2pListenersSet) {
-        lokiP2pAPI.on('online', this._handleOnline.bind(this));
-        lokiP2pAPI.on('offline', this._handleOffline.bind(this));
-        this.p2pListenersSet = true;
-      }
-
       if (conversations.length) {
         throw new Error('ConversationController: Already loaded!');
       }
@@ -311,9 +241,12 @@
           this._initialFetchComplete = true;
           const promises = [];
           conversations.forEach(conversation => {
+            if (!conversation.get('lastMessage')) {
+              promises.push(conversation.updateLastMessage());
+            }
+
             promises.concat([
-              conversation.updateLastMessage(),
-              conversation.updateProfile(),
+              conversation.updateProfileName(),
               conversation.updateProfileAvatar(),
               conversation.resetPendingSend(),
               conversation.setFriendRequestExpiryTimeout(),
@@ -340,13 +273,13 @@
 
       return this._initialPromise;
     },
-    _handleOnline(pubKey) {
+    _handleOnline: pubKey => {
       try {
         const conversation = this.get(pubKey);
         conversation.set({ isOnline: true });
       } catch (e) {} // eslint-disable-line
     },
-    _handleOffline(pubKey) {
+    _handleOffline: pubKey => {
       try {
         const conversation = this.get(pubKey);
         conversation.set({ isOnline: false });

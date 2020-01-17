@@ -2,10 +2,11 @@ const WebSocket = require('websocket').w3cwebsocket;
 const fetch = require('node-fetch');
 const ProxyAgent = require('proxy-agent');
 const { Agent } = require('https');
+const FormData = require('form-data');
 
 const is = require('@sindresorhus/is');
 
-/* global Buffer, setTimeout, log, _ */
+/* global Buffer, setTimeout, log, _, lokiFileServerAPI */
 
 /* eslint-disable more/no-then, no-bitwise, no-nested-ternary */
 
@@ -28,10 +29,12 @@ const Uint8ArrayToString = _call(new Uint8Array());
 
 function _getString(thing) {
   if (typeof thing !== 'string') {
-    if (_call(thing) === Uint8ArrayToString)
+    if (_call(thing) === Uint8ArrayToString) {
       return String.fromCharCode.apply(null, thing);
-    if (_call(thing) === ArrayBufferToString)
+    }
+    if (_call(thing) === ArrayBufferToString) {
       return _getString(new Uint8Array(thing));
+    }
   }
   return thing;
 }
@@ -193,25 +196,27 @@ function _promiseAjax(providedUrl, options) {
         `${options.type} ${url}${options.unauthenticated ? ' (unauth)' : ''}`
       );
     }
+
     const timeout =
       typeof options.timeout !== 'undefined' ? options.timeout : 10000;
 
     const { proxyUrl } = options;
     const agentType = options.unauthenticated ? 'unauth' : 'auth';
+    const cacheKey = `${proxyUrl}-${agentType}`;
 
-    const { timestamp } = agents[agentType] || {};
+    const { timestamp } = agents[cacheKey] || {};
     if (!timestamp || timestamp + FIVE_MINUTES < Date.now()) {
       if (timestamp) {
-        log.info(`Cycling agent for type ${agentType}`);
+        log.info(`Cycling agent for type ${cacheKey}`);
       }
-      agents[agentType] = {
+      agents[cacheKey] = {
         agent: proxyUrl
           ? new ProxyAgent(proxyUrl)
           : new Agent({ keepAlive: true }),
         timestamp: Date.now(),
       };
     }
-    const { agent } = agents[agentType];
+    const { agent } = agents[cacheKey];
 
     const fetchOptions = {
       method: options.type,
@@ -458,6 +463,7 @@ function initialize({
       getSenderCertificate,
       makeProxiedRequest,
       putAttachment,
+      putAvatar,
       registerKeys,
       registerSupportForUnauthenticatedDelivery,
       removeSignalingKey,
@@ -839,41 +845,38 @@ function initialize({
       });
     }
 
-    function getAttachment(id) {
-      return _ajax({
-        call: 'attachment',
-        httpType: 'GET',
-        urlParameters: `/${id}`,
-        responseType: 'json',
-        validateResponse: { location: 'string' },
-      }).then(response =>
-        // Using _outerAJAX, since it's not hardcoded to the Signal Server
-        _outerAjax(response.location, {
-          contentType: 'application/octet-stream',
-          proxyUrl,
-          responseType: 'arraybuffer',
-          timeout: 0,
-          type: 'GET',
-        })
-      );
+    function getAttachment(fileUrl) {
+      return _outerAjax(fileUrl, {
+        contentType: 'application/octet-stream',
+        proxyUrl,
+        responseType: 'arraybuffer',
+        timeout: 0,
+        type: 'GET',
+      });
     }
 
-    function putAttachment(encryptedBin) {
-      return _ajax({
-        call: 'attachment',
-        httpType: 'GET',
-        responseType: 'json',
-      }).then(response =>
-        // Using _outerAJAX, since it's not hardcoded to the Signal Server
-        _outerAjax(response.location, {
-          contentType: 'application/octet-stream',
-          data: encryptedBin,
-          processData: false,
-          proxyUrl,
-          timeout: 0,
-          type: 'PUT',
-        }).then(() => response.idString)
-      );
+    function putAttachment(maybeEncryptedBin) {
+      const formData = new FormData();
+      const buffer = Buffer.from(maybeEncryptedBin);
+      formData.append('type', 'network.loki');
+      formData.append('content', buffer, {
+        contentType: 'application/octet-stream',
+        name: 'content',
+        filename: 'attachment',
+      });
+
+      return lokiFileServerAPI.uploadPrivateAttachment(formData);
+    }
+
+    function putAvatar(bin) {
+      const formData = new FormData();
+      const buffer = Buffer.from(bin);
+      formData.append('avatar', buffer, {
+        contentType: 'application/octet-stream',
+        name: 'avatar',
+        filename: 'attachment',
+      });
+      return lokiFileServerAPI.uploadAvatar(formData);
     }
 
     // eslint-disable-next-line no-shadow

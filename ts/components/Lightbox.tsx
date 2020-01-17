@@ -8,7 +8,7 @@ import is from '@sindresorhus/is';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
 
-import { Localizer } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 
 const Colors = {
   TEXT_SECONDARY: '#bbb',
@@ -26,7 +26,7 @@ const colorSVG = (url: string, color: string) => {
 interface Props {
   close: () => void;
   contentType: MIME.MIMEType | undefined;
-  i18n: Localizer;
+  i18n: LocalizerType;
   objectURL: string;
   caption?: string;
   onNext?: () => void;
@@ -164,17 +164,17 @@ const Icon = ({
 );
 
 export class Lightbox extends React.Component<Props> {
-  private containerRef: HTMLDivElement | null = null;
-  private videoRef: HTMLVideoElement | null = null;
-
-  private captureVideoBound: (element: HTMLVideoElement) => void;
-  private playVideoBound: () => void;
+  private readonly containerRef: React.RefObject<HTMLDivElement>;
+  private readonly videoRef: React.RefObject<HTMLVideoElement>;
+  private readonly playVideoBound: () => void;
 
   constructor(props: Props) {
     super(props);
 
-    this.captureVideoBound = this.captureVideo.bind(this);
     this.playVideoBound = this.playVideo.bind(this);
+
+    this.videoRef = React.createRef();
+    this.containerRef = React.createRef();
   }
 
   public componentDidMount() {
@@ -189,20 +189,21 @@ export class Lightbox extends React.Component<Props> {
     document.removeEventListener('keyup', this.onKeyUp, useCapture);
   }
 
-  public captureVideo(element: HTMLVideoElement) {
-    this.videoRef = element;
-  }
-
   public playVideo() {
     if (!this.videoRef) {
       return;
     }
 
-    if (this.videoRef.paused) {
+    const { current } = this.videoRef;
+    if (!current) {
+      return;
+    }
+
+    if (current.paused) {
       // tslint:disable-next-line no-floating-promises
-      this.videoRef.play();
+      current.play();
     } else {
-      this.videoRef.pause();
+      current.pause();
     }
   }
 
@@ -221,7 +222,7 @@ export class Lightbox extends React.Component<Props> {
       <div
         style={styles.container}
         onClick={this.onContainerClick}
-        ref={this.setContainerRef}
+        ref={this.containerRef}
         role="dialog"
       >
         <div style={styles.mainContainer}>
@@ -259,14 +260,14 @@ export class Lightbox extends React.Component<Props> {
     );
   }
 
-  private renderObject = ({
+  private readonly renderObject = ({
     objectURL,
     contentType,
     i18n,
   }: {
     objectURL: string;
     contentType: MIME.MIMEType;
-    i18n: Localizer;
+    i18n: LocalizerType;
   }) => {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
     if (isImageTypeSupported) {
@@ -285,7 +286,7 @@ export class Lightbox extends React.Component<Props> {
       return (
         <video
           role="button"
-          ref={this.captureVideoBound}
+          ref={this.videoRef}
           onClick={this.playVideoBound}
           controls={true}
           style={styles.object}
@@ -301,12 +302,11 @@ export class Lightbox extends React.Component<Props> {
     const isUnsupportedVideoType =
       !isVideoTypeSupported && MIME.isVideo(contentType);
     if (isUnsupportedImageType || isUnsupportedVideoType) {
-      return (
-        <Icon
-          url={isUnsupportedVideoType ? 'images/video.svg' : 'images/image.svg'}
-          onClick={this.onObjectClick}
-        />
-      );
+      const iconUrl = isUnsupportedVideoType
+        ? 'images/video.svg'
+        : 'images/image.svg';
+
+      return <Icon url={iconUrl} onClick={this.onObjectClick} />;
     }
 
     // tslint:disable-next-line no-console
@@ -315,11 +315,7 @@ export class Lightbox extends React.Component<Props> {
     return <Icon onClick={this.onObjectClick} url="images/file.svg" />;
   };
 
-  private setContainerRef = (value: HTMLDivElement) => {
-    this.containerRef = value;
-  };
-
-  private onClose = () => {
+  private readonly onClose = () => {
     const { close } = this.props;
     if (!close) {
       return;
@@ -328,7 +324,7 @@ export class Lightbox extends React.Component<Props> {
     close();
   };
 
-  private onKeyUp = (event: KeyboardEvent) => {
+  private readonly onKeyUp = (event: KeyboardEvent) => {
     const { onNext, onPrevious } = this.props;
     switch (event.key) {
       case 'Escape':
@@ -351,14 +347,16 @@ export class Lightbox extends React.Component<Props> {
     }
   };
 
-  private onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target !== this.containerRef) {
+  private readonly onContainerClick = (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (this.containerRef && event.target !== this.containerRef.current) {
       return;
     }
     this.onClose();
   };
 
-  private onObjectClick = (
+  private readonly onObjectClick = (
     event: React.MouseEvent<HTMLImageElement | HTMLDivElement>
   ) => {
     event.stopPropagation();

@@ -1,20 +1,39 @@
 const axios = require('axios');
 const { assert } = require('chai');
 const LocalLokiServer = require('../../modules/local_loki_server');
+const selfsigned = require('selfsigned');
+const https = require('https');
+
+class HolePunchingError extends Error {
+  constructor(message, err) {
+    super(message);
+    this.name = 'HolePunchingError';
+    this.error = err;
+  }
+}
 
 describe('LocalLokiServer', () => {
   before(async () => {
-    this.server = new LocalLokiServer();
+    const attrs = [{ name: 'commonName', value: 'mypubkey' }];
+    const pems = selfsigned.generate(attrs, { days: 365 * 10 });
+    global.textsecure = {};
+    global.textsecure.HolePunchingError = HolePunchingError;
+    this.server = new LocalLokiServer(pems, { skipUpnp: true });
     await this.server.start(8000);
+    this.axiosClient = axios.create({
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+      }),
+    });
   });
 
-  after(() => {
-    this.server.close();
+  after(async () => {
+    await this.server.close();
   });
 
   it('should return 405 if not a POST request', async () => {
     try {
-      await axios.get('http://localhost:8000');
+      await this.axiosClient.get('https://localhost:8000');
       assert.fail('Got a successful response');
     } catch (error) {
       if (error.response) {
@@ -27,7 +46,7 @@ describe('LocalLokiServer', () => {
 
   it('should return 404 if no endpoint provided', async () => {
     try {
-      await axios.post('http://localhost:8000', { name: 'Test' });
+      await this.axiosClient.post('https://localhost:8000', { name: 'Test' });
       assert.fail('Got a successful response');
     } catch (error) {
       if (error.response) {
@@ -40,7 +59,9 @@ describe('LocalLokiServer', () => {
 
   it('should return 404 and a string if invalid enpoint is provided', async () => {
     try {
-      await axios.post('http://localhost:8000/invalid', { name: 'Test' });
+      await this.axiosClient.post('https://localhost:8000/invalid', {
+        name: 'Test',
+      });
       assert.fail('Got a successful response');
     } catch (error) {
       if (error.response) {
@@ -54,7 +75,9 @@ describe('LocalLokiServer', () => {
 
   describe('/store', async () => {
     it('should pass the POSTed data to the callback', async () => {
-      const server = new LocalLokiServer();
+      const attrs = [{ name: 'commonName', value: 'mypubkey' }];
+      const pems = selfsigned.generate(attrs, { days: 365 * 10 });
+      const server = new LocalLokiServer(pems, { skipUpnp: true });
       await server.start(8001);
       const messageData = {
         method: 'store',
@@ -74,7 +97,10 @@ describe('LocalLokiServer', () => {
       });
 
       try {
-        await axios.post('http://localhost:8001/v1/storage_rpc', messageData);
+        await this.axiosClient.post(
+          'https://localhost:8001/storage_rpc/v1',
+          messageData
+        );
       } catch (error) {
         assert.isNotOk(error, 'Error occured');
       }

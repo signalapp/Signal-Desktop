@@ -169,12 +169,20 @@
         view.onProgress(count);
       }
     },
-    openConversation(conversation) {
-      if (conversation) {
+    openConversation(id, messageId) {
+      if (id) {
         this.openInbox().then(() => {
-          this.inboxView.openConversation(conversation);
+          this.inboxView.openConversation(id, messageId);
         });
       }
+    },
+    showEditProfileDialog(options) {
+      const dialog = new Whisper.EditProfileDialogView(options);
+      this.el.append(dialog.el);
+    },
+    showUserDetailsDialog(options) {
+      const dialog = new Whisper.UserDetailsDialogView(options);
+      this.el.append(dialog.el);
     },
     showNicknameDialog({ pubKey, title, message, nickname, onOk, onCancel }) {
       const _title = title || `Change nickname for ${pubKey}`;
@@ -194,6 +202,76 @@
     },
     showSeedDialog(seed) {
       const dialog = new Whisper.SeedDialogView({ seed });
+      this.el.append(dialog.el);
+    },
+    showQRDialog(string) {
+      const dialog = new Whisper.QRDialogView({ string });
+      this.el.append(dialog.el);
+    },
+    showDevicePairingDialog() {
+      const dialog = new Whisper.DevicePairingDialogView();
+
+      dialog.on('startReceivingRequests', () => {
+        Whisper.events.on('devicePairingRequestReceived', pubKey =>
+          dialog.requestReceived(pubKey)
+        );
+      });
+
+      dialog.on('stopReceivingRequests', () => {
+        Whisper.events.off('devicePairingRequestReceived');
+      });
+
+      dialog.on('devicePairingRequestAccepted', (pubKey, cb) =>
+        Whisper.events.trigger('devicePairingRequestAccepted', pubKey, cb)
+      );
+      dialog.on('devicePairingRequestRejected', pubKey =>
+        Whisper.events.trigger('devicePairingRequestRejected', pubKey)
+      );
+      dialog.on('deviceUnpairingRequested', pubKey =>
+        Whisper.events.trigger('deviceUnpairingRequested', pubKey)
+      );
+      dialog.once('close', () => {
+        Whisper.events.off('devicePairingRequestReceived');
+      });
+      this.el.append(dialog.el);
+    },
+    showDevicePairingWordsDialog() {
+      const dialog = new Whisper.DevicePairingWordsDialogView();
+      this.el.append(dialog.el);
+    },
+    showAddServerDialog() {
+      const dialog = new Whisper.AddServerDialogView();
+      this.el.append(dialog.el);
+    },
+    showCreateGroup() {
+      // TODO: make it impossible to open 2 dialogs as once
+      // Curretnly, if the button is in focus, it is possible to
+      // create a new dialog by pressing 'Enter'
+      const dialog = new Whisper.CreateGroupDialogView();
+      this.el.append(dialog.el);
+    },
+    showUpdateGroupDialog(groupConvo) {
+      const dialog = new Whisper.UpdateGroupDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+    showSessionRestoreConfirmation(options) {
+      const dialog = new Whisper.ConfirmSessionResetView(options);
+      this.el.append(dialog.el);
+    },
+    showLeaveGroupDialog(groupConvo) {
+      const dialog = new Whisper.LeaveGroupDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+    showInviteFriendsDialog(groupConvo) {
+      const dialog = new Whisper.InviteFriendsDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+    showAddModeratorsDialog(groupConvo) {
+      const dialog = new Whisper.AddModeratorsDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+    showRemoveModeratorsDialog(groupConvo) {
+      const dialog = new Whisper.RemoveModeratorsDialogView(groupConvo);
       this.el.append(dialog.el);
     },
   });

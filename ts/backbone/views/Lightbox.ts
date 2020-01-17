@@ -2,7 +2,7 @@ export const show = (element: HTMLElement): void => {
   const container: HTMLDivElement | null = document.querySelector(
     '.lightbox-container'
   );
-  if (container === null) {
+  if (!container) {
     throw new TypeError("'.lightbox-container' is required");
   }
   // tslint:disable-next-line:no-inner-html
@@ -15,7 +15,7 @@ export const hide = (): void => {
   const container: HTMLDivElement | null = document.querySelector(
     '.lightbox-container'
   );
-  if (container === null) {
+  if (!container) {
     return;
   }
   // tslint:disable-next-line:no-inner-html

@@ -153,7 +153,8 @@ describe('NetworkStatusView', () => {
         it('should be interrupted', () => {
           socketStatus = socketStatusVal;
           networkStatusView.update();
-          const status = networkStatusView.getNetworkStatus();
+          const shortCircuit = true;
+          const status = networkStatusView.getNetworkStatus(shortCircuit);
           assert(status.hasInterruption);
         });
       });

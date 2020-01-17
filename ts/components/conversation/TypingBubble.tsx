@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
   avatarPath?: string;
@@ -13,7 +13,7 @@ interface Props {
   phoneNumber: string;
   profileName: string;
   conversationType: string;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class TypingBubble extends React.Component<Props> {
@@ -52,18 +52,22 @@ export class TypingBubble extends React.Component<Props> {
     const { i18n, color } = this.props;
 
     return (
-      <div className={classNames('module-message', 'module-message--incoming')}>
+      <div className="loki-message-wrapper">
         <div
-          className={classNames(
-            'module-message__container',
-            'module-message__container--incoming',
-            `module-message__container--incoming-${color}`
-          )}
+          className={classNames('module-message', 'module-message--incoming')}
         >
-          <div className="module-message__typing-container">
-            <TypingAnimation color="light" i18n={i18n} />
+          <div
+            className={classNames(
+              'module-message__container',
+              'module-message__container--incoming',
+              `module-message__container--incoming-${color}`
+            )}
+          >
+            <div className="module-message__typing-container">
+              <TypingAnimation color="light" i18n={i18n} />
+            </div>
+            {this.renderAvatar()}
           </div>
-          {this.renderAvatar()}
         </div>
       </div>
     );

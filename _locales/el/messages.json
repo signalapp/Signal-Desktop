@@ -1,4 +1,20 @@
 {
+    "copyErrorAndQuit": {
+        "message": "Αντιγραφή λάθους και έξοδος",
+        "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "unknownGroup": {
+        "message": "Unknown group",
+        "description": "Shown as the name of a group if we don't have any information about it"
+    },
+    "databaseError": {
+        "message": "Λάθος της βάσης δεδομένων",
+        "description": "Shown in a popup if the database cannot start up properly"
+    },
+    "deleteAndRestart": {
+        "message": "Διαγραφή όλων των δεδομένων και επανεκκίνηση",
+        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    },
     "mainMenuFile": {
         "message": "&Φάκελος",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -145,12 +161,28 @@
             }
         }
     },
+    "archivedConversations": {
+        "message": "Αρχειοθετημένες Συνομιλίες",
+        "description": "Shown in place of the search box when showing archived conversation list"
+    },
+    "archiveHelperText": {
+        "message": "Αυτές οι συνομιλίες είναι αρχειοθετημένες και θα εμφανιστούν στα εισερχόμενα μόνο αν ληφθούν νέα μηνύματα.",
+        "description": "Shown at the top of the archived converations list in the left pane"
+    },
+    "archiveConversation": {
+        "message": "Archive Conversation",
+        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
+    },
+    "moveConversationToInbox": {
+        "message": "Move Conversation to Inbox",
+        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
+    },
     "chooseDirectory": {
         "message": "Επιλογή φακέλου",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Choose file",
+        "message": "Επιλογή αρχείου",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
@@ -484,11 +516,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Loading Preview...",
+        "message": "Φόρτωση προεσκόπισης...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "Πρόχειρη μικρή προεσκόπιση συνδέσμου για $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -498,7 +530,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "Μικρή προεσκόπιση συνδέσμου για $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -508,7 +540,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "Πρόχειρη συνημμένη εικόνα: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -518,15 +550,15 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "message": "Για συνημμένα αρχεία που δεν είναι εικόνες, το όριο είναι ένα αρχείο ανά μήνυμα.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "You cannot mix non-image and image attachments in one message.",
+        "message": "Δεν είναι δυνατό να συνάψετε εικόνες μαζί με αρχεία άλλου τύπου στο ίδιο μήνυμα.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "You cannot add any more attachments to this message.",
+        "message": "Δεν είναι δυνατή η προσθήκη άλλων συνημμένων αρχείων σε αυτό το μήνυμα.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -611,13 +643,35 @@
         "message": "Έξοδος",
         "description": "Command in the tray icon menu, to quit the application"
     },
-    "trayTooltip": {
+    "signalDesktop": {
         "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
-    "searchForPeopleOrGroups": {
-        "message": "Εισάγετε όνομα ή αριθμό",
+    "search": {
+        "message": "Αναζήτηση",
         "description": "Placeholder text in the search input"
+    },
+    "noSearchResults": {
+        "message": "No results for \"$searchTerm$\"",
+        "description": "Shown in the search left pane when no results were found",
+        "placeholders": {
+            "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            }
+        }
+    },
+    "conversationsHeader": {
+        "message": "Συνομιλίες",
+        "description": "Shown to separate the types of search results"
+    },
+    "contactsHeader": {
+        "message": "Επαφές",
+        "description": "Shown to separate the types of search results"
+    },
+    "messagesHeader": {
+        "message": "Μηνύματα",
+        "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
         "message": "Καλώς ορίσατε στο Signal",
@@ -628,7 +682,7 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Typing animation for this conversation",
+        "message": "Κινούμενη εικόνα που δείχνει πληκτρολόγηση για αυτή τη συζήτηση",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
@@ -673,6 +727,10 @@
         "message": "Τ.Θ.",
         "description": "When rendering an address, used to provide context to a post office box"
     },
+    "downloading": {
+        "message": "Downloading",
+        "description": "Shown in the message bubble while a long message attachment is being downloaded"
+    },
     "downloadAttachment": {
         "message": "Λήψη Συνημμένου",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
@@ -694,7 +752,7 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice note must be the only attachment included in a message.",
+        "message": "Ένα μήνυμα φωνής πρέπει να είναι το μοναδικό συνημμένο αρχείο σε ένα μήνυμα.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
@@ -735,6 +793,18 @@
         "message": "Φωτογραφία ",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
+    "cannotUpdate": {
+        "message": "Cannot Update",
+        "description": "Shown as the title of our update error dialogs on windows"
+    },
+    "cannotUpdateDetail": {
+        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+        "description": "Shown if a general error happened while trying to install update package"
+    },
+    "readOnlyVolume": {
+        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+    },
     "ok": {
         "message": "OK",
         "description": ""
@@ -772,7 +842,7 @@
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "Προς",
+        "message": "to",
         "description": "Label for the receiver of a message"
     },
     "sent": {
@@ -862,7 +932,7 @@
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Icon showing that this image has a caption",
+        "message": "Εικονίδιο που ενδεικνύει ότι αυτή η εικόνα έχει υπότιτλο",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
@@ -956,16 +1026,8 @@
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "General",
+        "message": "Γενικά",
         "description": "Header for general options on the settings screen"
-    },
-    "sendLinkPreviews": {
-        "message": "Send Link Previews",
-        "description": "Option to control creation and send of link previews in setting screen"
-    },
-    "linkPreviewsDescription": {
-        "message": "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
-        "description": "Additional detail provided for Link Previews option in settings screen"
     },
     "spellCheckDescription": {
         "message": "Ενεργοποίηση ορθογραφικού ελέγχου του κειμένου που εισάγεται στο παράθυρο σύνθεσης μηνύματος",
@@ -1062,10 +1124,6 @@
     "expiredWarning": {
         "message": "Αυτή η έκδοση του Signal Desktop έχει λήξει. Κάντε αναβάθμιση στην πιο πρόσφατη έκδοση για να συνεχίσετε την ανταλλαγή μηνυμάτων.",
         "description": "Warning notification that this version of the app has expired"
-    },
-    "androidMessageLengthWarning": {
-        "message": "Οι παραλήπτες σε Android θα λάβουν μόνο τους πρώτους 2000 χαρακτήρες αυτού του μηνύματος.",
-        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "upgrade": {
         "message": "Αναβάθμιση",
@@ -1373,12 +1431,16 @@
         "message": "Σκοτεινό",
         "description": "Label text for dark theme"
     },
+    "noteToSelf": {
+        "message": "Να μην ξεχάσω ",
+        "description": "Name for the conversation with your own phone number"
+    },
     "hideMenuBar": {
         "message": "Απόκρυψη γραμμής μενού",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Έναρξη συνομιλίας...",
+        "message": "Start new conversation…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {

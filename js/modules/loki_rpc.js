@@ -1,10 +1,25 @@
-/* global log, libloki, textsecure */
+/* global log, libloki, textsecure, getStoragePubKey */
 
 const nodeFetch = require('node-fetch');
 const { parse } = require('url');
 
 const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
-const endpointBase = '/v1/storage_rpc';
+const endpointBase = '/storage_rpc/v1';
+
+const decryptResponse = async (response, address) => {
+  try {
+    const ciphertext = await response.text();
+    const plaintext = await libloki.crypto.snodeCipher.decrypt(
+      address,
+      ciphertext
+    );
+    const result = plaintext === '' ? {} : JSON.parse(plaintext);
+    return result;
+  } catch (e) {
+    log.warn(`Could not decrypt response from ${address}`, e);
+  }
+  return {};
+};
 
 // A small wrapper around node-fetch which deserializes response
 const fetch = async (url, options = {}) => {
@@ -39,49 +54,47 @@ const fetch = async (url, options = {}) => {
       method,
     });
 
+    let result;
+    // Wrong swarm
     if (response.status === 421) {
-      let newSwarm = await response.text();
       if (doEncryptChannel) {
-        try {
-          newSwarm = await libloki.crypto.snodeCipher.decrypt(
-            address,
-            newSwarm
-          );
-        } catch (e) {
-          log.warn(`Could not decrypt response from ${address}`, e);
-        }
-        try {
-          newSwarm = newSwarm === '' ? {} : JSON.parse(newSwarm);
-        } catch (e) {
-          log.warn(`Could not parse string to json ${newSwarm}`, e);
-        }
+        result = decryptResponse(response, address);
+      } else {
+        result = await response.json();
       }
+      const newSwarm = result.snodes ? result.snodes : [];
       throw new textsecure.WrongSwarmError(newSwarm);
+    }
+
+    // Wrong PoW difficulty
+    if (response.status === 432) {
+      if (doEncryptChannel) {
+        result = decryptResponse(response, address);
+      } else {
+        result = await response.json();
+      }
+      const { difficulty } = result;
+      throw new textsecure.WrongDifficultyError(difficulty);
+    }
+
+    if (response.status === 406) {
+      throw new textsecure.TimestampError(
+        'Invalid Timestamp (check your clock)'
+      );
     }
 
     if (!response.ok) {
       throw new textsecure.HTTPError('Loki_rpc error', response);
     }
 
-    let result;
     if (response.headers.get('Content-Type') === 'application/json') {
       result = await response.json();
     } else if (options.responseType === 'arraybuffer') {
       result = await response.buffer();
+    } else if (doEncryptChannel) {
+      result = decryptResponse(response, address);
     } else {
       result = await response.text();
-      if (doEncryptChannel) {
-        try {
-          result = await libloki.crypto.snodeCipher.decrypt(address, result);
-        } catch (e) {
-          log.warn(`Could not decrypt response from ${address}`, e);
-        }
-        try {
-          result = result === '' ? {} : JSON.parse(result);
-        } catch (e) {
-          log.warn(`Could not parse string to json ${result}`, e);
-        }
-      }
     }
 
     return result;
@@ -94,10 +107,29 @@ const fetch = async (url, options = {}) => {
 };
 
 // Wrapper for a JSON RPC request
-const rpc = (address, port, method, params, options = {}) => {
+const rpc = (
+  address,
+  port,
+  method,
+  params,
+  options = {},
+  endpoint = endpointBase
+) => {
   const headers = options.headers || {};
-  const url = `${address}${port}${endpointBase}`;
+  const portString = port ? `:${port}` : '';
+  const url = `${address}${portString}${endpoint}`;
+  // TODO: The jsonrpc and body field will be ignored on storage server
+  if (params.pubKey) {
+    // Ensure we always take a copy
+    // eslint-disable-next-line no-param-reassign
+    params = {
+      ...params,
+      pubKey: getStoragePubKey(params.pubKey),
+    };
+  }
   const body = {
+    jsonrpc: '2.0',
+    id: '0',
     method,
     params,
   };
@@ -106,7 +138,10 @@ const rpc = (address, port, method, params, options = {}) => {
     method: 'POST',
     ...options,
     body: JSON.stringify(body),
-    headers,
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
   };
 
   return fetch(url, fetchOptions);

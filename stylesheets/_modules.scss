@@ -5,8 +5,18 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-right: 8px;
   overflow-x: hidden;
+}
+
+.create-group-button {
+  background-color: #383c46;
+  color: #ffffff;
+  margin: 4px;
+  padding: 4px;
+}
+
+.create-group-button:focus {
+  outline: 0;
 }
 
 .module-contact-name span {
@@ -17,8 +27,12 @@
   user-select: none;
 }
 
-.module-contact-name__profile-number {
+.module-contact-name__profile-number.italic {
   font-style: italic;
+}
+
+.module-contact-name.compact {
+  display: block;
 }
 
 // Module: Message
@@ -84,9 +98,21 @@
   right: 100%;
 }
 
-.module-message__buttons__download {
+.module-message__buttons__upload {
   height: 24px;
   width: 24px;
+  transform: rotate(180deg);
+  display: inline-block;
+  cursor: pointer;
+  @include color-svg('../images/download.svg', $color-light-45);
+  &:hover {
+    @include color-svg('../images/download.svg', $color-gray-90);
+  }
+}
+
+.module-message__buttons__download {
+  min-height: 24px;
+  min-width: 24px;
   display: inline-block;
   cursor: pointer;
   @include color-svg('../images/download.svg', $color-light-45);
@@ -103,8 +129,8 @@
 }
 
 .module-message__buttons__reply {
-  height: 24px;
-  width: 24px;
+  min-height: 24px;
+  min-width: 24px;
   display: inline-block;
   cursor: pointer;
   @include color-svg('../images/reply.svg', $color-light-45);
@@ -164,7 +190,7 @@
 .module-message__container {
   position: relative;
   display: inline-block;
-  border-radius: 16px;
+  border-radius: $message-container-border-radius;
   padding-right: 12px;
   padding-left: 12px;
   padding-top: 10px;
@@ -219,7 +245,6 @@
   // Entirely to ensure that images are centered if they aren't full width of bubble
   text-align: center;
   position: relative;
-  cursor: pointer;
 
   margin-left: -12px;
   margin-right: -12px;
@@ -266,6 +291,7 @@
 .module-message__generic-attachment {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .module-message__generic-attachment--with-content-below {
@@ -278,6 +304,10 @@
 
 .module-message__generic-attachment__icon-container {
   position: relative;
+}
+.module-message__generic-attachment__spinner-container {
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .module-message__generic-attachment__icon {
@@ -507,23 +537,26 @@
 }
 
 .module-message__metadata__date,
-.module-message__metadata__p2p {
+.module-message__metadata__badge {
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
   color: $color-gray-60;
   text-transform: uppercase;
-}
-.module-message__metadata__date--incoming,
-.module-message__metadata__p2p--incoming {
-  color: $color-white-08;
-}
-.module-message__metadata__date--with-image-no-caption {
-  color: $color-white;
+  user-select: none;
 }
 
-.module-message__metadata__p2p {
+.module-message__metadata__badge {
   font-weight: bold;
+}
+
+.module-message__metadata__date--incoming,
+.module-message__metadata__badge--incoming {
+  color: $color-white-08;
+}
+
+.module-message__metadata__date--with-image-no-caption {
+  color: $color-white;
 }
 
 .module-message__metadata__spacer {
@@ -594,9 +627,9 @@
 }
 
 .module-message__author-avatar {
-  position: absolute;
-  bottom: 0px;
-  right: calc(100% + 4px);
+  flex-direction: column-reverse;
+  display: inline-flex;
+  padding-right: 4px;
 }
 
 .module-message__typing-container {
@@ -993,7 +1026,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  align-items: center;
 }
 
 .module-embedded-contact--with-content-above {
@@ -1002,6 +1035,11 @@
 
 .module-embedded-contact--with-content-below {
   padding-bottom: 4px;
+}
+
+.module-embedded-contact__spinner-container {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .module-embedded-contact__text-container {
@@ -1418,6 +1456,11 @@
   height: 48px;
 }
 
+.module-conversation-header__title-text {
+  color: darkgrey;
+  margin-left: 1em;
+}
+
 .module-conversation-header__title-flex {
   margin-left: auto;
   margin-right: auto;
@@ -1434,7 +1477,7 @@
 }
 
 .module-conversation-header__title {
-  margin-left: 8px;
+  margin-left: 6px;
 
   min-width: 0;
   font-size: 16px;
@@ -1442,8 +1485,8 @@
   font-weight: 300;
   color: $color-gray-90;
 
-  // width of avatar (28px) and our 8px left margin
-  max-width: calc(100% - 36px);
+  // width of avatar (28px) and our 6px left margin
+  max-width: calc(100% - 34px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1843,10 +1886,6 @@
   .module-avatar {
     background-color: $color-dark-85;
   }
-
-  .module-contact-name {
-    margin-right: 0px;
-  }
 }
 
 .module-conversation-list-item--has-unread {
@@ -1885,7 +1924,7 @@
 
   position: absolute;
   right: -6px;
-  top: 6px;
+  top: -6px;
 
   font-weight: 300;
   font-size: 11px;
@@ -2047,6 +2086,25 @@
   transform: translate(-50%, -50%);
 }
 
+.module-avatar__icon--crown-wrapper {
+  position: relative;
+  bottom: -38px;
+  right: -16px;
+  height: 21px;
+  width: 21px;
+  transform: translate(25%, 25%);
+  padding: 9%;
+  background-color: $color-white;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+}
+
+.module-avatar__icon--crown {
+  @include color-svg('../images/crown.svg', #ffb000);
+  height: 100%;
+  width: 100%;
+}
+
 .module-avatar__icon--group {
   @include color-svg('../images/profile-group.svg', $color-white);
 }
@@ -2141,6 +2199,33 @@
   width: 42px;
 }
 
+.module-avatar--300 {
+  height: 300px;
+  width: 300px;
+
+  img {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+.module-avatar__label--300 {
+  width: 300px;
+  font-size: 150px;
+  line-height: 302px;
+}
+
+.module-avatar__icon--300 {
+  height: 158px;
+  width: 158px;
+}
+
+.module-avatar__icon--note-to-self {
+  width: 70%;
+  height: 70%;
+  @include color-svg('../images/note-28.svg', $color-white);
+}
+
 .module-avatar--no-image {
   background-color: $color-conversation-grey;
 }
@@ -2184,7 +2269,16 @@
 
 // Module: Main Header
 
-.main-header-title-wrapper {
+.module-main-header {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid $color-dark-90;
+  color: $color-dark-05;
+}
+
+.module-main-header__title {
+  height: 55px;
+  padding-left: 16px;
   flex: 1;
   flex-direction: row;
   display: flex;
@@ -2196,10 +2290,20 @@
   }
 }
 
-.main-header-content-wrapper {
+.module-main-header__menu {
   color: $color-dark-05;
+  overflow: hidden;
 
-  div {
+  .accordian {
+    margin-top: -100%;
+    transition: margin-top 0.35s ease-out;
+
+    &.expanded {
+      margin-top: 0;
+    }
+  }
+
+  .menu-item {
     padding: 12px;
     background-color: $color-dark-90;
     user-select: none;
@@ -2211,21 +2315,7 @@
   }
 }
 
-.main-header-wrapper {
-  overflow-x: hidden;
-  flex: 1;
-}
-
-.module-main-header {
-  height: $header-height;
-  padding-left: 16px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.main-header-content-toggle {
+.module-main-header-content-toggle {
   width: 3em;
   line-height: 3em;
   font-weight: bold;
@@ -2246,16 +2336,8 @@
   }
 }
 
-.main-header-content-toggle-visible::after {
+.module-main-header-content-toggle-visible::after {
   transform: rotate(180deg);
-}
-
-.module-main-header__app-name {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 300;
-  margin-left: 32px;
-  color: $color-dark-05;
 }
 
 .module-main-header__contact-name {
@@ -2264,6 +2346,77 @@
   color: $color-dark-05;
   overflow-x: auto;
   flex: 1;
+}
+
+.module-main-header__search {
+  margin: 8px;
+  position: relative;
+}
+
+.module-main-header__search__icon {
+  background-color: $color-light-35;
+}
+
+.module-main-header__search__input {
+  color: $color-dark-05;
+  background-color: $color-gray-95;
+  border: 1px solid $color-light-60;
+  padding: 0 26px 0 30px;
+  margin-left: 8px;
+  margin-right: 8px;
+  outline: 0;
+  height: 32px;
+  width: calc(100% - 16px);
+  outline-offset: -2px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: normal;
+
+  position: relative;
+  border-radius: 4px;
+
+  &:focus {
+    outline: solid 1px $blue;
+  }
+
+  &::placeholder {
+    color: $color-gray-45;
+  }
+}
+
+.module-main-header__search__icon {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 26px;
+  background-color: $color-light-35;
+  position: absolute;
+  left: 14px;
+  top: 3px;
+
+  cursor: text;
+  @include color-svg('../images/search.svg', $color-gray-60);
+}
+
+.module-main-header__search__cancel-icon {
+  position: absolute;
+  right: 16px;
+  top: 9px;
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  @include color-svg('../images/x-16.svg', $color-gray-60);
+}
+
+.module-main-header__search__copy-from-clipboard {
+  position: absolute;
+  right: 16px;
+  top: 5px;
+  width: 20px;
+  height: 22px;
+  opacity: 0.8;
+  cursor: pointer;
+  @include color-svg('../images/icon-paste.svg', $color-gray-60);
 }
 
 // Module: Image
@@ -2319,6 +2472,13 @@
 
 .module-image__border-overlay--dark {
   background-color: $color-black-02;
+}
+
+.module-image__loading-placeholder {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $color-black-015;
 }
 
 .module-image__image {
@@ -2843,6 +3003,413 @@
   width: 16px;
 
   @include color-svg('../images/x-16.svg', $color-gray-60);
+}
+
+// Module: Spinner
+
+.module-spinner__container {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  height: 56px;
+  width: 56px;
+}
+
+.module-spinner__circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @include color-svg('../images/spinner-track-56.svg', $color-white-04);
+  z-index: 2;
+  height: 56px;
+  width: 56px;
+}
+.module-spinner__arc {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @include color-svg('../images/spinner-56.svg', $color-gray-60);
+  z-index: 3;
+  height: 56px;
+  width: 56px;
+
+  animation: spinner-arc-animation 1000ms linear infinite;
+}
+
+@keyframes spinner-arc-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// In these --small and --mini sizes, we're exploding our @color-svg mixin so we don't
+//   have to duplicate our background colors for the dark/ios/size matrix.
+
+.module-spinner__container--small {
+  height: 24px;
+  width: 24px;
+}
+.module-spinner__circle--small {
+  -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
+  -webkit-mask-size: 100%;
+  height: 24px;
+  width: 24px;
+}
+.module-spinner__arc--small {
+  -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
+  -webkit-mask-size: 100%;
+  height: 24px;
+  width: 24px;
+}
+
+.module-spinner__container--mini {
+  height: 14px;
+  width: 14px;
+}
+.module-spinner__circle--mini {
+  -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
+  -webkit-mask-size: 100%;
+  height: 14px;
+  width: 14px;
+}
+.module-spinner__arc--mini {
+  -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
+  -webkit-mask-size: 100%;
+  height: 14px;
+  width: 14px;
+}
+
+.module-spinner__circle--incoming {
+  background-color: $color-white-04;
+}
+.module-spinner__arc--incoming {
+  background-color: $color-white;
+}
+
+// Module: Highlighted Message Body
+
+.module-message-body__highlight {
+  font-weight: bold;
+}
+
+// Module: Search Results
+
+.module-search-results {
+  overflow-y: auto;
+  max-height: 100%;
+  color: white;
+}
+
+.module-search-results__conversations-header {
+  height: 36px;
+  line-height: 36px;
+
+  margin-left: 16px;
+
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0;
+}
+
+.module-search-results__no-results {
+  margin-top: 27px;
+  width: 100%;
+  text-align: center;
+}
+
+.module-search-results__contacts-header {
+  height: 36px;
+  line-height: 36px;
+
+  margin-left: 16px;
+
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0;
+}
+
+.module-search-results__messages-header {
+  height: 36px;
+  line-height: 36px;
+
+  margin-left: 16px;
+
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0;
+}
+
+// Module: Message Search Result
+
+.module-message-search-result {
+  padding: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  min-height: 64px;
+  max-width: 300px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  cursor: pointer;
+  &:hover {
+    background-color: $color-gray-05;
+  }
+}
+
+.module-message-search-result--is-selected {
+  background-color: $color-gray-05;
+}
+
+.module-message-search-result__text {
+  flex-grow: 1;
+  margin-left: 12px;
+  // parent - 48px (for avatar) - 16px (our right margin)
+  max-width: calc(100% - 64px);
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.module-message-search-result__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.module-message-search-result__header__from {
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-size: 14px;
+  line-height: 18px;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  color: $color-gray-90;
+}
+
+.module-message-search-result__header__timestamp {
+  flex-shrink: 0;
+  margin-left: 6px;
+
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-transform: uppercase;
+
+  color: $color-gray-60;
+}
+
+.module-message-search-result__header__name {
+  font-weight: 300;
+}
+.module-mesages-search-result__header__group {
+  font-weight: 300;
+}
+
+.module-message-search-result__body {
+  margin-top: 1px;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  font-size: 13px;
+
+  color: $color-gray-60;
+
+  max-height: 3.6em;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
+  //   ... as the truncation indicator. That's not a solution that works well for
+  //   all languages. More resources:
+  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
+}
+
+// Module: Left Pane
+
+.module-left-pane {
+  border-right: 1px solid $color-dark-90;
+
+  display: inline-flex;
+  flex-direction: column;
+
+  width: 300px;
+  height: 100%;
+}
+
+.module-left-pane__header {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.module-left-pane__tabs {
+  color: $color-dark-05;
+  background-color: $color-dark-75;
+  display: flex;
+  flex-direction: row;
+
+  .tab {
+    width: 50%;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-dark-72;
+    }
+  }
+
+  .tab.selected {
+    background-color: #383c46;
+  }
+}
+
+.module-left-pane__archive-header {
+  height: 48px;
+  width: 100%;
+
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+  border-bottom: 1px solid $color-gray-15;
+}
+
+.module-left-pane__to-inbox-button {
+  margin-left: 2px;
+
+  width: 35px;
+  height: 35px;
+
+  cursor: pointer;
+  @include color-svg('../images/back.svg', $color-gray-60);
+}
+
+.module-left-pane__archive-header-text {
+  color: $color-gray-90;
+  font-size: 16px;
+  font-weight: 300px;
+}
+
+.module-left-pane__archive-helper-text {
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  padding: 1em;
+  font-size: 12px;
+  color: $color-gray-60;
+  background-color: $color-gray-05;
+}
+
+.module-left-pane__list {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.module-left-pane__virtual-list {
+  outline: none;
+}
+
+.module-left-pane__archived-button {
+  font-size: 14px;
+  height: 64px;
+  line-height: 64px;
+  text-align: center;
+  font-weight: 300;
+  color: $color-gray-60;
+
+  cursor: pointer;
+  &:hover {
+    background-color: $color-gray-05;
+  }
+}
+
+.module-left-pane__archived-button__archived-count {
+  font-size: 12px;
+  font-weight: 300;
+  color: $color-gray-60;
+  background-color: $color-gray-05;
+  padding: 6px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border-radius: 10px;
+}
+
+// Module: Start New Conversation
+
+.module-start-new-conversation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 16px;
+  opacity: 0.7;
+
+  &.valid {
+    opacity: 1;
+  }
+}
+
+.module-start-new-conversation__avatar {
+  display: inline-block;
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  background-size: cover;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 48px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  color: #ffffff;
+  font-size: 18px;
+  background-color: #616161;
+}
+
+.module-start-new-conversation__content {
+  overflow: hidden;
+  margin-left: 12px;
+  flex: 1;
+}
+
+.module-start-new-conversation__number {
+  margin: 0;
+  font-size: 1em;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  text-align: left;
+  font-weight: 300;
+}
+
+.module-start-new-conversation__text {
+  margin-top: 3px;
+  font-style: italic;
+  color: $color-gray-60;
+  font-size: 13px;
 }
 
 // Third-party module: react-contextmenu

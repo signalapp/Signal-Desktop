@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
-import { Colors, Localizer } from '../../types/Util';
+import { Colors, LocalizerType } from '../../types/Util';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -15,34 +15,43 @@ interface TimerOption {
   value: number;
 }
 
-interface Trigger {
-  handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-}
-
 interface Props {
-  i18n: Localizer;
-  isVerified: boolean;
-  isKeysPending: boolean;
-  name?: string;
   id: string;
+  name?: string;
+
   phoneNumber: string;
   profileName?: string;
   color: string;
-
   avatarPath?: string;
-  isBlocked: boolean;
+
+  isVerified: boolean;
   isMe: boolean;
+  isClosable?: boolean;
   isGroup: boolean;
-  isOnline?: boolean;
+  isArchived: boolean;
+  isPublic: boolean;
+  isRss: boolean;
+  amMod: boolean;
+
+  members: Array<any>;
+
   expirationSettingName?: string;
   showBackButton: boolean;
   timerOptions: Array<TimerOption>;
   hasNickname?: boolean;
 
+  isBlocked: boolean;
+  isFriend: boolean;
+  isFriendRequestPending: boolean;
+  isOnline?: boolean;
+
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;
   onResetSession: () => void;
+
+  onArchive: () => void;
+  onMoveToInbox: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -56,27 +65,34 @@ interface Props {
   onChangeNickname: () => void;
 
   onCopyPublicKey: () => void;
+
+  onUpdateGroup: () => void;
+  onLeaveGroup: () => void;
+  onAddModerators: () => void;
+  onRemoveModerators: () => void;
+  onInviteFriends: () => void;
+
+  onShowUserDetails?: (userPubKey: string) => void;
+
+  i18n: LocalizerType;
 }
 
 export class ConversationHeader extends React.Component<Props> {
-  public captureMenuTriggerBound: (trigger: any) => void;
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
-  public menuTriggerRef: Trigger | null;
+  public onShowUserDetailsBound: (userPubKey: string) => void;
+  public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
     super(props);
 
-    this.captureMenuTriggerBound = this.captureMenuTrigger.bind(this);
+    this.menuTriggerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
-    this.menuTriggerRef = null;
+    this.onShowUserDetailsBound = this.onShowUserDetails.bind(this);
   }
 
-  public captureMenuTrigger(triggerRef: Trigger) {
-    this.menuTriggerRef = triggerRef;
-  }
   public showMenu(event: React.MouseEvent<HTMLDivElement>) {
-    if (this.menuTriggerRef) {
-      this.menuTriggerRef.handleContextClick(event);
+    if (this.menuTriggerRef.current) {
+      this.menuTriggerRef.current.handleContextClick(event);
     }
   }
 
@@ -97,16 +113,46 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderTitle() {
-    const { phoneNumber, i18n, profileName, isKeysPending } = this.props;
+    const {
+      phoneNumber,
+      i18n,
+      profileName,
+      isFriend,
+      isGroup,
+      isFriendRequestPending,
+      isMe,
+      name,
+    } = this.props;
+
+    if (isMe) {
+      return (
+        <div className="module-conversation-header__title">
+          {i18n('noteToSelf')}
+        </div>
+      );
+    }
+
+    let text = '';
+    if (isFriendRequestPending) {
+      text = `(${i18n('pending')})`;
+    } else if (!isFriend && !isGroup) {
+      text = `(${i18n('notFriends')})`;
+    }
+
+    const textEl =
+      text === '' ? null : (
+        <span className="module-conversation-header__title-text">{text}</span>
+      );
 
     return (
       <div className="module-conversation-header__title">
         <ContactName
           phoneNumber={phoneNumber}
           profileName={profileName}
+          name={name}
           i18n={i18n}
         />
-        {isKeysPending ? '(pending)' : null}
+        {textEl}
       </div>
     );
   }
@@ -117,6 +163,7 @@ export class ConversationHeader extends React.Component<Props> {
       color,
       i18n,
       isGroup,
+      isMe,
       name,
       phoneNumber,
       profileName,
@@ -124,20 +171,25 @@ export class ConversationHeader extends React.Component<Props> {
     } = this.props;
 
     const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE_LIGHT;
+    const conversationType = isGroup ? 'group' : 'direct';
 
     return (
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
           color={color}
-          conversationType={isGroup ? 'group' : 'direct'}
+          conversationType={conversationType}
           i18n={i18n}
+          noteToSelf={isMe}
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
           size={28}
           borderColor={borderColor}
           borderWidth={2}
+          onAvatarClick={() => {
+            this.onShowUserDetailsBound(phoneNumber);
+          }}
         />
       </span>
     );
@@ -168,7 +220,7 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTriggerBound}>
+      <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
         <div
           role="button"
           onClick={this.showMenuBound}
@@ -178,88 +230,72 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  /* tslint:disable:jsx-no-lambda react-this-binding-issue */
   public renderMenu(triggerId: string) {
     const {
       i18n,
-      isBlocked,
       isMe,
+      isClosable,
+      isPublic,
+      isRss,
       isGroup,
+      amMod,
       onDeleteMessages,
       onDeleteContact,
-      onResetSession,
-      onSetDisappearingMessages,
-      onShowAllMedia,
-      onShowGroupMembers,
-      onShowSafetyNumber,
-      timerOptions,
-      onBlockUser,
-      onUnblockUser,
-      hasNickname,
-      onClearNickname,
-      onChangeNickname,
       onCopyPublicKey,
+      onUpdateGroup,
+      onLeaveGroup,
+      onAddModerators,
+      onRemoveModerators,
+      onInviteFriends,
     } = this.props;
 
-    const disappearingTitle = i18n('disappearingMessages') as any;
+    const isPrivateGroup = isGroup && !isPublic && !isRss;
 
-    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
-    const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
+    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
 
     return (
       <ContextMenu id={triggerId}>
-        <SubMenu title={disappearingTitle}>
-          {(timerOptions || []).map(item => (
-            <MenuItem
-              key={item.value}
-              onClick={() => {
-                onSetDisappearingMessages(item.value);
-              }}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </SubMenu>
-        <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem>
-        {isGroup ? (
-          <MenuItem onClick={onShowGroupMembers}>
-            {i18n('showMembers')}
-          </MenuItem>
-        ) : null}
-        {!isGroup && !isMe ? (
-          <MenuItem onClick={onShowSafetyNumber}>
-            {i18n('showSafetyNumber')}
-          </MenuItem>
-        ) : null}
-        {!isGroup ? (
-          <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
-        ) : null}
-        {/* Only show the block on other conversations */}
-        {!isMe ? (
-          <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
-        ) : null}
-        {!isMe ? (
-          <MenuItem onClick={onChangeNickname}>
-            {i18n('changeNickname')}
-          </MenuItem>
-        ) : null}
-        {!isMe && hasNickname ? (
-          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
-        ) : null}
-        <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
+        {this.renderPublicMenuItems()}
+        <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe ? (
-          <MenuItem onClick={onDeleteContact}>{i18n('deleteContact')}</MenuItem>
+        {isPrivateGroup || amMod ? (
+          <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
+        ) : null}
+        {amMod ? (
+          <MenuItem onClick={onAddModerators}>{i18n('addModerators')}</MenuItem>
+        ) : null}
+        {amMod ? (
+          <MenuItem onClick={onRemoveModerators}>
+            {i18n('removeModerators')}
+          </MenuItem>
+        ) : null}
+        {isPrivateGroup ? (
+          <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
+        ) : null}
+        {/* TODO: add delete group */}
+        {isGroup && isPublic ? (
+          <MenuItem onClick={onInviteFriends}>{i18n('inviteFriends')}</MenuItem>
+        ) : null}
+        {!isMe && isClosable && !isPrivateGroup ? (
+          !isPublic ? (
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deleteContact')}
+            </MenuItem>
+          ) : (
+            <MenuItem onClick={onDeleteContact}>
+              {i18n('deletePublicChannel')}
+            </MenuItem>
+          )
         ) : null}
       </ContextMenu>
     );
   }
-  /* tslint:enable */
 
   public render() {
-    const { id } = this.props;
+    const { id, isGroup, isPublic } = this.props;
+    const triggerId = `conversation-${id}-${Date.now()}`;
 
-    const triggerId = `${id}-${Date.now()}`;
+    const isPrivateGroup = isGroup && !isPublic;
 
     return (
       <div className="module-conversation-header">
@@ -268,12 +304,126 @@ export class ConversationHeader extends React.Component<Props> {
           <div className="module-conversation-header__title-flex">
             {this.renderAvatar()}
             {this.renderTitle()}
+            {isPrivateGroup ? this.renderMemberCount() : null}
           </div>
         </div>
         {this.renderExpirationLength()}
         {this.renderGear(triggerId)}
         {this.renderMenu(triggerId)}
       </div>
+    );
+  }
+
+  public onShowUserDetails(userPubKey: string) {
+    if (this.props.onShowUserDetails) {
+      this.props.onShowUserDetails(userPubKey);
+    }
+  }
+
+  private renderMemberCount() {
+    const memberCount = this.props.members.length;
+
+    if (memberCount === 0) {
+      return null;
+    }
+
+    const wordForm = memberCount === 1 ? 'member' : 'members';
+
+    return (
+      <span className="member-preview">{`(${memberCount} ${wordForm})`}</span>
+    );
+  }
+
+  private renderPublicMenuItems() {
+    const {
+      i18n,
+      isBlocked,
+      isMe,
+      isGroup,
+      isArchived,
+      isPublic,
+      isRss,
+      onResetSession,
+      onSetDisappearingMessages,
+      // onShowAllMedia,
+      onShowGroupMembers,
+      onShowSafetyNumber,
+      onArchive,
+      onMoveToInbox,
+      timerOptions,
+      onBlockUser,
+      onUnblockUser,
+      hasNickname,
+      onClearNickname,
+      onChangeNickname,
+    } = this.props;
+
+    if (isPublic || isRss) {
+      return null;
+    }
+
+    const disappearingTitle = i18n('disappearingMessages') as any;
+
+    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
+    const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
+
+    const disappearingMessagesMenuItem = (
+      <SubMenu title={disappearingTitle}>
+        {(timerOptions || []).map(item => (
+          <MenuItem
+            key={item.value}
+            onClick={() => {
+              onSetDisappearingMessages(item.value);
+            }}
+          >
+            {item.name}
+          </MenuItem>
+        ))}
+      </SubMenu>
+    );
+    const showMembersMenuItem = isGroup && (
+      <MenuItem onClick={onShowGroupMembers}>{i18n('showMembers')}</MenuItem>
+    );
+    const showSafetyNumberMenuItem = !isGroup &&
+      !isMe && (
+        <MenuItem onClick={onShowSafetyNumber}>
+          {i18n('showSafetyNumber')}
+        </MenuItem>
+      );
+    const resetSessionMenuItem = !isGroup && (
+      <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+    );
+    const blockHandlerMenuItem = !isMe &&
+      !isGroup && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
+    const changeNicknameMenuItem = !isMe &&
+      !isGroup && (
+        <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+      );
+    const clearNicknameMenuItem = !isMe &&
+      !isGroup &&
+      hasNickname && (
+        <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
+      );
+    const archiveConversationMenuItem = isArchived ? (
+      <MenuItem onClick={onMoveToInbox}>
+        {i18n('moveConversationToInbox')}
+      </MenuItem>
+    ) : (
+      <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+    );
+
+    return (
+      <React.Fragment>
+        {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
+        {disappearingMessagesMenuItem}
+        {showMembersMenuItem}
+        {showSafetyNumberMenuItem}
+        {resetSessionMenuItem}
+        {blockHandlerMenuItem}
+        {changeNicknameMenuItem}
+        {clearNicknameMenuItem}
+        {archiveConversationMenuItem}
+      </React.Fragment>
     );
   }
 }

@@ -1,5 +1,6 @@
 // The idea with this file is to make it webpackable for the style guide
 
+const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
 const Crypto = require('./crypto');
 const Data = require('./data');
@@ -14,6 +15,7 @@ const { migrateToSQL } = require('./migrate_to_sql');
 const Metadata = require('./metadata/SecretSessionCipher');
 const RefreshSenderCertificate = require('./refresh_sender_certificate');
 const LinkPreviews = require('./link_previews');
+const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
 const {
@@ -29,9 +31,6 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
-  ConversationListItem,
-} = require('../../ts/components/ConversationListItem');
-const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
@@ -43,10 +42,36 @@ const {
 } = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
+const { MainHeader } = require('../../ts/components/MainHeader');
+const { MemberList } = require('../../ts/components/conversation/MemberList');
+const { BulkEdit } = require('../../ts/components/conversation/BulkEdit');
+const {
+  CreateGroupDialog,
+} = require('../../ts/components/conversation/CreateGroupDialog');
+const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
+const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
+
+const {
+  UpdateGroupDialog,
+} = require('../../ts/components/conversation/UpdateGroupDialog');
+const {
+  InviteFriendsDialog,
+} = require('../../ts/components/conversation/InviteFriendsDialog');
+
+const {
+  AddModeratorsDialog,
+} = require('../../ts/components/conversation/ModeratorsAddDialog');
+const {
+  RemoveModeratorsDialog,
+} = require('../../ts/components/conversation/ModeratorsRemoveDialog');
+
+const {
+  GroupInvitation,
+} = require('../../ts/components/conversation/GroupInvitation');
+const { ConfirmDialog } = require('../../ts/components/ConfirmDialog');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
-const { MainHeader } = require('../../ts/components/MainHeader');
 const { Message } = require('../../ts/components/conversation/Message');
 const { MessageBody } = require('../../ts/components/conversation/MessageBody');
 const {
@@ -71,6 +96,12 @@ const {
 const {
   VerificationNotification,
 } = require('../../ts/components/conversation/VerificationNotification');
+
+// State
+const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
+const { createStore } = require('../../ts/state/createStore');
+const conversationsDuck = require('../../ts/state/ducks/conversations');
+const userDuck = require('../../ts/state/ducks/user');
 
 // Migrations
 const {
@@ -131,6 +162,7 @@ function initializeMigrations({
   const loadQuoteData = MessageType.loadQuoteData(loadAttachmentData);
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
+  const writeNewAttachmentData = createWriterForNew(attachmentsPath);
 
   return {
     attachmentsPath,
@@ -148,11 +180,22 @@ function initializeMigrations({
     loadQuoteData,
     readAttachmentData,
     run,
+    processNewAttachment: attachment =>
+      MessageType.processNewAttachment(attachment, {
+        writeNewAttachmentData,
+        getAbsoluteAttachmentPath,
+        makeObjectUrl,
+        revokeObjectUrl,
+        getImageDimensions,
+        makeImageThumbnail,
+        makeVideoScreenshot,
+        logger,
+      }),
     upgradeMessageSchema: (message, options = {}) => {
       const { maxVersion } = options;
 
       return MessageType.upgradeSchema(message, {
-        writeNewAttachmentData: createWriterForNew(attachmentsPath),
+        writeNewAttachmentData,
         getRegionCode,
         getAbsoluteAttachmentPath,
         makeObjectUrl,
@@ -193,7 +236,6 @@ exports.setup = (options = {}) => {
     ContactListItem,
     ContactName,
     ConversationHeader,
-    ConversationListItem,
     EmbeddedContact,
     Emojify,
     FriendRequest,
@@ -201,6 +243,17 @@ exports.setup = (options = {}) => {
     Lightbox,
     LightboxGallery,
     MainHeader,
+    MemberList,
+    CreateGroupDialog,
+    EditProfileDialog,
+    UserDetailsDialog,
+    ConfirmDialog,
+    UpdateGroupDialog,
+    InviteFriendsDialog,
+    AddModeratorsDialog,
+    RemoveModeratorsDialog,
+    GroupInvitation,
+    BulkEdit,
     MediaGallery,
     Message,
     MessageBody,
@@ -215,6 +268,20 @@ exports.setup = (options = {}) => {
     },
     TypingBubble,
     VerificationNotification,
+  };
+
+  const Roots = {
+    createLeftPane,
+  };
+  const Ducks = {
+    conversations: conversationsDuck,
+    user: userDuck,
+  };
+  const State = {
+    bindActionCreators,
+    createStore,
+    Roots,
+    Ducks,
   };
 
   const Types = {
@@ -239,6 +306,7 @@ exports.setup = (options = {}) => {
   };
 
   return {
+    AttachmentDownloads,
     Backbone,
     Components,
     Crypto,
@@ -254,6 +322,7 @@ exports.setup = (options = {}) => {
     OS,
     RefreshSenderCertificate,
     Settings,
+    State,
     Types,
     Util,
     Views,

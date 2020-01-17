@@ -20,7 +20,7 @@ const {
 //   contentType: MIMEType
 //   data: ArrayBuffer
 //   digest: ArrayBuffer
-//   fileName: string | null
+//   fileName?: string
 //   flags: null
 //   key: ArrayBuffer
 //   size: integer
@@ -53,6 +53,11 @@ exports.isValid = rawAttachment => {
 // part of re-encoding the image:
 exports.autoOrientJPEG = async attachment => {
   if (!MIME.isJPEG(attachment.contentType)) {
+    return attachment;
+  }
+
+  // If we haven't downloaded the attachment yet, we won't have the data
+  if (!attachment.data) {
     return attachment;
   }
 
@@ -232,6 +237,11 @@ exports.captureDimensionsAndScreenshot = async (
     !GoogleChrome.isImageTypeSupported(contentType) &&
     !GoogleChrome.isVideoTypeSupported(contentType)
   ) {
+    return attachment;
+  }
+
+  // If the attachment hasn't been downloaded yet, we won't have a path
+  if (!attachment.path) {
     return attachment;
   }
 

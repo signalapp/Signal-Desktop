@@ -3,7 +3,7 @@ let jobId = 0;
 let currentTrace = 0;
 let plotlyDiv;
 const workers = [];
-async function run(messageLength, numWorkers = 1, nonceTrials = 100, ttl = 72) {
+async function run(messageLength, numWorkers = 1, difficulty = 100, ttl = 72) {
   const timestamp = Math.floor(Date.now() / 1000);
   const pubKey =
     '05ec8635a07a13743516c7c9b3412f3e8252efb7fcaf67eb1615ffba62bebc6802';
@@ -29,7 +29,7 @@ async function run(messageLength, numWorkers = 1, nonceTrials = 100, ttl = 72) {
       pubKey,
       data,
       false,
-      nonceTrials,
+      difficulty,
       increment,
       index,
     ]);
@@ -50,12 +50,12 @@ async function run(messageLength, numWorkers = 1, nonceTrials = 100, ttl = 72) {
 
 async function runPoW({
   iteration,
-  nonceTrials,
+  difficulty,
   numWorkers,
   messageLength = 50,
   ttl = 72,
 }) {
-  const name = `W:${numWorkers} - NT: ${nonceTrials} - L:${messageLength} - TTL:${ttl}`;
+  const name = `W:${numWorkers} - NT: ${difficulty} - L:${messageLength} - TTL:${ttl}`;
   Plotly.addTraces(plotlyDiv, {
     y: [],
     type: 'box',
@@ -64,7 +64,7 @@ async function runPoW({
   });
   for (let i = 0; i < iteration; i += 1) {
     // eslint-disable-next-line no-await-in-loop
-    await run(messageLength, numWorkers, nonceTrials, ttl);
+    await run(messageLength, numWorkers, difficulty, ttl);
   }
   currentTrace += 1;
 
@@ -76,8 +76,9 @@ function randomString(length) {
   let text = '';
   const possible =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  for (let i = 0; i < length; i += 1)
+  for (let i = 0; i < length; i += 1) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
   return text;
 }
 
@@ -86,9 +87,7 @@ function addPoint(duration) {
 }
 async function startMessageLengthRun() {
   const iteration0 = parseFloat(document.getElementById('iteration0').value);
-  const nonceTrials0 = parseFloat(
-    document.getElementById('nonceTrials0').value
-  );
+  const difficulty0 = parseFloat(document.getElementById('difficulty0').value);
   const numWorkers0 = parseFloat(document.getElementById('numWorkers0').value);
   const messageLengthStart0 = parseFloat(
     document.getElementById('messageLengthStart0').value
@@ -108,7 +107,7 @@ async function startMessageLengthRun() {
     // eslint-disable-next-line no-await-in-loop
     await runPoW({
       iteration: iteration0,
-      nonceTrials: nonceTrials0,
+      difficulty: difficulty0,
       numWorkers: numWorkers0,
       messageLength: l,
       ttl: TTL0,
@@ -117,9 +116,7 @@ async function startMessageLengthRun() {
 }
 async function startNumWorkerRun() {
   const iteration1 = parseFloat(document.getElementById('iteration1').value);
-  const nonceTrials1 = parseFloat(
-    document.getElementById('nonceTrials1').value
-  );
+  const difficulty1 = parseFloat(document.getElementById('difficulty1').value);
   const numWorkersStart1 = parseFloat(
     document.getElementById('numWorkersStart1').value
   );
@@ -138,34 +135,34 @@ async function startNumWorkerRun() {
     // eslint-disable-next-line no-await-in-loop
     await runPoW({
       iteration: iteration1,
-      nonceTrials: nonceTrials1,
+      difficulty: difficulty1,
       numWorkers,
       messageLength: messageLength1,
       ttl: TTL1,
     });
   }
 }
-async function startNonceTrialsRun() {
+async function startDifficultyRun() {
   const iteration2 = parseFloat(document.getElementById('iteration2').value);
   const messageLength2 = parseFloat(
     document.getElementById('messageLength2').value
   );
   const numWorkers2 = parseFloat(document.getElementById('numWorkers2').value);
-  const nonceTrialsStart2 = parseFloat(
-    document.getElementById('nonceTrialsStart2').value
+  const difficultyStart2 = parseFloat(
+    document.getElementById('difficultyStart2').value
   );
-  const nonceTrialsStop2 = parseFloat(
-    document.getElementById('nonceTrialsStop2').value
+  const difficultyStop2 = parseFloat(
+    document.getElementById('difficultyStop2').value
   );
-  const nonceTrialsStep2 = parseFloat(
-    document.getElementById('nonceTrialsStep2').value
+  const difficultyStep2 = parseFloat(
+    document.getElementById('difficultyStep2').value
   );
   const TTL2 = parseFloat(document.getElementById('TTL2').value);
-  for (let n = nonceTrialsStart2; n < nonceTrialsStop2; n += nonceTrialsStep2) {
+  for (let n = difficultyStart2; n < difficultyStop2; n += difficultyStep2) {
     // eslint-disable-next-line no-await-in-loop
     await runPoW({
       iteration: iteration2,
-      nonceTrials: n,
+      difficulty: n,
       numWorkers: numWorkers2,
       messageLength: messageLength2,
       ttl: TTL2,
@@ -174,9 +171,7 @@ async function startNonceTrialsRun() {
 }
 async function starTTLRun() {
   const iteration3 = parseFloat(document.getElementById('iteration3').value);
-  const nonceTrials3 = parseFloat(
-    document.getElementById('nonceTrials3').value
-  );
+  const difficulty3 = parseFloat(document.getElementById('difficulty3').value);
   const messageLength3 = parseFloat(
     document.getElementById('messageLength3').value
   );
@@ -188,7 +183,7 @@ async function starTTLRun() {
     // eslint-disable-next-line no-await-in-loop
     await runPoW({
       iteration: iteration3,
-      nonceTrials: nonceTrials3,
+      difficulty: difficulty3,
       numWorkers: numWorkers3,
       messageLength: messageLength3,
       ttl,
@@ -216,7 +211,7 @@ async function start(index) {
       await startNumWorkerRun();
       break;
     case 2:
-      await startNonceTrialsRun();
+      await startDifficultyRun();
       break;
     case 3:
       await starTTLRun();

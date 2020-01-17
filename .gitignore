@@ -30,3 +30,9 @@ test/test.js
 # React / TypeScript
 ts/**/*.js
 ts/protobuf/*.d.ts
+
+# Swapfiles
+**/*.swp
+
+# Ctags
+tags

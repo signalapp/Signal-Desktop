@@ -94,6 +94,25 @@
     },
   });
 
+  const TypingIndicatorsSettingView = Whisper.View.extend({
+    initialize(options) {
+      this.value = options.value;
+      this.setFn = options.setFn;
+      this.populate();
+    },
+    events: {
+      change: 'change',
+    },
+    change(e) {
+      this.value = e.target.checked;
+      this.setFn(this.value);
+      window.log.info('typing-indicators-setting changed to', this.value);
+    },
+    populate() {
+      this.$('input').prop('checked', Boolean(this.value));
+    },
+  });
+
   const RadioButtonGroupView = Whisper.View.extend({
     initialize(options) {
       this.name = options.name;
@@ -150,12 +169,14 @@
         value: window.initialData.spellCheck,
         setFn: window.setSpellCheck,
       });
-      new CheckboxView({
-        el: this.$('.menu-bar-setting'),
-        name: 'menu-bar-setting',
-        value: window.initialData.hideMenuBar,
-        setFn: window.setHideMenuBar,
-      });
+      if (Settings.isHideMenuBarSupported()) {
+        new CheckboxView({
+          el: this.$('.menu-bar-setting'),
+          name: 'menu-bar-setting',
+          value: window.initialData.hideMenuBar,
+          setFn: window.setHideMenuBar,
+        });
+      }
       new CheckboxView({
         el: this.$('.link-preview-setting'),
         name: 'link-preview-setting',
@@ -171,6 +192,11 @@
         el: this.$('.read-receipt-setting'),
         value: window.initialData.readReceiptSetting,
         setFn: window.setReadReceiptSetting,
+      });
+      new TypingIndicatorsSettingView({
+        el: this.$('.typing-indicators-setting'),
+        value: window.initialData.typingIndicatorsSetting,
+        setFn: window.setTypingIndicatorsSetting,
       });
       new MessageTTLSettingView({
         el: this.$('.message-ttl-setting'),
@@ -203,6 +229,7 @@
         nameOnly: i18n('nameOnly'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
+        isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
         themeLight: i18n('themeLight'),
         themeDark: i18n('themeDark'),
         hideMenuBar: i18n('hideMenuBar'),
@@ -213,6 +240,9 @@
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         generalHeader: i18n('general'),
         readReceiptSettingDescription: i18n('readReceiptSettingDescription'),
+        typingIndicatorsSettingDescription: i18n(
+          'typingIndicatorsSettingDescription'
+        ),
         messageTTL: i18n('messageTTL'),
         messageTTLSettingDescription: i18n('messageTTLSettingDescription'),
         messageTTLSettingWarning: i18n('messageTTLSettingWarning'),
@@ -220,7 +250,6 @@
         spellCheckDescription: i18n('spellCheckDescription'),
         blockedHeader: 'Blocked Users',
         linkPreviews: i18n('linkPreviews'),
-        linkPreviewsDescription: i18n('linkPreviewsDescription'),
         linkPreviewsSettingDescription: i18n('linkPreviewsSettingDescription'),
       };
     },

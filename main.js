@@ -63,8 +63,11 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 //   data directory has been set.
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
-// TODO: remove or restore when appropriate
-// const autoUpdate = require('./app/auto_update');
+
+// TODO: Enable when needed
+// const updater = require('./ts/updater/index');
+const updater = null;
+
 const createTrayIcon = require('./app/tray_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
@@ -101,21 +104,25 @@ function showWindow() {
 
 if (!process.mas) {
   console.log('making app single instance');
-  const shouldQuit = app.makeSingleInstance(() => {
-    // Someone tried to run a second instance, we should focus our window
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) {
-        mainWindow.restore();
-      }
-
-      showWindow();
+  const gotLock = app.requestSingleInstanceLock();
+  if (!gotLock) {
+    // Don't allow second instance if we are in prod
+    if (appInstance === 0) {
+      console.log('quitting; we are the second instance');
+      app.exit();
     }
-    return true;
-  });
+  } else {
+    app.on('second-instance', () => {
+      // Someone tried to run a second instance, we should focus our window
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        }
 
-  if (appInstance === 0 && shouldQuit) {
-    console.log('quitting; we are the second instance');
-    app.exit();
+        showWindow();
+      }
+      return true;
+    });
   }
 }
 
@@ -147,8 +154,9 @@ function prepareURL(pathSegments, moreKeys) {
       serverUrl: config.get('serverUrl'),
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
-      snodeServerPort: config.get('snodeServerPort'),
       localServerPort: config.get('localServerPort'),
+      defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
+      seedNodeList: JSON.stringify(config.get('seedNodeList')),
       certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
       node_version: process.versions.node,
@@ -158,6 +166,7 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       importMode: importMode ? true : undefined, // for stringify()
       serverTrustRoot: config.get('serverTrustRoot'),
+      defaultFileServer: config.get('defaultFileServer'),
       ...moreKeys,
     },
   });
@@ -220,7 +229,7 @@ function createWindow() {
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        // sandbox: true,
+        contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
       },
@@ -384,15 +393,32 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-
-  ipc.on('show-window', () => {
-    showWindow();
-  });
 }
+
+ipc.on('show-window', () => {
+  showWindow();
+});
+
+let updatesStarted = false;
+ipc.on('ready-for-updates', async () => {
+  if (updatesStarted || !updater) {
+    return;
+  }
+  updatesStarted = true;
+
+  try {
+    await updater.start(getMainWindow, locale.messages, logger);
+  } catch (error) {
+    logger.error(
+      'Error starting update checks:',
+      error && error.stack ? error.stack : error
+    );
+  }
+});
 
 function openReleaseNotes() {
   shell.openExternal(
-    `https://github.com/loki-project/loki-messenger/releases/tag/v${app.getVersion()}`
+    `https://github.com/loki-project/loki-messenger/releases/tag/${app.getVersion()}`
   );
 }
 
@@ -515,8 +541,8 @@ function showAbout() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'about_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -561,8 +587,8 @@ async function showSettingsWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'settings_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -606,8 +632,8 @@ async function showDebugLogWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'debug_log_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -654,8 +680,8 @@ async function showPermissionsPopupWindow() {
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
+      contextIsolation: false,
       preload: path.join(__dirname, 'permissions_popup_preload.js'),
-      // sandbox: true,
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -707,19 +733,10 @@ app.on('ready', async () => {
 
   installPermissionsHandler({ session, userConfig });
 
-  let loggingSetupError;
-  try {
-    await logging.initialize();
-  } catch (error) {
-    loggingSetupError = error;
-  }
-
-  if (loggingSetupError) {
-    console.error('Problem setting up logging', loggingSetupError.stack);
-  }
-
+  await logging.initialize();
   logger = logging.getLogger();
   logger.info('app ready');
+  logger.info(`starting version ${packageJson.version}`);
 
   if (!locale) {
     const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
@@ -730,10 +747,11 @@ app.on('ready', async () => {
 
   // Try to show the main window with the default key
   // If that fails then show the password window
-  try {
-    await showMainWindow(key);
-  } catch (e) {
+  const dbHasPassword = userConfig.get('dbHasPassword');
+  if (dbHasPassword) {
     showPasswordWindow();
+  } else {
+    await showMainWindow(key);
   }
 });
 
@@ -763,10 +781,15 @@ async function removeDB() {
   }
 }
 
-async function showMainWindow(sqlKey) {
+async function showMainWindow(sqlKey, passwordAttempt = false) {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
-  await sql.initialize({ configDir: userDataPath, key: sqlKey });
+  await sql.initialize({
+    configDir: userDataPath,
+    key: sqlKey,
+    messages: locale.messages,
+    passwordAttempt,
+  });
   await sqlChannels.initialize();
 
   try {
@@ -800,9 +823,6 @@ async function showMainWindow(sqlKey) {
   });
 
   ready = true;
-
-  // TODO: remove or restore when appropriate
-  // autoUpdate.initialize(getMainWindow, locale.messages);
 
   createWindow();
 
@@ -879,6 +899,7 @@ app.on('before-quit', () => {
     readyForShutdown: mainWindow ? mainWindow.readyForShutdown : null,
     shouldQuit: windowState.shouldQuit(),
   });
+
   windowState.markShouldQuit();
 });
 
@@ -991,7 +1012,8 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     event.sender.send('password-window-login-response', e);
 
   try {
-    await showMainWindow(passPhrase);
+    const passwordAttempt = true;
+    await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
     if (passwordWindow) {
       passwordWindow.close();
@@ -1023,10 +1045,12 @@ ipc.on('set-password', async (event, passPhrase, oldPhrase) => {
       const defaultKey = getDefaultSQLKey();
       await sql.setSQLPassword(defaultKey);
       await sql.removePasswordHash();
+      userConfig.set('dbHasPassword', false);
     } else {
       await sql.setSQLPassword(passPhrase);
       const newHash = passwordUtil.generateHash(passPhrase);
       await sql.savePasswordHash(newHash);
+      userConfig.set('dbHasPassword', true);
     }
 
     sendResponse();
@@ -1086,6 +1110,10 @@ installSettingsSetter('message-ttl');
 
 installSettingsGetter('read-receipt-setting');
 installSettingsSetter('read-receipt-setting');
+
+installSettingsGetter('typing-indicators-setting');
+installSettingsSetter('typing-indicators-setting');
+
 installSettingsGetter('notification-setting');
 installSettingsSetter('notification-setting');
 installSettingsGetter('audio-notification');
@@ -1112,6 +1140,9 @@ ipc.on('set-media-permissions', (event, value) => {
   installPermissionsHandler({ session, userConfig });
 
   event.sender.send('set-success-media-permissions', null);
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('mediaPermissionsChanged');
+  }
 });
 
 ipc.on('on-unblock-number', (event, number) => {

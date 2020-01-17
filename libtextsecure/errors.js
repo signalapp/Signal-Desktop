@@ -163,6 +163,22 @@
   }
   inherit(ReplayableError, DNSResolutionError);
 
+  function HolePunchingError(message, error) {
+    this.name = 'HolePunchingError';
+    this.message = message;
+    this.error = error;
+
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+
+    appendStack(this, error);
+  }
+
   function LokiIpError(message, resolutionError) {
     this.name = 'LokiIpError';
     this.message = message;
@@ -195,6 +211,18 @@
     appendStack(this, error);
   }
 
+  function SeedNodeError(message) {
+    this.name = 'SeedNodeError';
+    this.message = message;
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
   function HTTPError(message, response) {
     this.name = 'HTTPError';
     this.message = `${response.status} Error: ${message}`;
@@ -222,6 +250,51 @@
     }
   }
 
+  function WrongDifficultyError(newDifficulty) {
+    this.name = 'WrongDifficultyError';
+    this.newDifficulty = newDifficulty;
+
+    Error.call(this, this.name);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
+  function PublicTokenError(message) {
+    this.name = 'PublicTokenError';
+
+    ReplayableError.call(this, {
+      name: 'PublicTokenError',
+      message,
+    });
+  }
+  inherit(ReplayableError, PublicTokenError);
+
+  function TimestampError(message) {
+    this.name = 'TimeStampError';
+
+    ReplayableError.call(this, {
+      name: 'TimestampError',
+      message,
+    });
+  }
+  inherit(ReplayableError, TimestampError);
+
+  function PublicChatError(message) {
+    this.name = 'PublicChatError';
+    this.message = message;
+    Error.call(this, message);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -232,9 +305,15 @@
   window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
   window.textsecure.PoWError = PoWError;
   window.textsecure.EmptySwarmError = EmptySwarmError;
+  window.textsecure.SeedNodeError = SeedNodeError;
   window.textsecure.DNSResolutionError = DNSResolutionError;
   window.textsecure.LokiIpError = LokiIpError;
+  window.textsecure.HolePunchingError = HolePunchingError;
   window.textsecure.HTTPError = HTTPError;
   window.textsecure.NotFoundError = NotFoundError;
   window.textsecure.WrongSwarmError = WrongSwarmError;
+  window.textsecure.WrongDifficultyError = WrongDifficultyError;
+  window.textsecure.TimestampError = TimestampError;
+  window.textsecure.PublicChatError = PublicChatError;
+  window.textsecure.PublicTokenError = PublicTokenError;
 })();
