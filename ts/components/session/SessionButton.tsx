@@ -28,7 +28,6 @@ interface Props {
   buttonType: SessionButtonType;
   buttonColor: SessionButtonColor;
   onClick: any;
-  enabled?: boolean;
 }
 
 export class SessionButton extends React.PureComponent<Props> {

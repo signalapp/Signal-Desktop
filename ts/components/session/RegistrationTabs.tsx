@@ -297,7 +297,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
               buttonType={SessionButtonType.Brand}
               buttonColor={SessionButtonColor.Green}
               text={window.i18n('completeSignUp')}
-              enabled={enableCompleteSignUp}
+              disabled={!enableCompleteSignUp}
             />
           </div>
         );
@@ -601,7 +601,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         buttonType={SessionButtonType.Brand}
         buttonColor={SessionButtonColor.Green}
         text={window.i18n('continueYourSession')}
-        enabled={enableContinue}
+        disabled={!enableContinue}
       />
     );
   }
