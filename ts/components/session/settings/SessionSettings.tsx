@@ -45,7 +45,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   /* tslint:disable-next-line:max-func-body-length */
-  public renderSettingInCategory() {
+  public renderSettingInCategory(): JSX.Element {
+    const { category } = this.props;
+    if (category === SessionSettingCategory.Devices) {
+      // special case for linked devices
+
+      return this.renderLinkedDevicesCategory();
+    }
+
     const { Settings } = window.Signal.Types;
 
     // Grab initial values from database on startup
@@ -230,6 +237,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                 this.updateSetting(setting);
               });
 
+
             return (
               <div key={setting.id}>
                 {shouldRenderSettings &&
@@ -306,5 +314,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         hasPassword: false,
       });
     }
+  }
+
+
+  private renderLinkedDevicesCategory(): JSX.Element {
+    return <div />;
   }
 }

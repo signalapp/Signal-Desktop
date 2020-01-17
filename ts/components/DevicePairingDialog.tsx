@@ -1,30 +1,22 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { QRCode } from 'react-qr-svg';
 
 import { SessionModal } from './session/SessionModal';
 import { SessionButton } from './session/SessionButton';
+import { SessionSpinner } from './session/SessionSpinner';
 
 interface Props {
-  i18n: any;
   onClose: any;
-  pubKeyToUnpair: string | null;
-  pubKey: string | null;
 }
 
 interface State {
   currentPubKey: string | null;
   accepted: boolean;
-  isListening: boolean;
-  success: boolean;
-  loading: boolean;
-  view:
-    | 'default'
-    | 'waitingForRequest'
-    | 'requestReceived'
-    | 'requestAccepted'
-    | 'confirmUnpair';
   pubKeyRequests: Array<any>;
-  data: Array<any>;
+  currentView: 'filterRequestView' | 'qrcodeView';
+  errors: any;
+  loading: boolean;
+  deviceAlias: string | null;
 }
 
 export class DevicePairingDialog extends React.Component<Props, State> {
@@ -33,156 +25,149 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
     this.closeDialog = this.closeDialog.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
-    this.startReceivingRequests = this.startReceivingRequests.bind(this);
     this.stopReceivingRequests = this.stopReceivingRequests.bind(this);
+    this.startReceivingRequests = this.startReceivingRequests.bind(this);
     this.getPubkeyName = this.getPubkeyName.bind(this);
+    this.skipDevice = this.skipDevice.bind(this);
+    this.allowDevice = this.allowDevice.bind(this);
+    this.validateSecondaryDevice = this.validateSecondaryDevice.bind(this);
+    this.handleUpdateDeviceAlias = this.handleUpdateDeviceAlias.bind(this);
 
     this.state = {
-      currentPubKey: this.props.pubKey,
+      currentPubKey: null,
       accepted: false,
-      isListening: false,
-      success: false,
-      loading: true,
-      view: 'default',
-      pubKeyRequests: [],
-      data: [],
+      pubKeyRequests: Array(),
+      currentView: 'qrcodeView',
+      loading: false,
+      errors: undefined,
+      deviceAlias: null,
     };
   }
 
-  public componentDidMount() {
-    this.getSecondaryDevices();
+  public componentWillMount() {
+    this.startReceivingRequests();
   }
 
-  public render() {
-    const { i18n } = this.props;
+  public componentWillUnmount() {
+    this.closeDialog();
+  }
 
-    const waitingForRequest = this.state.view === 'waitingForRequest';
-    const nothingPaired = this.state.data.length === 0;
+  /*
+  dialog.on('deviceUnpairingRequested', pubKey =>
+    Whisper.events.trigger('deviceUnpairingRequested', pubKey)
+  );*/
 
+  public renderFilterRequestsView() {
+    const { currentPubKey, accepted, deviceAlias } = this.state;
+    const secretWords = window.mnemonic.pubkey_to_secret_words(currentPubKey);
+    const deviceAliasPlaceholder = this.getPubkeyName(currentPubKey);
+    const deviceName = deviceAliasPlaceholder.deviceAlias;
+
+    if (accepted) {
+      return (
+        <SessionModal
+          title={window.i18n('provideDeviceAlias')}
+          onOk={() => null}
+          onClose={this.closeDialog}
+        >
+          <div className="session-modal__centered">
+            <input onChange={this.handleUpdateDeviceAlias}>{deviceName}</input>
+            <div className="session-modal__button-group">
+              <SessionButton
+                text={window.i18n('ok')}
+                onClick={this.validateSecondaryDevice}
+                disabled={!deviceAlias}
+              />
+            </div>
+            <SessionSpinner loading={this.state.loading} />
+          </div>
+        </SessionModal>
+      );
+    }
+
+    return (
+      <SessionModal
+        title={window.i18n('allowPairingWithDevice')}
+        onOk={() => null}
+        onClose={this.closeDialog}
+      >
+        <div className="session-modal__centered">
+          <label>{window.i18n('secretWords')}</label>
+          <div className="text-subtle">{secretWords}</div>
+          <div className="session-modal__button-group">
+            <SessionButton
+              text={window.i18n('skip')}
+              onClick={this.skipDevice}
+            />
+            <SessionButton
+              text={window.i18n('allowPairing')}
+              onClick={this.allowDevice}
+            />
+          </div>
+        </div>
+      </SessionModal>
+    );
+  }
+
+  public renderQrCodeView() {
     const theme = window.Events.getThemeSetting();
+    const requestReceived = this.hasReceivedRequests();
+    const title = window.i18n('pairingDevice');
 
     // Foreground equivalent to .session-modal background color
     const bgColor = 'rgba(0, 0, 0, 0)';
     const fgColor = theme === 'dark' ? '#FFFFFF' : '#1B1B1B';
 
-    // const renderPairedDevices = this.state.data.map((pubKey: any) => {
-    //   const pubKeyInfo = this.getPubkeyName(pubKey);
-    //   const isFinalItem =
-    //     this.state.data[this.state.data.length - 1] === pubKey;
-
-    //   return (
-    //     <div key={pubKey}>
-    //       <p>
-    //         {pubKeyInfo.deviceAlias}
-    //         <br />
-    //         <span className="text-subtle">Pairing Secret:</span>{' '}
-    //         {pubKeyInfo.secretWords}
-    //       </p>
-    //       {!isFinalItem ? <hr className="text-soft fullwidth" /> : null}
-    //     </div>
-    //   );
-    // });
-
     return (
-      <>
-        {!this.state.loading && (
-          <SessionModal
-            title={i18n('pairedDevices')}
-            onOk={() => null}
-            onClose={this.closeDialog}
-          >
-            {waitingForRequest ? (
-              <div className="session-modal__centered">
-                <h3>{i18n('waitingForDeviceToRegister')}</h3>
-                <small className="text-subtle">
-                  {i18n('pairNewDevicePrompt')}
-                </small>
-                <div className="spacer-lg" />
+      <SessionModal title={title} onOk={() => null} onClose={this.closeDialog}>
+        <div className="session-modal__centered">
+          <h4>{window.i18n('waitingForDeviceToRegister')}</h4>
+          <small className="text-subtle">
+            {window.i18n('pairNewDevicePrompt')}
+          </small>
+          <div className="spacer-lg" />
 
-                <div id="qr">
-                  <QRCode
-                    value={window.textsecure.storage.user.getNumber()}
-                    bgColor={bgColor}
-                    fgColor={fgColor}
-                    level="L"
-                  />
-                </div>
+          <div id="qr">
+            <QRCode
+              value={window.textsecure.storage.user.getNumber()}
+              bgColor={bgColor}
+              fgColor={fgColor}
+              level="L"
+            />
+          </div>
 
-                <div className="spacer-lg" />
-                <div className="session-modal__button-group__center">
-                  <SessionButton
-                    text={i18n('cancel')}
-                    onClick={this.stopReceivingRequests}
-                  />
-                </div>
-              </div>
+          <div className="spacer-lg" />
+          <div className="session-modal__button-group__center">
+            {!requestReceived ? (
+              <SessionButton
+                text={window.i18n('cancel')}
+                onClick={this.closeDialog}
+              />
             ) : (
-              <>
-                {nothingPaired ? (
-                  <div className="session-modal__centered">
-                    <div>{i18n('noPairedDevices')}</div>
-                  </div>
-                ) : (
-                  <div className="session-modal__centered">
-                    {'renderPairedDevices'}
-                  </div>
-                )}
-
-                <div className="spacer-lg" />
-                <div className="session-modal__button-group__center">
-                  <SessionButton
-                    text={i18n('pairNewDevice')}
-                    onClick={this.startReceivingRequests}
-                  />
-                </div>
-              </>
+              <div className="session-modal__button-group">
+                <SessionButton
+                  text={window.i18n('filterReceivedRequests')}
+                  onClick={this.stopReceivingRequests}
+                />
+              </div>
             )}
-          </SessionModal>
-        )}
-      </>
+          </div>
+        </div>
+      </SessionModal>
     );
   }
 
-  private showView(
-    view?:
-      | 'default'
-      | 'waitingForRequest'
-      | 'requestReceived'
-      | 'requestAccepted'
-      | 'confirmUnpair'
-  ) {
-    if (!view) {
-      this.setState({
-        view: 'default',
-      });
+  public render() {
+    const { currentView } = this.state;
+    const renderQrCodeView = currentView === 'qrcodeView';
+    const renderFilterRequestView = currentView === 'filterRequestView';
 
-      return;
-    }
-
-    if (view === 'waitingForRequest') {
-      this.setState({
-        view,
-        isListening: true,
-      });
-
-      return;
-    }
-    this.setState({ view });
-  }
-
-  private getSecondaryDevices() {
-    const secondaryDevices = window.libloki.storage
-      .getSecondaryDevicesFor(this.state.currentPubKey)
-      .then(() => {
-        this.setState({
-          data: secondaryDevices,
-          loading: false,
-        });
-      });
-  }
-
-  private startReceivingRequests() {
-    this.showView('waitingForRequest');
+    return (
+      <>
+        {renderQrCodeView && this.renderQrCodeView()}
+        {renderFilterRequestView && this.renderFilterRequestsView()}
+      </>
+    );
   }
 
   private getPubkeyName(pubKey: string | null) {
@@ -197,74 +182,104 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     return { deviceAlias, secretWords };
   }
 
-  private stopReceivingRequests() {
-    if (this.state.success) {
-      const aliasKey = 'deviceAlias';
-      const deviceAlias = this.getPubkeyName(this.state.currentPubKey)[
-        aliasKey
-      ];
-
-      const conv = window.ConversationController.get(this.state.currentPubKey);
-      if (conv) {
-        conv.setNickname(deviceAlias);
-      }
-    }
-
-    this.showView();
+  private reset() {
+    this.setState({
+      currentPubKey: null,
+      accepted: false,
+      pubKeyRequests: Array(),
+      currentView: 'filterRequestView',
+      deviceAlias: null,
+    });
   }
 
-  // private requestReceived(secondaryDevicePubKey: string | EventHandlerNonNull) {
-  //   // FIFO: push at the front of the array with unshift()
-  //   this.state.pubKeyRequests.unshift(secondaryDevicePubKey);
-  //   if (!this.state.currentPubKey) {
-  //     this.nextPubKey();
+  private startReceivingRequests() {
+    this.reset();
+    window.Whisper.events.on(
+      'devicePairingRequestReceived',
+      (pubKey: string) => {
+        this.requestReceived(pubKey);
+      }
+    );
+    this.setState({ currentView: 'qrcodeView' });
+  }
 
-  //     this.showView('requestReceived');
-  //   }
-  // }
+  private stopReceivingRequests() {
+    this.setState({ currentView: 'filterRequestView' });
+    window.Whisper.events.off('devicePairingRequestReceived');
+  }
 
-  // private allowDevice() {
-  //   this.setState({
-  //     accepted: true,
-  //   });
-  //   window.Whisper.trigger(
-  //     'devicePairingRequestAccepted',
-  //     this.state.currentPubKey,
-  //     (errors: any) => {
-  //       this.transmisssionCB(errors);
+  private requestReceived(secondaryDevicePubKey: string | EventHandlerNonNull) {
+    // FIFO: push at the front of the array with unshift()
+    this.state.pubKeyRequests.unshift(secondaryDevicePubKey);
+    window.pushToast({
+      title: window.i18n('gotPairingRequest'),
+      description: `${window.shortenPubkey(
+        secondaryDevicePubKey
+      )} ${window.i18n(
+        'showPairingWordsTitle'
+      )}: ${window.mnemonic.pubkey_to_secret_words(secondaryDevicePubKey)}`,
+    });
+    if (!this.state.currentPubKey) {
+      this.nextPubKey();
+    }
+  }
 
-  //       return true;
-  //     }
-  //   );
-  //   this.showView();
-  // }
+  private allowDevice() {
+    this.setState({
+      accepted: true,
+    });
+  }
 
-  // private transmisssionCB(errors: any) {
-  //   if (!errors) {
-  //     this.setState({
-  //       success: true,
-  //     });
-  //   } else {
-  //     return;
-  //   }
-  // }
+  private transmissionCB(errors: any) {
+    if (!errors) {
+      this.setState({
+        errors: null,
+      });
+      this.closeDialog();
+      window.pushToast({
+        title: window.i18n('devicePairedSuccessfully'),
+      });
+      const conv = window.ConversationController.get(this.state.currentPubKey);
+      if (conv) {
+        conv.setNickname(this.state.deviceAlias);
+      }
 
-  // private skipDevice() {
-  //   window.Whisper.trigger(
-  //     'devicePairingRequestRejected',
-  //     this.state.currentPubKey
-  //   );
-  //   this.nextPubKey();
-  //   this.showView();
-  // }
+      // FIXME display error somewhere
+      // FIXME display list of linked device
+      // FIXME do not show linked device in list of contacts
 
-  // private nextPubKey() {
-  //   // FIFO: pop at the back of the array using pop()
-  //   const pubKeyRequests = this.state.pubKeyRequests;
-  //   this.setState({
-  //     currentPubKey: pubKeyRequests.pop(),
-  //   });
-  // }
+      return;
+    }
+    /* this.$('.transmissionStatus').text(errors);
+    this.$('.requestAcceptedView .ok').show();*/
+
+    this.setState({
+      errors: errors,
+    });
+  }
+
+  private skipDevice() {
+    window.Whisper.events.trigger(
+      'devicePairingRequestRejected',
+      this.state.currentPubKey
+    );
+
+    const hasNext = this.state.pubKeyRequests.length > 0;
+    this.nextPubKey();
+    if (!hasNext) {
+      this.startReceivingRequests();
+    }
+    this.setState({
+      currentView: hasNext ? 'filterRequestView' : 'qrcodeView',
+    });
+  }
+
+  private nextPubKey() {
+    // FIFO: pop at the back of the array using pop()
+    this.setState({
+      currentPubKey: this.state.pubKeyRequests.pop(),
+    });
+  }
 
   private onKeyUp(event: any) {
     switch (event.key) {
@@ -276,9 +291,42 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     }
   }
 
+  private validateSecondaryDevice() {
+    this.setState({ loading: true });
+    window.Whisper.events.trigger(
+      'devicePairingRequestAccepted',
+      this.state.currentPubKey,
+      (errors: any) => {
+        this.transmissionCB(errors);
+
+        return true;
+      }
+    );
+  }
+
+  private hasReceivedRequests() {
+    return this.state.currentPubKey || this.state.pubKeyRequests.length > 0;
+  }
+
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
     this.stopReceivingRequests();
+    window.Whisper.events.off('devicePairingRequestReceived');
+    if (this.state.currentPubKey && !this.state.accepted) {
+      window.Whisper.events.trigger(
+        'devicePairingRequestRejected',
+        this.state.currentPubKey
+      );
+    }
     this.props.onClose();
+  }
+
+  private handleUpdateDeviceAlias(value: ChangeEvent<HTMLInputElement>) {
+    const trimmed = value.target.value.trim();
+    if (!!trimmed) {
+      this.setState({ deviceAlias: trimmed });
+    } else {
+      this.setState({ deviceAlias: null });
+    }
   }
 }

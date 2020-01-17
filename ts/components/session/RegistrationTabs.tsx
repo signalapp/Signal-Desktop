@@ -10,6 +10,7 @@ import {
 import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
+import { SessionSpinner } from './SessionSpinner';
 
 enum SignInMode {
   Default,
@@ -42,6 +43,7 @@ interface State {
   primaryDevicePubKey: string;
   mnemonicError: string | undefined;
   displayNameError: string | undefined;
+  loading: boolean;
 }
 
 const Tab = ({
@@ -115,6 +117,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       primaryDevicePubKey: '',
       mnemonicError: undefined,
       displayNameError: undefined,
+      loading: false,
     };
 
     this.accountManager = window.getAccountManager();
@@ -413,11 +416,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
     }
     if (signInMode === SignInMode.LinkingDevice) {
       return (
-        <div className="">
+        <div className="registration-content-centered">
           <div className="session-signin-device-pairing-header">
             {window.i18n('devicePairingHeader')}
           </div>
           {this.renderEnterSessionID(true)}
+          <SessionSpinner loading={this.state.loading} />
         </div>
       );
     }
@@ -734,7 +738,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (passwordErrorString || passwordFieldsMatch) {
       window.pushToast({
         title: window.i18n('invalidPassword'),
-        type: 'success',
+        type: 'error',
         id: 'invalidPassword',
       });
 
@@ -782,6 +786,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
       return;
     }
+    this.setState({
+      loading: true,
+    });
     await this.resetRegistration();
     window.textsecure.storage.put('secondaryDeviceStatus', 'ongoing');
 
@@ -798,7 +805,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     );
 
     const onError = async (error: any) => {
-      window.log.error.error(error);
+      window.log.error(error);
 
       await this.resetRegistration();
     };
@@ -826,16 +833,26 @@ export class RegistrationTabs extends React.Component<{}, State> {
       await this.accountManager.requestPairing(primaryPubKey);
       const pubkey = window.textsecure.storage.user.getNumber();
       const words = window.mnemonic.pubkey_to_secret_words(pubkey);
-      window.console.log('pubkey_to_secret_words');
       window.console.log(`Here is your secret:\n${words}`);
+      window.pushToast({
+        title: `Here is your secret: "${words}"`,
+        id: 'yourSecret',
+        shouldFade: false,
+      });
     } catch (e) {
       window.console.log(e);
       //onError(e);
+      this.setState({
+        loading: false,
+      });
     }
   }
 
   private async onSecondaryDeviceRegistered() {
     // Ensure the left menu is updated
+    this.setState({
+      loading: false,
+    });
     trigger('userChanged', { isSecondaryDevice: true });
     // will re-run the background initialisation
     trigger('registration_done');

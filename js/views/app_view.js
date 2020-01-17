@@ -216,28 +216,6 @@
     showDevicePairingDialog() {
       const dialog = new Whisper.DevicePairingDialogView();
 
-      dialog.on('startReceivingRequests', () => {
-        Whisper.events.on('devicePairingRequestReceived', pubKey =>
-          dialog.requestReceived(pubKey)
-        );
-      });
-
-      dialog.on('stopReceivingRequests', () => {
-        Whisper.events.off('devicePairingRequestReceived');
-      });
-
-      dialog.on('devicePairingRequestAccepted', (pubKey, cb) =>
-        Whisper.events.trigger('devicePairingRequestAccepted', pubKey, cb)
-      );
-      dialog.on('devicePairingRequestRejected', pubKey =>
-        Whisper.events.trigger('devicePairingRequestRejected', pubKey)
-      );
-      dialog.on('deviceUnpairingRequested', pubKey =>
-        Whisper.events.trigger('deviceUnpairingRequested', pubKey)
-      );
-      dialog.once('close', () => {
-        Whisper.events.off('devicePairingRequestReceived');
-      });
       this.el.append(dialog.el);
     },
     showDevicePairingWordsDialog() {

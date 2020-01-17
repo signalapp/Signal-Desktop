@@ -280,11 +280,13 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        {showEditButton && <SessionButton
-          text={edit}
-          buttonType={SessionButtonType.SquareOutline}
-          buttonColor={SessionButtonColor.White}
-        />}
+        {showEditButton && (
+          <SessionButton
+            text={edit}
+            buttonType={SessionButtonType.SquareOutline}
+            buttonColor={SessionButtonColor.White}
+          />
+        )}
         {selectedTab === 0 ? (
           <SessionButton
             text={addContact}
