@@ -27,7 +27,6 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     this.onKeyUp = this.onKeyUp.bind(this);
     this.stopReceivingRequests = this.stopReceivingRequests.bind(this);
     this.startReceivingRequests = this.startReceivingRequests.bind(this);
-    this.getPubkeyName = this.getPubkeyName.bind(this);
     this.skipDevice = this.skipDevice.bind(this);
     this.allowDevice = this.allowDevice.bind(this);
     this.validateSecondaryDevice = this.validateSecondaryDevice.bind(this);
@@ -60,8 +59,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
   public renderFilterRequestsView() {
     const { currentPubKey, accepted, deviceAlias } = this.state;
     const secretWords = window.mnemonic.pubkey_to_secret_words(currentPubKey);
-    const deviceAliasPlaceholder = this.getPubkeyName(currentPubKey);
-    const deviceName = deviceAliasPlaceholder.deviceAlias;
+    const deviceAliasPlaceholder = 'Unnamed Device';
 
     if (accepted) {
       return (
@@ -71,7 +69,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           onClose={this.closeDialog}
         >
           <div className="session-modal__centered">
-            <input onChange={this.handleUpdateDeviceAlias}>{deviceName}</input>
+            <input onChange={this.handleUpdateDeviceAlias}>{deviceAliasPlaceholder}</input>
             <div className="session-modal__button-group">
               <SessionButton
                 text={window.i18n('ok')}
@@ -168,18 +166,6 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         {renderFilterRequestView && this.renderFilterRequestsView()}
       </>
     );
-  }
-
-  private getPubkeyName(pubKey: string | null) {
-    if (!pubKey) {
-      return {};
-    }
-
-    const secretWords = window.mnemonic.pubkey_to_secret_words(pubKey);
-    const conv = window.ConversationController.get(this.state.currentPubKey);
-    const deviceAlias = conv ? conv.getNickname() : 'Unnamed Device';
-
-    return { deviceAlias, secretWords };
   }
 
   private reset() {
