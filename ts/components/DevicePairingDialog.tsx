@@ -10,13 +10,13 @@ interface Props {
 }
 
 interface State {
-  currentPubKey: string | null;
+  currentPubKey: string | undefined;
   accepted: boolean;
   pubKeyRequests: Array<any>;
   currentView: 'filterRequestView' | 'qrcodeView';
   errors: any;
   loading: boolean;
-  deviceAlias: string | null;
+  deviceAlias: string | undefined;
 }
 
 export class DevicePairingDialog extends React.Component<Props, State> {
@@ -33,13 +33,13 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     this.handleUpdateDeviceAlias = this.handleUpdateDeviceAlias.bind(this);
 
     this.state = {
-      currentPubKey: null,
+      currentPubKey: undefined,
       accepted: false,
       pubKeyRequests: Array(),
       currentView: 'qrcodeView',
       loading: false,
       errors: undefined,
-      deviceAlias: null,
+      deviceAlias: 'Unnamed Device',
     };
   }
 
@@ -59,7 +59,6 @@ export class DevicePairingDialog extends React.Component<Props, State> {
   public renderFilterRequestsView() {
     const { currentPubKey, accepted, deviceAlias } = this.state;
     const secretWords = window.mnemonic.pubkey_to_secret_words(currentPubKey);
-    const deviceAliasPlaceholder = 'Unnamed Device';
 
     if (accepted) {
       return (
@@ -69,7 +68,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           onClose={this.closeDialog}
         >
           <div className="session-modal__centered">
-            <input onChange={this.handleUpdateDeviceAlias}>{deviceAliasPlaceholder}</input>
+            <input type="text" onChange={this.handleUpdateDeviceAlias} value={deviceAlias} id={currentPubKey}/>
             <div className="session-modal__button-group">
               <SessionButton
                 text={window.i18n('ok')}
@@ -170,11 +169,11 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
   private reset() {
     this.setState({
-      currentPubKey: null,
+      currentPubKey: undefined,
       accepted: false,
       pubKeyRequests: Array(),
       currentView: 'filterRequestView',
-      deviceAlias: null,
+      deviceAlias: 'Unnamed Device',
     });
   }
 
@@ -312,7 +311,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     if (!!trimmed) {
       this.setState({ deviceAlias: trimmed });
     } else {
-      this.setState({ deviceAlias: null });
+      this.setState({ deviceAlias: undefined });
     }
   }
 }
