@@ -213,8 +213,8 @@
       });
       this.el.append(dialog.el);
     },
-    showDevicePairingDialog() {
-      const dialog = new Whisper.DevicePairingDialogView();
+    showDevicePairingDialog(options) {
+      const dialog = new Whisper.DevicePairingDialogView(options);
 
       this.el.append(dialog.el);
     },

@@ -57,19 +57,20 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
 
     this.hasPassword();
+    this.refreshLinkedDevice = this.refreshLinkedDevice.bind(this);
   }
 
-  public componentWillMount() {
-    const { category } = this.props;
-    if (category === SessionSettingCategory.Devices) {
-      const ourPubKey = window.textsecure.storage.user.getNumber();
+  public componentDidMount() {
+    window.Whisper.events.on('refreshLinkedDeviceList', async () => {
+      setTimeout(() => {
+        this.refreshLinkedDevice();
+      }, 1000);
+    });
+    this.refreshLinkedDevice();
+  }
 
-      window.libloki.storage.getSecondaryDevicesFor(ourPubKey).then((pubKeys: any) => {
-        this.setState({
-          linkedPubKeys: pubKeys,
-        });
-      });
-    }
+  public componentWillUnmount() {
+    window.Whisper.events.off('refreshLinkedDeviceList');
   }
 
   /* tslint:disable-next-line:max-func-body-length */
@@ -93,7 +94,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       <>
         {this.state.hasPassword !== null &&
           settings.map(setting => {
-            const { category } = this.props;
             const content = setting.content || undefined;
             const shouldRenderSettings = setting.category === category;
             const description = setting.description || '';
@@ -137,7 +137,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     );
   }
 
-
   public render() {
     const { category } = this.props;
 
@@ -150,7 +149,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       </div>
     );
   }
-
 
 
   public setOptionsSetting(settingID: string) {
@@ -210,7 +208,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   // tslint:disable-next-line: max-func-body-length
-  private getLocalSettings() : Array<LocalSettingType> {
+  private getLocalSettings(): Array<LocalSettingType> {
     const { Settings } = window.Signal.Types;
 
     return [
@@ -385,7 +383,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     ];
   }
 
-  private getLinkedDeviceSettings() : Array<LocalSettingType> {
+  private getLinkedDeviceSettings(): Array<LocalSettingType> {
     const { linkedPubKeys } = this.state;
 
     if (linkedPubKeys && linkedPubKeys.length > 0) {
@@ -393,69 +391,69 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         const { deviceAlias, secretWords } = this.getPubkeyName(pubkey);
         const description = `${secretWords} ${window.shortenPubkey(pubkey)}`;
 
-        return {
-          id: pubkey,
-          title: deviceAlias,
-          description: description,
-          type: SessionSettingType.Button,
+        if (window.lokiFeatureFlags.multiDeviceUnpairing) {
+          return {
+            id: pubkey,
+            title: deviceAlias,
+            description: description,
+            type: SessionSettingType.Button,
+            category: SessionSettingCategory.Devices,
+            content: {
+              buttonColor: SessionButtonColor.Danger,
+              buttonText: window.i18n('unpairDevice'),
+            },
+            comparisonValue: undefined,
+            setFn: () => {
+              window.Whisper.events.trigger('showDevicePairingDialog', {
+                pubKeyToUnpair: pubkey,
+              });
+            },
+            hidden: undefined,
+            onClick: undefined,
+          };
+        } else {
+          return {
+            id: pubkey,
+            title: deviceAlias,
+            description: description,
+            type: undefined,
+            category: SessionSettingCategory.Devices,
+            content: {},
+            comparisonValue: undefined,
+            setFn: undefined,
+            hidden: undefined,
+            onClick: undefined,
+          };
+        }
+      });
+    } else {
+      return [
+        {
+          id: 'no-linked-device',
+          title: window.i18n('noPairedDevices'),
+          type: undefined,
+          description: '',
           category: SessionSettingCategory.Devices,
-          content: {
-            buttonColor: SessionButtonColor.Danger,
-            buttonText: window.i18n('unpairDevice'),
-          },
+          content: {},
           comparisonValue: undefined,
           onClick: undefined,
           setFn: undefined,
           hidden: undefined,
-        };
-      });
-    } else {
-      return [{
-        id: 'no-linked-device',
-        title: window.i18n('noPairedDevices'),
-        type: undefined,
-        description: '',
-        category: SessionSettingCategory.Devices,
-        content: {},
-        comparisonValue: undefined,
-        setFn: undefined,
-        hidden: undefined,
-        onClick: undefined,
-      }];
+        },
+      ];
     }
   }
+
+  private refreshLinkedDevice() {
+    const ourPubKey = window.textsecure.storage.user.getNumber();
+
+    window.libloki.storage
+      .getSecondaryDevicesFor(ourPubKey)
+      .then((pubKeys: any) => {
+        this.setState({
+          linkedPubKeys: pubKeys,
+        });
+      });
+  }
 }
-
-  //
-
-  //           /*const li = $('<li>').html(name);
-  //       if (window.lokiFeatureFlags.multiDeviceUnpairing) {
-  //         const link = $('<a>')
-  //           .text('Unpair')
-  //           .attr('href', '#');
-  //         link.on('click', () => this.requestUnpairDevice(x));
-  //         li.append(' - ');
-  //         li.append(link);
-  //       }*/
-
-  //   if (linkedPubKeys && linkedPubKeys.length > 0) {
-  //     //this.$('#startPairing').attr('disabled', true);
-  //     const items = linkedPubKeys.map((pubkey: any) => {
-  //       const { deviceAlias, secretWords } = this.getPubkeyName(pubkey);
-  //       const description = `${secretWords} ${window.shortenPubkey(pubkey)}`;
-
-  //       return (
-  //         <SessionLinkedDeviceListItem onClick={() => {}} title={deviceAlias} key={pubkey}  description={description} />
-  //       );
-  //     });
-
-  //     return (
-  //       <div>
-  //       {items}
-  //       </div>);
-  //   } else {
-  //     //this.$('#startPairing').removeAttr('disabled');
-  //     //this.$('#pairedPubKeys').append('<li>No paired devices</li>');
-
-  //     return (<li>No paired devices</li>);
-  //   }
+//     //this.$('#startPairing').removeAttr('disabled');

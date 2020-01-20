@@ -40,10 +40,9 @@ export class SessionSettingListItem extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { title, description, type, value, content } = this.props;
 
-    const inline = !!type && ![
-      SessionSettingType.Options,
-      SessionSettingType.Slider,
-    ].includes(type);
+    const inline =
+      !!type &&
+      ![SessionSettingType.Options, SessionSettingType.Slider].includes(type);
 
     const currentSliderValue =
       type === SessionSettingType.Slider && (this.state.sliderValue || value);

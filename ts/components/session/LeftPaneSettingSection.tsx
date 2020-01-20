@@ -31,8 +31,6 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
 
     this.setCategory = this.setCategory.bind(this);
     this.renderRows = this.renderRows.bind(this);
-
-    //this.updateSearchBound = this.updateSearch.bind(this);
   }
 
   public render(): JSX.Element {

@@ -2,18 +2,19 @@ import React, { ChangeEvent } from 'react';
 import { QRCode } from 'react-qr-svg';
 
 import { SessionModal } from './session/SessionModal';
-import { SessionButton } from './session/SessionButton';
+import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { SessionSpinner } from './session/SessionSpinner';
 
 interface Props {
   onClose: any;
+  pubKeyToUnpair: string | undefined;
 }
 
 interface State {
   currentPubKey: string | undefined;
   accepted: boolean;
   pubKeyRequests: Array<any>;
-  currentView: 'filterRequestView' | 'qrcodeView';
+  currentView: 'filterRequestView' | 'qrcodeView' | 'unpairDeviceView';
   errors: any;
   loading: boolean;
   deviceAlias: string | undefined;
@@ -31,12 +32,13 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     this.allowDevice = this.allowDevice.bind(this);
     this.validateSecondaryDevice = this.validateSecondaryDevice.bind(this);
     this.handleUpdateDeviceAlias = this.handleUpdateDeviceAlias.bind(this);
+    this.triggerUnpairDevice = this.triggerUnpairDevice.bind(this);
 
     this.state = {
       currentPubKey: undefined,
       accepted: false,
       pubKeyRequests: Array(),
-      currentView: 'qrcodeView',
+      currentView: props.pubKeyToUnpair ? 'unpairDeviceView' : 'qrcodeView',
       loading: false,
       errors: undefined,
       deviceAlias: 'Unnamed Device',
@@ -44,21 +46,21 @@ export class DevicePairingDialog extends React.Component<Props, State> {
   }
 
   public componentWillMount() {
-    this.startReceivingRequests();
+    if (this.state.currentView === 'qrcodeView') {
+      this.startReceivingRequests();
+    }
   }
 
   public componentWillUnmount() {
     this.closeDialog();
   }
 
-  /*
-  dialog.on('deviceUnpairingRequested', pubKey =>
-    Whisper.events.trigger('deviceUnpairingRequested', pubKey)
-  );*/
-
   public renderFilterRequestsView() {
     const { currentPubKey, accepted, deviceAlias } = this.state;
-    const secretWords = window.mnemonic.pubkey_to_secret_words(currentPubKey);
+    let secretWords: undefined;
+    if (currentPubKey) {
+      secretWords = window.mnemonic.pubkey_to_secret_words(currentPubKey);
+    }
 
     if (accepted) {
       return (
@@ -68,7 +70,12 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           onClose={this.closeDialog}
         >
           <div className="session-modal__centered">
-            <input type="text" onChange={this.handleUpdateDeviceAlias} value={deviceAlias} id={currentPubKey}/>
+            <input
+              type="text"
+              onChange={this.handleUpdateDeviceAlias}
+              value={deviceAlias}
+              id={currentPubKey}
+            />
             <div className="session-modal__button-group">
               <SessionButton
                 text={window.i18n('ok')}
@@ -154,15 +161,60 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     );
   }
 
+  public renderUnpairDeviceView() {
+    const { pubKeyToUnpair } = this.props;
+    const secretWords = window.mnemonic.pubkey_to_secret_words(pubKeyToUnpair);
+    const conv = window.ConversationController.get(pubKeyToUnpair);
+    let description;
+
+    if (conv && conv.getNickname()) {
+      description = `${conv.getNickname()}: ${window.shortenPubkey(
+        pubKeyToUnpair
+      )} ${secretWords}`;
+    } else {
+      description = `${window.shortenPubkey(pubKeyToUnpair)} ${secretWords}`;
+    }
+
+    return (
+      <SessionModal
+        title={window.i18n('unpairDevice')}
+        onOk={() => null}
+        onClose={this.closeDialog}
+      >
+        <div className="session-modal__centered">
+          <p className="session-modal__description">
+            {window.i18n('confirmUnpairingTitle')}
+            <br />
+            <span className="text-subtle">{description}</span>
+          </p>
+          <div className="spacer-xs" />
+          <div className="session-modal__button-group">
+            <SessionButton
+              text={window.i18n('cancel')}
+              onClick={this.closeDialog}
+            />
+            <SessionButton
+              text={window.i18n('unpairDevice')}
+              onClick={this.triggerUnpairDevice}
+              buttonColor={SessionButtonColor.Danger}
+            />
+          </div>
+        </div>
+      </SessionModal>
+    );
+  }
+
   public render() {
     const { currentView } = this.state;
     const renderQrCodeView = currentView === 'qrcodeView';
     const renderFilterRequestView = currentView === 'filterRequestView';
+    const renderUnpairDeviceView = currentView === 'unpairDeviceView';
 
     return (
       <>
         {renderQrCodeView && this.renderQrCodeView()}
         {renderFilterRequestView && this.renderFilterRequestsView()}
+        {renderUnpairDeviceView && this.renderUnpairDeviceView()}
       </>
     );
   }
@@ -232,6 +284,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       // FIXME display error somewhere
       // FIXME display list of linked device
       // FIXME do not show linked device in list of contacts
+      console.log('FIXME');
 
       return;
     }
@@ -283,6 +336,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       this.state.currentPubKey,
       (errors: any) => {
         this.transmissionCB(errors);
+        window.Whisper.events.trigger('refreshLinkedDeviceList');
 
         return true;
       }
@@ -313,5 +367,16 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     } else {
       this.setState({ deviceAlias: undefined });
     }
+  }
+
+  private triggerUnpairDevice() {
+    window.Whisper.events.trigger(
+      'deviceUnpairingRequested',
+      this.props.pubKeyToUnpair
+    );
+    window.pushToast({
+      title: window.i18n('deviceUnpaired'),
+    });
+    this.closeDialog();
   }
 }
