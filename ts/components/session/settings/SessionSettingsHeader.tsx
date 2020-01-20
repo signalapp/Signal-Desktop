@@ -4,9 +4,12 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 import { SessionButton } from '../SessionButton';
 
-export class SettingsHeader extends React.Component<SettingsViewProps> {
+export class SettingsHeader extends React.Component<SettingsViewProps, any> {
   public constructor(props: any) {
     super(props);
+    this.state = {
+      disableLinkDeviceButton: true,
+    };
     this.showAddLinkedDeviceModal = this.showAddLinkedDeviceModal.bind(this);
   }
 
@@ -18,8 +21,32 @@ export class SettingsHeader extends React.Component<SettingsViewProps> {
     window.Whisper.events.trigger('showDevicePairingDialog');
   }
 
+  public componentDidMount() {
+    window.Whisper.events.on('refreshLinkedDeviceList', async () => {
+      this.refreshLinkedDevice();
+    });
+    this.refreshLinkedDevice();
+  }
+
+  public refreshLinkedDevice() {
+    const ourPubKey = window.textsecure.storage.user.getNumber();
+
+    window.libloki.storage
+      .getSecondaryDevicesFor(ourPubKey)
+      .then((pubKeys: any) => {
+        this.setState({
+          disableLinkDeviceButton: pubKeys && pubKeys.length > 0,
+        });
+      });
+  }
+
+  public componentWillUnmount() {
+    window.Whisper.events.off('refreshLinkedDeviceList');
+  }
+
   public render() {
     const { category } = this.props;
+    const { disableLinkDeviceButton } = this.state;
     const categoryString = String(category);
     const categoryTitlePrefix =
       categoryString[0].toUpperCase() + categoryString.substr(1);
@@ -44,6 +71,7 @@ export class SettingsHeader extends React.Component<SettingsViewProps> {
           <SessionButton
             text={window.i18n('linkNewDevice')}
             onClick={this.showAddLinkedDeviceModal}
+            disabled={disableLinkDeviceButton}
           />
         )}
       </div>
