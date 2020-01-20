@@ -17,7 +17,6 @@
     },
 
     render() {
-
       this.dialogView = new Whisper.ReactWrapperView({
         className: 'password-dialog-wrapper',
         Component: window.Signal.Components.SessionPasswordModal,
@@ -26,8 +25,7 @@
           onOk: this.onOk,
           ...this.props,
         },
-      });     
-
+      });
 
       this.$el.append(this.dialogView.el);
       return this;
@@ -42,7 +40,5 @@
     close() {
       this.remove();
     },
-
   });
 })();
-

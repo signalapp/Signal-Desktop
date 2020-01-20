@@ -16,7 +16,7 @@ interface Window {
   Signal: any;
   Whisper: any;
   ConversationController: any;
-  
+
   setPassword: any;
   textsecure: any;
   Session: any;

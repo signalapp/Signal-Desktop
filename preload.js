@@ -467,11 +467,6 @@ contextMenu({
   },
 });
 
-// User config for managing password DB entries etc.
-const thisfaw = require('./app/password_util');
-console.log(thisfaw);
-
-
 // We pull this in last, because the native module involved appears to be sensitive to
 //   /tmp mounted as noexec on Linux.
 require('./js/spell_check');

@@ -90,12 +90,14 @@ export class SessionSettingListItem extends React.Component<Props, State> {
           {type === SessionSettingType.Slider && (
             <div className="slider-wrapper">
               <Slider
-                dots
+                dots={true}
                 step={6}
                 min={12}
                 max={96}
                 defaultValue={currentSliderValue}
-                onAfterChange={value => this.handleSlider(value)}
+                onAfterChange={sliderValue => {
+                  this.handleSlider(sliderValue);
+                }}
               />
               <div className="slider-info">
                 <p>{`${currentSliderValue} Hours`}</p>
@@ -114,7 +116,9 @@ export class SessionSettingListItem extends React.Component<Props, State> {
   }
 
   private handleSlider(value: any) {
-    this.props.onSliderChange && this.props.onSliderChange(value);
+    if (this.props.onSliderChange) {
+      this.props.onSliderChange(value);
+    }
 
     this.setState({
       sliderValue: value,

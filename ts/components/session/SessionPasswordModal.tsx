@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { SessionModal } from './SessionModal';
-import { SessionButton, SessionButtonType, SessionButtonColor } from './SessionButton';
+import { SessionButton, SessionButtonColor } from './SessionButton';
 
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',
-  Remove = 'remove'
+  Remove = 'remove',
 }
 
 interface Props {
@@ -25,7 +25,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
 
     this.state = {
       error: null,
-    }
+    };
 
     this.showError = this.showError.bind(this);
 
@@ -36,110 +36,56 @@ export class SessionPasswordModal extends React.Component<Props, State> {
 
   public render() {
     const { action, onOk } = this.props;
-    const placeholders = this.props.action === PasswordAction.Change
-      ? [window.i18n('typeInOldPassword'), window.i18n('enterPassword')]
-      : [window.i18n('enterPassword'), window.i18n('confirmPassword')]
+    const placeholders =
+      this.props.action === PasswordAction.Change
+        ? [window.i18n('typeInOldPassword'), window.i18n('enterPassword')]
+        : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
-    const confirmButtonColor = this.props.action === PasswordAction.Remove
-      ? SessionButtonColor.Danger
-      : SessionButtonColor.Primary
+    const confirmButtonColor =
+      this.props.action === PasswordAction.Remove
+        ? SessionButtonColor.Danger
+        : SessionButtonColor.Primary;
 
     return (
-        <SessionModal
-            title={window.i18n(`${action}Password`)}
-            onOk={() => null}
-            onClose={this.closeDialog}
-        >
-          <div className="spacer-sm"></div>
+      <SessionModal
+        title={window.i18n(`${action}Password`)}
+        onOk={() => null}
+        onClose={this.closeDialog}
+      >
+        <div className="spacer-sm" />
 
-          <div className="session-modal__input-group">
+        <div className="session-modal__input-group">
+          <input
+            type="password"
+            id="password-modal-input"
+            placeholder={placeholders[0]}
+          />
+          {action !== PasswordAction.Remove && (
             <input
               type="password"
-              id="password-modal-input"
-              placeholder={placeholders[0]}
+              id="password-modal-input-confirm"
+              placeholder={placeholders[1]}
             />
-            { action !== PasswordAction.Remove && (
-              <input
-                type="password"
-                id="password-modal-input-confirm"
-                placeholder={placeholders[1]}
-              />
-            )}
-          </div>
+          )}
+        </div>
 
-          <div className="spacer-sm" />
-          {this.showError()}
+        <div className="spacer-sm" />
+        {this.showError()}
 
-          <div className="session-modal__button-group">
-            <SessionButton
-              text={window.i18n('ok')}
-              buttonColor={confirmButtonColor}
-              onClick={() => this.setPassword(onOk)}
-            />
+        <div className="session-modal__button-group">
+          <SessionButton
+            text={window.i18n('ok')}
+            buttonColor={confirmButtonColor}
+            onClick={async () => this.setPassword(onOk)}
+          />
 
-            <SessionButton text={window.i18n('cancel')} onClick={this.closeDialog} />
-          </div>
-
-        </SessionModal>
+          <SessionButton
+            text={window.i18n('cancel')}
+            onClick={this.closeDialog}
+          />
+        </div>
+      </SessionModal>
     );
-
-  }
-
-  private async setPassword(onSuccess: any) {
-    const enteredPassword = String($('#password-modal-input').val());
-    const enteredPasswordConfirm = String($('#password-modal-input-confirm').val());
-
-    // Check passwords enntered
-    if ((enteredPassword.length === 0) ||
-      ((this.props.action === PasswordAction.Change) &&
-      (enteredPasswordConfirm.length === 0))){
-      this.setState({
-        error: window.i18n('noGivenPassword'),
-      });
-
-      return;
-    }
-    
-    // Passwords match or remove password successful
-    const newPassword = this.props.action === PasswordAction.Remove
-    ? null
-    : enteredPasswordConfirm;
-    const oldPassword = this.props.action === PasswordAction.Set 
-      ? null
-      : enteredPassword;
-
-
-    // Check if password match, when setting, changing or removing
-    const valid = this.props.action !== PasswordAction.Set
-      ? !! await this.validatePasswordHash(oldPassword)
-      : (enteredPassword === enteredPasswordConfirm);
-        
-    if (!valid){
-      this.setState({
-        error: window.i18n(`${this.props.action}PasswordInvalid`),
-      });
-
-      return;
-    }
-    
-    await window.setPassword(newPassword, oldPassword);
-    
-
-    const toastParams = {
-      title: window.i18n(`${this.props.action}PasswordTitle`),
-      description: window.i18n(`${this.props.action}PasswordToastDescription`),
-      type: this.props.action !== PasswordAction.Remove ? 'success' : 'warning',
-      icon: this.props.action !== PasswordAction.Remove ? 'lock' : undefined,
-    }
-
-    window.pushToast({
-      id: "set-password-success-toast",
-      ...toastParams
-    });
-
-    onSuccess(this.props.action);
-    this.closeDialog();
-
   }
 
   public async validatePasswordHash(password: string | null) {
@@ -148,7 +94,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     if (hash && !window.passwordUtil.matchesHash(password, hash)) {
       return false;
     }
-    
+
     return true;
   }
 
@@ -167,17 +113,78 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     );
   }
 
+  private async setPassword(onSuccess: any) {
+    const enteredPassword = String($('#password-modal-input').val());
+    const enteredPasswordConfirm = String(
+      $('#password-modal-input-confirm').val()
+    );
+
+    // Check passwords enntered
+    if (
+      enteredPassword.length === 0 ||
+      (this.props.action === PasswordAction.Change &&
+        enteredPasswordConfirm.length === 0)
+    ) {
+      this.setState({
+        error: window.i18n('noGivenPassword'),
+      });
+
+      return;
+    }
+
+    // Passwords match or remove password successful
+    const newPassword =
+      this.props.action === PasswordAction.Remove
+        ? null
+        : enteredPasswordConfirm;
+    const oldPassword =
+      this.props.action === PasswordAction.Set ? null : enteredPassword;
+
+    // Check if password match, when setting, changing or removing
+    const valid =
+      this.props.action !== PasswordAction.Set
+        ? !!await this.validatePasswordHash(oldPassword)
+        : enteredPassword === enteredPasswordConfirm;
+
+    if (!valid) {
+      this.setState({
+        error: window.i18n(`${this.props.action}PasswordInvalid`),
+      });
+
+      return;
+    }
+
+    await window.setPassword(newPassword, oldPassword);
+
+    const toastParams = {
+      title: window.i18n(`${this.props.action}PasswordTitle`),
+      description: window.i18n(`${this.props.action}PasswordToastDescription`),
+      type: this.props.action !== PasswordAction.Remove ? 'success' : 'warning',
+      icon: this.props.action !== PasswordAction.Remove ? 'lock' : undefined,
+    };
+
+    window.pushToast({
+      id: 'set-password-success-toast',
+      ...toastParams,
+    });
+
+    onSuccess(this.props.action);
+    this.closeDialog();
+  }
+
   private onEnter(event: any) {
     if (event.key === 'Enter') {
       //if ($('#server-url').is(':focus')) {
-        //this.showView('connecting');
+      //this.showView('connecting');
       //}
     }
   }
 
   private closeDialog() {
     window.removeEventListener('keyup', this.onEnter);
-    this.props.onClose && this.props.onClose();
-  }
 
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
+  }
 }

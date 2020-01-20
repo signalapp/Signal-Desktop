@@ -340,7 +340,7 @@ $session_message-container-border-radius: 5px;
     border-radius: 0px;
   }
 
-  & > *:not(svg):hover{
+  & > *:not(svg):hover {
     filter: brightness(80%);
   }
 }
@@ -494,7 +494,7 @@ label {
 
 .module-conversation-header {
   position: relative;
-  padding: 0px $session-margin-lg 0px $session-margin-sm
+  padding: 0px $session-margin-lg 0px $session-margin-sm;
 }
 
 .title-wrapper {
@@ -1121,9 +1121,7 @@ input {
   width: 40vh;
 }
 
-
 .session-beta-disclaimer {
-
   .session-modal {
     width: 600px;
 
@@ -1131,7 +1129,7 @@ input {
       font-size: 17px;
     }
 
-    &__body > div:first-child{
+    &__body > div:first-child {
       padding: $session-margin-lg;
     }
 
@@ -1151,7 +1149,7 @@ button.module-scroll-down {
     background-color: $session-shade-6;
   }
 
-  &__button:hover{
+  &__button:hover {
     &__icon {
       transition: $session-transition-duration;
       @include color-svg('../images/down.svg', $session-color-white);
@@ -1161,13 +1159,11 @@ button.module-scroll-down {
   &__icon {
     @include color-svg('../images/down.svg', rgba($session-color-white, 0.6));
   }
-  
 }
 
 /* Memberlist */
 .member-list-container .member {
-
-  &-item{
+  &-item {
     padding: $session-margin-sm;
     background-color: $session-shade-5;
 
@@ -1180,4 +1176,3 @@ button.module-scroll-down {
     background-color: $session-shade-8;
   }
 }
-

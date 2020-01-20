@@ -2,7 +2,12 @@ import React from 'react';
 
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
-import { ContextMenu, ContextMenuTrigger, MenuItem, SubMenu } from 'react-contextmenu';
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  MenuItem,
+  SubMenu,
+} from 'react-contextmenu';
 
 import {
   SessionIconButton,
@@ -251,12 +256,16 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef} holdToDisplay={1}>
-          <SessionIconButton
-            iconType={SessionIconType.Ellipses}
-            iconSize={SessionIconSize.Large}
-            onClick={this.showMenuBound}
-          />
+      <ContextMenuTrigger
+        id={triggerId}
+        ref={this.menuTriggerRef}
+        holdToDisplay={1}
+      >
+        <SessionIconButton
+          iconType={SessionIconType.Ellipses}
+          iconSize={SessionIconSize.Large}
+          onClick={this.showMenuBound}
+        />
       </ContextMenuTrigger>
     );
   }
@@ -278,7 +287,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     const isPrivateGroup = isGroup && !isPublic;
 
-    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');   
+    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
 
     return (
       <ContextMenu id={triggerId}>

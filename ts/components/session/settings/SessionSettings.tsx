@@ -26,8 +26,6 @@ export interface SettingsViewProps {
 
 interface State {
   hasPassword: boolean | null;
-  changedPassword: boolean | null;
-  removedPassword: 
 }
 
 export class SettingsView extends React.Component<SettingsViewProps, State> {
@@ -38,14 +36,15 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     this.state = {
       hasPassword: null,
-    }
-    
+    };
+
     this.settingsViewRef = React.createRef();
     this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
 
     this.hasPassword();
   }
 
+  /* tslint:disable-next-line:max-func-body-length */
   public renderSettingInCategory() {
     const { Settings } = window.Signal.Types;
 
@@ -137,7 +136,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         setFn: window.toggleMediaPermissions,
         content: {},
       },
-
       {
         id: 'message-ttl',
         title: window.i18n('messageTTL'),
@@ -147,7 +145,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
         content: {
-          defaultValue: 24
+          defaultValue: 24,
         },
       },
       {
@@ -162,10 +160,11 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('setPassword'),
           buttonColor: SessionButtonColor.Primary,
         },
-        onClick: () => window.showPasswordDialog({
-          action: 'set',
-          onSuccess: this.onPasswordUpdated,
-        }),
+        onClick: () =>
+          window.showPasswordDialog({
+            action: 'set',
+            onSuccess: this.onPasswordUpdated,
+          }),
       },
       {
         id: 'change-password',
@@ -176,13 +175,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
         content: {
-           buttonText: window.i18n('changePassword'),
+          buttonText: window.i18n('changePassword'),
           buttonColor: SessionButtonColor.Primary,
         },
-        onClick: () => window.showPasswordDialog({
-          action: 'change',
-          onSuccess: this.onPasswordUpdated,
-        }),
+        onClick: () =>
+          window.showPasswordDialog({
+            action: 'change',
+            onSuccess: this.onPasswordUpdated,
+          }),
       },
       {
         id: 'remove-password',
@@ -196,47 +196,57 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('removePassword'),
           buttonColor: SessionButtonColor.Danger,
         },
-        onClick: () => window.showPasswordDialog({
-          action: 'remove',
-          onSuccess: this.onPasswordUpdated,
-        }),
+        onClick: () =>
+          window.showPasswordDialog({
+            action: 'remove',
+            onSuccess: this.onPasswordUpdated,
+          }),
       },
     ];
 
     return (
       <>
-        {(this.state.hasPassword !== null) && localSettings.map(setting => {    
-          const { category } = this.props;
-          const shouldRenderSettings = setting.category === category;
-          const description = setting.description || '';
-          
-          const comparisonValue = setting.comparisonValue || null;
-          const value = window.getSettingValue(setting.id, comparisonValue) || setting.content.defaultValue;
+        {this.state.hasPassword !== null &&
+          localSettings.map(setting => {
+            const { category } = this.props;
+            const content = setting.content || undefined;
+            const shouldRenderSettings = setting.category === category;
+            const description = setting.description || '';
 
-          const sliderFn =
-            setting.type === SessionSettingType.Slider
-              ? (value: any) => window.setSettingValue(setting.id, value)
-              : () => null;
+            const comparisonValue = setting.comparisonValue || null;
+            const value =
+              window.getSettingValue(setting.id, comparisonValue) ||
+              setting.content.defaultValue;
 
-          const onClickFn = setting.onClick || (() => this.updateSetting(setting));
+            const sliderFn =
+              setting.type === SessionSettingType.Slider
+                ? (settingValue: any) =>
+                    window.setSettingValue(setting.id, settingValue)
+                : () => null;
 
-          return (
-            <div key={setting.id}>
-              {shouldRenderSettings &&
-                !setting.hidden && (
-                  <SessionSettingListItem
-                    title={setting.title}
-                    description={description}
-                    type={setting.type}
-                    value={value}
-                    onClick={onClickFn}
-                    onSliderChange={sliderFn}
-                    content={setting.content || undefined}
-                  />
-                )}
-            </div>
-          );
-        })}
+            const onClickFn =
+              setting.onClick ||
+              (() => {
+                this.updateSetting(setting);
+              });
+
+            return (
+              <div key={setting.id}>
+                {shouldRenderSettings &&
+                  !setting.hidden && (
+                    <SessionSettingListItem
+                      title={setting.title}
+                      description={description}
+                      type={setting.type}
+                      value={value}
+                      onClick={onClickFn}
+                      onSliderChange={sliderFn}
+                      content={content}
+                    />
+                  )}
+              </div>
+            );
+          })}
       </>
     );
   }
@@ -285,14 +295,13 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public onPasswordUpdated(action: string) {
-
-    if (action === 'set'){
+    if (action === 'set') {
       this.setState({
         hasPassword: true,
       });
     }
 
-    if (action === 'remove'){
+    if (action === 'remove') {
       this.setState({
         hasPassword: false,
       });

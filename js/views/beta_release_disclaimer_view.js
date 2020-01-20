@@ -12,7 +12,7 @@
       this.close = this.close.bind(this);
       this.render();
     },
-    
+
     render() {
       this.dialogView = new Whisper.ReactWrapperView({
         className: 'session-beta-disclaimer',
@@ -25,15 +25,14 @@
           onClickOk: this.close,
         },
       });
-      
+
       this.$el.append(this.dialogView.el);
       return this;
     },
 
-    close () {
+    close() {
       window.storage.put('betaReleaseDisclaimerAccepted', true);
       this.remove();
     },
   });
-
 })();

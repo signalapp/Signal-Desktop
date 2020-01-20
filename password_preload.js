@@ -26,7 +26,6 @@ window.Signal = Signal.setup({
 
 window.passwordUtil = require('./app/password_util');
 
-
 window.resetDatabase = () => {
   window.log.info('reset database');
   ipcRenderer.send('resetDatabase');

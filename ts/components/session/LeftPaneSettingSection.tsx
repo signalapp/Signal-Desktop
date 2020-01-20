@@ -73,7 +73,9 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
                   item.id === this.state.settingCategory ? 'active' : ''
                 )}
                 role="link"
-                onClick={(): void => this.setCategory(item.id)}
+                onClick={() => {
+                  this.setCategory(item.id);
+                }}
               >
                 <div>
                   <strong>{item.title}</strong>

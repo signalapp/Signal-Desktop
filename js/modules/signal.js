@@ -71,7 +71,8 @@ const {
   SessionSeedModal,
 } = require('../../ts/components/session/SessionSeedModal');
 
-const { SessionPasswordModal,
+const {
+  SessionPasswordModal,
 } = require('../../ts/components/session/SessionPasswordModal');
 
 const {
