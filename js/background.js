@@ -821,6 +821,7 @@
     };
 
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
+    window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
 
     window.generateID = () =>
       Math.random()
@@ -838,6 +839,7 @@
         id: options.id || window.generateID(),
         description: options.description || '',
         type: options.type || '',
+        icon: options.icon || '',
         shouldFade: options.shouldFade,
       };
 
@@ -1180,12 +1182,6 @@
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);
-      }
-    });
-
-    Whisper.events.on('showPasswordDialog', options => {
-      if (appView) {
-        appView.showPasswordDialog(options);
       }
     });
 

@@ -75,6 +75,7 @@ $session-color-info: $session-shade-11;
 $session-color-success: #35d388;
 $session-color-error: #edd422;
 $session-color-warning: $session-shade-17;
+$session-color-warning-alt: #ff9d00;
 
 $session-color-light-grey: #a0a0a0;
 
@@ -227,6 +228,7 @@ $session_message-container-border-radius: 5px;
   justify-content: center;
   font-weight: 700;
   user-select: none;
+  white-space: nowrap;
   cursor: pointer;
   transition: $session-transition-duration;
   background-color: rgba(0, 0, 0, 0);
@@ -280,9 +282,9 @@ $session_message-container-border-radius: 5px;
       }
     }
     &.warning {
-      background-color: $session-color-warning;
+      background-color: $session-color-warning-alt;
       &.disabled {
-        background-color: rgba($session-color-warning, 0.6);
+        background-color: rgba($session-color-warning-alt, 0.6);
       }
     }
   }
@@ -363,7 +365,7 @@ $session_message-container-border-radius: 5px;
     background-color: $session-color-danger;
   }
   &.warning {
-    background-color: $session-color-warning;
+    background-color: $session-color-warning-alt;
   }
 }
 
@@ -604,7 +606,7 @@ label {
     @include set-toast-theme($session-color-success);
   }
   &.warning {
-    @include set-toast-theme($session-color-warning);
+    @include set-toast-theme($session-color-warning-alt);
   }
   &.error {
     @include set-toast-theme($session-color-error);

@@ -2181,6 +2181,12 @@
     "description":
       "Description for remove account password setting view"
   },
+  "enterPassword": {
+    "message": "Please enter your password"
+  },
+  "confirmPassword": {
+    "message": "Confirm password"
+  },
   "showSeedPasswordRequest": {
     "message": "Please enter your password",
     "description": "Request for user to enter password to show seed."
@@ -2289,6 +2295,33 @@
   },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match"
+  },
+  "setPasswordInvalid": {
+    "message": "Passwords do not match"
+  },
+  "changePasswordInvalid": {
+    "message": "The old password you entered is incorrect"
+  },
+  "removePasswordInvalid": {
+    "message": "Incorrect password"
+  },
+  "setPasswordTitle": {
+    "message": "Set Password"
+  },
+  "changePasswordTitle": {
+    "message": "Changed Password"
+  },
+  "removePasswordTitle": {
+    "message": "Removed Password"
+  },
+  "setPasswordToastDescription": {
+    "message": "Your password has been set. Please keep it safe."
+  },
+  "changePasswordToastDescription": {
+    "message": "Your password has been changed. Please keep it safe."
+  },
+  "removePasswordToastDescription": {
+    "message": "You have removed your password."
   },
   "publicChatExists": {
     "message": "You are already connected to this public channel"

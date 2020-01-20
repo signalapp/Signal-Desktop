@@ -17,6 +17,7 @@
       this.applyHideMenu();
 
       this.showSeedDialog = this.showSeedDialog.bind(this);
+      this.showPasswordDialog = this.showPasswordDialog.bind(this);
     },
     events: {
       'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
@@ -198,8 +199,8 @@
       this.el.append(dialog.el);
       dialog.focusInput();
     },
-    showPasswordDialog() {
-      const dialog = Whisper.PasswordDialogView();
+    showPasswordDialog(options) {
+      const dialog = new Whisper.PasswordDialogView(options);
       this.el.append(dialog.el);
     },
     showSeedDialog() {

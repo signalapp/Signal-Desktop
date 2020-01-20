@@ -24,19 +24,30 @@ export interface SettingsViewProps {
   category: SessionSettingCategory;
 }
 
-export class SettingsView extends React.Component<SettingsViewProps> {
+interface State {
+  hasPassword: boolean | null;
+  changedPassword: boolean | null;
+  removedPassword: 
+}
+
+export class SettingsView extends React.Component<SettingsViewProps, State> {
   public settingsViewRef: React.RefObject<HTMLDivElement>;
 
   public constructor(props: any) {
     super(props);
+
+    this.state = {
+      hasPassword: null,
+    }
+    
     this.settingsViewRef = React.createRef();
+    this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
+
+    this.hasPassword();
   }
 
   public renderSettingInCategory() {
     const { Settings } = window.Signal.Types;
-
-    //const hasPassword = window.userConfig.get('dbHasPassword');
-    //console.log(`User has password: ${hasPassword}`);
 
     // Grab initial values from database on startup
     // ID corresponds to instalGetter parameters in preload.js
@@ -135,13 +146,15 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         type: SessionSettingType.Slider,
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
-        content: {},
+        content: {
+          defaultValue: 24
+        },
       },
       {
         id: 'set-password',
         title: window.i18n('setAccountPasswordTitle'),
         description: window.i18n('setAccountPasswordDescription'),
-        hidden: false,
+        hidden: this.state.hasPassword,
         type: SessionSettingType.Button,
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
@@ -149,25 +162,33 @@ export class SettingsView extends React.Component<SettingsViewProps> {
           buttonText: window.i18n('setPassword'),
           buttonColor: SessionButtonColor.Primary,
         },
+        onClick: () => window.showPasswordDialog({
+          action: 'set',
+          onSuccess: this.onPasswordUpdated,
+        }),
       },
       {
         id: 'change-password',
         title: window.i18n('changeAccountPasswordTitle'),
         description: window.i18n('changeAccountPasswordDescription'),
-        hidden: false,
+        hidden: !this.state.hasPassword,
         type: SessionSettingType.Button,
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
         content: {
-          buttonText: window.i18n('changePassword'),
+           buttonText: window.i18n('changePassword'),
           buttonColor: SessionButtonColor.Primary,
         },
+        onClick: () => window.showPasswordDialog({
+          action: 'change',
+          onSuccess: this.onPasswordUpdated,
+        }),
       },
       {
         id: 'remove-password',
         title: window.i18n('removeAccountPasswordTitle'),
         description: window.i18n('removeAccountPasswordDescription'),
-        hidden: false,
+        hidden: !this.state.hasPassword,
         type: SessionSettingType.Button,
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
@@ -175,21 +196,29 @@ export class SettingsView extends React.Component<SettingsViewProps> {
           buttonText: window.i18n('removePassword'),
           buttonColor: SessionButtonColor.Danger,
         },
+        onClick: () => window.showPasswordDialog({
+          action: 'remove',
+          onSuccess: this.onPasswordUpdated,
+        }),
       },
     ];
 
     return (
       <>
-        {localSettings.map(setting => {
+        {(this.state.hasPassword !== null) && localSettings.map(setting => {    
           const { category } = this.props;
           const shouldRenderSettings = setting.category === category;
           const description = setting.description || '';
+          
           const comparisonValue = setting.comparisonValue || null;
+          const value = window.getSettingValue(setting.id, comparisonValue) || setting.content.defaultValue;
 
           const sliderFn =
             setting.type === SessionSettingType.Slider
               ? (value: any) => window.setSettingValue(setting.id, value)
               : () => null;
+
+          const onClickFn = setting.onClick || (() => this.updateSetting(setting));
 
           return (
             <div key={setting.id}>
@@ -199,10 +228,8 @@ export class SettingsView extends React.Component<SettingsViewProps> {
                     title={setting.title}
                     description={description}
                     type={setting.type}
-                    value={window.getSettingValue(setting.id, comparisonValue)}
-                    onClick={() => {
-                      this.updateSetting(setting);
-                    }}
+                    value={value}
+                    onClick={onClickFn}
                     onSliderChange={sliderFn}
                     content={setting.content || undefined}
                   />
@@ -212,6 +239,16 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         })}
       </>
     );
+  }
+
+  public hasPassword() {
+    const hashPromise = window.Signal.Data.getPasswordHash();
+
+    hashPromise.then((hash: any) => {
+      this.setState({
+        hasPassword: !!hash,
+      });
+    });
   }
 
   public render() {
@@ -245,5 +282,20 @@ export class SettingsView extends React.Component<SettingsViewProps> {
   public setOptionsSetting(settingID: string) {
     const selectedValue = $(`#${settingID} .session-radio input:checked`).val();
     window.setSettingValue(settingID, selectedValue);
+  }
+
+  public onPasswordUpdated(action: string) {
+
+    if (action === 'set'){
+      this.setState({
+        hasPassword: true,
+      });
+    }
+
+    if (action === 'remove'){
+      this.setState({
+        hasPassword: false,
+      });
+    }
   }
 }
