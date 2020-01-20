@@ -12,6 +12,7 @@
         title: options.title,
         id: options.id,
         description: options.description,
+        icon: options.icon,
         fadeToast: this.fadeToast.bind(this),
         closeToast: this.closeToast.bind(this),
       };
@@ -32,6 +33,7 @@
       this.props.id = options.id;
       this.props.description = options.description || '';
       this.props.type = options.type || '';
+      this.props.icon = options.icon || '';
       this.props.shouldFade = options.shouldFade !== false;
 
       this.toastView.update(this.props);

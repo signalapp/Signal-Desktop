@@ -2,6 +2,7 @@ import React from 'react';
 
 import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
+import { SessionButtonColor } from '../SessionButton';
 
 export enum SessionSettingCategory {
   General = 'general',
@@ -19,20 +20,31 @@ export enum SessionSettingType {
   Slider = 'slider',
 }
 
-//const { Settings } = window.Signal.Types;
-
 export interface SettingsViewProps {
   category: SessionSettingCategory;
 }
 
-export class SettingsView extends React.Component<SettingsViewProps> {
+interface State {
+  hasPassword: boolean | null;
+}
+
+export class SettingsView extends React.Component<SettingsViewProps, State> {
   public settingsViewRef: React.RefObject<HTMLDivElement>;
 
   public constructor(props: any) {
     super(props);
+
+    this.state = {
+      hasPassword: null,
+    };
+
     this.settingsViewRef = React.createRef();
+    this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
+
+    this.hasPassword();
   }
 
+  /* tslint:disable-next-line:max-func-body-length */
   public renderSettingInCategory() {
     const { Settings } = window.Signal.Types;
 
@@ -81,7 +93,6 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         setFn: window.toggleLinkPreview,
         content: {},
       },
-
       {
         id: 'notification-setting',
         title: window.i18n('notificationSettingsDialog'),
@@ -93,7 +104,7 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         content: {
           options: {
             group: 'notification-setting',
-            initalItem: window.getSettingValue('notification-setting'),
+            initalItem: window.getSettingValue('notification-setting') || 'message',
             items: [
               {
                 label: window.i18n('nameAndMessage'),
@@ -115,7 +126,6 @@ export class SettingsView extends React.Component<SettingsViewProps> {
           },
         },
       },
-
       {
         id: 'media-permissions',
         title: window.i18n('mediaPermissionsTitle'),
@@ -126,36 +136,129 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         setFn: window.toggleMediaPermissions,
         content: {},
       },
+      {
+        id: 'message-ttl',
+        title: window.i18n('messageTTL'),
+        description: window.i18n('messageTTLSettingDescription'),
+        hidden: false,
+        type: SessionSettingType.Slider,
+        category: SessionSettingCategory.Privacy,
+        setFn: undefined,
+        content: {
+          defaultValue: 24,
+        },
+      },
+      {
+        id: 'set-password',
+        title: window.i18n('setAccountPasswordTitle'),
+        description: window.i18n('setAccountPasswordDescription'),
+        hidden: this.state.hasPassword,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Privacy,
+        setFn: undefined,
+        content: {
+          buttonText: window.i18n('setPassword'),
+          buttonColor: SessionButtonColor.Primary,
+        },
+        onClick: () =>
+          window.showPasswordDialog({
+            action: 'set',
+            onSuccess: this.onPasswordUpdated,
+          }),
+      },
+      {
+        id: 'change-password',
+        title: window.i18n('changeAccountPasswordTitle'),
+        description: window.i18n('changeAccountPasswordDescription'),
+        hidden: !this.state.hasPassword,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Privacy,
+        setFn: undefined,
+        content: {
+          buttonText: window.i18n('changePassword'),
+          buttonColor: SessionButtonColor.Primary,
+        },
+        onClick: () =>
+          window.showPasswordDialog({
+            action: 'change',
+            onSuccess: this.onPasswordUpdated,
+          }),
+      },
+      {
+        id: 'remove-password',
+        title: window.i18n('removeAccountPasswordTitle'),
+        description: window.i18n('removeAccountPasswordDescription'),
+        hidden: !this.state.hasPassword,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Privacy,
+        setFn: undefined,
+        content: {
+          buttonText: window.i18n('removePassword'),
+          buttonColor: SessionButtonColor.Danger,
+        },
+        onClick: () =>
+          window.showPasswordDialog({
+            action: 'remove',
+            onSuccess: this.onPasswordUpdated,
+          }),
+      },
     ];
 
     return (
       <>
-        {localSettings.map(setting => {
-          const { category } = this.props;
-          const renderSettings = setting.category === category;
-          const description = setting.description || '';
-          const comparisonValue = setting.comparisonValue || null;
+        {this.state.hasPassword !== null &&
+          localSettings.map(setting => {
+            const { category } = this.props;
+            const content = setting.content || undefined;
+            const shouldRenderSettings = setting.category === category;
+            const description = setting.description || '';
 
-          return (
-            <div key={setting.id}>
-              {renderSettings &&
-                !setting.hidden && (
-                  <SessionSettingListItem
-                    title={setting.title}
-                    description={description}
-                    type={setting.type}
-                    value={window.getSettingValue(setting.id, comparisonValue)}
-                    onClick={() => {
-                      this.updateSetting(setting);
-                    }}
-                    content={setting.content || undefined}
-                  />
-                )}
-            </div>
-          );
-        })}
+            const comparisonValue = setting.comparisonValue || null;
+            const value = 
+              window.getSettingValue(setting.id, comparisonValue) ||
+              setting.content.defaultValue;
+
+            const sliderFn =
+              setting.type === SessionSettingType.Slider
+                ? (settingValue: any) =>
+                    window.setSettingValue(setting.id, settingValue)
+                : () => null;
+
+            const onClickFn =
+              setting.onClick ||
+              (() => {
+                this.updateSetting(setting);
+              });
+
+            return (
+              <div key={setting.id}>
+                {shouldRenderSettings &&
+                  !setting.hidden && (
+                    <SessionSettingListItem
+                      title={setting.title}
+                      description={description}
+                      type={setting.type}
+                      value={value}
+                      onClick={onClickFn}
+                      onSliderChange={sliderFn}
+                      content={content}
+                    />
+                  )}
+              </div>
+            );
+          })}
       </>
     );
+  }
+
+  public hasPassword() {
+    const hashPromise = window.Signal.Data.getPasswordHash();
+
+    hashPromise.then((hash: any) => {
+      this.setState({
+        hasPassword: !!hash,
+      });
+    });
   }
 
   public render() {
@@ -180,7 +283,7 @@ export class SettingsView extends React.Component<SettingsViewProps> {
       if (item.type === SessionSettingType.Toggle) {
         // If no custom afterClick function given, alter values in storage here
         // Switch to opposite state
-        const newValue = !window.getSettingValue(item.id);
+        const newValue = ! window.getSettingValue(item.id);
         window.setSettingValue(item.id, newValue);
       }
     }
@@ -189,5 +292,19 @@ export class SettingsView extends React.Component<SettingsViewProps> {
   public setOptionsSetting(settingID: string) {
     const selectedValue = $(`#${settingID} .session-radio input:checked`).val();
     window.setSettingValue(settingID, selectedValue);
+  }
+
+  public onPasswordUpdated(action: string) {
+    if (action === 'set') {
+      this.setState({
+        hasPassword: true,
+      });
+    }
+
+    if (action === 'remove') {
+      this.setState({
+        hasPassword: false,
+      });
+    }
   }
 }

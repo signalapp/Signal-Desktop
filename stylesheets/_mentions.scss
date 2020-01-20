@@ -134,11 +134,6 @@
     padding: 4px;
     user-select: none;
 
-    &:hover:not(.member-selected) {
-      background-color: $color-light-20;
-    }
-
-    background-color: $color-light-10;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -152,10 +147,6 @@
       margin-left: 6px;
       color: darkslategrey;
     }
-  }
-
-  .member-selected {
-    background-color: $color-light-35;
   }
 }
 
@@ -177,30 +168,6 @@
 .message-highlighted {
   border-radius: $message-container-border-radius;
   background-color: rgba(255, 197, 50, 0.2);
-}
-
-.dark-theme {
-  .member-list-container,
-  .create-group-dialog,
-  .invite-friends-dialog {
-    .member-item {
-      &:hover:not(.member-selected) {
-        background-color: $color-dark-55;
-      }
-
-      background-color: $color-dark-70;
-
-      color: white;
-
-      .pubkey-part {
-        color: rgb(230, 230, 230);
-      }
-    }
-
-    .member-selected {
-      background-color: $color-dark-60;
-    }
-  }
 }
 
 .module-conversation-list-item--mentioned-us {

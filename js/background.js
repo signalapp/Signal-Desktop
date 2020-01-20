@@ -821,6 +821,7 @@
     };
 
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
+    window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
 
     window.generateID = () =>
       Math.random()
@@ -838,6 +839,7 @@
         id: options.id || window.generateID(),
         description: options.description || '',
         type: options.type || '',
+        icon: options.icon || '',
         shouldFade: options.shouldFade,
       };
 
@@ -905,21 +907,24 @@
     };
 
     window.toggleMenuBar = () => {
-      const newValue = !window.getSettingValue('hide-menu-bar');
+      const newValue = ! window.getSettingValue('hide-menu-bar');
       window.Events.setHideMenuBar(newValue);
     };
 
     window.toggleSpellCheck = () => {
-      const newValue = !window.getSettingValue('spell-check');
+      const newValue = ! window.getSettingValue('spell-check');
       window.Events.setSpellCheck(newValue);
     };
 
     window.toggleLinkPreview = () => {
-      const newValue = !window.getSettingValue('link-preview-setting');
+      const newValue = ! window.getSettingValue('link-preview-setting');
       window.Events.setLinkPreviewSetting(newValue);
     };
 
-    window.toggleMediaPermissions = () => {};
+    window.toggleMediaPermissions = () => {
+      const mediaPermissions = window.getMediaPermissions();
+      window.setMediaPermissions(!mediaPermissions);
+    };
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
@@ -1177,12 +1182,6 @@
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);
-      }
-    });
-
-    Whisper.events.on('showPasswordDialog', options => {
-      if (appView) {
-        appView.showPasswordDialog(options);
       }
     });
 

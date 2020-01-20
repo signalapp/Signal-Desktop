@@ -64,33 +64,37 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     return (
       <>
         {categories.map(item => (
-          <div
-            key={item.id}
-            className={classNames(
-              'left-pane-setting-category-list-item',
-              item.id === this.state.settingCategory ? 'active' : ''
-            )}
-            role="link"
-            onClick={(): void => {
-              this.setCategory(item.id);
-            }}
-          >
-            <div>
-              <strong>{item.title}</strong>
-              <br />
-              <span className="text-subtle">{item.description}</span>
-            </div>
+          <>
+            {!item.hidden && (
+              <div
+                key={item.id}
+                className={classNames(
+                  'left-pane-setting-category-list-item',
+                  item.id === this.state.settingCategory ? 'active' : ''
+                )}
+                role="link"
+                onClick={() => {
+                  this.setCategory(item.id);
+                }}
+              >
+                <div>
+                  <strong>{item.title}</strong>
+                  <br />
+                  <span className="text-subtle">{item.description}</span>
+                </div>
 
-            <div>
-              {item.id === this.state.settingCategory && (
-                <SessionIcon
-                  iconSize={SessionIconSize.Medium}
-                  iconType={SessionIconType.Chevron}
-                  iconRotation={270}
-                />
-              )}
-            </div>
-          </div>
+                <div>
+                  {item.id === this.state.settingCategory && (
+                    <SessionIcon
+                      iconSize={SessionIconSize.Medium}
+                      iconType={SessionIconType.Chevron}
+                      iconRotation={270}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+          </>
         ))}
       </>
     );
@@ -122,7 +126,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
             >
               <SessionIcon
                 iconType={SessionIconType.Caret}
-                iconSize={SessionIconSize.Large}
+                iconSize={SessionIconSize.Huge}
               />
             </SessionButton>
           </div>
@@ -173,21 +177,25 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
         id: SessionSettingCategory.General,
         title: window.i18n('generalSettingsTitle'),
         description: window.i18n('generalSettingsDescription'),
+        hidden: false,
       },
       {
         id: SessionSettingCategory.Privacy,
         title: window.i18n('privacySettingsTitle'),
         description: window.i18n('privacySettingsDescription'),
+        hidden: false,
       },
       {
         id: SessionSettingCategory.Permissions,
         title: window.i18n('permissionSettingsTitle'),
         description: window.i18n('permissionSettingsDescription'),
+        hidden: true,
       },
       {
         id: SessionSettingCategory.Notifications,
         title: window.i18n('notificationSettingsTitle'),
         description: window.i18n('notificationSettingsDescription'),
+        hidden: false,
       },
     ];
   }

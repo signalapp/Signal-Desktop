@@ -26,7 +26,7 @@ export class SettingsHeader extends React.Component<SettingsViewProps> {
         {categoryTitle}
         <SessionIconButton
           iconType={SessionIconType.Search}
-          iconSize={SessionIconSize.Large}
+          iconSize={SessionIconSize.Huge}
           onClick={this.focusSearch}
         />
       </div>

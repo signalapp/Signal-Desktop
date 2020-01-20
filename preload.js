@@ -95,6 +95,8 @@ window.setPassword = (passPhrase, oldPhrase) =>
     ipc.send('set-password', passPhrase, oldPhrase);
   });
 
+window.passwordUtil = require('./app/password_util');
+
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;
 // eslint-disable-next-line no-eval, no-multi-assign
@@ -189,6 +191,17 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   // Comparison value allows you to pull boolean values from any type.
   // Eg. window.getSettingValue('theme', 'light')
   // returns 'false' when the value is 'dark'.
+
+  if (settingID === 'media-permissions') {
+    let permissionValue;
+    // eslint-disable-next-line more/no-then
+    window.getMediaPermissions().then(value => {
+      permissionValue = value;
+    });
+
+    return permissionValue;
+  }
+
   const settingVal = window.storage.get(settingID);
   return comparisonValue ? !!settingVal === comparisonValue : settingVal;
 };
@@ -225,6 +238,9 @@ installSetter('link-preview-setting', 'setLinkPreviewSetting');
 
 installGetter('spell-check', 'getSpellCheck');
 installSetter('spell-check', 'setSpellCheck');
+
+installGetter('media-permissions', 'getMediaPermissions');
+installGetter('media-permissions', 'setMediaPermissions');
 
 window.getMediaPermissions = () =>
   new Promise((resolve, reject) => {
@@ -386,7 +402,6 @@ window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').Phone
 window.loadImage = require('blueimp-load-image');
 window.getGuid = require('uuid/v4');
 window.profileImages = require('./app/profile_images');
-window.passwordUtil = require('./app/password_util');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');

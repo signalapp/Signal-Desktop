@@ -8,7 +8,7 @@ import {
 
 export const MainViewController = {
   renderMessageView: () => {
-    if(document.getElementById('main-view')) {
+    if (document.getElementById('main-view')) {
       ReactDOM.render(<MessageView />, document.getElementById('main-view'));
     }
   },
@@ -29,7 +29,11 @@ export class MessageView extends React.Component {
           <div className="conversation-header" />
           <div className="container">
             <div className="content">
-              <img src="images/session/full-logo.svg" className="session-full-logo" alt="full-brand-logo"/>
+              <img
+                src="images/session/full-logo.svg"
+                className="session-full-logo"
+                alt="full-brand-logo"
+              />
             </div>
           </div>
         </div>

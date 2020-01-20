@@ -242,13 +242,11 @@ $session-compose-margin: 20px;
 
 .session-search-input {
   height: $session-search-input-height;
-  width: 100%;
   margin-right: 1px;
   margin-bottom: 10px;
   background: $session-shade-4;
   color: $session-color-white;
   display: inline-flex;
-  flex-shrink: 0;
 
   .session-icon-button {
     margin: auto 10px;

@@ -19,6 +19,7 @@ interface Props {
   title: string;
   id?: string;
   type?: SessionToastType;
+  icon?: SessionIconType;
   description?: string;
   closeToast: any;
 }
@@ -29,30 +30,33 @@ export class SessionToast extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { title, description, type } = this.props;
+    const { title, description, type, icon } = this.props;
 
     const toastType = type ? type : SessionToastType.Info;
     const toastDesc = description ? description : '';
     const toastIconSize = toastDesc
-      ? SessionIconSize.Large
+      ? SessionIconSize.Huge
       : SessionIconSize.Medium;
 
-    let toastIcon;
-    switch (type) {
-      case SessionToastType.Info:
-        toastIcon = SessionIconType.Info;
-        break;
-      case SessionToastType.Success:
-        toastIcon = SessionIconType.Check;
-        break;
-      case SessionToastType.Error:
-        toastIcon = SessionIconType.Error;
-        break;
-      case SessionToastType.Warning:
-        toastIcon = SessionIconType.Warning;
-        break;
-      default:
-        toastIcon = SessionIconType.Info;
+    // Set a custom icon or allow the theme to define the icon
+    let toastIcon = icon || undefined;
+    if (!toastIcon) {
+      switch (type) {
+        case SessionToastType.Info:
+          toastIcon = SessionIconType.Info;
+          break;
+        case SessionToastType.Success:
+          toastIcon = SessionIconType.Check;
+          break;
+        case SessionToastType.Error:
+          toastIcon = SessionIconType.Error;
+          break;
+        case SessionToastType.Warning:
+          toastIcon = SessionIconType.Warning;
+          break;
+        default:
+          toastIcon = SessionIconType.Info;
+      }
     }
 
     return (

@@ -1195,6 +1195,19 @@
     "description":
       "This is a past tense, informational message. In other words, your secure session has been reset."
   },
+  "betaDisclaimerTitle": {
+    "message": "Thanks for using Session Messenger!",
+    "description": "Title for beta disclaimer modal"
+  },
+  "betaDisclaimerSubtitle": {
+    "message": "This software is still in its beta phase.",
+    "description": "Subtitle for beta disclaimer modal"
+  },
+  "betaDisclaimerDescription": {
+    "message":
+      "While your messages are secured with end-to-end encryption, third parties like your ISP can see who you're talking to while in the beta version. It is also possible that third parties could correlate your public key to your IP address and real identity if they learn your public key.",
+    "description": "Description for beta disclaimer modal"
+  },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
     "description":
@@ -2139,6 +2152,36 @@
     "description":
       "Button action that the user can click to view their unique seed"
   },
+  "setAccountPasswordTitle": {
+    "message": "Set Account Password",
+    "description": "Prompt for user to set account password in settings view"
+  },
+  "setAccountPasswordDescription": {
+    "message": "Secure your account and public key with a password",
+    "description": "Description for set account password setting view"
+  },
+  "changeAccountPasswordTitle": {
+    "message": "Change Account Password",
+    "description": "Prompt for user to change account password in settings view"
+  },
+  "changeAccountPasswordDescription": {
+    "message": "Change your password",
+    "description": "Description for change account password setting view"
+  },
+  "removeAccountPasswordTitle": {
+    "message": "Remove Account Password",
+    "description": "Prompt for user to remove account password in settings view"
+  },
+  "removeAccountPasswordDescription": {
+    "message": "Remove the password associated with your account",
+    "description": "Description for remove account password setting view"
+  },
+  "enterPassword": {
+    "message": "Please enter your password"
+  },
+  "confirmPassword": {
+    "message": "Confirm password"
+  },
   "showSeedPasswordRequest": {
     "message": "Please enter your password",
     "description": "Request for user to enter password to show seed."
@@ -2247,6 +2290,33 @@
   },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match"
+  },
+  "setPasswordInvalid": {
+    "message": "Passwords do not match"
+  },
+  "changePasswordInvalid": {
+    "message": "The old password you entered is incorrect"
+  },
+  "removePasswordInvalid": {
+    "message": "Incorrect password"
+  },
+  "setPasswordTitle": {
+    "message": "Set Password"
+  },
+  "changePasswordTitle": {
+    "message": "Changed Password"
+  },
+  "removePasswordTitle": {
+    "message": "Removed Password"
+  },
+  "setPasswordToastDescription": {
+    "message": "Your password has been set. Please keep it safe."
+  },
+  "changePasswordToastDescription": {
+    "message": "Your password has been changed. Please keep it safe."
+  },
+  "removePasswordToastDescription": {
+    "message": "You have removed your password."
   },
   "publicChatExists": {
     "message": "You are already connected to this public channel"
@@ -2364,7 +2434,7 @@
     "message": "Adding friends to"
   },
   "noFriendsToAdd": {
-    "message": "no friends to add"
+    "message": "No friends to add"
   },
   "couldNotDecryptMessage": {
     "message": "Couldn't decrypt a message"

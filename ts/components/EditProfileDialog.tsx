@@ -91,7 +91,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
               <SessionIconButton
                 iconType={SessionIconType.Upload}
-                iconSize={SessionIconSize.Large}
+                iconSize={SessionIconSize.Huge}
                 onClick={() => {
                   const el = this.inputEl.current;
                   if (el) {

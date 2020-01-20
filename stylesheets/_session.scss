@@ -75,6 +75,7 @@ $session-color-info: $session-shade-11;
 $session-color-success: #35d388;
 $session-color-error: #edd422;
 $session-color-warning: $session-shade-17;
+$session-color-warning-alt: #ff9d00;
 
 $session-color-light-grey: #a0a0a0;
 
@@ -227,6 +228,7 @@ $session_message-container-border-radius: 5px;
   justify-content: center;
   font-weight: 700;
   user-select: none;
+  white-space: nowrap;
   cursor: pointer;
   transition: $session-transition-duration;
   background-color: rgba(0, 0, 0, 0);
@@ -280,9 +282,9 @@ $session_message-container-border-radius: 5px;
       }
     }
     &.warning {
-      background-color: $session-color-warning;
+      background-color: $session-color-warning-alt;
       &.disabled {
-        background-color: rgba($session-color-warning, 0.6);
+        background-color: rgba($session-color-warning-alt, 0.6);
       }
     }
   }
@@ -338,7 +340,7 @@ $session_message-container-border-radius: 5px;
     border-radius: 0px;
   }
 
-  &:hover {
+  & > *:not(svg):hover {
     filter: brightness(80%);
   }
 }
@@ -363,7 +365,7 @@ $session_message-container-border-radius: 5px;
     background-color: $session-color-danger;
   }
   &.warning {
-    background-color: $session-color-warning;
+    background-color: $session-color-warning-alt;
   }
 }
 
@@ -430,7 +432,7 @@ $session-element-border-green: 4px solid $session-color-green;
 
 @mixin standard-icon-button() {
   color: $session-color-white;
-  opacity: 0.9;
+  opacity: 0.6;
 
   &:hover {
     opacity: 1;
@@ -439,6 +441,7 @@ $session-element-border-green: 4px solid $session-color-green;
 
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
+  font-family: Wasa;
   width: 100%;
   display: flex;
 
@@ -489,9 +492,9 @@ label {
   @include standard-icon-button();
 }
 
-.module-conversation-header,
-.message-selection-overlay {
-  height: $session-conversation-header-height;
+.module-conversation-header {
+  position: relative;
+  padding: 0px $session-margin-lg 0px $session-margin-sm;
 }
 
 .title-wrapper {
@@ -603,7 +606,7 @@ label {
     @include set-toast-theme($session-color-success);
   }
   &.warning {
-    @include set-toast-theme($session-color-warning);
+    @include set-toast-theme($session-color-warning-alt);
   }
   &.error {
     @include set-toast-theme($session-color-error);
@@ -1116,4 +1119,60 @@ input {
 
 .friend-selection-list {
   width: 40vh;
+}
+
+.session-beta-disclaimer {
+  .session-modal {
+    width: 600px;
+
+    &__header {
+      font-size: 17px;
+    }
+
+    &__body > div:first-child {
+      padding: $session-margin-lg;
+    }
+
+    .session-confirm-main-message {
+      opacity: 0.8;
+      margin-bottom: $session-margin-xs;
+    }
+
+    .session-confirm-sub-message {
+      text-align: center;
+    }
+  }
+}
+
+button.module-scroll-down {
+  &__button {
+    background-color: $session-shade-6;
+  }
+
+  &__button:hover {
+    &__icon {
+      transition: $session-transition-duration;
+      @include color-svg('../images/down.svg', $session-color-white);
+    }
+  }
+
+  &__icon {
+    @include color-svg('../images/down.svg', rgba($session-color-white, 0.6));
+  }
+}
+
+/* Memberlist */
+.member-list-container .member {
+  &-item {
+    padding: $session-margin-sm;
+    background-color: $session-shade-5;
+
+    &:hover:not(.member-selected) {
+      background-color: $session-shade-7;
+    }
+  }
+
+  &-selected {
+    background-color: $session-shade-8;
+  }
 }

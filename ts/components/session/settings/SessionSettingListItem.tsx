@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import Slider from 'rc-slider';
+
 import { SessionToggle } from '../SessionToggle';
 import { SessionButton } from '../SessionButton';
 import { SessionSettingType } from './SessionSettings';
-
 import { SessionRadioGroup } from '../SessionRadioGroup';
 
 interface Props {
@@ -14,17 +15,24 @@ interface Props {
   value: any;
   options?: Array<any>;
   onClick?: any;
+  onSliderChange?: any;
   content: any;
 }
 
-export class SessionSettingListItem extends React.Component<Props> {
+interface State {
+  sliderValue: number | null;
+}
+
+export class SessionSettingListItem extends React.Component<Props, State> {
   public static defaultProps = {
     inline: true,
   };
 
   public constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = {
+      sliderValue: null,
+    };
 
     this.handleClick = this.handleClick.bind(this);
   }
@@ -36,6 +44,9 @@ export class SessionSettingListItem extends React.Component<Props> {
       SessionSettingType.Options,
       SessionSettingType.Slider,
     ].includes(type);
+
+    const currentSliderValue =
+      type === SessionSettingType.Slider && (this.state.sliderValue || value);
 
     return (
       <div className={classNames('session-settings-item', inline && 'inline')}>
@@ -75,6 +86,24 @@ export class SessionSettingListItem extends React.Component<Props> {
               onClick={this.handleClick}
             />
           )}
+
+          {type === SessionSettingType.Slider && (
+            <div className="slider-wrapper">
+              <Slider
+                dots={true}
+                step={6}
+                min={12}
+                max={96}
+                defaultValue={currentSliderValue}
+                onAfterChange={sliderValue => {
+                  this.handleSlider(sliderValue);
+                }}
+              />
+              <div className="slider-info">
+                <p>{`${currentSliderValue} Hours`}</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -84,5 +113,15 @@ export class SessionSettingListItem extends React.Component<Props> {
     if (this.props.onClick) {
       this.props.onClick();
     }
+  }
+
+  private handleSlider(value: any) {
+    if (this.props.onSliderChange) {
+      this.props.onSliderChange(value);
+    }
+
+    this.setState({
+      sliderValue: value,
+    });
   }
 }
