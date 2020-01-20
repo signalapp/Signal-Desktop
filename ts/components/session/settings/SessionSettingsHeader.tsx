@@ -61,12 +61,13 @@ export class SettingsHeader extends React.Component<SettingsViewProps, any> {
     return (
       <div className="session-settings-header">
         <div className="session-settings-header-title">{categoryTitle}</div>
-        {showSearch && <SessionIconButton
-          iconType={SessionIconType.Search}
-          iconSize={SessionIconSize.Huge}
-          onClick={this.focusSearch}
-        />
-          }
+        {showSearch && (
+          <SessionIconButton
+            iconType={SessionIconType.Search}
+            iconSize={SessionIconSize.Huge}
+            onClick={this.focusSearch}
+          />
+        )}
         {showAddDevice && (
           <SessionButton
             text={window.i18n('linkNewDevice')}
