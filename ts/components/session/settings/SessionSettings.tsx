@@ -456,4 +456,3 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       });
   }
 }
-//     //this.$('#startPairing').removeAttr('disabled');

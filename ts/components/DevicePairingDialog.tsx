@@ -70,7 +70,6 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     );
   }
 
-
   public renderFilterRequestsView() {
     const { currentPubKey, accepted, deviceAlias } = this.state;
     let secretWords: undefined;
@@ -300,13 +299,9 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       if (conv) {
         conv.setNickname(this.state.deviceAlias);
       }
-      // FIXME do not show linked device in list of contacts
-      console.log('FIXME');
 
       return;
     }
-    /* this.$('.transmissionStatus').text(errors);
-    this.$('.requestAcceptedView .ok').show();*/
 
     this.setState({
       errors: errors,
