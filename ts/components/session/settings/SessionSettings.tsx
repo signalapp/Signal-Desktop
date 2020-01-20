@@ -99,9 +99,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             const description = setting.description || '';
 
             const comparisonValue = setting.comparisonValue || null;
-            const value = 
+            const value =
               window.getSettingValue(setting.id, comparisonValue) ||
-              setting.content && setting.content.defaultValue;
+              (setting.content && setting.content.defaultValue);
 
             const sliderFn =
               setting.type === SessionSettingType.Slider
@@ -114,7 +114,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
               (() => {
                 this.updateSetting(setting);
               });
-
 
             return (
               <div key={setting.id}>
@@ -150,7 +149,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     );
   }
 
-
   public setOptionsSetting(settingID: string) {
     const selectedValue = $(`#${settingID} .session-radio input:checked`).val();
     window.setSettingValue(settingID, selectedValue);
@@ -175,7 +173,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       if (item.type === SessionSettingType.Toggle) {
         // If no custom afterClick function given, alter values in storage here
         // Switch to opposite state
-        const newValue = ! window.getSettingValue(item.id);
+        const newValue = !window.getSettingValue(item.id);
         window.setSettingValue(item.id, newValue);
       }
     }
@@ -275,7 +273,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         content: {
           options: {
             group: 'notification-setting',
-            initalItem: window.getSettingValue('notification-setting') || 'message',
+            initalItem:
+              window.getSettingValue('notification-setting') || 'message',
             items: [
               {
                 label: window.i18n('nameAndMessage'),

@@ -172,7 +172,6 @@ export class SessionPasswordModal extends React.Component<Props, State> {
   }
 
   private closeDialog() {
-
     if (this.props.onClose) {
       this.props.onClose();
     }
