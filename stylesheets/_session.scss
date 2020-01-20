@@ -241,51 +241,40 @@ $session_message-container-border-radius: 5px;
   &.square,
   &.brand {
     color: $session-color-white;
-    border: none;
 
-    &.green {
-      border: 2px solid $session-color-green;
-      background-color: $session-color-green;
-
+    &.green,
+    &.white,
+    &.primary,
+    &.secondary,
+    &.success,
+    &.danger,
+    &.warning {
       &.disabled {
-        background-color: rgba($session-color-green, 0.6);
+        filter: brightness(60%);
       }
     }
+
+    &.green {
+      background-color: $session-color-green;
+    }
+
     &.white {
       background-color: $session-color-white;
-      &.disabled {
-        background-color: rgba($session-color-white, 0.6);
-      }
     }
     &.primary {
       background-color: $session-color-primary;
-      &.disabled {
-        background-color: rgba($session-color-primary, 0.6);
-      }
     }
     &.secondary {
       background-color: $session-color-secondary;
-      &.disabled {
-        background-color: rgba($session-color-secondary, 0.6);
-      }
     }
     &.success {
       background-color: $session-color-success;
-      &.disabled {
-        background-color: rgba($session-color-success, 0.6);
-      }
     }
     &.danger {
       background-color: $session-color-danger;
-      &.disabled {
-        background-color: rgba($session-color-danger, 0.6);
-      }
     }
     &.warning {
       background-color: $session-color-warning-alt;
-      &.disabled {
-        background-color: rgba($session-color-warning-alt, 0.6);
-      }
     }
   }
 
@@ -310,7 +299,21 @@ $session_message-container-border-radius: 5px;
       @include transparent-background($session-color-danger);
     }
     &.warning {
-      @include transparent-background($session-color-warning);
+      @include transparent-background($session-color-warning-alt);
+    }
+    &.warning,
+    &.danger,
+    &.secondary,
+    &.primary,
+    &.white,
+    &.green {
+      &.disabled {
+        filter: brightness(60%);
+
+        &:hover {
+          filter: brightness(60%);
+        }
+      }
     }
   }
 
