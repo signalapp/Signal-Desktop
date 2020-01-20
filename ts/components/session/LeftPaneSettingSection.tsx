@@ -126,7 +126,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
             >
               <SessionIcon
                 iconType={SessionIconType.Caret}
-                iconSize={SessionIconSize.Large}
+                iconSize={SessionIconSize.Huge}
               />
             </SessionButton>
           </div>

@@ -36,6 +36,7 @@ export enum SessionIconSize {
   Small = 'small',
   Medium = 'medium',
   Large = 'large',
+  Huge = 'huge',
 }
 
 export const icons = {

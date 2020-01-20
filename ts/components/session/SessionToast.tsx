@@ -35,7 +35,7 @@ export class SessionToast extends React.PureComponent<Props> {
     const toastType = type ? type : SessionToastType.Info;
     const toastDesc = description ? description : '';
     const toastIconSize = toastDesc
-      ? SessionIconSize.Large
+      ? SessionIconSize.Huge
       : SessionIconSize.Medium;
 
     // Set a custom icon or allow the theme to define the icon
