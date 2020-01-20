@@ -6,6 +6,9 @@ import {
   SessionIconType,
 } from '../session/icon';
 
+import { SessionModal } from '../session/SessionModal';
+import { SessionButton } from '../session/SessionButton';
+
 interface Props {
   friendList: Array<any>;
   chatName: string;
@@ -67,15 +70,11 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     const hasFriends = this.state.friendList.length !== 0;
 
     return (
-      <div className="content">
-        <div className="session-modal__header__close">
-          <SessionIconButton
-            iconType={SessionIconType.Exit}
-            iconSize={SessionIconSize.Small}
-            onClick={this.closeDialog}
-          />
-        </div>
-        <p className="titleText">{titleText}</p>
+      <SessionModal
+        title={titleText}
+        onOk={() => null}
+        onClose={this.closeDialog}
+      >
         <div className="friend-selection-list">
           <MemberList
             members={this.state.friendList}
@@ -85,22 +84,22 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
           />
         </div>
         {hasFriends ? null : (
-          <p className="no-friends">{window.i18n('noFriendsToAdd')}</p>
+          <>
+            <div className="spacer-lg" />
+            <p className="no-friends">{window.i18n('noFriendsToAdd')}</p>
+            <div className="spacer-lg" />
+          </>
         )}
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {cancelText}
-          </button>
-          <button
-            className="ok"
+
+        <div className="session-modal__button-group">
+          <SessionButton text={cancelText} onClick={this.closeDialog} />
+          <SessionButton
+            text={okText}
             disabled={!hasFriends}
-            tabIndex={0}
             onClick={this.onClickOK}
-          >
-            {okText}
-          </button>
+          />
         </div>
-      </div>
+      </SessionModal>
     );
   }
 

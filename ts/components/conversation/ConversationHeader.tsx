@@ -263,7 +263,7 @@ export class ConversationHeader extends React.Component<Props> {
       >
         <SessionIconButton
           iconType={SessionIconType.Ellipses}
-          iconSize={SessionIconSize.Huge}
+          iconSize={SessionIconSize.Large}
           onClick={this.showMenuBound}
         />
       </ContextMenuTrigger>

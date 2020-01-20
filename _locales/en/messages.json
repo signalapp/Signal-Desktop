@@ -2434,7 +2434,7 @@
     "message": "Adding friends to"
   },
   "noFriendsToAdd": {
-    "message": "no friends to add"
+    "message": "No friends to add"
   },
   "couldNotDecryptMessage": {
     "message": "Couldn't decrypt a message"
