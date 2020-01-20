@@ -508,8 +508,8 @@ label {
 .message-selection-overlay {
   display: none;
   position: absolute;
-  right: 10px;
-  left: 15px;
+  right: $session-margin-sm;
+  left: $session-margin-md;
 
   .close-button {
     float: left;

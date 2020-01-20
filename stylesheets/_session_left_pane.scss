@@ -227,7 +227,7 @@ $session-compose-margin: 20px;
   }
 
   &-overlay {
-    background: linear-gradient(180deg, #171717 0%, #121212 100%);
+    background: linear-gradient(180deg, #171717 0%, $session-background 100%);
     box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
@@ -525,6 +525,7 @@ $session-compose-margin: 20px;
   }
 
   &-category-list-item {
+    @include session-dark-background;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -533,7 +534,6 @@ $session-compose-margin: 20px;
     line-height: 1.4;
     padding: 0px 12px;
     flex-shrink: 0;
-    @include session-dark-background;
     cursor: pointer;
     transition: $session-transition-duration !important;
 
@@ -600,9 +600,9 @@ $session-compose-margin: 20px;
   font-weight: bold;
   font-size: 13px;
   padding: 11px;
-  border-right: 1px solid #2f2f2f !important;
-  border-top: 1px solid #2f2f2f !important;
-  border-left: 1px solid #2f2f2f !important;
+  border-right: 1px solid $session-shade-8 !important;
+  border-top: 1px solid $session-shade-8 !important;
+  border-left: 1px solid $session-shade-8 !important;
   @include session-dark-background-lighter;
 }
 
@@ -616,7 +616,7 @@ $session-compose-margin: 20px;
   span {
     padding: 5px 10px;
     border-radius: 50px;
-    background-color: #121212;
+    background-color: $session-background;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
   }
