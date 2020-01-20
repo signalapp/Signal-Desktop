@@ -1,4 +1,4 @@
-/* global libsignal, textsecure */
+/* global libsignal, textsecure, dcodeIO, libloki */
 
 /* eslint-disable no-bitwise */
 
@@ -199,6 +199,9 @@ function _createUnidentifiedSenderMessageContentFromBuffer(serialized) {
     case TypeEnum.PREKEY_MESSAGE:
       type = CiphertextMessage.PREKEY_TYPE;
       break;
+    case TypeEnum.LOKI_FRIEND_REQUEST:
+      type = CiphertextMessage.LOKI_FRIEND_REQUEST;
+      break;
     default:
       throw new Error(`Unknown type: ${message.type}`);
   }
@@ -223,6 +226,8 @@ function _getProtoMessageType(type) {
       return TypeEnum.MESSAGE;
     case CiphertextMessage.PREKEY_TYPE:
       return TypeEnum.PREKEY_MESSAGE;
+    case CiphertextMessage.LOKI_FRIEND_REQUEST:
+      return TypeEnum.LOKI_FRIEND_REQUEST;
     default:
       throw new Error(`_getProtoMessageType: type '${type}' does not exist`);
   }
@@ -255,24 +260,24 @@ SecretSessionCipher.prototype = {
   //   SenderCertificate senderCertificate,
   //   byte[] paddedPlaintext
   // )
-  async encrypt(destinationAddress, senderCertificate, paddedPlaintext) {
+  async encrypt(
+    destinationAddress,
+    senderCertificate,
+    paddedPlaintext,
+    cipher
+  ) {
     // Capture this.xxx variables to replicate Java's implicit this syntax
-    const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
     const _calculateEphemeralKeys = this._calculateEphemeralKeys.bind(this);
     const _encryptWithSecretKeys = this._encryptWithSecretKeys.bind(this);
     const _calculateStaticKeys = this._calculateStaticKeys.bind(this);
 
-    const sessionCipher = new SessionCipher(
-      signalProtocolStore,
-      destinationAddress
-    );
-
-    const message = await sessionCipher.encrypt(paddedPlaintext);
+    const message = await cipher.encrypt(paddedPlaintext);
     const ourIdentity = await signalProtocolStore.getIdentityKeyPair();
-    const theirIdentity = fromEncodedBinaryToArrayBuffer(
-      await signalProtocolStore.loadIdentityKey(destinationAddress.getName())
-    );
+    const theirIdentity = dcodeIO.ByteBuffer.wrap(
+      destinationAddress.getName(),
+      'hex'
+    ).toArrayBuffer();
 
     const ephemeral = await libsignal.Curve.async.generateKeyPair();
     const ephemeralSalt = concatenateBytes(
@@ -322,7 +327,7 @@ SecretSessionCipher.prototype = {
 
   // public Pair<SignalProtocolAddress, byte[]> decrypt(
   //   CertificateValidator validator, byte[] ciphertext, long timestamp)
-  async decrypt(validator, ciphertext, timestamp, me) {
+  async decrypt(ciphertext, me) {
     // Capture this.xxx variables to replicate Java's implicit this syntax
     const signalProtocolStore = this.storage;
     const _calculateEphemeralKeys = this._calculateEphemeralKeys.bind(this);
@@ -383,6 +388,7 @@ SecretSessionCipher.prototype = {
       return {
         sender: address,
         content: await _decryptWithUnidentifiedSenderMessage(content),
+        type: content.type,
       };
     } catch (error) {
       if (!error) {
@@ -488,6 +494,10 @@ SecretSessionCipher.prototype = {
           signalProtocolStore,
           sender
         ).decryptPreKeyWhisperMessage(message.content);
+      case CiphertextMessage.LOKI_FRIEND_REQUEST:
+        return new libloki.crypto.FallBackSessionCipher(sender).decrypt(
+          message.content
+        );
       default:
         throw new Error(`Unknown type: ${message.type}`);
     }

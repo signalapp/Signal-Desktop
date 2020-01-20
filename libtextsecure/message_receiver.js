@@ -714,8 +714,6 @@ MessageReceiver.prototype.extend({
     return plaintext;
   },
   async decrypt(envelope, ciphertext) {
-    const { serverTrustRoot } = this;
-
     let promise;
     const address = new libsignal.SignalProtocolAddress(
       envelope.source,
@@ -867,20 +865,22 @@ MessageReceiver.prototype.extend({
       case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER:
         window.log.info('received unidentified sender message');
         promise = secretSessionCipher
-          .decrypt(
-            window.Signal.Metadata.createCertificateValidator(serverTrustRoot),
-            ciphertext.toArrayBuffer(),
-            Math.min(envelope.serverTimestamp || Date.now(), Date.now()),
-            me
-          )
+          .decrypt(ciphertext.toArrayBuffer(), me)
           .then(
             result => {
-              const { isMe, sender, content } = result;
+              const { isMe, sender, content, type } = result;
 
               // We need to drop incoming messages from ourself since server can't
               //   do it for us
               if (isMe) {
                 return { isMe: true };
+              }
+
+              // We might have substituted the type based on decrypted content
+              if (type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+                // eslint-disable-next-line no-param-reassign
+                envelope.type =
+                  textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
               }
 
               if (this.isBlocked(sender.getName())) {
@@ -903,7 +903,7 @@ MessageReceiver.prototype.extend({
               envelope.unidentifiedDeliveryReceived = !originalSource;
 
               // Return just the content because that matches the signature of the other
-              //   decrypt methods used above.
+              // decrypt methods used above.
               return this.unpad(content);
             },
             error => {
@@ -933,7 +933,8 @@ MessageReceiver.prototype.extend({
                 throw error;
               });
             }
-          );
+          )
+          .then(handleSessionReset);
         break;
       default:
         promise = Promise.reject(new Error('Unknown message type'));
@@ -946,6 +947,9 @@ MessageReceiver.prototype.extend({
           this.removeFromCache(envelope);
           return null;
         }
+
+        // Type here can actually be UNIDENTIFIED_SENDER even if
+        // the underlying message is FRIEND_REQUEST
         if (
           envelope.type !== textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
         ) {
@@ -975,7 +979,10 @@ MessageReceiver.prototype.extend({
         let errorToThrow = error;
 
         const noSession =
-          error && error.message.indexOf('No record for device') === 0;
+          error &&
+          (error.message.indexOf('No record for device') === 0 ||
+            error.messaeg.indexOf('decryptWithSessionList: list is empty') ===
+              0);
 
         if (error && error.message === 'Unknown identity key') {
           // create an error that the UI will pick up and ask the
