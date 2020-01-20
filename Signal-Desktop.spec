@@ -17,18 +17,15 @@ Source0:    https://github.com/signalapp/%{name}/archive/v%{version}%{?beta:-%{b
 Source1:    https://aur.archlinux.org/cgit/aur.git/plain/openssl-linking.patch?h=signal#/Signal-Desktop-openssl-linking.patch
 Source2:    %{name}.desktop
 
+Patch0:     %{name}-sqlcipher-python.patch
+
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-c++
 BuildRequires:  git
 BuildRequires:  nodejs
 BuildRequires:  openssl-devel
-BuildRequires:  python2
+BuildRequires:  python27
 BuildRequires:  yarn
-
-%if 0%{?fedora} >= 31
-# Required for downloaded sqlcipher
-BuildRequires:  python-unversioned-command
-%endif
 
 Requires:   libappindicator-gtk3
 Requires:   libnotify
@@ -41,7 +38,7 @@ Signal Desktop is an Electron application that links with Signal on Android or
 iOS.
 
 %prep
-%autosetup -n %{name}-%{version}%{?beta:-%{beta}}
+%autosetup -p1 -n %{name}-%{version}%{?beta:-%{beta}}
 
 # Allow higher node versions
 sed -i 's/"node": "/&>=/' package.json
@@ -82,6 +79,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %changelog
 * Mon Jan 20 2020 Simone Caronni <negativo17@gmail.com> - 1.29.6-1
 - Update to 1.29.6.
+- Do not use python-unversioned-command anymore.
 
 * Thu Jan 16 2020 Simone Caronni <negativo17@gmail.com> - 1.29.4-1
 - Update to 1.29.4.

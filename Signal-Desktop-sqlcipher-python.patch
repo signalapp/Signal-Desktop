@@ -1,0 +1,11 @@
+--- Signal-Desktop-1.29.6/package.json.old	2020-01-20 20:45:52.143483259 +0100
++++ Signal-Desktop-1.29.6/package.json	2020-01-20 20:47:39.950400712 +0100
+@@ -45,7 +45,7 @@
+     "ready": "yarn clean-transpile && yarn grunt && yarn lint && yarn test-node && yarn test-electron && yarn lint-deps"
+   },
+   "dependencies": {
+-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#00fd0f8a6623c6683280976d2a92b41d09c744bc",
++    "@journeyapps/sqlcipher": "https://github.com/scaronni/node-sqlcipher.git#46d8362fa2ce2e9a8baca3167d4bbc6d879bf8d5",
+     "@sindresorhus/is": "0.8.0",
+     "backbone": "1.3.3",
+     "blob-util": "1.3.0",
