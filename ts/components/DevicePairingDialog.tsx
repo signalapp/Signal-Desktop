@@ -55,6 +55,22 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     this.closeDialog();
   }
 
+  public renderErrors() {
+    const { errors } = this.state;
+
+    return (
+      <>
+        {errors && (
+          <>
+            <div className="spacer-xs" />
+            <div className="session-label danger">{errors}</div>
+          </>
+        )}
+      </>
+    );
+  }
+
+
   public renderFilterRequestsView() {
     const { currentPubKey, accepted, deviceAlias } = this.state;
     let secretWords: undefined;
@@ -70,6 +86,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           onClose={this.closeDialog}
         >
           <div className="session-modal__centered">
+            {this.renderErrors()}
             <input
               type="text"
               onChange={this.handleUpdateDeviceAlias}
@@ -96,6 +113,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         onClose={this.closeDialog}
       >
         <div className="session-modal__centered">
+          {this.renderErrors()}
           <label>{window.i18n('secretWords')}</label>
           <div className="text-subtle">{secretWords}</div>
           <div className="session-modal__button-group">
@@ -125,6 +143,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     return (
       <SessionModal title={title} onOk={() => null} onClose={this.closeDialog}>
         <div className="session-modal__centered">
+          {this.renderErrors()}
           <h4>{window.i18n('waitingForDeviceToRegister')}</h4>
           <small className="text-subtle">
             {window.i18n('pairNewDevicePrompt')}
@@ -182,6 +201,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         onClose={this.closeDialog}
       >
         <div className="session-modal__centered">
+          {this.renderErrors()}
           <p className="session-modal__description">
             {window.i18n('confirmUnpairingTitle')}
             <br />
@@ -280,9 +300,6 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       if (conv) {
         conv.setNickname(this.state.deviceAlias);
       }
-
-      // FIXME display error somewhere
-      // FIXME display list of linked device
       // FIXME do not show linked device in list of contacts
       console.log('FIXME');
 
