@@ -2,6 +2,7 @@ import React from 'react';
 
 import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
+import { SessionButtonColor } from '../SessionButton';
 
 export enum SessionSettingCategory {
   General = 'general',
@@ -33,6 +34,9 @@ export class SettingsView extends React.Component<SettingsViewProps> {
 
   public renderSettingInCategory() {
     const { Settings } = window.Signal.Types;
+
+    //const hasPassword = window.userConfig.get('dbHasPassword');
+    //console.log(`User has password: ${hasPassword}`);
 
     // Grab initial values from database on startup
     // ID corresponds to instalGetter parameters in preload.js
@@ -122,6 +126,7 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         setFn: window.toggleMediaPermissions,
         content: {},
       },
+
       {
         id: 'message-ttl',
         title: window.i18n('messageTTL'),
@@ -131,6 +136,45 @@ export class SettingsView extends React.Component<SettingsViewProps> {
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
         content: {},
+      },
+      {
+        id: 'set-password',
+        title: window.i18n('setAccountPasswordTitle'),
+        description: window.i18n('setAccountPasswordDescription'),
+        hidden: false,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Privacy,
+        setFn: undefined,
+        content: {
+          buttonText: window.i18n('setPassword'),
+          buttonColor: SessionButtonColor.Primary,
+        },
+      },
+      {
+        id: 'change-password',
+        title: window.i18n('changeAccountPasswordTitle'),
+        description: window.i18n('changeAccountPasswordDescription'),
+        hidden: false,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Privacy,
+        setFn: undefined,
+        content: {
+          buttonText: window.i18n('changePassword'),
+          buttonColor: SessionButtonColor.Primary,
+        },
+      },
+      {
+        id: 'remove-password',
+        title: window.i18n('removeAccountPasswordTitle'),
+        description: window.i18n('removeAccountPasswordDescription'),
+        hidden: false,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Privacy,
+        setFn: undefined,
+        content: {
+          buttonText: window.i18n('removePassword'),
+          buttonColor: SessionButtonColor.Danger,
+        },
       },
     ];
 

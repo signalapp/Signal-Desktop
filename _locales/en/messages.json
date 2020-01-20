@@ -2151,6 +2151,36 @@
     "description":
       "Button action that the user can click to view their unique seed"
   },
+  "setAccountPasswordTitle": {
+    "message": "Set Account Password",
+    "description":
+      "Prompt for user to set account password in settings view"
+  },
+  "setAccountPasswordDescription": {
+    "message": "Secure your account and public key with a password",
+    "description":
+      "Description for set account password setting view"
+  },
+  "changeAccountPasswordTitle": {
+    "message": "Change Account Password",
+    "description":
+      "Prompt for user to change account password in settings view"
+  },
+  "changeAccountPasswordDescription": {
+    "message": "Change your password",
+    "description":
+      "Description for change account password setting view"
+  },
+  "removeAccountPasswordTitle": {
+    "message": "Remove Account Password",
+    "description":
+      "Prompt for user to remove account password in settings view"
+  },
+  "removeAccountPasswordDescription": {
+    "message": "Remove the password associated with your account",
+    "description":
+      "Description for remove account password setting view"
+  },
   "showSeedPasswordRequest": {
     "message": "Please enter your password",
     "description": "Request for user to enter password to show seed."

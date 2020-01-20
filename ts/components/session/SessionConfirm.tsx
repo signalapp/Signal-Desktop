@@ -25,7 +25,7 @@ export class SessionConfirm extends React.Component<Props> {
     closeTheme: SessionButtonColor.Primary,
     hideCancel: false,
   };
-\
+
   constructor(props: any) {
     super(props);
   }

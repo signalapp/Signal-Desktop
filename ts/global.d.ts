@@ -5,6 +5,7 @@ interface Window {
   mnemonic: any;
   clipboard: any;
   passwordUtil: any;
+  userConfig: any;
   dcodeIO: any;
   libsignal: any;
   libloki: any;

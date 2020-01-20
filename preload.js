@@ -127,7 +127,6 @@ window.onUnblockNumber = number => ipc.send('on-unblock-number', number);
 
 ipc.on('mediaPermissionsChanged', () => {
   Whisper.events.trigger('mediaPermissionsChanged');
-  W;
 });
 
 ipc.on('on-unblock-number', (event, number) => {
@@ -401,7 +400,6 @@ window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').Phone
 window.loadImage = require('blueimp-load-image');
 window.getGuid = require('uuid/v4');
 window.profileImages = require('./app/profile_images');
-window.passwordUtil = require('./app/password_util');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');
@@ -466,6 +464,11 @@ contextMenu({
     return [actions.copyImage()];
   },
 });
+
+// User config for managing password DB entries etc.
+const thisfaw = require('./app/password_util');
+console.log(thisfaw);
+
 
 // We pull this in last, because the native module involved appears to be sensitive to
 //   /tmp mounted as noexec on Linux.
