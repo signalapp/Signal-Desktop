@@ -907,22 +907,22 @@
     };
 
     window.toggleMenuBar = () => {
-      const newValue = !window.getSettingValue('hide-menu-bar');
+      const newValue = ! window.getSettingValue('hide-menu-bar');
       window.Events.setHideMenuBar(newValue);
     };
 
     window.toggleSpellCheck = () => {
-      const newValue = !window.getSettingValue('spell-check');
+      const newValue = ! window.getSettingValue('spell-check');
       window.Events.setSpellCheck(newValue);
     };
 
     window.toggleLinkPreview = () => {
-      const newValue = !window.getSettingValue('link-preview-setting');
+      const newValue = ! window.getSettingValue('link-preview-setting');
       window.Events.setLinkPreviewSetting(newValue);
     };
 
-    window.toggleMediaPermissions = async () => {
-      const mediaPermissions = await window.getMediaPermissions();
+    window.toggleMediaPermissions = () => {
+      const mediaPermissions = window.getMediaPermissions();
       window.setMediaPermissions(!mediaPermissions);
     };
 
