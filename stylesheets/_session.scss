@@ -241,51 +241,40 @@ $session_message-container-border-radius: 5px;
   &.square,
   &.brand {
     color: $session-color-white;
-    border: none;
 
-    &.green {
-      border: 2px solid $session-color-green;
-      background-color: $session-color-green;
-
+    &.green,
+    &.white,
+    &.primary,
+    &.secondary,
+    &.success,
+    &.danger,
+    &.warning {
       &.disabled {
-        background-color: rgba($session-color-green, 0.6);
+        filter: brightness(60%);
       }
     }
+
+    &.green {
+      background-color: $session-color-green;
+    }
+
     &.white {
       background-color: $session-color-white;
-      &.disabled {
-        background-color: rgba($session-color-white, 0.6);
-      }
     }
     &.primary {
       background-color: $session-color-primary;
-      &.disabled {
-        background-color: rgba($session-color-primary, 0.6);
-      }
     }
     &.secondary {
       background-color: $session-color-secondary;
-      &.disabled {
-        background-color: rgba($session-color-secondary, 0.6);
-      }
     }
     &.success {
       background-color: $session-color-success;
-      &.disabled {
-        background-color: rgba($session-color-success, 0.6);
-      }
     }
     &.danger {
       background-color: $session-color-danger;
-      &.disabled {
-        background-color: rgba($session-color-danger, 0.6);
-      }
     }
     &.warning {
-      background-color: $session-color-warning-alt;
-      &.disabled {
-        background-color: rgba($session-color-warning-alt, 0.6);
-      }
+      background-color: $session-color-warning;
     }
   }
 
@@ -310,7 +299,21 @@ $session_message-container-border-radius: 5px;
       @include transparent-background($session-color-danger);
     }
     &.warning {
-      @include transparent-background($session-color-warning);
+      @include transparent-background($session-color-warning-alt);
+    }
+    &.warning,
+    &.danger,
+    &.secondary,
+    &.primary,
+    &.white,
+    &.green {
+      &.disabled {
+        filter: brightness(60%);
+
+        &:hover {
+          filter: brightness(60%);
+        }
+      }
     }
   }
 
@@ -382,6 +385,8 @@ $session_message-container-border-radius: 5px;
   display: inline-block;
   position: relative;
   opacity: 0.4;
+  transform: translateZ(0);
+
   &:hover {
     opacity: 1;
   }
@@ -466,7 +471,6 @@ $session-element-border-green: 4px solid $session-color-green;
 }
 
 .module-message__author-avatar {
-  flex-direction: column;
   display: inline-flex;
   margin-right: 20px;
   padding-top: 5px;
@@ -504,8 +508,8 @@ label {
 .message-selection-overlay {
   display: none;
   position: absolute;
-  right: 15px;
-  left: 15px;
+  right: $session-margin-sm;
+  left: $session-margin-md;
 
   .close-button {
     float: left;
@@ -615,7 +619,7 @@ label {
 
 .session-modal {
   z-index: 150;
-  position: fixed;
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -678,16 +682,12 @@ label {
     justify-content: flex-end;
 
     .session-button {
-      margin-left: $session-margin-sm;
+      margin: $session-margin-xs;
     }
 
     &__center {
       display: flex;
       justify-content: center;
-    }
-
-    .session-button {
-      margin: 0 $session-margin-xs;
     }
   }
 
@@ -839,11 +839,10 @@ label {
 }
 
 .conversation-loader {
-  height: 100%;
-  margin-top: 45vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -40px 0 0 -40px;
 
   & > div {
     display: block;
@@ -917,20 +916,23 @@ label {
 
   &-header {
     display: flex;
+    flex-direction: row;
     justify-content: center;
+    align-items: center;
     background-color: $session-shade-6;
     height: $main-view-header-height;
-    line-height: $main-view-header-height;
-    font-weight: bold;
-    font-size: 18px;
 
+    &-title {
+      line-height: $main-view-header-height;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .session-button,
     .session-icon-button {
-      display: flex;
-      justify-content: center;
-      position: absolute;
-      right: $session-margin-lg;
-      align-items: center;
-      height: $main-view-header-height;
+      margin-right: $session-margin-lg;
     }
   }
 
@@ -994,9 +996,6 @@ label {
 
 .messages li {
   transition: $session-transition-duration !important;
-}
-
-.network-status-container {
 }
 
 .discussion-container {
@@ -1079,8 +1078,8 @@ label {
   }
 }
 .user-details-dialog {
-  .message {
-    user-select: all;
+  .session-id-editable {
+    width: 30vh;
   }
 }
 
@@ -1174,5 +1173,28 @@ button.module-scroll-down {
 
   &-selected {
     background-color: $session-shade-8;
+  }
+}
+
+  
+.standalone {
+  .button {
+    background: $session-color-green;
+  }
+
+  #reset-button {
+    color: $session-color-green;
+  }
+
+  .inputs {
+    input {
+      color: $color-dark-05;
+      background-color: $color-dark-70;
+      border-color: $color-dark-55;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 }

@@ -11,7 +11,7 @@ import { SessionRadioGroup } from '../SessionRadioGroup';
 interface Props {
   title: string;
   description?: string;
-  type: SessionSettingType;
+  type: SessionSettingType | undefined;
   value: any;
   options?: Array<any>;
   onClick?: any;
@@ -40,10 +40,9 @@ export class SessionSettingListItem extends React.Component<Props, State> {
   public render(): JSX.Element {
     const { title, description, type, value, content } = this.props;
 
-    const inline = ![
-      SessionSettingType.Options,
-      SessionSettingType.Slider,
-    ].includes(type);
+    const inline =
+      !!type &&
+      ![SessionSettingType.Options, SessionSettingType.Slider].includes(type);
 
     const currentSliderValue =
       type === SessionSettingType.Slider && (this.state.sliderValue || value);

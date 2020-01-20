@@ -21,6 +21,7 @@ import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
+import { MainViewController } from '../MainViewController';
 
 export interface Props {
   searchTerm: string;
@@ -170,6 +171,8 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
+    MainViewController.renderMessageView();
+
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
@@ -267,14 +270,17 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   private renderBottomButtons(): JSX.Element {
     const edit = window.i18n('edit');
     const addChannel = window.i18n('addChannel');
+    const showEditButton = false;
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        <SessionButton
-          text={edit}
-          buttonType={SessionButtonType.SquareOutline}
-          buttonColor={SessionButtonColor.White}
-        />
+        {showEditButton && (
+          <SessionButton
+            text={edit}
+            buttonType={SessionButtonType.SquareOutline}
+            buttonColor={SessionButtonColor.White}
+          />
+        )}
         <SessionButton
           text={addChannel}
           buttonType={SessionButtonType.SquareOutline}
@@ -299,7 +305,19 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return false;
     }
 
+    const regexURL = /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/;
+
     if (channelUrlPasted.length <= 0) {
+      window.pushToast({
+        title: window.i18n('noServerURL'),
+        type: 'error',
+        id: 'connectToServerFail',
+      });
+
+      return false;
+    }
+
+    if (!regexURL.test(channelUrlPasted)) {
       window.pushToast({
         title: window.i18n('noServerURL'),
         type: 'error',

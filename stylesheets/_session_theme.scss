@@ -13,13 +13,13 @@
   background: none !important;
 }
 .module-conversation-header {
-  border-bottom: none;
-
   @at-root .light-theme #{&} {
     background-color: $session-color-white;
+    border-bottom: none;
   }
   @at-root .dark-theme #{&} {
     background-color: $session-shade-4;
+    border-bottom: none;
   }
 }
 
@@ -91,7 +91,7 @@
 }
 
 .inbox {
-  background: linear-gradient(180deg, #171717 0%, #121212 100%);
+  background: linear-gradient(180deg, #171717 0%, $session-background 100%);
 }
 
 .conversation {
@@ -136,4 +136,12 @@ h4 {
   color: $session-color-white;
   font-size: 17px;
   text-align: center;
+}
+
+.dark-theme .network-status-container .network-status {
+  background-color: rgba($session-color-green, 0.6);
+
+  .network-status-message {
+    color: $session-color-white;
+  }
 }

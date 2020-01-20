@@ -31,8 +31,6 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
 
     this.setCategory = this.setCategory.bind(this);
     this.renderRows = this.renderRows.bind(this);
-
-    //this.updateSearchBound = this.updateSearch.bind(this);
   }
 
   public render(): JSX.Element {
@@ -110,7 +108,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     );
   }
 
-  public renderSettings(): JSX.Element {
+  public renderSearch() {
     return (
       <div className="left-pane-setting-content">
         <div className="left-pane-setting-input-group">
@@ -129,8 +127,19 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
                 iconSize={SessionIconSize.Huge}
               />
             </SessionButton>
+
           </div>
-        </div>
+          </div>
+      </div>
+    );
+  }
+
+  public renderSettings(): JSX.Element {
+    const showSearch = false;
+
+    return (
+      <div className="left-pane-setting-content">
+        {showSearch && this.renderSearch()}
         {this.renderCategories()}
         {this.renderBottomButtons()}
       </div>
@@ -196,6 +205,11 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
         title: window.i18n('notificationSettingsTitle'),
         description: window.i18n('notificationSettingsDescription'),
         hidden: false,
+      },
+      {
+        id: SessionSettingCategory.Devices,
+        title: window.i18n('devicesSettingsTitle'),
+        description: window.i18n('devicesSettingsDescription'),
       },
     ];
   }

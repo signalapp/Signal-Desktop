@@ -18,6 +18,7 @@ import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
 import { ConversationType } from '../../state/ducks/conversations';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
+import { MainViewController } from '../MainViewController';
 
 export interface Props {
   searchTerm: string;
@@ -94,6 +95,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
+    MainViewController.renderMessageView();
+
     return (
       <div className="left-pane-contact-section">
         {this.renderHeader()}
@@ -134,7 +137,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const friends = this.getCurrentFriends();
     const combined = [...sentFriendsRequest, ...friends];
     const item = combined[index];
-    const onClick = this.props.openConversationInternal;
 
     return (
       <ConversationListItem
@@ -142,7 +144,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
         style={style}
         {...item}
         i18n={window.i18n}
-        onClick={onClick}
+        onClick={this.props.openConversationInternal}
       />
     );
   };
@@ -274,14 +276,17 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const edit = window.i18n('edit');
     const addContact = window.i18n('addContact');
     const createGroup = window.i18n('createGroup');
+    const showEditButton = false;
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        <SessionButton
-          text={edit}
-          buttonType={SessionButtonType.SquareOutline}
-          buttonColor={SessionButtonColor.White}
-        />
+        {showEditButton && (
+          <SessionButton
+            text={edit}
+            buttonType={SessionButtonType.SquareOutline}
+            buttonColor={SessionButtonColor.White}
+          />
+        )}
         {selectedTab === 0 ? (
           <SessionButton
             text={addContact}

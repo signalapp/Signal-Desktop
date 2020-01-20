@@ -124,7 +124,7 @@ export const _getLeftPaneLists = (
       };
     }
 
-    if (conversation.isFriend) {
+    if (conversation.isFriend && conversation.activeAt !== undefined) {
       friends.push(conversation);
     }
 

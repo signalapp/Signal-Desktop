@@ -6,6 +6,7 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 export const SessionRegistrationView: React.FC = () => (
   <div className="session-content">
+    <div id="session-toast-container" />
     <div id="error" className="collapse" />
     <div className="session-content-close-button">
       <SessionIconButton

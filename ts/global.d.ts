@@ -41,6 +41,7 @@ interface Window {
 
   getSettingValue: any;
   setSettingValue: any;
+  lokiFeatureFlags: any;
 }
 
 interface Promise<T> {

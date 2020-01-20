@@ -1198,9 +1198,9 @@
       }
     });
 
-    Whisper.events.on('showDevicePairingDialog', async () => {
+    Whisper.events.on('showDevicePairingDialog', async (options = {}) => {
       if (appView) {
-        appView.showDevicePairingDialog();
+        appView.showDevicePairingDialog(options);
       }
     });
 
@@ -1269,6 +1269,7 @@
       await window.lokiFileServerAPI.updateOurDeviceMapping();
       // TODO: we should ensure the message was sent and retry automatically if not
       await libloki.api.sendUnpairingMessageToSecondary(pubKey);
+      Whisper.events.trigger('refreshLinkedDeviceList');
     });
   }
 

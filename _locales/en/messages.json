@@ -979,6 +979,9 @@
   "allowPairing": {
     "message": "Allow Pairing"
   },
+  "allowPairingWithDevice": {
+    "message": "Allow pairing with this device?"
+  },
   "provideDeviceAlias": {
     "message": "Please provide an alias for this paired device"
   },
@@ -990,6 +993,9 @@
   },
   "unpairDevice": {
     "message": "Unpair Device"
+  },
+  "deviceUnpaired": {
+    "message": "Device Unpaired"
   },
   "clear": {
     "message": "Clear"
@@ -2601,7 +2607,7 @@
     "message": "Devices"
   },
   "devicesSettingsDescription": {
-    "message": "Managed linked devices"
+    "message": "Manage linked devices"
   },
   "mnemonicEmpty": {
     "message": "Seed is mandatory"
@@ -2645,5 +2651,20 @@
   },
   "description": {
     "message": "Description"
+  },
+  "filterReceivedRequests": {
+    "message": "Filter received requests"
+  },
+  "secretWords": {
+    "message": "Secret words:"
+  },
+  "pairingDevice": {
+    "message": "Pairing Device"
+  },
+  "gotPairingRequest": {
+    "message": "Got a pairing request"
+  },
+  "devicePairedSuccessfully": {
+    "message": "Device paired successfully"
   }
 }
