@@ -31,7 +31,6 @@ export class SessionPasswordModal extends React.Component<Props, State> {
 
     this.setPassword = this.setPassword.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
-    this.onEnter = this.onEnter.bind(this);
   }
 
   public render() {
@@ -170,14 +169,6 @@ export class SessionPasswordModal extends React.Component<Props, State> {
 
     onSuccess(this.props.action);
     this.closeDialog();
-  }
-
-  private onEnter(event: any) {
-    if (event.key === 'Enter') {
-      //if ($('#server-url').is(':focus')) {
-      //this.showView('connecting');
-      //}
-    }
   }
 
   private closeDialog() {
