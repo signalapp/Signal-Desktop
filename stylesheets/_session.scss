@@ -274,7 +274,7 @@ $session_message-container-border-radius: 5px;
       background-color: $session-color-danger;
     }
     &.warning {
-      background-color: $session-color-warning-alt;
+      background-color: $session-color-warning;
     }
   }
 
@@ -1173,5 +1173,28 @@ button.module-scroll-down {
 
   &-selected {
     background-color: $session-shade-8;
+  }
+}
+
+  
+.standalone {
+  .button {
+    background:$session-color-green ;
+  }
+
+  #reset-button {
+    color: $session-color-green;
+  }
+
+  .inputs {
+    input {
+      color: $color-dark-05;
+      background-color: $color-dark-70;
+      border-color: $color-dark-55;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 }
