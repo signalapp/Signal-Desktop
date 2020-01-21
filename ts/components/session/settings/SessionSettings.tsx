@@ -270,7 +270,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             type="password"
             id="password-lock-input"
             defaultValue=""
-            placeholder={window.i18n('password')}
+            placeholder=" "
           />
 
           {this.state.pwdLockError && (
