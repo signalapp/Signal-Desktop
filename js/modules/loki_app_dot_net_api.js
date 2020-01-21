@@ -1,6 +1,6 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
 clearTimeout, MessageController, libsignal, StringView, window, _,
-dcodeIO, Buffer */
+dcodeIO, Buffer, lokiSnodeAPI */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
@@ -18,6 +18,9 @@ const SETTINGS_CHANNEL_ANNOTATION_TYPE = 'net.patter-app.settings';
 const MESSAGE_ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
+
+// for onion routing
+const IV_LENGTH = 16;
 
 // the core ADN class that handles all communication with a specific server
 class LokiAppDotNetServerAPI {
@@ -108,7 +111,7 @@ class LokiAppDotNetServerAPI {
     // no big deal if it fails...
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`setProfileName Error ${res.err}`);
       }
       return [];
     }
@@ -135,7 +138,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`setHomeServer Error ${res.err}`);
       }
       return [];
     }
@@ -292,23 +295,67 @@ class LokiAppDotNetServerAPI {
   }
 
   async _sendToProxy(fetchOptions, endpoint, method) {
+    const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
+    const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
-    const rand_snode = await lokiSnodeAPI.getRandomSnodeAddress();
-    const url = `https://${rand_snode.ip}:${rand_snode.port}/file_proxy`;
+    // make temporary key for this request/response
+    const ephemeralKey = libsignal.Curve.generateKeyPair();
 
-    const body = fetchOptions.body;
+    // some randomness
+    const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
+
+    // mix server pub key with our priv key
+    const symKey = libsignal.Curve.calculateAgreement(
+      this.pubKey, // server's pubkey
+      ephemeralKey.privKey // our privkey
+    );
+
+    const payloadObj = {
+      // I think this is a stream, we may need to collect it all?
+      body: fetchOptions.body, // might need to b64 if binary...
+      endpoint,
+      method,
+      headers: fetchOptions.headers,
+    };
+
+    // convert our payload to binary buffer
+    const payloadData = Buffer.from(
+      dcodeIO.ByteBuffer.wrap(JSON.stringify(payloadObj)).toArrayBuffer()
+    );
+
+    // encrypt payloadData with symmetric Key using iv
+    const cipherBody = await libsignal.crypto.encrypt(symKey, payloadData, iv);
+
+    // make final buffer for cipherText
+    const ivAndCiphertext = new Uint8Array(
+      iv.byteLength + cipherBody.byteLength
+    );
+    // add iv
+    ivAndCiphertext.set(new Uint8Array(iv));
+    // add ciphertext after iv position
+    ivAndCiphertext.set(new Uint8Array(cipherBody), iv.byteLength);
+
+    // convert final buffer to base64
+    const cipherText64 = dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString(
+      'base64'
+    );
+    const ephemeralPubKey64 = dcodeIO.ByteBuffer.wrap(
+      ephemeralKey.privKey
+    ).toString('base64');
 
     const firstHopOptions = {
       method: 'POST',
-      body,
+      cipherText64,
       headers: {
-        "X-Loki-File-Server-Target": `/${endpoint}`,
-        "X-Loki-File-Server-Verb": method,
-        "X-Loki-File-Server-Headers": JSON.stringify(fetchOptions.headers),
-      }
-    }
+        'X-Loki-File-Server-Target': `/loki/v1/secure_rpc`,
+        'X-Loki-File-Server-Verb': 'POST',
+        'X-Loki-File-Server-Headers': JSON.stringify({
+          'X-Loki-File-Server-Ephemeral-Key': ephemeralPubKey64,
+        }),
+      },
+    };
 
-    return await nodeFetch(url, firstHopOptions);
+    return nodeFetch(url, firstHopOptions);
   }
 
   // make a request to the server
@@ -320,6 +367,7 @@ class LokiAppDotNetServerAPI {
       objBody,
       forceFreshToken = false,
     } = options;
+
     const url = new URL(`${this.baseServerUrl}/${endpoint}`);
     if (params) {
       url.search = new URLSearchParams(params);
@@ -345,14 +393,22 @@ class LokiAppDotNetServerAPI {
       }
       fetchOptions.headers = new Headers(headers);
 
-      if (window.lokiFeatureFlags.useSnodeProxy && this.baseServerUrl === "https://file.lokinet.org") {
-        log.info("Sending a proxy request to https://file.lokinet.org");
-        result = await this._sendToProxy({...fetchOptions, headers}, endpoint, method);
+      if (
+        window.lokiFeatureFlags.useSnodeProxy &&
+        (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
+          this.baseServerUrl === 'https://file.lokinet.org')
+      ) {
+        log.info('Sending a proxy request to', this.baseServerUrl);
+        result = await this._sendToProxy(
+          { ...fetchOptions, headers },
+          endpoint,
+          method
+        );
       } else {
         result = await nodeFetch(url, fetchOptions || undefined);
       }
     } catch (e) {
-      log.info(`e ${e}`);
+      log.info(`serverRequest nodeFetch/_sendToProxy error: ${e}`);
       return {
         err: e,
       };
@@ -404,7 +460,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`getUserAnnotations Error ${res.err}`);
       }
       return [];
     }
@@ -523,7 +579,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`getSubscribers Error ${res.err}`);
       }
       return [];
     }
@@ -553,7 +609,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`getUsers Error ${res.err}`);
       }
       return [];
     }
@@ -708,7 +764,7 @@ class LokiPublicChannelAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`banUser Error ${res.err}`);
       }
       return false;
     }
@@ -824,7 +880,7 @@ class LokiPublicChannelAPI {
     );
     if (updateRes.err || !updateRes.response || !updateRes.response.data) {
       if (updateRes.err) {
-        log.error(`Error ${updateRes.err}`);
+        log.error(`setChannelSettings Error ${updateRes.err}`);
       }
       return false;
     }
@@ -975,7 +1031,7 @@ class LokiPublicChannelAPI {
       // if any problems, abort out
       if (res.err || !res.response) {
         if (res.err) {
-          log.error(`Error ${res.err}`);
+          log.error(`pollOnceForDeletions Error ${res.err}`);
         }
         break;
       }
