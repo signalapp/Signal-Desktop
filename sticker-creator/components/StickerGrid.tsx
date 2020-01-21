@@ -50,11 +50,14 @@ const InnerGrid = SortableContainer(
       async paths => {
         actions.initializeStickers(paths);
         paths.forEach(path => {
+          // tslint:disable-next-line no-floating-promises
           queue.add(async () => {
             try {
               const webp = await convertToWebp(path);
               actions.addWebp(webp);
             } catch (e) {
+              // @ts-ignore
+              window.log.error('Error processing image:', e);
               actions.removeSticker(path);
               actions.addToast('StickerCreator--Toasts--errorProcessing');
             }

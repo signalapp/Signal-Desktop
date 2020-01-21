@@ -37,6 +37,7 @@ const WebAPI = initializeWebAPI({
   certificateAuthority: config.certificateAuthority,
   contentProxyUrl: config.contentProxyUrl,
   proxyUrl: config.proxyUrl,
+  version: config.version,
 });
 
 window.convertToWebp = async (path, width = 512, height = 512) => {
