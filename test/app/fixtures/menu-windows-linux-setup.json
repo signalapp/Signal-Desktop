@@ -21,7 +21,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Loki Messenger",
+        "label": "Quit Signal Messenger",
         "role": "quit"
       }
     ]
@@ -138,7 +138,7 @@
         "type": "separator"
       },
       {
-        "label": "About Loki Messenger",
+        "label": "About Signal Messenger",
         "click": null
       }
     ]

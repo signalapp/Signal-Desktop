@@ -222,7 +222,7 @@ function _promiseAjax(providedUrl, options) {
       method: options.type,
       body: options.data || null,
       headers: {
-        'User-Agent': 'Loki Messenger',
+        'User-Agent': 'Signal Messenger',
         'X-Loki-Messenger-Agent': 'OWD',
         ...options.headers,
       },

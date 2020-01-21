@@ -6,7 +6,7 @@ const got = require('got');
 
 const BASE_URL = 'https://debuglogs.org';
 const VERSION = window.getVersion();
-const USER_AGENT = `Loki Messenger ${VERSION}`;
+const USER_AGENT = `Signal Messenger ${VERSION}`;
 
 // Workaround: Submitting `FormData` using native `FormData::submit` procedure
 // as integration with `got` results in S3 error saying we haven’t set the

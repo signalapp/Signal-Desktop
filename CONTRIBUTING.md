@@ -63,7 +63,7 @@ yarn install --frozen-lockfile # Install and build dependencies (this will take 
 yarn grunt                     # Generate final JS and CSS assets
 yarn icon-gen                  # Generate full set of icons for Electron
 yarn test                      # A good idea to make sure tests run first
-yarn start                     # Start Loki Messenger!
+yarn start                     # Start Signal Messenger!
 ```
 
 You'll need to restart the application regularly to see your changes, as there
@@ -84,7 +84,7 @@ yarn grunt dev # runs until you stop it, re-generating built assets on file chan
 
 ## Additional storage profiles
 
-Since there is no registration for Loki Messenger, you can create as many accounts as you
+Since there is no registration for Signal Messenger, you can create as many accounts as you
 can public keys. To test the P2P functionality on the same machine, however, requries
 that each client binds their message server to a different port.
 

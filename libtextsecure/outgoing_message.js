@@ -321,7 +321,7 @@ OutgoingMessage.prototype = {
 
     return Promise.all(
       devicesPubKeys.map(async devicePubKey => {
-        // Loki Messenger doesn't use the deviceId scheme, it's always 1.
+        // Signal Messenger doesn't use the deviceId scheme, it's always 1.
         // Instead, there are multiple device public keys.
         const deviceId = 1;
         const updatedDevices = await this.getStaleDeviceIdsForNumber(
