@@ -209,7 +209,7 @@ class LokiAppDotNetServerAPI {
           serverUrl: this.baseServerUrl,
           token: '',
         });
-        token = this.getOrRefreshServerToken(true);
+        token = await this.getOrRefreshServerToken(true);
       }
     }
 
