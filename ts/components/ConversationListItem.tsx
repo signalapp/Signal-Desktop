@@ -146,7 +146,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           {isMe ? i18n('noteToSelf') : this.renderUser()}
         </div>
         {hasReceivedFriendRequest || this.renderUnread()}
-        {!isFriend && (
+        {isFriend && (
           <div
             className={classNames(
               'module-conversation-list-item__header__date',
@@ -227,13 +227,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isTyping,
       unreadCount,
       i18n,
-      isFriend,
       isPendingFriendRequest,
     } = this.props;
-
-    if (isFriend) {
-      return null;
-    }
 
     if (!lastMessage && !isTyping) {
       return null;
