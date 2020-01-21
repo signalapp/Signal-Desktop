@@ -57,7 +57,7 @@ export class SessionClosableOverlay extends React.Component<Props> {
         break;
       case 'contact':
         title = window.i18n('addContact');
-        buttonText = window.i18n('addContact');
+        buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
         placeholder = window.i18n('pasteSessionIDRecipient');

@@ -437,7 +437,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderNamePasswordAndVerifyPasswordFields() {
-    const passwordDoesNotMatchString =
+    const passwordsDoNotMatch =
       !this.state.passwordFieldsMatch && this.state.password
         ? window.i18n('passwordsDoNotMatch')
         : undefined;
@@ -472,7 +472,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
         <SessionInput
           label={window.i18n('verifyPassword')}
-          error={passwordDoesNotMatchString}
+          error={passwordsDoNotMatch}
           type="password"
           placeholder={window.i18n('optionalPassword')}
           onValueChanged={(val: string) => {
@@ -735,7 +735,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       passwordFieldsMatch,
     } = this.state;
     // Make sure the password is valid
-    if (passwordErrorString || passwordFieldsMatch) {
+    if (passwordErrorString) {
       window.pushToast({
         title: window.i18n('invalidPassword'),
         type: 'error',
@@ -744,6 +744,17 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
       return;
     }
+
+    if (!!password && !passwordFieldsMatch) {
+      window.pushToast({
+        title: window.i18n('passwordsDoNotMatch'),
+        type: 'error',
+        id: 'invalidPassword',
+      });
+
+      return;
+    }
+
     if (!mnemonicSeed) {
       return;
     }
