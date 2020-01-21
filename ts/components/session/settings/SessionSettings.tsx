@@ -2,7 +2,11 @@ import React from 'react';
 
 import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
-import { SessionButtonColor } from '../SessionButton';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from '../SessionButton';
 
 export enum SessionSettingCategory {
   General = 'general',
@@ -26,6 +30,8 @@ export interface SettingsViewProps {
 
 interface State {
   hasPassword: boolean | null;
+  pwdLockError: string | null;
+  shouldLockSettings: boolean | null;
   linkedPubKeys: Array<any>;
 }
 
@@ -50,11 +56,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     this.state = {
       hasPassword: null,
+      pwdLockError: null,
+      shouldLockSettings: true,
       linkedPubKeys: new Array(),
     };
 
     this.settingsViewRef = React.createRef();
     this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
+    this.validatePasswordLock = this.validatePasswordLock.bind(this);
 
     this.hasPassword();
     this.refreshLinkedDevice = this.refreshLinkedDevice.bind(this);
@@ -136,15 +145,85 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     );
   }
 
+  public renderPasswordLock() {
+    return (
+      <div className="session-settings__password-lock">
+        <div className="session-settings__password-lock-box">
+          <h3>{window.i18n('password')}</h3>
+          <input
+            type="password"
+            id="password-lock-input"
+            defaultValue=""
+            placeholder={' '}
+          />
+          
+          <div className="spacer-sm" />
+
+          {this.state.pwdLockError && (
+            <>
+              <div className="session-label warning">
+                {this.state.pwdLockError}
+              </div>
+              <div className="spacer-sm" />
+            </>
+          )}
+
+          <SessionButton
+            buttonType={SessionButtonType.BrandOutline}
+            buttonColor={SessionButtonColor.Green}
+            text={window.i18n('enter')}
+            onClick={this.validatePasswordLock}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  public async validatePasswordLock() {
+    const enteredPassword = String($('#password-lock-input').val());
+
+    if (!enteredPassword) {
+      this.setState({
+        pwdLockError: window.i18n('noGivenPassword'),
+      });
+      
+      return false;
+    }
+
+    // Check if the password matches the hash we have stored
+    const hash = await window.Signal.Data.getPasswordHash();
+    if (hash && !window.passwordUtil.matchesHash(enteredPassword, hash)) {
+      this.setState({
+        pwdLockError: window.i18n('invalidPassword'),
+      });
+
+      return false;
+    }
+
+    // Unlocked settings
+    this.setState({
+      shouldLockSettings: false,
+      pwdLockError: null,
+    });
+
+    return true;
+  }
+
   public render() {
     const { category } = this.props;
+    const shouldRenderPasswordLock =
+      this.state.shouldLockSettings && this.state.hasPassword;
 
     return (
       <div className="session-settings">
         <SettingsHeader category={category} />
-        <div ref={this.settingsViewRef} className="session-settings-list">
-          {this.renderSettingInCategory()}
-        </div>
+        {shouldRenderPasswordLock ? (
+          this.renderPasswordLock()
+        ) : (
+          <div ref={this.settingsViewRef} className="session-settings-list">
+            {this.renderSettingInCategory()}
+          </div>
+        )}
       </div>
     );
   }
@@ -180,9 +259,11 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public onPasswordUpdated(action: string) {
-    if (action === 'set') {
+    if (action === 'set' || action === 'change') {
       this.setState({
         hasPassword: true,
+        shouldLockSettings: true,
+        pwdLockError: null,
       });
     }
 

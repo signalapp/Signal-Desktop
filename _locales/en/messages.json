@@ -943,6 +943,9 @@
   "ok": {
     "message": "OK"
   },
+  "enter": {
+    "message": "Enter"
+  },
   "yes": {
     "message": "Yes"
   },
