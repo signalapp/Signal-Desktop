@@ -301,8 +301,14 @@ class LokiAppDotNetServerAPI {
     // make temporary key for this request/response
     const ephemeralKey = libsignal.Curve.generateKeyPair();
 
+    function buf2hex(buffer) { // buffer is an ArrayBuffer
+      return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+    }
+
     // some randomness
     const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
+    // console.log('iv ', buf2hex(iv))
+    // console.log('epk', buf2hex(ephemeralKey.pubKey))
 
     // mix server pub key with our priv key
     const symKey = libsignal.Curve.calculateAgreement(
@@ -339,19 +345,30 @@ class LokiAppDotNetServerAPI {
     const cipherText64 = dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString(
       'base64'
     );
+
+    //console.log('ephemeralKey.privKey', ephemeralKey.privKey.toString('hex'))
+
     const ephemeralPubKey64 = dcodeIO.ByteBuffer.wrap(
-      ephemeralKey.privKey
+      ephemeralKey.pubKey
     ).toString('base64');
+
+    // console.log('ephemeralKey', ephemeralPubKey64);
+    // console.log('cipherText64', cipherText64);
+
+    const finalRequestHeader = {
+      'X-Loki-File-Server-Ephemeral-Key': ephemeralPubKey64,
+    };
 
     const firstHopOptions = {
       method: 'POST',
-      cipherText64,
+      // not sure why I can't use anything but json...
+      // text/plain would be preferred...
+      body: JSON.stringify({ cipherText64 }),
       headers: {
+        'Content-Type': 'application/json',
         'X-Loki-File-Server-Target': `/loki/v1/secure_rpc`,
         'X-Loki-File-Server-Verb': 'POST',
-        'X-Loki-File-Server-Headers': JSON.stringify({
-          'X-Loki-File-Server-Ephemeral-Key': ephemeralPubKey64,
-        }),
+        'X-Loki-File-Server-Headers': JSON.stringify(finalRequestHeader),
       },
     };
 
@@ -404,11 +421,12 @@ class LokiAppDotNetServerAPI {
           endpoint,
           method
         );
+        log.info('Got proxy response', result, 'for', method || 'GET', endpoint);
       } else {
         result = await nodeFetch(url, fetchOptions || undefined);
       }
     } catch (e) {
-      log.info(`serverRequest nodeFetch/_sendToProxy error: ${e}`);
+      log.info('serverRequest nodeFetch/_sendToProxy error:', JSON.stringify(e));
       return {
         err: e,
       };
