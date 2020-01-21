@@ -345,7 +345,7 @@ $session_message-container-border-radius: 5px;
     border-radius: 0px;
   }
 
-  & > *:not(svg):hover {
+  & > *:hover:not(svg) {
     filter: brightness(80%);
   }
 }
@@ -978,13 +978,13 @@ label {
     }
   }
 
-  &__password-lock{
+  &__password-lock {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-grow: 1;
-  
-    &-box{
+
+    &-box {
       padding: 45px 60px;
       display: flex;
       flex-direction: column;
@@ -1011,13 +1011,12 @@ label {
         outline: none;
         border: none;
         border-radius: 2px;
-        text-align:center;
+        text-align: center;
         font-size: 25px;
         letter-spacing: 5px;
-        font-family: "SF Pro Text";
+        font-family: 'SF Pro Text';
       }
-      
-    }  
+    }
   }
 }
 
@@ -1225,4 +1224,3 @@ button.module-scroll-down {
     background-color: $session-shade-8;
   }
 }
-
