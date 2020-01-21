@@ -3,7 +3,7 @@
 /* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, textsecure */
 
 const _ = require('lodash');
-const { loki_rpc } = require('./loki_rpc');
+const { lokiRpc } = require('./loki_rpc');
 
 const DEFAULT_CONNECTIONS = 3;
 const MAX_ACCEPTABLE_FAILURES = 1;
@@ -47,7 +47,7 @@ const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
     return false;
   }
   try {
-    await loki_rpc(p2pDetails.address, p2pDetails.port, 'store', {
+    await lokiRpc(p2pDetails.address, p2pDetails.port, 'store', {
       data: data64,
     });
     lokiP2pAPI.setContactOnline(pubKey);
@@ -243,7 +243,15 @@ class LokiMessageAPI {
     while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {
       await sleepFor(successiveFailures * 500);
       try {
-        const result = await loki_rpc(`https://${address}`, port, 'store', params, {}, '/storage_rpc/v1', targetNode);
+        const result = await lokiRpc(
+          `https://${address}`,
+          port,
+          'store',
+          params,
+          {},
+          '/storage_rpc/v1',
+          targetNode
+        );
 
         // Make sure we aren't doing too much PoW
         const currentDifficulty = window.storage.get('PoWDifficulty', null);
@@ -366,7 +374,7 @@ class LokiMessageAPI {
       },
     };
 
-    const result = await loki_rpc(
+    const result = await lokiRpc(
       `https://${nodeUrl}`,
       nodeData.port,
       'retrieve',
