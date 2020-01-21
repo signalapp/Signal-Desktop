@@ -8,8 +8,9 @@
 
   Whisper.DevicePairingDialogView = Whisper.View.extend({
     className: 'loki-dialog device-pairing-dialog modal',
-    initialize() {
+    initialize(options) {
       this.close = this.close.bind(this);
+      this.pubKeyToUnpair = options.pubKeyToUnpair;
       this.render();
     },
 
@@ -20,6 +21,7 @@
         props: {
           i18n,
           onClose: this.close,
+          pubKeyToUnpair: this.pubKeyToUnpair,
         },
       });
 

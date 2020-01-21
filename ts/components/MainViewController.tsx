@@ -14,10 +14,12 @@ export const MainViewController = {
   },
 
   renderSettingsView: (category: SessionSettingCategory) => {
-    ReactDOM.render(
-      <SettingsView category={category} />,
-      document.getElementById('main-view')
-    );
+    if (document.getElementById('main-view')) {
+      ReactDOM.render(
+        <SettingsView category={category} />,
+        document.getElementById('main-view')
+      );
+    }
   },
 };
 

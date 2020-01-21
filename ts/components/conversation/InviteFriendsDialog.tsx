@@ -1,10 +1,5 @@
 import React from 'react';
 import { Contact, MemberList } from './MemberList';
-import {
-  SessionIconButton,
-  SessionIconSize,
-  SessionIconType,
-} from '../session/icon';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton } from '../session/SessionButton';

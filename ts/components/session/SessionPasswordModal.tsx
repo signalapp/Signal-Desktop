@@ -172,8 +172,6 @@ export class SessionPasswordModal extends React.Component<Props, State> {
   }
 
   private closeDialog() {
-    window.removeEventListener('keyup', this.onEnter);
-
     if (this.props.onClose) {
       this.props.onClose();
     }
