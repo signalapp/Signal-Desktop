@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
-import { SessionButtonColor } from '../SessionButton';
+import { SessionButtonColor, SessionButton, SessionButtonType } from '../SessionButton';
 
 export enum SessionSettingCategory {
   General = 'general',
@@ -251,6 +251,31 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     );
   }
 
+
+  public renderPasswordLock() {
+    
+    return (
+      <div className="session-settings__password-lock">
+        <div className="session-settings__password-lock-box">
+          <h3>
+            {window.i18n('password')}
+          </h3>
+          <input
+            type="password" 
+            id="password-modal-input"
+            placeholder=""
+          />
+          <SessionButton
+            buttonType={SessionButtonType.BrandOutline}
+            buttonColor={SessionButtonColor.Green}
+            text={window.i18n('enter')}
+          />
+          
+        </div>
+      </div>
+    );
+  }
+
   public hasPassword() {
     const hashPromise = window.Signal.Data.getPasswordHash();
 
@@ -263,13 +288,19 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
   public render() {
     const { category } = this.props;
+    const shouldRenderPasswordLock = this.state.hasPassword === true;
 
     return (
       <div className="session-settings">
         <SettingsHeader category={category} />
-        <div ref={this.settingsViewRef} className="session-settings-list">
-          {this.renderSettingInCategory()}
-        </div>
+        {shouldRenderPasswordLock
+            ? this.renderPasswordLock()
+            : (
+              <div ref={this.settingsViewRef} className="session-settings-list">
+                { this.renderSettingInCategory() }
+              </div>
+            )
+          }
       </div>
     );
   }
