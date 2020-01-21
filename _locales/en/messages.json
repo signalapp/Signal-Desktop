@@ -2516,7 +2516,7 @@
   },
   "ByUsingThisService...": {
     "message":
-      "By using this service, you agree to our <a>Terms and Conditions</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Statement</a>"
+      "By using this service, you agree to our <a href=\"https://getsession.org/privacy-policy/\">Terms and Conditions</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Statement</a>"
   },
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
