@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>send</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="15" cy="15" r="15"></circle>
+        <filter x="-25.0%" y="-25.0%" width="150.0%" height="150.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Groups_DeSelected" transform="translate(-1075.000000, -674.000000)">
+            <g id="BottomBar" transform="translate(382.000000, 479.000000)">
+                <g id="Icons">
+                    <g id="Optional-No.-1" transform="translate(698.000000, 200.000000)">
+                        <g id="send">
+                            <g id="Oval">
+                                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                                <use fill="#535865" fill-rule="evenodd" xlink:href="#path-1"></use>
+                            </g>
+                            <g id="1A" transform="translate(15.000000, 14.812500) rotate(90.000000) translate(-15.000000, -14.812500) translate(8.437500, 9.375000)" fill="#FFFFFF" fill-rule="evenodd" stroke="#FFFFFF" stroke-width="0.5">
+                                <path d="M12.3266,4.71786207 L2.2646,4.71786207 L5.98482857,0.989241379 C6.20434286,0.768862069 6.20768571,0.408896552 5.99225714,0.184344828 C5.77608571,-0.0398275862 5.4236,-0.042862069 5.20408571,0.176758621 L0.5226,4.86882759 C0.416371429,4.97541379 0.3562,5.12068966 0.355821604,5.27241379 C0.355085714,5.42413793 0.413771429,5.57017241 0.518885714,5.67751724 L5.20817143,10.4663103 C5.317,10.5774483 5.45962857,10.6328276 5.60225714,10.6328276 C5.74451429,10.6328276 5.88714286,10.5774483 5.99597143,10.4663103 C6.21362857,10.2440345 6.21362857,9.88368966 5.99597143,9.6617931 L2.26905714,5.8557931 L12.3266,5.8557931 C12.6341429,5.8557931 12.8837429,5.60089655 12.8837429,5.28682759 C12.8837429,4.97237931 12.6341429,4.71786207 12.3266,4.71786207"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

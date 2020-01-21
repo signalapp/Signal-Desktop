@@ -31,6 +31,7 @@ import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 
 declare global {
   interface Window {
@@ -311,16 +312,14 @@ export class Message extends React.PureComponent<Props, State> {
             <Spinner size="mini" direction={direction} />
           </div>
         ) : null}
+        <span className="module-message__metadata__spacer" />
         {!textPending && direction === 'outgoing' && status !== 'error' ? (
-          <div
-            className={classNames(
-              'module-message__metadata__status-icon',
-              `module-message__metadata__status-icon--${status}`,
-              withImageNoCaption
-                ? 'module-message__metadata__status-icon--with-image-no-caption'
-                : null
-            )}
-          />
+          <div className="message-read-receipt-container">
+            <SessionIcon
+              iconType={SessionIconType.Check}
+              iconSize={SessionIconSize.Small}
+            />
+          </div>
         ) : null}
       </div>
     );
@@ -1088,6 +1087,7 @@ export class Message extends React.PureComponent<Props, State> {
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && this.props.isPublic;
     const divClasses = ['loki-message-wrapper'];
+
     if (shouldHightlight) {
       divClasses.push('message-highlighted');
     }
@@ -1114,7 +1114,6 @@ export class Message extends React.PureComponent<Props, State> {
         }}
       >
         <ContextMenuTrigger id={rightClickTriggerId}>
-          {this.renderCheckBox()}
           {this.renderAvatar()}
           <div
             className={classNames(
@@ -1156,26 +1155,6 @@ export class Message extends React.PureComponent<Props, State> {
               : null}
           </div>
         </ContextMenuTrigger>
-      </div>
-    );
-  }
-
-  private renderCheckBox() {
-    const classes = ['check-box-container'];
-
-    if (this.props.multiSelectMode) {
-      classes.push('check-box-visible');
-    } else {
-      classes.push('check-box-invisible');
-    }
-
-    if (this.props.selected) {
-      classes.push('check-box-selected');
-    }
-
-    return (
-      <div className={classNames(classes)}>
-        <span className="module-message__check-box">✓</span>
       </div>
     );
   }

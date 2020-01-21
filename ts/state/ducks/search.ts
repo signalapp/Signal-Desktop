@@ -3,11 +3,12 @@ import { omit, reject } from 'lodash';
 import { normalize } from '../../types/PhoneNumber';
 import { SearchOptions } from '../../types/Search';
 import { trigger } from '../../shims/events';
-// import { getMessageModel } from '../../shims/Whisper';
-// import { cleanSearchTerm } from '../../util/cleanSearchTerm';
+import { getMessageModel } from '../../shims/Whisper';
+import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import {
   getPrimaryDeviceFor,
-  searchConversations /*, searchMessages */,
+  searchConversations,
+  searchMessages,
 } from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
 
@@ -97,18 +98,19 @@ async function doSearch(
 ): Promise<SearchResultsPayloadType> {
   const { regionCode } = options;
 
-  const [discussions /*, messages */] = await Promise.all([
+  const [discussions, messages] = await Promise.all([
     queryConversationsAndContacts(query, options),
-    // queryMessages(query),
+    queryMessages(query),
   ]);
   const { conversations, contacts } = discussions;
+  const filteredMessages = messages.filter(message => message !== undefined);
 
   return {
     query,
     normalizedPhoneNumber: normalize(query, { regionCode }),
     conversations,
     contacts,
-    messages: [], // getMessageProps(messages) || [],
+    messages: getMessageProps(filteredMessages) || [],
   };
 }
 function clearSearch(): ClearSearchActionType {
@@ -144,27 +146,27 @@ function startNewConversation(
 
 // Helper functions for search
 
-// const getMessageProps = (messages: Array<MessageType>) => {
-//   if (!messages || !messages.length) {
-//     return [];
-//   }
+const getMessageProps = (messages: Array<MessageType>) => {
+  if (!messages || !messages.length) {
+    return [];
+  }
 
-//   return messages.map(message => {
-//     const model = getMessageModel(message);
+  return messages.map(message => {
+    const model = getMessageModel(message);
 
-//     return model.propsForSearchResult;
-//   });
-// };
+    return model.propsForSearchResult;
+  });
+};
 
-// async function queryMessages(query: string) {
-//   try {
-//     const normalized = cleanSearchTerm(query);
+async function queryMessages(query: string) {
+  try {
+    const normalized = cleanSearchTerm(query);
 
-//     return searchMessages(normalized);
-//   } catch (e) {
-//     return [];
-//   }
-// }
+    return searchMessages(normalized);
+  } catch (e) {
+    return [];
+  }
+}
 
 async function queryConversationsAndContacts(
   providedQuery: string,
@@ -204,10 +206,9 @@ async function queryConversationsAndContacts(
       } else {
         conversations.push(primaryDevice);
       }
-    } else if (
-      conversation.type === 'direct' &&
-      !Boolean(conversation.lastMessage)
-    ) {
+    } else if (conversation.type === 'direct') {
+      contacts.push(conversation.id);
+    } else if (conversation.type !== 'group') {
       contacts.push(conversation.id);
     } else {
       conversations.push(conversation.id);
@@ -262,17 +263,28 @@ export function reducer(
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, messages } = payload;
+    const {
+      query,
+      messages,
+      normalizedPhoneNumber,
+      conversations,
+      contacts,
+    } = payload;
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
     }
+    const filteredMessage = messages.filter(message => message !== undefined);
 
     return {
       ...state,
-      ...payload,
-      messageLookup: makeLookup(messages, 'id'),
+      query,
+      normalizedPhoneNumber,
+      conversations,
+      contacts,
+      messages: filteredMessage,
+      messageLookup: makeLookup(filteredMessage, 'id'),
     };
   }
 

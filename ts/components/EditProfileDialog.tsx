@@ -2,6 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 import { Avatar } from './Avatar';
 
+import { SessionButton, SessionButtonColor } from './session/SessionButton';
+import {
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from './session/icon';
+import { SessionModal } from './session/SessionModal';
+
 declare global {
   interface Window {
     displayNameRegex: any;
@@ -63,11 +71,15 @@ export class EditProfileDialog extends React.Component<Props, State> {
     );
 
     return (
-      <div className="content">
+      <SessionModal
+        title={i18n('editProfileModalTitle')}
+        onOk={this.onClickOK}
+        onClose={this.closeDialog}
+      >
         <div className="avatar-center">
           <div className="avatar-center-inner">
             {this.renderAvatar()}
-            <div className="upload-btn-background">
+            <div className="image-upload-section">
               <input
                 type="file"
                 ref={this.inputEl}
@@ -76,9 +88,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
                 name="name"
                 onChange={this.onFileSelected}
               />
-              <div
-                role="button"
-                className={'module-message__buttons__upload'}
+
+              <SessionIconButton
+                iconType={SessionIconType.Upload}
+                iconSize={SessionIconSize.Huge}
                 onClick={() => {
                   const el = this.inputEl.current;
                   if (el) {
@@ -89,6 +102,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
             </div>
           </div>
         </div>
+
+        <div className="spacer md" />
+
         <input
           type="text"
           className="profile-name"
@@ -101,15 +117,22 @@ export class EditProfileDialog extends React.Component<Props, State> {
         />
         <div className="message">{i18n('editProfileDisplayNameWarning')}</div>
         <span className={errorMessageClasses}>{this.state.errorMessage}</span>
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {cancelText}
-          </button>
-          <button className="ok" tabIndex={0} onClick={this.onClickOK}>
-            {okText}
-          </button>
+
+        <div className="spacer-lg" />
+
+        <div className="session-modal__button-group">
+          <SessionButton
+            text={okText}
+            buttonColor={SessionButtonColor.Secondary}
+            onClick={this.onClickOK}
+          />
+          <SessionButton
+            text={cancelText}
+            buttonColor={SessionButtonColor.Primary}
+            onClick={this.closeDialog}
+          />
         </div>
-      </div>
+      </SessionModal>
     );
   }
 

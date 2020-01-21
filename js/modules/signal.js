@@ -19,6 +19,9 @@ const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
 const {
+  ConversationLoadingScreen,
+} = require('../../ts/components/ConversationLoadingScreen');
+const {
   AttachmentList,
 } = require('../../ts/components/conversation/AttachmentList');
 const { CaptionEditor } = require('../../ts/components/CaptionEditor');
@@ -31,6 +34,9 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
+  SessionChannelSettings,
+} = require('../../ts/components/session/SessionChannelSettings');
+const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
@@ -42,7 +48,6 @@ const {
 } = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
 const { LightboxGallery } = require('../../ts/components/LightboxGallery');
-const { MainHeader } = require('../../ts/components/MainHeader');
 const { MemberList } = require('../../ts/components/conversation/MemberList');
 const { BulkEdit } = require('../../ts/components/conversation/BulkEdit');
 const {
@@ -50,6 +55,36 @@ const {
 } = require('../../ts/components/conversation/CreateGroupDialog');
 const { EditProfileDialog } = require('../../ts/components/EditProfileDialog');
 const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
+const {
+  DevicePairingDialog,
+} = require('../../ts/components/DevicePairingDialog');
+const {
+  SessionSettings,
+} = require('../../ts/components/session/SessionSettings');
+const { SessionToast } = require('../../ts/components/session/SessionToast');
+const { SessionToggle } = require('../../ts/components/session/SessionToggle');
+const { SessionModal } = require('../../ts/components/session/SessionModal');
+const {
+  SessionQRModal,
+} = require('../../ts/components/session/SessionQRModal');
+const {
+  SessionSeedModal,
+} = require('../../ts/components/session/SessionSeedModal');
+
+const {
+  SessionPasswordModal,
+} = require('../../ts/components/session/SessionPasswordModal');
+
+const {
+  SessionConfirm,
+} = require('../../ts/components/session/SessionConfirm');
+
+const {
+  SessionDropdown,
+} = require('../../ts/components/session/SessionDropdown');
+const {
+  SessionRegistrationView,
+} = require('../../ts/components/session/SessionRegistrationView');
 
 const {
   UpdateGroupDialog,
@@ -230,23 +265,27 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
+    ConversationLoadingScreen,
     AttachmentList,
     CaptionEditor,
     ContactDetail,
     ContactListItem,
     ContactName,
     ConversationHeader,
+    SessionChannelSettings,
+    SessionSettings,
     EmbeddedContact,
     Emojify,
     FriendRequest,
     GroupNotification,
     Lightbox,
     LightboxGallery,
-    MainHeader,
     MemberList,
     CreateGroupDialog,
     EditProfileDialog,
     UserDetailsDialog,
+    DevicePairingDialog,
+    SessionRegistrationView,
     ConfirmDialog,
     UpdateGroupDialog,
     InviteFriendsDialog,
@@ -254,6 +293,14 @@ exports.setup = (options = {}) => {
     RemoveModeratorsDialog,
     GroupInvitation,
     BulkEdit,
+    SessionToast,
+    SessionToggle,
+    SessionConfirm,
+    SessionModal,
+    SessionQRModal,
+    SessionSeedModal,
+    SessionPasswordModal,
+    SessionDropdown,
     MediaGallery,
     Message,
     MessageBody,

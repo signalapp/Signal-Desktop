@@ -61,16 +61,14 @@
     onSafetyNumberChanged() {
       this.model.getProfiles().then(this.loadKeys.bind(this));
 
-      const dialog = new Whisper.ConfirmationDialogView({
+      window.confirmationDialog({
+        title: i18n('changedSinceVerifiedTitle'),
         message: i18n('changedRightAfterVerify', [
           this.model.getTitle(),
           this.model.getTitle(),
         ]),
         hideCancel: true,
       });
-
-      dialog.$el.insertBefore(this.el);
-      dialog.focusCancel();
     },
     toggleVerified() {
       this.$('button.verify').attr('disabled', true);

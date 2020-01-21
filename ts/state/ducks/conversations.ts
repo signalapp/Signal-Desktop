@@ -53,6 +53,8 @@ export type ConversationType = {
   isSelected: boolean;
   isTyping: boolean;
   isFriend?: boolean;
+  hasReceivedFriendRequest?: boolean;
+  hasSentFriendRequest?: boolean;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

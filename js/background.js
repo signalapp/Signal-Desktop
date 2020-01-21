@@ -321,7 +321,7 @@
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
 
-      getThemeSetting: () => storage.get('theme-setting', 'light'),
+      getThemeSetting: () => storage.get('theme-setting', 'dark'),
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
@@ -816,6 +816,130 @@
       appView.openConversation(groupId, {});
     };
 
+    window.confirmationDialog = params => {
+      const confirmDialog = new Whisper.SessionConfirmView({
+        el: $('#session-confirm-container'),
+        title: params.title,
+        message: params.message,
+        messageSub: params.messageSub || undefined,
+        resolve: params.resolve || undefined,
+        reject: params.reject || undefined,
+        okText: params.okText || undefined,
+        okTheme: params.okTheme || undefined,
+        closeTheme: params.closeTheme || undefined,
+        cancelText: params.cancelText || undefined,
+        hideCancel: params.hideCancel || false,
+      });
+
+      confirmDialog.render();
+    };
+
+    window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
+    window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
+
+    window.generateID = () =>
+      Math.random()
+        .toString(36)
+        .substring(3);
+
+    window.toasts = new Map();
+    window.pushToast = options => {
+      // Setting toasts with the same ID can be used to prevent identical
+      // toasts from appearing at once (stacking).
+      // If toast already exists, it will be reloaded (updated)
+
+      const params = {
+        title: options.title,
+        id: options.id || window.generateID(),
+        description: options.description || '',
+        type: options.type || '',
+        icon: options.icon || '',
+        shouldFade: options.shouldFade,
+      };
+
+      // Give all toasts an ID. User may define.
+      let currentToast;
+      const toastID = params.id;
+      const toast = !!toastID && window.toasts.get(toastID);
+      if (toast) {
+        currentToast = window.toasts.get(toastID);
+        currentToast.update(params);
+      } else {
+        // Make new Toast
+        window.toasts.set(
+          toastID,
+          new Whisper.SessionToastView({
+            el: $('#session-toast-container'),
+          })
+        );
+
+        currentToast = window.toasts.get(toastID);
+        currentToast.render();
+        currentToast.update(params);
+      }
+
+      // Remove some toasts if too many exist
+      const maxToasts = 6;
+      while (window.toasts.size > maxToasts) {
+        const finalToastID = window.toasts.keys().next().value;
+        window.toasts.get(finalToastID).fadeToast();
+      }
+
+      return toastID;
+    };
+
+    window.deleteAccount = async () => {
+      try {
+        window.log.info('Deleting everything!');
+
+        const { Logs } = window.Signal;
+        await Logs.deleteAll();
+
+        await window.Signal.Data.removeAll();
+        await window.Signal.Data.close();
+        await window.Signal.Data.removeDB();
+
+        await window.Signal.Data.removeOtherData();
+      } catch (error) {
+        window.log.error(
+          'Something went wrong deleting all data:',
+          error && error.stack ? error.stack : error
+        );
+      }
+      window.restart();
+    };
+
+    window.toggleTheme = () => {
+      const theme = window.Events.getThemeSetting();
+      const updatedTheme = theme === 'dark' ? 'light' : 'dark';
+
+      $(document.body)
+        .removeClass('dark-theme')
+        .removeClass('light-theme')
+        .addClass(`${updatedTheme}-theme`);
+      window.Events.setThemeSetting(updatedTheme);
+    };
+
+    window.toggleMenuBar = () => {
+      const newValue = !window.getSettingValue('hide-menu-bar');
+      window.Events.setHideMenuBar(newValue);
+    };
+
+    window.toggleSpellCheck = () => {
+      const newValue = !window.getSettingValue('spell-check');
+      window.Events.setSpellCheck(newValue);
+    };
+
+    window.toggleLinkPreview = () => {
+      const newValue = !window.getSettingValue('link-preview-setting');
+      window.Events.setLinkPreviewSetting(newValue);
+    };
+
+    window.toggleMediaPermissions = () => {
+      const mediaPermissions = window.getMediaPermissions();
+      window.setMediaPermissions(!mediaPermissions);
+    };
+
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
       pubkeys.forEach(async pubkey => {
         const convo = await ConversationController.getOrCreateAndWait(
@@ -925,6 +1049,12 @@
           initialLoadComplete,
         });
       }
+    });
+
+    Whisper.events.on('openInbox', () => {
+      appView.openInbox({
+        initialLoadComplete,
+      });
     });
 
     Whisper.events.on('onEditProfile', async () => {
@@ -1048,6 +1178,7 @@
           pubkey: userPubKey,
           avatarPath,
           avatarColor: conversation.getColor(),
+          isRss: conversation.isRss(),
           onStartConversation: () => {
             Whisper.events.trigger('showConversation', userPubKey);
           },
@@ -1087,23 +1218,9 @@
       }
     });
 
-    Whisper.events.on('showPasswordDialog', options => {
-      if (appView) {
-        appView.showPasswordDialog(options);
-      }
-    });
-
     Whisper.events.on('showSeedDialog', async () => {
-      const manager = await getAccountManager();
-      if (appView && manager) {
-        const seed = manager.getCurrentMnemonic();
-        appView.showSeedDialog(seed);
-      }
-    });
-
-    Whisper.events.on('showAddServerDialog', async options => {
       if (appView) {
-        appView.showAddServerDialog(options);
+        appView.showSeedDialog();
       }
     });
 
@@ -1114,9 +1231,9 @@
       }
     });
 
-    Whisper.events.on('showDevicePairingDialog', async () => {
+    Whisper.events.on('showDevicePairingDialog', async (options = {}) => {
       if (appView) {
-        appView.showDevicePairingDialog();
+        appView.showDevicePairingDialog(options);
       }
     });
 
@@ -1185,6 +1302,7 @@
       await window.lokiFileServerAPI.updateOurDeviceMapping();
       // TODO: we should ensure the message was sent and retry automatically if not
       await libloki.api.sendUnpairingMessageToSecondary(pubKey);
+      Whisper.events.trigger('refreshLinkedDeviceList');
     });
   }
 

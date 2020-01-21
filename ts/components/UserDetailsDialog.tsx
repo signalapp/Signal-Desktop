@@ -1,14 +1,17 @@
 import React from 'react';
 import { Avatar } from './Avatar';
 
-declare global {
-  interface Window {
-    displayNameRegex: any;
-  }
-}
+import { SessionModal } from './session/SessionModal';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './session/SessionButton';
+import { SessionIdEditable } from './session/SessionIdEditable';
 
 interface Props {
   i18n: any;
+  isRss: boolean;
   profileName: string;
   avatarPath: string;
   avatarColor: string;
@@ -22,7 +25,6 @@ interface State {
 }
 
 export class UserDetailsDialog extends React.Component<Props, State> {
-  private modalRef: any;
 
   constructor(props: any) {
     super(props);
@@ -31,48 +33,34 @@ export class UserDetailsDialog extends React.Component<Props, State> {
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onClickStartConversation = this.onClickStartConversation.bind(this);
     window.addEventListener('keyup', this.onKeyUp);
-    this.modalRef = React.createRef();
     this.state = { isEnlargedImageShown: false };
   }
 
-  public componentWillMount() {
-    document.addEventListener('mousedown', this.handleClick, false);
-  }
-
-  public componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false);
-  }
-
   public render() {
-    const i18n = this.props.i18n;
-
-    const cancelText = i18n('cancel');
-    const startConversation = i18n('startConversation');
+    const { i18n, isRss } = this.props;
 
     return (
-      <div ref={element => (this.modalRef = element)}>
-        <div className="content">
-          <div className="avatar-center">
-            <div className="avatar-center-inner">{this.renderAvatar()}</div>
-          </div>
-          <div className="profile-name">{this.props.profileName}</div>
-          <div className="message">{this.props.pubkey}</div>
-
-          <div className="buttons">
-            <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-              {cancelText}
-            </button>
-
-            <button
-              className="ok"
-              tabIndex={0}
-              onClick={this.onClickStartConversation}
-            >
-              {startConversation}
-            </button>
-          </div>
+      <SessionModal
+        title={this.props.profileName}
+        onOk={() => null}
+        onClose={this.closeDialog}
+      >
+        <div className="avatar-center">
+          <div className="avatar-center-inner">{this.renderAvatar()}</div>
         </div>
-      </div>
+        <SessionIdEditable editable={false} text={this.props.pubkey} />
+
+        <div className="session-modal__button-group__center">
+          {!isRss && (
+            <SessionButton
+              text={i18n('startConversation')}
+              buttonType={SessionButtonType.Default}
+              buttonColor={SessionButtonColor.Primary}
+              onClick={this.onClickStartConversation}
+            />
+          )}
+        </div>
+      </SessionModal>
     );
   }
 
@@ -123,11 +111,4 @@ export class UserDetailsDialog extends React.Component<Props, State> {
     this.props.onStartConversation();
     this.closeDialog();
   }
-
-  private readonly handleClick = (e: any) => {
-    if (this.modalRef.contains(e.target)) {
-      return;
-    }
-    this.closeDialog();
-  };
 }

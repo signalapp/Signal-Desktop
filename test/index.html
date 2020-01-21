@@ -19,24 +19,13 @@
 
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
-      <img src='/images/loki/loki_icon_128.png' height='150'>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
-      </div>
-      <div class='message'>{{ message }}</div>
+      <img src='images/session/full-logo.svg' class='session-full-logo' />
     </div>
   </script>
 
   <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
     <div class='content'>
-      <img src='/images/loki/loki_icon_128.png'>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
-      </div>
+      <img src='images/session/full-logo.svg' class='session-full-logo' />
     </div>
   </script>
 
@@ -50,9 +39,7 @@
         <div class='conversation-header'></div>
         <div class='container'>
           <div class='content'>
-            <img src='/images/loki/loki_icon_128.png' />
-            <h3>{{ welcomeToSignal }}</h3>
-            <p>{{ selectAContact }}</p>
+            <img src='images/session/full-logo.svg' class='session-full-logo' />
           </div>
         </div>
       </div>
@@ -305,16 +292,7 @@
       </div>
     {{/action }}
   </script>
-  <script type='text/x-tmpl-mustache' id='main-header-placeholder'>
-    <div class='main-header-title-wrapper'>
-      <div class='main-header-content-toggle'/>
-    </div>
-    <div class='main-header-content-wrapper'>
-      {{ #items }}
-        <div role='button' id='{{ id }}'>{{ text }}</div>
-      {{ /items }}
-    </div>
-  </script>
+  
 
   <script type='text/x-tmpl-mustache' id='import-flow-template'>
     {{#isStep2}}
@@ -550,7 +528,6 @@
   <script type='text/javascript' src='../js/views/file_input_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/contact_list_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/main_header_view.js'></script>
   <script type='text/javascript' src='../js/views/timestamp_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/message_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/key_verification_view.js' data-cover></script>
@@ -561,7 +538,6 @@
   <script type='text/javascript' src='../js/views/recorder_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/conversation_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/hint_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/main_header_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>

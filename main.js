@@ -233,7 +233,7 @@ function createWindow() {
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
       },
-      icon: path.join(__dirname, 'images', 'icon_256.png'),
+      icon: path.join(__dirname, 'images', 'session', 'icon_64.png'),
     },
     _.pick(windowConfig, [
       'maximized',
@@ -282,6 +282,8 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  // Disable system main menu
+  mainWindow.setMenu(null);
 
   function captureAndSaveWindowStats() {
     if (!mainWindow) {
