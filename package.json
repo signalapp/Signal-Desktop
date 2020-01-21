@@ -1,6 +1,6 @@
 {
   "name": "loki-messenger-desktop",
-  "productName": "Signal Messenger",
+  "productName": "Session Messenger",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/loki-project/loki-messenger.git",
   "version": "1.0.0-beta9",
@@ -240,7 +240,7 @@
     "linux": {
       "category": "Network",
       "desktop": {
-        "StartupWMClass": "Signal Messenger"
+        "StartupWMClass": "Session Messenger"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [

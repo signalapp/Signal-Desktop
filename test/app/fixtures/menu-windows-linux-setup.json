@@ -21,7 +21,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Signal Messenger",
+        "label": "Quit Session Messenger",
         "role": "quit"
       }
     ]
@@ -138,7 +138,7 @@
         "type": "separator"
       },
       {
-        "label": "About Signal Messenger",
+        "label": "About Session Messenger",
         "click": null
       }
     ]
