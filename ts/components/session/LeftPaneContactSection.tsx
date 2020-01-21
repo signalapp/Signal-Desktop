@@ -336,6 +336,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const { sentFriendsRequest } = this.props;
     const friends = this.getCurrentFriends();
     const length = sentFriendsRequest.length + friends.length;
+    const combined = [...sentFriendsRequest, ...friends];
 
     const list = (
       <div className="module-left-pane__list" key={0}>
@@ -345,6 +346,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
               className="module-left-pane__virtual-list"
               height={height}
               rowCount={length}
+              combined={combined}
               rowHeight={64}
               rowRenderer={this.renderRow}
               width={width}
