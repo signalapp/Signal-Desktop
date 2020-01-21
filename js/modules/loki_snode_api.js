@@ -4,7 +4,7 @@
 const is = require('@sindresorhus/is');
 const dns = require('dns');
 const process = require('process');
-const { rpc } = require('./loki_rpc');
+const { loki_rpc } = require('./loki_rpc');
 const natUpnp = require('nat-upnp');
 
 const resolve4 = url =>
@@ -94,6 +94,8 @@ class LokiSnodeAPI {
       fields: {
         public_ip: true,
         storage_port: true,
+        pubkey_x25519: true,
+        pubkey_ed25519: true,
       },
     };
     const seedNode = seedNodes.splice(
@@ -101,7 +103,8 @@ class LokiSnodeAPI {
       1
     )[0];
     try {
-      const result = await rpc(
+
+      const result = await loki_rpc(
         `http://${seedNode.ip}`,
         seedNode.port,
         'get_n_service_nodes',
@@ -116,6 +119,8 @@ class LokiSnodeAPI {
       this.randomSnodePool = snodes.map(snode => ({
         ip: snode.public_ip,
         port: snode.storage_port,
+        pubkey_x25519: snode.pubkey_x25519,
+        pubkey_ed25519: snode.pubkey_ed25519,
       }));
     } catch (e) {
       window.mixpanel.track('Seed Node Failed');
@@ -191,11 +196,12 @@ class LokiSnodeAPI {
 
   async getSwarmNodes(pubKey) {
     // TODO: Hit multiple random nodes and merge lists?
-    const { ip, port } = await this.getRandomSnodeAddress();
+    const snode = await this.getRandomSnodeAddress();
     try {
-      const result = await rpc(`https://${ip}`, port, 'get_snodes_for_pubkey', {
+
+      const result = await loki_rpc(`https://${snode.ip}`, snode.port, 'get_snodes_for_pubkey', {
         pubKey,
-      });
+      }, {}, '/storage_rpc/v1', snode);
       const snodes = result.snodes.filter(snode => snode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
