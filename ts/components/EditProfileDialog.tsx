@@ -3,7 +3,11 @@ import { QRCode } from 'react-qr-svg';
 
 import { Avatar } from './Avatar';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './session/SessionButton';
 
 import {
   SessionIconButton,
@@ -67,13 +71,18 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const viewQR = this.state.mode === 'qr';
     const sessionID = window.textsecure.storage.user.getNumber();
 
-    const backButton = (viewEdit || viewQR)
-      ? [{
-          iconType: SessionIconType.Chevron,
-          iconRotation: 90,
-          onClick: () => this.setState({mode: 'default'}),
-        }]
-      : undefined;
+    const backButton =
+      viewEdit || viewQR
+        ? [
+            {
+              iconType: SessionIconType.Chevron,
+              iconRotation: 90,
+              onClick: () => {
+                this.setState({ mode: 'default' });
+              },
+            },
+          ]
+        : undefined;
 
     return (
       <SessionModal
@@ -83,7 +92,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
         headerReverse={viewEdit || viewQR}
         headerIconButtons={backButton}
       >
-        <div className="spacer-md"></div>
+        <div className="spacer-md" />
 
         {viewQR && this.renderQRView(sessionID)}
         {viewDefault && this.renderDefaultView()}
@@ -93,18 +102,18 @@ export class EditProfileDialog extends React.Component<Props, State> {
           <div className="panel-text-divider">
             <span>{window.i18n('yourSessionID')}</span>
           </div>
-          <p className="session-id-section-display">
-            { sessionID }
-          </p>
+          <p className="session-id-section-display">{sessionID}</p>
 
-          <div className="spacer-lg"></div>
-          
-          { (viewDefault || viewQR) ? (
+          <div className="spacer-lg" />
+
+          {viewDefault || viewQR ? (
             <SessionButton
               text={window.i18n('copy')}
               buttonType={SessionButtonType.BrandOutline}
               buttonColor={SessionButtonColor.Green}
-              onClick={() => this.copySessionID(sessionID)}
+              onClick={() => {
+                this.copySessionID(sessionID);
+              }}
             />
           ) : (
             <SessionButton
@@ -115,8 +124,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             />
           )}
 
-          <div className="spacer-lg"></div>
-
+          <div className="spacer-lg" />
         </div>
       </SessionModal>
     );
@@ -130,6 +138,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             {this.renderAvatar()}
             <div
               className="image-upload-section"
+              role="button"
               onClick={() => {
                 const el = this.inputEl.current;
                 if (el) {
@@ -148,12 +157,15 @@ export class EditProfileDialog extends React.Component<Props, State> {
             </div>
             <div
               className="qr-view-button"
-              onClick={() => this.setState({mode: 'qr'})}
+              role="button"
+              onClick={() => {
+                this.setState({ mode: 'qr' });
+              }}
             >
               <SessionIconButton
                 iconType={SessionIconType.QR}
                 iconSize={SessionIconSize.Small}
-                iconColor={"#000000"}
+                iconColor={'#000000'}
               />
             </div>
           </div>
@@ -162,31 +174,31 @@ export class EditProfileDialog extends React.Component<Props, State> {
     );
   }
 
-  private renderDefaultView(){
+  private renderDefaultView() {
     return (
       <>
-        { this.renderProfileHeader() }
+        {this.renderProfileHeader()}
 
         <div className="profile-name-uneditable">
-          <p>{ this.state.setProfileName }</p>
+          <p>{this.state.setProfileName}</p>
           <SessionIconButton
             iconType={SessionIconType.Pencil}
             iconSize={SessionIconSize.Medium}
-            onClick={() => this.setState({mode: 'edit'})}
+            onClick={() => {
+              this.setState({ mode: 'edit' });
+            }}
           />
         </div>
       </>
     );
   }
 
-
-
   private renderEditView() {
     const placeholderText = window.i18n('displayName');
 
     return (
       <>
-        { this.renderProfileHeader() }
+        {this.renderProfileHeader()}
         <div className="profile-name">
           <input
             type="text"
@@ -203,13 +215,18 @@ export class EditProfileDialog extends React.Component<Props, State> {
     );
   }
 
-  private renderQRView(sessionID: string){
+  private renderQRView(sessionID: string) {
     const bgColor = '#FFFFFF';
     const fgColor = '#1B1B1B';
-    
+
     return (
       <div className="qr-image">
-        <QRCode value={sessionID} bgColor={bgColor} fgColor={fgColor} level="L" />
+        <QRCode
+          value={sessionID}
+          bgColor={bgColor}
+          fgColor={fgColor}
+          level="L"
+        />
       </div>
     );
   }

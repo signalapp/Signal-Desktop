@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
-import { SessionButton, SessionButtonType, SessionButtonColor } from './SessionButton';
+import { SessionButtonColor, SessionButtonType } from './SessionButton';
 
 interface Props {
   title: string;
@@ -11,7 +11,7 @@ interface Props {
   showExitIcon?: boolean;
   showHeader?: boolean;
   headerReverse?: boolean;
-  //Maximum of two icons in header
+  //Maximum of two icons or buttons in header
   headerIconButtons?: Array<{
     iconType: SessionIconType;
     iconRotation: number;
@@ -49,14 +49,25 @@ export class SessionModal extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const { title, headerIconButtons, showExitIcon, showHeader, headerReverse } = this.props;
+    const {
+      title,
+      headerIconButtons,
+      showExitIcon,
+      showHeader,
+      headerReverse,
+    } = this.props;
     const { isVisible } = this.state;
 
     return isVisible ? (
       <div className={'session-modal'}>
         {showHeader ? (
           <>
-            <div className={classNames("session-modal__header", headerReverse && "reverse")}>
+            <div
+              className={classNames(
+                'session-modal__header',
+                headerReverse && 'reverse'
+              )}
+            >
               <div className="session-modal__header__close">
                 {showExitIcon ? (
                   <SessionIconButton

@@ -42,7 +42,8 @@ const Section = ({
     ? () => {
         type === SectionType.Profile
           ? window.showEditProfileDialog()
-          : onSelect(type);
+          : /* tslint:disable-next-line:no-void-expression */
+            onSelect(type);
       }
     : undefined;
 

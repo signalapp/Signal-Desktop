@@ -219,6 +219,10 @@ $session_message-container-border-radius: 5px;
   margin-right: 5px;
 }
 
+.message-wrapper {
+  font-family: 'SF Pro Text';
+}
+
 .session-button {
   @mixin transparent-background($textAndBorderColor) {
     background-color: Transparent;
@@ -870,7 +874,7 @@ label {
       height: 68.45px;
     }
   }
-  
+
   .avatar-center-inner {
     position: relative;
 
@@ -891,8 +895,8 @@ label {
       padding-top: 3px;
       background-color: $session-color-white;
       transition: $session-transition-duration;
-  
-      &:hover{
+
+      &:hover {
         filter: brightness(90%);
       }
 
@@ -900,7 +904,7 @@ label {
         opacity: 1;
       }
     }
-  } 
+  }
 
   .image-upload-section {
     display: flex;
@@ -912,15 +916,15 @@ label {
     height: 80px;
     border-radius: 100%;
     background-color: rgba($session-color-black, 0.72);
-    box-shadow: 0px 0px 3px 0.5px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 3px 0.5px rgba(0, 0, 0, 0.75);
     opacity: 0;
     transition: $session-transition-duration;
 
-    &:after{
-      content: "Edit";
+    &:after {
+      content: 'Edit';
     }
 
-    &:hover{
+    &:hover {
       opacity: 1;
     }
   }
@@ -939,21 +943,29 @@ label {
   }
 
   .session-id-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     .panel-text-divider {
       margin-top: 35px;
       margin-bottom: 35px;
     }
 
-    &-display{
+    &-display {
       text-align: center;
       word-break: break-all;
       font-size: $session-font-md;
       padding: 0px $session-margin-lg;
-      font-family: "SF Pro Text";
+      font-family: 'SF Pro Text';
       font-weight: 100;
-      color: rgba($session-color-white, 0.80);
+      color: rgba($session-color-white, 0.8);
       font-size: $session-font-md;
       padding: 0px $session-margin-sm;
+    }
+    
+    .session-button {
+      width: 148px;
     }
   }
 
@@ -970,7 +982,7 @@ label {
       font-size: $session-font-md;
       background-color: $session-shade-5 !important;
     }
-    
+
     &-uneditable {
       display: flex;
       align-items: center;
@@ -981,7 +993,6 @@ label {
         font-size: $session-font-md;
         padding: 0px $session-margin-sm;
       }
-
     }
   }
 }

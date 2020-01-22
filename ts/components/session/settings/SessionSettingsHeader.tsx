@@ -4,19 +4,19 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 import { SessionButton } from '../SessionButton';
 
-interface Props extends SettingsViewProps{
+interface Props extends SettingsViewProps {
   disableLinkDeviceButton: boolean | null;
 }
 
 export class SettingsHeader extends React.Component<Props, any> {
   public static defaultProps = {
     disableLinkDeviceButton: true,
-  }
+  };
 
   public constructor(props: any) {
     super(props);
     this.state = {
-    disableLinkDeviceButton: this.props.disableLinkDeviceButton,
+      disableLinkDeviceButton: this.props.disableLinkDeviceButton,
     };
     this.showAddLinkedDeviceModal = this.showAddLinkedDeviceModal.bind(this);
   }
