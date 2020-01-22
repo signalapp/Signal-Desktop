@@ -1,4 +1,6 @@
 interface Window {
+  versionInfo: any;
+
   Events: any;
   deleteAllData: any;
   getAccountManager: any;

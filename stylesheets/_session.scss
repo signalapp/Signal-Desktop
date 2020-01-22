@@ -1130,6 +1130,22 @@ label {
     }
   }
 
+  &-view {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__version-info {
+    display: flex;
+    justify-content: space-between;
+    opacity: 0.4;
+    padding: $session-margin-sm $session-margin-md;
+    background-color: $session-shade-5;
+    font-size: $session-font-xs;
+  }
+
   &__password-lock {
     display: flex;
     align-items: center;
@@ -1272,7 +1288,6 @@ label {
     background-color: $session-color-white;
     border-color: $session-color-white;
   }
-
 }
 .user-details-dialog {
   .session-id-editable {

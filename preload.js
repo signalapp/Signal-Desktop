@@ -59,6 +59,13 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
+window.versionInfo = {
+  environment: window.getEnvironment(),
+  version: window.getVersion(),
+  commitHash: window.getCommitHash(),
+  appInstance: window.getAppInstance(),
+};
+
 // temporary clearnet fix
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 window.getSelfSignedCert = () => {

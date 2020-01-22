@@ -220,13 +220,25 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           showLinkDeviceButton={!shouldRenderPasswordLock}
           category={category}
         />
-        {shouldRenderPasswordLock ? (
-          this.renderPasswordLock()
-        ) : (
-          <div ref={this.settingsViewRef} className="session-settings-list">
-            {this.renderSettingInCategory()}
-          </div>
-        )}
+        <div className="session-settings-view">
+          {shouldRenderPasswordLock ? (
+            this.renderPasswordLock()
+          ) : (
+            <div ref={this.settingsViewRef} className="session-settings-list">
+              {this.renderSettingInCategory()}
+            </div>
+          )}
+          {this.renderSessionInfo()}
+        </div>
+      </div>
+    );
+  }
+
+  public renderSessionInfo(): JSX.Element {
+    return (
+      <div className="session-settings__version-info">
+        <span>v{window.versionInfo.version}</span>
+        <span>{window.versionInfo.commitHash}</span>
       </div>
     );
   }

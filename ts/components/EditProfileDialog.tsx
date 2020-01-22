@@ -157,15 +157,14 @@ export class EditProfileDialog extends React.Component<Props, State> {
             </div>
             <div
               className="qr-view-button"
-              role="button"
-              onClick={() => {
-                this.setState({ mode: 'qr' });
-              }}
             >
               <SessionIconButton
                 iconType={SessionIconType.QR}
                 iconSize={SessionIconSize.Small}
                 iconColor={'#000000'}
+                onClick={() => {
+                  this.setState({ mode: 'qr' });
+                }}
               />
             </div>
           </div>
