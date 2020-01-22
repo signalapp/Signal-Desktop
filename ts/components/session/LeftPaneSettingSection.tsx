@@ -30,7 +30,6 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     };
 
     this.setCategory = this.setCategory.bind(this);
-    this.renderRows = this.renderRows.bind(this);
   }
 
   public componentDidMount() {
@@ -62,53 +61,45 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     );
   }
 
-  public renderRows(): JSX.Element {
-    const categories = this.getCategories();
-
+  public renderRow(item: any): JSX.Element {
     return (
-      <>
-        {categories.map(item => (
-          <>
-            {!item.hidden && (
-              <div
-                key={item.id}
-                className={classNames(
-                  'left-pane-setting-category-list-item',
-                  item.id === this.state.settingCategory ? 'active' : ''
-                )}
-                role="link"
-                onClick={() => {
-                  this.setCategory(item.id);
-                }}
-              >
-                <div>
-                  <strong>{item.title}</strong>
-                  <br />
-                  <span className="text-subtle">{item.description}</span>
-                </div>
+      <div
+        key={item.id}
+        className={classNames(
+          'left-pane-setting-category-list-item',
+          item.id === this.state.settingCategory ? 'active' : ''
+        )}
+        role="link"
+        onClick={() => {
+          this.setCategory(item.id);
+        }}
+      >
+        <div>
+          <strong>{item.title}</strong>
+          <br />
+          <span className="text-subtle">{item.description}</span>
+        </div>
 
-                <div>
-                  {item.id === this.state.settingCategory && (
-                    <SessionIcon
-                      iconSize={SessionIconSize.Medium}
-                      iconType={SessionIconType.Chevron}
-                      iconRotation={270}
-                    />
-                  )}
-                </div>
-              </div>
-            )}
-          </>
-        ))}
-      </>
+        <div>
+          {item.id === this.state.settingCategory && (
+            <SessionIcon
+              iconSize={SessionIconSize.Medium}
+              iconType={SessionIconType.Chevron}
+              iconRotation={270}
+            />
+          )}
+        </div>
+      </div>
     );
   }
 
   public renderCategories(): JSX.Element {
+    const categories = this.getCategories().filter(item => !item.hidden);
+
     return (
       <div className="module-left-pane__list" key={0}>
         <div className="left-pane-setting-category-list">
-          {this.renderRows()}
+          {categories.map(item => this.renderRow(item))};
         </div>
       </div>
     );
