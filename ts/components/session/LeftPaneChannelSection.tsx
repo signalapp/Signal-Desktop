@@ -170,9 +170,15 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     return LeftPane.RENDER_HEADER(labels, null);
   }
 
-  public render(): JSX.Element {
+  public componentDidMount() {
     MainViewController.renderMessageView();
+  }
 
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
+  }
+
+  public render(): JSX.Element {
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}

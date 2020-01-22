@@ -25,7 +25,6 @@ interface State {
 }
 
 export class UserDetailsDialog extends React.Component<Props, State> {
-
   constructor(props: any) {
     super(props);
 

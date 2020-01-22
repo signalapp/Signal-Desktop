@@ -28,8 +28,10 @@ interface Window {
   pushToast: any;
 
   confirmationDialog: any;
+  showQRDialog: any;
   showSeedDialog: any;
   showPasswordDialog: any;
+  showEditProfileDialog: any;
 
   deleteAccount: any;
 

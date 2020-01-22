@@ -25,7 +25,7 @@
     },
     applyTheme() {
       const iOS = storage.get('userAgent') === 'OWI';
-      const theme = storage.get('theme-setting') || 'dark';
+      const theme = 'dark'; // storage.get('theme-setting') || 'dark';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
@@ -38,7 +38,7 @@
       }
     },
     applyHideMenu() {
-      const hideMenuBar = storage.get('hide-menu-bar', false);
+      const hideMenuBar = storage.get('hide-menu-bar', true);
       window.setAutoHideMenuBar(hideMenuBar);
       window.setMenuBarVisibility(!hideMenuBar);
     },

@@ -145,6 +145,14 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     return [list];
   }
 
+  public componentDidMount() {
+    MainViewController.renderMessageView();
+  }
+
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
+  }
+
   public renderHeader(): JSX.Element {
     const labels = [window.i18n('messagesHeader')];
 
@@ -157,8 +165,6 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   }
 
   public render(): JSX.Element {
-    MainViewController.renderMessageView();
-
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}

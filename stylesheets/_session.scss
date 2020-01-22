@@ -27,7 +27,7 @@
   font-weight: bold;
 }
 @font-face {
-  font-family: 'SFPro';
+  font-family: 'SF Pro Text';
   src: url('../fonts/SFProText-Regular.ttf') format('truetype');
 }
 
@@ -86,6 +86,12 @@ $session-margin-xs: 5px;
 $session-margin-sm: 10px;
 $session-margin-md: 15px;
 $session-margin-lg: 20px;
+
+$session-font-xs: 11px;
+$session-font-sm: 13px;
+$session-font-md: 15px;
+$session-font-lg: 18px;
+$session-font-xl: 24px;
 
 $session-search-input-height: 34px;
 $main-view-header-height: 85px;
@@ -322,7 +328,7 @@ $session_message-container-border-radius: 5px;
     height: 45px;
     line-height: 40px;
     padding: 0;
-    font-size: 15px;
+    font-size: $session-font-md;
     font-family: $session-font-family;
     border-radius: 500px;
 
@@ -340,7 +346,7 @@ $session_message-container-border-radius: 5px;
     height: 33px;
     padding: 0px 18px;
     line-height: 33px;
-    font-size: 13px;
+    font-size: $session-font-sm;
   }
 
   &.square,
@@ -415,7 +421,7 @@ $session_message-container-border-radius: 5px;
 
   .notification-count {
     position: absolute;
-    font-size: 12px;
+    font-size: $session-font-xs;
     font-family: $session-font-family;
     top: 20px;
     right: 20px;
@@ -581,8 +587,8 @@ label {
   }
 
   .title {
-    font-size: 15px;
-    line-height: 13px;
+    font-size: $session-font-md;
+    line-height: $session-font-sm;
     margin-bottom: $session-margin-sm;
     padding-top: 0px;
     color: $session-color-white;
@@ -590,7 +596,7 @@ label {
   }
 
   .description {
-    font-size: 12px;
+    font-size: $session-font-xs;
     @include session-color-subtle($session-color-white);
   }
 
@@ -640,14 +646,29 @@ label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 
     padding: $session-margin-lg;
 
     font-family: 'Wasa';
     text-align: center;
     line-height: 18px;
-    font-size: 15px;
+    font-size: $session-font-md;
     font-weight: 700;
+
+    &.reverse {
+      flex-direction: row-reverse;
+
+      .session-modal__header__close > div {
+        float: right;
+      }
+
+      .session-modal__header__icons > div {
+        float: left;
+        padding-left: 0px;
+        padding-right: 10px;
+      }
+    }
 
     &__icons,
     &__close {
@@ -668,8 +689,8 @@ label {
   &__body {
     padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
     font-family: 'Wasa';
-    line-height: 16px;
-    font-size: 13px;
+    line-height: $session-font-md;
+    font-size: $session-font-sm;
 
     .message {
       text-align: center;
@@ -703,7 +724,7 @@ label {
 
     font-family: monospace;
     font-style: normal;
-    font-size: 11px;
+    font-size: $session-font-xs;
   }
 }
 
@@ -715,7 +736,7 @@ label {
   }
 
   &-main-message {
-    font-size: 15px;
+    font-size: $session-font-md;
   }
   &-sub-message {
     margin-top: 5px;
@@ -775,7 +796,7 @@ label {
 
   color: $session-color-white;
   font-family: 'Wasa';
-  font-size: 12px;
+  font-size: $session-font-sm;
   line-height: $session-icon-size-sm;
   font-weight: 700;
 
@@ -811,7 +832,7 @@ label {
 
       color: $session-color-white;
       font-family: 'Wasa';
-      font-size: 10px;
+      font-size: $session-font-xs;
       line-height: $session-icon-size-sm;
       font-weight: 700;
 
@@ -837,10 +858,139 @@ label {
   }
 }
 
-.edit-profile-dialog .image-upload-section {
-  position: absolute;
-  margin-top: 50px;
-  margin-left: 75px;
+.edit-profile-dialog {
+  .session-modal__header__title {
+    font-size: $session-font-lg;
+  }
+
+  .session-modal {
+    width: $session-modal-size-md;
+
+    &__header {
+      height: 68.45px;
+    }
+  }
+
+  .avatar-center-inner {
+    position: relative;
+
+    .module-avatar {
+      box-shadow: 0 0 23px 0 rgba($session-color-black, 0.78);
+    }
+
+    .qr-view-button {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: -3px;
+      height: 26px;
+      width: 26px;
+      border-radius: 50%;
+      padding-top: 3px;
+      background-color: $session-color-white;
+      transition: $session-transition-duration;
+
+      &:hover {
+        filter: brightness(90%);
+      }
+
+      .session-icon-button {
+        opacity: 1;
+      }
+    }
+  }
+
+  .image-upload-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    background-color: rgba($session-color-black, 0.72);
+    box-shadow: 0px 0px 3px 0.5px rgba(0, 0, 0, 0.75);
+    opacity: 0;
+    transition: $session-transition-duration;
+
+    &:after {
+      content: 'Edit';
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .qr-image {
+    display: flex;
+    justify-content: center;
+
+    svg {
+      width: 135px;
+      height: 135px;
+      border-radius: 3px;
+      padding: $session-margin-xs;
+      background-color: $session-color-white;
+    }
+  }
+
+  .session-id-section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .panel-text-divider {
+      margin-top: 35px;
+      margin-bottom: 35px;
+    }
+
+    &-display {
+      text-align: center;
+      word-break: break-all;
+      font-size: $session-font-md;
+      padding: 0px $session-margin-lg;
+      font-family: 'SF Pro Text';
+      font-weight: 100;
+      color: rgba($session-color-white, 0.8);
+      font-size: $session-font-md;
+      padding: 0px $session-margin-sm;
+    }
+
+    .session-button {
+      width: 148px;
+    }
+  }
+
+  .profile-name {
+    display: flex;
+    justify-content: center;
+    margin-top: $session-margin-lg;
+
+    &-input {
+      height: 38px;
+      width: 142px;
+      border-radius: 5px;
+      text-align: center;
+      font-size: $session-font-md;
+      background-color: $session-shade-5 !important;
+    }
+
+    &-uneditable {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: $session-margin-lg;
+
+      p {
+        font-size: $session-font-md;
+        padding: 0px $session-margin-sm;
+      }
+    }
+  }
 }
 
 .conversation-loader {
@@ -932,7 +1082,7 @@ label {
     &-title {
       line-height: $main-view-header-height;
       font-weight: bold;
-      font-size: 18px;
+      font-size: $session-font-lg;
       text-align: center;
       flex-grow: 1;
     }
@@ -944,7 +1094,7 @@ label {
   }
 
   &-item {
-    font-size: 15px;
+    font-size: $session-font-md;
     color: $session-color-white;
     background-color: $session-shade-1;
 
@@ -963,12 +1113,12 @@ label {
 
     &__title {
       line-height: 1.7;
-      font-size: 16px;
+      font-size: $session-font-lg;
       font-weight: bold;
     }
 
     &__description {
-      font-size: 13px;
+      font-size: $session-font-sm;
       font-weight: 100;
       @include session-color-subtle($session-color-white);
     }
@@ -1014,7 +1164,7 @@ label {
         border: none;
         border-radius: 2px;
         text-align: center;
-        font-size: 25px;
+        font-size: $session-font-xl;
         letter-spacing: 5px;
         font-family: 'SF Pro Text';
       }
@@ -1025,6 +1175,8 @@ label {
 #qr svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
+  padding: $session-margin-xs;
+  background-color: $session-color-white;
   border-radius: 3px;
 }
 
@@ -1048,7 +1200,7 @@ label {
 
 .discussion-container {
   .module-message {
-    font-family: SFPro;
+    font-family: 'SF Pro Text';
     border-radius: 5px;
   }
 }
@@ -1059,7 +1211,7 @@ label {
   border: none;
   margin: 0px;
   padding: 0px $session-margin-lg;
-  font-size: 15px;
+  font-size: $session-font-md;
   line-height: 60px;
 
   @include session-color-subtle($session-color-white);
@@ -1120,10 +1272,6 @@ label {
     background-color: $session-color-white;
     border-color: $session-color-white;
   }
-
-  label:before {
-    transition: all $session-transition-duration ease;
-  }
 }
 .user-details-dialog {
   .session-id-editable {
@@ -1173,7 +1321,7 @@ input {
     width: 600px;
 
     &__header {
-      font-size: 17px;
+      font-size: $session-font-lg;
     }
 
     &__body > div:first-child {

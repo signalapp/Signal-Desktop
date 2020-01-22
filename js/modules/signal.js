@@ -59,8 +59,8 @@ const {
   DevicePairingDialog,
 } = require('../../ts/components/DevicePairingDialog');
 const {
-  SessionSettings,
-} = require('../../ts/components/session/SessionSettings');
+  SettingsView,
+} = require('../../ts/components/session/settings/SessionSettings');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
@@ -273,7 +273,7 @@ exports.setup = (options = {}) => {
     ContactName,
     ConversationHeader,
     SessionChannelSettings,
-    SessionSettings,
+    SettingsView,
     EmbeddedContact,
     Emojify,
     FriendRequest,

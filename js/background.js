@@ -321,7 +321,7 @@
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
 
-      getThemeSetting: () => storage.get('theme-setting', 'dark'),
+      getThemeSetting: () => 'dark', // storage.get('theme-setting', 'dark')
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
@@ -834,8 +834,106 @@
       confirmDialog.render();
     };
 
+    window.showQRDialog = window.owsDesktopApp.appView.showQRDialog;
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
     window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
+    window.showEditProfileDialog = async () => {
+      const ourNumber = window.storage.get('primaryDevicePubKey');
+      const conversation = await ConversationController.getOrCreateAndWait(
+        ourNumber,
+        'private'
+      );
+
+      const readFile = attachment =>
+        new Promise((resolve, reject) => {
+          const fileReader = new FileReader();
+          fileReader.onload = e => {
+            const data = e.target.result;
+            resolve({
+              ...attachment,
+              data,
+              size: data.byteLength,
+            });
+          };
+          fileReader.onerror = reject;
+          fileReader.onabort = reject;
+          fileReader.readAsArrayBuffer(attachment.file);
+        });
+
+      const avatarPath = conversation.getAvatarPath();
+      const profile = conversation.getLokiProfile();
+      const displayName = profile && profile.displayName;
+
+      if (appView) {
+        appView.showEditProfileDialog({
+          profileName: displayName,
+          pubkey: ourNumber,
+          avatarPath,
+          avatarColor: conversation.getColor(),
+          onOk: async (newName, avatar) => {
+            let newAvatarPath = '';
+            let url = null;
+            let profileKey = null;
+            if (avatar) {
+              const data = await readFile({ file: avatar });
+
+              // For simplicity we use the same attachment pointer that would send to
+              // others, which means we need to wait for the database response.
+              // To avoid the wait, we create a temporary url for the local image
+              // and use it until we the the response from the server
+              const tempUrl = window.URL.createObjectURL(avatar);
+              conversation.setLokiProfile({ displayName: newName });
+              conversation.set('avatar', tempUrl);
+
+              // Encrypt with a new key every time
+              profileKey = libsignal.crypto.getRandomBytes(32);
+              const encryptedData = await textsecure.crypto.encryptProfile(
+                data.data,
+                profileKey
+              );
+
+              const avatarPointer = await textsecure.messaging.uploadAvatar({
+                ...data,
+                data: encryptedData,
+                size: encryptedData.byteLength,
+              });
+
+              ({ url } = avatarPointer);
+
+              storage.put('profileKey', profileKey);
+
+              conversation.set('avatarPointer', url);
+
+              const upgraded = await Signal.Migrations.processNewAttachment({
+                isRaw: true,
+                data: data.data,
+                url,
+              });
+              newAvatarPath = upgraded.path;
+            }
+
+            // Replace our temporary image with the attachment pointer from the server:
+            conversation.set('avatar', null);
+            conversation.setLokiProfile({
+              displayName: newName,
+              avatar: newAvatarPath,
+            });
+            // inform all your registered public servers
+            // could put load on all the servers
+            // if they just keep changing their names without sending messages
+            // so we could disable this here
+            // or least it enable for the quickest response
+            window.lokiPublicChatAPI.setProfileName(newName);
+            window
+              .getConversations()
+              .filter(convo => convo.isPublic() && !convo.isRss())
+              .forEach(convo =>
+                convo.trigger('ourAvatarChanged', { url, profileKey })
+              );
+          },
+        });
+      }
+    };
 
     window.generateID = () =>
       Math.random()
@@ -921,8 +1019,13 @@
     };
 
     window.toggleMenuBar = () => {
-      const newValue = !window.getSettingValue('hide-menu-bar');
-      window.Events.setHideMenuBar(newValue);
+      const current = window.getSettingValue('hide-menu-bar');
+      if (current === undefined) {
+        window.Events.setHideMenuBar(false);
+        return;
+      }
+
+      window.Events.setHideMenuBar(!current);
     };
 
     window.toggleSpellCheck = () => {
@@ -1055,104 +1158,6 @@
       appView.openInbox({
         initialLoadComplete,
       });
-    });
-
-    Whisper.events.on('onEditProfile', async () => {
-      const ourNumber = window.storage.get('primaryDevicePubKey');
-      const conversation = await ConversationController.getOrCreateAndWait(
-        ourNumber,
-        'private'
-      );
-
-      const readFile = attachment =>
-        new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.onload = e => {
-            const data = e.target.result;
-            resolve({
-              ...attachment,
-              data,
-              size: data.byteLength,
-            });
-          };
-          fileReader.onerror = reject;
-          fileReader.onabort = reject;
-          fileReader.readAsArrayBuffer(attachment.file);
-        });
-
-      const avatarPath = conversation.getAvatarPath();
-      const profile = conversation.getLokiProfile();
-      const displayName = profile && profile.displayName;
-
-      if (appView) {
-        appView.showEditProfileDialog({
-          profileName: displayName,
-          pubkey: ourNumber,
-          avatarPath,
-          avatarColor: conversation.getColor(),
-          onOk: async (newName, avatar) => {
-            let newAvatarPath = '';
-            let url = null;
-            let profileKey = null;
-            if (avatar) {
-              const data = await readFile({ file: avatar });
-
-              // For simplicity we use the same attachment pointer that would send to
-              // others, which means we need to wait for the database response.
-              // To avoid the wait, we create a temporary url for the local image
-              // and use it until we the the response from the server
-              const tempUrl = window.URL.createObjectURL(avatar);
-              conversation.setLokiProfile({ displayName: newName });
-              conversation.set('avatar', tempUrl);
-
-              // Encrypt with a new key every time
-              profileKey = libsignal.crypto.getRandomBytes(32);
-              const encryptedData = await textsecure.crypto.encryptProfile(
-                data.data,
-                profileKey
-              );
-
-              const avatarPointer = await textsecure.messaging.uploadAvatar({
-                ...data,
-                data: encryptedData,
-                size: encryptedData.byteLength,
-              });
-
-              ({ url } = avatarPointer);
-
-              storage.put('profileKey', profileKey);
-
-              conversation.set('avatarPointer', url);
-
-              const upgraded = await Signal.Migrations.processNewAttachment({
-                isRaw: true,
-                data: data.data,
-                url,
-              });
-              newAvatarPath = upgraded.path;
-            }
-
-            // Replace our temporary image with the attachment pointer from the server:
-            conversation.set('avatar', null);
-            conversation.setLokiProfile({
-              displayName: newName,
-              avatar: newAvatarPath,
-            });
-            // inform all your registered public servers
-            // could put load on all the servers
-            // if they just keep changing their names without sending messages
-            // so we could disable this here
-            // or least it enable for the quickest response
-            window.lokiPublicChatAPI.setProfileName(newName);
-            window
-              .getConversations()
-              .filter(convo => convo.isPublic() && !convo.isRss())
-              .forEach(convo =>
-                convo.trigger('ourAvatarChanged', { url, profileKey })
-              );
-          },
-        });
-      }
     });
 
     Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {

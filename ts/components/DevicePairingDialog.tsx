@@ -131,13 +131,8 @@ export class DevicePairingDialog extends React.Component<Props, State> {
   }
 
   public renderQrCodeView() {
-    const theme = window.Events.getThemeSetting();
     const requestReceived = this.hasReceivedRequests();
     const title = window.i18n('pairingDevice');
-
-    // Foreground equivalent to .session-modal background color
-    const bgColor = 'rgba(0, 0, 0, 0)';
-    const fgColor = theme === 'dark' ? '#FFFFFF' : '#1B1B1B';
 
     return (
       <SessionModal title={title} onOk={() => null} onClose={this.closeDialog}>
@@ -149,11 +144,9 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           </small>
           <div className="spacer-lg" />
 
-          <div id="qr">
+          <div className="qr-image">
             <QRCode
               value={window.textsecure.storage.user.getNumber()}
-              bgColor={bgColor}
-              fgColor={fgColor}
               level="L"
             />
           </div>

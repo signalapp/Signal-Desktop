@@ -4,11 +4,21 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 import { SessionButton } from '../SessionButton';
 
-export class SettingsHeader extends React.Component<SettingsViewProps, any> {
+interface Props extends SettingsViewProps {
+  showLinkDeviceButton: boolean | null;
+  disableLinkDeviceButton: boolean | null;
+}
+
+export class SettingsHeader extends React.Component<Props, any> {
+  public static defaultProps = {
+    showLinkDeviceButton: false,
+    disableLinkDeviceButton: true,
+  };
+
   public constructor(props: any) {
     super(props);
     this.state = {
-      disableLinkDeviceButton: true,
+      disableLinkDeviceButton: this.props.disableLinkDeviceButton,
     };
     this.showAddLinkedDeviceModal = this.showAddLinkedDeviceModal.bind(this);
   }
@@ -56,7 +66,9 @@ export class SettingsHeader extends React.Component<SettingsViewProps, any> {
         ? `${categoryTitlePrefix.slice(0, -1)} Settings`
         : `${categoryTitlePrefix} Settings`;
     const showSearch = false;
-    const showAddDevice = category === SessionSettingCategory.Devices;
+    const showAddDevice =
+      category === SessionSettingCategory.Devices &&
+      this.props.showLinkDeviceButton;
 
     return (
       <div className="session-settings-header">

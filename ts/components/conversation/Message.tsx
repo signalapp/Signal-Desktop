@@ -1089,7 +1089,7 @@ export class Message extends React.PureComponent<Props, State> {
     const divClasses = ['loki-message-wrapper'];
 
     if (shouldHightlight) {
-      divClasses.push('message-highlighted');
+      //divClasses.push('message-highlighted');
     }
     if (selected) {
       divClasses.push('message-selected');
