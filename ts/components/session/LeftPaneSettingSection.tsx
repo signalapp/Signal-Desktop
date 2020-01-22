@@ -33,9 +33,15 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     this.renderRows = this.renderRows.bind(this);
   }
 
-  public render(): JSX.Element {
+  public componentDidMount() {
     MainViewController.renderSettingsView(this.state.settingCategory);
+  }
 
+  public componentDidUpdate() {
+    MainViewController.renderSettingsView(this.state.settingCategory);
+  }
+
+  public render(): JSX.Element {
     return (
       <div className="left-pane-setting-section">
         {this.renderHeader()}
