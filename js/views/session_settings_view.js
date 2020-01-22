@@ -13,7 +13,7 @@
     render() {
       this.settingsView = new Whisper.ReactWrapperView({
         className: 'session-settings',
-        Component: window.Signal.Components.SessionSettings,
+        Component: window.Signal.Components.SettingsView,
         props: {
           i18n,
         },
