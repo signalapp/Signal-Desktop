@@ -1005,8 +1005,13 @@
     };
 
     window.toggleMenuBar = () => {
-      const newValue = !window.getSettingValue('hide-menu-bar');
-      window.Events.setHideMenuBar(newValue);
+      const current = window.getSettingValue('hide-menu-bar');
+      if (current === undefined) {
+        window.Events.setHideMenuBar(false);
+        return;
+      }
+
+      window.Events.setHideMenuBar(!current);
     };
 
     window.toggleSpellCheck = () => {

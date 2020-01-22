@@ -38,7 +38,7 @@
       }
     },
     applyHideMenu() {
-      const hideMenuBar = storage.get('hide-menu-bar', false);
+      const hideMenuBar = storage.get('hide-menu-bar', true);
       window.setAutoHideMenuBar(hideMenuBar);
       window.setMenuBarVisibility(!hideMenuBar);
     },

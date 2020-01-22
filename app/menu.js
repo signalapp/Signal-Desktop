@@ -16,17 +16,12 @@ exports.createTemplate = (options, messages) => {
     setupWithImport,
     showAbout,
     showDebugLog,
-    showSettings,
   } = options;
 
   const template = [
     {
       label: messages.mainMenuFile.message,
       submenu: [
-        {
-          label: messages.mainMenuSettings.message,
-          click: showSettings,
-        },
         {
           type: 'separator',
         },
@@ -193,7 +188,6 @@ function updateForMac(template, messages, options) {
     setupAsStandalone,
     setupWithImport,
     showAbout,
-    showSettings,
     showWindow,
   } = options;
 
@@ -241,11 +235,6 @@ function updateForMac(template, messages, options) {
       },
       {
         type: 'separator',
-      },
-      {
-        label: messages.mainMenuSettings.message,
-        accelerator: 'CommandOrControl+,',
-        click: showSettings,
       },
       {
         type: 'separator',

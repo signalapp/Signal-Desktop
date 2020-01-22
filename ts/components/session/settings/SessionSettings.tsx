@@ -314,7 +314,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.General,
         setFn: window.toggleMenuBar,
-        content: undefined,
+        content: { defaultValue: true },
         comparisonValue: undefined,
         onClick: undefined,
       },
