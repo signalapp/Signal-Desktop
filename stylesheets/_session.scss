@@ -940,8 +940,8 @@ label {
 
   .session-id-section {
     display: flex;
+    align-items: center;
     flex-direction: column;
-    justify-content: center;
 
     .panel-text-divider {
       margin-top: 35px;
@@ -1200,7 +1200,7 @@ label {
 
 .discussion-container {
   .module-message {
-    font-family: "SF Pro Text";
+    font-family: 'SF Pro Text';
     border-radius: 5px;
   }
 }
@@ -1273,9 +1273,6 @@ label {
     border-color: $session-color-white;
   }
 
-  label:before {
-    transition: all $session-transition-duration ease;
-  }
 }
 .user-details-dialog {
   .session-id-editable {

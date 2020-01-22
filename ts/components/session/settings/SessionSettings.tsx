@@ -217,7 +217,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     return (
       <div className="session-settings">
         <SettingsHeader
-          disableLinkDeviceButton={shouldRenderPasswordLock}
+          showLinkDeviceButton={!shouldRenderPasswordLock}
           category={category}
         />
         {shouldRenderPasswordLock ? (

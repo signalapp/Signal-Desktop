@@ -5,11 +5,13 @@ import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 import { SessionButton } from '../SessionButton';
 
 interface Props extends SettingsViewProps {
+  showLinkDeviceButton: boolean | null;
   disableLinkDeviceButton: boolean | null;
 }
 
 export class SettingsHeader extends React.Component<Props, any> {
   public static defaultProps = {
+    showLinkDeviceButton: false,
     disableLinkDeviceButton: true,
   };
 
@@ -64,7 +66,9 @@ export class SettingsHeader extends React.Component<Props, any> {
         ? `${categoryTitlePrefix.slice(0, -1)} Settings`
         : `${categoryTitlePrefix} Settings`;
     const showSearch = false;
-    const showAddDevice = category === SessionSettingCategory.Devices;
+    const showAddDevice =
+      category === SessionSettingCategory.Devices &&
+      this.props.showLinkDeviceButton;
 
     return (
       <div className="session-settings-header">
