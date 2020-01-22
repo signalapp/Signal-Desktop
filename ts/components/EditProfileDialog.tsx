@@ -140,10 +140,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
               className="image-upload-section"
               role="button"
               onClick={() => {
-                const el = this.inputEl.current;
-                if (el) {
-                  el.click();
-                }
+                this.setState({mode: 'edit'}, this.fireInputEvent);
               }}
             >
               <input
@@ -155,9 +152,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
                 onChange={this.onFileSelected}
               />
             </div>
-            <div
-              className="qr-view-button"
-            >
+            <div className="qr-view-button">
               <SessionIconButton
                 iconType={SessionIconType.QR}
                 iconSize={SessionIconSize.Small}
@@ -171,6 +166,13 @@ export class EditProfileDialog extends React.Component<Props, State> {
         </div>
       </>
     );
+  }
+
+  private fireInputEvent() {
+    const el = this.inputEl.current;
+    if (el) {
+      el.click();
+    }
   }
 
   private renderDefaultView() {
@@ -273,7 +275,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
-        this.onClickOK();
+        if (this.state.mode === 'edit'){
+          this.onClickOK();
+        }
         break;
       case 'Esc':
       case 'Escape':
@@ -297,6 +301,8 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const newName = this.state.profileName.trim();
 
     if (newName === '') {
+      this.setState({mode: 'default'});
+      
       return;
     }
 

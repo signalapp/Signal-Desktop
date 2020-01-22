@@ -299,7 +299,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
               }}
               buttonType={SessionButtonType.Brand}
               buttonColor={SessionButtonColor.Green}
-              text={window.i18n('completeSignUp')}
+              text={window.i18n('getStarted')}
               disabled={!enableCompleteSignUp}
             />
           </div>
@@ -337,7 +337,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (signUpMode !== SignUpMode.Default) {
       buttonType = SessionButtonType.Brand;
       buttonColor = SessionButtonColor.Green;
-      buttonText = window.i18n('getStarted');
+      buttonText = window.i18n('continue');
     } else {
       buttonType = SessionButtonType.BrandOutline;
       buttonColor = SessionButtonColor.Green;

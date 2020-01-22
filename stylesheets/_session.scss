@@ -1140,10 +1140,19 @@ label {
   &__version-info {
     display: flex;
     justify-content: space-between;
-    opacity: 0.4;
+    
     padding: $session-margin-sm $session-margin-md;
     background-color: $session-shade-5;
     font-size: $session-font-xs;
+
+    span{
+      opacity: 0.4;
+      transition: $session-transition-duration;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   &__password-lock {
