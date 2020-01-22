@@ -105,6 +105,15 @@ export class Quote extends React.Component<Props, State> {
       onClick();
     }
   };
+  public handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const { onClick } = this.props;
+
+    if (onClick) {
+      event.preventDefault();
+      event.stopPropagation();
+      onClick();
+    }
+  };
 
   public handleImageError = () => {
     // tslint:disable-next-line no-console
@@ -381,7 +390,7 @@ export class Quote extends React.Component<Props, State> {
         )}
       >
         <button
-          onClick={onClick}
+          onClick={this.handleClick}
           onKeyDown={this.handleKeyDown}
           className={classNames(
             'module-quote',

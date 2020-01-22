@@ -1804,7 +1804,10 @@
             saveAttachmentToDisk,
             timestamp,
           });
-          this.showToast(Whisper.FileSavedToast, { fullPath });
+
+          if (fullPath) {
+            this.showToast(Whisper.FileSavedToast, { fullPath });
+          }
         };
 
         const onItemClick = async ({ message, attachment, type }) => {
@@ -2001,7 +2004,10 @@
         saveAttachmentToDisk,
         timestamp,
       });
-      this.showToast(Whisper.FileSavedToast, { fullPath });
+
+      if (fullPath) {
+        this.showToast(Whisper.FileSavedToast, { fullPath });
+      }
     },
 
     async displayTapToViewMessage(messageId) {
@@ -2205,7 +2211,10 @@
           saveAttachmentToDisk,
           timestamp: options.message.get('sent_at'),
         });
-        this.showToast(Whisper.FileSavedToast, { fullPath });
+
+        if (fullPath) {
+          this.showToast(Whisper.FileSavedToast, { fullPath });
+        }
       };
 
       const props = {

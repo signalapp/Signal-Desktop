@@ -339,7 +339,7 @@ export const save = async ({
     name: string;
   }) => Promise<{ name: string; fullPath: string }>;
   timestamp?: number;
-}): Promise<string> => {
+}): Promise<string | null> => {
   if (!attachment.path && !attachment.data) {
     throw new Error('Attachment had neither path nor data');
   }
@@ -349,12 +349,16 @@ export const save = async ({
     : attachment.data;
   const name = getSuggestedFilename({ attachment, timestamp, index });
 
-  const { fullPath } = await saveAttachmentToDisk({
+  const result = await saveAttachmentToDisk({
     data,
     name,
   });
 
-  return fullPath;
+  if (!result) {
+    return null;
+  }
+
+  return result.fullPath;
 };
 
 export const getSuggestedFilename = ({
