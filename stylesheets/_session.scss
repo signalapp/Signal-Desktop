@@ -219,10 +219,6 @@ $session_message-container-border-radius: 5px;
   margin-right: 5px;
 }
 
-.message-wrapper {
-  font-family: 'SF Pro Text';
-}
-
 .session-button {
   @mixin transparent-background($textAndBorderColor) {
     background-color: Transparent;
@@ -963,7 +959,7 @@ label {
       font-size: $session-font-md;
       padding: 0px $session-margin-sm;
     }
-    
+
     .session-button {
       width: 148px;
     }
@@ -1204,7 +1200,7 @@ label {
 
 .discussion-container {
   .module-message {
-    font-family: SFPro;
+    font-family: "SF Pro Text";
     border-radius: 5px;
   }
 }
