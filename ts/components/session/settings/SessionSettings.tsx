@@ -156,7 +156,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             defaultValue=""
             placeholder={' '}
           />
-          
+
           <div className="spacer-sm" />
 
           {this.state.pwdLockError && (
@@ -186,7 +186,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       this.setState({
         pwdLockError: window.i18n('noGivenPassword'),
       });
-      
+
       return false;
     }
 
