@@ -17,11 +17,9 @@ export class SessionQRModal extends React.Component<Props> {
   public render() {
     const { value, onClose } = this.props;
 
-    const theme = window.Events.getThemeSetting();
-
     // Foreground equivalent to .session-modal background color
-    const bgColor = 'rgba(0, 0, 0, 0)';
-    const fgColor = theme === 'dark' ? '#FFFFFF' : '#1B1B1B';
+    const bgColor = '#FFFFFF';
+    const fgColor = '#1B1B1B';
 
     return (
       <SessionModal

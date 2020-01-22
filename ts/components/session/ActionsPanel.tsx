@@ -40,9 +40,9 @@ const Section = ({
 }) => {
   const handleClick = onSelect
     ? () => {
-        if (type !== SectionType.Profile) {
-          onSelect(type);
-        }
+        type === SectionType.Profile
+          ? window.showEditProfileDialog()
+          : onSelect(type);
       }
     : undefined;
 

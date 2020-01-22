@@ -952,6 +952,9 @@
   "cancel": {
     "message": "Cancel"
   },
+  "copy": {
+    "message": "Copy"
+  },
   "skip": {
     "message": "Skip"
   },
@@ -2161,6 +2164,9 @@
     "description":
       "Button action that the user can click to view their unique seed"
   },
+  "yourSessionID": {
+    "message": "Your Session ID"
+  },
   "setAccountPasswordTitle": {
     "message": "Set Account Password",
     "description": "Prompt for user to set account password in settings view"
@@ -2254,6 +2260,11 @@
     "message": "Copied seed to clipboard",
     "description":
       "A toast message telling the user that the mnemonic seed was copied"
+  },
+  "copiedSessionID": {
+    "message": "Copied Session ID to clipboard",
+    "description":
+      "A toast message telling the user that their Session ID was copied"
   },
 
   "passwordViewTitle": {
@@ -2423,7 +2434,7 @@
   },
 
   "editProfileModalTitle": {
-    "message": "Edit Profile",
+    "message": "Profile",
     "description": "Title for the Edit Profile modal"
   },
 

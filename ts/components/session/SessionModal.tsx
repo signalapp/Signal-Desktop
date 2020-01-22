@@ -1,6 +1,8 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon/';
+import { SessionButton, SessionButtonType, SessionButtonColor } from './SessionButton';
 
 interface Props {
   title: string;
@@ -8,9 +10,17 @@ interface Props {
   onOk: any;
   showExitIcon?: boolean;
   showHeader?: boolean;
+  headerReverse?: boolean;
   //Maximum of two icons in header
   headerIconButtons?: Array<{
-    type: SessionIconType;
+    iconType: SessionIconType;
+    iconRotation: number;
+    onClick?: any;
+  }>;
+  headerButtons?: Array<{
+    buttonType: SessionButtonType;
+    buttonColor: SessionButtonColor;
+    text: string;
     onClick?: any;
   }>;
 }
@@ -23,6 +33,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
   public static defaultProps = {
     showExitIcon: true,
     showHeader: true,
+    headerReverse: false,
   };
 
   constructor(props: any) {
@@ -38,14 +49,14 @@ export class SessionModal extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const { title, headerIconButtons, showExitIcon, showHeader } = this.props;
+    const { title, headerIconButtons, showExitIcon, showHeader, headerReverse } = this.props;
     const { isVisible } = this.state;
 
     return isVisible ? (
       <div className={'session-modal'}>
         {showHeader ? (
           <>
-            <div className="session-modal__header">
+            <div className={classNames("session-modal__header", headerReverse && "reverse")}>
               <div className="session-modal__header__close">
                 {showExitIcon ? (
                   <SessionIconButton
@@ -61,9 +72,11 @@ export class SessionModal extends React.PureComponent<Props, State> {
                   ? headerIconButtons.map((iconItem: any) => {
                       return (
                         <SessionIconButton
-                          key={iconItem.type}
-                          iconType={iconItem.type}
-                          iconSize={SessionIconSize.Medium}
+                          key={iconItem.iconType}
+                          iconType={iconItem.iconType}
+                          iconSize={SessionIconSize.Large}
+                          iconRotation={iconItem.iconRotation}
+                          onClick={iconItem.onClick}
                         />
                       );
                     })
