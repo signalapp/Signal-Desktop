@@ -1,6 +1,6 @@
 {
   "name": "loki-messenger-desktop",
-  "productName": "Loki Messenger",
+  "productName": "Session Messenger",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/loki-project/loki-messenger.git",
   "version": "1.0.0-beta9",
@@ -22,6 +22,7 @@
     "generate": "yarn icon-gen && yarn grunt",
     "build": "electron-builder  --config.extraMetadata.environment=$SIGNAL_ENV",
     "build-release": "export SIGNAL_ENV=production && npm run build -- --config.directories.output=release",
+    "make:linux:x64:appimage": "electron-builder build --linux appimage --x64",
     "sign-release": "node ts/updater/generateSignature.js",
     "build-module-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "clean-module-protobuf": "rm -f ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
@@ -239,7 +240,7 @@
     "linux": {
       "category": "Network",
       "desktop": {
-        "StartupWMClass": "Loki Messenger"
+        "StartupWMClass": "Session Messenger"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [

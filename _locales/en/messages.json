@@ -66,7 +66,7 @@
     "description": "Application menu command to show all application windows"
   },
   "appMenuQuit": {
-    "message": "Quit Loki Messenger",
+    "message": "Quit Session Messenger",
     "description": "Application menu command to close the application"
   },
   "editMenuUndo": {
@@ -265,7 +265,7 @@
       "Header shown on the screen at the end of a successful import process"
   },
   "importCompleteStartButton": {
-    "message": "Start using Loki Messenger",
+    "message": "Start using Session Messenger",
     "description":
       "Button shown at end of successful import process, nothing left but a restart"
   },
@@ -719,12 +719,12 @@
       "Item under the Help menu, takes you to GitHub new issue form (title case)"
   },
   "signalDesktopPreferences": {
-    "message": "Loki Messenger Preferences",
+    "message": "Session Messenger Preferences",
     "description":
       "Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
-    "message": "About Loki Messenger",
+    "message": "About Session Messenger",
     "description": "Item under the Help menu, which opens a small about window"
   },
   "speech": {
@@ -745,7 +745,7 @@
     "description": "Command in the tray icon menu, to quit the application"
   },
   "lokiMessenger": {
-    "message": "Loki Messenger"
+    "message": "Session Messenger"
   },
   "search": {
     "message": "Search",
@@ -895,7 +895,7 @@
   },
   "audioPermissionNeeded": {
     "message":
-      "To send audio messages, allow Loki Messenger to access your microphone.",
+      "To send audio messages, allow Session Messenger to access your microphone.",
     "description":
       "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
@@ -951,6 +951,9 @@
   },
   "cancel": {
     "message": "Cancel"
+  },
+  "copy": {
+    "message": "Copy"
   },
   "skip": {
     "message": "Skip"
@@ -1266,7 +1269,7 @@
     }
   },
   "installWelcome": {
-    "message": "Welcome to Loki Messenger",
+    "message": "Welcome to Session Messenger",
     "description": "Welcome title on the install page"
   },
   "installTagline": {
@@ -1275,12 +1278,12 @@
       "Tagline displayed under 'installWelcome' string on the install page"
   },
   "linkYourPhone": {
-    "message": "Link your phone to Loki Messenger",
+    "message": "Link your phone to Session Messenger",
     "description":
       "Shown on the front page when the application first starst, above the QR code"
   },
   "signalSettings": {
-    "message": "Loki Messenger Settings",
+    "message": "Session Messenger Settings",
     "description":
       "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
   },
@@ -1491,7 +1494,7 @@
   },
   "expiredWarning": {
     "message":
-      "This version of Loki Messenger has expired. Please upgrade to the latest version to continue messaging.",
+      "This version of Session Messenger has expired. Please upgrade to the latest version to continue messaging.",
     "description":
       "Warning notification that this version of the app has expired"
   },
@@ -2161,6 +2164,9 @@
     "description":
       "Button action that the user can click to view their unique seed"
   },
+  "yourSessionID": {
+    "message": "Your Session ID"
+  },
   "setAccountPasswordTitle": {
     "message": "Set Account Password",
     "description": "Prompt for user to set account password in settings view"
@@ -2254,6 +2260,11 @@
     "message": "Copied seed to clipboard",
     "description":
       "A toast message telling the user that the mnemonic seed was copied"
+  },
+  "copiedSessionID": {
+    "message": "Copied Session ID to clipboard",
+    "description":
+      "A toast message telling the user that their Session ID was copied"
   },
 
   "passwordViewTitle": {
@@ -2423,7 +2434,7 @@
   },
 
   "editProfileModalTitle": {
-    "message": "Edit Profile",
+    "message": "Profile",
     "description": "Title for the Edit Profile modal"
   },
 
@@ -2500,7 +2511,7 @@
   },
   "devicePairingHeader": {
     "message":
-      "Open the Loki Messenger App on your primary device and select Device Pairing from the main menu. Then, enter your Session ID below to sign in."
+      "Open the Session Messenger App on your primary device and select Device Pairing from the main menu. Then, enter your Session ID below to sign in."
   },
   "enterSessionIDHere": {
     "message": "Enter your Session ID here"

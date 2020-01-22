@@ -157,14 +157,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             placeholder={' '}
           />
 
-          <div className="spacer-sm" />
+          <div className="spacer-xs" />
 
           {this.state.pwdLockError && (
             <>
               <div className="session-label warning">
                 {this.state.pwdLockError}
               </div>
-              <div className="spacer-sm" />
+              <div className="spacer-lg" />
             </>
           )}
 
@@ -216,7 +216,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     return (
       <div className="session-settings">
-        <SettingsHeader category={category} />
+        <SettingsHeader
+          showLinkDeviceButton={!shouldRenderPasswordLock}
+          category={category}
+        />
         {shouldRenderPasswordLock ? (
           this.renderPasswordLock()
         ) : (
@@ -294,7 +297,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       {
         id: 'theme-setting',
         title: window.i18n('themeToggleTitle'),
-        description: 'Choose the theme best suited to you',
+        description: window.i18n('themeToggleDescription'),
         hidden: true,
         comparisonValue: 'light',
         type: SessionSettingType.Toggle,
