@@ -3,10 +3,6 @@
     "label": "&File",
     "submenu": [
       {
-        "label": "Preferences…",
-        "click": null
-      },
-      {
         "type": "separator"
       },
       {
