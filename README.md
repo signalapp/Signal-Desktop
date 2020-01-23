@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/loki-project/loki-messenger.svg?branch=development)](https://travis-ci.org/loki-project/loki-messenger)
 
-Session Messenger allows for truly decentralized, end to end, and private encrypted chats. Session Messenger is built to handle both online and fully Asynchronous offline messages. Loki messenger implements the Signal protocol for message encryption. Our Client interface is a fork of [Session Messenger](https://signal.org/). All communication that passes through Loki messenger is routed through [Lokinet](https://github.com/loki-project/loki-network).
+Session Messenger allows for truly decentralized, end to end, and private encrypted chats. Session Messenger is built to handle both online and fully Asynchronous offline messages. Loki messenger implements the Signal protocol for message encryption. Our Client interface is a fork of [Signal Messenger](https://signal.org/). All communication that passes through Loki messenger is routed through [Lokinet](https://github.com/loki-project/loki-network).
 
 ## Summary
 
