@@ -294,7 +294,12 @@ class LokiAppDotNetServerAPI {
     }
   }
 
-  static async _sendToProxy(fetchOptions, endpoint, method, { ephemeralKey, symKey, iv }) {
+  static async _sendToProxy(
+    fetchOptions,
+    endpoint,
+    method,
+    { ephemeralKey, symKey, iv }
+  ) {
     const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
     const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
@@ -306,10 +311,28 @@ class LokiAppDotNetServerAPI {
       headers: fetchOptions.headers,
     };
 
+    // from https://github.com/sindresorhus/is-stream/blob/master/index.js
+    if (
+      payloadObj.body &&
+      typeof payloadObj.body === 'object' &&
+      typeof payloadObj.body.pipe === 'function'
+    ) {
+      log.info('detected body is a stream');
+      const fData = payloadObj.body.getBuffer();
+      const fHeaders = payloadObj.body.getHeaders();
+      // update headers for boundary
+      payloadObj.headers = { ...payloadObj.headers, ...fHeaders };
+      // update body with base64 chunk
+      payloadObj.body = {
+        fileUpload: fData.toString('base64'),
+      };
+    }
+
     // convert our payload to binary buffer
     const payloadData = Buffer.from(
       dcodeIO.ByteBuffer.wrap(JSON.stringify(payloadObj)).toArrayBuffer()
     );
+    payloadObj.body = false; // free memory
 
     // encrypt payloadData with symmetric Key using iv
     const cipherBody = await libsignal.crypto.encrypt(symKey, payloadData, iv);
@@ -343,12 +366,11 @@ class LokiAppDotNetServerAPI {
       body: JSON.stringify({ cipherText64 }),
       headers: {
         'Content-Type': 'application/json',
-        'X-Loki-File-Server-Target': `/loki/v1/secure_rpc`,
+        'X-Loki-File-Server-Target': '/loki/v1/secure_rpc',
         'X-Loki-File-Server-Verb': 'POST',
         'X-Loki-File-Server-Headers': JSON.stringify(finalRequestHeader),
       },
     };
-
     return nodeFetch(url, firstHopOptions);
   }
 
@@ -406,17 +428,21 @@ class LokiAppDotNetServerAPI {
         iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
 
         log.info('Sending a proxy request to', this.baseServerUrl);
-        result = await this._sendToProxy(
+        result = await this.constructor._sendToProxy(
           { ...fetchOptions, headers },
           endpoint,
           method,
           { ephemeralKey, symKey, iv }
         );
+        // log.info('sent to proxy')
       } else {
         result = await nodeFetch(url, fetchOptions || undefined);
       }
     } catch (e) {
-      log.info('serverRequest nodeFetch/_sendToProxy error:', JSON.stringify(e));
+      log.info(
+        'serverRequest nodeFetch/_sendToProxy error:',
+        JSON.stringify(e)
+      );
       return {
         err: e,
       };
@@ -434,7 +460,6 @@ class LokiAppDotNetServerAPI {
       };
     }
 
-
     if (
       window.lokiFeatureFlags.useSnodeProxy &&
       (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
@@ -443,12 +468,19 @@ class LokiAppDotNetServerAPI {
       // log.info('Got proxy response', response, 'for', method || 'GET', endpoint);
       if (response.meta && response.meta.code === 200) {
         try {
-          const cipherBuffer = dcodeIO.ByteBuffer.wrap(response.data, 'base64').toArrayBuffer()
-          const decryped = await libsignal.crypto.decrypt(symKey, cipherBuffer, iv);
+          const cipherBuffer = dcodeIO.ByteBuffer.wrap(
+            response.data,
+            'base64'
+          ).toArrayBuffer();
+          const decryped = await libsignal.crypto.decrypt(
+            symKey,
+            cipherBuffer,
+            iv
+          );
           const textDecoder = new TextDecoder();
           const json = textDecoder.decode(decryped);
           response = JSON.parse(json);
-        } catch(e) {
+        } catch (e) {
           // useless with the ephemeralKey and iv
           log.warn(`serverRequest useSnodeProxy parse ${e} ${TxtResponse}`);
           return {
@@ -457,6 +489,8 @@ class LokiAppDotNetServerAPI {
           };
         }
         // log.info('decrypted response', response);
+      } else {
+        log.warn('file server secure_rpc gave an non-200 response');
       }
     }
 
