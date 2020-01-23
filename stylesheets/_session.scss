@@ -921,19 +921,6 @@ label {
     }
   }
 
-  .qr-image {
-    display: flex;
-    justify-content: center;
-
-    svg {
-      width: 135px;
-      height: 135px;
-      border-radius: 3px;
-      padding: $session-margin-xs;
-      background-color: $session-color-white;
-    }
-  }
-
   .session-id-section {
     display: flex;
     align-items: center;
@@ -986,6 +973,19 @@ label {
         padding: 0px $session-margin-sm;
       }
     }
+  }
+}
+
+.qr-image {
+  display: flex;
+  justify-content: center;
+
+  svg {
+    width: 135px;
+    height: 135px;
+    border-radius: 3px;
+    padding: $session-margin-xs;
+    background-color: $session-color-white;
   }
 }
 
