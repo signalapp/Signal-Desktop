@@ -1,6 +1,6 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
 clearTimeout, MessageController, libsignal, StringView, window, _,
-dcodeIO, Buffer, lokiSnodeAPI */
+dcodeIO, Buffer, lokiSnodeAPI, TextDecoder */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
@@ -294,27 +294,9 @@ class LokiAppDotNetServerAPI {
     }
   }
 
-  async _sendToProxy(fetchOptions, endpoint, method) {
+  static async _sendToProxy(fetchOptions, endpoint, method, { ephemeralKey, symKey, iv }) {
     const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
     const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
-
-    // make temporary key for this request/response
-    const ephemeralKey = libsignal.Curve.generateKeyPair();
-
-    function buf2hex(buffer) { // buffer is an ArrayBuffer
-      return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
-    }
-
-    // some randomness
-    const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
-    // console.log('iv ', buf2hex(iv))
-    // console.log('epk', buf2hex(ephemeralKey.pubKey))
-
-    // mix server pub key with our priv key
-    const symKey = libsignal.Curve.calculateAgreement(
-      this.pubKey, // server's pubkey
-      ephemeralKey.privKey // our privkey
-    );
 
     const payloadObj = {
       // I think this is a stream, we may need to collect it all?
@@ -346,14 +328,9 @@ class LokiAppDotNetServerAPI {
       'base64'
     );
 
-    //console.log('ephemeralKey.privKey', ephemeralKey.privKey.toString('hex'))
-
     const ephemeralPubKey64 = dcodeIO.ByteBuffer.wrap(
       ephemeralKey.pubKey
     ).toString('base64');
-
-    // console.log('ephemeralKey', ephemeralPubKey64);
-    // console.log('cipherText64', cipherText64);
 
     const finalRequestHeader = {
       'X-Loki-File-Server-Ephemeral-Key': ephemeralPubKey64,
@@ -390,6 +367,9 @@ class LokiAppDotNetServerAPI {
       url.search = new URLSearchParams(params);
     }
     let result;
+    let ephemeralKey;
+    let symKey;
+    let iv;
     try {
       const fetchOptions = {};
       const headers = {};
@@ -415,13 +395,23 @@ class LokiAppDotNetServerAPI {
         (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
           this.baseServerUrl === 'https://file.lokinet.org')
       ) {
+        // make temporary key for this request/response
+        ephemeralKey = libsignal.Curve.generateKeyPair();
+        // mix server pub key with our priv key
+        symKey = libsignal.Curve.calculateAgreement(
+          this.pubKey, // server's pubkey
+          ephemeralKey.privKey // our privkey
+        );
+        // some randomness
+        iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
+
         log.info('Sending a proxy request to', this.baseServerUrl);
         result = await this._sendToProxy(
           { ...fetchOptions, headers },
           endpoint,
-          method
+          method,
+          { ephemeralKey, symKey, iv }
         );
-        log.info('Got proxy response', result, 'for', method || 'GET', endpoint);
       } else {
         result = await nodeFetch(url, fetchOptions || undefined);
       }
@@ -432,14 +422,42 @@ class LokiAppDotNetServerAPI {
       };
     }
     let response = null;
+    let TxtResponse = '';
     try {
-      response = await result.json();
+      TxtResponse = await result.text();
+      response = JSON.parse(TxtResponse);
     } catch (e) {
-      log.warn(`serverRequest json parse ${e}`);
+      log.warn(`serverRequest json parse ${e} ${TxtResponse}`);
       return {
         err: e,
         statusCode: result.status,
       };
+    }
+
+
+    if (
+      window.lokiFeatureFlags.useSnodeProxy &&
+      (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
+        this.baseServerUrl === 'https://file.lokinet.org')
+    ) {
+      // log.info('Got proxy response', response, 'for', method || 'GET', endpoint);
+      if (response.meta && response.meta.code === 200) {
+        try {
+          const cipherBuffer = dcodeIO.ByteBuffer.wrap(response.data, 'base64').toArrayBuffer()
+          const decryped = await libsignal.crypto.decrypt(symKey, cipherBuffer, iv);
+          const textDecoder = new TextDecoder();
+          const json = textDecoder.decode(decryped);
+          response = JSON.parse(json);
+        } catch(e) {
+          // useless with the ephemeralKey and iv
+          log.warn(`serverRequest useSnodeProxy parse ${e} ${TxtResponse}`);
+          return {
+            err: e,
+            statusCode: result.status,
+          };
+        }
+        // log.info('decrypted response', response);
+      }
     }
 
     // if it's a response style with a meta
