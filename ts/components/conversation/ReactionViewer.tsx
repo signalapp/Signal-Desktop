@@ -61,25 +61,26 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
         <header className="module-reaction-viewer__header">
           {emojis
             .filter(e => Boolean(grouped[e]))
-            .map((e, index) => {
-              const re = grouped[e];
+            .map((emoji, index) => {
+              const re = grouped[emoji];
               const maybeFocusRef = index === 0 ? focusRef : undefined;
 
               return (
                 <button
-                  key={e}
+                  key={emoji}
                   ref={maybeFocusRef}
                   className={classNames(
                     'module-reaction-viewer__header__button',
-                    selected === e
+                    selected === emoji
                       ? 'module-reaction-viewer__header__button--selected'
                       : null
                   )}
-                  onClick={() => {
-                    setSelected(e);
+                  onClick={event => {
+                    event.stopPropagation();
+                    setSelected(emoji);
                   }}
                 >
-                  <Emoji size={18} emoji={e} />
+                  <Emoji size={18} emoji={emoji} />
                   <span className="module-reaction-viewer__header__button__count">
                     {re.length}
                   </span>
