@@ -437,8 +437,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderNamePasswordAndVerifyPasswordFields() {
+    const {password, passwordFieldsMatch} = this.state;
     const passwordsDoNotMatch =
-      !this.state.passwordFieldsMatch && this.state.password
+      !passwordFieldsMatch && this.state.password
         ? window.i18n('passwordsDoNotMatch')
         : undefined;
 
@@ -470,18 +471,18 @@ export class RegistrationTabs extends React.Component<{}, State> {
           }}
         />
 
-        <SessionInput
+        {!!password && <SessionInput
           label={window.i18n('verifyPassword')}
           error={passwordsDoNotMatch}
           type="password"
-          placeholder={window.i18n('optionalPassword')}
+          placeholder={window.i18n('verifyPassword')}
           onValueChanged={(val: string) => {
             this.onPasswordVerifyChanged(val);
           }}
           onEnterPressed={() => {
             this.handlePressEnter();
           }}
-        />
+        />}
       </div>
     );
   }
