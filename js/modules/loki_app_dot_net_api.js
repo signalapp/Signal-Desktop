@@ -388,12 +388,8 @@ class LokiAppDotNetServerAPI {
     if (params) {
       url.search = new URLSearchParams(params);
     }
-    let result;
-    let ephemeralKey;
-    let symKey;
-    let iv;
+    const fetchOptions = {};
     try {
-      const fetchOptions = {};
       const headers = {};
       if (forceFreshToken) {
         await this.getOrRefreshServerToken(true);
@@ -411,86 +407,85 @@ class LokiAppDotNetServerAPI {
         fetchOptions.body = rawBody;
       }
       fetchOptions.headers = new Headers(headers);
-
-      if (
-        window.lokiFeatureFlags.useSnodeProxy &&
-        (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
-          this.baseServerUrl === 'https://file.lokinet.org')
-      ) {
-        // make temporary key for this request/response
-        ephemeralKey = libsignal.Curve.generateKeyPair();
-        // mix server pub key with our priv key
-        symKey = libsignal.Curve.calculateAgreement(
-          this.pubKey, // server's pubkey
-          ephemeralKey.privKey // our privkey
-        );
-        // some randomness
-        iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
-
-        log.info('Sending a proxy request to', this.baseServerUrl);
-        result = await this.constructor._sendToProxy(
-          { ...fetchOptions, headers },
-          endpoint,
-          method,
-          { ephemeralKey, symKey, iv }
-        );
-        // log.info('sent to proxy')
-      } else {
-        result = await nodeFetch(url, fetchOptions || undefined);
-      }
     } catch (e) {
-      log.info(
-        'serverRequest nodeFetch/_sendToProxy error:',
-        JSON.stringify(e)
-      );
+      log.info('serverRequest set up error:', JSON.stringify(e));
       return {
         err: e,
       };
     }
+
+    let result;
     let response = null;
     let TxtResponse = '';
-    try {
-      TxtResponse = await result.text();
-      response = JSON.parse(TxtResponse);
-    } catch (e) {
-      log.warn(`serverRequest json parse ${e} ${TxtResponse}`);
-      return {
-        err: e,
-        statusCode: result.status,
-      };
-    }
-
     if (
       window.lokiFeatureFlags.useSnodeProxy &&
       (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
         this.baseServerUrl === 'https://file.lokinet.org')
     ) {
-      // log.info('Got proxy response', response, 'for', method || 'GET', endpoint);
-      if (response.meta && response.meta.code === 200) {
-        try {
-          const cipherBuffer = dcodeIO.ByteBuffer.wrap(
-            response.data,
-            'base64'
-          ).toArrayBuffer();
-          const decryped = await libsignal.crypto.decrypt(
-            symKey,
-            cipherBuffer,
-            iv
-          );
-          const textDecoder = new TextDecoder();
-          const json = textDecoder.decode(decryped);
-          response = JSON.parse(json);
-        } catch (e) {
-          // useless with the ephemeralKey and iv
-          log.warn(`serverRequest useSnodeProxy parse ${e} ${TxtResponse}`);
-          return {
-            err: e,
-            statusCode: result.status,
-          };
+      try {
+        // make temporary key for this request/response
+        const ephemeralKey = libsignal.Curve.generateKeyPair();
+        // mix server pub key with our priv key
+        const symKey = libsignal.Curve.calculateAgreement(
+          this.pubKey, // server's pubkey
+          ephemeralKey.privKey // our privkey
+        );
+
+        // some randomness
+        const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
+
+        result = await this.constructor._sendToProxy(
+          fetchOptions,
+          endpoint,
+          method,
+          { ephemeralKey, symKey, iv }
+        );
+
+        TxtResponse = await result.text();
+        response = JSON.parse(TxtResponse);
+
+        if (response.meta && response.meta.code === 200) {
+          try {
+            const cipherBuffer = dcodeIO.ByteBuffer.wrap(
+              response.data,
+              'base64'
+            ).toArrayBuffer();
+            const decryped = await libsignal.crypto.decrypt(
+              symKey,
+              cipherBuffer,
+              iv
+            );
+            const textDecoder = new TextDecoder();
+            const json = textDecoder.decode(decryped);
+            // replace response
+            response = JSON.parse(json);
+          } catch (e) {
+            // useless with the ephemeralKey and iv
+            log.warn(`serverRequest useSnodeProxy parse ${e} ${TxtResponse}`);
+            return {
+              err: e,
+              statusCode: result.status,
+            };
+          }
+        } else {
+          log.warn('file server secure_rpc gave an non-200 response');
         }
-        // log.info('decrypted response', response);
-      } else {
-        log.warn('file server secure_rpc gave an non-200 response');
+      } catch (e) {
+        log.info('serverRequest _sendToProxy error:', e);
+        return {
+          err: e,
+        };
+      }
+    } else {
+      try {
+        result = await nodeFetch(url, fetchOptions || undefined);
+        TxtResponse = await result.text();
+        response = JSON.parse(TxtResponse);
+      } catch (e) {
+        log.info('serverRequest nodeFetch error:', JSON.stringify(e));
+        return {
+          err: e,
+        };
       }
     }
 
