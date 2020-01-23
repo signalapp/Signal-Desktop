@@ -157,7 +157,7 @@ export async function showUpdateDialog(
     message: messages.autoUpdateNewVersionMessage.message,
     detail: messages.autoUpdateNewVersionInstructions.message,
     defaultId: LATER_BUTTON,
-    cancelId: RESTART_BUTTON,
+    cancelId: LATER_BUTTON,
   };
 
   const { response } = await dialog.showMessageBox(mainWindow, options);
