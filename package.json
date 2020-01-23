@@ -74,7 +74,7 @@
     "emoji-panel": "https://github.com/scottnonnenberg-signal/emoji-panel.git#v0.5.5",
     "filesize": "3.6.1",
     "firstline": "1.2.1",
-    "form-data": "2.3.2",
+    "form-data": "^3.0.0",
     "fs-extra": "5.0.0",
     "glob": "7.1.2",
     "google-libphonenumber": "3.2.2",
