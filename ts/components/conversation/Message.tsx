@@ -19,6 +19,7 @@ import {
   OwnProps as ReactionViewerProps,
   ReactionViewer,
 } from './ReactionViewer';
+import { ReactionPicker } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
 
 import {
@@ -103,6 +104,7 @@ export type PropsData = {
   expirationTimestamp?: number;
 
   reactions?: ReactionViewerProps['reactions'];
+  selectedReaction?: string;
 };
 
 type PropsHousekeeping = {
@@ -115,6 +117,10 @@ type PropsHousekeeping = {
 export type PropsActions = {
   clearSelectedMessage: () => unknown;
 
+  reactToMessage: (
+    id: string,
+    { emoji, remove }: { emoji: string; remove: boolean }
+  ) => void;
   replyToMessage: (id: string) => void;
   retrySend: (id: string) => void;
   deleteMessage: (id: string) => void;
@@ -157,6 +163,9 @@ interface State {
 
   reactionsHeight: number;
   reactionViewerRoot: HTMLDivElement | null;
+  reactionPickerRoot: HTMLDivElement | null;
+
+  isWide: boolean;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -170,12 +179,17 @@ export class Message extends React.PureComponent<Props, State> {
     HTMLDivElement
   > = React.createRef();
 
+  public wideMl: MediaQueryList;
+
   public expirationCheckInterval: any;
   public expiredTimeout: any;
   public selectedTimeout: any;
 
   public constructor(props: Props) {
     super(props);
+
+    this.wideMl = window.matchMedia('(min-width: 926px)');
+    this.wideMl.addEventListener('change', this.handleWideMlChange);
 
     this.state = {
       expiring: false,
@@ -187,6 +201,9 @@ export class Message extends React.PureComponent<Props, State> {
 
       reactionsHeight: 0,
       reactionViewerRoot: null,
+      reactionPickerRoot: null,
+
+      isWide: this.wideMl.matches,
     };
   }
 
@@ -212,6 +229,10 @@ export class Message extends React.PureComponent<Props, State> {
 
     return state;
   }
+
+  public handleWideMlChange = (event: MediaQueryListEvent) => {
+    this.setState({ isWide: event.matches });
+  };
 
   public captureMenuTrigger = (triggerRef: Trigger) => {
     this.menuTriggerRef = triggerRef;
@@ -292,6 +313,9 @@ export class Message extends React.PureComponent<Props, State> {
       clearTimeout(this.expiredTimeout);
     }
     this.toggleReactionViewer(true);
+    this.toggleReactionPicker(true);
+
+    this.wideMl.removeEventListener('change', this.handleWideMlChange);
   }
 
   public componentDidUpdate(prevProps: Props) {
@@ -954,6 +978,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderMenu(isCorrectSide: boolean, triggerId: string) {
     const {
       attachments,
+      // tslint:disable-next-line max-func-body-length
       direction,
       disableMenu,
       id,
@@ -967,6 +992,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const { reactions } = this.props;
+    const { reactionPickerRoot, isWide } = this.state;
     const hasReactions = reactions && reactions.length > 0;
 
     const multipleAttachments = attachments && attachments.length > 1;
@@ -989,6 +1015,30 @@ export class Message extends React.PureComponent<Props, State> {
         />
       ) : null;
 
+    const reactButton = (
+      <Reference>
+        {({ ref: popperRef }) => {
+          // Only attach the popper reference to the reaction button if it is
+          // visible in the page (it is hidden when the page is narrow)
+          const maybePopperRef = isWide ? popperRef : undefined;
+
+          return (
+            <div
+              ref={maybePopperRef}
+              onClick={(event: React.MouseEvent) => {
+                event.stopPropagation();
+                event.preventDefault();
+
+                this.toggleReactionPicker();
+              }}
+              role="button"
+              className="module-message__buttons__react"
+            />
+          );
+        }}
+      </Reference>
+    );
+
     const replyButton = (
       <div
         onClick={(event: React.MouseEvent) => {
@@ -1007,37 +1057,77 @@ export class Message extends React.PureComponent<Props, State> {
     );
 
     const menuButton = (
-      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTrigger as any}>
-        <div
-          // This a menu meant for mouse use only
-          role="button"
-          onClick={this.showMenu}
-          className={classNames(
-            'module-message__buttons__menu',
-            `module-message__buttons__download--${direction}`
-          )}
-        />
-      </ContextMenuTrigger>
+      <Reference>
+        {({ ref: popperRef }) => {
+          // Only attach the popper reference to the collapsed menu button if
+          // the reaction button is not visible in the page (it is hidden when
+          // the page is narrow)
+          const maybePopperRef = !isWide ? popperRef : undefined;
+
+          return (
+            <ContextMenuTrigger
+              id={triggerId}
+              ref={this.captureMenuTrigger as any}
+            >
+              <div
+                // This a menu meant for mouse use only
+                ref={maybePopperRef}
+                role="button"
+                onClick={this.showMenu}
+                className={classNames(
+                  'module-message__buttons__menu',
+                  `module-message__buttons__download--${direction}`
+                )}
+              />
+            </ContextMenuTrigger>
+          );
+        }}
+      </Reference>
     );
 
-    const first = direction === 'incoming' ? downloadButton : menuButton;
-    const last = direction === 'incoming' ? menuButton : downloadButton;
+    // @ts-ignore
+    const ENABLE_REACTION_SEND: boolean = window.ENABLE_REACTION_SEND;
 
     return (
-      <div
-        className={classNames(
-          'module-message__buttons',
-          `module-message__buttons--${direction}`,
-          hasReactions ? 'module-message__buttons--has-reactions' : null
-        )}
-      >
-        {first}
-        {replyButton}
-        {last}
-      </div>
+      <Manager>
+        <div
+          className={classNames(
+            'module-message__buttons',
+            `module-message__buttons--${direction}`,
+            hasReactions ? 'module-message__buttons--has-reactions' : null
+          )}
+        >
+          {ENABLE_REACTION_SEND ? reactButton : null}
+          {downloadButton}
+          {replyButton}
+          {menuButton}
+        </div>
+        {reactionPickerRoot &&
+          createPortal(
+            <Popper placement="top">
+              {({ ref, style }) => (
+                <ReactionPicker
+                  ref={ref}
+                  style={style}
+                  selected={this.props.selectedReaction}
+                  onClose={this.toggleReactionPicker}
+                  onPick={emoji => {
+                    this.toggleReactionPicker(true);
+                    this.props.reactToMessage(id, {
+                      emoji,
+                      remove: emoji === this.props.selectedReaction,
+                    });
+                  }}
+                />
+              )}
+            </Popper>,
+            reactionPickerRoot
+          )}
+      </Manager>
     );
   }
 
+  // tslint:disable-next-line max-func-body-length
   public renderContextMenu(triggerId: string) {
     const {
       attachments,
@@ -1056,6 +1146,9 @@ export class Message extends React.PureComponent<Props, State> {
     const showRetry = status === 'error' && direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
 
+    // @ts-ignore
+    const ENABLE_REACTION_SEND: boolean = window.ENABLE_REACTION_SEND;
+
     const menu = (
       <ContextMenu id={triggerId}>
         {!isSticker &&
@@ -1070,6 +1163,21 @@ export class Message extends React.PureComponent<Props, State> {
             onClick={this.openGenericAttachment}
           >
             {i18n('downloadAttachment')}
+          </MenuItem>
+        ) : null}
+        {ENABLE_REACTION_SEND ? (
+          <MenuItem
+            attributes={{
+              className: 'module-message__context__react',
+            }}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              this.toggleReactionPicker();
+            }}
+          >
+            {i18n('reactToMessage')}
           </MenuItem>
         ) : null}
         <MenuItem
@@ -1320,7 +1428,7 @@ export class Message extends React.PureComponent<Props, State> {
         document.body.removeChild(reactionViewerRoot);
         document.body.removeEventListener(
           'click',
-          this.handleClickOutside,
+          this.handleClickOutsideReactionViewer,
           true
         );
 
@@ -1330,7 +1438,11 @@ export class Message extends React.PureComponent<Props, State> {
       if (!onlyRemove) {
         const root = document.createElement('div');
         document.body.appendChild(root);
-        document.body.addEventListener('click', this.handleClickOutside, true);
+        document.body.addEventListener(
+          'click',
+          this.handleClickOutsideReactionViewer,
+          true
+        );
 
         return {
           reactionViewerRoot: root,
@@ -1341,7 +1453,38 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleClickOutside = (e: MouseEvent) => {
+  public toggleReactionPicker = (onlyRemove = false) => {
+    this.setState(({ reactionPickerRoot }) => {
+      if (reactionPickerRoot) {
+        document.body.removeChild(reactionPickerRoot);
+        document.body.removeEventListener(
+          'click',
+          this.handleClickOutsideReactionPicker,
+          true
+        );
+
+        return { reactionPickerRoot: null };
+      }
+
+      if (!onlyRemove) {
+        const root = document.createElement('div');
+        document.body.appendChild(root);
+        document.body.addEventListener(
+          'click',
+          this.handleClickOutsideReactionPicker,
+          true
+        );
+
+        return {
+          reactionPickerRoot: root,
+        };
+      }
+
+      return { reactionPickerRoot: null };
+    });
+  };
+
+  public handleClickOutsideReactionViewer = (e: MouseEvent) => {
     const { reactionViewerRoot } = this.state;
     const { current: reactionsContainer } = this.reactionsContainerRef;
     if (reactionViewerRoot && reactionsContainer) {
@@ -1350,6 +1493,15 @@ export class Message extends React.PureComponent<Props, State> {
         !reactionsContainer.contains(e.target as HTMLElement)
       ) {
         this.toggleReactionViewer(true);
+      }
+    }
+  };
+
+  public handleClickOutsideReactionPicker = (e: MouseEvent) => {
+    const { reactionPickerRoot } = this.state;
+    if (reactionPickerRoot) {
+      if (!reactionPickerRoot.contains(e.target as HTMLElement)) {
+        this.toggleReactionPicker(true);
       }
     }
   };
@@ -1631,6 +1783,14 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (
+      (event.key === 'E' || event.key === 'e') &&
+      (event.metaKey || event.ctrlKey) &&
+      event.shiftKey
+    ) {
+      this.toggleReactionPicker();
+    }
+
     if (event.key !== 'Enter' && event.key !== 'Space') {
       return;
     }

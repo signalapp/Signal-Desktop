@@ -22,6 +22,7 @@ type KeyType =
   | 'A'
   | 'C'
   | 'D'
+  | 'E'
   | 'F'
   | 'J'
   | 'L'
@@ -129,6 +130,10 @@ const MESSAGE_SHORTCUTS: Array<ShortcutType> = [
   {
     description: 'Keyboard--toggle-reply',
     keys: ['commandOrCtrl', 'shift', 'R'],
+  },
+  {
+    description: 'Keyboard--toggle-reaction-picker',
+    keys: ['commandOrCtrl', 'shift', 'E'],
   },
   {
     description: 'Keyboard--save-attachment',

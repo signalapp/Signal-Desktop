@@ -16,6 +16,7 @@ window.isFocused = () => browserWindow.isFocused();
 
 // Waiting for clients to implement changes on receive side
 window.ENABLE_STICKER_SEND = true;
+window.ENABLE_REACTION_SEND = false;
 window.TIMESTAMP_VALIDATION = false;
 window.PAD_ALL_ATTACHMENTS = false;
 window.SEND_RECIPIENT_UPDATES = false;

@@ -142,6 +142,38 @@
       return { toastMessage: i18n('attachmentSaved') };
     },
   });
+  Whisper.ReactionFailedToast = Whisper.ToastView.extend({
+    className: 'toast toast-clickable',
+    initialize() {
+      this.timeout = 4000;
+
+      if (window.getInteractionMode() === 'keyboard') {
+        setTimeout(() => {
+          this.$el.focus();
+        }, 1);
+      }
+    },
+    events: {
+      click: 'onClick',
+      keydown: 'onKeydown',
+    },
+    onClick() {
+      this.close();
+    },
+    onKeydown(event) {
+      if (event.key !== 'Enter' && event.key !== ' ') {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.close();
+    },
+    render_attributes() {
+      return { toastMessage: i18n('Reactions--error') };
+    },
+  });
 
   const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
@@ -438,6 +470,9 @@
     setupTimeline() {
       const { id } = this.model;
 
+      const reactToMessage = (messageId, reaction) => {
+        this.sendReactionMessage(messageId, reaction);
+      };
       const replyToMessage = messageId => {
         this.setQuoteMessage(messageId);
       };
@@ -636,6 +671,7 @@
           markMessageRead,
           openConversation,
           openLink,
+          reactToMessage,
           replyToMessage,
           retrySend,
           scrollToQuotedMessage,
@@ -2416,6 +2452,24 @@
         this.$el.prepend(dialog.el);
         dialog.focusCancel();
       });
+    },
+
+    async sendReactionMessage(messageId, reaction) {
+      const messageModel = messageId
+        ? await getMessageById(messageId, {
+            Message: Whisper.Message,
+          })
+        : null;
+
+      try {
+        await this.model.sendReactionMessage(reaction, {
+          targetAuthorE164: messageModel.getSource(),
+          targetTimestamp: messageModel.get('sent_at'),
+        });
+      } catch (error) {
+        window.log.error('Error sending reaction', error, messageId, reaction);
+        this.showToast(Whisper.ReactionFailedToast);
+      }
     },
 
     async sendStickerMessage(options = {}) {

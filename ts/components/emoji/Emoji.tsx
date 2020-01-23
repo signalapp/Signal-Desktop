@@ -7,7 +7,7 @@ export type OwnProps = {
   emoji?: string;
   shortName?: string;
   skinTone?: SkinToneKey | number;
-  size?: 16 | 18 | 20 | 24 | 28 | 32 | 64 | 66;
+  size?: 16 | 18 | 20 | 24 | 28 | 32 | 48 | 64 | 66;
   children?: React.ReactNode;
 };
 

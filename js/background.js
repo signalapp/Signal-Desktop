@@ -857,6 +857,11 @@
         if (reactionViewer) {
           return;
         }
+
+        const reactionPicker = document.querySelector('module-reaction-picker');
+        if (reactionPicker) {
+          return;
+        }
       }
 
       // Close Backbone-based confirmation dialog
@@ -2223,6 +2228,7 @@
         targetTimestamp: reaction.targetTimestamp.toNumber(),
         timestamp: Date.now(),
         fromId: ourNumber,
+        fromSync: true,
       });
       // Note: We do not wait for completion here
       Whisper.Reactions.onReaction(reactionModel);
