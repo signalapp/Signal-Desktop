@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global window, ConversationController, _ */
+/* global window, ConversationController, _, log */
 
 const is = require('@sindresorhus/is');
 const dns = require('dns');
