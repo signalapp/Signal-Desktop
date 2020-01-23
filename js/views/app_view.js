@@ -224,7 +224,7 @@
     },
     showCreateGroup() {
       // TODO: make it impossible to open 2 dialogs as once
-      // Curretnly, if the button is in focus, it is possible to
+      // Currently, if the button is in focus, it is possible to
       // create a new dialog by pressing 'Enter'
       const dialog = new Whisper.CreateGroupDialogView();
       this.el.append(dialog.el);

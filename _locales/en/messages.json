@@ -2110,6 +2110,14 @@
     "message": "Leave Group",
     "description": "Button action that the user can click to leave the group"
   },
+  "leaveOpenGroup": {
+    "message": "Leave Open Group",
+    "description": "Button action that the user can click to leave the group"
+  },
+  "leaveClosedGroup": {
+    "message": "Leave Closed Group",
+    "description": "Button action that the user can click to leave the group"
+  },
   "leaveGroupDialogTitle": {
     "message": "Are you sure you want to leave this group?",
     "description":
@@ -2226,7 +2234,7 @@
     "message": "Server URL",
     "description": "Placeholder for server URL input"
   },
-  "noServerUrl": {
+  "noServerURL": {
     "message": "Please enter a server URL",
     "description": "Error message when no server url entered"
   },
