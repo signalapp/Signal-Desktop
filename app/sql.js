@@ -5,6 +5,7 @@ const sql = require('@journeyapps/sqlcipher');
 const { app, dialog, clipboard } = require('electron');
 const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
+const { combineNames } = require('../ts/util/combineNames');
 
 const pify = require('pify');
 const uuidv4 = require('uuid/v4');
@@ -938,18 +939,18 @@ async function updateToSchemaVersion15(currentVersion, instance) {
     await instance.run('ALTER TABLE emojis RENAME TO emojis_old;');
 
     await instance.run(`CREATE TABLE emojis(
-    shortName TEXT PRIMARY KEY,
-    lastUsage INTEGER
-  );`);
+      shortName TEXT PRIMARY KEY,
+      lastUsage INTEGER
+    );`);
     await instance.run(`CREATE INDEX emojis_lastUsage
-    ON emojis (
-      lastUsage
-  );`);
+      ON emojis (
+        lastUsage
+    );`);
 
     await instance.run('DELETE FROM emojis WHERE shortName = 1');
     await instance.run(`INSERT INTO emojis(shortName, lastUsage)
-    SELECT shortName, lastUsage FROM emojis_old;
-  `);
+      SELECT shortName, lastUsage FROM emojis_old;
+    `);
 
     await instance.run('DROP TABLE emojis_old;');
 
@@ -1180,7 +1181,35 @@ async function updateToSchemaVersion18(currentVersion, instance) {
     throw error;
   }
 }
+async function updateToSchemaVersion19(currentVersion, instance) {
+  if (currentVersion >= 19) {
+    return;
+  }
 
+  console.log('updateToSchemaVersion19: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `ALTER TABLE conversations
+     ADD COLUMN profileFamilyName TEXT;`
+  );
+  await instance.run(
+    `ALTER TABLE conversations
+     ADD COLUMN profileFullName TEXT;`
+  );
+
+  // Preload new field with the profileName we already have
+  await instance.run('UPDATE conversations SET profileFullName = profileName');
+
+  try {
+    await instance.run('PRAGMA user_version = 19;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion19: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK;');
+    throw error;
+  }
+}
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1200,6 +1229,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion16,
   updateToSchemaVersion17,
   updateToSchemaVersion18,
+  updateToSchemaVersion19,
 ];
 
 async function updateSchema(instance) {
@@ -1605,8 +1635,16 @@ async function getConversationCount() {
 }
 
 async function saveConversation(data) {
-  // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, profileName } = data;
+  const {
+    id,
+    // eslint-disable-next-line camelcase
+    active_at,
+    type,
+    members,
+    name,
+    profileName,
+    profileFamilyName,
+  } = data;
 
   await db.run(
     `INSERT INTO conversations (
@@ -1617,7 +1655,9 @@ async function saveConversation(data) {
     type,
     members,
     name,
-    profileName
+    profileName,
+    profileFamilyName,
+    profileFullName
   ) values (
     $id,
     $json,
@@ -1626,7 +1666,9 @@ async function saveConversation(data) {
     $type,
     $members,
     $name,
-    $profileName
+    $profileName,
+    $profileFamilyName,
+    $profileFullName
   );`,
     {
       $id: id,
@@ -1637,6 +1679,8 @@ async function saveConversation(data) {
       $members: members ? members.join(' ') : null,
       $name: name,
       $profileName: profileName,
+      $profileFamilyName: profileFamilyName,
+      $profileFullName: combineNames(profileName, profileFamilyName),
     }
   );
 }
@@ -1660,8 +1704,16 @@ async function saveConversations(arrayOfConversations) {
 saveConversations.needsSerial = true;
 
 async function updateConversation(data) {
-  // eslint-disable-next-line camelcase
-  const { id, active_at, type, members, name, profileName } = data;
+  const {
+    id,
+    // eslint-disable-next-line camelcase
+    active_at,
+    type,
+    members,
+    name,
+    profileName,
+    profileFamilyName,
+  } = data;
 
   await db.run(
     `UPDATE conversations SET
@@ -1671,7 +1723,9 @@ async function updateConversation(data) {
       type = $type,
       members = $members,
       name = $name,
-      profileName = $profileName
+      profileName = $profileName,
+      profileFamilyName = $profileFamilyName,
+      profileFullName = $profileFullName
     WHERE id = $id;`,
     {
       $id: id,
@@ -1682,6 +1736,8 @@ async function updateConversation(data) {
       $members: members ? members.join(' ') : null,
       $name: name,
       $profileName: profileName,
+      $profileFamilyName: profileFamilyName,
+      $profileFullName: combineNames(profileName, profileFamilyName),
     }
   );
 }
@@ -1769,14 +1825,14 @@ async function searchConversations(query, { limit } = {}) {
       (
         id LIKE $id OR
         name LIKE $name OR
-        profileName LIKE $profileName
+        profileFullName LIKE $profileFullName
       )
      ORDER BY active_at DESC
      LIMIT $limit`,
     {
       $id: `%${query}%`,
       $name: `%${query}%`,
-      $profileName: `%${query}%`,
+      $profileFullName: `%${query}%`,
       $limit: limit || 100,
     }
   );
@@ -2233,6 +2289,7 @@ async function getExpiredMessages() {
 async function getOutgoingWithoutExpiresAt() {
   const rows = await db.all(`
     SELECT json FROM messages
+    INDEXED BY messages_without_timer
     WHERE
       expireTimer > 0 AND
       expires_at IS NULL AND

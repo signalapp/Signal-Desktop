@@ -39,6 +39,15 @@
     ]
   },
   {
+    "label": "&File",
+    "submenu": [
+      {
+        "label": "Create/upload sticker pack",
+        "click": null
+      }
+    ]
+  },
+  {
     "label": "&Edit",
     "submenu": [
       {

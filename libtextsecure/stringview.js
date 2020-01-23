@@ -6,12 +6,13 @@
 (function() {
   window.StringView = {
     /*
-      * These functions from the Mozilla Developer Network
-      * and have been placed in the public domain.
-      * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
-      * https://developer.mozilla.org/en-US/docs/MDN/About#Copyrights_and_licenses
-      */
+     * These functions from the Mozilla Developer Network
+     * and have been placed in the public domain.
+     * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+     * https://developer.mozilla.org/en-US/docs/MDN/About#Copyrights_and_licenses
+     */
 
+    // prettier-ignore
     b64ToUint6(nChr) {
       return nChr > 64 && nChr < 91
         ? nChr - 65
@@ -59,6 +60,7 @@
       return aBBytes;
     },
 
+    // prettier-ignore
     uint6ToB64(nUint6) {
       return nUint6 < 26
         ? nUint6 + 65
@@ -82,7 +84,7 @@
         nIdx += 1
       ) {
         nMod3 = nIdx % 3;
-        if (nIdx > 0 && (nIdx * 4 / 3) % 76 === 0) {
+        if (nIdx > 0 && ((nIdx * 4) / 3) % 76 === 0) {
           sB64Enc += '\r\n';
         }
         nUint24 |= aBytes[nIdx] << ((16 >>> nMod3) & 24);

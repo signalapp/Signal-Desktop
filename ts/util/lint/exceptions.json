@@ -1135,7 +1135,7 @@
     "rule": "jQuery-html(",
     "path": "js/views/toast_view.js",
     "line": "      this.$el.html(",
-    "lineNumber": 21,
+    "lineNumber": 22,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -1143,7 +1143,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/toast_view.js",
     "line": "    toast.$el.appendTo(el);",
-    "lineNumber": 34,
+    "lineNumber": 36,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1212,10 +1212,18 @@
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/crypto.js",
-    "line": "        return dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 220,
+    "line": "          given: dcodeIO.ByteBuffer.wrap(padded)",
+    "lineNumber": 235,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-01-10T23:53:06.768Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "libtextsecure/crypto.js",
+    "line": "            ? dcodeIO.ByteBuffer.wrap(padded)",
+    "lineNumber": 239,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-10T23:53:06.768Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -1314,29 +1322,6 @@
     "updated": "2019-12-03T00:28:08.683Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
-    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
-    "lineNumber": 36,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
-    "line": "      wrap(innerFn, outerFn, self, tryLocsList)",
-    "lineNumber": 228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/@develar/schema-utils/node_modules/ajv/dist/ajv.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-15T17:10:42.360Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/@protobufjs/inquire/index.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -1409,537 +1394,6 @@
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/ansi-colors/index.js",
-    "line": "    return typeof style === 'function' ? style(input) : style.wrap(input, newline);",
-    "lineNumber": 33,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/ansi-colors/index.js",
-    "line": "    while (n-- > 0) str = wrap(colors.styles[stack[n]], str, nl);",
-    "lineNumber": 46,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9992,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10044,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10619,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver-utils/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/archiver/lib/core.js",
-    "line": "  this._module.append(source, data, function(err) {",
-    "lineNumber": 179,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/archiver/lib/plugins/tar.js",
-    "line": "  function append(err, sourceBuffer) {",
-    "lineNumber": 68,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/archiver/lib/plugins/tar.js",
-    "line": "    append(null, source);",
-    "lineNumber": 80,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "function wrap(defer) {",
-    "lineNumber": 62,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "var setImmediate$1 = wrap(_defer);",
-    "lineNumber": 81,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "    if (this.head) this.insertBefore(this.head, node);",
-    "lineNumber": 2151,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "    if (this.tail) this.insertAfter(this.tail, node);",
-    "lineNumber": 2156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "var nextTick = wrap(_defer$1);",
-    "lineNumber": 3823,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.js",
-    "line": "                q._tasks.insertBefore(nextNode, item);",
-    "lineNumber": 4107,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/dist/async.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/internal/DoublyLinkedList.js",
-    "line": "    if (this.head) this.insertBefore(this.head, node);else setInitial(this, node);",
-    "lineNumber": 52,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/archiver/node_modules/async/internal/DoublyLinkedList.js",
-    "line": "    if (this.tail) this.insertAfter(this.tail, node);else setInitial(this, node);",
-    "lineNumber": 56,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/internal/setImmediate.js",
-    "line": "function wrap(defer) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/async/internal/setImmediate.js",
-    "line": "exports.default = wrap(_defer);",
-    "lineNumber": 42,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/archiver/node_modules/async/priorityQueue.js",
-    "line": "                q._tasks.insertBefore(nextNode, item);",
-    "lineNumber": 42,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/archiver/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9992,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10044,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10619,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/archiver/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/archiver/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/ast-types/lib/path.js",
     "line": "    Pp.insertBefore = function insertBefore(node) {",
@@ -1954,6 +1408,256 @@
     "lineNumber": 242,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/build/index.js",
+    "line": "              if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/build/index.js",
+    "line": "  function in$(x, xs){",
+    "lineNumber": 99,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "      reCopy = new RegExp('^' + re.source + '$(?!\\\\s)', regexpFlags.call(re));",
+    "lineNumber": 2498,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 4362,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 4379,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "var SUBSTITUTION_SYMBOLS = /\\$([$&`']|\\d\\d?|<[^>]*>)/g;",
+    "lineNumber": 6331,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "var SUBSTITUTION_SYMBOLS_NO_NAMED = /\\$([$&`']|\\d\\d?)/g;",
+    "lineNumber": 6332,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 8752,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.min.js",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 4059,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 4076,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 7820,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "      reCopy = new RegExp('^' + re.source + '$(?!\\\\s)', regexpFlags.call(re));",
+    "lineNumber": 2422,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 4260,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 4277,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "var SUBSTITUTION_SYMBOLS = /\\$([$&`']|\\d\\d?|<[^>]*>)/g;",
+    "lineNumber": 6229,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "var SUBSTITUTION_SYMBOLS_NO_NAMED = /\\$([$&`']|\\d\\d?)/g;",
+    "lineNumber": 6230,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 8650,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/library/modules/es6.symbol.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 144,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/library/modules/es6.symbol.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 161,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/library/modules/web.timers.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/_regexp-exec.js",
+    "line": "      reCopy = new RegExp('^' + re.source + '$(?!\\\\s)', regexpFlags.call(re));",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/es6.regexp.replace.js",
+    "line": "var SUBSTITUTION_SYMBOLS = /\\$([$&`']|\\d\\d?|<[^>]*>)/g;",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/es6.regexp.replace.js",
+    "line": "var SUBSTITUTION_SYMBOLS_NO_NAMED = /\\$([$&`']|\\d\\d?)/g;",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/es6.symbol.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 144,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/es6.symbol.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 161,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/web.timers.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-$(",
@@ -2861,190 +2565,252 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/copy-text-to-clipboard/index.js",
+    "line": "\tdocument.body.append(element);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
     "rule": "jQuery-$(",
-    "path": "node_modules/core-js/build/index.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/build/index.js",
     "line": "            if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
     "lineNumber": 43,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/core-js/build/index.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/build/index.js",
     "line": "  function in$(x, xs){",
     "lineNumber": 93,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/core.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/core.js",
     "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 1082,
-    "reasonCategory": "falseMatch"
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/core.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/core.js",
     "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
     "lineNumber": 1135,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/core.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/core.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 4496,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/library.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/library.js",
     "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 1033,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/library.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/library.js",
     "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
     "lineNumber": 1086,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/library.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/library.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 4136,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/shim.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/shim.js",
     "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 1068,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/shim.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/shim.js",
     "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
     "lineNumber": 1121,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/client/shim.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/client/shim.js",
     "line": "\t  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 4482,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/library/modules/es6.symbol.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/library/modules/es6.symbol.js",
     "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 142,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/library/modules/es6.symbol.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/library/modules/es6.symbol.js",
     "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
     "lineNumber": 195,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/library/modules/web.timers.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/library/modules/web.timers.js",
     "line": "  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:26:59.689Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/modules/es6.symbol.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/modules/es6.symbol.js",
     "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
     "lineNumber": 142,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/modules/es6.symbol.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/modules/es6.symbol.js",
     "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
     "lineNumber": 195,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:18:14.550Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/core-js/modules/web.timers.js",
+    "path": "node_modules/create-react-context/node_modules/core-js/modules/web.timers.js",
     "line": "  setTimeout:  wrap(global.setTimeout),",
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T19:26:59.689Z"
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "function createNodesFromMarkup(markup, handleScript) {",
+    "lineNumber": 51,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
+    "lineNumber": 58,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    node.innerHTML = markup;",
+    "lineNumber": 65,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
+    "lineNumber": 70,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "fbjs-createNodesFromMarkup",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
+    "line": "module.exports = createNodesFromMarkup;",
+    "lineNumber": 81,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<link />';",
+    "lineNumber": 83,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
+    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
+    "lineNumber": 85,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-prepend(",
     "path": "node_modules/css/node_modules/source-map/lib/source-map/source-node.js",
     "line": "        this.prepend(aChunk[i]);",
     "lineNumber": 199,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/csso/dist/csso-browser.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/dist/csso-browser.js",
-    "lineNumber": 3,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/node_modules/source-map/dist/source-map.debug.js",
-    "line": "\t      this.prepend(aChunk[i]);",
-    "lineNumber": 2836,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/node_modules/source-map/dist/source-map.js",
-    "line": "\t      this.prepend(aChunk[i]);",
-    "lineNumber": 2836,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/node_modules/source-map/dist/source-map.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/csso/node_modules/source-map/lib/source-node.js",
-    "line": "      this.prepend(aChunk[i]);",
-    "lineNumber": 194,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -3068,17 +2834,17 @@
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 154,
+    "lineNumber": 156,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "exports.enable(load());",
-    "lineNumber": 246,
+    "lineNumber": 248,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3371,6 +3137,38 @@
   },
   {
     "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-download/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
     "path": "node_modules/electron-notarize/node_modules/debug/dist/debug.js",
     "line": "        createDebug.enable(createDebug.load());",
     "lineNumber": 721,
@@ -3408,70 +3206,6 @@
     "lineNumber": 216,
     "reasonCategory": "falseMatch",
     "updated": "2019-10-10T18:29:02.491Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/electron/electron.d.ts",
-    "line": "    eval(code: string): void;",
-    "lineNumber": 2136,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-15T17:10:42.360Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/electron/electron.d.ts",
-    "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3760,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-15T17:10:42.360Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
-    "line": "        wrap(oldStream: ReadableStream): this;",
-    "lineNumber": 573,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
-    "line": "        static wrap(code: string): string;",
-    "lineNumber": 976,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
-    "line": "         * Default: an async wrapper for the JavaScript `eval()` function. An `eval` function can",
-    "lineNumber": 31,
-    "reasonCategory": "exampleCode",
-    "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
-    "line": "         * for the JavaScript `eval()` function.",
-    "lineNumber": 180,
-    "reasonCategory": "exampleCode",
-    "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/stream.d.ts",
-    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
-    "lineNumber": 32,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/electron/node_modules/@types/node/url.d.ts",
-    "line": "        append(name: string, value: string): void;",
-    "lineNumber": 90,
-    "reasonCategory": "otherUtilityCode",
-    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "thenify-multiArgs",
@@ -3512,82 +3246,6 @@
     "lineNumber": 235,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
-    "lineNumber": 58,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Need a rule for createNodesFromMarkup"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = markup;",
-    "lineNumber": 65,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Need a rule for createNodesFromMarkup"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<link />';",
-    "lineNumber": 83,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
-    "lineNumber": 85,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "nodeName is limited to set of safe tag names."
   },
   {
     "rule": "jQuery-load(",
@@ -3636,38 +3294,6 @@
     "lineNumber": 75,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
   },
   {
     "rule": "thenify-multiArgs",
@@ -3790,6 +3416,20 @@
     "lineNumber": 133,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/history/node_modules/js-tokens/index.js",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/history/umd/history.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-load(",
@@ -4995,6 +4635,2121 @@
   },
   {
     "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/internals/collection.js",
+    "line": "  $({ global: true, forced: Constructor != NativeConstructor }, exported);",
+    "lineNumber": 90,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/internals/define-iterator.js",
+    "line": "    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);",
+    "lineNumber": 86,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/internals/regexp-exec.js",
+    "line": "      reCopy = new RegExp('^' + re.source + '$(?!\\\\s)', regexpFlags.call(re));",
+    "lineNumber": 31,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/internals/typed-array-constructor.js",
+    "line": "  $({ target: 'Object', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {",
+    "lineNumber": 103,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/internals/typed-array-constructor.js",
+    "line": "    $({",
+    "lineNumber": 209,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array-buffer.constructor.js",
+    "line": "$({ global: true, forced: NativeArrayBuffer !== ArrayBuffer }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array-buffer.is-view.js",
+    "line": "$({ target: 'ArrayBuffer', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array-buffer.slice.js",
+    "line": "$({ target: 'ArrayBuffer', proto: true, unsafe: true, forced: INCORRECT_SLICE }, {",
+    "lineNumber": 20,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.concat.js",
+    "line": "$({ target: 'Array', proto: true, forced: FORCED }, {",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.copy-within.js",
+    "line": "$({ target: 'Array', proto: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.every.js",
+    "line": "$({ target: 'Array', proto: true, forced: sloppyArrayMethod('every') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.fill.js",
+    "line": "$({ target: 'Array', proto: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.filter.js",
+    "line": "$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter') }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.find-index.js",
+    "line": "$({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.find.js",
+    "line": "$({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.flat-map.js",
+    "line": "$({ target: 'Array', proto: true }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.flat.js",
+    "line": "$({ target: 'Array', proto: true }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.for-each.js",
+    "line": "$({ target: 'Array', proto: true, forced: [].forEach != forEach }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.from.js",
+    "line": "$({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.includes.js",
+    "line": "$({ target: 'Array', proto: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.index-of.js",
+    "line": "$({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || SLOPPY_METHOD }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.is-array.js",
+    "line": "$({ target: 'Array', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.join.js",
+    "line": "$({ target: 'Array', proto: true, forced: ES3_STRINGS || SLOPPY_METHOD }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.last-index-of.js",
+    "line": "$({ target: 'Array', proto: true, forced: lastIndexOf !== [].lastIndexOf }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.map.js",
+    "line": "$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('map') }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.of.js",
+    "line": "$({ target: 'Array', stat: true, forced: ISNT_GENERIC }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.reduce-right.js",
+    "line": "$({ target: 'Array', proto: true, forced: sloppyArrayMethod('reduceRight') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.reduce.js",
+    "line": "$({ target: 'Array', proto: true, forced: sloppyArrayMethod('reduce') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.reverse.js",
+    "line": "$({ target: 'Array', proto: true, forced: String(test) === String(test.reverse()) }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.slice.js",
+    "line": "$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('slice') }, {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.some.js",
+    "line": "$({ target: 'Array', proto: true, forced: sloppyArrayMethod('some') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.sort.js",
+    "line": "$({ target: 'Array', proto: true, forced: FORCED }, {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.array.splice.js",
+    "line": "$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('splice') }, {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.data-view.js",
+    "line": "$({ global: true, forced: !NATIVE_ARRAY_BUFFER }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.date.now.js",
+    "line": "$({ target: 'Date', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.date.to-iso-string.js",
+    "line": "$({ target: 'Date', proto: true, forced: Date.prototype.toISOString !== toISOString }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.date.to-json.js",
+    "line": "$({ target: 'Date', proto: true, forced: FORCED }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.function.bind.js",
+    "line": "$({ target: 'Function', proto: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.acosh.js",
+    "line": "$({ target: 'Math', stat: true, forced: FORCED }, {",
+    "lineNumber": 17,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.asinh.js",
+    "line": "$({ target: 'Math', stat: true, forced: !(nativeAsinh && 1 / nativeAsinh(0) > 0) }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.atanh.js",
+    "line": "$({ target: 'Math', stat: true, forced: !(nativeAtanh && 1 / nativeAtanh(-0) < 0) }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.cbrt.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.clz32.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.cosh.js",
+    "line": "$({ target: 'Math', stat: true, forced: !nativeCosh || nativeCosh(710) === Infinity }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.expm1.js",
+    "line": "$({ target: 'Math', stat: true, forced: expm1 != Math.expm1 }, { expm1: expm1 });",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.fround.js",
+    "line": "$({ target: 'Math', stat: true }, { fround: fround });",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.hypot.js",
+    "line": "$({ target: 'Math', stat: true, forced: BUGGY }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.imul.js",
+    "line": "$({ target: 'Math', stat: true, forced: FORCED }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.log10.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.log1p.js",
+    "line": "$({ target: 'Math', stat: true }, { log1p: log1p });",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.log2.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.sign.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.sinh.js",
+    "line": "$({ target: 'Math', stat: true, forced: FORCED }, {",
+    "lineNumber": 16,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.tanh.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.math.trunc.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.epsilon.js",
+    "line": "$({ target: 'Number', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.is-finite.js",
+    "line": "$({ target: 'Number', stat: true }, { isFinite: numberIsFinite });",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.is-integer.js",
+    "line": "$({ target: 'Number', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.is-nan.js",
+    "line": "$({ target: 'Number', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.is-safe-integer.js",
+    "line": "$({ target: 'Number', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.max-safe-integer.js",
+    "line": "$({ target: 'Number', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.min-safe-integer.js",
+    "line": "$({ target: 'Number', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.parse-float.js",
+    "line": "$({ target: 'Number', stat: true, forced: Number.parseFloat != parseFloat }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.parse-int.js",
+    "line": "$({ target: 'Number', stat: true, forced: Number.parseInt != parseInt }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.to-fixed.js",
+    "line": "$({ target: 'Number', proto: true, forced: FORCED }, {",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.number.to-precision.js",
+    "line": "$({ target: 'Number', proto: true, forced: FORCED }, {",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.assign.js",
+    "line": "$({ target: 'Object', stat: true, forced: Object.assign !== assign }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.create.js",
+    "line": "$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.define-getter.js",
+    "line": "  $({ target: 'Object', proto: true, forced: FORCED }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.define-properties.js",
+    "line": "$({ target: 'Object', stat: true, forced: !DESCRIPTORS, sham: !DESCRIPTORS }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.define-property.js",
+    "line": "$({ target: 'Object', stat: true, forced: !DESCRIPTORS, sham: !DESCRIPTORS }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.define-setter.js",
+    "line": "  $({ target: 'Object', proto: true, forced: FORCED }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.entries.js",
+    "line": "$({ target: 'Object', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.freeze.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.from-entries.js",
+    "line": "$({ target: 'Object', stat: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.get-own-property-descriptor.js",
+    "line": "$({ target: 'Object', stat: true, forced: FORCED, sham: !DESCRIPTORS }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.get-own-property-descriptors.js",
+    "line": "$({ target: 'Object', stat: true, sham: !DESCRIPTORS }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.get-own-property-names.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.get-prototype-of.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !CORRECT_PROTOTYPE_GETTER }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.is-extensible.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.is-frozen.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.is-sealed.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.is.js",
+    "line": "$({ target: 'Object', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.keys.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.lookup-getter.js",
+    "line": "  $({ target: 'Object', proto: true, forced: FORCED }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.lookup-setter.js",
+    "line": "  $({ target: 'Object', proto: true, forced: FORCED }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.prevent-extensions.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.seal.js",
+    "line": "$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.set-prototype-of.js",
+    "line": "$({ target: 'Object', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.object.values.js",
+    "line": "$({ target: 'Object', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.parse-float.js",
+    "line": "$({ global: true, forced: parseFloat != parseFloatImplementation }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.parse-int.js",
+    "line": "$({ global: true, forced: parseInt != parseIntImplementation }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.promise.all-settled.js",
+    "line": "$({ target: 'Promise', stat: true }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.promise.finally.js",
+    "line": "$({ target: 'Promise', proto: true, real: true }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.promise.js",
+    "line": "    if (typeof $fetch == 'function') $({ global: true, enumerable: true, forced: true }, {",
+    "lineNumber": 289,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.promise.js",
+    "line": "$({ global: true, wrap: true, forced: FORCED }, {",
+    "lineNumber": 298,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.promise.js",
+    "line": "$({ target: PROMISE, stat: true, forced: FORCED }, {",
+    "lineNumber": 308,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.promise.js",
+    "line": "$({ target: PROMISE, stat: true, forced: IS_PURE || FORCED }, {",
+    "lineNumber": 318,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.promise.js",
+    "line": "$({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {",
+    "lineNumber": 326,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.apply.js",
+    "line": "$({ target: 'Reflect', stat: true, forced: OPTIONAL_ARGUMENTS_LIST }, {",
+    "lineNumber": 17,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.construct.js",
+    "line": "$({ target: 'Reflect', stat: true, forced: FORCED, sham: FORCED }, {",
+    "lineNumber": 25,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.define-property.js",
+    "line": "$({ target: 'Reflect', stat: true, forced: ERROR_INSTEAD_OF_FALSE, sham: !DESCRIPTORS }, {",
+    "lineNumber": 16,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.delete-property.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.get-own-property-descriptor.js",
+    "line": "$({ target: 'Reflect', stat: true, sham: !DESCRIPTORS }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.get-prototype-of.js",
+    "line": "$({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.get.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.has.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.is-extensible.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.own-keys.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.prevent-extensions.js",
+    "line": "$({ target: 'Reflect', stat: true, sham: !FREEZING }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.set-prototype-of.js",
+    "line": "if (objectSetPrototypeOf) $({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.reflect.set.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.regexp.exec.js",
+    "line": "$({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.anchor.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.big.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('big') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.blink.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('blink') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.bold.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('bold') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.code-point-at.js",
+    "line": "$({ target: 'String', proto: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.ends-with.js",
+    "line": "$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('endsWith') }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.fixed.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('fixed') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.fontcolor.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('fontcolor') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.fontsize.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('fontsize') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.from-code-point.js",
+    "line": "$({ target: 'String', stat: true, forced: INCORRECT_LENGTH }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.includes.js",
+    "line": "$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.italics.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('italics') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.link.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('link') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.match-all.js",
+    "line": "$({ target: 'String', proto: true }, {",
+    "lineNumber": 79,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.pad-end.js",
+    "line": "$({ target: 'String', proto: true, forced: WEBKIT_BUG }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.pad-start.js",
+    "line": "$({ target: 'String', proto: true, forced: WEBKIT_BUG }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.raw.js",
+    "line": "$({ target: 'String', stat: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.repeat.js",
+    "line": "$({ target: 'String', proto: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.replace.js",
+    "line": "var SUBSTITUTION_SYMBOLS = /\\$([$&'`]|\\d\\d?|<[^>]*>)/g;",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.replace.js",
+    "line": "var SUBSTITUTION_SYMBOLS_NO_NAMED = /\\$([$&'`]|\\d\\d?)/g;",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.small.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('small') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.starts-with.js",
+    "line": "$({ target: 'String', proto: true, forced: !correctIsRegExpLogic('startsWith') }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.strike.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('strike') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.sub.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('sub') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.sup.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('sup') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.trim-end.js",
+    "line": "$({ target: 'String', proto: true, forced: FORCED }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.trim-start.js",
+    "line": "$({ target: 'String', proto: true, forced: FORCED }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.string.trim.js",
+    "line": "$({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.description.js",
+    "line": "  $({ global: true, forced: true }, {",
+    "lineNumber": 47,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.js",
+    "line": "    return wrap(tag, description);",
+    "lineNumber": 173,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.js",
+    "line": "    return wrap(wellKnownSymbol(name), name);",
+    "lineNumber": 200,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.js",
+    "line": "$({ global: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {",
+    "lineNumber": 204,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.js",
+    "line": "$({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL }, {",
+    "lineNumber": 212,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.js",
+    "line": "$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL, sham: !DESCRIPTORS }, {",
+    "lineNumber": 233,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.js",
+    "line": "$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL }, {",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.js",
+    "line": "$({ target: 'Object', stat: true, forced: fails(function () { getOwnPropertySymbolsModule.f(1); }) }, {",
+    "lineNumber": 259,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/es.symbol.js",
+    "line": "JSON && $({ target: 'JSON', stat: true, forced: !NATIVE_SYMBOL || fails(function () {",
+    "lineNumber": 267,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.aggregate-error.js",
+    "line": "$({ global: true }, {",
+    "lineNumber": 27,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.array.is-template-object.js",
+    "line": "$({ target: 'Array', stat: true }, {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.composite-key.js",
+    "line": "$({ global: true }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.composite-symbol.js",
+    "line": "$({ global: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.global-this.js",
+    "line": "$({ global: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.delete-all.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.every.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.filter.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.find-key.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.find.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.from.js",
+    "line": "$({ target: 'Map', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.group-by.js",
+    "line": "$({ target: 'Map', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.includes.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.key-by.js",
+    "line": "$({ target: 'Map', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.key-of.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.map-keys.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.map-values.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.merge.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.of.js",
+    "line": "$({ target: 'Map', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.reduce.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.some.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.update-or-insert.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.map.update.js",
+    "line": "$({ target: 'Map', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.clamp.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.deg-per-rad.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.degrees.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.fscale.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.iaddh.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.imulh.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.isubh.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.rad-per-deg.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.radians.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.scale.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.seeded-prng.js",
+    "line": "$({ target: 'Math', stat: true, forced: true }, {",
+    "lineNumber": 27,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.signbit.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.math.umulh.js",
+    "line": "$({ target: 'Math', stat: true }, {",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.number.from-string.js",
+    "line": "$({ target: 'Number', stat: true }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.observable.js",
+    "line": "$({ global: true }, {",
+    "lineNumber": 203,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.promise.any.js",
+    "line": "$({ target: 'Promise', stat: true }, {",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.promise.try.js",
+    "line": "$({ target: 'Promise', stat: true }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.define-metadata.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.delete-metadata.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.get-metadata-keys.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 28,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.get-metadata.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.get-own-metadata-keys.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.get-own-metadata.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.has-metadata.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.has-own-metadata.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.reflect.metadata.js",
+    "line": "$({ target: 'Reflect', stat: true }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.add-all.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.delete-all.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.difference.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.every.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.filter.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.find.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.from.js",
+    "line": "$({ target: 'Set', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.intersection.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.is-disjoint-from.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.is-subset-of.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.is-superset-of.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.join.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.map.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.of.js",
+    "line": "$({ target: 'Set', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.reduce.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.some.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.symmetric-difference.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.set.union.js",
+    "line": "$({ target: 'Set', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.string.at.js",
+    "line": "$({ target: 'String', proto: true }, {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.string.code-points.js",
+    "line": "$({ target: 'String', proto: true }, {",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.string.replace-all.js",
+    "line": "$({ target: 'String', proto: true }, {",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.weak-map.delete-all.js",
+    "line": "$({ target: 'WeakMap', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.weak-map.from.js",
+    "line": "$({ target: 'WeakMap', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.weak-map.of.js",
+    "line": "$({ target: 'WeakMap', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.weak-set.add-all.js",
+    "line": "$({ target: 'WeakSet', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.weak-set.delete-all.js",
+    "line": "$({ target: 'WeakSet', proto: true, real: true, forced: IS_PURE }, {",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.weak-set.from.js",
+    "line": "$({ target: 'WeakSet', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/esnext.weak-set.of.js",
+    "line": "$({ target: 'WeakSet', stat: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/web.queue-microtask.js",
+    "line": "$({ global: true, enumerable: true, noTargetGet: true }, {",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/web.timers.js",
+    "line": "$({ global: true, bind: true, forced: MSIE }, {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/web.timers.js",
+    "line": "  setTimeout: wrap(global.setTimeout),",
+    "lineNumber": 24,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/web.timers.js",
+    "line": "  setInterval: wrap(global.setInterval)",
+    "lineNumber": 27,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/web.url-search-params.js",
+    "line": "  append: function append(name, value) {",
+    "lineNumber": 159,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/web.url-search-params.js",
+    "line": "$({ global: true, forced: !USE_NATIVE_URL }, {",
+    "lineNumber": 304,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/web.url.js",
+    "line": "$({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {",
+    "lineNumber": 1006,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/lazy-universal-dotenv/node_modules/core-js/modules/web.url.to-json.js",
+    "line": "$({ target: 'URL', proto: true, enumerable: true }, {",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-01-06T20:40:04.973Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
     "path": "node_modules/levn/lib/parse-string.js",
     "line": "  function not$(x){ return !x; }",
     "lineNumber": 112,
@@ -5182,6 +6937,14 @@
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
     "updated": "2019-08-15T17:10:42.360Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/mime/src/test.js",
+    "line": "  after(function() {",
+    "lineNumber": 151,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -5386,38 +7149,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/neo-async/async.js",
     "line": "      this.insertBefore(this.head, node);",
@@ -5468,27 +7199,6 @@
     "lineNumber": 40,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/node-forge/dist/forge.all.min.js",
-    "lineNumber": 4,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/node-forge/dist/forge.min.js",
-    "lineNumber": 3,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/node-forge/dist/prime.worker.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5611,6 +7321,38 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nugget/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/nugget/node_modules/form-data/lib/form_data.js",
     "line": "  append(header);",
@@ -5649,24 +7391,6 @@
     "lineNumber": 326,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/object.getownpropertydescriptors/node_modules/es-abstract/operations/getOps.js",
-    "line": "var root = $(specHTML);",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z",
-    "reasonDetail": "$ in this case is cheerio"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/object.getownpropertydescriptors/node_modules/es-abstract/operations/getOps.js",
-    "line": "  var op = $(x);",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z",
-    "reasonDetail": "$ in this case is cheerio"
   },
   {
     "rule": "jQuery-wrap(",
@@ -5806,14 +7530,6 @@
   },
   {
     "rule": "thenify-multiArgs",
-    "path": "node_modules/path-type/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "lineNumber": 16,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
     "path": "node_modules/pify/index.js",
     "line": "\t\t\t\tif (opts.multiArgs) {",
     "lineNumber": 14,
@@ -5872,78 +7588,6 @@
     "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "function createNodesFromMarkup(markup, handleScript) {",
-    "lineNumber": 51,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
-    "lineNumber": 53,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
-    "lineNumber": 58,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = markup;",
-    "lineNumber": 65,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
-    "lineNumber": 70,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "module.exports = createNodesFromMarkup;",
-    "lineNumber": 81,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<link />';",
-    "lineNumber": 83,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prop-types/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
-    "lineNumber": 85,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-06-20T20:21:33.456Z"
   },
   {
     "rule": "eval",
@@ -6163,86 +7807,6 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "export function load(filename: (string|string[]), root: Root, callback: LoadCallback): void;",
-    "lineNumber": 414,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "export function load(filename: (string|string[]), callback: LoadCallback): void;",
-    "lineNumber": 422,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "export function load(filename: (string|string[]), root?: Root): Promise<Root>;",
-    "lineNumber": 431,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "    public load(filename: (string|string[]), options: IParseOptions, callback: LoadCallback): void;",
-    "lineNumber": 1250,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "    public load(filename: (string|string[]), callback: LoadCallback): void;",
-    "lineNumber": 1257,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/protobufjs/index.d.ts",
-    "line": "    public load(filename: (string|string[]), options?: IParseOptions): Promise<Root>;",
-    "lineNumber": 1265,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
-    "line": "        wrap(oldStream: ReadableStream): this;",
-    "lineNumber": 456,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
-    "line": "        static wrap(code: string): string;",
-    "lineNumber": 824,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
-    "line": "        append(name: string, value: string): void;",
-    "lineNumber": 2411,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
-    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
-    "lineNumber": 5464,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-09T00:08:44.242Z"
-  },
-  {
-    "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/src/index-light.js",
     "line": "function load(filename, root, callback) {",
     "lineNumber": 23,
@@ -6364,10 +7928,10 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/regenerate/regenerate.js",
-    "line": "\t\t\t//     $()*+-./?[\\]^{|}",
-    "lineNumber": 550,
+    "line": "\t\t\t//     $()*+./?[\\]^{|}",
+    "lineNumber": 558,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-12-13T17:08:12.581Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -6381,25 +7945,9 @@
     "rule": "jQuery-wrap(",
     "path": "node_modules/regenerator-runtime/runtime.js",
     "line": "      wrap(innerFn, outerFn, self, tryLocsList)",
-    "lineNumber": 236,
+    "lineNumber": 228,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/regexpu-core/rewrite-pattern.js",
-    "line": "\t\t\ttree = wrap(tree, pattern);",
-    "lineNumber": 79,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/regexpu-core/rewrite-pattern.js",
-    "line": "function wrap(tree, pattern) {",
-    "lineNumber": 84,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-html(",
@@ -6456,10 +8004,11 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/schema-utils/node_modules/ajv/dist/ajv.min.js",
-    "lineNumber": 2,
+    "path": "node_modules/sharp/lib/libvips.js",
+    "line": "    const brewPkgConfigPath = spawnSync('which brew >/dev/null 2>&1 && eval $(brew --env) && echo $PKG_CONFIG_LIBDIR', spawnSyncOptions).stdout || '';",
+    "lineNumber": 76,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-load(",
@@ -6482,14 +8031,6 @@
     "path": "node_modules/socks/build/common/receivebuffer.js",
     "line": "    append(data) {",
     "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/socks/typings/common/receiveBuffer.d.ts",
-    "line": "    append(data: Buffer): number;",
-    "lineNumber": 8,
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T18:02:26.186Z"
   },
@@ -6560,14 +8101,6 @@
     "path": "node_modules/source-map/lib/source-node.js",
     "line": "      this.prepend(aChunk[i]);",
     "lineNumber": 200,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/source-map/source-map.d.ts",
-    "line": "    prepend(chunk: string): void;",
-    "lineNumber": 90,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -6763,12 +8296,44 @@
     "updated": "2019-07-16T21:56:03.429Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/svg2png/node_modules/yargs/yargs.js",
     "line": "    usage.wrap(cols)",
     "lineNumber": 643,
     "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z"
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-append(",
@@ -6777,6 +8342,83 @@
     "lineNumber": 153,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
   },
   {
     "rule": "jQuery-after(",
@@ -6973,7 +8615,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/tar-stream/extract.js",
     "line": "    b.append(data)",
-    "lineNumber": 224,
+    "lineNumber": 231,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -6981,7 +8623,7 @@
     "rule": "jQuery-append(",
     "path": "node_modules/tar-stream/extract.js",
     "line": "  else b.append(data)",
-    "lineNumber": 240,
+    "lineNumber": 247,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -7058,47 +8700,6 @@
     "reasonCategory": "ruleNeeded",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "Add rule. multiArgs are the only way to get arbitrary information into string returned by createWrapper"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/tiny-lr/node_modules/debug/browser.js",
-    "line": "function load() {",
-    "lineNumber": 139,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/tiny-lr/node_modules/debug/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 151,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/tiny-lr/node_modules/debug/node.js",
-    "line": "function load() {",
-    "lineNumber": 133,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/tiny-lr/node_modules/debug/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 209,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/to-fast-properties/index.js",
-    "line": "\teval(\"o\" + o); // ensure no dead code elimination",
-    "lineNumber": 10,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "The line is never run, since it's after a return statement"
   },
   {
     "rule": "jQuery-before(",
@@ -7188,6 +8789,38 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/whatwg-fetch/fetch.js",
     "line": "        this.append(name, value)",
@@ -7242,46 +8875,6 @@
     "lineNumber": 2066,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/yargs/lib/completion-templates.js",
-    "line": "    type_list=$({{app_path}} --get-yargs-completions \"\\${args[@]}\")",
-    "lineNumber": 17,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T21:47:42.627Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/yargs/lib/completion-templates.js",
-    "line": "    COMPREPLY=( $(compgen -W \"\\${type_list}\" -- \\${cur_word}) )",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T21:47:42.627Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/yargs/lib/completion-templates.js",
-    "line": "  IFS=$'\\n' reply=($(COMP_CWORD=\"$((CURRENT-1))\" COMP_LINE=\"$BUFFER\" COMP_POINT=\"$CURSOR\" {{app_path}} --get-yargs-completions \"\\${words[@]}\"))",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T21:47:42.627Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/yargs/node_modules/cliui/index.js",
-    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), { hard: true }).split('\\n')",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T21:47:42.627Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/yargs/yargs.js",
-    "line": "    usage.wrap(cols)",
-    "lineNumber": 756,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-19T18:03:38.741Z"
   },
   {
     "rule": "jQuery-after(",
@@ -7639,20 +9232,35 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
-    "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 32,
+    "line": "        this.audioRef = react_1.default.createRef();",
+    "lineNumber": 45,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-11-01T22:46:33.013Z",
-    "reasonDetail": "Used for setting focus only"
+    "updated": "2020-01-09T21:39:25.233Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.js",
+    "line": "        this.reactionsContainerRef = react_1.default.createRef();",
+    "lineNumber": 47,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-01-09T21:42:44.292Z",
+    "reasonDetail": "Used for detecting clicks outside reaction viewer"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
-    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 155,
+    "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
+    "lineNumber": 167,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-11-01T22:46:33.013Z",
-    "reasonDetail": "Used for setting focus only"
+    "updated": "2020-01-13T22:33:23.241Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.tsx",
+    "line": "  > = React.createRef();",
+    "lineNumber": 171,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-01-13T22:33:23.241Z"
   },
   {
     "rule": "React-createRef",

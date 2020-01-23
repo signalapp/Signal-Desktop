@@ -1,6 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
+import Measure from 'react-measure';
+import { clamp, groupBy, orderBy, take } from 'lodash';
+import { Manager, Popper, Reference } from 'react-popper';
 
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
@@ -12,6 +15,11 @@ import { Timestamp } from './Timestamp';
 import { ContactName } from './ContactName';
 import { Quote, QuotedAttachmentType } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
+import {
+  OwnProps as ReactionViewerProps,
+  ReactionViewer,
+} from './ReactionViewer';
+import { Emoji } from '../emoji/Emoji';
 
 import {
   canDisplayImage,
@@ -31,6 +39,7 @@ import { ContactType } from '../../types/Contact';
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
+import { mergeRefs } from '../_util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Trigger {
@@ -39,7 +48,7 @@ interface Trigger {
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
-const STICKER_SIZE = 128;
+const STICKER_SIZE = 200;
 const SELECTED_TIMEOUT = 1000;
 
 interface LinkPreviewType {
@@ -92,6 +101,8 @@ export type PropsData = {
 
   expirationLength?: number;
   expirationTimestamp?: number;
+
+  reactions?: ReactionViewerProps['reactions'];
 };
 
 type PropsHousekeeping = {
@@ -110,30 +121,28 @@ export type PropsActions = {
   showMessageDetail: (id: string) => void;
 
   openConversation: (conversationId: string, messageId?: string) => void;
-  showContactDetail: (
-    options: { contact: ContactType; signalAccount?: string }
-  ) => void;
+  showContactDetail: (options: {
+    contact: ContactType;
+    signalAccount?: string;
+  }) => void;
 
-  showVisualAttachment: (
-    options: { attachment: AttachmentType; messageId: string }
-  ) => void;
-  downloadAttachment: (
-    options: {
-      attachment: AttachmentType;
-      timestamp: number;
-      isDangerous: boolean;
-    }
-  ) => void;
+  showVisualAttachment: (options: {
+    attachment: AttachmentType;
+    messageId: string;
+  }) => void;
+  downloadAttachment: (options: {
+    attachment: AttachmentType;
+    timestamp: number;
+    isDangerous: boolean;
+  }) => void;
   displayTapToViewMessage: (messageId: string) => unknown;
 
   openLink: (url: string) => void;
-  scrollToQuotedMessage: (
-    options: {
-      author: string;
-      sentAt: number;
-    }
-  ) => void;
+  scrollToQuotedMessage: (options: { author: string; sentAt: number }) => void;
   selectMessage?: (messageId: string, conversationId: string) => unknown;
+
+  showExpiredIncomingTapToViewToast: () => unknown;
+  showExpiredOutgoingTapToViewToast: () => unknown;
 };
 
 export type Props = PropsData & PropsHousekeeping & PropsActions;
@@ -145,6 +154,9 @@ interface State {
 
   isSelected: boolean;
   prevSelectedCounter: number;
+
+  reactionsHeight: number;
+  reactionViewerRoot: HTMLDivElement | null;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -152,8 +164,11 @@ const EXPIRED_DELAY = 600;
 
 export class Message extends React.PureComponent<Props, State> {
   public menuTriggerRef: Trigger | undefined;
-  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
   public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();
+  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
+  public reactionsContainerRef: React.RefObject<
+    HTMLDivElement
+  > = React.createRef();
 
   public expirationCheckInterval: any;
   public expiredTimeout: any;
@@ -169,6 +184,9 @@ export class Message extends React.PureComponent<Props, State> {
 
       isSelected: props.isSelected,
       prevSelectedCounter: props.isSelectedCounter,
+
+      reactionsHeight: 0,
+      reactionViewerRoot: null,
     };
   }
 
@@ -273,6 +291,7 @@ export class Message extends React.PureComponent<Props, State> {
     if (this.expiredTimeout) {
       clearTimeout(this.expiredTimeout);
     }
+    this.toggleReactionViewer(true);
   }
 
   public componentDidUpdate(prevProps: Props) {
@@ -947,6 +966,9 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const { reactions } = this.props;
+    const hasReactions = reactions && reactions.length > 0;
+
     const multipleAttachments = attachments && attachments.length > 1;
     const firstAttachment = attachments && attachments[0];
 
@@ -1005,7 +1027,8 @@ export class Message extends React.PureComponent<Props, State> {
       <div
         className={classNames(
           'module-message__buttons',
-          `module-message__buttons--${direction}`
+          `module-message__buttons--${direction}`,
+          hasReactions ? 'module-message__buttons--has-reactions' : null
         )}
       >
         {first}
@@ -1241,8 +1264,8 @@ export class Message extends React.PureComponent<Props, State> {
     return isTapToViewError
       ? i18n('incomingError')
       : direction === 'outgoing'
-        ? outgoingString
-        : incomingString;
+      ? outgoingString
+      : incomingString;
   }
 
   public renderTapToView() {
@@ -1291,6 +1314,165 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
+  public toggleReactionViewer = (onlyRemove = false) => {
+    this.setState(({ reactionViewerRoot }) => {
+      if (reactionViewerRoot) {
+        document.body.removeChild(reactionViewerRoot);
+        document.body.removeEventListener(
+          'click',
+          this.handleClickOutside,
+          true
+        );
+
+        return { reactionViewerRoot: null };
+      }
+
+      if (!onlyRemove) {
+        const root = document.createElement('div');
+        document.body.appendChild(root);
+        document.body.addEventListener('click', this.handleClickOutside, true);
+
+        return {
+          reactionViewerRoot: root,
+        };
+      }
+
+      return { reactionViewerRoot: null };
+    });
+  };
+
+  public handleClickOutside = (e: MouseEvent) => {
+    const { reactionViewerRoot } = this.state;
+    const { current: reactionsContainer } = this.reactionsContainerRef;
+    if (reactionViewerRoot && reactionsContainer) {
+      if (
+        !reactionViewerRoot.contains(e.target as HTMLElement) &&
+        !reactionsContainer.contains(e.target as HTMLElement)
+      ) {
+        this.toggleReactionViewer(true);
+      }
+    }
+  };
+
+  // tslint:disable-next-line max-func-body-length
+  public renderReactions(outgoing: boolean) {
+    const { reactions, i18n } = this.props;
+
+    if (!reactions || (reactions && reactions.length === 0)) {
+      return null;
+    }
+
+    // Group by emoji and order each group by timestamp descending
+    const grouped = Object.values(groupBy(reactions, 'emoji')).map(res =>
+      orderBy(res, ['timestamp'], ['desc'])
+    );
+    // Order groups by length and subsequently by most recent reaction
+    const ordered = orderBy(
+      grouped,
+      ['length', ([{ timestamp }]) => timestamp],
+      ['desc', 'desc']
+    );
+    // Take the first two groups for rendering
+    const toRender = take(ordered, 2).map(res => ({
+      emoji: res[0].emoji,
+      isMe: res.some(re => Boolean(re.from.isMe)),
+    }));
+
+    const reactionHeight = 32;
+    const { reactionsHeight: height, reactionViewerRoot } = this.state;
+
+    const offset = clamp((height - reactionHeight) / toRender.length, 4, 28);
+
+    const popperPlacement = outgoing ? 'bottom-end' : 'bottom-start';
+
+    return (
+      <Manager>
+        <Reference>
+          {({ ref: popperRef }) => (
+            <Measure
+              bounds={true}
+              onResize={({ bounds = { height: 0 } }) => {
+                this.setState({ reactionsHeight: bounds.height });
+              }}
+            >
+              {({ measureRef }) => (
+                <div
+                  ref={mergeRefs(
+                    this.reactionsContainerRef,
+                    measureRef,
+                    popperRef
+                  )}
+                  className={classNames(
+                    'module-message__reactions',
+                    outgoing
+                      ? 'module-message__reactions--outgoing'
+                      : 'module-message__reactions--incoming'
+                  )}
+                >
+                  {toRender.map((re, i) => (
+                    <button
+                      key={`${re.emoji}-${i}`}
+                      className={classNames(
+                        'module-message__reactions__reaction',
+                        outgoing
+                          ? 'module-message__reactions__reaction--outgoing'
+                          : 'module-message__reactions__reaction--incoming',
+                        re.isMe
+                          ? 'module-message__reactions__reaction--is-me'
+                          : null
+                      )}
+                      style={{
+                        top: `${i * offset}px`,
+                      }}
+                      onClick={e => {
+                        e.stopPropagation();
+                        this.toggleReactionViewer();
+                      }}
+                      onKeyDown={e => {
+                        // Prevent enter key from opening stickers/attachments
+                        if (e.key === 'Enter') {
+                          e.stopPropagation();
+                        }
+                      }}
+                    >
+                      <Emoji size={18} emoji={re.emoji} />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </Measure>
+          )}
+        </Reference>
+        {reactionViewerRoot &&
+          createPortal(
+            <Popper placement={popperPlacement}>
+              {({ ref, style }) => (
+                <ReactionViewer
+                  ref={ref}
+                  style={{
+                    ...style,
+                    zIndex: 2,
+                    marginTop: -(height - reactionHeight * 0.75),
+                    ...(outgoing
+                      ? {
+                          marginRight: reactionHeight * -0.375,
+                        }
+                      : {
+                          marginLeft: reactionHeight * -0.375,
+                        }),
+                  }}
+                  reactions={reactions}
+                  i18n={i18n}
+                  onClose={this.toggleReactionViewer}
+                />
+              )}
+            </Popper>,
+            reactionViewerRoot
+          )}
+      </Manager>
+    );
+  }
+
   public renderContents() {
     const { isTapToView } = this.props;
 
@@ -1316,7 +1498,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  // tslint:disable-next-line cyclomatic-complexity
+  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   public handleOpen = (
     event: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent
   ) => {
@@ -1324,19 +1506,32 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       contact,
       displayTapToViewMessage,
+      direction,
       id,
       isTapToView,
       isTapToViewExpired,
       openConversation,
       showContactDetail,
       showVisualAttachment,
+      showExpiredIncomingTapToViewToast,
+      showExpiredOutgoingTapToViewToast,
     } = this.props;
     const { imageBroken } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
 
     if (isTapToView) {
-      if (!isTapToViewExpired && !isAttachmentPending) {
+      if (isAttachmentPending) {
+        return;
+      }
+
+      if (isTapToViewExpired) {
+        const action =
+          direction === 'outgoing'
+            ? showExpiredOutgoingTapToViewToast
+            : showExpiredIncomingTapToViewToast;
+        action();
+      } else {
         event.preventDefault();
         event.stopPropagation();
 
@@ -1553,6 +1748,7 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderError(direction === 'outgoing')}
         {this.renderMenu(direction === 'incoming', triggerId)}
         {this.renderContextMenu(triggerId)}
+        {this.renderReactions(direction === 'outgoing')}
       </div>
     );
   }

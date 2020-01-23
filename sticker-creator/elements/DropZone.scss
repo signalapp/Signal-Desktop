@@ -1,0 +1,61 @@
+@import '../../stylesheets/variables';
+@import '../mixins';
+
+.base {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1;
+
+  @include light-theme() {
+    color: $color-gray-25;
+  }
+
+  @include dark-theme() {
+    color: $color-gray-60;
+  }
+}
+
+.text {
+  margin: 16px 0 0 0;
+  font-family: $inter;
+  font-size: 14px;
+  font-weight: normal;
+
+  @include light-theme() {
+    color: $color-gray-25;
+  }
+
+  @include dark-theme() {
+    color: $color-gray-60;
+  }
+}
+
+.standalone {
+  composes: base;
+  border-radius: 4px;
+  border: 2px solid;
+
+  @include light-theme() {
+    border-color: $color-gray-25;
+  }
+
+  @include dark-theme() {
+    border-color: $color-gray-60;
+  }
+}
+
+.active {
+  composes: standalone;
+
+  @include light-theme() {
+    border-color: $color-signal-blue;
+  }
+
+  @include dark-theme() {
+    border-color: $color-signal-blue;
+  }
+}

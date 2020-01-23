@@ -5,8 +5,30 @@ const abeSticker = { id: 4, url: util.squareStickerObjectUrl, packId: 'abe' };
 const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
 const sticker2 = { id: 2, url: util.kitten264ObjectUrl, packId: 'bar' };
 const sticker3 = { id: 3, url: util.kitten364ObjectUrl, packId: 'baz' };
+const wideSticker = {
+  id: 4,
+  url: util.landscapeGreenObjectUrl,
+  packId: 'wide',
+};
+const tallSticker = { id: 4, url: util.portraitTealObjectUrl, packId: 'tall' };
 
 const packs = [
+  {
+    id: 'tall',
+    cover: tallSticker,
+    stickerCount: 101,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...tallSticker, id })),
+  },
+  {
+    id: 'wide',
+    cover: wideSticker,
+    stickerCount: 101,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...wideSticker, id })),
+  },
   {
     id: 'foo',
     cover: sticker1,
@@ -154,6 +176,8 @@ const packs = [
       sticker1,
       sticker2,
       sticker3,
+      tallSticker,
+      wideSticker,
       { ...sticker2, id: 9999 },
     ]}
     onClose={() => console.log('onClose')}

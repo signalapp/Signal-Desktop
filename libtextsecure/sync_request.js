@@ -24,10 +24,10 @@
     receiver.addEventListener('groupsync', this.ongroup);
 
     const ourNumber = textsecure.storage.user.getNumber();
-    const { wrap, sendOptions } = ConversationController.prepareForSend(
-      ourNumber,
-      { syncMessage: true }
-    );
+    const {
+      wrap,
+      sendOptions,
+    } = ConversationController.prepareForSend(ourNumber, { syncMessage: true });
 
     window.log.info('SyncRequest created. Sending config sync request...');
     wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));

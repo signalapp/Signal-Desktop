@@ -13,9 +13,9 @@ or [iOS](https://github.com/signalapp/Signal-iOS).
 
 You can install the beta version of Signal Desktop alongside the production version. The beta uses different data and install locations.
 
-* _Windows:_ First, download [this file](https://updates.signal.org/desktop/beta.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<installer location>`. Then run the installer.
-* _macOS:_ First, download [this file](https://updates.signal.org/desktop/beta-mac.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<package location>`. Then unzip that package and copy the `.app` file into the `/Applications` folder using Finder.
-* _Linux:_ Follow the production instructions to set up the APT repository and run `apt install signal-desktop-beta`.
+- _Windows:_ First, download [this file](https://updates.signal.org/desktop/beta.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<installer location>`. Then run the installer.
+- _macOS:_ First, download [this file](https://updates.signal.org/desktop/beta-mac.yml) and look for the `url` property that specifies the location for the latest beta installer. Download the installer by constructing a final URL that looks like this: `https://updates.signal.org/desktop/<package location>`. Then unzip that package and copy the `.app` file into the `/Applications` folder using Finder.
+- _Linux:_ Follow the production instructions to set up the APT repository and run `apt install signal-desktop-beta`.
 
 ## Got a question?
 
@@ -52,6 +52,6 @@ The form and manner of this distribution makes it eligible for export under the 
 
 ## License
 
-Copyright 2014-2019 Open Whisper Systems
+Copyright 2014-2020 Open Whisper Systems
 
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html

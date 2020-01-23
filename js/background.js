@@ -8,7 +8,7 @@
   Signal,
   storage,
   textsecure,
-  WebAPI
+  WebAPI,
   Whisper,
 */
 
@@ -88,9 +88,15 @@
   let activeHandlers = [];
   let activeTimestamp = Date.now();
 
+  window.addEventListener('blur', () => {
+    // Force inactivity
+    activeTimestamp = Date.now() - ACTIVE_TIMEOUT;
+  });
+
   window.resetActiveTimer = _.throttle(() => {
     const previouslyActive = window.isActive();
     activeTimestamp = Date.now();
+
     if (!previouslyActive) {
       activeHandlers.forEach(handler => handler());
     }
@@ -102,7 +108,7 @@
 
   window.isActive = () => {
     const now = Date.now();
-    return window.isFocused() && now <= activeTimestamp + ACTIVE_TIMEOUT;
+    return now <= activeTimestamp + ACTIVE_TIMEOUT;
   };
   window.registerForActive = handler => activeHandlers.push(handler);
   window.unregisterForActive = handler => {
@@ -399,6 +405,12 @@
           ),
         });
       },
+
+      installStickerPack: async (packId, key) => {
+        window.Signal.Stickers.downloadStickerPack(packId, key, {
+          finalStatus: 'installed',
+        });
+      },
     };
 
     if (isIndexedDBPresent) {
@@ -492,9 +504,7 @@
     idleDetector = new IdleDetector();
     let isMigrationWithIndexComplete = false;
     window.log.info(
-      `Starting background data migration. Target version: ${
-        Message.CURRENT_SCHEMA_VERSION
-      }`
+      `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`
     );
     idleDetector.on('idle', async () => {
       const NUM_MESSAGES_PER_BATCH = 1;
@@ -838,6 +848,13 @@
           '.module-sticker-manager__preview-modal__overlay'
         );
         if (stickerPreview) {
+          return;
+        }
+
+        const reactionViewer = document.querySelector(
+          '.module-reaction-viewer'
+        );
+        if (reactionViewer) {
           return;
         }
       }
@@ -1605,7 +1622,9 @@
       const ourNumber = textsecure.storage.user.getNumber();
       const { wrap, sendOptions } = ConversationController.prepareForSend(
         ourNumber,
-        { syncMessage: true }
+        {
+          syncMessage: true,
+        }
       );
 
       const installedStickerPacks = window.Signal.Stickers.getInstalledStickerPacks();
@@ -2058,6 +2077,23 @@
       messageDescriptor.type
     );
 
+    if (data.message.reaction) {
+      const { reaction } = data.message;
+      const reactionModel = Whisper.Reactions.add({
+        emoji: reaction.emoji,
+        remove: reaction.remove,
+        targetAuthorE164: reaction.targetAuthorE164,
+        targetAuthorUuid: reaction.targetAuthorUuid,
+        targetTimestamp: reaction.targetTimestamp.toNumber(),
+        timestamp: Date.now(),
+        fromId: messageDescriptor.id,
+      });
+      // Note: We do not wait for completion here
+      Whisper.Reactions.onReaction(reactionModel);
+      confirm();
+      return;
+    }
+
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     message.handleDataMessage(data.message, event.confirm, {
       initialLoadComplete,
@@ -2175,6 +2211,20 @@
       window.log.warn(
         `onSentMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
       );
+      event.confirm();
+    } else if (data.message.reaction) {
+      const { reaction } = data.message;
+      const reactionModel = Whisper.Reactions.add({
+        emoji: reaction.emoji,
+        remove: reaction.remove,
+        targetAuthorE164: reaction.targetAuthorE164,
+        targetAuthorUuid: reaction.targetAuthorUuid,
+        targetTimestamp: reaction.targetTimestamp.toNumber(),
+        timestamp: Date.now(),
+        fromId: messageDescriptor.id,
+      });
+      // Note: We do not wait for completion here
+      Whisper.Reactions.onReaction(reactionModel);
       event.confirm();
     } else {
       await ConversationController.getOrCreateAndWait(

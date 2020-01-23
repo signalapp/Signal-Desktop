@@ -111,15 +111,12 @@ export const CompositionArea = ({
   const editorRef = React.useRef<Editor>(null);
   const inputApiRef = React.useRef<InputApi | undefined>();
 
-  const handleForceSend = React.useCallback(
-    () => {
-      setLarge(false);
-      if (inputApiRef.current) {
-        inputApiRef.current.submit();
-      }
-    },
-    [inputApiRef, setLarge]
-  );
+  const handleForceSend = React.useCallback(() => {
+    setLarge(false);
+    if (inputApiRef.current) {
+      inputApiRef.current.submit();
+    }
+  }, [inputApiRef, setLarge]);
 
   const handleSubmit = React.useCallback<typeof onSubmit>(
     (...args) => {
@@ -129,14 +126,11 @@ export const CompositionArea = ({
     [setLarge, onSubmit]
   );
 
-  const focusInput = React.useCallback(
-    () => {
-      if (editorRef.current) {
-        editorRef.current.focus();
-      }
-    },
-    [editorRef]
-  );
+  const focusInput = React.useCallback(() => {
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
+  }, [editorRef]);
 
   const withStickers =
     countStickers({
@@ -180,40 +174,31 @@ export const CompositionArea = ({
     [inputApiRef, onPickEmoji]
   );
 
-  const handleToggleLarge = React.useCallback(
-    () => {
-      setLarge(l => !l);
-    },
-    [setLarge]
-  );
+  const handleToggleLarge = React.useCallback(() => {
+    setLarge(l => !l);
+  }, [setLarge]);
 
   // The following is a work-around to allow react to lay-out backbone-managed
   // dom nodes until those functions are in React
   const micCellRef = React.useRef<HTMLDivElement>(null);
-  React.useLayoutEffect(
-    () => {
-      const { current: micCellContainer } = micCellRef;
-      if (micCellContainer && micCellEl) {
-        emptyElement(micCellContainer);
-        micCellContainer.appendChild(micCellEl);
-      }
+  React.useLayoutEffect(() => {
+    const { current: micCellContainer } = micCellRef;
+    if (micCellContainer && micCellEl) {
+      emptyElement(micCellContainer);
+      micCellContainer.appendChild(micCellEl);
+    }
 
-      return noop;
-    },
-    [micCellRef, micCellEl, large, dirty, showMic]
-  );
+    return noop;
+  }, [micCellRef, micCellEl, large, dirty, showMic]);
 
-  React.useLayoutEffect(
-    () => {
-      const { current: attSlot } = attSlotRef;
-      if (attSlot && attachmentListEl) {
-        attSlot.appendChild(attachmentListEl);
-      }
+  React.useLayoutEffect(() => {
+    const { current: attSlot } = attSlotRef;
+    if (attSlot && attachmentListEl) {
+      attSlot.appendChild(attachmentListEl);
+    }
 
-      return noop;
-    },
-    [attSlotRef, attachmentListEl]
-  );
+    return noop;
+  }, [attSlotRef, attachmentListEl]);
 
   const emojiButtonFragment = (
     <div className="module-composition-area__button-cell">
@@ -287,31 +272,28 @@ export const CompositionArea = ({
   ) : null;
 
   // Listen for cmd/ctrl-shift-x to toggle large composition mode
-  React.useEffect(
-    () => {
-      const handler = (e: KeyboardEvent) => {
-        const { key, shiftKey, ctrlKey, metaKey } = e;
-        // When using the ctrl key, `key` is `'X'`. When using the cmd key, `key` is `'x'`
-        const xKey = key === 'x' || key === 'X';
-        const commandKey = get(window, 'platform') === 'darwin' && metaKey;
-        const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
-        const commandOrCtrl = commandKey || controlKey;
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const { key, shiftKey, ctrlKey, metaKey } = e;
+      // When using the ctrl key, `key` is `'X'`. When using the cmd key, `key` is `'x'`
+      const xKey = key === 'x' || key === 'X';
+      const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+      const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+      const commandOrCtrl = commandKey || controlKey;
 
-        // cmd/ctrl-shift-x
-        if (xKey && shiftKey && commandOrCtrl) {
-          e.preventDefault();
-          setLarge(x => !x);
-        }
-      };
+      // cmd/ctrl-shift-x
+      if (xKey && shiftKey && commandOrCtrl) {
+        e.preventDefault();
+        setLarge(x => !x);
+      }
+    };
 
-      document.addEventListener('keydown', handler);
+    document.addEventListener('keydown', handler);
 
-      return () => {
-        document.removeEventListener('keydown', handler);
-      };
-    },
-    [setLarge]
-  );
+    return () => {
+      document.removeEventListener('keydown', handler);
+    };
+  }, [setLarge]);
 
   return (
     <div className="module-composition-area">

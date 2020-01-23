@@ -7,6 +7,7 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 import { LocalizerType } from '../../types/Util';
 import { StickerPackType } from '../../state/ducks/stickers';
 import { Spinner } from '../Spinner';
+import { useRestoreFocus } from '../hooks';
 
 export type OwnProps = {
   readonly onClose: () => unknown;
@@ -79,25 +80,7 @@ export const StickerPreviewModal = React.memo(
     const [confirmingUninstall, setConfirmingUninstall] = React.useState(false);
 
     // Restore focus on teardown
-    React.useEffect(
-      () => {
-        if (!root) {
-          return;
-        }
-
-        const lastFocused = document.activeElement as any;
-        if (focusRef.current) {
-          focusRef.current.focus();
-        }
-
-        return () => {
-          if (lastFocused && lastFocused.focus) {
-            lastFocused.focus();
-          }
-        };
-      },
-      [root]
-    );
+    useRestoreFocus(focusRef, root);
 
     React.useEffect(() => {
       const div = document.createElement('div');
@@ -126,52 +109,49 @@ export const StickerPreviewModal = React.memo(
     }, []);
 
     const isInstalled = Boolean(pack && pack.status === 'installed');
-    const handleToggleInstall = React.useCallback(
-      () => {
-        if (!pack) {
-          return;
-        }
-        if (isInstalled) {
-          setConfirmingUninstall(true);
-        } else if (pack.status === 'ephemeral') {
-          downloadStickerPack(pack.id, pack.key, { finalStatus: 'installed' });
+    const handleToggleInstall = React.useCallback(() => {
+      if (!pack) {
+        return;
+      }
+      if (isInstalled) {
+        setConfirmingUninstall(true);
+      } else if (pack.status === 'ephemeral') {
+        downloadStickerPack(pack.id, pack.key, { finalStatus: 'installed' });
+        onClose();
+      } else {
+        installStickerPack(pack.id, pack.key);
+        onClose();
+      }
+    }, [
+      isInstalled,
+      pack,
+      setConfirmingUninstall,
+      installStickerPack,
+      onClose,
+    ]);
+
+    const handleUninstall = React.useCallback(() => {
+      if (!pack) {
+        return;
+      }
+      uninstallStickerPack(pack.id, pack.key);
+      setConfirmingUninstall(false);
+      // onClose is called by the confirmation modal
+    }, [uninstallStickerPack, setConfirmingUninstall, pack]);
+
+    React.useEffect(() => {
+      const handler = ({ key }: KeyboardEvent) => {
+        if (key === 'Escape') {
           onClose();
-        } else {
-          installStickerPack(pack.id, pack.key);
-          onClose();
         }
-      },
-      [isInstalled, pack, setConfirmingUninstall, installStickerPack, onClose]
-    );
+      };
 
-    const handleUninstall = React.useCallback(
-      () => {
-        if (!pack) {
-          return;
-        }
-        uninstallStickerPack(pack.id, pack.key);
-        setConfirmingUninstall(false);
-        // onClose is called by the confirmation modal
-      },
-      [uninstallStickerPack, setConfirmingUninstall, pack]
-    );
+      document.addEventListener('keydown', handler);
 
-    React.useEffect(
-      () => {
-        const handler = ({ key }: KeyboardEvent) => {
-          if (key === 'Escape') {
-            onClose();
-          }
-        };
-
-        document.addEventListener('keydown', handler);
-
-        return () => {
-          document.removeEventListener('keydown', handler);
-        };
-      },
-      [onClose]
-    );
+      return () => {
+        document.removeEventListener('keydown', handler);
+      };
+    }, [onClose]);
 
     const handleClickToClose = React.useCallback(
       (e: React.MouseEvent) => {

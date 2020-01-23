@@ -14,6 +14,10 @@
         "type": "separator"
       },
       {
+        "label": "Create/upload sticker pack",
+        "click": null
+      },
+      {
         "accelerator": "CommandOrControl+,",
         "label": "Preferences…",
         "click": null

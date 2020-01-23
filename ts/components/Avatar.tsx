@@ -12,12 +12,12 @@ export interface Props {
   name?: string;
   phoneNumber?: string;
   profileName?: string;
-  size: 28 | 52 | 80;
+  size: 28 | 32 | 52 | 80;
 
   onClick?: () => unknown;
 
   // Matches Popper's RefHandler type
-  innerRef?: (ref: HTMLElement | null) => void;
+  innerRef?: React.Ref<HTMLDivElement>;
 
   i18n: LocalizerType;
 }
@@ -143,7 +143,7 @@ export class Avatar extends React.Component<Props, State> {
 
     const hasImage = !noteToSelf && avatarPath && !imageBroken;
 
-    if (size !== 28 && size !== 52 && size !== 80) {
+    if (![28, 32, 52, 80].includes(size)) {
       throw new Error(`Size ${size} is not supported!`);
     }
 

@@ -1,37 +1,3 @@
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-v3.10/Inter-BoldItalic.woff2');
-  font-weight: bolder;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-v3.10/Inter-Bold.woff2');
-  font-weight: bolder;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-v3.10/Inter-SemiBoldItalic.woff2');
-  font-weight: bold;
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-v3.10/Inter-Italic.woff2');
-  font-style: italic;
-}
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-v3.10/Inter-SemiBold.woff2');
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/inter-v3.10/Inter-Regular.woff2');
-}
-
 $inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
   'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
   'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
@@ -170,7 +136,7 @@ $conversation-colors: (
   'teal': $color-conversation-teal,
   'green': $color-conversation-green,
   'light_green': $color-conversation-light_green,
-  'blue_grey': $color-conversation-blue_grey
+  'blue_grey': $color-conversation-blue_grey,
 );
 $conversation-colors-tint: (
   'red': $color-conversation-red-tint,
@@ -183,7 +149,7 @@ $conversation-colors-tint: (
   'teal': $color-conversation-teal-tint,
   'green': $color-conversation-green-tint,
   'light_green': $color-conversation-light_green-tint,
-  'blue_grey': $color-conversation-blue_grey-tint
+  'blue_grey': $color-conversation-blue_grey-tint,
 );
 $conversation-colors-shade: (
   'red': $color-conversation-red-shade,
@@ -196,7 +162,7 @@ $conversation-colors-shade: (
   'teal': $color-conversation-teal-shade,
   'green': $color-conversation-green-shade,
   'light_green': $color-conversation-light_green-shade,
-  'blue_grey': $color-conversation-blue_grey-shade
+  'blue_grey': $color-conversation-blue_grey-shade,
 );
 
 // -- Non-V3 colors

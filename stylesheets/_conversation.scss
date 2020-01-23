@@ -380,6 +380,10 @@
   }
 }
 
+.toast-clickable {
+  cursor: pointer;
+}
+
 .confirmation-dialog {
   .content {
     max-width: 350px;

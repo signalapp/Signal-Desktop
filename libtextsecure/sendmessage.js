@@ -209,9 +209,7 @@ MessageSender.prototype = {
     }
     if (data.byteLength !== size) {
       throw new Error(
-        `makeAttachmentPointer: Size ${size} did not match data.byteLength ${
-          data.byteLength
-        }`
+        `makeAttachmentPointer: Size ${size} did not match data.byteLength ${data.byteLength}`
       );
     }
 

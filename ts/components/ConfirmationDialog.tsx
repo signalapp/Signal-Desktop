@@ -30,21 +30,18 @@ export const ConfirmationDialog = React.memo(
     affirmativeText,
     negativeText,
   }: Props) => {
-    React.useEffect(
-      () => {
-        const handler = ({ key }: KeyboardEvent) => {
-          if (key === 'Escape') {
-            onClose();
-          }
-        };
-        document.addEventListener('keydown', handler);
+    React.useEffect(() => {
+      const handler = ({ key }: KeyboardEvent) => {
+        if (key === 'Escape') {
+          onClose();
+        }
+      };
+      document.addEventListener('keydown', handler);
 
-        return () => {
-          document.removeEventListener('keydown', handler);
-        };
-      },
-      [onClose]
-    );
+      return () => {
+        document.removeEventListener('keydown', handler);
+      };
+    }, [onClose]);
 
     const handleCancel = React.useCallback(
       (e: React.MouseEvent) => {
@@ -55,25 +52,19 @@ export const ConfirmationDialog = React.memo(
       [onClose]
     );
 
-    const handleNegative = React.useCallback(
-      () => {
-        onClose();
-        if (onNegative) {
-          onNegative();
-        }
-      },
-      [onClose, onNegative]
-    );
+    const handleNegative = React.useCallback(() => {
+      onClose();
+      if (onNegative) {
+        onNegative();
+      }
+    }, [onClose, onNegative]);
 
-    const handleAffirmative = React.useCallback(
-      () => {
-        onClose();
-        if (onAffirmative) {
-          onAffirmative();
-        }
-      },
-      [onClose, onAffirmative]
-    );
+    const handleAffirmative = React.useCallback(() => {
+      onClose();
+      if (onAffirmative) {
+        onAffirmative();
+      }
+    }, [onClose, onAffirmative]);
 
     return (
       <div className="module-confirmation-dialog__container">

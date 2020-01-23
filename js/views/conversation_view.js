@@ -19,14 +19,17 @@
   window.Whisper = window.Whisper || {};
   const { Message, MIME, VisualAttachment } = window.Signal.Types;
   const {
-    upgradeMessageSchema,
-    getAbsoluteAttachmentPath,
-    getAbsoluteDraftPath,
     copyIntoTempDirectory,
-    getAbsoluteTempPath,
     deleteDraftFile,
     deleteTempFile,
+    getAbsoluteAttachmentPath,
+    getAbsoluteDraftPath,
+    getAbsoluteTempPath,
+    openFileInFolder,
+    readAttachmentData,
     readDraftData,
+    saveAttachmentToDisk,
+    upgradeMessageSchema,
     writeNewDraftData,
   } = window.Signal.Migrations;
   const {
@@ -85,6 +88,58 @@
   Whisper.ConversationUnarchivedToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('conversationReturnedToInbox') };
+    },
+  });
+  Whisper.TapToViewExpiredIncomingToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return {
+        toastMessage: i18n('Message--tap-to-view--incoming--expired-toast'),
+      };
+    },
+  });
+  Whisper.TapToViewExpiredOutgoingToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return {
+        toastMessage: i18n('Message--tap-to-view--outgoing--expired-toast'),
+      };
+    },
+  });
+  Whisper.FileSavedToast = Whisper.ToastView.extend({
+    className: 'toast toast-clickable',
+    initialize(options) {
+      if (!options.fullPath) {
+        throw new Error('FileSavedToast: name option was not provided!');
+      }
+      this.fullPath = options.fullPath;
+      this.timeout = 10000;
+
+      if (window.getInteractionMode() === 'keyboard') {
+        setTimeout(() => {
+          this.$el.focus();
+        }, 1);
+      }
+    },
+    events: {
+      click: 'onClick',
+      keydown: 'onKeydown',
+    },
+    onClick() {
+      openFileInFolder(this.fullPath);
+      this.close();
+    },
+    onKeydown(event) {
+      if (event.key !== 'Enter' && event.key !== ' ') {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      openFileInFolder(this.fullPath);
+      this.close();
+    },
+    render_attributes() {
+      return { toastMessage: i18n('attachmentSaved') };
     },
   });
 
@@ -418,6 +473,12 @@
       const downloadNewVersion = () => {
         this.downloadNewVersion();
       };
+      const showExpiredIncomingTapToViewToast = () => {
+        this.showToast(Whisper.TapToViewExpiredIncomingToast);
+      };
+      const showExpiredOutgoingTapToViewToast = () => {
+        this.showToast(Whisper.TapToViewExpiredOutgoingToast);
+      };
 
       const scrollToQuotedMessage = async options => {
         const { author, sentAt } = options;
@@ -582,15 +643,24 @@
           showIdentity,
           showMessageDetail,
           showVisualAttachment,
+          showExpiredIncomingTapToViewToast,
+          showExpiredOutgoingTapToViewToast,
         }),
       });
 
       this.$('.timeline-placeholder').append(this.timelineView.el);
     },
 
-    showToast(ToastView) {
-      const toast = new ToastView();
-      toast.$el.appendTo(this.$el);
+    showToast(ToastView, options) {
+      const toast = new ToastView(options);
+
+      const lightboxEl = $('.module-lightbox');
+      if (lightboxEl.length > 0) {
+        toast.$el.appendTo(lightboxEl);
+      } else {
+        toast.$el.appendTo(this.$el);
+      }
+
       toast.render();
     },
 
@@ -725,10 +795,10 @@
         let scrollToLatestUnread = true;
 
         if (newestMessageId) {
-          const message = await getMessageById(newestMessageId, {
+          const newestInMemoryMessage = await getMessageById(newestMessageId, {
             Message: Whisper.Message,
           });
-          if (!message) {
+          if (!newestInMemoryMessage) {
             window.log.warn(
               `loadNewestMessages: did not find message ${newestMessageId}`
             );
@@ -736,7 +806,9 @@
 
           // If newest in-memory message is unread, scrolling down would mean going to
           //   the very bottom, not the oldest unread.
-          scrollToLatestUnread = !message.isUnread();
+          if (newestInMemoryMessage.isUnread()) {
+            scrollToLatestUnread = false;
+          }
         }
 
         const metrics = await getMessageMetricsForConversation(conversationId);
@@ -1098,9 +1170,7 @@
       const data = await readDraftData(attachment.path);
       if (data.byteLength !== attachment.size) {
         window.log.error(
-          `Attachment size from disk ${
-            data.byteLength
-          } did not match attachment size ${attachment.size}`
+          `Attachment size from disk ${data.byteLength} did not match attachment size ${attachment.size}`
         );
         return null;
       }
@@ -1411,7 +1481,7 @@
             blob = window.dataURLToBlobSync(
               canvas.toDataURL(targetContentType, quality)
             );
-            quality = quality * maxSize / blob.size;
+            quality = (quality * maxSize) / blob.size;
             // NOTE: During testing with a large image, we observed the
             // `quality` value being > 1. Should we clamp it to [0.5, 1.0]?
             // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob#Syntax
@@ -1728,12 +1798,16 @@
 
         const saveAttachment = async ({ attachment, message } = {}) => {
           const timestamp = message.sent_at;
-          Signal.Types.Attachment.save({
+          const fullPath = await Signal.Types.Attachment.save({
             attachment,
-            document,
-            getAbsolutePath: getAbsoluteAttachmentPath,
+            readAttachmentData,
+            saveAttachmentToDisk,
             timestamp,
           });
+
+          if (fullPath) {
+            this.showToast(Whisper.FileSavedToast, { fullPath });
+          }
         };
 
         const onItemClick = async ({ message, attachment, type }) => {
@@ -1918,18 +1992,22 @@
       this.downloadAttachment({ attachment, timestamp, isDangerous });
     },
 
-    downloadAttachment({ attachment, timestamp, isDangerous }) {
+    async downloadAttachment({ attachment, timestamp, isDangerous }) {
       if (isDangerous) {
         this.showToast(Whisper.DangerousFileTypeToast);
         return;
       }
 
-      Signal.Types.Attachment.save({
+      const fullPath = await Signal.Types.Attachment.save({
         attachment,
-        document,
-        getAbsolutePath: getAbsoluteAttachmentPath,
+        readAttachmentData,
+        saveAttachmentToDisk,
         timestamp,
       });
+
+      if (fullPath) {
+        this.showToast(Whisper.FileSavedToast, { fullPath });
+      }
     },
 
     async displayTapToViewMessage(messageId) {
@@ -2126,13 +2204,17 @@
       );
 
       const onSave = async (options = {}) => {
-        Signal.Types.Attachment.save({
+        const fullPath = await Signal.Types.Attachment.save({
           attachment: options.attachment,
-          document,
           index: options.index + 1,
-          getAbsolutePath: getAbsoluteAttachmentPath,
+          readAttachmentData,
+          saveAttachmentToDisk,
           timestamp: options.message.get('sent_at'),
         });
+
+        if (fullPath) {
+          this.showToast(Whisper.FileSavedToast, { fullPath });
+        }
       };
 
       const props = {

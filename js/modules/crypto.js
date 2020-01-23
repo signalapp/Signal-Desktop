@@ -396,7 +396,7 @@ function getRandomValue(low, high) {
 
   // Because high and low are inclusive
   const mod = diff + 1;
-  return bytes[0] % mod + low;
+  return (bytes[0] % mod) + low;
 }
 
 function getZeroes(n) {
@@ -454,9 +454,7 @@ function splitBytes(buffer, ...lengths) {
 
   if (total !== buffer.byteLength) {
     throw new Error(
-      `Requested lengths total ${total} does not match source total ${
-        buffer.byteLength
-      }`
+      `Requested lengths total ${total} does not match source total ${buffer.byteLength}`
     );
   }
 

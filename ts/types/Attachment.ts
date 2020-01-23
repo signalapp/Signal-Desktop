@@ -3,8 +3,6 @@ import moment from 'moment';
 import { isNumber, padStart } from 'lodash';
 
 import * as MIME from './MIME';
-import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
-import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import {
   isImageTypeSupported,
@@ -166,7 +164,10 @@ type DimensionsType = {
   width: number;
 };
 
-export function getImageDimensions(attachment: AttachmentType): DimensionsType {
+export function getImageDimensions(
+  attachment: AttachmentType,
+  forcedWidth?: number
+): DimensionsType {
   const { height, width } = attachment;
   if (!height || !width) {
     return {
@@ -176,7 +177,8 @@ export function getImageDimensions(attachment: AttachmentType): DimensionsType {
   }
 
   const aspectRatio = height / width;
-  const targetWidth = Math.max(Math.min(MAX_WIDTH, width), MIN_WIDTH);
+  const targetWidth =
+    forcedWidth || Math.max(Math.min(MAX_WIDTH, width), MIN_WIDTH);
   const candidateHeight = Math.round(targetWidth * aspectRatio);
 
   return {
@@ -322,31 +324,41 @@ export const isVoiceMessage = (attachment: Attachment): boolean => {
   return false;
 };
 
-export const save = ({
+export const save = async ({
   attachment,
-  document,
   index,
-  getAbsolutePath,
+  readAttachmentData,
+  saveAttachmentToDisk,
   timestamp,
 }: {
   attachment: Attachment;
-  document: Document;
   index: number;
-  getAbsolutePath: (relativePath: string) => string;
+  readAttachmentData: (relativePath: string) => Promise<ArrayBuffer>;
+  saveAttachmentToDisk: (options: {
+    data: ArrayBuffer;
+    name: string;
+  }) => Promise<{ name: string; fullPath: string }>;
   timestamp?: number;
-}): void => {
-  const isObjectURLRequired = is.undefined(attachment.path);
-  const url = !is.undefined(attachment.path)
-    ? getAbsolutePath(attachment.path)
-    : arrayBufferToObjectURL({
-        data: attachment.data,
-        type: MIME.APPLICATION_OCTET_STREAM,
-      });
-  const filename = getSuggestedFilename({ attachment, timestamp, index });
-  saveURLAsFile({ url, filename, document });
-  if (isObjectURLRequired) {
-    URL.revokeObjectURL(url);
+}): Promise<string | null> => {
+  if (!attachment.path && !attachment.data) {
+    throw new Error('Attachment had neither path nor data');
   }
+
+  const data = attachment.path
+    ? await readAttachmentData(attachment.path)
+    : attachment.data;
+  const name = getSuggestedFilename({ attachment, timestamp, index });
+
+  const result = await saveAttachmentToDisk({
+    data,
+    name,
+  });
+
+  if (!result) {
+    return null;
+  }
+
+  return result.fullPath;
 };
 
 export const getSuggestedFilename = ({

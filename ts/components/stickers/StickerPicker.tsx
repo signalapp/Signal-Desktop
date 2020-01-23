@@ -2,6 +2,7 @@
 /* tslint:disable:cyclomatic-complexity */
 import * as React from 'react';
 import classNames from 'classnames';
+import { useRestoreFocus } from '../hooks';
 import { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import { LocalizerType } from '../../types/Util';
 
@@ -42,7 +43,7 @@ function getPacksPageOffset(page: number, packs: number): number {
   if (isLastPacksPage(page, packs)) {
     return (
       PACK_PAGE_WIDTH * (Math.floor(packs / PACKS_PAGE_SIZE) - 1) +
-      (packs % PACKS_PAGE_SIZE - 1) * PACK_ICON_WIDTH
+      ((packs % PACKS_PAGE_SIZE) - 1) * PACK_ICON_WIDTH
     );
   }
 
@@ -82,68 +83,47 @@ export const StickerPicker = React.memo(
       const {
         stickers = recentStickers,
         title: packTitle = 'Recent Stickers',
-      } =
-        selectedPack || {};
+      } = selectedPack || {};
 
       const [isUsingKeyboard, setIsUsingKeyboard] = React.useState(false);
       const [packsPage, setPacksPage] = React.useState(0);
-      const onClickPrevPackPage = React.useCallback(
-        () => {
-          setPacksPage(i => i - 1);
-        },
-        [setPacksPage]
-      );
-      const onClickNextPackPage = React.useCallback(
-        () => {
-          setPacksPage(i => i + 1);
-        },
-        [setPacksPage]
-      );
+      const onClickPrevPackPage = React.useCallback(() => {
+        setPacksPage(i => i - 1);
+      }, [setPacksPage]);
+      const onClickNextPackPage = React.useCallback(() => {
+        setPacksPage(i => i + 1);
+      }, [setPacksPage]);
 
       // Handle escape key
-      React.useEffect(
-        () => {
-          const handler = (event: KeyboardEvent) => {
-            if (event.key === 'Tab') {
-              // We do NOT prevent default here to allow Tab to be used normally
-
-              setIsUsingKeyboard(true);
-
-              return;
-            }
-
-            if (event.key === 'Escape') {
-              event.stopPropagation();
-              event.preventDefault();
-
-              onClose();
-
-              return;
-            }
-          };
-
-          document.addEventListener('keydown', handler);
-
-          return () => {
-            document.removeEventListener('keydown', handler);
-          };
-        },
-        [onClose]
-      );
-
-      // Focus popup on after initial render, restore focus on teardown
       React.useEffect(() => {
-        const lastFocused = document.activeElement as any;
-        if (focusRef.current) {
-          focusRef.current.focus();
-        }
+        const handler = (event: KeyboardEvent) => {
+          if (event.key === 'Tab') {
+            // We do NOT prevent default here to allow Tab to be used normally
 
-        return () => {
-          if (lastFocused && lastFocused.focus) {
-            lastFocused.focus();
+            setIsUsingKeyboard(true);
+
+            return;
+          }
+
+          if (event.key === 'Escape') {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onClose();
+
+            return;
           }
         };
-      }, []);
+
+        document.addEventListener('keydown', handler);
+
+        return () => {
+          document.removeEventListener('keydown', handler);
+        };
+      }, [onClose]);
+
+      // Focus popup on after initial render, restore focus on teardown
+      useRestoreFocus(focusRef);
 
       const isEmpty = stickers.length === 0;
       const addPackRef = isEmpty ? focusRef : undefined;

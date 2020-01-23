@@ -4,6 +4,7 @@ import emojiRegex from 'emoji-regex';
 import {
   compact,
   flatMap,
+  get,
   groupBy,
   isNumber,
   keyBy,
@@ -71,8 +72,16 @@ const data = (untypedData as Array<EmojiData>).filter(
   emoji => emoji.has_img_apple
 );
 
+// @ts-ignore
+const ROOT_PATH = get(
+  // tslint:disable-next-line no-typeof-undefined
+  typeof window !== 'undefined' ? window : null,
+  'ROOT_PATH',
+  ''
+);
+
 const makeImagePath = (src: string) => {
-  return `node_modules/emoji-datasource-apple/img/apple/64/${src}`;
+  return `${ROOT_PATH}node_modules/emoji-datasource-apple/img/apple/64/${src}`;
 };
 
 const imageQueue = new PQueue({ concurrency: 10 });
@@ -116,6 +125,7 @@ export const preloadImages = async () => {
 
 const dataByShortName = keyBy(data, 'short_name');
 const imageByEmoji: { [key: string]: string } = {};
+const dataByEmoji: { [key: string]: EmojiData } = {};
 
 export const dataByCategory = mapValues(
   groupBy(data, ({ category }) => {
@@ -305,12 +315,14 @@ data.forEach(emoji => {
   }
 
   imageByEmoji[convertShortName(short_name)] = makeImagePath(image);
+  dataByEmoji[convertShortName(short_name)] = emoji;
 
   if (skin_variations) {
     Object.entries(skin_variations).forEach(([tone, variation]) => {
       imageByEmoji[
         convertShortName(short_name, tone as SkinToneKey)
       ] = makeImagePath(variation.image);
+      dataByEmoji[convertShortName(short_name, tone as SkinToneKey)] = emoji;
     });
   }
 });

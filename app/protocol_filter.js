@@ -75,7 +75,7 @@ function _disabledHandler(request, callback) {
   return callback();
 }
 
-function installWebHandler({ protocol }) {
+function installWebHandler({ protocol, enableHttp }) {
   protocol.interceptFileProtocol('about', _disabledHandler);
   protocol.interceptFileProtocol('content', _disabledHandler);
   protocol.interceptFileProtocol('chrome', _disabledHandler);
@@ -84,12 +84,15 @@ function installWebHandler({ protocol }) {
   protocol.interceptFileProtocol('filesystem', _disabledHandler);
   protocol.interceptFileProtocol('ftp', _disabledHandler);
   protocol.interceptFileProtocol('gopher', _disabledHandler);
-  protocol.interceptFileProtocol('http', _disabledHandler);
-  protocol.interceptFileProtocol('https', _disabledHandler);
   protocol.interceptFileProtocol('javascript', _disabledHandler);
   protocol.interceptFileProtocol('mailto', _disabledHandler);
-  protocol.interceptFileProtocol('ws', _disabledHandler);
-  protocol.interceptFileProtocol('wss', _disabledHandler);
+
+  if (!enableHttp) {
+    protocol.interceptFileProtocol('http', _disabledHandler);
+    protocol.interceptFileProtocol('https', _disabledHandler);
+    protocol.interceptFileProtocol('ws', _disabledHandler);
+    protocol.interceptFileProtocol('wss', _disabledHandler);
+  }
 }
 
 module.exports = {

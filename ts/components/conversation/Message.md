@@ -447,6 +447,374 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 </util.ConversationContext>
 ```
 
+### Reactions
+
+#### One Reaction
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+      ]}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+      ]}
+    />
+  </div>
+</util.ConversationContext>
+```
+
+#### One Reaction - Ours
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', isMe: true, name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+      ]}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', isMe: true, name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+      ]}
+    />
+  </div>
+</util.ConversationContext>
+```
+
+#### Multiple reactions, ordered by most common then most recent
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Joel Ferrari' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😡',
+          from: { id: '+14155552671', name: 'Adam Burrell' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😮',
+          from: { id: '+14155552671', name: 'Rick Owens' },
+          timestamp: 2,
+        },
+      ]}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Joel Ferrari' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😡',
+          from: { id: '+14155552671', name: 'Adam Burrell' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😮',
+          from: { id: '+14155552671', name: 'Rick Owens' },
+          timestamp: 2,
+        },
+      ]}
+    />
+  </div>
+</util.ConversationContext>
+```
+
+#### Multiple reactions, ours is most recent/common
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', isMe: true, name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Joel Ferrari' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😡',
+          from: { id: '+14155552671', name: 'Adam Burrell' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😮',
+          from: { id: '+14155552671', name: 'Rick Owens' },
+          timestamp: 2,
+        },
+      ]}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', isMe: true, name: 'Joel Ferrari' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😡',
+          from: { id: '+14155552671', name: 'Adam Burrell' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😮',
+          from: { id: '+14155552671', name: 'Rick Owens' },
+          timestamp: 2,
+        },
+      ]}
+    />
+  </div>
+</util.ConversationContext>
+```
+
+#### Multiple reactions, ours not on top
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Joel Ferrari' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😡',
+          from: { id: '+14155552671', name: 'Adam Burrell' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😮',
+          from: { id: '+14155552671', isMe: true, name: 'Rick Owens' },
+          timestamp: 2,
+        },
+      ]}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Joel Ferrari' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😡',
+          from: { id: '+14155552671', name: 'Adam Burrell' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😮',
+          from: { id: '+14155552671', isMe: true, name: 'Rick Owens' },
+          timestamp: 2,
+        },
+      ]}
+    />
+  </div>
+</util.ConversationContext>
+```
+
+#### Small message
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="Burgertime!"
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Joel Ferrari' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😡',
+          from: { id: '+14155552671', name: 'Adam Burrell' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😮',
+          from: { id: '+14155552671', name: 'Rick Owens' },
+          timestamp: 2,
+        },
+      ]}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      status="delivered"
+      authorColor="red"
+      timestamp={Date.now()}
+      text="Burgertime!"
+      i18n={util.i18n}
+      reactions={[
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Amelia Briggs' },
+          timestamp: 1,
+        },
+        {
+          emoji: '👍',
+          from: { id: '+14155552671', name: 'Joel Ferrari' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😡',
+          from: { id: '+14155552671', name: 'Adam Burrell' },
+          timestamp: 1,
+        },
+        {
+          emoji: '😮',
+          from: { id: '+14155552671', name: 'Rick Owens' },
+          timestamp: 2,
+        },
+      ]}
+    />
+  </div>
+</util.ConversationContext>
+```
+
 ### Long data
 
 ```jsx
@@ -989,6 +1357,92 @@ First set is in a 1:1 conversation, second set is in a group.
           contentType: 'image/png',
           width: 128,
           height: 128,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+</util.ConversationContext>
+```
+
+#### Sticker with non-square aspect ratio
+
+First set is in a 1:1 conversation, second set is in a group.
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/png',
+          width: 200,
+          height: 50,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/png',
+          width: 200,
+          height: 50,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      authorColor="green"
+      direction="incoming"
+      isSticker={true}
+      authorName="Mr. Sticker"
+      conversationType="group"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/png',
+          width: 200,
+          height: 50,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      authorColor="green"
+      direction="outgoing"
+      isSticker={true}
+      conversationType="group"
+      status="sent"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.landscapePurpleObjectUrl,
+          contentType: 'image/png',
+          width: 200,
+          height: 50,
         },
       ]}
       showVisualAttachment={() => console.log('showVisualAttachment')}
@@ -3583,6 +4037,32 @@ Sticker link previews are forced to use the small link preview form, no matter t
         {
           url: util.gifObjectUrl,
           contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      id="messageId1"
+      displayTapToViewMessage={(...args) =>
+        console.log('displayTapToViewMessage', args)
+      }
+      authorAvatarPath={util.gifObjectUrl}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="pink"
+      conversationType="direct"
+      authorPhoneNumber="(202) 555-0003"
+      isTapToViewExpired={false}
+      isTapToView={true}
+      text="This should not be shown"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'video/mp4',
           width: 320,
           height: 240,
         },

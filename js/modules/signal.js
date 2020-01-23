@@ -119,6 +119,8 @@ function initializeMigrations({
     getPath,
     getStickersPath,
     getTempPath,
+    openFileInFolder,
+    saveAttachmentToDisk,
   } = Attachments;
   const {
     getImageDimensions,
@@ -187,11 +189,13 @@ function initializeMigrations({
     loadPreviewData,
     loadQuoteData,
     loadStickerData,
+    openFileInFolder,
     readAttachmentData,
     readDraftData,
     readStickerData,
     readTempData,
     run,
+    saveAttachmentToDisk,
     processNewAttachment: attachment =>
       MessageType.processNewAttachment(attachment, {
         writeNewAttachmentData,

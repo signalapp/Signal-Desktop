@@ -37,80 +37,68 @@ export const EmojiButton = React.memo(
       null
     );
 
-    const handleClickButton = React.useCallback(
-      () => {
-        if (popperRoot) {
-          setOpen(false);
-        } else {
-          setOpen(true);
-        }
-      },
-      [popperRoot, setOpen]
-    );
-
-    const handleClose = React.useCallback(
-      () => {
+    const handleClickButton = React.useCallback(() => {
+      if (popperRoot) {
         setOpen(false);
-      },
-      [setOpen]
-    );
+      } else {
+        setOpen(true);
+      }
+    }, [popperRoot, setOpen]);
+
+    const handleClose = React.useCallback(() => {
+      setOpen(false);
+    }, [setOpen]);
 
     // Create popper root and handle outside clicks
-    React.useEffect(
-      () => {
-        if (open) {
-          const root = document.createElement('div');
-          setPopperRoot(root);
-          document.body.appendChild(root);
-          const handleOutsideClick = ({ target }: MouseEvent) => {
-            if (!root.contains(target as Node)) {
-              setOpen(false);
-            }
-          };
-          document.addEventListener('click', handleOutsideClick);
-
-          return () => {
-            document.body.removeChild(root);
-            document.removeEventListener('click', handleOutsideClick);
-            setPopperRoot(null);
-          };
-        }
-
-        return noop;
-      },
-      [open, setOpen, setPopperRoot]
-    );
-
-    // Install keyboard shortcut to open emoji picker
-    React.useEffect(
-      () => {
-        const handleKeydown = (event: KeyboardEvent) => {
-          const { ctrlKey, key, metaKey, shiftKey } = event;
-          const commandKey = get(window, 'platform') === 'darwin' && metaKey;
-          const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
-          const commandOrCtrl = commandKey || controlKey;
-
-          // We don't want to open up if the conversation has any panels open
-          const panels = document.querySelectorAll('.conversation .panel');
-          if (panels && panels.length > 1) {
-            return;
-          }
-
-          if (commandOrCtrl && shiftKey && (key === 'j' || key === 'J')) {
-            event.stopPropagation();
-            event.preventDefault();
-
-            setOpen(!open);
+    React.useEffect(() => {
+      if (open) {
+        const root = document.createElement('div');
+        setPopperRoot(root);
+        document.body.appendChild(root);
+        const handleOutsideClick = ({ target }: MouseEvent) => {
+          if (!root.contains(target as Node)) {
+            setOpen(false);
           }
         };
-        document.addEventListener('keydown', handleKeydown);
+        document.addEventListener('click', handleOutsideClick);
 
         return () => {
-          document.removeEventListener('keydown', handleKeydown);
+          document.body.removeChild(root);
+          document.removeEventListener('click', handleOutsideClick);
+          setPopperRoot(null);
         };
-      },
-      [open, setOpen]
-    );
+      }
+
+      return noop;
+    }, [open, setOpen, setPopperRoot]);
+
+    // Install keyboard shortcut to open emoji picker
+    React.useEffect(() => {
+      const handleKeydown = (event: KeyboardEvent) => {
+        const { ctrlKey, key, metaKey, shiftKey } = event;
+        const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+        const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+        const commandOrCtrl = commandKey || controlKey;
+
+        // We don't want to open up if the conversation has any panels open
+        const panels = document.querySelectorAll('.conversation .panel');
+        if (panels && panels.length > 1) {
+          return;
+        }
+
+        if (commandOrCtrl && shiftKey && (key === 'j' || key === 'J')) {
+          event.stopPropagation();
+          event.preventDefault();
+
+          setOpen(!open);
+        }
+      };
+      document.addEventListener('keydown', handleKeydown);
+
+      return () => {
+        document.removeEventListener('keydown', handleKeydown);
+      };
+    }, [open, setOpen]);
 
     return (
       <Manager>

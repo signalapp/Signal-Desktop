@@ -2,6 +2,7 @@ build/**
 components/**
 coverage/**
 dist/**
+release/**
 
 # Generated files
 js/curve/*
@@ -12,6 +13,7 @@ js/libsignal-protocol-worker.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 test/test.js
+sticker-creator/dist/**
 
 # Third-party files
 js/Mp3LameEncoder.min.js

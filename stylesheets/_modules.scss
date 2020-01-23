@@ -90,9 +90,15 @@
 
 .module-message__buttons--incoming {
   left: 100%;
+  &.module-message__buttons--has-reactions {
+    padding-left: 40px - 12px; // Adjust 40px by 12px margin on the button
+  }
 }
 .module-message__buttons--outgoing {
   right: 100%;
+  &.module-message__buttons--has-reactions {
+    padding-right: 40px - 12px; // Adjust 40px by 12px margin on the button
+  }
 }
 
 .module-message__buttons__download {
@@ -366,8 +372,6 @@
 }
 
 .module-message__container--with-tap-to-view-expired {
-  cursor: default;
-
   @include light-theme {
     border: 1px solid $color-gray-15;
     background-color: $color-white;
@@ -440,16 +444,16 @@
   height: 20px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-white);
+    @include color-svg('../images/icons/v2/view-once-24.svg', $color-white);
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-05);
+    @include color-svg('../images/icons/v2/view-once-24.svg', $color-gray-05);
   }
   @include ios-theme {
-    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-90);
+    @include color-svg('../images/icons/v2/view-once-24.svg', $color-gray-90);
   }
   @include ios-dark-theme {
-    @include color-svg('../images/icons/v2/play-solid-24.svg', $color-gray-05);
+    @include color-svg('../images/icons/v2/view-once-24.svg', $color-gray-05);
   }
 }
 .module-message__tap-to-view__icon--outgoing {
@@ -465,28 +469,16 @@
 }
 .module-message__tap-to-view__icon--expired {
   @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/play-outline-24.svg',
-      $color-gray-75
-    );
+    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-75);
   }
   @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/play-outline-24.svg',
-      $color-gray-05
-    );
+    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-05);
   }
   @include ios-theme {
-    @include color-svg(
-      '../images/icons/v2/play-outline-24.svg',
-      $color-gray-75
-    );
+    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-75);
   }
   @include ios-dark-theme {
-    @include color-svg(
-      '../images/icons/v2/play-outline-24.svg',
-      $color-gray-05
-    );
+    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-05);
   }
 }
 .module-message__tap-to-view__text {
@@ -1314,6 +1306,82 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.module-message__reactions {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  height: 100%;
+
+  &--incoming {
+    right: -28px;
+  }
+
+  &--outgoing {
+    left: -28px;
+  }
+}
+
+.module-message__reactions__reaction {
+  @include button-reset;
+
+  width: 33px;
+  height: 33px;
+  border: 1px solid;
+  border-radius: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+
+  &:first-of-type {
+    z-index: 2;
+  }
+
+  &--incoming {
+    right: 0;
+  }
+
+  &--outgoing {
+    left: 0;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+    }
+  }
+
+  @include light-theme() {
+    border-color: $color-white;
+    background: $color-gray-05;
+  }
+
+  @include dark-theme() {
+    border-color: $color-gray-95;
+    background: $color-gray-75;
+  }
+
+  &--is-me {
+    @include light-theme() {
+      background: $color-gray-25;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-45;
+    }
+
+    @include ios-theme() {
+      background: $color-accent-blue;
+    }
+  }
 }
 
 // Module: Expire Timer
@@ -3169,6 +3237,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: left;
 
   @include light-theme {
     color: $color-gray-60;
@@ -3383,6 +3452,51 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-avatar__label--28 {
   font-size: 14px;
   line-height: 28px;
+}
+
+.module-avatar--32 {
+  height: 32px;
+  width: 32px;
+
+  img {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+.module-avatar__icon--32.module-avatar__icon--group {
+  height: 20px;
+  width: 20px;
+  @include light-theme {
+    @include color-svg('../images/icons/v2/group-outline-20.svg', $color-white);
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-05
+    );
+  }
+}
+.module-avatar__icon--32.module-avatar__icon--direct {
+  height: 20px;
+  width: 20px;
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-outline-20.svg',
+      $color-white
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-outline-20.svg',
+      $color-gray-05
+    );
+  }
+}
+
+.module-avatar__label--32 {
+  font-size: 14px;
+  line-height: 32px;
 }
 
 .module-avatar--52 {
@@ -4691,6 +4805,121 @@ button.module-image__border-overlay:focus {
   //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
 }
 
+// Module: Reaction Viewer
+
+.module-reaction-viewer {
+  width: 320px;
+  height: 320px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+
+  @include popper-shadow();
+
+  @include light-theme() {
+    background: $color-white;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-75;
+  }
+
+  &__header {
+    width: 100%;
+    min-height: 44px;
+    padding: 0px 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+
+    &__button {
+      min-width: 45px;
+      min-height: 28px;
+      border: none;
+      border-radius: 18px;
+      padding: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:not(:first-of-type) {
+        margin-left: 4px;
+      }
+
+      &:focus {
+        outline: none;
+      }
+      @include keyboard-mode {
+        &:focus {
+          box-shadow: 0px 0px 0px 2px $color-signal-blue;
+        }
+      }
+
+      background: none;
+
+      &--selected {
+        @include light-theme() {
+          background: $color-gray-05;
+        }
+
+        @include dark-theme() {
+          background: $color-gray-60;
+        }
+      }
+
+      &__count {
+        @include font-body-2-bold();
+        margin-left: 2px;
+
+        @include light-theme() {
+          color: $color-gray-90;
+        }
+
+        @include dark-theme() {
+          color: $color-gray-05;
+        }
+      }
+    }
+  }
+
+  &__body {
+    flex-grow: 1;
+    padding: 0 16px;
+    overflow: auto;
+
+    &__row {
+      margin-top: 8px;
+      min-height: 32px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      &_avatar {
+        min-width: 32px;
+      }
+
+      &__name {
+        @include font-body-1-bold();
+        margin-left: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        @include light-theme() {
+          color: $color-gray-90;
+        }
+
+        @include dark-theme() {
+          color: $color-gray-05;
+        }
+      }
+    }
+  }
+}
+
 // Module: Left Pane
 
 .module-left-pane {
@@ -5159,10 +5388,9 @@ button.module-image__border-overlay:focus {
 }
 
 .module-sticker-picker__header__button__image {
-  min-width: 20px;
-  min-height: 20px;
-  max-width: 20px;
-  max-height: 20px;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 .module-sticker-picker__header__button__image--placeholder {
@@ -5213,6 +5441,7 @@ button.module-image__border-overlay:focus {
     &__placeholder {
       width: 100%;
       height: 100%;
+      object-fit: contain;
     }
 
     &__placeholder {
@@ -5398,6 +5627,7 @@ button.module-image__border-overlay:focus {
   &__cover {
     width: 48px;
     height: 48px;
+    object-fit: contain;
   }
   &__cover-placeholder {
     width: 48px;
@@ -5597,10 +5827,14 @@ button.module-image__border-overlay:focus {
       &__cell {
         width: 96px;
         height: 96px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &__image {
           width: 100%;
           height: 100%;
+          object-fit: contain;
         }
 
         &--placeholder {
@@ -5638,13 +5872,15 @@ button.module-image__border-overlay:focus {
       }
 
       &__info {
-        flex-grow: 1;
+        width: 317px;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
         &__title {
           margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
           @include font-body-1-bold;
 
@@ -5659,7 +5895,9 @@ button.module-image__border-overlay:focus {
 
         &__author {
           margin: 0;
-          height: 18px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
 
           @include light-theme {
             color: $color-gray-45;
@@ -5793,6 +6031,7 @@ button.module-image__border-overlay:focus {
   &__image {
     width: 20px;
     height: 20px;
+    object-fit: contain;
   }
   &__image-placeholder {
     width: 20px;
@@ -6223,6 +6462,7 @@ button.module-image__border-overlay:focus {
       padding: 0;
       justify-content: center;
       align-items: center;
+      @include font-body-1;
 
       @include light-theme {
         color: $color-gray-60;
@@ -6332,6 +6572,7 @@ button.module-image__border-overlay:focus {
   @include emoji-size(16px);
   @include emoji-size(18px);
   @include emoji-size(20px);
+  @include emoji-size(24px);
   @include emoji-size(28px);
   @include emoji-size(32px);
   @include emoji-size(64px);

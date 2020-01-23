@@ -276,6 +276,152 @@ const packs = [
 </util.ConversationContext>;
 ```
 
+#### Installed Pack Tooltip (Wide Sticker)
+
+When a pack is installed there should be a tooltip saying as such and the sticker should appear in its original aspect ratio.
+
+```jsx
+const landscapeGreenSticker = {
+  id: 4,
+  url: util.landscapeGreenObjectUrl,
+  packId: 'green',
+};
+const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
+const sticker2 = { id: 2, url: util.kitten264ObjectUrl, packId: 'bar' };
+const sticker3 = { id: 3, url: util.kitten364ObjectUrl, packId: 'baz' };
+
+const packs = [
+  {
+    id: 'foo',
+    title: 'Green',
+    cover: landscapeGreenSticker,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...landscapeGreenSticker, id })),
+  },
+  {
+    id: 'bar',
+    cover: sticker1,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker1, id })),
+  },
+  {
+    id: 'baz',
+    cover: sticker2,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker2, id })),
+  },
+  {
+    id: 'qux',
+    cover: sticker3,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker3, id })),
+  },
+];
+
+<util.ConversationContext theme={util.theme}>
+  <div
+    style={{
+      height: '500px',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+    }}
+  >
+    <StickerButton
+      i18n={util.i18n}
+      receivedPacks={[]}
+      installedPacks={packs}
+      blessedPacks={[]}
+      knownPacks={[]}
+      installedPack={packs[0]}
+      onPickSticker={(packId, stickerId) =>
+        console.log('onPickSticker', { packId, stickerId })
+      }
+      clearInstalledStickerPack={() => console.log('clearInstalledStickerPack')}
+      onClickAddPack={() => console.log('onClickAddPack')}
+      recentStickers={[]}
+    />
+  </div>
+</util.ConversationContext>;
+```
+
+#### Installed Pack Tooltip (Tall Sticker)
+
+When a pack is installed there should be a tooltip saying as such and the sticker should appear in its original aspect ratio.
+
+```jsx
+const portraitTealSticker = {
+  id: 4,
+  url: util.portraitTealObjectUrl,
+  packId: 'teal',
+};
+const sticker1 = { id: 1, url: util.kitten164ObjectUrl, packId: 'foo' };
+const sticker2 = { id: 2, url: util.kitten264ObjectUrl, packId: 'bar' };
+const sticker3 = { id: 3, url: util.kitten364ObjectUrl, packId: 'baz' };
+
+const packs = [
+  {
+    id: 'foo',
+    title: 'Teal',
+    cover: portraitTealSticker,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...portraitTealSticker, id })),
+  },
+  {
+    id: 'bar',
+    cover: sticker1,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker1, id })),
+  },
+  {
+    id: 'baz',
+    cover: sticker2,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker2, id })),
+  },
+  {
+    id: 'qux',
+    cover: sticker3,
+    stickers: Array(101)
+      .fill(0)
+      .map((n, id) => ({ ...sticker3, id })),
+  },
+];
+
+<util.ConversationContext theme={util.theme}>
+  <div
+    style={{
+      height: '500px',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+    }}
+  >
+    <StickerButton
+      i18n={util.i18n}
+      receivedPacks={[]}
+      installedPacks={packs}
+      blessedPacks={[]}
+      knownPacks={[]}
+      installedPack={packs[0]}
+      onPickSticker={(packId, stickerId) =>
+        console.log('onPickSticker', { packId, stickerId })
+      }
+      clearInstalledStickerPack={() => console.log('clearInstalledStickerPack')}
+      onClickAddPack={() => console.log('onClickAddPack')}
+      recentStickers={[]}
+    />
+  </div>
+</util.ConversationContext>;
+```
+
 #### New Installation Splash Tooltip
 
 When the application is updated or freshly installed there should be a tooltip

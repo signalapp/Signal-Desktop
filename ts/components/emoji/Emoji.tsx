@@ -1,12 +1,13 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { getImagePath, SkinToneKey } from './lib';
+import { emojiToImage, getImagePath, SkinToneKey } from './lib';
 
 export type OwnProps = {
   inline?: boolean;
-  shortName: string;
+  emoji?: string;
+  shortName?: string;
   skinTone?: SkinToneKey | number;
-  size?: 16 | 18 | 20 | 28 | 32 | 64 | 66;
+  size?: 16 | 18 | 20 | 24 | 28 | 32 | 64 | 66;
   children?: React.ReactNode;
 };
 
@@ -21,13 +22,18 @@ export const Emoji = React.memo(
         size = 28,
         shortName,
         skinTone,
+        emoji,
         inline,
         className,
         children,
       }: Props,
       ref
     ) => {
-      const image = getImagePath(shortName, skinTone);
+      const image = shortName
+        ? getImagePath(shortName, skinTone)
+        : emoji
+        ? emojiToImage(emoji)
+        : '';
       const backgroundStyle = inline
         ? { backgroundImage: `url('${image}')` }
         : {};

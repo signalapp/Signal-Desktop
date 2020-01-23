@@ -3,26 +3,26 @@
 // eslint-disable-next-line func-names
 (function() {
   /*
-     * WebSocket-Resources
-     *
-     * Create a request-response interface over websockets using the
-     * WebSocket-Resources sub-protocol[1].
-     *
-     * var client = new WebSocketResource(socket, function(request) {
-     *    request.respond(200, 'OK');
-     * });
-     *
-     * client.sendRequest({
-     *    verb: 'PUT',
-     *    path: '/v1/messages',
-     *    body: '{ some: "json" }',
-     *    success: function(message, status, request) {...},
-     *    error: function(message, status, request) {...}
-     * });
-     *
-     * 1. https://github.com/signalapp/WebSocket-Resources
-     *
-     */
+   * WebSocket-Resources
+   *
+   * Create a request-response interface over websockets using the
+   * WebSocket-Resources sub-protocol[1].
+   *
+   * var client = new WebSocketResource(socket, function(request) {
+   *    request.respond(200, 'OK');
+   * });
+   *
+   * client.sendRequest({
+   *    verb: 'PUT',
+   *    path: '/v1/messages',
+   *    body: '{ some: "json" }',
+   *    success: function(message, status, request) {...},
+   *    error: function(message, status, request) {...}
+   * });
+   *
+   * 1. https://github.com/signalapp/WebSocket-Resources
+   *
+   */
 
   const Request = function Request(options) {
     this.verb = options.verb || options.type;
