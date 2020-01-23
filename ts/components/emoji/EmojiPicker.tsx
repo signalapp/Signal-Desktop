@@ -177,6 +177,8 @@ export const EmojiPicker = React.memo(
       // Focus after initial render, restore focus on teardown
       useRestoreFocus(focusRef);
 
+      const [, ...renderableCategories] = categories;
+
       const emojiGrid = React.useMemo(() => {
         if (searchText) {
           return chunk(
@@ -185,9 +187,7 @@ export const EmojiPicker = React.memo(
           );
         }
 
-        const [, ...cats] = categories;
-
-        const chunks = flatMap(cats, cat =>
+        const chunks = flatMap(renderableCategories, cat =>
           chunk(
             dataByCategory[cat].map(e => e.short_name),
             COL_COUNT
@@ -201,9 +201,8 @@ export const EmojiPicker = React.memo(
         const rowEnds: Array<number> = [
           Math.ceil(firstRecent.length / COL_COUNT) - 1,
         ];
-        const [, ...cats] = categories;
 
-        cats.forEach(cat => {
+        renderableCategories.forEach(cat => {
           rowEnds.push(
             Math.ceil(dataByCategory[cat].length / COL_COUNT) +
               (last(rowEnds) as number)
