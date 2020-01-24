@@ -19,6 +19,10 @@
         "message": "&Fichier",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuCreateStickers": {
+        "message": "Créer/téléverser un paquet d’autocollants",
+        "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "mainMenuEdit": {
         "message": "É&dition",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -144,7 +148,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "avatarMenuViewArchive": {
-        "message": "View Archive",
+        "message": "Visualiser les archives",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
@@ -202,7 +206,7 @@
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Une erreur s’est produite !",
+        "message": "Une erreur s’est produite.",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
@@ -214,7 +218,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Si ces étapes ne fonctionnent pas, veuillez envoyer un journal de débogage (Affichage -> Journal de débogage) afin que nous puissions vous aider à migrer !",
+        "message": "Si ces étapes ne fonctionnent pas, veuillez envoyer un journal de débogage (Affichage -> Journal de débogage) afin que nous puissions vous aider à migrer.",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -222,7 +226,7 @@
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "L’importation est réussie !",
+        "message": "L’importation est réussie.",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
@@ -400,7 +404,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Un problème est survenu lors du téléversement ! Veuillez envisager d’ajouter manuellement votre journal à votre rapport de bogue.",
+        "message": "Un problème est survenu lors du téléversement. Veuillez envisager d’ajouter manuellement votre journal à votre rapport de bogue.",
         "description": ""
     },
     "reportIssue": {
@@ -408,7 +412,7 @@
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "D’accord !",
+        "message": "D’accord.",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
@@ -558,7 +562,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Vous ne pouvez pas ajouter d’autres fichiers joints à ce message.",
+        "message": "Vous ne pouvez pas joindre d’autres fichiers à ce message.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -604,7 +608,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Afficher les raccourcis clavier",
+        "message": "Afficher les raccourcis-clavier",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "goToReleaseNotes": {
@@ -625,6 +629,10 @@
     },
     "signalDesktopPreferences": {
         "message": "Préférences de Signal Desktop pour ordinateur",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "signalDesktopStickerCreator": {
+        "message": "Créateur de paquet d’autocollants",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -656,7 +664,7 @@
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Recherche dans $conversationName$",
+        "message": "Chercher dans $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -676,7 +684,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "Aucun résultat pour \"$searchTerm$\" dans $conversationName$",
+        "message": "Aucun résultat pour « $searchTerm$ » dans $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -776,8 +784,18 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice message must have only one attachment.",
+        "message": "Un message vocal ne doit avoir qu’un seul fichier joint.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
+    "attachmentSaved": {
+        "message": "Le fichier joint a été enregistré. Cliquez pour l’afficher dans le dossier.",
+        "description": "Shown after user selects to save to downloads",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "proof.jpg"
+            }
+        }
     },
     "you": {
         "message": "Vous",
@@ -854,7 +872,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Êtes-vous certain ? Cliquer sur Supprimer éliminera définitivement ce message de cet appareil seulement.",
+        "message": "Confirmez-vous ? Cliquer sur Supprimer éliminera définitivement ce message de cet appareil seulement.",
         "description": ""
     },
     "deleteThisMessage": {
@@ -1123,6 +1141,34 @@
         "message": "Les plus récents :",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
+    "notificationReaction": {
+        "message": "$sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMostRecent": {
+        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
+    },
     "sendFailed": {
         "message": "Échec d’envoi",
         "description": "Shown on outgoing message if it fails to send"
@@ -1184,11 +1230,11 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 min",
+        "message": "1 min",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 h",
+        "message": "1 h",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
@@ -1555,13 +1601,17 @@
         "message": "Ce message n’est pas pris en charge",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
+    "message--getDescription--disappearing-media": {
+        "message": "Média éphémère",
+        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+    },
     "message--getDescription--disappearing-photo": {
         "message": "Photo éphémère",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+        "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Vidéos éphémères",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+        "message": "Vidéo éphémère",
+        "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
         "message": "Le paquet d’autocollants n’a pas pu être installé",
@@ -1603,6 +1653,10 @@
         "message": "Vous ne pourrez peut-être pas réinstaller ce paquet d’autocollants si vous n’avez plus le message source.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
+    "stickers--StickerManager--Introduction--Image": {
+        "message": "Nous présentons les autocollants : Bandit le chat",
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
+    },
     "stickers--StickerManager--Introduction--Title": {
         "message": "Nous présentons les autocollants",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
@@ -1612,7 +1666,7 @@
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Certains autocollants n'ont pas pu être téléchargés.",
+        "message": "Certains autocollants n’ont pas pu être téléchargés.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
@@ -1698,19 +1752,27 @@
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Vu",
+        "message": "Visualisé",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
         "message": "Médias",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
+    "Message--tap-to-view--incoming--expired-toast": {
+        "message": "Vous avez déjà visualisé ce message.",
+        "description": "Shown when user clicks on an expired incoming view-once bubble"
+    },
+    "Message--tap-to-view--outgoing--expired-toast": {
+        "message": "Les messages éphémères ne sont pas enregistrés dans l’historique de vos conversations.",
+        "description": "Shown when user clicks on an expired outgoing view-once bubble"
+    },
     "Message--tap-to-view--incoming": {
-        "message": "Photo",
+        "message": "Visualiser la photo",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Vidéo",
+        "message": "Visualiser la vidéo",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
@@ -1726,7 +1788,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navigate by section",
+        "message": "Naviguer par section",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
@@ -1750,15 +1812,15 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Open conversation menu",
+        "message": "Ouvrir le menu de la conversation",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Archiver une conversation",
+        "message": "Archiver la conversation",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Désarchiver une conversation",
+        "message": "Désarchiver la conversation",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
@@ -1766,43 +1828,43 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Rechercher dans une conversation",
+        "message": "Chercher dans la conversation",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Focus composer",
+        "message": "Aller dans la zone de rédaction",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Open All Media view",
+        "message": "Ouvrir la vue Tous les médias",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "Open emoji chooser",
+        "message": "Ouvrir le sélecteur d’émojis",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Open sticker chooser",
+        "message": "Ouvrir le sélecteur d’autocollants",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Begin recording voice note",
+        "message": "Lancer l’enregistrement d’une note vocale",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Default action for selected message",
+        "message": "Action par défaut pour le message sélectionné",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "View selected message details",
+        "message": "Visualiser les détails du message sélectionné",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Toggle reply to selected message",
+        "message": "Ouvrir/fermer la réponse au message sélectionné",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Save attachment from selected message",
+        "message": "Enregistrer le fichier joint du message sélectionné",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
@@ -1814,11 +1876,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Expand composer",
+        "message": "Développer la fenêtre de rédaction",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Send (in expanded composer)",
+        "message": "Envoyer (dans la fenêtre de rédaction développée)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -1826,11 +1888,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Remove draft link preview",
+        "message": "Supprimer le brouillon d’aperçu de lien",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Remove all draft attachments",
+        "message": "Supprimer tous les brouillons de fichiers joints",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--Key--ctrl": {
@@ -1850,11 +1912,11 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
-        "message": "Enter",
+        "message": "Entrée",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--header": {
-        "message": "Raccourcis clavier",
+        "message": "Raccourcis-clavier",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
@@ -1866,44 +1928,254 @@
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Composer",
+        "message": "Rédaction",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Scroll to top of list",
+        "message": "Faire défiler vers le haut de la liste",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Scroll to bottom of list",
+        "message": "Faire défiler vers le bas de la liste",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Close current conversation",
+        "message": "Fermer la conversation actuelle",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
-        "message": "Close Popup",
+        "message": "Fermer la fenêtre surgissante",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Add image attachment",
+        "message": "Joindre une image",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Remove attachment",
+        "message": "Supprimer le fichier joint",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Back to inbox",
+        "message": "Retourner à la boîte de réception",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Conversation archivée",
+        "message": "La conversation a été archivée",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Conversation returned to inbox",
+        "message": "La conversation a été renvoyée dans la boîte de réception",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "StickerCreator--title": {
+        "message": "Créateur de paquet d’autocollants",
+        "description": "The title of the Sticker Pack Creator window"
+    },
+    "StickerCreator--DropZone--staticText": {
+        "message": "Cliquez pour ajouter ou déposez des images ici",
+        "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    },
+    "StickerCreator--DropZone--activeText": {
+        "message": "Déposez les images ici",
+        "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    },
+    "StickerCreator--Preview--title": {
+        "message": "Paquet d’autocollants",
+        "description": "The 'title' of the sticker pack preview 'modal'"
+    },
+    "StickerCreator--ConfirmDialog--cancel": {
+        "message": "Annuler",
+        "description": "The default text for the confirm dialog cancel button"
+    },
+    "StickerCreator--CopyText--button": {
+        "message": "Copier",
+        "description": "The text which appears on the copy button for the sticker creator share screen"
+    },
+    "StickerCreator--ShareButtons--facebook": {
+        "message": "Facebook",
+        "description": "Title for Facebook button"
+    },
+    "StickerCreator--ShareButtons--twitter": {
+        "message": "Twitter",
+        "description": "Title for Twitter button"
+    },
+    "StickerCreator--ShareButtons--pinterest": {
+        "message": "Pinterest",
+        "description": "Title for Pinterest button"
+    },
+    "StickerCreator--ShareButtons--whatsapp": {
+        "message": "WhatsApp",
+        "description": "Title for WhatsApp button"
+    },
+    "StickerCreator--AppStage--next": {
+        "message": "Suivant",
+        "description": "Default text for the next button on all stages of the sticker creator"
+    },
+    "StickerCreator--AppStage--prev": {
+        "message": "Retour",
+        "description": "Default text for the previous button on all stages of the sticker creator"
+    },
+    "StickerCreator--DropStage--title": {
+        "message": "Ajouter vos autocollants",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--help": {
+        "message": "Les autocollants doivent être au format PNG WebP avec un arrière-plan transparent et 512 x 512 pixels. La marge recommandée est de 16 px.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--showMargins": {
+        "message": "Afficher les marges",
+        "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--addMore": {
+        "message": "Ajoutez-en $count$ ou plus",
+        "description": "Text to show user how many more stickers they must add",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "StickerCreator--EmojiStage--title": {
+        "message": "Ajouter un émoji pour chaque autocollant",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--EmojiStage--help": {
+        "message": "Cela nous permet de vous suggérer des autocollants alors que vous composez un message.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--title": {
+        "message": "Quelques détails de plus…",
+        "description": "Title for the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--title": {
+        "message": "Titre",
+        "description": "Label for the title input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--author": {
+        "message": "Auteur",
+        "description": "Label for the author input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover": {
+        "message": "Image de couverture",
+        "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover--help": {
+        "message": "Voici l’image qui s’affichera quand vous partagerez votre paquet d’autocollants",
+        "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--title": {
+        "message": "Voulez-vous vraiment téléverser votre paquet d’autocollants ?",
+        "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--confirm": {
+        "message": "Téléverser",
+        "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--text": {
+        "message": "Vous ne pourrez plus effectuer de modifications ni de suppressions après avoir créé le paquet d’autocollants.",
+        "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage--title": {
+        "message": "Création de votre paquet d’autocollants",
+        "description": "Title for the upload stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage-uploaded": {
+        "message": "$count$ sur $total$ ont été téléversés",
+        "description": "Title for the upload stage of the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "total": {
+                "content": "$2",
+                "example": "20"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--title": {
+        "message": "Félicitations ! Vous avez créé un paquet d’autocollants.",
+        "description": "Title for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--help": {
+        "message": "Accédez à vos nouveaux autocollants à partir de l’icône autocollants ou partagez avec vos amis en utilisant le lien ci-dessous.",
+        "description": "Help text for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--callToAction": {
+        "message": "Utilisez le mot-clic $hashtag$ pour aider d’autres personnes à trouver les URL de tout paquet d’autocollants que vous souhaiteriez rendre accessible publiquement.",
+        "description": "Call to action text for the share stage of the sticker creator",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "<strong>#makeprivacystick</strong>"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--copyTitle": {
+        "message": "URL du paquet d’autocollants",
+        "description": "Title for the copy button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--close": {
+        "message": "Fermer",
+        "description": "Text for the close button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--createAnother": {
+        "message": "Créer un autre paquet d’autocollants",
+        "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--socialMessage": {
+        "message": "Découvre ce nouveau paquet d’autocollants que j’ai créé pour Signal. #makeprivacystick",
+        "description": "Text which is shared to social media platforms for sticker packs"
+    },
+    "StickerCreator--Toasts--imagesAdded": {
+        "message": "$count$ image(s) a/ont ajoutée(s)",
+        "description": "Text for the toast when images are added to the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "StickerCreator--Toasts--animated": {
+        "message": "Les autocollants animés ne sont actuellement pas pris en charge",
+        "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--tooLarge": {
+        "message": "L’image déposée est trop grande",
+        "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorProcessing": {
+        "message": "Erreur de traitement de l’image",
+        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorUploading": {
+        "message": "Erreur de téléversement des autocollants : $message$",
+        "description": "Text for the toast when a sticker pack cannot be uploaded",
+        "placeholders": {
+            "message": {
+                "content": "$1",
+                "example": "Not connected"
+            }
+        }
+    },
+    "StickerCreator--Toasts--linkedCopied": {
+        "message": "Le lien a été copié",
+        "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    },
+    "StickerCreator--StickerPreview--light": {
+        "message": "Mon autocollant en thème clair",
+        "description": "Text for the sticker preview for the light theme"
+    },
+    "StickerCreator--StickerPreview--dark": {
+        "message": "Mon autocollant en thème sombre",
+        "description": "Text for the sticker preview for the dark theme"
+    },
+    "StickerCreator--Authentication--error": {
+        "message": "Veuillez mettre en place Signal sur votre téléphone et votre ordinateur pour utiliser le créateur de paquets d’autocollants",
+        "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "privacyPolicy": {
         "message": "Conditions générales d’utilisation et politique de confidentialité",

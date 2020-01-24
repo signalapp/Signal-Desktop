@@ -19,6 +19,10 @@
         "message": "&Ficheiro",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuCreateStickers": {
+        "message": "Criar/carregar pacote de autocolantes",
+        "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "mainMenuEdit": {
         "message": "&Editar",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -627,6 +631,10 @@
         "message": "Definições do Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
+    "signalDesktopStickerCreator": {
+        "message": "Criador de pacotes de autocolantes",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "aboutSignalDesktop": {
         "message": "Acerca do Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
@@ -778,6 +786,16 @@
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Uma mensagem de voz deverá apenas ter um anexo",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
+    "attachmentSaved": {
+        "message": "Anexo guardado. Clique para mostrar na pasta.",
+        "description": "Shown after user selects to save to downloads",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "proof.jpg"
+            }
+        }
     },
     "you": {
         "message": "Você",
@@ -1122,6 +1140,34 @@
     "notificationMostRecent": {
         "message": "Mais recente:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "notificationReaction": {
+        "message": "$sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMostRecent": {
+        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
     },
     "sendFailed": {
         "message": "Falha no envio",
@@ -1555,13 +1601,17 @@
         "message": "Mensagem não suportada",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
+    "message--getDescription--disappearing-media": {
+        "message": "Media de visualização única",
+        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+    },
     "message--getDescription--disappearing-photo": {
-        "message": "Destruição de fotografia",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+        "message": "Fotografia de visualização única",
+        "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Destruição de vídeo",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+        "message": "Vídeo de visualização única",
+        "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
         "message": "Não foi possível instalar o pacote de autocolantes",
@@ -1602,6 +1652,10 @@
     "stickers--StickerManager--UninstallWarning": {
         "message": "Poderá não conseguir voltar a reinstalar este pacote de autocolantes caso já não possua a mensagem onde estava a origem dele.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Image": {
+        "message": "introdução aos autocolantes: O gato bandido",
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "Introdução aos autocolantes",
@@ -1705,12 +1759,20 @@
         "message": "Média",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
+    "Message--tap-to-view--incoming--expired-toast": {
+        "message": "Já vi esta mensagem.",
+        "description": "Shown when user clicks on an expired incoming view-once bubble"
+    },
+    "Message--tap-to-view--outgoing--expired-toast": {
+        "message": "Mensagens de visualização única não são guardadas no seu histórico de conversação.",
+        "description": "Shown when user clicks on an expired outgoing view-once bubble"
+    },
     "Message--tap-to-view--incoming": {
-        "message": "Fotografia",
+        "message": "Ver fotografia",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Vídeo",
+        "message": "Ver vídeo",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
@@ -1904,6 +1966,216 @@
     "conversationReturnedToInbox": {
         "message": "A conversa regressou à caixa de entrada",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "StickerCreator--title": {
+        "message": "Criador de pacotes de autocolantes",
+        "description": "The title of the Sticker Pack Creator window"
+    },
+    "StickerCreator--DropZone--staticText": {
+        "message": "Clique para adicionar ou largue imagens aqui",
+        "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    },
+    "StickerCreator--DropZone--activeText": {
+        "message": "Largar imagens aqui",
+        "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    },
+    "StickerCreator--Preview--title": {
+        "message": "Pacote de autocolantes",
+        "description": "The 'title' of the sticker pack preview 'modal'"
+    },
+    "StickerCreator--ConfirmDialog--cancel": {
+        "message": "Cancelar",
+        "description": "The default text for the confirm dialog cancel button"
+    },
+    "StickerCreator--CopyText--button": {
+        "message": "Copiar",
+        "description": "The text which appears on the copy button for the sticker creator share screen"
+    },
+    "StickerCreator--ShareButtons--facebook": {
+        "message": "Facebook",
+        "description": "Title for Facebook button"
+    },
+    "StickerCreator--ShareButtons--twitter": {
+        "message": "Twitter",
+        "description": "Title for Twitter button"
+    },
+    "StickerCreator--ShareButtons--pinterest": {
+        "message": "Pinterest",
+        "description": "Title for Pinterest button"
+    },
+    "StickerCreator--ShareButtons--whatsapp": {
+        "message": "WhatsApp",
+        "description": "Title for WhatsApp button"
+    },
+    "StickerCreator--AppStage--next": {
+        "message": "Seguinte",
+        "description": "Default text for the next button on all stages of the sticker creator"
+    },
+    "StickerCreator--AppStage--prev": {
+        "message": "Voltar",
+        "description": "Default text for the previous button on all stages of the sticker creator"
+    },
+    "StickerCreator--DropStage--title": {
+        "message": "Adicione os seus autocolantes",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--help": {
+        "message": "Os autocolantes deverão estar no formato PNG ou WebP, com um fundo transparente e 512X512 pixeis. Recomendamos que a margem seja de 16px.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--showMargins": {
+        "message": "Mostrar margens",
+        "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--addMore": {
+        "message": "Adicionar$count$ ou mais",
+        "description": "Text to show user how many more stickers they must add",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "StickerCreator--EmojiStage--title": {
+        "message": "Adicionar um emoji para cada autocolante",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--EmojiStage--help": {
+        "message": "Isto permite-nos que sujeramos autocolantes para si enquanto está a comunicar via mensagem",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--title": {
+        "message": "Apenas mais alguns detalhes...",
+        "description": "Title for the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--title": {
+        "message": "Título",
+        "description": "Label for the title input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--author": {
+        "message": "Autor",
+        "description": "Label for the author input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover": {
+        "message": "Imagem da capa",
+        "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover--help": {
+        "message": "Esta é a imagem que será exibida quando você partilhar o seu pacote de autocolantes",
+        "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--title": {
+        "message": "Tem a certeza que deseja fazer o upload do seu pacote de autocolantes?",
+        "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--confirm": {
+        "message": "Carregar",
+        "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--text": {
+        "message": "Deixará de ser possível fazer edições ou eliminar depois de criar um pacote de autocolantes.",
+        "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage--title": {
+        "message": "A criar o seu pacote de autocolantes",
+        "description": "Title for the upload stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage-uploaded": {
+        "message": "Carregado(s) $count$ de $total$",
+        "description": "Title for the upload stage of the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "total": {
+                "content": "$2",
+                "example": "20"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--title": {
+        "message": "Parabéns! Você criou um pacote de autocolantes.",
+        "description": "Title for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--help": {
+        "message": "Aceda aos seus novos autocolantes através do ícone de autocolante, ou partilhe-os com os seus amigos utilizando a ligação abaixo.",
+        "description": "Help text for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--callToAction": {
+        "message": "Utilize o hastag $hashtag$ para ajudar outras pessoas a encontrarem os URLs para qualquer pacote de autocolantes que deseja tornar publicamente acessíveis.",
+        "description": "Call to action text for the share stage of the sticker creator",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "<strong>#makeprivacystick</strong>"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--copyTitle": {
+        "message": "URL do pacote de  auto-colantes",
+        "description": "Title for the copy button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--close": {
+        "message": "Fechar",
+        "description": "Text for the close button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--createAnother": {
+        "message": "Criar outro pacote de autocolantes",
+        "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--socialMessage": {
+        "message": "Veja este autocolante que eu criei para a Signal. #makeprivacystick",
+        "description": "Text which is shared to social media platforms for sticker packs"
+    },
+    "StickerCreator--Toasts--imagesAdded": {
+        "message": "$count$ imagem(s) adicionada(s) ",
+        "description": "Text for the toast when images are added to the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "StickerCreator--Toasts--animated": {
+        "message": "Atualmente não são suportados autocolantes animados",
+        "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--tooLarge": {
+        "message": "A imagem largada é demasiado grande",
+        "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorProcessing": {
+        "message": "Erro ao processar imagem",
+        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorUploading": {
+        "message": "Erro ao fazer ao upload de autocolantes: $message$",
+        "description": "Text for the toast when a sticker pack cannot be uploaded",
+        "placeholders": {
+            "message": {
+                "content": "$1",
+                "example": "Not connected"
+            }
+        }
+    },
+    "StickerCreator--Toasts--linkedCopied": {
+        "message": "Ligação copiada",
+        "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    },
+    "StickerCreator--StickerPreview--light": {
+        "message": "O meu autocolante no tema claro",
+        "description": "Text for the sticker preview for the light theme"
+    },
+    "StickerCreator--StickerPreview--dark": {
+        "message": "O meu autocolante no tema escuro",
+        "description": "Text for the sticker preview for the dark theme"
+    },
+    "StickerCreator--Authentication--error": {
+        "message": "Por favor, defina o Signal no seu telemóvel e desktop para utilizar o 'Criador de pacotes de autocolantes'",
+        "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "privacyPolicy": {
         "message": "Termos e política de privacidade",

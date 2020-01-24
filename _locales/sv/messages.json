@@ -19,6 +19,10 @@
         "message": "&Arkiv",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuCreateStickers": {
+        "message": "Skapa/ladda upp klistermärkespaket",
+        "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "mainMenuEdit": {
         "message": "&Redigera",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -152,7 +156,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimerar applikationen...",
+        "message": "Optimerar programmet...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
@@ -190,7 +194,7 @@
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Läs in din data",
+        "message": "Läs in dina data",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
@@ -210,7 +214,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Kontrollera att du valt rätt mapp som innehåller dina sparade Signal-data. Dess namn borde börja med 'Signal Export.' Du kan också spara en ny kopia av din data från Chrome-appen.",
+        "message": "Kontrollera att du valt rätt mapp som innehåller dina sparade Signal-data. Dess namn borde börja med \"Signal Export.\" Du kan också spara en ny kopia av dina data från Chrome-appen.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -264,7 +268,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Rulla till botten av konversationen",
+        "message": "Bläddra till botten av konversationen",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
@@ -578,7 +582,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Ej ansluten",
+        "message": "Inte ansluten",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
@@ -625,6 +629,10 @@
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktop-inställningar",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "signalDesktopStickerCreator": {
+        "message": "Skapare av Klistermärkespaketet",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -772,12 +780,22 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Originalmeddelande hittades, men lästes inte in. Skrolla upp för att läsa in det.",
+        "message": "Originalmeddelande hittades, men lästes inte in. Rulla upp för att läsa in den.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Ett röstmeddelande måste bara ha en bilaga.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
+    "attachmentSaved": {
+        "message": "Bilagan sparats. Klicka för att visa i mappen.",
+        "description": "Shown after user selects to save to downloads",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "proof.jpg"
+            }
+        }
     },
     "you": {
         "message": "Du",
@@ -996,7 +1014,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "'+'-knappen",
+        "message": "\"+\"-knappen",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
@@ -1056,7 +1074,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Detta kommer ta bort alla data i applikationen, det tar bort alla meddelanden och sparad kontoinformation.",
+        "message": "Detta kommer att rensa alla data i programmet, ta bort alla meddelanden och sparad kontoinformation.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1068,7 +1086,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Du är på väg att ta bort allt av denna applikations sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan länka till din mobila enhet igen, men det kommer inte att återställa de borttagna meddelandena.",
+        "message": "Du är på väg att ta bort allt av detta programs sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan länka till din mobila enhet igen, men det kommer inte att återställa de borttagna meddelandena.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1122,6 +1140,34 @@
     "notificationMostRecent": {
         "message": "Nyligen:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "notificationReaction": {
+        "message": "$sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMostRecent": {
+        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
     },
     "sendFailed": {
         "message": "Att skicka meddelandet misslyckades",
@@ -1232,7 +1278,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Du satte tiden för försvinnande meddelanden till $time$",
+        "message": "Du ställde in tidsgränsen för försvinnande meddelanden till $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1252,7 +1298,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ satte tiden för försvinnande meddelanden till $time$",
+        "message": "$name$ ställde in tidsgränsen för försvinnande meddelanden till $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1384,7 +1430,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Tidsgräns inställt till $time$",
+        "message": "Tidsgräns inställd till $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1555,13 +1601,17 @@
         "message": "Meddelande som inte stöds",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
+    "message--getDescription--disappearing-media": {
+        "message": "Visa-en-gång media",
+        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+    },
     "message--getDescription--disappearing-photo": {
-        "message": "Försvinnande foto",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+        "message": "Visa-en-gång foto",
+        "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Försvinnande video",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+        "message": "Visa-en-gång video",
+        "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
         "message": "Klistermärkespaketet kan inte installeras",
@@ -1602,6 +1652,10 @@
     "stickers--StickerManager--UninstallWarning": {
         "message": "Du kanske inte kan installera om det här klistermärkespaketet om du inte längre har källmeddelandet.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Image": {
+        "message": "Introducerar klistermärken: Bandit katten",
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "Introducerar Klistermärken",
@@ -1705,12 +1759,20 @@
         "message": "Media",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
+    "Message--tap-to-view--incoming--expired-toast": {
+        "message": "Du har redan sett det här meddelandet.",
+        "description": "Shown when user clicks on an expired incoming view-once bubble"
+    },
+    "Message--tap-to-view--outgoing--expired-toast": {
+        "message": "Visa-när meddelanden inte lagras i konversationshistoriken.",
+        "description": "Shown when user clicks on an expired outgoing view-once bubble"
+    },
     "Message--tap-to-view--incoming": {
-        "message": "Foto",
+        "message": "Visa foto",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Video",
+        "message": "Visa video",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
@@ -1870,11 +1932,11 @@
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Gå till toppen av listan",
+        "message": "Bläddra till toppen av listan",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Gå till botten av listan",
+        "message": "Bläddra till botten av listan",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
@@ -1904,6 +1966,216 @@
     "conversationReturnedToInbox": {
         "message": "Konversationen återvände till inkorgen",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "StickerCreator--title": {
+        "message": "Skapare av Klistermärkespaketet",
+        "description": "The title of the Sticker Pack Creator window"
+    },
+    "StickerCreator--DropZone--staticText": {
+        "message": "Klicka för att lägga till eller släpp bilder här",
+        "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    },
+    "StickerCreator--DropZone--activeText": {
+        "message": "Släpp bilder här",
+        "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    },
+    "StickerCreator--Preview--title": {
+        "message": "Klistermärkespaket",
+        "description": "The 'title' of the sticker pack preview 'modal'"
+    },
+    "StickerCreator--ConfirmDialog--cancel": {
+        "message": "Avbryt",
+        "description": "The default text for the confirm dialog cancel button"
+    },
+    "StickerCreator--CopyText--button": {
+        "message": "Kopiera",
+        "description": "The text which appears on the copy button for the sticker creator share screen"
+    },
+    "StickerCreator--ShareButtons--facebook": {
+        "message": "Facebook",
+        "description": "Title for Facebook button"
+    },
+    "StickerCreator--ShareButtons--twitter": {
+        "message": "Twitter",
+        "description": "Title for Twitter button"
+    },
+    "StickerCreator--ShareButtons--pinterest": {
+        "message": "Pinterest",
+        "description": "Title for Pinterest button"
+    },
+    "StickerCreator--ShareButtons--whatsapp": {
+        "message": "WhatsApp",
+        "description": "Title for WhatsApp button"
+    },
+    "StickerCreator--AppStage--next": {
+        "message": "Nästa",
+        "description": "Default text for the next button on all stages of the sticker creator"
+    },
+    "StickerCreator--AppStage--prev": {
+        "message": "Tillbaka",
+        "description": "Default text for the previous button on all stages of the sticker creator"
+    },
+    "StickerCreator--DropStage--title": {
+        "message": "Lägg till dina klistermärken",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--help": {
+        "message": "Klistermärken måste vara i PNG- eller WebP-format med en transparent bakgrund och 512x512 pixlar. Rekommenderad marginal är 16px.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--showMargins": {
+        "message": "Visa marginaler",
+        "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--addMore": {
+        "message": "Lägg till $count$ eller flera",
+        "description": "Text to show user how many more stickers they must add",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "StickerCreator--EmojiStage--title": {
+        "message": "Lägg till en emoji till varje klistermärke",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--EmojiStage--help": {
+        "message": "Detta gör att vi kan föreslå klistermärken till dig när du skickar meddelanden.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--title": {
+        "message": "Bara några detaljer till...",
+        "description": "Title for the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--title": {
+        "message": "Titel",
+        "description": "Label for the title input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--author": {
+        "message": "Skapare",
+        "description": "Label for the author input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover": {
+        "message": "Omslagsbild",
+        "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover--help": {
+        "message": "Detta är den bild som kommer att dyka upp när du delar din klistermärkespaket",
+        "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--title": {
+        "message": "Är du säker på att du vill ladda upp ditt klistermärkespaket?",
+        "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--confirm": {
+        "message": "Ladda upp",
+        "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--text": {
+        "message": "Du kommer inte längre att kunna göra ändringar eller ta bort efter att ha skapat ett klistermärkespaket.",
+        "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage--title": {
+        "message": "Skapar ditt klistermärkespaket",
+        "description": "Title for the upload stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage-uploaded": {
+        "message": "$count$ av $total$ uppladdade",
+        "description": "Title for the upload stage of the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "total": {
+                "content": "$2",
+                "example": "20"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--title": {
+        "message": "Grattis! Du skapade ett klistermärkespaket.",
+        "description": "Title for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--help": {
+        "message": "Få tillgång till dina nya klistermärken via ikonen klistermärke, eller dela med dina vänner med hjälp av länken nedan.",
+        "description": "Help text for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--callToAction": {
+        "message": "Använd hashtaggen $hashtag$ för att hjälpa andra att hitta webbadresserna för alla anpassade klistermärkespaket som du vill göra offentligt tillgängliga.",
+        "description": "Call to action text for the share stage of the sticker creator",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "<strong>#makeprivacystick</strong>"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--copyTitle": {
+        "message": "Webbadress för klistermärkespaket",
+        "description": "Title for the copy button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--close": {
+        "message": "Stäng",
+        "description": "Text for the close button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--createAnother": {
+        "message": "Skapa ett annat klistermärkespaket",
+        "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--socialMessage": {
+        "message": "Kolla in det här nya klistermärkespaketet jag skapade för Signal. #makeprivacystick",
+        "description": "Text which is shared to social media platforms for sticker packs"
+    },
+    "StickerCreator--Toasts--imagesAdded": {
+        "message": "$count$ bild(er) tillagda",
+        "description": "Text for the toast when images are added to the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "StickerCreator--Toasts--animated": {
+        "message": "Animerade klistermärken stöds för närvarande inte",
+        "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--tooLarge": {
+        "message": "Släppta bilden är för stor",
+        "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorProcessing": {
+        "message": "Fel vid bearbetning av bild",
+        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorUploading": {
+        "message": "Fel vid uppladdning av klistermärken: $message$",
+        "description": "Text for the toast when a sticker pack cannot be uploaded",
+        "placeholders": {
+            "message": {
+                "content": "$1",
+                "example": "Not connected"
+            }
+        }
+    },
+    "StickerCreator--Toasts--linkedCopied": {
+        "message": "Länk kopierad",
+        "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    },
+    "StickerCreator--StickerPreview--light": {
+        "message": "Mitt klistermärke i ljust tema",
+        "description": "Text for the sticker preview for the light theme"
+    },
+    "StickerCreator--StickerPreview--dark": {
+        "message": "Mitt klistermärke i mörkt tema",
+        "description": "Text for the sticker preview for the dark theme"
+    },
+    "StickerCreator--Authentication--error": {
+        "message": "Vänligen ställ in Signal på telefonen och skrivbordet för att använda Sticker Pack Creator",
+        "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "privacyPolicy": {
         "message": "Licens- och sekretessvillkor",

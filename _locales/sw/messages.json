@@ -1,166 +1,166 @@
 {
     "copyErrorAndQuit": {
-        "message": "Copiar fallo y cerrar Signal",
+        "message": "Nakili hitilafu na wacha",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownGroup": {
-        "message": "Grupo sin nombre",
+        "message": "Kikundi hakijulikani",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Fallo en la base de datos",
+        "message": "Hitilafu ya hifadhidata",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Borrar todos los datos y reiniciar",
+        "message": "Futa data yote na washa upya",
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
-        "message": "&Archivo",
+        "message": "&Faili",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Crear/subir paquete de cromos",
+        "message": "Buni/Pakia pakiti ya vibandiko",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Editar",
+        "message": "&Hariri",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Ver",
+        "message": "&Tazama",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "&Ventana",
+        "message": "&Dirisha",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "A&yuda",
+        "message": "&Msaada",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Ajustes ...",
+        "message": "Upendeleo...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Ocultar",
+        "message": "Ficha",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Ocultar otras",
+        "message": "Ficha zingine",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Mostrar todas",
+        "message": "Onyesha Yote",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Cerrar Signal",
+        "message": "Toka Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Deshacer",
+        "message": "Ondoa",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Rehacer",
+        "message": "Rudisha upya",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Cortar",
+        "message": "Kata",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Copiar",
+        "message": "Nakili",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Pegar",
+        "message": "Bandika",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Pegar texto sin formato",
+        "message": "Mtindo wa Bandika na Fananisha ",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Eliminar",
+        "message": "Futa",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Seleccionar todo",
+        "message": "Chagua Yote",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Comenzar a hablar",
+        "message": "Anza kuzungumza",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Terminar de hablar",
+        "message": "Wacha kuongea",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Cerrar ventana",
+        "message": "Funga Dirisha",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimizar",
+        "message": "Punguza",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zoom",
+        "message": "Angaza Karibu na",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Todas al frente",
+        "message": "Leta Yote Mbele",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Tamaño original",
+        "message": "Ukubwa Halisi",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Aumentar",
+        "message": "Angaza Ndani ya",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Reducir",
+        "message": "Angaza Nje ya",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Activar pantalla completa",
+        "message": "Gura Skrini Kamili",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Activar herramientas de desarrollador",
+        "message": "Zana za Kugura za Msanidi Programu",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Configurar con datos a importar",
+        "message": "Weka na Hamisho",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
-        "message": "Configurar como nuevo dispositivo",
+        "message": "Weka kama Kifaa Kipya",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Configurar como dispositivo independiente",
+        "message": "Weka kama Kifaa Huru",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "avatarMenuViewArchive": {
-        "message": "Ver archivo",
+        "message": "Tazama Jalada",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Cargando …",
+        "message": "Inapakia...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimizando la aplicación ...",
+        "message": "Inapanga upya programu...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimizando mensajes ... $status$ completado.",
+        "message": "Inapanga upya ujumbe... $status$ imekamilika.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -170,83 +170,83 @@
         }
     },
     "archivedConversations": {
-        "message": "Chats archivados",
+        "message": "Gumzo Zilizojalidiwa",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "Estos chats están archivados y sólo aparecerán en el buzón de entrada si recibes nuevos mensajes.",
+        "message": "Gumzo hizi zinajalidiwa na zitaonekana tu kwenye Kisanduku Pokezi kama ujumbe mpya unapokewa.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archivar chat",
+        "message": "Jalidi Gumzo",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Devolver chat al buzón de entrada",
+        "message": "Hamisha Gumzo kwenye Kisanduku Pokezi",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
-        "message": "Seleccionar carpeta",
+        "message": "Chagua folda",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Seleccionar adjunto",
+        "message": "Chagua faili",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Carga tus datos",
+        "message": "Pakia data yako",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Si ya has exportado tus datos desde la antigua aplicación de Signal, tus contactos y mensajes están a salvo en tu ordenador. Selecciona la carpeta donde has guardado los datos de Signal.",
+        "message": "Umepita tu kwenye mchakato wa uhamisho, na wawasiliano wako na ujumbe unakungoja kwa uvumilivu kwenye tarakilishi yako. Chagua folda iliyo na data uliyohamisha ya Signal.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Selecciona la carpeta donde están los datos que has exportado",
+        "message": "Chagua saraka iliyo na data iliyohamishwa",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "¡Algo ha ido mal!",
+        "message": "Kuna kitu kimeenda kombo!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Cargando contactos y mensajes",
+        "message": "Inapakia wawasiliani na ujumbe",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Asegúrate de haber seleccionado la carpeta correcta que contiene tus datos de Signal. El nombre suele comenzar por 'Signal Export'. También puedes guardar una copia nueva de tus datos desde la aplicación de Chrome.",
+        "message": "Hakikisha umechagua saraka sahihi iliyo ha hifadhi yako ya data ya Signal. Jina lake linastahili kuanza na ' Uhamisho wa Signal'. Unaweza kuhifadhi nakala yako plya ya data yako kutoka kwa programu ya Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Si estos pasos no te funcionan, envía el registro de depuración (Ver > Registro de depuración) para que te podamos ayudar con la migración.",
+        "message": "Kama hatua hizi hazikusaidii, tafadhali wasilisha faili la rekebisho (Tazama-> Faili la Rekebisho) ili tukusaidie kuhama!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Selecciona una carpeta e inténtalo de nuevo",
+        "message": "Chagua folda na ujaribu tena",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "¡Conseguido!",
+        "message": "Mafanikio!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Comienza a usar Signal Desktop",
+        "message": "Anza kutumia Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Enlaza este dispositivo con tu teléfono",
+        "message": "Unganisha kifaa hiki na simu yako",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "Carpeta seleccionada",
+        "message": "eneo lako uliochagua",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Actualizando base de datos.  Puede llevar su tiempo …",
+        "message": "Hifadhidata inaboreshwa. Hili linaweza kuchukua muda...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Cargando mensajes. $count$ hasta ahora …",
+        "message": "Inapakia ujumbe. Kufikia sasa  $count$",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -256,31 +256,31 @@
         }
     },
     "me": {
-        "message": "Yo",
+        "message": "Mimi",
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "Ver más",
+        "message": "Tazama",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Has abandonado el grupo",
+        "message": "Umeondoka kwenye kikundi",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Desliza hasta el final del chat",
+        "message": "Biringiza hadi kwenye chini ya gumzo",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
-        "message": "Mensajes nuevos abajo",
+        "message": "Ujumbe mpya hapa chini",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 mensaje sin leer",
+        "message": "Ujumbe 1 ambao haujasomwa",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ mensajes sin leer",
+        "message": "Ujumbe $count$ ambao Haujasomwa",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -290,7 +290,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "Has marcado las cifras de seguridad con $name$ como verificadas",
+        "message": "Umeweka alama kwenye Nambari Yako ya Usalama na  $name$kuwa imehakikishwa",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -300,7 +300,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Has retirado la marca de verificación de tus cifras de seguridad con $name$",
+        "message": "Umeweka alama kwenye Nambari Yako ya Usalama na  $name$kuwa haijahakikishwa",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -310,7 +310,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Has marcado las cifras de seguridad con $name$ como verificadas en otro dispositivo",
+        "message": "Umeweka alama kwa Nambari Yako ya Usalama na  $name$kuwa imehakikishwa na kifaa kingine",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -320,7 +320,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Has retirado la marca de verificación de tus cifras de seguridad con $name$ en otro dispositivo",
+        "message": "Umeweka alama kwenye Nambari Yako ya Usalama na  $name$kuwa haijahakikishwa kutoka kwa kifaa kingine",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -330,15 +330,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Las cifras de seguridad con estos participantes del grupo han cambiado desde la última vez que las verificaste. Haz clic en un participante del grupo para ver las cifras de seguridad nuevas.",
+        "message": "Nambari zako za usalama na wanachama hawa wa kikundi zimebadilika tangu uhakikishe wakati uliopita. Bofya mwanachama wa kikundi ili kuona nambari mpya ya usalama na wao.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Las cifras de seguridad con varios participantes de este grupo han cambiado desde la última vez que las verificaste, lo que significaría que alguien ha tratado de interceptar la comunicación o que simplemente han reinstalado Signal.",
+        "message": "Nambari zako za usalama na wanachama kadhaa wa vikundi vimebadilika tangu uhakikishe wakati uliopita. Hili linamaanisha aidha kuna mtu anayejaribu kukatiza mawasiliano yenu au tu wamesimika upya Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Las cifras de seguridad con $name$ han cambiado desde la última vez que las verificaste, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
+        "message": "Nambari yako ya usalama na  $name$imebadilika tangu uthibitishe wakati uliopita. Hili linamaanisha aidha kuwa kuna mtu anayejaribu kukatiza mawasiliano yenu au tu  $name$amesimika upya Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -348,7 +348,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Las cifras de seguridad que estás intentando verificar han cambiado. Revisa las nuevas cifras de seguridad con $name$. Recuerda que este cambio podría significar que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
+        "message": "Nambari ya usalama unayojaribu kuthibitisha imebadilika. Tafadhali hakikisha nambari yako mpya ya usalama na  $name$. Kumbuka, badiliko hili linaweza kumaanisha kuwa kuna mtu anayejaribu kukatiza mawasiliano yenu au tu  $name$amesimika upya Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -358,11 +358,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Las cifras de seguridad con varios participantes del grupo han cambiado recientemente, lo que significaría que alguien ha tratado de interceptar la comunicación o que simplemente han reinstalado Signal.",
+        "message": "Nambari zako za usalama na wanachama kadhaa wa vikundi vimebadilika hivi karibuni. Hili linaweza kumaanisha kuwa kuna mtu anajaribu kukatiza mawasiliano yenu au wamesimika upya Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Las cifras de seguridad con $name$ han cambiado recientemente, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
+        "message": "Nambari yako ya usalama na  $name$imebadilika hivi karibuni. Hili linaweza kumaanisha kuwa kuna mtu anayejaribu kukatiza mawasiliano yenu au tu  $name$amesimika upya Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -372,7 +372,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Las cifras de seguridad con $name$ han cambiado, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.  Tal vez desees verificar las cifras de seguridad con este contacto.",
+        "message": "Nambari yako ya usalama na  $name$imebadilika. Hili linaweza kumaanisha kuwa kuna mtu anajaribu kukatiza mawasiliano yako au tu  $name$amesimika upya Signal. Unaweza taka kuhakikisha nambari yako ya usalama na mwasiliani hii.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -382,11 +382,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Enviar de todos modos",
+        "message": "Tuma Tu",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Las cifras de seguridad con $name$ han cambiado y ya no están verificadas. Haz clic para mostrar.",
+        "message": "Nambari yako ya usalama na  $name$ imebadilika na haijahakikishwa. Bofya kuonyesha.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -396,43 +396,43 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Las cifras de seguridad con varios participantes de este grupo han cambiado y ya no están verificadas. Haz clic para mostrar.",
+        "message": "Nambari zako za usalama na wanachama kadhaa wa vikundi zimebadilika na hazijahakikishwa. Bofya kuonyesha.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Este registro se publicará on line para que los colaboradores tengan acceso. Puedes examinarlo y editarlo antes de enviarlo.",
+        "message": "Faili hili litatumwa hadharani mkondoni ili wachangiaji watazame. Unaweza kuchunguza na uhariri kabla ya kuwasilisha.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Se ha producido un fallo al adjuntar el archivo con el registro de depuración. Considera añadir el archivo manualmente al enviar el informe del fallo. ",
+        "message": "Kitu kimeenda kombo wakati wa kupakia! Tafadhali fikiria kuongeza kimwongozo faili lako kwenye hitilafu unayofaili.",
         "description": ""
     },
     "reportIssue": {
-        "message": "Informar de un problema",
+        "message": "Ripoti suala",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "¡Entendido!",
+        "message": "Wasilisha",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Enviar",
+        "message": "Tuma",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Aceptar",
+        "message": "Kubali",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Marcar como verificado",
+        "message": "Weka alama kuwa imehakikishwa",
         "description": ""
     },
     "unverify": {
-        "message": "Retirar marca de verificación",
+        "message": "Weka alama kuwa haijahakikishwa",
         "description": ""
     },
     "isVerified": {
-        "message": "Has verificado las cifras de seguridad con $name$.",
+        "message": "Haujahakikisha nambari yako ya usalama na  $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -442,7 +442,7 @@
         }
     },
     "isNotVerified": {
-        "message": "No has verificado las cifras de seguridad con $name$.",
+        "message": "Haujahakikisha nambari yako ya usalama na  $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -452,79 +452,79 @@
         }
     },
     "verified": {
-        "message": "Verificado",
+        "message": "Imehakikishwa",
         "description": ""
     },
     "newIdentity": {
-        "message": "Nuevas cifras de seguridad",
+        "message": "Nambari mpya ya usalama",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Las cifras de seguridad con este contacto han cambiado, lo que significaría que, o bien alguien has tratado de interceptar la comunicación, o que este contacto simplemente ha reinstalado Signal. Tal vez desees verificar las nuevas cifras de seguridad.",
+        "message": "Nambari yako ya usalama na wasiliano huu imebadilika. Hili linaweza kumaaanisha kuwa aidha kuna mtu anayejaribu kukatiza mawasiliano yenu, ama tu wasiliano huu amesimika upya Signal. Unaweza taka kuhakikisha nambari yako mpya ya usalama hapa chini.",
         "description": ""
     },
     "incomingError": {
-        "message": "Fallo al procesar el mensaje recibido",
+        "message": "Kuna hitilafu kushughulikia ujumbe unaoingia",
         "description": ""
     },
     "media": {
-        "message": "Adjuntos",
+        "message": "Media",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "No hay ningún adjunto en este chat",
+        "message": "Hauna media yoyote kwenye gumzo hili",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Documentos",
+        "message": "Hati",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "No hay documentos en este chat",
+        "message": "Hauna hati zozote kwenye gumzo hili",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Hoy",
+        "message": "Leo",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Ayer",
+        "message": "Jana",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Esta semana",
+        "message": "Wiki Hii",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Este mes",
+        "message": "Mwezi Huu",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Tipo de archivo adjunto no admitido. Haz clic para guardar.",
+        "message": "Aina ya kiambatisho haitegemezwi. Bofya kuhifadhi.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Haz clic para guardar",
+        "message": "Bofya kuhifadhi\n",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "Archivo sin nombre",
+        "message": "Faili lisilo na jina",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Nota de voz",
+        "message": "Ujumbe wa Sauti",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Tipo de adjunto no permitido por razones se seguridad",
+        "message": "Aina ya kiambatisho haikubaliwi kwa sababu za kiusalama",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Cargando previsualización ...",
+        "message": "Inapakia hakiki...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Preparando miniatura de visualización de enlace para $domain$",
+        "message": "Muunganisho wa hakiki ya kijipicha rasimu kwa  $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -534,7 +534,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Miniatura de previsualización para $domain$",
+        "message": "Muunganisho wa hakiki ya kijipicha kwa  $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -544,7 +544,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Preparando adjunto múltiple: $path$",
+        "message": "Kiambatisho cha picha rasimu:  $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -554,43 +554,43 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Al incluír un adjunto que no es una imagen, el límite es un adjunto por mensaje.",
+        "message": "Wakati kiambatisho kisicho cha picha kinawekwa, kipimo ni kiambatisho kimoja kwa ujumbe mmoja.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "No se pueden combinar adjuntos de otro tipo junto a imágenes.",
+        "message": "Hauwezi kuchanganya viambatisho vya picha na visivyo na picha kwa ujumbe mmoja.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "No se pueden añadir más adjuntos a este mensaje.",
+        "message": "Hauwezi kuongeza viambatisho vingine zaidi kwenye ujumbe huu.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Lo sentimos, el archivo seleccionado excede las restricciones de tamaño.",
+        "message": "Samahani, faili lililochaguliwa limepita vikwazo vya ukubwa wa ujumbe.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Fallo al cargar el adjunto seleccionado.",
+        "message": "Imeshindwa kupakia kiambatisho kilichochaguliwa.",
         "description": ""
     },
     "disconnected": {
-        "message": "Desconectado",
+        "message": "Tenganisha",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Conectando",
+        "message": "Unganisha",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-        "message": "Desconectado",
+        "message": "Nje ya mkondo",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Comprueba la conexión de red.",
+        "message": "Angalia muunganisho wako wa mtandao",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "attemptingReconnection": {
-        "message": "Intentando volver a conectar en $reconnect_duration_in_seconds$ segundos",
+        "message": "Inajaribu kuunganisha tena baada ya sekunde  $reconnect_duration_in_seconds$",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -600,59 +600,59 @@
         }
     },
     "submitDebugLog": {
-        "message": "Registro de depuración (log)",
+        "message": "Faili la rekebisho",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Registro de depuración",
+        "message": "Faili la Rekebisho",
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Mostrar atajos de teclado",
+        "message": "Onyesha Njia-mkato za Baobonye",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "goToReleaseNotes": {
-        "message": "Ir a las notas de versión",
+        "message": "Enda kwa Kutoa Vidokezo ",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "Ir al forum",
+        "message": "Enda kwenye Mabaraza",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Ir a la página de soporte técnico",
+        "message": "Enda kwa Ukurasa wa Msaada",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Informar de un problema",
+        "message": "Ripoti Suala",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "Ajustes de Signal Desktop",
+        "message": "Upendeleo wa Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Creador de paquetes de cromos",
+        "message": "Fundi wa pakiti ya vibandiko",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Acerca de Signal Desktop",
+        "message": "Kuhusu Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Dictar",
+        "message": "Hotuba",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Mostrar",
+        "message": "Onyesha",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Ocultar",
+        "message": "Ficha",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Cerrar",
+        "message": "Toka",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -660,11 +660,11 @@
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "Buscar",
+        "message": "Tafuta",
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Buscar en «$conversationName$» ",
+        "message": "Tafuta kwenye  $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -674,7 +674,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Sin resultados para «$searchTerm$»",
+        "message": "Hakuna matokeo ya \";$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -684,7 +684,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "No se encontró «$searchTerm$» en «$conversationName$».",
+        "message": "Hakuna matokeo ya \";$searchTerm$\" kwenye  $conversationName$",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -694,31 +694,31 @@
         }
     },
     "conversationsHeader": {
-        "message": "Chats",
+        "message": "Mazungumzo",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Contactos",
+        "message": "Wawasiliani",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Mensajes",
+        "message": "Ujumbe",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Bienvenida a Signal",
+        "message": "Karibu Signal",
         "description": ""
     },
     "selectAContact": {
-        "message": "Selecciona un contacto o grupo para empezar a chatear.",
+        "message": "Chagua wasiliano ama kikundi ili uanze mazungumzo",
         "description": ""
     },
     "typingAlt": {
-        "message": "Animación de tecleo para este chat",
+        "message": "Piga chapa uhuishaji wa gumzo hili",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Avatar del contacto $name$",
+        "message": "Kijiumbo cha mwasiliani  $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -728,67 +728,67 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Enviar mensaje",
+        "message": "Tuma Ujumbe",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "domicilio",
+        "message": "gombo kaya",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "trabajo",
+        "message": "kazi",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "móvil",
+        "message": "rununu",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "correo",
+        "message": "barua pepe",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "teléfono",
+        "message": "simu",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "dirección",
+        "message": "anwani",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "apdo. de correos",
+        "message": "Sanduku la Posta",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Descargando",
+        "message": "Inapakua",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Descargar adjunto",
+        "message": "Pakua Kiambatisho",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "replyToMessage": {
-        "message": "Responder al mensaje",
+        "message": "Jibu Ujumbe",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Fallo al buscar el mensaje original",
+        "message": "Ujumbe asili haupatikani",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "El mensaje original ya no está disponible",
+        "message": "Ujumbe halisi haupo tena",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Se ha encontrado el mensaje original pero no se ha cargado. Desliza para cargar el mensaje.",
+        "message": "Ujumbe asili umepatikana, lakini haujapakia.\nBiringiza ili kuupakia.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Las notas de voz sólo pueden tener un adjunto.",
+        "message": "Ujumbe wa sauti lazima uwe na kiambatisho kimoja pekee.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Adjunto guardado. Haz click para mostrar la carpeta.",
+        "message": "Kiambatisho kimehifadhiwa. Bofya ili kuonyesha kwenye folda.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -798,11 +798,11 @@
         }
     },
     "you": {
-        "message": "Para ti",
+        "message": "Wewe",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "replyingTo": {
-        "message": "Respuesta a $name$",
+        "message": "Jibu kwa  $name$",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -812,119 +812,119 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Para enviar notas de voz, permite a Signal Desktop acceder al micrófono.",
+        "message": "Ili kutuma ujumbe wa sauti, kubali Signal Desktop iweze kufikia kipaza sauti chako.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Permitir acceso",
+        "message": "Ruhusu Ufikiaji",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Mostrar ajustes",
+        "message": "Onyesha Mipangilio",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Sauti",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Vídeo",
+        "message": "Video",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Foto",
+        "message": "Picha",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Fallo al actualizar",
+        "message": "Haiwezi Kusasisha",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop no se ha podido actualizar a pesar de estar disponible una versión más actual. Ve a https://www.signal.org/download e instálala manualmente. Después, contacta con el soporte técnico de Signal o envíanos un informe de fallo con el problema.",
+        "message": "Signal Desktop imeshindwa kusasisha, lakini kuna toleo jipya linalopatikana. Tafadhali enda kwenye https://signal.org/download na usimike toleo hilo jipya kivyako, halafu aidha uwasiliane na Msaada ama ufaili hitilafu kuhusu shida hii.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "readOnlyVolume": {
-        "message": "Parece que Signal Desktop está en cuarentena en macOS, lo que impide actualizar la aplicación automáticamente. Prueba a mover la aplicación «Signal.app» a la categoría «Aplicaciones» en «Finder».",
+        "message": "Kuna uwezekano Signal Desktop iko kwenye karantini ya Mfumo wa Uendeshaji wa mac, na haitaweza kusasisha moja kwa moja. Tafadhali jaribu kuhamisha programu ya Signal kwenye Programu na Mpataji.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
     },
     "ok": {
-        "message": "Aceptar",
+        "message": "Sawa",
         "description": ""
     },
     "cancel": {
-        "message": "Cancelar",
+        "message": "Ghairi",
         "description": ""
     },
     "failedToSend": {
-        "message": "Fallo al enviar a algunos destinatarios. Comprueba la conexión.",
+        "message": "Imeshindwa kutuma kwa wapokeaji wengine. Angalia muunganisho wako wa mtandao.",
         "description": ""
     },
     "error": {
-        "message": "Fallo",
+        "message": "Hitilafu",
         "description": ""
     },
     "messageDetail": {
-        "message": "Detalles de mensaje",
+        "message": "Maelezo ya Ujumbe",
         "description": ""
     },
     "delete": {
-        "message": "Eliminar",
+        "message": "Futa",
         "description": ""
     },
     "deleteWarning": {
-        "message": "¿Estás segura? Al hacer clic en 'Eliminar' se borrará el mensaje permanentemente de este (y solamente este) dispositivo.",
+        "message": "Una hakika? Kubofya 'futa' daima kutaondoa ujumbe huu kutoka kwa kifaa hiki peke yake.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Eliminar este mensaje",
+        "message": "Futa ujumbe huu",
         "description": ""
     },
     "from": {
-        "message": "De",
+        "message": "Kutoka kwa",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "A",
+        "message": "Kwa",
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "para",
+        "message": "kwa",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
-        "message": "Enviado",
+        "message": "Umetumwa",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Recibido",
+        "message": "Umepokewa",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Enviar mensaje",
+        "message": "Tuma ujumbe",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Participantes del grupo",
+        "message": "Wanachama wa kikundi",
         "description": ""
     },
     "showMembers": {
-        "message": "Mostrar participantes",
+        "message": "Onyesha wanachama",
         "description": ""
     },
     "resetSession": {
-        "message": "Reiniciar sesión",
+        "message": "Weka upya",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Ver cifras de seguridad",
+        "message": "Tazama nambari ya usalama",
         "description": ""
     },
     "viewAllMedia": {
-        "message": "Ver todos los adjuntos",
+        "message": "Tazama media yote",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Si deseas verificar la seguridad del cifrado de extremo a extremo con $name$, compara las cifras de arriba con las cifras presentes en el dispositivo de tu contacto.",
+        "message": "Kama ungetaka kuhakikisha usalama wa msimbo wako wa mwisho hadi mwisho na  $name$, linganisha nambari zilizo hapo juu na nambari kwenye vifaa vyao.",
         "description": "",
         "placeholders": {
             "name": {
@@ -934,215 +934,215 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "No has intercambiado ningún mensaje con este contacto. Las cifras de seguridad estarán disponibles después de enviar el primer mensaje.",
+        "message": "Bado haujabadilishana ujumbe na wasiliano huu. Nambari yako ya usalama na wao itapatikana baada ya ujumbe wa kwanza.",
         "description": ""
     },
     "moreInfo": {
-        "message": "Más detalles ...",
+        "message": "Habari Zaidi",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Volver a enviar",
+        "message": "Jaribu Tena Kutuma",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Eliminar este mensaje",
+        "message": "Futa Ujumbe",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Eliminar mensajes",
+        "message": "Futa ujumbe",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "¿Eliminar este chat permanentemente?",
+        "message": "Futa gumzo hili daima?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Sesión segura reiniciada",
+        "message": "Kipindi salama kimewekwa upya",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Miniatura de una foto como cita de un mensaje",
+        "message": "Kijipicha cha taswira kutoka kwa ujumbe ulionukuliwa",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Imagen adjunta al mensaje",
+        "message": "Taswira imeambatishwa kwa ujumbe",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Captura de vídeo adjunta al mensaje",
+        "message": "Kielezo-skrini kimeambatishwa kwa ujumbe",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Foto enviada en el chat",
+        "message": "Taswira imetumwa kwenye gumzo",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Icono para mostrar que esta imagen incluye una descripción",
+        "message": "Ikoni inaonyesha kuwa taswira hii ina maelezo mafupi",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Añadir explicación ...",
+        "message": "Ongeza maelezo mafupi",
         "description": ""
     },
     "save": {
-        "message": "Guardar",
+        "message": "Hifadhi",
         "description": ""
     },
     "fileIconAlt": {
-        "message": "Icono de archivo",
+        "message": "Ikoni ya faili",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Bienvenida a Signal Desktop",
+        "message": "Karibu kwenye Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "La privacidad es posible. Signal lo hace fácil.",
+        "message": "Faragha inawezekana. Signal inairahisisha.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Enlaza tu teléfono con Signal Desktop",
+        "message": "Unganisha simu yako na Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Ajustes de Signal",
+        "message": "Mipangilio ya Signal",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Dispositivos enlazados",
+        "message": "Vifaa Vilivyounganishwa",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "Botón '+'",
+        "message": "Kitufe cha Nyongeza",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Enlazar nuevo dispositivo",
+        "message": "Unganisha Kifaa Kipya",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Nombre de dispositivo",
+        "message": "Jina la kifaa",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Selecciona un nombre para este dispositivo",
+        "message": "Chagua jina la kifaa hiki",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Completar proceso",
+        "message": "Maliza kuunganisha simu",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Sincronizando contactos y grupos",
+        "message": "Unganisha wawasiliani na vikundi",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Fallo al conectar con el servidor.",
+        "message": "Imeshindwa kuunganisha na seva.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Lo sentimos, ya tienes demasiados dispositivos vinculados. Prueba a eliminar algunos.",
+        "message": "Samahani, una vifaa vingi sana vilivyounganishwa tayari. Jaribu kuondoa vingine.",
         "description": ""
     },
     "settings": {
-        "message": "Ajustes",
+        "message": "Mipangilio",
         "description": "Menu item and header for global settings"
     },
     "theme": {
-        "message": "Tema",
+        "message": "Mandhari",
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Permisos",
+        "message": "Ruhusa",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Permitir acesso a cámara y micrófono",
+        "message": "Ruhusu ufikiaji wa kamera na kipaza sauti",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "General",
+        "message": "Jumla",
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Comprobar la ortografía al escribir el mensaje",
+        "message": "Wezesha ukaguzi wa tahajia zilizowekwa kwenye sanduku la kutunga ujumbe",
         "description": "Description of the media permission description"
     },
     "clearDataHeader": {
-        "message": "Limpiar datos",
+        "message": "Futa Data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Esto eliminará todos los datos de la aplicación, los mensajes y la información de la cuenta.",
+        "message": "Hili litafuta data yote kwenye programu hii, liondoe ujumbe wote na habari ya akaunti iliyohifadhiwa.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Eliminar datos",
+        "message": "Futa data",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "¿Eliminar todos los datos?",
+        "message": "Futa data yote?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Vas a eliminar toda la información de la cuenta de Signal en esta aplicación, incluyendo todos los contactos y mensajes. Siempre puedes volver a enlazar tu dispositivo móvil de nuevo, pero los mensajes eliminados no se restaurarán.",
+        "message": "Uko karibu kufuta habari yote iliyohifadhiwa ya akaunti ya kifaa hiki, ikiwezo wawasiliani wote na ujumbe wako. Unaweza kuunganisha na kifaa chako cha rununu wakati mwingine, lakini hilo halitarudisha ujumbe uliofutwa.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Eliminar todos los datos",
+        "message": "Futa data yote",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Desconectando y borrando datos",
+        "message": "Inatenganisha na kufuta data yote",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
-        "message": "Notificaciones",
+        "message": "Arifu",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Al recibir mensajes, las notificaciones muestran:",
+        "message": "Ujumbe unapowasili, onyesha arifu zitakazodhihirisha",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Desactivar notificaciones",
+        "message": "Lemaza arifu",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Nombre de contacto y mensaje",
+        "message": "Yote mawili jina la mtumaji na ujumbe",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Ni nombre ni mensaje",
+        "message": "Hamna jina wala ujumbe",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Solo nombre de contacto",
+        "message": "Jina la mtumaji tu",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Mensaje nuevo",
+        "message": "Ujumbe Mpya",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "Mensajes nuevos",
+        "message": "Ujumbe Mpya",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Más reciente de:",
+        "message": "Wa hivi punde kutoka kwa:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "De:",
+        "message": "Kutoka kwa:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Más reciente:",
+        "message": "Wa hivi punde zaidi:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$reacciona  $emoji$ a tu mensaje",
+        "message": "$sender$ reacted $emoji$ to your message",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1156,7 +1156,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Más reciente: $sender$ reacciona  $emoji$ a tu mensaje",
+        "message": "Most recent: $sender$ reacted $emoji$ to your message",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1170,75 +1170,75 @@
         }
     },
     "sendFailed": {
-        "message": "Fallo al enviar",
+        "message": "Kutuma kumeshindwa",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Detalles",
+        "message": "Maelezo",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Ocultar detalles",
+        "message": "Ficha maelezo",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Más información sobre verificación de cifras de seguridad",
+        "message": "Fahamu mengi zaidi kuhusu kuhakikisha nambari za usalama",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Esta versión de Signal Desktop ha caducado. Por favor, actualiza a la última versión para seguir enviando mensajes.",
+        "message": "Toleo hili la Signal Desktop limeisha. Tafadhali boresha hadi kwenye toleo la hivi punde zaidi  ili uendelee kutuma ujumbe.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Actualizar",
+        "message": "Boresha",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Mensaje multimedia",
+        "message": "Ujumbe wa Media",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Número no registrado",
+        "message": "Nambari haijasajiliwa",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contactos",
+        "message": "Wawasiliani",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importa todos los grupos y contactos de Signal desde tu teléfono móvil.",
+        "message": "Hamisha vikundi na wawasiliani wote wa Signal kutoka kwa kifaa chako cha rununu.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Última actualización:  ",
+        "message": "Hamisho la mwisho saa",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Importar ahora",
+        "message": "Hamisha sasa",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importando …",
+        "message": "Inahamisha...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Fallo al importar. Asegúrate de que ordenador y teléfono están conectados a internet.",
+        "message": "Hamisho limeshindwa. Hakikisha tarakilishi na simu zako zimeunganishwa kwenye mtandao.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "ahora",
+        "message": "Sasa",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1 m",
+        "message": "D1",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1 h",
+        "message": "S1",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$ h",
+        "message": "S $hours$",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1248,7 +1248,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$ m",
+        "message": "D $minutes$",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1258,27 +1258,27 @@
         }
     },
     "justNow": {
-        "message": "ahora",
+        "message": "Sasa",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "D MMM",
+        "message": "M S",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Mensaje demasiado largo.",
+        "message": "Mwili wa ujumbe ni mrefu sana.",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Desbloquea este contacto para enviarle mensajes.",
+        "message": "Fungua wawasiliani huu ili kutuma ujumbe.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Desbloquea este grupo para enviar mensajes.",
+        "message": "Fungua kikundi hiki ili kutuma ujumbe.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Has fijado la desaparición de mensajes en $time$",
+        "message": "Umeweka kitufe cha wakati cha ujumbe kinachotoweka hadi kwa  $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1288,7 +1288,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Actualizando el temporizador de desaparición en $time$",
+        "message": "Kitufe cha wakati cha ujumbe kinachotoweka kimesasishwa hadi kwa  $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1298,7 +1298,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ ha fijado la desaparición de mensajes en $time$",
+        "message": "$name$ ameweka kitufe cha wakati kinachotoweka hadi kwa  $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1312,111 +1312,111 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "inactivo",
+        "message": "Zimwa",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 segundos",
+        "message": "Sekunde tano",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 segundos",
+        "message": "Sekunde kumi",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 segundos",
+        "message": "Sekunde thelathini",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minuto",
+        "message": "Dakika moja",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minutos",
+        "message": "Dakika tano",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minutos",
+        "message": "Dakika thelathini",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 hora",
+        "message": "Saa moja",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 horas",
+        "message": "Masaa sita",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 horas",
+        "message": "Masaa kumi na mawili",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 día ",
+        "message": "Siku moja",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 semana",
+        "message": "Wiki moja",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Desaparición de mensajes",
+        "message": "Jumbe zinapotea",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "inactivo",
+        "message": "Zimwa",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5 s",
+        "message": "S5",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10 s",
+        "message": "S10",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30 s",
+        "message": "S30",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1 m",
+        "message": "D1",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5 m",
+        "message": "D5",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30 m",
+        "message": "D30",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1 h",
+        "message": "S1",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6 h",
+        "message": "S6",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12 h",
+        "message": "12",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1 d",
+        "message": "Sk1",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "7 d",
+        "message": "W1",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Desaparición de mensajes desactivada",
+        "message": "Jumbe zinazopotea  zimelemazwa",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ ha desactivado la desaparición de mensajes",
+        "message": "$name$alilemaza ujumbe unaotoweka",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1426,11 +1426,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Has desactivado la desaparición de mensajes",
+        "message": "Umelemaza ujumbe unaotoweka",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Caducidad de mensajes fijada en $time$",
+        "message": "Kitufe cha wakati kimewekwa kwenye  $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1440,15 +1440,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Reproducir notificaciones sonoras",
+        "message": "Cheza arifu ya sauti",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Las cifras de seguridad han cambiado",
+        "message": "Nambari ya Usalama imebadilika",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Las cifras de seguridad con $name$ han cambiado",
+        "message": "Nambari ya Usalama na  $name$imebadilika",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1458,11 +1458,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verificar cifras de seguridad",
+        "message": "Hakikisha Nambari ya Usalama",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Tus cifras de seguridad con $name$:",
+        "message": "Nambari yako ya usalama na  $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1472,71 +1472,71 @@
         }
     },
     "themeLight": {
-        "message": "Claro",
+        "message": "Nyeupe",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Oscuro",
+        "message": "Nyeusi",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
-        "message": "Sistema",
+        "message": "Mfumo",
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Notas personales",
+        "message": "Kidokezo kwake mwenyewe",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
-        "message": "Ocultar barra de menú",
+        "message": "Ficha mwambaa wa menyu",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Comienza con un chat ...",
+        "message": "Anza gumzo jipya...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newPhoneNumber": {
-        "message": "Introduce un número de teléfono para añadir un contacto.",
+        "message": "Ingiza nambari ya simu ili kuongeza mwasiliani.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Número incorrecto",
+        "message": "Nambari si sahihi",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Vuelve a enlazar Signal Desktop con tu teléfono móvil para continuar intercambiando mensajes.",
+        "message": "Unganisha upya Signal Desktop kwenye kifaa chako cha rununu ili uendelee kutuma ujumbe.",
         "description": ""
     },
     "unlinked": {
-        "message": "Desenlazado",
+        "message": "Havijaunganishwa",
         "description": ""
     },
     "relink": {
-        "message": "Enlazar de nuevo",
+        "message": "Unganisha upya",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Actualización de Signal Desktop disponible",
+        "message": "Sasisho mpya ya Signal inapatikana",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Hay una nueva versión de Signal Desktop disponible.",
+        "message": "Kuna toleo jipya la Signal linalopatikana",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Pulsa en 'Reiniciar Signal' para aplicar cambios.",
+        "message": "Tafadhali Washa Upya Signal ili kutekeleza sasisho.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Reiniciar Signal",
+        "message": "Washa upya Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Más tarde",
+        "message": "Baadaye",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ ha abandonado el grupo",
+        "message": "$name$ aliondoka kikundini",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1546,7 +1546,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ ha abandonado el grupo",
+        "message": "$name$ waliondoka kikundini",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1556,11 +1556,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupo actualizado",
+        "message": "Kikundi kimesasishwa",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "El grupo ha pasado a llamarse «$name$»",
+        "message": "Kichwa sasa ni ';$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1570,7 +1570,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ se ha unido al grupo",
+        "message": "$name$amejiunga na kikundi",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1580,7 +1580,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ se ha unido al grupo",
+        "message": "$names$ wamejiunga na kikundi",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1590,123 +1590,123 @@
         }
     },
     "ConversationListItem--draft-prefix": {
-        "message": "Borrador:",
+        "message": "Rasimu",
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--stickers": {
-        "message": "Mensaje con cromo (sticker)",
+        "message": "Ujumbe wa Vibandiko",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getDescription--unsupported-message": {
-        "message": "Mensaje incompatible",
+        "message": "Ujumbe hautegemezwi",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "Multimedia para ver solo una vez",
+        "message": "Media ya Mtazamo-mmoja tu",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "Fotografía para ver solo una vez",
+        "message": "Picha ya Mtazamo-mmoja tu",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Vídeo para ver solo una vez",
+        "message": "Video ya Mtazamo-mmoja tu",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Fallo al instalar el paquete de cromos (stickers)",
+        "message": "Pakiti ya vibandiko haikuweza kusimikwa",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Cromos instalados (stickers)",
+        "message": "Vibandiko Vilivyosimikwa",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "No hay ningún paquete de cromos (stickers) instalado ",
+        "message": "Hakuna vibandiko vilivyosimikwa",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Paquetes de artistas de Signal",
+        "message": "Mfululizo wa Sanaa za Signal",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "No hay cromos de artistas de Signal disponibles",
+        "message": "Hakuna vibandiko vya Msanii wa Signal vinavyopatikana",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Cromos recibidos",
+        "message": "Vibandiko Ulivyovipokea",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Los cromos recibidos en mensajes aparecerán aquí",
+        "message": "Vibandiko kutoka kwa ujumbe unaoingia vitaonekana hapa",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Instalar",
+        "message": "Simika",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Desinstalar",
+        "message": "Sakinusha",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "No podrás reinstalar este paquete de cromos si no conservas el mensaje en el que se recibió.",
+        "message": "Unaweza shindwa kusimika upya pakiti hii ya vibandiko kama tena hauna chanzo cha ujumbe.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "¡Los cromos (stickers) han llegado!",
+        "message": "Kuwasilisha Vibandiko: Paka Jambazi",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Presentamos los cromos (stickers)",
+        "message": "Kuwasilisha Vibandiko",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "¿Por qué usar palabras si puedes usar cromos (stickers)?",
+        "message": "Mbona utumie maneno na unaweza kutumia vibandiko?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Fallo al descargar alguno de los cromos.",
+        "message": "Vibandiko vingine havikuweza kupakuliwa.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Instalando paquete de cromos ...",
+        "message": "Pakiti ya vibandiko inasimikwa...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "No se han encontrado cromos",
+        "message": "Hamna vibandiko vilivyopatikana",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Hay paquetes de cromos disponibles en tus mensajes disponibles para instalar ",
+        "message": "Pakiti mpya za vibandiko kutoka kwa ujumbe wako vinapatikana ili kusimikwa",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "No se encontraron paquetes de cromos",
+        "message": "Hamna pakiti za vibandiko zilizopatikana",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Aquí se mostrarán los cromos usados recientemente.",
+        "message": "Vibandiko vilivyotumiwa hivi karibuni vitaonekana hapa.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Paquete de cromos",
+        "message": "Pakiti ya Vibandiko",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Fallo al abrir el paquete de cromos. Comprueba tu conexión a internet e inténtalo de nuevo.",
+        "message": "Hitilafu katika kufungua pakiti ya vibandiko. Angalia muunganisho wako na ujaribu tena.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Emoji no encontrado",
+        "message": "Hakuna kicheshi kilichopatikana.",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Buscar emoji",
+        "message": "Tafuta kicheshi",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
-        "message": "Tono de piel $tone$",
+        "message": "Rangi ya ngozi  $tone$",
         "description": "Shown as a tooltip over the emoji tone buttons.",
         "placeholders": {
             "status": {
@@ -1716,11 +1716,11 @@
         }
     },
     "confirmation-dialog--Cancel": {
-        "message": "Cancelar",
+        "message": "Ghairi",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ te ha enviado un mensaje que no se puede procesar o mostrar ya que usa una característica nueva de Signal.",
+        "message": "$contact$ amekutumia ujumbe ambao hauwezi kuchakatishwa ama kuonyeshwa kwa sababu unatumia kipengele mpya cha Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1730,7 +1730,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Puedes preguntar a $contact$ que reenvíe el mensaje ahora que ya usas la versión actual de Signal.",
+        "message": "Unaweza kumwomba  $contact$atume ujumbe huu upya kwa vile sasa unatumia toleo lililosasishwa la Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1740,255 +1740,255 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Uno de tus dispositivos ha enviado un mensaje que no se puede procesar o mostrar ya que usa una característica nueva de Signal.",
+        "message": "Moja ya kifaa chako imetuma ujumbe ambao hauwezi kuchakatishwa ama kuonyeshwa kwa sababu kinatumia kipengele mpya cha Signal.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Futuros mensajes como éste se podrán sincronizar ahora que usas la versión actual de Signal.",
+        "message": "Ujumbe wa siku za usoni kama huu utaunganishwa kwa vile sasa unatumia toleo lililosasishwa la Signal.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Actualiza Signal",
+        "message": "Sasisha Signal",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Visto",
+        "message": "Imetazamwa",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
-        "message": "Multimedia",
+        "message": "Media",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "Ya has visto este mensaje.",
+        "message": "Tayari umetazama huu ujumbe.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "Los mensajes para ver solo una vez no son almacenados en tu historial de chat.",
+        "message": "Ujumbe wa Mtazamo-mmoja tu hauwekwi kwenye historia yako ya gumzo.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Ver foto",
+        "message": "Tazama Picha",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Ver vídeo",
+        "message": "Tazama video",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(adjunto)",
+        "message": "(kiambatisho)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(cita)",
+        "message": "(nukuu)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(borrador)",
+        "message": "(rasimu)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navegar por secciones",
+        "message": "Rambaza kwa kifungu",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
-        "message": "Chat anterior",
+        "message": "Gumzo lililopita",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-conversation": {
-        "message": "Chat siguiente",
+        "message": "Gumzo lifuatalo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Chat anterior con mensajes sin leer",
+        "message": "Gumzo lililopita ambalo halikusomwa",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Chat siguiente con mensajes sin leer",
+        "message": "Gumzo lifuatalo ambalo halijasomwa",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Ajustes",
+        "message": "Upendeleo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Abrir opciones de chat",
+        "message": "Fungua menyu ya gumzo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Archivar chat",
+        "message": "Jalidi gumzo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Desarchivar chat",
+        "message": "Toa gumzo kutoka kwa jalada",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
-        "message": "Buscar",
+        "message": "Tafuta",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Buscar en chat",
+        "message": "Tafuta kwenye gumzo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Poner foco en campo de escritura",
+        "message": "Mtunzi wa mazingatio",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Abrir vista de archivos multimedia",
+        "message": "Fungua mtazamo wa Media Yote",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "Abrir cajón de Emojis",
+        "message": "Fungua kichaguzi cha vicheshi",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Abrir cajón de cromos",
+        "message": "Fungua kichaguzi cha vibandiko",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Comenzar a grabar nota de voz",
+        "message": "Anza kurekodi sauti",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Acción por defecto en el mensaje seleccionado",
+        "message": "Hatua ya chaguo-msingi ya ujumbe uliochaguliwa",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "Mostrar detalles del mensaje seleccionado",
+        "message": "Tazama maelezo ya ujumbe uliochaguliwa",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Responder al mensaje seleccionado",
+        "message": "Gura ujibu ujumbe uliochaguliwa",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Guardar adjunto del mensaje seleccionado",
+        "message": "Hifadhi kiambatisho kutoka kwenye ujumbe uliochaguliwa",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Eliminar mensaje seleccionado",
+        "message": "Futa ujumbe uliochaguliwa",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Añadir nueva línea al mensaje",
+        "message": "Ongeza mlolongo wa herufi dhabiti kwenye ujumbe",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Expandir campo de escritura",
+        "message": "Panua kitunzi",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Enviar (en campo de escritura expandido)",
+        "message": "Tuma (kwenye kitunzi kilichopanuliwa)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Adjuntar archivo",
+        "message": "Ambatisha faili",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Eliminar previsualización de enlace",
+        "message": "Ondoa mtazamo wa kiungo rasimu",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Eliminar todos los adjuntos preseleccionados",
+        "message": "Ondoa viambatisho vyote rasimu",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--Key--ctrl": {
-        "message": "Ctrl",
+        "message": "Dhibiti",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Option",
+        "message": "Chaguo",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
-        "message": "Alt",
+        "message": "Mbadala",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--shift": {
-        "message": "⬆️",
+        "message": "Badiliko",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
-        "message": "Intro",
+        "message": "Ingia",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--header": {
-        "message": "Atajos de teclado",
+        "message": "Njia-mkato za Baobonye",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
-        "message": "Navegación",
+        "message": "Mrambazo",
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
-        "message": "Mensajes",
+        "message": "Jumbe",
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Campo de escritura",
+        "message": "Kitunzi",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Desplazarse al inicio de la lista",
+        "message": "Biringiza hadi kwneye mwanzo wa orodha",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Desplazarse al final de la lista",
+        "message": "Biringiza hadi mwisho wa orodha",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Cerrar chat actual",
+        "message": "Funga gumzo lililopo",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
-        "message": "Cerrar ventana emergente",
+        "message": "Funga dukizo",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Añadir imagen como adjunto",
+        "message": "Ungeza kiambatisho cha taswira",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Eliminar adjunto",
+        "message": "Ondoa kiambatisho",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Regresar a la bandeja de entrada",
+        "message": "Rudi kwenye kisanduku pokezi",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "El chat ha sido archivado",
+        "message": "Gumzo limejalidiwa",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Devolver chat a la bandeja de entrada",
+        "message": "Gumzo limerudishwa kwenye kisanduku pokezi",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "StickerCreator--title": {
-        "message": "Creador de paquetes de cromos",
+        "message": "Fundi wa pakiti ya vibandiko",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Haz click para añadir imágenes o arrástralas aquí",
+        "message": "Bofya ili kuongeza au kuangusha taswira hapa",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "Arrastra imágenes aquí",
+        "message": "Angusha taswira hapa",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Paquete de cromos",
+        "message": "Pakiti ya vibandiko",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
-        "message": "Cancelar",
+        "message": "Ghairi",
         "description": "The default text for the confirm dialog cancel button"
     },
     "StickerCreator--CopyText--button": {
-        "message": "Copiar",
+        "message": "Nakili",
         "description": "The text which appears on the copy button for the sticker creator share screen"
     },
     "StickerCreator--ShareButtons--facebook": {
@@ -2008,27 +2008,27 @@
         "description": "Title for WhatsApp button"
     },
     "StickerCreator--AppStage--next": {
-        "message": "Siguiente",
+        "message": "Ifuatayo",
         "description": "Default text for the next button on all stages of the sticker creator"
     },
     "StickerCreator--AppStage--prev": {
-        "message": "Atrás",
+        "message": "Rudi nyuma",
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Añade cromos",
+        "message": "Ongeza vibandiko vyako",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Los cromos son archivos PNG or WebP con fondo transparente y un tamaño de 512x512 pixeles. El borde recomendado es de 16 pixeles.",
+        "message": "Vibandiko lazima viwe katika muundo wa PNG au WebP na usuli mwangavu na pikseli 512 kwa 512. Pambizo lililopendekezwa ni pikseli kumi na sita (16). ",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Mostrar borde",
+        "message": "Onyesha pambizo",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Añade $count$ o más",
+        "message": "Ongeza  $count$ au zaidi",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -2038,51 +2038,51 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "Describe cada cromo con un emoji",
+        "message": "Ongeza kicheshi kimoja kwa kila kibandiko",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "Esto permite sugerir cromos al introducir un emoji en un chat.",
+        "message": "Hili linakuwezesha kupendekeza vibandiko kwako kama unatuma ujumbe.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Sólo unos pocos detalles más ...",
+        "message": "Maelezo tu mafupi zaidi...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
-        "message": "Título",
+        "message": "Kichwa",
         "description": "Label for the title input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--author": {
-        "message": "Autor",
+        "message": "Mwandishi",
         "description": "Label for the author input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover": {
-        "message": "Imagen de presentación",
+        "message": "Taswira ya Ngozi",
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "Esta es la imagen mostrada cuando se comparte el paquete",
+        "message": "Hii ni taswira itakayojitokeza wakati unashirikisha wengine na pakiti yako ya vibandiko",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "¿Estás segura de subir el paquete de cromos?",
+        "message": "Una hakika unataka kupakia pakiti yako ya vibandiko?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Subir",
+        "message": "Pakia",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "No podrás editar el paquete ni borrarlo nunca más tras subirlo (pero podrás crear nuevos paquetes sin fallos para compartir).",
+        "message": "Hautaweza kuhariri ama kufuta baada ya kutengeneza pakiti ya vibandiko.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Creando tu paquete de cromos",
+        "message": "Inabuni pakiti yako ya vibandiko",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ de $total$ subidas",
+        "message": "$count$ ya  $total$ imepakia",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2096,15 +2096,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "¡Enhorabuena! Has creado un paquete de cromos.",
+        "message": "Heko! Umebuni pakiti ya vibandiko.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Accede a tus nuevos cromos a través del icono de cromos o compártelos con tus amistades usando el enlace inferior.",
+        "message": "Fikia vibandiko vyako vipya kupitia ikoni ya vibandiko, ama ushirikishe marafiki ukitumia kiungo kifuatacho.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Usa el hashtag $hashtag$ en las redes sociales para ayudar a más usuarios a encontrar tu paquete de cromos (si así lo deseas).",
+        "message": "Tumia hashtegi ya  $hashtag$ ili kusaidia wengine kupata VISARA vya pakiti kaida za vibandiko ambazo ungetaka kuzifanya zipatikane hadharani.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2114,23 +2114,23 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "Dirección del paquete de cromos",
+        "message": "KISARA cha Pakiti ya Vibandiko",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
-        "message": "Cerrar",
+        "message": "Funga",
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Crear otro paquete de cromos",
+        "message": "Buni pakiti nyingine ya vibandiko",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Mira este paquete de cromos que he creado en Signal. #makeprivacystick ",
+        "message": "Tazama pakiti hii mpya ya vibandiko niliyobuni ya Signal. #fanyafaraghainate",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$ imágen(es) añadidas",
+        "message": "Taswira $count$i(z)meongezwa",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -2140,19 +2140,19 @@
         }
     },
     "StickerCreator--Toasts--animated": {
-        "message": "Cromos animados por el momento no funcionan",
+        "message": "Vibandiko huishi kwa sasa havitegemezwi",
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "La imagen arrastrada es demasiado grande",
+        "message": "Taswira iliyoangushwa ni kubwa mno",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Fallo al procesar la imagen",
+        "message": "Hitilafu katika kuchakata taswira",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Fallo al subir cromos:  $message$",
+        "message": "Hitilafu katika kupakia vibandiko:  $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2162,23 +2162,23 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Enlace copiado",
+        "message": "Kiungo kimenakiliwa",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "Mi cromo en tema (con fondo) claro",
+        "message": "Kibandiko changu kwenye athari nyeupe",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "Mi cromo en tema (con fondo) oscuro",
+        "message": "Kibandiko changu kwenye athari nyeusi",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Por favor, configura Signal en tu teléfono y ordenador para usar el Creador de Paquetes de Cromos",
+        "message": "Tafadhali weka Signal kwenye simu yako na dawati ili utumie Kiumbaji cha Pakiti ya Vibandiko ya Signal ",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "privacyPolicy": {
-        "message": "Términos y política de privacidad",
+        "message": "Sera ya Masharti na Faragha ",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

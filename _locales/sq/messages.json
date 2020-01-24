@@ -19,6 +19,10 @@
         "message": "&Kartelë",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuCreateStickers": {
+        "message": "Krijoni/ngarkoni paketë ngjitësish",
+        "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "mainMenuEdit": {
         "message": "&Përpunoni",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -627,6 +631,10 @@
         "message": "Parapëlqime për Signal-in në Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
+    "signalDesktopStickerCreator": {
+        "message": "Krijues pakete ngjitësish",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
     "aboutSignalDesktop": {
         "message": "Mbi Signal-in për Desktop",
         "description": "Item under the Help menu, which opens a small about window"
@@ -778,6 +786,16 @@
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Një mesazh zanor duhet të ketë vetëm një bashkëngjitje.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
+    "attachmentSaved": {
+        "message": "Bashkëngjitja u ruajt. Klikoni që të shfaqet në dosje.",
+        "description": "Shown after user selects to save to downloads",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "proof.jpg"
+            }
+        }
     },
     "you": {
         "message": "Ju",
@@ -1122,6 +1140,34 @@
     "notificationMostRecent": {
         "message": "Më të rejat:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "notificationReaction": {
+        "message": "$sender$ reagoi me $emoji$ ndaj mesazhit tuaj",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMostRecent": {
+        "message": "Më e freskëta: $sender$ reagoi me $emoji$ te mesazhi juaj",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
     },
     "sendFailed": {
         "message": "Dërgimi dështoi",
@@ -1555,13 +1601,17 @@
         "message": "Mesazh i pambuluar",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
+    "message--getDescription--disappearing-media": {
+        "message": "Media Për T’u Parë Vetëm Një Herë",
+        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+    },
     "message--getDescription--disappearing-photo": {
-        "message": "Foto Që Tretet",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+        "message": "Foto Për T’u Parë Vetëm Një Herë",
+        "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Video Që Zhduket",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+        "message": "Video Për T’u Parë Vetëm Një Herë",
+        "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
         "message": "Paketa e ngjitësve s’u instalua dot",
@@ -1602,6 +1652,10 @@
     "stickers--StickerManager--UninstallWarning": {
         "message": "Nëse s’e keni më mesazhin burim, mund të mos jeni në gjendje të riinstaloni këtë paketë ngjitësish.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Image": {
+        "message": "Ju prezantojmë Ngjitësit: Bandit the Cat",
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "Ju prezantojmë Ngjitësit",
@@ -1705,12 +1759,20 @@
         "message": "Media",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
+    "Message--tap-to-view--incoming--expired-toast": {
+        "message": "E patë tashmë këtë mesazh",
+        "description": "Shown when user clicks on an expired incoming view-once bubble"
+    },
+    "Message--tap-to-view--outgoing--expired-toast": {
+        "message": "Mesazhet për t’u parë vetëm një herë nuk depozitohen në historikun e bisedave tuaja",
+        "description": "Shown when user clicks on an expired outgoing view-once bubble"
+    },
     "Message--tap-to-view--incoming": {
-        "message": "Foto",
+        "message": "Shihni Foton",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Video",
+        "message": "Shiheni Videon",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
@@ -1798,7 +1860,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Toggle reply to selected message",
+        "message": "Hap/mbyll përgjigje mesazhit të përzgjedhur",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -1904,6 +1966,216 @@
     "conversationReturnedToInbox": {
         "message": "Biseda u kthye te Të marrë",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "StickerCreator--title": {
+        "message": "Krijues pakete ngjitësish",
+        "description": "The title of the Sticker Pack Creator window"
+    },
+    "StickerCreator--DropZone--staticText": {
+        "message": "Klikoni që të shtoni ose lini një figurë këtu",
+        "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    },
+    "StickerCreator--DropZone--activeText": {
+        "message": "Lini figura këtu",
+        "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    },
+    "StickerCreator--Preview--title": {
+        "message": "Paketë ngjitësish",
+        "description": "The 'title' of the sticker pack preview 'modal'"
+    },
+    "StickerCreator--ConfirmDialog--cancel": {
+        "message": "Anuloje",
+        "description": "The default text for the confirm dialog cancel button"
+    },
+    "StickerCreator--CopyText--button": {
+        "message": "Kopjoje",
+        "description": "The text which appears on the copy button for the sticker creator share screen"
+    },
+    "StickerCreator--ShareButtons--facebook": {
+        "message": "Facebook",
+        "description": "Title for Facebook button"
+    },
+    "StickerCreator--ShareButtons--twitter": {
+        "message": "Twitter",
+        "description": "Title for Twitter button"
+    },
+    "StickerCreator--ShareButtons--pinterest": {
+        "message": "Pinterest",
+        "description": "Title for Pinterest button"
+    },
+    "StickerCreator--ShareButtons--whatsapp": {
+        "message": "WhatsApp",
+        "description": "Title for WhatsApp button"
+    },
+    "StickerCreator--AppStage--next": {
+        "message": "Pasuesi",
+        "description": "Default text for the next button on all stages of the sticker creator"
+    },
+    "StickerCreator--AppStage--prev": {
+        "message": "Mbrapsht",
+        "description": "Default text for the previous button on all stages of the sticker creator"
+    },
+    "StickerCreator--DropStage--title": {
+        "message": "Shtoni ngjitësit tuaj",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--help": {
+        "message": "Ngjitësit duhet të jenë në format PNG ose WebP, me një sfond të tejdukshëm dhe 512x512 piksel. Mënjana e këshilluar është 16px.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--showMargins": {
+        "message": "Shfaq mënjana",
+        "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--addMore": {
+        "message": "Shtoni $count$ ose më tepër",
+        "description": "Text to show user how many more stickers they must add",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "StickerCreator--EmojiStage--title": {
+        "message": "Shtoni një emoji te çdo ngjitës",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--EmojiStage--help": {
+        "message": "Kjo na lejon t’ju sugjerojmë ngjitësa teksa shkruani mesazhe.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--title": {
+        "message": "Edhe pak hollësi të tjera…",
+        "description": "Title for the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--title": {
+        "message": "Titull",
+        "description": "Label for the title input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--author": {
+        "message": "Autor",
+        "description": "Label for the author input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover": {
+        "message": "Figurë mbulese",
+        "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover--help": {
+        "message": "Kjo është figura që do të shfaqet kur ndani me të tjerë paketën tuaj të ngjitësve",
+        "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--title": {
+        "message": "Jeni i sigurt se doni të ngarkohet paketa juaj e ngjitësve?",
+        "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--confirm": {
+        "message": "Ngarkoje",
+        "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--text": {
+        "message": "S’do të jeni më në gjendje të bëni përpunime apo ta fshini, pas krijimit të një pakete ngjitësish.",
+        "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage--title": {
+        "message": "Krijim i paketës tuaj të ngjitësve",
+        "description": "Title for the upload stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage-uploaded": {
+        "message": "$count$ nga $total$ të ngarkuara",
+        "description": "Title for the upload stage of the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "total": {
+                "content": "$2",
+                "example": "20"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--title": {
+        "message": "Përgëzime! Krijuat një paketë ngjitësish.",
+        "description": "Title for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--help": {
+        "message": "Hapeni paketën tuaj të re të ngjitësve përmes ikonës së ngjitësit, ose ndajeni me shokët tuaj duke përdorur lidhjen më poshtë.",
+        "description": "Help text for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--callToAction": {
+        "message": "Përdorni hashtagun $hashtag$ që të ndihmoni persona të tjerë të gjejnë URL-ra për cilëndo paketë vetjake ngjitësish që do të donit ta bëni të përdorshme publikisht.",
+        "description": "Call to action text for the share stage of the sticker creator",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "<strong>#makeprivacystick</strong>"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--copyTitle": {
+        "message": "URL Pakete Ngjitësish",
+        "description": "Title for the copy button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--close": {
+        "message": "Mbylle",
+        "description": "Text for the close button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--createAnother": {
+        "message": "Krijoni një tjetër paketë ngjitësish",
+        "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--socialMessage": {
+        "message": "Hidhini një sy kësaj pakete të re ngjitësish që krijova për Signal-in. #makeprivacystick",
+        "description": "Text which is shared to social media platforms for sticker packs"
+    },
+    "StickerCreator--Toasts--imagesAdded": {
+        "message": "U shtua $count$ figurë(a)",
+        "description": "Text for the toast when images are added to the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "StickerCreator--Toasts--animated": {
+        "message": "Ngjitësit e animuar nuk mbulohen",
+        "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--tooLarge": {
+        "message": "Figura e lënë është shumë e madhe",
+        "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorProcessing": {
+        "message": "Gabim në përpunim figure",
+        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorUploading": {
+        "message": "Gabim në ngarkim ngjitësish: $message$",
+        "description": "Text for the toast when a sticker pack cannot be uploaded",
+        "placeholders": {
+            "message": {
+                "content": "$1",
+                "example": "Not connected"
+            }
+        }
+    },
+    "StickerCreator--Toasts--linkedCopied": {
+        "message": "Lidhja u kopjua",
+        "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    },
+    "StickerCreator--StickerPreview--light": {
+        "message": "Ngjitësi im në temë të çelët",
+        "description": "Text for the sticker preview for the light theme"
+    },
+    "StickerCreator--StickerPreview--dark": {
+        "message": "Ngjitësi im në temë të errrët",
+        "description": "Text for the sticker preview for the dark theme"
+    },
+    "StickerCreator--Authentication--error": {
+        "message": "Ju lutemi, ujdisni Signal-in në telefonin dhe desktopin tuaj që të përdorë Krijues Paketash Ngjitësish",
+        "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "privacyPolicy": {
         "message": "Kushte & Rregulla Privatësie",

@@ -16,27 +16,31 @@
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
-        "message": "Tập tin",
+        "message": "&Tập tin",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuCreateStickers": {
+        "message": "Tạo/ tải lên gói nhãn dán",
+        "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "mainMenuEdit": {
-        "message": "Chỉnh sửa ",
+        "message": "&Sửa ",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "Xem",
+        "message": "&Xem",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "Cửa sổ",
+        "message": "&Cửa sổ",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "Trợ giúp",
+        "message": "&Hỗ trợ",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Quyền ưu tiên...",
+        "message": "Tùy chỉnh...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
@@ -132,7 +136,7 @@
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
-        "message": "Thiết lập với Nhập vào",
+        "message": "Nhập dữ liệu sao lưu",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
@@ -178,7 +182,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Di chuyển Cuộc trò chuyện tới Hộp thư đến",
+        "message": "Chuyển Cuộc trò chuyện tới Hộp thư đến",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
@@ -194,11 +198,11 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Bạn vừa trải qua quá trình xuất, các liên hệ và tin nhắn của bạn vẫn còn trên máy tính của bạn. Hãy chọn thư mục dữ liệu Signal đã lưu của bạn.",
+        "message": "Bạn vừa hoàn thành quá trình xuất dữ liệu, các liên hệ và tin nhắn của bạn vẫn còn trên máy tính của bạn. Hãy chọn thư mục dữ liệu Signal đã lưu của bạn.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Chọn thư mục với dữ liệu đã xuất",
+        "message": "Chọn thư mục chứa dữ liệu đã xuất",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
@@ -604,7 +608,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Show Keyboard Shortcuts",
+        "message": "Hiện phím tắt bàn phím",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "goToReleaseNotes": {
@@ -625,6 +629,10 @@
     },
     "signalDesktopPreferences": {
         "message": "Quyền ưu tiên Signal Desktop",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "signalDesktopStickerCreator": {
+        "message": "Tác giả gói nhãn dán",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -776,8 +784,18 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice message must have only one attachment.",
+        "message": "Tin nhắn thoại chỉ được có một tệp đính kèm.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
+    "attachmentSaved": {
+        "message": "Attachment saved. Click to show in folder.",
+        "description": "Shown after user selects to save to downloads",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "proof.jpg"
+            }
+        }
     },
     "you": {
         "message": "Bạn",
@@ -1122,6 +1140,34 @@
     "notificationMostRecent": {
         "message": "Gần đây nhất:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "notificationReaction": {
+        "message": "$sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMostRecent": {
+        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
     },
     "sendFailed": {
         "message": "Không gửi được",
@@ -1555,20 +1601,24 @@
         "message": "Tin nhắn không được hỗ trợ",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
+    "message--getDescription--disappearing-media": {
+        "message": "View-once Media",
+        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+    },
     "message--getDescription--disappearing-photo": {
-        "message": "Tin nhắn hình ảnh Tạm thời",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+        "message": "View-once Photo",
+        "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Tin nhắn video Tạm thời",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+        "message": "View-once Video",
+        "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Không thể cài đặt bộ nhãn dán",
+        "message": "Không thể cài đặt gói nhãn dán",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Các nhãn dán đã Cài đặt",
+        "message": "Các gói nhãn dán đã cài đặt",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
@@ -1600,11 +1650,15 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Bạn không thể cài đặt lại bộ nhãn dán này nếu bạn không còn tin nhắn nguồn.",
+        "message": "Bạn có thể sẽ không cài lại được gói nhãn dán này nếu bạn không còn tin nhắn nguồn.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
+    "stickers--StickerManager--Introduction--Image": {
+        "message": "Xin giới thiệu nhãn dán: Bandit the Cat",
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
+    },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Giới thiệu Nhãn gián",
+        "message": "Xin giới thiệu Nhãn dán",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
@@ -1616,7 +1670,7 @@
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Cài đặt bộ nhãn dán...",
+        "message": "Cài đặt gói nhãn dán...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -1624,11 +1678,11 @@
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Bộ nhãn dán mới từ tin nhắn của bạn có sẵn để cài đặt",
+        "message": "Gói nhãn dán mới từ tin nhắn của bạn có sẵn để cài đặt",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Không tìm thấy bộ nhãn dán ",
+        "message": "Không tìm thấy gói nhãn dán ",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
@@ -1636,11 +1690,11 @@
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Bộ Nhãn dán",
+        "message": "Gói Nhãn dán",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Lỗi khi mở bộ nhãn dán. Kiểm tra kết nối internet của bạn và thử lại.",
+        "message": "Lỗi khi mở gói nhãn dán. Kiểm tra kết nối internet của bạn và thử lại.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -1705,12 +1759,20 @@
         "message": "Đa phương tiện",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
+    "Message--tap-to-view--incoming--expired-toast": {
+        "message": "You already viewed this message.",
+        "description": "Shown when user clicks on an expired incoming view-once bubble"
+    },
+    "Message--tap-to-view--outgoing--expired-toast": {
+        "message": "View-once messages are not stored in your conversation history.",
+        "description": "Shown when user clicks on an expired outgoing view-once bubble"
+    },
     "Message--tap-to-view--incoming": {
-        "message": "Ảnh",
+        "message": "Xem ảnh",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Video",
+        "message": "Xem video",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
@@ -1726,39 +1788,39 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navigate by section",
+        "message": "Xem qua từng mục",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
-        "message": "Previous conversation",
+        "message": "Cuộc trò chuyện trước",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-conversation": {
-        "message": "Next conversation",
+        "message": "Cuộc trò chuyện tiếp theo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Previous unread conversation",
+        "message": "Cuộc trò chuyện chưa đọc trước",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Next unread conversation",
+        "message": "Cuộc trò chuyện chưa đọc tiếp theo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Preferences",
+        "message": "Tùy chỉnh",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Open conversation menu",
+        "message": "Mở menu cuộc trò chuyện",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Archive conversation",
+        "message": "Lưu trữ cuộc trò chuyện",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Unarchive conversation",
+        "message": "Bỏ lưu trữ cuộc trò chuyện",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
@@ -1766,71 +1828,71 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Search in conversation",
+        "message": "Tìm kiếm trong cuộc trò chuyện",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Focus composer",
+        "message": "Trình soạn thảo tập trung",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Open All Media view",
+        "message": "Xem tất cả tệp đa phương tiện",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "Open emoji chooser",
+        "message": "Mở bảng chọn emoji",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Open sticker chooser",
+        "message": "Mở bảng chọn nhãn dán",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Begin recording voice note",
+        "message": "Bắt đầu ghi tin nhắn âm thanh",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Default action for selected message",
+        "message": "Thao tác mặc định cho tin nhắn được chọn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "View selected message details",
+        "message": "Xem chi tiết tin nhắn đã chọn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Toggle reply to selected message",
+        "message": "Bật tắt trả lời cho tin nhắn đã chọn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Save attachment from selected message",
+        "message": "Lưu tệp đính kèm từ tin nhắn đã chọn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Delete selected message",
+        "message": "Xóa tin nhắn đã chọn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Add newline to message",
+        "message": "Xuống dòng tin nhắn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Expand composer",
+        "message": "Mở rộng ô soạn thảo",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Send (in expanded composer)",
+        "message": "Gửi (trong ô soạn thảo mở rộng)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Attach file",
+        "message": "Đính kèm tệp",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Remove draft link preview",
+        "message": "Bỏ xem trước liên kết nháp",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Remove all draft attachments",
+        "message": "Bỏ tất cả tệp đính kèm nháp",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--Key--ctrl": {
@@ -1850,11 +1912,11 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
-        "message": "Enter",
+        "message": "Nhập",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--header": {
-        "message": "Keyboard Shortcuts",
+        "message": "Phím tắt bàn phím",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
@@ -1866,35 +1928,35 @@
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Composer",
+        "message": "Trường soạn thảo",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Scroll to top of list",
+        "message": "Kéo lên trên cùng",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Scroll to bottom of list",
+        "message": "Kéo xuống dưới cùng",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Close current conversation",
+        "message": "Đóng cuộc trò chuyện này",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
-        "message": "Close Popup",
+        "message": "Đóng cửa sổ popup",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Add image attachment",
+        "message": "Thêm hình ảnh đính kèmq",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Remove attachment",
+        "message": "Bỏ tệp đính kèm",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Back to inbox",
+        "message": "Trở về hộp thư đến",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
@@ -1902,8 +1964,218 @@
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Conversation returned to inbox",
+        "message": "Cuộc trò chuyện chuyển về hộp thư đến",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "StickerCreator--title": {
+        "message": "Tác giả gói nhãn dán",
+        "description": "The title of the Sticker Pack Creator window"
+    },
+    "StickerCreator--DropZone--staticText": {
+        "message": "Nhấn để thêm ảnh hoặc kéo thả vào đây",
+        "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    },
+    "StickerCreator--DropZone--activeText": {
+        "message": "Kéo thả ảnh vào đây",
+        "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    },
+    "StickerCreator--Preview--title": {
+        "message": "Gói nhãn dán",
+        "description": "The 'title' of the sticker pack preview 'modal'"
+    },
+    "StickerCreator--ConfirmDialog--cancel": {
+        "message": "Hủy",
+        "description": "The default text for the confirm dialog cancel button"
+    },
+    "StickerCreator--CopyText--button": {
+        "message": "Sao chép",
+        "description": "The text which appears on the copy button for the sticker creator share screen"
+    },
+    "StickerCreator--ShareButtons--facebook": {
+        "message": "Facebook",
+        "description": "Title for Facebook button"
+    },
+    "StickerCreator--ShareButtons--twitter": {
+        "message": "Twitter",
+        "description": "Title for Twitter button"
+    },
+    "StickerCreator--ShareButtons--pinterest": {
+        "message": "Pinterest",
+        "description": "Title for Pinterest button"
+    },
+    "StickerCreator--ShareButtons--whatsapp": {
+        "message": "WhatsApp",
+        "description": "Title for WhatsApp button"
+    },
+    "StickerCreator--AppStage--next": {
+        "message": "Tiếp",
+        "description": "Default text for the next button on all stages of the sticker creator"
+    },
+    "StickerCreator--AppStage--prev": {
+        "message": "Trở lại",
+        "description": "Default text for the previous button on all stages of the sticker creator"
+    },
+    "StickerCreator--DropStage--title": {
+        "message": "Thêm nhãn dán của bạn",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--help": {
+        "message": "Nhãn dán phải ở định dạng PNG hoặc WebP với nền trong suốt và cỡ 512x512 pixel. Khuyến nghị đặt lề 16px.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--showMargins": {
+        "message": "Hiển thị lề",
+        "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--addMore": {
+        "message": "Thêm $count$ hoặc nhiều hơn",
+        "description": "Text to show user how many more stickers they must add",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "StickerCreator--EmojiStage--title": {
+        "message": "Gán emoji vào mỗi nhãn dán",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--EmojiStage--help": {
+        "message": "Thao tác này sẽ giúp gợi ý nhãn dán khi bạn đang nhắn tin.",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--title": {
+        "message": "Chỉ một vài chi tiết nữa...",
+        "description": "Title for the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--title": {
+        "message": "Tiêu đề",
+        "description": "Label for the title input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--author": {
+        "message": "Tác giả",
+        "description": "Label for the author input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover": {
+        "message": "Ảnh đại diện",
+        "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover--help": {
+        "message": "Đây là ảnh đại diện khi bạn chia sẻ gói nhãn dán",
+        "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--title": {
+        "message": "Bạn có chắc muốn tải lên gói nhãn dán này?",
+        "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--confirm": {
+        "message": "Tải lên",
+        "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--text": {
+        "message": "Bạn sẽ không thể chỉnh sửa hay xóa gói nhãn dán sau khi tải lên",
+        "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage--title": {
+        "message": "Tạo gói nhãn dán của bạn",
+        "description": "Title for the upload stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage-uploaded": {
+        "message": "Đã tải lên $count$ trên tổng số $total$",
+        "description": "Title for the upload stage of the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "total": {
+                "content": "$2",
+                "example": "20"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--title": {
+        "message": "Chúc mừng! Bạn đã tạo một gói nhãn dán.",
+        "description": "Title for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--help": {
+        "message": "Access your new stickers through the sticker icon, or share with your friends using the link below.",
+        "description": "Help text for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--callToAction": {
+        "message": "Dùng hashtag $hashtag$ để giúp mọi người tìm thấy URL của những gói nhãn dán bạn muốn chia sẻ.",
+        "description": "Call to action text for the share stage of the sticker creator",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "<strong>#makeprivacystick</strong>"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--copyTitle": {
+        "message": "URL gói nhãn dán",
+        "description": "Title for the copy button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--close": {
+        "message": "Đóng",
+        "description": "Text for the close button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--createAnother": {
+        "message": "Tạo gói nhãn dán khác",
+        "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--socialMessage": {
+        "message": "Xem gói nhãn dán tôi vừa tạo cho Signal này. #makeprivacystick",
+        "description": "Text which is shared to social media platforms for sticker packs"
+    },
+    "StickerCreator--Toasts--imagesAdded": {
+        "message": "Đã thêm $count$ ảnh",
+        "description": "Text for the toast when images are added to the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "StickerCreator--Toasts--animated": {
+        "message": "Nhãn dán động hiện thời chưa được hỗ trợ",
+        "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--tooLarge": {
+        "message": "Ảnh quá lớn",
+        "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorProcessing": {
+        "message": "Error processing image",
+        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorUploading": {
+        "message": "Error uploading stickers: $message$",
+        "description": "Text for the toast when a sticker pack cannot be uploaded",
+        "placeholders": {
+            "message": {
+                "content": "$1",
+                "example": "Not connected"
+            }
+        }
+    },
+    "StickerCreator--Toasts--linkedCopied": {
+        "message": "Đã sao chép liên kết",
+        "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    },
+    "StickerCreator--StickerPreview--light": {
+        "message": "Nhãn dán trên nền sáng",
+        "description": "Text for the sticker preview for the light theme"
+    },
+    "StickerCreator--StickerPreview--dark": {
+        "message": "Nhãn dán trên nền tối",
+        "description": "Text for the sticker preview for the dark theme"
+    },
+    "StickerCreator--Authentication--error": {
+        "message": "Vui lòng cài Signal trên điện thoại và máy tính để sử dụng Công cụ tạo nhãn dán Signal",
+        "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "privacyPolicy": {
         "message": "Điều khoản và Chính sách bảo mật",
