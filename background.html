@@ -109,7 +109,9 @@
                 <form class='send clearfix file-input'>
                   <div class='flex'>
                     <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
+                    <div class='send-message-container'>
+                      <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
+                    </div>
                     <div class='capture-audio'>
                         <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                     </div>

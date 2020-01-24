@@ -1201,16 +1201,29 @@ label {
   }
 }
 
-.bottom-bar textarea.send-message {
-  height: 60px;
-  background-color: $session-shade-4;
-  border: none;
-  margin: 0px;
-  padding: 0px $session-margin-lg;
-  font-size: $session-font-md;
-  line-height: 60px;
+.bottom-bar {
+  .compose {
+    min-height: 60px;
+    max-height: 200px;
+  }
 
-  @include session-color-subtle($session-color-white);
+  .send-message-container {
+    display: flex;
+    flex-grow: 1;
+    min-height: 60px;
+  }
+
+  textarea.send-message {
+    background-color: $session-shade-4;
+    border: none;
+    margin: 0px;
+    padding: 0px $session-margin-lg;
+    font-size: $session-font-md;
+    line-height: 1.3em;
+    align-self: center;
+
+    @include session-color-subtle($session-color-white);
+  }
 }
 
 .bottom-bar form {
