@@ -243,6 +243,7 @@ export class ConversationHeader extends React.Component<Props> {
           iconType={SessionIconType.Search}
           iconSize={SessionIconSize.Large}
           iconPadded={true}
+          onClick={this.highlightMessageSearch}
         />
       </div>
     );
@@ -377,6 +378,12 @@ export class ConversationHeader extends React.Component<Props> {
     }
   }
 
+  public highlightMessageSearch(){
+    // This is a temporary fix. In future we want to search
+    // messages in the current conversation
+    $('.session-search-input input').focus();
+  }
+
   private renderMemberCount() {
     const memberCount = this.props.members.length;
 
@@ -482,4 +489,5 @@ export class ConversationHeader extends React.Component<Props> {
       </React.Fragment>
     );
   }
+  
 }

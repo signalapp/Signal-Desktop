@@ -2176,6 +2176,9 @@
   "yourSessionID": {
     "message": "Your Session ID"
   },
+  "setStatus": {
+    "message": "Set a status..."
+  },
   "setAccountPasswordTitle": {
     "message": "Set Account Password",
     "description": "Prompt for user to set account password in settings view"
@@ -2658,20 +2661,20 @@
     "message": "Channels"
   },
   "addChannel": {
-    "message": "Add channel"
+    "message": "Join Open Group"
   },
   "enterChannelURL": {
-    "message": "Enter Channel URL"
+    "message": "Enter Open Group URL"
   },
   "channelUrlPlaceholder": {
-    "message": "https://yourchannel.lokinet.org"
+    "message": "https://myopengroup.lokinet.org"
   },
   "addChannelDescription": {
     "message":
-      "Enter the URL of the public channel you'd like to join in the format above."
+      "Enter an open group URL."
   },
   "joinChannel": {
-    "message": "Join Channel"
+    "message": "Join Open Group"
   },
   "next": {
     "message": "Next"

@@ -18,9 +18,9 @@ interface Window {
   Signal: any;
   Whisper: any;
   ConversationController: any;
-  
+
   // Following function needs to be written in background.js
-  // getMemberList: any;  
+  // getMemberList: any;
 
   setPassword: any;
   textsecure: any;
