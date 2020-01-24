@@ -187,7 +187,9 @@ export class SessionChannelSettings extends React.Component<Props, any> {
     const { memberCount, name, onLeaveGroup, isPublic } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
-    const leaveGroupString = isPublic ? window.i18n('leaveOpenGroup') : window.i18n('leaveClosedGroup');
+    const leaveGroupString = isPublic
+      ? window.i18n('leaveOpenGroup')
+      : window.i18n('leaveClosedGroup');
 
     return (
       <div className="group-settings">
