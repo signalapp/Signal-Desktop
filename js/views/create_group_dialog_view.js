@@ -47,47 +47,6 @@
     },
   });
 
-  Whisper.LeaveGroupDialogView = Whisper.View.extend({
-    className: 'loki-dialog modal',
-    initialize(groupConvo) {
-      this.groupConvo = groupConvo;
-      this.titleText = groupConvo.get('name');
-      this.messageText = i18n('leaveGroupDialogTitle');
-      this.okText = i18n('yes');
-      this.cancelText = i18n('cancel');
-
-      this.close = this.close.bind(this);
-      this.confirm = this.confirm.bind(this);
-
-      this.$el.focus();
-      this.render();
-    },
-    render() {
-      this.dialogView = new Whisper.ReactWrapperView({
-        className: 'leave-group-dialog',
-        Component: window.Signal.Components.ConfirmDialog,
-        props: {
-          titleText: this.titleText,
-          messageText: this.messageText,
-          okText: this.okText,
-          cancelText: this.cancelText,
-          onConfirm: this.confirm,
-          onClose: this.close,
-        },
-      });
-
-      this.$el.append(this.dialogView.el);
-      return this;
-    },
-    async confirm() {
-      await this.groupConvo.leaveGroup();
-      this.close();
-    },
-    close() {
-      this.remove();
-    },
-  });
-
   Whisper.UpdateGroupDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
     initialize(groupConvo) {
