@@ -1348,6 +1348,17 @@ input {
   }
 }
 
+.session-confirm-wrapper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+
+  .session-modal {
+    margin: auto auto;
+  }
+}
+
 button.module-scroll-down {
   &__button {
     background-color: $session-shade-6;
