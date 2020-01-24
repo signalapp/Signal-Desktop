@@ -32,8 +32,12 @@
 }
 
 @keyframes fadein {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 // Session Colors
@@ -154,7 +158,7 @@ div.spacer-lg {
 }
 
 $session-transition-duration: 0.25s;
-$session-fadein-duration: 0.10s;
+$session-fadein-duration: 0.1s;
 
 $session-icon-size-sm: 15px;
 $session-icon-size-md: 20px;
@@ -1375,7 +1379,7 @@ input {
   animation: fadein $session-fadein-duration;
   bottom: 15px;
 
-  .session-icon-button{
+  .session-icon-button {
     display: flex;
     justify-content: center;
     align-items: center;

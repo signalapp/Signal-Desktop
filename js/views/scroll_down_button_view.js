@@ -15,7 +15,7 @@
       this.count += count;
       this.render();
     },
-    
+
     render() {
       this.scrollButtonView = new Whisper.ReactWrapperView({
         className: 'module-scroll-down',
@@ -29,5 +29,4 @@
       return this;
     },
   });
-
 })();

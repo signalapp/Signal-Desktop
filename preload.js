@@ -59,6 +59,11 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
+window.CONSTANTS = {
+  maxPasswordLength: 32,
+  maxUsernameLength: 20,
+};
+
 window.versionInfo = {
   environment: window.getEnvironment(),
   version: window.getVersion(),

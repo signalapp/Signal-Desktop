@@ -15,6 +15,7 @@ export enum SessionSettingCategory {
   Permissions = 'permissions',
   Notifications = 'notifications',
   Devices = 'devices',
+  Blocked = 'blocked',
 }
 
 export enum SessionSettingType {
@@ -396,7 +397,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         id: 'media-permissions',
         title: window.i18n('mediaPermissionsTitle'),
         description: window.i18n('mediaPermissionsDescription'),
-        hidden: false,
+        hidden: true, // Hidden until feature works
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.Permissions,
         setFn: window.toggleMediaPermissions,

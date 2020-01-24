@@ -9,6 +9,7 @@ interface Props {
   type: string;
   value?: string;
   placeholder: string;
+  maxLength?: number;
   enableShowHide?: boolean;
   onValueChanged?: any;
   onEnterPressed?: any;
@@ -33,7 +34,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const { placeholder, type, value, enableShowHide, error } = this.props;
+    const { placeholder, type, value, maxLength, enableShowHide, error } = this.props;
     const { forceShow } = this.state;
 
     const correctType = forceShow ? 'text' : type;
@@ -46,6 +47,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
           type={correctType}
           placeholder={placeholder}
           value={value}
+          maxLength={maxLength}
           onChange={e => {
             this.updateInputValue(e);
           }}

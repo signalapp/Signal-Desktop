@@ -3,7 +3,7 @@ import React from 'react';
 import { SessionIconButton, SessionIconType, SessionIconSize } from './icon';
 
 interface Props {
-  count: number,
+  count: number;
 }
 
 export class SessionScrollButton extends React.PureComponent<Props> {
@@ -12,14 +12,12 @@ export class SessionScrollButton extends React.PureComponent<Props> {
   }
 
   public render() {
-    console.log(`My count is: ${this.props.count}`);
-
     return (
-        <SessionIconButton
-            iconType={SessionIconType.Chevron}
-            iconSize={SessionIconSize.Huge}
-            iconColor={"#FFFFFF"}
-        />
+      <SessionIconButton
+        iconType={SessionIconType.Chevron}
+        iconSize={SessionIconSize.Huge}
+        iconColor={'#FFFFFF'}
+      />
     );
   }
 }

@@ -1,4 +1,5 @@
 interface Window {
+  CONSTANTS: any;
   versionInfo: any;
 
   Events: any;
