@@ -2670,8 +2670,7 @@
     "message": "https://myopengroup.lokinet.org"
   },
   "addChannelDescription": {
-    "message":
-      "Enter an open group URL."
+    "message": "Enter an open group URL."
   },
   "joinChannel": {
     "message": "Join Open Group"

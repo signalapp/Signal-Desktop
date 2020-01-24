@@ -378,7 +378,7 @@ export class ConversationHeader extends React.Component<Props> {
     }
   }
 
-  public highlightMessageSearch(){
+  public highlightMessageSearch() {
     // This is a temporary fix. In future we want to search
     // messages in the current conversation
     $('.session-search-input input').focus();
@@ -489,5 +489,4 @@ export class ConversationHeader extends React.Component<Props> {
       </React.Fragment>
     );
   }
-  
 }

@@ -31,6 +31,11 @@
   src: url('../fonts/SFProText-Regular.ttf') format('truetype');
 }
 
+@keyframes fadein {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
 // Session Colors
 $session-font-family: 'Wasa';
 
@@ -149,6 +154,7 @@ div.spacer-lg {
 }
 
 $session-transition-duration: 0.25s;
+$session-fadein-duration: 0.10s;
 
 $session-icon-size-sm: 15px;
 $session-icon-size-md: 20px;
@@ -628,6 +634,7 @@ label {
 }
 
 .session-modal {
+  animation: fadein $session-transition-duration;
   z-index: 150;
   position: absolute;
   left: 50%;
@@ -1364,20 +1371,28 @@ input {
   }
 }
 
-button.module-scroll-down {
-  &__button {
-    background-color: $session-shade-6;
-  }
+.module-scroll-down {
+  animation: fadein $session-fadein-duration;
+  bottom: 15px;
 
-  &__button:hover {
-    &__icon {
+  .session-icon-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    opacity: 1;
+    background-color: $session-shade-8;
+
+    svg path {
       transition: $session-transition-duration;
-      @include color-svg('../images/down.svg', $session-color-white);
+      opacity: 0.6;
     }
-  }
 
-  &__icon {
-    @include color-svg('../images/down.svg', rgba($session-color-white, 0.6));
+    &:hover svg path {
+      opacity: 1;
+    }
   }
 }
 

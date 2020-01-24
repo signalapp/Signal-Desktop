@@ -258,7 +258,7 @@
 
       if (messageSelected) {
         // Hide ellipses icon
-        $('.title-wrapper .session-icon.ellipses').css({opacity:0});
+        $('.title-wrapper .session-icon.ellipses').css({ opacity: 0 });
 
         $('.messages li, .messages > div').addClass('shadowed');
         $('.message-selection-overlay').addClass('overlay');
@@ -272,7 +272,7 @@
         }
       } else {
         // Hide ellipses icon
-        $('.title-wrapper .session-icon.ellipses').css({opacity:1});
+        $('.title-wrapper .session-icon.ellipses').css({ opacity: 1 });
 
         $('.messages li, .messages > div').removeClass('shadowed');
         $('.message-selection-overlay').removeClass('overlay');
