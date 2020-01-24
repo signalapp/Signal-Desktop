@@ -1140,12 +1140,12 @@ label {
   &__version-info {
     display: flex;
     justify-content: space-between;
-    
+
     padding: $session-margin-sm $session-margin-md;
     background-color: $session-shade-5;
     font-size: $session-font-xs;
 
-    span{
+    span {
       opacity: 0.4;
       transition: $session-transition-duration;
 
@@ -1197,7 +1197,8 @@ label {
   }
 }
 
-#qr svg {
+#qr svg,
+.qr-image svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
   padding: $session-margin-xs;
@@ -1384,7 +1385,8 @@ button.module-scroll-down {
 /* Memberlist */
 .member-list-container .member {
   &-item {
-    padding: $session-margin-sm;
+    font-family: "SF Pro Text";
+    padding: $session-margin-sm $session-margin-md;
     background-color: $session-shade-5;
 
     &:hover:not(.member-selected) {

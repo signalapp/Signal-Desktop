@@ -24,92 +24,14 @@ interface Props {
   receivedFriendRequestCount: number;
 }
 
-const Section = ({
-  isSelected,
-  onSelect,
-  type,
-  avatarPath,
-  notificationCount,
-}: {
-  isSelected: boolean;
-  onSelect?: (event: SectionType) => void;
-  type: SectionType;
-  avatarPath?: string;
-  avatarColor?: string;
-  notificationCount?: number;
-}) => {
-  const handleClick = onSelect
-    ? () => {
-        type === SectionType.Profile
-          ? window.showEditProfileDialog()
-          : /* tslint:disable-next-line:no-void-expression */
-            onSelect(type);
-      }
-    : undefined;
-
-  if (type === SectionType.Profile) {
-    return (
-      <Avatar
-        avatarPath={avatarPath}
-        conversationType="direct"
-        i18n={window.i18n}
-        // tslint:disable-next-line: no-backbone-get-set-outside-model
-        phoneNumber={window.storage.get('primaryDevicePubKey')}
-        size={28}
-        onAvatarClick={handleClick}
-      />
-    );
-  }
-
-  let iconType: SessionIconType;
-  switch (type) {
-    case SectionType.Message:
-      iconType = SessionIconType.ChatBubble;
-      break;
-    case SectionType.Contact:
-      iconType = SessionIconType.Users;
-      break;
-    case SectionType.Channel:
-      iconType = SessionIconType.Globe;
-      break;
-    case SectionType.Settings:
-      iconType = SessionIconType.Gear;
-      break;
-    case SectionType.Moon:
-      iconType = SessionIconType.Moon;
-      break;
-
-    default:
-      iconType = SessionIconType.Moon;
-  }
-  if (!isSelected) {
-    return (
-      <SessionIconButton
-        iconSize={SessionIconSize.Medium}
-        iconType={iconType}
-        notificationCount={notificationCount}
-        onClick={handleClick}
-      />
-    );
-  } else {
-    return (
-      <SessionIconButton
-        iconSize={SessionIconSize.Medium}
-        iconType={iconType}
-        notificationCount={notificationCount}
-        onClick={handleClick}
-        isSelected={isSelected}
-      />
-    );
-  }
-};
-
 export class ActionsPanel extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       avatarPath: '',
     };
+
+    this.editProfileHandle = this.editProfileHandle.bind(this);
   }
 
   public componentDidMount() {
@@ -123,6 +45,94 @@ export class ActionsPanel extends React.Component<Props, State> {
         });
       }
     );
+  }
+
+  public Section = ({
+    isSelected,
+    onSelect,
+    type,
+    avatarPath,
+    notificationCount,
+  }: {
+    isSelected: boolean;
+    onSelect?: (event: SectionType) => void;
+    type: SectionType;
+    avatarPath?: string;
+    avatarColor?: string;
+    notificationCount?: number;
+  }) => {
+    const handleClick = onSelect
+      ? () => {
+          type === SectionType.Profile
+            ? this.editProfileHandle()
+            : /* tslint:disable-next-line:no-void-expression */
+              onSelect(type);
+        }
+      : undefined;
+
+    if (type === SectionType.Profile) {
+      return (
+        <Avatar
+          avatarPath={avatarPath}
+          conversationType="direct"
+          i18n={window.i18n}
+          // tslint:disable-next-line: no-backbone-get-set-outside-model
+          phoneNumber={window.storage.get('primaryDevicePubKey')}
+          size={28}
+          onAvatarClick={handleClick}
+        />
+      );
+    }
+
+    let iconType: SessionIconType;
+    switch (type) {
+      case SectionType.Message:
+        iconType = SessionIconType.ChatBubble;
+        break;
+      case SectionType.Contact:
+        iconType = SessionIconType.Users;
+        break;
+      case SectionType.Channel:
+        iconType = SessionIconType.Globe;
+        break;
+      case SectionType.Settings:
+        iconType = SessionIconType.Gear;
+        break;
+      case SectionType.Moon:
+        iconType = SessionIconType.Moon;
+        break;
+
+      default:
+        iconType = SessionIconType.Moon;
+    }
+    if (!isSelected) {
+      return (
+        <SessionIconButton
+          iconSize={SessionIconSize.Medium}
+          iconType={iconType}
+          notificationCount={notificationCount}
+          onClick={handleClick}
+        />
+      );
+    } else {
+      return (
+        <SessionIconButton
+          iconSize={SessionIconSize.Medium}
+          iconType={iconType}
+          notificationCount={notificationCount}
+          onClick={handleClick}
+          isSelected={isSelected}
+        />
+      );
+    }
+  };
+
+  public editProfileHandle() {
+    window.showEditProfileDialog((avatar: any) => {
+      this.setState({
+        avatarPath: avatar,
+      });
+    });
   }
 
   public render(): JSX.Element {
@@ -141,35 +151,35 @@ export class ActionsPanel extends React.Component<Props, State> {
 
     return (
       <div className="module-left-pane__sections-container">
-        <Section
+        <this.Section
           type={SectionType.Profile}
           avatarPath={this.state.avatarPath}
           isSelected={isProfilePageSelected}
           onSelect={this.handleSectionSelect}
         />
-        <Section
+        <this.Section
           type={SectionType.Message}
           isSelected={isMessagePageSelected}
           onSelect={this.handleSectionSelect}
           notificationCount={unreadMessageCount}
         />
-        <Section
+        <this.Section
           type={SectionType.Contact}
           isSelected={isContactPageSelected}
           onSelect={this.handleSectionSelect}
           notificationCount={receivedFriendRequestCount}
         />
-        <Section
+        <this.Section
           type={SectionType.Channel}
           isSelected={isChannelPageSelected}
           onSelect={this.handleSectionSelect}
         />
-        <Section
+        <this.Section
           type={SectionType.Settings}
           isSelected={isSettingsPageSelected}
           onSelect={this.handleSectionSelect}
         />
-        <Section
+        <this.Section
           type={SectionType.Moon}
           isSelected={isMoonPageSelected}
           onSelect={this.handleSectionSelect}

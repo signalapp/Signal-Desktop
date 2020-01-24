@@ -1182,7 +1182,8 @@
     "description": "Warning for account deletion in settings view"
   },
   "deleteAccountWarningSub": {
-    "message": "This is completely irreversible and will leave no trace.",
+    "message":
+      "Delete all history, including all messages, sessions, and contacts. Once deleted, these cannot be restored.",
     "description": "Warning for account deletion in settings view"
   },
   "deleteContact": {
@@ -1355,7 +1356,8 @@
       "Option to control creation and send of link previews in setting screen"
   },
   "linkPreviewDescription": {
-    "message": "Enable link previews",
+    "message":
+      "Link previews supported for Imgur, Instagram, Pinterest, Reddit, and YouTube.",
     "description": "Description shown for the Link Preview option "
   },
   "mediaPermissionsTitle": {
@@ -1442,17 +1444,17 @@
     "description": "Label for disabling notifications"
   },
   "nameAndMessage": {
-    "message": "Both sender name and message",
+    "message": "Name and content",
     "description":
       "Label for setting notifications to display name and message text"
   },
   "noNameOrMessage": {
-    "message": "Neither name nor message",
+    "message": "No name or content",
     "description":
       "Label for setting notifications to display no name and no message text"
   },
   "nameOnly": {
-    "message": "Only sender name",
+    "message": "Name Only",
     "description": "Label for setting notifications to display sender name only"
   },
   "newMessage": {
@@ -2132,6 +2134,10 @@
     "message": "Copied public key",
     "description": "A toast message telling the user that the key was copied"
   },
+  "copiedChatId": {
+    "message": "Copied chat ID",
+    "description": "A toast message telling the user that the key was copied"
+  },
   "copyMessage": {
     "message": "Copy message text",
     "description":
@@ -2175,7 +2181,8 @@
     "description": "Prompt for user to set account password in settings view"
   },
   "setAccountPasswordDescription": {
-    "message": "Secure your account and public key with a password",
+    "message":
+      "Require password to unlock Session’s screen.You can still receive message notifications while Screen Lock is enabled. Loki Messenger’s notification settings allow you to customize information that is displayed",
     "description": "Description for set account password setting view"
   },
   "changeAccountPasswordTitle": {

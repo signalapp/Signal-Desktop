@@ -2680,8 +2680,13 @@
     copyPublicKey() {
       clipboard.writeText(this.id);
 
+      const isGroup = this.getProps().type === 'group';
+      const copiedMessage = isGroup
+        ? i18n('copiedChatId')
+        : i18n('copiedPublicKey');
+
       window.pushToast({
-        title: i18n('copiedPublicKey'),
+        title: copiedMessage,
         type: 'success',
         id: 'copiedPublicKey',
       });
