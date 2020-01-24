@@ -1,8 +1,8 @@
-# Loki Messenger
+# Session Messenger
 
 [![Build Status](https://travis-ci.org/loki-project/loki-messenger.svg?branch=development)](https://travis-ci.org/loki-project/loki-messenger)
 
-Loki Messenger allows for truly decentralized, end to end, and private encrypted chats. Loki Messenger is built to handle both online and fully Asynchronous offline messages. Loki messenger implements the Signal protocol for message encryption. Our Client interface is a fork of [Signal Messenger](https://signal.org/). All communication that passes through Loki messenger is routed through [Lokinet](https://github.com/loki-project/loki-network).
+Session Messenger allows for truly decentralized, end to end, and private encrypted chats. Session Messenger is built to handle both online and fully Asynchronous offline messages. Loki messenger implements the Signal protocol for message encryption. Our Client interface is a fork of [Signal Messenger](https://signal.org/). All communication that passes through Loki messenger is routed through [Lokinet](https://github.com/loki-project/loki-network).
 
 ## Summary
 
@@ -14,11 +14,11 @@ If Alice and Bob are both online they can simply resolve each others public keys
 
 **Offline messages**
 
-Offline messaging uses Swarms, given any users public key the user can resolve a public key to a specific grouping of Service Nodes (AKA Swarm) each user in Loki Messenger belongs to a Swarm. When routing a message offline the user selects a Service node in the destination users Swarm, when the user comes online they query any node in their Swarm, if the Swarm is holding any messages for the user they disseminate those messages to the user.
+Offline messaging uses Swarms, given any users public key the user can resolve a public key to a specific grouping of Service Nodes (AKA Swarm) each user in Session Messenger belongs to a Swarm. When routing a message offline the user selects a Service node in the destination users Swarm, when the user comes online they query any node in their Swarm, if the Swarm is holding any messages for the user they disseminate those messages to the user.
 
 ![Swarm Messaging](https://i.imgur.com/o13Knds.png)
 
-Spam protections for Loki Messenger are based on a Proof of Work which is attached to any message that exceeds a default size or Time To Live, this process is discussed further in the [Loki whitepaper](https://loki.network/whitepaper).
+Spam protections for Session Messenger are based on a Proof of Work which is attached to any message that exceeds a default size or Time To Live, this process is discussed further in the [Loki whitepaper](https://loki.network/whitepaper).
 
 ## Want to Contribute? Found a Bug or Have a feature request?
 

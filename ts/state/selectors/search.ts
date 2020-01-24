@@ -67,6 +67,11 @@ export const getSearchResults = createSelector(
         state.conversations.map(id => {
           const value = lookup[id];
 
+          // Don't return anything when activeAt is undefined (i.e. no current conversations with this user)
+          if (value.activeAt === undefined) {
+            return null;
+          }
+
           if (value && id === selectedConversation) {
             return {
               ...value,
@@ -80,7 +85,6 @@ export const getSearchResults = createSelector(
       friends: compact(
         state.conversations.map(id => {
           const value = lookup[id];
-
           const friend = value && value.isFriend ? { ...value } : null;
 
           if (friend && id === selectedConversation) {

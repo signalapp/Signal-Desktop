@@ -10,7 +10,7 @@ import { SmartLeftPane } from '../smart/LeftPane';
 const FilteredLeftPane = SmartLeftPane as any;
 
 export const createLeftPane = (store: Store) => (
-  <Provider store={store}>
+  <Provider store={store as any}>
     <FilteredLeftPane />
   </Provider>
 );

@@ -2,6 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { Contact, MemberList } from './MemberList';
 
+import { SessionModal } from './../session/SessionModal';
+
 declare global {
   interface Window {
     Lodash: any;
@@ -92,8 +94,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     );
 
     return (
-      <div className="content">
-        <p className="titleText">{titleText}</p>
+      <SessionModal title={titleText} onClose={() => null} onOk={() => null}>
         <p className={errorMessageClasses}>{this.state.errorMessage}</p>
         <input
           type="text"
@@ -123,7 +124,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
             {okText}
           </button>
         </div>
-      </div>
+      </SessionModal>
     );
   }
 

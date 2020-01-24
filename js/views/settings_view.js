@@ -249,8 +249,8 @@
         spellCheckHeader: i18n('spellCheck'),
         spellCheckDescription: i18n('spellCheckDescription'),
         blockedHeader: 'Blocked Users',
-        linkPreviews: i18n('linkPreviews'),
-        linkPreviewsSettingDescription: i18n('linkPreviewsSettingDescription'),
+        linkPreviews: i18n('linkPreviewsTitle'),
+        linkPreviewsSettingDescription: i18n('linkPreviewsDescription'),
       };
     },
     onClose() {

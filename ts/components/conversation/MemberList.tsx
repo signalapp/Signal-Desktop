@@ -68,6 +68,8 @@ class MemberItem extends React.Component<MemberItemProps> {
 
     const mark = markType === 'kicked' ? '✘' : '✔';
 
+    const nameAndPubKey = `${name} ${window.shortenPubkey(pubkey)}`;
+
     return (
       <div
         role="button"
@@ -78,8 +80,7 @@ class MemberItem extends React.Component<MemberItemProps> {
         onClick={this.handleClick}
       >
         {this.renderAvatar()}
-        <span className="name-part">{name}</span>
-        <span className="pubkey-part">{pubkey}</span>
+        <span className="name-part">{nameAndPubKey}</span>
         <span className={classNames(markClasses)}>{mark}</span>
       </div>
     );

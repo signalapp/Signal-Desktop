@@ -17,37 +17,10 @@
   'use strict';
 
   window.Whisper = window.Whisper || {};
-  const { Message } = window.Signal.Types;
-  const {
-    upgradeMessageSchema,
-    getAbsoluteAttachmentPath,
-  } = window.Signal.Migrations;
+  const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
-  Whisper.ExpiredToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('expiredWarning') };
-    },
-  });
-  Whisper.ClockOutOfSyncToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('clockOutOfSync') };
-    },
-  });
-  Whisper.BlockedToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('unblockToSend') };
-    },
-  });
-  Whisper.BlockedGroupToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('unblockGroupToSend') };
-    },
-  });
-  Whisper.LeftGroupToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('youLeftTheGroup') };
-    },
-  });
+  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
+
   Whisper.OriginalNotFoundToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('originalMessageNotFound') };
@@ -67,18 +40,6 @@
     render_attributes() {
       return { toastMessage: i18n('voiceNoteMustBeOnlyAttachment') };
     },
-  });
-
-  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
-  Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
-    render_attributes() {
-      return { toastMessage: i18n('messageBodyTooLong') };
-    },
-  });
-
-  Whisper.ConversationLoadingScreen = Whisper.View.extend({
-    templateName: 'conversation-loading-screen',
-    className: 'conversation-loading-screen',
   });
 
   Whisper.ConversationView = Whisper.View.extend({
@@ -151,11 +112,6 @@
         this.model.messageCollection,
         'show-message-detail',
         this.showMessageDetail
-      );
-      this.listenTo(
-        this.model,
-        'message-selection-changed',
-        this.onMessageSelectionChanged
       );
       this.listenTo(this.model.messageCollection, 'navigate-to', url => {
         window.location = url;
@@ -233,6 +189,7 @@
             window.storage.get('primaryDevicePubKey')
           ),
           members,
+          selectedMessages: this.model.selectedMessages,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
@@ -244,6 +201,8 @@
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
           onDeleteMessages: () => this.destroyMessages(),
+          onDeleteSelectedMessages: () => this.deleteSelectedMessages(),
+          onCloseOverlay: () => this.model.resetMessageSelection(),
           onDeleteContact: () => this.model.deleteContact(),
           onResetSession: () => this.endSession(),
 
@@ -253,7 +212,6 @@
             this.showSafetyNumber();
           },
           onShowAllMedia: async () => {
-            await this.showAllMedia();
             this.updateHeader();
           },
           onShowGroupMembers: async () => {
@@ -308,12 +266,57 @@
             window.Whisper.events.trigger('removeModerators', this.model);
           },
 
-          onShowUserDetails: pubkey => {
+          onAvatarClick: pubkey => {
             if (this.model.isPrivate()) {
               window.Whisper.events.trigger('onShowUserDetails', {
                 userPubKey: pubkey,
               });
+            } else if (!this.model.isRss()) {
+              this.showGroupSettings();
             }
+          },
+        };
+      };
+      const getGroupSettingsProp = () => {
+        const members = this.model.get('members') || [];
+
+        return {
+          id: this.model.id,
+          name: this.model.getName(),
+          phoneNumber: this.model.getNumber(),
+          profileName: this.model.getProfileName(),
+          color: this.model.getColor(),
+          avatarPath: this.model.getAvatarPath(),
+          isGroup: !this.model.isPrivate(),
+          isPublic: this.model.isPublic(),
+          isRss: this.model.isRss(),
+          memberCount: members.length,
+
+          timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
+            name: item.getName(),
+            value: item.get('seconds'),
+          })),
+
+          onSetDisappearingMessages: seconds =>
+            this.setDisappearingMessages(seconds),
+
+          onGoBack: () => {
+            this.$('.conversation-content-right').hide();
+          },
+
+          onUpdateGroup: () => {
+            window.Whisper.events.trigger('updateGroup', this.model);
+          },
+
+          onLeaveGroup: () => {
+            window.Whisper.events.trigger('leaveGroup', this.model);
+          },
+
+          onInviteFriends: () => {
+            window.Whisper.events.trigger('inviteFriends', this.model);
+          },
+          onShowLightBox: (lightBoxOptions = {}) => {
+            this.showChannelLightbox(lightBoxOptions);
           },
         };
       };
@@ -337,6 +340,22 @@
         el: this.$('.member-list-container'),
         onClicked: this.selectMember.bind(this),
       });
+
+      this.showGroupSettings = () => {
+        if (!this.groupSettings) {
+          this.groupSettings = new Whisper.ReactWrapperView({
+            className: 'group-settings',
+            Component: window.Signal.Components.SessionChannelSettings,
+            props: getGroupSettingsProp(this.model),
+          });
+          this.$('.conversation-content-right').append(this.groupSettings.el);
+        }
+        this.$('.conversation-content-right').show();
+      };
+
+      this.hideGroupSettings = () => {
+        this.$('.conversation-content-right').hide();
+      };
 
       this.memberView.render();
 
@@ -949,151 +968,6 @@
       el[0].scrollIntoView();
     },
 
-    async showAllMedia() {
-      // We fetch more documents than media as they don’t require to be loaded
-      // into memory right away. Revisit this once we have infinite scrolling:
-      const DEFAULT_MEDIA_FETCH_COUNT = 50;
-      const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
-
-      const conversationId = this.model.get('id');
-
-      const getProps = async () => {
-        const rawMedia = await Signal.Data.getMessagesWithVisualMediaAttachments(
-          conversationId,
-          {
-            limit: DEFAULT_MEDIA_FETCH_COUNT,
-            MessageCollection: Whisper.MessageCollection,
-          }
-        );
-        const rawDocuments = await Signal.Data.getMessagesWithFileAttachments(
-          conversationId,
-          {
-            limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
-            MessageCollection: Whisper.MessageCollection,
-          }
-        );
-
-        // First we upgrade these messages to ensure that they have thumbnails
-        for (let max = rawMedia.length, i = 0; i < max; i += 1) {
-          const message = rawMedia[i];
-          const { schemaVersion } = message;
-
-          if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
-            // Yep, we really do want to wait for each of these
-            // eslint-disable-next-line no-await-in-loop
-            rawMedia[i] = await upgradeMessageSchema(message);
-            // eslint-disable-next-line no-await-in-loop
-            await window.Signal.Data.saveMessage(rawMedia[i], {
-              Message: Whisper.Message,
-            });
-          }
-        }
-
-        const media = _.flatten(
-          rawMedia.map(message => {
-            const { attachments } = message;
-            return (attachments || [])
-              .filter(
-                attachment =>
-                  attachment.thumbnail &&
-                  !attachment.pending &&
-                  !attachment.error
-              )
-              .map((attachment, index) => {
-                const { thumbnail } = attachment;
-
-                return {
-                  objectURL: getAbsoluteAttachmentPath(attachment.path),
-                  thumbnailObjectUrl: thumbnail
-                    ? getAbsoluteAttachmentPath(thumbnail.path)
-                    : null,
-                  contentType: attachment.contentType,
-                  index,
-                  attachment,
-                  message,
-                };
-              });
-          })
-        );
-
-        // Unlike visual media, only one non-image attachment is supported
-        const documents = rawDocuments.map(message => {
-          const attachments = message.attachments || [];
-          const attachment = attachments[0];
-          return {
-            contentType: attachment.contentType,
-            index: 0,
-            attachment,
-            message,
-          };
-        });
-
-        const saveAttachment = async ({ attachment, message } = {}) => {
-          const timestamp = message.received_at;
-          Signal.Types.Attachment.save({
-            attachment,
-            document,
-            getAbsolutePath: getAbsoluteAttachmentPath,
-            timestamp,
-          });
-        };
-
-        const onItemClick = async ({ message, attachment, type }) => {
-          switch (type) {
-            case 'documents': {
-              saveAttachment({ message, attachment });
-              break;
-            }
-
-            case 'media': {
-              const selectedIndex = media.findIndex(
-                mediaMessage => mediaMessage.attachment.path === attachment.path
-              );
-              this.lightboxGalleryView = new Whisper.ReactWrapperView({
-                className: 'lightbox-wrapper',
-                Component: Signal.Components.LightboxGallery,
-                props: {
-                  media,
-                  onSave: saveAttachment,
-                  selectedIndex,
-                },
-                onClose: () => Signal.Backbone.Views.Lightbox.hide(),
-              });
-              Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
-              break;
-            }
-
-            default:
-              throw new TypeError(`Unknown attachment type: '${type}'`);
-          }
-        };
-
-        return {
-          documents,
-          media,
-          onItemClick,
-        };
-      };
-
-      const view = new Whisper.ReactWrapperView({
-        className: 'panel-wrapper',
-        Component: Signal.Components.MediaGallery,
-        props: await getProps(),
-        onClose: () => {
-          this.stopListening(this.model.messageCollection, 'remove', update);
-          this.resetPanel();
-        },
-      });
-
-      const update = async () => {
-        view.update(await getProps());
-      };
-
-      this.listenTo(this.model.messageCollection, 'remove', update);
-
-      this.listenBack(view);
-    },
-
     scrollToBottom() {
       // If we're above the last seen indicator, we should scroll there instead
       // Note: if we don't end up at the bottom of the conversation, button won't go away!
@@ -1352,7 +1226,7 @@
     },
 
     forceSend({ contact, message }) {
-      const dialog = new Whisper.ConfirmationDialogView({
+      window.confirmationDialog({
         message: i18n('identityKeyErrorOnSend', [
           contact.getTitle(),
           contact.getTitle(),
@@ -1373,9 +1247,6 @@
           message.resend(contact.id);
         },
       });
-
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
     },
 
     showSafetyNumber(providedModel) {
@@ -1401,19 +1272,32 @@
         toast.render();
         return;
       }
-
       Signal.Types.Attachment.save({
         attachment,
         document,
         getAbsolutePath: getAbsoluteAttachmentPath,
-        timestamp: message.get('sent_at'),
+        timestamp: message.get ? message.get('sent_at') : message.sent_at,
       });
     },
 
     deleteSelectedMessages() {
-      const msgArray = Array.from(this.model.selectedMessages);
+      const selected = Array.from(this.model.selectedMessages);
+      const isModerator = this.model.isModerator(this.model.OUR_NUMBER);
+      const isAllOurs = selected.every(
+        message => message.attributes.source === message.OUR_NUMBER
+      );
 
-      this.deleteMessages(msgArray, () => {
+      if (!isAllOurs && !isModerator) {
+        window.pushToast({
+          title: i18n('messageDeletionForbidden'),
+          type: 'error',
+          id: 'messageDeletionForbidden',
+        });
+
+        return;
+      }
+
+      this.deleteMessages(selected, () => {
         this.resetMessageSelection();
       });
     },
@@ -1468,18 +1352,32 @@
         return;
       }
 
-      const dialog = new Whisper.ConfirmationDialogView({
+      window.confirmationDialog({
         message: warningMessage,
         okText: i18n('delete'),
         resolve: doDelete,
       });
-
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
     },
 
     deleteMessage(message) {
       this.deleteMessages([message]);
+    },
+
+    showChannelLightbox({ media, attachment, message }) {
+      const selectedIndex = media.findIndex(
+        mediaMessage => mediaMessage.attachment.path === attachment.path
+      );
+      this.lightboxGalleryView = new Whisper.ReactWrapperView({
+        className: 'lightbox-wrapper',
+        Component: Signal.Components.LightboxGallery,
+        props: {
+          media,
+          onSave: () => this.downloadAttachment({ attachment, message }),
+          selectedIndex,
+        },
+        onClose: () => Signal.Backbone.Views.Lightbox.hide(),
+      });
+      Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
     showLightbox({ attachment, message }) {
@@ -1699,7 +1597,8 @@
         }
       }
 
-      const dialog = new Whisper.ConfirmationDialogView({
+      window.confirmationDialog({
+        title: i18n('changedSinceVerifiedTitle'),
         message,
         okText: i18n('sendAnyway'),
         resolve: () => {
@@ -1709,9 +1608,6 @@
           this.focusMessageFieldAndClearDisabled();
         },
       });
-
-      this.$el.prepend(dialog.el);
-      dialog.focusCancel();
     },
 
     stripQuery(text, cursorPos) {
@@ -1823,18 +1719,6 @@
           error && error.stack ? error.stack : error
         );
       }
-    },
-
-    onMessageSelectionChanged() {
-      const selectionSize = this.model.selectedMessages.size;
-
-      if (selectionSize > 0) {
-        $('.compose').hide();
-      } else {
-        $('.compose').show();
-      }
-
-      this.bulkEditView.update(selectionSize);
     },
 
     resetMessageSelection() {
@@ -1969,31 +1853,38 @@
       let message = this.memberView.replaceMentions(input.val());
       message = window.Signal.Emoji.replaceColons(message).trim();
 
-      let toast;
+      const toastOptions = { type: 'info' };
       if (extension.expired()) {
-        toast = new Whisper.ExpiredToast();
+        toastOptions.title = i18n('expiredWarning');
+        toastOptions.id = 'expiredWarning';
       }
       if (!window.clientClockSynced) {
         // Check to see if user has updated their clock to current time
         const clockSynced = await window.LokiPublicChatAPI.setClockParams();
-        toast = clockSynced ? toast : new Whisper.ClockOutOfSyncToast();
+        if (clockSynced) {
+          toastOptions.title = i18n('clockOutOfSync');
+          toastOptions.id = 'clockOutOfSync';
+        }
       }
       if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
-        toast = new Whisper.BlockedToast();
+        toastOptions.title = i18n('unblockToSend');
+        toastOptions.id = 'unblockToSend';
       }
       if (!this.model.isPrivate() && storage.isGroupBlocked(this.model.id)) {
-        toast = new Whisper.BlockedGroupToast();
+        toastOptions.title = i18n('unblockGroupToSend');
+        toastOptions.id = 'unblockGroupToSend';
       }
       if (!this.model.isPrivate() && this.model.get('left')) {
-        toast = new Whisper.LeftGroupToast();
+        toastOptions.title = i18n('youLeftTheGroup');
+        toastOptions.id = 'youLeftTheGroup';
       }
       if (message.length > MAX_MESSAGE_BODY_LENGTH) {
-        toast = new Whisper.MessageBodyTooLongToast();
+        toastOptions.title = i18n('messageBodyTooLong');
+        toastOptions.id = 'messageBodyTooLong';
       }
 
-      if (toast) {
-        toast.$el.appendTo(this.$el);
-        toast.render();
+      if (toastOptions.title) {
+        window.pushToast(toastOptions);
         this.focusMessageFieldAndClearDisabled();
         return;
       }

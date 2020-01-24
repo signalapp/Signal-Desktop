@@ -35,15 +35,7 @@ body.dark-theme {
   }
 
   .bottom-bar {
-    form.active {
-      textarea {
-        border: solid 1px $blue;
-      }
-    }
-
     form.send {
-      background-color: $color-gray-95;
-
       &.video-attachment {
         .outer {
           .play.icon {
@@ -54,9 +46,6 @@ body.dark-theme {
     }
 
     .send-message {
-      background-color: $color-dark-85;
-      color: $color-dark-05;
-      border: 1px solid $color-light-60;
       outline: 0;
 
       &[disabled='disabled'] {
@@ -102,7 +91,6 @@ body.dark-theme {
     button {
       background-color: $color-dark-85;
       border-radius: $border-radius;
-      border: 1px solid $color-dark-60;
       color: $color-dark-05;
 
       &:hover {
@@ -725,7 +713,7 @@ body.dark-theme {
   .module-message__link-preview__location {
     color: $color-gray-25;
   }
-
+  .module-conversation__user,
   .module-message__author {
     color: $color-white;
   }

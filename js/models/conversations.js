@@ -1,4 +1,5 @@
 /* global
+  $,
   _,
   log,
   i18n,
@@ -231,6 +232,48 @@
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
     },
+    async acceptFriendRequest() {
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
+
+      const lastMessageModel = messages.at(0);
+      if (lastMessageModel) {
+        lastMessageModel.acceptFriendRequest();
+      }
+    },
+    async declineFriendRequest() {
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
+
+      const lastMessageModel = messages.at(0);
+      if (lastMessageModel) {
+        lastMessageModel.declineFriendRequest();
+      }
+    },
+    setMessageSelectionBackdrop() {
+      const messageSelected = this.selectedMessages.size > 0;
+
+      if (messageSelected) {
+        $('.messages li, .messages > div').addClass('shadowed');
+        $('.message-selection-overlay').addClass('overlay');
+        $('.module-conversation-header').addClass('overlayed');
+
+        let messageId;
+        // eslint-disable-next-line no-restricted-syntax
+        for (const item of this.selectedMessages) {
+          messageId = item.propsForMessage.id;
+          $(`#${messageId}`).removeClass('shadowed');
+        }
+      } else {
+        $('.messages li, .messages > div').removeClass('shadowed');
+        $('.message-selection-overlay').removeClass('overlay');
+        $('.module-conversation-header').removeClass('overlayed');
+      }
+    },
 
     addMessageSelection(id) {
       // If the selection is empty, then we chage the mode to
@@ -243,6 +286,7 @@
       }
 
       this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
     },
 
     removeMessageSelection(id) {
@@ -256,6 +300,7 @@
       }
 
       this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
     },
 
     resetMessageSelection() {
@@ -267,6 +312,7 @@
       });
 
       this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
     },
 
     async bumpTyping() {
@@ -520,10 +566,11 @@
         title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
-        showFriendRequestIndicator: this.isPendingFriendRequest(),
+        isPendingFriendRequest: this.isPendingFriendRequest(),
+        hasReceivedFriendRequest: this.hasReceivedFriendRequest(),
+        hasSentFriendRequest: this.hasSentFriendRequest(),
         isBlocked: this.isBlocked(),
         isSecondary: !!this.get('secondaryStatus'),
-
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
         }),
@@ -546,6 +593,9 @@
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
+        onCloseOverlay: () => this.resetMessageSelection(),
+        acceptFriendRequest: () => this.acceptFriendRequest(),
+        declineFriendRequest: () => this.declineFriendRequest(),
       };
 
       this.updateAsyncPropsCache();
@@ -929,6 +979,12 @@
         direction: 'incoming',
       });
       await window.libloki.storage.removeContactPreKeyBundle(this.id);
+      await this.destroyMessages();
+      window.pushToast({
+        title: i18n('friendRequestDeclined'),
+        type: 'success',
+        id: 'declineFriendRequest',
+      });
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest(options = {}) {
@@ -937,6 +993,7 @@
       }
       if (this.hasReceivedFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends, options);
+
         await this.respondToAllFriendRequests({
           response: 'accepted',
           direction: 'incoming',
@@ -2623,8 +2680,11 @@
 
     copyPublicKey() {
       clipboard.writeText(this.id);
-      window.Whisper.events.trigger('showToast', {
-        message: i18n('copiedPublicKey'),
+
+      window.pushToast({
+        title: i18n('copiedPublicKey'),
+        type: 'success',
+        id: 'copiedPublicKey',
       });
     },
 
@@ -2637,13 +2697,18 @@
     },
 
     deleteContact() {
+      const title = this.isPublic()
+        ? i18n('deletePublicChannel')
+        : i18n('deleteContact');
+
       const message = this.isPublic()
         ? i18n('deletePublicChannelConfirmation')
         : i18n('deleteContactConfirmation');
 
-      Whisper.events.trigger('showConfirmationDialog', {
+      window.confirmationDialog({
+        title,
         message,
-        onOk: () => ConversationController.deleteContact(this.id),
+        resolve: () => ConversationController.deleteContact(this.id),
       });
     },
 
@@ -2693,17 +2758,23 @@
 
     deleteMessages() {
       this.resetMessageSelection();
+
+      let params;
       if (this.isPublic()) {
-        Whisper.events.trigger('showConfirmationDialog', {
+        params = {
+          title: i18n('deleteMessages'),
           message: i18n('deletePublicConversationConfirmation'),
-          onOk: () => ConversationController.deleteContact(this.id),
-        });
+          resolve: () => ConversationController.deleteContact(this.id),
+        };
       } else {
-        Whisper.events.trigger('showConfirmationDialog', {
+        params = {
+          title: i18n('deleteMessages'),
           message: i18n('deleteConversationConfirmation'),
-          onOk: () => this.destroyMessages(),
-        });
+          resolve: () => this.destroyMessages(),
+        };
       }
+
+      window.confirmationDialog(params);
     },
 
     async destroyMessages() {

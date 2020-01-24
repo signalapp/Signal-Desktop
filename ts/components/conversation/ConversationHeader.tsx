@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ContactName } from './ContactName';
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
 import {
@@ -10,7 +9,19 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 
-interface TimerOption {
+import {
+  SessionIconButton,
+  SessionIconSize,
+  SessionIconType,
+} from '../session/icon';
+
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from '../session/SessionButton';
+
+export interface TimerOption {
   name: string;
   value: number;
 }
@@ -45,10 +56,15 @@ interface Props {
   isFriendRequestPending: boolean;
   isOnline?: boolean;
 
+  selectedMessages: any;
+
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;
   onResetSession: () => void;
+
+  onCloseOverlay: () => void;
+  onDeleteSelectedMessages: () => void;
 
   onArchive: () => void;
   onMoveToInbox: () => void;
@@ -71,15 +87,14 @@ interface Props {
   onAddModerators: () => void;
   onRemoveModerators: () => void;
   onInviteFriends: () => void;
-
-  onShowUserDetails?: (userPubKey: string) => void;
+  onAvatarClick?: (userPubKey: string) => void;
 
   i18n: LocalizerType;
 }
 
 export class ConversationHeader extends React.Component<Props> {
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
-  public onShowUserDetailsBound: (userPubKey: string) => void;
+  public onAvatarClickBound: (userPubKey: string) => void;
   public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: Props) {
@@ -87,7 +102,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     this.menuTriggerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
-    this.onShowUserDetailsBound = this.onShowUserDetails.bind(this);
+    this.onAvatarClickBound = this.onAvatarClick.bind(this);
   }
 
   public showMenu(event: React.MouseEvent<HTMLDivElement>) {
@@ -119,6 +134,8 @@ export class ConversationHeader extends React.Component<Props> {
       profileName,
       isFriend,
       isGroup,
+      isRss,
+      members,
       isFriendRequestPending,
       isMe,
       name,
@@ -134,9 +151,12 @@ export class ConversationHeader extends React.Component<Props> {
 
     let text = '';
     if (isFriendRequestPending) {
-      text = `(${i18n('pending')})`;
+      text = i18n('pendingAcceptance');
     } else if (!isFriend && !isGroup) {
-      text = `(${i18n('notFriends')})`;
+      text = i18n('notFriends');
+    } else if (isGroup && !isRss && members.length > 0) {
+      const count = String(members.length);
+      text = i18n('members', [count]);
     }
 
     const textEl =
@@ -144,14 +164,20 @@ export class ConversationHeader extends React.Component<Props> {
         <span className="module-conversation-header__title-text">{text}</span>
       );
 
+    let title;
+    if (profileName) {
+      title = `${profileName} ${window.shortenPubkey(phoneNumber)}`;
+    } else {
+      if (name) {
+        title = `${name}`;
+      } else {
+        title = phoneNumber;
+      }
+    }
+
     return (
       <div className="module-conversation-header__title">
-        <ContactName
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          name={name}
-          i18n={i18n}
-        />
+        <span className="module-contact-name__profile-name">{title}</span>
         {textEl}
       </div>
     );
@@ -188,7 +214,7 @@ export class ConversationHeader extends React.Component<Props> {
           borderColor={borderColor}
           borderWidth={2}
           onAvatarClick={() => {
-            this.onShowUserDetailsBound(phoneNumber);
+            this.onAvatarClickBound(phoneNumber);
           }}
         />
       </span>
@@ -212,7 +238,19 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderGear(triggerId: string) {
+  public renderSearch() {
+    return (
+      <div className="search-icon">
+        <SessionIconButton
+          iconType={SessionIconType.Search}
+          iconSize={SessionIconSize.Large}
+          iconPadded={true}
+        />
+      </div>
+    );
+  }
+
+  public renderOptions(triggerId: string) {
     const { showBackButton } = this.props;
 
     if (showBackButton) {
@@ -220,11 +258,15 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     return (
-      <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
-        <div
-          role="button"
+      <ContextMenuTrigger
+        id={triggerId}
+        ref={this.menuTriggerRef}
+        holdToDisplay={1}
+      >
+        <SessionIconButton
+          iconType={SessionIconType.Ellipses}
+          iconSize={SessionIconSize.Large}
           onClick={this.showMenuBound}
-          className="module-conversation-header__gear-icon"
         />
       </ContextMenuTrigger>
     );
@@ -291,6 +333,31 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
+  public renderSelectionOverlay() {
+    const { onDeleteSelectedMessages, onCloseOverlay, i18n } = this.props;
+
+    return (
+      <div className="message-selection-overlay">
+        <div className="close-button">
+          <SessionIconButton
+            iconType={SessionIconType.Exit}
+            iconSize={SessionIconSize.Medium}
+            onClick={onCloseOverlay}
+          />
+        </div>
+
+        <div className="button-group">
+          <SessionButton
+            buttonType={SessionButtonType.Default}
+            buttonColor={SessionButtonColor.Danger}
+            text={i18n('delete')}
+            onClick={onDeleteSelectedMessages}
+          />
+        </div>
+      </div>
+    );
+  }
+
   public render() {
     const { id, isGroup, isPublic } = this.props;
     const triggerId = `conversation-${id}-${Date.now()}`;
@@ -298,25 +365,29 @@ export class ConversationHeader extends React.Component<Props> {
     const isPrivateGroup = isGroup && !isPublic;
 
     return (
-      <div className="module-conversation-header">
-        {this.renderBackButton()}
-        <div className="module-conversation-header__title-container">
-          <div className="module-conversation-header__title-flex">
-            {this.renderAvatar()}
-            {this.renderTitle()}
-            {isPrivateGroup ? this.renderMemberCount() : null}
+      <>
+        {this.renderSelectionOverlay()}
+        <div className="module-conversation-header">
+          {this.renderBackButton()}
+          <div className="module-conversation-header__title-container">
+            <div className="module-conversation-header__title-flex">
+              {this.renderOptions(triggerId)}
+              {this.renderTitle()}
+              {isPrivateGroup ? this.renderMemberCount() : null}
+            </div>
           </div>
+          {this.renderExpirationLength()}
+          {this.renderSearch()}
+          {this.renderAvatar()}
+          {this.renderMenu(triggerId)}
         </div>
-        {this.renderExpirationLength()}
-        {this.renderGear(triggerId)}
-        {this.renderMenu(triggerId)}
-      </div>
+      </>
     );
   }
 
-  public onShowUserDetails(userPubKey: string) {
-    if (this.props.onShowUserDetails) {
-      this.props.onShowUserDetails(userPubKey);
+  public onAvatarClick(userPubKey: string) {
+    if (this.props.onAvatarClick) {
+      this.props.onAvatarClick(userPubKey);
     }
   }
 

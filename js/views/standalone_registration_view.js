@@ -174,7 +174,10 @@
     async register(mnemonic, language) {
       // Make sure the password is valid
       if (this.validatePassword()) {
-        this.showToast(i18n('invalidPassword'));
+        window.pushToast({
+          title: i18n('invalidPassword'),
+          type: 'info',
+        });
         return;
       }
 
@@ -195,7 +198,10 @@
         this.$el.trigger('openInbox');
       } catch (e) {
         if (typeof e === 'string') {
-          this.showToast(e);
+          window.pushToast({
+            title: e,
+            type: 'info',
+          });
         }
         this.log(e);
       }
@@ -337,8 +343,10 @@
     },
     onCopyMnemonic() {
       window.clipboard.writeText(this.$('#mnemonic-display').text());
-
-      this.showToast(i18n('copiedMnemonic'));
+      window.pushToast({
+        title: i18n('copiedMnemonic'),
+        type: 'info',
+      });
     },
     log(s) {
       window.log.info(s);
@@ -477,13 +485,6 @@
     },
     trim(value) {
       return value ? value.trim() : value;
-    },
-    showToast(message) {
-      const toast = new Whisper.MessageToastView({
-        message,
-      });
-      toast.$el.appendTo(this.$el);
-      toast.render();
     },
   });
 })();

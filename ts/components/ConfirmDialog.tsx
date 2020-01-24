@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { SessionModal } from './session/SessionModal';
+import { SessionButton } from './session/SessionButton';
+
 interface Props {
   titleText: string;
   messageText: string;
@@ -16,18 +19,27 @@ export class ConfirmDialog extends React.Component<Props> {
 
   public render() {
     return (
-      <div className="content">
-        <p className="titleText">{this.props.titleText}</p>
+      <SessionModal
+        title={this.props.titleText}
+        onClose={() => null}
+        onOk={() => null}
+      >
+        <div className="spacer-md" />
         <p className="messageText">{this.props.messageText}</p>
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.props.onClose}>
-            {this.props.cancelText}
-          </button>
-          <button className="ok" tabIndex={0} onClick={this.props.onConfirm}>
-            {this.props.okText}
-          </button>
+        <div className="spacer-md" />
+
+        <div className="session-modal__button-group">
+          <SessionButton
+            text={this.props.okText}
+            onClick={this.props.onConfirm}
+          />
+
+          <SessionButton
+            text={this.props.cancelText}
+            onClick={this.props.onClose}
+          />
         </div>
-      </div>
+      </SessionModal>
     );
   }
 }

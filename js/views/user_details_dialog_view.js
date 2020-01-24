@@ -13,6 +13,7 @@
       avatarPath,
       avatarColor,
       pubkey,
+      isRss,
       onOk,
       onStartConversation,
     }) {
@@ -20,6 +21,7 @@
 
       this.profileName = profileName;
       this.pubkey = pubkey;
+      this.isRss = isRss;
       this.avatarPath = avatarPath;
       this.avatarColor = avatarColor;
       this.onOk = onOk;
@@ -38,6 +40,7 @@
           onStartConversation: this.onStartConversation,
           profileName: this.profileName,
           pubkey: this.pubkey,
+          isRss: this.isRss,
           avatarPath: this.avatarPath,
           i18n,
         },

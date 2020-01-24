@@ -398,7 +398,6 @@
         return;
       }
       const conversation = await this.getSourceDeviceConversation();
-
       // If we somehow received an old friend request (e.g. after having restored
       // from seed, we won't be able to accept it, we should initiate our own
       // friend request to reset the session:
@@ -408,7 +407,6 @@
         });
         return;
       }
-
       this.set({ friendStatus: 'accepted' });
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
@@ -1021,15 +1019,19 @@
       } else {
         clipboard.writeText(this.OUR_NUMBER);
       }
-      window.Whisper.events.trigger('showToast', {
-        message: i18n('copiedPublicKey'),
+
+      window.pushToast({
+        title: i18n('copiedPublicKey'),
+        type: 'success',
+        id: 'copiedPublicKey',
       });
     },
 
     banUser() {
-      window.Whisper.events.trigger('showConfirmationDialog', {
+      window.confirmationDialog({
+        title: i18n('banUser'),
         message: i18n('banUserConfirm'),
-        onOk: async () => {
+        resolve: async () => {
           const source = this.get('source');
           const conversation = this.getConversation();
 
@@ -1037,12 +1039,16 @@
           const success = await channelAPI.banUser(source);
 
           if (success) {
-            window.Whisper.events.trigger('showToast', {
-              message: i18n('userBanned'),
+            window.pushToast({
+              title: i18n('userBanned'),
+              type: 'success',
+              id: 'userBanned',
             });
           } else {
-            window.Whisper.events.trigger('showToast', {
-              message: i18n('userBanFailed'),
+            window.pushToast({
+              title: i18n('userBanFailed'),
+              type: 'error',
+              id: 'userBanFailed',
             });
           }
         },
@@ -1074,8 +1080,11 @@
 
     copyText() {
       clipboard.writeText(this.get('body'));
-      window.Whisper.events.trigger('showToast', {
-        message: i18n('copiedMessage'),
+
+      window.pushToast({
+        title: i18n('copiedMessage'),
+        type: 'success',
+        id: 'copiedMessage',
       });
     },
 

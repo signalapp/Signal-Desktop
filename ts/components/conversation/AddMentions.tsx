@@ -31,13 +31,12 @@ class Mention extends React.Component<MentionProps, MentionState> {
   }
 
   public componentWillMount() {
-
     this.setState({ found: false });
 
     // TODO: give up after some period of time?
     this.intervalHandle = setInterval(this.tryRenameMention, 30000);
 
-    this.tryRenameMention();
+    this.tryRenameMention().ignore();
   }
 
   public componentWillUnmount() {

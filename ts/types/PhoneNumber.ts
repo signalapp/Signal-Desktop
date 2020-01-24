@@ -55,7 +55,10 @@ function isValidNumber(number: string) {
   return !error;
 }
 
-export function validateNumber(number: string, i18n: LocalizerType) {
+export function validateNumber(
+  number: string,
+  i18n: LocalizerType = window.i18n
+) {
   const error = validate(number);
 
   return error && i18n(error);
