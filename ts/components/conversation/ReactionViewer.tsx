@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { groupBy, mapValues, orderBy } from 'lodash';
+import { groupBy, mapValues, orderBy, sortBy } from 'lodash';
 import classNames from 'classnames';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
@@ -27,14 +27,15 @@ export type Props = OwnProps &
   Pick<React.HTMLProps<HTMLDivElement>, 'style'> &
   Pick<AvatarProps, 'i18n'>;
 
-const emojis = ['❤️', '👍', '👎', '😂', '😮', '😢', '😡'];
+const emojisOrder = ['❤️', '👍', '👎', '😂', '😮', '😢', '😡'];
 
 export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
+  // tslint:disable-next-line max-func-body-length
   ({ i18n, reactions, onClose, ...rest }, ref) => {
     const grouped = mapValues(groupBy(reactions, 'emoji'), res =>
       orderBy(res, ['timestamp'], ['desc'])
     );
-    const filtered = emojis.filter(e => Boolean(grouped[e]));
+    const filtered = emojisOrder.filter(e => Boolean(grouped[e]));
     const [selected, setSelected] = React.useState(filtered[0]);
     const focusRef = React.useRef<HTMLButtonElement>(null);
 
@@ -56,10 +57,39 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     // Focus first button and restore focus on unmount
     useRestoreFocus(focusRef);
 
+    // Create sorted reaction categories, supporting reaction types we don't
+    // explicitly know about yet
+    const renderedEmojis = React.useMemo(() => {
+      const emojiSet = new Set<string>();
+      reactions.forEach(re => emojiSet.add(re.emoji));
+
+      return sortBy(
+        Array.from(emojiSet),
+        emoji => emojisOrder.indexOf(emoji) || Infinity
+      );
+    }, [reactions]);
+
+    // If we have previously selected a reaction type that is no longer present
+    // (removed on another device, for instance) we should select another
+    // reaction type
+    React.useEffect(() => {
+      if (!grouped[selected]) {
+        const toSelect = renderedEmojis[0];
+        if (toSelect) {
+          setSelected(toSelect);
+        } else if (onClose) {
+          // We have nothing to render!
+          onClose();
+        }
+      }
+    }, [grouped, onClose, renderedEmojis, selected, setSelected]);
+
+    const selectedReactions = grouped[selected] || [];
+
     return (
       <div {...rest} ref={ref} className="module-reaction-viewer">
         <header className="module-reaction-viewer__header">
-          {emojis
+          {renderedEmojis
             .filter(e => Boolean(grouped[e]))
             .map((emoji, index) => {
               const re = grouped[emoji];
@@ -89,7 +119,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
             })}
         </header>
         <main className="module-reaction-viewer__body">
-          {grouped[selected].map(re => (
+          {selectedReactions.map(re => (
             <div
               key={`${re.from.id}-${re.emoji}`}
               className="module-reaction-viewer__body__row"
