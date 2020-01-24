@@ -44,7 +44,13 @@ interface Props {
   isRss: boolean;
   amMod: boolean;
 
+  // We might not always have the full list of members,
+  // e.g. for open groups where we could have thousands
+  // of members. We'll keep this for now (for closed chats)
   members: Array<any>;
+
+  // not equal members.length (see above)
+  subscriberCount?: number;
 
   expirationSettingName?: string;
   showBackButton: boolean;
@@ -134,8 +140,10 @@ export class ConversationHeader extends React.Component<Props> {
       profileName,
       isFriend,
       isGroup,
+      isPublic,
       isRss,
       members,
+      subscriberCount,
       isFriendRequestPending,
       isMe,
       name,
@@ -149,13 +157,25 @@ export class ConversationHeader extends React.Component<Props> {
       );
     }
 
+    const memberCount: number = (() => {
+      if (!isGroup || isRss) {
+        return 0;
+      }
+
+      if (isPublic) {
+        return subscriberCount || 0;
+      } else {
+        return members.length;
+      }
+    })();
+
     let text = '';
     if (isFriendRequestPending) {
       text = i18n('pendingAcceptance');
     } else if (!isFriend && !isGroup) {
       text = i18n('notFriends');
-    } else if (isGroup && !isRss && members.length > 0) {
-      const count = String(members.length);
+    } else if (memberCount > 0) {
+      const count = String(memberCount);
       text = i18n('members', [count]);
     }
 
@@ -373,6 +393,7 @@ export class ConversationHeader extends React.Component<Props> {
             <div className="module-conversation-header__title-flex">
               {this.renderOptions(triggerId)}
               {this.renderTitle()}
+              {/* This might be redundant as we show the title in the title: */}
               {isPrivateGroup ? this.renderMemberCount() : null}
             </div>
           </div>
@@ -392,7 +413,9 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   private renderMemberCount() {
-    const memberCount = this.props.members.length;
+    const memberCount = this.props.isPublic
+      ? this.props.subscriberCount
+      : this.props.members.length;
 
     if (memberCount === 0) {
       return null;

@@ -889,14 +889,16 @@ class LokiPublicChannelAPI {
         include_annotations: 1,
       },
     });
-    if (
-      !res.err &&
-      res.response &&
-      res.response.data.annotations &&
-      res.response.data.annotations.length
-    ) {
+
+    if (res.err || !res.response || !res.response.data) {
+      return;
+    }
+
+    const { data } = res.response;
+
+    if (data.annotations && data.annotations.length) {
       // get our setting note
-      const settingNotes = res.response.data.annotations.filter(
+      const settingNotes = data.annotations.filter(
         note => note.type === SETTINGS_CHANNEL_ANNOTATION_TYPE
       );
       const note = settingNotes && settingNotes.length ? settingNotes[0] : {};
@@ -910,6 +912,10 @@ class LokiPublicChannelAPI {
       // is it mutable?
       // who are the moderators?
       // else could set a default in case of server problems...
+    }
+
+    if (data.counts && Number.isInteger(data.counts.subscribers)) {
+      this.conversation.setSubscriberCount(data.counts.subscribers);
     }
   }
 
