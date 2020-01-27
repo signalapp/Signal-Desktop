@@ -2660,6 +2660,9 @@
   "channels": {
     "message": "Channels"
   },
+  "groups": {
+    "message": "Groups"
+  },
   "addChannel": {
     "message": "Join Open Group"
   },
