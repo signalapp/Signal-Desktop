@@ -2534,6 +2534,10 @@
         });
       }
     },
+    async setSubscriberCount(count) {
+      this.set({ subscriberCount: count });
+      // Not sure if we care about updating the database
+    },
     async setGroupNameAndAvatar(name, avatarPath) {
       const currentName = this.get('name');
       const profileAvatar = this.get('profileAvatar');

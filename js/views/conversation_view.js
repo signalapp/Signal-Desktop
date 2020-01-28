@@ -189,6 +189,7 @@
             window.storage.get('primaryDevicePubKey')
           ),
           members,
+          subscriberCount: this.model.get('subscriberCount'),
           selectedMessages: this.model.selectedMessages,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
