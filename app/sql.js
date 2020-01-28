@@ -2339,6 +2339,7 @@ async function getUnreadByConversation(conversationId) {
   return map(rows, row => jsonToObject(row.json));
 }
 
+// Note: Sorting here is necessary for getting the last message (with limit 1)
 async function getMessagesByConversation(
   conversationId,
   { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
@@ -2349,7 +2350,7 @@ async function getMessagesByConversation(
       conversationId = $conversationId AND
       received_at < $received_at AND
       type LIKE $type
-    ORDER BY received_at DESC
+    ORDER BY sent_at DESC
     LIMIT $limit;
     `,
     {
