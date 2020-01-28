@@ -212,7 +212,7 @@ class LokiAppDotNetServerAPI {
           serverUrl: this.baseServerUrl,
           token: '',
         });
-        token = this.getOrRefreshServerToken(true);
+        token = await this.getOrRefreshServerToken(true);
       }
     }
 
@@ -1497,7 +1497,9 @@ class LokiPublicChannelAPI {
     /* eslint-enable no-param-reassign */
 
     // process remaining messages
-    Object.keys(slaveMessages).forEach(slaveKey => {
+    slaveMessages.forEach(messageData => {
+      const slaveKey = messageData.source;
+
       // prevent our own device sent messages from coming back in
       if (slaveKey === ourNumber) {
         // we originally sent these
@@ -1507,30 +1509,19 @@ class LokiPublicChannelAPI {
       // look up primary device once
       const primaryPubKey = slavePrimaryMap[slaveKey];
 
-      if (!Array.isArray(slaveMessages[slaveKey])) {
-        log.warn(
-          `messages for ${slaveKey} is not an array`,
-          slaveMessages[slaveKey]
-        );
-        return;
-      }
-
       // send out remaining messages for this merged identity
-      slaveMessages[slaveKey].forEach(messageDataP => {
-        const messageData = messageDataP; // for linter
-        if (slavePrimaryMap[messageData.source]) {
-          // rewrite source, profile
-          messageData.source = primaryPubKey;
-          const { name, avatar, profileKey } = this.primaryUserProfileName[
-            primaryPubKey
-          ];
-          messageData.message.profile.displayName = name;
-          messageData.message.profile.avatar = avatar;
-          messageData.message.profileKey = profileKey;
-        }
-        this.chatAPI.emit('publicMessage', {
-          message: messageData,
-        });
+      if (slavePrimaryMap[slaveKey]) {
+        // rewrite source, profile
+        messageData.source = primaryPubKey;
+        const { name, avatar, profileKey } = this.primaryUserProfileName[
+          primaryPubKey
+        ];
+        messageData.message.profile.displayName = name;
+        messageData.message.profile.avatar = avatar;
+        messageData.message.profileKey = profileKey;
+      }
+      this.chatAPI.emit('publicMessage', {
+        message: messageData,
       });
     });
 

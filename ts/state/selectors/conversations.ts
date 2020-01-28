@@ -10,6 +10,7 @@ import {
 } from '../ducks/conversations';
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
+import { PropsData as ConversationListItemPropsType } from '../../components/ConversationListItem';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -97,6 +98,9 @@ export const _getLeftPaneLists = (
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
   friends: Array<ConversationType>;
+  receivedFriendsRequest: Array<ConversationListItemPropsType>;
+  sentFriendsRequest: Array<ConversationListItemPropsType>;
+  unreadCount: number;
 } => {
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
@@ -104,8 +108,12 @@ export const _getLeftPaneLists = (
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
   const friends: Array<ConversationType> = [];
+  const receivedFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const sentFriendsRequest: Array<ConversationListItemPropsType> = [];
 
   const max = sorted.length;
+  let unreadCount = 0;
+
   for (let i = 0; i < max; i += 1) {
     let conversation = sorted[i];
 
@@ -116,8 +124,21 @@ export const _getLeftPaneLists = (
       };
     }
 
-    if (conversation.isFriend) {
+    if (conversation.isFriend && conversation.activeAt !== undefined) {
       friends.push(conversation);
+    }
+
+    if (conversation.hasReceivedFriendRequest) {
+      receivedFriendsRequest.push(conversation);
+    } else if (
+      unreadCount < 9 &&
+      conversation.isFriend &&
+      conversation.unreadCount > 0
+    ) {
+      unreadCount += conversation.unreadCount;
+    }
+    if (conversation.hasSentFriendRequest) {
+      sentFriendsRequest.push(conversation);
     }
 
     if (!conversation.activeAt) {
@@ -131,7 +152,14 @@ export const _getLeftPaneLists = (
     }
   }
 
-  return { conversations, archivedConversations, friends };
+  return {
+    conversations,
+    archivedConversations,
+    friends,
+    receivedFriendsRequest,
+    sentFriendsRequest,
+    unreadCount,
+  };
 };
 
 export const getLeftPaneLists = createSelector(

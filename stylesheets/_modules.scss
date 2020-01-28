@@ -470,7 +470,7 @@
   line-height: 16px;
   text-transform: uppercase;
 }
-
+.module-conversation__user,
 .module-message__author {
   color: $color-white;
   font-size: 13px;
@@ -482,7 +482,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
+.module-conversation__user__profile-name,
 .module-message__author__profile-name {
   font-style: italic;
 }
@@ -1421,8 +1421,6 @@
 // Module: Conversation Header
 
 .module-conversation-header {
-  padding-left: 16px;
-  padding-right: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1458,7 +1456,6 @@
 
 .module-conversation-header__title-text {
   color: darkgrey;
-  margin-left: 1em;
 }
 
 .module-conversation-header__title-flex {
@@ -3254,8 +3251,7 @@
 
   display: inline-flex;
   flex-direction: column;
-
-  width: 300px;
+  width: 380px;
   height: 100%;
 }
 

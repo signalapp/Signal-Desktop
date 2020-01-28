@@ -53,13 +53,12 @@
       },
       confirm(message, okText) {
         return new Promise((resolve, reject) => {
-          const dialog = new Whisper.ConfirmationDialogView({
-            message,
+          window.confirmationDialog({
+            title: message,
             okText,
             resolve,
             reject,
           });
-          this.$el.append(dialog.el);
         });
       },
     },

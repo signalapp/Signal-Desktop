@@ -1,18 +1,13 @@
 [
   {
-    "label": "Loki Messenger",
+    "label": "Session Messenger",
     "submenu": [
       {
-        "label": "About Loki Messenger",
+        "label": "About Session Messenger",
         "click": null
       },
       {
         "type": "separator"
-      },
-      {
-        "label": "Preferences…",
-        "accelerator": "CommandOrControl+,",
-        "click": null
       },
       {
         "type": "separator"
@@ -33,7 +28,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Loki Messenger",
+        "label": "Quit Session Messenger",
         "role": "quit"
       }
     ]

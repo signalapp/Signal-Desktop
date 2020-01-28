@@ -1,4 +1,4 @@
-/* global Whisper, i18n, window */
+/* global Whisper, window */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -8,37 +8,31 @@
 
   Whisper.BetaReleaseDisclaimer = Whisper.View.extend({
     className: 'loki-dialog beta-disclaimer-dialog modal',
-    templateName: 'beta-disclaimer-dialog',
-    initialize(options = {}) {
-      this.okText = options.okText || i18n('ok');
+    initialize() {
+      this.close = this.close.bind(this);
       this.render();
-      this.$('.betaDisclaimerView').show();
-      this.$('.beta-disclaimer-dialog').bind('keyup', event =>
-        this.onKeyup(event)
-      );
     },
-    events: {
-      'click .ok': 'close',
+
+    render() {
+      this.dialogView = new Whisper.ReactWrapperView({
+        className: 'session-beta-disclaimer',
+        Component: window.Signal.Components.SessionConfirm,
+        props: {
+          title: window.i18n('betaDisclaimerTitle'),
+          message: window.i18n('betaDisclaimerSubtitle'),
+          messageSub: window.i18n('betaDisclaimerDescription'),
+          hideCancel: true,
+          onClickOk: this.close,
+        },
+      });
+
+      this.$el.append(this.dialogView.el);
+      return this;
     },
-    render_attributes() {
-      return {
-        ok: this.okText,
-      };
-    },
+
     close() {
       window.storage.put('betaReleaseDisclaimerAccepted', true);
       this.remove();
-    },
-    onKeyup(event) {
-      switch (event.key) {
-        case 'Enter':
-        case 'Escape':
-        case 'Esc':
-          this.close();
-          break;
-        default:
-          break;
-      }
     },
   });
 })();

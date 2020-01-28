@@ -15,6 +15,9 @@
 
       this.applyTheme();
       this.applyHideMenu();
+
+      this.showSeedDialog = this.showSeedDialog.bind(this);
+      this.showPasswordDialog = this.showPasswordDialog.bind(this);
     },
     events: {
       'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
@@ -22,7 +25,7 @@
     },
     applyTheme() {
       const iOS = storage.get('userAgent') === 'OWI';
-      const theme = storage.get('theme-setting') || 'light';
+      const theme = 'dark'; // storage.get('theme-setting') || 'dark';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
@@ -35,7 +38,7 @@
       }
     },
     applyHideMenu() {
-      const hideMenuBar = storage.get('hide-menu-bar', false);
+      const hideMenuBar = storage.get('hide-menu-bar', true);
       window.setAutoHideMenuBar(hideMenuBar);
       window.setMenuBarVisibility(!hideMenuBar);
     },
@@ -105,7 +108,7 @@
     openStandalone() {
       window.addSetupMenuItems();
       this.resetViews();
-      this.standaloneView = new Whisper.StandaloneRegistrationView();
+      this.standaloneView = new Whisper.SessionRegistrationView();
       this.openView(this.standaloneView);
     },
     closeStandalone() {
@@ -196,56 +199,32 @@
       this.el.append(dialog.el);
       dialog.focusInput();
     },
-    showPasswordDialog({ type, resolve, reject }) {
-      const dialog = Whisper.getPasswordDialogView(type, resolve, reject);
+    showPasswordDialog(options) {
+      const dialog = new Whisper.PasswordDialogView(options);
       this.el.append(dialog.el);
     },
-    showSeedDialog(seed) {
-      const dialog = new Whisper.SeedDialogView({ seed });
+    showSeedDialog() {
+      const dialog = new Whisper.SeedDialogView();
       this.el.append(dialog.el);
     },
     showQRDialog(string) {
-      const dialog = new Whisper.QRDialogView({ string });
+      const dialog = new Whisper.QRDialogView({
+        value: string,
+      });
       this.el.append(dialog.el);
     },
-    showDevicePairingDialog() {
-      const dialog = new Whisper.DevicePairingDialogView();
+    showDevicePairingDialog(options) {
+      const dialog = new Whisper.DevicePairingDialogView(options);
 
-      dialog.on('startReceivingRequests', () => {
-        Whisper.events.on('devicePairingRequestReceived', pubKey =>
-          dialog.requestReceived(pubKey)
-        );
-      });
-
-      dialog.on('stopReceivingRequests', () => {
-        Whisper.events.off('devicePairingRequestReceived');
-      });
-
-      dialog.on('devicePairingRequestAccepted', (pubKey, cb) =>
-        Whisper.events.trigger('devicePairingRequestAccepted', pubKey, cb)
-      );
-      dialog.on('devicePairingRequestRejected', pubKey =>
-        Whisper.events.trigger('devicePairingRequestRejected', pubKey)
-      );
-      dialog.on('deviceUnpairingRequested', pubKey =>
-        Whisper.events.trigger('deviceUnpairingRequested', pubKey)
-      );
-      dialog.once('close', () => {
-        Whisper.events.off('devicePairingRequestReceived');
-      });
       this.el.append(dialog.el);
     },
     showDevicePairingWordsDialog() {
       const dialog = new Whisper.DevicePairingWordsDialogView();
       this.el.append(dialog.el);
     },
-    showAddServerDialog() {
-      const dialog = new Whisper.AddServerDialogView();
-      this.el.append(dialog.el);
-    },
     showCreateGroup() {
       // TODO: make it impossible to open 2 dialogs as once
-      // Curretnly, if the button is in focus, it is possible to
+      // Currently, if the button is in focus, it is possible to
       // create a new dialog by pressing 'Enter'
       const dialog = new Whisper.CreateGroupDialogView();
       this.el.append(dialog.el);
