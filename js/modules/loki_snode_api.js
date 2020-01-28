@@ -122,7 +122,7 @@ class LokiSnodeAPI {
         pubkey_ed25519: snode.pubkey_ed25519,
       }));
     } catch (e) {
-      log.warn('initialiseRandomPool error', JSON.stringify(e))
+      log.warn('initialiseRandomPool error', JSON.stringify(e));
       window.mixpanel.track('Seed Node Failed');
       if (seedNodes.length === 0) {
         throw new window.textsecure.SeedNodeError(
