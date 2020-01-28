@@ -294,12 +294,7 @@ class LokiAppDotNetServerAPI {
     }
   }
 
-  static async _sendToProxy(
-    fetchOptions,
-    endpoint,
-    method,
-    { ephemeralKey, symKey, iv }
-  ) {
+  async _sendToProxy(fetchOptions, method, headers, endpoint) {
     const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
     const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
@@ -308,7 +303,7 @@ class LokiAppDotNetServerAPI {
       body: fetchOptions.body, // might need to b64 if binary...
       endpoint,
       method,
-      headers: fetchOptions.headers,
+      headers,
     };
 
     // from https://github.com/sindresorhus/is-stream/blob/master/index.js
@@ -333,6 +328,18 @@ class LokiAppDotNetServerAPI {
       dcodeIO.ByteBuffer.wrap(JSON.stringify(payloadObj)).toArrayBuffer()
     );
     payloadObj.body = false; // free memory
+
+    // make temporary key for this request/response
+    const ephemeralKey = libsignal.Curve.generateKeyPair();
+
+    // mix server pub key with our priv key
+    const symKey = libsignal.Curve.calculateAgreement(
+      this.pubKey, // server's pubkey
+      ephemeralKey.privKey // our privkey
+    );
+
+    // some randomness
+    const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
 
     // encrypt payloadData with symmetric Key using iv
     const cipherBody = await libsignal.crypto.encrypt(symKey, payloadData, iv);
@@ -371,7 +378,25 @@ class LokiAppDotNetServerAPI {
         'X-Loki-File-Server-Headers': JSON.stringify(finalRequestHeader),
       },
     };
-    return nodeFetch(url, firstHopOptions);
+    const result = await nodeFetch(url, firstHopOptions);
+
+    const txtResponse = await result.text();
+    let response = JSON.parse(txtResponse);
+
+    if (response.meta && response.meta.code === 200) {
+      const cipherBuffer = dcodeIO.ByteBuffer.wrap(
+        response.data,
+        'base64'
+      ).toArrayBuffer();
+      const decryped = await libsignal.crypto.decrypt(symKey, cipherBuffer, iv);
+      const textDecoder = new TextDecoder();
+      const json = textDecoder.decode(decryped);
+      // replace response
+      response = JSON.parse(json);
+    } else {
+      log.warn('file server secure_rpc gave an non-200 response');
+    }
+    return { result, txtResponse, response };
   }
 
   // make a request to the server
@@ -389,8 +414,8 @@ class LokiAppDotNetServerAPI {
       url.search = new URLSearchParams(params);
     }
     const fetchOptions = {};
+    const headers = {};
     try {
-      const headers = {};
       if (forceFreshToken) {
         await this.getOrRefreshServerToken(true);
       }
@@ -414,81 +439,35 @@ class LokiAppDotNetServerAPI {
       };
     }
 
+    let response;
     let result;
-    let response = null;
-    let TxtResponse = '';
-    if (
-      window.lokiFeatureFlags.useSnodeProxy &&
-      (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
-        this.baseServerUrl === 'https://file.lokinet.org')
-    ) {
-      try {
-        // make temporary key for this request/response
-        const ephemeralKey = libsignal.Curve.generateKeyPair();
-        // mix server pub key with our priv key
-        const symKey = libsignal.Curve.calculateAgreement(
-          this.pubKey, // server's pubkey
-          ephemeralKey.privKey // our privkey
-        );
-
-        // some randomness
-        const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
-
-        result = await this.constructor._sendToProxy(
+    let txtResponse;
+    let mode = 'nodeFetch';
+    try {
+      if (
+        window.lokiFeatureFlags.useSnodeProxy &&
+        (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
+          this.baseServerUrl === 'https://file.lokinet.org')
+      ) {
+        mode = '_sendToProxy';
+        // have to send headers because fetchOptions.headers isn't readable
+        ({ response, txtResponse, result } = await this._sendToProxy(
           fetchOptions,
-          endpoint,
           method,
-          { ephemeralKey, symKey, iv }
-        );
-
-        TxtResponse = await result.text();
-        response = JSON.parse(TxtResponse);
-
-        if (response.meta && response.meta.code === 200) {
-          try {
-            const cipherBuffer = dcodeIO.ByteBuffer.wrap(
-              response.data,
-              'base64'
-            ).toArrayBuffer();
-            const decryped = await libsignal.crypto.decrypt(
-              symKey,
-              cipherBuffer,
-              iv
-            );
-            const textDecoder = new TextDecoder();
-            const json = textDecoder.decode(decryped);
-            // replace response
-            response = JSON.parse(json);
-          } catch (e) {
-            // useless with the ephemeralKey and iv
-            log.warn(`serverRequest useSnodeProxy parse ${e} ${TxtResponse}`);
-            return {
-              err: e,
-              statusCode: result.status,
-            };
-          }
-        } else {
-          log.warn('file server secure_rpc gave an non-200 response');
-        }
-      } catch (e) {
-        log.info('serverRequest _sendToProxy error:', e);
-        return {
-          err: e,
-        };
-      }
-    } else {
-      try {
+          headers,
+          endpoint
+        ));
+      } else {
         result = await nodeFetch(url, fetchOptions || undefined);
-        TxtResponse = await result.text();
-        response = JSON.parse(TxtResponse);
-      } catch (e) {
-        log.info('serverRequest nodeFetch error:', JSON.stringify(e));
-        return {
-          err: e,
-        };
+        txtResponse = await result.text();
+        response = JSON.parse(txtResponse);
       }
+    } catch (e) {
+      log.info(`serverRequest ${mode} error json: ${txtResponse}`);
+      return {
+        err: e,
+      };
     }
-
     // if it's a response style with a meta
     if (result.status !== 200) {
       if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
@@ -767,6 +746,7 @@ class LokiAppDotNetServerAPI {
       contentType: 'application/octet-stream',
       name: 'content',
       filename: 'attachment',
+      knownLength: buffer.byteLength,
     });
 
     return this.uploadData(formData);
@@ -1510,6 +1490,7 @@ class LokiPublicChannelAPI {
       const primaryPubKey = slavePrimaryMap[slaveKey];
 
       // send out remaining messages for this merged identity
+      /* eslint-disable no-param-reassign */
       if (slavePrimaryMap[slaveKey]) {
         // rewrite source, profile
         messageData.source = primaryPubKey;
@@ -1520,6 +1501,7 @@ class LokiPublicChannelAPI {
         messageData.message.profile.avatar = avatar;
         messageData.message.profileKey = profileKey;
       }
+      /* eslint-enable no-param-reassign */
       this.chatAPI.emit('publicMessage', {
         message: messageData,
       });
