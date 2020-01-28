@@ -1351,7 +1351,6 @@ class LokiPublicChannelAPI {
 
     // process remaining messages
     slaveMessages.forEach(messageData => {
-
       const slaveKey = messageData.source;
 
       // prevent our own device sent messages from coming back in
@@ -1377,7 +1376,6 @@ class LokiPublicChannelAPI {
       this.chatAPI.emit('publicMessage', {
         message: messageData,
       });
-
     });
 
     // if we received one of our own messages

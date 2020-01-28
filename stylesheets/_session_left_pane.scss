@@ -178,6 +178,7 @@ $session-compose-margin: 20px;
     display: flex;
     flex-direction: row;
     margin: 15px 7px 14px 0px;
+    height: 33px;
 
     @at-root .light-theme #{&} {
       background-color: $session-color-white;
