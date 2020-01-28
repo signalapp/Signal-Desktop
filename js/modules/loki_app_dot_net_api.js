@@ -19,9 +19,6 @@ const MESSAGE_ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
 
-// for onion routing
-const IV_LENGTH = 16;
-
 // the core ADN class that handles all communication with a specific server
 class LokiAppDotNetServerAPI {
   constructor(ourKey, url) {
@@ -338,20 +335,7 @@ class LokiAppDotNetServerAPI {
       ephemeralKey.privKey // our privkey
     );
 
-    // some randomness
-    const iv = libsignal.crypto.getRandomBytes(IV_LENGTH);
-
-    // encrypt payloadData with symmetric Key using iv
-    const cipherBody = await libsignal.crypto.encrypt(symKey, payloadData, iv);
-
-    // make final buffer for cipherText
-    const ivAndCiphertext = new Uint8Array(
-      iv.byteLength + cipherBody.byteLength
-    );
-    // add iv
-    ivAndCiphertext.set(new Uint8Array(iv));
-    // add ciphertext after iv position
-    ivAndCiphertext.set(new Uint8Array(cipherBody), iv.byteLength);
+    const ivAndCiphertext = await libloki.crypto.DHEncrypt(symKey, payloadData);
 
     // convert final buffer to base64
     const cipherText64 = dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString(
@@ -384,13 +368,17 @@ class LokiAppDotNetServerAPI {
     let response = JSON.parse(txtResponse);
 
     if (response.meta && response.meta.code === 200) {
-      const cipherBuffer = dcodeIO.ByteBuffer.wrap(
+      // convert base64 in response to binary
+      const ivAndCiphertextResponse = dcodeIO.ByteBuffer.wrap(
         response.data,
         'base64'
       ).toArrayBuffer();
-      const decryped = await libsignal.crypto.decrypt(symKey, cipherBuffer, iv);
+      const decrypted = await libloki.crypto.DHDecrypt(
+        symKey,
+        ivAndCiphertextResponse
+      );
       const textDecoder = new TextDecoder();
-      const json = textDecoder.decode(decryped);
+      const json = textDecoder.decode(decrypted);
       // replace response
       response = JSON.parse(json);
     } else {
