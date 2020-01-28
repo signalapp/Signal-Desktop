@@ -644,9 +644,9 @@
     Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');
 
-      // Enable link previews as default
+      // Disable link previews as default per Kee 20/01/28
       storage.onready(async () => {
-        storage.put('linkPreviews', true);
+        storage.put('linkPreviews', false);
       });
 
       // listeners
