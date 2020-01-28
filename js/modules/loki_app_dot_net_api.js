@@ -1350,6 +1350,7 @@ class LokiPublicChannelAPI {
     /* eslint-enable no-param-reassign */
 
     // process remaining messages
+    /* eslint-disable no-param-reassign */
     slaveMessages.forEach(messageData => {
       const slaveKey = messageData.source;
 
@@ -1377,6 +1378,7 @@ class LokiPublicChannelAPI {
         message: messageData,
       });
     });
+    /* eslint-enable no-param-reassign */
 
     // if we received one of our own messages
     if (lastProfileName !== false) {
