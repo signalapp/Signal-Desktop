@@ -8,9 +8,22 @@ interface Props {
 }
 
 export class SessionIdEditable extends React.PureComponent<Props> {
+  private readonly inputRef: React.RefObject<HTMLInputElement>;
+
+  public constructor(props: Props) {
+    super(props);
+    this.inputRef = React.createRef();
+  }
+
   public componentWillUnmount() {
     //FIXME ugly hack to empty the content editable div used on enter session ID
     window.Session.emptyContentEditableDivs();
+  }
+
+  public focus() {
+    if (this.inputRef.current) {
+      this.inputRef.current.focus();
+    }
   }
 
   public render() {
@@ -18,6 +31,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
 
     return (
       <div
+        ref={this.inputRef}
         className="session-id-editable"
         placeholder={placeholder}
         contentEditable={editable}
