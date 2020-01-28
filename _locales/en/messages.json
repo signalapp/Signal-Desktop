@@ -2673,7 +2673,7 @@
     "message": "Enter Open Group URL"
   },
   "channelUrlPlaceholder": {
-    "message": "https://myopengroup.lokinet.org"
+    "message": "https://chat.lokinet.org"
   },
   "addChannelDescription": {
     "message": "Enter an open group URL."
