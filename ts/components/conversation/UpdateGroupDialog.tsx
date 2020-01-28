@@ -20,7 +20,7 @@ interface Props {
   // friends not in the group
   friendList: Array<any>;
   isAdmin: boolean;
-  existingMembers: Array<any>;
+  existingMembers: Array<String>;
   i18n: any;
   onSubmit: any;
   onClose: any;
