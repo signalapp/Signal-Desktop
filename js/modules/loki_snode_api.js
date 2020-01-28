@@ -1,10 +1,10 @@
 /* eslint-disable class-methods-use-this */
-/* global window, ConversationController, _ */
+/* global window, ConversationController, _, log */
 
 const is = require('@sindresorhus/is');
 const dns = require('dns');
 const process = require('process');
-const { rpc } = require('./loki_rpc');
+const { lokiRpc } = require('./loki_rpc');
 const natUpnp = require('nat-upnp');
 
 const resolve4 = url =>
@@ -94,6 +94,8 @@ class LokiSnodeAPI {
       fields: {
         public_ip: true,
         storage_port: true,
+        pubkey_x25519: true,
+        pubkey_ed25519: true,
       },
     };
     const seedNode = seedNodes.splice(
@@ -101,7 +103,7 @@ class LokiSnodeAPI {
       1
     )[0];
     try {
-      const result = await rpc(
+      const result = await lokiRpc(
         `http://${seedNode.ip}`,
         seedNode.port,
         'get_n_service_nodes',
@@ -116,8 +118,11 @@ class LokiSnodeAPI {
       this.randomSnodePool = snodes.map(snode => ({
         ip: snode.public_ip,
         port: snode.storage_port,
+        pubkey_x25519: snode.pubkey_x25519,
+        pubkey_ed25519: snode.pubkey_ed25519,
       }));
     } catch (e) {
+      log.warn('initialiseRandomPool error', JSON.stringify(e));
       window.mixpanel.track('Seed Node Failed');
       if (seedNodes.length === 0) {
         throw new window.textsecure.SeedNodeError(
@@ -191,17 +196,27 @@ class LokiSnodeAPI {
 
   async getSwarmNodes(pubKey) {
     // TODO: Hit multiple random nodes and merge lists?
-    const { ip, port } = await this.getRandomSnodeAddress();
+    const snode = await this.getRandomSnodeAddress();
     try {
-      const result = await rpc(`https://${ip}`, port, 'get_snodes_for_pubkey', {
-        pubKey,
-      });
-      const snodes = result.snodes.filter(snode => snode.ip !== '0.0.0.0');
+      const result = await lokiRpc(
+        `https://${snode.ip}`,
+        snode.port,
+        'get_snodes_for_pubkey',
+        {
+          pubKey,
+        },
+        {},
+        '/storage_rpc/v1',
+        snode
+      );
+      const snodes = result.snodes.filter(tSnode => tSnode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
+      log.error('getSwarmNodes', JSON.stringify(e));
+      //
       this.randomSnodePool = _.without(
         this.randomSnodePool,
-        _.find(this.randomSnodePool, { ip })
+        _.find(this.randomSnodePool, { ip: snode.ip })
       );
       return this.getSwarmNodes(pubKey);
     }

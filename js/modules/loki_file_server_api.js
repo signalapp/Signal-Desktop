@@ -1,4 +1,4 @@
-/* global log, libloki */
+/* global log, libloki, process, window */
 /* global storage: false */
 /* global Signal: false */
 /* global log: false */
@@ -8,11 +8,49 @@ const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 const DEVICE_MAPPING_USER_ANNOTATION_TYPE =
   'network.loki.messenger.devicemapping';
 
+// const LOKIFOUNDATION_DEVFILESERVER_PUBKEY =
+//  'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
+const LOKIFOUNDATION_FILESERVER_PUBKEY =
+  'BWJQnVm97sQE3Q1InB4Vuo+U/T1hmwHBv0ipkiv8tzEc';
+
 // can have multiple of these instances as each user can have a
 // different home server
 class LokiFileServerInstance {
   constructor(ourKey) {
     this.ourKey = ourKey;
+
+    // do we have their pubkey locally?
+    /*
+    // get remote pubKey
+    this._server.serverRequest('loki/v1/public_key').then(keyRes => {
+      // we don't need to delay to protect identity because the token request
+      // should only be done over lokinet-lite
+      this.delayToken = true;
+      if (keyRes.err || !keyRes.response || !keyRes.response.data) {
+        if (keyRes.err) {
+          log.error(`Error ${keyRes.err}`);
+        }
+      } else {
+        // store it
+        this.pubKey = dcodeIO.ByteBuffer.wrap(
+          keyRes.response.data,
+          'base64'
+        ).toArrayBuffer();
+        // write it to a file
+      }
+    });
+    */
+    // Hard coded
+    this.pubKey = window.Signal.Crypto.base64ToArrayBuffer(
+      LOKIFOUNDATION_FILESERVER_PUBKEY
+    );
+    if (this.pubKey.byteLength && this.pubKey.byteLength !== 33) {
+      log.error(
+        'FILESERVER PUBKEY is invalid, length:',
+        this.pubKey.byteLength
+      );
+      process.exit(1);
+    }
   }
 
   // FIXME: this is not file-server specific
@@ -21,6 +59,10 @@ class LokiFileServerInstance {
   async establishConnection(serverUrl) {
     // why don't we extend this?
     this._server = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+
+    // configure proxy
+    this._server.pubKey = this.pubKey;
+
     // get a token for multidevice
     const gotToken = await this._server.getOrRefreshServerToken();
     // TODO: Handle this failure gracefully
@@ -220,6 +262,8 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
     return this._setOurDeviceMapping(authorisations, isPrimary);
   }
 
+  // you only upload to your own home server
+  // you can download from any server...
   uploadAvatar(data) {
     return this._server.uploadAvatar(data);
   }
