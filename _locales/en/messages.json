@@ -774,7 +774,7 @@
     "description": "Shown to separate the types of search results"
   },
   "messagesHeader": {
-    "message": "Messages",
+    "message": "Sessions",
     "description": "Shown to separate the types of search results"
   },
   "settingsHeader": {
@@ -961,6 +961,9 @@
   "close": {
     "message": "Close"
   },
+  "continue": {
+    "message": "Continue"
+  },
   "pairNewDevice": {
     "message": "Pair New Device"
   },
@@ -1070,7 +1073,7 @@
     "description": "Label for the time a message was received"
   },
   "sendMessage": {
-    "message": "Send a message",
+    "message": " Type your message",
     "description": "Placeholder text in the message entry field"
   },
   "secondaryDeviceDefaultFR": {
@@ -1179,7 +1182,8 @@
     "description": "Warning for account deletion in settings view"
   },
   "deleteAccountWarningSub": {
-    "message": "This is completely irreversible and will leave no trace.",
+    "message":
+      "Delete all history, including all messages, sessions, and contacts. Once deleted, these cannot be restored.",
     "description": "Warning for account deletion in settings view"
   },
   "deleteContact": {
@@ -1352,7 +1356,8 @@
       "Option to control creation and send of link previews in setting screen"
   },
   "linkPreviewDescription": {
-    "message": "Enable link previews",
+    "message":
+      "Link previews supported for Imgur, Instagram, Pinterest, Reddit, and YouTube.",
     "description": "Description shown for the Link Preview option "
   },
   "mediaPermissionsTitle": {
@@ -1371,7 +1376,7 @@
     "description": "Description of the media permission description"
   },
   "clearDataHeader": {
-    "message": "Clear Data",
+    "message": "Clear All Local Data",
     "description":
       "Header in the settings dialog for the section dealing with data deletion"
   },
@@ -1439,17 +1444,17 @@
     "description": "Label for disabling notifications"
   },
   "nameAndMessage": {
-    "message": "Both sender name and message",
+    "message": "Name and content",
     "description":
       "Label for setting notifications to display name and message text"
   },
   "noNameOrMessage": {
-    "message": "Neither name nor message",
+    "message": "No name or content",
     "description":
       "Label for setting notifications to display no name and no message text"
   },
   "nameOnly": {
-    "message": "Only sender name",
+    "message": "Name Only",
     "description": "Label for setting notifications to display sender name only"
   },
   "newMessage": {
@@ -2129,6 +2134,10 @@
     "message": "Copied public key",
     "description": "A toast message telling the user that the key was copied"
   },
+  "copiedChatId": {
+    "message": "Copied chat ID",
+    "description": "A toast message telling the user that the key was copied"
+  },
   "copyMessage": {
     "message": "Copy message text",
     "description":
@@ -2167,12 +2176,16 @@
   "yourSessionID": {
     "message": "Your Session ID"
   },
+  "setStatus": {
+    "message": "Set a status..."
+  },
   "setAccountPasswordTitle": {
     "message": "Set Account Password",
     "description": "Prompt for user to set account password in settings view"
   },
   "setAccountPasswordDescription": {
-    "message": "Secure your account and public key with a password",
+    "message":
+      "Require password to unlock Session’s screen.You can still receive message notifications while Screen Lock is enabled. Loki Messenger’s notification settings allow you to customize information that is displayed",
     "description": "Description for set account password setting view"
   },
   "changeAccountPasswordTitle": {
@@ -2268,7 +2281,7 @@
   },
 
   "passwordViewTitle": {
-    "message": "Type in your password",
+    "message": "Type In Your Password",
     "description":
       "The title shown when user needs to type in a password to unlock the messenger"
   },
@@ -2296,6 +2309,9 @@
     "message": "Remove Password",
     "description": "Button action that the user can click to remove a password"
   },
+  "maxPasswordAttempts": {
+    "message": "Invalid Password. Would you like to reset the database?"
+  },
   "typeInOldPassword": {
     "message": "Please type in your old password"
   },
@@ -2303,7 +2319,7 @@
     "message": "Old password is invalid"
   },
   "invalidPassword": {
-    "message": "Invalid password"
+    "message": "Invalid Password"
   },
   "noGivenPassword": {
     "message": "Please enter your password"
@@ -2476,54 +2492,57 @@
     "message": "Sign In"
   },
   "yourUniqueSessionID": {
-    "message": "Your Unique Session ID"
+    "message": "Say hello to your Session ID"
   },
   "allUsersAreRandomly...": {
     "message":
-      "All users are randomly generated a set of numbers that act as their unique Session ID. Share your Session ID in order to chat with your friends!"
+      "Your Session ID is the unique address people can use to contact you on Session. Your Session ID is totally private, anonymous, and has no connection to your real identity."
   },
   "getStarted": {
     "message": "Get started"
   },
   "generateSessionID": {
-    "message": "Generate Session ID"
+    "message": "Create Session ID"
   },
   "mnemonicSeed": {
     "message": "Mnemonic Seed"
   },
   "enterSeed": {
-    "message": "Enter Seed"
+    "message": "Enter Recovery Phrase"
   },
   "displayName": {
     "message": "Display Name"
   },
   "enterDisplayName": {
-    "message": "Enter Display Name / Alias"
+    "message": "Enter a display name"
   },
   "optionalPassword": {
-    "message": "Optional Password"
+    "message": "Verify Password"
   },
   "enterOptionalPassword": {
-    "message": "Enter Optional Password"
+    "message": "Enter password (optional)"
   },
   "verifyPassword": {
     "message": "Verify Password"
   },
   "devicePairingHeader": {
     "message":
-      "Open the Session Messenger App on your primary device and select Device Pairing from the main menu. Then, enter your Session ID below to sign in."
+      "Open Session on your other device and navigate to the Linked Devices section in your user account screen. Select Link a Device to prepare your other device for pairing, then enter your Session ID below to link this device to your Session ID."
   },
   "enterSessionIDHere": {
-    "message": "Enter your Session ID here"
+    "message": "Enter other device’s Session ID here"
   },
   "continueYourSession": {
-    "message": "Continue Your Session"
+    "message": "Link Device"
+  },
+  "restoreSessionID": {
+    "message": "Restore Session ID"
   },
   "restoreUsingSeed": {
-    "message": "Restore Using Seed"
+    "message": "Restore From Recovery Phrase"
   },
   "linkDeviceToExistingAccount": {
-    "message": "Link Device To Existing Account"
+    "message": "Link Device to Existing Session ID"
   },
   "or": {
     "message": "or"
@@ -2536,13 +2555,13 @@
     "message": "Begin<br />your<br />Session."
   },
   "welcomeToYourSession": {
-    "message": "Welcome to your Session!"
+    "message": "Welcome to your Session"
   },
   "completeSignUp": {
     "message": "Complete Sign Up"
   },
   "compose": {
-    "message": "Compose"
+    "message": "New Session"
   },
   "searchForAKeyPhrase": {
     "message": "Search for a key phrase or contact"
@@ -2554,11 +2573,11 @@
     "message": "Enter Session ID"
   },
   "pasteSessionIDRecipient": {
-    "message": "Paste Session ID of recipient"
+    "message": "Enter a Session ID"
   },
   "usersCanShareTheir...": {
     "message":
-      "Users can share their Session ID by going into their account settings and clicking \"Share Public Key\"."
+      "Users can share their Session ID from their account settings, or by sharing their QR code."
   },
   "searchByIDOrDisplayName": {
     "message": "Search by ID # or Display Name"
@@ -2579,7 +2598,7 @@
     "message": "Create Group"
   },
   "yourPublicKey": {
-    "message": "Your Public Key"
+    "message": "Your Session ID"
   },
   "accept": {
     "message": "Accept"
@@ -2644,21 +2663,23 @@
   "channels": {
     "message": "Channels"
   },
+  "groups": {
+    "message": "Groups"
+  },
   "addChannel": {
-    "message": "Add channel"
+    "message": "Join Open Group"
   },
   "enterChannelURL": {
-    "message": "Enter Channel URL"
+    "message": "Enter Open Group URL"
   },
   "channelUrlPlaceholder": {
-    "message": "https://yourchannel.lokinet.org"
+    "message": "https://chat.lokinet.org"
   },
   "addChannelDescription": {
-    "message":
-      "Enter the URL of the public channel you'd like to join in the format above."
+    "message": "Enter an open group URL."
   },
   "joinChannel": {
-    "message": "Join Channel"
+    "message": "Join Open Group"
   },
   "next": {
     "message": "Next"

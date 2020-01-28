@@ -74,6 +74,9 @@ const {
 const {
   SessionPasswordModal,
 } = require('../../ts/components/session/SessionPasswordModal');
+const {
+  SessionPasswordPrompt,
+} = require('../../ts/components/session/SessionPasswordPrompt');
 
 const {
   SessionConfirm,
@@ -82,6 +85,9 @@ const {
 const {
   SessionDropdown,
 } = require('../../ts/components/session/SessionDropdown');
+const {
+  SessionScrollButton,
+} = require('../../ts/components/session/SessionScrollButton');
 const {
   SessionRegistrationView,
 } = require('../../ts/components/session/SessionRegistrationView');
@@ -290,7 +296,9 @@ exports.setup = (options = {}) => {
     SessionQRModal,
     SessionSeedModal,
     SessionPasswordModal,
+    SessionPasswordPrompt,
     SessionDropdown,
+    SessionScrollButton,
     MediaGallery,
     Message,
     MessageBody,

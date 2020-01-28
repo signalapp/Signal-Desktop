@@ -15,6 +15,7 @@ export enum SessionSettingCategory {
   Permissions = 'permissions',
   Notifications = 'notifications',
   Devices = 'devices',
+  Blocked = 'blocked',
 }
 
 export enum SessionSettingType {
@@ -155,6 +156,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             id="password-lock-input"
             defaultValue=""
             placeholder={' '}
+            maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
           />
 
           <div className="spacer-xs" />
@@ -220,13 +222,25 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           showLinkDeviceButton={!shouldRenderPasswordLock}
           category={category}
         />
-        {shouldRenderPasswordLock ? (
-          this.renderPasswordLock()
-        ) : (
-          <div ref={this.settingsViewRef} className="session-settings-list">
-            {this.renderSettingInCategory()}
-          </div>
-        )}
+        <div className="session-settings-view">
+          {shouldRenderPasswordLock ? (
+            this.renderPasswordLock()
+          ) : (
+            <div ref={this.settingsViewRef} className="session-settings-list">
+              {this.renderSettingInCategory()}
+            </div>
+          )}
+          {this.renderSessionInfo()}
+        </div>
+      </div>
+    );
+  }
+
+  public renderSessionInfo(): JSX.Element {
+    return (
+      <div className="session-settings__version-info">
+        <span>v{window.versionInfo.version}</span>
+        <span>{window.versionInfo.commitHash}</span>
       </div>
     );
   }
@@ -384,7 +398,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         id: 'media-permissions',
         title: window.i18n('mediaPermissionsTitle'),
         description: window.i18n('mediaPermissionsDescription'),
-        hidden: false,
+        hidden: true, // Hidden until feature works
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.Permissions,
         setFn: window.toggleMediaPermissions,

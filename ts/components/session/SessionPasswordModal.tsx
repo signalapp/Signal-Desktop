@@ -58,12 +58,14 @@ export class SessionPasswordModal extends React.Component<Props, State> {
             type="password"
             id="password-modal-input"
             placeholder={placeholders[0]}
+            maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
           />
           {action !== PasswordAction.Remove && (
             <input
               type="password"
               id="password-modal-input-confirm"
               placeholder={placeholders[1]}
+              maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
             />
           )}
         </div>
@@ -117,6 +119,10 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     const enteredPasswordConfirm = String(
       $('#password-modal-input-confirm').val()
     );
+
+    if (enteredPassword.length === 0 || enteredPasswordConfirm.length === 0) {
+      return;
+    }
 
     // Check passwords enntered
     if (

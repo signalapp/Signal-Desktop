@@ -1,4 +1,4 @@
-/* global Backbone, Whisper, storage, _, ConversationController, $ */
+/* global Backbone, i18n, Whisper, storage, _, ConversationController, $ */
 
 /* eslint-disable more/no-then */
 
@@ -238,8 +238,19 @@
       this.el.append(dialog.el);
     },
     showLeaveGroupDialog(groupConvo) {
-      const dialog = new Whisper.LeaveGroupDialogView(groupConvo);
-      this.el.append(dialog.el);
+      const title = groupConvo.isPublic()
+        ? i18n('deletePublicChannel')
+        : i18n('deleteContact');
+
+      const message = groupConvo.isPublic()
+        ? i18n('deletePublicChannelConfirmation')
+        : i18n('deleteContactConfirmation');
+
+      window.confirmationDialog({
+        title,
+        message,
+        resolve: () => ConversationController.deleteContact(groupConvo.id),
+      });
     },
     showInviteFriendsDialog(groupConvo) {
       const dialog = new Whisper.InviteFriendsDialogView(groupConvo);

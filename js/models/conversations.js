@@ -257,6 +257,9 @@
       const messageSelected = this.selectedMessages.size > 0;
 
       if (messageSelected) {
+        // Hide ellipses icon
+        $('.title-wrapper .session-icon.ellipses').css({ opacity: 0 });
+
         $('.messages li, .messages > div').addClass('shadowed');
         $('.message-selection-overlay').addClass('overlay');
         $('.module-conversation-header').addClass('overlayed');
@@ -268,6 +271,9 @@
           $(`#${messageId}`).removeClass('shadowed');
         }
       } else {
+        // Hide ellipses icon
+        $('.title-wrapper .session-icon.ellipses').css({ opacity: 1 });
+
         $('.messages li, .messages > div').removeClass('shadowed');
         $('.message-selection-overlay').removeClass('overlay');
         $('.module-conversation-header').removeClass('overlayed');
@@ -2680,8 +2686,13 @@
     copyPublicKey() {
       clipboard.writeText(this.id);
 
+      const isGroup = this.getProps().type === 'group';
+      const copiedMessage = isGroup
+        ? i18n('copiedChatId')
+        : i18n('copiedPublicKey');
+
       window.pushToast({
-        title: i18n('copiedPublicKey'),
+        title: copiedMessage,
         type: 'success',
         id: 'copiedPublicKey',
       });
