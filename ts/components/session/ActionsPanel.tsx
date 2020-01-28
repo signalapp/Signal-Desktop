@@ -64,7 +64,8 @@ export class ActionsPanel extends React.Component<Props, State> {
     const handleClick = onSelect
       ? () => {
           type === SectionType.Profile
-            ? this.editProfileHandle()
+            ? /* tslint:disable-next-line:no-void-expression */
+              this.editProfileHandle()
             : /* tslint:disable-next-line:no-void-expression */
               onSelect(type);
         }

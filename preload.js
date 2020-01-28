@@ -60,8 +60,9 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 };
 
 window.CONSTANTS = {
-  maxPasswordLength: 32,
-  maxUsernameLength: 20,
+  MAX_LOGIN_TRIES: 3,
+  MAX_PASSWORD_LENGTH: 32,
+  MAX_USERNAME_LENGTH: 20,
 };
 
 window.versionInfo = {
@@ -132,6 +133,11 @@ window.setMenuBarVisibility = visibility =>
 window.restart = () => {
   window.log.info('restart');
   ipc.send('restart');
+};
+
+window.resetDatabase = () => {
+  window.log.info('reset database');
+  ipc.send('resetDatabase');
 };
 
 // Events for updating block number states across different windows.

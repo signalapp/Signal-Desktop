@@ -34,7 +34,14 @@ export class SessionInput extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const { placeholder, type, value, maxLength, enableShowHide, error } = this.props;
+    const {
+      placeholder,
+      type,
+      value,
+      maxLength,
+      enableShowHide,
+      error,
+    } = this.props;
     const { forceShow } = this.state;
 
     const correctType = forceShow ? 'text' : type;

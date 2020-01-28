@@ -1,12 +1,8 @@
 import React from 'react';
 
-import { SessionIconButton, SessionIconType, SessionIconSize } from './icon';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
-interface Props {
-  count: number;
-}
-
-export class SessionScrollButton extends React.PureComponent<Props> {
+export class SessionScrollButton extends React.PureComponent {
   constructor(props: any) {
     super(props);
   }

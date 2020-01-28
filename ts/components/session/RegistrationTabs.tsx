@@ -449,7 +449,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           type="text"
           placeholder={window.i18n('enterDisplayName')}
           value={this.state.displayName}
-          maxLength={window.CONSTANTS.maxUsernameLength}
+          maxLength={window.CONSTANTS.MAX_USERNAME_LENGTH}
           onValueChanged={(val: string) => {
             this.onDisplayNameChanged(val);
           }}
@@ -463,7 +463,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           error={this.state.passwordErrorString}
           type="password"
           placeholder={window.i18n('enterOptionalPassword')}
-          maxLength={window.CONSTANTS.maxPasswordLength}
+          maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
           onValueChanged={(val: string) => {
             this.onPasswordChanged(val);
           }}
@@ -477,7 +477,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           error={passwordsDoNotMatch}
           type="password"
           placeholder={window.i18n('optionalPassword')}
-          maxLength={window.CONSTANTS.maxPasswordLength}
+          maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
           onValueChanged={(val: string) => {
             this.onPasswordVerifyChanged(val);
           }}

@@ -4,6 +4,7 @@ interface Window {
 
   Events: any;
   deleteAllData: any;
+  clearLocalData: any;
   getAccountManager: any;
   mnemonic: any;
   clipboard: any;
@@ -23,6 +24,7 @@ interface Window {
   // Following function needs to be written in background.js
   // getMemberList: any;
 
+  onLogin: any;
   setPassword: any;
   textsecure: any;
   Session: any;
@@ -50,6 +52,8 @@ interface Window {
   getSettingValue: any;
   setSettingValue: any;
   lokiFeatureFlags: any;
+
+  resetDatabase: any;
 }
 
 interface Promise<T> {

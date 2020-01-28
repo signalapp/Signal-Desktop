@@ -74,6 +74,9 @@ const {
 const {
   SessionPasswordModal,
 } = require('../../ts/components/session/SessionPasswordModal');
+const {
+  SessionPasswordPrompt,
+} = require('../../ts/components/session/SessionPasswordPrompt');
 
 const {
   SessionConfirm,
@@ -293,6 +296,7 @@ exports.setup = (options = {}) => {
     SessionQRModal,
     SessionSeedModal,
     SessionPasswordModal,
+    SessionPasswordPrompt,
     SessionDropdown,
     SessionScrollButton,
     MediaGallery,

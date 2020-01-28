@@ -1376,7 +1376,7 @@
     "description": "Description of the media permission description"
   },
   "clearDataHeader": {
-    "message": "Clear Data",
+    "message": "Clear All Local Data",
     "description":
       "Header in the settings dialog for the section dealing with data deletion"
   },
@@ -2281,7 +2281,7 @@
   },
 
   "passwordViewTitle": {
-    "message": "Type in your password",
+    "message": "Type In Your Password",
     "description":
       "The title shown when user needs to type in a password to unlock the messenger"
   },
@@ -2309,6 +2309,9 @@
     "message": "Remove Password",
     "description": "Button action that the user can click to remove a password"
   },
+  "maxPasswordAttempts": {
+    "message": "Invalid Password. Would you like to reset the database?"
+  },
   "typeInOldPassword": {
     "message": "Please type in your old password"
   },
@@ -2316,7 +2319,7 @@
     "message": "Old password is invalid"
   },
   "invalidPassword": {
-    "message": "Invalid password"
+    "message": "Invalid Password"
   },
   "noGivenPassword": {
     "message": "Please enter your password"

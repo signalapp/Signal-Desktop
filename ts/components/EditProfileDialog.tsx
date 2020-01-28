@@ -208,7 +208,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             value={this.state.profileName}
             placeholder={placeholderText}
             onChange={this.onNameEdited}
-            maxLength={window.CONSTANTS.maxUsernameLength}
+            maxLength={window.CONSTANTS.MAX_USERNAME_LENGTH}
             tabIndex={0}
             required={true}
             aria-required={true}
@@ -302,7 +302,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private onClickOK() {
     const newName = this.state.profileName.trim();
 
-    if (newName.length === 0 || newName.length > window.CONSTANTS.maxUsernameLength) {
+    if (
+      newName.length === 0 ||
+      newName.length > window.CONSTANTS.MAX_USERNAME_LENGTH
+    ) {
       return;
     }
 
