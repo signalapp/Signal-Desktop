@@ -57,8 +57,8 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
         id="password-prompt-input"
         type="password"
         autoFocus={true}
-        placeholder=" "
         defaultValue=""
+        placeholder={' '}
         maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
       />
     );

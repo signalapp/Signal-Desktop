@@ -156,6 +156,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             id="password-lock-input"
             defaultValue=""
             placeholder={' '}
+            maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
           />
 
           <div className="spacer-xs" />
