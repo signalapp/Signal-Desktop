@@ -2,32 +2,7 @@
 /* global window, ConversationController, _, log */
 
 const is = require('@sindresorhus/is');
-const dns = require('dns');
-const process = require('process');
 const { lokiRpc } = require('./loki_rpc');
-const natUpnp = require('nat-upnp');
-
-const resolve4 = url =>
-  new Promise((resolve, reject) => {
-    dns.resolve4(url, (err, ip) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(ip);
-      }
-    });
-  });
-
-const resolveCname = url =>
-  new Promise((resolve, reject) => {
-    dns.resolveCname(url, (err, address) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(address[0]);
-      }
-    });
-  });
 
 class LokiSnodeAPI {
   constructor({ serverUrl, localUrl }) {
@@ -38,40 +13,6 @@ class LokiSnodeAPI {
     this.localUrl = localUrl;
     this.randomSnodePool = [];
     this.swarmsPendingReplenish = {};
-    // When we package lokinet with messenger we can ensure this ip is correct
-    if (process.platform === 'win32') {
-      dns.setServers(['127.0.0.1']);
-    }
-  }
-
-  async getMyClearIp() {
-    const upnpClient = natUpnp.createClient();
-    return new Promise((resolve, reject) => {
-      upnpClient.externalIp((err, ip) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(ip);
-        }
-      });
-    });
-  }
-
-  async getMyLokiIp() {
-    try {
-      const address = await resolveCname(this.localUrl);
-      return resolve4(address);
-    } catch (e) {
-      throw new window.textsecure.LokiIpError(
-        'Failed to resolve localhost.loki',
-        e
-      );
-    }
-  }
-
-  getMyLokiAddress() {
-    /* resolve our local loki address */
-    return resolveCname(this.localUrl);
   }
 
   async getRandomSnodeAddress() {

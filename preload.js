@@ -3,7 +3,6 @@
 const path = require('path');
 const electron = require('electron');
 const semver = require('semver');
-const selfsigned = require('selfsigned');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
 const { JobQueue } = require('./js/modules/job_queue');
@@ -74,19 +73,6 @@ window.versionInfo = {
 
 // temporary clearnet fix
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-window.getSelfSignedCert = () => {
-  let pems = window.storage.get('self-signed-certificate', null);
-  if (!pems) {
-    const pubKey = window.storage.get('number_id');
-    const attrs = [{ name: 'commonName', value: pubKey }];
-    pems = selfsigned.generate(attrs, { days: 365 * 10 });
-    window.storage.put('self-signed-certificate', pems);
-    window.log.info(`Created PEM for p2p:\n${pems}`);
-  } else {
-    window.log.info(`Found existing PEM for p2p:\n${pems}`);
-  }
-  return pems;
-};
 
 window.wrapDeferred = deferredToPromise;
 
@@ -377,8 +363,6 @@ window.lokiSnodeAPI = new LokiSnodeAPI({
   localUrl: config.localUrl,
 });
 
-window.LokiP2pAPI = require('./js/modules/loki_p2p_api');
-
 window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
@@ -390,8 +374,6 @@ window.LokiRssAPI = require('./js/modules/loki_rss_api');
 const LokiMixpanelAPI = require('./js/modules/loki_mixpanel.js');
 
 window.mixpanel = new LokiMixpanelAPI();
-
-window.LocalLokiServer = require('./libloki/modules/local_loki_server');
 
 window.localServerPort = config.localServerPort;
 

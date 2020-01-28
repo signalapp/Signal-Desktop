@@ -694,7 +694,6 @@
         expirationTimestamp,
         selected: this.selected,
         multiSelectMode: conversation && conversation.selectedMessages.size > 0,
-        isP2p: !!this.get('isP2p'),
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
         senderIsModerator:
@@ -1354,19 +1353,6 @@
 
       this.set({
         calculatingPoW: true,
-      });
-
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-    },
-    async setIsP2p(isP2p) {
-      if (_.isEqual(this.get('isP2p'), isP2p)) {
-        return;
-      }
-
-      this.set({
-        isP2p: !!isP2p,
       });
 
       await window.Signal.Data.saveMessage(this.attributes, {

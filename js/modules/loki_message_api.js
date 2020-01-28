@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, textsecure */
+/* global log, dcodeIO, window, callWorker, lokiSnodeAPI, textsecure */
 
 const _ = require('lodash');
 const { lokiRpc } = require('./loki_rpc');
@@ -38,38 +38,6 @@ const calcNonce = (messageEventData, pubKey, data64, timestamp, ttl) => {
   return callWorker('calcPoW', timestamp, ttl, pubKey, data64, difficulty);
 };
 
-const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
-  if (typeof lokiP2pAPI === 'undefined') {
-    return false;
-  }
-  const p2pDetails = lokiP2pAPI.getContactP2pDetails(pubKey);
-  if (!p2pDetails || (!isPing && !p2pDetails.isOnline)) {
-    return false;
-  }
-  try {
-    await lokiRpc(p2pDetails.address, p2pDetails.port, 'store', {
-      data: data64,
-    });
-    lokiP2pAPI.setContactOnline(pubKey);
-    window.Whisper.events.trigger('p2pMessageSent', messageEventData);
-    if (isPing) {
-      log.info(`Successfully pinged ${pubKey}`);
-    } else {
-      log.info(`Successful p2p message to ${pubKey}`);
-    }
-    return true;
-  } catch (e) {
-    lokiP2pAPI.setContactOffline(pubKey);
-    if (isPing) {
-      // If this was just a ping, we don't bother sending to storage server
-      log.warn('Ping failed, contact marked offline', e);
-      return true;
-    }
-    log.warn('Failed to send P2P message, falling back to storage', e);
-    return false;
-  }
-};
-
 class LokiMessageAPI {
   constructor(ourKey) {
     this.jobQueue = new window.JobQueue();
@@ -79,7 +47,6 @@ class LokiMessageAPI {
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
     const {
-      isPing = false,
       isPublic = false,
       numConnections = DEFAULT_CONNECTIONS,
       publicSendData = null,
@@ -108,15 +75,6 @@ class LokiMessageAPI {
     }
 
     const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
-    const p2pSuccess = await trySendP2p(
-      pubKey,
-      data64,
-      isPing,
-      messageEventData
-    );
-    if (p2pSuccess) {
-      return;
-    }
 
     const timestamp = Date.now();
     const nonce = await calcNonce(

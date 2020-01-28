@@ -97,7 +97,6 @@ export interface Props {
   expirationLength?: number;
   expirationTimestamp?: number;
   convoId: string;
-  isP2p?: boolean;
   isPublic?: boolean;
   isRss?: boolean;
   selected: boolean;
@@ -214,13 +213,9 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderMetadataBadges() {
-    const { direction, isP2p, isPublic, senderIsModerator } = this.props;
+    const { direction, isPublic, senderIsModerator } = this.props;
 
-    const badges = [
-      isPublic && 'Public',
-      isP2p && 'P2p',
-      senderIsModerator && 'Mod',
-    ];
+    const badges = [isPublic && 'Public', senderIsModerator && 'Mod'];
 
     return badges
       .map(badgeText => {
