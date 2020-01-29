@@ -495,10 +495,12 @@ window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 // Limited due to the proof-of-work requirement
 window.SMALL_GROUP_SIZE_LIMIT = 10;
 
+// TODO: activate SealedSender once it is ready on all platforms
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: false,
   useSnodeProxy: false,
+  useSealedSender: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names

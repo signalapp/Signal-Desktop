@@ -45,6 +45,7 @@
       this.pubKey = StringView.hexToArrayBuffer(address.getName());
     }
 
+    // Should we use ephemeral key pairs here rather than long term keys on each side?
     async encrypt(plaintext) {
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
       const myPrivateKey = myKeyPair.privKey;

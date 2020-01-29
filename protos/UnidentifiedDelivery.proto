@@ -13,17 +13,10 @@ message ServerCertificate {
     optional bytes signature   = 2;
 }
 
+// This should perhaps be renamed to something like `SenderInfo`
 message SenderCertificate {
-    message Certificate {
-        optional string            sender        = 1;
-        optional uint32            senderDevice  = 2;
-        optional fixed64           expires       = 3;
-        optional bytes             identityKey   = 4;
-        optional ServerCertificate signer        = 5;
-    }
-
-    optional bytes certificate = 1;
-    optional bytes signature   = 2;
+    optional string sender       = 1;
+    optional uint32 senderDevice = 2;
 }
 
 message UnidentifiedSenderMessage {
@@ -32,6 +25,7 @@ message UnidentifiedSenderMessage {
         enum Type {
             PREKEY_MESSAGE = 1;
             MESSAGE        = 2;
+            LOKI_FRIEND_REQUEST = 3;
         }
 
         optional Type              type              = 1;
