@@ -5,19 +5,17 @@ interface Props {
   text?: string;
   editable?: boolean;
   onChange?: any;
+  onPressEnter?: any;
 }
 
 export class SessionIdEditable extends React.PureComponent<Props> {
-  private readonly inputRef: React.RefObject<HTMLInputElement>;
+  private readonly inputRef: any;
 
   public constructor(props: Props) {
     super(props);
     this.inputRef = React.createRef();
-  }
-
-  public componentWillUnmount() {
-    //FIXME ugly hack to empty the content editable div used on enter session ID
-    window.Session.emptyContentEditableDivs();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   public focus() {
@@ -27,22 +25,35 @@ export class SessionIdEditable extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { placeholder, editable, onChange, text } = this.props;
+    const { placeholder, editable, text } = this.props;
 
     return (
-      <div
+      <textarea
         ref={this.inputRef}
         className="session-id-editable"
         placeholder={placeholder}
-        contentEditable={editable}
-        onInput={(e: any) => {
-          if (editable) {
-            onChange(e);
-          }
-        }}
-      >
-        {text}
-      </div>
+        disabled={!editable}
+        spellCheck={false}
+        onKeyDown={this.handleKeyDown}
+        onChange={this.handleChange}
+        value={text}
+      />
     );
+  }
+
+  private handleChange(e: any) {
+    const { editable, onChange } = this.props;
+    if (editable) {
+      onChange(e.target.value);
+    }
+  }
+
+  private handleKeyDown(e: any) {
+    const { editable, onPressEnter } = this.props;
+    if (editable && e.keyCode === 13) {
+      e.preventDefault();
+      // tslint:disable-next-line: no-unused-expression
+      onPressEnter && onPressEnter();
+    }
   }
 }

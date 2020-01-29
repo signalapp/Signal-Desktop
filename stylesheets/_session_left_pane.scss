@@ -302,6 +302,7 @@ $session-compose-margin: 20px;
       flex-shrink: 0;
       user-select: all;
       overflow: hidden;
+      resize: none;
     }
 
     .session-button {
