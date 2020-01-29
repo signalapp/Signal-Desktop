@@ -7,8 +7,18 @@
   <ReactionViewer
     i18n={util.i18n}
     reactions={[
-      { emoji: '❤️', from: { id: '+14155552671', name: 'Amelia Briggs' } },
-      { emoji: '👍', from: { id: '+14155552671', name: 'Joel Ferrari' } },
+      {
+        emoji: '❤️',
+        from: { id: '+14155552671', name: 'Amelia Briggs', isMe: true },
+      },
+      {
+        emoji: '👍',
+        from: {
+          id: '+14155552671',
+          phoneNumber: '+14155552671',
+          profileName: 'Joel Ferrari',
+        },
+      },
     ]}
   />
 </util.ConversationContext>
@@ -24,7 +34,11 @@
       {
         emoji: '❤️',
         timestamp: 1,
-        from: { id: '+14155552671', name: 'Ameila Briggs' },
+        from: {
+          id: '+14155552671',
+          phoneNumber: '+14155552671',
+          profileName: 'Ameila Briggs',
+        },
       },
       {
         emoji: '❤️',
@@ -59,12 +73,16 @@
       {
         emoji: '❤️',
         timestamp: 7,
-        from: { id: '+14155552678', name: 'Adam Burrel' },
+        from: {
+          id: '+14155552678',
+          phoneNumber: '+14155552678',
+          profileName: 'Adam Burrel',
+        },
       },
       {
         emoji: '❤️',
         timestamp: 8,
-        from: { id: '+14155552679', name: 'Rick Owens' },
+        from: { id: '+14155552679', name: 'Rick Owens', isMe: true },
       },
       {
         emoji: '👍',
@@ -111,6 +129,23 @@
       {
         emoji: '❤️',
         from: { id: '+14155552671', name: 'Foo McBarringtonMcBazzingtonMcKay' },
+      },
+      {
+        emoji: '❤️',
+        from: {
+          id: '+14155552671',
+          name: 'Foo McBarringtonMcBazzingtonMcKay',
+          isMe: true,
+        },
+      },
+      {
+        emoji: '❤️',
+        from: {
+          id: '+14155552671',
+          phoneNumber: '+14155552671',
+          profileName: 'Foo McBarringtonMcBazzingtonMcKay',
+          isMe: true,
+        },
       },
     ]}
   />
