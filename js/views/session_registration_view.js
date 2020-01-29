@@ -126,8 +126,4 @@
     el.innerHTML = sessionID;
     fx.setText(sessionID);
   };
-
-  window.Session.emptyContentEditableDivs = () => {
-    window.$('div[contenteditable]').html('');
-  };
 })();
