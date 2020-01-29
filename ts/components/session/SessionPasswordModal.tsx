@@ -40,8 +40,8 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     setTimeout(() => $('#password-modal-input').focus(), 100);
   }
 
-  public componentDidMount() {
-    setTimeout(() => $('#password-modal-input').focus(), 100);
+  public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
   }
 
   public render() {

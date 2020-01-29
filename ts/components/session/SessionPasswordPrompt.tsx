@@ -35,6 +35,10 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
     setTimeout(() => $('#password-prompt-input').focus(), 100);
   }
 
+  public componentWillUnmount() {
+    window.removeEventListener('keyup', this.onKeyUp);
+  }
+
   public render() {
     const showResetElements =
       this.state.errorCount >= window.CONSTANTS.MAX_LOGIN_TRIES; 
