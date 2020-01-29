@@ -6,7 +6,7 @@ const https = require('https');
 const { parse } = require('url');
 
 const snodeHttpsAgent = new https.Agent({
-  rejectUnauthorized: false
+  rejectUnauthorized: false,
 });
 
 const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
