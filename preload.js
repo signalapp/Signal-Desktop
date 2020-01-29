@@ -73,7 +73,6 @@ window.versionInfo = {
 };
 
 // temporary clearnet fix
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 window.getSelfSignedCert = () => {
   let pems = window.storage.get('self-signed-certificate', null);
   if (!pems) {
