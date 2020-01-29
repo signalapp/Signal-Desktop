@@ -2144,5 +2144,15 @@
   "StickerCreator--Authentication--error": {
     "message": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "ContactName--you": {
+    "message": "$name$ (you)",
+    "descriptions": "Indicates that a name represents the current user",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Captain Jack Sparrow"
+      }
+    }
   }
 }

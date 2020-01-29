@@ -4901,7 +4901,8 @@ button.module-image__border-overlay:focus {
         min-width: 32px;
       }
 
-      &__name {
+      &__name,
+      &__name_profile-name {
         @include font-body-1-bold();
         margin-left: 8px;
         white-space: nowrap;

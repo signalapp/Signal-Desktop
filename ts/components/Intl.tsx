@@ -14,10 +14,12 @@ interface Props {
 
 export class Intl extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    renderText: ({ text }) => text,
+    renderText: ({ text, key }) => (
+      <React.Fragment key={key}>{text}</React.Fragment>
+    ),
   };
 
-  public getComponent(index: number): FullJSX | undefined {
+  public getComponent(index: number, key: number): FullJSX | undefined {
     const { id, components } = this.props;
 
     if (!components || !components.length || components.length <= index) {
@@ -29,7 +31,7 @@ export class Intl extends React.Component<Props> {
       return;
     }
 
-    return components[index];
+    return <React.Fragment key={key}>{components[index]}</React.Fragment>;
   }
 
   public render() {
@@ -61,8 +63,9 @@ export class Intl extends React.Component<Props> {
         key += 1;
       }
 
-      results.push(this.getComponent(componentIndex));
+      results.push(this.getComponent(componentIndex, key));
       componentIndex += 1;
+      key += 1;
 
       // @ts-ignore
       lastTextIndex = FIND_REPLACEMENTS.lastIndex;

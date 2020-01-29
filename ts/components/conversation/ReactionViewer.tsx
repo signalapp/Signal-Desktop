@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { groupBy, mapValues, orderBy, sortBy } from 'lodash';
 import classNames from 'classnames';
+import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
 import { useRestoreFocus } from '../hooks';
@@ -11,10 +12,11 @@ export type Reaction = {
   from: {
     id: string;
     color?: string;
-    profileName?: string;
-    name?: string;
-    isMe?: boolean;
     avatarPath?: string;
+    name?: string;
+    profileName?: string;
+    isMe?: boolean;
+    phoneNumber?: string;
   };
 };
 
@@ -63,10 +65,14 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       const emojiSet = new Set<string>();
       reactions.forEach(re => emojiSet.add(re.emoji));
 
-      return sortBy(
-        Array.from(emojiSet),
-        emoji => emojisOrder.indexOf(emoji) || Infinity
-      );
+      return sortBy(Array.from(emojiSet), emoji => {
+        const idx = emojisOrder.indexOf(emoji);
+        if (idx > -1) {
+          return idx;
+        }
+
+        return Infinity;
+      });
     }, [reactions]);
 
     // If we have previously selected a reaction type that is no longer present
@@ -119,22 +125,30 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
             })}
         </header>
         <main className="module-reaction-viewer__body">
-          {selectedReactions.map(re => (
+          {selectedReactions.map(({ from, emoji }) => (
             <div
-              key={`${re.from.id}-${re.emoji}`}
+              key={`${from.id}-${emoji}`}
               className="module-reaction-viewer__body__row"
             >
               <div className="module-reaction-viewer__body__row__avatar">
                 <Avatar
-                  avatarPath={re.from.avatarPath}
+                  avatarPath={from.avatarPath}
                   conversationType="direct"
                   size={32}
+                  name={from.name}
+                  profileName={from.profileName}
+                  phoneNumber={from.phoneNumber}
                   i18n={i18n}
                 />
               </div>
-              <span className="module-reaction-viewer__body__row__name">
-                {re.from.name || re.from.profileName}
-              </span>
+              <ContactName
+                module="module-reaction-viewer__body__row__name"
+                i18n={i18n}
+                name={from.name}
+                profileName={from.profileName}
+                phoneNumber={from.phoneNumber}
+                isMe={from.isMe}
+              />
             </div>
           ))}
         </main>
