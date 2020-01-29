@@ -414,7 +414,6 @@ OutgoingMessage.prototype = {
 
         let content;
         let type;
-        let destinationRegistrationId;
 
         if (window.lokiFeatureFlags.useSealedSender) {
           const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
@@ -436,8 +435,6 @@ OutgoingMessage.prototype = {
 
           type = textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER;
           content = window.Signal.Crypto.arrayBufferToBase64(ciphertext);
-
-          destinationRegistrationId = null;
         } else {
           // TODO: probably remove this branch once
           // mobile clients implement sealed sender
@@ -454,7 +451,6 @@ OutgoingMessage.prototype = {
           // eslint-disable-next-line prefer-destructuring
           type = ciphertext.type;
           content = ciphertext.body;
-          destinationRegistrationId = ciphertext.registrationId;
         }
 
         const ttl = getTTLForType(thisDeviceMessageType);
@@ -464,7 +460,6 @@ OutgoingMessage.prototype = {
           ttl,
           ourKey,
           sourceDevice: 1,
-          destinationRegistrationId,
           content,
           pubKey: devicePubKey,
         };

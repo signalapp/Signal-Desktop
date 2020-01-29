@@ -226,7 +226,6 @@
     // Send
     const options = { messageType: 'pairing-request' };
     const p = new Promise((resolve, reject) => {
-
       const timestamp = Date.now();
 
       const outgoingMessage = new textsecure.OutgoingMessage(
