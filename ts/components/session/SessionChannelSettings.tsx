@@ -17,6 +17,7 @@ interface Props {
   description: string;
   avatarPath: string;
   timerOptions: Array<TimerOption>;
+  isPublic: boolean;
 
   onGoBack: () => void;
   onInviteFriends: () => void;
@@ -183,9 +184,12 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   }
 
   public render() {
-    const { memberCount, name, onLeaveGroup } = this.props;
+    const { memberCount, name, onLeaveGroup, isPublic } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
+    const leaveGroupString = isPublic
+      ? window.i18n('leaveOpenGroup')
+      : window.i18n('leaveClosedGroup');
 
     return (
       <div className="group-settings">
@@ -213,7 +217,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
           onItemClick={onItemClick}
         />
         <SessionButton
-          text={window.i18n('leaveGroup')}
+          text={leaveGroupString}
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.SquareOutline}
           onClick={onLeaveGroup}

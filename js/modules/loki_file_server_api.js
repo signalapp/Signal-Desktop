@@ -13,20 +13,19 @@ const DEVICE_MAPPING_USER_ANNOTATION_TYPE =
 class LokiFileServerInstance {
   constructor(ourKey) {
     this.ourKey = ourKey;
-    // why don't we extend this?
-    this._adnApi = new LokiAppDotNetAPI(ourKey);
-    this.avatarMap = {};
   }
 
   // FIXME: this is not file-server specific
   // and is currently called by LokiAppDotNetAPI.
   // LokiAppDotNetAPI (base) should not know about LokiFileServer.
   async establishConnection(serverUrl) {
-    // FIXME: we don't always need a token...
-    this._server = await this._adnApi.findOrCreateServer(serverUrl);
+    // why don't we extend this?
+    this._server = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+    // get a token for multidevice
+    const gotToken = await this._server.getOrRefreshServerToken();
     // TODO: Handle this failure gracefully
-    if (!this._server) {
-      log.error('Failed to establish connection to file server');
+    if (!gotToken) {
+      log.error('You are blacklisted form this home server');
     }
   }
   async getUserDeviceMapping(pubKey) {
@@ -45,10 +44,6 @@ class LokiFileServerInstance {
     await Promise.all(
       users.map(async user => {
         let found = false;
-        // if this user has an avatar set, copy it into the map
-        this.avatarMap[user.username] = user.avatar_image
-          ? user.avatar_image.url
-          : false;
         if (!user.annotations || !user.annotations.length) {
           log.info(
             `verifyUserObjectDeviceMap no annotation for ${user.username}`

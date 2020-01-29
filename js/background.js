@@ -321,7 +321,7 @@
     window.Events = {
       getDeviceName: () => textsecure.storage.user.getDeviceName(),
 
-      getThemeSetting: () => storage.get('theme-setting', 'dark'),
+      getThemeSetting: () => 'dark', // storage.get('theme-setting', 'dark')
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
@@ -644,9 +644,9 @@
     Whisper.events.on('registration_done', async () => {
       window.log.info('handling registration event');
 
-      // Enable link previews as default
+      // Disable link previews as default per Kee 20/01/28
       storage.onready(async () => {
-        storage.put('linkPreviews', true);
+        storage.put('linkPreviews', false);
       });
 
       // listeners
@@ -728,6 +728,7 @@
 
       ev.data = {
         source: ourKey,
+        timestamp: Date.now(),
         message: {
           group: {
             id: groupId,
@@ -743,6 +744,20 @@
         groupId,
         'group'
       );
+
+      if (convo.isPublic()) {
+        const API = await convo.getPublicSendData();
+        if (await API.setChannelName(groupName)) {
+          // queue update from server
+          // and let that set the conversation
+          API.pollForChannelOnce();
+          // or we could just directly call
+          // convo.setGroupName(groupName);
+          // but gut is saying let the server be the definitive storage of the state
+          // and trickle down from there
+        }
+        return;
+      }
 
       const avatar = '';
       const options = {};
@@ -1009,8 +1024,13 @@
     };
 
     window.toggleMenuBar = () => {
-      const newValue = !window.getSettingValue('hide-menu-bar');
-      window.Events.setHideMenuBar(newValue);
+      const current = window.getSettingValue('hide-menu-bar');
+      if (current === undefined) {
+        window.Events.setHideMenuBar(false);
+        return;
+      }
+
+      window.Events.setHideMenuBar(!current);
     };
 
     window.toggleSpellCheck = () => {
@@ -1060,6 +1080,18 @@
     Whisper.events.on('inviteFriends', async groupConvo => {
       if (appView) {
         appView.showInviteFriendsDialog(groupConvo);
+      }
+    });
+
+    Whisper.events.on('addModerators', async groupConvo => {
+      if (appView) {
+        appView.showAddModeratorsDialog(groupConvo);
+      }
+    });
+
+    Whisper.events.on('removeModerators', async groupConvo => {
+      if (appView) {
+        appView.showRemoveModeratorsDialog(groupConvo);
       }
     });
 
@@ -1134,6 +1166,13 @@
     });
 
     Whisper.events.on('onShowUserDetails', async ({ userPubKey }) => {
+      const isMe = userPubKey === textsecure.storage.user.getNumber();
+
+      if (isMe) {
+        Whisper.events.trigger('onEditProfile');
+        return;
+      }
+
       const conversation = await ConversationController.getOrCreateAndWait(
         userPubKey,
         'private'

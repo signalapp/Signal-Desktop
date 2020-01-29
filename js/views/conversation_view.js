@@ -185,7 +185,11 @@
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
           isRss: this.model.isRss(),
+          amMod: this.model.isModerator(
+            window.storage.get('primaryDevicePubKey')
+          ),
           members,
+          subscriberCount: this.model.get('subscriberCount'),
           selectedMessages: this.model.selectedMessages,
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
@@ -255,6 +259,14 @@
             window.Whisper.events.trigger('inviteFriends', this.model);
           },
 
+          onAddModerators: () => {
+            window.Whisper.events.trigger('addModerators', this.model);
+          },
+
+          onRemoveModerators: () => {
+            window.Whisper.events.trigger('removeModerators', this.model);
+          },
+
           onAvatarClick: pubkey => {
             if (this.model.isPrivate()) {
               window.Whisper.events.trigger('onShowUserDetails', {
@@ -312,7 +324,7 @@
       this.titleView = new Whisper.ReactWrapperView({
         className: 'title-wrapper',
         Component: window.Signal.Components.ConversationHeader,
-        props: getHeaderProps(this.model),
+        props: getHeaderProps(),
       });
       this.updateHeader = () => this.titleView.update(getHeaderProps());
       this.listenTo(this.model, 'change', this.updateHeader);

@@ -1,5 +1,159 @@
+/* global log, window */
+const EventEmitter = require('events');
+const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
-class LokiPublicChatAPI extends LokiAppDotNetAPI {}
+class LokiPublicChatFactoryAPI extends EventEmitter {
+  constructor(ourKey) {
+    super();
+    this.ourKey = ourKey;
+    this.servers = [];
+    this.allMembers = [];
+    // Multidevice states
+    this.primaryUserProfileName = {};
+  }
 
-module.exports = LokiPublicChatAPI;
+  async close() {
+    await Promise.all(this.servers.map(server => server.close()));
+  }
+
+  // server getter/factory
+  async findOrCreateServer(serverUrl) {
+    let thisServer = this.servers.find(
+      server => server.baseServerUrl === serverUrl
+    );
+    if (!thisServer) {
+      log.info(`LokiAppDotNetAPI creating ${serverUrl}`);
+      thisServer = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+      const gotToken = await thisServer.getOrRefreshServerToken();
+      if (!gotToken) {
+        log.warn(`Invalid server ${serverUrl}`);
+        return null;
+      }
+      log.info(`set token ${thisServer.token} for ${serverUrl}`);
+
+      this.servers.push(thisServer);
+    }
+    return thisServer;
+  }
+
+  static async getServerTime() {
+    const url = `${window.getDefaultFileServer()}/loki/v1/time`;
+    let timestamp = NaN;
+
+    try {
+      const res = await nodeFetch(url);
+      if (res.ok) {
+        timestamp = await res.text();
+      }
+    } catch (e) {
+      return timestamp;
+    }
+
+    return Number(timestamp);
+  }
+
+  static async getTimeDifferential() {
+    // Get time differential between server and client in seconds
+    const serverTime = await this.getServerTime();
+    const clientTime = Math.ceil(Date.now() / 1000);
+
+    if (Number.isNaN(serverTime)) {
+      return 0;
+    }
+    return serverTime - clientTime;
+  }
+
+  static async setClockParams() {
+    // Set server-client time difference
+    const maxTimeDifferential = 30;
+    const timeDifferential = await this.getTimeDifferential();
+
+    window.clientClockSynced = Math.abs(timeDifferential) < maxTimeDifferential;
+    return window.clientClockSynced;
+  }
+
+  // channel getter/factory
+  async findOrCreateChannel(serverUrl, channelId, conversationId) {
+    const server = await this.findOrCreateServer(serverUrl);
+    if (!server) {
+      log.error(`Failed to create server for: ${serverUrl}`);
+      return null;
+    }
+    return server.findOrCreateChannel(this, channelId, conversationId);
+  }
+
+  // deallocate resources server uses
+  unregisterChannel(serverUrl, channelId) {
+    const i = this.servers.findIndex(
+      server => server.baseServerUrl === serverUrl
+    );
+    if (i === -1) {
+      log.warn(`Tried to unregister from nonexistent server ${serverUrl}`);
+      return;
+    }
+    const thisServer = this.servers[i];
+    if (!thisServer) {
+      log.warn(`Tried to unregister from nonexistent server ${i}`);
+      return;
+    }
+    thisServer.unregisterChannel(channelId);
+    this.servers.splice(i, 1);
+  }
+
+  // shouldn't this be scoped per conversation?
+  async getListOfMembers() {
+    // enable in the next release
+    /*
+    let members = [];
+    await Promise.all(this.servers.map(async server => {
+      await Promise.all(server.channels.map(async channel => {
+        const newMembers = await channel.getSubscribers();
+        members = [...members, ...newMembers];
+      }));
+    }));
+    const results = members.map(member => {
+      return { authorPhoneNumber: member.username };
+    });
+    */
+    return this.allMembers;
+  }
+
+  // TODO: make this private (or remove altogether) when
+  // we switch to polling the server for group members
+  setListOfMembers(members) {
+    this.allMembers = members;
+  }
+
+  async setProfileName(profileName) {
+    await Promise.all(
+      this.servers.map(async server => {
+        await server.setProfileName(profileName);
+      })
+    );
+  }
+
+  async setHomeServer(homeServer) {
+    await Promise.all(
+      this.servers.map(async server => {
+        // this may fail
+        // but we can't create a sql table to remember to retry forever
+        // I think we just silently fail for now
+        await server.setHomeServer(homeServer);
+      })
+    );
+  }
+
+  async setAvatar(url, profileKey) {
+    await Promise.all(
+      this.servers.map(async server => {
+        // this may fail
+        // but we can't create a sql table to remember to retry forever
+        // I think we just silently fail for now
+        await server.setAvatar(url, profileKey);
+      })
+    );
+  }
+}
+
+module.exports = LokiPublicChatFactoryAPI;

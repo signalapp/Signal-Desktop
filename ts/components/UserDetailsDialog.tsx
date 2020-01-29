@@ -20,7 +20,11 @@ interface Props {
   onStartConversation: any;
 }
 
-export class UserDetailsDialog extends React.Component<Props> {
+interface State {
+  isEnlargedImageShown: boolean;
+}
+
+export class UserDetailsDialog extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
@@ -28,6 +32,7 @@ export class UserDetailsDialog extends React.Component<Props> {
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onClickStartConversation = this.onClickStartConversation.bind(this);
     window.addEventListener('keyup', this.onKeyUp);
+    this.state = { isEnlargedImageShown: false };
   }
 
   public render() {
@@ -61,6 +66,7 @@ export class UserDetailsDialog extends React.Component<Props> {
   private renderAvatar() {
     const avatarPath = this.props.avatarPath;
     const color = this.props.avatarColor;
+    const size = this.state.isEnlargedImageShown ? 300 : 80;
 
     return (
       <Avatar
@@ -71,10 +77,16 @@ export class UserDetailsDialog extends React.Component<Props> {
         name={this.props.profileName}
         phoneNumber={this.props.pubkey}
         profileName={this.props.profileName}
-        size={80}
+        size={size}
+        onAvatarClick={this.handleShowEnlargedDialog}
+        borderWidth={size / 2}
       />
     );
   }
+
+  private readonly handleShowEnlargedDialog = () => {
+    this.setState({ isEnlargedImageShown: !this.state.isEnlargedImageShown });
+  };
 
   private onKeyUp(event: any) {
     switch (event.key) {

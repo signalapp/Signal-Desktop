@@ -36,6 +36,7 @@
     width: inherit;
     color: $session-color-white;
     text-align: center;
+    display: none;
   }
 
   &-item {
@@ -78,7 +79,8 @@
   }
 
   .module-attachment-section__items {
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .module-media {
@@ -116,11 +118,11 @@
         .module-media-grid-item {
           height: calc(
             22vw / 3.5
-          ); //.group-settings is 22vw and we want threee rows with some space so divide it by 3.5
+          ); //.group-settings is 22vw and we want three rows with some space so divide it by 3.5
           width: calc(
             22vw / 3.5
-          ); //.group-settings is 22vw and we want threee rows with some space so divide it by 3.5
-          margin-right: 0;
+          ); //.group-settings is 22vw and we want three rows with some space so divide it by 3.5
+          margin: auto;
         }
       }
     }

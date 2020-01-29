@@ -2196,6 +2196,27 @@
   width: 42px;
 }
 
+.module-avatar--300 {
+  height: 300px;
+  width: 300px;
+
+  img {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+.module-avatar__label--300 {
+  width: 300px;
+  font-size: 150px;
+  line-height: 302px;
+}
+
+.module-avatar__icon--300 {
+  height: 158px;
+  width: 158px;
+}
+
 .module-avatar__icon--note-to-self {
   width: 70%;
   height: 70%;

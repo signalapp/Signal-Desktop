@@ -25,7 +25,7 @@
     },
     applyTheme() {
       const iOS = storage.get('userAgent') === 'OWI';
-      const theme = storage.get('theme-setting') || 'dark';
+      const theme = 'dark'; // storage.get('theme-setting') || 'dark';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
@@ -38,7 +38,7 @@
       }
     },
     applyHideMenu() {
-      const hideMenuBar = storage.get('hide-menu-bar', false);
+      const hideMenuBar = storage.get('hide-menu-bar', true);
       window.setAutoHideMenuBar(hideMenuBar);
       window.setMenuBarVisibility(!hideMenuBar);
     },
@@ -224,7 +224,7 @@
     },
     showCreateGroup() {
       // TODO: make it impossible to open 2 dialogs as once
-      // Curretnly, if the button is in focus, it is possible to
+      // Currently, if the button is in focus, it is possible to
       // create a new dialog by pressing 'Enter'
       const dialog = new Whisper.CreateGroupDialogView();
       this.el.append(dialog.el);
@@ -254,6 +254,14 @@
     },
     showInviteFriendsDialog(groupConvo) {
       const dialog = new Whisper.InviteFriendsDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+    showAddModeratorsDialog(groupConvo) {
+      const dialog = new Whisper.AddModeratorsDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+    showRemoveModeratorsDialog(groupConvo) {
+      const dialog = new Whisper.RemoveModeratorsDialogView(groupConvo);
       this.el.append(dialog.el);
     },
   });

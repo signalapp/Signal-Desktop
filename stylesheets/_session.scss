@@ -645,10 +645,6 @@ label {
 .session-modal {
   animation: fadein $session-transition-duration;
   z-index: 150;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   min-width: 300px;
 
   box-sizing: border-box;
@@ -940,19 +936,6 @@ label {
     }
   }
 
-  .qr-image {
-    display: flex;
-    justify-content: center;
-
-    svg {
-      width: 135px;
-      height: 135px;
-      border-radius: 3px;
-      padding: $session-margin-xs;
-      background-color: $session-color-white;
-    }
-  }
-
   .session-id-section {
     display: flex;
     align-items: center;
@@ -1005,6 +988,19 @@ label {
         padding: 0px $session-margin-sm;
       }
     }
+  }
+}
+
+.qr-image {
+  display: flex;
+  justify-content: center;
+
+  svg {
+    width: 135px;
+    height: 135px;
+    border-radius: 3px;
+    padding: $session-margin-xs;
+    background-color: $session-color-white;
   }
 }
 
@@ -1246,16 +1242,29 @@ label {
   }
 }
 
-.bottom-bar textarea.send-message {
-  height: 60px;
-  background-color: $session-shade-4;
-  border: none;
-  margin: 0px;
-  padding: 0px $session-margin-lg;
-  font-size: $session-font-md;
-  line-height: 60px;
+.bottom-bar {
+  .compose {
+    min-height: 60px;
+    max-height: 200px;
+  }
 
-  @include session-color-subtle($session-color-white);
+  .send-message-container {
+    display: flex;
+    flex-grow: 1;
+    min-height: 60px;
+  }
+
+  textarea.send-message {
+    background-color: $session-shade-4;
+    border: none;
+    margin: 0px;
+    padding: 0px $session-margin-lg;
+    font-size: $session-font-md;
+    line-height: 1.3em;
+    align-self: center;
+
+    @include session-color-subtle($session-color-white);
+  }
 }
 
 .bottom-bar form {
@@ -1377,6 +1386,17 @@ input {
     .session-confirm-sub-message {
       text-align: center;
     }
+  }
+}
+
+.session-confirm-wrapper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+
+  .session-modal {
+    margin: auto auto;
   }
 }
 

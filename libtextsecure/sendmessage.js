@@ -145,17 +145,17 @@ Message.prototype = {
       proto.profileKey = this.profileKey;
     }
 
-    // Only send the display name for now.
-    // In the future we might want to extend this to send other things.
-    if (this.profile && this.profile.displayName) {
+    // Set the loki profile
+    if (this.profile) {
       const profile = new textsecure.protobuf.DataMessage.LokiProfile();
-      profile.displayName = this.profile.displayName;
+      if (this.profile.displayName) {
+        profile.displayName = this.profile.displayName;
+      }
 
       const conversation = window.ConversationController.get(
         textsecure.storage.user.getNumber()
       );
       const avatarPointer = conversation.get('avatarPointer');
-
       if (avatarPointer) {
         profile.avatar = avatarPointer;
       }
@@ -193,11 +193,8 @@ MessageSender.prototype = {
   constructor: MessageSender,
 
   //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  async makeAttachmentPointer(
-    attachment,
-    publicServer = null,
-    { isRaw = false, isAvatar = false }
-  ) {
+  async makeAttachmentPointer(attachment, publicServer = null, options = {}) {
+    const { isRaw = false, isAvatar = false } = options;
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }

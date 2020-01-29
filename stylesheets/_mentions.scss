@@ -29,7 +29,14 @@
   margin-left: 10px;
 }
 
+/* remove scroll bars */
+.loki-dialog .add-moderators-dialog .content {
+  padding: 1.1em;
+}
+
 .invite-friends-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
 .create-group-dialog {
   .content {
     max-width: 100% !important;
@@ -50,6 +57,8 @@
 }
 
 .create-group-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
 .invite-friends-dialog {
   .no-friends {
     text-align: center;
@@ -61,6 +70,8 @@
 }
 
 .create-group-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
 .edit-profile-dialog {
   .error-message {
     text-align: center;
@@ -129,6 +140,8 @@
 
 .member-list-container,
 .create-group-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
 .invite-friends-dialog {
   .member-item {
     padding: 4px;

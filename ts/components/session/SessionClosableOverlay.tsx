@@ -22,8 +22,18 @@ interface Props {
 }
 
 export class SessionClosableOverlay extends React.Component<Props> {
+  private readonly inputRef: React.RefObject<SessionIdEditable>;
+
   public constructor(props: Props) {
     super(props);
+
+    this.inputRef = React.createRef();
+  }
+
+  public componentDidMount() {
+    if (this.inputRef.current) {
+      this.inputRef.current.focus();
+    }
   }
 
   public render(): JSX.Element {
@@ -89,6 +99,7 @@ export class SessionClosableOverlay extends React.Component<Props> {
           <hr className="green" />
         </div>
         <SessionIdEditable
+          ref={this.inputRef}
           editable={true}
           placeholder={placeholder}
           onChange={onChangeSessionID}

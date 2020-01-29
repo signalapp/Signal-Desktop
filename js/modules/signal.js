@@ -98,6 +98,14 @@ const {
 const {
   InviteFriendsDialog,
 } = require('../../ts/components/conversation/InviteFriendsDialog');
+
+const {
+  AddModeratorsDialog,
+} = require('../../ts/components/conversation/ModeratorsAddDialog');
+const {
+  RemoveModeratorsDialog,
+} = require('../../ts/components/conversation/ModeratorsRemoveDialog');
+
 const {
   GroupInvitation,
 } = require('../../ts/components/conversation/GroupInvitation');
@@ -287,6 +295,8 @@ exports.setup = (options = {}) => {
     ConfirmDialog,
     UpdateGroupDialog,
     InviteFriendsDialog,
+    AddModeratorsDialog,
+    RemoveModeratorsDialog,
     GroupInvitation,
     BulkEdit,
     SessionToast,

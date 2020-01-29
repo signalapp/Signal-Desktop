@@ -42,8 +42,15 @@ interface Props {
   isArchived: boolean;
   isPublic: boolean;
   isRss: boolean;
+  amMod: boolean;
 
+  // We might not always have the full list of members,
+  // e.g. for open groups where we could have thousands
+  // of members. We'll keep this for now (for closed chats)
   members: Array<any>;
+
+  // not equal members.length (see above)
+  subscriberCount?: number;
 
   expirationSettingName?: string;
   showBackButton: boolean;
@@ -83,7 +90,8 @@ interface Props {
 
   onUpdateGroup: () => void;
   onLeaveGroup: () => void;
-
+  onAddModerators: () => void;
+  onRemoveModerators: () => void;
   onInviteFriends: () => void;
   onAvatarClick?: (userPubKey: string) => void;
 
@@ -132,8 +140,10 @@ export class ConversationHeader extends React.Component<Props> {
       profileName,
       isFriend,
       isGroup,
+      isPublic,
       isRss,
       members,
+      subscriberCount,
       isFriendRequestPending,
       isMe,
       name,
@@ -147,13 +157,25 @@ export class ConversationHeader extends React.Component<Props> {
       );
     }
 
+    const memberCount: number = (() => {
+      if (!isGroup || isRss) {
+        return 0;
+      }
+
+      if (isPublic) {
+        return subscriberCount || 0;
+      } else {
+        return members.length;
+      }
+    })();
+
     let text = '';
     if (isFriendRequestPending) {
       text = i18n('pendingAcceptance');
     } else if (!isFriend && !isGroup) {
       text = i18n('notFriends');
-    } else if (isGroup && !isRss && members.length > 0) {
-      const count = String(members.length);
+    } else if (memberCount > 0) {
+      const count = String(memberCount);
       text = i18n('members', [count]);
     }
 
@@ -277,16 +299,20 @@ export class ConversationHeader extends React.Component<Props> {
       isMe,
       isClosable,
       isPublic,
+      isRss,
       isGroup,
+      amMod,
       onDeleteMessages,
       onDeleteContact,
       onCopyPublicKey,
       onUpdateGroup,
       onLeaveGroup,
+      onAddModerators,
+      onRemoveModerators,
       onInviteFriends,
     } = this.props;
 
-    const isPrivateGroup = isGroup && !isPublic;
+    const isPrivateGroup = isGroup && !isPublic && !isRss;
 
     const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
 
@@ -295,8 +321,16 @@ export class ConversationHeader extends React.Component<Props> {
         {this.renderPublicMenuItems()}
         <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {isPrivateGroup ? (
+        {isPrivateGroup || amMod ? (
           <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
+        ) : null}
+        {amMod ? (
+          <MenuItem onClick={onAddModerators}>{i18n('addModerators')}</MenuItem>
+        ) : null}
+        {amMod ? (
+          <MenuItem onClick={onRemoveModerators}>
+            {i18n('removeModerators')}
+          </MenuItem>
         ) : null}
         {isPrivateGroup ? (
           <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
@@ -347,7 +381,7 @@ export class ConversationHeader extends React.Component<Props> {
 
   public render() {
     const { id, isGroup, isPublic } = this.props;
-    const triggerId = `conversation-${id}`;
+    const triggerId = `conversation-${id}-${Date.now()}`;
 
     const isPrivateGroup = isGroup && !isPublic;
 
@@ -360,6 +394,7 @@ export class ConversationHeader extends React.Component<Props> {
             <div className="module-conversation-header__title-flex">
               {this.renderOptions(triggerId)}
               {this.renderTitle()}
+              {/* This might be redundant as we show the title in the title: */}
               {isPrivateGroup ? this.renderMemberCount() : null}
             </div>
           </div>
@@ -385,7 +420,9 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   private renderMemberCount() {
-    const memberCount = this.props.members.length;
+    const memberCount = this.props.isPublic
+      ? this.props.subscriberCount
+      : this.props.members.length;
 
     if (memberCount === 0) {
       return null;
@@ -406,6 +443,7 @@ export class ConversationHeader extends React.Component<Props> {
       isGroup,
       isArchived,
       isPublic,
+      isRss,
       onResetSession,
       onSetDisappearingMessages,
       // onShowAllMedia,
@@ -421,7 +459,7 @@ export class ConversationHeader extends React.Component<Props> {
       onChangeNickname,
     } = this.props;
 
-    if (isPublic) {
+    if (isPublic || isRss) {
       return null;
     }
 

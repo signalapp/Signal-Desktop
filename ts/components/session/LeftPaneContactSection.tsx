@@ -94,9 +94,15 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     );
   }
 
-  public render(): JSX.Element {
+  public componentDidMount() {
     MainViewController.renderMessageView();
+  }
 
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
+  }
+
+  public render(): JSX.Element {
     return (
       <div className="left-pane-contact-section">
         {this.renderHeader()}

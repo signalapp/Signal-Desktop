@@ -170,9 +170,15 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     return LeftPane.RENDER_HEADER(labels, null);
   }
 
-  public render(): JSX.Element {
+  public componentDidMount() {
     MainViewController.renderMessageView();
+  }
 
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
+  }
+
+  public render(): JSX.Element {
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
@@ -386,9 +392,10 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   private async attemptConnection(serverURL: string, channelId: number) {
-    const rawserverURL = serverURL
+    let rawserverURL = serverURL
       .replace(/^https?:\/\//i, '')
       .replace(/[/\\]+$/i, '');
+    rawserverURL = rawserverURL.toLowerCase();
     const sslServerURL = `https://${rawserverURL}`;
     const conversationId = `publicChat:${channelId}@${rawserverURL}`;
 
@@ -417,11 +424,12 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       'group'
     );
 
-    await serverAPI.findOrCreateChannel(channelId, conversationId);
     await conversation.setPublicSource(sslServerURL, channelId);
     await conversation.setFriendRequestStatus(
       window.friends.friendRequestStatusEnum.friends
     );
+
+    conversation.getPublicSendData(); // may want "await" if you want to use the API
 
     return conversation;
   }

@@ -161,7 +161,13 @@ export class Avatar extends React.PureComponent<Props, State> {
     const hasAvatar = avatarPath || conversationType === 'direct';
     const hasImage = !noteToSelf && hasAvatar && !imageBroken;
 
-    if (size !== 28 && size !== 36 && size !== 48 && size !== 80) {
+    if (
+      size !== 28 &&
+      size !== 36 &&
+      size !== 48 &&
+      size !== 80 &&
+      size !== 300
+    ) {
       throw new Error(`Size ${size} is not supported!`);
     }
 

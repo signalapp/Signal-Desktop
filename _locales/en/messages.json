@@ -1417,9 +1417,17 @@
     "message": "Enable the sending and receiving of read receipts",
     "description": "Description of the read receipts setting"
   },
+  "readReceiptSettingTitle": {
+    "message": "Read Receipts",
+    "description": "Title of the read receipts setting"
+  },
   "typingIndicatorsSettingDescription": {
     "message": "Enable the sending and receiving of typing indicators",
     "description": "Description of the typing indicators setting"
+  },
+  "typingIndicatorsSettingTitle": {
+    "message": "Typing Indicators",
+    "description": "Title of the typing indicators setting"
   },
   "messageTTL": {
     "message": "Message TTL",
@@ -2082,54 +2090,52 @@
     "message": "Note: Your display name will be visible to your contacts",
     "description": "Shown to the user as a warning about setting display name"
   },
-
   "copyPublicKey": {
     "message": "Copy Public Key",
     "description":
       "Button action that the user can click to copy their public keys"
   },
-
   "banUser": {
     "message": "Ban User",
     "description": "Ban user from public chat by public key."
   },
-
   "banUserConfirm": {
     "message": "Are you sure you want to ban user?",
     "description": "Message shown when confirming user ban."
   },
-
   "userBanned": {
     "message": "User successfully banned",
     "description": "Toast on succesful user ban."
   },
-
   "userBanFailed": {
     "message": "User ban failed!",
     "description": "Toast on unsuccesful user ban."
   },
-
   "copyChatId": {
     "message": "Copy Chat ID"
   },
-
   "updateGroup": {
     "message": "Update Group",
     "description":
       "Button action that the user can click to rename the group or add a new member"
   },
-
   "leaveGroup": {
     "message": "Leave Group",
     "description": "Button action that the user can click to leave the group"
   },
-
+  "leaveOpenGroup": {
+    "message": "Leave Open Group",
+    "description": "Button action that the user can click to leave the group"
+  },
+  "leaveClosedGroup": {
+    "message": "Leave Closed Group",
+    "description": "Button action that the user can click to leave the group"
+  },
   "leaveGroupDialogTitle": {
     "message": "Are you sure you want to leave this group?",
     "description":
       "Title shown to the user to confirm they want to leave the group"
   },
-
   "copiedPublicKey": {
     "message": "Copied public key",
     "description": "A toast message telling the user that the key was copied"
@@ -2156,18 +2162,20 @@
     "message": "Edit Profile",
     "description": "Button action that the user can click to edit their profile"
   },
-
   "createGroupDialogTitle": {
     "message": "Creating a Private Group Chat",
     "description": "Title for the dialog box used to create a new private group"
   },
-
   "updateGroupDialogTitle": {
     "message": "Updating a Private Group Chat",
     "description":
       "Title for the dialog box used to update an existing private group"
   },
-
+  "updatePublicGroupDialogTitle": {
+    "message": "Updating a Public Chat Channel",
+    "description":
+      "Title for the dialog box used to update an existing public chat channel"
+  },
   "showSeed": {
     "message": "Show Seed",
     "description":
@@ -2247,7 +2255,7 @@
     "message": "Server URL",
     "description": "Placeholder for server URL input"
   },
-  "noServerUrl": {
+  "noServerURL": {
     "message": "Please enter a server URL",
     "description": "Error message when no server url entered"
   },
@@ -2256,19 +2264,16 @@
     "description":
       "Title for the dialog box used to connect to a new public server"
   },
-
   "createPrivateGroup": {
     "message": "Create Private Group",
     "description":
       "Button action that the user can click to show a dialog for creating a new private group chat"
   },
-
   "seedViewTitle": {
     "message":
       "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
     "description": "The title shown when the user views their seeds"
   },
-
   "copiedMnemonic": {
     "message": "Copied seed to clipboard",
     "description":
@@ -2279,7 +2284,6 @@
     "description":
       "A toast message telling the user that their Session ID was copied"
   },
-
   "passwordViewTitle": {
     "message": "Type In Your Password",
     "description":
@@ -2414,7 +2418,6 @@
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
   },
-
   "conversationsTab": {
     "message": "Conversations",
     "description": "conversation tab title"
@@ -2463,6 +2466,18 @@
   "inviteFriends": {
     "message": "Invite Friends"
   },
+  "manageModerators": {
+    "message": "Manage Moderators"
+  },
+  "addModerators": {
+    "message": "Add Moderators"
+  },
+  "removeModerators": {
+    "message": "Remove Moderators"
+  },
+  "add": {
+    "message": "Add"
+  },
   "groupInvitation": {
     "message": "Group Invitation"
   },
@@ -2471,6 +2486,9 @@
   },
   "noFriendsToAdd": {
     "message": "No friends to add"
+  },
+  "noModeratorsToRemove": {
+    "message": "no moderators to remove"
   },
   "couldNotDecryptMessage": {
     "message": "Couldn't decrypt a message"

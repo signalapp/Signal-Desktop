@@ -109,7 +109,9 @@
                 <form class='send clearfix file-input'>
                   <div class='flex'>
                     <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
+                    <div class='send-message-container'>
+                      <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
+                    </div>
                     <div class='capture-audio'>
                         <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                     </div>
@@ -580,6 +582,8 @@
   <script type='text/javascript' src='js/views/confirm_session_reset_view.js'></script>
   <script type='text/javascript' src='js/views/edit_profile_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/invite_friends_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/moderators_add_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/moderators_remove_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/user_details_dialog_view.js'></script>
   
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>

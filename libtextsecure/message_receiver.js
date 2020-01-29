@@ -1061,8 +1061,9 @@ MessageReceiver.prototype.extend({
           const primaryConversation = ConversationController.get(
             primaryDevicePubKey
           );
-          //
-          this.updateProfile(primaryConversation, profile, profileKey);
+          if (profile) {
+            this.updateProfile(primaryConversation, profile, profileKey);
+          }
         }
 
         const ev = new Event('sent');

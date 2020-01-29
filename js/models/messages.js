@@ -2523,11 +2523,11 @@
   Whisper.MessageCollection = Backbone.Collection.extend({
     model: Whisper.Message,
     comparator(left, right) {
-      if (left.get('received_at') === right.get('received_at')) {
-        return (left.get('sent_at') || 0) - (right.get('sent_at') || 0);
+      if (left.get('sent_at') === right.get('sent_at')) {
+        return (left.get('received_at') || 0) - (right.get('received_at') || 0);
       }
 
-      return (left.get('received_at') || 0) - (right.get('received_at') || 0);
+      return (left.get('sent_at') || 0) - (right.get('sent_at') || 0);
     },
     initialize(models, options) {
       if (options) {

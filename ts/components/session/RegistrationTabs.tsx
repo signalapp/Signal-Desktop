@@ -217,11 +217,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
   private onDisplayNameChanged(val: string) {
     const sanitizedName = this.sanitiseNameInput(val);
+    const trimName = sanitizedName.trim();
+
     this.setState({
       displayName: sanitizedName,
-      displayNameError: !sanitizedName
-        ? window.i18n('displayNameEmpty')
-        : undefined,
+      displayNameError: !trimName ? window.i18n('displayNameEmpty') : undefined,
     });
   }
 
@@ -437,8 +437,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderNamePasswordAndVerifyPasswordFields() {
+    const { password, passwordFieldsMatch } = this.state;
     const passwordsDoNotMatch =
-      !this.state.passwordFieldsMatch && this.state.password
+      !passwordFieldsMatch && this.state.password
         ? window.i18n('passwordsDoNotMatch')
         : undefined;
 
@@ -472,19 +473,21 @@ export class RegistrationTabs extends React.Component<{}, State> {
           }}
         />
 
-        <SessionInput
-          label={window.i18n('verifyPassword')}
-          error={passwordsDoNotMatch}
-          type="password"
-          placeholder={window.i18n('optionalPassword')}
-          maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
-          onValueChanged={(val: string) => {
-            this.onPasswordVerifyChanged(val);
-          }}
-          onEnterPressed={() => {
-            this.handlePressEnter();
-          }}
-        />
+        {!!password && (
+          <SessionInput
+            label={window.i18n('verifyPassword')}
+            error={passwordsDoNotMatch}
+            type="password"
+            placeholder={window.i18n('verifyPassword')}
+            maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
+            onValueChanged={(val: string) => {
+              this.onPasswordVerifyChanged(val);
+            }}
+            onEnterPressed={() => {
+              this.handlePressEnter();
+            }}
+          />
+        )}
       </div>
     );
   }
@@ -553,10 +556,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderTermsConditionAgreement() {
-    // FIXME
-    window.log.info(
-      'FIXME: add link to our Terms and Conditions and privacy statement'
-    );
+    // FIXME add link to our Terms and Conditions and privacy statement
 
     return (
       <div className="session-terms-conditions-agreement">
@@ -713,7 +713,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private sanitiseNameInput(val: string) {
-    return val.trim().replace(window.displayNameRegex, '');
+    return val.replace(window.displayNameRegex, '');
   }
 
   private async resetRegistration() {
@@ -738,6 +738,19 @@ export class RegistrationTabs extends React.Component<{}, State> {
       passwordFieldsMatch,
     } = this.state;
     // Make sure the password is valid
+
+    const trimName = displayName.trim();
+
+    if (!trimName) {
+      window.pushToast({
+        title: window.i18n('displayNameEmpty'),
+        type: 'error',
+        id: 'invalidDisplayName',
+      });
+
+      return;
+    }
+
     if (passwordErrorString) {
       window.pushToast({
         title: window.i18n('invalidPassword'),
@@ -761,9 +774,6 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (!mnemonicSeed) {
       return;
     }
-    if (!displayName) {
-      return;
-    }
 
     // Ensure we clear the secondary device registration status
     window.textsecure.storage.remove('secondaryDeviceStatus');
@@ -775,7 +785,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       await this.accountManager.registerSingleDevice(
         mnemonicSeed,
         language,
-        displayName
+        trimName
       );
       trigger('openInbox');
     } catch (e) {
