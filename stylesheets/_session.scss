@@ -1323,6 +1323,12 @@ label {
     border-color: $session-color-white;
   }
 }
+
+.session-id-editable {
+  resize: none;
+  overflow: hidden;
+}
+
 .user-details-dialog {
   .session-id-editable {
     width: 30vh;

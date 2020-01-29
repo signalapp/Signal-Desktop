@@ -51,12 +51,12 @@
   class TextScramble {
     constructor(el) {
       this.el = el;
-      this.chars = '0123456789qwertyuiopasdfghjklzxcvbnm';
+      this.chars = '0123456789abcdef';
       this.update = this.update.bind(this);
     }
 
     setText(newText) {
-      const oldText = this.el.innerText;
+      const oldText = this.el.value;
       const length = Math.max(oldText.length, newText.length);
       // eslint-disable-next-line no-return-assign
       const promise = new Promise(resolve => (this.resolve = resolve));
@@ -97,14 +97,13 @@
             char = this.randomChar();
             this.queue[i].char = char;
           }
-
-          output += `<span class="dud">${char}</span>`;
+          output += char;
         } else {
           output += from;
         }
       }
 
-      this.el.innerHTML = output;
+      this.el.value = output;
 
       if (complete === this.queue.length) {
         this.resolve();
@@ -123,7 +122,7 @@
   window.Session.setNewSessionID = sessionID => {
     const el = document.querySelector('.session-id-editable');
     const fx = new TextScramble(el);
-    el.innerHTML = sessionID;
+    el.value = sessionID;
     fx.setText(sessionID);
   };
 })();
