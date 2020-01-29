@@ -36092,6 +36092,9 @@ SessionCipher.prototype = {
           delete chain.messageKeys[chain.chainKey.counter];
           msg.counter = chain.chainKey.counter;
           msg.previousCounter = session.currentRatchet.previousCounter;
+          if (msg.previousCounter < 0) {
+              msg.previousCounter = 0;
+          }
 
           return Internal.crypto.encrypt(
               keys[0], buffer, keys[2].slice(0, 16)
