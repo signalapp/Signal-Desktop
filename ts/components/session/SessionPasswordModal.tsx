@@ -31,6 +31,13 @@ export class SessionPasswordModal extends React.Component<Props, State> {
 
     this.setPassword = this.setPassword.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
+
+    this.onKeyUp = this.onKeyUp.bind(this);
+    window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  public componentDidMount() {
+    setTimeout(() => $('#password-modal-input').focus(), 100);
   }
 
   public render() {
@@ -181,5 +188,18 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     if (this.props.onClose) {
       this.props.onClose();
     }
+  }
+
+  private async onKeyUp(event: any) {
+    const { onOk } = this.props;
+    const setPasswordFocussed =
+      $('#password-modal-input').is(':focus') ||
+      $('#password-modal-input-confirm').is(':focus');
+
+    if (event.key === 'Enter' && setPasswordFocussed) {
+      await this.setPassword(onOk);
+    }
+
+    event.preventDefault();
   }
 }
