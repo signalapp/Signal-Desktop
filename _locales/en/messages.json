@@ -295,6 +295,9 @@
       }
     }
   },
+  "capsLockOn": {
+    "message": "Caps lock is on."
+  },
   "me": {
     "message": "Me",
     "description": "The label for yourself when shown in a group member list"

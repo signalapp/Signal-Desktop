@@ -31,6 +31,10 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
+  public componentDidMount() {
+    setTimeout(() => $('#password-prompt-input').focus(), 100);
+  }
+
   public render() {
     const showResetElements =
       this.state.errorCount >= window.CONSTANTS.MAX_LOGIN_TRIES;
@@ -56,7 +60,6 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
       <input
         id="password-prompt-input"
         type="password"
-        autoFocus={true}
         defaultValue=""
         placeholder={' '}
         maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
