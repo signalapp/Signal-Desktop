@@ -5,7 +5,7 @@ import { icons, SessionIconSize, SessionIconType } from '../icon';
 
 export interface Props {
   iconType: SessionIconType;
-  iconSize: SessionIconSize;
+  iconSize: SessionIconSize | number;
   iconColor: string;
   iconPadded: boolean;
   iconRotation: number;
@@ -33,21 +33,25 @@ export class SessionIcon extends React.PureComponent<Props> {
     } = this.props;
 
     let iconDimensions;
-    switch (iconSize) {
-      case SessionIconSize.Small:
-        iconDimensions = '15';
-        break;
-      case SessionIconSize.Medium:
-        iconDimensions = '20';
-        break;
-      case SessionIconSize.Large:
-        iconDimensions = '25';
-        break;
-      case SessionIconSize.Huge:
-        iconDimensions = '30';
-        break;
-      default:
-        iconDimensions = '20';
+    if (typeof iconSize === 'number') {
+      iconDimensions = iconSize;
+    } else {
+      switch (iconSize) {
+        case SessionIconSize.Small:
+          iconDimensions = '15';
+          break;
+        case SessionIconSize.Medium:
+          iconDimensions = '20';
+          break;
+        case SessionIconSize.Large:
+          iconDimensions = '25';
+          break;
+        case SessionIconSize.Huge:
+          iconDimensions = '30';
+          break;
+        default:
+          iconDimensions = '20';
+      }
     }
 
     const iconDef = icons[iconType];

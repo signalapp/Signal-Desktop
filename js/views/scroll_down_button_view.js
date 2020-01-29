@@ -1,4 +1,4 @@
-/* global Whisper, i18n */
+/* global Whisper */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -7,9 +7,6 @@
   window.Whisper = window.Whisper || {};
 
   Whisper.ScrollDownButtonView = Whisper.View.extend({
-    className: 'module-scroll-down',
-    templateName: 'scroll-down-button-view',
-
     initialize(options = {}) {
       this.count = options.count || 0;
     },
@@ -19,21 +16,17 @@
       this.render();
     },
 
-    render_attributes() {
-      const buttonClass =
-        this.count > 0 ? 'module-scroll-down__button--new-messages' : '';
+    render() {
+      this.scrollButtonView = new Whisper.ReactWrapperView({
+        className: 'module-scroll-down',
+        Component: window.Signal.Components.SessionScrollButton,
+        props: {
+          count: this.count,
+        },
+      });
 
-      let moreBelow = i18n('scrollDown');
-      if (this.count > 1) {
-        moreBelow = i18n('messagesBelow');
-      } else if (this.count === 1) {
-        moreBelow = i18n('messageBelow');
-      }
-
-      return {
-        buttonClass,
-        moreBelow,
-      };
+      this.$el.append(this.scrollButtonView.el);
+      return this;
     },
   });
 })();

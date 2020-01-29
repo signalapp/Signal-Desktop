@@ -838,7 +838,7 @@
     window.showQRDialog = window.owsDesktopApp.appView.showQRDialog;
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
     window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
-    window.showEditProfileDialog = async () => {
+    window.showEditProfileDialog = async callback => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(
         ourNumber,
@@ -867,6 +867,7 @@
 
       if (appView) {
         appView.showEditProfileDialog({
+          callback,
           profileName: displayName,
           pubkey: ourNumber,
           avatarPath,
@@ -986,6 +987,9 @@
 
       return toastID;
     };
+
+    // Get memberlist. This function is not accurate >>
+    // window.getMemberList = window.lokiPublicChatAPI.getListOfMembers();
 
     window.deleteAccount = async () => {
       try {

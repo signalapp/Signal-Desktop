@@ -59,6 +59,19 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
+window.CONSTANTS = {
+  MAX_LOGIN_TRIES: 3,
+  MAX_PASSWORD_LENGTH: 32,
+  MAX_USERNAME_LENGTH: 20,
+};
+
+window.versionInfo = {
+  environment: window.getEnvironment(),
+  version: window.getVersion(),
+  commitHash: window.getCommitHash(),
+  appInstance: window.getAppInstance(),
+};
+
 // temporary clearnet fix
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 window.getSelfSignedCert = () => {
@@ -120,6 +133,11 @@ window.setMenuBarVisibility = visibility =>
 window.restart = () => {
   window.log.info('restart');
   ipc.send('restart');
+};
+
+window.resetDatabase = () => {
+  window.log.info('reset database');
+  ipc.send('resetDatabase');
 };
 
 // Events for updating block number states across different windows.
@@ -498,7 +516,7 @@ window.SMALL_GROUP_SIZE_LIMIT = 10;
 // TODO: activate SealedSender once it is ready on all platforms
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
-  privateGroupChats: false,
+  privateGroupChats: true,
   useSnodeProxy: false,
   useSealedSender: false,
 };

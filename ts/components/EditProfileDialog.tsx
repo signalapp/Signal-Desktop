@@ -23,6 +23,7 @@ declare global {
 }
 
 interface Props {
+  callback: any;
   i18n: any;
   profileName: string;
   avatarPath: string;
@@ -50,6 +51,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
     this.onClickOK = this.onClickOK.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onFileSelected = this.onFileSelected.bind(this);
+    this.fireInputEvent = this.fireInputEvent.bind(this);
 
     this.state = {
       profileName: this.props.profileName,
@@ -139,39 +141,39 @@ export class EditProfileDialog extends React.Component<Props, State> {
             <div
               className="image-upload-section"
               role="button"
-              onClick={() => {
-                const el = this.inputEl.current;
-                if (el) {
-                  el.click();
-                }
-              }}
-            >
-              <input
-                type="file"
-                ref={this.inputEl}
-                className="input-file"
-                placeholder="input file"
-                name="name"
-                onChange={this.onFileSelected}
-              />
-            </div>
-            <div
-              className="qr-view-button"
-              role="button"
-              onClick={() => {
-                this.setState({ mode: 'qr' });
-              }}
-            >
+              onClick={this.fireInputEvent}
+            />
+            <input
+              type="file"
+              ref={this.inputEl}
+              className="input-file"
+              placeholder="input file"
+              name="name"
+              onChange={this.onFileSelected}
+            />
+            <div className="qr-view-button">
               <SessionIconButton
                 iconType={SessionIconType.QR}
                 iconSize={SessionIconSize.Small}
                 iconColor={'#000000'}
+                onClick={() => {
+                  this.setState({ mode: 'qr' });
+                }}
               />
             </div>
           </div>
         </div>
       </>
     );
+  }
+
+  private fireInputEvent() {
+    this.setState({ mode: 'edit' }, () => {
+      const el = this.inputEl.current;
+      if (el) {
+        el.click();
+      }
+    });
   }
 
   private renderDefaultView() {
@@ -206,6 +208,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             value={this.state.profileName}
             placeholder={placeholderText}
             onChange={this.onNameEdited}
+            maxLength={window.CONSTANTS.MAX_USERNAME_LENGTH}
             tabIndex={0}
             required={true}
             aria-required={true}
@@ -258,10 +261,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
     );
   }
 
-  private onNameEdited(e: any) {
-    e.persist();
+  private onNameEdited(event: any) {
+    event.persist();
 
-    const newName = e.target.value.replace(window.displayNameRegex, '');
+    const newName = event.target.value.replace(window.displayNameRegex, '');
 
     this.setState(state => {
       return {
@@ -274,7 +277,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
-        this.onClickOK();
+        if (this.state.mode === 'edit') {
+          this.onClickOK();
+        }
         break;
       case 'Esc':
       case 'Escape':
@@ -297,7 +302,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private onClickOK() {
     const newName = this.state.profileName.trim();
 
-    if (newName === '') {
+    if (
+      newName.length === 0 ||
+      newName.length > window.CONSTANTS.MAX_USERNAME_LENGTH
+    ) {
       return;
     }
 
@@ -311,10 +319,17 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
     this.props.onOk(newName, avatar);
 
-    this.setState({
-      mode: 'default',
-      setProfileName: this.state.profileName,
-    });
+    this.setState(
+      {
+        mode: 'default',
+        setProfileName: this.state.profileName,
+      },
+      () => {
+        // Update settinngs in dialog complete;
+        // now callback to reloadactions panel avatar
+        this.props.callback(this.state.avatar);
+      }
+    );
   }
 
   private closeDialog() {

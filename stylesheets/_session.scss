@@ -31,6 +31,15 @@
   src: url('../fonts/SFProText-Regular.ttf') format('truetype');
 }
 
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 // Session Colors
 $session-font-family: 'Wasa';
 
@@ -149,6 +158,7 @@ div.spacer-lg {
 }
 
 $session-transition-duration: 0.25s;
+$session-fadein-duration: 0.1s;
 
 $session-icon-size-sm: 15px;
 $session-icon-size-md: 20px;
@@ -215,6 +225,7 @@ $session_message-container-border-radius: 5px;
 }
 
 .button-group > div {
+  display: inline-flex;
   margin-left: 5px;
   margin-right: 5px;
 }
@@ -247,6 +258,10 @@ $session_message-container-border-radius: 5px;
   &.square,
   &.brand {
     color: $session-color-white;
+
+    &:hover {
+      filter: brightness(90%);
+    }
 
     &.green,
     &.white,
@@ -524,8 +539,7 @@ label {
 
   .close-button {
     float: left;
-    margin-top: 17px;
-    margin-left: 7px;
+    margin: 17px 0px 0px 0px;
   }
 }
 .message-selection-overlay div[role='button'] {
@@ -629,6 +643,7 @@ label {
 }
 
 .session-modal {
+  animation: fadein $session-transition-duration;
   z-index: 150;
   min-width: 300px;
 
@@ -1126,6 +1141,31 @@ label {
     }
   }
 
+  &-view {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__version-info {
+    display: flex;
+    justify-content: space-between;
+
+    padding: $session-margin-sm $session-margin-md;
+    background-color: $session-shade-5;
+    font-size: $session-font-xs;
+
+    span {
+      opacity: 0.4;
+      transition: $session-transition-duration;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
   &__password-lock {
     display: flex;
     align-items: center;
@@ -1168,7 +1208,8 @@ label {
   }
 }
 
-#qr svg {
+#qr svg,
+.qr-image svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
   padding: $session-margin-xs;
@@ -1359,27 +1400,36 @@ input {
   }
 }
 
-button.module-scroll-down {
-  &__button {
-    background-color: $session-shade-6;
-  }
+.module-scroll-down {
+  animation: fadein $session-fadein-duration;
+  bottom: 15px;
 
-  &__button:hover {
-    &__icon {
+  .session-icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    opacity: 1;
+    background-color: $session-shade-8;
+
+    svg path {
       transition: $session-transition-duration;
-      @include color-svg('../images/down.svg', $session-color-white);
+      opacity: 0.6;
     }
-  }
 
-  &__icon {
-    @include color-svg('../images/down.svg', rgba($session-color-white, 0.6));
+    &:hover svg path {
+      opacity: 1;
+    }
   }
 }
 
 /* Memberlist */
 .member-list-container .member {
   &-item {
-    padding: $session-margin-sm;
+    font-family: 'SF Pro Text';
+    padding: $session-margin-sm $session-margin-md;
     background-color: $session-shade-5;
 
     &:hover:not(.member-selected) {
@@ -1410,6 +1460,92 @@ button.module-scroll-down {
       &:focus {
         outline: none;
       }
+    }
+  }
+}
+
+.clear-data,
+.password-prompt {
+  &-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: $session-color-black;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 3 * $session-margin-lg;
+  }
+
+  &-error-section {
+    width: 100%;
+    color: $session-color-white;
+    margin: -$session-margin-sm 0px 2 * $session-margin-lg 0px;
+
+    .session-label {
+      &.primary {
+        background-color: rgba($session-color-primary, 0.3);
+      }
+      padding: $session-margin-xs $session-margin-sm;
+      font-size: $session-font-xs;
+      text-align: center;
+    }
+  }
+
+  &-container {
+    font-family: 'SF Pro Text';
+    color: $session-color-white;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 600px;
+    min-width: 420px;
+    padding: 3 * $session-margin-lg 2 * $session-margin-lg;
+    box-sizing: border-box;
+    background-color: $session-shade-4;
+    border: 1px solid $session-shade-8;
+    border-radius: 2px;
+
+    .warning-info-area,
+    .password-info-area {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+
+      h1 {
+        color: $session-color-white;
+      }
+      svg {
+        margin-right: $session-margin-lg;
+      }
+    }
+
+    p,
+    input {
+      margin: $session-margin-lg 0px;
+    }
+
+    .button-group {
+      display: inline-flex;
+    }
+
+    #password-prompt-input {
+      width: 100%;
+      color: #fff;
+      background-color: #2e2e2e;
+      margin-top: 2 * $session-margin-lg;
+      padding: $session-margin-xs $session-margin-lg;
+      outline: none;
+      border: none;
+      border-radius: 2px;
+      text-align: center;
+      font-size: 24px;
+      letter-spacing: 5px;
+      font-family: 'SF Pro Text';
     }
   }
 }

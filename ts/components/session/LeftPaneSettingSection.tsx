@@ -215,33 +215,4 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
       settingCategory: category,
     });
   }
-
-  // public updateSearch(searchTerm: string) {
-  //   const { updateSearchTerm, clearSearch } = this.props;
-
-  //   if (!searchTerm) {
-  //     clearSearch();
-
-  //     return;
-  //   }
-  //   // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
-  //   this.setState({ pubKeyPasted: '' }, () => {
-  //     window.Session.emptyContentEditableDivs();
-  //   });
-
-  //   if (updateSearchTerm) {
-  //     updateSearchTerm(searchTerm);
-  //   }
-
-  //   if (searchTerm.length < 2) {
-  //     return;
-  //   }
-
-  //   const cleanedTerm = cleanSearchTerm(searchTerm);
-  //   if (!cleanedTerm) {
-  //     return;
-  //   }
-
-  //   this.debouncedSearch(cleanedTerm);
-  // }
 }

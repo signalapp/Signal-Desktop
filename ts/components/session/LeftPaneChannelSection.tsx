@@ -165,7 +165,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   public renderHeader(): JSX.Element {
-    const labels = [window.i18n('channels')];
+    const labels = [window.i18n('groups')];
 
     return LeftPane.RENDER_HEADER(labels, null);
   }

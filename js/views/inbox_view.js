@@ -123,7 +123,8 @@
       });
 
       if (!window.storage.get('betaReleaseDisclaimerAccepted')) {
-        this.showBetaReleaseDisclaimer();
+        // Beta disclaimer disabled.
+        // this.showBetaReleaseDisclaimer();
       }
 
       if (!options.initialLoadComplete) {
