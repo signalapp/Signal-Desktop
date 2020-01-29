@@ -26,7 +26,7 @@
   <!--
     When making changes to these templates, be sure to update test/index.html as well
   -->
-  
+
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
       <img src='images/session/full-logo.svg' class='session-full-logo' />
@@ -75,10 +75,11 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='expired_alert'>
-    <a target='_blank' href='https://signal.org/download/'>
+    <a target='_blank' href='https://getsession.org/'>
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
-    {{ expiredWarning }}
+    <span>{{ expiredWarning }}</span>
+    <br clear="both">
   </script>
 
   <script type='text/x-tmpl-mustache' id='banner'>
@@ -185,7 +186,7 @@
       </div>
     </div>
   </script>
-  
+
   <script type='text/x-tmpl-mustache' id='device-pairing-words-dialog'>
     <div class="content">
         <h4>{{ title }}</h4>
@@ -585,7 +586,7 @@
   <script type='text/javascript' src='js/views/moderators_add_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/moderators_remove_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/user_details_dialog_view.js'></script>
-  
+
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
   <script type='text/javascript' src='js/keychange_listener.js'></script>
