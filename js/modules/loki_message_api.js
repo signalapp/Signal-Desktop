@@ -3,7 +3,7 @@
 /* global log, dcodeIO, window, callWorker, lokiP2pAPI, lokiSnodeAPI, textsecure */
 
 const _ = require('lodash');
-const { rpc } = require('./loki_rpc');
+const { lokiRpc } = require('./loki_rpc');
 
 const DEFAULT_CONNECTIONS = 3;
 const MAX_ACCEPTABLE_FAILURES = 1;
@@ -47,7 +47,7 @@ const trySendP2p = async (pubKey, data64, isPing, messageEventData) => {
     return false;
   }
   try {
-    await rpc(p2pDetails.address, p2pDetails.port, 'store', {
+    await lokiRpc(p2pDetails.address, p2pDetails.port, 'store', {
       data: data64,
     });
     lokiP2pAPI.setContactOnline(pubKey);
@@ -213,6 +213,7 @@ class LokiMessageAPI {
       const successfulSend = await this.sendToNode(
         snode.ip,
         snode.port,
+        snode,
         params
       );
       if (successfulSend) {
@@ -237,12 +238,20 @@ class LokiMessageAPI {
     return false;
   }
 
-  async sendToNode(address, port, params) {
+  async sendToNode(address, port, targetNode, params) {
     let successiveFailures = 0;
     while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {
       await sleepFor(successiveFailures * 500);
       try {
-        const result = await rpc(`https://${address}`, port, 'store', params);
+        const result = await lokiRpc(
+          `https://${address}`,
+          port,
+          'store',
+          params,
+          {},
+          '/storage_rpc/v1',
+          targetNode
+        );
 
         // Make sure we aren't doing too much PoW
         const currentDifficulty = window.storage.get('PoWDifficulty', null);
@@ -365,12 +374,14 @@ class LokiMessageAPI {
       },
     };
 
-    const result = await rpc(
+    const result = await lokiRpc(
       `https://${nodeUrl}`,
       nodeData.port,
       'retrieve',
       params,
-      options
+      options,
+      '/storage_rpc/v1',
+      nodeData
     );
     return result.messages || [];
   }
@@ -386,10 +397,10 @@ class LokiMessageAPI {
       const lastHash = await window.Signal.Data.getLastHashBySnode(
         nodes[i].address
       );
+
       this.ourSwarmNodes[nodes[i].address] = {
+        ...nodes[i],
         lastHash,
-        ip: nodes[i].ip,
-        port: nodes[i].port,
       };
     }
 

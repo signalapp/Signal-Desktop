@@ -1,6 +1,6 @@
 /* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
 clearTimeout, MessageController, libsignal, StringView, window, _,
-dcodeIO, Buffer */
+dcodeIO, Buffer, lokiSnodeAPI, TextDecoder */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
@@ -108,7 +108,7 @@ class LokiAppDotNetServerAPI {
     // no big deal if it fails...
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`setProfileName Error ${res.err}`);
       }
       return [];
     }
@@ -135,7 +135,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`setHomeServer Error ${res.err}`);
       }
       return [];
     }
@@ -291,6 +291,102 @@ class LokiAppDotNetServerAPI {
     }
   }
 
+  async _sendToProxy(fetchOptions, method, headers, endpoint) {
+    const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
+    const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
+
+    const payloadObj = {
+      // I think this is a stream, we may need to collect it all?
+      body: fetchOptions.body, // might need to b64 if binary...
+      endpoint,
+      method,
+      headers,
+    };
+
+    // from https://github.com/sindresorhus/is-stream/blob/master/index.js
+    if (
+      payloadObj.body &&
+      typeof payloadObj.body === 'object' &&
+      typeof payloadObj.body.pipe === 'function'
+    ) {
+      log.info('detected body is a stream');
+      const fData = payloadObj.body.getBuffer();
+      const fHeaders = payloadObj.body.getHeaders();
+      // update headers for boundary
+      payloadObj.headers = { ...payloadObj.headers, ...fHeaders };
+      // update body with base64 chunk
+      payloadObj.body = {
+        fileUpload: fData.toString('base64'),
+      };
+    }
+
+    // convert our payload to binary buffer
+    const payloadData = Buffer.from(
+      dcodeIO.ByteBuffer.wrap(JSON.stringify(payloadObj)).toArrayBuffer()
+    );
+    payloadObj.body = false; // free memory
+
+    // make temporary key for this request/response
+    const ephemeralKey = libsignal.Curve.generateKeyPair();
+
+    // mix server pub key with our priv key
+    const symKey = libsignal.Curve.calculateAgreement(
+      this.pubKey, // server's pubkey
+      ephemeralKey.privKey // our privkey
+    );
+
+    const ivAndCiphertext = await libloki.crypto.DHEncrypt(symKey, payloadData);
+
+    // convert final buffer to base64
+    const cipherText64 = dcodeIO.ByteBuffer.wrap(ivAndCiphertext).toString(
+      'base64'
+    );
+
+    const ephemeralPubKey64 = dcodeIO.ByteBuffer.wrap(
+      ephemeralKey.pubKey
+    ).toString('base64');
+
+    const finalRequestHeader = {
+      'X-Loki-File-Server-Ephemeral-Key': ephemeralPubKey64,
+    };
+
+    const firstHopOptions = {
+      method: 'POST',
+      // not sure why I can't use anything but json...
+      // text/plain would be preferred...
+      body: JSON.stringify({ cipherText64 }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Loki-File-Server-Target': '/loki/v1/secure_rpc',
+        'X-Loki-File-Server-Verb': 'POST',
+        'X-Loki-File-Server-Headers': JSON.stringify(finalRequestHeader),
+      },
+    };
+    const result = await nodeFetch(url, firstHopOptions);
+
+    const txtResponse = await result.text();
+    let response = JSON.parse(txtResponse);
+
+    if (response.meta && response.meta.code === 200) {
+      // convert base64 in response to binary
+      const ivAndCiphertextResponse = dcodeIO.ByteBuffer.wrap(
+        response.data,
+        'base64'
+      ).toArrayBuffer();
+      const decrypted = await libloki.crypto.DHDecrypt(
+        symKey,
+        ivAndCiphertextResponse
+      );
+      const textDecoder = new TextDecoder();
+      const json = textDecoder.decode(decrypted);
+      // replace response
+      response = JSON.parse(json);
+    } else {
+      log.warn('file server secure_rpc gave an non-200 response');
+    }
+    return { result, txtResponse, response };
+  }
+
   // make a request to the server
   async serverRequest(endpoint, options = {}) {
     const {
@@ -300,14 +396,14 @@ class LokiAppDotNetServerAPI {
       objBody,
       forceFreshToken = false,
     } = options;
+
     const url = new URL(`${this.baseServerUrl}/${endpoint}`);
     if (params) {
       url.search = new URLSearchParams(params);
     }
-    let result;
+    const fetchOptions = {};
+    const headers = {};
     try {
-      const fetchOptions = {};
-      const headers = {};
       if (forceFreshToken) {
         await this.getOrRefreshServerToken(true);
       }
@@ -324,24 +420,42 @@ class LokiAppDotNetServerAPI {
         fetchOptions.body = rawBody;
       }
       fetchOptions.headers = new Headers(headers);
-      result = await nodeFetch(url, fetchOptions || undefined);
     } catch (e) {
-      log.info(`e ${e}`);
+      log.info('serverRequest set up error:', JSON.stringify(e));
       return {
         err: e,
-      };
-    }
-    let response = null;
-    try {
-      response = await result.json();
-    } catch (e) {
-      log.warn(`serverRequest json parse ${e}`);
-      return {
-        err: e,
-        statusCode: result.status,
       };
     }
 
+    let response;
+    let result;
+    let txtResponse;
+    let mode = 'nodeFetch';
+    try {
+      if (
+        window.lokiFeatureFlags.useSnodeProxy &&
+        (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
+          this.baseServerUrl === 'https://file.lokinet.org')
+      ) {
+        mode = '_sendToProxy';
+        // have to send headers because fetchOptions.headers isn't readable
+        ({ response, txtResponse, result } = await this._sendToProxy(
+          fetchOptions,
+          method,
+          headers,
+          endpoint
+        ));
+      } else {
+        result = await nodeFetch(url, fetchOptions || undefined);
+        txtResponse = await result.text();
+        response = JSON.parse(txtResponse);
+      }
+    } catch (e) {
+      log.info(`serverRequest ${mode} error json: ${txtResponse}`);
+      return {
+        err: e,
+      };
+    }
     // if it's a response style with a meta
     if (result.status !== 200) {
       if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
@@ -378,7 +492,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`getUserAnnotations Error ${res.err}`);
       }
       return [];
     }
@@ -497,7 +611,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`getSubscribers Error ${res.err}`);
       }
       return [];
     }
@@ -527,7 +641,7 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`getUsers Error ${res.err}`);
       }
       return [];
     }
@@ -620,6 +734,7 @@ class LokiAppDotNetServerAPI {
       contentType: 'application/octet-stream',
       name: 'content',
       filename: 'attachment',
+      knownLength: buffer.byteLength,
     });
 
     return this.uploadData(formData);
@@ -682,7 +797,7 @@ class LokiPublicChannelAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`Error ${res.err}`);
+        log.error(`banUser Error ${res.err}`);
       }
       return false;
     }
@@ -798,7 +913,7 @@ class LokiPublicChannelAPI {
     );
     if (updateRes.err || !updateRes.response || !updateRes.response.data) {
       if (updateRes.err) {
-        log.error(`Error ${updateRes.err}`);
+        log.error(`setChannelSettings Error ${updateRes.err}`);
       }
       return false;
     }
@@ -955,7 +1070,7 @@ class LokiPublicChannelAPI {
       // if any problems, abort out
       if (res.err || !res.response) {
         if (res.err) {
-          log.error(`Error ${res.err}`);
+          log.error(`pollOnceForDeletions Error ${res.err}`);
         }
         break;
       }
@@ -1369,6 +1484,7 @@ class LokiPublicChannelAPI {
       const primaryPubKey = slavePrimaryMap[slaveKey];
 
       // send out remaining messages for this merged identity
+      /* eslint-disable no-param-reassign */
       if (slavePrimaryMap[slaveKey]) {
         // rewrite source, profile
         messageData.source = primaryPubKey;
@@ -1379,6 +1495,7 @@ class LokiPublicChannelAPI {
         messageData.message.profile.avatar = avatar;
         messageData.message.profileKey = profileKey;
       }
+      /* eslint-enable no-param-reassign */
       this.chatAPI.emit('publicMessage', {
         message: messageData,
       });
