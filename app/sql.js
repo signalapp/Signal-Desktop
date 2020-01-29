@@ -914,7 +914,12 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     profileAvatar: 'images/loki/loki_icon.png',
   };
 
-  await initConversation(publicChatData);
+  const autoJoinLokiChats = false;
+
+  if (autoJoinLokiChats) {
+    await initConversation(publicChatData);
+  }
+
   await initConversation(newsRssFeedData);
   await initConversation(updatesRssFeedData);
 
