@@ -9,15 +9,13 @@ Remember, you can preview this before saving it.
 
 ### First time contributor checklist:
 
-* [ ] I have read the [README](https://github.com/signalapp/Signal-Desktop/blob/master/README.md) and [Contributor Guidelines](https://github.com/signalapp/Signal-Desktop/blob/master/CONTRIBUTING.md)
-* [ ] I have signed the [Contributor Licence Agreement](https://signal.org/cla/)
+* [ ] I have read the [README](https://github.com/loki-project/loki-messenger/blob/master/README.md) and [Contributor Guidelines](https://github.com/loki-project/loki-messenger/blob/master/CONTRIBUTING.md)
 
 ### Contributor checklist:
 
-* [ ] My contribution is **not** related to translations. _Please submit translation changes via our [Signal Desktop Transifex project](https://www.transifex.com/signalapp/signal-desktop/)._
 * [ ] My commits are in nice logical chunks with [good commit messages](http://chris.beams.io/posts/git-commit/)
-* [ ] My changes are [rebased](https://medium.freecodecamp.org/git-rebase-and-the-golden-rule-explained-70715eccc372) on the latest [`development`](https://github.com/signalapp/Signal-Desktop/tree/development) branch
-* [ ] A `yarn ready` run passes successfully ([more about tests here](https://github.com/signalapp/Signal-Desktop/blob/master/CONTRIBUTING.md#tests))
+* [ ] My changes are [rebased](https://medium.freecodecamp.org/git-rebase-and-the-golden-rule-explained-70715eccc372) on the latest [`clearnet`](https://github.com/loki-project/loki-messenger/tree/development) branch
+* [ ] A `yarn ready` run passes successfully ([more about tests here](https://github.com/loki-project/loki-messenger/blob/master/CONTRIBUTING.md#tests))
 * [ ] My changes are ready to be shipped to users
 
 ### Description
@@ -26,7 +24,7 @@ Remember, you can preview this before saving it.
 Describe briefly what your pull request changes. Focus on the value provided to users.
 
 Does it address any outstanding issues in this project?
-  https://github.com/signalapp/Signal-Desktop/issues?utf8=%E2%9C%93&q=is%3Aissue
+  https://github.com/loki-project/loki-messenger/issues?utf8=%E2%9C%93&q=is%3Aissue
   Reference an issue with the hash symbol: "#222"
   If you're fixing it, use something like "Fixes #222"
 
