@@ -231,7 +231,7 @@
       "publish": [
         {
           "provider": "generic",
-          "url": "https://updates.signal.org/desktop"
+          "url": "https://getsession.org/"
         }
       ],
       "target": [
