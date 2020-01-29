@@ -1325,14 +1325,15 @@ label {
 }
 
 .session-id-editable {
-  resize: none;
-  overflow: hidden;
-}
+  padding: $session-margin-lg;
 
-.user-details-dialog {
-  .session-id-editable {
+  textarea {
     width: 30vh;
   }
+}
+.session-id-editable textarea {
+  resize: none;
+  overflow: hidden;
 }
 
 input {

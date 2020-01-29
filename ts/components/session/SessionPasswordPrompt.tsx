@@ -41,7 +41,7 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
 
   public render() {
     const showResetElements =
-      this.state.errorCount >= window.CONSTANTS.MAX_LOGIN_TRIES; 
+      this.state.errorCount >= window.CONSTANTS.MAX_LOGIN_TRIES;
 
     const wrapperClass = this.state.clearDataView
       ? 'clear-data-wrapper'

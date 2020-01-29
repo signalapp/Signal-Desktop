@@ -40,6 +40,10 @@ export class SessionSeedModal extends React.Component<Props, State> {
     window.addEventListener('keyup', this.onEnter);
   }
 
+  public componentDidMount() {
+    setTimeout(() => $('#seed-input-password').focus(), 100);
+  }
+
   public render() {
     const i18n = window.i18n;
 
