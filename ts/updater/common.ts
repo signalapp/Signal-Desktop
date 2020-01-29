@@ -261,7 +261,7 @@ function getGotOptions(): GotOptions<null> {
     ca,
     headers: {
       'Cache-Control': 'no-cache',
-      'User-Agent': 'Signal Desktop (+https://signal.org/download)',
+      'User-Agent': 'Session Desktop (+https://getsession.org)',
     },
     useElectronNet: false,
   };
