@@ -1089,9 +1089,6 @@ export class Message extends React.PureComponent<Props, State> {
       </Reference>
     );
 
-    // @ts-ignore
-    const ENABLE_REACTION_SEND: boolean = window.ENABLE_REACTION_SEND;
-
     return (
       <Manager>
         <div
@@ -1100,7 +1097,7 @@ export class Message extends React.PureComponent<Props, State> {
             `module-message__buttons--${direction}`
           )}
         >
-          {ENABLE_REACTION_SEND ? reactButton : null}
+          {reactButton}
           {downloadButton}
           {replyButton}
           {menuButton}
@@ -1149,9 +1146,6 @@ export class Message extends React.PureComponent<Props, State> {
     const showRetry = status === 'error' && direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
 
-    // @ts-ignore
-    const ENABLE_REACTION_SEND: boolean = window.ENABLE_REACTION_SEND;
-
     const menu = (
       <ContextMenu id={triggerId}>
         {!isSticker &&
@@ -1168,21 +1162,19 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('downloadAttachment')}
           </MenuItem>
         ) : null}
-        {ENABLE_REACTION_SEND ? (
-          <MenuItem
-            attributes={{
-              className: 'module-message__context__react',
-            }}
-            onClick={(event: React.MouseEvent) => {
-              event.stopPropagation();
-              event.preventDefault();
+        <MenuItem
+          attributes={{
+            className: 'module-message__context__react',
+          }}
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
 
-              this.toggleReactionPicker();
-            }}
-          >
-            {i18n('reactToMessage')}
-          </MenuItem>
-        ) : null}
+            this.toggleReactionPicker();
+          }}
+        >
+          {i18n('reactToMessage')}
+        </MenuItem>
         <MenuItem
           attributes={{
             className: 'module-message__context__reply',
