@@ -2149,10 +2149,6 @@
     },
 
     showStickerPackPreview(packId, packKey) {
-      if (!window.ENABLE_STICKER_SEND) {
-        return;
-      }
-
       window.Signal.Stickers.downloadEphemeralPack(packId, packKey);
 
       const props = {
