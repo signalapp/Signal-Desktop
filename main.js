@@ -186,7 +186,7 @@ function captureClicks(window) {
 }
 
 const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 710;
+const DEFAULT_HEIGHT = 720;
 const MIN_WIDTH = 1125;
 const MIN_HEIGHT = 750;
 const BOUNDS_BUFFER = 100;
