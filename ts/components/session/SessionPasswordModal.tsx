@@ -33,6 +33,10 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     this.closeDialog = this.closeDialog.bind(this);
   }
 
+  public componentDidMount() {
+    setTimeout(() => $('#password-modal-input').focus(), 100);
+  }
+
   public render() {
     const { action, onOk } = this.props;
     const placeholders =
