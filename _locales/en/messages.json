@@ -66,7 +66,7 @@
     "description": "Application menu command to show all application windows"
   },
   "appMenuQuit": {
-    "message": "Quit Session Messenger",
+    "message": "Quit Session",
     "description": "Application menu command to close the application"
   },
   "editMenuUndo": {
@@ -265,7 +265,7 @@
       "Header shown on the screen at the end of a successful import process"
   },
   "importCompleteStartButton": {
-    "message": "Start using Session Messenger",
+    "message": "Start using Session",
     "description":
       "Button shown at end of successful import process, nothing left but a restart"
   },
@@ -722,12 +722,12 @@
       "Item under the Help menu, takes you to GitHub new issue form (title case)"
   },
   "signalDesktopPreferences": {
-    "message": "Session Messenger Preferences",
+    "message": "Session Preferences",
     "description":
       "Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
-    "message": "About Session Messenger",
+    "message": "About Session",
     "description": "Item under the Help menu, which opens a small about window"
   },
   "speech": {
@@ -748,7 +748,7 @@
     "description": "Command in the tray icon menu, to quit the application"
   },
   "lokiMessenger": {
-    "message": "Session Messenger"
+    "message": "Session"
   },
   "search": {
     "message": "Search",
@@ -898,7 +898,7 @@
   },
   "audioPermissionNeeded": {
     "message":
-      "To send audio messages, allow Session Messenger to access your microphone.",
+      "To send audio messages, allow Session to access your microphone.",
     "description":
       "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
@@ -1096,7 +1096,7 @@
       "Placeholder text in the message entry field when it is disabled while we are waiting for a friend request approval"
   },
   "sendMessageFriendRequest": {
-    "message": "Hi there! This is <insert name here> !",
+    "message": "Hi there! This is ...!",
     "description":
       "Placeholder text in the message entry field when it is the first message sent to that contact"
   },
@@ -1215,7 +1215,7 @@
       "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "betaDisclaimerTitle": {
-    "message": "Thanks for using Session Messenger!",
+    "message": "Thanks for using Session!",
     "description": "Title for beta disclaimer modal"
   },
   "betaDisclaimerSubtitle": {
@@ -1276,7 +1276,7 @@
     }
   },
   "installWelcome": {
-    "message": "Welcome to Session Messenger",
+    "message": "Welcome to Session",
     "description": "Welcome title on the install page"
   },
   "installTagline": {
@@ -1285,12 +1285,12 @@
       "Tagline displayed under 'installWelcome' string on the install page"
   },
   "linkYourPhone": {
-    "message": "Link your phone to Session Messenger",
+    "message": "Link your phone to Session",
     "description":
       "Shown on the front page when the application first starst, above the QR code"
   },
   "signalSettings": {
-    "message": "Session Messenger Settings",
+    "message": "Session Settings",
     "description":
       "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
   },
@@ -1510,7 +1510,7 @@
   },
   "expiredWarning": {
     "message":
-      "This version of Session Messenger has expired. Please upgrade to the latest version to continue messaging.",
+      "This version of Session has expired. Please upgrade to the latest version to continue messaging.",
     "description":
       "Warning notification that this version of the app has expired"
   },

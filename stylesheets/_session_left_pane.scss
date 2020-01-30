@@ -362,6 +362,7 @@ $session-compose-margin: 20px;
     height: inherit;
     border: none;
     flex-grow: 1;
+    font-size: $session-font-md;
 
     &:focus {
       outline: none !important;

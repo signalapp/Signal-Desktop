@@ -1283,6 +1283,10 @@ label {
   }
 }
 
+.dark-theme .bottom-bar .send-message[disabled='disabled'] {
+  background: $session-shade-4 !important;
+}
+
 .session-radio-group fieldset {
   border: none;
   margin-left: $session-margin-sm;

@@ -52,7 +52,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Opustit Session Messenger",
+        "message": "Opustit Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
