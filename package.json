@@ -98,7 +98,6 @@
     "libsodium-wrappers": "^0.7.4",
     "linkify-it": "2.0.3",
     "lodash": "4.17.11",
-    "mixpanel": "^0.10.2",
     "mkdirp": "0.5.1",
     "moment": "2.21.0",
     "mustache": "2.3.0",
