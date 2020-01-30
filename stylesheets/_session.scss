@@ -476,6 +476,12 @@ $session-element-border-green: 4px solid $session-color-green;
   width: 100%;
   display: flex;
 
+  &-text {
+    @include session-color-subtle($session-color-white);
+    font-family: 'SF Pro Text';
+    font-weight: 300;
+  }
+
   .module-contact-name {
     width: 100%;
   }
@@ -1277,6 +1283,10 @@ label {
   }
 }
 
+.dark-theme .bottom-bar .send-message[disabled='disabled'] {
+  background: $session-shade-4 !important;
+}
+
 .session-radio-group fieldset {
   border: none;
   margin-left: $session-margin-sm;
@@ -1325,14 +1335,15 @@ label {
 }
 
 .session-id-editable {
-  resize: none;
-  overflow: hidden;
-}
+  padding: $session-margin-lg;
 
-.user-details-dialog {
-  .session-id-editable {
+  textarea {
     width: 30vh;
   }
+}
+.session-id-editable textarea {
+  resize: none;
+  overflow: hidden;
 }
 
 input {

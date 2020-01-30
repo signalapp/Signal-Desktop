@@ -1,9 +1,9 @@
 [
   {
-    "label": "Session Messenger",
+    "label": "Session",
     "submenu": [
       {
-        "label": "About Session Messenger",
+        "label": "About Session",
         "click": null
       },
       {
@@ -28,7 +28,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Session Messenger",
+        "label": "Quit Session",
         "role": "quit"
       }
     ]

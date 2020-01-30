@@ -79,8 +79,15 @@
   }
 
   .module-attachment-section__items {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    &-media {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 100%;
+    }
+
+    &-documents {
+      width: 100%;
+    }
   }
 
   .module-media {

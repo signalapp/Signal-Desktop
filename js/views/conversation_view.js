@@ -1738,8 +1738,12 @@
       if (event.key !== 'Escape') {
         return;
       }
+
       // TODO: this view is not always in focus (e.g. after I've selected a message),
       // so need to make Esc more robust
+      // Perhaps look into ConversationHeader.tsx and add an event listener in there.
+      // Up and down arrows should scroll
+      // Alt + up and down should swap between conversations / setting categories
       this.model.resetMessageSelection();
       this.closeEmojiPanel();
     },

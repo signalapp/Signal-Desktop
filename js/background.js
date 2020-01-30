@@ -122,7 +122,7 @@
     'x_white.svg',
     'icon-paste.svg',
     'loki/loki_icon_text.png',
-    'loki/loki_icon_128.png',
+    'loki/session_icon_128.png',
   ]);
 
   // Set server-client time difference

@@ -296,7 +296,7 @@ $session-compose-margin: 20px;
       margin: 0px 20px;
     }
 
-    .session-id-editable {
+    .session-id-editable textarea::-webkit-inner-spin-button {
       margin: 0px 20px;
       width: -webkit-fill-available;
       flex-shrink: 0;
@@ -362,6 +362,7 @@ $session-compose-margin: 20px;
     height: inherit;
     border: none;
     flex-grow: 1;
+    font-size: $session-font-md;
 
     &:focus {
       outline: none !important;
