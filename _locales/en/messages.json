@@ -1172,7 +1172,7 @@
       "Confirmation dialog title that asks the user if they really wish to delete a public channel. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "deletePublicChannelConfirmation": {
-    "message": "Leave this public channel?",
+    "message": "Leave this Open Group?",
     "description":
       "Confirmation dialog text that tells the user what will happen if they leave the public channel."
   },

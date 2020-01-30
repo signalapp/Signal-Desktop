@@ -36,8 +36,6 @@ export class SessionSeedModal extends React.Component<Props, State> {
     this.confirmPassword = this.confirmPassword.bind(this);
     this.checkHasPassword = this.checkHasPassword.bind(this);
     this.onEnter = this.onEnter.bind(this);
-
-    window.addEventListener('keyup', this.onEnter);
   }
 
   public componentDidMount() {
@@ -88,6 +86,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
           type="password"
           id="seed-input-password"
           placeholder={i18n('password')}
+          onKeyUp={this.onEnter}
           maxLength={maxPasswordLen}
         />
 
@@ -222,9 +221,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
   private onEnter(event: any) {
     if (event.key === 'Enter') {
-      if ($('#seed-input-password').is(':focus')) {
-        this.confirmPassword();
-      }
+      this.confirmPassword();
     }
   }
 }

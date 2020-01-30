@@ -79,14 +79,13 @@
   }
 
   .module-attachment-section__items {
-
     &-media {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       width: 100%;
     }
 
-    &-documents { 
+    &-documents {
       width: 100%;
     }
   }

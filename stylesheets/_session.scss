@@ -478,7 +478,7 @@ $session-element-border-green: 4px solid $session-color-green;
 
   &-text {
     @include session-color-subtle($session-color-white);
-    font-family: "SF Pro Text";
+    font-family: 'SF Pro Text';
     font-weight: 300;
   }
 
