@@ -457,10 +457,6 @@
     resize: none;
     font-size: 1em;
     font-family: inherit;
-
-    &[disabled='disabled'] {
-      background: $color-light-35;
-    }
   }
   .capture-audio {
     float: right;
