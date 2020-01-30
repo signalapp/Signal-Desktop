@@ -49,6 +49,18 @@ export class SessionChannelSettings extends React.Component<Props, any> {
       .ignore();
   }
 
+  public componentDidUpdate() {
+    this.getMediaGalleryProps()
+      .then(({ documents, media, onItemClick }) => {
+        this.setState({
+          documents,
+          media,
+          onItemClick,
+        });
+      })
+      .ignore();
+  }
+
   public async getMediaGalleryProps() {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
