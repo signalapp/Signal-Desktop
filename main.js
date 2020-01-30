@@ -14,6 +14,7 @@ const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 
 GlobalErrors.addHandler();
+const { globalShortcut } = electron;
 
 const getRealPath = pify(fs.realpath);
 const {
@@ -186,7 +187,7 @@ function captureClicks(window) {
 }
 
 const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 710;
+const DEFAULT_HEIGHT = 720;
 const MIN_WIDTH = 1125;
 const MIN_HEIGHT = 750;
 const BOUNDS_BUFFER = 100;
@@ -284,6 +285,13 @@ function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   // Disable system main menu
   mainWindow.setMenu(null);
+
+  globalShortcut.register('f5', () => {
+    mainWindow.reload();
+  });
+  globalShortcut.register('CommandOrControl+R', () => {
+    mainWindow.reload();
+  });
 
   function captureAndSaveWindowStats() {
     if (!mainWindow) {
@@ -741,7 +749,7 @@ app.on('ready', async () => {
   logger.info(`starting version ${packageJson.version}`);
 
   if (!locale) {
-    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : 'en'; // app.getLocale(); // FIXME reenable once we have translated our files
     locale = loadLocale({ appLocale, logger });
   }
 

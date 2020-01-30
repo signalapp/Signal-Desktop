@@ -1,4 +1,4 @@
-/* global window, textsecure, log, Whisper, dcodeIO, StringView, ConversationController */
+/* global window, textsecure, Whisper, dcodeIO, StringView, ConversationController */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -6,24 +6,6 @@
 
   async function sendBackgroundMessage(pubKey) {
     return sendOnlineBroadcastMessage(pubKey);
-  }
-
-  async function broadcastOnlineStatus() {
-    const friendKeys = await window.Signal.Data.getPubKeysWithFriendStatus(
-      window.friends.friendRequestStatusEnum.friends
-    );
-    await Promise.all(
-      friendKeys.map(async pubKey => {
-        if (pubKey === textsecure.storage.user.getNumber()) {
-          return;
-        }
-        try {
-          await sendOnlineBroadcastMessage(pubKey);
-        } catch (e) {
-          log.warn(`Failed to send online broadcast message to ${pubKey}`);
-        }
-      })
-    );
   }
 
   async function sendOnlineBroadcastMessage(pubKey, isPing = false) {
@@ -34,27 +16,10 @@
       sendOnlineBroadcastMessage(authorisation.primaryDevicePubKey);
       return;
     }
-    let p2pAddress = null;
-    let p2pPort = null;
-    let type;
-
-    let myIp;
-    if (window.localLokiServer && window.localLokiServer.isListening()) {
-      try {
-        // clearnet change: getMyLokiAddress -> getMyClearIP
-        // const myLokiAddress = await window.lokiSnodeAPI.getMyLokiAddress();
-        myIp = await window.lokiSnodeAPI.getMyClearIp();
-      } catch (e) {
-        log.warn(`Failed to get clear IP for local server ${e}`);
-      }
-    }
-    if (myIp) {
-      p2pAddress = `https://${myIp}`;
-      p2pPort = window.localLokiServer.getPublicPort();
-      type = textsecure.protobuf.LokiAddressMessage.Type.HOST_REACHABLE;
-    } else {
-      type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
-    }
+    const p2pAddress = null;
+    const p2pPort = null;
+    // We result loki address message for sending "background" messages
+    const type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
 
     const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
       p2pAddress,
@@ -252,7 +217,6 @@
   window.libloki.api = {
     sendBackgroundMessage,
     sendOnlineBroadcastMessage,
-    broadcastOnlineStatus,
     sendPairingAuthorisation,
     createPairingAuthorisationProtoMessage,
     sendUnpairingMessageToSecondary,

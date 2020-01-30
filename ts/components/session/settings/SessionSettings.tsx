@@ -68,9 +68,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     this.hasPassword();
     this.refreshLinkedDevice = this.refreshLinkedDevice.bind(this);
+
+    this.onKeyUp = this.onKeyUp.bind(this);
+    window.addEventListener('keyup', this.onKeyUp);
   }
 
   public componentDidMount() {
+    setTimeout(() => $('#password-lock-input').focus(), 100);
+
     window.Whisper.events.on('refreshLinkedDeviceList', async () => {
       setTimeout(() => {
         this.refreshLinkedDevice();
@@ -398,7 +403,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         id: 'media-permissions',
         title: window.i18n('mediaPermissionsTitle'),
         description: window.i18n('mediaPermissionsDescription'),
-        hidden: true, // Hidden until feature works
+        hidden: false,
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.Permissions,
         setFn: window.toggleMediaPermissions,
@@ -575,5 +580,15 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           linkedPubKeys: pubKeys,
         });
       });
+  }
+
+  private async onKeyUp(event: any) {
+    const lockPasswordFocussed = $('#password-lock-input').is(':focus');
+
+    if (event.key === 'Enter' && lockPasswordFocussed) {
+      await this.validatePasswordLock();
+    }
+
+    event.preventDefault();
   }
 }

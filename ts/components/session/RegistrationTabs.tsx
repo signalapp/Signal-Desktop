@@ -499,19 +499,16 @@ export class RegistrationTabs extends React.Component<{}, State> {
       <SessionIdEditable
         editable={contentEditable}
         placeholder={enterSessionIDHere}
-        onChange={(e: any) => {
-          this.onSecondDeviceSessionIDChanged(e);
+        onChange={(value: string) => {
+          this.onSecondDeviceSessionIDChanged(value);
         }}
       />
     );
   }
 
-  private onSecondDeviceSessionIDChanged(e: any) {
-    e.preventDefault();
-    const cleanText = e.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
-    const hexEncodedPubKey = cleanText;
+  private onSecondDeviceSessionIDChanged(value: string) {
     this.setState({
-      primaryDevicePubKey: hexEncodedPubKey,
+      primaryDevicePubKey: value,
     });
   }
 

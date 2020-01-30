@@ -197,9 +197,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       return;
     }
     // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
-    this.setState({ pubKeyPasted: '' }, () => {
-      window.Session.emptyContentEditableDivs();
-    });
+    this.setState({ pubKeyPasted: '' });
 
     if (updateSearchTerm) {
       updateSearchTerm(searchTerm);
@@ -259,12 +257,11 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     this.updateSearch('');
   }
 
-  private handleOnPasteSessionID(e: any) {
+  private handleOnPasteSessionID(value: string) {
     // reset our search, we can either have a pasted sessionID or a sessionID got from a search
     this.updateSearch('');
-    const cleanText = e.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
 
-    this.setState({ pubKeyPasted: cleanText });
+    this.setState({ pubKeyPasted: value });
   }
 
   private handleMessageButtonClick() {
@@ -281,6 +278,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     }
     let pubkey: string;
     pubkey = this.state.pubKeyPasted || this.props.searchTerm;
+    pubkey = pubkey.trim();
 
     const error = validateNumber(pubkey);
     if (!error) {

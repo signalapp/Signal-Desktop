@@ -17,7 +17,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Session Messenger",
+        "label": "Quit Session",
         "role": "quit"
       }
     ]
@@ -134,7 +134,7 @@
         "type": "separator"
       },
       {
-        "label": "About Session Messenger",
+        "label": "About Session",
         "click": null
       }
     ]

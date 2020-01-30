@@ -1469,6 +1469,7 @@
 }
 
 .module-conversation-header__avatar {
+  cursor: pointer;
   min-width: 28px;
   user-select: none;
 }
@@ -1735,6 +1736,7 @@
 // Module: Document List Item
 
 .module-document-list-item {
+  padding-right: 10px;
   width: 100%;
   height: 72px;
 }
@@ -2595,7 +2597,7 @@
 
 .module-typing-animation {
   display: inline-flex;
-  flex-directin: row;
+  flex-direction: row;
   align-items: center;
 
   height: 8px;

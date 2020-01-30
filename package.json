@@ -1,9 +1,9 @@
 {
   "name": "session-messenger-desktop",
-  "productName": "Session Messenger",
+  "productName": "Session",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/loki-project/loki-messenger.git",
-  "version": "1.0.0-beta10",
+  "version": "1.0.0",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -41,19 +41,23 @@
     "test-node": "mocha --recursive --exit test/app test/modules ts/test libloki/test/node",
     "test-node-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/app test/modules ts/test libloki/test/node",
     "test-node-coverage-html": "nyc --reporter=lcov --reporter=html mocha --recursive test/a/*  */pp test/modules ts/test libloki/test/node",
-    "eslint": "eslint .",
+    "eslint": "eslint --cache .",
+    "eslint-full": "eslint .",
     "lint": "yarn format --list-different && yarn lint-windows",
+    "lint-full": "yarn format-full --list-different; yarn lint-windows-full",
     "dev-lint": "yarn format --list-different; yarn lint-windows",
     "lint-windows": "yarn eslint && yarn tslint",
+    "lint-windows-full": "yarn eslint-full && yarn tslint",
     "lint-deps": "node ts/util/lint/linter.js",
     "tslint": "tslint --format stylish --project .",
-    "format": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
+    "format": "prettier --write `git ls-files --modified *.{css,js,json,md,scss,ts,tsx}` `git ls-files --modified ./**/*.{css,js,json,md,scss,ts,tsx}`",
+    "format-full": "prettier --write \"*.{css,js,json,md,scss,ts,tsx}\" \"./**/*.{css,js,json,md,scss,ts,tsx}\"",
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",
     "styleguide": "styleguidist server",
     "pow-metrics": "node metrics_app.js localhost 9000",
-    "ready": "yarn clean-transpile && yarn grunt && yarn lint && yarn test-node && yarn test-electron && yarn lint-deps"
+    "ready": "yarn clean-transpile && yarn grunt && yarn lint-full && yarn test-node && yarn test-electron && yarn lint-deps"
   },
   "dependencies": {
     "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#2e28733b61640556b0272a3bfc78b0357daf71e6",
@@ -98,7 +102,6 @@
     "mkdirp": "0.5.1",
     "moment": "2.21.0",
     "mustache": "2.3.0",
-    "nat-upnp": "^1.1.1",
     "node-fetch": "2.3.0",
     "node-gyp": "3.8.0",
     "node-sass": "4.9.3",
@@ -120,7 +123,6 @@
     "redux-promise-middleware": "6.1.0",
     "reselect": "4.0.0",
     "rimraf": "2.6.2",
-    "selfsigned": "^1.10.4",
     "semver": "5.4.1",
     "spellchecker": "3.5.1",
     "tar": "4.4.8",
@@ -160,7 +162,6 @@
     "@types/uuid": "3.4.4",
     "arraybuffer-loader": "1.0.3",
     "asar": "0.14.0",
-    "axios": "0.18.0",
     "bower": "1.8.2",
     "chai": "4.1.2",
     "dashdash": "1.14.1",
@@ -243,7 +244,7 @@
     "linux": {
       "category": "Network",
       "desktop": {
-        "StartupWMClass": "Session Messenger"
+        "StartupWMClass": "Session"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [

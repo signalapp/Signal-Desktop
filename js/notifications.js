@@ -108,7 +108,7 @@
       const last = this.last().toJSON();
       switch (userSetting) {
         case SettingNames.COUNT:
-          title = 'Session Messenger';
+          title = 'Session';
 
           if (last.isFriendRequest) {
             message = `Friend request ${last.friendRequestType}`;

@@ -224,22 +224,30 @@
   }
 
   &-id-editable {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 94px;
-    width: 100%;
+    padding: 20px;
     border-radius: 8px;
-    border: 2px solid $session-color-dark-grey;
-    outline: 0;
-    background: transparent;
-    color: $session-color-white;
-    font-size: 15px;
-    line-height: 18px;
-    text-align: center;
+    border: 2px solid #353535;
     margin-bottom: 20px;
-    overflow-wrap: break-word;
-    padding: 20px 5px 20px 5px;
-    display: inline-block;
-    font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    user-select: all;
+
+    textarea {
+      width: 100%;
+      outline: 0;
+      border: none;
+      background: transparent;
+      color: #fff;
+      font-size: 15px;
+      line-height: 18px;
+      text-align: center;
+      overflow-wrap: break-word;
+      padding: 20px 5px 20px 5px;
+      display: inline-block;
+      font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+      user-select: all;
+    }
   }
 }
 

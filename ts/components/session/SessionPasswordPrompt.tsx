@@ -27,8 +27,10 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
     this.onKeyUp = this.onKeyUp.bind(this);
     this.initLogin = this.initLogin.bind(this);
     this.initClearDataView = this.initClearDataView.bind(this);
+  }
 
-    window.addEventListener('keyup', this.onKeyUp);
+  public componentDidMount() {
+    setTimeout(() => $('#password-prompt-input').focus(), 100);
   }
 
   public render() {
@@ -56,9 +58,9 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
       <input
         id="password-prompt-input"
         type="password"
-        autoFocus={true}
         defaultValue=""
         placeholder={' '}
+        onKeyUp={this.onKeyUp}
         maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
       />
     );

@@ -212,9 +212,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return;
     }
 
-    this.setState({ channelUrlPasted: '' }, () => {
-      window.Session.emptyContentEditableDivs();
-    });
+    this.setState({ channelUrlPasted: '' });
 
     if (updateSearchTerm) {
       updateSearchTerm(searchTerm);
@@ -297,11 +295,8 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     );
   }
 
-  private handleOnPasteUrl(e: any) {
-    if (e.target.innerHTML) {
-      const cleanText = e.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
-      this.setState({ channelUrlPasted: cleanText });
-    }
+  private handleOnPasteUrl(value: string) {
+    this.setState({ channelUrlPasted: value });
   }
 
   private handleJoinChannelButtonClick() {

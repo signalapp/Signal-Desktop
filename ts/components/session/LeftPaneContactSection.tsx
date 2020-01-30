@@ -164,9 +164,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       return;
     }
 
-    this.setState({ pubKeyPasted: '' }, () => {
-      window.Session.emptyContentEditableDivs();
-    });
+    this.setState({ pubKeyPasted: '' });
 
     if (updateSearchTerm) {
       updateSearchTerm(searchTerm);
@@ -239,7 +237,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   private handleOnAddContact() {
-    const sessionID = this.state.addContactRecipientID;
+    const sessionID = this.state.addContactRecipientID.trim();
     const error = validateNumber(sessionID, window.i18n);
 
     if (error) {
@@ -253,12 +251,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     }
   }
 
-  private handleRecipientSessionIDChanged(event: any) {
-    if (event.target.innerHTML) {
-      // remove br elements or div elements
-      const cleanText = event.target.innerHTML.replace(/<\/?[^>]+(>|$)/g, '');
-      this.setState({ addContactRecipientID: cleanText });
-    }
+  private handleRecipientSessionIDChanged(value: string) {
+    this.setState({ addContactRecipientID: value });
   }
 
   private renderContacts() {
