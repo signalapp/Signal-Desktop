@@ -777,7 +777,7 @@
     "description": "Shown to separate the types of search results"
   },
   "messagesHeader": {
-    "message": "Sessions",
+    "message": "Session",
     "description": "Shown to separate the types of search results"
   },
   "settingsHeader": {
@@ -1150,6 +1150,11 @@
     "message": "Delete Message",
     "description":
       "Shown on the drop-down menu for an individual message, deletes single message"
+  },
+  "messages": {
+    "message": "Messages",
+    "description":
+      "Message search result"
   },
   "deleteMessages": {
     "message": "Delete Messages",
