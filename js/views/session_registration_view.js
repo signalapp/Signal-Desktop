@@ -120,7 +120,7 @@
   window.Session = window.Session || {};
 
   window.Session.setNewSessionID = sessionID => {
-    const el = document.querySelector('.session-id-editable');
+    const el = document.querySelector('.session-id-editable-textarea');
     const fx = new TextScramble(el);
     el.value = sessionID;
     fx.setText(sessionID);
