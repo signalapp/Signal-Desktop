@@ -278,6 +278,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     }
     let pubkey: string;
     pubkey = this.state.pubKeyPasted || this.props.searchTerm;
+    pubkey = pubkey.trim();
 
     const error = validateNumber(pubkey);
     if (!error) {
