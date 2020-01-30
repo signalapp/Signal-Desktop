@@ -14,6 +14,7 @@ const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 
 GlobalErrors.addHandler();
+const { globalShortcut } = electron;
 
 const getRealPath = pify(fs.realpath);
 const {
@@ -284,6 +285,13 @@ function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   // Disable system main menu
   mainWindow.setMenu(null);
+
+  globalShortcut.register('f5', () => {
+		mainWindow.reload()
+	})
+	globalShortcut.register('CommandOrControl+R', () => {
+		mainWindow.reload()
+	})
 
   function captureAndSaveWindowStats() {
     if (!mainWindow) {
