@@ -51,14 +51,14 @@ export class SessionChannelSettings extends React.Component<Props, any> {
 
   public componentDidUpdate() {
     this.getMediaGalleryProps()
-    .then(({ documents, media, onItemClick }) => {
-      this.setState({
-        documents,
-        media,
-        onItemClick,
-      });
-    })
-    .ignore();
+      .then(({ documents, media, onItemClick }) => {
+        this.setState({
+          documents,
+          media,
+          onItemClick,
+        });
+      })
+      .ignore();
   }
 
   public async getMediaGalleryProps() {

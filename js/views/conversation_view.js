@@ -350,12 +350,9 @@
             props: getGroupSettingsProp(this.model),
           });
           this.$('.conversation-content-right').append(this.groupSettings.el);
-          this.$('.conversation-content-right').show();
-
-          return;
+        } else {
+          this.groupSettings.update(getGroupSettingsProp(this.model));
         }
-
-        this.groupSettings.update(getGroupSettingsProp(this.model));
         this.$('.conversation-content-right').show();
       };
 
