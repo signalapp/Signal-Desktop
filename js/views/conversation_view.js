@@ -1738,8 +1738,10 @@
       if (event.key !== 'Escape') {
         return;
       }
+
       // TODO: this view is not always in focus (e.g. after I've selected a message),
       // so need to make Esc more robust
+      // Perhaps look into ConversationHeader.tsx and add an event listener in there.
       this.model.resetMessageSelection();
       this.closeEmojiPanel();
     },

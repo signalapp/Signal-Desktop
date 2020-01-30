@@ -476,6 +476,12 @@ $session-element-border-green: 4px solid $session-color-green;
   width: 100%;
   display: flex;
 
+  &-text {
+    @include session-color-subtle($session-color-white);
+    font-family: "SF Pro Text";
+    font-weight: 300;
+  }
+
   .module-contact-name {
     width: 100%;
   }
