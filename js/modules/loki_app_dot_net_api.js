@@ -4,6 +4,7 @@ dcodeIO, Buffer, lokiSnodeAPI, TextDecoder */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
+const https = require('https');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -18,6 +19,10 @@ const SETTINGS_CHANNEL_ANNOTATION_TYPE = 'net.patter-app.settings';
 const MESSAGE_ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
+
+const lokiHttpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 // the core ADN class that handles all communication with a specific server
 class LokiAppDotNetServerAPI {
@@ -420,6 +425,11 @@ class LokiAppDotNetServerAPI {
         fetchOptions.body = rawBody;
       }
       fetchOptions.headers = new Headers(headers);
+
+      // domain ends in .loki
+      if (url.match(/\.loki\//)) {
+        fetchOptions.agent = lokiHttpsAgent;
+      }
     } catch (e) {
       log.info('serverRequest set up error:', JSON.stringify(e));
       return {
