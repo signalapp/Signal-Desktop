@@ -371,10 +371,6 @@ window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
 window.LokiRssAPI = require('./js/modules/loki_rss_api');
 
-const LokiMixpanelAPI = require('./js/modules/loki_mixpanel.js');
-
-window.mixpanel = new LokiMixpanelAPI();
-
 window.localServerPort = config.localServerPort;
 
 window.mnemonic = require('./libloki/modules/mnemonic');

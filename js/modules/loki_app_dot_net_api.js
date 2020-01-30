@@ -1666,7 +1666,6 @@ class LokiPublicChannelAPI {
       objBody: payload,
     });
     if (!res.err && res.response) {
-      window.mixpanel.track('Public Message Sent');
       return res.response.data.id;
     }
     if (res.err) {
@@ -1681,7 +1680,6 @@ class LokiPublicChannelAPI {
     }
     // there's no retry on desktop
     // this is supposed to be after retries
-    window.mixpanel.track('Failed to Send Public Message');
     return false;
   }
 }
