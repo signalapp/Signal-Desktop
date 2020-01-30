@@ -15,11 +15,15 @@ interface Props {
 }
 
 export class AttachmentSection extends React.Component<Props> {
-  public render() {
+  public render() {  
+    const { type } = this.props;
+    
     return (
       <div className="module-attachment-section">
         <div className="module-attachment-section__items">
-          {this.renderItems()}
+          <div className={`module-attachment-section__items-${type}`}>
+            {this.renderItems()}
+          </div>
         </div>
       </div>
     );
