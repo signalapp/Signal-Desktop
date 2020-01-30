@@ -30,6 +30,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
     return (
       <div className="session-id-editable">
         <textarea
+          className="session-id-editable-textarea"
           ref={this.inputRef}
           placeholder={placeholder}
           disabled={!editable}
