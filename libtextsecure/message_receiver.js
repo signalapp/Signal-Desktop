@@ -12,11 +12,8 @@
 /* global ContactBuffer: false */
 /* global GroupBuffer: false */
 /* global WebSocketResource: false */
-/* global localLokiServer: false */
 /* global lokiPublicChatAPI: false */
-/* global localServerPort: false */
 /* global lokiMessageAPI: false */
-/* global lokiP2pAPI: false */
 /* global feeds: false */
 /* global Whisper: false */
 /* global lokiFileServerAPI: false */
@@ -82,9 +79,6 @@ MessageReceiver.prototype.extend({
       handleRequest: this.handleRequest.bind(this),
     });
     this.httpPollingResource.pollServer();
-    if (localLokiServer) {
-      localLokiServer.on('message', this.handleP2pMessage.bind(this));
-    }
     if (lokiPublicChatAPI) {
       lokiPublicChatAPI.on(
         'publicMessage',
@@ -95,7 +89,6 @@ MessageReceiver.prototype.extend({
     feeds.forEach(feed => {
       feed.on('rssMessage', this.handleUnencryptedMessage.bind(this));
     });
-    this.startLocalServer();
 
     // TODO: Rework this socket stuff to work with online messaging
     const useWebSocket = false;
@@ -125,45 +118,6 @@ MessageReceiver.prototype.extend({
     // Ensures that an immediate 'empty' event from the websocket will fire only after
     //   all cached envelopes are processed.
     this.incoming = [this.pending];
-  },
-  async startLocalServer() {
-    if (!localLokiServer) {
-      return;
-    }
-    try {
-      // clearnet change: getMyLokiIp -> getMyClearIp
-      // const myLokiIp = await window.lokiSnodeAPI.getMyLokiIp();
-      const myLokiIp = '0.0.0.0';
-      const myServerPort = await localLokiServer.start(
-        localServerPort,
-        myLokiIp
-      );
-      window.log.info(`Local Server started at ${myLokiIp}:${myServerPort}`);
-      libloki.api.broadcastOnlineStatus();
-    } catch (e) {
-      if (e instanceof textsecure.HolePunchingError) {
-        window.log.warn(e.message);
-        window.log.warn('Abdandoning starting p2p server.');
-        return;
-      } else if (e instanceof textsecure.LokiIpError) {
-        window.log.warn(
-          'Failed to get my loki address to bind server to, will retry in 30 seconds'
-        );
-      } else {
-        window.log.warn(
-          'Failed to start local loki server, will retry in 30 seconds'
-        );
-      }
-      setTimeout(this.startLocalServer.bind(this), 30 * 1000);
-    }
-  },
-  handleP2pMessage({ message, onSuccess, onFailure }) {
-    const options = {
-      isP2p: true,
-      onSuccess,
-      onFailure,
-    };
-    this.httpPollingResource.handleMessage(message, options);
   },
   async handleUnencryptedMessage({ message }) {
     const isMe = message.source === textsecure.storage.user.getNumber();
@@ -201,13 +155,6 @@ MessageReceiver.prototype.extend({
       this.wsr.removeEventListener('close', this._onClose);
       this.wsr = null;
     }
-
-    if (localLokiServer) {
-      localLokiServer.removeListener(
-        'message',
-        this.handleP2pMessage.bind(this)
-      );
-    }
   },
   async close() {
     window.log.info('MessageReceiver.close()');
@@ -217,10 +164,6 @@ MessageReceiver.prototype.extend({
     //   if the socket doesn't emit one quickly enough.
     if (this.wsr) {
       this.wsr.close(3000, 'called close');
-    }
-
-    if (localLokiServer) {
-      localLokiServer.close();
     }
 
     if (lokiPublicChatAPI) {
@@ -279,7 +222,7 @@ MessageReceiver.prototype.extend({
     //   });
   },
   handleRequest(request, options) {
-    const { isP2p, onSuccess, onFailure } = options;
+    const { onSuccess, onFailure } = options;
     this.incoming = this.incoming || [];
     const lastPromise = _.last(this.incoming);
 
@@ -299,9 +242,6 @@ MessageReceiver.prototype.extend({
     const promise = Promise.resolve(request.body.toArrayBuffer()) // textsecure.crypto
       .then(plaintext => {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
-        if (isP2p) {
-          lokiP2pAPI.setContactOnline(envelope.source);
-        }
         // After this point, decoding errors are not the server's
         //   fault, and we should handle them gracefully and tell the
         //   user they received an invalid message
@@ -311,7 +251,6 @@ MessageReceiver.prototype.extend({
         }
 
         envelope.id = envelope.serverGuid || window.getGuid();
-        envelope.isP2p = isP2p;
         envelope.serverTimestamp = envelope.serverTimestamp
           ? envelope.serverTimestamp.toNumber()
           : null;
@@ -1089,16 +1028,8 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  async handleLokiAddressMessage(envelope, lokiAddressMessage) {
-    const { p2pAddress, p2pPort, type } = lokiAddressMessage;
-    if (type === textsecure.protobuf.LokiAddressMessage.Type.HOST_REACHABLE) {
-      lokiP2pAPI.updateContactP2pDetails(
-        envelope.source,
-        p2pAddress,
-        p2pPort,
-        envelope.isP2p
-      );
-    }
+  async handleLokiAddressMessage(envelope) {
+    window.log.warn('Ignoring a Loki address message');
     return this.removeFromCache(envelope);
   },
   async handlePairingRequest(envelope, pairingRequest) {
@@ -1319,14 +1250,6 @@ MessageReceiver.prototype.extend({
     await conversation.setLokiProfile(newProfile);
   },
   handleDataMessage(envelope, msg) {
-    if (!envelope.isP2p) {
-      const timestamp = envelope.timestamp.toNumber();
-      const now = Date.now();
-      const ageInSeconds = (now - timestamp) / 1000;
-      if (ageInSeconds <= 120) {
-        lokiP2pAPI.pingContact(envelope.source);
-      }
-    }
     window.log.info('data message from', this.getEnvelopeId(envelope));
     let p = Promise.resolve();
     // eslint-disable-next-line no-bitwise
@@ -1465,7 +1388,6 @@ MessageReceiver.prototype.extend({
           timestamp: envelope.timestamp.toNumber(),
           receivedAt: envelope.receivedAt,
           unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
-          isP2p: envelope.isP2p,
           message,
         };
         return this.dispatchAndWait(ev);

@@ -12,7 +12,6 @@
   profileImages,
   clipboard,
   BlockedNumberController,
-  lokiP2pAPI,
   lokiPublicChatAPI,
   JobQueue
 */
@@ -182,13 +181,6 @@
 
       if (this.id === this.ourNumber) {
         this.set({ friendRequestStatus: FriendRequestStatusEnum.friends });
-      } else if (typeof lokiP2pAPI !== 'undefined') {
-        // Online status handling, only for contacts that aren't us
-        this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
-      } else {
-        window.log.warn(
-          'lokiP2pAPI not initialised when spawning conversation!'
-        );
       }
 
       this.messageSendQueue = new JobQueue();
@@ -482,11 +474,6 @@
     async onCalculatingPoW(pubKey, timestamp) {
       const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
-    },
-
-    async onP2pMessageSent(pubKey, timestamp) {
-      const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
-      await Promise.all(messages.map(m => m.setIsP2p(true)));
     },
 
     async onPublicMessageSent(pubKey, timestamp, serverId) {
