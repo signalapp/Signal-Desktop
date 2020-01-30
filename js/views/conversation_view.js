@@ -350,7 +350,12 @@
             props: getGroupSettingsProp(this.model),
           });
           this.$('.conversation-content-right').append(this.groupSettings.el);
+          this.$('.conversation-content-right').show();
+
+          return;
         }
+
+        this.groupSettings.update(getGroupSettingsProp(this.model));
         this.$('.conversation-content-right').show();
       };
 
@@ -875,9 +880,7 @@
     },
 
     updateScrollDownButton(count) {
-      if (this.scrollDownButton) {
-        this.scrollDownButton.increment(count);
-      } else {
+      if (!this.scrollDownButton) {
         this.scrollDownButton = new Whisper.ScrollDownButtonView({ count });
         this.scrollDownButton.render();
         const container = this.$('.discussion-container');
