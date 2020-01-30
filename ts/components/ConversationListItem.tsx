@@ -78,13 +78,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
       profileName,
       isOnline,
       isPendingFriendRequest,
+      hasSentFriendRequest,
     } = this.props;
 
     let borderColor;
-    if (!isPendingFriendRequest) {
+    if (!(isPendingFriendRequest && !hasSentFriendRequest)) {
       borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
     }
-    const iconSize = isPendingFriendRequest ? 28 : 48;
+    const iconSize = isPendingFriendRequest && !hasSentFriendRequest ? 28 : 48;
 
     return (
       <div className="module-conversation-list-item__avatar-container">
