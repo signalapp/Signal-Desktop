@@ -258,13 +258,6 @@
     }
     // are there limits on tracking, is this unneeded?
     // window.mixpanel.track("Desktop boot");
-    window.lokiP2pAPI = new window.LokiP2pAPI(ourKey);
-    window.lokiP2pAPI.on('pingContact', pubKey => {
-      const isPing = true;
-      libloki.api.sendOnlineBroadcastMessage(pubKey, isPing);
-    });
-    window.lokiP2pAPI.on('online', ConversationController._handleOnline);
-    window.lokiP2pAPI.on('offline', ConversationController._handleOffline);
     window.initialisedAPI = true;
 
     if (storage.get('isSecondaryDevice')) {
@@ -284,14 +277,6 @@
       default:
         return 'light';
     }
-  }
-
-  function startLocalLokiServer() {
-    if (window.localLokiServer) {
-      return;
-    }
-    const pems = window.getSelfSignedCert();
-    window.localLokiServer = new window.LocalLokiServer(pems);
   }
 
   // We need this 'first' check because we don't want to start the app up any other time
@@ -391,8 +376,6 @@
       },
 
       shutdown: async () => {
-        await window.localLokiServer.close();
-
         // Stop background processing
         window.Signal.AttachmentDownloads.stop();
         if (idleDetector) {
@@ -1262,15 +1245,6 @@
       }
     });
 
-    Whisper.events.on('p2pMessageSent', ({ pubKey, timestamp }) => {
-      try {
-        const conversation = ConversationController.get(pubKey);
-        conversation.onP2pMessageSent(pubKey, timestamp);
-      } catch (e) {
-        window.log.error('Error setting p2p on message');
-      }
-    });
-
     Whisper.events.on(
       'publicMessageSent',
       ({ pubKey, timestamp, serverId }) => {
@@ -1418,7 +1392,6 @@
       window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
-      window.localLokiServer = null;
       window.lokiPublicChatAPI = null;
       window.feeds = [];
       messageReceiver = new textsecure.MessageReceiver(
@@ -1436,8 +1409,6 @@
       return;
     }
 
-    // initialize the socket and start listening for messages
-    startLocalLokiServer();
     await initAPIs();
     await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver(
@@ -2054,7 +2025,6 @@
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
-      isP2p: data.isP2p,
       isPublic: data.isPublic,
       isRss: data.isRss,
     };
