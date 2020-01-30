@@ -1153,8 +1153,7 @@
   },
   "messages": {
     "message": "Messages",
-    "description":
-      "Message search result"
+    "description": "Message search result"
   },
   "deleteMessages": {
     "message": "Delete Messages",
