@@ -287,11 +287,11 @@ function createWindow() {
   mainWindow.setMenu(null);
 
   globalShortcut.register('f5', () => {
-		mainWindow.reload()
-	})
-	globalShortcut.register('CommandOrControl+R', () => {
-		mainWindow.reload()
-	})
+    mainWindow.reload();
+  });
+  globalShortcut.register('CommandOrControl+R', () => {
+    mainWindow.reload();
+  });
 
   function captureAndSaveWindowStats() {
     if (!mainWindow) {
