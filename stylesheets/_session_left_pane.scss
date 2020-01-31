@@ -297,13 +297,16 @@ $session-compose-margin: 20px;
       margin: 0px 20px;
     }
 
-    .session-id-editable textarea::-webkit-inner-spin-button {
-      margin: 0px 20px;
-      width: -webkit-fill-available;
-      flex-shrink: 0;
-      user-select: all;
-      overflow: hidden;
-      resize: none;
+    .session-id-editable {
+      textarea::-webkit-inner-spin-button {
+        margin: 0px 20px;
+        width: -webkit-fill-available;
+        flex-shrink: 0;
+      }
+    }
+
+    .session-id-editable-disabled {
+      border: none;
     }
 
     .session-button {

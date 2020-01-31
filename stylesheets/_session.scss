@@ -1344,6 +1344,7 @@ label {
 .session-id-editable textarea {
   resize: none;
   overflow: hidden;
+  user-select: all;
 }
 
 input {

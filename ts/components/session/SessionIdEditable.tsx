@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 interface Props {
   placeholder?: string;
@@ -28,7 +29,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
     const { placeholder, editable, text } = this.props;
 
     return (
-      <div className="session-id-editable">
+      <div className={classNames('session-id-editable', !editable && 'session-id-editable-disabled')}>
         <textarea
           className="session-id-editable-textarea"
           ref={this.inputRef}
