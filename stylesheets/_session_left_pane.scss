@@ -112,14 +112,15 @@ $session-compose-margin: 20px;
   &__user__profile {
     &-number,
     &-name {
+      @include fontWasaBold();
+      font-size: 15px;
+
       @at-root .light-theme #{&} {
         color: $session-color-white;
       }
       @at-root .dark-theme #{&} {
         color: $session-shade-17;
       }
-
-      font-size: 15px;
     }
   }
 }
