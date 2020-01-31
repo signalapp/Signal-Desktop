@@ -30,7 +30,10 @@
   font-family: 'SF Pro Text';
   src: url('../fonts/SFProText-Regular.ttf') format('truetype');
 }
-
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../fonts/SFProDisplay-Regular.otf') format('opentype');
+}
 @keyframes fadein {
   from {
     opacity: 0;

@@ -293,8 +293,9 @@ $session-compose-margin: 20px;
     }
 
     .session-description-long {
-      font-size: 14px;
+      font-size: 13px;
       margin: 0px 20px;
+      font-family: 'SF Pro Display';
     }
 
     .session-id-editable {
@@ -312,7 +313,7 @@ $session-compose-margin: 20px;
     .session-button {
       width: fit-content;
       margin-top: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 3rem;
       flex-shrink: 0;
     }
   }
