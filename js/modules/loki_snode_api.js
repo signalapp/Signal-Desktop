@@ -64,7 +64,6 @@ class LokiSnodeAPI {
       }));
     } catch (e) {
       log.warn('initialiseRandomPool error', JSON.stringify(e));
-      window.mixpanel.track('Seed Node Failed');
       if (seedNodes.length === 0) {
         throw new window.textsecure.SeedNodeError(
           'Failed to contact seed node'
@@ -80,7 +79,6 @@ class LokiSnodeAPI {
     const filteredNodes = swarmNodes.filter(
       node => node.address !== nodeUrl && node.ip !== nodeUrl
     );
-    window.mixpanel.track('Unreachable Snode');
     await conversation.updateSwarmNodes(filteredNodes);
   }
 

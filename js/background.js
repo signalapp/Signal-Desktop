@@ -256,8 +256,7 @@
         window.getDefaultFileServer()
       );
     }
-    // are there limits on tracking, is this unneeded?
-    // window.mixpanel.track("Desktop boot");
+
     window.initialisedAPI = true;
 
     if (storage.get('isSecondaryDevice')) {
