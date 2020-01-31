@@ -233,6 +233,12 @@
       const lastMessageModel = messages.at(0);
       if (lastMessageModel) {
         lastMessageModel.acceptFriendRequest();
+        await this.markRead();
+        window.Whisper.events.trigger(
+          'showConversation',
+          this.id,
+          lastMessageModel.id
+        );
       }
     },
     async declineFriendRequest() {
