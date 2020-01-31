@@ -553,7 +553,7 @@
         "message": "Nem-kép csatolmány esetén üzenetenként egy melléklet csatolható.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Nem keverheted a nem-kép és kép típusú csatolmányokat üzeneten belül.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

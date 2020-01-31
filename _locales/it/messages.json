@@ -553,7 +553,7 @@
         "message": "Quando includi un allegato che non è un'immagine, il limite è un solo allegato per messaggio.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Non puoi allegare insieme immagini ad altri file in un messaggio.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

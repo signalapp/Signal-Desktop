@@ -553,7 +553,7 @@
         "message": "Kur përfshihet një bashkëngjitje që s’është figurë, kufiri është një bashkëngjitje për mesazh.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "S’mund të përzieni brenda të njëjtit mesazh bashkëngjitje figurë dhe jo figurë.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

@@ -553,7 +553,7 @@
         "message": "При включении в сообщение вложений, не относящихся к изображениям, ограничение составляет по одному вложению на сообщение.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Нельзя смешивать вложения, не относящиеся к изображениям, с изображениями в одном сообщении.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

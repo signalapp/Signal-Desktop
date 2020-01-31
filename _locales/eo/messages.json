@@ -553,7 +553,7 @@
         "message": "Kiam oni enmetas nebildan kunsendaĵon, limo estas po unu kunsendaĵo mesaĝe.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Vi ne povas kunmeti nebildajn kaj bildajn kunsendaĵojn en unu mesaĝo.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

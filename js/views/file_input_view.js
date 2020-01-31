@@ -215,9 +215,9 @@
 
     showCannotMixError() {
       window.pushToast({
-        title: i18n('cannotMixImageAdnNonImageAttachments'),
+        title: i18n('cannotMixImageAndNonImageAttachments'),
         type: 'error',
-        id: 'cannotMixImageAdnNonImageAttachments',
+        id: 'cannotMixImageAndNonImageAttachments',
       });
     },
 
@@ -238,7 +238,6 @@
     },
 
     // Housekeeping
-
     addAttachment(attachment) {
       if (attachment.isVoiceNote && this.attachments.length > 0) {
         throw new Error('A voice note cannot be sent with other attachments');

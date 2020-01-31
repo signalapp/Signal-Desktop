@@ -553,7 +553,7 @@
         "message": "Når du inkluderer et vedlegg som ikke er et bilde, er begrensningen ett vedlegg per melding.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Du kan ikke blande vedlegg som er bilder med vedlegg som ikke er bilder i samme melding.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

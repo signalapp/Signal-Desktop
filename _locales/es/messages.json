@@ -553,7 +553,7 @@
         "message": "Al incluír un adjunto que no es una imagen, el límite es un adjunto por mensaje.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "No se pueden combinar adjuntos de otro tipo junto a imágenes.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

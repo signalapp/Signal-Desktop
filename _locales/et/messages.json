@@ -553,7 +553,7 @@
         "message": "Mittepildilisi manuseid sõnumile lisades kehtiv ühe manuse piirang.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Piltmanuseid ja teisi manuseid ei saa koos ühte sõnumisse panna.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

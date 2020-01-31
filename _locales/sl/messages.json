@@ -553,7 +553,7 @@
         "message": "Neslikovne datoteke so omejene na eno priponko na sporočilo.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "V istem sporočilu ne morete kombinirati neslikovnih in slikovnih priponk.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

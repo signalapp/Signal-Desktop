@@ -553,7 +553,7 @@
         "message": "Ketika menyertakan lampiran bukan gambar, batasnya adalah satu lampiran per pesan.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Anda tidak bisa mencampur lampiran gambar dan bukan gambar dalam satu pesan.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

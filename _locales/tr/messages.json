@@ -553,7 +553,7 @@
         "message": "Görüntü olmayan eklentiler içerildiğinde, ileti başı eklenti sınırı birdir.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Görüntü ve görüntü olmayan eklentileri tek iletide birleştiremezsiniz.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

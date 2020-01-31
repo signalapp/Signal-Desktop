@@ -553,7 +553,7 @@
         "message": "Når der indgår en vedhæftet fil uden billed, er grænsen en vedhæftet fil pr. besked.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Du kan ikke blande ikke-billed og billedvedhæftninger i en besked.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

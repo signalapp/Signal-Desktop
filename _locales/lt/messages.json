@@ -553,7 +553,7 @@
         "message": "Įtraukiant ne paveikslų priedus, vienoje žinutėje galimas tik vienas priedas.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Negalite vienoje žinutėje maišyti paveikslų ir ne paveikslų priedus.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

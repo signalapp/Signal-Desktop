@@ -58,6 +58,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     this.updateSearchBound = this.updateSearch.bind(this);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleCloseOnboarding = this.handleCloseOnboarding.bind(this);
+    this.handleJoinPublicChat = this.handleJoinPublicChat.bind(this);
     this.handleOnPasteSessionID = this.handleOnPasteSessionID.bind(this);
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
@@ -240,6 +241,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
               text={window.i18n('joinPublicChat')}
               buttonType={SessionButtonType.BrandOutline}
               buttonColor={SessionButtonColor.Green}
+              onClick={this.handleJoinPublicChat}
             />
             <SessionButton
               text={window.i18n('noThankyou')}
@@ -257,6 +259,10 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     this.setState({
       shouldRenderMessageOnboarding: false,
     });
+  }
+
+  public handleJoinPublicChat() {
+    return;
   }
 
   public updateSearch(searchTerm: string) {

@@ -650,7 +650,7 @@
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
-  "cannotMixImageAdnNonImageAttachments": {
+  "cannotMixImageAndNonImageAttachments": {
     "message": "You cannot mix non-image and image attachments in one message.",
     "description":
       "An error popup when the user has attempted to add an attachment"
@@ -1119,12 +1119,12 @@
     "message": "Show members"
   },
   "resetSession": {
-    "message": "Reset session",
+    "message": "Reset Session",
     "description":
       "This is a menu item for resetting the session, using the imperative case, as in a command."
   },
   "showSafetyNumber": {
-    "message": "View safety number"
+    "message": "View Safety Number"
   },
   "viewAllMedia": {
     "message": "View all media",
@@ -1756,7 +1756,7 @@
     "description": "Conversation menu option to enable disappearing messages"
   },
   "changeNickname": {
-    "message": "Change nickname",
+    "message": "Change Nickname",
     "description": "Conversation menu option to change user nickname"
   },
   "clearNickname": {
@@ -2088,10 +2088,10 @@
     }
   },
   "blockUser": {
-    "message": "Block user"
+    "message": "Block User"
   },
   "unblockUser": {
-    "message": "Unblock user"
+    "message": "Unblock User"
   },
   "settingsUnblockHeader": {
     "message": "Blocked Users",

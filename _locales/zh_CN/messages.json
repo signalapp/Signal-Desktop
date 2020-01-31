@@ -553,7 +553,7 @@
         "message": "每条消息只能添加一个非图片的附件。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "在一条消息中，可以同时添加一张图片和一个非图片附件。",
         "description": "An error popup when the user has attempted to add an attachment"
     },

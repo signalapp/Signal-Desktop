@@ -553,7 +553,7 @@
         "message": "När man inkluderar bilagor som inte är bilder, är begränsningen en bilaga per meddelande.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Du kan inte blanda bilagor som både är, och inte är, bilder i ett meddelande.",
         "description": "An error popup when the user has attempted to add an attachment"
     },

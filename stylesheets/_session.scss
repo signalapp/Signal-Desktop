@@ -1137,7 +1137,8 @@ label {
     background-color: $session-shade-1;
 
     padding: $session-margin-lg;
-    border-bottom: 2px solid $session-shade-5;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $session-shade-5;
 
     &.inline {
       display: flex;
@@ -1156,6 +1157,7 @@ label {
     }
 
     &__description {
+      font-family: "SF Pro Text";
       font-size: $session-font-sm;
       font-weight: 100;
       @include session-color-subtle($session-color-white);
