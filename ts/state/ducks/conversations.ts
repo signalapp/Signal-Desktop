@@ -986,10 +986,11 @@ export function reducer(
       }
     }
 
-    if (first && oldest && first.received_at < oldest.received_at) {
+    // Update oldest and newest if we receive older/newer messages (or duplicated timestamps!)
+    if (first && oldest && first.received_at <= oldest.received_at) {
       oldest = pick(first, ['id', 'received_at']);
     }
-    if (last && newest && last.received_at > newest.received_at) {
+    if (last && newest && last.received_at >= newest.received_at) {
       newest = pick(last, ['id', 'received_at']);
     }
 
