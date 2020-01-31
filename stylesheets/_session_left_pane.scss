@@ -367,7 +367,8 @@ $session-compose-margin: 20px;
     height: inherit;
     border: none;
     flex-grow: 1;
-    font-size: $session-font-md;
+    font-size: $session-font-sm;
+    font-family: 'SF Pro Text';
 
     &:focus {
       outline: none !important;

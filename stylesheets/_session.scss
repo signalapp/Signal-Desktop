@@ -478,7 +478,7 @@ $session-element-border-green: 4px solid $session-color-green;
   font-family: Wasa;
   width: 100%;
   display: flex;
-  font-size: 15px;
+  font-size: $session-font-md;
 
 
   &-text {
