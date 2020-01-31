@@ -18,8 +18,12 @@ import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
-import { SessionIconButton, SessionIconType, SessionIconSize } from './icon';
-import { SessionButton, SessionButtonType, SessionButtonColor } from './SessionButton';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './SessionButton';
 
 export interface Props {
   searchTerm: string;
@@ -172,7 +176,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     );
   }
 
-  public render(): JSX.Element {5
+  public render(): JSX.Element {
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
@@ -184,27 +188,25 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   }
 
   public renderConversations() {
-    
     return (
       <div className="module-conversations-list-content">
-          {this.state.shouldRenderMessageOnboarding
-          ? (<>{this.renderMessageOnboarding()}</>)
-          : (
-            <>
-              <SessionSearchInput
-                searchString={this.props.searchTerm}
-                onChange={this.updateSearchBound}
-                placeholder={window.i18n('searchForAKeyPhrase')}
-              />
-              {this.renderList()}
-            </>
-          )}
+        {this.state.shouldRenderMessageOnboarding ? (
+          <>{this.renderMessageOnboarding()}</>
+        ) : (
+          <>
+            <SessionSearchInput
+              searchString={this.props.searchTerm}
+              onChange={this.updateSearchBound}
+              placeholder={window.i18n('searchForAKeyPhrase')}
+            />
+            {this.renderList()}
+          </>
+        )}
       </div>
     );
   }
 
   public renderMessageOnboarding() {
-
     return (
       <div className="onboarding-message-section">
         <div className="onboarding-message-section__exit">
@@ -221,7 +223,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
           </div>
 
           <div className="onboarding-message-section__icons">
-            <img src="./images/session/chat-bubbles.svg"/>
+            <img src="./images/session/chat-bubbles.svg" alt="" />
           </div>
 
           <div className="onboarding-message-section__info">
@@ -247,11 +249,10 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
             />
           </div>
         </div>
-        
       </div>
-    )
+    );
   }
-  
+
   public handleCloseOnboarding() {
     this.setState({
       shouldRenderMessageOnboarding: false,

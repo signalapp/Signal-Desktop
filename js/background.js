@@ -918,7 +918,7 @@
           },
         });
       }
-  };
+    };
 
     window.generateID = () =>
       Math.random()

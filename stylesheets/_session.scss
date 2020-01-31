@@ -532,13 +532,13 @@ label {
 
 .conversation-header {
   .module-avatar img {
-    box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.20);
+    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.2);
   }
-  
+
   .search-icon {
     margin-right: 10px;
   }
-  
+
   .session-icon-button {
     @include standard-icon-button();
   }
@@ -1595,7 +1595,11 @@ input {
   align-items: flex-start;
   position: relative;
   padding: $session-margin-lg 2 * $session-margin-lg;
-  background: linear-gradient(180deg, rgba(29,28,28,1) 0%, rgba(18,18,18,1) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(29, 28, 28, 1) 0%,
+    rgba(18, 18, 18, 1) 100%
+  );
 
   &__exit {
     position: absolute;
@@ -1614,11 +1618,10 @@ input {
     height: 400px;
 
     text-align: center;
-    font-family: "SF Pro Text";
-
+    font-family: 'SF Pro Text';
   }
 
-  &__title h1{
+  &__title h1 {
     color: $session-color-white;
     font-size: $session-font-h1;
     font-weight: bold;
@@ -1631,7 +1634,7 @@ input {
   }
 
   &__info {
-    font-family: "Wasa";
+    font-family: 'Wasa';
     margin-bottom: 2 * $session-margin-lg;
 
     &--title {
@@ -1641,7 +1644,7 @@ input {
     }
 
     &--subtitle {
-      font-family: "SF Pro Text";
+      font-family: 'SF Pro Text';
       font-weight: 300;
       line-height: $session-font-md;
       opacity: 0.8;
