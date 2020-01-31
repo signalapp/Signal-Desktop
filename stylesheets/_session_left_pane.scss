@@ -189,6 +189,7 @@ $session-compose-margin: 20px;
 
     .session-button {
       margin-left: auto;
+      @include fontWasaBold();
     }
 
     &-buttons {

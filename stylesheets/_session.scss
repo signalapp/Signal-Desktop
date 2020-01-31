@@ -171,7 +171,7 @@ $session-modal-size-lg: 650px;
 $session-conversation-header-height: 60px;
 
 @mixin fontWasaBold {
-  font-weight: 700;
+  font-weight: bold;
   font-family: $session-font-family;
 }
 
