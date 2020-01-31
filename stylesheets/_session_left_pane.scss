@@ -626,5 +626,7 @@ $session-compose-margin: 20px;
     background-color: $session-background;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
+    font-family: "SF Pro Text";
+    font-size: $session-font-sm;
   }
 }
