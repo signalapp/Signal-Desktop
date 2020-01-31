@@ -78,6 +78,7 @@
     "electron-context-menu": "^0.15.0",
     "electron-editor-context-menu": "1.1.1",
     "electron-is-dev": "0.3.0",
+    "electron-localshortcut": "^3.2.1",
     "emoji-datasource": "4.0.0",
     "emoji-datasource-apple": "4.0.0",
     "emoji-js": "3.4.0",

@@ -14,7 +14,7 @@ const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 
 GlobalErrors.addHandler();
-const { globalShortcut } = electron;
+const electronLocalshortcut = require('electron-localshortcut');
 
 const getRealPath = pify(fs.realpath);
 const {
@@ -286,10 +286,10 @@ function createWindow() {
   // Disable system main menu
   mainWindow.setMenu(null);
 
-  globalShortcut.register('f5', () => {
+  electronLocalshortcut.register(mainWindow, 'f5', () => {
     mainWindow.reload();
   });
-  globalShortcut.register('CommandOrControl+R', () => {
+  electronLocalshortcut.register(mainWindow, 'CommandOrControl+R', () => {
     mainWindow.reload();
   });
 
