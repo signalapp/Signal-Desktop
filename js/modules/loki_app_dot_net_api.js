@@ -44,12 +44,9 @@ class LokiAppDotNetServerAPI {
     if (!thisChannel) {
       // make sure we're subscribed
       // eventually we'll need to move to account registration/add server
-      await this.serverRequest(
-        `channels/${channelId}/subscribe`,
-        {
-          method: 'POST',
-        }
-      );
+      await this.serverRequest(`channels/${channelId}/subscribe`, {
+        method: 'POST',
+      });
       thisChannel = new LokiPublicChannelAPI(
         chatAPI,
         this,
@@ -310,17 +307,15 @@ class LokiAppDotNetServerAPI {
       (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
         this.baseServerUrl === 'https://file.lokinet.org')
     ) {
-      const finalOptions = {...fetchOptions}
+      const finalOptions = { ...fetchOptions };
       if (!fetchOptions.method) {
         finalOptions.method = 'GET';
       }
       const urlStr = urlObj.toString();
       const endpoint = urlStr.replace(`${this.baseServerUrl}/`, '');
       const { response, result } = await this._sendToProxy(
-        finalOptions,
-        finalOptions.method,
-        finalOptions.headers,
-        endpoint
+        endpoint,
+        finalOptions
       );
       // emulate nodeFetch response...
       return {
@@ -331,7 +326,7 @@ class LokiAppDotNetServerAPI {
     return nodeFetch(urlObj, fetchOptions);
   }
 
-  async _sendToProxy(fetchOptions, method, headers, endpoint) {
+  async _sendToProxy(endpoint, fetchOptions) {
     const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
     const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
@@ -339,8 +334,8 @@ class LokiAppDotNetServerAPI {
       // I think this is a stream, we may need to collect it all?
       body: fetchOptions.body, // might need to b64 if binary...
       endpoint,
-      method,
-      headers,
+      method: fetchOptions.method,
+      headers: fetchOptions.headers,
     };
 
     // from https://github.com/sindresorhus/is-stream/blob/master/index.js
@@ -478,12 +473,9 @@ class LokiAppDotNetServerAPI {
           this.baseServerUrl === 'https://file.lokinet.org')
       ) {
         mode = '_sendToProxy';
-        // have to send headers because fetchOptions.headers isn't readable
         ({ response, txtResponse, result } = await this._sendToProxy(
-          fetchOptions,
-          method,
-          headers,
-          endpoint
+          endpoint,
+          fetchOptions
         ));
       } else {
         result = await nodeFetch(url, fetchOptions);
