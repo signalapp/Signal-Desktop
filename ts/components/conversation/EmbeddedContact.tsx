@@ -47,7 +47,7 @@ export class EmbeddedContact extends React.Component<Props> {
         role="button"
         onClick={onClick}
       >
-        {renderAvatar({ contact, i18n, size: 48, direction })}
+        {renderAvatar({ contact, i18n, size: 36, direction })}
         <div className="module-embedded-contact__text-container">
           {renderName({ contact, isIncoming, module })}
           {renderContactShorthand({ contact, isIncoming, module })}
