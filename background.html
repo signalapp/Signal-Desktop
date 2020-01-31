@@ -108,17 +108,17 @@
               <div class='compose'>
                 <form class='send clearfix file-input'>
                   <div class='flex'>
-                    <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                    <div id='choose-file' class='choose-file'>
+                      <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                      <input type='file' class='file-input' multiple='multiple'>
+                    </div>
+                    <div class='capture-audio'>
+                      <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                    </div>
                     <div class='send-message-container'>
                       <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
                     </div>
-                    <div class='capture-audio'>
-                        <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    </div>
-                    <div id='choose-file' class='choose-file'>
-                        <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                        <input type='file' class='file-input' multiple='multiple'>
-                    </div>
+                    <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                   </div>
                 </form>
               </div>

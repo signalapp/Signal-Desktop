@@ -189,7 +189,7 @@ body.dark-theme {
 
   button.emoji {
     &:before {
-      margin-top: 4px;
+      margin-top: 7px;
       @include color-svg('../images/smile.svg', $color-dark-30);
     }
   }

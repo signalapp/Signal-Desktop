@@ -18,6 +18,8 @@ import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
+import { SessionIconButton, SessionIconType, SessionIconSize } from './icon';
+import { SessionButton, SessionButtonType, SessionButtonColor } from './SessionButton';
 
 export interface Props {
   searchTerm: string;
@@ -39,13 +41,19 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   public constructor(props: Props) {
     super(props);
+
+    const conversations = this.getCurrentConversations();
+    const length = conversations ? conversations.length : 0;
+
     this.state = {
       showComposeView: false,
       pubKeyPasted: '',
+      shouldRenderMessageOnboarding: length === 0,
     };
 
     this.updateSearchBound = this.updateSearch.bind(this);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
+    this.handleCloseOnboarding = this.handleCloseOnboarding.bind(this);
     this.handleOnPasteSessionID = this.handleOnPasteSessionID.bind(this);
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
@@ -164,7 +172,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     );
   }
 
-  public render(): JSX.Element {
+  public render(): JSX.Element {5
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
@@ -176,16 +184,78 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   }
 
   public renderConversations() {
+    
     return (
       <div className="module-conversations-list-content">
-        <SessionSearchInput
-          searchString={this.props.searchTerm}
-          onChange={this.updateSearchBound}
-          placeholder={window.i18n('searchForAKeyPhrase')}
-        />
-        {this.renderList()}
+          {this.state.shouldRenderMessageOnboarding
+          ? (<>{this.renderMessageOnboarding()}</>)
+          : (
+            <>
+              <SessionSearchInput
+                searchString={this.props.searchTerm}
+                onChange={this.updateSearchBound}
+                placeholder={window.i18n('searchForAKeyPhrase')}
+              />
+              {this.renderList()}
+            </>
+          )}
       </div>
     );
+  }
+
+  public renderMessageOnboarding() {
+
+    return (
+      <div className="onboarding-message-section">
+        <div className="onboarding-message-section__exit">
+          <SessionIconButton
+            iconType={SessionIconType.Exit}
+            iconSize={SessionIconSize.Medium}
+            onClick={this.handleCloseOnboarding}
+          />
+        </div>
+
+        <div className="onboarding-message-section__container">
+          <div className="onboarding-message-section__title">
+            <h1>{window.i18n('welcomeToSession')}</h1>
+          </div>
+
+          <div className="onboarding-message-section__icons">
+            <img src="./images/session/chat-bubbles.svg"/>
+          </div>
+
+          <div className="onboarding-message-section__info">
+            <div className="onboarding-message-section__info--title">
+              {window.i18n('noMessagesTitle')}
+            </div>
+            <div className="onboarding-message-section__info--subtitle">
+              {window.i18n('noMessagesSubtitle')}
+            </div>
+          </div>
+
+          <div className="onboarding-message-section__buttons">
+            <SessionButton
+              text={window.i18n('joinPublicChat')}
+              buttonType={SessionButtonType.BrandOutline}
+              buttonColor={SessionButtonColor.Green}
+            />
+            <SessionButton
+              text={window.i18n('noThankyou')}
+              buttonType={SessionButtonType.Brand}
+              buttonColor={SessionButtonColor.Secondary}
+              onClick={this.handleCloseOnboarding}
+            />
+          </div>
+        </div>
+        
+      </div>
+    )
+  }
+  
+  public handleCloseOnboarding() {
+    this.setState({
+      shouldRenderMessageOnboarding: false,
+    });
   }
 
   public updateSearch(searchTerm: string) {

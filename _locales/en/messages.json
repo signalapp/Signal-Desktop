@@ -967,6 +967,15 @@
   "continue": {
     "message": "Continue"
   },
+  "noThankyou": {
+    "message": "No, thank you"
+  },
+  "noMessagesTitle": {
+    "message": "You don't have any messages, yet."
+  },
+  "noMessagesSubtitle": {
+    "message": "Would you like to join Session's public chat?"
+  },
   "pairNewDevice": {
     "message": "Pair New Device"
   },
@@ -2580,6 +2589,9 @@
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
   },
+  "welcomeToSession": {
+    "message": "Welcome to Session"
+  },
   "welcomeToYourSession": {
     "message": "Welcome to your Session"
   },
@@ -2706,6 +2718,9 @@
   },
   "joinChannel": {
     "message": "Join Open Group"
+  },
+  "joinPublicChat": {
+    "message": "Join Public Chat"
   },
   "next": {
     "message": "Next"
