@@ -327,8 +327,6 @@
       $target.toggleClass('section-toggle-visible');
     },
     async openConversation(id, messageId) {
-      const conversationExists = await ConversationController.get(id);
-
       // If we call this to create a new conversation, it can only be private
       // (group conversations are created elsewhere)
       const conversation = await ConversationController.getOrCreateAndWait(
@@ -341,19 +339,6 @@
       }
 
       if (conversation) {
-        if (conversation.isRss()) {
-          window.mixpanel.track('RSS Feed Opened');
-        }
-        if (conversation.isPublic()) {
-          window.mixpanel.track('Loki Public Chat Opened');
-        }
-        if (conversation.isPrivate()) {
-          if (conversation.isMe()) {
-            window.mixpanel.track('Note To Self Opened');
-          } else if (conversationExists) {
-            window.mixpanel.track('Conversation Opened');
-          }
-        }
         conversation.updateProfileName();
       }
 

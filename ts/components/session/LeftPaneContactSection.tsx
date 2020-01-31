@@ -237,7 +237,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   private handleOnAddContact() {
-    const sessionID = this.state.addContactRecipientID;
+    const sessionID = this.state.addContactRecipientID.trim();
     const error = validateNumber(sessionID, window.i18n);
 
     if (error) {

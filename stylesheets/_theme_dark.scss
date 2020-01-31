@@ -49,7 +49,7 @@ body.dark-theme {
       outline: 0;
 
       &[disabled='disabled'] {
-        background: $color-light-90;
+        cursor: not-allowed;
       }
     }
   }
