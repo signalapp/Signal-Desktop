@@ -1,3 +1,6 @@
+# External yarn from https://dl.yarnpkg.com/rpm/
+# External nodejs from https://rpm.nodesource.com/pub_12.x/ (requires Python 2)
+
 %global debug_package %{nil}
 #global beta beta.5
 
@@ -6,24 +9,25 @@
 %global __provides_exclude ^(lib.*\\.so.*)$
 
 Name:       Signal-Desktop
-Version:    1.29.6
+Version:    1.30.1
 Release:    1%{?dist}
 Summary:    Private messaging from your desktop
 License:    GPLv3
 URL:        https://signal.org/
 
 Source0:    https://github.com/signalapp/%{name}/archive/v%{version}%{?beta:-%{beta}}.tar.gz#/Signal-Desktop-%{version}%{?beta:-%{beta}}.tar.gz
-# Declare as source and not patch as patching is done later in the process:
-Source1:    https://aur.archlinux.org/cgit/aur.git/plain/openssl-linking.patch?h=signal#/Signal-Desktop-openssl-linking.patch
 Source2:    %{name}.desktop
-
-Patch0:     %{name}-sqlcipher-python.patch
+Patch0:     %{name}-fix-build.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gcc-c++
 BuildRequires:  git
-BuildRequires:  nodejs
+%if 0%{?fedora}
+BuildRequires:  libxcrypt-compat
+%endif
+BuildRequires:  nodejs >= 12.4.0
 BuildRequires:  openssl-devel
+# Python >= 2.6.0 < 3.0.0
 BuildRequires:  python27
 BuildRequires:  yarn
 
@@ -45,26 +49,34 @@ sed -i 's/"node": "/&>=/' package.json
 
 %build
 yarn install
-patch -p1 -i %{SOURCE1}
 yarn generate --force
+# https://github.com/signalapp/Signal-Desktop/issues/2376#issuecomment-457899153
+yarn generate exec:build-protobuf exec:transpile concat copy:deps sass
 yarn build-release --dir
 
 %install
 # Main files
 install -dm 755 %{buildroot}%{_libdir}/%{name}
 install -dm 755 %{buildroot}%{_bindir}
+
+# Remove unused Chromium components and unpacked Electron app
+rm -fr release/linux-unpacked/resources/app.asar.unpacked \
+  release/linux-unpacked/chrome_*.pak \
+  release/linux-unpacked/chrome-sandbox \
+  release/linux-unpacked/swiftshader
+
 cp -frv release/linux-unpacked/* %{buildroot}%{_libdir}/%{name}
+
 ln -sf %{_libdir}/%{name}/signal-desktop %{buildroot}%{_bindir}/signal-desktop
 
 # Icons
 for size in 16 24 32 48 64 128 256 512 1024; do
-    install -p -D -m 644 build/icons/png/${size}x${size}.png \
-        %{buildroot}%{_datadir}/icons/hicolor/${size}x${size}/apps/%{name}.png
+  install -p -D -m 644 build/icons/png/${size}x${size}.png \
+    %{buildroot}%{_datadir}/icons/hicolor/${size}x${size}/apps/%{name}.png
 done
 
 # Desktop file
-install -m 0644 -D -p %{SOURCE2} \
-    %{buildroot}%{_datadir}/applications/%{name}.desktop
+install -m 0644 -D -p %{SOURCE2} %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -77,6 +89,11 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_libdir}/%{name}
 
 %changelog
+* Thu Feb 06 2020 Simone Caronni <negativo17@gmail.com> - 1.30.1-1
+- Update to 1.30.1.
+- Use a patched node-sqlcipher 4.x repository (Python, linked OpenSSL).
+- Remove unused Electron binaries (sandbox, 3D swiftshader, Electron icons).
+
 * Mon Jan 20 2020 Simone Caronni <negativo17@gmail.com> - 1.29.6-1
 - Update to 1.29.6.
 - Do not use python-unversioned-command anymore.
