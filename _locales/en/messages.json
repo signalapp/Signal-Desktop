@@ -2,7 +2,7 @@
   "privacyPolicy": {
     "message": "Terms & Privacy Policy",
     "description":
-      "Shown in the about box for the link to https://signal.org/legal"
+      "Shown in the about box for the link to https://getsession.org/privacy-policy/"
   },
   "copyErrorAndQuit": {
     "message": "Copy error and quit",
@@ -933,7 +933,7 @@
   },
   "cannotUpdateDetail": {
     "message":
-      "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+      "Signal Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
     "description":
       "Shown if a general error happened while trying to install update package"
   },
