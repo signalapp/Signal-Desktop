@@ -673,7 +673,7 @@
         "message": "Sõnumid",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Tere tulemast Signalisse",
         "description": ""
     },

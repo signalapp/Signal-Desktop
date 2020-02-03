@@ -673,7 +673,7 @@
         "message": "İletiler",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Signal'e Hoşgeldin",
         "description": ""
     },

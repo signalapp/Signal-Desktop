@@ -673,7 +673,7 @@
         "message": "Поруке",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Добродошли у Signal",
         "description": ""
     },

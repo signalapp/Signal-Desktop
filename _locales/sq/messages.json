@@ -673,7 +673,7 @@
         "message": "Mesazhe",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Mirë se vini te Signal-i",
         "description": ""
     },

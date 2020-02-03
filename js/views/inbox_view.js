@@ -167,7 +167,7 @@
       this.setupLeftPane();
     },
     render_attributes: {
-      welcomeToSignal: i18n('welcomeToSignal'),
+      welcomeToSession: i18n('welcomeToSession'),
       selectAContact: i18n('selectAContact'),
     },
     events: {

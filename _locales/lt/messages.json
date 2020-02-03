@@ -673,7 +673,7 @@
         "message": "Žinutės",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Sveiki atvykę į Signal",
         "description": ""
     },

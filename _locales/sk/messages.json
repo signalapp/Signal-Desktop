@@ -673,7 +673,7 @@
         "message": "Správy",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Vitajte v aplikácii Signal",
         "description": ""
     },

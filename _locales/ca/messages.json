@@ -673,7 +673,7 @@
         "message": "Missatges",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Benvingut al Signal",
         "description": ""
     },

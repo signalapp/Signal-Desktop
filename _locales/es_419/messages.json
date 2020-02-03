@@ -565,7 +565,7 @@
         "message": "Enter name or number",
         "description": "Placeholder text in the search input"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Bienvenido a Signal",
         "description": ""
     },

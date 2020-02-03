@@ -673,7 +673,7 @@
         "message": "Üzenetek",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Üdvözöl a Signal!",
         "description": ""
     },

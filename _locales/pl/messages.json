@@ -673,7 +673,7 @@
         "message": "Wiadomości",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Witamy w Signal",
         "description": ""
     },
