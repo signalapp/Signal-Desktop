@@ -9250,17 +9250,17 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 176,
+    "lineNumber": 177,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-01-21T23:01:37.636Z"
+    "updated": "2020-02-03T17:18:39.600Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 180,
+    "lineNumber": 181,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-01-21T23:01:37.636Z"
+    "updated": "2020-02-03T17:18:39.600Z"
   },
   {
     "rule": "React-createRef",

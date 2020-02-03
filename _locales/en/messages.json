@@ -1152,6 +1152,40 @@
       }
     }
   },
+  "notificationReactionMessage": {
+    "message": "$sender$ reacted $emoji$ to: $message$",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "John"
+      },
+      "emoji": {
+        "content": "$2",
+        "example": "👍"
+      },
+      "message": {
+        "content": "$3",
+        "example": "Sounds good."
+      }
+    }
+  },
+  "notificationReactionMessageMostRecent": {
+    "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "John"
+      },
+      "emoji": {
+        "content": "$2",
+        "example": "👍"
+      },
+      "message": {
+        "content": "$3",
+        "example": "Sounds good."
+      }
+    }
+  },
   "sendFailed": {
     "message": "Send failed",
     "description": "Shown on outgoing message if it fails to send"

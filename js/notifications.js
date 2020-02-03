@@ -126,9 +126,10 @@
             // eslint-disable-next-line prefer-destructuring
             title = last.title;
             if (last.reaction) {
-              message = i18n('notificationReaction', [
+              message = i18n('notificationReactionMessage', [
                 last.title,
                 last.reaction.emoji,
+                last.message,
               ]);
             } else {
               // eslint-disable-next-line prefer-destructuring
@@ -136,9 +137,10 @@
             }
           } else if (last.reaction) {
             title = newMessageCountLabel;
-            message = i18n('notificationReactionMostRecent', [
+            message = i18n('notificationReactionMessageMostRecent', [
               last.title,
               last.reaction.emoji,
+              last.message,
             ]);
           } else {
             title = newMessageCountLabel;

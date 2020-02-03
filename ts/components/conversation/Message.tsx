@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import Measure from 'react-measure';
-import { clamp, groupBy, orderBy, take } from 'lodash';
+import { drop, groupBy, orderBy, take } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 
 import { Avatar } from '../Avatar';
@@ -161,11 +161,12 @@ interface State {
   isSelected: boolean;
   prevSelectedCounter: number;
 
-  reactionsHeight: number;
   reactionViewerRoot: HTMLDivElement | null;
   reactionPickerRoot: HTMLDivElement | null;
 
   isWide: boolean;
+
+  containerWidth: number;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -199,11 +200,12 @@ export class Message extends React.PureComponent<Props, State> {
       isSelected: props.isSelected,
       prevSelectedCounter: props.isSelectedCounter,
 
-      reactionsHeight: 0,
       reactionViewerRoot: null,
       reactionPickerRoot: null,
 
       isWide: this.wideMl.matches,
+
+      containerWidth: 0,
     };
   }
 
@@ -370,6 +372,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
+  // tslint:disable-next-line cyclomatic-complexity
   public renderMetadata() {
     const {
       collapseMetadata,
@@ -379,6 +382,7 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       isSticker,
       isTapToViewExpired,
+      reactions,
       status,
       text,
       textPending,
@@ -391,6 +395,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
+    const withReactions = reactions && reactions.length > 0;
     const showError = status === 'error' && direction === 'outgoing';
     const metadataDirection = isSticker ? undefined : direction;
 
@@ -398,12 +403,13 @@ export class Message extends React.PureComponent<Props, State> {
       <div
         className={classNames(
           'module-message__metadata',
+          `module-message__metadata--${direction}`,
+          withReactions ? 'module-message__metadata--with-reactions' : null,
           withImageNoCaption
             ? 'module-message__metadata--with-image-no-caption'
             : null
         )}
       >
-        <span className="module-message__metadata__spacer" />
         {showError ? (
           <span
             className={classNames(
@@ -991,9 +997,7 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { reactions } = this.props;
     const { reactionPickerRoot, isWide } = this.state;
-    const hasReactions = reactions && reactions.length > 0;
 
     const multipleAttachments = attachments && attachments.length > 1;
     const firstAttachment = attachments && attachments[0];
@@ -1093,8 +1097,7 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__buttons',
-            `module-message__buttons--${direction}`,
-            hasReactions ? 'module-message__buttons--has-reactions' : null
+            `module-message__buttons--${direction}`
           )}
         >
           {ENABLE_REACTION_SEND ? reactButton : null}
@@ -1524,16 +1527,43 @@ export class Message extends React.PureComponent<Props, State> {
       ['length', ([{ timestamp }]) => timestamp],
       ['desc', 'desc']
     );
-    // Take the first two groups for rendering
-    const toRender = take(ordered, 2).map(res => ({
+    // Take the first three groups for rendering
+    const toRender = take(ordered, 3).map(res => ({
       emoji: res[0].emoji,
+      count: res.length,
       isMe: res.some(re => Boolean(re.from.isMe)),
     }));
+    const someNotRendered = ordered.length > 3;
+    // We only drop two here because the third emoji would be replaced by the
+    // more button
+    const maybeNotRendered = drop(ordered, 2);
+    const maybeNotRenderedTotal = maybeNotRendered.reduce(
+      (sum, res) => sum + res.length,
+      0
+    );
+    const notRenderedIsMe =
+      someNotRendered &&
+      maybeNotRendered.some(res => res.some(re => Boolean(re.from.isMe)));
 
-    const reactionHeight = 32;
-    const { reactionsHeight: height, reactionViewerRoot } = this.state;
+    const { reactionViewerRoot, containerWidth } = this.state;
 
-    const offset = clamp((height - reactionHeight) / toRender.length, 4, 28);
+    // Calculate the width of the reactions container
+    const reactionsWidth = toRender.reduce((sum, res, i, arr) => {
+      if (someNotRendered && i === arr.length - 1) {
+        return sum + 28;
+      }
+
+      if (res.count > 1) {
+        return sum + 40;
+      }
+
+      return sum + 28;
+    }, 0);
+
+    const reactionsXAxisOffset = Math.max(
+      containerWidth - reactionsWidth - 6,
+      6
+    );
 
     const popperPlacement = outgoing ? 'bottom-end' : 'bottom-start';
 
@@ -1541,58 +1571,83 @@ export class Message extends React.PureComponent<Props, State> {
       <Manager>
         <Reference>
           {({ ref: popperRef }) => (
-            <Measure
-              bounds={true}
-              onResize={({ bounds = { height: 0 } }) => {
-                this.setState({ reactionsHeight: bounds.height });
+            <div
+              ref={mergeRefs(this.reactionsContainerRef, popperRef)}
+              className={classNames(
+                'module-message__reactions',
+                outgoing
+                  ? 'module-message__reactions--outgoing'
+                  : 'module-message__reactions--incoming'
+              )}
+              style={{
+                [outgoing ? 'right' : 'left']: `${reactionsXAxisOffset}px`,
               }}
             >
-              {({ measureRef }) => (
-                <div
-                  ref={mergeRefs(
-                    this.reactionsContainerRef,
-                    measureRef,
-                    popperRef
-                  )}
-                  className={classNames(
-                    'module-message__reactions',
-                    outgoing
-                      ? 'module-message__reactions--outgoing'
-                      : 'module-message__reactions--incoming'
-                  )}
-                >
-                  {toRender.map((re, i) => (
-                    <button
-                      key={`${re.emoji}-${i}`}
-                      className={classNames(
-                        'module-message__reactions__reaction',
-                        outgoing
-                          ? 'module-message__reactions__reaction--outgoing'
-                          : 'module-message__reactions__reaction--incoming',
-                        re.isMe
-                          ? 'module-message__reactions__reaction--is-me'
-                          : null
-                      )}
-                      style={{
-                        top: `${i * offset}px`,
-                      }}
-                      onClick={e => {
+              {toRender.map((re, i) => {
+                const isLast = i === toRender.length - 1;
+                const isMore = isLast && someNotRendered;
+                const isMoreWithMe = isMore && notRenderedIsMe;
+
+                return (
+                  <button
+                    key={`${re.emoji}-${i}`}
+                    className={classNames(
+                      'module-message__reactions__reaction',
+                      re.count > 1
+                        ? 'module-message__reactions__reaction--with-count'
+                        : null,
+                      outgoing
+                        ? 'module-message__reactions__reaction--outgoing'
+                        : 'module-message__reactions__reaction--incoming',
+                      isMoreWithMe || (re.isMe && !isMoreWithMe)
+                        ? 'module-message__reactions__reaction--is-me'
+                        : null
+                    )}
+                    onClick={e => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      this.toggleReactionViewer();
+                    }}
+                    onKeyDown={e => {
+                      // Prevent enter key from opening stickers/attachments
+                      if (e.key === 'Enter') {
                         e.stopPropagation();
-                        this.toggleReactionViewer();
-                      }}
-                      onKeyDown={e => {
-                        // Prevent enter key from opening stickers/attachments
-                        if (e.key === 'Enter') {
-                          e.stopPropagation();
-                        }
-                      }}
-                    >
-                      <Emoji size={18} emoji={re.emoji} />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </Measure>
+                      }
+                    }}
+                  >
+                    {isMore ? (
+                      <span
+                        className={classNames(
+                          'module-message__reactions__reaction__count',
+                          'module-message__reactions__reaction__count--no-emoji',
+                          isMoreWithMe
+                            ? 'module-message__reactions__reaction__count--is-me'
+                            : null
+                        )}
+                      >
+                        +{maybeNotRenderedTotal}
+                      </span>
+                    ) : (
+                      <React.Fragment>
+                        <Emoji size={16} emoji={re.emoji} />
+                        {re.count > 1 ? (
+                          <span
+                            className={classNames(
+                              'module-message__reactions__reaction__count',
+                              re.isMe
+                                ? 'module-message__reactions__reaction__count--is-me'
+                                : null
+                            )}
+                          >
+                            {re.count}
+                          </span>
+                        ) : null}
+                      </React.Fragment>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           )}
         </Reference>
         {reactionViewerRoot &&
@@ -1604,14 +1659,6 @@ export class Message extends React.PureComponent<Props, State> {
                   style={{
                     ...style,
                     zIndex: 2,
-                    marginTop: -(height - reactionHeight * 0.75),
-                    ...(outgoing
-                      ? {
-                          marginRight: reactionHeight * -0.375,
-                        }
-                      : {
-                          marginLeft: reactionHeight * -0.375,
-                        }),
                   }}
                   reactions={reactions}
                   i18n={i18n}
@@ -1816,6 +1863,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
+      reactions,
     } = this.props;
     const { isSelected } = this.state;
 
@@ -1844,6 +1892,9 @@ export class Message extends React.PureComponent<Props, State> {
         : null,
       isTapToViewError
         ? 'module-message__container--with-tap-to-view-error'
+        : null,
+      reactions && reactions.length > 0
+        ? 'module-message__container--with-reactions'
         : null
     );
     const containerStyles = {
@@ -1851,11 +1902,24 @@ export class Message extends React.PureComponent<Props, State> {
     };
 
     return (
-      <div className={containerClassnames} style={containerStyles}>
-        {this.renderAuthor()}
-        {this.renderContents()}
-        {this.renderAvatar()}
-      </div>
+      <Measure
+        bounds={true}
+        onResize={({ bounds = { width: 0 } }) => {
+          this.setState({ containerWidth: bounds.width });
+        }}
+      >
+        {({ measureRef }) => (
+          <div
+            ref={measureRef}
+            className={containerClassnames}
+            style={containerStyles}
+          >
+            {this.renderAuthor()}
+            {this.renderContents()}
+            {this.renderAvatar()}
+          </div>
+        )}
+      </Measure>
     );
   }
 

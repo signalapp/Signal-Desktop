@@ -449,369 +449,253 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 
 ### Reactions
 
-#### One Reaction
-
 ```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
-  <div className="module-message-container">
-    <Message
-      direction="incoming"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
+<util.ConversationContext>
+  {[
+    { reactions: [{ emoji: '👍', from: { id: '+14155552671' } }] },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Jack Sparrow' } },
         {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
+          emoji: '😂',
+          from: { id: '+14155552672', profileName: 'Davy Jones' },
         },
-      ]}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      direction="outgoing"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-      ]}
-    />
-  </div>
-</util.ConversationContext>
-```
-
-#### One Reaction - Ours
-
-```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
-  <div className="module-message-container">
-    <Message
-      direction="incoming"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', isMe: true, name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-      ]}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      direction="outgoing"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', isMe: true, name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-      ]}
-    />
-  </div>
-</util.ConversationContext>
-```
-
-#### Multiple reactions, ordered by most common then most recent
-
-```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
-  <div className="module-message-container">
-    <Message
-      direction="incoming"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Joel Ferrari' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😡',
-          from: { id: '+14155552671', name: 'Adam Burrell' },
-          timestamp: 1,
-        },
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Jack Sparrow' } },
+        { emoji: '😂', from: { id: '+14155552672', name: 'Amelia Briggs' } },
         {
           emoji: '😮',
-          from: { id: '+14155552671', name: 'Rick Owens' },
-          timestamp: 2,
+          from: { id: '+14155552673', profileName: 'Joel Ferrari' },
         },
-      ]}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      direction="outgoing"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Jack Sparrow' } },
+        { emoji: '😂', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '😮', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😡', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '👎', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😡', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '👎', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552678', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+        { emoji: '😮', from: { id: '+14155552677', name: 'Amelia Briggs' } },
+        { emoji: '😮', from: { id: '+14155552678', name: 'Amelia Briggs' } },
+        { emoji: '😮', from: { id: '+14155552679', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      short: true,
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😡', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '👎', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552677', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      short: true,
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      short: true,
+      reactions: [],
+    },
+    {
+      reactions: [
         {
           emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
+          from: { isMe: true, id: '+14155552671', name: 'Amelia Briggs' },
         },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+        { emoji: '😡', from: { id: '+14155552677', name: 'Amelia Briggs' } },
+        { emoji: '👎', from: { id: '+14155552678', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552679', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
         {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Joel Ferrari' },
-          timestamp: 1,
+          emoji: '😂',
+          from: { isMe: true, id: '+14155552674', name: 'Amelia Briggs' },
         },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+        { emoji: '😡', from: { id: '+14155552677', name: 'Amelia Briggs' } },
+        { emoji: '👎', from: { id: '+14155552678', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552679', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
         {
           emoji: '😡',
-          from: { id: '+14155552671', name: 'Adam Burrell' },
-          timestamp: 1,
+          from: { isMe: true, id: '+14155552677', name: 'Amelia Briggs' },
         },
+        { emoji: '👎', from: { id: '+14155552678', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552679', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      outgoing: true,
+      reactions: [
+        { emoji: '😂', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      outgoing: true,
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+        { emoji: '😡', from: { id: '+14155552677', name: 'Amelia Briggs' } },
+        { emoji: '👎', from: { id: '+14155552678', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552679', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      outgoing: true,
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
         {
-          emoji: '😮',
-          from: { id: '+14155552671', name: 'Rick Owens' },
-          timestamp: 2,
+          emoji: '😂',
+          from: { isMe: true, id: '+14155552674', name: 'Amelia Briggs' },
         },
-      ]}
-    />
-  </div>
-</util.ConversationContext>
-```
-
-#### Multiple reactions, ours is most recent/common
-
-```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
-  <div className="module-message-container">
-    <Message
-      direction="incoming"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', isMe: true, name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Joel Ferrari' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😡',
-          from: { id: '+14155552671', name: 'Adam Burrell' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😮',
-          from: { id: '+14155552671', name: 'Rick Owens' },
-          timestamp: 2,
-        },
-      ]}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      direction="outgoing"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', isMe: true, name: 'Joel Ferrari' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😡',
-          from: { id: '+14155552671', name: 'Adam Burrell' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😮',
-          from: { id: '+14155552671', name: 'Rick Owens' },
-          timestamp: 2,
-        },
-      ]}
-    />
-  </div>
-</util.ConversationContext>
-```
-
-#### Multiple reactions, ours not on top
-
-```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
-  <div className="module-message-container">
-    <Message
-      direction="incoming"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Joel Ferrari' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😡',
-          from: { id: '+14155552671', name: 'Adam Burrell' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😮',
-          from: { id: '+14155552671', isMe: true, name: 'Rick Owens' },
-          timestamp: 2,
-        },
-      ]}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      direction="outgoing"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Joel Ferrari' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😡',
-          from: { id: '+14155552671', name: 'Adam Burrell' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😮',
-          from: { id: '+14155552671', isMe: true, name: 'Rick Owens' },
-          timestamp: 2,
-        },
-      ]}
-    />
-  </div>
-</util.ConversationContext>
-```
-
-#### Small message
-
-```jsx
-<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
-  <div className="module-message-container">
-    <Message
-      direction="incoming"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="Burgertime!"
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Joel Ferrari' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😡',
-          from: { id: '+14155552671', name: 'Adam Burrell' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😮',
-          from: { id: '+14155552671', name: 'Rick Owens' },
-          timestamp: 2,
-        },
-      ]}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      direction="outgoing"
-      status="delivered"
-      authorColor="red"
-      timestamp={Date.now()}
-      text="Burgertime!"
-      i18n={util.i18n}
-      reactions={[
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Amelia Briggs' },
-          timestamp: 1,
-        },
-        {
-          emoji: '👍',
-          from: { id: '+14155552671', name: 'Joel Ferrari' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😡',
-          from: { id: '+14155552671', name: 'Adam Burrell' },
-          timestamp: 1,
-        },
-        {
-          emoji: '😮',
-          from: { id: '+14155552671', name: 'Rick Owens' },
-          timestamp: 2,
-        },
-      ]}
-    />
-  </div>
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+        { emoji: '😡', from: { id: '+14155552677', name: 'Amelia Briggs' } },
+        { emoji: '👎', from: { id: '+14155552678', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552679', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      outgoing: true,
+      short: true,
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+        { emoji: '😡', from: { id: '+14155552677', name: 'Amelia Briggs' } },
+        { emoji: '👎', from: { id: '+14155552678', name: 'Amelia Briggs' } },
+        { emoji: '❤️', from: { id: '+14155552679', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      outgoing: true,
+      short: true,
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552674', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552675', name: 'Amelia Briggs' } },
+        { emoji: '😂', from: { id: '+14155552676', name: 'Amelia Briggs' } },
+      ],
+    },
+    {
+      outgoing: true,
+      short: true,
+      reactions: [
+        { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
+        { emoji: '👍', from: { id: '+14155552673', name: 'Amelia Briggs' } },
+      ],
+    },
+  ].map((spec, i) => (
+    <div key={i} className="module-message-container">
+      <Message
+        direction={spec.outgoing ? 'outgoing' : 'incoming'}
+        status="delivered"
+        authorColor="light_green"
+        timestamp={Date.now()}
+        text={
+          spec.short
+            ? 'hahaha'
+            : "I'd like to order one large phone with extra phones please. cell phone, no no no rotary... and payphone on half."
+        }
+        reactions={spec.reactions}
+        i18n={util.i18n}
+      />
+    </div>
+  ))}
 </util.ConversationContext>
 ```
 
