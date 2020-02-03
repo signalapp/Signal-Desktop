@@ -38,7 +38,7 @@ export class ContactListItem extends React.Component<Props> {
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
-        size={48}
+        size={36}
       />
     );
   }

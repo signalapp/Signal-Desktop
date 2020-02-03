@@ -207,15 +207,17 @@ export class Avatar extends React.PureComponent<Props, State> {
       : this.renderIdenticon();
   }
 
-  private getBorderStyle(color?: string, width?: number) {
-    const borderWidth = typeof width === 'number' ? width : 3;
+  private getBorderStyle(_color?: string, _width?: number) {
+    //const borderWidth = typeof width === 'number' ? width : 3;
 
-    return color
+    // no border at all for now
+    return undefined;
+    /* return color
       ? {
           borderColor: color,
           borderStyle: 'solid',
           borderWidth: borderWidth,
         }
-      : undefined;
+      : undefined; */
   }
 }
