@@ -2102,7 +2102,9 @@
 
     // If we don't return early here, we can get into infinite error loops. So, no
     //   delivery receipts for sealed sender errors.
-    if (isError || !data.unidentifiedDeliveryReceived) {
+
+    // Note(LOKI): don't send receipt for FR as we don't have a session yet
+    if (isError || !data.unidentifiedDeliveryReceived || data.friendRequest) {
       return message;
     }
 

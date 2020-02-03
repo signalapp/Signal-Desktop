@@ -654,6 +654,9 @@ MessageReceiver.prototype.extend({
   },
   async decrypt(envelope, ciphertext) {
     let promise;
+
+    // We don't have source at this point yet (with sealed sender)
+    // This needs a massive cleanup!
     const address = new libsignal.SignalProtocolAddress(
       envelope.source,
       envelope.sourceDevice
@@ -668,17 +671,11 @@ MessageReceiver.prototype.extend({
       options.messageKeysLimit = false;
     }
 
+    // Will become obsolete
     const sessionCipher = new libsignal.SessionCipher(
       textsecure.storage.protocol,
       address,
       options
-    );
-    const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
-      textsecure.storage.protocol
-    );
-
-    const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
-      address
     );
 
     const me = {
@@ -686,15 +683,7 @@ MessageReceiver.prototype.extend({
       deviceId: parseInt(textsecure.storage.user.getDeviceId(), 10),
     };
 
-    let conversation;
-    try {
-      conversation = await window.ConversationController.getOrCreateAndWait(
-        envelope.source,
-        'private'
-      );
-    } catch (e) {
-      window.log.info('Error getting conversation: ', envelope.source);
-    }
+    // Will become obsolete
     const getCurrentSessionBaseKey = async () => {
       const record = await sessionCipher.getRecord(address.toString());
       if (!record) {
@@ -707,71 +696,28 @@ MessageReceiver.prototype.extend({
       const { baseKey } = openSession.indexInfo;
       return baseKey;
     };
+
+    // Will become obsolete
     const captureActiveSession = async () => {
       this.activeSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
     };
-    const restoreActiveSession = async () => {
-      const record = await sessionCipher.getRecord(address.toString());
-      if (!record) {
-        return;
-      }
-      record.archiveCurrentState();
-      const sessionToRestore = record.sessions[this.activeSessionBaseKey];
-      record.promoteState(sessionToRestore);
-      record.updateSessionState(sessionToRestore);
-      await textsecure.storage.protocol.storeSession(
-        address.toString(),
-        record.serialize()
-      );
-    };
-    const deleteAllSessionExcept = async sessionBaseKey => {
-      const record = await sessionCipher.getRecord(address.toString());
-      if (!record) {
-        return;
-      }
-      const sessionToKeep = record.sessions[sessionBaseKey];
-      record.sessions = {};
-      record.updateSessionState(sessionToKeep);
-      await textsecure.storage.protocol.storeSession(
-        address.toString(),
-        record.serialize()
-      );
-    };
-    let handleSessionReset;
-    if (conversation.isSessionResetOngoing()) {
-      handleSessionReset = async result => {
-        const currentSessionBaseKey = await getCurrentSessionBaseKey(
-          sessionCipher
-        );
-        if (
-          this.activeSessionBaseKey &&
-          currentSessionBaseKey !== this.activeSessionBaseKey
-        ) {
-          if (conversation.isSessionResetReceived()) {
-            await restoreActiveSession();
-          } else {
-            await deleteAllSessionExcept(currentSessionBaseKey);
-            await conversation.onNewSessionAdopted();
-          }
-        } else if (conversation.isSessionResetReceived()) {
-          await deleteAllSessionExcept(this.activeSessionBaseKey);
-          await conversation.onNewSessionAdopted();
-        }
-        return result;
-      };
-    } else {
-      handleSessionReset = async result => result;
-    }
+
+    const handleSessionReset = async result => result;
+
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
         promise = captureActiveSession()
           .then(() => sessionCipher.decryptWhisperMessage(ciphertext))
-          .then(this.unpad)
-          .then(handleSessionReset);
+          .then(this.unpad);
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
+
+        const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
+          address
+        );
+
         promise = fallBackSessionCipher
           .decrypt(ciphertext.toArrayBuffer())
           .then(this.unpad);
@@ -779,30 +725,33 @@ MessageReceiver.prototype.extend({
       }
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
         window.log.info('prekey message from', this.getEnvelopeId(envelope));
-        promise = captureActiveSession(sessionCipher)
-          .then(async () => {
-            if (!this.activeSessionBaseKey) {
-              try {
-                const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
-                await window.libloki.storage.verifyFriendRequestAcceptPreKey(
-                  envelope.source,
-                  buffer
-                );
-              } catch (e) {
-                await this.removeFromCache(envelope);
-                throw e;
-              }
+        promise = captureActiveSession(sessionCipher).then(async () => {
+          if (!this.activeSessionBaseKey) {
+            try {
+              const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
+              await window.libloki.storage.verifyFriendRequestAcceptPreKey(
+                envelope.source,
+                buffer
+              );
+            } catch (e) {
+              await this.removeFromCache(envelope);
+              throw e;
             }
-            return this.decryptPreKeyWhisperMessage(
-              ciphertext,
-              sessionCipher,
-              address
-            );
-          })
-          .then(handleSessionReset);
+          }
+          return this.decryptPreKeyWhisperMessage(
+            ciphertext,
+            sessionCipher,
+            address
+          );
+        });
         break;
       case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER:
         window.log.info('received unidentified sender message');
+
+        const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
+          textsecure.storage.protocol
+        );
+
         promise = secretSessionCipher
           .decrypt(ciphertext.toArrayBuffer(), me)
           .then(
@@ -872,8 +821,7 @@ MessageReceiver.prototype.extend({
                 throw error;
               });
             }
-          )
-          .then(handleSessionReset);
+          );
         break;
       default:
         promise = Promise.reject(new Error('Unknown message type'));
@@ -886,6 +834,75 @@ MessageReceiver.prototype.extend({
           this.removeFromCache(envelope);
           return null;
         }
+
+        let conversation;
+        try {
+          conversation = await window.ConversationController.getOrCreateAndWait(
+            envelope.source,
+            'private'
+          );
+        } catch (e) {
+          window.log.info('Error getting conversation: ', envelope.source);
+        }
+
+        /// *** BEGIN: session reset ***
+
+        const address = new libsignal.SignalProtocolAddress(
+          envelope.source,
+          envelope.sourceDevice
+        );
+
+        const restoreActiveSession = async () => {
+          const record = await sessionCipher.getRecord(address.toString());
+          if (!record) {
+            return;
+          }
+          record.archiveCurrentState();
+
+          // NOTE: activeSessionBaseKey will be undefined here...
+          const sessionToRestore = record.sessions[this.activeSessionBaseKey];
+          record.promoteState(sessionToRestore);
+          record.updateSessionState(sessionToRestore);
+          await textsecure.storage.protocol.storeSession(
+            address.toString(),
+            record.serialize()
+          );
+        };
+        const deleteAllSessionExcept = async sessionBaseKey => {
+          const record = await sessionCipher.getRecord(address.toString());
+          if (!record) {
+            return;
+          }
+          const sessionToKeep = record.sessions[sessionBaseKey];
+          record.sessions = {};
+          record.updateSessionState(sessionToKeep);
+          await textsecure.storage.protocol.storeSession(
+            address.toString(),
+            record.serialize()
+          );
+        };
+
+        if (conversation.isSessionResetOngoing()) {
+          const currentSessionBaseKey = await getCurrentSessionBaseKey(
+            sessionCipher
+          );
+          if (
+            this.activeSessionBaseKey &&
+            currentSessionBaseKey !== this.activeSessionBaseKey
+          ) {
+            if (conversation.isSessionResetReceived()) {
+              await restoreActiveSession();
+            } else {
+              await deleteAllSessionExcept(currentSessionBaseKey);
+              await conversation.onNewSessionAdopted();
+            }
+          } else if (conversation.isSessionResetReceived()) {
+            await deleteAllSessionExcept(this.activeSessionBaseKey);
+            await conversation.onNewSessionAdopted();
+          }
+        }
+
+        /// *** END ***
 
         // Type here can actually be UNIDENTIFIED_SENDER even if
         // the underlying message is FRIEND_REQUEST
