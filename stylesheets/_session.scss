@@ -1157,7 +1157,7 @@ label {
     }
 
     &__description {
-      font-family: "SF Pro Text";
+      font-family: 'SF Pro Text';
       font-size: $session-font-sm;
       font-weight: 100;
       @include session-color-subtle($session-color-white);
@@ -1651,6 +1651,13 @@ input {
       line-height: $session-font-md;
       opacity: 0.8;
     }
+  }
+
+  &__spinner-container {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
   }
 
   &__buttons {

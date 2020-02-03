@@ -64,7 +64,6 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.updateSearchBound = this.updateSearch.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
-    this.attemptConnection = this.attemptConnection.bind(this);
   }
 
   public componentWillUnmount() {
@@ -331,13 +330,12 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     // TODO: Make this not hard coded
     const channelId = 1;
     this.setState({ loading: true });
-    const connectionResult = this.attemptConnection(
+    const connectionResult = window.attemptConnection(
       channelUrlPasted,
       channelId
     );
 
     // Give 5s maximum for promise to revole. Else, throw error.
-    const maxConnectionDuration = 5000;
     const connectionTimeout = setTimeout(() => {
       if (!this.state.connectSuccess) {
         this.setState({ loading: false });
@@ -349,7 +347,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
 
         return;
       }
-    }, maxConnectionDuration);
+    }, window.CONSTANTS.MAX_CONNECTION_DURATION);
 
     connectionResult
       .then(() => {
@@ -384,48 +382,5 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       });
 
     return true;
-  }
-
-  private async attemptConnection(serverURL: string, channelId: number) {
-    let rawserverURL = serverURL
-      .replace(/^https?:\/\//i, '')
-      .replace(/[/\\]+$/i, '');
-    rawserverURL = rawserverURL.toLowerCase();
-    const sslServerURL = `https://${rawserverURL}`;
-    const conversationId = `publicChat:${channelId}@${rawserverURL}`;
-
-    const conversationExists = window.ConversationController.get(
-      conversationId
-    );
-    if (conversationExists) {
-      // We are already a member of this public chat
-      return new Promise((_resolve, reject) => {
-        reject(window.i18n('publicChatExists'));
-      });
-    }
-
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-      sslServerURL
-    );
-    if (!serverAPI) {
-      // Url incorrect or server not compatible
-      return new Promise((_resolve, reject) => {
-        reject(window.i18n('connectToServerFail'));
-      });
-    }
-
-    const conversation = await window.ConversationController.getOrCreateAndWait(
-      conversationId,
-      'group'
-    );
-
-    await conversation.setPublicSource(sslServerURL, channelId);
-    await conversation.setFriendRequestStatus(
-      window.friends.friendRequestStatusEnum.friends
-    );
-
-    conversation.getPublicSendData(); // may want "await" if you want to use the API
-
-    return conversation;
   }
 }

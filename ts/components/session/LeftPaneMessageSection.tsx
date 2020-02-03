@@ -24,6 +24,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
+import { SessionSpinner } from './SessionSpinner';
 
 export interface Props {
   searchTerm: string;
@@ -47,12 +48,29 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     super(props);
 
     const conversations = this.getCurrentConversations();
-    const length = conversations ? conversations.length : 0;
+    const renderOnboardingSetting = window.getSettingValue(
+      'render-message-onboarding'
+    );
+
+    const realConversations: Array<ConversationListItemPropsType> = [];
+    if (conversations) {
+      conversations.forEach(conversation => {
+        const isRSS =
+          conversation.id &&
+          !!(conversation.id && conversation.id.match(/^rss:/));
+
+        return !isRSS && realConversations.push(conversation);
+      });
+    }
+
+    const length = realConversations.length;
 
     this.state = {
       showComposeView: false,
       pubKeyPasted: '',
-      shouldRenderMessageOnboarding: length === 0,
+      shouldRenderMessageOnboarding: length === 0 && renderOnboardingSetting,
+      connectSuccess: false,
+      loading: false,
     };
 
     this.updateSearchBound = this.updateSearch.bind(this);
@@ -224,7 +242,11 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
           </div>
 
           <div className="onboarding-message-section__icons">
-            <img src="./images/session/chat-bubbles.svg" alt="" />
+            <img
+              src="./images/session/chat-bubbles.svg"
+              alt=""
+              role="presentation"
+            />
           </div>
 
           <div className="onboarding-message-section__info">
@@ -236,33 +258,39 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
             </div>
           </div>
 
-          <div className="onboarding-message-section__buttons">
-            <SessionButton
-              text={window.i18n('joinPublicChat')}
-              buttonType={SessionButtonType.BrandOutline}
-              buttonColor={SessionButtonColor.Green}
-              onClick={this.handleJoinPublicChat}
-            />
-            <SessionButton
-              text={window.i18n('noThankyou')}
-              buttonType={SessionButtonType.Brand}
-              buttonColor={SessionButtonColor.Secondary}
-              onClick={this.handleCloseOnboarding}
-            />
-          </div>
+          <>
+            {this.state.loading ? (
+              <div className="onboarding-message-section__spinner-container">
+                <SessionSpinner />
+              </div>
+            ) : (
+              <div className="onboarding-message-section__buttons">
+                <SessionButton
+                  text={window.i18n('joinPublicChat')}
+                  buttonType={SessionButtonType.BrandOutline}
+                  buttonColor={SessionButtonColor.Green}
+                  onClick={this.handleJoinPublicChat}
+                />
+                <SessionButton
+                  text={window.i18n('noThankyou')}
+                  buttonType={SessionButtonType.Brand}
+                  buttonColor={SessionButtonColor.Secondary}
+                  onClick={this.handleCloseOnboarding}
+                />
+              </div>
+            )}
+          </>
         </div>
       </div>
     );
   }
 
   public handleCloseOnboarding() {
+    window.setSettingValue('render-message-onboarding', false);
+
     this.setState({
       shouldRenderMessageOnboarding: false,
     });
-  }
-
-  public handleJoinPublicChat() {
-    return;
   }
 
   public updateSearch(searchTerm: string) {
@@ -367,5 +395,62 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
         id: 'invalidPubKey',
       });
     }
+  }
+
+  private handleJoinPublicChat() {
+    const serverURL = window.CONSTANTS.DEFAULT_PUBLIC_CHAT_URL;
+
+    // TODO: Make this not hard coded
+    const channelId = 1;
+    this.setState({ loading: true });
+    const connectionResult = window.attemptConnection(serverURL, channelId);
+
+    // Give 5s maximum for promise to revole. Else, throw error.
+    const connectionTimeout = setTimeout(() => {
+      if (!this.state.connectSuccess) {
+        this.setState({ loading: false });
+        window.pushToast({
+          title: window.i18n('connectToServerFail'),
+          type: 'error',
+          id: 'connectToServerFail',
+        });
+
+        return;
+      }
+    }, window.CONSTANTS.MAX_CONNECTION_DURATION);
+
+    connectionResult
+      .then(() => {
+        clearTimeout(connectionTimeout);
+
+        if (this.state.loading) {
+          this.setState({
+            shouldRenderMessageOnboarding: false,
+            connectSuccess: true,
+            loading: false,
+          });
+          window.pushToast({
+            title: window.i18n('connectToServerSuccess'),
+            id: 'connectToServerSuccess',
+            type: 'success',
+          });
+        }
+      })
+      .catch((connectionError: string) => {
+        clearTimeout(connectionTimeout);
+        this.setState({
+          connectSuccess: true,
+          loading: false,
+        });
+        window.pushToast({
+          title: connectionError,
+          id: 'connectToServerFail',
+          type: 'error',
+        });
+
+        return false;
+      });
+
+    return true;
   }
 }
