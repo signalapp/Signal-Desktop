@@ -741,12 +741,12 @@ export function reducer(
     // If our metrics are a little out of date, we'll fix them up
     if (messages.length > 0) {
       const first = messages[0];
-      if (first && (!oldest || first.received_at < oldest.received_at)) {
+      if (first && (!oldest || first.received_at <= oldest.received_at)) {
         oldest = pick(first, ['id', 'received_at']);
       }
 
       const last = messages[messages.length - 1];
-      if (last && (!newest || last.received_at > newest.received_at)) {
+      if (last && (!newest || last.received_at >= newest.received_at)) {
         newest = pick(last, ['id', 'received_at']);
       }
     }
