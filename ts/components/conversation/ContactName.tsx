@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Emojify } from './Emojify';
 import { Intl } from '../Intl';
-import { LocalizerType } from '../../types/util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
   phoneNumber?: string;
