@@ -922,11 +922,11 @@
 
     // Set user's launch count.
     const prevLaunchCount = window.getSettingValue('launch-count');
-    window.launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
-    window.setSettingValue('launch-count', window.launchCount);
+    const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
+    window.setSettingValue('launch-count', launchCount);
 
     // On first launch
-    if (window.launchCount === 1) {
+    if (launchCount === 1) {
       // Initialise default settings
       window.setSettingValue('hide-menu-bar', true);
       window.setSettingValue('link-preview-setting', false);
