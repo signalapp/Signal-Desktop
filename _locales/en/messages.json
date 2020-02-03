@@ -1445,7 +1445,7 @@
     "description": "Title of the read receipts setting"
   },
   "typingIndicatorsSettingDescription": {
-    "message": "Enable the sending and receiving of typing indicators",
+    "message": "See and share when messages are being typed (applies to all sessions).",
     "description": "Description of the typing indicators setting"
   },
   "typingIndicatorsSettingTitle": {

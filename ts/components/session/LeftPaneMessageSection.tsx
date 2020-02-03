@@ -25,6 +25,7 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
+import { joinChannelStateManager } from './LeftPaneChannelSection';
 
 export interface Props {
   searchTerm: string;
@@ -399,58 +400,6 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   private handleJoinPublicChat() {
     const serverURL = window.CONSTANTS.DEFAULT_PUBLIC_CHAT_URL;
-
-    // TODO: Make this not hard coded
-    const channelId = 1;
-    this.setState({ loading: true });
-    const connectionResult = window.attemptConnection(serverURL, channelId);
-
-    // Give 5s maximum for promise to revole. Else, throw error.
-    const connectionTimeout = setTimeout(() => {
-      if (!this.state.connectSuccess) {
-        this.setState({ loading: false });
-        window.pushToast({
-          title: window.i18n('connectToServerFail'),
-          type: 'error',
-          id: 'connectToServerFail',
-        });
-
-        return;
-      }
-    }, window.CONSTANTS.MAX_CONNECTION_DURATION);
-
-    connectionResult
-      .then(() => {
-        clearTimeout(connectionTimeout);
-
-        if (this.state.loading) {
-          this.setState({
-            shouldRenderMessageOnboarding: false,
-            connectSuccess: true,
-            loading: false,
-          });
-          window.pushToast({
-            title: window.i18n('connectToServerSuccess'),
-            id: 'connectToServerSuccess',
-            type: 'success',
-          });
-        }
-      })
-      .catch((connectionError: string) => {
-        clearTimeout(connectionTimeout);
-        this.setState({
-          connectSuccess: true,
-          loading: false,
-        });
-        window.pushToast({
-          title: connectionError,
-          id: 'connectToServerFail',
-          type: 'error',
-        });
-
-        return false;
-      });
-
-    return true;
+    joinChannelStateManager(this, serverURL, this.handleCloseOnboarding);
   }
 }

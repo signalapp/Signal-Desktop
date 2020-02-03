@@ -520,8 +520,20 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 3px;
+  margin-top: 5px;
   margin-bottom: -3px;
+
+  span {
+    opacity: 0.5;
+    transition: 0.25s;
+
+    &:not(.module-message__metadata__badge--separator):hover {
+      opacity: 1;
+    }
+  }
+  .module-message__metadata__badge--separator {
+    margin-top: -2px;
+  }
 }
 
 // With an image and no caption, this section needs to be on top of the image overlay

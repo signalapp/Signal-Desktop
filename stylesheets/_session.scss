@@ -1160,6 +1160,7 @@ label {
       font-family: 'SF Pro Text';
       font-size: $session-font-sm;
       font-weight: 100;
+      max-width: 700px;
       @include session-color-subtle($session-color-white);
     }
 

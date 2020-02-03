@@ -11,6 +11,7 @@ const { app } = electron.remote;
 const { clipboard } = electron;
 
 window.PROTO_ROOT = 'protos';
+const appConfig = require('./app/config');
 const config = require('url').parse(window.location.toString(), true).query;
 
 let title = config.name;
@@ -62,7 +63,7 @@ window.CONSTANTS = {
   MAX_LOGIN_TRIES: 3,
   MAX_PASSWORD_LENGTH: 32,
   MAX_USERNAME_LENGTH: 20,
-  DEFAULT_PUBLIC_CHAT_URL: 'https://chat.lokinet.org',
+  DEFAULT_PUBLIC_CHAT_URL: appConfig.get('defaultPublicChatServer'),
   MAX_CONNECTION_DURATION: 5000,
 };
 
