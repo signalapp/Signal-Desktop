@@ -334,8 +334,9 @@
       setTypingIndicatorsSetting: value =>
         storage.put('typing-indicators-setting', value),
 
-      getLinkPreviewSetting: () => storage.get('linkPreviews', false),
-      setLinkPreviewSetting: value => storage.put('linkPreviews', value),
+      getLinkPreviewSetting: () => storage.get('link-preview-setting', false),
+      setLinkPreviewSetting: value =>
+        storage.put('link-preview-setting', value),
 
       getNotificationSetting: () =>
         storage.get('notification-setting', 'message'),
@@ -628,7 +629,7 @@
 
       // Disable link previews as default per Kee
       storage.onready(async () => {
-        storage.put('linkPreviews', false);
+        storage.put('link-preview-setting', false);
       });
 
       // listeners
@@ -1039,7 +1040,7 @@
 
     window.toggleLinkPreview = () => {
       const newValue = !window.getSettingValue('link-preview-setting');
-      window.Events.setLinkPreviewSetting(newValue);
+      window.setSettingValue('link-preview-setting', newValue);
     };
 
     window.toggleMediaPermissions = () => {
@@ -1651,7 +1652,7 @@
     }
 
     if (linkPreviews === true || linkPreviews === false) {
-      storage.put('linkPreviews', linkPreviews);
+      storage.put('link-preview-setting', linkPreviews);
     }
 
     ev.confirm();

@@ -17,6 +17,7 @@ interface Props {
   onClick?: any;
   onSliderChange?: any;
   content: any;
+  confirmationDialogParams?: any;
 }
 
 interface State {
@@ -65,6 +66,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
               <SessionToggle
                 active={Boolean(value)}
                 onClick={this.handleClick}
+                confirmationDialogParams={this.props.confirmationDialogParams}
               />
             </div>
           )}

@@ -1376,6 +1376,13 @@
       "Link previews supported for Imgur, Instagram, Pinterest, Reddit, and YouTube.",
     "description": "Description shown for the Link Preview option "
   },
+  "linkPreviewsConfirmTitle": {
+    "message": "Warning"
+  },
+  "linkPreviewsConfirmMessage": {
+    "message": "You will not have full metadata protection when sending or receiving link previews."
+  },
+  
   "mediaPermissionsTitle": {
     "message": "Microphone and Camera"
   },
