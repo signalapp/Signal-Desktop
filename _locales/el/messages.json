@@ -553,7 +553,7 @@
         "message": "Για συνημμένα αρχεία που δεν είναι εικόνες, το όριο είναι ένα αρχείο ανά μήνυμα.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Δεν είναι δυνατό να συνάψετε εικόνες μαζί με αρχεία άλλου τύπου στο ίδιο μήνυμα.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Μηνύματα",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Καλώς ορίσατε στο Signal",
         "description": ""
     },

@@ -191,7 +191,7 @@ export class ConversationHeader extends React.Component<Props> {
       if (name) {
         title = `${name}`;
       } else {
-        title = phoneNumber;
+        title = `User ${window.shortenPubkey(phoneNumber)}`;
       }
     }
 
@@ -232,7 +232,7 @@ export class ConversationHeader extends React.Component<Props> {
           profileName={profileName}
           size={28}
           borderColor={borderColor}
-          borderWidth={2}
+          borderWidth={0}
           onAvatarClick={() => {
             this.onAvatarClickBound(phoneNumber);
           }}

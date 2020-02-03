@@ -553,7 +553,7 @@
         "message": "當包含的附檔不是圖片，每個訊息限制只能有一個附檔。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "你無法在一個訊息中，同時附上非圖片及圖片檔案。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "訊息",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "歡迎來到 Signal",
         "description": ""
     },

@@ -553,7 +553,7 @@
         "message": "Mehrere Anhänge je Nachricht sind ausschließlich bei Bildern erlaubt.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Du kannst Bilder nicht gemeinsam mit anderen Anhängen in einer Nachricht kombinieren.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Nachrichten",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Willkommen bei Signal",
         "description": ""
     },

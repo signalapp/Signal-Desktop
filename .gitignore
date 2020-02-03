@@ -1,5 +1,6 @@
 node_modules
 .sass-cache
+.eslintcache
 coverage/*
 build/curve25519_compiled.js
 build/icons/*

@@ -47,6 +47,7 @@ interface LocalSettingType {
   type: SessionSettingType | undefined;
   setFn: any;
   onClick: any;
+  confirmationDialogParams: any | undefined;
 }
 
 export class SettingsView extends React.Component<SettingsViewProps, State> {
@@ -142,6 +143,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                       onClick={onClickFn}
                       onSliderChange={sliderFn}
                       content={content}
+                      confirmationDialogParams={
+                        setting.confirmationDialogParams
+                      }
                     />
                   )}
               </div>
@@ -268,11 +272,13 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   public updateSetting(item: any) {
     // If there's a custom afterClick function,
     // execute it instead of automatically updating settings
+
     if (item.setFn) {
       item.setFn();
     } else {
       if (item.type === SessionSettingType.Toggle) {
         // If no custom afterClick function given, alter values in storage here
+
         // Switch to opposite state
         const newValue = !window.getSettingValue(item.id);
         window.setSettingValue(item.id, newValue);
@@ -324,6 +330,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         setFn: window.toggleTheme,
         content: undefined,
         onClick: undefined,
+        confirmationDialogParams: undefined,
       },
       {
         id: 'hide-menu-bar',
@@ -336,6 +343,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         content: { defaultValue: true },
         comparisonValue: undefined,
         onClick: undefined,
+        confirmationDialogParams: undefined,
       },
       {
         id: 'spell-check',
@@ -348,6 +356,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
+        confirmationDialogParams: undefined,
       },
       {
         id: 'link-preview-setting',
@@ -360,6 +369,13 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
+        confirmationDialogParams: {
+          shouldShowConfirm: () =>
+            !window.getSettingValue('link-preview-setting'),
+          title: window.i18n('linkPreviewsConfirmTitle'),
+          message: window.i18n('linkPreviewsConfirmMessage'),
+          okTheme: 'danger',
+        },
       },
       {
         id: 'notification-setting',
@@ -398,6 +414,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             ],
           },
         },
+        confirmationDialogParams: undefined,
       },
       {
         id: 'media-permissions',
@@ -410,6 +427,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
+        confirmationDialogParams: undefined,
       },
       {
         id: 'message-ttl',
@@ -424,6 +442,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         content: {
           defaultValue: 24,
         },
+        confirmationDialogParams: undefined,
       },
       {
         id: 'read-receipt-setting',
@@ -436,6 +455,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         comparisonValue: undefined,
         onClick: undefined,
         content: {},
+        confirmationDialogParams: undefined,
       },
       {
         id: 'typing-indicators-setting',
@@ -448,6 +468,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         comparisonValue: undefined,
         onClick: undefined,
         content: {},
+        confirmationDialogParams: undefined,
       },
       {
         id: 'set-password',
@@ -467,6 +488,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             action: 'set',
             onSuccess: this.onPasswordUpdated,
           }),
+        confirmationDialogParams: undefined,
       },
       {
         id: 'change-password',
@@ -486,6 +508,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             action: 'change',
             onSuccess: this.onPasswordUpdated,
           }),
+        confirmationDialogParams: undefined,
       },
       {
         id: 'remove-password',
@@ -505,6 +528,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             action: 'remove',
             onSuccess: this.onPasswordUpdated,
           }),
+        confirmationDialogParams: undefined,
       },
     ];
   }
@@ -536,6 +560,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             },
             hidden: undefined,
             onClick: undefined,
+            confirmationDialogParams: undefined,
           };
         } else {
           return {
@@ -549,6 +574,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             setFn: undefined,
             hidden: undefined,
             onClick: undefined,
+            confirmationDialogParams: undefined,
           };
         }
       });
@@ -565,6 +591,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           onClick: undefined,
           setFn: undefined,
           hidden: undefined,
+          confirmationDialogParams: undefined,
         },
       ];
     }

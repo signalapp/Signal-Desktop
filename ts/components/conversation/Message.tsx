@@ -224,17 +224,22 @@ export class Message extends React.PureComponent<Props, State> {
         }
 
         return (
-          <span
-            className={classNames(
-              'module-message__metadata__badge',
-              `module-message__metadata__badge--${direction}`,
-              `module-message__metadata__badge--${badgeText.toLowerCase()}`,
-              `module-message__metadata__badge--${badgeText.toLowerCase()}--${direction}`
-            )}
-            key={badgeText}
-          >
-            &nbsp;•&nbsp;{badgeText}
-          </span>
+          <>
+            <span className="module-message__metadata__badge--separator">
+              &nbsp;•&nbsp;
+            </span>
+            <span
+              className={classNames(
+                'module-message__metadata__badge',
+                `module-message__metadata__badge--${direction}`,
+                `module-message__metadata__badge--${badgeText.toLowerCase()}`,
+                `module-message__metadata__badge--${badgeText.toLowerCase()}--${direction}`
+              )}
+              key={badgeText}
+            >
+              {badgeText}
+            </span>
+          </>
         );
       })
       .filter(i => !!i);

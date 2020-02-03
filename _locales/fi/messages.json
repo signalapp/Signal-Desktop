@@ -553,7 +553,7 @@
         "message": "Muille kuin kuvatiedostoille raja on yksi liitetiedosto per viesti.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Kuvatiedostoa ja muun tyyppistä liitetiedostoa ei voi lisätä samaan viestiin.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Viestit",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Tervetuloa Signaliin",
         "description": ""
     },

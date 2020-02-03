@@ -334,8 +334,9 @@
       setTypingIndicatorsSetting: value =>
         storage.put('typing-indicators-setting', value),
 
-      getLinkPreviewSetting: () => storage.get('linkPreviews', false),
-      setLinkPreviewSetting: value => storage.put('linkPreviews', value),
+      getLinkPreviewSetting: () => storage.get('link-preview-setting', false),
+      setLinkPreviewSetting: value =>
+        storage.put('link-preview-setting', value),
 
       getNotificationSetting: () =>
         storage.get('notification-setting', 'message'),
@@ -628,7 +629,7 @@
 
       // Disable link previews as default per Kee
       storage.onready(async () => {
-        storage.put('linkPreviews', false);
+        storage.put('link-preview-setting', false);
       });
 
       // listeners
@@ -919,6 +920,23 @@
       }
     };
 
+    // Set user's launch count.
+    const prevLaunchCount = window.getSettingValue('launch-count');
+    const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
+    window.setSettingValue('launch-count', launchCount);
+
+    // On first launch
+    if (launchCount === 1) {
+      // Initialise default settings
+      window.setSettingValue('hide-menu-bar', true);
+      window.setSettingValue('link-preview-setting', false);
+    }
+
+    // Render onboarding message from LeftPaneMessageSection
+    // unless user turns it off during their session
+    window.setSettingValue('render-message-onboarding', true);
+
+    // Generates useful random ID for various purposes
     window.generateID = () =>
       Math.random()
         .toString(36)
@@ -1022,12 +1040,55 @@
 
     window.toggleLinkPreview = () => {
       const newValue = !window.getSettingValue('link-preview-setting');
-      window.Events.setLinkPreviewSetting(newValue);
+      window.setSettingValue('link-preview-setting', newValue);
     };
 
     window.toggleMediaPermissions = () => {
       const mediaPermissions = window.getMediaPermissions();
       window.setMediaPermissions(!mediaPermissions);
+    };
+
+    window.attemptConnection = async (serverURL, channelId) => {
+      let rawserverURL = serverURL
+        .replace(/^https?:\/\//i, '')
+        .replace(/[/\\]+$/i, '');
+      rawserverURL = rawserverURL.toLowerCase();
+      const sslServerURL = `https://${rawserverURL}`;
+      const conversationId = `publicChat:${channelId}@${rawserverURL}`;
+
+      const conversationExists = window.ConversationController.get(
+        conversationId
+      );
+      if (conversationExists) {
+        // We are already a member of this public chat
+        return new Promise((_resolve, reject) => {
+          reject(window.i18n('publicChatExists'));
+        });
+      }
+
+      const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
+        sslServerURL
+      );
+      if (!serverAPI) {
+        // Url incorrect or server not compatible
+        return new Promise((_resolve, reject) => {
+          reject(window.i18n('connectToServerFail'));
+        });
+      }
+
+      const conversation = await window.ConversationController.getOrCreateAndWait(
+        conversationId,
+        'group'
+      );
+
+      await conversation.setPublicSource(sslServerURL, channelId);
+      await conversation.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends
+      );
+
+      conversation.getPublicSendData(); // may want "await" if you want to use the API
+
+      return conversation;
     };
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
@@ -1591,7 +1652,7 @@
     }
 
     if (linkPreviews === true || linkPreviews === false) {
-      storage.put('linkPreviews', linkPreviews);
+      storage.put('link-preview-setting', linkPreviews);
     }
 
     ev.confirm();

@@ -603,7 +603,7 @@
     "description": "Name for a voice message attachment"
   },
   "dangerousFileType": {
-    "message": "Attachment type not allowed for security reasons",
+    "message": "For security reasons, this file type cannot be sent",
     "description":
       "Shown in toast when user attempts to send .exe file, for example"
   },
@@ -646,25 +646,25 @@
   },
   "oneNonImageAtATimeToast": {
     "message":
-      "When including a non-image attachment, the limit is one attachment per message.",
+      "Sorry, there is a limit of one non-image attachment per message",
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
-  "cannotMixImageAdnNonImageAttachments": {
-    "message": "You cannot mix non-image and image attachments in one message.",
+  "cannotMixImageAndNonImageAttachments": {
+    "message": "Sorry, you cannot mix images with other file types in one message",
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
-    "message": "You cannot add any more attachments to this message.",
+    "message": "Maximum number of attachments reached. Please send remaining attachments in a separate message.",
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, the selected file exceeds message size restrictions."
+    "message": "Sorry, the selected attachment is too large"
   },
   "unableToLoadAttachment": {
-    "message": "Unable to load selected attachment."
+    "message": "Unable to load attachment."
   },
   "connect": {
     "message": "Connect"
@@ -784,7 +784,7 @@
     "message": "Settings",
     "description": "Shown to separate the types of search results"
   },
-  "welcomeToSignal": {
+  "welcomeToSession": {
     "message": "Welcome to Session"
   },
   "selectAContact": {
@@ -967,6 +967,15 @@
   "continue": {
     "message": "Continue"
   },
+  "noThankyou": {
+    "message": "No, thank you"
+  },
+  "noMessagesTitle": {
+    "message": "You don't have any messages, yet."
+  },
+  "noMessagesSubtitle": {
+    "message": "Would you like to join Session's public chat?"
+  },
   "pairNewDevice": {
     "message": "Pair New Device"
   },
@@ -1052,7 +1061,7 @@
       "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
   },
   "messageDeletionForbidden": {
-    "message": "You don't have permission to delete others' messages.",
+    "message": "You don’t have permission to delete others’ messages",
     "description":
       "Toast message explaining that the user doens't have the rights to delete other people's messages."
   },
@@ -1110,12 +1119,12 @@
     "message": "Show members"
   },
   "resetSession": {
-    "message": "Reset session",
+    "message": "Reset Session",
     "description":
       "This is a menu item for resetting the session, using the imperative case, as in a command."
   },
   "showSafetyNumber": {
-    "message": "View safety number"
+    "message": "View Safety Number"
   },
   "viewAllMedia": {
     "message": "View all media",
@@ -1367,6 +1376,13 @@
       "Link previews supported for Imgur, Instagram, Pinterest, Reddit, and YouTube.",
     "description": "Description shown for the Link Preview option "
   },
+  "linkPreviewsConfirmTitle": {
+    "message": "Warning"
+  },
+  "linkPreviewsConfirmMessage": {
+    "message": "You will not have full metadata protection when sending or receiving link previews."
+  },
+  
   "mediaPermissionsTitle": {
     "message": "Microphone and Camera"
   },
@@ -1429,7 +1445,7 @@
     "description": "Title of the read receipts setting"
   },
   "typingIndicatorsSettingDescription": {
-    "message": "Enable the sending and receiving of typing indicators",
+    "message": "See and share when messages are being typed (applies to all sessions).",
     "description": "Description of the typing indicators setting"
   },
   "typingIndicatorsSettingTitle": {
@@ -1642,7 +1658,7 @@
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Unblock this group to send a message.",
+    "message": "This group is blocked. Unlock it if you would like to send a message.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -1747,7 +1763,7 @@
     "description": "Conversation menu option to enable disappearing messages"
   },
   "changeNickname": {
-    "message": "Change nickname",
+    "message": "Change Nickname",
     "description": "Conversation menu option to change user nickname"
   },
   "clearNickname": {
@@ -2037,7 +2053,7 @@
       "Shown in the conversation history when the user accepts a friend request"
   },
   "friendRequestDeclined": {
-    "message": "Friend request declined",
+    "message": "Session request declined",
     "description":
       "Shown in the conversation history when the user declines a friend request"
   },
@@ -2079,10 +2095,10 @@
     }
   },
   "blockUser": {
-    "message": "Block user"
+    "message": "Block User"
   },
   "unblockUser": {
-    "message": "Unblock user"
+    "message": "Unblock User"
   },
   "settingsUnblockHeader": {
     "message": "Blocked Users",
@@ -2111,11 +2127,11 @@
     "description": "Message shown when confirming user ban."
   },
   "userBanned": {
-    "message": "User successfully banned",
+    "message": "User banned successfully",
     "description": "Toast on succesful user ban."
   },
   "userBanFailed": {
-    "message": "User ban failed!",
+    "message": "Ban failed!",
     "description": "Toast on unsuccesful user ban."
   },
   "copyChatId": {
@@ -2144,7 +2160,7 @@
       "Title shown to the user to confirm they want to leave the group"
   },
   "copiedPublicKey": {
-    "message": "Copied public key",
+    "message": "Session ID copied",
     "description": "A toast message telling the user that the key was copied"
   },
   "copiedChatId": {
@@ -2161,7 +2177,7 @@
     "description": "Button action that the user can click to select the message"
   },
   "copiedMessage": {
-    "message": "Copied message text",
+    "message": "Message text copied",
     "description":
       "A toast message telling the user that the message text was copied"
   },
@@ -2282,7 +2298,7 @@
     "description": "The title shown when the user views their seeds"
   },
   "copiedMnemonic": {
-    "message": "Copied seed to clipboard",
+    "message": "Recovery phrase copied successfully",
     "description":
       "A toast message telling the user that the mnemonic seed was copied"
   },
@@ -2330,7 +2346,7 @@
     "message": "Old password is invalid"
   },
   "invalidPassword": {
-    "message": "Invalid Password"
+    "message": "Invalid password"
   },
   "noGivenPassword": {
     "message": "Please enter your password"
@@ -2579,6 +2595,9 @@
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
   },
+  "welcomeToSession": {
+    "message": "Welcome to Session"
+  },
   "welcomeToYourSession": {
     "message": "Welcome to your Session"
   },
@@ -2706,6 +2725,9 @@
   "joinChannel": {
     "message": "Join Open Group"
   },
+  "joinPublicChat": {
+    "message": "Join Public Chat"
+  },
   "next": {
     "message": "Next"
   },
@@ -2722,9 +2744,9 @@
     "message": "Pairing Device"
   },
   "gotPairingRequest": {
-    "message": "Got a pairing request"
+    "message": "Pairing request received"
   },
   "devicePairedSuccessfully": {
-    "message": "Device paired successfully"
+    "message": "Device linked successfully"
   }
 }

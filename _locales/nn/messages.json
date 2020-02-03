@@ -553,7 +553,7 @@
         "message": "Når du inkluderer eit vedlegg som ikkje er eit bilde, er grensa eitt vedlegg per melding.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Du kan ikkje blanda vedlegg som er bilde med vedlegg som ikkje er bilde i same melding.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Meldingar",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Velkommen til Signal!",
         "description": ""
     },

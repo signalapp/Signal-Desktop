@@ -553,7 +553,7 @@
         "message": "Ketika menyertakan lampiran bukan gambar, batasnya adalah satu lampiran per pesan.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Anda tidak bisa mencampur lampiran gambar dan bukan gambar dalam satu pesan.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Pesan",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Selamat datang di Signal",
         "description": ""
     },

@@ -18,6 +18,14 @@ import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
+import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonType,
+} from './SessionButton';
+import { SessionSpinner } from './SessionSpinner';
+import { joinChannelStateManager } from './LeftPaneChannelSection';
 
 export interface Props {
   searchTerm: string;
@@ -39,13 +47,37 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   public constructor(props: Props) {
     super(props);
+
+    const conversations = this.getCurrentConversations();
+    const renderOnboardingSetting = window.getSettingValue(
+      'render-message-onboarding'
+    );
+
+    const realConversations: Array<ConversationListItemPropsType> = [];
+    if (conversations) {
+      conversations.forEach(conversation => {
+        const isRSS =
+          conversation.id &&
+          !!(conversation.id && conversation.id.match(/^rss:/));
+
+        return !isRSS && realConversations.push(conversation);
+      });
+    }
+
+    const length = realConversations.length;
+
     this.state = {
       showComposeView: false,
       pubKeyPasted: '',
+      shouldRenderMessageOnboarding: length === 0 && renderOnboardingSetting,
+      connectSuccess: false,
+      loading: false,
     };
 
     this.updateSearchBound = this.updateSearch.bind(this);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
+    this.handleCloseOnboarding = this.handleCloseOnboarding.bind(this);
+    this.handleJoinPublicChat = this.handleJoinPublicChat.bind(this);
     this.handleOnPasteSessionID = this.handleOnPasteSessionID.bind(this);
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
@@ -178,14 +210,88 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   public renderConversations() {
     return (
       <div className="module-conversations-list-content">
-        <SessionSearchInput
-          searchString={this.props.searchTerm}
-          onChange={this.updateSearchBound}
-          placeholder={window.i18n('searchForAKeyPhrase')}
-        />
-        {this.renderList()}
+        {this.state.shouldRenderMessageOnboarding ? (
+          <>{this.renderMessageOnboarding()}</>
+        ) : (
+          <>
+            <SessionSearchInput
+              searchString={this.props.searchTerm}
+              onChange={this.updateSearchBound}
+              placeholder={window.i18n('searchForAKeyPhrase')}
+            />
+            {this.renderList()}
+          </>
+        )}
       </div>
     );
+  }
+
+  public renderMessageOnboarding() {
+    return (
+      <div className="onboarding-message-section">
+        <div className="onboarding-message-section__exit">
+          <SessionIconButton
+            iconType={SessionIconType.Exit}
+            iconSize={SessionIconSize.Medium}
+            onClick={this.handleCloseOnboarding}
+          />
+        </div>
+
+        <div className="onboarding-message-section__container">
+          <div className="onboarding-message-section__title">
+            <h1>{window.i18n('welcomeToSession')}</h1>
+          </div>
+
+          <div className="onboarding-message-section__icons">
+            <img
+              src="./images/session/chat-bubbles.svg"
+              alt=""
+              role="presentation"
+            />
+          </div>
+
+          <div className="onboarding-message-section__info">
+            <div className="onboarding-message-section__info--title">
+              {window.i18n('noMessagesTitle')}
+            </div>
+            <div className="onboarding-message-section__info--subtitle">
+              {window.i18n('noMessagesSubtitle')}
+            </div>
+          </div>
+
+          <>
+            {this.state.loading ? (
+              <div className="onboarding-message-section__spinner-container">
+                <SessionSpinner />
+              </div>
+            ) : (
+              <div className="onboarding-message-section__buttons">
+                <SessionButton
+                  text={window.i18n('joinPublicChat')}
+                  buttonType={SessionButtonType.BrandOutline}
+                  buttonColor={SessionButtonColor.Green}
+                  onClick={this.handleJoinPublicChat}
+                />
+                <SessionButton
+                  text={window.i18n('noThankyou')}
+                  buttonType={SessionButtonType.Brand}
+                  buttonColor={SessionButtonColor.Secondary}
+                  onClick={this.handleCloseOnboarding}
+                />
+              </div>
+            )}
+          </>
+        </div>
+      </div>
+    );
+  }
+
+  public handleCloseOnboarding() {
+    window.setSettingValue('render-message-onboarding', false);
+
+    this.setState({
+      shouldRenderMessageOnboarding: false,
+    });
   }
 
   public updateSearch(searchTerm: string) {
@@ -290,5 +396,10 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
         id: 'invalidPubKey',
       });
     }
+  }
+
+  private handleJoinPublicChat() {
+    const serverURL = window.CONSTANTS.DEFAULT_PUBLIC_CHAT_URL;
+    joinChannelStateManager(this, serverURL, this.handleCloseOnboarding);
   }
 }

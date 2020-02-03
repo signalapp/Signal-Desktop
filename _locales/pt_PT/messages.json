@@ -553,7 +553,7 @@
         "message": "Se o anexo não for uma imagem, apenas pode enviar um anexo por mensagem.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Não pode misturar imagens com outro tipo de anexos numa só mensagem.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Mensagens",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Bem-vindo(a) ao Signal",
         "description": ""
     },
