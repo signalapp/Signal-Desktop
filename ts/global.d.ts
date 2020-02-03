@@ -1,5 +1,4 @@
 interface Window {
-  launchCount: any;
   CONSTANTS: any;
   versionInfo: any;
 
