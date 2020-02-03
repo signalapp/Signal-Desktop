@@ -4941,12 +4941,11 @@ button.module-image__border-overlay:focus {
       justify-content: flex-start;
       align-items: center;
 
-      &_avatar {
+      &__avatar {
         min-width: 32px;
       }
 
-      &__name,
-      &__name_profile-name {
+      &__name {
         @include font-body-1-bold();
         margin-left: 8px;
         white-space: nowrap;
