@@ -19,13 +19,12 @@ import {
 import { SearchOptions } from '../../types/Search';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { ConversationType } from '../../state/ducks/conversations';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
+import { ContactType } from './SessionMemberListItem'
 
 export interface Props {
-  friends: Array<ConversationType>;
   searchTerm: string;
   isSecondaryDevice: boolean;
   
@@ -282,7 +281,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   private renderClosableOverlay(groupType: SessionGroupType) {
-    const { searchTerm, friends } = this.props;
+    const { searchTerm  } = this.props;
     const { loading } = this.state;
 
     const openGroupElement = (
@@ -299,11 +298,12 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
 
     const closedGroupElement = (
       <SessionClosableOverlay
-        friends={friends}
         overlayMode={SessionGroupType.Closed}
         onChangeSessionID={this.handleOnPasteUrl}
         onCloseClick={() => this.handleToggleOverlay(undefined)}
-        onButtonClick={this.handleCreateClosedGroupButtonClick}
+        onButtonClick={(groupName: string, groupMembers: Array<ContactType>) => 
+          this.onCreateClosedGroup(groupName, groupMembers)
+        }
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
@@ -385,8 +385,8 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     return true;
   }
 
-  private handleCreateClosedGroupButtonClick() {
-    alert("creating closed group!");
+  private onCreateClosedGroup(groupName: string, groupMembers: Array<ContactType>) {
+    console.log(`Creating group with name: ${groupName}`);
     
     return true;
   }

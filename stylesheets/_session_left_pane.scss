@@ -177,8 +177,8 @@ $session-compose-margin: 20px;
   &__header {
     display: flex;
     flex-direction: row;
-    margin: 15px 7px 14px 0px;
-    height: 33px;
+    padding: 15px 7px 14px 0px;
+    height: 63px;
 
     @at-root .light-theme #{&} {
       background-color: $session-color-white;

@@ -6,6 +6,7 @@ interface Window {
   deleteAllData: any;
   clearLocalData: any;
   getAccountManager: any;
+  getConversations: any;
   getFriendsFromContacts: any;
   mnemonic: any;
   clipboard: any;
@@ -13,6 +14,7 @@ interface Window {
 
   passwordUtil: any;
   userConfig: any;
+  shortenPubkey: any;
 
   dcodeIO: any;
   libsignal: any;
