@@ -2,7 +2,12 @@
   libsignal, window, TextDecoder, TextEncoder, dcodeIO */
 
 const nodeFetch = require('node-fetch');
+const https = require('https');
 const { parse } = require('url');
+
+const snodeHttpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 const endpointBase = '/storage_rpc/v1';
@@ -115,6 +120,9 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     timeout,
     method,
   };
+  if (url.match(/https:\/\//)) {
+    fetchOptions.agent = snodeHttpsAgent;
+  }
 
   try {
     if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
