@@ -1,4 +1,4 @@
-/* global log, window */
+/* global log, window, process */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
@@ -24,7 +24,25 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     );
     if (!thisServer) {
       log.info(`LokiAppDotNetAPI creating ${serverUrl}`);
+
+      // test to make sure it's online (and maybe has a valid SSL cert)
+      try {
+        // allow .loki (may only need an agent but not sure
+        //              until we have a .loki to test with)
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = serverUrl.match(/\.loki\//) ? 0 : 1;
+        await nodeFetch(serverUrl);
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+        // const txt = await res.text();
+      } catch(e) {
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+        log.warn(`failing to created ${serverUrl}`, e.code, e.message);
+        // bail out if not valid enough
+        return null;
+      }
+
+      // after verification then we can start up all the pollers
       thisServer = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+
       const gotToken = await thisServer.getOrRefreshServerToken();
       if (!gotToken) {
         log.warn(`Invalid server ${serverUrl}`);
