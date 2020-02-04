@@ -1,4 +1,4 @@
-/* global Whisper, i18n, ConversationController, friends */
+/* global Whisper, i18n, ConversationController, friends, lokiPublicChatAPI */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -24,31 +24,12 @@
       'click .cancel': 'close',
     },
     async attemptConnection(serverUrl, channelId) {
-      const rawServerUrl = serverUrl
-        .replace(/^https?:\/\//i, '')
-        .replace(/[/\\]+$/i, '');
-      const sslServerUrl = `https://${rawServerUrl}`;
-      const conversationId = `publicChat:${channelId}@${rawServerUrl}`;
-
-      const conversationExists = ConversationController.get(conversationId);
-      if (conversationExists) {
-        // We are already a member of this public chat
-        return this.resolveWith({ errorCode: i18n('publicChatExists') });
+      try {
+        const conversion = await window.attemptConnection(serverUrl, channelId);
+      } catch(e) {
+        log.error('can not connect', e.message, e.code);
+        return this.resolveWith({ errorCode: e.message });
       }
-
-      // create conversation
-      const conversation = await ConversationController.getOrCreateAndWait(
-        conversationId,
-        'group'
-      );
-      // convert conversation to a public one
-      await conversation.setPublicSource(sslServerUrl, channelId);
-      // set friend and appropriate SYNC messages for multidevice
-      await conversation.setFriendRequestStatus(
-        friends.friendRequestStatusEnum.friends
-      );
-      // and finally activate it
-      conversation.getPublicSendData(); // may want "await" if you want to use the API
       return this.resolveWith({ conversation });
     },
     resolveWith(result) {
