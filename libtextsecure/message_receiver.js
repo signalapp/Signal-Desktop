@@ -943,7 +943,7 @@ MessageReceiver.prototype.extend({
         const noSession =
           error &&
           (error.message.indexOf('No record for device') === 0 ||
-            error.messaeg.indexOf('decryptWithSessionList: list is empty') ===
+            error.message.indexOf('decryptWithSessionList: list is empty') ===
               0);
 
         if (error && error.message === 'Unknown identity key') {
