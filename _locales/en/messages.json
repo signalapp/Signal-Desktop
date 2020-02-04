@@ -2,7 +2,7 @@
   "privacyPolicy": {
     "message": "Terms & Privacy Policy",
     "description":
-      "Shown in the about box for the link to https://signal.org/legal"
+      "Shown in the about box for the link to https://getsession.org/privacy-policy/"
   },
   "copyErrorAndQuit": {
     "message": "Copy error and quit",
@@ -651,12 +651,14 @@
       "An error popup when the user has attempted to add an attachment"
   },
   "cannotMixImageAndNonImageAttachments": {
-    "message": "Sorry, you cannot mix images with other file types in one message",
+    "message":
+      "Sorry, you cannot mix images with other file types in one message",
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
-    "message": "Maximum number of attachments reached. Please send remaining attachments in a separate message.",
+    "message":
+      "Maximum number of attachments reached. Please send remaining attachments in a separate message.",
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
@@ -933,7 +935,7 @@
   },
   "cannotUpdateDetail": {
     "message":
-      "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
+      "Signal Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
     "description":
       "Shown if a general error happened while trying to install update package"
   },
@@ -1380,9 +1382,10 @@
     "message": "Warning"
   },
   "linkPreviewsConfirmMessage": {
-    "message": "You will not have full metadata protection when sending or receiving link previews."
+    "message":
+      "You will not have full metadata protection when sending or receiving link previews."
   },
-  
+
   "mediaPermissionsTitle": {
     "message": "Microphone and Camera"
   },
@@ -1445,7 +1448,8 @@
     "description": "Title of the read receipts setting"
   },
   "typingIndicatorsSettingDescription": {
-    "message": "See and share when messages are being typed (applies to all sessions).",
+    "message":
+      "See and share when messages are being typed (applies to all sessions).",
     "description": "Description of the typing indicators setting"
   },
   "typingIndicatorsSettingTitle": {
@@ -1658,7 +1662,8 @@
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "This group is blocked. Unlock it if you would like to send a message.",
+    "message":
+      "This group is blocked. Unlock it if you would like to send a message.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {

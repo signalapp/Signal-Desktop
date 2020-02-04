@@ -48,7 +48,7 @@ export class MessageDetail extends React.Component<Props> {
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
-        size={48}
+        size={36}
       />
     );
   }

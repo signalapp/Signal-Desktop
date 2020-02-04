@@ -1396,9 +1396,5 @@
                 "example": "Alice, Bob"
             }
         }
-    },
-    "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

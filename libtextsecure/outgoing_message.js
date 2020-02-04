@@ -266,9 +266,15 @@ OutgoingMessage.prototype = {
     return this.convertMessageToText(messageBuffer);
   },
   async wrapInWebsocketMessage(outgoingObject) {
+    const source =
+      outgoingObject.type ===
+      textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER
+        ? null
+        : outgoingObject.ourKey;
+
     const messageEnvelope = new textsecure.protobuf.Envelope({
       type: outgoingObject.type,
-      source: outgoingObject.ourKey,
+      source,
       sourceDevice: outgoingObject.sourceDevice,
       timestamp: this.timestamp,
       content: outgoingObject.content,

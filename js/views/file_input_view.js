@@ -236,7 +236,7 @@
         id: 'maximumAttachments',
       });
     },
-    
+
     // Housekeeping
     addAttachment(attachment) {
       if (attachment.isVoiceNote && this.attachments.length > 0) {

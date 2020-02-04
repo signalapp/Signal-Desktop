@@ -22,12 +22,12 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
-import { ContactType } from './SessionMemberListItem'
+import { ContactType } from './SessionMemberListItem';
 
 export interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
-  
+
   conversations?: Array<ConversationListItemPropsType>;
 
   searchResults?: SearchResultsProps;
@@ -185,14 +185,12 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
         {this.state.groupAddType
           ? this.renderClosableOverlay(this.state.groupAddType)
-          : this.renderGroups()
-        }
+          : this.renderGroups()}
       </div>
     );
   }
@@ -281,7 +279,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   private renderClosableOverlay(groupType: SessionGroupType) {
-    const { searchTerm  } = this.props;
+    const { searchTerm } = this.props;
     const { loading } = this.state;
 
     const openGroupElement = (
@@ -301,7 +299,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
         overlayMode={SessionGroupType.Closed}
         onChangeSessionID={this.handleOnPasteUrl}
         onCloseClick={() => this.handleToggleOverlay(undefined)}
-        onButtonClick={(groupName: string, groupMembers: Array<ContactType>) => 
+        onButtonClick={(groupName: string, groupMembers: Array<ContactType>) =>
           this.onCreateClosedGroup(groupName, groupMembers)
         }
         searchTerm={searchTerm}
@@ -309,9 +307,12 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
         showSpinner={loading}
       />
     );
-    
-    const renderElement = groupType === SessionGroupType.Open ? openGroupElement : closedGroupElement;
-    
+
+    const renderElement =
+      groupType === SessionGroupType.Open
+        ? openGroupElement
+        : closedGroupElement;
+
     return renderElement;
   }
 
@@ -380,30 +381,35 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return false;
     }
 
-    joinChannelStateManager(this, channelUrlPasted, this.handleToggleOverlay(SessionGroupType.Open));
+    joinChannelStateManager(
+      this,
+      channelUrlPasted,
+      this.handleToggleOverlay(SessionGroupType.Open)
+    );
 
     return true;
   }
 
-  private async onCreateClosedGroup(groupName: string, groupMembers: Array<ContactType>) {
+  private async onCreateClosedGroup(
+    groupName: string,
+    groupMembers: Array<ContactType>
+  ) {
     // Validate groupName and groupMembers length
     if (
-        groupMembers.length === 0 ||
-        groupName.length === 0 ||
-        groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH
-      ){
+      groupMembers.length === 0 ||
+      groupName.length === 0 ||
+      groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH
+    ) {
       return;
     }
-    
+
     await window.doCreateGroup(groupName, groupMembers);
     this.handleToggleOverlay(undefined);
-    
+
     window.pushToast({
       title: window.i18n('closedGroupCreatedToastTitle'),
       type: 'success',
     });
-
-    
 
     return true;
   }

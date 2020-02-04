@@ -103,7 +103,7 @@
 }
 
 @mixin session-h-title {
-  font-weight: bold;
+  @include fontWasaBold();
 }
 
 h1 {

@@ -1,9 +1,10 @@
-/* global log, textsecure, libloki, Signal, Whisper, Headers, ConversationController,
+/* global log, textsecure, libloki, Signal, Whisper, ConversationController,
 clearTimeout, MessageController, libsignal, StringView, window, _,
-dcodeIO, Buffer, lokiSnodeAPI, TextDecoder */
+dcodeIO, Buffer, lokiSnodeAPI, TextDecoder, process */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
+const https = require('https');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -18,6 +19,10 @@ const SETTINGS_CHANNEL_ANNOTATION_TYPE = 'net.patter-app.settings';
 const MESSAGE_ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
+
+const snodeHttpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 // the core ADN class that handles all communication with a specific server
 class LokiAppDotNetServerAPI {
@@ -52,6 +57,12 @@ class LokiAppDotNetServerAPI {
         this,
         channelId,
         conversationId
+      );
+      log.info(
+        'LokiPublicChannelAPI started for',
+        channelId,
+        'on',
+        this.baseServerUrl
       );
       this.channels.push(thisChannel);
     }
@@ -220,9 +231,11 @@ class LokiAppDotNetServerAPI {
   async refreshServerToken() {
     // if currently not in progress
     if (this.tokenPromise === null) {
+      // FIXME: add timeout
+      // a broken/stuck token endpoint can prevent you from removing channels
       // set lock
       this.tokenPromise = new Promise(async res => {
-        // request the oken
+        // request the token
         const token = await this.requestToken();
         if (!token) {
           res(null);
@@ -255,11 +268,13 @@ class LokiAppDotNetServerAPI {
       };
       url.search = new URLSearchParams(params);
 
-      res = await nodeFetch(url);
+      res = await this.proxyFetch(url);
     } catch (e) {
+      log.error('requestToken request failed', e);
       return null;
     }
     if (!res.ok) {
+      log.error('requestToken request failed');
       return null;
     }
     const body = await res.json();
@@ -281,7 +296,7 @@ class LokiAppDotNetServerAPI {
     };
 
     try {
-      const res = await nodeFetch(
+      const res = await this.proxyFetch(
         `${this.baseServerUrl}/loki/v1/submit_challenge`,
         options
       );
@@ -291,7 +306,32 @@ class LokiAppDotNetServerAPI {
     }
   }
 
-  async _sendToProxy(fetchOptions, method, headers, endpoint) {
+  async proxyFetch(urlObj, fetchOptions) {
+    if (
+      window.lokiFeatureFlags.useSnodeProxy &&
+      (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
+        this.baseServerUrl === 'https://file.getsession.org')
+    ) {
+      const finalOptions = { ...fetchOptions };
+      if (!fetchOptions.method) {
+        finalOptions.method = 'GET';
+      }
+      const urlStr = urlObj.toString();
+      const endpoint = urlStr.replace(`${this.baseServerUrl}/`, '');
+      const { response, result } = await this._sendToProxy(
+        endpoint,
+        finalOptions
+      );
+      // emulate nodeFetch response...
+      return {
+        ok: result.status === 200,
+        json: () => response,
+      };
+    }
+    return nodeFetch(urlObj, fetchOptions);
+  }
+
+  async _sendToProxy(endpoint, fetchOptions) {
     const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
     const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
@@ -299,8 +339,8 @@ class LokiAppDotNetServerAPI {
       // I think this is a stream, we may need to collect it all?
       body: fetchOptions.body, // might need to b64 if binary...
       endpoint,
-      method,
-      headers,
+      method: fetchOptions.method,
+      headers: fetchOptions.headers,
     };
 
     // from https://github.com/sindresorhus/is-stream/blob/master/index.js
@@ -361,7 +401,10 @@ class LokiAppDotNetServerAPI {
         'X-Loki-File-Server-Verb': 'POST',
         'X-Loki-File-Server-Headers': JSON.stringify(finalRequestHeader),
       },
+      // we are talking to a snode...
+      agent: snodeHttpsAgent,
     };
+    // weird this doesn't need NODE_TLS_REJECT_UNAUTHORIZED = 0
     const result = await nodeFetch(url, firstHopOptions);
 
     const txtResponse = await result.text();
@@ -419,7 +462,12 @@ class LokiAppDotNetServerAPI {
       } else if (rawBody) {
         fetchOptions.body = rawBody;
       }
-      fetchOptions.headers = new Headers(headers);
+      fetchOptions.headers = headers;
+
+      // domain ends in .loki
+      if (endpoint.match(/\.loki\//)) {
+        fetchOptions.agent = snodeHttpsAgent;
+      }
     } catch (e) {
       log.info('serverRequest set up error:', JSON.stringify(e));
       return {
@@ -435,23 +483,32 @@ class LokiAppDotNetServerAPI {
       if (
         window.lokiFeatureFlags.useSnodeProxy &&
         (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
-          this.baseServerUrl === 'https://file.lokinet.org')
+          this.baseServerUrl === 'https://file.getsession.org')
       ) {
         mode = '_sendToProxy';
-        // have to send headers because fetchOptions.headers isn't readable
+
+        const endpointWithQS = url
+          .toString()
+          .replace(`${this.baseServerUrl}/`, '');
         ({ response, txtResponse, result } = await this._sendToProxy(
-          fetchOptions,
-          method,
-          headers,
-          endpoint
+          endpointWithQS,
+          fetchOptions
         ));
       } else {
-        result = await nodeFetch(url, fetchOptions || undefined);
+        // disable check for .loki
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = endpoint.match(/\.loki\//) ? 0 : 1;
+        result = await nodeFetch(url, fetchOptions);
+        // always make sure this check is enabled
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
         txtResponse = await result.text();
         response = JSON.parse(txtResponse);
       }
     } catch (e) {
-      log.info(`serverRequest ${mode} error json: ${txtResponse}`);
+      if (txtResponse) {
+        log.info(`serverRequest ${mode} error`, e.code, e.message, `json: ${txtResponse}`);
+      } else {
+        log.info(`serverRequest ${mode} error`, e.code, e.message);
+      }
       return {
         err: e,
       };
@@ -714,7 +771,7 @@ class LokiAppDotNetServerAPI {
       options
     );
     if (statusCode !== 200) {
-      log.warn('Failed to upload data to fileserver');
+      log.warn('Failed to upload data to server', this.baseServerUrl);
       return null;
     }
 

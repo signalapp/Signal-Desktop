@@ -183,8 +183,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
             />
           )
         }
-        
-        
+
         {showSpinner && <SessionSpinner />}
 
         {isClosedGroupView && (

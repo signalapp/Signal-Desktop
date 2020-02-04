@@ -63,14 +63,25 @@ class LokiRssAPI extends EventEmitter {
       log.warn('LokiRssAPI unsupported rss feed', this.feedUrl);
       return;
     }
-    const response = await window.lokiFileServerAPI._server.serverRequest(
+    const result = await window.lokiFileServerAPI._server.serverRequest(
       map[this.feedUrl]
     );
-    if (!response) {
+    if (!result) {
       log.error('LokiRssAPI empty rss proxy response');
       return;
     }
-    const responseXML = response.response.data;
+    if (!result.response) {
+      log.error('LokiRssAPI rss proxy error, no response', result);
+      return;
+    }
+    if (!result.response.data) {
+      log.error(
+        'LokiRssAPI rss proxy error, no data, response',
+        result.response
+      );
+      return;
+    }
+    const responseXML = result.response.data;
     let feedDOM = {};
     try {
       feedDOM = await new window.DOMParser().parseFromString(

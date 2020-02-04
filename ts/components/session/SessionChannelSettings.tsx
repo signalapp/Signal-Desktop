@@ -208,9 +208,12 @@ export class SessionChannelSettings extends React.Component<Props, any> {
         {this.renderHeader()}
         <h2>{name}</h2>
         {showMemberCount && (
-          <div className="text-subtle">
-            {window.i18n('members', memberCount)}
-          </div>
+          <>
+            <div className="spacer-lg" />
+            <div className="text-subtle">
+              {window.i18n('members', memberCount)}
+            </div>
+          </>
         )}
         <input
           className="description"
