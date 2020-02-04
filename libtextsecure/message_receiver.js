@@ -1848,7 +1848,7 @@ MessageReceiver.prototype.extend({
     } else if (decrypted.flags & FLAGS.PROFILE_KEY_UPDATE) {
       decrypted.body = null;
       decrypted.attachments = [];
-    } else if (decrypted.flags & FLAGS.BACKGROUND_FRIEND_REQUEST) {
+    } else if (decrypted.flags & FLAGS.SESSION_REQUEST) {
       // do nothing
     } else if (decrypted.flags & FLAGS.SESSION_RESTORE) {
       // do nothing
