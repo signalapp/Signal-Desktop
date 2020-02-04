@@ -75,7 +75,10 @@ class LokiRssAPI extends EventEmitter {
       return;
     }
     if (!result.response.data) {
-      log.error('LokiRssAPI rss proxy error, no data, response', result.response);
+      log.error(
+        'LokiRssAPI rss proxy error, no data, response',
+        result.response
+      );
       return;
     }
     const responseXML = result.response.data;
