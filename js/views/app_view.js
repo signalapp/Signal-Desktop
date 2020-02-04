@@ -130,8 +130,8 @@
       //   so its loading screen doesn't stick around forever.
 
       // Two primary techniques at play for this situation:
-      //   - background.js has two openInbox() calls, and passes initalLoadComplete
-      //     directly via the options parameter.
+      //   - background.js has X number of openInbox() calls,
+      //      and passes initalLoadComplete directly via the options parameter.
       //   - in other situations openInbox() will be called with no options. So this
       //     view keeps track of whether onEmpty() has ever been called with
       //     this.initialLoadComplete. An example of this: on a phone-pairing setup.

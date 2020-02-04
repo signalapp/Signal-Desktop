@@ -553,7 +553,7 @@
         "message": "When including a non-image attachment, the limit is one attachment per message.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "You cannot mix non-image and image attachments in one message.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "संदेश",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "सिग्‍नल में आपका स्वागत है ",
         "description": ""
     },

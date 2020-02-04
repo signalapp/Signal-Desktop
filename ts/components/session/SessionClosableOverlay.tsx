@@ -93,11 +93,11 @@ export class SessionClosableOverlay extends React.Component<Props> {
           />
         </div>
         <h2>{title}</h2>
-        <h3>{subtitle}</h3>
-        <div className="module-left-pane-overlay-border-container">
-          <hr className="white" />
-          <hr className="green" />
-        </div>
+        <h3>
+          {subtitle}
+          <hr className="green-border" />
+        </h3>
+        <hr className="white-border" />
         <SessionIdEditable
           ref={this.inputRef}
           editable={true}

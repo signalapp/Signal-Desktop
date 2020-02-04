@@ -813,7 +813,7 @@
     },
     getPropsForPreview() {
       // Don't generate link previews if user has turned them off
-      if (!storage.get('linkPreviews', false)) {
+      if (!storage.get('link-preview-setting', false)) {
         return null;
       }
 

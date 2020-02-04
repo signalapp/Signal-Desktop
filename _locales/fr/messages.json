@@ -553,7 +553,7 @@
         "message": "Pour un fichier joint qui n’est pas une image, la limite est un fichier joint par message.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Vous ne pouvez pas joindre à la fois image et non image dans le même message.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Messages",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Bienvenue sur Signal",
         "description": ""
     },

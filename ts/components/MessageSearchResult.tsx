@@ -113,7 +113,7 @@ export class MessageSearchResult extends React.PureComponent<Props> {
         noteToSelf={isNoteToSelf}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
-        size={48}
+        size={36}
       />
     );
   }

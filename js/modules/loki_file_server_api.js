@@ -56,12 +56,16 @@ class LokiFileServerInstance {
   // FIXME: this is not file-server specific
   // and is currently called by LokiAppDotNetAPI.
   // LokiAppDotNetAPI (base) should not know about LokiFileServer.
-  async establishConnection(serverUrl) {
+  async establishConnection(serverUrl, options) {
     // why don't we extend this?
     this._server = new LokiAppDotNetAPI(this.ourKey, serverUrl);
 
     // configure proxy
     this._server.pubKey = this.pubKey;
+
+    if (options !== undefined && options.skipToken) {
+      return;
+    }
 
     // get a token for multidevice
     const gotToken = await this._server.getOrRefreshServerToken();
@@ -307,11 +311,13 @@ class LokiFileServerFactoryAPI {
     if (!thisServer) {
       thisServer = new LokiFileServerInstance(this.ourKey);
       log.info(`Registering FileServer ${serverUrl}`);
-      await thisServer.establishConnection(serverUrl);
+      await thisServer.establishConnection(serverUrl, { skipToken: true } );
       this.servers.push(thisServer);
     }
     return thisServer;
   }
 }
+// smuggle some data out of this joint (for expire.js/version upgrade check)
+LokiFileServerFactoryAPI.secureRpcPubKey = LOKIFOUNDATION_FILESERVER_PUBKEY;
 
 module.exports = LokiFileServerFactoryAPI;

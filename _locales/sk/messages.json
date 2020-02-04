@@ -553,7 +553,7 @@
         "message": "When including a non-image attachment, the limit is one attachment per message.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "V jednej správe nemôže byť súčasne príloha s obrázkom a príloha bez obrázku.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Správy",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Vitajte v aplikácii Signal",
         "description": ""
     },

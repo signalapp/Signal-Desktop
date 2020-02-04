@@ -156,18 +156,20 @@
         .find('.network-status-container')
         .append(this.networkStatusView.render().el);
 
-      if (extension.expired()) {
-        const banner = new Whisper.ExpiredAlertBanner().render();
-        banner.$el.prependTo(this.$el);
-        this.$el.addClass('expired');
-      }
+      extension.expired((expired) => {
+        if (expired) {
+          const banner = new Whisper.ExpiredAlertBanner().render();
+          banner.$el.prependTo(this.$el);
+          this.$el.addClass('expired');
+        }
+      });
 
       // FIXME: Fix this for new react views
       this.updateInboxSectionUnread();
       this.setupLeftPane();
     },
     render_attributes: {
-      welcomeToSignal: i18n('welcomeToSignal'),
+      welcomeToSession: i18n('welcomeToSession'),
       selectAContact: i18n('selectAContact'),
     },
     events: {
@@ -327,8 +329,6 @@
       $target.toggleClass('section-toggle-visible');
     },
     async openConversation(id, messageId) {
-      const conversationExists = await ConversationController.get(id);
-
       // If we call this to create a new conversation, it can only be private
       // (group conversations are created elsewhere)
       const conversation = await ConversationController.getOrCreateAndWait(
@@ -341,19 +341,6 @@
       }
 
       if (conversation) {
-        if (conversation.isRss()) {
-          window.mixpanel.track('RSS Feed Opened');
-        }
-        if (conversation.isPublic()) {
-          window.mixpanel.track('Loki Public Chat Opened');
-        }
-        if (conversation.isPrivate()) {
-          if (conversation.isMe()) {
-            window.mixpanel.track('Note To Self Opened');
-          } else if (conversationExists) {
-            window.mixpanel.track('Conversation Opened');
-          }
-        }
         conversation.updateProfileName();
       }
 
@@ -408,7 +395,7 @@
 
   Whisper.ExpiredAlertBanner = Whisper.View.extend({
     templateName: 'expired_alert',
-    className: 'expiredAlert clearfix',
+    className: 'expiredAlert',
     render_attributes() {
       return {
         expiredWarning: i18n('expiredWarning'),

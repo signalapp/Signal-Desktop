@@ -25,9 +25,6 @@
 (function() {
   window.textsecure = window.textsecure || {};
 
-  // set up mixpanel
-  window.mixpanel = window.mixpanel || new window.LokiMixpanelAPI();
-
   const ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
 
   function AccountManager(username, password) {
@@ -142,10 +139,8 @@
           ).toArrayBuffer();
           return libsignal.Curve.async.createKeyPair(privKey);
         };
-        window.mixpanel.track('Seed Restored');
       } else {
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
-        window.mixpanel.track('Seed Created');
       }
       return this.queueTask(() =>
         generateKeypair().then(async identityKeyPair =>

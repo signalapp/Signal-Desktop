@@ -553,7 +553,7 @@
         "message": "ពេលបញ្ចូលឯកសារភ្ជាប់មិន-រូបភាពមួយ ការកំណត់គឺឯកសារភ្ជាប់មួយ សម្រាប់សារមួយ។",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "អ្នកមិនអាចលាយឡំឯកសារភ្ជាប់ មិន-រូបភាព និងរូបភាព ក្នុងសារតែមួយទេ។",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "សារ",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "ស្វាគមន៍មកកាន់ Signal",
         "description": ""
     },

@@ -553,7 +553,7 @@
         "message": "W przypadku dołączenia załącznika innego niż obraz, limit wynosi jeden załącznik na wiadomość.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Nie można łączyć obrazów z innymi załącznikami w jednej wiadomości.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Wiadomości",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Witamy w Signal",
         "description": ""
     },

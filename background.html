@@ -26,7 +26,7 @@
   <!--
     When making changes to these templates, be sure to update test/index.html as well
   -->
-  
+
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
       <img src='images/session/full-logo.svg' class='session-full-logo' />
@@ -75,10 +75,11 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='expired_alert'>
-    <a target='_blank' href='https://signal.org/download/'>
+    <a target='_blank' href='https://getsession.org/'>
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
-    {{ expiredWarning }}
+    <span>{{ expiredWarning }}</span>
+    <br clear="both">
   </script>
 
   <script type='text/x-tmpl-mustache' id='banner'>
@@ -108,17 +109,17 @@
               <div class='compose'>
                 <form class='send clearfix file-input'>
                   <div class='flex'>
-                    <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                    <div id='choose-file' class='choose-file'>
+                      <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                      <input type='file' class='file-input' multiple='multiple'>
+                    </div>
+                    <div class='capture-audio'>
+                      <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
+                    </div>
                     <div class='send-message-container'>
                       <textarea maxlength='2000' class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></textarea>
                     </div>
-                    <div class='capture-audio'>
-                        <button class='microphone' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                    </div>
-                    <div id='choose-file' class='choose-file'>
-                        <button class='paperclip thumbnail' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
-                        <input type='file' class='file-input' multiple='multiple'>
-                    </div>
+                    <button class='emoji' {{#disable-inputs}} disabled="disabled" {{/disable-inputs}}></button>
                   </div>
                 </form>
               </div>
@@ -185,7 +186,7 @@
       </div>
     </div>
   </script>
-  
+
   <script type='text/x-tmpl-mustache' id='device-pairing-words-dialog'>
     <div class="content">
         <h4>{{ title }}</h4>
@@ -575,7 +576,6 @@
   <script type='text/javascript' src='js/views/session_registration_view.js'></script>
   <script type='text/javascript' src='js/views/app_view.js'></script>
   <script type='text/javascript' src='js/views/import_view.js'></script>
-  <script type='text/javascript' src='js/views/clear_data_view.js'></script>
   <script type='text/javascript' src='js/views/device_pairing_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/device_pairing_words_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/create_group_dialog_view.js'></script>
@@ -585,7 +585,7 @@
   <script type='text/javascript' src='js/views/moderators_add_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/moderators_remove_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/user_details_dialog_view.js'></script>
-  
+
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
   <script type='text/javascript' src='js/keychange_listener.js'></script>

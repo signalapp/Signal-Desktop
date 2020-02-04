@@ -64,7 +64,6 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.updateSearchBound = this.updateSearch.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
-    this.attemptConnection = this.attemptConnection.bind(this);
   }
 
   public componentWillUnmount() {
@@ -328,104 +327,73 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return false;
     }
 
-    // TODO: Make this not hard coded
-    const channelId = 1;
-    this.setState({ loading: true });
-    const connectionResult = this.attemptConnection(
-      channelUrlPasted,
-      channelId
-    );
+    joinChannelStateManager(this, channelUrlPasted, this.handleToggleOverlay);
 
-    // Give 5s maximum for promise to revole. Else, throw error.
-    const maxConnectionDuration = 5000;
-    const connectionTimeout = setTimeout(() => {
-      if (!this.state.connectSuccess) {
-        this.setState({ loading: false });
-        window.pushToast({
-          title: window.i18n('connectToServerFail'),
-          type: 'error',
-          id: 'connectToServerFail',
-        });
+    return true;
+  }
+}
 
-        return;
-      }
-    }, maxConnectionDuration);
+export function joinChannelStateManager(
+  thisRef: any,
+  serverURL: string,
+  onSuccess?: any
+) {
+  // Any component that uses this function MUST have the keys [loading, connectSuccess]
+  // in their State
 
-    connectionResult
-      .then(() => {
-        clearTimeout(connectionTimeout);
+  // TODO: Make this not hard coded
+  const channelId = 1;
+  thisRef.setState({ loading: true });
+  const connectionResult = window.attemptConnection(serverURL, channelId);
 
-        if (this.state.loading) {
-          this.setState({
-            connectSuccess: true,
-            loading: false,
-          });
-          window.pushToast({
-            title: window.i18n('connectToServerSuccess'),
-            id: 'connectToServerSuccess',
-            type: 'success',
-          });
-          this.handleToggleOverlay();
-        }
-      })
-      .catch((connectionError: string) => {
-        clearTimeout(connectionTimeout);
-        this.setState({
+  // Give 5s maximum for promise to revole. Else, throw error.
+  const connectionTimeout = setTimeout(() => {
+    if (!thisRef.state.connectSuccess) {
+      thisRef.setState({ loading: false });
+      window.pushToast({
+        title: window.i18n('connectToServerFail'),
+        type: 'error',
+        id: 'connectToServerFail',
+      });
+
+      return;
+    }
+  }, window.CONSTANTS.MAX_CONNECTION_DURATION);
+
+  connectionResult
+    .then(() => {
+      clearTimeout(connectionTimeout);
+
+      if (thisRef.state.loading) {
+        thisRef.setState({
           connectSuccess: true,
           loading: false,
         });
         window.pushToast({
-          title: connectionError,
-          id: 'connectToServerFail',
-          type: 'error',
+          title: window.i18n('connectToServerSuccess'),
+          id: 'connectToServerSuccess',
+          type: 'success',
         });
 
-        return false;
+        if (onSuccess) {
+          onSuccess();
+        }
+      }
+    })
+    .catch((connectionError: string) => {
+      clearTimeout(connectionTimeout);
+      thisRef.setState({
+        connectSuccess: true,
+        loading: false,
+      });
+      window.pushToast({
+        title: connectionError,
+        id: 'connectToServerFail',
+        type: 'error',
       });
 
-    return true;
-  }
+      return false;
+    });
 
-  private async attemptConnection(serverURL: string, channelId: number) {
-    let rawserverURL = serverURL
-      .replace(/^https?:\/\//i, '')
-      .replace(/[/\\]+$/i, '');
-    rawserverURL = rawserverURL.toLowerCase();
-    const sslServerURL = `https://${rawserverURL}`;
-    const conversationId = `publicChat:${channelId}@${rawserverURL}`;
-
-    const conversationExists = window.ConversationController.get(
-      conversationId
-    );
-    if (conversationExists) {
-      // We are already a member of this public chat
-      return new Promise((_resolve, reject) => {
-        reject(window.i18n('publicChatExists'));
-      });
-    }
-
-    const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-      sslServerURL
-    );
-    if (!serverAPI) {
-      // Url incorrect or server not compatible
-      return new Promise((_resolve, reject) => {
-        reject(window.i18n('connectToServerFail'));
-      });
-    }
-
-    const conversation = await window.ConversationController.getOrCreateAndWait(
-      conversationId,
-      'group'
-    );
-
-    await conversation.setPublicSource(sslServerURL, channelId);
-    await conversation.setFriendRequestStatus(
-      window.friends.friendRequestStatusEnum.friends
-    );
-
-    conversation.getPublicSendData(); // may want "await" if you want to use the API
-
-    return conversation;
-  }
+  return true;
 }

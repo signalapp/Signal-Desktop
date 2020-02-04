@@ -1,5 +1,4 @@
 // Don't forget to handle the background of the popup windows!
-
 body.dark-theme {
   background-color: $color-black;
   color: $color-gray-05;
@@ -189,7 +188,7 @@ body.dark-theme {
 
   button.emoji {
     &:before {
-      margin-top: 4px;
+      margin-top: 7px;
       @include color-svg('../images/smile.svg', $color-dark-30);
     }
   }
@@ -298,12 +297,24 @@ body.dark-theme {
     }
   }
 
+  /* why can't I access $session-color values here? */
   .expiredAlert {
-    background: #f3f3a7;
+    background: #28f587;
+    color: black;
+    /* biggest we can make the font without wrapping the current text at minimum app width */
+    font-family: 'Wasa';
+    font-size: 20px;
+    height: 60px;
+
+    span {
+      line-height: 36px;
+    }
 
     button {
+      font-size: 14px;
+      height: 36px;
       color: white;
-      background: $blue;
+      background: #474646;
     }
   }
 

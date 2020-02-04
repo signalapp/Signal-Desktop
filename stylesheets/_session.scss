@@ -30,7 +30,10 @@
   font-family: 'SF Pro Text';
   src: url('../fonts/SFProText-Regular.ttf') format('truetype');
 }
-
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../fonts/SFProDisplay-Regular.otf') format('opentype');
+}
 @keyframes fadein {
   from {
     opacity: 0;
@@ -76,7 +79,7 @@ $session-color-dark-grey: #353535;
 $session-color-black: #000;
 $session-color-danger: #ff453a;
 $session-color-primary: $session-shade-13;
-$session-color-secondary: $session-shade-16;
+$session-color-secondary: $session-shade-6;
 $session-background-overlay: #212121;
 $session-background: #121212;
 
@@ -102,8 +105,15 @@ $session-font-md: 15px;
 $session-font-lg: 18px;
 $session-font-xl: 24px;
 
+$session-font-h1: 30px;
+$session-font-h2: 24px;
+$session-font-h3: 20px;
+$session-font-h4: 16px;
+
 $session-search-input-height: 34px;
 $main-view-header-height: 85px;
+$session-left-pane-width: 300px;
+$session-left-pane-sections-container-width: 80px;
 
 div.spacer-sm {
   height: $session-margin-sm;
@@ -171,7 +181,7 @@ $session-modal-size-lg: 650px;
 $session-conversation-header-height: 60px;
 
 @mixin fontWasaBold {
-  font-weight: 700;
+  font-weight: bold;
   font-family: $session-font-family;
 }
 
@@ -475,11 +485,13 @@ $session-element-border-green: 4px solid $session-color-green;
   font-family: Wasa;
   width: 100%;
   display: flex;
+  font-size: $session-font-md;
 
   &-text {
     @include session-color-subtle($session-color-white);
     font-family: 'SF Pro Text';
     font-weight: 300;
+    font-size: $session-font-xs;
   }
 
   .module-contact-name {
@@ -524,8 +536,18 @@ label {
   border-bottom-right-radius: $session_message-container-border-radius;
 }
 
-.conversation-header .session-icon-button {
-  @include standard-icon-button();
+.conversation-header {
+  .module-avatar img {
+    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.2);
+  }
+
+  .search-icon {
+    margin-right: 10px;
+  }
+
+  .session-icon-button {
+    @include standard-icon-button();
+  }
 }
 
 .module-conversation-header {
@@ -712,6 +734,11 @@ label {
     .message {
       text-align: center;
     }
+
+    .session-id-editable {
+      width: 30vw;
+      max-width: 700px;
+    }
   }
 
   &__centered {
@@ -807,7 +834,7 @@ label {
   align-items: center;
 
   height: 25px;
-  padding: 0px 10px;
+  padding: $session-margin-md $session-margin-sm;
 
   background-color: $session-shade-4;
 
@@ -1116,7 +1143,8 @@ label {
     background-color: $session-shade-1;
 
     padding: $session-margin-lg;
-    border-bottom: 2px solid $session-shade-5;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $session-shade-5;
 
     &.inline {
       display: flex;
@@ -1135,8 +1163,10 @@ label {
     }
 
     &__description {
+      font-family: 'SF Pro Text';
       font-size: $session-font-sm;
       font-weight: 100;
+      max-width: 700px;
       @include session-color-subtle($session-color-white);
     }
 
@@ -1258,6 +1288,7 @@ label {
     display: flex;
     flex-grow: 1;
     min-height: 60px;
+    margin-bottom: -5px;
   }
 
   textarea.send-message {
@@ -1344,6 +1375,7 @@ label {
 .session-id-editable textarea {
   resize: none;
   overflow: hidden;
+  user-select: all;
 }
 
 input {
@@ -1563,6 +1595,84 @@ input {
       font-size: 24px;
       letter-spacing: 5px;
       font-family: 'SF Pro Text';
+    }
+  }
+}
+
+.onboarding-message-section {
+  display: flex;
+  flex-grow: 1;
+  align-items: flex-start;
+  position: relative;
+  padding: $session-margin-lg 2 * $session-margin-lg;
+  background: linear-gradient(
+    180deg,
+    rgba(29, 28, 28, 1) 0%,
+    rgba(18, 18, 18, 1) 100%
+  );
+
+  &__exit {
+    position: absolute;
+    top: $session-margin-lg;
+    left: $session-margin-lg;
+  }
+
+  &__container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 3 * $session-margin-lg;
+
+    height: 400px;
+
+    text-align: center;
+    font-family: 'SF Pro Text';
+  }
+
+  &__title h1 {
+    color: $session-color-white;
+    font-size: $session-font-h1;
+    font-weight: bold;
+    margin-bottom: 2 * $session-margin-lg;
+  }
+
+  &__icons img {
+    width: 180px;
+    margin-bottom: 2 * $session-margin-lg;
+  }
+
+  &__info {
+    font-family: 'Wasa';
+    margin-bottom: 2 * $session-margin-lg;
+
+    &--title {
+      font-size: $session-font-h3;
+      line-height: $session-font-h2;
+      margin-bottom: $session-margin-md;
+    }
+
+    &--subtitle {
+      font-family: 'SF Pro Text';
+      font-weight: 300;
+      line-height: $session-font-md;
+      opacity: 0.8;
+    }
+  }
+
+  &__spinner-container {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__buttons {
+    width: 100%;
+
+    .session-button:first-child {
+      margin-bottom: $session-margin-md;
     }
   }
 }

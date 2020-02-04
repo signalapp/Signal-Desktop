@@ -112,14 +112,15 @@ $session-compose-margin: 20px;
   &__user__profile {
     &-number,
     &-name {
+      @include fontWasaBold();
+      font-size: 15px;
+
       @at-root .light-theme #{&} {
         color: $session-color-white;
       }
       @at-root .dark-theme #{&} {
         color: $session-shade-17;
       }
-
-      font-size: 15px;
     }
   }
 }
@@ -135,7 +136,7 @@ $session-compose-margin: 20px;
 
 .module-left-pane {
   border-right: none !important;
-  width: 300px;
+  width: $session-left-pane-width;
   position: relative;
   height: -webkit-fill-available;
 
@@ -152,7 +153,7 @@ $session-compose-margin: 20px;
 
   &__sections-container {
     height: -webkit-fill-available;
-    width: 80px;
+    width: $session-left-pane-sections-container-width;
     display: inline-flex;
     flex-direction: column;
 
@@ -189,6 +190,7 @@ $session-compose-margin: 20px;
 
     .session-button {
       margin-left: auto;
+      @include fontWasaBold();
     }
 
     &-buttons {
@@ -245,37 +247,34 @@ $session-compose-margin: 20px;
 
     h3 {
       padding-top: 22px;
+      position: relative;
+
+      .green-border {
+        position: absolute;
+        color: $session-color-green;
+        background-color: $session-color-green;
+        height: 5px;
+        left: -10px;
+        right: -10px;
+        margin-top: 7px;
+        border: none;
+        z-index: 1;
+      }
     }
 
     h4 {
       text-transform: uppercase;
     }
 
-    &-border-container {
-      width: -webkit-fill-available;
+    .white-border {
+      width: $session-left-pane-width;
       position: relative;
+      height: 1px;
+      opacity: 0.3;
+      margin-top: -10px;
       margin-bottom: 50px;
-      .green {
-        position: absolute;
-        color: $session-color-green;
-        background-color: $session-color-green;
-        height: 6px;
-        width: 130px;
-        left: 50%;
-        margin-left: -65px;
-        top: 50%;
-        margin-top: 6px;
-        border: none;
-      }
-
-      .white {
-        position: absolute;
-        color: none;
-        height: 1px;
-        width: -webkit-fill-available;
-        opacity: 0.3;
-      }
     }
+
     .exit {
       margin-top: 10px;
       margin-left: 13px;
@@ -292,23 +291,27 @@ $session-compose-margin: 20px;
     }
 
     .session-description-long {
-      font-size: 14px;
+      font-size: 13px;
       margin: 0px 20px;
+      font-family: 'SF Pro Display';
     }
 
-    .session-id-editable textarea::-webkit-inner-spin-button {
-      margin: 0px 20px;
-      width: -webkit-fill-available;
-      flex-shrink: 0;
-      user-select: all;
-      overflow: hidden;
-      resize: none;
+    .session-id-editable {
+      textarea::-webkit-inner-spin-button {
+        margin: 0px 20px;
+        width: -webkit-fill-available;
+        flex-shrink: 0;
+      }
+    }
+
+    .session-id-editable-disabled {
+      border: none;
     }
 
     .session-button {
       width: fit-content;
-      margin-top: auto;
-      margin-bottom: 16px;
+      margin-top: 1rem;
+      margin-bottom: 3rem;
       flex-shrink: 0;
     }
   }
@@ -362,7 +365,8 @@ $session-compose-margin: 20px;
     height: inherit;
     border: none;
     flex-grow: 1;
-    font-size: $session-font-md;
+    font-size: $session-font-sm;
+    font-family: 'SF Pro Text';
 
     &:focus {
       outline: none !important;
@@ -413,7 +417,7 @@ $session-compose-margin: 20px;
       border: 1px solid $session-shade-15;
     }
     @at-root .dark-theme #{&} {
-      border: 1px solid $session-shade-7;
+      border: 1px solid $session-shade-6;
     }
   }
 }
@@ -622,5 +626,7 @@ $session-compose-margin: 20px;
     background-color: $session-background;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
+    font-family: "SF Pro Text";
+    font-size: $session-font-sm;
   }
 }

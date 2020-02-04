@@ -553,7 +553,7 @@
         "message": "O limite para inclusão de anexos que não sejam imagens é de um por mensagem.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Você não pode combinar imagens e anexos que não sejam imagens na mesma mensagem.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Mensagens",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Boas-vindas ao Signal",
         "description": ""
     },

@@ -553,7 +553,7 @@
         "message": "Wanneer je een bijlage insluit die geen afbeelding is, is de limiet één bijlage per bericht.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Je kunt geen combinatie van afbeeldingen en niet-afbeeldingen insluiten als bijlagen van één bericht.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "Berichten",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Welkom bij Signal",
         "description": ""
     },

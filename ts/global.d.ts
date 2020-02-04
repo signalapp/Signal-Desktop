@@ -8,6 +8,7 @@ interface Window {
   getAccountManager: any;
   mnemonic: any;
   clipboard: any;
+  attemptConnection: any;
 
   passwordUtil: any;
   userConfig: any;

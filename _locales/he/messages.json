@@ -553,7 +553,7 @@
         "message": "בעת הכללת צרופת אי־תמונה, המגבלה היא צרופה אחת להודעה.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "אינך יכול לערבב צרופות של אי־תמונה ותמונה בהודעה אחת.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -673,7 +673,7 @@
         "message": "הודעות",
         "description": "Shown to separate the types of search results"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "ברוכים הבאים לסיגנל",
         "description": ""
     },

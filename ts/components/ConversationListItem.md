@@ -254,7 +254,7 @@ We don't want Jumbomoji or links.
       conversationType={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
-        text: 'Download at http://signal.org',
+        text: 'Download at http://getsession.org',
       }}
       onClick={result => console.log('onClick', result)}
       i18n={util.i18n}
