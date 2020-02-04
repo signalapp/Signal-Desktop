@@ -485,8 +485,12 @@ class LokiAppDotNetServerAPI {
           this.baseServerUrl === 'https://file.lokinet.org')
       ) {
         mode = '_sendToProxy';
+
+        const endpointWithQS = url
+          .toString()
+          .replace(`${this.baseServerUrl}/`, '');
         ({ response, txtResponse, result } = await this._sendToProxy(
-          endpoint,
+          endpointWithQS,
           fetchOptions
         ));
       } else {
