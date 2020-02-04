@@ -702,8 +702,6 @@ MessageReceiver.prototype.extend({
       this.activeSessionBaseKey = await getCurrentSessionBaseKey(sessionCipher);
     };
 
-    const handleSessionReset = async result => result;
-
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
         window.log.info('message from', this.getEnvelopeId(envelope));
@@ -745,7 +743,7 @@ MessageReceiver.prototype.extend({
           );
         });
         break;
-      case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER:
+      case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER: {
         window.log.info('received unidentified sender message');
 
         const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
@@ -823,6 +821,7 @@ MessageReceiver.prototype.extend({
             }
           );
         break;
+      }
       default:
         promise = Promise.reject(new Error('Unknown message type'));
     }
@@ -845,12 +844,18 @@ MessageReceiver.prototype.extend({
           window.log.info('Error getting conversation: ', envelope.source);
         }
 
-        /// *** BEGIN: session reset ***
+        // lint hates anything after // (so /// is no good)
+        // *** BEGIN: session reset ***
 
+        // we have address in scope from parent scope
+        // seems to be the same input parameters
+        // going to comment out due to lint complaints
+        /*
         const address = new libsignal.SignalProtocolAddress(
           envelope.source,
           envelope.sourceDevice
         );
+        */
 
         const restoreActiveSession = async () => {
           const record = await sessionCipher.getRecord(address.toString());
@@ -902,7 +907,8 @@ MessageReceiver.prototype.extend({
           }
         }
 
-        /// *** END ***
+        // lint hates anything after // (so /// is no good)
+        // *** END ***
 
         // Type here can actually be UNIDENTIFIED_SENDER even if
         // the underlying message is FRIEND_REQUEST

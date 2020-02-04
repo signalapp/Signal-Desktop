@@ -311,7 +311,7 @@ class LokiFileServerFactoryAPI {
     if (!thisServer) {
       thisServer = new LokiFileServerInstance(this.ourKey);
       log.info(`Registering FileServer ${serverUrl}`);
-      await thisServer.establishConnection(serverUrl, { skipToken: true } );
+      await thisServer.establishConnection(serverUrl, { skipToken: true });
       this.servers.push(thisServer);
     }
     return thisServer;

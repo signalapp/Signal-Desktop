@@ -156,7 +156,7 @@
         .find('.network-status-container')
         .append(this.networkStatusView.render().el);
 
-      extension.expired((expired) => {
+      extension.expired(expired => {
         if (expired) {
           const banner = new Whisper.ExpiredAlertBanner().render();
           banner.$el.prependTo(this.$el);
