@@ -1,4 +1,4 @@
-/* global Whisper, i18n, ConversationController, friends, lokiPublicChatAPI */
+/* global Whisper, i18n, log */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -24,9 +24,10 @@
       'click .cancel': 'close',
     },
     async attemptConnection(serverUrl, channelId) {
+      let conversation = null;
       try {
-        const conversion = await window.attemptConnection(serverUrl, channelId);
-      } catch(e) {
+        conversation = await window.attemptConnection(serverUrl, channelId);
+      } catch (e) {
         log.error('can not connect', e.message, e.code);
         return this.resolveWith({ errorCode: e.message });
       }
