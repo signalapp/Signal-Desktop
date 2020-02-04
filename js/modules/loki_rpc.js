@@ -1,5 +1,5 @@
 /* global log, libloki, textsecure, getStoragePubKey, lokiSnodeAPI, StringView,
-  libsignal, window, TextDecoder, TextEncoder, dcodeIO */
+  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process */
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
@@ -66,7 +66,11 @@ const sendToProxy = async (options = {}, targetNode) => {
     },
   };
 
+  // we only proxy to snodes...
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
   const response = await nodeFetch(url, firstHopOptions);
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+
   const ciphertext = await response.text();
 
   const ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
@@ -130,7 +134,12 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       return result.json();
     }
 
+    if (url.match(/https:\/\//)) {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    }
     const response = await nodeFetch(url, fetchOptions);
+    // restore TLS checking
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
 
     let result;
     // Wrong swarm
