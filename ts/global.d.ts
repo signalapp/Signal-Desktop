@@ -6,6 +6,7 @@ interface Window {
   deleteAllData: any;
   clearLocalData: any;
   getAccountManager: any;
+  getFriendsFromContacts: any;
   mnemonic: any;
   clipboard: any;
   attemptConnection: any;

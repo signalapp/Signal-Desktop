@@ -140,7 +140,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     style,
   }: RowRendererParamsType): JSX.Element | undefined => {
     const { sentFriendsRequest } = this.props;
-    const friends = this.getCurrentFriends();
+    const friends = window.getFriendsFromContacts(this.props.friends);
     const combined = [...sentFriendsRequest, ...friends];
     const item = combined[index];
 
@@ -209,19 +209,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
         onButtonClick={this.handleOnAddContact}
       />
     );
-  }
-
-  private getCurrentFriends(): Array<ConversationType> {
-    const { friends } = this.props;
-
-    let friendList = friends;
-    if (friendList !== undefined) {
-      friendList = friendList.filter(
-        friend => friend.type === 'direct' && !friend.isMe
-      );
-    }
-
-    return friendList;
   }
 
   private handleToggleOverlay() {
@@ -334,7 +321,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
   private renderList() {
     const { sentFriendsRequest } = this.props;
-    const friends = this.getCurrentFriends();
+    const friends = window.getFriendsFromContacts(this.props.friends);
     const length = sentFriendsRequest.length + friends.length;
     const combined = [...sentFriendsRequest, ...friends];
 

@@ -19,14 +19,16 @@ import {
 import { SearchOptions } from '../../types/Search';
 import { debounce } from 'lodash';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
+import { ConversationType } from '../../state/ducks/conversations';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionClosableOverlay } from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
 
 export interface Props {
+  friends: Array<ConversationType>;
   searchTerm: string;
   isSecondaryDevice: boolean;
-
+  
   conversations?: Array<ConversationListItemPropsType>;
 
   searchResults?: SearchResultsProps;
@@ -37,11 +39,17 @@ export interface Props {
   clearSearch: () => void;
 }
 
+export enum SessionGroupType {
+  Open = 'open-group',
+  Closed = 'closed-group',
+}
+
 interface State {
-  showAddChannelView: boolean;
   channelUrlPasted: string;
   loading: boolean;
   connectSuccess: boolean;
+  // The type of group that is being added. Undefined in default view.
+  groupAddType: SessionGroupType | undefined;
 }
 
 export class LeftPaneChannelSection extends React.Component<Props, State> {
@@ -51,10 +59,10 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   public constructor(props: Props) {
     super(props);
     this.state = {
-      showAddChannelView: false,
       channelUrlPasted: '',
       loading: false,
       connectSuccess: false,
+      groupAddType: undefined,
     };
 
     this.handleOnPasteUrl = this.handleOnPasteUrl.bind(this);
@@ -178,12 +186,14 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
+
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
-        {this.state.showAddChannelView
-          ? this.renderClosableOverlay()
-          : this.renderGroups()}
+        {this.state.groupAddType
+          ? this.renderClosableOverlay(this.state.groupAddType)
+          : this.renderGroups()
+        }
       </div>
     );
   }
@@ -247,32 +257,68 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     }
   }
 
-  private handleToggleOverlay() {
-    this.setState(prevState => ({
-      showAddChannelView: !prevState.showAddChannelView,
-    }));
+  private handleToggleOverlay(groupType?: SessionGroupType) {
+    // If no groupType, return to default view.
+    // Close the overlay with handleToggleOverlay(undefined)
+
+    switch (groupType) {
+      case SessionGroupType.Open:
+        this.setState({
+          groupAddType: SessionGroupType.Open,
+        });
+        break;
+      case SessionGroupType.Closed:
+        this.setState({
+          groupAddType: SessionGroupType.Closed,
+        });
+        break;
+      default:
+        // Exit overlay
+        this.setState({
+          groupAddType: undefined,
+        });
+        break;
+    }
   }
 
-  private renderClosableOverlay() {
-    const { searchTerm } = this.props;
+  private renderClosableOverlay(groupType: SessionGroupType) {
+    const { searchTerm, friends } = this.props;
     const { loading } = this.state;
 
-    return (
+    const openGroupElement = (
       <SessionClosableOverlay
-        overlayMode="channel"
+        overlayMode={SessionGroupType.Open}
         onChangeSessionID={this.handleOnPasteUrl}
-        onCloseClick={this.handleToggleOverlay}
+        onCloseClick={() => this.handleToggleOverlay(undefined)}
         onButtonClick={this.handleJoinChannelButtonClick}
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
       />
     );
+
+    const closedGroupElement = (
+      <SessionClosableOverlay
+        friends={friends}
+        overlayMode={SessionGroupType.Closed}
+        onChangeSessionID={this.handleOnPasteUrl}
+        onCloseClick={() => this.handleToggleOverlay(undefined)}
+        onButtonClick={this.handleCreateClosedGroupButtonClick}
+        searchTerm={searchTerm}
+        updateSearch={this.updateSearchBound}
+        showSpinner={loading}
+      />
+    );
+    
+    const renderElement = groupType === SessionGroupType.Open ? openGroupElement : closedGroupElement;
+    
+    return renderElement;
   }
 
   private renderBottomButtons(): JSX.Element {
     const edit = window.i18n('edit');
-    const addChannel = window.i18n('addChannel');
+    const joinOpenGroup = window.i18n('joinOpenGroup');
+    const createClosedGroup = window.i18n('createClosedGroup');
     const showEditButton = false;
 
     return (
@@ -284,11 +330,18 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
             buttonColor={SessionButtonColor.White}
           />
         )}
+
         <SessionButton
-          text={addChannel}
+          text={joinOpenGroup}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.Green}
-          onClick={this.handleToggleOverlay}
+          onClick={() => this.handleToggleOverlay(SessionGroupType.Open)}
+        />
+        <SessionButton
+          text={createClosedGroup}
+          buttonType={SessionButtonType.SquareOutline}
+          buttonColor={SessionButtonColor.White}
+          onClick={() => this.handleToggleOverlay(SessionGroupType.Closed)}
         />
       </div>
     );
@@ -327,8 +380,14 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return false;
     }
 
-    joinChannelStateManager(this, channelUrlPasted, this.handleToggleOverlay);
+    joinChannelStateManager(this, channelUrlPasted, this.handleToggleOverlay(SessionGroupType.Open));
 
+    return true;
+  }
+
+  private handleCreateClosedGroupButtonClick() {
+    alert("creating closed group!");
+    
     return true;
   }
 }

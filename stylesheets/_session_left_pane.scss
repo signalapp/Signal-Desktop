@@ -292,7 +292,8 @@ $session-compose-margin: 20px;
     }
 
     .session-description-long {
-      font-size: 14px;
+      font-size: $session-font-sm;
+      line-height: $session-font-h3;
       margin: 0px 20px;
     }
 

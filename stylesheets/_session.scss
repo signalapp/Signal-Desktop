@@ -347,7 +347,7 @@ $session_message-container-border-radius: 5px;
     min-width: 165px;
     height: 45px;
     line-height: 40px;
-    padding: 0;
+    padding: 0px $session-margin-lg;
     font-size: $session-font-md;
     font-family: $session-font-family;
     border-radius: 500px;
@@ -553,6 +553,11 @@ label {
   position: relative;
 }
 
+.module-left-pane-overlay {
+  h3 {
+    margin-bottom: 6px;
+  }
+}
 .message-selection-overlay {
   display: none;
   position: absolute;
@@ -1380,6 +1385,7 @@ input {
   background-color: $session-shade-4;
   border: $session-separator-element-border;
   display: flex;
+  align-items: center;
   transition: $session-transition-duration;
 
   .module-avatar,

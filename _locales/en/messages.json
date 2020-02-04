@@ -1105,7 +1105,7 @@
       "Placeholder text in the message entry field when it is disabled while we are waiting for a friend request approval"
   },
   "sendMessageFriendRequest": {
-    "message": "Hi there! This is ...!",
+    "message": "Send your first message",
     "description":
       "Placeholder text in the message entry field when it is the first message sent to that contact"
   },
@@ -1437,7 +1437,7 @@
     "description": "Header for notification settings"
   },
   "readReceiptSettingDescription": {
-    "message": "Enable the sending and receiving of read receipts",
+    "message": "See and share when messages have been read (enables read receipts in all sessions).",
     "description": "Description of the read receipts setting"
   },
   "readReceiptSettingTitle": {
@@ -2605,6 +2605,9 @@
     "message": "Complete Sign Up"
   },
   "compose": {
+    "message": "Compose"
+  },
+  "newSession": {
     "message": "New Session"
   },
   "searchForAKeyPhrase": {
@@ -2650,11 +2653,11 @@
   "decline": {
     "message": "Decline"
   },
-  "generalSettingsTitle": {
-    "message": "General"
+  "appearanceSettingsTitle": {
+    "message": "Appearance"
   },
-  "generalSettingsDescription": {
-    "message": "General settings and configuration"
+  "appearanceSettingsDescription": {
+    "message": "Appearance and interface options"
   },
   "accountSettingsTitle": {
     "message": "Account"
@@ -2678,13 +2681,13 @@
     "message": "Notifications"
   },
   "notificationSettingsDescription": {
-    "message": "Choose what you're notified about"
+    "message": "Configure notification options"
   },
   "devicesSettingsTitle": {
     "message": "Devices"
   },
   "devicesSettingsDescription": {
-    "message": "Manage linked devices"
+    "message": "Manage your linked devices"
   },
   "mnemonicEmpty": {
     "message": "Seed is mandatory"
@@ -2713,11 +2716,26 @@
   "addChannel": {
     "message": "Join Open Group"
   },
+  "joinOpenGroup": {
+    "message": "Join Open Group"
+  },
+  "createClosedGroup": {
+    "message": "Create Closed Group"
+  },
+  "createClosedGroupDescription": {
+    "message": "Closed groups are end-to-end encrypted group chats for up to 10 members. They provide the same privacy protections as one-on-one sessions."
+  },
+  "createClosedGroupNamePrompt": {
+    "message": "Group Name"
+  },
+  "createClosedGroupPlaceholder": {
+    "message": "Enter a group name"
+  },
   "enterChannelURL": {
     "message": "Enter Open Group URL"
   },
   "channelUrlPlaceholder": {
-    "message": "https://chat.lokinet.org"
+    "message": "chat.getsession.org"
   },
   "addChannelDescription": {
     "message": "Enter an open group URL."
