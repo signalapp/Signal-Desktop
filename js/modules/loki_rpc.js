@@ -33,12 +33,6 @@ const sendToProxy = async (options = {}, targetNode) => {
 
   const url = `https://${randSnode.ip}:${randSnode.port}/proxy`;
 
-  log.info(
-    `Proxy snode request to ${targetNode.pubkey_ed25519} via ${
-      randSnode.pubkey_ed25519
-    }`
-  );
-
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
 
   const myKeys = window.libloki.crypto.snodeCipher._ephemeralKeyPair;
