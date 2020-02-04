@@ -496,7 +496,9 @@ class LokiAppDotNetServerAPI {
         ));
       } else {
         // disable check for .loki
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = endpoint.match(/\.loki\//) ? 0 : 1;
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = endpoint.match(/\.loki\//)
+          ? 0
+          : 1;
         result = await nodeFetch(url, fetchOptions);
         // always make sure this check is enabled
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
@@ -505,7 +507,12 @@ class LokiAppDotNetServerAPI {
       }
     } catch (e) {
       if (txtResponse) {
-        log.info(`serverRequest ${mode} error`, e.code, e.message, `json: ${txtResponse}`);
+        log.info(
+          `serverRequest ${mode} error`,
+          e.code,
+          e.message,
+          `json: ${txtResponse}`
+        );
       } else {
         log.info(`serverRequest ${mode} error`, e.code, e.message);
       }

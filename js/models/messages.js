@@ -2323,8 +2323,10 @@
               Friends -> Friends
 
               The cases where we auto accept are the following:
-                - We sent the user a friend request and that user sent us a friend request.
-                - We are friends with the user, and that user just sent us a friend request.
+                - We sent the user a friend request,
+                  and that user sent us a friend request.
+                - We are friends with the user,
+                  and that user just sent us a friend request.
               */
               const isFriend = sendingDeviceConversation.isFriend();
               const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
