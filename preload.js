@@ -502,7 +502,7 @@ window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,
   useSnodeProxy: true,
-  useSealedSender: false,
+  useSealedSender: true,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
