@@ -2731,6 +2731,9 @@
   "createClosedGroupPlaceholder": {
     "message": "Enter a group name"
   },
+  "closedGroupCreatedToastTitle": {
+    "message": "Group created successfully"
+  },
   "enterChannelURL": {
     "message": "Enter Open Group URL"
   },

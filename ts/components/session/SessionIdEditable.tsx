@@ -7,6 +7,7 @@ interface Props {
   editable?: boolean;
   onChange?: any;
   onPressEnter?: any;
+  maxLength?: number;
 }
 
 export class SessionIdEditable extends React.PureComponent<Props> {
@@ -26,7 +27,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { placeholder, editable, text, value} = this.props;
+    const { placeholder, editable, text, value, maxLength} = this.props;
 
     return (
       <div className="session-id-editable">
@@ -39,6 +40,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}
           value={value || text}
+          maxLength={maxLength}
         />
       </div>
     );

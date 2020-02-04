@@ -385,9 +385,26 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     return true;
   }
 
-  private onCreateClosedGroup(groupName: string, groupMembers: Array<ContactType>) {
-    console.log(`Creating group with name: ${groupName}`);
+  private async onCreateClosedGroup(groupName: string, groupMembers: Array<ContactType>) {
+    // Validate groupName and groupMembers length
+    if (
+        groupMembers.length === 0 ||
+        groupName.length === 0 ||
+        groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH
+      ){
+      return;
+    }
     
+    await window.doCreateGroup(groupName, groupMembers);
+    this.handleToggleOverlay(undefined);
+    
+    window.pushToast({
+      title: window.i18n('closedGroupCreatedToastTitle'),
+      type: 'success',
+    });
+
+    
+
     return true;
   }
 }

@@ -395,7 +395,7 @@ export class ConversationHeader extends React.Component<Props> {
               {this.renderOptions(triggerId)}
               {this.renderTitle()}
               {/* This might be redundant as we show the title in the title: */}
-              {isPrivateGroup ? this.renderMemberCount() : null}
+              {/*isPrivateGroup ? this.renderMemberCount() : null*/}
             </div>
           </div>
           {this.renderExpirationLength()}

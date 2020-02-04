@@ -164,13 +164,16 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         </div>
         { (isOpenGroupView || isClosedGroupView) ? 
           (
-            <SessionIdEditable
-              ref={this.inputRef}
-              editable={true}
-              placeholder={placeholder}
-              value={this.state.groupName}
-              onChange={this.onGroupNameChanged}
-            />
+            <div className="create-group-name-input">
+              <SessionIdEditable
+                ref={this.inputRef}
+                editable={true}
+                placeholder={placeholder}
+                value={this.state.groupName}
+                maxLength={window.CONSTANTS.MAX_GROUPNAME_LENGTH}
+                onChange={this.onGroupNameChanged}
+              />
+            </div>
           ) : (
             <SessionIdEditable
               ref={this.inputRef}
@@ -269,10 +272,8 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   private onGroupNameChanged(event: any) {
-    event.persist;
-    
     this.setState({
-      groupName: event.target.value,
+      groupName: event,
     });
   }
 }

@@ -1695,6 +1695,18 @@ input {
     
   }
 }
+.create-group-name-input {
+  .session-id-editable {
+    height: 60px !important;
+
+    textarea {
+      padding-bottom: 0px !important;
+    } 
+  }
+
+
+}
+
 .session-member-item {
   font-family: "SF Pro Text";
   padding: 0px $session-margin-sm;
