@@ -17,6 +17,26 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     await Promise.all(this.servers.map(server => server.close()));
   }
 
+  static async validServer(serverUrl) {
+    // test to make sure it's online (and maybe has a valid SSL cert)
+    try {
+      // allow .loki (may only need an agent but not sure
+      //              until we have a .loki to test with)
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = serverUrl.match(/\.loki\//)
+        ? 0
+        : 1;
+      await nodeFetch(serverUrl);
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+      // const txt = await res.text();
+    } catch (e) {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+      log.warn(`failing to created ${serverUrl}`, e.code, e.message);
+      // bail out if not valid enough
+      return false;
+    }
+    return true;
+  }
+
   // server getter/factory
   async findOrCreateServer(serverUrl) {
     let thisServer = this.servers.find(
@@ -25,18 +45,7 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     if (!thisServer) {
       log.info(`LokiAppDotNetAPI creating ${serverUrl}`);
 
-      // test to make sure it's online (and maybe has a valid SSL cert)
-      try {
-        // allow .loki (may only need an agent but not sure
-        //              until we have a .loki to test with)
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = serverUrl.match(/\.loki\//) ? 0 : 1;
-        await nodeFetch(serverUrl);
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
-        // const txt = await res.text();
-      } catch(e) {
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
-        log.warn(`failing to created ${serverUrl}`, e.code, e.message);
-        // bail out if not valid enough
+      if (!await this.constructor.validServer(serverUrl)) {
         return null;
       }
 
