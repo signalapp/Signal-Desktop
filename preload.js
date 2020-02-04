@@ -501,8 +501,8 @@ window.SMALL_GROUP_SIZE_LIMIT = 10;
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,
-  useSnodeProxy: false,
-  useSealedSender: false,
+  useSnodeProxy: true,
+  useSealedSender: true,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
