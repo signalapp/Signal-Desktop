@@ -1,6 +1,6 @@
 /* global log, textsecure, libloki, Signal, Whisper, ConversationController,
 clearTimeout, MessageController, libsignal, StringView, window, _,
-dcodeIO, Buffer, lokiSnodeAPI, TextDecoder */
+dcodeIO, Buffer, lokiSnodeAPI, TextDecoder, process */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
@@ -404,6 +404,7 @@ class LokiAppDotNetServerAPI {
       // we are talking to a snode...
       agent: snodeHttpsAgent,
     };
+    // weird this doesn't need NODE_TLS_REJECT_UNAUTHORIZED = 0
     const result = await nodeFetch(url, firstHopOptions);
 
     const txtResponse = await result.text();
@@ -494,12 +495,20 @@ class LokiAppDotNetServerAPI {
           fetchOptions
         ));
       } else {
+        // disable check for .loki
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = endpoint.match(/\.loki\//) ? 0 : 1;
         result = await nodeFetch(url, fetchOptions);
+        // always make sure this check is enabled
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
         txtResponse = await result.text();
         response = JSON.parse(txtResponse);
       }
     } catch (e) {
-      log.info(`serverRequest ${mode} error json: ${txtResponse}`);
+      if (txtResponse) {
+        log.info(`serverRequest ${mode} error`, e.code, e.message, `json: ${txtResponse}`);
+      } else {
+        log.info(`serverRequest ${mode} error`, e.code, e.message);
+      }
       return {
         err: e,
       };
