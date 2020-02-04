@@ -486,7 +486,9 @@ class LokiAppDotNetServerAPI {
       ) {
         mode = '_sendToProxy';
 
-        const endpointWithQS = url.toString().replace(this.baseServerUrl + '/', '');
+        const endpointWithQS = url
+          .toString()
+          .replace(`${this.baseServerUrl}/`, '');
         ({ response, txtResponse, result } = await this._sendToProxy(
           endpointWithQS,
           fetchOptions
