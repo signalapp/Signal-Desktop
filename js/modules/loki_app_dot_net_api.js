@@ -20,7 +20,7 @@ const MESSAGE_ATTACHMENT_TYPE = 'net.app.core.oembed';
 const LOKI_ATTACHMENT_TYPE = 'attachment';
 const LOKI_PREVIEW_TYPE = 'preview';
 
-const lokiHttpsAgent = new https.Agent({
+const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
@@ -401,6 +401,8 @@ class LokiAppDotNetServerAPI {
         'X-Loki-File-Server-Verb': 'POST',
         'X-Loki-File-Server-Headers': JSON.stringify(finalRequestHeader),
       },
+      // we are talking to a snode...
+      agent: snodeHttpsAgent,
     };
     const result = await nodeFetch(url, firstHopOptions);
 
@@ -463,7 +465,7 @@ class LokiAppDotNetServerAPI {
 
       // domain ends in .loki
       if (url.match(/\.loki\//)) {
-        fetchOptions.agent = lokiHttpsAgent;
+        fetchOptions.agent = snodeHttpsAgent;
       }
     } catch (e) {
       log.info('serverRequest set up error:', JSON.stringify(e));
