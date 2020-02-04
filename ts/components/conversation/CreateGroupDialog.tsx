@@ -154,12 +154,16 @@ export class CreateGroupDialog extends React.Component<Props, State> {
   private onGroupNameChanged(event: any) {
     event.persist();
 
-    this.setState(state => {
-      return {
-        ...state,
-        groupName: event.target.value,
-      };
-    });
+    console.log(event);
+
+    // this.setState(state => {
+    //   return {
+    //     ...state,
+    //     groupName: event.target.value,
+    //   };
+    // }, () => console.log(this.state.groupName));
+
+
   }
 
   private onKeyUp(event: any) {

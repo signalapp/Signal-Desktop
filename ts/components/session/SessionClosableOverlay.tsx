@@ -42,6 +42,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     };
     
     this.inputRef = React.createRef();
+    this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
     
   }
 
