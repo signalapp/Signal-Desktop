@@ -47,6 +47,24 @@
 
   window.extension = window.extension || {};
 
+  // eslint-disable-next-line no-unused-vars
+  const resolveWhenReady = (res, rej) => {
+    if (expiredVersion !== null) {
+      return res(expiredVersion);
+    }
+    function waitForVersion() {
+      if (expiredVersion !== null) {
+        return res(expiredVersion);
+      }
+      log.info('Delaying sending checks for 1s, no version yet');
+      setTimeout(waitForVersion, 1000);
+      return true;
+    }
+    waitForVersion();
+    return true;
+  };
+
+  window.extension.expiredPromise = () => new Promise(resolveWhenReady);
   window.extension.expired = cb => {
     if (expiredVersion === null) {
       // just give it another second

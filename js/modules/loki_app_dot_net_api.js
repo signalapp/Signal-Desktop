@@ -464,7 +464,7 @@ class LokiAppDotNetServerAPI {
       fetchOptions.headers = headers;
 
       // domain ends in .loki
-      if (url.match(/\.loki\//)) {
+      if (endpoint.match(/\.loki\//)) {
         fetchOptions.agent = snodeHttpsAgent;
       }
     } catch (e) {
