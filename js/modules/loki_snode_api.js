@@ -151,7 +151,7 @@ class LokiSnodeAPI {
       const snodes = result.snodes.filter(tSnode => tSnode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
-      log.error('getSwarmNodes', JSON.stringify(e));
+      log.error('getSwarmNodes error', e.code, e.message);
       //
       this.randomSnodePool = _.without(
         this.randomSnodePool,
