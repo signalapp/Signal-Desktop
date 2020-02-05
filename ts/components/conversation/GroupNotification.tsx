@@ -49,7 +49,7 @@ export class GroupNotification extends React.Component<Props> {
 
     switch (type) {
       case 'name':
-        return i18n('titleIsNow', [newName || '']) + '.';
+        return `${i18n('titleIsNow', [newName || ''])}.`;
       case 'add':
         if (!contacts || !contacts.length) {
           throw new Error('Group update is missing contacts');
