@@ -1973,7 +1973,10 @@
       }
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
-        window.log.warn('Received duplicate message', message.idForLogging());
+        // RSS expects duplciates, so squelch log
+        if (!descriptorId.match(/^rss:/)) {
+          window.log.warn('Received duplicate message', message.idForLogging());
+        }
         return event.confirm();
       }
 
