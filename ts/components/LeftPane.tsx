@@ -177,7 +177,6 @@ export class LeftPane extends React.Component<Props, State> {
 
   private renderChannelSection() {
     const {
-      friends,
       openConversationInternal,
       conversations,
       searchResults,
