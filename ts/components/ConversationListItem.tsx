@@ -23,6 +23,7 @@ export type PropsData = {
   avatarPath?: string;
   isMe: boolean;
   isPublic?: boolean;
+  isRss?: boolean;
   isClosable?: boolean;
 
   lastUpdated: number;
@@ -176,6 +177,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isBlocked,
       isMe,
       isClosable,
+      isRss,
       isPublic,
       hasNickname,
       onDeleteContact,
@@ -192,18 +194,18 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
     return (
       <ContextMenu id={triggerId}>
-        {!isPublic && !isMe ? (
+        {!isPublic && !isRss && !isMe ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
-        {!isPublic && !isMe ? (
+        {!isPublic && !isRss && !isMe ? (
           <MenuItem onClick={onChangeNickname}>
             {i18n('changeNickname')}
           </MenuItem>
         ) : null}
-        {!isPublic && !isMe && hasNickname ? (
+        {!isPublic && !isRss && !isMe && hasNickname ? (
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
-        {!isPublic ? (
+        {!isPublic && !isRss ? (
           <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
