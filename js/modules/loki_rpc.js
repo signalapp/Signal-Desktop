@@ -13,16 +13,18 @@ const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 const endpointBase = '/storage_rpc/v1';
 
 const decryptResponse = async (response, address) => {
+  let plaintext = false;
   try {
     const ciphertext = await response.text();
-    const plaintext = await libloki.crypto.snodeCipher.decrypt(
-      address,
-      ciphertext
-    );
+    plaintext = await libloki.crypto.snodeCipher.decrypt(address, ciphertext);
     const result = plaintext === '' ? {} : JSON.parse(plaintext);
     return result;
   } catch (e) {
-    log.warn(`Could not decrypt response from ${address}`, e);
+    log.warn(
+      `Could not decrypt response [${plaintext}] from [${address}],`,
+      e.code,
+      e.message
+    );
   }
   return {};
 };
@@ -80,11 +82,21 @@ const sendToProxy = async (options = {}, targetNode) => {
   const textDecoder = new TextDecoder();
   const plaintext = textDecoder.decode(plaintextBuffer);
 
-  const jsonRes = JSON.parse(plaintext);
-
-  jsonRes.json = () => JSON.parse(jsonRes.body);
-
-  return jsonRes;
+  try {
+    const jsonRes = JSON.parse(plaintext);
+    // emulate nodeFetch response...
+    jsonRes.json = () => JSON.parse(jsonRes.body);
+    return jsonRes;
+  } catch (e) {
+    log.error(
+      'lokiRpc sendToProxy error',
+      e.code,
+      e.message,
+      'json',
+      plaintext
+    );
+  }
+  return false;
 };
 
 // A small wrapper around node-fetch which deserializes response
