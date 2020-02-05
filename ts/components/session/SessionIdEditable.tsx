@@ -28,7 +28,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { placeholder, editable, text, value, maxLength} = this.props;
+    const { placeholder, editable, text, value, maxLength } = this.props;
 
     return (
       <div

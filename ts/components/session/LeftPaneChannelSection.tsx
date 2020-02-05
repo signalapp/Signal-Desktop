@@ -274,7 +274,6 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
         this.setState({
           groupAddType: undefined,
         });
-        break;
     }
   }
 
@@ -286,7 +285,9 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       <SessionClosableOverlay
         overlayMode={SessionGroupType.Open}
         onChangeSessionID={this.handleOnPasteUrl}
-        onCloseClick={() => this.handleToggleOverlay(undefined)}
+        onCloseClick={() => {
+          this.handleToggleOverlay(undefined);
+        }}
         onButtonClick={this.handleJoinChannelButtonClick}
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
@@ -298,22 +299,22 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       <SessionClosableOverlay
         overlayMode={SessionGroupType.Closed}
         onChangeSessionID={this.handleOnPasteUrl}
-        onCloseClick={() => this.handleToggleOverlay(undefined)}
-        onButtonClick={(groupName: string, groupMembers: Array<ContactType>) =>
-          this.onCreateClosedGroup(groupName, groupMembers)
-        }
+        onCloseClick={() => {
+          this.handleToggleOverlay(undefined);
+        }}
+        onButtonClick={async (
+          groupName: string,
+          groupMembers: Array<ContactType>
+        ) => this.onCreateClosedGroup(groupName, groupMembers)}
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
       />
     );
 
-    const renderElement =
-      groupType === SessionGroupType.Open
-        ? openGroupElement
-        : closedGroupElement;
-
-    return renderElement;
+    return groupType === SessionGroupType.Open
+      ? openGroupElement
+      : closedGroupElement;
   }
 
   private renderBottomButtons(): JSX.Element {
@@ -336,13 +337,17 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
           text={joinOpenGroup}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.Green}
-          onClick={() => this.handleToggleOverlay(SessionGroupType.Open)}
+          onClick={() => {
+            this.handleToggleOverlay(SessionGroupType.Open);
+          }}
         />
         <SessionButton
           text={createClosedGroup}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
-          onClick={() => this.handleToggleOverlay(SessionGroupType.Closed)}
+          onClick={() => {
+            this.handleToggleOverlay(SessionGroupType.Closed);
+          }}
         />
       </div>
     );
@@ -381,11 +386,9 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return false;
     }
 
-    joinChannelStateManager(
-      this,
-      channelUrlPasted,
-      this.handleToggleOverlay(SessionGroupType.Open)
-    );
+    joinChannelStateManager(this, channelUrlPasted, () => {
+      this.handleToggleOverlay(SessionGroupType.Open);
+    });
 
     return true;
   }

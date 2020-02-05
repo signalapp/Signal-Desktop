@@ -40,10 +40,9 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       groupName: '',
       selectedMembers: [],
     };
-    
+
     this.inputRef = React.createRef();
     this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
-    
   }
 
   public componentDidMount() {
@@ -52,18 +51,17 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     }
   }
 
-
   public getContacts() {
     const conversations = window.getConversations();
 
     let conversationList = conversations;
     if (conversationList !== undefined) {
-      conversationList = conversationList.filter((conv: any) =>  {
-        return !conv.isRss() && !conv.isPublic() && conv.attributes.lastMessage
+      conversationList = conversationList.filter((conv: any) => {
+        return !conv.isRss() && !conv.isPublic() && conv.attributes.lastMessage;
       });
     }
 
-    let friends = conversationList.map((d: any) => {
+    const friends = conversationList.map((d: any) => {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
 
@@ -154,49 +152,48 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           />
         </div>
 
-        <div className="spacer-md"></div>
-        
+        <div className="spacer-md" />
+
         <h2>{title}</h2>
-        <h3>{subtitle}</h3>
-        <div className="module-left-pane-overlay-border-container">
-          <hr className="white" />
-          <hr className="green" />
-        </div>
-        { (isOpenGroupView || isClosedGroupView) ? 
-          (
-            <div className="create-group-name-input">
-              <SessionIdEditable
-                ref={this.inputRef}
-                editable={true}
-                placeholder={placeholder}
-                value={this.state.groupName}
-                maxLength={window.CONSTANTS.MAX_GROUPNAME_LENGTH}
-                onChange={this.onGroupNameChanged}
-              />
-            </div>
-          ) : (
+        <h3>
+          {subtitle}
+          <hr className="green-border" />
+        </h3>
+        <hr className="white-border" />
+
+        {isOpenGroupView || isClosedGroupView ? (
+          <div className="create-group-name-input">
             <SessionIdEditable
               ref={this.inputRef}
               editable={true}
               placeholder={placeholder}
-              onChange={onChangeSessionID}
+              value={this.state.groupName}
+              maxLength={window.CONSTANTS.MAX_GROUPNAME_LENGTH}
+              onChange={this.onGroupNameChanged}
             />
-          )
-        }
+          </div>
+        ) : (
+          <SessionIdEditable
+            ref={this.inputRef}
+            editable={true}
+            placeholder={placeholder}
+            onChange={onChangeSessionID}
+          />
+        )}
 
         {showSpinner && <SessionSpinner />}
 
         {isClosedGroupView && (
           <>
-            <div className="spacer-lg"></div>
-            
+            <div className="spacer-lg" />
+
             <div className="group-member-list__container">
               <div className="group-member-list__selection">
                 {this.renderMemberList()}
               </div>
             </div>
 
-            <div className="spacer-lg"></div>
+            <div className="spacer-lg" />
           </>
         )}
 
@@ -240,33 +237,36 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const members = this.getContacts();
 
     const memberList = members.map((member: ContactType) => (
-        <SessionMemberListItem
-          member={member}
-          isSelected={false}
-          onSelect={(member: ContactType) => this.handleSelectMember(member)}
-          onUnselect={(member: ContactType) => this.handleUnselectMember(member)}
-        />
-      )
-    );
+      <SessionMemberListItem
+        member={member}
+        isSelected={false}
+        onSelect={(selectedMember: ContactType) => {
+          this.handleSelectMember(selectedMember);
+        }}
+        onUnselect={(selectedMember: ContactType) => {
+          this.handleUnselectMember(selectedMember);
+        }}
+      />
+    ));
 
     return memberList;
   }
 
-  private handleSelectMember(member: ContactType){
-    if (this.state.selectedMembers.includes(member)){
+  private handleSelectMember(member: ContactType) {
+    if (this.state.selectedMembers.includes(member)) {
       return;
     }
-    
+
     this.setState({
-      selectedMembers: [...this.state.selectedMembers, member]
+      selectedMembers: [...this.state.selectedMembers, member],
     });
   }
 
-  private handleUnselectMember(member: ContactType){   
+  private handleUnselectMember(member: ContactType) {
     this.setState({
       selectedMembers: this.state.selectedMembers.filter(selectedMember => {
         return selectedMember !== member;
-      })
+      }),
     });
   }
 

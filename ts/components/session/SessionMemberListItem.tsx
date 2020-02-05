@@ -2,31 +2,29 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Avatar } from '../Avatar';
-import { SessionIcon, SessionIconType, SessionIconSize } from './icon';
-
+import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 
 export interface ContactType {
-    id: string;
-    selected: boolean;
-    authorProfileName: string;
-    authorPhoneNumber: string;
-    authorName: string;
-    authorColor: any;
-    authorAvatarPath: string;
-    checkmarked: boolean;
-    existingMember: boolean;
+  id: string;
+  selected: boolean;
+  authorProfileName: string;
+  authorPhoneNumber: string;
+  authorName: string;
+  authorColor: any;
+  authorAvatarPath: string;
+  checkmarked: boolean;
+  existingMember: boolean;
 }
 
-
 interface Props {
-    member: ContactType;
-    isSelected: boolean;
-    onSelect?: any;
-    onUnselect?: any;
+  member: ContactType;
+  isSelected: boolean;
+  onSelect?: any;
+  onUnselect?: any;
 }
 
 interface State {
-    isSelected: boolean;
+  isSelected: boolean;
 }
 
 export class SessionMemberListItem extends React.Component<Props, State> {
@@ -38,7 +36,7 @@ export class SessionMemberListItem extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-        isSelected: this.props.isSelected,
+      isSelected: this.props.isSelected,
     };
 
     this.handleSelectionAction = this.handleSelectionAction.bind(this);
@@ -55,23 +53,31 @@ export class SessionMemberListItem extends React.Component<Props, State> {
     const shortPubkey = window.shortenPubkey(pubkey);
 
     return (
-        <div
-            className={classNames('session-member-item', isSelected && 'selected')}
-            onClick={this.handleSelectionAction}
-        >
-            <div className="session-member-item__info">
-                <span className="session-member-item__avatar">{this.renderAvatar()}</span>
-                <span className="session-member-item__name">{name}</span>
-                <span className="session-member-item__pubkey">{shortPubkey}</span>
-            </div>
-            <span className={classNames('session-member-item__checkmark', isSelected && 'selected')}>
-                <SessionIcon
-                    iconType={SessionIconType.Check}
-                    iconSize={SessionIconSize.Medium}
-                    iconColor={"#00f782"}
-                />
-            </span>
+      <div
+        className={classNames('session-member-item', isSelected && 'selected')}
+        onClick={this.handleSelectionAction}
+        role="button"
+      >
+        <div className="session-member-item__info">
+          <span className="session-member-item__avatar">
+            {this.renderAvatar()}
+          </span>
+          <span className="session-member-item__name">{name}</span>
+          <span className="session-member-item__pubkey">{shortPubkey}</span>
         </div>
+        <span
+          className={classNames(
+            'session-member-item__checkmark',
+            isSelected && 'selected'
+          )}
+        >
+          <SessionIcon
+            iconType={SessionIconType.Check}
+            iconSize={SessionIconSize.Medium}
+            iconColor={'#00f782'}
+          />
+        </span>
+      </div>
     );
   }
 
@@ -92,32 +98,31 @@ export class SessionMemberListItem extends React.Component<Props, State> {
 
   private handleSelectionAction() {
     if (this.state.isSelected) {
-        this.unselectMember();
-        return;
+      this.unselectMember();
+
+      return;
     }
 
     this.selectMember();
   }
 
   private selectMember() {
-      this.setState({
-          isSelected: true,
-      });
+    this.setState({
+      isSelected: true,
+    });
 
-      if (this.props.onSelect){
-          this.props.onSelect(this.props.member);
-      }
+    if (this.props.onSelect) {
+      this.props.onSelect(this.props.member);
+    }
   }
 
   private unselectMember() {
     this.setState({
-        isSelected: false,
+      isSelected: false,
     });
 
-    if (this.props.onUnselect){
-        this.props.onUnselect(this.props.member);
+    if (this.props.onUnselect) {
+      this.props.onUnselect(this.props.member);
     }
-}
-
-
+  }
 }

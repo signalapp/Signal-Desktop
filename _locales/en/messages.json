@@ -1440,7 +1440,8 @@
     "description": "Header for notification settings"
   },
   "readReceiptSettingDescription": {
-    "message": "See and share when messages have been read (enables read receipts in all sessions).",
+    "message":
+      "See and share when messages have been read (enables read receipts in all sessions).",
     "description": "Description of the read receipts setting"
   },
   "readReceiptSettingTitle": {
@@ -2728,7 +2729,8 @@
     "message": "Create Closed Group"
   },
   "createClosedGroupDescription": {
-    "message": "Closed groups are end-to-end encrypted group chats for up to 10 members. They provide the same privacy protections as one-on-one sessions."
+    "message":
+      "Closed groups are end-to-end encrypted group chats for up to 10 members. They provide the same privacy protections as one-on-one sessions."
   },
   "createClosedGroupNamePrompt": {
     "message": "Group Name"

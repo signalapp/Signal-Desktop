@@ -987,7 +987,6 @@
       return toastID;
     };
 
-
     window.getFriendsFromContacts = contacts => {
       // To call from TypeScript, input / output are both
       // of type Array<ConversationType>
@@ -998,7 +997,7 @@
         );
       }
       return friendList;
-    }
+    };
 
     // Get memberlist. This function is not accurate >>
     // window.getMemberList = window.lokiPublicChatAPI.getListOfMembers();

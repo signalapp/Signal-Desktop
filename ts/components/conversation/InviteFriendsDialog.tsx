@@ -32,9 +32,6 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
 
     let friends = this.props.friendList;
 
-    console.log("Contacts from invitefriendsDialog before filter::");
-    console.log(friends);
-
     friends = friends.map(d => {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
@@ -53,9 +50,6 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
         existingMember,
       };
     });
-
-    console.log("Ideal friends list from inviteDialog");
-    console.log(friends);
 
     this.state = {
       friendList: friends,
@@ -77,8 +71,8 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
         onOk={() => null}
         onClose={this.closeDialog}
       >
-        <div className="spacer-lg"></div>
-        
+        <div className="spacer-lg" />
+
         <div className="friend-selection-list">
           <MemberList
             members={this.state.friendList}
@@ -95,7 +89,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
           </>
         )}
 
-        <div className="spacer-lg"></div>
+        <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
           <SessionButton text={cancelText} onClick={this.closeDialog} />

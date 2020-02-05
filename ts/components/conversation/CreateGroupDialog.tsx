@@ -96,7 +96,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
 
     return (
       <SessionModal title={titleText} onClose={() => null} onOk={() => null}>
-        <div className="spacer-lg"></div>
+        <div className="spacer-lg" />
 
         <p className={errorMessageClasses}>{this.state.errorMessage}</p>
         <input
@@ -120,8 +120,8 @@ export class CreateGroupDialog extends React.Component<Props, State> {
           />
         </div>
 
-        <div className="spacer-lg"></div>
-        
+        <div className="spacer-lg" />
+
         <div className="buttons">
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
             {cancelText}

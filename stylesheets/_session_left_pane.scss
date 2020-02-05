@@ -271,8 +271,8 @@ $session-compose-margin: 20px;
       position: relative;
       height: 1px;
       opacity: 0.3;
-      margin-top: -10px;
-      margin-bottom: 50px;
+      margin-top: 2px;
+      margin-bottom: 40px;
     }
 
     .exit {
@@ -291,10 +291,9 @@ $session-compose-margin: 20px;
     }
 
     .session-description-long {
-      <<<<<<<headfont-size: $session-font-sm;
+      font-size: $session-font-sm;
       line-height: $session-font-h3;
-      =======font-size: 13px;
-      >>>>>>>9732c4f4d074c1024f308cf7369fc535c26724b4margin: 0px 20px;
+      margin: 0px 20px;
       font-family: 'SF Pro Display';
     }
 
