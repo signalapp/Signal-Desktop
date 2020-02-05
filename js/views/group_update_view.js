@@ -19,7 +19,7 @@
 
       const messages = ['Updated the group.'];
       if (this.model.name) {
-        messages.push(`Title is now '${this.model.name}'.`);
+        messages.push(`Group name has been set to '${this.model.name}'.`);
       }
       if (this.model.joined) {
         messages.push(`${this.model.joined.join(', ')} joined the group`);

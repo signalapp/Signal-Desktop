@@ -82,7 +82,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
     if (buttonLabel) {
       children.push(
         <SessionButton
-          text={window.i18n('compose')}
+          text={window.i18n('newSession')}
           onClick={buttonClicked}
           key="compose"
           disabled={false}

@@ -1282,8 +1282,9 @@
     },
 
     deleteSelectedMessages() {
+      const ourPubkey = textsecure.storage.user.getNumber();
       const selected = Array.from(this.model.selectedMessages);
-      const isModerator = this.model.isModerator(this.model.OUR_NUMBER);
+      const isModerator = this.model.isModerator(ourPubkey);
       const isAllOurs = selected.every(
         message => message.attributes.source === message.OUR_NUMBER
       );

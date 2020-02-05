@@ -191,7 +191,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     return LeftPane.RENDER_HEADER(
       labels,
       null,
-      window.i18n('compose'),
+      window.i18n('newSession'),
       this.handleToggleOverlay
     );
   }

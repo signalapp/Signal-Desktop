@@ -121,7 +121,6 @@
     'x.svg',
     'x_white.svg',
     'icon-paste.svg',
-    'loki/loki_icon_text.png',
     'loki/session_icon_128.png',
   ]);
 
@@ -986,6 +985,18 @@
       }
 
       return toastID;
+    };
+
+    window.getFriendsFromContacts = contacts => {
+      // To call from TypeScript, input / output are both
+      // of type Array<ConversationType>
+      let friendList = contacts;
+      if (friendList !== undefined) {
+        friendList = friendList.filter(
+          friend => friend.type === 'direct' && !friend.isMe
+        );
+      }
+      return friendList;
     };
 
     // Get memberlist. This function is not accurate >>

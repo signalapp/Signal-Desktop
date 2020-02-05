@@ -23,7 +23,7 @@ export class GroupInvitation extends React.Component<Props> {
           <div className="contents">
             <img
               alt="group-avatar"
-              src="images/loki/session_icon.png"
+              src="images/session/session_chat_icon.png"
               className="invite-group-avatar"
             />
             <span className="group-details">

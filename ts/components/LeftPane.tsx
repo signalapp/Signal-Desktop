@@ -177,6 +177,7 @@ export class LeftPane extends React.Component<Props, State> {
 
   private renderChannelSection() {
     const {
+      friends,
       openConversationInternal,
       conversations,
       searchResults,
@@ -189,6 +190,7 @@ export class LeftPane extends React.Component<Props, State> {
 
     return (
       <LeftPaneChannelSection
+        friends={friends}
         openConversationInternal={openConversationInternal}
         conversations={conversations}
         searchResults={searchResults}

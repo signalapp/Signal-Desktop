@@ -210,7 +210,7 @@
 
   align-self: flex-start;
 
-  box-shadow: 2px 2px lightgrey;
+  box-shadow: none;
 
   .title {
     margin: 6px;
@@ -246,17 +246,18 @@
     }
 
     .join-btn {
-      background-color: #e0e0e0;
+      background-color: #00f782;
+      color: white;
       padding: 6px 10px;
       margin-left: 6px;
-      border-radius: 6px;
-      box-shadow: 2px 2px 1px #c0c0c0;
-      color: #404040;
+      border-radius: 2px;
+      box-shadow: none;
       user-select: none;
       cursor: pointer;
+      transition: 0.25s;
 
       &:hover {
-        background-color: #c7c7c7;
+        background-color: #00d672;
       }
     }
   }
@@ -266,7 +267,7 @@
   .group-invitation {
     background-color: #242424;
     border-color: #303030;
-    box-shadow: 2px 2px #4f4f4f;
+    box-shadow: none;
 
     .title {
       color: lightgrey;
@@ -670,7 +671,7 @@
 .module-last-seen-indicator__bar {
   background-color: $color-light-60;
   width: 100%;
-  height: 4px;
+  height: 2px;
 }
 
 .module-last-seen-indicator__text {
