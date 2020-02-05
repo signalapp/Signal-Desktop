@@ -2190,15 +2190,5 @@
   "Reactions--error": {
     "message": "Failed to send reaction. Please try again.",
     "description": "Shown when a reaction fails to send"
-  },
-  "ContactName--you": {
-    "message": "$name$ (you)",
-    "descriptions": "Indicates that a name represents the current user",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Captain Jack Sparrow"
-      }
-    }
   }
 }
