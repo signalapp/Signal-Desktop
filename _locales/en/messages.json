@@ -2226,7 +2226,7 @@
   },
   "setAccountPasswordDescription": {
     "message":
-      "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Loki Messenger’s notification settings allow you to customize information that is displayed",
+      "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
     "description": "Description for set account password setting view"
   },
   "changeAccountPasswordTitle": {

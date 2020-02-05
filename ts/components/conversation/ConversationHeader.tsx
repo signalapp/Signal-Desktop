@@ -319,7 +319,9 @@ export class ConversationHeader extends React.Component<Props> {
     return (
       <ContextMenu id={triggerId}>
         {this.renderPublicMenuItems()}
-        <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
+        {!isRss ? (
+          <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
+        ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
         {isPrivateGroup || amMod ? (
           <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
@@ -477,7 +479,8 @@ export class ConversationHeader extends React.Component<Props> {
       <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
     );
     const blockHandlerMenuItem = !isMe &&
-      !isGroup && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
+      !isGroup &&
+      !isRss && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
     const changeNicknameMenuItem = !isMe &&
       !isGroup && (
         <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>

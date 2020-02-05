@@ -14,12 +14,19 @@
     LokiFileServerAPI.secureRpcPubKey
   );
 
+  let nextWaitSeconds = 1;
   const checkForUpgrades = async () => {
-    const response = await window.tokenlessFileServerAdnAPI.serverRequest(
+    const result = await window.tokenlessFileServerAdnAPI.serverRequest(
       'loki/v1/version/client/desktop'
     );
-    if (response && response.response) {
-      const latestVer = semver.clean(response.response.data[0][0]);
+    if (
+      result &&
+      result.response &&
+      result.response.data &&
+      result.response.data.length &&
+      result.response.data[0].length
+    ) {
+      const latestVer = semver.clean(result.response.data[0][0]);
       if (semver.valid(latestVer)) {
         const ourVersion = window.getVersion();
         if (latestVer === ourVersion) {
@@ -36,10 +43,11 @@
       }
     } else {
       // give it a minute
-      log.warn('Could not check to see if newer version is available');
+      log.warn('Could not check to see if newer version is available', result);
+      nextWaitSeconds = 60;
       setTimeout(async () => {
         await checkForUpgrades();
-      }, 60 * 1000); // wait a minute
+      }, nextWaitSeconds * 1000); // wait a minute
     }
     // no message logged means serverRequest never returned...
   };
@@ -56,22 +64,33 @@
       if (expiredVersion !== null) {
         return res(expiredVersion);
       }
-      log.info('Delaying sending checks for 1s, no version yet');
-      setTimeout(waitForVersion, 1000);
+      log.info(
+        'Delaying sending checks for',
+        nextWaitSeconds,
+        's, no version yet'
+      );
+      setTimeout(waitForVersion, nextWaitSeconds * 1000);
       return true;
     }
     waitForVersion();
     return true;
   };
 
+  // just get current status
+  window.extension.expiredStatus = () => expiredVersion;
+  // actually wait until we know for sure
   window.extension.expiredPromise = () => new Promise(resolveWhenReady);
   window.extension.expired = cb => {
     if (expiredVersion === null) {
       // just give it another second
-      log.info('Delaying expire banner determination for 1s');
+      log.info(
+        'Delaying expire banner determination for',
+        nextWaitSeconds,
+        's'
+      );
       setTimeout(() => {
         window.extension.expired(cb);
-      }, 1000);
+      }, nextWaitSeconds * 1000);
       return;
     }
     // yes we know

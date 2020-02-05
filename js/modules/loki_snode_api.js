@@ -9,8 +9,8 @@ class LokiSnodeAPI {
     if (!is.string(serverUrl)) {
       throw new Error('WebAPI.initialize: Invalid server url');
     }
-    this.serverUrl = serverUrl;
-    this.localUrl = localUrl;
+    this.serverUrl = serverUrl; // random.snode
+    this.localUrl = localUrl; // localhost.loki
     this.randomSnodePool = [];
     this.swarmsPendingReplenish = {};
   }
@@ -63,7 +63,7 @@ class LokiSnodeAPI {
         pubkey_ed25519: snode.pubkey_ed25519,
       }));
     } catch (e) {
-      log.warn('initialiseRandomPool error', JSON.stringify(e));
+      log.warn('initialiseRandomPool error', e.code, e.message);
       if (seedNodes.length === 0) {
         throw new window.textsecure.SeedNodeError(
           'Failed to contact seed node'
@@ -73,6 +73,7 @@ class LokiSnodeAPI {
     }
   }
 
+  // nodeUrl is like 9hrje1bymy7hu6nmtjme9idyu3rm8gr3mkstakjyuw1997t7w4ny.snode
   async unreachableNode(pubKey, nodeUrl) {
     const conversation = ConversationController.get(pubKey);
     const swarmNodes = [...conversation.get('swarmNodes')];
@@ -80,6 +81,13 @@ class LokiSnodeAPI {
       node => node.address !== nodeUrl && node.ip !== nodeUrl
     );
     await conversation.updateSwarmNodes(filteredNodes);
+  }
+
+  markRandomNodeUnreachable(snode) {
+    this.randomSnodePool = _.without(
+      this.randomSnodePool,
+      _.find(this.randomSnodePool, { ip: snode.ip, port: snode.port })
+    );
   }
 
   async updateLastHash(snode, hash, expiresAt) {
@@ -151,12 +159,8 @@ class LokiSnodeAPI {
       const snodes = result.snodes.filter(tSnode => tSnode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
-      log.error('getSwarmNodes', JSON.stringify(e));
-      //
-      this.randomSnodePool = _.without(
-        this.randomSnodePool,
-        _.find(this.randomSnodePool, { ip: snode.ip })
-      );
+      log.error('getSwarmNodes error', e.code, e.message);
+      this.markRandomNodeUnreachable(snode);
       return this.getSwarmNodes(pubKey);
     }
   }

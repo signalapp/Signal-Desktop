@@ -19,4 +19,4 @@ If applicable, add screenshots or log files to help explain your problem.
 
 * Device: [e.g. PC, Mac]
 * OS: [e.g. Ubuntu 16.04, Windows 10]
-* Loki messenger Version or Git commit hash:
+* Session Version or Git commit hash:

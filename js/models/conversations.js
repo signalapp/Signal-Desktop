@@ -561,6 +561,7 @@
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
         isPublic: this.isPublic(),
+        isRss: this.isRss(),
         isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
         lastUpdated: this.get('timestamp'),
@@ -2798,11 +2799,19 @@
 
       this.messageCollection.reset([]);
 
-      this.set({
-        lastMessage: null,
-        timestamp: null,
-        active_at: null,
-      });
+      // let's try to keep the RSS conversation open just empty...
+      if (this.isRss()) {
+        this.set({
+          lastMessage: null,
+        });
+      } else {
+        // this will remove the conversation from conversation lists...
+        this.set({
+          lastMessage: null,
+          timestamp: null,
+          active_at: null,
+        });
+      }
 
       // Reset our friend status if we're not friends
       if (!this.isFriend()) {

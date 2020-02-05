@@ -288,7 +288,7 @@ class LokiMessageAPI {
           // Execute callback even with empty array to signal online status
           callback(messages);
         } catch (e) {
-          log.warn('Loki retrieve messages:', e);
+          log.warn('Loki retrieve messages:', e.code, e.message);
           if (e instanceof textsecure.WrongSwarmError) {
             const { newSwarm } = e;
             await lokiSnodeAPI.updateSwarmNodes(this.ourKey, newSwarm);
@@ -352,7 +352,6 @@ class LokiMessageAPI {
       const lastHash = await window.Signal.Data.getLastHashBySnode(
         nodes[i].address
       );
-
       this.ourSwarmNodes[nodes[i].address] = {
         ...nodes[i],
         lastHash,

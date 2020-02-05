@@ -1067,6 +1067,7 @@
       const sslServerURL = `https://${rawserverURL}`;
       const conversationId = `publicChat:${channelId}@${rawserverURL}`;
 
+      // quickly peak to make sure we don't already have it
       const conversationExists = window.ConversationController.get(
         conversationId
       );
@@ -1077,9 +1078,11 @@
         });
       }
 
+      // get server
       const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
         sslServerURL
       );
+      // SSL certificate failure or offline
       if (!serverAPI) {
         // Url incorrect or server not compatible
         return new Promise((_resolve, reject) => {
@@ -1087,16 +1090,20 @@
         });
       }
 
+      // create conversation
       const conversation = await window.ConversationController.getOrCreateAndWait(
         conversationId,
         'group'
       );
 
+      // convert conversation to a public one
       await conversation.setPublicSource(sslServerURL, channelId);
+      // set friend and appropriate SYNC messages for multidevice
       await conversation.setFriendRequestStatus(
         window.friends.friendRequestStatusEnum.friends
       );
 
+      // and finally activate it
       conversation.getPublicSendData(); // may want "await" if you want to use the API
 
       return conversation;
@@ -1966,7 +1973,10 @@
       }
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
-        window.log.warn('Received duplicate message', message.idForLogging());
+        // RSS expects duplciates, so squelch log
+        if (!descriptorId.match(/^rss:/)) {
+          window.log.warn('Received duplicate message', message.idForLogging());
+        }
         return event.confirm();
       }
 

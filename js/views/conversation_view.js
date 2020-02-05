@@ -1860,8 +1860,8 @@
       message = window.Signal.Emoji.replaceColons(message).trim();
 
       const toastOptions = { type: 'info' };
-      const expiredVersion = await extension.expiredPromise();
-      if (expiredVersion) {
+      // let it pass if we're still trying to read it or it's false...
+      if (extension.expiredStatus() === true) {
         toastOptions.title = i18n('expiredWarning');
         toastOptions.id = 'expiredWarning';
       }
