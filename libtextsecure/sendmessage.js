@@ -950,8 +950,8 @@ MessageSender.prototype = {
   ) {
     const profile = this.getOurProfile();
 
-    const flags = options.backgroundFriendReq
-      ? textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST
+    const flags = options.sessionRequest
+      ? textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST
       : undefined;
 
     const { groupInvitation, sessionRestoration } = options;
