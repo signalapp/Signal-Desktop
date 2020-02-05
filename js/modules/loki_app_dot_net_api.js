@@ -310,7 +310,7 @@ class LokiAppDotNetServerAPI {
     if (
       window.lokiFeatureFlags.useSnodeProxy &&
       (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
-        this.baseServerUrl === 'https://file.lokinet.org')
+        this.baseServerUrl === 'https://file.getsession.org')
     ) {
       const finalOptions = { ...fetchOptions };
       if (!fetchOptions.method) {
@@ -483,7 +483,7 @@ class LokiAppDotNetServerAPI {
       if (
         window.lokiFeatureFlags.useSnodeProxy &&
         (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
-          this.baseServerUrl === 'https://file.lokinet.org')
+          this.baseServerUrl === 'https://file.getsession.org')
       ) {
         mode = '_sendToProxy';
 

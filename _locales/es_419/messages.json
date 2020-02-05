@@ -1368,7 +1368,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Group name has been set to '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1396,9 +1396,5 @@
                 "example": "Alice, Bob"
             }
         }
-    },
-    "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

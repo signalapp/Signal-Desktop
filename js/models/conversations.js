@@ -382,6 +382,11 @@
     },
 
     sendTypingMessage(isTyping) {
+      // Loki - Temporarily disable typing messages for groups
+      if (!this.isPrivate()) {
+        return;
+      }
+
       const groupId = !this.isPrivate() ? this.id : null;
       const recipientId = this.isPrivate() ? this.id : null;
       const groupNumbers = this.getRecipients();
@@ -1518,11 +1523,14 @@
           now
         );
 
+        const conversationType = this.get('type');
+
         let messageWithSchema = null;
 
         // If we are a friend with any of the devices, send the message normally
         const canSendNormalMessage = await this.isFriendWithAnyDevice();
-        if (canSendNormalMessage) {
+        const isGroup = conversationType === Message.GROUP;
+        if (canSendNormalMessage || isGroup) {
           messageWithSchema = await upgradeMessageSchema({
             type: 'outgoing',
             body,
@@ -1667,8 +1675,6 @@
           );
           return message.sendSyncMessageOnly(dataMessage);
         }
-
-        const conversationType = this.get('type');
 
         const options = this.getSendOptions();
         options.messageType = message.get('type');
@@ -2321,7 +2327,7 @@
         return;
       }
 
-      if (!this.isPublic() && read.length && options.sendReadReceipts) {
+      if (this.isPrivate() && read.length && options.sendReadReceipts) {
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.

@@ -31,6 +31,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     this.onKeyUp = this.onKeyUp.bind(this);
 
     let friends = this.props.friendList;
+
     friends = friends.map(d => {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
@@ -70,6 +71,8 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
         onOk={() => null}
         onClose={this.closeDialog}
       >
+        <div className="spacer-lg" />
+
         <div className="friend-selection-list">
           <MemberList
             members={this.state.friendList}
@@ -85,6 +88,8 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
             <div className="spacer-lg" />
           </>
         )}
+
+        <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
           <SessionButton text={cancelText} onClick={this.closeDialog} />

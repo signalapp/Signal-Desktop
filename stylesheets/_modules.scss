@@ -1235,11 +1235,17 @@
 }
 
 .module-group-notification__change {
-  margin-top: 10px;
+  background-color: #212121;
+  width: 90%;
+  max-width: 700px;
+  margin: 10px auto;
+  padding: 5px 20px;
+  border-radius: 4px;
 }
 
 .module-group-notification__contact {
-  font-weight: 300;
+  font-family: 'SF Pro Text';
+  font-weight: bold;
 }
 
 // Module: Reset Session Notification

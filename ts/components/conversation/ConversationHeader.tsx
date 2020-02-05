@@ -380,10 +380,8 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public render() {
-    const { id, isGroup, isPublic } = this.props;
+    const { id } = this.props;
     const triggerId = `conversation-${id}-${Date.now()}`;
-
-    const isPrivateGroup = isGroup && !isPublic;
 
     return (
       <>
@@ -395,7 +393,7 @@ export class ConversationHeader extends React.Component<Props> {
               {this.renderOptions(triggerId)}
               {this.renderTitle()}
               {/* This might be redundant as we show the title in the title: */}
-              {isPrivateGroup ? this.renderMemberCount() : null}
+              {/*isPrivateGroup ? this.renderMemberCount() : null*/}
             </div>
           </div>
           {this.renderExpirationLength()}
@@ -417,22 +415,6 @@ export class ConversationHeader extends React.Component<Props> {
     // This is a temporary fix. In future we want to search
     // messages in the current conversation
     $('.session-search-input input').focus();
-  }
-
-  private renderMemberCount() {
-    const memberCount = this.props.isPublic
-      ? this.props.subscriberCount
-      : this.props.members.length;
-
-    if (memberCount === 0) {
-      return null;
-    }
-
-    const wordForm = memberCount === 1 ? 'member' : 'members';
-
-    return (
-      <span className="member-preview">{`(${memberCount} ${wordForm})`}</span>
-    );
   }
 
   private renderPublicMenuItems() {

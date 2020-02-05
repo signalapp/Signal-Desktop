@@ -1107,7 +1107,7 @@
       "Placeholder text in the message entry field when it is disabled while we are waiting for a friend request approval"
   },
   "sendMessageFriendRequest": {
-    "message": "Hi there! This is ...!",
+    "message": "Send your first message",
     "description":
       "Placeholder text in the message entry field when it is the first message sent to that contact"
   },
@@ -1440,7 +1440,8 @@
     "description": "Header for notification settings"
   },
   "readReceiptSettingDescription": {
-    "message": "Enable the sending and receiving of read receipts",
+    "message":
+      "See and share when messages have been read (enables read receipts in all sessions).",
     "description": "Description of the read receipts setting"
   },
   "readReceiptSettingTitle": {
@@ -1993,7 +1994,7 @@
       "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
-    "message": "Title is now '$name$'",
+    "message": "Group name has been set to '$name$'.",
     "description":
       "Shown in the conversation history when someone changes the title of the group",
     "placeholders": {
@@ -2163,6 +2164,9 @@
     "message": "Are you sure you want to leave this group?",
     "description":
       "Title shown to the user to confirm they want to leave the group"
+  },
+  "noContactsForGroup": {
+    "message": "You don't have any contacts to start a group with."
   },
   "copiedPublicKey": {
     "message": "Session ID copied",
@@ -2610,6 +2614,9 @@
     "message": "Complete Sign Up"
   },
   "compose": {
+    "message": "Compose"
+  },
+  "newSession": {
     "message": "New Session"
   },
   "searchForAKeyPhrase": {
@@ -2655,11 +2662,11 @@
   "decline": {
     "message": "Decline"
   },
-  "generalSettingsTitle": {
-    "message": "General"
+  "appearanceSettingsTitle": {
+    "message": "Appearance"
   },
-  "generalSettingsDescription": {
-    "message": "General settings and configuration"
+  "appearanceSettingsDescription": {
+    "message": "Appearance and interface options"
   },
   "accountSettingsTitle": {
     "message": "Account"
@@ -2683,13 +2690,13 @@
     "message": "Notifications"
   },
   "notificationSettingsDescription": {
-    "message": "Choose what you're notified about"
+    "message": "Configure notification options"
   },
   "devicesSettingsTitle": {
     "message": "Devices"
   },
   "devicesSettingsDescription": {
-    "message": "Manage linked devices"
+    "message": "Manage your linked devices"
   },
   "mnemonicEmpty": {
     "message": "Seed is mandatory"
@@ -2718,11 +2725,33 @@
   "addChannel": {
     "message": "Join Open Group"
   },
+  "joinOpenGroup": {
+    "message": "Join Open Group"
+  },
+  "newClosedGroup": {
+    "message": "New Closed Group"
+  },
+  "createClosedGroup": {
+    "message": "Create Closed Group"
+  },
+  "createClosedGroupDescription": {
+    "message":
+      "Closed groups are end-to-end encrypted group chats for up to 10 members. They provide the same privacy protections as one-on-one sessions."
+  },
+  "createClosedGroupNamePrompt": {
+    "message": "Group Name"
+  },
+  "createClosedGroupPlaceholder": {
+    "message": "Enter a group name"
+  },
+  "closedGroupCreatedToastTitle": {
+    "message": "Group created successfully"
+  },
   "enterChannelURL": {
     "message": "Enter Open Group URL"
   },
   "channelUrlPlaceholder": {
-    "message": "https://chat.lokinet.org"
+    "message": "chat.getsession.org"
   },
   "addChannelDescription": {
     "message": "Enter an open group URL."

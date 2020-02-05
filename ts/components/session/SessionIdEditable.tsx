@@ -3,10 +3,12 @@ import classNames from 'classnames';
 
 interface Props {
   placeholder?: string;
+  value?: string;
   text?: string;
   editable?: boolean;
   onChange?: any;
   onPressEnter?: any;
+  maxLength?: number;
 }
 
 export class SessionIdEditable extends React.PureComponent<Props> {
@@ -26,7 +28,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { placeholder, editable, text } = this.props;
+    const { placeholder, editable, text, value, maxLength } = this.props;
 
     return (
       <div
@@ -43,7 +45,8 @@ export class SessionIdEditable extends React.PureComponent<Props> {
           spellCheck={false}
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}
-          value={text}
+          value={value || text}
+          maxLength={maxLength}
         />
       </div>
     );

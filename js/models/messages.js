@@ -203,6 +203,13 @@
       }
       return conversation.getDisplayName();
     },
+    getLokiNameForNumber(number) {
+      const conversation = ConversationController.get(number);
+      if (!conversation) {
+        return number;
+      }
+      return conversation.getLokiProfile().displayName;
+    },
     getDescription() {
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
@@ -224,10 +231,10 @@
           messages.push(i18n('titleIsNow', groupUpdate.name));
         }
         if (groupUpdate.joined && groupUpdate.joined.length) {
-          const names = _.map(
-            groupUpdate.joined,
-            this.getNameForNumber.bind(this)
+          const names = groupUpdate.joined.map(name =>
+            this.getLokiNameForNumber(name)
           );
+
           if (names.length > 1) {
             messages.push(i18n('multipleJoinedTheGroup', names.join(', ')));
           } else {
@@ -1891,7 +1898,8 @@
       const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
         source
       );
-      if (initialMessage.group) {
+      const isGroupMessage = !!initialMessage.group;
+      if (isGroupMessage) {
         conversationId = initialMessage.group.id;
       } else if (source !== ourNumber && authorisation) {
         // Ignore auth from our devices
@@ -1982,16 +1990,16 @@
                 Date.now(),
                 undefined,
                 undefined,
-                { messageType: 'friend-request', backgroundFriendReq: true }
+                { messageType: 'friend-request', sessionRequest: true }
               );
             });
           }
         });
       }
 
-      const backgroundFrReq =
+      const isSessionRequest =
         initialMessage.flags ===
-        textsecure.protobuf.DataMessage.Flags.BACKGROUND_FRIEND_REQUEST;
+        textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
 
       if (
         // eslint-disable-next-line no-bitwise
@@ -2002,7 +2010,7 @@
         this.set({ endSessionType: 'ongoing' });
       }
 
-      if (message.isFriendRequest() && backgroundFrReq) {
+      if (message.isFriendRequest() && isSessionRequest) {
         // Check if the contact is a member in one of our private groups:
         const groupMember = window
           .getConversations()
@@ -2308,39 +2316,44 @@
           }
 
           let autoAccept = false;
-          if (message.get('type') === 'friend-request') {
-            /*
-            Here is the before and after state diagram for the operation before.
+          // Make sure friend request logic doesn't trigger on messages aimed at groups
+          if (!isGroupMessage) {
+            if (message.get('type') === 'friend-request') {
+              /*
+              Here is the before and after state diagram for the operation before.
 
-            None -> RequestReceived
-            PendingSend -> RequestReceived
-            RequestReceived -> RequestReceived
-            Sent -> Friends
-            Expired -> Friends
-            Friends -> Friends
+              None -> RequestReceived
+              PendingSend -> RequestReceived
+              RequestReceived -> RequestReceived
+              Sent -> Friends
+              Expired -> Friends
+              Friends -> Friends
 
-            The cases where we auto accept are the following:
-              - We sent the user a friend request and that user sent us a friend request.
-              - We are friends with the user, and that user just sent us a friend request.
-            */
-            const isFriend = sendingDeviceConversation.isFriend();
-            const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
-            autoAccept = isFriend || hasSentFriendRequest;
+              The cases where we auto accept are the following:
+                - We sent the user a friend request,
+                  and that user sent us a friend request.
+                - We are friends with the user,
+                  and that user just sent us a friend request.
+              */
+              const isFriend = sendingDeviceConversation.isFriend();
+              const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
+              autoAccept = isFriend || hasSentFriendRequest;
 
-            if (autoAccept) {
-              message.set({ friendStatus: 'accepted' });
-            }
+              if (autoAccept) {
+                message.set({ friendStatus: 'accepted' });
+              }
 
-            if (isFriend) {
-              window.Whisper.events.trigger('endSession', source);
-            } else if (hasSentFriendRequest) {
+              if (isFriend) {
+                window.Whisper.events.trigger('endSession', source);
+              } else if (hasSentFriendRequest) {
+                await sendingDeviceConversation.onFriendRequestAccepted();
+              } else {
+                await sendingDeviceConversation.onFriendRequestReceived();
+              }
+            } else if (message.get('type') !== 'outgoing') {
+              // Ignore 'outgoing' messages because they are sync messages
               await sendingDeviceConversation.onFriendRequestAccepted();
-            } else {
-              await sendingDeviceConversation.onFriendRequestReceived();
             }
-          } else if (message.get('type') !== 'outgoing') {
-            // Ignore 'outgoing' messages because they are sync messages
-            await sendingDeviceConversation.onFriendRequestAccepted();
           }
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,

@@ -33,6 +33,7 @@ class MemberItem extends React.Component<MemberItemProps> {
     const pubkey = this.props.member.authorPhoneNumber;
     const selected = this.props.selected;
     const existingMember = this.props.existingMember;
+    const shortPubkey = window.shortenPubkey(pubkey);
 
     let markType: 'none' | 'kicked' | 'added' | 'existing' = 'none';
 
@@ -79,7 +80,7 @@ class MemberItem extends React.Component<MemberItemProps> {
       >
         {this.renderAvatar()}
         <span className="name-part">{name}</span>
-        <span className="pubkey-part">{pubkey}</span>
+        <span className="pubkey-part">{shortPubkey}</span>
         <span className={classNames(markClasses)}>{mark}</span>
       </div>
     );

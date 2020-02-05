@@ -25,7 +25,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     super(props);
 
     this.state = {
-      settingCategory: SessionSettingCategory.General,
+      settingCategory: SessionSettingCategory.Appearance,
       searchQuery: '',
     };
 
@@ -179,9 +179,9 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
   public getCategories() {
     return [
       {
-        id: SessionSettingCategory.General,
-        title: window.i18n('generalSettingsTitle'),
-        description: window.i18n('generalSettingsDescription'),
+        id: SessionSettingCategory.Appearance,
+        title: window.i18n('appearanceSettingsTitle'),
+        description: window.i18n('appearanceSettingsDescription'),
         hidden: false,
       },
       {

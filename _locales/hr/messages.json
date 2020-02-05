@@ -797,10 +797,6 @@
         "message": "Cannot Update",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
-        "description": "Shown if a general error happened while trying to install update package"
-    },
     "readOnlyVolume": {
         "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update"
@@ -1508,7 +1504,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Group name has been set to '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1536,9 +1532,5 @@
                 "example": "Alice, Bob"
             }
         }
-    },
-    "privacyPolicy": {
-        "message": "Uvjeti i pravila o privatnosti",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }
