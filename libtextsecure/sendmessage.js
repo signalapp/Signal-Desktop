@@ -409,6 +409,8 @@ MessageSender.prototype = {
       options
     );
 
+    const ourNumber = textsecure.storage.user.getNumber();
+
     numbers.forEach(number => {
       // Note: if we are sending a private group message, we do our best to
       // ensure we have signal protocol sessions with every member, but if we
@@ -419,7 +421,7 @@ MessageSender.prototype = {
       );
 
       if (
-        number === textsecure.storage.user.getNumber() ||
+        number === ourNumber ||
         haveSession ||
         options.isPublic ||
         options.messageType === 'friend-request'
@@ -427,6 +429,20 @@ MessageSender.prototype = {
         this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
       } else {
         window.log.error(`No session for number: ${number}`);
+        // If it was a message to a group then we need to send a session request
+        if (outgoing.isGroup) {
+          this.sendMessageToNumber(
+            number,
+            '(If you see this message, you must be using an out-of-date client)',
+            [],
+            undefined,
+            [],
+            Date.now(),
+            undefined,
+            undefined,
+            { messageType: 'friend-request', sessionRequest: true }
+          );
+        }
       }
     });
   },
