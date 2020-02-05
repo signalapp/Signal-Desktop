@@ -185,6 +185,15 @@ class LokiAppDotNetServerAPI {
     }
     this.token = token;
 
+    // if no token to verify, just bail now
+    if (!token) {
+      //
+      if (!forceRefresh) {
+        token = await this.getOrRefreshServerToken(true);
+      }
+      return token;
+    }
+
     // verify token info
     const tokenRes = await this.serverRequest('token');
     // if no problems and we have data
@@ -270,7 +279,31 @@ class LokiAppDotNetServerAPI {
 
       res = await this.proxyFetch(url);
     } catch (e) {
-      log.error('requestToken request failed', e);
+      // should we retry here?
+      // no, this is the low level function
+      // not really an error, from a client's pov, network servers can fail...
+      if (e.code === 'ECONNREFUSED') {
+        // down
+        log.warn(
+          'requestToken request can not connect',
+          this.baseServerUrl,
+          e.message
+        );
+      } else if (e.code === 'ECONNRESET') {
+        // got disconnected
+        log.warn(
+          'requestToken request lost connection',
+          this.baseServerUrl,
+          e.message
+        );
+      } else {
+        log.error(
+          'requestToken request failed',
+          this.baseServerUrl,
+          e.code,
+          e.message
+        );
+      }
       return null;
     }
     if (!res.ok) {
@@ -302,14 +335,17 @@ class LokiAppDotNetServerAPI {
       );
       return res.ok;
     } catch (e) {
+      log.error('submitToken proxyFetch failure', e.code, e.message);
       return false;
     }
   }
 
-  async proxyFetch(urlObj, fetchOptions) {
+  async proxyFetch(urlObj, fetchOptions = { method: 'GET' }) {
     if (
       window.lokiFeatureFlags.useSnodeProxy &&
       (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
+        this.baseServerUrl === 'https://file.lokinet.org' ||
+        this.baseServerUrl === 'https://file-dev.getsession.org' ||
         this.baseServerUrl === 'https://file.getsession.org')
     ) {
       const finalOptions = { ...fetchOptions };
@@ -408,7 +444,21 @@ class LokiAppDotNetServerAPI {
     const result = await nodeFetch(url, firstHopOptions);
 
     const txtResponse = await result.text();
-    let response = JSON.parse(txtResponse);
+    if (txtResponse === 'Service node is not ready: not in any swarm; \n') {
+      // mark snode bad
+      log.warn('Marking random snode bad', randSnode);
+      lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+      // retry (hopefully with new snode)
+      // FIXME: max number of retries...
+      return this._sendToProxy(endpoint, fetchOptions);
+    }
+
+    let response = {};
+    try {
+      response = JSON.parse(txtResponse);
+    } catch (e) {
+      log.warn(`_sendToProxy Could not parse outer JSON [${txtResponse}]`);
+    }
 
     if (response.meta && response.meta.code === 200) {
       // convert base64 in response to binary
@@ -423,9 +473,17 @@ class LokiAppDotNetServerAPI {
       const textDecoder = new TextDecoder();
       const json = textDecoder.decode(decrypted);
       // replace response
-      response = JSON.parse(json);
+      try {
+        response = JSON.parse(json);
+      } catch (e) {
+        log.warn(`_sendToProxy Could not parse inner JSON [${json}]`);
+      }
     } else {
-      log.warn('file server secure_rpc gave an non-200 response');
+      log.warn(
+        'file server secure_rpc gave an non-200 response: ',
+        response,
+        ` txtResponse[${txtResponse}]`
+      );
     }
     return { result, txtResponse, response };
   }
@@ -469,7 +527,7 @@ class LokiAppDotNetServerAPI {
         fetchOptions.agent = snodeHttpsAgent;
       }
     } catch (e) {
-      log.info('serverRequest set up error:', JSON.stringify(e));
+      log.info('serverRequest set up error:', e.code, e.message);
       return {
         err: e,
       };
@@ -483,6 +541,8 @@ class LokiAppDotNetServerAPI {
       if (
         window.lokiFeatureFlags.useSnodeProxy &&
         (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
+          this.baseServerUrl === 'https://file.lokinet.org' ||
+          this.baseServerUrl === 'https://file-dev.getsession.org' ||
           this.baseServerUrl === 'https://file.getsession.org')
       ) {
         mode = '_sendToProxy';
@@ -902,7 +962,11 @@ class LokiPublicChannelAPI {
     try {
       await this.pollOnceForModerators();
     } catch (e) {
-      log.warn(`Error while polling for public chat moderators: ${e}`);
+      log.warn(
+        'Error while polling for public chat moderators:',
+        e.code,
+        e.message
+      );
     }
     if (this.running) {
       this.timers.moderator = setTimeout(() => {
@@ -1052,7 +1116,11 @@ class LokiPublicChannelAPI {
     try {
       await this.pollForChannelOnce();
     } catch (e) {
-      log.warn(`Error while polling for public chat room details: ${e}`);
+      log.warn(
+        'Error while polling for public chat room details',
+        e.code,
+        e.message
+      );
     }
     if (this.running) {
       this.timers.channel = setTimeout(() => {
@@ -1103,7 +1171,11 @@ class LokiPublicChannelAPI {
     try {
       await this.pollOnceForDeletions();
     } catch (e) {
-      log.warn(`Error while polling for public chat deletions: ${e}`);
+      log.warn(
+        'Error while polling for public chat deletions:',
+        e.code,
+        e.message
+      );
     }
     if (this.running) {
       this.timers.delete = setTimeout(() => {
@@ -1278,7 +1350,11 @@ class LokiPublicChannelAPI {
     try {
       await this.pollOnceForMessages();
     } catch (e) {
-      log.warn(`Error while polling for public chat messages: ${e}`);
+      log.warn(
+        'Error while polling for public chat messages:',
+        e.code,
+        e.message
+      );
     }
     if (this.running) {
       this.timers.message = setTimeout(() => {
