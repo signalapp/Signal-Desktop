@@ -1994,7 +1994,7 @@
       "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
-    "message": "Title is now '$name$'",
+    "message": "Group name has been set to '$name$'.",
     "description":
       "Shown in the conversation history when someone changes the title of the group",
     "placeholders": {
@@ -2164,6 +2164,9 @@
     "message": "Are you sure you want to leave this group?",
     "description":
       "Title shown to the user to confirm they want to leave the group"
+  },
+  "noContactsForGroup": {
+    "message": "You don't have any contacts to start a group with."
   },
   "copiedPublicKey": {
     "message": "Session ID copied",
@@ -2724,6 +2727,9 @@
   },
   "joinOpenGroup": {
     "message": "Join Open Group"
+  },
+  "newClosedGroup": {
+    "message": "New Closed Group"
   },
   "createClosedGroup": {
     "message": "Create Closed Group"

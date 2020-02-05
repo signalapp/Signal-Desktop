@@ -83,6 +83,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     return friends;
   }
 
+  // tslint:disable-next-line max-func-body-length */
   public render(): JSX.Element {
     const {
       overlayMode,
@@ -129,7 +130,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         placeholder = window.i18n('channelUrlPlaceholder');
         break;
       case 'closed-group':
-        title = window.i18n('createClosedGroup');
+        title = window.i18n('newClosedGroup');
         buttonText = window.i18n('createClosedGroup');
         descriptionLong = window.i18n('createClosedGroupDescription');
         subtitle = window.i18n('createClosedGroupNamePrompt');
@@ -141,6 +142,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
 
     const { groupName, selectedMembers } = this.state;
     const ourSessionID = window.textsecure.storage.user.getNumber();
+
+    const contacts = this.getContacts();
+    const noContactsForClosedGroup =
+      overlayMode === SessionGroupType.Closed && contacts.length === 0;
 
     return (
       <div className="module-left-pane-overlay">
@@ -155,6 +160,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         <div className="spacer-md" />
 
         <h2>{title}</h2>
+
         <h3>
           {subtitle}
           <hr className="green-border" />
@@ -165,12 +171,14 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           <div className="create-group-name-input">
             <SessionIdEditable
               ref={this.inputRef}
-              editable={true}
+              editable={!noContactsForClosedGroup}
               placeholder={placeholder}
               value={this.state.groupName}
               maxLength={window.CONSTANTS.MAX_GROUPNAME_LENGTH}
               onChange={this.onGroupNameChanged}
             />
+
+            {/*  */}
           </div>
         ) : (
           <SessionIdEditable
@@ -188,9 +196,15 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
             <div className="spacer-lg" />
 
             <div className="group-member-list__container">
-              <div className="group-member-list__selection">
-                {this.renderMemberList()}
-              </div>
+              {noContactsForClosedGroup ? (
+                <div className="group-member-list__no-contacts">
+                  {window.i18n('noContactsForGroup')}
+                </div>
+              ) : (
+                <div className="group-member-list__selection">
+                  {this.renderMemberList()}
+                </div>
+              )}
             </div>
 
             <div className="spacer-lg" />
@@ -227,6 +241,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           buttonColor={SessionButtonColor.Green}
           buttonType={SessionButtonType.BrandOutline}
           text={buttonText}
+          disabled={noContactsForClosedGroup}
           onClick={() => onButtonClick(groupName, selectedMembers)}
         />
       </div>

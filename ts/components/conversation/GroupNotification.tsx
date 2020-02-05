@@ -2,7 +2,6 @@ import React from 'react';
 // import classNames from 'classnames';
 import { compact, flatten } from 'lodash';
 
-import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
@@ -39,12 +38,7 @@ export class GroupNotification extends React.Component<Props> {
               key={`external-${contact.phoneNumber}`}
               className="module-group-notification__contact"
             >
-              <ContactName
-                i18n={i18n}
-                phoneNumber={contact.phoneNumber}
-                profileName={contact.profileName}
-                name={contact.name}
-              />
+              {contact.profileName}
             </span>
           );
 

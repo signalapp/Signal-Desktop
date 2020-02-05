@@ -150,6 +150,11 @@ div.spacer-lg {
   width: 100%;
 }
 
+input,
+textarea {
+  caret-color: $session-color-green !important;
+}
+
 @mixin text-highlight($color) {
   background-color: $color;
   padding: $session-margin-xs $session-margin-sm;
@@ -269,7 +274,7 @@ $session_message-container-border-radius: 5px;
   &.brand {
     color: $session-color-white;
 
-    &:hover {
+    &:not(.disabled):hover {
       filter: brightness(90%);
     }
 
@@ -357,7 +362,7 @@ $session_message-container-border-radius: 5px;
     font-family: $session-font-family;
     border-radius: 500px;
 
-    &:hover {
+    &:not(.disabled):hover {
       color: $session-color-white;
       border-color: $session-color-white;
     }
@@ -1698,6 +1703,12 @@ input {
     display: flex;
     flex-direction: column;
   }
+
+  &__no-contacts {
+    font-family: 'SpaceMono';
+    text-align: center;
+    padding: 20px;
+  }
 }
 .create-group-name-input {
   .session-id-editable {
@@ -1705,6 +1716,10 @@ input {
 
     textarea {
       padding-bottom: 0px !important;
+    }
+
+    &-disabled {
+      border: 1px solid $session-color-dark-grey !important;
     }
   }
 }

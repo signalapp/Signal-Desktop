@@ -213,6 +213,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
             <div className="text-subtle">
               {window.i18n('members', memberCount)}
             </div>
+            <div className="spacer-lg" />
           </>
         )}
         <input

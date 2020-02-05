@@ -203,6 +203,13 @@
       }
       return conversation.getDisplayName();
     },
+    getLokiNameForNumber(number) {
+      const conversation = ConversationController.get(number);
+      if (!conversation) {
+        return number;
+      }
+      return conversation.getLokiProfile().displayName;
+    },
     getDescription() {
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
@@ -224,10 +231,10 @@
           messages.push(i18n('titleIsNow', groupUpdate.name));
         }
         if (groupUpdate.joined && groupUpdate.joined.length) {
-          const names = _.map(
-            groupUpdate.joined,
-            this.getNameForNumber.bind(this)
+          const names = groupUpdate.joined.map(name =>
+            this.getLokiNameForNumber(name)
           );
+
           if (names.length > 1) {
             messages.push(i18n('multipleJoinedTheGroup', names.join(', ')));
           } else {
