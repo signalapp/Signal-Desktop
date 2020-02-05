@@ -61,7 +61,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       });
     }
 
-    const friends = conversationList.map((d: any) => {
+    return conversationList.map((d: any) => {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
 
@@ -79,8 +79,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         existingMember,
       };
     });
-
-    return friends;
   }
 
   // tslint:disable-next-line max-func-body-length */
@@ -137,7 +135,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         placeholder = window.i18n('createClosedGroupPlaceholder');
         break;
       default:
-        break;
     }
 
     const { groupName, selectedMembers } = this.state;
@@ -251,7 +248,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   private renderMemberList() {
     const members = this.getContacts();
 
-    const memberList = members.map((member: ContactType) => (
+    return members.map((member: ContactType) => (
       <SessionMemberListItem
         member={member}
         isSelected={false}
@@ -263,8 +260,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         }}
       />
     ));
-
-    return memberList;
   }
 
   private handleSelectMember(member: ContactType) {
