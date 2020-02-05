@@ -2123,13 +2123,16 @@
       const { wrap, sendOptions } = ConversationController.prepareForSend(
         data.source
       );
-      await wrap(
-        textsecure.messaging.sendDeliveryReceipt(
-          data.source,
-          data.timestamp,
-          sendOptions
-        )
-      );
+      const isGroup = data && data.message && data.message.group;
+      if (!isGroup) {
+        await wrap(
+          textsecure.messaging.sendDeliveryReceipt(
+            data.source,
+            data.timestamp,
+            sendOptions
+          )
+        );
+      }
     } catch (error) {
       window.log.error(
         `Failed to send delivery receipt to ${data.source} for message ${
