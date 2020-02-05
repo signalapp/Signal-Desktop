@@ -430,7 +430,7 @@ MessageSender.prototype = {
       } else {
         window.log.error(`No session for number: ${number}`);
         // If it was a message to a group then we need to send a session request
-        if (outgoing.isGroup && number !== ourNumber) {
+        if (outgoing.isGroup) {
           this.sendMessageToNumber(
             number,
             '(If you see this message, you must be using an out-of-date client)',
