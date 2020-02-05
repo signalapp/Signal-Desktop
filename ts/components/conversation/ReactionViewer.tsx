@@ -37,8 +37,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     const grouped = mapValues(groupBy(reactions, 'emoji'), res =>
       orderBy(res, ['timestamp'], ['desc'])
     );
-    const filtered = emojisOrder.filter(e => Boolean(grouped[e]));
-    const [selected, setSelected] = React.useState(filtered[0]);
+    const [selected, setSelected] = React.useState('all');
     const focusRef = React.useRef<HTMLButtonElement>(null);
 
     // Handle escape key
@@ -65,7 +64,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       const emojiSet = new Set<string>();
       reactions.forEach(re => emojiSet.add(re.emoji));
 
-      return sortBy(Array.from(emojiSet), emoji => {
+      const arr = sortBy(Array.from(emojiSet), emoji => {
         const idx = emojisOrder.indexOf(emoji);
         if (idx > -1) {
           return idx;
@@ -73,6 +72,12 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
 
         return Infinity;
       });
+
+      return ['all', ...arr];
+    }, [reactions]);
+
+    const allSorted = React.useMemo(() => {
+      return sortBy(reactions, 'timestamp');
     }, [reactions]);
 
     // If we have previously selected a reaction type that is no longer present
@@ -90,36 +95,46 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       }
     }, [grouped, onClose, renderedEmojis, selected, setSelected]);
 
-    const selectedReactions = grouped[selected] || [];
+    const selectedReactions = grouped[selected] || allSorted;
 
     return (
       <div {...rest} ref={ref} className="module-reaction-viewer">
         <header className="module-reaction-viewer__header">
-          {renderedEmojis
-            .filter(e => Boolean(grouped[e]))
-            .map((emoji, index) => {
-              const re = grouped[emoji];
+          {...renderedEmojis
+            .filter(e => e === 'all' || Boolean(grouped[e]))
+            .map((cat, index) => {
+              const re = grouped[cat] || reactions;
               const maybeFocusRef = index === 0 ? focusRef : undefined;
+              const isAll = cat === 'all';
 
               return (
                 <button
-                  key={emoji}
+                  key={cat}
                   ref={maybeFocusRef}
                   className={classNames(
                     'module-reaction-viewer__header__button',
-                    selected === emoji
+                    selected === cat
                       ? 'module-reaction-viewer__header__button--selected'
                       : null
                   )}
                   onClick={event => {
                     event.stopPropagation();
-                    setSelected(emoji);
+                    setSelected(cat);
                   }}
                 >
-                  <Emoji size={18} emoji={emoji} />
-                  <span className="module-reaction-viewer__header__button__count">
-                    {re.length}
-                  </span>
+                  {isAll ? (
+                    <span className="module-reaction-viewer__header__button__all">
+                      {i18n('ReactionsViewer--all')}&thinsp;&middot;&thinsp;
+                      {re.length}
+                    </span>
+                  ) : (
+                    <>
+                      <Emoji size={18} emoji={cat} />
+                      <span className="module-reaction-viewer__header__button__count">
+                        {re.length}
+                      </span>
+                    </>
+                  )}
                 </button>
               );
             })}
@@ -141,12 +156,17 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   i18n={i18n}
                 />
               </div>
-              <ContactName
-                module="module-reaction-viewer__body__row__name"
-                name={from.name}
-                profileName={from.profileName}
-                phoneNumber={from.phoneNumber}
-              />
+              <div className="module-reaction-viewer__body__row__name">
+                <ContactName
+                  module="module-reaction-viewer__body__row__name__contact-name"
+                  name={from.name}
+                  profileName={from.profileName}
+                  phoneNumber={from.phoneNumber}
+                />
+              </div>
+              <div className="module-reaction-viewer__body__row__emoji">
+                <Emoji size={18} emoji={emoji} />
+              </div>
             </div>
           ))}
         </main>
