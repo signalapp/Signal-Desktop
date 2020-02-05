@@ -190,7 +190,6 @@ export class LeftPane extends React.Component<Props, State> {
 
     return (
       <LeftPaneChannelSection
-        friends={friends}
         openConversationInternal={openConversationInternal}
         conversations={conversations}
         searchResults={searchResults}
