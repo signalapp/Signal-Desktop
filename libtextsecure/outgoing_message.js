@@ -72,6 +72,11 @@ function OutgoingMessage(
     options || {};
   this.numberInfo = numberInfo;
   this.isPublic = isPublic;
+  this.isGroup = !!(
+    this.message &&
+    this.message.dataMessage &&
+    this.message.dataMessage.group
+  );
   this.publicSendData = publicSendData;
   this.senderCertificate = senderCertificate;
   this.online = online;
@@ -348,7 +353,8 @@ OutgoingMessage.prototype = {
           if (
             conversation &&
             !conversation.isFriend() &&
-            !conversation.hasReceivedFriendRequest()
+            !conversation.hasReceivedFriendRequest() &&
+            !this.isGroup
           ) {
             // We want to send an automated friend request if:
             // - We aren't already friends
