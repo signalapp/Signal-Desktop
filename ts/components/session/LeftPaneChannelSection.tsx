@@ -406,7 +406,8 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return;
     }
 
-    await window.doCreateGroup(groupName, groupMembers);
+    const groupMemberIds = groupMembers.map(m => m.id);
+    await window.doCreateGroup(groupName, groupMemberIds);
     this.handleToggleOverlay(undefined);
 
     window.pushToast({

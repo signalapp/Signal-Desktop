@@ -238,6 +238,18 @@
     specialConvInited = true;
   };
 
+  const initLokiMessageAPIs = () => {
+    const ourKey = textsecure.storage.user.getNumber();
+    if (!window.lokiMessageAPI) {
+      window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+    }
+
+    if (!window.lokiPublicChatAPI) {
+      // singleton to relay events to libtextsecure/message_receiver
+      window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
+    }
+  };
+
   const initAPIs = async () => {
     if (window.initialisedAPI) {
       return;
@@ -1488,8 +1500,8 @@
       return;
     }
 
-    await initAPIs();
-    await initSpecialConversations();
+    initLokiMessageAPIs();
+
     messageReceiver = new textsecure.MessageReceiver(
       USERNAME,
       PASSWORD,
@@ -1524,6 +1536,9 @@
       USERNAME,
       PASSWORD
     );
+
+    await initAPIs();
+    await initSpecialConversations();
 
     // On startup after upgrading to a new version, request a contact sync
     //   (but only if we're not the primary device)
