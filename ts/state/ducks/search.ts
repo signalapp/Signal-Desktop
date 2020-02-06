@@ -11,8 +11,8 @@ import {
 import { makeLookup } from '../../util/makeLookup';
 
 import {
-  ConversationType,
   ConversationUnloadedActionType,
+  DBConversationType,
   MessageDeletedActionType,
   MessageType,
   RemoveAllConversationsActionType,
@@ -276,7 +276,7 @@ async function queryConversationsAndContacts(
   const { ourNumber, noteToSelf } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
-  const searchResults: Array<ConversationType> = await dataSearchConversations(
+  const searchResults: Array<DBConversationType> = await dataSearchConversations(
     query
   );
 
@@ -287,7 +287,7 @@ async function queryConversationsAndContacts(
   for (let i = 0; i < max; i += 1) {
     const conversation = searchResults[i];
 
-    if (conversation.type === 'direct' && !Boolean(conversation.lastMessage)) {
+    if (conversation.type === 'private' && !Boolean(conversation.lastMessage)) {
       contacts.push(conversation.id);
     } else {
       conversations.push(conversation.id);
