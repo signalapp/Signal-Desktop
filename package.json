@@ -43,6 +43,7 @@
     "styleguide": "styleguidist server",
     "ready": "yarn clean-transpile && yarn grunt && yarn lint && yarn test-node && yarn test-electron && yarn lint-deps",
     "dev": "run-p --print-label dev:*",
+    "dev:grunt": "yarn grunt dev",
     "dev:webpack": "NODE_ENV=development webpack-dev-server --hot",
     "dev:typed-scss": "yarn build:typed-scss -w",
     "dev:storybook": "start-storybook -p 6006 -s ./",

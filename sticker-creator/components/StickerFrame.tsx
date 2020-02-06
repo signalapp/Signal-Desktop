@@ -17,6 +17,7 @@ import {
   Props as EmojiPickerProps,
 } from '../../ts/components/emoji/EmojiPicker';
 import { Emoji } from '../../ts/components/emoji/Emoji';
+import { PopperRootContext } from '../../ts/components/PopperRootContext';
 import { useI18n } from '../util/i18n';
 
 export type Mode = 'removable' | 'pick-emoji' | 'add';
@@ -117,12 +118,13 @@ export const StickerFrame = React.memo(
       [timerRef]
     );
 
+    const { createRoot, removeRoot } = React.useContext(PopperRootContext);
+
     // Create popper root and handle outside clicks
     React.useEffect(() => {
       if (emojiPickerOpen) {
-        const root = document.createElement('div');
+        const root = createRoot();
         setEmojiPopperRoot(root);
-        document.body.appendChild(root);
         const handleOutsideClick = ({ target }: MouseEvent) => {
           if (!root.contains(target as Node)) {
             setEmojiPickerOpen(false);
@@ -131,27 +133,39 @@ export const StickerFrame = React.memo(
         document.addEventListener('click', handleOutsideClick);
 
         return () => {
-          document.body.removeChild(root);
+          removeRoot(root);
           document.removeEventListener('click', handleOutsideClick);
         };
       }
 
       return noop;
-    }, [emojiPickerOpen, setEmojiPickerOpen, setEmojiPopperRoot]);
+    }, [
+      createRoot,
+      emojiPickerOpen,
+      removeRoot,
+      setEmojiPickerOpen,
+      setEmojiPopperRoot,
+    ]);
 
     React.useEffect(() => {
       if (mode !== 'pick-emoji' && image && previewActive) {
-        const root = document.createElement('div');
+        const root = createRoot();
         setPreviewPopperRoot(root);
-        document.body.appendChild(root);
 
         return () => {
-          document.body.removeChild(root);
+          removeRoot(root);
         };
       }
 
       return noop;
-    }, [mode, image, previewActive, setPreviewPopperRoot]);
+    }, [
+      createRoot,
+      image,
+      mode,
+      previewActive,
+      removeRoot,
+      setPreviewPopperRoot,
+    ]);
 
     const [dragActive, setDragActive] = React.useState<boolean>(false);
     const containerClass = dragActive ? styles.dragActive : styles.container;
