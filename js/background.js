@@ -1100,7 +1100,8 @@
       await conversation.setPublicSource(sslServerURL, channelId);
       // set friend and appropriate SYNC messages for multidevice
       await conversation.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
+        window.friends.friendRequestStatusEnum.friends,
+        { blockSync: true }
       );
 
       // and finally activate it

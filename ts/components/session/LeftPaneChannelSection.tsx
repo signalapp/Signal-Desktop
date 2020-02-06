@@ -357,8 +357,8 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     this.setState({ channelUrlPasted: value });
   }
 
-  private handleJoinChannelButtonClick() {
-    const { loading, channelUrlPasted } = this.state;
+  private handleJoinChannelButtonClick(groupUrl: string) {
+    const { loading } = this.state;
 
     if (loading) {
       return false;
@@ -366,7 +366,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
 
     const regexURL = /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/;
 
-    if (channelUrlPasted.length <= 0) {
+    if (groupUrl.length <= 0) {
       window.pushToast({
         title: window.i18n('noServerURL'),
         type: 'error',
@@ -376,7 +376,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return false;
     }
 
-    if (!regexURL.test(channelUrlPasted)) {
+    if (!regexURL.test(groupUrl)) {
       window.pushToast({
         title: window.i18n('noServerURL'),
         type: 'error',
@@ -386,7 +386,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       return false;
     }
 
-    joinChannelStateManager(this, channelUrlPasted, () => {
+    joinChannelStateManager(this, groupUrl, () => {
       this.handleToggleOverlay(SessionGroupType.Open);
     });
 

@@ -1629,12 +1629,13 @@ class LokiPublicChannelAPI {
       if (slavePrimaryMap[slaveKey]) {
         // rewrite source, profile
         messageData.source = primaryPubKey;
-        const { name, avatar, profileKey } = this.primaryUserProfileName[
-          primaryPubKey
-        ];
-        messageData.message.profile.displayName = name;
-        messageData.message.profile.avatar = avatar;
-        messageData.message.profileKey = profileKey;
+        const primaryProfile = this.primaryUserProfileName[primaryPubKey];
+        if (primaryProfile) {
+          const { name, avatar, profileKey } = primaryProfile;
+          messageData.message.profile.displayName = name;
+          messageData.message.profile.avatar = avatar;
+          messageData.message.profileKey = profileKey;
+        }
       }
       /* eslint-enable no-param-reassign */
       this.chatAPI.emit('publicMessage', {
