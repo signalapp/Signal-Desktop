@@ -241,6 +241,7 @@
   const initLokiMessageAPIs = () => {
     const ourKey = textsecure.storage.user.getNumber();
     if (!window.lokiMessageAPI) {
+      window.feeds = [];
       window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
     }
 
@@ -255,10 +256,7 @@
       return;
     }
     const ourKey = textsecure.storage.user.getNumber();
-    window.feeds = [];
-    window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
-    // singleton to relay events to libtextsecure/message_receiver
-    window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
+
     // singleton to interface the File server
     // If already exists we registered as a secondary device
     if (!window.lokiFileServerAPI) {
