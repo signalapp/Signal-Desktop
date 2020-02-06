@@ -15,6 +15,12 @@ import { AttachmentType } from '../../types/Attachment';
 
 // State
 
+export type DBConversationType = {
+  id: string;
+  activeAt?: number;
+  lastMessage: string;
+  type: string;
+};
 export type ConversationType = {
   id: string;
   name?: string;
