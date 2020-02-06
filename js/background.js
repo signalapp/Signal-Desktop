@@ -238,7 +238,7 @@
     specialConvInited = true;
   };
 
-  const initAPIs = async () => {
+  const initAPIs = () => {
     if (window.initialisedAPI) {
       return;
     }
@@ -251,7 +251,7 @@
     // If already exists we registered as a secondary device
     if (!window.lokiFileServerAPI) {
       window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
+      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
     }
@@ -1468,7 +1468,7 @@
       const ourKey = textsecure.storage.user.getNumber();
       window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
       window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
+      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
       window.lokiPublicChatAPI = null;
@@ -1488,7 +1488,7 @@
       return;
     }
 
-    await initAPIs();
+    initAPIs();
     await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver(
       USERNAME,
