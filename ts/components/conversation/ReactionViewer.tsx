@@ -22,6 +22,7 @@ export type Reaction = {
 
 export type OwnProps = {
   reactions: Array<Reaction>;
+  pickedReaction?: string;
   onClose?: () => unknown;
 };
 
@@ -33,11 +34,11 @@ const emojisOrder = ['❤️', '👍', '👎', '😂', '😮', '😢', '😡'];
 
 export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
   // tslint:disable-next-line max-func-body-length
-  ({ i18n, reactions, onClose, ...rest }, ref) => {
+  ({ i18n, reactions, onClose, pickedReaction, ...rest }, ref) => {
     const grouped = mapValues(groupBy(reactions, 'emoji'), res =>
       orderBy(res, ['timestamp'], ['desc'])
     );
-    const [selected, setSelected] = React.useState('all');
+    const [selected, setSelected] = React.useState(pickedReaction || 'all');
     const focusRef = React.useRef<HTMLButtonElement>(null);
 
     // Handle escape key
@@ -77,7 +78,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     }, [reactions]);
 
     const allSorted = React.useMemo(() => {
-      return sortBy(reactions, 'timestamp');
+      return orderBy(reactions, ['timestamp'], ['desc']);
     }, [reactions]);
 
     // If we have previously selected a reaction type that is no longer present

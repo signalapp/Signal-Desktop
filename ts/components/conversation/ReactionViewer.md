@@ -24,6 +24,31 @@
 </util.ConversationContext>
 ```
 
+#### Picked Reaction
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <ReactionViewer
+    i18n={util.i18n}
+    pickedReaction="👍"
+    reactions={[
+      {
+        emoji: '❤️',
+        from: { id: '+14155552671', name: 'Amelia Briggs', isMe: true },
+      },
+      {
+        emoji: '👍',
+        from: {
+          id: '+14155552671',
+          phoneNumber: '+14155552671',
+          profileName: 'Joel Ferrari',
+        },
+      },
+    ]}
+  />
+</util.ConversationContext>
+```
+
 #### Many Reactions
 
 ```jsx
