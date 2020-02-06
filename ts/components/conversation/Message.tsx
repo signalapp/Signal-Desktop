@@ -161,6 +161,7 @@ interface State {
   isSelected: boolean;
   prevSelectedCounter: number;
 
+  pickedReaction?: string;
   reactionViewerRoot: HTMLDivElement | null;
   reactionPickerRoot: HTMLDivElement | null;
 
@@ -1417,7 +1418,10 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public toggleReactionViewer = (onlyRemove = false) => {
+  public toggleReactionViewer = (
+    onlyRemove = false,
+    pickedReaction?: string
+  ) => {
     this.setState(({ reactionViewerRoot }) => {
       if (reactionViewerRoot) {
         document.body.removeChild(reactionViewerRoot);
@@ -1427,7 +1431,7 @@ export class Message extends React.PureComponent<Props, State> {
           true
         );
 
-        return { reactionViewerRoot: null };
+        return { reactionViewerRoot: null, pickedReaction };
       }
 
       if (!onlyRemove) {
@@ -1441,10 +1445,11 @@ export class Message extends React.PureComponent<Props, State> {
 
         return {
           reactionViewerRoot: root,
+          pickedReaction,
         };
       }
 
-      return { reactionViewerRoot: null };
+      return { reactionViewerRoot: null, pickedReaction };
     });
   };
 
@@ -1537,7 +1542,7 @@ export class Message extends React.PureComponent<Props, State> {
       someNotRendered &&
       maybeNotRendered.some(res => res.some(re => Boolean(re.from.isMe)));
 
-    const { reactionViewerRoot, containerWidth } = this.state;
+    const { reactionViewerRoot, containerWidth, pickedReaction } = this.state;
 
     // Calculate the width of the reactions container
     const reactionsWidth = toRender.reduce((sum, res, i, arr) => {
@@ -1598,7 +1603,10 @@ export class Message extends React.PureComponent<Props, State> {
                     onClick={e => {
                       e.stopPropagation();
                       e.preventDefault();
-                      this.toggleReactionViewer();
+                      this.toggleReactionViewer(
+                        false,
+                        isMore ? 'all' : re.emoji
+                      );
                     }}
                     onKeyDown={e => {
                       // Prevent enter key from opening stickers/attachments
@@ -1653,6 +1661,7 @@ export class Message extends React.PureComponent<Props, State> {
                     zIndex: 2,
                   }}
                   reactions={reactions}
+                  pickedReaction={pickedReaction}
                   i18n={i18n}
                   onClose={this.toggleReactionViewer}
                 />
