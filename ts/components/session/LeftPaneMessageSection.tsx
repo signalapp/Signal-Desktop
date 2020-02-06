@@ -69,7 +69,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     this.state = {
       showComposeView: false,
       pubKeyPasted: '',
-      shouldRenderMessageOnboarding: length === 0 && renderOnboardingSetting,
+      shouldRenderMessageOnboarding: length === 0 && renderOnboardingSetting && false,
       connectSuccess: false,
       loading: false,
     };
