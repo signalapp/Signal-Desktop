@@ -66,7 +66,7 @@
 
       const convos = window.getConversations().models.filter(d => !!d);
 
-      let existingMembers = groupConvo.get('members');
+      let existingMembers = groupConvo.get('members') || [];
 
       // Show a contact if they are our friend or if they are a member
       const friendsAndMembers = convos.filter(
