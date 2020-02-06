@@ -238,30 +238,20 @@
     specialConvInited = true;
   };
 
-  const initLokiMessageAPIs = () => {
-    const ourKey = textsecure.storage.user.getNumber();
-    if (!window.lokiMessageAPI) {
-      window.feeds = [];
-      window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
-    }
-
-    if (!window.lokiPublicChatAPI) {
-      // singleton to relay events to libtextsecure/message_receiver
-      window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
-    }
-  };
-
-  const initAPIs = async () => {
+  const initAPIs = () => {
     if (window.initialisedAPI) {
       return;
     }
     const ourKey = textsecure.storage.user.getNumber();
-
+    window.feeds = [];
+    window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+    // singleton to relay events to libtextsecure/message_receiver
+    window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
     // singleton to interface the File server
     // If already exists we registered as a secondary device
     if (!window.lokiFileServerAPI) {
       window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
+      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
     }
@@ -1478,7 +1468,7 @@
       const ourKey = textsecure.storage.user.getNumber();
       window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
       window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
-      window.lokiFileServerAPI = await window.lokiFileServerAPIFactory.establishHomeConnection(
+      window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
       );
       window.lokiPublicChatAPI = null;
@@ -1498,8 +1488,8 @@
       return;
     }
 
-    initLokiMessageAPIs();
-
+    initAPIs();
+    await initSpecialConversations();
     messageReceiver = new textsecure.MessageReceiver(
       USERNAME,
       PASSWORD,
@@ -1534,9 +1524,6 @@
       USERNAME,
       PASSWORD
     );
-
-    await initAPIs();
-    await initSpecialConversations();
 
     // On startup after upgrading to a new version, request a contact sync
     //   (but only if we're not the primary device)

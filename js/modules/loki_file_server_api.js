@@ -291,14 +291,14 @@ class LokiFileServerFactoryAPI {
     this.servers = [];
   }
 
-  async establishHomeConnection(serverUrl) {
+  establishHomeConnection(serverUrl) {
     let thisServer = this.servers.find(
       server => server._server.baseServerUrl === serverUrl
     );
     if (!thisServer) {
       thisServer = new LokiHomeServerInstance(this.ourKey);
       log.info(`Registering HomeServer ${serverUrl}`);
-      await thisServer.establishConnection(serverUrl);
+      thisServer.establishConnection(serverUrl);
       this.servers.push(thisServer);
     }
     return thisServer;
