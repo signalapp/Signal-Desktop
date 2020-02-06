@@ -1994,7 +1994,8 @@
       "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
-    "comment": "Do not add a period here, used as a fragment and will break unit test",
+    "comment":
+      "Do not add a period here, used as a fragment and will break unit test",
     "message": "Group name has been set to '$name$'",
     "description":
       "Shown in the conversation history when someone changes the title of the group",

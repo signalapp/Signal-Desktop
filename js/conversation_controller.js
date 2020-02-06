@@ -136,10 +136,12 @@
 
       conversation.initialPromise = create();
       conversation.initialPromise.then(() => {
-        Promise.all([
-          conversation.updateProfileAvatar(),
-          window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id),
-        ]);
+        if (!conversation.isPublic() && !conversation.isRss()) {
+          Promise.all([
+            conversation.updateProfileAvatar(),
+            window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id),
+          ]);
+        }
       });
 
       return conversation;
