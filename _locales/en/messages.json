@@ -2,7 +2,26 @@
   "privacyPolicy": {
     "message": "Terms & Privacy Policy",
     "description":
-      "Shown in the about box for the link to https://signal.org/legal"
+      "Shown in the about box for the link to https://getsession.org/privacy-policy/"
+  },
+  "copyErrorAndQuit": {
+    "message": "Copy error and quit",
+    "description":
+      "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+  },
+  "unknownGroup": {
+    "message": "Unknown group",
+    "description":
+      "Shown as the name of a group if we don't have any information about it"
+  },
+  "databaseError": {
+    "message": "Database Error",
+    "description": "Shown in a popup if the database cannot start up properly"
+  },
+  "deleteAndRestart": {
+    "message": "Delete all data and restart",
+    "description":
+      "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
   },
   "mainMenuFile": {
     "message": "&File",
@@ -47,7 +66,7 @@
     "description": "Application menu command to show all application windows"
   },
   "appMenuQuit": {
-    "message": "Quit Loki Messenger",
+    "message": "Quit Session",
     "description": "Application menu command to close the application"
   },
   "editMenuUndo": {
@@ -147,6 +166,11 @@
     "description":
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "connectingLoad": {
+    "message": "Connecting To Server",
+    "description":
+      "Message shown on the as a loading screen while we are connecting to something"
+  },
   "loading": {
     "message": "Loading...",
     "description":
@@ -167,6 +191,27 @@
         "example": "45/200"
       }
     }
+  },
+  "archivedConversations": {
+    "message": "Archived Conversations",
+    "description":
+      "Shown in place of the search box when showing archived conversation list"
+  },
+  "archiveHelperText": {
+    "message":
+      "These conversations are archived and will only appear in the Inbox if new messages are received.",
+    "description":
+      "Shown at the top of the archived converations list in the left pane"
+  },
+  "archiveConversation": {
+    "message": "Archive Conversation",
+    "description":
+      "Shown in menu for conversation, and moves conversation out of main conversation list"
+  },
+  "moveConversationToInbox": {
+    "message": "Move Conversation to Inbox",
+    "description":
+      "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
   },
   "chooseDirectory": {
     "message": "Choose folder",
@@ -220,7 +265,7 @@
       "Header shown on the screen at the end of a successful import process"
   },
   "importCompleteStartButton": {
-    "message": "Start using Loki Messenger",
+    "message": "Start using Session",
     "description":
       "Button shown at end of successful import process, nothing left but a restart"
   },
@@ -250,6 +295,9 @@
       }
     }
   },
+  "capsLockOn": {
+    "message": "Caps lock is on."
+  },
   "me": {
     "message": "Me",
     "description": "The label for yourself when shown in a group member list"
@@ -261,6 +309,11 @@
   },
   "youLeftTheGroup": {
     "message": "You left the group",
+    "description":
+      "Displayed when a user can't send a message because they have left the group"
+  },
+  "youGotKickedFromGroup": {
+    "message": "You were removed from the group",
     "description":
       "Displayed when a user can't send a message because they have left the group"
   },
@@ -344,6 +397,9 @@
       "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
     "description":
       "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+  },
+  "changedSinceVerifiedTitle": {
+    "message": "Safety Number Changed"
   },
   "changedSinceVerifiedMultiple": {
     "message":
@@ -547,7 +603,7 @@
     "description": "Name for a voice message attachment"
   },
   "dangerousFileType": {
-    "message": "Attachment type not allowed for security reasons",
+    "message": "For security reasons, this file type cannot be sent",
     "description":
       "Shown in toast when user attempts to send .exe file, for example"
   },
@@ -590,25 +646,30 @@
   },
   "oneNonImageAtATimeToast": {
     "message":
-      "When including a non-image attachment, the limit is one attachment per message.",
+      "Sorry, there is a limit of one non-image attachment per message",
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
-  "cannotMixImageAdnNonImageAttachments": {
-    "message": "You cannot mix non-image and image attachments in one message.",
+  "cannotMixImageAndNonImageAttachments": {
+    "message":
+      "Sorry, you cannot mix images with other file types in one message",
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
-    "message": "You cannot add any more attachments to this message.",
+    "message":
+      "Maximum number of attachments reached. Please send remaining attachments in a separate message.",
     "description":
       "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, the selected file exceeds message size restrictions."
+    "message": "Sorry, the selected attachment is too large"
   },
   "unableToLoadAttachment": {
-    "message": "Unable to load selected attachment."
+    "message": "Unable to load attachment."
+  },
+  "connect": {
+    "message": "Connect"
   },
   "disconnected": {
     "message": "Disconnected",
@@ -663,12 +724,12 @@
       "Item under the Help menu, takes you to GitHub new issue form (title case)"
   },
   "signalDesktopPreferences": {
-    "message": "Loki Messenger Preferences",
+    "message": "Session Preferences",
     "description":
       "Title of the window that pops up with Signal Desktop preferences in it"
   },
   "aboutSignalDesktop": {
-    "message": "About Loki Messenger",
+    "message": "About Session",
     "description": "Item under the Help menu, which opens a small about window"
   },
   "speech": {
@@ -688,16 +749,45 @@
     "message": "Quit",
     "description": "Command in the tray icon menu, to quit the application"
   },
-  "trayTooltip": {
-    "message": "Loki Messenger",
-    "description": "Tooltip for the tray icon"
+  "lokiMessenger": {
+    "message": "Session"
   },
-  "searchForPeopleOrGroups": {
-    "message": "Enter name or public key",
+  "search": {
+    "message": "Search",
     "description": "Placeholder text in the search input"
   },
-  "welcomeToSignal": {
-    "message": "Welcome to Loki Messenger"
+  "noSearchResults": {
+    "message": "No results for \"$searchTerm$\"",
+    "description": "Shown in the search left pane when no results were found",
+    "placeholders": {
+      "searchTerm": {
+        "content": "$1",
+        "example": "dog"
+      }
+    }
+  },
+  "conversationsHeader": {
+    "message": "Conversations",
+    "description": "Shown to separate the types of search results"
+  },
+  "friendsHeader": {
+    "message": "Friends",
+    "description": "Shown to separate the types of search results"
+  },
+  "contactsHeader": {
+    "message": "Contacts",
+    "description": "Shown to separate the types of search results"
+  },
+  "messagesHeader": {
+    "message": "Session",
+    "description": "Shown to separate the types of search results"
+  },
+  "settingsHeader": {
+    "message": "Settings",
+    "description": "Shown to separate the types of search results"
+  },
+  "welcomeToSession": {
+    "message": "Welcome to Session"
   },
   "selectAContact": {
     "message": "Select a contact or group to start chatting."
@@ -756,6 +846,11 @@
     "description":
       "When rendering an address, used to provide context to a post office box"
   },
+  "downloading": {
+    "message": "Downloading",
+    "description":
+      "Shown in the message bubble while a long message attachment is being downloaded"
+  },
   "downloadAttachment": {
     "message": "Download Attachment",
     "description":
@@ -805,7 +900,7 @@
   },
   "audioPermissionNeeded": {
     "message":
-      "To send audio messages, allow Loki Messenger to access your microphone.",
+      "To send audio messages, allow Session to access your microphone.",
     "description":
       "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
@@ -834,11 +929,96 @@
     "description":
       "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
   },
+  "cannotUpdate": {
+    "message": "Cannot Update",
+    "description": "Shown as the title of our update error dialogs on windows"
+  },
+  "cannotUpdateDetail": {
+    "message":
+      "Signal Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+    "description":
+      "Shown if a general error happened while trying to install update package"
+  },
+  "readOnlyVolume": {
+    "message":
+      "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+    "description":
+      "Shown on MacOS if running on a read-only volume and we cannot update"
+  },
   "ok": {
     "message": "OK"
   },
+  "enter": {
+    "message": "Enter"
+  },
+  "yes": {
+    "message": "Yes"
+  },
   "cancel": {
     "message": "Cancel"
+  },
+  "copy": {
+    "message": "Copy"
+  },
+  "skip": {
+    "message": "Skip"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "continue": {
+    "message": "Continue"
+  },
+  "noThankyou": {
+    "message": "No, thank you"
+  },
+  "noMessagesTitle": {
+    "message": "You don't have any messages, yet."
+  },
+  "noMessagesSubtitle": {
+    "message": "Would you like to join Session's public chat?"
+  },
+  "pairNewDevice": {
+    "message": "Pair New Device"
+  },
+  "devicePairingAccepted": {
+    "message": "Device Pairing Accepted"
+  },
+  "devicePairingReceived": {
+    "message": "Device Pairing Received"
+  },
+  "waitingForDeviceToRegister": {
+    "message": "Waiting for device to register..."
+  },
+  "pairNewDevicePrompt": {
+    "message": "Scan the QR Code on your secondary device"
+  },
+  "pairedDevices": {
+    "message": "Paired Devices"
+  },
+  "noPairedDevices": {
+    "message": "No paired devices"
+  },
+  "allowPairing": {
+    "message": "Allow Pairing"
+  },
+  "allowPairingWithDevice": {
+    "message": "Allow pairing with this device?"
+  },
+  "provideDeviceAlias": {
+    "message": "Please provide an alias for this paired device"
+  },
+  "showPairingWordsTitle": {
+    "message": "Pairing Secret Words"
+  },
+  "confirmUnpairingTitle": {
+    "message": "Please confirm you want to unpair the following device:"
+  },
+  "unpairDevice": {
+    "message": "Unpair Device"
+  },
+  "deviceUnpaired": {
+    "message": "Device Unpaired"
   },
   "clear": {
     "message": "Clear"
@@ -862,9 +1042,30 @@
   "delete": {
     "message": "Delete"
   },
+  "forwardMessage": {
+    "message": "Forward",
+    "description": "Text of Forward Message button"
+  },
+  "deletePublicWarning": {
+    "message":
+      "Are you sure? Clicking 'delete' will permanently remove this message for everyone in this channel."
+  },
+  "deleteMultiplePublicWarning": {
+    "message":
+      "Are you sure? Clicking 'delete' will permanently remove these messages for everyone in this channel."
+  },
   "deleteWarning": {
     "message":
       "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
+  },
+  "deleteMultipleWarning": {
+    "message":
+      "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
+  },
+  "messageDeletionForbidden": {
+    "message": "You don’t have permission to delete others’ messages",
+    "description":
+      "Toast message explaining that the user doens't have the rights to delete other people's messages."
   },
   "deleteThisMessage": {
     "message": "Delete this message"
@@ -874,7 +1075,7 @@
     "description": "Label for the sender of a message"
   },
   "to": {
-    "message": "To",
+    "message": "to",
     "description": "Label for the receiver of a message"
   },
   "sent": {
@@ -886,8 +1087,19 @@
     "description": "Label for the time a message was received"
   },
   "sendMessage": {
-    "message": "Send a message",
+    "message": " Type your message",
     "description": "Placeholder text in the message entry field"
+  },
+  "secondaryDeviceDefaultFR": {
+    "message": "Please accept to enable messages to be synced across devices",
+    "description":
+      "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
+  },
+  "sendMessageDisabledSecondary": {
+    "message":
+      "This pubkey belongs to a secondary device. You should never see this message",
+    "description":
+      "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
   },
   "sendMessageDisabled": {
     "message": "Waiting for friend request approval",
@@ -895,9 +1107,12 @@
       "Placeholder text in the message entry field when it is disabled while we are waiting for a friend request approval"
   },
   "sendMessageFriendRequest": {
-    "message": "Hi there! This is <insert name here> !",
+    "message": "Send your first message",
     "description":
       "Placeholder text in the message entry field when it is the first message sent to that contact"
+  },
+  "sendMessageLeftGroup": {
+    "message": "You left this group"
   },
   "groupMembers": {
     "message": "Group members"
@@ -906,12 +1121,12 @@
     "message": "Show members"
   },
   "resetSession": {
-    "message": "Reset session",
+    "message": "Reset Session",
     "description":
       "This is a menu item for resetting the session, using the imperative case, as in a command."
   },
   "showSafetyNumber": {
-    "message": "View safety number"
+    "message": "View Safety Number"
   },
   "viewAllMedia": {
     "message": "View all media",
@@ -947,17 +1162,50 @@
     "description":
       "Shown on the drop-down menu for an individual message, deletes single message"
   },
+  "messages": {
+    "message": "Messages",
+    "description": "Message search result"
+  },
   "deleteMessages": {
-    "message": "Delete messages",
+    "message": "Delete Messages",
     "description": "Menu item for deleting messages, title case."
   },
+  "deletePublicConversationConfirmation": {
+    "message":
+      "Permanently delete the messages locally from this public channel?",
+    "description":
+      "Confirmation dialog text that asks the user if they really wish to delete the public channel messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
   "deleteConversationConfirmation": {
-    "message": "Permanently delete this conversation?",
+    "message": "Permanently delete the messages in this conversation?",
     "description":
       "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
+  "deletePublicChannel": {
+    "message": "Leave Channel",
+    "description":
+      "Confirmation dialog title that asks the user if they really wish to delete a public channel. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "deletePublicChannelConfirmation": {
+    "message": "Leave this Open Group?",
+    "description":
+      "Confirmation dialog text that tells the user what will happen if they leave the public channel."
+  },
+  "deleteAccount": {
+    "message": "Delete Account",
+    "description": "Text for button in settings view to delete account"
+  },
+  "deleteAccountWarning": {
+    "message": "Are you sure you want to delete your account?",
+    "description": "Warning for account deletion in settings view"
+  },
+  "deleteAccountWarningSub": {
+    "message":
+      "Delete all history, including all messages, sessions, and contacts. Once deleted, these cannot be restored.",
+    "description": "Warning for account deletion in settings view"
+  },
   "deleteContact": {
-    "message": "Delete contact",
+    "message": "Delete Contact",
     "description":
       "Confirmation dialog title that asks the user if they really wish to delete the contact. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
@@ -980,6 +1228,19 @@
     "message": "Secure session reset succeeded",
     "description":
       "This is a past tense, informational message. In other words, your secure session has been reset."
+  },
+  "betaDisclaimerTitle": {
+    "message": "Thanks for using Session!",
+    "description": "Title for beta disclaimer modal"
+  },
+  "betaDisclaimerSubtitle": {
+    "message": "This software is still in its beta phase.",
+    "description": "Subtitle for beta disclaimer modal"
+  },
+  "betaDisclaimerDescription": {
+    "message":
+      "While your messages are secured with end-to-end encryption, third parties like your ISP can see who you're talking to while in the beta version. It is also possible that third parties could correlate your public key to your IP address and real identity if they learn your public key.",
+    "description": "Description for beta disclaimer modal"
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
@@ -1030,7 +1291,7 @@
     }
   },
   "installWelcome": {
-    "message": "Welcome to Loki Messenger",
+    "message": "Welcome to Session",
     "description": "Welcome title on the install page"
   },
   "installTagline": {
@@ -1039,12 +1300,12 @@
       "Tagline displayed under 'installWelcome' string on the install page"
   },
   "linkYourPhone": {
-    "message": "Link your phone to Loki Messenger",
+    "message": "Link your phone to Session",
     "description":
       "Shown on the front page when the application first starst, above the QR code"
   },
   "signalSettings": {
-    "message": "Loki Messenger Settings",
+    "message": "Session Settings",
     "description":
       "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
   },
@@ -1103,36 +1364,45 @@
     "message": "Permissions",
     "description": "Header for permissions section of settings"
   },
-  "mediaPermissionsDescription": {
-    "message": "Allow access to camera and microphone",
-    "description": "Description of the media permission description"
-  },
   "general": {
     "message": "General",
     "description": "Header for general options on the settings screen"
   },
-  "linkPreviews": {
+  "linkPreviewsTitle": {
     "message": "Link Previews",
     "description":
       "Option to control creation and send of link previews in setting screen"
   },
-  "linkPreviewsDescription": {
+  "linkPreviewDescription": {
     "message":
-      "Previews are supported for Imgur, Instagram, Reddit, and YouTube links.",
-    "description":
-      "Additional detail provided for Link Previews option in settings screen"
-  },
-  "linkPreviewsSettingDescription": {
-    "message":
-      "Enable local link previews (Restart for changes to take effect).",
+      "Link previews supported for Imgur, Instagram, Pinterest, Reddit, and YouTube.",
     "description": "Description shown for the Link Preview option "
+  },
+  "linkPreviewsConfirmTitle": {
+    "message": "Warning"
+  },
+  "linkPreviewsConfirmMessage": {
+    "message":
+      "You will not have full metadata protection when sending or receiving link previews."
+  },
+
+  "mediaPermissionsTitle": {
+    "message": "Microphone and Camera"
+  },
+  "mediaPermissionsDescription": {
+    "message": "Allow access to camera and microphone",
+    "description": "Description of the media permission description"
+  },
+  "spellCheckTitle": {
+    "message": "Spell Check",
+    "description": "Description of the media permission description"
   },
   "spellCheckDescription": {
     "message": "Enable spell check of text entered in message composition box",
     "description": "Description of the media permission description"
   },
   "clearDataHeader": {
-    "message": "Clear Data",
+    "message": "Clear All Local Data",
     "description":
       "Header in the settings dialog for the section dealing with data deletion"
   },
@@ -1142,7 +1412,7 @@
     "description": "Text describing what the clear data button will do."
   },
   "clearDataButton": {
-    "message": "Clear data",
+    "message": "Clear Data",
     "description":
       "Button in the settings dialog starting process to delete all data"
   },
@@ -1170,8 +1440,22 @@
     "description": "Header for notification settings"
   },
   "readReceiptSettingDescription": {
-    "message": "Enable the sending and receiving of read receipts",
+    "message":
+      "See and share when messages have been read (enables read receipts in all sessions).",
     "description": "Description of the read receipts setting"
+  },
+  "readReceiptSettingTitle": {
+    "message": "Read Receipts",
+    "description": "Title of the read receipts setting"
+  },
+  "typingIndicatorsSettingDescription": {
+    "message":
+      "See and share when messages are being typed (applies to all sessions).",
+    "description": "Description of the typing indicators setting"
+  },
+  "typingIndicatorsSettingTitle": {
+    "message": "Typing Indicators",
+    "description": "Title of the typing indicators setting"
   },
   "messageTTL": {
     "message": "Message TTL",
@@ -1188,7 +1472,7 @@
     "description": "Warning for the time to live setting"
   },
   "notificationSettingsDialog": {
-    "message": "When messages arrive, display notifications that reveal:",
+    "message": "When messages arrive, display notifications that reveal...",
     "description": "Explain the purpose of the notification settings"
   },
   "disableNotifications": {
@@ -1196,17 +1480,17 @@
     "description": "Label for disabling notifications"
   },
   "nameAndMessage": {
-    "message": "Both sender name and message",
+    "message": "Name and content",
     "description":
       "Label for setting notifications to display name and message text"
   },
   "noNameOrMessage": {
-    "message": "Neither name nor message",
+    "message": "No name or content",
     "description":
       "Label for setting notifications to display no name and no message text"
   },
   "nameOnly": {
-    "message": "Only sender name",
+    "message": "Name Only",
     "description": "Label for setting notifications to display sender name only"
   },
   "newMessage": {
@@ -1251,15 +1535,15 @@
   },
   "expiredWarning": {
     "message":
-      "This version of Loki Messenger has expired. Please upgrade to the latest version to continue messaging.",
+      "This version of Session has expired. Please upgrade to the latest version to continue messaging.",
     "description":
       "Warning notification that this version of the app has expired"
   },
-  "androidMessageLengthWarning": {
+  "clockOutOfSync": {
     "message":
-      "Android clients will only receive the first 2000 characters of this message.",
+      "Your clock is out of sync. Please update your clock and try again.",
     "description":
-      "Warning that long messages could not get received completely by Android clients."
+      "Notifcation that user's clock is out of sync with Loki's servers."
   },
   "upgrade": {
     "message": "Upgrade",
@@ -1370,12 +1654,17 @@
     "description":
       "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
+  "messageBodyTooLong": {
+    "message": "Message body is too long.",
+    "description": "Shown if the user tries to send more than 64kb of text"
+  },
   "unblockToSend": {
     "message": "Unblock this contact to send a message.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Unblock this group to send a message.",
+    "message":
+      "This group is blocked. Unlock it if you would like to send a message.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -1480,7 +1769,7 @@
     "description": "Conversation menu option to enable disappearing messages"
   },
   "changeNickname": {
-    "message": "Change nickname",
+    "message": "Change Nickname",
     "description": "Conversation menu option to change user nickname"
   },
   "clearNickname": {
@@ -1621,12 +1910,26 @@
     "message": "Dark",
     "description": "Label text for dark theme"
   },
-  "hideMenuBar": {
-    "message": "Hide menu bar",
+  "themeToggleTitle": {
+    "message": "Light Mode"
+  },
+  "themeToggleDescription": {
+    "message": "Choose the theme best suited to you"
+  },
+  "noteToSelf": {
+    "message": "Note to Self",
+    "description": "Name for the conversation with your own phone number"
+  },
+  "hideMenuBarTitle": {
+    "message": "Hide Menu Bar",
+    "description": "Label text for menu bar visibility setting"
+  },
+  "hideMenuBarDescription": {
+    "message": "Toggle system menu bar visibility",
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Start conversation…",
+    "message": "Start New Conversation",
     "description":
       "Label underneath number a user enters that is not an existing contact"
   },
@@ -1691,7 +1994,9 @@
       "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
-    "message": "Title is now '$name$'",
+    "comment":
+      "Do not add a period here, used as a fragment and will break unit test",
+    "message": "Group name has been set to '$name$'",
     "description":
       "Shown in the conversation history when someone changes the title of the group",
     "placeholders": {
@@ -1723,6 +2028,28 @@
       }
     }
   },
+  "kickedFromTheGroup": {
+    "message": "$name$ was removed from the group",
+    "description":
+      "Shown in the conversation history when a single person is removed from the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "multipleKickedFromTheGroup": {
+    "message": "$names$ were removed from the group",
+    "description":
+      "Shown in the conversation history when more than one person is removed from the group",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "Alice, Bob"
+      }
+    }
+  },
   "friendRequestPending": {
     "message": "Friend request",
     "description":
@@ -1734,7 +2061,7 @@
       "Shown in the conversation history when the user accepts a friend request"
   },
   "friendRequestDeclined": {
-    "message": "Friend request declined",
+    "message": "Session request declined",
     "description":
       "Shown in the conversation history when the user declines a friend request"
   },
@@ -1776,10 +2103,10 @@
     }
   },
   "blockUser": {
-    "message": "Block user"
+    "message": "Block User"
   },
   "unblockUser": {
-    "message": "Unblock user"
+    "message": "Unblock User"
   },
   "settingsUnblockHeader": {
     "message": "Blocked Users",
@@ -1794,14 +2121,61 @@
     "message": "Note: Your display name will be visible to your contacts",
     "description": "Shown to the user as a warning about setting display name"
   },
-
   "copyPublicKey": {
-    "message": "Copy public key",
+    "message": "Copy Public Key",
     "description":
       "Button action that the user can click to copy their public keys"
   },
+  "banUser": {
+    "message": "Ban User",
+    "description": "Ban user from public chat by public key."
+  },
+  "banUserConfirm": {
+    "message": "Are you sure you want to ban user?",
+    "description": "Message shown when confirming user ban."
+  },
+  "userBanned": {
+    "message": "User banned successfully",
+    "description": "Toast on succesful user ban."
+  },
+  "userBanFailed": {
+    "message": "Ban failed!",
+    "description": "Toast on unsuccesful user ban."
+  },
+  "copyChatId": {
+    "message": "Copy Chat ID"
+  },
+  "updateGroup": {
+    "message": "Update Group",
+    "description":
+      "Button action that the user can click to rename the group or add a new member"
+  },
+  "leaveGroup": {
+    "message": "Leave Group",
+    "description": "Button action that the user can click to leave the group"
+  },
+  "leaveOpenGroup": {
+    "message": "Leave Open Group",
+    "description": "Button action that the user can click to leave the group"
+  },
+  "leaveClosedGroup": {
+    "message": "Leave Closed Group",
+    "description": "Button action that the user can click to leave the group"
+  },
+  "leaveGroupDialogTitle": {
+    "message": "Are you sure you want to leave this group?",
+    "description":
+      "Title shown to the user to confirm they want to leave the group"
+  },
+  "noContactsForGroup": {
+    "message": "You don't have any contacts to start a group with."
+  },
   "copiedPublicKey": {
-    "message": "Copied public key",
+    "message": "Session ID copied",
+    "description": "A toast message telling the user that the key was copied"
+  },
+  "copiedChatId": {
+    "message": "Copied chat ID",
     "description": "A toast message telling the user that the key was copied"
   },
   "copyMessage": {
@@ -1809,36 +2183,143 @@
     "description":
       "Button action that the user can click to copy their public keys"
   },
+  "selectMessage": {
+    "message": "Select message",
+    "description": "Button action that the user can click to select the message"
+  },
   "copiedMessage": {
-    "message": "Copied message text",
+    "message": "Message text copied",
     "description":
       "A toast message telling the user that the message text was copied"
   },
-  "editDisplayName": {
-    "message": "Edit display name",
+  "editProfile": {
+    "message": "Edit Profile",
+    "description": "Button action that the user can click to edit their profile"
+  },
+  "createGroupDialogTitle": {
+    "message": "Creating a Private Group Chat",
+    "description": "Title for the dialog box used to create a new private group"
+  },
+  "updateGroupDialogTitle": {
+    "message": "Updating a Private Group Chat",
     "description":
-      "Button action that the user can click to edit their display name"
+      "Title for the dialog box used to update an existing private group"
+  },
+  "updatePublicGroupDialogTitle": {
+    "message": "Updating a Public Chat Channel",
+    "description":
+      "Title for the dialog box used to update an existing public chat channel"
   },
   "showSeed": {
-    "message": "Show seed",
+    "message": "Show Seed",
     "description":
       "Button action that the user can click to view their unique seed"
   },
-
+  "yourSessionID": {
+    "message": "Your Session ID"
+  },
+  "setStatus": {
+    "message": "Set a status..."
+  },
+  "setAccountPasswordTitle": {
+    "message": "Set Account Password",
+    "description": "Prompt for user to set account password in settings view"
+  },
+  "setAccountPasswordDescription": {
+    "message":
+      "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+    "description": "Description for set account password setting view"
+  },
+  "changeAccountPasswordTitle": {
+    "message": "Change Account Password",
+    "description": "Prompt for user to change account password in settings view"
+  },
+  "changeAccountPasswordDescription": {
+    "message": "Change your password",
+    "description": "Description for change account password setting view"
+  },
+  "removeAccountPasswordTitle": {
+    "message": "Remove Account Password",
+    "description": "Prompt for user to remove account password in settings view"
+  },
+  "removeAccountPasswordDescription": {
+    "message": "Remove the password associated with your account",
+    "description": "Description for remove account password setting view"
+  },
+  "enterPassword": {
+    "message": "Please enter your password"
+  },
+  "confirmPassword": {
+    "message": "Confirm password"
+  },
+  "showSeedPasswordRequest": {
+    "message": "Please enter your password",
+    "description": "Request for user to enter password to show seed."
+  },
+  "seedSavePromptMain": {
+    "message": "Please save the seed below in a safe location.",
+    "description":
+      "Prompt on seed modal requesting user to save their seed. Line one"
+  },
+  "seedSavePromptAlt": {
+    "message":
+      "They can be used to restore your account if you lose access or migrate to a new device.",
+    "description":
+      "Prompt on seed modal requesting user to save their seed. Line two"
+  },
+  "QRCodeTitle": {
+    "message": "View My QR Code",
+    "description": "Title given to QR Code modal"
+  },
+  "QRCodeDescription": {
+    "message":
+      "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
+    "description": "Description given to QRCode modal"
+  },
+  "showQRCode": {
+    "message": "Show QR Code",
+    "description": "Button action that the user can click to view their QR code"
+  },
+  "showAddServer": {
+    "message": "Add Public Server",
+    "description":
+      "Button action that the user can click to connect to a new public server"
+  },
+  "serverUrl": {
+    "message": "Server URL",
+    "description": "Placeholder for server URL input"
+  },
+  "noServerURL": {
+    "message": "Please enter a server URL",
+    "description": "Error message when no server url entered"
+  },
+  "addServerDialogTitle": {
+    "message": "Connect To New Public Server",
+    "description":
+      "Title for the dialog box used to connect to a new public server"
+  },
+  "createPrivateGroup": {
+    "message": "Create Private Group",
+    "description":
+      "Button action that the user can click to show a dialog for creating a new private group chat"
+  },
   "seedViewTitle": {
     "message":
       "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
     "description": "The title shown when the user views their seeds"
   },
-
   "copiedMnemonic": {
-    "message": "Copied seed to clipboard",
+    "message": "Recovery phrase copied successfully",
     "description":
       "A toast message telling the user that the mnemonic seed was copied"
   },
-
+  "copiedSessionID": {
+    "message": "Copied Session ID to clipboard",
+    "description":
+      "A toast message telling the user that their Session ID was copied"
+  },
   "passwordViewTitle": {
-    "message": "Type in your password",
+    "message": "Type In Your Password",
     "description":
       "The title shown when user needs to type in a password to unlock the messenger"
   },
@@ -1850,7 +2331,10 @@
     "description":
       "A button action that the user can click to reset the database"
   },
-
+  "password": {
+    "message": "Password",
+    "description": "Placeholder for password input"
+  },
   "setPassword": {
     "message": "Set Password",
     "description": "Button action that the user can click to set a password"
@@ -1863,6 +2347,9 @@
     "message": "Remove Password",
     "description": "Button action that the user can click to remove a password"
   },
+  "maxPasswordAttempts": {
+    "message": "Invalid Password. Would you like to reset the database?"
+  },
   "typeInOldPassword": {
     "message": "Please type in your old password"
   },
@@ -1872,8 +2359,47 @@
   "invalidPassword": {
     "message": "Invalid password"
   },
+  "noGivenPassword": {
+    "message": "Please enter your password"
+  },
   "passwordsDoNotMatch": {
     "message": "Passwords do not match"
+  },
+  "setPasswordInvalid": {
+    "message": "Passwords do not match"
+  },
+  "changePasswordInvalid": {
+    "message": "The old password you entered is incorrect"
+  },
+  "removePasswordInvalid": {
+    "message": "Incorrect password"
+  },
+  "setPasswordTitle": {
+    "message": "Set Password"
+  },
+  "changePasswordTitle": {
+    "message": "Changed Password"
+  },
+  "removePasswordTitle": {
+    "message": "Removed Password"
+  },
+  "setPasswordToastDescription": {
+    "message": "Your password has been set. Please keep it safe."
+  },
+  "changePasswordToastDescription": {
+    "message": "Your password has been changed. Please keep it safe."
+  },
+  "removePasswordToastDescription": {
+    "message": "You have removed your password."
+  },
+  "publicChatExists": {
+    "message": "You are already connected to this public channel"
+  },
+  "connectToServerFail": {
+    "message": "Failed to connect to server. Check URL"
+  },
+  "connectToServerSuccess": {
+    "message": "Successfully connected to new public chat server"
   },
   "setPasswordFail": {
     "message": "Failed to set password"
@@ -1916,5 +2442,347 @@
   },
   "remove": {
     "message": "Remove"
+  },
+  "invalidHexId": {
+    "message": "Invalid Hex ID",
+    "description":
+      "Error string shown when user type an invalid pubkey hex string"
+  },
+  "invalidPubkeyFormat": {
+    "message": "Invalid Pubkey Format",
+    "description": "Error string shown when user types an invalid pubkey format"
+  },
+  "conversationsTab": {
+    "message": "Conversations",
+    "description": "conversation tab title"
+  },
+  "friendsTab": {
+    "message": "Friends",
+    "description": "friend tab title"
+  },
+  "pendingAcceptance": {
+    "message": "Pending Acceptance",
+    "description": "Indicates that a friend request is pending"
+  },
+  "notFriends": {
+    "message": "not friends",
+    "description": "Indicates that a conversation is not friends with us"
+  },
+  "emptyGroupNameError": {
+    "message": "Group Name cannot be empty",
+    "description": "Error message displayed on empty group name"
+  },
+  "emptyProfileNameError": {
+    "message": "Profile name cannot be empty",
+    "description": "Error message displayed on empty profile name"
+  },
+  "maxGroupMembersError": {
+    "message": "Max number of members for small group chats is: "
+  },
+  "nonAdminDeleteMember": {
+    "message": "Only group admin can remove members!"
+  },
+  "editProfileDialogTitle": {
+    "message": "Editing Profile"
+  },
+
+  "editProfileModalTitle": {
+    "message": "Profile",
+    "description": "Title for the Edit Profile modal"
+  },
+
+  "profileName": {
+    "message": "Profile Name"
+  },
+  "groupNamePlaceholder": {
+    "message": "Group Name"
+  },
+  "inviteFriends": {
+    "message": "Invite Friends"
+  },
+  "manageModerators": {
+    "message": "Manage Moderators"
+  },
+  "addModerators": {
+    "message": "Add Moderators"
+  },
+  "removeModerators": {
+    "message": "Remove Moderators"
+  },
+  "add": {
+    "message": "Add"
+  },
+  "groupInvitation": {
+    "message": "Group Invitation"
+  },
+  "addingFriends": {
+    "message": "Adding friends to"
+  },
+  "noFriendsToAdd": {
+    "message": "No friends to add"
+  },
+  "noModeratorsToRemove": {
+    "message": "no moderators to remove"
+  },
+  "couldNotDecryptMessage": {
+    "message": "Couldn't decrypt a message"
+  },
+  "confirmSessionRestore": {
+    "message":
+      "Would you like to start a new session with $pubkey$? Only do so if you know this pubkey.",
+    "placeholders": {
+      "pubkey": {
+        "content": "$1",
+        "example": ""
+      }
+    }
+  },
+  "createAccount": {
+    "message": "Create Account"
+  },
+  "signIn": {
+    "message": "Sign In"
+  },
+  "yourUniqueSessionID": {
+    "message": "Say hello to your Session ID"
+  },
+  "allUsersAreRandomly...": {
+    "message":
+      "Your Session ID is the unique address people can use to contact you on Session. Your Session ID is totally private, anonymous, and has no connection to your real identity."
+  },
+  "getStarted": {
+    "message": "Get started"
+  },
+  "generateSessionID": {
+    "message": "Create Session ID"
+  },
+  "mnemonicSeed": {
+    "message": "Mnemonic Seed"
+  },
+  "enterSeed": {
+    "message": "Enter Recovery Phrase"
+  },
+  "displayName": {
+    "message": "Display Name"
+  },
+  "enterDisplayName": {
+    "message": "Enter a display name"
+  },
+  "optionalPassword": {
+    "message": "Verify Password"
+  },
+  "enterOptionalPassword": {
+    "message": "Enter password (optional)"
+  },
+  "verifyPassword": {
+    "message": "Verify Password"
+  },
+  "devicePairingHeader": {
+    "message":
+      "Open Session on your other device and navigate to the Linked Devices section in your user account screen. Select Link a Device to prepare your other device for pairing, then enter your Session ID below to link this device to your Session ID."
+  },
+  "enterSessionIDHere": {
+    "message": "Enter other device’s Session ID here"
+  },
+  "continueYourSession": {
+    "message": "Link Device"
+  },
+  "restoreSessionID": {
+    "message": "Restore Session ID"
+  },
+  "restoreUsingSeed": {
+    "message": "Restore From Recovery Phrase"
+  },
+  "linkDeviceToExistingAccount": {
+    "message": "Link Device to Existing Session ID"
+  },
+  "or": {
+    "message": "or"
+  },
+  "ByUsingThisService...": {
+    "message":
+      "By using this service, you agree to our <a href=\"https://getsession.org/privacy-policy/\">Terms and Conditions</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Statement</a>"
+  },
+  "beginYourSession": {
+    "message": "Begin<br />your<br />Session."
+  },
+  "welcomeToSession": {
+    "message": "Welcome to Session"
+  },
+  "welcomeToYourSession": {
+    "message": "Welcome to your Session"
+  },
+  "completeSignUp": {
+    "message": "Complete Sign Up"
+  },
+  "compose": {
+    "message": "Compose"
+  },
+  "newSession": {
+    "message": "New Session"
+  },
+  "searchForAKeyPhrase": {
+    "message": "Search for a key phrase or contact"
+  },
+  "enterRecipient": {
+    "message": "Enter Recipient"
+  },
+  "enterSessionID": {
+    "message": "Enter Session ID"
+  },
+  "pasteSessionIDRecipient": {
+    "message": "Enter a Session ID"
+  },
+  "usersCanShareTheir...": {
+    "message":
+      "Users can share their Session ID from their account settings, or by sharing their QR code."
+  },
+  "searchByIDOrDisplayName": {
+    "message": "Search by ID # or Display Name"
+  },
+  "message": {
+    "message": "Message"
+  },
+  "lists": {
+    "message": "Lists"
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "addContact": {
+    "message": "Add Contact"
+  },
+  "createGroup": {
+    "message": "Create Group"
+  },
+  "yourPublicKey": {
+    "message": "Your Session ID"
+  },
+  "accept": {
+    "message": "Accept"
+  },
+  "decline": {
+    "message": "Decline"
+  },
+  "appearanceSettingsTitle": {
+    "message": "Appearance"
+  },
+  "appearanceSettingsDescription": {
+    "message": "Appearance and interface options"
+  },
+  "accountSettingsTitle": {
+    "message": "Account"
+  },
+  "accountSettingsDescription": {
+    "message": "Manage your account"
+  },
+  "permissionSettingsTitle": {
+    "message": "Permissions"
+  },
+  "permissionSettingsDescription": {
+    "message": "Set Session's permissions"
+  },
+  "privacySettingsTitle": {
+    "message": "Privacy"
+  },
+  "privacySettingsDescription": {
+    "message": "Manage your privacy settings"
+  },
+  "notificationSettingsTitle": {
+    "message": "Notifications"
+  },
+  "notificationSettingsDescription": {
+    "message": "Configure notification options"
+  },
+  "devicesSettingsTitle": {
+    "message": "Devices"
+  },
+  "devicesSettingsDescription": {
+    "message": "Manage your linked devices"
+  },
+  "mnemonicEmpty": {
+    "message": "Seed is mandatory"
+  },
+  "displayNameEmpty": {
+    "message": "Display Name Is Mandatory"
+  },
+  "youHaveFriendRequestFrom": {
+    "message": "You have friend requests from..."
+  },
+  "members": {
+    "message": "$count$ members",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "26"
+      }
+    }
+  },
+  "channels": {
+    "message": "Channels"
+  },
+  "groups": {
+    "message": "Groups"
+  },
+  "addChannel": {
+    "message": "Join Open Group"
+  },
+  "joinOpenGroup": {
+    "message": "Join Open Group"
+  },
+  "newClosedGroup": {
+    "message": "New Closed Group"
+  },
+  "createClosedGroup": {
+    "message": "Create Closed Group"
+  },
+  "createClosedGroupDescription": {
+    "message":
+      "Closed groups are end-to-end encrypted group chats for up to 10 members. They provide the same privacy protections as one-on-one sessions."
+  },
+  "createClosedGroupNamePrompt": {
+    "message": "Group Name"
+  },
+  "createClosedGroupPlaceholder": {
+    "message": "Enter a group name"
+  },
+  "closedGroupCreatedToastTitle": {
+    "message": "Group created successfully"
+  },
+  "enterChannelURL": {
+    "message": "Enter Open Group URL"
+  },
+  "channelUrlPlaceholder": {
+    "message": "chat.getsession.org"
+  },
+  "addChannelDescription": {
+    "message": "Enter an open group URL."
+  },
+  "joinChannel": {
+    "message": "Join Open Group"
+  },
+  "joinPublicChat": {
+    "message": "Join Public Chat"
+  },
+  "next": {
+    "message": "Next"
+  },
+  "description": {
+    "message": "Description"
+  },
+  "filterReceivedRequests": {
+    "message": "Filter received requests"
+  },
+  "secretWords": {
+    "message": "Secret words:"
+  },
+  "pairingDevice": {
+    "message": "Pairing Device"
+  },
+  "gotPairingRequest": {
+    "message": "Pairing request received"
+  },
+  "devicePairedSuccessfully": {
+    "message": "Device linked successfully"
   }
 }

@@ -16,17 +16,12 @@ exports.createTemplate = (options, messages) => {
     setupWithImport,
     showAbout,
     showDebugLog,
-    showSettings,
   } = options;
 
   const template = [
     {
       label: messages.mainMenuFile.message,
       submenu: [
-        {
-          label: messages.mainMenuSettings.message,
-          click: showSettings,
-        },
         {
           type: 'separator',
         },
@@ -84,6 +79,7 @@ exports.createTemplate = (options, messages) => {
           label: messages.viewMenuResetZoom.message,
         },
         {
+          accelerator: platform === 'darwin' ? 'Command+=' : 'Control+Plus',
           role: 'zoomin',
           label: messages.viewMenuZoomIn.message,
         },
@@ -192,7 +188,6 @@ function updateForMac(template, messages, options) {
     setupAsStandalone,
     setupWithImport,
     showAbout,
-    showSettings,
     showWindow,
   } = options;
 
@@ -232,6 +227,7 @@ function updateForMac(template, messages, options) {
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
+    label: messages.lokiMessenger.message,
     submenu: [
       {
         label: messages.aboutSignalDesktop.message,
@@ -239,11 +235,6 @@ function updateForMac(template, messages, options) {
       },
       {
         type: 'separator',
-      },
-      {
-        label: messages.mainMenuSettings.message,
-        accelerator: 'CommandOrControl+,',
-        click: showSettings,
       },
       {
         type: 'separator',

@@ -1,0 +1,11 @@
+{
+  "storageProfile": "swarm-testing",
+  "seedNodeList": [
+    {
+      "ip": "localhost",
+      "port": "22129"
+    }
+  ],
+  "openDevTools": true,
+  "defaultPublicChatServer": "https://team-chat.lokinet.org/"
+}

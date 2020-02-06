@@ -1,4 +1,4 @@
-/* global libsignal, textsecure */
+/* global libsignal, textsecure, dcodeIO, libloki */
 
 /* eslint-disable no-bitwise */
 
@@ -102,37 +102,17 @@ function _createServerCertificateFromBuffer(serialized) {
 
 // public SenderCertificate(byte[] serialized)
 function _createSenderCertificateFromBuffer(serialized) {
-  const wrapper = textsecure.protobuf.SenderCertificate.decode(serialized);
+  const cert = textsecure.protobuf.SenderCertificate.decode(serialized);
 
-  if (!wrapper.signature || !wrapper.certificate) {
-    throw new Error('Missing fields');
-  }
-
-  const certificate = textsecure.protobuf.SenderCertificate.Certificate.decode(
-    wrapper.certificate.toArrayBuffer()
-  );
-
-  if (
-    !certificate.signer ||
-    !certificate.identityKey ||
-    !certificate.senderDevice ||
-    !certificate.expires ||
-    !certificate.sender
-  ) {
+  if (!cert.senderDevice || !cert.sender) {
     throw new Error('Missing fields');
   }
 
   return {
-    sender: certificate.sender,
-    senderDevice: certificate.senderDevice,
-    expires: certificate.expires.toNumber(),
-    identityKey: certificate.identityKey.toArrayBuffer(),
-    signer: _createServerCertificateFromBuffer(
-      certificate.signer.toArrayBuffer()
-    ),
+    sender: cert.sender,
+    senderDevice: cert.senderDevice,
 
-    certificate: wrapper.certificate.toArrayBuffer(),
-    signature: wrapper.signature.toArrayBuffer(),
+    certificate: cert.toArrayBuffer(),
 
     serialized,
   };
@@ -219,6 +199,9 @@ function _createUnidentifiedSenderMessageContentFromBuffer(serialized) {
     case TypeEnum.PREKEY_MESSAGE:
       type = CiphertextMessage.PREKEY_TYPE;
       break;
+    case TypeEnum.LOKI_FRIEND_REQUEST:
+      type = CiphertextMessage.LOKI_FRIEND_REQUEST;
+      break;
     default:
       throw new Error(`Unknown type: ${message.type}`);
   }
@@ -243,6 +226,8 @@ function _getProtoMessageType(type) {
       return TypeEnum.MESSAGE;
     case CiphertextMessage.PREKEY_TYPE:
       return TypeEnum.PREKEY_MESSAGE;
+    case CiphertextMessage.LOKI_FRIEND_REQUEST:
+      return TypeEnum.LOKI_FRIEND_REQUEST;
     default:
       throw new Error(`_getProtoMessageType: type '${type}' does not exist`);
   }
@@ -257,9 +242,7 @@ function _createUnidentifiedSenderMessageContent(
 ) {
   const innerMessage = new textsecure.protobuf.UnidentifiedSenderMessage.Message();
   innerMessage.type = _getProtoMessageType(type);
-  innerMessage.senderCertificate = textsecure.protobuf.SenderCertificate.decode(
-    senderCertificate.serialized
-  );
+  innerMessage.senderCertificate = senderCertificate;
   innerMessage.content = content;
 
   return {
@@ -277,24 +260,24 @@ SecretSessionCipher.prototype = {
   //   SenderCertificate senderCertificate,
   //   byte[] paddedPlaintext
   // )
-  async encrypt(destinationAddress, senderCertificate, paddedPlaintext) {
+  async encrypt(
+    destinationAddress,
+    senderCertificate,
+    paddedPlaintext,
+    cipher
+  ) {
     // Capture this.xxx variables to replicate Java's implicit this syntax
-    const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
     const _calculateEphemeralKeys = this._calculateEphemeralKeys.bind(this);
     const _encryptWithSecretKeys = this._encryptWithSecretKeys.bind(this);
     const _calculateStaticKeys = this._calculateStaticKeys.bind(this);
 
-    const sessionCipher = new SessionCipher(
-      signalProtocolStore,
-      destinationAddress
-    );
-
-    const message = await sessionCipher.encrypt(paddedPlaintext);
+    const message = await cipher.encrypt(paddedPlaintext);
     const ourIdentity = await signalProtocolStore.getIdentityKeyPair();
-    const theirIdentity = fromEncodedBinaryToArrayBuffer(
-      await signalProtocolStore.loadIdentityKey(destinationAddress.getName())
-    );
+    const theirIdentity = dcodeIO.ByteBuffer.wrap(
+      destinationAddress.getName(),
+      'hex'
+    ).toArrayBuffer();
 
     const ephemeral = await libsignal.Curve.async.generateKeyPair();
     const ephemeralSalt = concatenateBytes(
@@ -344,7 +327,7 @@ SecretSessionCipher.prototype = {
 
   // public Pair<SignalProtocolAddress, byte[]> decrypt(
   //   CertificateValidator validator, byte[] ciphertext, long timestamp)
-  async decrypt(validator, ciphertext, timestamp, me) {
+  async decrypt(ciphertext, me) {
     // Capture this.xxx variables to replicate Java's implicit this syntax
     const signalProtocolStore = this.storage;
     const _calculateEphemeralKeys = this._calculateEphemeralKeys.bind(this);
@@ -392,15 +375,6 @@ SecretSessionCipher.prototype = {
       messageBytes
     );
 
-    await validator.validate(content.senderCertificate, timestamp);
-    if (
-      !constantTimeEqual(content.senderCertificate.identityKey, staticKeyBytes)
-    ) {
-      throw new Error(
-        "Sender's certificate key does not match key used in message"
-      );
-    }
-
     const { sender, senderDevice } = content.senderCertificate;
     const { number, deviceId } = me || {};
     if (sender === number && senderDevice === deviceId) {
@@ -414,8 +388,14 @@ SecretSessionCipher.prototype = {
       return {
         sender: address,
         content: await _decryptWithUnidentifiedSenderMessage(content),
+        type: content.type,
       };
     } catch (error) {
+      if (!error) {
+        // eslint-disable-next-line no-ex-assign
+        error = new Error('Decryption error was falsey!');
+      }
+
       error.sender = address;
 
       throw error;
@@ -514,6 +494,10 @@ SecretSessionCipher.prototype = {
           signalProtocolStore,
           sender
         ).decryptPreKeyWhisperMessage(message.content);
+      case CiphertextMessage.LOKI_FRIEND_REQUEST:
+        return new libloki.crypto.FallBackSessionCipher(sender).decrypt(
+          message.content
+        );
       default:
         throw new Error(`Unknown type: ${message.type}`);
     }

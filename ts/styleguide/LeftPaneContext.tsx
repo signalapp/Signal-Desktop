@@ -6,6 +6,7 @@ interface Props {
    * Corresponds to the theme setting in the app, and the class added to the root element.
    */
   theme: 'light-theme' | 'dark-theme';
+  style: any;
 }
 
 /**
@@ -14,10 +15,10 @@ interface Props {
  */
 export class LeftPaneContext extends React.Component<Props> {
   public render() {
-    const { theme } = this.props;
+    const { style, theme } = this.props;
 
     return (
-      <div className={classNames(theme || 'light-theme')}>
+      <div style={style} className={classNames(theme || 'light-theme')}>
         <div className="gutter">{this.props.children}</div>
       </div>
     );

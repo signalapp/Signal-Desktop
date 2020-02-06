@@ -16,72 +16,50 @@
   <div id="render-dark-theme" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
   </div>
+
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
-      <img src='/images/loki/loki_icon_128.png'>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
-      </div>
+      <img src='images/session/full-logo.svg' class='session-full-logo' />
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
     <div class='content'>
-      <img src='/images/loki/loki_icon_128.png'>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
-      </div>
+      <img src='images/session/full-logo.svg' class='session-full-logo' />
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
-        <div class='network-status-container'></div>
-        <div class='title-bar active' id='header'>
-          <h1>Signal</h1>
-          <div class='tool-bar clearfix'>
-            <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}' dir='auto'>
-            <span class='search-icon'></span>
-          </div>
-        </div>
-        <div class='content'>
-          <div class='conversations scrollable inbox'></div>
-          <div class='conversations scrollable search-results hide'>
-            <div class='new-contact contact hide'></div>
-          </div>
-        </div>
+      <div class='network-status-container'></div>
+      <div class='left-pane-placeholder'></div>
     </div>
     <div class='conversation-stack'>
       <div class='conversation placeholder'>
         <div class='conversation-header'></div>
-        <div class='content'>
-          <img src='/images/loki/loki_icon_128.png' />
-          <h3>{{ welcomeToSignal }}</h3>
-          <p>{{ selectAContact }}</p>
+        <div class='container'>
+          <div class='content'>
+            <img src='images/session/full-logo.svg' class='session-full-logo' />
+          </div>
         </div>
       </div>
     </div>
+    <div class='lightbox-container'></div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
-    <button class='text {{ cssClass }}' alt='{{ moreBelow }}'>
-      <div class='icon'></div>
+    <button class='text module-scroll-down__button {{ buttonClass }}' alt='{{ moreBelow }}'>
+      <div class='module-scroll-down__icon'></div>
     </button>
   </script>
+
   <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
-    <div class='bar'>
-      <div class='text'>
-        {{ unreadMessages }}
-      </div>
+    <div class='module-last-seen-indicator__bar'/>
+    <div class='module-last-seen-indicator__text'>
+      {{ unreadMessages }}
     </div>
   </script>
-  <script type='text/x-tmpl-mustache' id='expired_alert'>
-    <a target='_blank' href='https://signal.org/download/'>
-      <button class='upgrade'>{{ upgrade }}</button>
-    </a>
-    {{ expiredWarning }}
-  </script>
+
   <script type='text/x-tmpl-mustache' id='banner'>
     <div class='body'>
       <span class='icon warning'></span>
@@ -89,12 +67,11 @@
       <span class='icon dismiss'></span>
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='toast'>
     {{ toastMessage }}
   </script>
-  <script type='text/x-tmpl-mustache' id='hint'>
-    <p> {{ content }}</p>
-  </script>
+
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header'></div>
     <div class='main panel'>
@@ -105,23 +82,32 @@
       </div>
 
       <div class='bottom-bar' id='footer'>
-          <form class='send clearfix'>
-              <div class='attachment-previews'></div>
+          <div class='emoji-panel-container'></div>
+          <div class='attachment-list'></div>
+          <div class='compose'>
+            <form class='send clearfix file-input'>
               <div class='flex'>
-                <div class='choose-file'>
-                    <button class='paperclip thumbnail'></button>
-                    <input type='file' class='file-input'>
-                </div>
+                <button class='emoji'></button>
                 <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
                 <div class='capture-audio'>
-                    <!--<button class='microphone'></button>-->
+                    <button class='microphone'></button>
                 </div>
-
+                <div class='choose-file'>
+                    <button class='paperclip thumbnail'></button>
+                    <input type='file' class='file-input' multiple='multiple'>
+                </div>
               </div>
-          </form>
+            </form>
+          </div>
       </div>
     </div>
   </script>
+
+  <script type='text/x-tmpl-mustache' id='message-list'>
+    <div class='messages'></div>
+    <div class='typing-container'></div>
+  </script>
+
   <script type='text/x-tmpl-mustache' id='recorder'>
       <button class='finish'><span class='icon'></span></button>
       <span class='time'>0:00</span>
@@ -149,20 +135,41 @@
       </div>
     </div>
   </script>
-  <script type='text/x-tmpl-mustache' id='attachment-preview'>
-        <img src='{{ source }}' class='preview' />
-        <a class='x close' alt='remove attachment' href='#'></a>
-  </script>
-  <script type='text/x-tmpl-mustache' id='new-group-update'>
-      <div class='conversation-header'>
-        <button class='back'></button>
-        <button class='send check'></button>
-        <span class='conversation-title'>Update group</span>
+  <script type='text/x-tmpl-mustache' id='beta-disclaimer-dialog'>
+    <div class="content">
+      <div class="betaDisclaimerView" style="display: none;">
+        <h2>
+          Thanks for testing Session!
+        </h2>
+        <p>
+            Thanks for testing Session! This software is a beta version of the full Session software suite, and so is missing some of the features the full version will have.
+        </p>
+
+        <p>
+          <b>
+            This version of Session provides no guarantees of metadata privacy.
+          </b>
+        </p>
+
+        <p>
+            While your messages are secured using end to end encryption, in this beta version of Loki messenger, <b>third parties (like your ISP or the Service Node network) can see who you’re talking to</b> and when you’re sending or receiving messages.
+        </p>
+
+        <p>
+            It is also possible that <b>third parties could correlate your public key to your IP address</b> and your real identity if they learn your public key.
+        </p>
+
+        <p>
+            However, no one except you and your intended recipients will be able to see the contents of your messages. We recommend using existing methods, like Tor or I2P to mask your IP address while using Session beta version.
+        </p>
+
+        <p>
+            As a beta, this software is still experimental. When things aren't working for you, or you feel confused by the app, please let us know by filing an issue on <a href="https://github.com/loki-project/loki-messenger">Github</a> or making suggestions on <a href="https://discordapp.com/invite/67GXfD6">Discord</a>.
+        </p>
+
+        <button class='ok' tabindex='1'>{{ ok }}</button>
       </div>
-      {{> group_info_input }}
-      <div class='container'>
-        <div class='scrollable'></div>
-      </div>
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='identicon-svg'>
       <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
@@ -172,49 +179,7 @@
           </text>
       </svg>
   </script>
-  <script type='text/x-tmpl-mustache' id='avatar'>
-    <span aria-hidden class='avatar
-      {{ ^avatar.url }}
-        {{ avatar.color }}
-      {{ /avatar.url }}
-      '
-      {{ #avatar.url }}
-        style='background-image: url("{{ avatar.url }}");'
-      {{ /avatar.url }}
-    >
-        {{ avatar.content }}
-    </span>
-  </script>
-  <script type='text/x-tmpl-mustache' id='contact_pill'>
-    <span>{{ name }}</span><span class='remove'>x</span>
-  </script>
-  <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
-      <h3 class='name' dir='auto'> {{ title }} </h3>
-      <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='contact'>
-      {{> avatar }}
-      <div class='contact-details'> {{> contact_name_and_number }} </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='new-contact'>
-      {{> avatar }}
-      <div class='contact-details'>
-          {{> contact_name_and_number }}
-      </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='conversation-preview'>
-      {{> avatar }}
-      <div class='contact-details'>
-          <span class='last-timestamp' data-timestamp='{{ last_message_timestamp }}' dir='auto' > </span>
-          {{> contact_name_and_number }}
-          {{ #unreadCount }}
-            <span class='unread-count'>{{ unreadCount }}</span>
-          {{ /unreadCount }}
-          {{ #last_message }}
-            <p class='last-message' dir='auto'></p>
-          {{ /last_message }}
-      </div>
-  </script>
+
   <script type='text/x-tmpl-mustache' id='phone-number'>
       <div class='phone-input-form'>
           <div class='number-container'>
@@ -222,18 +187,22 @@
           </div>
       </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='file-size-modal'>
       {{ file-size-warning }}
       ({{ limit }}{{ units }})
   </script>
+
   <script type='text/x-tmpl-mustache' id='attachment-type-modal'>
       Sorry, your attachment has a type, {{type}}, that is not currently supported.
   </script>
+
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='container'>
       {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
     </div>
   </script>
+
   <script type='text/x-tmpl-mustache' id='key-verification'>
     <div class='container'>
       {{ ^hasTheirKey }}
@@ -264,55 +233,42 @@
       </div>
     </div>
   </script>
-  <!-- index -->
-  <script type='text/x-tmpl-mustache' id='group_info_input'>
-      <div class='group-info-input'>
-        <div class='group-avatar'>
-          <div class='choose-file attachment-previews thumbnail'>
-            {{> avatar }}
-            </div>
-          <input type='file' name='avatar' class='file-input'>
+
+  <script type='text/x-tmpl-mustache' id='clear-data'>
+    {{#isStep1}}
+    <div class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline-red'></span>
+          <div class='header'>{{ header }}</div>
+          <div class='body-text-wide'>{{ body }}</div>
         </div>
-        <input type='text' name='name' class='name' placeholder='Group Name' value='{{ name }}'>
-      </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='new-conversation'>
-      <div class='conversation-header'>
-        <button class='back'></button>
-        <button class='create check hide'></button>
-        <span class='conversation-title'>New Message</span>
-      </div>
-      {{> group_info_input }}
-      <div class='container'>
-        <div class='scrollable'>
+        <div class='nav'>
+          <div>
+            <a class='button neutral cancel'>{{ cancelButton }}</a>
+            <a class='button destructive delete-all-data'>{{ deleteButton }}</a>
+          </div>
         </div>
       </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='recipients-input'>
-      <div class='recipients-container'>
-        <span class='recipients'></span>
-        <input type='text' class='search' placeholder='{{ placeholder }}' dir='auto' />
+    </div>
+    {{/isStep1}}
+    {{#isStep2}}
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon delete'></span>
+          <div class='header'>{{ deleting }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
+          </div>
+        </div>
       </div>
-      <div class='results'>
-        <div class='new-contact contact hide'></div>
-        <div class='contacts'></div>
-      </div>
+    </div>
+    {{/isStep2}}
   </script>
-  <script type='text/x-tmpl-mustache' id='generic-error'>
-    <p>{{ message }}</p>
-  </script>
-  <script type='text/x-tmpl-mustache' id='error-icon'>
-    <span class='error-icon'>
-    </span>
-    {{ #message }}
-      <span class='error-message'>{{message}}</span>
-    {{ /message }}
-  </script>
-  <script type='text/x-tmpl-mustache' id='link_to_support'>
-    <a href='http://support.signal.org/hc/articles/213134107' target='_blank'>
-      {{ learnMore }}
-    </a>
-  </script>
+
   <script type='text/x-tmpl-mustache' id='networkStatus'>
     <div class='network-status-message'>
       <h3>{{ message }}</h3>
@@ -329,21 +285,203 @@
       </div>
     {{/action }}
   </script>
-  <script type='text/x-tmpl-mustache' id='main-header-placeholder'>
-    <div class='main-header-title-wrapper'>
-      <div class='main-header-content-toggle'/>
+  
+
+  <script type='text/x-tmpl-mustache' id='import-flow-template'>
+    {{#isStep2}}
+    <div id='step2' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon folder-outline'></span>
+          <div class='header'>{{ chooseHeader }}</div>
+          <div class='body-text'>{{ choose }}</div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button choose'>{{ chooseButton }}</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class='main-header-content-wrapper'>
-      {{ #items }}
-        <div role='button' id='{{ id }}'>{{ text }}</div>
-      {{ /items }}
+    {{/isStep2}}
+    {{#isStep3}}
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon import'></span>
+          <div class='header'>{{ importingHeader }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
+          </div>
+        </div>
+      </div>
     </div>
+    {{/isStep3}}
+    {{#isStep4}}
+    <div id='step4' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon check-circle-outline'></span>
+          <div class='header'>{{ completeHeader }}</div>
+        </div>
+        <div class='nav'>
+          {{#restartButton}}
+          <div>
+            <a class='button restart'>{{ restartButton }}</a>
+          </div>
+          {{/restartButton}}
+          {{#registerButton}}
+          <div>
+            <a class='button register'>{{ registerButton }}</a>
+          </div>
+          {{/registerButton}}
+        </div>
+      </div>
+    </div>
+    {{/isStep4}}
+
+    {{#isError}}
+    <div id='error' class='step'>
+      <div class='inner error-dialog clearfix'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline'></span>
+          <div class='header'>{{ errorHeader }}</div>
+          <div class='body-text-wide'>
+            {{ errorMessageFirst }}
+            <p>{{ errorMessageSecond }}</p>
+          </div>
+        </div>
+        <div class='nav'>
+          <div>
+            <a class='button choose'>{{ chooseButton }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isError}}
   </script>
-  <script type='text/x-tmpl-mustache' id='file-view'>
-    <div class='icon'></div>
-    <div class='text'>
-      <div class='fileName' alt='{{ fileName }}' title='{{ altText }}'>{{ fileName }}</div>
-      <div class='fileSize'>{{ fileSize }}</div>
+
+  <script type='text/x-tmpl-mustache' id='link-flow-template'>
+    {{#isStep3}}
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <div class='header'>{{ linkYourPhone }}</div>
+          <div id="qr">
+            <div class='container'>
+              <span class='dot'></span>
+              <span class='dot'></span>
+              <span class='dot'></span>
+            </div>
+          </div>
+        </div>
+        <div class='nav'>
+          <div class='instructions'>
+            <div class='android'>
+              <div class='label'>
+                <span class='os-icon android'></span>
+              </div>
+              <div class='body'>
+                <div>→ {{ signalSettings }}</div>
+                <div>→ {{ linkedDevices }}</div>
+                <div>→ {{ androidFinalStep }}</div>
+              </div>
+            </div>
+            <div class='apple'>
+              <div class='label'>
+                <span class='os-icon apple'></span>
+              </div>
+              <div class='body'>
+                <div>→ {{ signalSettings }}</div>
+                <div>→ {{ linkedDevices }}</div>
+                <div>→ {{ appleFinalStep }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep3}}
+    {{#isStep4}}
+    <form id='link-phone'>
+      <div id='step4' class='step'>
+        <div class='inner'>
+          <div class='step-body'>
+            <span class='banner-icon lead-pencil'></span>
+            <div class='header'>{{ chooseName }}</div>
+            <div>
+              <input type='text' class='device-name' spellcheck='false' maxlength='50' />
+            </div>
+          </div>
+
+            <div class='nav'>
+              <div>
+                <a class='button finish'>{{ finishLinkingPhoneButton }}</a>
+              </div>
+            </div>
+        </div>
+      </div>
+    </form>
+    {{/isStep4}}
+    {{#isStep5}}
+    <div id='step5' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon sync'></span>
+          <div class='header'>{{ syncing }}</div>
+        </div>
+        <div class='progress'>
+          <div class='bar-container'>
+            <div class='bar progress-bar progress-bar-striped active'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/isStep5}}
+
+    {{#isError}}
+    <div id='error' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <span class='banner-icon alert-outline'></span>
+          <div class='header'>{{ errorHeader }}</div>
+          <div class='body'>{{ errorMessage }}</div>
+        </div>
+        <div class='nav'>
+          <a class='button try-again'>{{ errorButton }}</a>
+        </div>
+      </div>
+    </div>
+    {{/isError}}
+  </script>
+
+  <script type='text/x-tmpl-mustache' id='standalone'>
+    <div class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <img class='banner-image' src='images/icon_128.png' />
+          <div class='header'>Create your Signal Account</div>
+          <div id='phone-number-input'>
+            <div class='phone-input-form'>
+                <div id='number-container' class='number-container'>
+                  <input type='tel' class='number' placeholder='Phone Number' />
+                </div>
+            </div>
+          </div>
+          <div class='clearfix'>
+            <a class='button' id='request-sms'>Send SMS</a>
+            <a class='link' id='request-voice' tabindex=-1>Call</a>
+          </div>
+          <input class='form-control' type='text' pattern='\s*[0-9]{3}-?[0-9]{3}\s*' title='Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one' id='code' placeholder='Verification Code' autocomplete='off'>
+          <div id='error' class='collapse'></div>
+          <div id=status></div>
+        </div>
+        <div class='nav'>
+          <a class='button' id='verifyCode' data-loading-text='Please wait...'>Register</a>
+        </div>
+      </div>
     </div>
   </script>
 
@@ -363,12 +501,12 @@
   <script type="text/javascript" src="../js/libloki.js" data-cover></script>
 
   <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
-  <script type='text/javascript' src='../js/models/profile.js' data-cover></script>
   <script type="text/javascript" src="../js/models/messages.js" data-cover></script>
   <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
   <script type="text/javascript" src="../js/models/blockedNumbers.js" data-cover></script>
   <script type="text/javascript" src="../js/conversation_controller.js" data-cover></script>
   <script type='text/javascript' src='../js/blocked_number_controller.js'></script>
+  <script type="text/javascript" src="../js/message_controller.js" data-cover></script>
   <script type="text/javascript" src="../js/keychange_listener.js" data-cover></script>
   <script type='text/javascript' src='../js/expiring_messages.js' data-cover></script>
   <script type='text/javascript' src='../js/notifications.js' data-cover></script>
@@ -380,47 +518,45 @@
   <script type='text/javascript' src='../js/views/whisper_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/debug_log_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/toast_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/attachment_preview_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/file_input_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/list_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/conversation_list_item_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/conversation_list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/contact_list_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/main_header_view.js'></script>
-  <script type='text/javascript' src='../js/views/new_group_update_view.js' data-cover></script>
-  <script type="text/javascript" src="../js/views/group_update_view.js"></script>
-  <script type='text/javascript' src='../js/views/attachment_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/timestamp_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/message_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/key_verification_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/message_list_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/member_list_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/bulk_edit_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/group_member_list_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/recorder_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/conversation_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/conversation_search_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/hint_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/main_header_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/nickname_dialog_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/password_dialog_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/seed_dialog_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/qr_dialog_view.js'></script>
+  <script type='text/javascript' src='../js/views/add_server_dialog_view.js'></script>
   <script type='text/javascript' src='../js/views/identicon_svg_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/last_seen_indicator_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/scroll_down_button_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/banner_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/clear_data_view.js'></script>
+  <script type='text/javascript' src='../js/views/conversation_loading_view.js'></script>
+
+  <script type='text/javascript' src='../js/views/create_group_dialog_view.js'></script>
+  <script type='text/javascript' src='../js/views/confirm_session_reset_view.js'></script>
+  <script type='text/javascript' src='../js/views/invite_friends_dialog_view.js'></script>
+  <script type='text/javascript' src='../js/views/beta_release_disclaimer_view.js'></script>
+
 
   <!-- <script type="text/javascript" src="metadata/SecretSessionCipher_test.js"></script> -->
 
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
-  <script type="text/javascript" src="views/group_update_view_test.js"></script>
-  <script type="text/javascript" src="views/attachment_view_test.js"></script>
   <script type="text/javascript" src="views/timestamp_view_test.js"></script>
   <script type="text/javascript" src="views/list_view_test.js"></script>
   <script type="text/javascript" src="views/inbox_view_test.js"></script>
-  <script type="text/javascript" src="views/conversation_search_view_test.js"></script>
   <script type="text/javascript" src="views/network_status_view_test.js"></script>
   <script type="text/javascript" src="views/last_seen_indicator_view_test.js"></script>
   <script type='text/javascript' src='views/scroll_down_button_view_test.js'></script>

@@ -1,0 +1,147 @@
+// Messages
+
+.discussion-container {
+  @at-root .light-theme #{&} {
+    background-color: $session-color-white;
+  }
+  @at-root .dark-theme #{&} {
+    background-color: $session-shade-2;
+  }
+}
+
+.conversation {
+  background: none !important;
+}
+.module-conversation-header {
+  @at-root .light-theme #{&} {
+    background-color: $session-color-white;
+    border-bottom: none;
+  }
+  @at-root .dark-theme #{&} {
+    background-color: $session-shade-4;
+    border-bottom: none;
+  }
+}
+
+.module-message {
+  &__author,
+  &__metadata__badge,
+  &__metadata__date--incoming,
+  &__metadata__date--outgoing {
+    @at-root .light-theme #{&} {
+      @include session-color-subtle($session-color-black);
+    }
+    @at-root .dark-theme #{&} {
+      @include session-color-subtle($session-color-white);
+    }
+  }
+
+  &__container--incoming {
+    @at-root .light-theme #{&} {
+      @include session-color-subtle($session-color-white);
+    }
+    @at-root .dark-theme #{&} {
+      background-color: $session-shade-8;
+    }
+  }
+
+  &__container--outgoing {
+    @at-root .light-theme #{&} {
+      background-color: $session-color-white;
+    }
+    @at-root .dark-theme #{&} {
+      background-color: $session-shade-11;
+    }
+  }
+
+  &__container {
+    transition: background-color 0.25s;
+    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.69);
+  }
+}
+
+.message {
+  &-highlighted {
+    border-radius: 0;
+
+    @at-root .light-theme #{&} {
+      background-color: $session-shade-5;
+    }
+    @at-root .dark-theme #{&} {
+      background-color: $session-color-white;
+    }
+  }
+
+  &-selected {
+    .module-message {
+      &__container {
+        background-image: $session-gradient-green;
+        box-shadow: $session-dark-shadow;
+      }
+
+      &__author {
+        color: $session-color-white;
+      }
+    }
+  }
+
+  &-read-receipt-container {
+    margin-left: 5px;
+  }
+}
+
+.inbox {
+  background: linear-gradient(180deg, #171717 0%, $session-background 100%);
+}
+
+.conversation {
+  background: none !important;
+}
+
+.discussion-container {
+  background-color: #141414;
+}
+
+@mixin session-h-title {
+  @include fontWasaBold();
+}
+
+h1 {
+  @include session-h-title;
+  color: $session-shade-16;
+  font-size: 25px;
+  margin: 0;
+
+  &.active {
+    color: $session-color-white;
+  }
+}
+
+h2 {
+  @include session-h-title;
+  color: $session-color-white;
+  font-size: 22px;
+  text-align: center;
+}
+
+h3 {
+  @include session-h-title;
+  color: $session-color-white;
+  font-size: 18px;
+  padding-top: 22px;
+}
+
+h4 {
+  @include session-h-title;
+  color: $session-color-white;
+  font-size: 17px;
+  text-align: center;
+}
+
+.dark-theme .network-status-container .network-status {
+  background-color: rgba($session-color-green, 0.6);
+
+  .network-status-message {
+    color: $session-color-white;
+  }
+}

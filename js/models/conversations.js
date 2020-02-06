@@ -1,15 +1,20 @@
-/* global _: false */
-/* global Backbone: false */
-/* global BlockedNumberController: false */
-/* global ConversationController: false */
-/* global clipboard: false */
-/* global i18n: false */
-/* global profileImages: false */
-/* global storage: false */
-/* global textsecure: false */
-/* global Whisper: false */
-/* global lokiP2pAPI: false */
-/* global JobQueue: false */
+/* global
+  $,
+  _,
+  log,
+  i18n,
+  Backbone,
+  ConversationController,
+  MessageController,
+  storage,
+  textsecure,
+  Whisper,
+  profileImages,
+  clipboard,
+  BlockedNumberController,
+  lokiPublicChatAPI,
+  JobQueue
+*/
 
 /* eslint-disable more/no-then */
 
@@ -80,7 +85,10 @@
         unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
         swarmNodes: [],
+        groupAdmins: [],
+        isKickedFromGroup: false,
         isOnline: false,
+        profileSharing: false,
       };
     },
 
@@ -96,6 +104,17 @@
       this.trigger('messageError', message, errors);
     },
 
+    getContactCollection() {
+      const collection = new Backbone.Collection();
+      const collator = new Intl.Collator();
+      collection.comparator = (left, right) => {
+        const leftLower = left.getTitle().toLowerCase();
+        const rightLower = right.getTitle().toLowerCase();
+        return collator.compare(leftLower, rightLower);
+      };
+      return collection;
+    },
+
     initialize() {
       this.ourNumber = textsecure.storage.user.getNumber();
       this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
@@ -104,13 +123,7 @@
       //   our first save to the database. Or first fetch from the database.
       this.initialPromise = Promise.resolve();
 
-      this.contactCollection = new Backbone.Collection();
-      const collator = new Intl.Collator();
-      this.contactCollection.comparator = (left, right) => {
-        const leftLower = left.getTitle().toLowerCase();
-        const rightLower = right.getTitle().toLowerCase();
-        return collator.compare(leftLower, rightLower);
-      };
+      this.contactCollection = this.getContactCollection();
       this.messageCollection = new Whisper.MessageCollection([], {
         conversation: this,
       });
@@ -145,6 +158,15 @@
       this.on('expiration-change', this.updateAndMerge);
       this.on('expired', this.onExpired);
 
+      this.on('ourAvatarChanged', avatar =>
+        this.updateAvatarOnPublicChat(avatar)
+      );
+
+      // Always share profile pics with public chats
+      if (this.isPublic) {
+        this.set('profileSharing', true);
+      }
+
       const sealedSender = this.get('sealedSender');
       if (sealedSender === undefined) {
         this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
@@ -153,16 +175,24 @@
       this.unset('unidentifiedDeliveryUnrestricted');
       this.unset('hasFetchedProfile');
       this.unset('tokens');
-      this.unset('lastMessage');
-      this.unset('lastMessageStatus');
 
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
 
-      // Online status handling
-      this.set({ isOnline: lokiP2pAPI.isOnline(this.id) });
+      if (this.id === this.ourNumber) {
+        this.set({ friendRequestStatus: FriendRequestStatusEnum.friends });
+      }
 
       this.messageSendQueue = new JobQueue();
+
+      this.selectedMessages = new Set();
+
+      // Keep props ready
+      const generateProps = () => {
+        this.cachedProps = this.getProps();
+      };
+      this.on('change', generateProps);
+      generateProps();
     },
 
     isOnline() {
@@ -170,7 +200,16 @@
     },
 
     isMe() {
-      return this.id === this.ourNumber;
+      return this.id === window.storage.get('primaryDevicePubKey');
+    },
+    isPublic() {
+      return !!(this.id && this.id.match(/^publicChat:/));
+    },
+    isClosable() {
+      return !this.isRss() || this.get('closable');
+    },
+    isRss() {
+      return !!(this.id && this.id.match(/^rss:/));
     },
     isBlocked() {
       return BlockedNumberController.isBlocked(this.id);
@@ -185,10 +224,105 @@
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
     },
+    async acceptFriendRequest() {
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
 
-    bumpTyping() {
-      // We don't send typing messages if the setting is disabled
-      if (!storage.get('typingIndicators')) {
+      const lastMessageModel = messages.at(0);
+      if (lastMessageModel) {
+        lastMessageModel.acceptFriendRequest();
+        await this.markRead();
+        window.Whisper.events.trigger(
+          'showConversation',
+          this.id,
+          lastMessageModel.id
+        );
+      }
+    },
+    async declineFriendRequest() {
+      const messages = await window.Signal.Data.getMessagesByConversation(
+        this.id,
+        { limit: 1, MessageCollection: Whisper.MessageCollection }
+      );
+
+      const lastMessageModel = messages.at(0);
+      if (lastMessageModel) {
+        lastMessageModel.declineFriendRequest();
+      }
+    },
+    setMessageSelectionBackdrop() {
+      const messageSelected = this.selectedMessages.size > 0;
+
+      if (messageSelected) {
+        // Hide ellipses icon
+        $('.title-wrapper .session-icon.ellipses').css({ opacity: 0 });
+
+        $('.messages li, .messages > div').addClass('shadowed');
+        $('.message-selection-overlay').addClass('overlay');
+        $('.module-conversation-header').addClass('overlayed');
+
+        let messageId;
+        // eslint-disable-next-line no-restricted-syntax
+        for (const item of this.selectedMessages) {
+          messageId = item.propsForMessage.id;
+          $(`#${messageId}`).removeClass('shadowed');
+        }
+      } else {
+        // Hide ellipses icon
+        $('.title-wrapper .session-icon.ellipses').css({ opacity: 1 });
+
+        $('.messages li, .messages > div').removeClass('shadowed');
+        $('.message-selection-overlay').removeClass('overlay');
+        $('.module-conversation-header').removeClass('overlayed');
+      }
+    },
+
+    addMessageSelection(id) {
+      // If the selection is empty, then we chage the mode to
+      // multiple selection by making it non-empty
+      const modeChanged = this.selectedMessages.size === 0;
+      this.selectedMessages.add(id);
+
+      if (modeChanged) {
+        this.messageCollection.forEach(m => m.trigger('change'));
+      }
+
+      this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
+    },
+
+    removeMessageSelection(id) {
+      this.selectedMessages.delete(id);
+      // If the selection is empty after the deletion then we
+      // must have unselected the last one (we assume the id is valid)
+      const modeChanged = this.selectedMessages.size === 0;
+
+      if (modeChanged) {
+        this.messageCollection.forEach(m => m.trigger('change'));
+      }
+
+      this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
+    },
+
+    resetMessageSelection() {
+      this.selectedMessages.clear();
+      this.messageCollection.forEach(m => {
+        // eslint-disable-next-line no-param-reassign
+        m.selected = false;
+        m.trigger('change');
+      });
+
+      this.trigger('message-selection-changed');
+      this.setMessageSelectionBackdrop();
+    },
+
+    async bumpTyping() {
+      // We don't send typing messages if the setting is disabled or we aren't friends
+      const hasFriendDevice = await this.isFriendWithAnyDevice();
+      if (!storage.get('typing-indicators-setting') || !hasFriendDevice) {
         return;
       }
 
@@ -248,16 +382,24 @@
     },
 
     sendTypingMessage(isTyping) {
+      // Loki - Temporarily disable typing messages for groups
+      if (!this.isPrivate()) {
+        return;
+      }
+
       const groupId = !this.isPrivate() ? this.id : null;
       const recipientId = this.isPrivate() ? this.id : null;
+      const groupNumbers = this.getRecipients();
 
       const sendOptions = this.getSendOptions();
+      sendOptions.messageType = 'typing';
       this.wrapSend(
         textsecure.messaging.sendTypingMessage(
           {
-            groupId,
             isTyping,
             recipientId,
+            groupId,
+            groupNumbers,
           },
           sendOptions
         )
@@ -275,8 +417,15 @@
     },
 
     async updateProfileAvatar() {
-      const path = profileImages.getOrCreateImagePath(this.id);
-      await this.setProfileAvatar(path);
+      if (this.isRss() || this.isPublic()) {
+        return;
+      }
+
+      // Remove old identicons
+      if (profileImages.hasImage(this.id)) {
+        profileImages.removeImage(this.id);
+        await this.setProfileAvatar(null);
+      }
     },
 
     async updateAndMerge(message) {
@@ -323,7 +472,9 @@
 
     // Get messages with the given timestamp
     _getMessagesWithTimestamp(pubKey, timestamp) {
-      if (this.id !== pubKey) return [];
+      if (this.id !== pubKey) {
+        return [];
+      }
 
       // Go through our messages and find the one that we need to update
       return this.messageCollection.models.filter(
@@ -336,9 +487,14 @@
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
-    async onP2pMessageSent(pubKey, timestamp) {
+    async onPublicMessageSent(pubKey, timestamp, serverId) {
       const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
-      await Promise.all(messages.map(m => m.setIsP2p(true)));
+      await Promise.all(
+        messages.map(message => [
+          message.setIsPublic(true),
+          message.setServerId(serverId),
+        ])
+      );
     },
 
     async onNewMessage(message) {
@@ -351,27 +507,6 @@
       this.clearContactTypingTimer(identifier);
     },
 
-    addSingleMessage(message, setToExpire = true) {
-      const model = this.messageCollection.add(message, { merge: true });
-      if (setToExpire) model.setToExpire();
-      return model;
-    },
-    format() {
-      const { format } = PhoneNumber;
-      const regionCode = storage.get('regionCode');
-      const color = this.getColor();
-
-      return {
-        phoneNumber: format(this.id, {
-          ourRegionCode: regionCode,
-        }),
-        color,
-        avatarPath: this.getAvatarPath(),
-        name: this.getName(),
-        profileName: this.getProfileName(),
-        title: this.getTitle(),
-      };
-    },
     // This goes through all our message history and finds a friend request
     async getFriendRequests(direction = null, status = ['pending']) {
       // Theoretically all our messages could be friend requests,
@@ -390,34 +525,70 @@
       // Get the pending friend requests that match the direction
       // If no direction is supplied then return all pending friend requests
       return messages.models.filter(m => {
-        if (!status.includes(m.get('friendStatus'))) return false;
+        if (!status.includes(m.get('friendStatus'))) {
+          return false;
+        }
         return direction === null || m.get('direction') === direction;
       });
     },
     async getPendingFriendRequests(direction = null) {
       return this.getFriendRequests(direction, ['pending']);
     },
-    getPropsForListItem() {
+
+    addSingleMessage(message, setToExpire = true) {
+      const model = this.messageCollection.add(message, { merge: true });
+      if (setToExpire) {
+        model.setToExpire();
+      }
+      return model;
+    },
+    format() {
+      return this.cachedProps;
+    },
+    getProps() {
+      const { format } = PhoneNumber;
+      const regionCode = storage.get('regionCode');
+      const color = this.getColor();
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const result = {
-        ...this.format(),
-        conversationType: this.isPrivate() ? 'direct' : 'group',
+        id: this.id,
 
-        lastUpdated: this.get('timestamp'),
-        unreadCount: this.get('unreadCount') || 0,
-        isSelected: this.isSelected,
-        showFriendRequestIndicator: this.isPendingFriendRequest(),
-        isBlocked: this.isBlocked(),
-
+        isArchived: this.get('isArchived'),
+        activeAt: this.get('active_at'),
+        avatarPath: this.getAvatarPath(),
+        color,
+        type: this.isPrivate() ? 'direct' : 'group',
+        isMe: this.isMe(),
+        isPublic: this.isPublic(),
+        isRss: this.isRss(),
+        isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
+        lastUpdated: this.get('timestamp'),
+        name: this.getName(),
+        profileName: this.getProfileName(),
+        timestamp: this.get('timestamp'),
+        title: this.getTitle(),
+        unreadCount: this.get('unreadCount') || 0,
+        mentionedUs: this.get('mentionedUs') || false,
+        isPendingFriendRequest: this.isPendingFriendRequest(),
+        hasReceivedFriendRequest: this.hasReceivedFriendRequest(),
+        hasSentFriendRequest: this.hasSentFriendRequest(),
+        isBlocked: this.isBlocked(),
+        isSecondary: !!this.get('secondaryStatus'),
+        phoneNumber: format(this.id, {
+          ourRegionCode: regionCode,
+        }),
         lastMessage: {
-          status: this.lastMessageStatus,
-          text: this.lastMessage,
+          status: this.get('lastMessageStatus'),
+          text: this.get('lastMessage'),
+          isRss: this.isRss(),
         },
         isOnline: this.isOnline(),
-        isMe: this.isMe(),
         hasNickname: !!this.getNickname(),
+        isFriend: !!this.isFriendWithAnyCache,
+
+        selectedMessages: this.selectedMessages,
 
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
@@ -427,7 +598,12 @@
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
+        onCloseOverlay: () => this.resetMessageSelection(),
+        acceptFriendRequest: () => this.acceptFriendRequest(),
+        declineFriendRequest: () => this.declineFriendRequest(),
       };
+
+      this.updateAsyncPropsCache();
 
       return result;
     },
@@ -586,6 +762,7 @@
     hasSentFriendRequest() {
       const status = this.get('friendRequestStatus');
       return (
+        status === FriendRequestStatusEnum.pendingSend ||
         status === FriendRequestStatusEnum.requestSent ||
         status === FriendRequestStatusEnum.requestExpired
       );
@@ -601,8 +778,90 @@
         this.get('friendRequestStatus') === FriendRequestStatusEnum.friends
       );
     },
-    updateTextInputState() {
-      switch (this.get('friendRequestStatus')) {
+    async getAnyDeviceFriendRequestStatus() {
+      const secondaryDevices = await window.libloki.storage.getSecondaryDevicesFor(
+        this.id
+      );
+      const allDeviceStatus = secondaryDevices
+        // Get all the secondary device friend status'
+        .map(pubKey => {
+          const conversation = ConversationController.get(pubKey);
+          if (!conversation) {
+            return FriendRequestStatusEnum.none;
+          }
+          return conversation.getFriendRequestStatus();
+        })
+        // Also include this conversation's friend status
+        .concat(this.get('friendRequestStatus'))
+        .reduce((acc, cur) => {
+          if (
+            acc === FriendRequestStatusEnum.friends ||
+            cur === FriendRequestStatusEnum.friends
+          ) {
+            return FriendRequestStatusEnum.friends;
+          }
+          if (acc !== FriendRequestStatusEnum.none) {
+            return acc;
+          }
+          return cur;
+        }, FriendRequestStatusEnum.none);
+      return allDeviceStatus;
+    },
+    async updateAsyncPropsCache() {
+      const isFriendWithAnyDevice = await this.isFriendWithAnyDevice();
+      if (this.isFriendWithAnyCache !== isFriendWithAnyDevice) {
+        this.isFriendWithAnyCache = isFriendWithAnyDevice;
+        this.trigger('change');
+      }
+    },
+    async isFriendWithAnyDevice() {
+      const allDeviceStatus = await this.getAnyDeviceFriendRequestStatus();
+      return allDeviceStatus === FriendRequestStatusEnum.friends;
+    },
+    getFriendRequestStatus() {
+      return this.get('friendRequestStatus');
+    },
+    async getPrimaryConversation() {
+      if (!this.isSecondaryDevice()) {
+        // This is already the primary conversation
+        return this;
+      }
+      const authorisation = await window.libloki.storage.getAuthorisationForSecondaryPubKey(
+        this.id
+      );
+      if (authorisation) {
+        return ConversationController.getOrCreateAndWait(
+          authorisation.primaryDevicePubKey,
+          'private'
+        );
+      }
+      // Something funky has happened
+      return this;
+    },
+    async updateTextInputState() {
+      if (this.isRss()) {
+        // or if we're an rss conversation, disable it
+        this.trigger('disable:input', true);
+        return;
+      }
+      if (this.isSecondaryDevice()) {
+        // Or if we're a secondary device, update the primary device text input
+        const primaryConversation = await this.getPrimaryConversation();
+        primaryConversation.updateTextInputState();
+        return;
+      }
+      const allDeviceStatus = await this.getAnyDeviceFriendRequestStatus();
+
+      if (this.get('isKickedFromGroup')) {
+        this.trigger('disable:input', true);
+        return;
+      }
+      if (!this.isPrivate() && this.get('left')) {
+        this.trigger('disable:input', true);
+        this.trigger('change:placeholder', 'left-group');
+        return;
+      }
+      switch (allDeviceStatus) {
         case FriendRequestStatusEnum.none:
         case FriendRequestStatusEnum.requestExpired:
           this.trigger('disable:input', false);
@@ -622,31 +881,85 @@
           throw new Error('Invalid friend request state');
       }
     },
-    async setFriendRequestStatus(newStatus) {
-      // Ensure that the new status is a valid FriendStatusEnum value
-      if (!(newStatus in Object.values(FriendRequestStatusEnum))) return;
-      if (this.get('friendRequestStatus') !== newStatus) {
-        this.set({ friendRequestStatus: newStatus });
+    isSecondaryDevice() {
+      return !!this.get('secondaryStatus');
+    },
+    getPrimaryDevicePubKey() {
+      return this.get('primaryDevicePubKey') || this.id;
+    },
+    async setSecondaryStatus(newStatus, primaryDevicePubKey) {
+      if (this.get('secondaryStatus') !== newStatus) {
+        this.set({
+          secondaryStatus: newStatus,
+          primaryDevicePubKey,
+        });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
-        this.updateTextInputState();
       }
+    },
+    async setFriendRequestStatus(newStatus, options = {}) {
+      const { blockSync } = options;
+      // Ensure that the new status is a valid FriendStatusEnum value
+      if (!(newStatus in Object.values(FriendRequestStatusEnum))) {
+        return;
+      }
+      if (
+        this.ourNumber === this.id &&
+        newStatus !== FriendRequestStatusEnum.friends
+      ) {
+        return;
+      }
+      if (this.get('friendRequestStatus') !== newStatus) {
+        this.set({ friendRequestStatus: newStatus });
+        if (newStatus === FriendRequestStatusEnum.friends) {
+          if (!blockSync) {
+            // Sync contact
+            this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
+          }
+          // Only enable sending profileKey after becoming friends
+          this.set({ profileSharing: true });
+        }
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        await this.updateTextInputState();
+      }
+    },
+    async updateGroupAdmins(groupAdmins) {
+      this.set({ groupAdmins });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
     async respondToAllFriendRequests(options) {
       const { response, status, direction = null } = options;
       // Ignore if no response supplied
-      if (!response) return;
-      const pending = await this.getFriendRequests(direction, status);
+      if (!response) {
+        return;
+      }
+      const primaryConversation = ConversationController.get(
+        this.getPrimaryDevicePubKey()
+      );
+      // Should never happen
+      if (!primaryConversation) {
+        return;
+      }
+      const pending = await primaryConversation.getFriendRequests(
+        direction,
+        status
+      );
       await Promise.all(
         pending.map(async request => {
-          if (request.hasErrors()) return;
+          if (request.hasErrors()) {
+            return;
+          }
 
           request.set({ friendStatus: response });
           await window.Signal.Data.saveMessage(request.attributes, {
             Message: Whisper.Message,
           });
-          this.trigger('updateMessage', request);
+          primaryConversation.trigger('updateMessage', request);
         })
       );
     },
@@ -671,39 +984,57 @@
         direction: 'incoming',
       });
       await window.libloki.storage.removeContactPreKeyBundle(this.id);
+      await this.destroyMessages();
+      window.pushToast({
+        title: i18n('friendRequestDeclined'),
+        type: 'success',
+        id: 'declineFriendRequest',
+      });
     },
     // We have accepted an incoming friend request
-    async onAcceptFriendRequest() {
-      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+    async onAcceptFriendRequest(options = {}) {
+      if (this.unlockTimer) {
+        clearTimeout(this.unlockTimer);
+      }
       if (this.hasReceivedFriendRequest()) {
-        this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
+        this.setFriendRequestStatus(FriendRequestStatusEnum.friends, options);
+
         await this.respondToAllFriendRequests({
           response: 'accepted',
           direction: 'incoming',
           status: ['pending', 'expired'],
         });
-        window.libloki.api.sendFriendRequestAccepted(this.id);
+        window.libloki.api.sendBackgroundMessage(this.id);
       }
     },
     // Our outgoing friend request has been accepted
     async onFriendRequestAccepted() {
-      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+      if (this.isFriend()) {
+        return false;
+      }
+      if (this.unlockTimer) {
+        clearTimeout(this.unlockTimer);
+      }
       if (this.hasSentFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
         await this.respondToAllFriendRequests({
           response: 'accepted',
           status: ['pending', 'expired'],
         });
-        window.libloki.api.sendOnlineBroadcastMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(this.id);
         return true;
       }
       return false;
     },
     async onFriendRequestTimeout() {
       // Unset the timer
-      if (this.unlockTimer) clearTimeout(this.unlockTimer);
+      if (this.unlockTimer) {
+        clearTimeout(this.unlockTimer);
+      }
       this.unlockTimer = null;
-      if (this.isFriend()) return;
+      if (this.isFriend()) {
+        return;
+      }
 
       // Set the unlock timestamp to null
       if (this.get('unlockTimestamp')) {
@@ -756,8 +1087,17 @@
       }
       await this.setFriendRequestStatus(FriendRequestStatusEnum.requestSent);
     },
+    friendRequestTimerIsExpired() {
+      const unlockTimestamp = this.get('unlockTimestamp');
+      if (unlockTimestamp && unlockTimestamp > Date.now()) {
+        return false;
+      }
+      return true;
+    },
     setFriendRequestExpiryTimeout() {
-      if (this.isFriend()) return;
+      if (this.isFriend()) {
+        return;
+      }
       const unlockTimestamp = this.get('unlockTimestamp');
       if (unlockTimestamp && !this.unlockTimer) {
         const delta = Math.max(unlockTimestamp - Date.now(), 0);
@@ -867,8 +1207,8 @@
     onMemberVerifiedChange() {
       // If the verified state of a member changes, our aggregate state changes.
       // We trigger both events to replicate the behavior of Backbone.Model.set()
-      this.trigger('change:verified');
-      this.trigger('change');
+      this.trigger('change:verified', this);
+      this.trigger('change', this);
     },
     toggleVerified() {
       if (this.isVerified()) {
@@ -970,14 +1310,6 @@
     },
 
     async onReadMessage(message, readAt) {
-      const existing = this.messageCollection.get(message.id);
-      if (existing) {
-        const fetched = await window.Signal.Data.getMessageById(existing.id, {
-          Message: Whisper.Message,
-        });
-        existing.merge(fetched);
-      }
-
       // We mark as read everything older than this message - to clean up old stuff
       //   still marked unread in the database. If the user generally doesn't read in
       //   the desktop app, so the desktop app only gets read syncs, we can very
@@ -1023,17 +1355,24 @@
     },
 
     validateNumber() {
-      if (!this.id) return 'Invalid ID';
-      if (!this.isPrivate()) return null;
+      if (!this.id) {
+        return 'Invalid ID';
+      }
+      if (!this.isPrivate()) {
+        return null;
+      }
 
       // Check if it's hex
       const isHex = this.id.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
-      if (!isHex) return 'Invalid Hex ID';
+      if (!isHex) {
+        return 'Invalid Hex ID';
+      }
 
       // Check if the pubkey length is 33 and leading with 05 or of length 32
       const len = this.id.length;
-      if ((len !== 33 * 2 || !/^05/.test(this.id)) && len !== 32 * 2)
+      if ((len !== 33 * 2 || !/^05/.test(this.id)) && len !== 32 * 2) {
         return 'Invalid Pubkey Format';
+      }
 
       this.set({ id: this.id });
       return null;
@@ -1076,41 +1415,20 @@
       return _.without(this.get('members'), me);
     },
 
-    async makeQuote(quotedMessage) {
-      const { getName } = Contact;
-      const contact = quotedMessage.getContact();
-      const attachments = quotedMessage.get('attachments');
-      const preview = quotedMessage.get('preview');
-
-      const body = quotedMessage.get('body');
-      const embeddedContact = quotedMessage.get('contact');
-      const embeddedContactName =
-        embeddedContact && embeddedContact.length > 0
-          ? getName(embeddedContact[0])
-          : '';
-
-      const media =
-        attachments && attachments.length ? attachments : preview || [];
-
-      return {
-        author: contact.id,
-        id: quotedMessage.get('sent_at'),
-        text: body || embeddedContactName,
-        attachments: await Promise.all(
-          media
+    async getQuoteAttachment(attachments, preview) {
+      if (attachments && attachments.length) {
+        return Promise.all(
+          attachments
             .filter(
               attachment =>
                 attachment &&
-                (attachment.image || (!attachment.pending && !attachment.error))
+                attachment.contentType &&
+                !attachment.pending &&
+                !attachment.error
             )
             .slice(0, 1)
             .map(async attachment => {
-              const { fileName } = attachment;
-
-              const thumbnail = attachment.thumbnail || attachment.image;
-              const contentType =
-                attachment.contentType ||
-                (attachment.image && attachment.image.contentType);
+              const { fileName, thumbnail, contentType } = attachment;
 
               return {
                 contentType,
@@ -1125,14 +1443,66 @@
                   : null,
               };
             })
-        ),
+        );
+      }
+
+      if (preview && preview.length) {
+        return Promise.all(
+          preview
+            .filter(item => item && item.image)
+            .slice(0, 1)
+            .map(async attachment => {
+              const { image } = attachment;
+              const { contentType } = image;
+
+              return {
+                contentType,
+                // Our protos library complains about this field being undefined, so we
+                //   force it to null
+                fileName: null,
+                thumbnail: image
+                  ? {
+                      ...(await loadAttachmentData(image)),
+                      objectUrl: getAbsoluteAttachmentPath(image.path),
+                    }
+                  : null,
+              };
+            })
+        );
+      }
+
+      return [];
+    },
+
+    async makeQuote(quotedMessage) {
+      const { getName } = Contact;
+      const contact = quotedMessage.getContact();
+      const attachments = quotedMessage.get('attachments');
+      const preview = quotedMessage.get('preview');
+
+      const body = quotedMessage.get('body');
+      const embeddedContact = quotedMessage.get('contact');
+      const embeddedContactName =
+        embeddedContact && embeddedContact.length > 0
+          ? getName(embeddedContact[0])
+          : '';
+
+      return {
+        author: contact.id,
+        id: quotedMessage.get('sent_at'),
+        text: body || embeddedContactName,
+        attachments: await this.getQuoteAttachment(attachments, preview),
       };
     },
 
-    async sendMessage(body, attachments, quote, preview) {
-      // Input should be blocked if there is a pending friend request
-      if (this.isPendingFriendRequest()) return;
-
+    async sendMessage(
+      body,
+      attachments,
+      quote,
+      preview,
+      groupInvitation = null,
+      otherOptions = {}
+    ) {
       this.clearTypingTimers();
 
       const destination = this.id;
@@ -1154,10 +1524,14 @@
           now
         );
 
+        const conversationType = this.get('type');
+
         let messageWithSchema = null;
 
-        // If we are a friend then let the user send the message normally
-        if (this.isFriend()) {
+        // If we are a friend with any of the devices, send the message normally
+        const canSendNormalMessage = await this.isFriendWithAnyDevice();
+        const isGroup = conversationType === Message.GROUP;
+        if (canSendNormalMessage || isGroup) {
           messageWithSchema = await upgradeMessageSchema({
             type: 'outgoing',
             body,
@@ -1192,11 +1566,18 @@
 
             // If the requests didn't error then don't add a new friend request
             // because one of them was sent successfully
-            if (friendRequestSent) return null;
+            if (friendRequestSent) {
+              return null;
+            }
           }
           await this.setFriendRequestStatus(
             FriendRequestStatusEnum.pendingSend
           );
+
+          // Always share our profileKey in the friend request
+          // This will get added automatically after the FR
+          // is accepted, via the profileSharing flag
+          profileKey = storage.get('profileKey');
 
           // Send the friend request!
           messageWithSchema = await upgradeMessageSchema({
@@ -1212,9 +1593,29 @@
           });
         }
 
-        const message = this.addSingleMessage(messageWithSchema);
-        this.lastMessage = message.getNotificationText();
-        this.lastMessageStatus = 'sending';
+        if (this.isPrivate()) {
+          messageWithSchema.destination = destination;
+        } else if (this.isPublic()) {
+          // Public chats require this data to detect duplicates
+          messageWithSchema.source = textsecure.storage.user.getNumber();
+          messageWithSchema.sourceDevice = 1;
+        }
+
+        const { sessionRestoration = false } = otherOptions;
+
+        const attributes = {
+          ...messageWithSchema,
+          groupInvitation,
+          sessionRestoration,
+          id: window.getGuid(),
+        };
+
+        const model = this.addSingleMessage(attributes);
+        const message = MessageController.register(model.id, model);
+        await window.Signal.Data.saveMessage(message.attributes, {
+          forceSave: true,
+          Message: Whisper.Message,
+        });
 
         if (this.isPrivate()) {
           message.set({ destination });
@@ -1226,8 +1627,11 @@
         message.set({ id });
 
         this.set({
+          lastMessage: model.getNotificationText(),
+          lastMessageStatus: 'sending',
           active_at: now,
           timestamp: now,
+          isArchived: false,
         });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
@@ -1245,13 +1649,73 @@
           return null;
         }
 
-        const conversationType = this.get('type');
-        const sendFunction = (() => {
+        const attachmentsWithData = await Promise.all(
+          messageWithSchema.attachments.map(loadAttachmentData)
+        );
+
+        const {
+          body: messageBody,
+          attachments: finalAttachments,
+        } = Whisper.Message.getLongMessageAttachment({
+          body,
+          attachments: attachmentsWithData,
+          now,
+        });
+
+        // Special-case the self-send case - we send only a sync message
+        if (this.isMe()) {
+          const dataMessage = await textsecure.messaging.getMessageProto(
+            destination,
+            messageBody,
+            finalAttachments,
+            quote,
+            preview,
+            now,
+            expireTimer,
+            profileKey
+          );
+          return message.sendSyncMessageOnly(dataMessage);
+        }
+
+        const options = this.getSendOptions();
+        options.messageType = message.get('type');
+        options.isPublic = this.isPublic();
+        if (options.isPublic) {
+          options.publicSendData = await this.getPublicSendData();
+        }
+
+        options.groupInvitation = groupInvitation;
+        options.sessionRestoration = sessionRestoration;
+
+        const groupNumbers = this.getRecipients();
+
+        const promise = (() => {
           switch (conversationType) {
             case Message.PRIVATE:
-              return textsecure.messaging.sendMessageToNumber;
+              return textsecure.messaging.sendMessageToNumber(
+                destination,
+                messageBody,
+                finalAttachments,
+                quote,
+                preview,
+                now,
+                expireTimer,
+                profileKey,
+                options
+              );
             case Message.GROUP:
-              return textsecure.messaging.sendMessageToGroup;
+              return textsecure.messaging.sendMessageToGroup(
+                destination,
+                groupNumbers,
+                messageBody,
+                finalAttachments,
+                quote,
+                preview,
+                now,
+                expireTimer,
+                profileKey,
+                options
+              );
             default:
               throw new TypeError(
                 `Invalid conversation type: '${conversationType}'`
@@ -1259,30 +1723,9 @@
           }
         })();
 
-        const attachmentsWithData = await Promise.all(
-          messageWithSchema.attachments.map(loadAttachmentData)
-        );
-
-        const options = this.getSendOptions();
-        options.messageType = message.get('type');
-
         // Add the message sending on another queue so that our UI doesn't get blocked
         this.queueMessageSend(async () => {
-          message.send(
-            this.wrapSend(
-              sendFunction(
-                destination,
-                body,
-                attachmentsWithData,
-                quote,
-                preview,
-                now,
-                expireTimer,
-                profileKey,
-                options
-              )
-            )
-          );
+          message.send(this.wrapSend(promise));
         });
 
         return true;
@@ -1313,14 +1756,36 @@
       );
     },
 
+    async updateAvatarOnPublicChat({ url, profileKey }) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.isRss()) {
+        return;
+      }
+      if (!this.get('profileSharing')) {
+        return;
+      }
+
+      if (profileKey && typeof profileKey !== 'string') {
+        // eslint-disable-next-line no-param-reassign
+        profileKey = window.Signal.Crypto.arrayBufferToBase64(profileKey);
+      }
+      const serverAPI = await lokiPublicChatAPI.findOrCreateServer(
+        this.get('server')
+      );
+      await serverAPI.setAvatar(url, profileKey);
+    },
+
     async handleMessageSendResult({
       failoverNumbers,
       unidentifiedDeliveries,
       messageType,
       success,
     }) {
-      if (success && messageType === 'friend-request')
+      if (success && messageType === 'friend-request') {
         await this.onFriendRequestSent();
+      }
       await Promise.all(
         (failoverNumbers || []).map(async number => {
           const conversation = ConversationController.get(number);
@@ -1473,7 +1938,6 @@
         ? lastMessageModel.getMessagePropStatus()
         : null;
       const lastMessageUpdate = Conversation.createLastMessageUpdate({
-        currentLastMessageText: this.get('lastMessage') || null,
         currentTimestamp: this.get('timestamp') || null,
         lastMessage: lastMessageJSON,
         lastMessageStatus: lastMessageStatusModel,
@@ -1481,17 +1945,6 @@
           ? lastMessageModel.getNotificationText()
           : null,
       });
-
-      let hasChanged = false;
-      const { lastMessage, lastMessageStatus } = lastMessageUpdate;
-      delete lastMessageUpdate.lastMessage;
-      delete lastMessageUpdate.lastMessageStatus;
-
-      hasChanged = hasChanged || lastMessage !== this.lastMessage;
-      this.lastMessage = lastMessage;
-
-      hasChanged = hasChanged || lastMessageStatus !== this.lastMessageStatus;
-      this.lastMessageStatus = lastMessageStatus;
 
       // Because we're no longer using Backbone-integrated saves, we need to manually
       //   clear the changed fields here so our hasChanged() check below is useful.
@@ -1502,9 +1955,14 @@
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
-      } else if (hasChanged) {
-        this.trigger('change');
       }
+    },
+
+    async setArchived(isArchived) {
+      this.set({ isArchived });
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
     },
 
     async updateExpirationTimer(
@@ -1578,25 +2036,48 @@
         return message;
       }
 
-      let sendFunc;
-      if (this.get('type') === 'private') {
-        sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
-      } else {
-        sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
-      }
       let profileKey;
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
-
       const sendOptions = this.getSendOptions();
-      const promise = sendFunc(
-        this.get('id'),
-        this.get('expireTimer'),
-        message.get('sent_at'),
-        profileKey,
-        sendOptions
-      );
+      let promise;
+
+      if (this.isMe()) {
+        const flags =
+          textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+        const dataMessage = await textsecure.messaging.getMessageProto(
+          this.get('id'),
+          null,
+          [],
+          null,
+          [],
+          message.get('sent_at'),
+          expireTimer,
+          profileKey,
+          flags
+        );
+        return message.sendSyncMessageOnly(dataMessage);
+      }
+
+      if (this.get('type') === 'private') {
+        promise = textsecure.messaging.sendExpirationTimerUpdateToNumber(
+          this.get('id'),
+          expireTimer,
+          message.get('sent_at'),
+          profileKey,
+          sendOptions
+        );
+      } else {
+        promise = textsecure.messaging.sendExpirationTimerUpdateToGroup(
+          this.get('id'),
+          this.getRecipients(),
+          expireTimer,
+          message.get('sent_at'),
+          profileKey,
+          sendOptions
+        );
+      }
 
       await message.send(this.wrapSend(promise));
 
@@ -1608,7 +2089,9 @@
     },
     async setSessionResetStatus(newStatus) {
       // Ensure that the new status is a valid SessionResetEnum value
-      if (!(newStatus in Object.values(SessionResetEnum))) return;
+      if (!(newStatus in Object.values(SessionResetEnum))) {
+        return;
+      }
       if (this.get('sessionResetStatus') !== newStatus) {
         this.set({ sessionResetStatus: newStatus });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -1623,7 +2106,7 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      await window.libloki.api.sendEmptyMessage(this.id);
+      window.libloki.api.sendBackgroundMessage(this.id);
     },
 
     isSessionResetReceived() {
@@ -1659,7 +2142,7 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        await window.libloki.api.sendEmptyMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(this.id);
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',
@@ -1729,6 +2212,7 @@
             this.get('name'),
             this.get('avatar'),
             this.get('members'),
+            groupUpdate.recipients,
             options
           )
         )
@@ -1738,6 +2222,7 @@
     async leaveGroup() {
       const now = Date.now();
       if (this.get('type') === 'group') {
+        const groupNumbers = this.getRecipients();
         this.set({ left: true });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
@@ -1758,8 +2243,12 @@
 
         const options = this.getSendOptions();
         message.send(
-          this.wrapSend(textsecure.messaging.leaveGroup(this.id, options))
+          this.wrapSend(
+            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
+          )
         );
+
+        this.updateTextInputState();
       }
     },
 
@@ -1781,11 +2270,9 @@
 
       let read = await Promise.all(
         _.map(oldUnread, async providedM => {
-          let m = providedM;
+          const m = MessageController.register(providedM.id, providedM);
 
-          if (this.messageCollection.get(m.id)) {
-            m = this.messageCollection.get(m.id);
-          } else {
+          if (!this.messageCollection.get(m.id)) {
             window.log.warn(
               'Marked a message as read in the database, but ' +
                 'it was not in messageCollection.'
@@ -1808,6 +2295,23 @@
 
       const unreadCount = unreadMessages.length - read.length;
       this.set({ unreadCount });
+
+      const mentionRead = (() => {
+        const stillUnread = unreadMessages.filter(
+          m => m.get('received_at') > newestUnreadDate
+        );
+        const ourNumber = textsecure.storage.user.getNumber();
+        return !stillUnread.some(
+          m =>
+            m.propsForMessage.text &&
+            m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
+        );
+      })();
+
+      if (mentionRead) {
+        this.set({ mentionedUs: false });
+      }
+
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
@@ -1819,7 +2323,12 @@
       //      conversation is viewed, another error message shows up for the contact
       read = read.filter(item => !item.hasErrors);
 
-      if (read.length && options.sendReadReceipts) {
+      // Do not send read receipt if not friends yet
+      if (!this.isFriendWithAnyDevice()) {
+        return;
+      }
+
+      if (this.isPrivate() && read.length && options.sendReadReceipts) {
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
@@ -1854,39 +2363,136 @@
 
     async setNickname(nickname) {
       const trimmed = nickname && nickname.trim();
-      if (this.get('nickname') === trimmed) return;
+      if (this.get('nickname') === trimmed) {
+        return;
+      }
 
       this.set({ nickname: trimmed });
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
 
-      await this.updateProfile();
+      await this.updateProfileName();
     },
-    async setProfile(profile) {
-      if (!_.isEqual(this.get('profile'), profile)) {
-        this.set({ profile });
+    async setLokiProfile(newProfile) {
+      if (!_.isEqual(this.get('profile'), newProfile)) {
+        this.set({ profile: newProfile });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
       }
 
-      await this.updateProfile();
+      // if set to null, it will show a jazzIcon
+      await this.setProfileAvatar({ path: newProfile.avatar });
+
+      await this.updateProfileName();
     },
-    async updateProfile() {
+    async updateProfileName() {
       // Prioritise nickname over the profile display name
       const nickname = this.getNickname();
-      const profile = this.getLocalProfile();
-      const displayName = profile && profile.name && profile.name.displayName;
+      const profile = this.getLokiProfile();
+      const displayName = profile && profile.displayName;
 
       const profileName = nickname || displayName || null;
       await this.setProfileName(profileName);
     },
-    getLocalProfile() {
+    getLokiProfile() {
       return this.get('profile');
     },
     getNickname() {
       return this.get('nickname');
+    },
+    getRssSettings() {
+      if (!this.isRss()) {
+        return null;
+      }
+      return {
+        RSS_FEED: this.get('rssFeed'),
+        CONVO_ID: this.id,
+        title: this.get('name'),
+        closeable: this.get('closable'),
+      };
+    },
+    // maybe "Backend" instead of "Source"?
+    async setPublicSource(newServer, newChannelId) {
+      if (!this.isPublic()) {
+        log.warn(
+          `trying to setPublicSource on non public chat conversation ${this.id}`
+        );
+        return;
+      }
+      if (
+        this.get('server') !== newServer ||
+        this.get('channelId') !== newChannelId
+      ) {
+        // mark active so it's not in the friends list but the conversation list
+        this.set({
+          server: newServer,
+          channelId: newChannelId,
+          active_at: Date.now(),
+        });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+    getPublicSource() {
+      if (!this.isPublic()) {
+        log.warn(
+          `trying to getPublicSource on non public chat conversation ${this.id}`
+        );
+        return null;
+      }
+      return {
+        server: this.get('server'),
+        channelId: this.get('channelId'),
+        conversationId: this.get('id'),
+      };
+    },
+    async getPublicSendData() {
+      const channelAPI = await lokiPublicChatAPI.findOrCreateChannel(
+        this.get('server'),
+        this.get('channelId'),
+        this.id
+      );
+      return channelAPI;
+    },
+    getLastRetrievedMessage() {
+      if (!this.isPublic()) {
+        return null;
+      }
+      const lastMessageId = this.get('lastPublicMessage') || 0;
+      return lastMessageId;
+    },
+    async setLastRetrievedMessage(newLastMessageId) {
+      if (!this.isPublic()) {
+        return;
+      }
+      if (this.get('lastPublicMessage') !== newLastMessageId) {
+        this.set({ lastPublicMessage: newLastMessageId });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+    isModerator(pubKey) {
+      if (!this.isPublic()) {
+        return false;
+      }
+      const moderators = this.get('moderators');
+      return Array.isArray(moderators) && moderators.includes(pubKey);
+    },
+    async setModerators(moderators) {
+      if (!this.isPublic()) {
+        return;
+      }
+      // TODO: compare array properly
+      if (!_.isEqual(this.get('moderators'), moderators)) {
+        this.set({ moderators });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
     },
 
     // SIGNAL PROFILES
@@ -1914,7 +2520,7 @@
       const c = await ConversationController.getOrCreateAndWait(id, 'private');
 
       // We only need to update the profile as they are all stored inside the conversation
-      await c.updateProfile();
+      await c.updateProfileName();
     },
     async setProfileName(name) {
       const profileName = this.get('profileName');
@@ -1925,10 +2531,40 @@
         });
       }
     },
-    async setProfileAvatar(avatarPath) {
+    async setGroupName(name) {
+      const profileName = this.get('name');
+      if (profileName !== name) {
+        this.set({ name });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+    async setSubscriberCount(count) {
+      this.set({ subscriberCount: count });
+      // Not sure if we care about updating the database
+    },
+    async setGroupNameAndAvatar(name, avatarPath) {
+      const currentName = this.get('name');
       const profileAvatar = this.get('profileAvatar');
-      if (profileAvatar !== avatarPath) {
-        this.set({ profileAvatar: avatarPath });
+      if (profileAvatar !== avatarPath || currentName !== name) {
+        // only update changed items
+        if (profileAvatar !== avatarPath) {
+          this.set({ profileAvatar: avatarPath });
+        }
+        if (currentName !== name) {
+          this.set({ name });
+        }
+        // save
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+      }
+    },
+    async setProfileAvatar(avatar) {
+      const profileAvatar = this.get('profileAvatar');
+      if (profileAvatar !== avatar) {
+        this.set({ profileAvatar: avatar });
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
@@ -2054,8 +2690,16 @@
 
     copyPublicKey() {
       clipboard.writeText(this.id);
-      window.Whisper.events.trigger('showToast', {
-        message: i18n('copiedPublicKey'),
+
+      const isGroup = this.getProps().type === 'group';
+      const copiedMessage = isGroup
+        ? i18n('copiedChatId')
+        : i18n('copiedPublicKey');
+
+      window.pushToast({
+        title: copiedMessage,
+        type: 'success',
+        id: 'copiedPublicKey',
       });
     },
 
@@ -2068,17 +2712,84 @@
     },
 
     deleteContact() {
-      Whisper.events.trigger('showConfirmationDialog', {
-        message: i18n('deleteContactConfirmation'),
-        onOk: () => ConversationController.deleteContact(this.id),
+      const title = this.isPublic()
+        ? i18n('deletePublicChannel')
+        : i18n('deleteContact');
+
+      const message = this.isPublic()
+        ? i18n('deletePublicChannelConfirmation')
+        : i18n('deleteContactConfirmation');
+
+      window.confirmationDialog({
+        title,
+        message,
+        resolve: () => ConversationController.deleteContact(this.id),
       });
     },
 
+    async deletePublicMessages(messages) {
+      const channelAPI = await this.getPublicSendData();
+      if (!channelAPI) {
+        return false;
+      }
+
+      const invalidMessages = messages.filter(m => !m.getServerId());
+      const pendingMessages = messages.filter(m => m.getServerId());
+
+      let deletedServerIds = [];
+      let ignoredServerIds = [];
+
+      if (pendingMessages.length > 0) {
+        const result = await channelAPI.deleteMessages(
+          pendingMessages.map(m => m.getServerId())
+        );
+        deletedServerIds = result.deletedIds;
+        ignoredServerIds = result.ignoredIds;
+      }
+
+      const toDeleteLocallyServerIds = _.union(
+        deletedServerIds,
+        ignoredServerIds
+      );
+      let toDeleteLocally = messages.filter(m =>
+        toDeleteLocallyServerIds.includes(m.getServerId())
+      );
+      toDeleteLocally = _.union(toDeleteLocally, invalidMessages);
+
+      toDeleteLocally.forEach(m => this.removeMessage(m.id));
+
+      return toDeleteLocally;
+    },
+
+    removeMessage(messageId) {
+      const message = this.messageCollection.models.find(
+        msg => msg.id === messageId
+      );
+      if (message) {
+        message.trigger('unload');
+        this.messageCollection.remove(messageId);
+      }
+    },
+
     deleteMessages() {
-      Whisper.events.trigger('showConfirmationDialog', {
-        message: i18n('deleteConversationConfirmation'),
-        onOk: () => this.destroyMessages(),
-      });
+      this.resetMessageSelection();
+
+      let params;
+      if (this.isPublic()) {
+        params = {
+          title: i18n('deleteMessages'),
+          message: i18n('deletePublicConversationConfirmation'),
+          resolve: () => ConversationController.deleteContact(this.id),
+        };
+      } else {
+        params = {
+          title: i18n('deleteMessages'),
+          message: i18n('deleteConversationConfirmation'),
+          resolve: () => this.destroyMessages(),
+        };
+      }
+
+      window.confirmationDialog(params);
     },
 
     async destroyMessages() {
@@ -2088,11 +2799,19 @@
 
       this.messageCollection.reset([]);
 
-      this.set({
-        lastMessage: null,
-        timestamp: null,
-        active_at: null,
-      });
+      // let's try to keep the RSS conversation open just empty...
+      if (this.isRss()) {
+        this.set({
+          lastMessage: null,
+        });
+      } else {
+        // this will remove the conversation from conversation lists...
+        this.set({
+          lastMessage: null,
+          timestamp: null,
+          active_at: null,
+        });
+      }
 
       // Reset our friend status if we're not friends
       if (!this.isFriend()) {
@@ -2108,7 +2827,7 @@
       if (this.isPrivate()) {
         return this.get('name');
       }
-      return this.get('name') || 'Unknown group';
+      return this.get('name') || i18n('unknownGroup');
     },
 
     getTitle() {
@@ -2183,9 +2902,12 @@
     getAvatarPath() {
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
-      if (avatar) {
-        if (avatar.path) return getAbsoluteAttachmentPath(avatar.path);
+      if (typeof avatar === 'string') {
         return avatar;
+      }
+
+      if (avatar && avatar.path && typeof avatar.path === 'string') {
+        return getAbsoluteAttachmentPath(avatar.path);
       }
 
       return null;
@@ -2193,10 +2915,7 @@
     getAvatar() {
       const title = this.get('name');
       const color = this.getColor();
-      const avatar = this.get('avatar') || this.get('profileAvatar');
-
-      const url =
-        avatar && avatar.path ? getAbsoluteAttachmentPath(avatar.path) : avatar;
+      const url = this.getAvatarPath();
 
       if (url) {
         return { url, color };
@@ -2223,11 +2942,14 @@
 
     notify(message) {
       if (message.isFriendRequest()) {
-        if (this.hasSentFriendRequest())
+        if (this.hasSentFriendRequest()) {
           return this.notifyFriendRequest(message.get('source'), 'accepted');
+        }
         return this.notifyFriendRequest(message.get('source'), 'requested');
       }
-      if (!message.isIncoming()) return Promise.resolve();
+      if (!message.isIncoming()) {
+        return Promise.resolve();
+      }
       const conversationId = this.id;
 
       return ConversationController.getOrCreateAndWait(
@@ -2260,9 +2982,12 @@
     // Notification for friend request received
     async notifyFriendRequest(source, type) {
       // Data validation
-      if (!source) throw new Error('Invalid source');
-      if (!['accepted', 'requested'].includes(type))
+      if (!source) {
+        throw new Error('Invalid source');
+      }
+      if (!['accepted', 'requested'].includes(type)) {
         throw new Error('Type must be accepted or requested.');
+      }
 
       // Call the notification on the right conversation
       let conversation = this;
@@ -2311,6 +3036,23 @@
         return;
       }
 
+      // For groups, block typing messages from non-members (e.g. from kicked members)
+      if (this.get('type') === 'group') {
+        const knownMembers = this.get('members');
+
+        if (knownMembers) {
+          const fromMember = knownMembers.includes(sender);
+
+          if (!fromMember) {
+            window.log.warn(
+              'Blocking typing messages from a non-member: ',
+              sender
+            );
+            return;
+          }
+        }
+      }
+
       const identifier = `${sender}.${senderDevice}`;
 
       this.contactTypingTimers = this.contactTypingTimers || {};
@@ -2340,14 +3082,14 @@
         if (!record) {
           // User was not previously typing before. State change!
           this.trigger('typing-update');
-          this.trigger('change');
+          this.trigger('change', this);
         }
       } else {
         delete this.contactTypingTimers[identifier];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('typing-update');
-          this.trigger('change');
+          this.trigger('change', this);
         }
       }
     },
@@ -2362,7 +3104,7 @@
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('typing-update');
-        this.trigger('change');
+        this.trigger('change', this);
       }
     },
   });
@@ -2383,21 +3125,6 @@
         )
       );
       this.reset([]);
-    },
-
-    async search(providedQuery) {
-      let query = providedQuery.trim().toLowerCase();
-      query = query.replace(/[+-.()]*/g, '');
-
-      if (query.length === 0) {
-        return;
-      }
-
-      const collection = await window.Signal.Data.searchConversations(query, {
-        ConversationCollection: Whisper.ConversationCollection,
-      });
-
-      this.reset(collection.models);
     },
   });
 

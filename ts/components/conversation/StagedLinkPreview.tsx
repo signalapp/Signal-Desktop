@@ -1,11 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { isImageAttachment } from './ImageGrid';
 import { Image } from './Image';
-import { AttachmentType } from './types';
 
-import { Localizer } from '../../types/Util';
+import { AttachmentType, isImageAttachment } from '../../types/Attachment';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
   isLoaded: boolean;
@@ -13,7 +12,7 @@ interface Props {
   domain: string;
   image?: AttachmentType;
 
-  i18n: Localizer;
+  i18n: LocalizerType;
   onClose?: () => void;
 }
 

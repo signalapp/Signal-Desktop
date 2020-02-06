@@ -11,7 +11,7 @@ import {
   SizeClassType,
 } from '../../util/emoji';
 
-import { Localizer, RenderTextCallback } from '../../types/Util';
+import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
 
 // Some of this logic taken from emoji-js/replacement
 function getImageTag({
@@ -23,7 +23,7 @@ function getImageTag({
   match: any;
   sizeClass?: SizeClassType;
   key: string | number;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }) {
   const result = getReplacementData(match[0], match[1], match[2]);
 
@@ -54,24 +54,34 @@ interface Props {
   /** A class name to be added to the generated emoji images */
   sizeClass?: SizeClassType;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
-  renderNonEmoji?: RenderTextCallback;
-  i18n: Localizer;
+  renderNonEmoji?: RenderTextCallbackType;
+  i18n: LocalizerType;
+  isGroup?: boolean;
+  convoId: string;
 }
 
 export class Emojify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
-    renderNonEmoji: ({ text }) => text,
+    renderNonEmoji: ({ text }) => text || '',
+    isGroup: false,
   };
 
   public render() {
-    const { text, sizeClass, renderNonEmoji, i18n } = this.props;
+    const {
+      text,
+      sizeClass,
+      renderNonEmoji,
+      i18n,
+      isGroup,
+      convoId,
+    } = this.props;
     const results: Array<any> = [];
     const regex = getRegex();
 
     // We have to do this, because renderNonEmoji is not required in our Props object,
     //  but it is always provided via defaultProps.
     if (!renderNonEmoji) {
-      return;
+      return null;
     }
 
     let match = regex.exec(text);
@@ -79,13 +89,20 @@ export class Emojify extends React.Component<Props> {
     let count = 1;
 
     if (!match) {
-      return renderNonEmoji({ text, key: 0 });
+      return renderNonEmoji({ text, key: 0, isGroup, convoId });
     }
 
     while (match) {
       if (last < match.index) {
         const textWithNoEmoji = text.slice(last, match.index);
-        results.push(renderNonEmoji({ text: textWithNoEmoji, key: count++ }));
+        results.push(
+          renderNonEmoji({
+            text: textWithNoEmoji,
+            key: count++,
+            isGroup,
+            convoId,
+          })
+        );
       }
 
       results.push(getImageTag({ match, sizeClass, key: count++, i18n }));
@@ -95,7 +112,14 @@ export class Emojify extends React.Component<Props> {
     }
 
     if (last < text.length) {
-      results.push(renderNonEmoji({ text: text.slice(last), key: count++ }));
+      results.push(
+        renderNonEmoji({
+          text: text.slice(last),
+          key: count++,
+          isGroup,
+          convoId,
+        })
+      );
     }
 
     return results;

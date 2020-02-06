@@ -1,6 +1,4 @@
-/* global ConversationController: false */
-/* global i18n: false */
-/* global Whisper: false */
+/* global ConversationController, i18n, textsecure, Whisper */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -84,16 +82,27 @@
         /* eslint-disable more/no-then */
         this.pending = this.pending.then(() =>
           this.typeahead.search(query).then(() => {
-            this.typeahead_view.collection.reset(
-              this.typeahead.filter(isSearchable)
-            );
+            let results = this.typeahead.filter(isSearchable);
+            const noteToSelf = i18n('noteToSelf');
+            if (noteToSelf.toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+              const ourNumber = textsecure.storage.user.getNumber();
+              const conversation = ConversationController.get(ourNumber);
+              if (conversation) {
+                // ensure that we don't have duplicates in our results
+                results = results.filter(item => item.id !== ourNumber);
+                results.unshift(conversation);
+              }
+            }
+
+            this.typeahead_view.collection.reset(results);
 
             // This will allow us to show the last message when searching
             this.typeahead_view.collection.forEach(c => c.updateLastMessage());
 
             // Show the new contact view if we already have results
-            if (this.typeahead_view.collection.length === 0)
+            if (this.typeahead_view.collection.length === 0) {
               this.new_contact_view.$el.show();
+            }
           })
         );
         /* eslint-enable more/no-then */

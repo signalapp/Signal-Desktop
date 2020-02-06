@@ -82,16 +82,13 @@ img.emoji.jumbo {
 }
 
 button.emoji {
-  width: 36px;
-  height: 36px;
   padding: 0;
   opacity: 0.5;
   border: none;
   background: transparent;
-  margin-top: 3px;
+  margin: 0px 10px 0px 15px;
 
   &:before {
-    margin-top: 4px;
     content: '';
     display: inline-block;
     width: $button-height;

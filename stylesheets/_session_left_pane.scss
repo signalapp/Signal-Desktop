@@ -1,0 +1,633 @@
+$session-compose-margin: 20px;
+
+.module-conversation-list-item {
+  transition: $session-transition-duration;
+  @at-root .light-theme #{&} {
+    @include session-dark-background-lighter;
+    &:hover {
+      @include session-dark-background-hover;
+    }
+  }
+  @at-root .dark-theme #{&} {
+    @include session-dark-background-lighter;
+    &:hover {
+      @include session-dark-background-hover;
+    }
+  }
+
+  &--is-selected {
+    @at-root .light-theme #{&} {
+      @include session-dark-background-hover;
+      &:hover {
+        @include session-dark-background-hover;
+      }
+    }
+    @at-root .dark-theme #{&} {
+      @include session-dark-background-hover;
+      &:hover {
+        @include session-dark-background-hover;
+      }
+    }
+    .module-conversation__user__profile-number,
+    .module-conversation__user__profile-name,
+    .module-conversation-list-item__message__text {
+      @at-root .light-theme #{&} {
+        color: $session-color-black;
+      }
+      @at-root .dark-theme #{&} {
+        color: $session-color-white;
+      }
+    }
+  }
+}
+.gutter {
+  width: 380px !important;
+  background: none !important;
+  padding-right: 5px !important;
+}
+
+.module-conversation {
+  &-list-item {
+    &--has-unread {
+      border-left: $session-element-border-green !important;
+    }
+
+    &__unread-count {
+      @at-root .light-theme #{&} {
+        color: $session-color-black !important;
+        background-color: $session-color-white !important;
+      }
+      @at-root .dark-theme #{&} {
+        color: $session-color-white !important;
+        background-color: $session-shade-10 !important;
+      }
+
+      position: static !important;
+      font-weight: 700 !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+    }
+
+    &__header__date,
+    &__header__date--has-unread {
+      flex-grow: 1 !important;
+      text-align: end !important;
+    }
+
+    &__message__text {
+      color: $session-shade-17;
+      &--has-unread {
+        @at-root .light-theme #{&} {
+          color: $session-shade-4 !important;
+        }
+        @at-root .dark-theme #{&} {
+          color: $session-color-white !important;
+        }
+      }
+    }
+
+    &__header__name {
+      flex-grow: 0 !important;
+      padding-right: 5px !important;
+
+      @at-root .light-theme #{&} {
+        color: $session-color-black;
+      }
+      @at-root .dark-theme #{&} {
+        color: $session-shade-17;
+      }
+    }
+
+    &__header__name--with-unread .module-conversation__user__profile-number,
+    &__header__name--with-unread .module-conversation__user__profile-name {
+      @at-root .light-theme #{&} {
+        color: $session-color-black;
+      }
+      @at-root .dark-theme #{&} {
+        color: $session-color-white;
+      }
+    }
+  }
+
+  &__user__profile {
+    &-number,
+    &-name {
+      @include fontWasaBold();
+      font-size: 15px;
+
+      @at-root .light-theme #{&} {
+        color: $session-color-white;
+      }
+      @at-root .dark-theme #{&} {
+        color: $session-shade-17;
+      }
+    }
+  }
+}
+
+.inbox {
+  @at-root .light-theme #{&} {
+    color: $session-color-black;
+  }
+  @at-root .dark-theme #{&} {
+    @include session-dark-background;
+  }
+}
+
+.module-left-pane {
+  border-right: none !important;
+  width: $session-left-pane-width;
+  position: relative;
+  height: -webkit-fill-available;
+
+  @at-root .light-theme #{&} {
+    background: $session-color-white !important;
+  }
+  @at-root .dark-theme #{&} {
+    background: $session-shade-4 !important;
+  }
+
+  &-session {
+    display: flex;
+  }
+
+  &__sections-container {
+    height: -webkit-fill-available;
+    width: $session-left-pane-sections-container-width;
+    display: inline-flex;
+    flex-direction: column;
+
+    .module-avatar,
+    .session-icon-button {
+      cursor: pointer;
+      padding: 30px;
+
+      &:last-child {
+        margin: auto auto 0px auto;
+        /* Hide theme icon until light theme is ready */
+        display: none;
+      }
+
+      &:first-child {
+        padding: 0;
+        margin: 30px auto;
+      }
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 7px 14px 0px;
+    height: 63px;
+
+    @at-root .light-theme #{&} {
+      background-color: $session-color-white;
+    }
+    @at-root .dark-theme #{&} {
+      background-color: $session-shade-3;
+    }
+
+    .session-button {
+      margin-left: auto;
+      @include fontWasaBold();
+    }
+
+    &-buttons {
+      margin-bottom: $session-margin-sm;
+      display: inline-flex;
+      width: 100%;
+
+      .session-button {
+        flex: 1;
+      }
+    }
+  }
+
+  &__title {
+    cursor: pointer;
+    padding-right: $session-margin-sm;
+    padding-left: $session-margin-sm;
+    transition: $session-transition-duration;
+  }
+
+  &__list {
+    height: -webkit-fill-available;
+    &-popup {
+      width: -webkit-fill-available;
+      height: -webkit-fill-available;
+      position: absolute;
+    }
+  }
+
+  &-compose {
+    @at-root .light-theme #{&} {
+      background: $session-color-white;
+    }
+    @at-root .dark-theme #{&} {
+      @include session-dark-background-lighter;
+    }
+  }
+
+  &-overlay {
+    background: linear-gradient(180deg, #171717 0%, $session-background 100%);
+    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: -webkit-fill-available;
+    .session-icon .exit {
+      padding: 13px;
+    }
+
+    h3,
+    h2 {
+      text-align: center;
+    }
+
+    h3 {
+      padding-top: 22px;
+      position: relative;
+
+      .green-border {
+        position: absolute;
+        color: $session-color-green;
+        background-color: $session-color-green;
+        height: 5px;
+        left: -10px;
+        right: -10px;
+        margin-top: 7px;
+        border: none;
+        z-index: 1;
+      }
+    }
+
+    h4 {
+      text-transform: uppercase;
+    }
+
+    .white-border {
+      width: $session-left-pane-width;
+      position: relative;
+      height: 1px;
+      opacity: 0.3;
+      margin-top: 2px;
+      margin-bottom: 40px;
+    }
+
+    .exit {
+      margin-top: 10px;
+      margin-left: 13px;
+      align-self: flex-start;
+    }
+
+    .session-search-input {
+      margin: 10px $session-compose-margin 0 $session-compose-margin;
+      width: -webkit-fill-available;
+    }
+
+    .module-search-results {
+      width: -webkit-fill-available;
+    }
+
+    .session-description-long {
+      font-size: $session-font-sm;
+      line-height: $session-font-h3;
+      margin: 0px 20px;
+      font-family: 'SF Pro Display';
+    }
+
+    .session-id-editable {
+      textarea::-webkit-inner-spin-button {
+        margin: 0px 20px;
+        width: -webkit-fill-available;
+        flex-shrink: 0;
+      }
+    }
+
+    .session-id-editable-disabled {
+      border: none;
+    }
+
+    .session-button {
+      width: fit-content;
+      margin-top: 1rem;
+      margin-bottom: 3rem;
+      flex-shrink: 0;
+    }
+  }
+}
+.module-search-results {
+  flex-grow: 1;
+}
+
+.module-conversations-list-content {
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.session-left-pane-section-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.user-search-dropdown {
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.session-search-input {
+  height: $session-search-input-height;
+  width: 100%;
+  margin-right: 1px;
+  margin-bottom: 10px;
+  display: inline-flex;
+  flex-shrink: 0;
+
+  @at-root .light-theme #{&} {
+    color: $session-color-black;
+    background: $session-color-white;
+  }
+  @at-root .dark-theme #{&} {
+    color: $session-color-white;
+    background: $session-shade-4;
+  }
+
+  .session-icon-button {
+    margin: auto 10px;
+  }
+
+  input {
+    width: inherit;
+    height: inherit;
+    border: none;
+    flex-grow: 1;
+    font-size: $session-font-sm;
+    font-family: 'SF Pro Text';
+
+    &:focus {
+      outline: none !important;
+    }
+
+    @at-root .light-theme #{&} {
+      color: $session-color-black;
+      background: $session-color-white;
+    }
+    @at-root .dark-theme #{&} {
+      color: $session-color-white;
+      background: $session-shade-4;
+    }
+  }
+}
+
+.session-full-logo {
+  width: 250px;
+  height: 250px;
+}
+
+.app-loading-screen {
+  @include session-dark-background;
+}
+
+@mixin bottom-buttons() {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+
+  @at-root .light-theme #{&} {
+    background-color: $session-color-white;
+  }
+  @at-root .dark-theme #{&} {
+    background-color: $session-shade-2;
+  }
+
+  .session-button.square-outline.square.green,
+  .session-button.square-outline.square.white,
+  .session-button.square-outline.square.danger {
+    flex-grow: 1;
+    height: 50px;
+    line-height: 50px;
+
+    @at-root .light-theme #{&} {
+      border: 1px solid $session-shade-15;
+    }
+    @at-root .dark-theme #{&} {
+      border: 1px solid $session-shade-6;
+    }
+  }
+}
+
+.contacts-dropdown {
+  width: -webkit-fill-available;
+
+  &-row {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 8px 20px;
+    margin: 0px $session-compose-margin;
+
+    @at-root .light-theme #{&} {
+      background: $session-shade-15;
+      color: $session-color-black;
+    }
+    @at-root .dark-theme #{&} {
+      background: $session-shade-4;
+      color: $session-color-light-grey;
+    }
+
+    &-selected,
+    &:hover {
+      font-weight: bold;
+
+      @at-root .light-theme #{&} {
+        color: $session-color-black;
+        background: $session-color-white;
+      }
+      @at-root .dark-theme #{&} {
+        color: $session-color-white;
+        background: $session-shade-8;
+      }
+    }
+  }
+}
+
+.contact-notification-count-bubble {
+  background: $session-color-danger;
+  line-height: 30px;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  margin-left: auto;
+  text-align: center;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  transition: $session-transition-duration;
+
+  color: $session-color-white;
+  &:hover {
+    filter: brightness(80%);
+  }
+}
+
+.left-pane-contact {
+  &-section,
+  &-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .module-conversation-list-item {
+      &--has-friend-request {
+        &:first-child {
+          border-top: none !important;
+        }
+
+        border: 1px solid $session-shade-8 !important;
+
+        .module-conversation__user__profile-number,
+        .module-conversation__user__profile-name {
+          font-size: 13px !important;
+        }
+      }
+
+      &__buttons {
+        display: flex;
+
+        .session-button {
+          font-size: 11px;
+          padding: 6px;
+          height: auto;
+          margin: 0px;
+          line-height: 14px;
+        }
+      }
+    }
+  }
+
+  &-content {
+    @include session-dark-background-lighter;
+  }
+
+  &-bottom-buttons {
+    @include bottom-buttons();
+  }
+}
+
+.left-pane-setting {
+  &-bottom-buttons {
+    @include bottom-buttons();
+  }
+
+  &-content,
+  &-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-category-list-item {
+    @include session-dark-background;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 74px;
+    line-height: 1.4;
+    padding: 0px 12px;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: $session-transition-duration !important;
+
+    & > div {
+      display: block;
+    }
+
+    &.active {
+      background-color: $session-shade-9;
+    }
+
+    &:hover {
+      background-color: $session-shade-7;
+    }
+
+    &__buttons {
+      display: flex;
+
+      .session-button {
+        font-size: 11px;
+        padding: 6px;
+        height: auto;
+        margin: 0px;
+        line-height: 14px;
+      }
+    }
+  }
+
+  &-input-group {
+    display: inline-flex;
+  }
+
+  &-input-button .session-button.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: $session-search-input-height;
+    width: $session-search-input-height;
+
+    padding: 0px;
+    margin: 0px;
+
+    svg {
+      transition: $session-transition-duration;
+    }
+
+    &:hover {
+      svg {
+        fill: $session-color-green;
+      }
+    }
+    .session-button.square-outline.square.green,
+    .session-button.square-outline.square.white {
+      flex-grow: 1;
+      border: 1px solid $session-shade-8;
+      height: 50px;
+      line-height: 50px;
+    }
+  }
+}
+
+.friend-request-title {
+  font-weight: bold;
+  font-size: 13px;
+  padding: 11px;
+  border-right: 1px solid $session-shade-8 !important;
+  border-top: 1px solid $session-shade-8 !important;
+  border-left: 1px solid $session-shade-8 !important;
+  @include session-dark-background-lighter;
+}
+
+.panel-text-divider {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid $session-color-dark-grey;
+  line-height: 0.1em;
+  margin: 50px 0 50px;
+
+  span {
+    padding: 5px 10px;
+    border-radius: 50px;
+    background-color: $session-background;
+    color: $session-color-light-grey;
+    border: 1px solid $session-color-dark-grey;
+    font-family: 'SF Pro Text';
+    font-size: $session-font-sm;
+  }
+}

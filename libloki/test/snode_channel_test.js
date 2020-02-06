@@ -75,7 +75,7 @@ describe('Snode Channel', () => {
     });
 
     it('should encrypt data correctly', async () => {
-      // message sent by Loki Messenger
+      // message sent by Session
       const snode = await generateSnodeKeysAndAddress();
       const messageSent = 'I am Groot';
       const textEncoder = new TextEncoder();
@@ -133,7 +133,7 @@ describe('Snode Channel', () => {
       const encryptedBase64 = dcodeIO.ByteBuffer.wrap(encrypted).toString(
         'base64'
       );
-      // message received by Loki Messenger
+      // message received by Session
       const decrypted = await channel.decrypt(snode.address, encryptedBase64);
       assert.strictEqual(messageSent, decrypted);
     });

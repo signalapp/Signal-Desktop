@@ -1,8 +1,12 @@
-/* global window, libsignal, textsecure */
+/* global window, libsignal, textsecure, Signal,
+   lokiFileServerAPI, ConversationController */
 
 // eslint-disable-next-line func-names
 (function() {
   window.libloki = window.libloki || {};
+
+  const timers = {};
+  const REFRESH_DELAY = 60 * 1000;
 
   async function getPreKeyBundleForContact(pubKey) {
     const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
@@ -113,11 +117,142 @@
     }
   }
 
+  // fetches device mappings from server.
+  async function getPrimaryDeviceMapping(pubKey) {
+    if (typeof lokiFileServerAPI === 'undefined') {
+      // If this is not defined then we are initiating a pairing
+      return [];
+    }
+    const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(pubKey);
+    if (!deviceMapping) {
+      return [];
+    }
+    let authorisations = deviceMapping.authorisations || [];
+    if (deviceMapping.isPrimary === '0') {
+      const { primaryDevicePubKey } =
+        authorisations.find(
+          authorisation => authorisation.secondaryDevicePubKey === pubKey
+        ) || {};
+      if (primaryDevicePubKey) {
+        // do NOT call getprimaryDeviceMapping recursively
+        // in case both devices are out of sync and think they are
+        // each others' secondary pubkey.
+        const primaryDeviceMapping = await lokiFileServerAPI.getUserDeviceMapping(
+          primaryDevicePubKey
+        );
+        if (!primaryDeviceMapping) {
+          return [];
+        }
+        ({ authorisations } = primaryDeviceMapping);
+      }
+    }
+    return authorisations || [];
+  }
+
+  // if the device is a secondary device,
+  // fetch the device mappings for its primary device
+  async function saveAllPairingAuthorisationsFor(pubKey) {
+    // Will be false if there is no timer
+    const cacheValid = timers[pubKey] > Date.now();
+    if (cacheValid) {
+      return;
+    }
+    timers[pubKey] = Date.now() + REFRESH_DELAY;
+    const authorisations = await getPrimaryDeviceMapping(pubKey);
+    await Promise.all(
+      authorisations.map(authorisation =>
+        savePairingAuthorisation(authorisation)
+      )
+    );
+  }
+
+  async function savePairingAuthorisation(authorisation) {
+    // Ensure that we have a conversation for all the devices
+    const conversation = await ConversationController.getOrCreateAndWait(
+      authorisation.secondaryDevicePubKey,
+      'private'
+    );
+    await conversation.setSecondaryStatus(
+      true,
+      authorisation.primaryDevicePubKey
+    );
+    await window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
+  }
+
+  function removePairingAuthorisationForSecondaryPubKey(pubKey) {
+    return window.Signal.Data.removePairingAuthorisationForSecondaryPubKey(
+      pubKey
+    );
+  }
+
+  // Transforms signatures from base64 to ArrayBuffer!
+  async function getGrantAuthorisationForSecondaryPubKey(secondaryPubKey) {
+    const conversation = ConversationController.get(secondaryPubKey);
+    if (!conversation || conversation.isPublic() || conversation.isRss()) {
+      return null;
+    }
+    await saveAllPairingAuthorisationsFor(secondaryPubKey);
+    const authorisation = await window.Signal.Data.getGrantAuthorisationForSecondaryPubKey(
+      secondaryPubKey
+    );
+    if (!authorisation) {
+      return null;
+    }
+    return {
+      ...authorisation,
+      requestSignature: Signal.Crypto.base64ToArrayBuffer(
+        authorisation.requestSignature
+      ),
+      grantSignature: Signal.Crypto.base64ToArrayBuffer(
+        authorisation.grantSignature
+      ),
+    };
+  }
+
+  // Transforms signatures from base64 to ArrayBuffer!
+  async function getAuthorisationForSecondaryPubKey(secondaryPubKey) {
+    await saveAllPairingAuthorisationsFor(secondaryPubKey);
+    const authorisation = await window.Signal.Data.getAuthorisationForSecondaryPubKey(
+      secondaryPubKey
+    );
+    if (!authorisation) {
+      return null;
+    }
+    return {
+      ...authorisation,
+      requestSignature: Signal.Crypto.base64ToArrayBuffer(
+        authorisation.requestSignature
+      ),
+      grantSignature: authorisation.grantSignature
+        ? Signal.Crypto.base64ToArrayBuffer(authorisation.grantSignature)
+        : null,
+    };
+  }
+
+  function getSecondaryDevicesFor(primaryDevicePubKey) {
+    return window.Signal.Data.getSecondaryDevicesFor(primaryDevicePubKey);
+  }
+
+  async function getAllDevicePubKeysForPrimaryPubKey(primaryDevicePubKey) {
+    await saveAllPairingAuthorisationsFor(primaryDevicePubKey);
+    const secondaryPubKeys =
+      (await getSecondaryDevicesFor(primaryDevicePubKey)) || [];
+    return secondaryPubKeys.concat(primaryDevicePubKey);
+  }
+
   window.libloki.storage = {
     getPreKeyBundleForContact,
     saveContactPreKeyBundle,
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
+    savePairingAuthorisation,
+    saveAllPairingAuthorisationsFor,
+    removePairingAuthorisationForSecondaryPubKey,
+    getGrantAuthorisationForSecondaryPubKey,
+    getAuthorisationForSecondaryPubKey,
+    getAllDevicePubKeysForPrimaryPubKey,
+    getSecondaryDevicesFor,
+    getPrimaryDeviceMapping,
   };
 
   // Libloki protocol store

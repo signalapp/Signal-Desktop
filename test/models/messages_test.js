@@ -101,7 +101,7 @@ describe('MessageCollection', () => {
     message = messages.add({ group_update: { name: 'blerg' } });
     assert.equal(
       message.getDescription(),
-      "Title is now 'blerg'",
+      "Group name has been set to 'blerg'",
       'Returns a single notice if only group_updates.name changes.'
     );
 
@@ -126,7 +126,7 @@ describe('MessageCollection', () => {
     });
     assert.equal(
       message.getDescription(),
-      "Title is now 'blerg', Bob joined the group",
+      "Group name has been set to 'blerg', Bob joined the group",
       'Notes when there are multiple changes to group_updates properties.'
     );
 

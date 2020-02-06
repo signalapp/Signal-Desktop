@@ -36,11 +36,24 @@ message Content {
   optional TypingMessage  typingMessage  = 6;
   optional PreKeyBundleMessage preKeyBundleMessage = 101;
   optional LokiAddressMessage lokiAddressMessage = 102;
+  optional PairingAuthorisationMessage pairingAuthorisation = 103;
 }
 
 message LokiAddressMessage {
+  enum Type {
+    HOST_REACHABLE = 0;
+    HOST_UNREACHABLE = 1;
+  }
   optional string p2pAddress    = 1;
   optional uint32 p2pPort       = 2;
+  optional Type   type          = 3;
+}
+
+message PairingAuthorisationMessage {
+  optional string primaryDevicePubKey   = 1;
+  optional string secondaryDevicePubKey = 2;
+  optional bytes  requestSignature      = 3;
+  optional bytes  grantSignature        = 4;
 }
 
 message PreKeyBundleMessage {
@@ -89,9 +102,12 @@ message CallMessage {
 
 message DataMessage {
   enum Flags {
-    END_SESSION             = 1;
-    EXPIRATION_TIMER_UPDATE = 2;
-    PROFILE_KEY_UPDATE      = 4;
+    END_SESSION               = 1;
+    EXPIRATION_TIMER_UPDATE   = 2;
+    PROFILE_KEY_UPDATE        = 4;
+    SESSION_RESTORE           = 64;
+    UNPAIRING_REQUEST         = 128;
+    SESSION_REQUEST           = 256;
   }
 
   message Quote {
@@ -180,6 +196,18 @@ message DataMessage {
     optional AttachmentPointer image = 3;
   }
 
+  // Loki: A custom message for our profile
+  message LokiProfile {
+    optional string displayName = 1;
+    optional string avatar = 2;
+  }
+
+  message GroupInvitation {
+    optional string serverAddress = 1;
+    optional uint32 channelId = 2;
+    optional string serverName = 3;
+  }
+
   optional string             body        = 1;
   repeated AttachmentPointer  attachments = 2;
   optional GroupContext       group       = 3;
@@ -190,7 +218,8 @@ message DataMessage {
   optional Quote              quote       = 8;
   repeated Contact            contact     = 9;
   repeated Preview            preview     = 10;
-  optional Contact            profile     = 101; // Loki: The profile of the current user
+  optional LokiProfile        profile     = 101; // Loki: The profile of the current user
+  optional GroupInvitation groupInvitation = 102; // Loki: Invitation to a public chat
 }
 
 message NullMessage {
@@ -248,6 +277,7 @@ message SyncMessage {
   message Contacts {
     optional AttachmentPointer blob     = 1;
     optional bool              complete = 2 [default = false];
+    optional bytes             data     = 101;
   }
 
   message Groups {
@@ -310,6 +340,7 @@ message AttachmentPointer {
   optional uint32  width       = 9;
   optional uint32  height      = 10;
   optional string  caption     = 11;
+  optional string  url         = 101;
 }
 
 message GroupContext {
@@ -325,6 +356,7 @@ message GroupContext {
   optional string            name    = 3;
   repeated string            members = 4;
   optional AttachmentPointer avatar  = 5;
+  repeated string            admins  = 6;
 }
 
 message ContactDetails {
@@ -341,6 +373,7 @@ message ContactDetails {
   optional bytes    profileKey  = 6;
   optional bool     blocked     = 7;
   optional uint32   expireTimer = 8;
+  optional string   nickname    = 101;
 }
 
 message GroupDetails {

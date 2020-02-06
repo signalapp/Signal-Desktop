@@ -1,7 +1,11 @@
-/* global Backbone: false */
-/* global Whisper: false */
-/* global ConversationController: false */
-/* global _: false */
+/* global
+  Backbone,
+  Whisper,
+  ConversationController,
+  MessageController,
+  _,
+  libloki,
+*/
 
 /* eslint-disable more/no-then */
 
@@ -31,6 +35,15 @@
       if (messages.length === 0) {
         return null;
       }
+
+      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
+        source
+      );
+      if (authorisation) {
+        // eslint-disable-next-line no-param-reassign
+        source = authorisation.primaryDevicePubKey;
+      }
+
       const message = messages.find(
         item => !item.isIncoming() && source === item.get('conversationId')
       );
@@ -45,10 +58,15 @@
       const ids = groups.pluck('id');
       ids.push(source);
 
-      return messages.find(
+      const target = messages.find(
         item =>
           !item.isIncoming() && _.contains(ids, item.get('conversationId'))
       );
+      if (!target) {
+        return null;
+      }
+
+      return MessageController.register(target.id, target);
     },
     async onReceipt(receipt) {
       try {

@@ -21,6 +21,10 @@ module.exports = {
       },
     ],
 
+    // Enforce curlies always
+    curly: ['error', 'all'],
+    'brace-style': ['error', '1tbs'],
+
     // prevents us from accidentally checking in exclusive tests (`.only`):
     'mocha/no-exclusive-tests': 'error',
 
@@ -45,7 +49,7 @@ module.exports = {
     quotes: [
       'error',
       'single',
-      { avoidEscape: true, allowTemplateLiterals: false },
+      { avoidEscape: true, allowTemplateLiterals: true },
     ],
 
     // Prettier overrides:
@@ -61,6 +65,7 @@ module.exports = {
         // We still want to limit comments as before:
         comments: 90,
         ignoreUrls: true,
+        ignoreRegExpLiterals: true,
       },
     ],
   },

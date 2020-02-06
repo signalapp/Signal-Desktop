@@ -5,6 +5,7 @@ dist/**
 mnemonic_languages/**
 
 # Generated files
+js/curve/*
 js/components.js
 js/libtextsecure.js
 js/libloki.js

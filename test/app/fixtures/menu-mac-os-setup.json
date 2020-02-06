@@ -1,17 +1,13 @@
 [
   {
+    "label": "Session",
     "submenu": [
       {
-        "label": "About Loki Messenger",
+        "label": "About Session",
         "click": null
       },
       {
         "type": "separator"
-      },
-      {
-        "label": "Preferences…",
-        "accelerator": "CommandOrControl+,",
-        "click": null
       },
       {
         "type": "separator"
@@ -32,7 +28,7 @@
         "type": "separator"
       },
       {
-        "label": "Quit Loki Messenger",
+        "label": "Quit Session",
         "role": "quit"
       }
     ]
@@ -114,6 +110,7 @@
         "role": "resetzoom"
       },
       {
+        "accelerator": "Command+=",
         "label": "Zoom In",
         "role": "zoomin"
       },

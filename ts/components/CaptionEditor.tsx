@@ -3,13 +3,13 @@
 import React from 'react';
 import * as GoogleChrome from '../util/GoogleChrome';
 
-import { AttachmentType } from './conversation/types';
+import { AttachmentType } from '../types/Attachment';
 
-import { Localizer } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 
 interface Props {
   attachment: AttachmentType;
-  i18n: Localizer;
+  i18n: LocalizerType;
   url: string;
   caption?: string;
   onSave?: (caption: string) => void;
@@ -21,15 +21,15 @@ interface State {
 }
 
 export class CaptionEditor extends React.Component<Props, State> {
-  private handleKeyUpBound: (
+  private readonly handleKeyUpBound: (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => void;
-  private setFocusBound: () => void;
-  // TypeScript doesn't like our React.Ref typing here, so we omit it
-  private captureRefBound: () => void;
-  private onChangeBound: () => void;
-  private onSaveBound: () => void;
-  private inputRef: React.Ref<HTMLInputElement> | null;
+  private readonly setFocusBound: () => void;
+  private readonly onChangeBound: (
+    event: React.FormEvent<HTMLInputElement>
+  ) => void;
+  private readonly onSaveBound: () => void;
+  private readonly inputRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: Props) {
     super(props);
@@ -41,10 +41,16 @@ export class CaptionEditor extends React.Component<Props, State> {
 
     this.handleKeyUpBound = this.handleKeyUp.bind(this);
     this.setFocusBound = this.setFocus.bind(this);
-    this.captureRefBound = this.captureRef.bind(this);
     this.onChangeBound = this.onChange.bind(this);
     this.onSaveBound = this.onSave.bind(this);
-    this.inputRef = null;
+    this.inputRef = React.createRef();
+  }
+
+  public componentDidMount() {
+    // Forcing focus after a delay due to some focus contention with ConversationView
+    setTimeout(() => {
+      this.setFocus();
+    }, 200);
   }
 
   public handleKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -61,19 +67,9 @@ export class CaptionEditor extends React.Component<Props, State> {
   }
 
   public setFocus() {
-    if (this.inputRef) {
-      // @ts-ignore
-      this.inputRef.focus();
+    if (this.inputRef.current) {
+      this.inputRef.current.focus();
     }
-  }
-
-  public captureRef(ref: React.Ref<HTMLInputElement>) {
-    this.inputRef = ref;
-
-    // Forcing focus after a delay due to some focus contention with ConversationView
-    setTimeout(() => {
-      this.setFocus();
-    }, 200);
   }
 
   public onSave() {
@@ -124,6 +120,7 @@ export class CaptionEditor extends React.Component<Props, State> {
   public render() {
     const { i18n, close } = this.props;
     const { caption } = this.state;
+    const onKeyUp = close ? this.handleKeyUpBound : undefined;
 
     return (
       <div
@@ -143,12 +140,12 @@ export class CaptionEditor extends React.Component<Props, State> {
           <div className="module-caption-editor__input-container">
             <input
               type="text"
-              ref={this.captureRefBound}
+              ref={this.inputRef}
               value={caption}
               maxLength={200}
               placeholder={i18n('addACaption')}
               className="module-caption-editor__caption-input"
-              onKeyUp={close ? this.handleKeyUpBound : undefined}
+              onKeyUp={onKeyUp}
               onChange={this.onChangeBound}
             />
             {caption ? (

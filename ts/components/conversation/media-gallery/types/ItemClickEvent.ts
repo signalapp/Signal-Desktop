@@ -1,4 +1,4 @@
-import { AttachmentType } from '../../types';
+import { AttachmentType } from '../../../../types/Attachment';
 import { Message } from './Message';
 
 export interface ItemClickEvent {

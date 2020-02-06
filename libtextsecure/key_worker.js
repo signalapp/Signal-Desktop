@@ -33,7 +33,9 @@ window.textsecure.storage.impl = {
    *** Override Storage Routines ***
    **************************** */
   put(key, value) {
-    if (value === undefined) throw new Error('Tried to store undefined');
+    if (value === undefined) {
+      throw new Error('Tried to store undefined');
+    }
     store[key] = value;
     postMessage({ method: 'set', key, value });
   },

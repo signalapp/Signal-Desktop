@@ -1,16 +1,18 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 import { MessageBody } from './MessageBody';
+import { Timestamp } from './Timestamp';
 
 interface Props {
   text: string;
   direction: 'incoming' | 'outgoing';
   status: string;
   friendStatus: 'pending' | 'accepted' | 'declined' | 'expired';
-  i18n: Localizer;
+  i18n: LocalizerType;
   isBlocked: boolean;
+  timestamp: number;
   onAccept: () => void;
   onDecline: () => void;
   onDeleteConversation: () => void;
@@ -142,13 +144,23 @@ export class FriendRequest extends React.Component<Props> {
 
   // Renders 'sending', 'read' icons
   public renderStatusIndicator() {
-    const { direction, status } = this.props;
-    if (direction !== 'outgoing' || status === 'error') {
+    const { direction, status, i18n, text, timestamp } = this.props;
+    if (status === 'error') {
       return null;
     }
 
+    const withImageNoCaption = Boolean(!text);
+
     return (
       <div className="module-message__metadata">
+        <Timestamp
+          i18n={i18n}
+          timestamp={timestamp}
+          extended={true}
+          direction={direction}
+          withImageNoCaption={withImageNoCaption}
+          module="module-message__metadata__date"
+        />
         <span className="module-message__metadata__spacer" />
         <div
           className={classNames(
@@ -164,32 +176,34 @@ export class FriendRequest extends React.Component<Props> {
     const { direction } = this.props;
 
     return (
-      <div
-        className={classNames(
-          `module-message module-message--${direction}`,
-          'module-message-friend-request'
-        )}
-      >
-        {this.renderError(direction === 'incoming')}
+      <div className={'loki-message-wrapper'}>
         <div
           className={classNames(
-            'module-message__container',
-            `module-message__container--${direction}`,
-            'module-message-friend-request__container'
+            `module-message module-message--${direction}`,
+            'module-message-friend-request'
           )}
         >
+          {this.renderError(direction === 'incoming')}
           <div
             className={classNames(
-              'module-message__text',
-              `module-message__text--${direction}`
+              'module-message__container',
+              `module-message__container--${direction}`,
+              'module-message-friend-request__container'
             )}
           >
-            {this.renderContents()}
-            {this.renderStatusIndicator()}
-            {this.renderButtons()}
+            <div
+              className={classNames(
+                'module-message__text',
+                `module-message__text--${direction}`
+              )}
+            >
+              {this.renderContents()}
+              {this.renderStatusIndicator()}
+              {this.renderButtons()}
+            </div>
           </div>
+          {this.renderError(direction === 'outgoing')}
         </div>
-        {this.renderError(direction === 'outgoing')}
       </div>
     );
   }

@@ -164,7 +164,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 210,
+    "lineNumber": 178,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -172,7 +172,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 239,
+    "lineNumber": 213,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-02T21:00:44.007Z"
   },
@@ -202,22 +202,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/models/messages.js",
-    "line": "        this.send(wrap(promise));",
-    "lineNumber": 820,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/models/messages.js",
-    "line": "        return wrap(",
-    "lineNumber": 1029,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-10-05T23:12:28.961Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -341,7 +325,7 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 848,
+    "lineNumber": 868,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -390,42 +374,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/attachment_view.js",
-    "line": "      const $el = $('<source>');",
-    "lineNumber": 53,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/attachment_view.js",
-    "line": "      this.$el.append($el);",
-    "lineNumber": 55,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/views/attachment_view.js",
-    "line": "      this.view.$el.appendTo(this.$el);",
-    "lineNumber": 198,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "js/views/attachment_view.js",
-    "line": "      this.fileView.$el.appendTo(this.$el.empty());",
-    "lineNumber": 221,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/confirmation_dialog_view.js",
     "line": "      this.$('.cancel').focus();",
     "lineNumber": 55,
@@ -441,123 +389,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-02T21:18:39.026Z",
     "reasonDetail": "Operating on previously-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/conversation_list_item_view.js",
-    "line": "      this.$el.append(this.childView.el);",
-    "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_list_view.js",
-    "line": "      const $el = this.$(`.${conversation.cid}`);",
-    "lineNumber": 13,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_list_view.js",
-    "line": "      const $allConversations = this.$('.conversation-list-item');",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "js/views/conversation_list_view.js",
-    "line": "        this.$el.prepend($el);",
-    "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/conversation_list_view.js",
-    "line": "        this.$el.append($el);",
-    "lineNumber": 48,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_list_view.js",
-    "line": "        const target = this.$(`.${targetConversation.cid}`);",
-    "lineNumber": 51,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "js/views/conversation_list_view.js",
-    "line": "        $el.insertAfter(target);",
-    "lineNumber": 52,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_list_view.js",
-    "line": "      if ($('.selected').length) {",
-    "lineNumber": 55,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_list_view.js",
-    "line": "      const $el = this.$(`.${conversation.cid}`);",
-    "lineNumber": 62,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_search_view.js",
-    "line": "      this.$new_contact = this.$('.new-contact');",
-    "lineNumber": 42,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/conversation_search_view.js",
-    "line": "      this.$el.append(this.typeahead_view.el);",
-    "lineNumber": 59,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/conversation_search_view.js",
-    "line": "        this.new_contact_view.$('.number').text(i18n('invalidNumberError'));",
-    "lineNumber": 111,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "js/views/conversation_search_view.js",
-    "line": "        this.hintView.$el.insertAfter(this.$input);",
-    "lineNumber": 147,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
@@ -670,7 +501,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        let $el = this.$(`#${id}`);",
-    "lineNumber": 26,
+    "lineNumber": 30,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -679,7 +510,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        $el.prependTo(this.el);",
-    "lineNumber": 35,
+    "lineNumber": 39,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -688,7 +519,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 79,
+    "lineNumber": 51,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -696,26 +527,8 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('.main-header-placeholder').append(this.mainHeaderView.el);",
-    "lineNumber": 107,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-10-02T21:18:39.026Z",
-    "reasonDetail": "Operating on already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('.main-header-placeholder').append(this.mainHeaderView.el);",
-    "lineNumber": 107,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-10-02T21:18:39.026Z",
-    "reasonDetail": "Operating on already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 110,
+    "lineNumber": 68,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -724,43 +537,16 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 117,
+    "lineNumber": 75,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "        el: this.$('.inbox'),",
-    "lineNumber": 131,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "        el: this.$('.search-results'),",
-    "lineNumber": 147,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "        input: this.$('input.search'),",
-    "lineNumber": 148,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 166,
+    "lineNumber": 90,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -769,7 +555,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 174,
+    "lineNumber": 94,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -777,64 +563,82 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 232,
+    "line": "      // $(document).on('keydown', event => {",
+    "lineNumber": 153,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-04-03T00:43:09.315Z",
+    "reasonDetail": "Interacting with already-existing DOM nodes"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
+    "lineNumber": 189,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-08T23:49:08.796Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
+    "lineNumber": 189,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-08T23:49:08.796Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
+    "lineNumber": 230,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 236,
+    "lineNumber": 234,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 240,
+    "lineNumber": 238,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 242,
+    "lineNumber": 240,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "      const input = this.$('input.search');",
-    "lineNumber": 249,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 273,
+    "lineNumber": 259,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 276,
+    "lineNumber": 262,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-03-08T23:49:08.796Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -1099,78 +903,6 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "        el: this.$('.group-avatar'),",
-    "lineNumber": 18,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.recipients_view.$el.insertBefore(this.$('.container'));",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.recipients_view.$el.insertBefore(this.$('.container'));",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.scrollable').append(this.member_list_view.el);",
-    "lineNumber": 37,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.scrollable').append(this.member_list_view.el);",
-    "lineNumber": 37,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.results').hide();",
-    "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "      this.$('.results').show();",
-    "lineNumber": 49,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/new_group_update_view.js",
-    "line": "        name: this.$('.name').val(),",
-    "lineNumber": 68,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-10-02T21:36:01.167Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "js/views/phone-input-view.js",
     "line": "      this.$('input.number').intlTelInput();",
     "lineNumber": 14,
@@ -1213,51 +945,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$input = this.$('input.search');",
-    "lineNumber": 69,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$new_contact = this.$('.new-contact');",
-    "lineNumber": 70,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "        el: this.$('.recipients'),",
-    "lineNumber": 80,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$('.contacts').append(this.typeahead_view.el);",
-    "lineNumber": 95,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/recipients_input_view.js",
-    "line": "      this.$('.contacts').append(this.typeahead_view.el);",
-    "lineNumber": 95,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
@@ -1370,17 +1057,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.menu-bar-setting'),",
-    "lineNumber": 110,
+    "line": "          el: this.$('.menu-bar-setting'),",
+    "lineNumber": 111,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2019-04-08T18:24:35.255Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-permissions'),",
-    "lineNumber": 116,
+    "lineNumber": 118,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1389,7 +1076,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 122,
+    "lineNumber": 124,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1398,7 +1085,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 122,
+    "lineNumber": 124,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1407,7 +1094,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 176,
+    "lineNumber": 179,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1416,7 +1103,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 180,
+    "lineNumber": 183,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1425,7 +1112,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 192,
+    "lineNumber": 195,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1434,7 +1121,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 197,
+    "lineNumber": 200,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1689,7 +1376,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 808,
+    "lineNumber": 833,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1697,7 +1384,7 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 833,
+    "lineNumber": 858,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
   },
@@ -1724,6 +1411,22 @@
     "lineNumber": 39,
     "reasonCategory": "falseMatch",
     "updated": "2018-10-05T23:12:28.961Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-09T00:08:44.242Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList)",
+    "lineNumber": 228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "eval",
@@ -1757,78 +1460,6 @@
     "lineNumber": 204,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/app-builder-lib/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/app-builder-lib/out/frameworks/LibUiFramework.js",
-    "line": "  DIR=$(dirname \"$0\")",
-    "lineNumber": 113,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/app-builder-lib/out/frameworks/LibUiFramework.js",
-    "line": "  DIR=$(dirname \"$0\")",
-    "lineNumber": 127,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/app-builder-lib/out/targets/MsiTarget.js",
-    "line": "        result += `\\n${fileSpace}  <File Name=\"${fileName}\" Source=\"$(var.appDir)${path.sep}${packagePath}\" ReadOnly=\"yes\" KeyPath=\"yes\"`;",
-    "lineNumber": 352,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/app-builder-lib/out/targets/nsis/nsisLicense.js",
-    "line": "    licensePage.push('!insertmacro MUI_PAGE_LICENSE \"$(MUILicense)\"');",
-    "lineNumber": 100,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
   },
   {
     "rule": "jQuery-append(",
@@ -2100,86 +1731,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util-runtime/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/builder-util/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/bunyan/node_modules/moment/min/locales.min.js",
     "lineNumber": 75,
@@ -2199,6 +1750,738 @@
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "function nodebackForPromise(promise, multiArgs) {",
+    "lineNumber": 2099,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "        } else if (!multiArgs) {",
+    "lineNumber": 2106,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
+    "lineNumber": 2296,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
+    "lineNumber": 2298,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "    util.toFastProperties(Promise);                                          ",
+    "lineNumber": 2856,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "Promise is a known global"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "function toFastProperties(obj) {",
+    "lineNumber": 3592,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "Declaring a dangerous function"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "    eval(obj);",
+    "lineNumber": 3599,
+    "reasonCategory": "ruleNeeded",
+    "updated": "2019-03-22T19:00:07.131Z",
+    "reasonDetail": "his is run on whatever is provided to toFastProperties()"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "    toFastProperties: toFastProperties,",
+    "lineNumber": 3752,
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "Exposing a dangerous function"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
+    "line": "if (ret.isNode) ret.toFastProperties(process);",
+    "lineNumber": 3775,
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "process is a known global"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.min.js",
+    "lineNumber": 31,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.min.js",
+    "lineNumber": 31,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "        var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,",
+    "lineNumber": 2228,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this.constructor$(promises);",
+    "lineNumber": 2441,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this._init$(undefined, -2);",
+    "lineNumber": 2456,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "function nodebackForPromise(promise, multiArgs) {",
+    "lineNumber": 2687,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "        } else if (!multiArgs) {",
+    "lineNumber": 2694,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
+    "lineNumber": 2944,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
+    "lineNumber": 2946,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    util.toFastProperties(Promise);                                          ",
+    "lineNumber": 3519,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "function(callback, receiver, originalName, fn, _, multiArgs) {",
+    "lineNumber": 3846,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "            var nodeback = nodebackForPromise(promise, \" + multiArgs + \");   \\n\\",
+    "lineNumber": 3897,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {",
+    "lineNumber": 3938,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "        var fn = nodebackForPromise(promise, multiArgs);",
+    "lineNumber": 3951,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "function promisifyAll(obj, suffix, filter, promisifier, multiArgs) {",
+    "lineNumber": 3968,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "                makeNodePromisified(key, THIS, key, fn, suffix, multiArgs);",
+    "lineNumber": 3979,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "                                           fn, suffix, multiArgs);",
+    "lineNumber": 3983,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    util.toFastProperties(obj);",
+    "lineNumber": 3989,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "promisifyAll calls toFastProperties() but is limited to function or object"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "function promisify(callback, receiver, multiArgs) {",
+    "lineNumber": 3993,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "                                callback, null, multiArgs);",
+    "lineNumber": 3995,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    var multiArgs = !!options.multiArgs;",
+    "lineNumber": 4007,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    var ret = promisify(fn, receiver, multiArgs);",
+    "lineNumber": 4008,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    var multiArgs = !!options.multiArgs;",
+    "lineNumber": 4018,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "                multiArgs);",
+    "lineNumber": 4036,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "            promisifyAll(value, suffix, filter, promisifier, multiArgs);",
+    "lineNumber": 4037,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    return promisifyAll(target, suffix, filter, promisifier, multiArgs);",
+    "lineNumber": 4041,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this.constructor$(entries);",
+    "lineNumber": 4102,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this._init$(undefined, isMap ? -6 : -3);",
+    "lineNumber": 4104,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this.constructor$(promises);",
+    "lineNumber": 4305,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this._init$(undefined, -5);",
+    "lineNumber": 4322,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this._resultCancelled$();",
+    "lineNumber": 4360,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this.constructor$(values);",
+    "lineNumber": 4537,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this.constructor$(values);",
+    "lineNumber": 4586,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    this._init$(undefined, -5);",
+    "lineNumber": 4601,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "        this.constructor$(fn, promise, context);",
+    "lineNumber": 5104,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "function toFastProperties(obj) {",
+    "lineNumber": 5434,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "Declaring a dangerous function"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    eval(obj);",
+    "lineNumber": 5441,
+    "reasonCategory": "ruleNeeded",
+    "updated": "2019-03-22T19:00:07.131Z",
+    "reasonDetail": "This is run on whatever is provided to toFastProperties()"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "    toFastProperties: toFastProperties,",
+    "lineNumber": 5594,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "Exposing a dangerous function"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
+    "line": "if (ret.isNode) ret.toFastProperties(process);",
+    "lineNumber": 5617,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "process is a known global"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
+    "lineNumber": 30,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
+    "lineNumber": 31,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/assert.js",
+    "line": "        this.constructor$(a);",
+    "lineNumber": 5,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/generators.js",
+    "line": "        var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,",
+    "lineNumber": 197,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/map.js",
+    "line": "    this.constructor$(promises);",
+    "lineNumber": 15,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/map.js",
+    "line": "    this._init$(undefined, -2);",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/nodeback.js",
+    "line": "function nodebackForPromise(promise, multiArgs) {",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/nodeback.js",
+    "line": "        } else if (!multiArgs) {",
+    "lineNumber": 41,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
+    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
+    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
+    "lineNumber": 180,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
+    "line": "    util.toFastProperties(Promise);                                          ",
+    "lineNumber": 753,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "Promise is a known global"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "function(callback, receiver, originalName, fn, _, multiArgs) {",
+    "lineNumber": 116,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "            var nodeback = nodebackForPromise(promise, \" + multiArgs + \");   \\n\\",
+    "lineNumber": 167,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {",
+    "lineNumber": 208,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "        var fn = nodebackForPromise(promise, multiArgs);",
+    "lineNumber": 221,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "function promisifyAll(obj, suffix, filter, promisifier, multiArgs) {",
+    "lineNumber": 238,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "                makeNodePromisified(key, THIS, key, fn, suffix, multiArgs);",
+    "lineNumber": 249,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "                                           fn, suffix, multiArgs);",
+    "lineNumber": 253,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "    util.toFastProperties(obj);",
+    "lineNumber": 259,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "promisifyAll calls toFastProperties() but is limited to function or object"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "function promisify(callback, receiver, multiArgs) {",
+    "lineNumber": 263,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "                                callback, null, multiArgs);",
+    "lineNumber": 265,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "    var multiArgs = !!options.multiArgs;",
+    "lineNumber": 277,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "    var ret = promisify(fn, receiver, multiArgs);",
+    "lineNumber": 278,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "    var multiArgs = !!options.multiArgs;",
+    "lineNumber": 288,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "                multiArgs);",
+    "lineNumber": 306,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "            promisifyAll(value, suffix, filter, promisifier, multiArgs);",
+    "lineNumber": 307,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
+    "line": "    return promisifyAll(target, suffix, filter, promisifier, multiArgs);",
+    "lineNumber": 311,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/props.js",
+    "line": "    this.constructor$(entries);",
+    "lineNumber": 56,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/props.js",
+    "line": "    this._init$(undefined, isMap ? -6 : -3);",
+    "lineNumber": 58,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
+    "line": "    this.constructor$(promises);",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
+    "line": "    this._init$(undefined, -5);",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
+    "line": "    this._resultCancelled$();",
+    "lineNumber": 68,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/settle.js",
+    "line": "    this.constructor$(values);",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/some.js",
+    "line": "    this.constructor$(values);",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/some.js",
+    "line": "    this._init$(undefined, -5);",
+    "lineNumber": 27,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/using.js",
+    "line": "        this.constructor$(fn, promise, context);",
+    "lineNumber": 92,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-22T19:00:07.131Z"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
+    "line": "function toFastProperties(obj) {",
+    "lineNumber": 194,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "Declaring a dangerous function"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
+    "line": "    eval(obj);",
+    "lineNumber": 201,
+    "reasonCategory": "ruleNeeded",
+    "updated": "2019-03-22T19:00:07.131Z",
+    "reasonDetail": "This is run on whatever is provided to toFastProperties()"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
+    "line": "    toFastProperties: toFastProperties,",
+    "lineNumber": 354,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "Declaring a dangerous function"
+  },
+  {
+    "rule": "bluebird-toFastProperties",
+    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
+    "line": "if (ret.isNode) ret.toFastProperties(process);",
+    "lineNumber": 377,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-22T19:15:12.445Z",
+    "reasonDetail": "process is a known global"
   },
   {
     "rule": "jQuery-wrap(",
@@ -2532,6 +2815,46 @@
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 211,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/dmg-builder/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-06T00:07:44.427Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/dotenv-expand/lib/main.js",
     "line": "    var matches = env.match(/\\$([a-zA-Z0-9_]+)|\\${([a-zA-Z0-9_]+)}/g) || []",
@@ -2556,52 +2879,84 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/electron-context-menu/index.js",
+    "line": "\t\t\tconst result = options.prepend(props, win);",
+    "lineNumber": 122,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-10T19:08:25.356Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/electron-context-menu/index.js",
+    "line": "\t\t\tconst result = options.append(props, win);",
+    "lineNumber": 130,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-04-10T19:08:25.356Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    eval(code: string): void;",
-    "lineNumber": 1834,
+    "lineNumber": 2031,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-02-22T01:08:09.603Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/electron/electron.d.ts",
     "line": "    append(menuItem: MenuItem): void;",
-    "lineNumber": 3232,
+    "lineNumber": 3433,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-02-22T01:08:09.603Z"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/index.d.ts",
+    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
     "line": "        wrap(oldStream: ReadableStream): this;",
-    "lineNumber": 437,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T21:02:15.849Z"
+    "lineNumber": 573,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/index.d.ts",
+    "path": "node_modules/electron/node_modules/@types/node/globals.d.ts",
     "line": "        static wrap(code: string): string;",
-    "lineNumber": 792,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T20:45:24.002Z"
+    "lineNumber": 976,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
+    "line": "         * Default: an async wrapper for the JavaScript `eval()` function. An `eval` function can",
+    "lineNumber": 31,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/electron/node_modules/@types/node/repl.d.ts",
+    "line": "         * for the JavaScript `eval()` function.",
+    "lineNumber": 180,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/electron/node_modules/@types/node/stream.d.ts",
+    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
+    "lineNumber": 32,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/electron/node_modules/@types/node/index.d.ts",
+    "path": "node_modules/electron/node_modules/@types/node/url.d.ts",
     "line": "        append(name: string, value: string): void;",
-    "lineNumber": 2355,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T21:02:15.849Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/electron/node_modules/@types/node/index.d.ts",
-    "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
-    "lineNumber": 5277,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T20:45:24.002Z"
+    "lineNumber": 90,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-$(",
@@ -3049,28 +3404,10 @@
     "updated": "2018-09-19T18:06:35.446Z"
   },
   {
-    "rule": "jQuery-globalEval(",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "    goog.globalEval(b);",
-    "lineNumber": 238,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "Part of their google closure 'debug loader'"
-  },
-  {
-    "rule": "DOM-document.write(",
-    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "  goog.global.document.write('<script type=\"text/javascript\" src=\"' + a + '\">\\x3c/script>');",
-    "lineNumber": 243,
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "Part of their google closure 'debug loader'"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
-    "lineNumber": 333,
+    "lineNumber": 232,
     "reasonCategory": "usageTrusted",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Hard-coded string used for testing capabilities."
@@ -3079,7 +3416,7 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "  eval(a);",
-    "lineNumber": 368,
+    "lineNumber": 267,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "Used to load dependencies; parent function loadModuleFromSource_ is used in one place only."
@@ -3087,26 +3424,26 @@
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "      eval(f + \"\\n//# sourceURL=\" + e);",
-    "lineNumber": 411,
+    "line": "        eval(g + \"\\n//# sourceURL=\" + f);",
+    "lineNumber": 298,
     "reasonCategory": "notExercisedByOurApp",
-    "updated": "2018-11-27T01:31:13.384Z",
+    "updated": "2019-04-12T00:50:12.124Z",
     "reasonDetail": "Used for google closure compiler transpilation scenarios"
   },
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
-    "line": "        if (goog.global.eval(\"var _evalTest_ = 1;\"), \"undefined\" != typeof goog.global._evalTest_) {",
-    "lineNumber": 555,
+    "line": "          goog.global.eval(\"var _evalTest_ = 1;\");",
+    "lineNumber": 444,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-11-27T01:31:13.384Z",
-    "reasonDetail": "Hard-coded string used for testing capabilities."
+    "updated": "2019-04-12T00:50:12.124Z",
+    "reasonDetail": "Hard-coded string used for testing capabilities"
   },
   {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "        goog.global.eval(a);",
-    "lineNumber": 566,
+    "lineNumber": 458,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "More transpilation logic"
@@ -3115,7 +3452,7 @@
     "rule": "jQuery-$(",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "  b && (a = a.replace(/\\{\\$([^}]+)}/g, function(a, d) {",
-    "lineNumber": 606,
+    "lineNumber": 498,
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T01:31:13.384Z"
   },
@@ -3123,16 +3460,34 @@
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      return !!eval(a);",
-    "lineNumber": 719,
+    "lineNumber": 640,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "More transpilation logic"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "        d.load(f);",
+    "lineNumber": 796,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2019-04-12T00:50:12.124Z",
+    "reasonDetail": "Part of their google closure 'debug loader'"
+  },
+  {
+    "rule": "jQuery-globalEval(",
+    "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
+    "line": "        goog.globalEval(c);",
+    "lineNumber": 991,
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2019-04-12T00:50:12.124Z",
+    "reasonDetail": "Part of their google closure 'debug loader'"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "    e || (d.innerHTML = a + \" \", e = d.firstChild.nodeValue.slice(0, -1));",
-    "lineNumber": 949,
+    "lineNumber": 2045,
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2018-11-27T01:31:13.384Z",
     "reasonDetail": "An odd technique of unescaping content by putting it into the dom"
@@ -4092,40 +4447,40 @@
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "function load(input, options) {",
-    "lineNumber": 2545,
+    "lineNumber": 2557,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/dist/js-yaml.js",
     "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 2568,
+    "lineNumber": 2580,
     "reasonCategory": "falseMatch",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "node_modules/js-yaml/dist/js-yaml.min.js",
     "lineNumber": 1,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2019-03-13T01:27:05.473Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/lib/js-yaml/loader.js",
     "line": "function load(input, options) {",
-    "lineNumber": 1568,
+    "lineNumber": 1580,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/js-yaml/lib/js-yaml/loader.js",
     "line": "  return load(input, common.extend({ schema: DEFAULT_SAFE_SCHEMA }, options));",
-    "lineNumber": 1591,
+    "lineNumber": 1603,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-04-03T00:52:04.925Z"
   },
   {
     "rule": "jQuery-$(",
@@ -4142,6 +4497,46 @@
     "lineNumber": 16,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:06:35.446Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/lodash-es/after.js",
+    "line": " * var done = _.after(saves.length, function() {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-09T00:08:44.242Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/lodash-es/after.js",
+    "line": "function after(n, func) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-09T00:08:44.242Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/lodash-es/before.js",
+    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
+    "lineNumber": 20,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/lodash-es/before.js",
+    "line": "function before(n, func) {",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-09T00:08:44.242Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/lodash-es/once.js",
+    "line": "  return before(2, func);",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-after(",
@@ -4757,82 +5152,82 @@
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "lineNumber": 880,
+    "lineNumber": 878,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Eval is used here to produce and evaluate the expression 'require'"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "function load(filename, root, callback) {",
-    "lineNumber": 2194,
+    "lineNumber": 2185,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "    return root.load(filename, callback);",
-    "lineNumber": 2200,
+    "lineNumber": 2191,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "// function load(filename:string, callback:LoadCallback):undefined",
-    "lineNumber": 2213,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 2204,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "// function load(filename:string, [root:Root]):Promise<Root>",
-    "lineNumber": 2225,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 2216,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "Root.prototype.load = function load(filename, options, callback) {",
-    "lineNumber": 4106,
+    "lineNumber": 4096,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "// function load(filename:string, options:IParseOptions, callback:LoadCallback):undefined",
-    "lineNumber": 4233,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 4223,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "// function load(filename:string, callback:LoadCallback):undefined",
-    "lineNumber": 4243,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 4233,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "// function load(filename:string, [options:IParseOptions]):Promise<Root>",
-    "lineNumber": 4253,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 4243,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "    return this.load(filename, options, SYNC);",
-    "lineNumber": 4266,
+    "lineNumber": 4256,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "eval",
@@ -4853,10 +5248,10 @@
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/minimal/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "lineNumber": 662,
+    "lineNumber": 660,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Eval is used here to produce and evaluate the expression 'require'"
   },
   {
     "rule": "eval",
@@ -4870,82 +5265,82 @@
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "lineNumber": 880,
+    "lineNumber": 878,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded value"
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Eval is used here to produce and evaluate the expression 'require'"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "function load(filename, root, callback) {",
-    "lineNumber": 2595,
+    "lineNumber": 2586,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "    return root.load(filename, callback);",
-    "lineNumber": 2601,
+    "lineNumber": 2592,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, callback:LoadCallback):undefined",
-    "lineNumber": 2614,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 2605,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, [root:Root]):Promise<Root>",
-    "lineNumber": 2626,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 2617,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "Root.prototype.load = function load(filename, options, callback) {",
-    "lineNumber": 5281,
+    "lineNumber": 5270,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, options:IParseOptions, callback:LoadCallback):undefined",
-    "lineNumber": 5408,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 5397,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, callback:LoadCallback):undefined",
-    "lineNumber": 5418,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 5407,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "// function load(filename:string, [options:IParseOptions]):Promise<Root>",
-    "lineNumber": 5428,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "lineNumber": 5417,
+    "reasonCategory": "exampleCode",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/dist/protobuf.js",
     "line": "    return this.load(filename, options, SYNC);",
-    "lineNumber": 5441,
+    "lineNumber": 5430,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "eval",
@@ -4973,81 +5368,81 @@
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "export function load(filename: (string|string[]), root: Root, callback: LoadCallback): void;",
-    "lineNumber": 416,
+    "lineNumber": 414,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "export function load(filename: (string|string[]), callback: LoadCallback): void;",
-    "lineNumber": 424,
+    "lineNumber": 422,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "export function load(filename: (string|string[]), root?: Root): Promise<Root>;",
-    "lineNumber": 433,
+    "lineNumber": 431,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "    public load(filename: (string|string[]), options: IParseOptions, callback: LoadCallback): void;",
-    "lineNumber": 1252,
+    "lineNumber": 1250,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "    public load(filename: (string|string[]), callback: LoadCallback): void;",
-    "lineNumber": 1259,
+    "lineNumber": 1257,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/protobufjs/index.d.ts",
     "line": "    public load(filename: (string|string[]), options?: IParseOptions): Promise<Root>;",
-    "lineNumber": 1267,
+    "lineNumber": 1265,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
     "line": "        wrap(oldStream: ReadableStream): this;",
-    "lineNumber": 606,
+    "lineNumber": 456,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
     "line": "        static wrap(code: string): string;",
-    "lineNumber": 978,
+    "lineNumber": 824,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T20:45:24.002Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
     "line": "        append(name: string, value: string): void;",
-    "lineNumber": 2592,
+    "lineNumber": 2411,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/protobufjs/node_modules/@types/node/index.d.ts",
     "line": "            wrap(oldStream: NodeJS.ReadableStream): this;",
-    "lineNumber": 6205,
+    "lineNumber": 5464,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-20T20:45:24.002Z"
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-load(",
@@ -5163,447 +5558,18 @@
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
   },
   {
-    "rule": "React-ref",
-    "path": "node_modules/react-contextmenu/dist/react-contextmenu.js",
-    "lineNumber": 11,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "This library does directly interact with DOM nodes to move menus around, highlight them, etc."
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.browser.development.js",
-    "line": "  innerHTML: true,",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.browser.development.js",
-    "line": "  innerhtml: 'innerHTML',",
-    "lineNumber": 1223,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.browser.development.js",
-    "line": "      warning(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
-    "lineNumber": 1698,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.browser.development.js",
-    "line": "  var innerHTML = props.dangerouslySetInnerHTML;",
-    "lineNumber": 1927,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "We don't really trust this, so we have a dangerouslySetInnerHTML rule"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.browser.development.js",
-    "line": "    if (innerHTML.__html != null) {",
-    "lineNumber": 1929,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.browser.production.min.js",
-    "line": "var x={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function z(a,b){return(a&b)===b}",
-    "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.node.development.js",
-    "line": "  innerHTML: true,",
-    "lineNumber": 44,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.node.development.js",
-    "line": "  innerhtml: 'innerHTML',",
-    "lineNumber": 1224,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.node.development.js",
-    "line": "      warning(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
-    "lineNumber": 1699,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.node.development.js",
-    "line": "  var innerHTML = props.dangerouslySetInnerHTML;",
-    "lineNumber": 1928,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "We don't really trust this, so we add a rule for dangerouslySetInnerHTML elsewhere in code"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.node.development.js",
-    "line": "    if (innerHTML.__html != null) {",
-    "lineNumber": 1930,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom-server.node.production.min.js",
-    "line": "var x={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function z(a,b){return(a&b)===b}",
-    "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "  innerHTML: true,",
-    "lineNumber": 50,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "// SVG temp container for IE lacking innerHTML",
-    "lineNumber": 12433,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": " * Set the innerHTML property of a node",
-    "lineNumber": 12437,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "  // IE does not have innerHTML for SVG nodes, so instead we inject the",
-    "lineNumber": 12444,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "  if (node.namespaceURI === Namespaces.svg && !('innerHTML' in node)) {",
-    "lineNumber": 12448,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "    reusableSVGContainer.innerHTML = '<svg>' + html + '</svg>';",
-    "lineNumber": 12450,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "We don't really trust this, so we add a rule for dangerouslySetInnerHTML elsewhere in code"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "    node.innerHTML = html;",
-    "lineNumber": 12459,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "We don't really trust this, so we add a rule for dangerouslySetInnerHTML elsewhere in code"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": " * issues, inserts <br> instead of the literal newline chars. innerHTML behaves",
-    "lineNumber": 12466,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "  innerhtml: 'innerHTML',",
-    "lineNumber": 13035,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "      warning(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
-    "lineNumber": 13510,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "    testElement.innerHTML = html;",
-    "lineNumber": 13709,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "This is normalizing HTML generated by React, already on its way to the DOM"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "      // Create the script via .innerHTML so its \"parser-inserted\" flag is",
-    "lineNumber": 13867,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "      div.innerHTML = '<script><' + '/script>'; // eslint-disable-line",
-    "lineNumber": 13870,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Hardcoded string"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.development.js",
-    "line": "        var serverHTML = domElement.innerHTML;",
-    "lineNumber": 14358,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "This is behind dangerouslySetInnerHTML flag, so we add a rule for that"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.production.min.js",
-    "line": "var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.production.min.js",
-    "lineNumber": 191,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "access to innerHTML is protected by dangerouslySetInnerHTML, so we have a rule for that"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/cjs/react-dom.production.min.js",
-    "lineNumber": 200,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "access to innerHTML is protected by dangerouslySetInnerHTML, so we have a rule for that"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom-server.browser.development.js",
-    "line": "  innerHTML: true,",
-    "lineNumber": 86,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom-server.browser.development.js",
-    "line": "  innerhtml: 'innerHTML',",
-    "lineNumber": 1619,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom-server.browser.development.js",
-    "line": "      warning_1(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
-    "lineNumber": 2094,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom-server.browser.development.js",
-    "line": "  var innerHTML = props.dangerouslySetInnerHTML;",
-    "lineNumber": 2323,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom-server.browser.development.js",
-    "line": "    if (innerHTML.__html != null) {",
-    "lineNumber": 2325,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom-server.browser.production.min.js",
-    "lineNumber": 16,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "access to innerHTML is protected by dangerouslySetInnerHTML, so we have a rule for that"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "  innerHTML: true,",
-    "lineNumber": 88,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "// SVG temp container for IE lacking innerHTML",
-    "lineNumber": 12975,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": " * Set the innerHTML property of a node",
-    "lineNumber": 12979,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "  // IE does not have innerHTML for SVG nodes, so instead we inject the",
-    "lineNumber": 12986,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "  if (node.namespaceURI === Namespaces.svg && !('innerHTML' in node)) {",
-    "lineNumber": 12990,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "    reusableSVGContainer.innerHTML = '<svg>' + html + '</svg>';",
-    "lineNumber": 12992,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "We don't actually trust this so we add a dangerouslySetInnerHTML rule"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "    node.innerHTML = html;",
-    "lineNumber": 13001,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "We don't actually trust this so we add a dangerouslySetInnerHTML rule"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": " * issues, inserts <br> instead of the literal newline chars. innerHTML behaves",
-    "lineNumber": 13008,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "  innerhtml: 'innerHTML',",
-    "lineNumber": 13709,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "      warning_1(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');",
-    "lineNumber": 14184,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "    testElement.innerHTML = html;",
-    "lineNumber": 14383,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "We don't actually trust this so we add a dangerouslySetInnerHTML rule"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "      // Create the script via .innerHTML so its \"parser-inserted\" flag is",
-    "lineNumber": 14541,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "      div.innerHTML = '<script><' + '/script>'; // eslint-disable-line",
-    "lineNumber": 14544,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.development.js",
-    "line": "        var serverHTML = domElement.innerHTML;",
-    "lineNumber": 15032,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.production.min.js",
-    "lineNumber": 73,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "access to innerHTML is protected by dangerouslySetInnerHTML, so we have a rule for that"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.production.min.js",
-    "lineNumber": 84,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "access to innerHTML is protected by dangerouslySetInnerHTML, so we have a rule for that"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/react-dom/umd/react-dom.production.min.js",
-    "lineNumber": 176,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "access to innerHTML is protected by dangerouslySetInnerHTML, so we have a rule for that"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/read-config-file/node_modules/uri-js/dist/es5/uri.all.min.js",
     "lineNumber": 2,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/redux/node_modules/js-tokens/index.js",
+    "lineNumber": 10,
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-09T00:08:44.242Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5868,43 +5834,41 @@
   {
     "rule": "jQuery-prepend(",
     "path": "node_modules/source-map-support/browser-source-map-support.js",
-    "lineNumber": 93,
+    "lineNumber": 90,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2019-03-13T01:27:05.473Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Most eval() calls are in this format",
     "lineNumber": 234,
-    "reasonCategory": "exampleCode",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T01:27:05.473Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Parse nested eval() calls using recursion",
     "lineNumber": 246,
-    "reasonCategory": "exampleCode",
-    "updated": "2019-01-26T01:47:58.953Z"
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T01:27:05.473Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
     "lineNumber": 344,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2019-01-26T01:47:58.953Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T01:27:05.473Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Code called using eval() needs special handling",
     "lineNumber": 373,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2019-01-26T01:47:58.953Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "falseMatch",
+    "updated": "2019-03-13T01:27:05.473Z"
   },
   {
     "rule": "jQuery-prepend(",
@@ -6214,5 +6178,77 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-17T20:50:40.689Z",
     "reasonDetail": "Hard-coded value"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/CaptionEditor.js",
+    "line": "        this.inputRef = react_1.default.createRef();",
+    "lineNumber": 27,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/CaptionEditor.tsx",
+    "line": "    this.inputRef = React.createRef();",
+    "lineNumber": 46,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/Lightbox.js",
+    "line": "        this.videoRef = react_1.default.createRef();",
+    "lineNumber": 180,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Used to auto-start playback on videos"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/Lightbox.tsx",
+    "line": "    this.videoRef = React.createRef();",
+    "lineNumber": 176,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Used to auto-start playback on videos"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/MainHeader.js",
+    "line": "        this.inputRef = react_1.default.createRef();",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/MainHeader.tsx",
+    "line": "    this.inputRef = React.createRef();",
+    "lineNumber": 57,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/ConversationHeader.js",
+    "line": "        this.menuTriggerRef = react_1.default.createRef();",
+    "lineNumber": 13,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Used only to trigger menu display"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/ConversationHeader.tsx",
+    "line": "    this.menuTriggerRef = React.createRef();",
+    "lineNumber": 58,
+    "reasonCategory": "usageTrusted",
+    "updated": "2019-03-09T00:08:44.242Z",
+    "reasonDetail": "Used only to trigger menu display"
   }
 ]

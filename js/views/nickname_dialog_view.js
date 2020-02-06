@@ -1,4 +1,4 @@
-/* global Whisper, i18n, _ */
+/* global Whisper, i18n, _, displayNameRegex */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -19,9 +19,6 @@
       this.reject = options.reject;
       this.cancelText = options.cancelText || i18n('cancel');
 
-      this.clear = options.clear;
-      this.clearText = options.clearText || i18n('clear');
-
       this.title = options.title;
 
       this.render();
@@ -31,22 +28,38 @@
       this.$input.focus();
 
       this.validateNickname();
+
+      const sanitiseNameInput = () => {
+        const oldVal = this.$input.val();
+        this.$input.val(oldVal.replace(displayNameRegex, ''));
+      };
+
+      this.$input[0].oninput = () => {
+        sanitiseNameInput();
+      };
+
+      this.$input[0].onpaste = () => {
+        // Sanitise data immediately after paste because it's easier
+        setTimeout(() => {
+          sanitiseNameInput();
+        });
+      };
     },
     events: {
       keyup: 'onKeyup',
       'click .ok': 'ok',
       'click .cancel': 'cancel',
-      'click .clear': 'clear',
       change: 'validateNickname',
     },
     validateNickname() {
       const nickname = this.$input.val();
 
       if (_.isEmpty(nickname)) {
-        this.$('.clear').hide();
-      } else {
-        this.$('.clear').show();
+        this.$('.ok').attr('disabled', 'disabled');
+        return false;
       }
+      this.$('.ok').removeAttr('disabled');
+      return true;
     },
     render_attributes() {
       return {
@@ -54,7 +67,6 @@
         showCancel: !this.hideCancel,
         cancel: this.cancelText,
         ok: this.okText,
-        clear: this.clearText,
         title: this.title,
       };
     },
@@ -72,14 +84,13 @@
         this.reject();
       }
     },
-    clear() {
-      this.$input.val('').trigger('change');
-    },
     onKeyup(event) {
-      this.validateNickname();
+      const valid = this.validateNickname();
       switch (event.key) {
         case 'Enter':
-          this.ok();
+          if (valid) {
+            this.ok();
+          }
           break;
         case 'Escape':
         case 'Esc':

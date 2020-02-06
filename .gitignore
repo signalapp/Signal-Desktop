@@ -1,5 +1,6 @@
 node_modules
 .sass-cache
+.eslintcache
 coverage/*
 build/curve25519_compiled.js
 build/icons/*
@@ -30,3 +31,9 @@ test/test.js
 # React / TypeScript
 ts/**/*.js
 ts/protobuf/*.d.ts
+
+# Swapfiles
+**/*.swp
+
+# Ctags
+tags

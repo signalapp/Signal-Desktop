@@ -14,18 +14,18 @@ import {
   renderAvatar,
   renderContactShorthand,
   renderName,
-} from './EmbeddedContact';
+} from './_contactUtil';
 
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Props {
   contact: Contact;
   hasSignalAccount: boolean;
-  i18n: Localizer;
+  i18n: LocalizerType;
   onSendMessage: () => void;
 }
 
-function getLabelForEmail(method: Email, i18n: Localizer): string {
+function getLabelForEmail(method: Email, i18n: LocalizerType): string {
   switch (method.type) {
     case ContactType.CUSTOM:
       return method.label || i18n('email');
@@ -40,7 +40,7 @@ function getLabelForEmail(method: Email, i18n: Localizer): string {
   }
 }
 
-function getLabelForPhone(method: Phone, i18n: Localizer): string {
+function getLabelForPhone(method: Phone, i18n: LocalizerType): string {
   switch (method.type) {
     case ContactType.CUSTOM:
       return method.label || i18n('phone');
@@ -55,7 +55,10 @@ function getLabelForPhone(method: Phone, i18n: Localizer): string {
   }
 }
 
-function getLabelForAddress(address: PostalAddress, i18n: Localizer): string {
+function getLabelForAddress(
+  address: PostalAddress,
+  i18n: LocalizerType
+): string {
   switch (address.type) {
     case AddressType.CUSTOM:
       return address.label || i18n('address');
@@ -104,7 +107,7 @@ export class ContactDetail extends React.Component<Props> {
     );
   }
 
-  public renderEmail(items: Array<Email> | undefined, i18n: Localizer) {
+  public renderEmail(items: Array<Email> | undefined, i18n: LocalizerType) {
     if (!items || items.length === 0) {
       return;
     }
@@ -124,7 +127,7 @@ export class ContactDetail extends React.Component<Props> {
     });
   }
 
-  public renderPhone(items: Array<Phone> | undefined, i18n: Localizer) {
+  public renderPhone(items: Array<Phone> | undefined, i18n: LocalizerType) {
     if (!items || items.length === 0) {
       return;
     }
@@ -152,7 +155,7 @@ export class ContactDetail extends React.Component<Props> {
     return <div>{value}</div>;
   }
 
-  public renderPOBox(poBox: string | undefined, i18n: Localizer) {
+  public renderPOBox(poBox: string | undefined, i18n: LocalizerType) {
     if (!poBox) {
       return null;
     }
@@ -178,7 +181,7 @@ export class ContactDetail extends React.Component<Props> {
 
   public renderAddresses(
     addresses: Array<PostalAddress> | undefined,
-    i18n: Localizer
+    i18n: LocalizerType
   ) {
     if (!addresses || addresses.length === 0) {
       return;

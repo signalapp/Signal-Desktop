@@ -1,0 +1,262 @@
+.session {
+  &-fullscreen {
+    @include session-dark-background;
+    overflow-y: auto;
+    height: 100%;
+  }
+
+  &-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    &-accent {
+      flex-grow: 1;
+      padding-left: 20px;
+
+      &-text {
+        color: $session-color-white;
+        font-family: $session-font-family;
+
+        .title {
+          font-size: 100px;
+          font-weight: 700;
+          line-height: 120px;
+        }
+      }
+    }
+
+    &-registration {
+      height: 45%;
+      padding-right: 128px;
+    }
+
+    &-close-button {
+      position: absolute;
+      top: 17px;
+      left: 20px;
+    }
+
+    &-session-button {
+      position: absolute;
+      top: 17px;
+      right: 20px;
+
+      img {
+        width: 30px;
+      }
+    }
+  }
+
+  &-registration {
+    &-container {
+      display: flex;
+      flex-direction: column;
+      width: 289px;
+
+      .session-button {
+        width: 100%;
+      }
+    }
+
+    &__content {
+      width: 100%;
+      padding-top: 20px;
+    }
+
+    &__sections {
+      display: flex;
+      flex-grow: 1;
+      flex-direction: column;
+    }
+
+    &__tab-container {
+      display: flex;
+      flex-grow: 0;
+      flex-shrink: 0;
+      cursor: pointer;
+      width: 289px;
+      height: 30px;
+      left: 0;
+      right: 0;
+
+      margin-left: auto;
+      margin-right: auto;
+      color: $session-color-white;
+    }
+
+    &__tab {
+      @include fontWasaBold();
+      width: 100%;
+      padding-bottom: 10px;
+      background-color: transparent;
+      text-align: center;
+      color: $session-color-white;
+      border-bottom: 2px solid $session-color-dark-grey;
+      transition: border-color $session-transition-duration linear;
+      line-height: 17px;
+      font-size: 15px;
+
+      &--active {
+        border-bottom: $session-element-border-green;
+      }
+    }
+
+    @mixin registration-label-mixin {
+      color: $session-color-white;
+      font-weight: bold;
+      padding: 12px;
+    }
+
+    &__welcome-session {
+      @include registration-label-mixin;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 14px;
+      padding-top: 2em;
+      text-align: center;
+    }
+
+    &__unique-session-id {
+      @include registration-label-mixin;
+      padding-top: 3em;
+      text-align: center;
+    }
+
+    &__entry-fields {
+      margin: 0px;
+      padding-bottom: 30px;
+    }
+  }
+
+  &-input-floating-label-show-hide {
+    padding-right: 30px;
+  }
+
+  &-input-with-label-container {
+    height: 46.5px;
+    width: 280px;
+    color: $session-color-white;
+    padding: 2px 0 2px 0;
+    transition: opacity $session-transition-duration;
+    opacity: 1;
+    position: relative;
+
+    label {
+      line-height: 14px;
+      opacity: 0;
+      color: #737373;
+      font-size: 10px;
+      line-height: 11px;
+      position: absolute;
+      top: 0px;
+    }
+
+    &.filled {
+      opacity: 1;
+    }
+
+    &.error {
+      color: red;
+    }
+
+    input {
+      border: none;
+      outline: 0;
+      height: 14px;
+      width: 280px;
+      background: transparent;
+      color: $session-color-white;
+      font-size: 12px;
+      line-height: 14px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    hr {
+      border: 1px solid $session-color-light-grey;
+      width: 100%;
+      position: absolute;
+      bottom: 0px;
+    }
+
+    .session-icon-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0px;
+    }
+  }
+
+  &-terms-conditions-agreement {
+    padding-top: 10px;
+    color: $session-color-light-grey;
+    text-align: center;
+    font-size: 12px;
+
+    a {
+      white-space: nowrap;
+      font-weight: bold;
+      text-decoration: none;
+      color: $session-color-light-grey;
+      transition: $session-transition-duration;
+
+      &:visited &:link {
+        color: $session-color-light-grey;
+      }
+
+      &:hover {
+        color: $session-color-white;
+      }
+    }
+  }
+
+  &-description-long,
+  &-signin-device-pairing-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: $session-color-light-grey;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  &-id-editable {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 94px;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #353535;
+    margin-bottom: 20px;
+
+    textarea {
+      width: 100%;
+      outline: 0;
+      border: none;
+      background: transparent;
+      color: #fff;
+      font-size: 15px;
+      line-height: 18px;
+      text-align: center;
+      overflow-wrap: break-word;
+      padding: 20px 5px 20px 5px;
+      display: inline-block;
+      font-family: 'SpaceMono';
+      user-select: all;
+    }
+  }
+}
+
+[contenteditable='true']:empty::before {
+  content: attr(placeholder);
+  color: $session-color-light-grey;
+  font-size: 13px;
+}
+
+.registration-content-centered {
+  text-align: center;
+}

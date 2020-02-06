@@ -2,17 +2,21 @@ import React from 'react';
 
 import LinkifyIt from 'linkify-it';
 
-import { RenderTextCallback } from '../../types/Util';
+import { RenderTextCallbackType } from '../../types/Util';
+import { isLinkSneaky } from '../../../js/modules/link_previews';
+import { SessionHtmlRenderer } from '../session/SessionHTMLRenderer';
 
 const linkify = LinkifyIt();
 
 interface Props {
   text: string;
+  isRss?: boolean;
   /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
-  renderNonLink?: RenderTextCallback;
+  renderNonLink?: RenderTextCallbackType;
 }
 
 const SUPPORTED_PROTOCOLS = /^(http|https):/i;
+const HAS_AT = /@/;
 
 export class Linkify extends React.Component<Props> {
   public static defaultProps: Partial<Props> = {
@@ -20,11 +24,19 @@ export class Linkify extends React.Component<Props> {
   };
 
   public render() {
-    const { text, renderNonLink } = this.props;
-    const matchData = linkify.match(text) || [];
+    const { text, renderNonLink, isRss } = this.props;
     const results: Array<any> = [];
-    let last = 0;
     let count = 1;
+
+    if (isRss && text.indexOf('</') !== -1) {
+      results.push(<SessionHtmlRenderer key={count++} html={text} tag="div" />);
+      // should already have links
+
+      return results;
+    }
+
+    const matchData = linkify.match(text) || [];
+    let last = 0;
 
     // We have to do this, because renderNonLink is not required in our Props object,
     //  but it is always provided via defaultProps.
@@ -49,7 +61,11 @@ export class Linkify extends React.Component<Props> {
         }
 
         const { url, text: originalText } = match;
-        if (SUPPORTED_PROTOCOLS.test(url)) {
+        if (
+          SUPPORTED_PROTOCOLS.test(url) &&
+          !isLinkSneaky(url) &&
+          !HAS_AT.test(url)
+        ) {
           results.push(
             <a key={count++} href={url}>
               {originalText}

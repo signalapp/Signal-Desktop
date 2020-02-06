@@ -113,7 +113,10 @@ _.noConflict();
 
 // @ts-ignore
 window.log = {
+  // tslint:disable-next-line no-console
   info: console.log,
-  error: console.log,
-  war: console.log,
+  // tslint:disable-next-line no-console
+  error: console.error,
+  // tslint:disable-next-line no-console
+  warn: console.warn,
 };

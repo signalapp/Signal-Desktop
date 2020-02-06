@@ -10,6 +10,7 @@
 @import 'lightbox';
 @import 'recorder';
 @import 'emoji';
+@import 'mentions';
 @import 'settings';
 @import 'password';
 
@@ -21,8 +22,15 @@
 @import 'ios';
 @import 'theme_dark';
 
-// New CSS
+// Session
 @import 'modules';
+@import 'session';
+@import 'session_signin';
+@import 'session_theme';
+@import 'session_left_pane';
+@import 'session_group_panel';
+
+@import 'session-slider';
 
 // Installer
 @import 'options';

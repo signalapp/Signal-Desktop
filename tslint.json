@@ -4,7 +4,8 @@
   "jsRules": {},
   "rules": {
     // prettier is handling this
-    "align": [false],
+    "align": false,
+    "newline-per-chained-call": false,
     "array-type": [true, "generic"],
 
     // Preferred by Prettier:
@@ -82,6 +83,17 @@
 
     // React components and namespaces are Pascal case
     "variable-name": [true, "allow-pascal-case"],
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ],
+
+    "function-name": [true, { "function-regex": "^_?[a-z][\\w\\d]+$" }],
+
+    // Adding select dev dependencies here for now, may turn on all in the future
+    "no-implicit-dependencies": [true, ["dashdash", "electron"]],
 
     // Maybe will turn on:
 
@@ -104,6 +116,9 @@
 
     // Probably won't turn on:
 
+    "possible-timing-attack": false,
+    // We use null
+    "no-null-keyword": false,
     // We want to import a capitalized React, for example
     "import-name": false,
     // We have the styleguide for better docs
@@ -121,7 +136,19 @@
     // 'as' is nicer than angle brackets.
     "prefer-type-cast": false,
     // We use || and && shortcutting because we're javascript programmers
-    "strict-boolean-expressions": false
+    "strict-boolean-expressions": false,
+    "no-suspicious-comment": false,
+    "react-no-dangerous-html": [
+      true,
+      {
+        "file": "ts/components/session/SessionHTMLRenderer.tsx",
+        "method": "<unknown>",
+        "comment": "Usage has been approved by Maxim on 13 Dec 2019"
+      }
+    ],
+    // Reasonable functions can exceed the default of 100 lines
+    // due to auto-formatting
+    "max-func-body-length": [true, 150]
   },
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
 }

@@ -5,11 +5,10 @@ import { ItemClickEvent } from './types/ItemClickEvent';
 import { MediaGridItem } from './MediaGridItem';
 import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
-import { Localizer } from '../../../types/Util';
+import { LocalizerType } from '../../../types/Util';
 
 interface Props {
-  i18n: Localizer;
-  header?: string;
+  i18n: LocalizerType;
   type: 'media' | 'documents';
   mediaItems: Array<MediaItemType>;
   onItemClick?: (event: ItemClickEvent) => void;
@@ -17,13 +16,14 @@ interface Props {
 
 export class AttachmentSection extends React.Component<Props> {
   public render() {
-    const { header } = this.props;
+    const { type } = this.props;
 
     return (
       <div className="module-attachment-section">
-        <h2 className="module-attachment-section__header">{header}</h2>
         <div className="module-attachment-section__items">
-          {this.renderItems()}
+          <div className={`module-attachment-section__items-${type}`}>
+            {this.renderItems()}
+          </div>
         </div>
       </div>
     );
@@ -64,7 +64,7 @@ export class AttachmentSection extends React.Component<Props> {
     });
   }
 
-  private createClickHandler = (mediaItem: MediaItemType) => () => {
+  private readonly createClickHandler = (mediaItem: MediaItemType) => () => {
     const { onItemClick, type } = this.props;
     const { message, attachment } = mediaItem;
 

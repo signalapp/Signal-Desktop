@@ -7,7 +7,7 @@ import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { Color, Localizer } from '../../types/Util';
+import { ColorType, LocalizerType } from '../../types/Util';
 import { ContactName } from './ContactName';
 
 interface Props {
@@ -15,15 +15,22 @@ interface Props {
   authorPhoneNumber: string;
   authorProfileName?: string;
   authorName?: string;
-  authorColor?: Color;
-  i18n: Localizer;
+  authorColor?: ColorType;
+  i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
+  conversationType: 'group' | 'direct';
+  convoId: string;
+  isPublic?: boolean;
   withContentAbove: boolean;
   onClick?: () => void;
   onClose?: () => void;
   text: string;
   referencedMessageNotFound: boolean;
+}
+
+interface State {
+  imageBroken: boolean;
 }
 
 export interface QuotedAttachmentType {
@@ -52,12 +59,12 @@ function validateQuote(quote: Props): boolean {
   return false;
 }
 
-function getObjectUrl(thumbnail: Attachment | undefined): string | null {
+function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
   if (thumbnail && thumbnail.objectUrl) {
     return thumbnail.objectUrl;
   }
 
-  return null;
+  return;
 }
 
 function getTypeLabel({
@@ -65,10 +72,10 @@ function getTypeLabel({
   contentType,
   isVoiceMessage,
 }: {
-  i18n: Localizer;
+  i18n: LocalizerType;
   contentType: MIME.MIMEType;
   isVoiceMessage: boolean;
-}): string | null {
+}): string | undefined {
   if (GoogleChrome.isVideoTypeSupported(contentType)) {
     return i18n('video');
   }
@@ -82,11 +89,31 @@ function getTypeLabel({
     return i18n('audio');
   }
 
-  return null;
+  return;
 }
 
-export class Quote extends React.Component<Props> {
-  public renderImage(url: string, i18n: Localizer, icon?: string) {
+export class Quote extends React.Component<Props, State> {
+  public handleImageErrorBound: () => void;
+
+  public constructor(props: Props) {
+    super(props);
+
+    this.handleImageErrorBound = this.handleImageError.bind(this);
+
+    this.state = {
+      imageBroken: false,
+    };
+  }
+
+  public handleImageError() {
+    // tslint:disable-next-line no-console
+    console.log('Message: Image failed to load; failing over to placeholder');
+    this.setState({
+      imageBroken: true,
+    });
+  }
+
+  public renderImage(url: string, i18n: LocalizerType, icon?: string) {
     const iconElement = icon ? (
       <div className="module-quote__icon-container__inner">
         <div className="module-quote__icon-container__circle-background">
@@ -102,7 +129,11 @@ export class Quote extends React.Component<Props> {
 
     return (
       <div className="module-quote__icon-container">
-        <img src={url} alt={i18n('quoteThumbnailAlt')} />
+        <img
+          src={url}
+          alt={i18n('quoteThumbnailAlt')}
+          onError={this.handleImageErrorBound}
+        />
         {iconElement}
       </div>
     );
@@ -159,6 +190,8 @@ export class Quote extends React.Component<Props> {
 
   public renderIconContainer() {
     const { attachment, i18n } = this.props;
+    const { imageBroken } = this.state;
+
     if (!attachment) {
       return null;
     }
@@ -167,12 +200,12 @@ export class Quote extends React.Component<Props> {
     const objectUrl = getObjectUrl(thumbnail);
 
     if (GoogleChrome.isVideoTypeSupported(contentType)) {
-      return objectUrl
+      return objectUrl && !imageBroken
         ? this.renderImage(objectUrl, i18n, 'play')
         : this.renderIcon('movie');
     }
     if (GoogleChrome.isImageTypeSupported(contentType)) {
-      return objectUrl
+      return objectUrl && !imageBroken
         ? this.renderImage(objectUrl, i18n)
         : this.renderIcon('image');
     }
@@ -184,7 +217,14 @@ export class Quote extends React.Component<Props> {
   }
 
   public renderText() {
-    const { i18n, text, attachment, isIncoming } = this.props;
+    const {
+      i18n,
+      text,
+      attachment,
+      isIncoming,
+      conversationType,
+      convoId,
+    } = this.props;
 
     if (text) {
       return (
@@ -195,7 +235,13 @@ export class Quote extends React.Component<Props> {
             isIncoming ? 'module-quote__primary__text--incoming' : null
           )}
         >
-          <MessageBody text={text} disableLinks={true} i18n={i18n} />
+          <MessageBody
+            isGroup={conversationType === 'group'}
+            convoId={convoId}
+            text={text}
+            disableLinks={true}
+            i18n={i18n}
+          />
         </div>
       );
     }
@@ -274,6 +320,7 @@ export class Quote extends React.Component<Props> {
             name={authorName}
             profileName={authorProfileName}
             i18n={i18n}
+            compact={true}
           />
         )}
       </div>

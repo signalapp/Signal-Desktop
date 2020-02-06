@@ -2,9 +2,8 @@ import React from 'react';
 // import classNames from 'classnames';
 import { compact, flatten } from 'lodash';
 
-import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 
@@ -15,7 +14,7 @@ interface Contact {
 }
 
 interface Change {
-  type: 'add' | 'remove' | 'name' | 'general';
+  type: 'add' | 'remove' | 'name' | 'general' | 'kicked';
   isMe: boolean;
   newName?: string;
   contacts?: Array<Contact>;
@@ -23,7 +22,7 @@ interface Change {
 
 interface Props {
   changes: Array<Change>;
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class GroupNotification extends React.Component<Props> {
@@ -39,12 +38,7 @@ export class GroupNotification extends React.Component<Props> {
               key={`external-${contact.phoneNumber}`}
               className="module-group-notification__contact"
             >
-              <ContactName
-                i18n={i18n}
-                phoneNumber={contact.phoneNumber}
-                profileName={contact.profileName}
-                name={contact.name}
-              />
+              {contact.profileName}
             </span>
           );
 
@@ -55,21 +49,16 @@ export class GroupNotification extends React.Component<Props> {
 
     switch (type) {
       case 'name':
-        return i18n('titleIsNow', [newName || '']);
+        return `${i18n('titleIsNow', [newName || ''])}.`;
       case 'add':
         if (!contacts || !contacts.length) {
           throw new Error('Group update is missing contacts');
         }
 
-        return (
-          <Intl
-            i18n={i18n}
-            id={
-              contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup'
-            }
-            components={[people]}
-          />
-        );
+        const joinKey =
+          contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
+
+        return <Intl i18n={i18n} id={joinKey} components={[people]} />;
       case 'remove':
         if (isMe) {
           return i18n('youLeftTheGroup');
@@ -79,13 +68,25 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
-        return (
-          <Intl
-            i18n={i18n}
-            id={contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup'}
-            components={[people]}
-          />
-        );
+        const leftKey =
+          contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
+
+        return <Intl i18n={i18n} id={leftKey} components={[people]} />;
+      case 'kicked':
+        if (isMe) {
+          return i18n('youGotKickedFromGroup');
+        }
+
+        if (!contacts || !contacts.length) {
+          throw new Error('Group update is missing contacts');
+        }
+
+        const kickedKey =
+          contacts.length > 1
+            ? 'multipleKickedFromTheGroup'
+            : 'kickedFromTheGroup';
+
+        return <Intl i18n={i18n} id={kickedKey} components={[people]} />;
       case 'general':
         return i18n('updatedTheGroup');
       default:

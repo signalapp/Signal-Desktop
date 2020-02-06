@@ -50,7 +50,23 @@ describe('Attachment', () => {
           attachment,
           timestamp,
         });
-        const expected = 'signal-attachment-2000-01-01-000000.mov';
+        const expected = 'session-attachment-2000-01-01-000000.mov';
+        assert.strictEqual(actual, expected);
+      });
+    });
+    context('for attachment with index', () => {
+      it('should generate a filename based on timestamp', () => {
+        const attachment: Attachment.Attachment = {
+          data: stringToArrayBuffer('foo'),
+          contentType: MIME.VIDEO_QUICKTIME,
+        };
+        const timestamp = new Date(new Date(0).getTimezoneOffset() * 60 * 1000);
+        const actual = Attachment.getSuggestedFilename({
+          attachment,
+          timestamp,
+          index: 3,
+        });
+        const expected = 'session-attachment-1970-01-01-000000_003.mov';
         assert.strictEqual(actual, expected);
       });
     });
@@ -147,7 +163,6 @@ describe('Attachment', () => {
 
     it('should return true for legacy Android voice message attachment', () => {
       const attachment: Attachment.Attachment = {
-        fileName: null,
         data: stringToArrayBuffer('voice message'),
         contentType: MIME.AUDIO_MP3,
       };

@@ -1,9 +1,11 @@
 const { assert } = require('chai');
 
 const {
+  findLinks,
   getTitleMetaTag,
   getImageMetaTag,
   isLinkInWhitelist,
+  isLinkSneaky,
   isMediaLinkInWhitelist,
 } = require('../../js/modules/link_previews');
 
@@ -190,7 +192,7 @@ describe('Link previews', () => {
       );
     });
 
-    it('returns html-decoded tag contents from Instagram', () => {
+    it('returns html-decoded tag contents from Imgur', () => {
       const imgur = `
         <meta property="og:site_name" content="Imgur">
         <meta property="og:url" content="https://imgur.com/gallery/KFCL8fm">
@@ -206,6 +208,50 @@ describe('Link previews', () => {
       assert.strictEqual(
         'https://i.imgur.com/Y3wjlwY.jpg?fb',
         getImageMetaTag(imgur)
+      );
+    });
+
+    it('returns html-decoded tag contents from Giphy', () => {
+      const giphy = `
+        <meta property="og:site_name" content="GIPHY">
+        <meta property="og:url" content="https://media.giphy.com/media/3o7qE8mq5bT9FQj7j2/giphy.gif">
+        <meta property="og:type" content="video.other">
+        <meta property="og:title" content="I Cant Hear You Kobe Bryant GIF - Find & Share on GIPHY">
+        <meta property="og:description" content="Discover &amp; share this Kobe GIF with everyone you know. GIPHY is how you search, share, discover, and create GIFs.">
+        <meta property="og:image" content="https://media.giphy.com/media/3o7qE8mq5bT9FQj7j2/giphy.gif">
+        <meta property="og:image:width" content="480">
+        <meta property="og:image:height" content="262">
+      `;
+
+      assert.strictEqual(
+        'I Cant Hear You Kobe Bryant GIF - Find & Share on GIPHY',
+        getTitleMetaTag(giphy)
+      );
+      assert.strictEqual(
+        'https://media.giphy.com/media/3o7qE8mq5bT9FQj7j2/giphy.gif',
+        getImageMetaTag(giphy)
+      );
+    });
+
+    it('returns html-decoded tag contents from Tenor', () => {
+      const tenor = `
+        <meta class="dynamic" property="og:site_name" content="Tenor" >
+        <meta class="dynamic" property="og:url" content="https://media1.tenor.com/images/3772949a5b042e626d259f313fd1e9b8/tenor.gif?itemid=14834517">
+        <meta class="dynamic" property="og:type" content="video.other">
+        <meta class="dynamic" property="og:title" content="Hopping Jumping GIF - Hopping Jumping Bird - Discover & Share GIFs">
+        <meta class="dynamic" property="og:description" content="Click to view the GIF">
+        <meta class="dynamic" property="og:image" content="https://media1.tenor.com/images/3772949a5b042e626d259f313fd1e9b8/tenor.gif?itemid=14834517">
+        <meta class="dynamic" property="og:image:width" content="498">
+        <meta class="dynamic" property="og:image:height" content="435">
+      `;
+
+      assert.strictEqual(
+        'Hopping Jumping GIF - Hopping Jumping Bird - Discover & Share GIFs',
+        getTitleMetaTag(tenor)
+      );
+      assert.strictEqual(
+        'https://media1.tenor.com/images/3772949a5b042e626d259f313fd1e9b8/tenor.gif?itemid=14834517',
+        getImageMetaTag(tenor)
       );
     });
 
@@ -226,6 +272,119 @@ describe('Link previews', () => {
         'First thing\r\nSecond thing\nThird thing',
         getTitleMetaTag(html)
       );
+    });
+
+    it('converts image url protocol http to https', () => {
+      const html = `
+        <meta property="og:image" content="http://giphygifs.s3.amazonaws.com/media/APcFiiTrG0x2/200.gif">
+      `;
+
+      assert.strictEqual(
+        'https://giphygifs.s3.amazonaws.com/media/APcFiiTrG0x2/200.gif',
+        getImageMetaTag(html)
+      );
+    });
+  });
+
+  describe('#findLinks', () => {
+    it('returns all links if no caretLocation is provided', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+
+      const expected = [
+        'https://github.com/signalapp/Signal-Desktop',
+        'https://github.com/signalapp/Signal-Android',
+      ];
+
+      const actual = findLinks(text);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('includes all links if cursor is not in a link', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = 10;
+
+      const expected = [
+        'https://github.com/signalapp/Signal-Desktop',
+        'https://github.com/signalapp/Signal-Android',
+      ];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('excludes a link not at the end if the caret is inside of it', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = 30;
+
+      const expected = ['https://github.com/signalapp/Signal-Android'];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('excludes a link not at the end if the caret is at its end', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = 64;
+
+      const expected = ['https://github.com/signalapp/Signal-Android'];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('excludes a link at the end of the caret is inside of it', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = 100;
+
+      const expected = ['https://github.com/signalapp/Signal-Desktop'];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+
+    it('includes link at the end if cursor is at its end', () => {
+      const text =
+        'Check out this link: https://github.com/signalapp/Signal-Desktop\nAnd this one too: https://github.com/signalapp/Signal-Android';
+      const caretLocation = text.length;
+
+      const expected = [
+        'https://github.com/signalapp/Signal-Desktop',
+        'https://github.com/signalapp/Signal-Android',
+      ];
+
+      const actual = findLinks(text, caretLocation);
+      assert.deepEqual(expected, actual);
+    });
+  });
+
+  describe('#isLinkSneaky', () => {
+    it('returns false for all-latin domain', () => {
+      const link = 'https://www.amazon.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, false);
+    });
+
+    it('returns true for Latin + Cyrillic domain', () => {
+      const link = 'https://www.aмazon.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
+    });
+
+    it('returns true for Latin + Greek domain', () => {
+      const link = 'https://www.αpple.com';
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
+    });
+
+    it('returns true for Latin + High Greek domain', () => {
+      const link = `https://www.apple${String.fromCodePoint(0x101a0)}.com`;
+      const actual = isLinkSneaky(link);
+      assert.strictEqual(actual, true);
     });
   });
 });

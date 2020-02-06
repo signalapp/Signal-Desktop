@@ -136,13 +136,8 @@
 .message-list {
   list-style: none;
 
-  .message-wrapper {
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
   li {
-    margin-bottom: 10px;
+    margin-bottom: 2px;
 
     &::after {
       visibility: hidden;
@@ -155,12 +150,168 @@
   }
 }
 
-.group {
-  .message-container,
-  .message-list {
-    .message-wrapper {
-      margin-left: 44px;
+.module-message__check-box {
+  color: rgb(97, 97, 97);
+  font-size: 20px;
+  padding: 4px;
+  user-select: none;
+  display: inline;
+}
+
+.check-box-container {
+  // background-color: blue;
+  align-items: center;
+  flex-direction: row;
+  display: inline-flex;
+}
+
+.check-box-selected {
+  opacity: 1;
+}
+
+.loki-message-wrapper {
+  .react-contextmenu-wrapper {
+    display: inline-flex;
+    width: 100%;
+  }
+}
+
+.loki-message-wrapper {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.public-chat-message-wrapper {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.loki-message-wrapper {
+  display: flow-root;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+.group-invitation-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-invitation {
+  background-color: #f4f4f0;
+  display: inline-block;
+  margin: 4px 16px;
+  padding: 4px;
+
+  border: solid;
+  border-width: 0.5px;
+  border-radius: 4px;
+  border-color: #e0e0e0;
+
+  align-self: flex-start;
+
+  box-shadow: none;
+
+  .title {
+    margin: 6px;
+    color: darkslategray;
+    font-variant-caps: all-small-caps;
+    user-select: none;
+  }
+
+  .contents {
+    display: flex;
+    align-items: center;
+    margin: 6px;
+
+    .invite-group-avatar {
+      height: 48px;
+      width: 48px;
     }
+
+    .group-details {
+      display: inline-flex;
+      flex-direction: column;
+
+      padding: 8px;
+
+      .group-name {
+        font-weight: lighter;
+        padding-bottom: 4px;
+      }
+
+      .group-address {
+        color: grey;
+      }
+    }
+
+    .join-btn {
+      background-color: #00f782;
+      color: white;
+      padding: 6px 10px;
+      margin-left: 6px;
+      border-radius: 2px;
+      box-shadow: none;
+      user-select: none;
+      cursor: pointer;
+      transition: 0.25s;
+
+      &:hover {
+        background-color: #00d672;
+      }
+    }
+  }
+}
+
+.dark-theme {
+  .group-invitation {
+    background-color: #242424;
+    border-color: #303030;
+    box-shadow: none;
+
+    .title {
+      color: lightgrey;
+    }
+  }
+}
+
+.invitation-outgoing {
+  align-self: flex-end;
+}
+
+.bulk-edit-container {
+  display: flex;
+  border-top: solid;
+  border-width: 0.8px;
+  border-color: #80808090;
+
+  &.hidden {
+    display: none;
+  }
+
+  .delete-button {
+    color: orangered;
+    padding: 18px;
+    // This makes sure the message counter is right in the center
+    width: 80px;
+    margin-right: -80px;
+    user-select: none;
+  }
+
+  .cancel-button {
+    padding: 18px;
+    width: 80px;
+    margin-left: -80px;
+    user-select: none;
+  }
+
+  .message-counter {
+    color: darkgrey;
+    display: flex;
+    align-items: center;
+    user-select: none;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -190,6 +341,22 @@
   margin-bottom: -5px;
 }
 
+.conversation-stack-border {
+  border-bottom: solid;
+  border-color: white;
+  border-width: 4px;
+}
+
+.conversation-stack-no-border {
+  border-bottom: none;
+}
+
+.dark-theme {
+  .conversation-stack-border {
+    border-color: black;
+  }
+}
+
 .bottom-bar .preview-wrapper {
   margin-top: 3px;
   margin-left: 37px;
@@ -202,9 +369,6 @@
   $button-width: 36px;
 
   form.active {
-    textarea {
-      border: solid 1px $blue;
-    }
   }
 
   form.send {
@@ -294,10 +458,6 @@
     resize: none;
     font-size: 1em;
     font-family: inherit;
-
-    &[disabled='disabled'] {
-      background: $color-light-35;
-    }
   }
   .capture-audio {
     float: right;
@@ -316,10 +476,7 @@
   bottom: 62px;
 
   text-align: center;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 8px 16px;
   border-radius: 4px;
   z-index: 100;
 
@@ -386,6 +543,7 @@
     border: 1px solid $color-loki-green;
     color: white;
     outline: none;
+    user-select: none;
 
     &:hover,
     &:disabled {
@@ -415,14 +573,6 @@
   h4 {
     margin-top: 8px;
     margin-bottom: 16px;
-    white-space: -moz-pre-wrap; /* Mozilla */
-    white-space: -hp-pre-wrap; /* HP printers */
-    white-space: -o-pre-wrap; /* Opera 7 */
-    white-space: -pre-wrap; /* Opera 4-6 */
-    white-space: pre-wrap; /* CSS 2.1 */
-    white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
-    word-wrap: break-word; /* IE */
-    word-break: break-all;
   }
 }
 
@@ -521,7 +671,7 @@
 .module-last-seen-indicator__bar {
   background-color: $color-light-60;
   width: 100%;
-  height: 4px;
+  height: 2px;
 }
 
 .module-last-seen-indicator__text {

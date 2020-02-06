@@ -36,7 +36,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Quit Loki Messenger",
+        "message": "Quit Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -565,7 +565,7 @@
         "message": "Enter name or number",
         "description": "Placeholder text in the search input"
     },
-    "welcomeToSignal": {
+    "welcomeToSession": {
         "message": "Bienvenido a Signal",
         "description": ""
     },
@@ -1368,7 +1368,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Group name has been set to '$name$'",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1396,9 +1396,5 @@
                 "example": "Alice, Bob"
             }
         }
-    },
-    "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

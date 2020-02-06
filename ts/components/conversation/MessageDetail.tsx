@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message, Props as MessageProps } from './Message';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Contact {
   status: string;
@@ -31,7 +31,7 @@ interface Props {
   errors: Array<Error>;
   contacts: Array<Contact>;
 
-  i18n: Localizer;
+  i18n: LocalizerType;
 }
 
 export class MessageDetail extends React.Component<Props> {
@@ -48,7 +48,7 @@ export class MessageDetail extends React.Component<Props> {
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
-        size={48}
+        size={36}
       />
     );
   }
@@ -56,7 +56,7 @@ export class MessageDetail extends React.Component<Props> {
   public renderDeleteButton() {
     const { i18n, message } = this.props;
 
-    return (
+    return message.isDeletable ? (
       <div className="module-message-detail__delete-button-container">
         <button
           onClick={message.onDelete}
@@ -65,7 +65,7 @@ export class MessageDetail extends React.Component<Props> {
           {i18n('deleteThisMessage')}
         </button>
       </div>
-    );
+    ) : null;
   }
 
   public renderContact(contact: Contact) {

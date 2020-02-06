@@ -3,8 +3,8 @@
 // eslint-disable-next-line func-names
 (function() {
   let server;
-  const SUCCESS_POLL_TIME = 100;
-  const FAIL_POLL_TIME = 2000;
+  const EXHAUSTED_SNODES_RETRY_DELAY = 5000;
+  const NUM_CONCURRENT_CONNECTIONS = 3;
 
   function stringToArrayBufferBase64(string) {
     return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
@@ -49,6 +49,11 @@
       handleRequest = request => request.respond(404, 'Not found');
     }
     let connected = true;
+    this.calledStop = false;
+    let resolveStopPolling;
+    const stopPolling = new Promise(res => {
+      resolveStopPolling = res;
+    });
 
     this.handleMessage = (message, options = {}) => {
       try {
@@ -78,28 +83,43 @@
       }
     };
 
-    this.pollServer = async callback => {
+    this.pollServer = async () => {
+      // This blocking call will return only when all attempts
+      // at reaching snodes are exhausted or a DNS error occured
       try {
-        await server.retrieveMessages(messages => {
-          messages.forEach(message => {
-            const { data } = message;
-            this.handleMessage(data);
-          });
-        });
-        connected = true;
-      } catch (err) {
-        window.log.error('Polling error: ', err);
-        connected = false;
+        await server.startLongPolling(
+          NUM_CONCURRENT_CONNECTIONS,
+          stopPolling,
+          messages => {
+            connected = true;
+            messages.forEach(message => {
+              const { data } = message;
+              this.handleMessage(data);
+            });
+          }
+        );
+      } catch (e) {
+        // we'll try again anyway
       }
-      const pollTime = connected ? SUCCESS_POLL_TIME : FAIL_POLL_TIME;
-      callback(connected);
+
+      if (this.calledStop) {
+        return;
+      }
+
+      connected = false;
+      // Exhausted all our snodes urls, trying again later from scratch
       setTimeout(() => {
-        this.pollServer(callback);
-      }, pollTime);
+        this.pollServer();
+      }, EXHAUSTED_SNODES_RETRY_DELAY);
     };
 
     this.isConnected = function isConnected() {
       return connected;
+    };
+
+    this.close = () => {
+      this.calledStop = true;
+      resolveStopPolling(true);
     };
   };
 })();

@@ -3,14 +3,10 @@
     "label": "&File",
     "submenu": [
       {
-        "label": "Preferences…",
-        "click": null
-      },
-      {
         "type": "separator"
       },
       {
-        "label": "Quit Loki Messenger",
+        "label": "Quit Session",
         "role": "quit"
       }
     ]
@@ -63,6 +59,7 @@
         "role": "resetzoom"
       },
       {
+        "accelerator": "Control+Plus",
         "label": "Zoom In",
         "role": "zoomin"
       },
@@ -126,7 +123,7 @@
         "type": "separator"
       },
       {
-        "label": "About Loki Messenger",
+        "label": "About Session",
         "click": null
       }
     ]

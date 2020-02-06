@@ -20,6 +20,7 @@ const getInitialData = async () => ({
 
   messageTTL: await window.getMessageTTL(),
   readReceiptSetting: await window.getReadReceiptSetting(),
+  typingIndicatorsSetting: await window.getTypingIndicatorsSetting(),
   linkPreviewSetting: await window.getLinkPreviewSetting(),
   notificationSetting: await window.getNotificationSetting(),
   audioNotification: await window.getAudioNotification(),

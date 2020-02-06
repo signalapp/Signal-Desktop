@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { Localizer, RenderTextCallback } from '../types/Util';
+import { LocalizerType, RenderTextCallbackType } from '../types/Util';
 
 type FullJSX = Array<JSX.Element | string> | JSX.Element | string;
 
 interface Props {
   /** The translation string id */
   id: string;
-  i18n: Localizer;
+  i18n: LocalizerType;
   components?: Array<FullJSX>;
-  renderText?: RenderTextCallback;
+  renderText?: RenderTextCallbackType;
 }
 
 export class Intl extends React.Component<Props> {
@@ -17,7 +17,7 @@ export class Intl extends React.Component<Props> {
     renderText: ({ text }) => text,
   };
 
-  public getComponent(index: number): FullJSX | null {
+  public getComponent(index: number): FullJSX | undefined {
     const { id, components } = this.props;
 
     if (!components || !components.length || components.length <= index) {
@@ -26,7 +26,7 @@ export class Intl extends React.Component<Props> {
         `Error: Intl missing provided components for id ${id}, index ${index}`
       );
 
-      return null;
+      return;
     }
 
     return components[index];

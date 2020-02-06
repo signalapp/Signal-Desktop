@@ -10,6 +10,7 @@ describe('SignalProtocolStore', () => {
 
   before(done => {
     store = textsecure.storage.protocol;
+    store.hydrateCaches();
     identityKey = {
       pubKey: libsignal.crypto.getRandomBytes(33),
       privKey: libsignal.crypto.getRandomBytes(32),
@@ -88,6 +89,7 @@ describe('SignalProtocolStore', () => {
           verified: store.VerifiedStatus.DEFAULT,
         });
 
+        await store.hydrateCaches();
         await store.saveIdentity(identifier, newIdentity);
       });
       it('marks the key not firstUse', async () => {
@@ -109,6 +111,7 @@ describe('SignalProtocolStore', () => {
             nonblockingApproval: false,
             verified: store.VerifiedStatus.DEFAULT,
           });
+          await store.hydrateCaches();
 
           await store.saveIdentity(identifier, newIdentity);
         });
@@ -127,6 +130,8 @@ describe('SignalProtocolStore', () => {
             nonblockingApproval: false,
             verified: store.VerifiedStatus.VERIFIED,
           });
+
+          await store.hydrateCaches();
           await store.saveIdentity(identifier, newIdentity);
         });
         it('sets the new key to unverified', async () => {
@@ -149,6 +154,7 @@ describe('SignalProtocolStore', () => {
             verified: store.VerifiedStatus.UNVERIFIED,
           });
 
+          await store.hydrateCaches();
           await store.saveIdentity(identifier, newIdentity);
         });
         it('sets the new key to unverified', async () => {
@@ -170,12 +176,14 @@ describe('SignalProtocolStore', () => {
           nonblockingApproval: false,
           verified: store.VerifiedStatus.DEFAULT,
         });
+        await store.hydrateCaches();
       });
       describe('If it is marked firstUse', () => {
         before(async () => {
           const identity = await window.Signal.Data.getIdentityKeyById(number);
           identity.firstUse = true;
           await window.Signal.Data.createOrUpdateIdentityKey(identity);
+          await store.hydrateCaches();
         });
         it('nothing changes', async () => {
           await store.saveIdentity(identifier, testKey.pubKey, true);
@@ -190,6 +198,7 @@ describe('SignalProtocolStore', () => {
           const identity = await window.Signal.Data.getIdentityKeyById(number);
           identity.firstUse = false;
           await window.Signal.Data.createOrUpdateIdentityKey(identity);
+          await store.hydrateCaches();
         });
         describe('If nonblocking approval is required', () => {
           let now;
@@ -200,6 +209,7 @@ describe('SignalProtocolStore', () => {
             );
             identity.timestamp = now;
             await window.Signal.Data.createOrUpdateIdentityKey(identity);
+            await store.hydrateCaches();
           });
           it('sets non-blocking approval', async () => {
             await store.saveIdentity(identifier, testKey.pubKey, true);
@@ -313,6 +323,7 @@ describe('SignalProtocolStore', () => {
         verified: store.VerifiedStatus.DEFAULT,
         nonblockingApproval: false,
       });
+      await store.hydrateCaches();
     }
     describe('with no public key argument', () => {
       before(saveRecordDefault);
@@ -372,6 +383,7 @@ describe('SignalProtocolStore', () => {
       describe('when there is no existing record', () => {
         before(async () => {
           await window.Signal.Data.removeIdentityKeyById(number);
+          await store.hydrateCaches();
         });
 
         it('does nothing', async () => {
@@ -405,6 +417,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.VERIFIED,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('does not save the new identity (because this is a less secure state)', async () => {
@@ -436,6 +449,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.VERIFIED,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('updates the verified status', async () => {
@@ -464,6 +478,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.DEFAULT,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('does not hang', async () => {
@@ -482,6 +497,7 @@ describe('SignalProtocolStore', () => {
       describe('when there is no existing record', () => {
         before(async () => {
           await window.Signal.Data.removeIdentityKeyById(number);
+          await store.hydrateCaches();
         });
 
         it('saves the new identity and marks it verified', async () => {
@@ -512,6 +528,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.VERIFIED,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('saves the new identity and marks it UNVERIFIED', async () => {
@@ -543,6 +560,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.DEFAULT,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('updates the verified status', async () => {
@@ -573,6 +591,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.UNVERIFIED,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('does not hang', async () => {
@@ -591,6 +610,7 @@ describe('SignalProtocolStore', () => {
       describe('when there is no existing record', () => {
         before(async () => {
           await window.Signal.Data.removeIdentityKeyById(number);
+          await store.hydrateCaches();
         });
 
         it('saves the new identity and marks it verified', async () => {
@@ -617,6 +637,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.VERIFIED,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('saves the new identity and marks it VERIFIED', async () => {
@@ -648,6 +669,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.UNVERIFIED,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('saves the identity and marks it verified', async () => {
@@ -678,6 +700,7 @@ describe('SignalProtocolStore', () => {
               verified: store.VerifiedStatus.VERIFIED,
               nonblockingApproval: false,
             });
+            await store.hydrateCaches();
           });
 
           it('does not hang', async () => {
@@ -705,6 +728,7 @@ describe('SignalProtocolStore', () => {
         nonblockingApproval: false,
       });
 
+      await store.hydrateCaches();
       const untrusted = await store.isUntrusted(number);
       assert.strictEqual(untrusted, false);
     });
@@ -718,6 +742,7 @@ describe('SignalProtocolStore', () => {
         firstUse: false,
         nonblockingApproval: true,
       });
+      await store.hydrateCaches();
 
       const untrusted = await store.isUntrusted(number);
       assert.strictEqual(untrusted, false);
@@ -732,6 +757,7 @@ describe('SignalProtocolStore', () => {
         firstUse: true,
         nonblockingApproval: false,
       });
+      await store.hydrateCaches();
 
       const untrusted = await store.isUntrusted(number);
       assert.strictEqual(untrusted, false);
@@ -746,6 +772,8 @@ describe('SignalProtocolStore', () => {
         firstUse: false,
         nonblockingApproval: false,
       });
+      await store.hydrateCaches();
+
       const untrusted = await store.isUntrusted(number);
       assert.strictEqual(untrusted, true);
     });
@@ -968,36 +996,36 @@ describe('SignalProtocolStore', () => {
       assert.strictEqual(items.length, 0);
     });
 
-    it('adds two and gets them back', async () => {
+    it('adds three and gets them back', async () => {
       await Promise.all([
-        store.addUnprocessed({ id: 2, name: 'second', timestamp: 2 }),
-        store.addUnprocessed({ id: 3, name: 'third', timestamp: 3 }),
-        store.addUnprocessed({ id: 1, name: 'first', timestamp: 1 }),
+        store.addUnprocessed({ id: 2, envelope: 'second', timestamp: 2 }),
+        store.addUnprocessed({ id: 3, envelope: 'third', timestamp: 3 }),
+        store.addUnprocessed({ id: 1, envelope: 'first', timestamp: 1 }),
       ]);
 
       const items = await store.getAllUnprocessed();
       assert.strictEqual(items.length, 3);
 
       // they are in the proper order because the collection comparator is 'timestamp'
-      assert.strictEqual(items[0].name, 'first');
-      assert.strictEqual(items[1].name, 'second');
-      assert.strictEqual(items[2].name, 'third');
+      assert.strictEqual(items[0].envelope, 'first');
+      assert.strictEqual(items[1].envelope, 'second');
+      assert.strictEqual(items[2].envelope, 'third');
     });
 
     it('saveUnprocessed successfully updates item', async () => {
       const id = 1;
-      await store.addUnprocessed({ id, name: 'first', timestamp: 1 });
-      await store.saveUnprocessed({ id, name: 'updated', timestamp: 1 });
+      await store.addUnprocessed({ id, envelope: 'first', timestamp: 1 });
+      await store.updateUnprocessedWithData(id, { decrypted: 'updated' });
 
       const items = await store.getAllUnprocessed();
       assert.strictEqual(items.length, 1);
-      assert.strictEqual(items[0].name, 'updated');
+      assert.strictEqual(items[0].decrypted, 'updated');
       assert.strictEqual(items[0].timestamp, 1);
     });
 
     it('removeUnprocessed successfully deletes item', async () => {
       const id = 1;
-      await store.addUnprocessed({ id, name: 'first', timestamp: 1 });
+      await store.addUnprocessed({ id, envelope: 'first', timestamp: 1 });
       await store.removeUnprocessed(id);
 
       const items = await store.getAllUnprocessed();

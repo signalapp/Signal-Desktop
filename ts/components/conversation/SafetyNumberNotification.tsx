@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { Localizer } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
 
 interface Contact {
   phoneNumber: string;
@@ -14,20 +14,23 @@ interface Contact {
 interface Props {
   isGroup: boolean;
   contact: Contact;
-  i18n: Localizer;
+  i18n: LocalizerType;
   onVerify: () => void;
 }
 
 export class SafetyNumberNotification extends React.Component<Props> {
   public render() {
     const { contact, isGroup, i18n, onVerify } = this.props;
+    const changeKey = isGroup
+      ? 'safetyNumberChangedGroup'
+      : 'safetyNumberChanged';
 
     return (
       <div className="module-safety-number-notification">
         <div className="module-safety-number-notification__icon" />
         <div className="module-safety-number-notification__text">
           <Intl
-            id={isGroup ? 'safetyNumberChangedGroup' : 'safetyNumberChanged'}
+            id={changeKey}
             components={[
               <span
                 key="external-1"

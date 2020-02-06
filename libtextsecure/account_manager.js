@@ -2,6 +2,8 @@
   window,
   textsecure,
   libsignal,
+  libloki,
+  lokiFileServerAPI,
   mnemonic,
   btoa,
   Signal,
@@ -10,9 +12,9 @@
   dcodeIO,
   StringView,
   log,
-  storage,
   Event,
-  ConversationController
+  ConversationController,
+  Whisper
 */
 
 /* eslint-disable more/no-then */
@@ -123,7 +125,13 @@
       let generateKeypair;
       if (mnemonic) {
         generateKeypair = () => {
-          const seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
+          let seedHex = window.mnemonic.mn_decode(mnemonic, mnemonicLanguage);
+          // handle shorter than 32 bytes seeds
+          const privKeyHexLength = 32 * 2;
+          if (seedHex.length !== privKeyHexLength) {
+            seedHex = seedHex.concat(seedHex);
+            seedHex = seedHex.substring(0, privKeyHexLength);
+          }
           const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
           const privKey = dcodeIO.ByteBuffer.wrap(
             privKeyHex,
@@ -373,69 +381,76 @@
         });
       });
     },
-    createAccount(identityKeyPair, userAgent, readReceipts) {
+    async createAccount(identityKeyPair, userAgent, readReceipts) {
       const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
       let password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
       password = password.substring(0, password.length - 2);
       const registrationId = libsignal.KeyHelper.generateRegistrationId();
 
+      await Promise.all([
+        textsecure.storage.remove('identityKey'),
+        textsecure.storage.remove('signaling_key'),
+        textsecure.storage.remove('password'),
+        textsecure.storage.remove('registrationId'),
+        textsecure.storage.remove('number_id'),
+        textsecure.storage.remove('device_name'),
+        textsecure.storage.remove('userAgent'),
+        textsecure.storage.remove('read-receipt-setting'),
+        textsecure.storage.remove('typing-indicators-setting'),
+        textsecure.storage.remove('regionCode'),
+      ]);
+
       // update our own identity key, which may have changed
       // if we're relinking after a reinstall on the master device
       const pubKeyString = StringView.arrayBufferToHex(identityKeyPair.pubKey);
-
-      return Promise.resolve().then(async () => {
-        await Promise.all([
-          textsecure.storage.remove('identityKey'),
-          textsecure.storage.remove('signaling_key'),
-          textsecure.storage.remove('password'),
-          textsecure.storage.remove('registrationId'),
-          textsecure.storage.remove('number_id'),
-          textsecure.storage.remove('device_name'),
-          textsecure.storage.remove('userAgent'),
-          textsecure.storage.remove('read-receipts-setting'),
-        ]);
-
-        // update our own identity key, which may have changed
-        // if we're relinking after a reinstall on the master device
-        await textsecure.storage.protocol.saveIdentityWithAttributes(
-          pubKeyString,
-          {
-            id: pubKeyString,
-            publicKey: identityKeyPair.pubKey,
-            firstUse: true,
-            timestamp: Date.now(),
-            verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
-            nonblockingApproval: true,
-          }
-        );
-
-        await textsecure.storage.put('identityKey', identityKeyPair);
-        await textsecure.storage.put('signaling_key', signalingKey);
-        await textsecure.storage.put('password', password);
-        await textsecure.storage.put('registrationId', registrationId);
-        if (userAgent) {
-          await textsecure.storage.put('userAgent', userAgent);
+      await textsecure.storage.protocol.saveIdentityWithAttributes(
+        pubKeyString,
+        {
+          id: pubKeyString,
+          publicKey: identityKeyPair.pubKey,
+          firstUse: true,
+          timestamp: Date.now(),
+          verified: textsecure.storage.protocol.VerifiedStatus.VERIFIED,
+          nonblockingApproval: true,
         }
+      );
 
-        await textsecure.storage.put(
-          'read-receipt-setting',
-          Boolean(readReceipts)
-        );
+      await textsecure.storage.put('identityKey', identityKeyPair);
+      await textsecure.storage.put('signaling_key', signalingKey);
+      await textsecure.storage.put('password', password);
+      await textsecure.storage.put('registrationId', registrationId);
+      if (userAgent) {
+        await textsecure.storage.put('userAgent', userAgent);
+      }
 
-        await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
-      });
+      await textsecure.storage.put(
+        'read-receipt-setting',
+        Boolean(readReceipts)
+      );
+
+      // Enable typing indicators by default
+      await textsecure.storage.put('typing-indicators-setting', Boolean(true));
+
+      await textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
+      await textsecure.storage.put('regionCode', null);
     },
     async clearSessionsAndPreKeys() {
       const store = textsecure.storage.protocol;
 
       window.log.info('clearing all sessions, prekeys, and signed prekeys');
       await Promise.all([
-        store.clearPreKeyStore(),
         store.clearContactPreKeysStore(),
-        store.clearSignedPreKeysStore(),
         store.clearContactSignedPreKeysStore(),
         store.clearSessionStore(),
       ]);
+      // During secondary device registration we need to keep our prekeys sent
+      // to other pubkeys
+      if (textsecure.storage.get('secondaryDeviceStatus') !== 'ongoing') {
+        await Promise.all([
+          store.clearPreKeyStore(),
+          store.clearSignedPreKeysStore(),
+        ]);
+      }
     },
     // Takes the same object returned by generateKeys
     async confirmKeys(keys) {
@@ -516,8 +531,11 @@
       });
     },
     async generateMnemonic(language = 'english') {
-      const keys = await libsignal.KeyHelper.generateIdentityKeyPair();
-      const hex = StringView.arrayBufferToHex(keys.privKey);
+      // Note: 4 bytes are converted into 3 seed words, so length 12 seed words
+      // (13 - 1 checksum) are generated using 12 * 4 / 3 = 16 bytes.
+      const seedSize = 16;
+      const seed = window.Signal.Crypto.getRandomBytes(seedSize);
+      const hex = StringView.arrayBufferToHex(seed);
       return mnemonic.mn_encode(hex, language);
     },
     getCurrentMnemonic() {
@@ -526,22 +544,106 @@
     saveMnemonic(mnemonic) {
       return textsecure.storage.put('mnemonic', mnemonic);
     },
-    async registrationDone(number, profileName) {
+    async registrationDone(number, displayName) {
       window.log.info('registration done');
 
+      if (!textsecure.storage.get('secondaryDeviceStatus')) {
+        // We have registered as a primary device
+        textsecure.storage.put('primaryDevicePubKey', number);
+      }
       // Ensure that we always have a conversation for ourself
       const conversation = await ConversationController.getOrCreateAndWait(
         number,
         'private'
       );
-
-      await storage.setProfileName(profileName);
-
-      // Update the conversation if we have it
-      const newProfile = storage.getLocalProfile();
-      await conversation.setProfile(newProfile);
+      await conversation.setLokiProfile({ displayName });
 
       this.dispatchEvent(new Event('registration'));
+    },
+    async requestPairing(primaryDevicePubKey) {
+      // throws if invalid
+      this.validatePubKeyHex(primaryDevicePubKey);
+      // we need a conversation for sending a message
+      await ConversationController.getOrCreateAndWait(
+        primaryDevicePubKey,
+        'private'
+      );
+      const ourPubKey = textsecure.storage.user.getNumber();
+      if (primaryDevicePubKey === ourPubKey) {
+        throw new Error('Cannot request to pair with ourselves');
+      }
+      const requestSignature = await libloki.crypto.generateSignatureForPairing(
+        primaryDevicePubKey,
+        libloki.crypto.PairingType.REQUEST
+      );
+      const authorisation = {
+        primaryDevicePubKey,
+        secondaryDevicePubKey: ourPubKey,
+        requestSignature,
+      };
+      await libloki.api.sendPairingAuthorisation(
+        authorisation,
+        primaryDevicePubKey
+      );
+    },
+    async authoriseSecondaryDevice(secondaryDevicePubKey) {
+      const ourPubKey = textsecure.storage.user.getNumber();
+      if (secondaryDevicePubKey === ourPubKey) {
+        throw new Error(
+          'Cannot register primary device pubkey as secondary device'
+        );
+      }
+
+      // throws if invalid
+      this.validatePubKeyHex(secondaryDevicePubKey);
+      // we need a conversation for sending a message
+      const secondaryConversation = await ConversationController.getOrCreateAndWait(
+        secondaryDevicePubKey,
+        'private'
+      );
+      const grantSignature = await libloki.crypto.generateSignatureForPairing(
+        secondaryDevicePubKey,
+        libloki.crypto.PairingType.GRANT
+      );
+      const existingAuthorisation = await libloki.storage.getAuthorisationForSecondaryPubKey(
+        secondaryDevicePubKey
+      );
+      if (!existingAuthorisation) {
+        throw new Error(
+          'authoriseSecondaryDevice: request signature missing from database!'
+        );
+      }
+      const { requestSignature } = existingAuthorisation;
+      const authorisation = {
+        primaryDevicePubKey: ourPubKey,
+        secondaryDevicePubKey,
+        requestSignature,
+        grantSignature,
+      };
+      // Update authorisation in database with the new grant signature
+      await libloki.storage.savePairingAuthorisation(authorisation);
+      await lokiFileServerAPI.updateOurDeviceMapping();
+      await libloki.api.sendPairingAuthorisation(
+        authorisation,
+        secondaryDevicePubKey
+      );
+      // Always be friends with secondary devices
+      await secondaryConversation.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends,
+        {
+          blockSync: true,
+        }
+      );
+    },
+    validatePubKeyHex(pubKey) {
+      const c = new Whisper.Conversation({
+        id: pubKey,
+        type: 'private',
+      });
+      const validationError = c.validateNumber();
+      if (validationError) {
+        throw new Error(validationError);
+      }
     },
   });
   textsecure.AccountManager = AccountManager;

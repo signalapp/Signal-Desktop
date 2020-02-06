@@ -16,21 +16,24 @@ SignalProtocolStore.prototype = {
       value === undefined ||
       key === null ||
       value === null
-    )
+    ) {
       throw new Error('Tried to store undefined/null');
+    }
     this.store[key] = value;
   },
   get(key, defaultValue) {
-    if (key === null || key === undefined)
+    if (key === null || key === undefined) {
       throw new Error('Tried to get value for undefined/null key');
+    }
     if (key in this.store) {
       return this.store[key];
     }
     return defaultValue;
   },
   remove(key) {
-    if (key === null || key === undefined)
+    if (key === null || key === undefined) {
       throw new Error('Tried to remove value for undefined/null key');
+    }
     delete this.store[key];
   },
 
@@ -48,15 +51,17 @@ SignalProtocolStore.prototype = {
     return Promise.resolve(identityKey === trusted);
   },
   loadIdentityKey(identifier) {
-    if (identifier === null || identifier === undefined)
+    if (identifier === null || identifier === undefined) {
       throw new Error('Tried to get identity key for undefined/null key');
+    }
     return new Promise(resolve => {
       resolve(this.get(`identityKey${identifier}`));
     });
   },
   saveIdentity(identifier, identityKey) {
-    if (identifier === null || identifier === undefined)
+    if (identifier === null || identifier === undefined) {
       throw new Error('Tried to put identity key for undefined/null key');
+    }
     return new Promise(resolve => {
       const existing = this.get(`identityKey${identifier}`);
       this.put(`identityKey${identifier}`, identityKey);
@@ -166,7 +171,9 @@ SignalProtocolStore.prototype = {
   async loadPreKeyForContact(contactPubKey) {
     return new Promise(resolve => {
       const key = this.get(`25519KeypreKey${contactPubKey}`);
-      if (!key) resolve(undefined);
+      if (!key) {
+        resolve(undefined);
+      }
       resolve({
         pubKey: key.publicKey,
         privKey: key.privateKey,

@@ -1,0 +1,1763 @@
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Italic.ttf') format('truetype');
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Wasa';
+  src: url('../fonts/Wasa-Bold.otf') format('opentype');
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url('../fonts/SFProText-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../fonts/SFProDisplay-Regular.otf') format('opentype');
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Session Colors
+$session-font-family: 'Wasa';
+
+$session-color-green: #00f782;
+$session-color-green-alt-1: #00f480;
+$session-color-green-alt-2: #00fd73;
+$session-color-green-alt-3: #00f782;
+
+$session-shade-1: #0c0c0c;
+$session-shade-2: #161616;
+$session-shade-3: #191818;
+$session-shade-4: #1b1b1b;
+$session-shade-5: #222325;
+$session-shade-6: #232323;
+$session-shade-7: #2e2e2e;
+$session-shade-8: #2f2f2f;
+$session-shade-9: #313131;
+$session-shade-10: #3e3e3e;
+$session-shade-11: #3f3f3f;
+$session-shade-12: #3f4146;
+$session-shade-13: #474646;
+$session-shade-14: #535865;
+$session-shade-15: #5b6c72;
+$session-shade-16: #979797;
+$session-shade-17: #a0a0a0;
+$session-shade-18: #141414;
+
+$session-opaque-dark-1: rgba(0, 0, 0, 0.25);
+$session-opaque-dark-2: rgba(0, 0, 0, 0.37);
+$session-opaque-dark-3: rgba(0, 0, 0, 0.5);
+
+$session-color-white: #fff;
+$session-color-dark-grey: #353535;
+$session-color-black: #000;
+$session-color-danger: #ff453a;
+$session-color-primary: $session-shade-13;
+$session-color-secondary: $session-shade-6;
+$session-background-overlay: #212121;
+$session-background: #121212;
+
+$session-color-info: $session-shade-11;
+$session-color-success: #35d388;
+$session-color-error: #edd422;
+$session-color-warning: $session-shade-17;
+$session-color-warning-alt: #ff9d00;
+
+$session-color-light-grey: #a0a0a0;
+
+$session-shadow-opacity: 0.15;
+$session-overlay-opacity: 0.3;
+
+$session-margin-xs: 5px;
+$session-margin-sm: 10px;
+$session-margin-md: 15px;
+$session-margin-lg: 20px;
+
+$session-font-xs: 11px;
+$session-font-sm: 13px;
+$session-font-md: 15px;
+$session-font-lg: 18px;
+$session-font-xl: 24px;
+
+$session-font-h1: 30px;
+$session-font-h2: 24px;
+$session-font-h3: 20px;
+$session-font-h4: 16px;
+
+$session-search-input-height: 34px;
+$main-view-header-height: 85px;
+$session-left-pane-width: 300px;
+$session-left-pane-sections-container-width: 80px;
+
+div.spacer-sm {
+  height: $session-margin-sm;
+}
+div.spacer-md {
+  height: $session-margin-md;
+}
+div.spacer-lg {
+  height: $session-margin-lg;
+}
+
+@mixin session-filter-color-green {
+  filter: brightness(0) saturate(100%) invert(67%) sepia(69%) saturate(2367%)
+    hue-rotate(101deg) brightness(107%) contrast(101%);
+}
+
+@mixin session-color-subtle($color) {
+  color: rgba($color, 0.6);
+}
+
+.text-subtle {
+  opacity: 0.6;
+}
+
+.text-soft {
+  opacity: 0.4;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.fullwidth {
+  width: 100%;
+}
+
+input,
+textarea {
+  caret-color: $session-color-green !important;
+}
+
+@mixin text-highlight($color) {
+  background-color: $color;
+  padding: $session-margin-xs $session-margin-sm;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+@mixin session-dark-background {
+  background-color: $session-background;
+}
+@mixin session-dark-background-lighter {
+  background-color: $session-background-overlay;
+}
+@mixin session-dark-background-hover {
+  background-color: $session-shade-7;
+}
+
+$session-transition-duration: 0.25s;
+$session-fadein-duration: 0.1s;
+
+$session-icon-size-sm: 15px;
+$session-icon-size-md: 20px;
+$session-icon-size-lg: 30px;
+
+$session-modal-size-sm: 220px;
+$session-modal-size-md: 400px;
+$session-modal-size-lg: 650px;
+
+$session-conversation-header-height: 60px;
+
+@mixin fontWasaBold {
+  font-weight: bold;
+  font-family: $session-font-family;
+}
+
+a,
+div,
+span,
+label {
+  user-select: none;
+
+  &::selection {
+    background: $session-shade-17;
+  }
+}
+
+$session-gradient-green: linear-gradient(
+  270deg,
+  rgba($session-color-green-alt-1, 1),
+  rgba($session-color-green-alt-1, 0.6)
+);
+$session-gradient-black: linear-gradient(
+  90deg,
+  rgba($session-shade-3, 1),
+  rgba($session-shade-4, 0.6)
+);
+
+$session-dark-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.37);
+
+$session_message-container-border-radius: 5px;
+
+.shadowed {
+  opacity: $session-shadow-opacity;
+}
+.overlayed {
+  opacity: $session-overlay-opacity;
+  pointer-events: none;
+}
+.overlay {
+  display: block !important;
+  z-index: 1;
+}
+
+#main-view {
+  height: 100vh;
+  display: flex;
+  flex-grow: 1;
+
+  .conversation-stack {
+    display: block;
+    width: 100%;
+  }
+}
+
+.button-group > div {
+  display: inline-flex;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.session-button {
+  @mixin transparent-background($textAndBorderColor) {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    outline: none;
+    color: $textAndBorderColor;
+    border: 2px solid $textAndBorderColor;
+  }
+
+  width: auto;
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  user-select: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: $session-transition-duration;
+  background-color: rgba(0, 0, 0, 0);
+
+  &.disabled {
+    cursor: default;
+  }
+
+  &.default,
+  &.square,
+  &.brand {
+    color: $session-color-white;
+
+    &:not(.disabled):hover {
+      filter: brightness(90%);
+    }
+
+    &.green,
+    &.white,
+    &.primary,
+    &.secondary,
+    &.success,
+    &.danger,
+    &.warning {
+      &.disabled {
+        filter: brightness(60%);
+      }
+    }
+
+    &.green {
+      background-color: $session-color-green;
+    }
+
+    &.white {
+      background-color: $session-color-white;
+    }
+    &.primary {
+      background-color: $session-color-primary;
+    }
+    &.secondary {
+      background-color: $session-color-secondary;
+    }
+    &.success {
+      background-color: $session-color-success;
+    }
+    &.danger {
+      background-color: $session-color-danger;
+    }
+    &.warning {
+      background-color: $session-color-warning;
+    }
+  }
+
+  &.brand-outline,
+  &.default-outline,
+  &.square-outline {
+    border: none;
+
+    &.green {
+      @include transparent-background($session-color-green);
+    }
+    &.white {
+      @include transparent-background($session-color-white);
+    }
+    &.primary {
+      @include transparent-background($session-color-primary);
+    }
+    &.secondary {
+      @include transparent-background($session-color-secondary);
+    }
+    &.danger {
+      @include transparent-background($session-color-danger);
+    }
+    &.warning {
+      @include transparent-background($session-color-warning-alt);
+    }
+    &.warning,
+    &.danger,
+    &.secondary,
+    &.primary,
+    &.white,
+    &.green {
+      &.disabled {
+        filter: brightness(60%);
+
+        &:hover {
+          filter: brightness(60%);
+        }
+      }
+    }
+  }
+
+  &.brand {
+    min-width: 165px;
+    height: 45px;
+    line-height: 40px;
+    padding: 0px $session-margin-lg;
+    font-size: $session-font-md;
+    font-family: $session-font-family;
+    border-radius: 500px;
+
+    &:not(.disabled):hover {
+      color: $session-color-white;
+      border-color: $session-color-white;
+    }
+  }
+
+  &.default,
+  &.square,
+  &.default-outline,
+  &.square-outline {
+    border-radius: 2px;
+    height: 33px;
+    padding: 0px 18px;
+    line-height: 33px;
+    font-size: $session-font-sm;
+  }
+
+  &.square,
+  &.square-outline {
+    border-radius: 0px;
+  }
+
+  & > *:hover:not(svg) {
+    filter: brightness(80%);
+  }
+}
+
+.session-label {
+  color: $session-color-white;
+  padding: $session-margin-sm;
+  width: 100%;
+  border-radius: 2px;
+  text-align: center;
+
+  &.primary {
+    background-color: $session-color-primary;
+  }
+  &.secondary {
+    background-color: $session-color-secondary;
+  }
+  &.success {
+    background-color: $session-color-success;
+  }
+  &.danger {
+    background-color: $session-color-danger;
+  }
+  &.warning {
+    background-color: $session-color-warning-alt;
+  }
+}
+
+@mixin set-icon-margin($size) {
+  margin: $size / 3;
+}
+.session-icon {
+  &.padded-left {
+    @include set-icon-margin($session-icon-size-md);
+  }
+}
+.session-icon-button {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  opacity: 0.4;
+  transform: translateZ(0);
+
+  &:hover {
+    opacity: 1;
+  }
+  transition: opacity $session-transition-duration;
+
+  &.no-opacity {
+    opacity: 1;
+  }
+
+  &.small.padded {
+    @include set-icon-margin($session-icon-size-sm);
+  }
+
+  &.medium.padded {
+    @include set-icon-margin($session-icon-size-md);
+  }
+
+  &.large.padded {
+    @include set-icon-margin($session-icon-size-lg);
+  }
+
+  .notification-count {
+    position: absolute;
+    font-size: $session-font-xs;
+    font-family: $session-font-family;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    padding: 3px;
+    border-radius: 50%;
+    font-weight: 700;
+    background: red;
+    color: $session-color-white;
+    text-align: center;
+    opacity: 1;
+  }
+}
+
+.session-icon {
+  fill: $session-color-white;
+}
+
+$session-separator-element-border: 1px solid $session-shade-6;
+$session-element-border-green: 4px solid $session-color-green;
+
+/* CONVERSATION AND MESSAGES */
+
+@mixin standard-icon-button() {
+  color: $session-color-white;
+  opacity: 0.6;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.module-conversation-header__title-flex,
+.module-conversation-header__title {
+  font-family: Wasa;
+  width: 100%;
+  display: flex;
+  font-size: $session-font-md;
+
+  &-text {
+    @include session-color-subtle($session-color-white);
+    font-family: 'SF Pro Text';
+    font-weight: 300;
+    font-size: $session-font-xs;
+  }
+
+  .module-contact-name {
+    width: 100%;
+  }
+
+  .module-contact-name__profile-number {
+    text-align: center;
+  }
+}
+
+.module-conversation-header__title {
+  flex-direction: column;
+}
+.module-conversation-header__title-flex {
+  flex-direction: row;
+}
+.module-conversation__user__profile-name,
+.module-message__author__profile-name {
+  font-style: normal;
+}
+
+.module-message__author-avatar {
+  display: inline-flex;
+  margin-right: 20px;
+  padding-top: 5px;
+}
+
+.module-message__container {
+  border-radius: $session_message-container-border-radius;
+}
+label {
+  user-select: none;
+}
+
+.module-message__attachment-container,
+.module-image--curved-bottom-right,
+.module-image--curved-bottom-left {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: $session_message-container-border-radius;
+  border-bottom-right-radius: $session_message-container-border-radius;
+}
+
+.conversation-header {
+  .module-avatar img {
+    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.2);
+  }
+
+  .search-icon {
+    margin-right: 10px;
+  }
+
+  .session-icon-button {
+    @include standard-icon-button();
+  }
+}
+
+.module-conversation-header {
+  position: relative;
+  padding: 0px $session-margin-lg 0px $session-margin-sm;
+}
+
+.title-wrapper {
+  position: relative;
+}
+
+.module-left-pane-overlay {
+  h3 {
+    margin-bottom: 6px;
+  }
+}
+.message-selection-overlay {
+  display: none;
+  position: absolute;
+  right: $session-margin-sm;
+  left: $session-margin-md;
+
+  .close-button {
+    float: left;
+    margin: 17px 0px 0px 0px;
+  }
+}
+.message-selection-overlay div[role='button'] {
+  display: inline-block;
+}
+
+.message-selection-overlay .button-group {
+  float: right;
+  margin-top: 13.5px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.session-button div[role='button'] {
+  cursor: pointer;
+}
+
+#session-toast-container {
+  position: fixed;
+  right: $session-margin-lg;
+  bottom: $session-margin-lg;
+
+  z-index: 10000;
+}
+
+.session-toast {
+  position: relative;
+  padding: $session-margin-md $session-margin-md;
+  background-color: rgba($session-shade-6, 0.8);
+  margin-bottom: $session-margin-md;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  .toast-icon,
+  .toast-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .toast-icon {
+    padding-right: $session-icon-size-md;
+  }
+  .toast-info {
+    margin-right: $session-icon-size-sm + $session-icon-size-sm;
+    width: 350px;
+
+    &-container {
+      display: block;
+    }
+  }
+
+  .title,
+  .description {
+    text-overflow: ellipsis;
+  }
+
+  .title {
+    font-size: $session-font-md;
+    line-height: $session-font-sm;
+    margin-bottom: $session-margin-sm;
+    padding-top: 0px;
+    color: $session-color-white;
+    padding-top: 0px;
+  }
+
+  .description {
+    font-size: $session-font-xs;
+    @include session-color-subtle($session-color-white);
+  }
+
+  .toast-close {
+    @include session-color-subtle($session-color-white);
+    position: absolute;
+    top: $session-margin-md;
+    right: $session-margin-md;
+
+    &:hover {
+      color: $session-color-white;
+    }
+  }
+
+  @mixin set-toast-theme($color) {
+    border-left: 4px solid $color;
+  }
+  &.info {
+    @include set-toast-theme($session-color-info);
+  }
+  &.success {
+    @include set-toast-theme($session-color-success);
+  }
+  &.warning {
+    @include set-toast-theme($session-color-warning-alt);
+  }
+  &.error {
+    @include set-toast-theme($session-color-error);
+  }
+}
+
+.session-modal {
+  animation: fadein $session-transition-duration;
+  z-index: 150;
+  min-width: 300px;
+
+  box-sizing: border-box;
+  max-height: 70vh;
+  max-width: 70vw;
+  background-color: $session-shade-4;
+  border: 1px solid $session-shade-8;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: $session-margin-lg;
+
+    font-family: 'Wasa';
+    text-align: center;
+    line-height: 18px;
+    font-size: $session-font-md;
+    font-weight: 700;
+
+    &.reverse {
+      flex-direction: row-reverse;
+
+      .session-modal__header__close > div {
+        float: right;
+      }
+
+      .session-modal__header__icons > div {
+        float: left;
+        padding-left: 0px;
+        padding-right: 10px;
+      }
+    }
+
+    &__icons,
+    &__close {
+      width: 60px;
+    }
+    &__icons {
+      float: right;
+    }
+    &__close > div {
+      float: left;
+    }
+    &__icons > div {
+      float: right;
+      padding-left: 10px;
+    }
+  }
+
+  &__body {
+    padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
+    font-family: 'Wasa';
+    line-height: $session-font-md;
+    font-size: $session-font-sm;
+
+    .message {
+      text-align: center;
+    }
+
+    .session-id-editable {
+      width: 30vw;
+      max-width: 700px;
+    }
+  }
+
+  &__centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__button-group {
+    display: flex;
+    justify-content: flex-end;
+
+    .session-button {
+      margin: $session-margin-xs;
+    }
+
+    &__center {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  &__text-highlight {
+    @include text-highlight($session-color-green);
+
+    color: black;
+
+    font-family: monospace;
+    font-style: normal;
+    font-size: $session-font-xs;
+  }
+}
+
+.session-confirm {
+  &-wrapper {
+    .session-modal__body .session-modal__centered {
+      margin: $session-margin-lg;
+    }
+  }
+
+  &-main-message {
+    font-size: $session-font-md;
+  }
+  &-sub-message {
+    margin-top: 5px;
+  }
+}
+
+.session-toggle {
+  width: 51px;
+  height: 31px;
+  border: 1.5px solid #e5e5ea;
+  border-radius: 16px;
+  position: relative;
+
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+
+  .knob {
+    position: absolute;
+    top: 0.5px;
+    left: 0.5px;
+    height: 27px;
+    width: 27px;
+    border-radius: 28px;
+    background-color: $session-color-white;
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
+      0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
+
+    transition: transform 0.25s ease, background-color 0.25s ease;
+  }
+
+  &.active {
+    background-color: $session-color-green;
+    border-color: $session-color-green;
+
+    .knob {
+      transform: translateX(20px);
+    }
+  }
+}
+
+.react-contextmenu {
+  padding: 0px;
+  margin: 0px;
+
+  border: none !important;
+  border-radius: 0px;
+}
+
+.react-contextmenu-item {
+  display: flex;
+  align-items: center;
+
+  height: 25px;
+  padding: $session-margin-md $session-margin-sm;
+
+  background-color: $session-shade-4;
+
+  color: $session-color-white;
+  font-family: 'Wasa';
+  font-size: $session-font-sm;
+  line-height: $session-icon-size-sm;
+  font-weight: 700;
+
+  &--active,
+  &--selected {
+    background-color: $session-shade-7 !important;
+  }
+  &:active,
+  &:visited,
+  &:focus {
+    outline: none;
+  }
+}
+
+.session-dropdown {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  display: inline-block;
+
+  ul {
+    display: block;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+
+    li {
+      cursor: pointer;
+
+      height: 25px;
+      padding-right: 7px;
+      background-color: $session-shade-4;
+
+      color: $session-color-white;
+      font-family: 'Wasa';
+      font-size: $session-font-xs;
+      line-height: $session-icon-size-sm;
+      font-weight: 700;
+
+      display: flex;
+      align-items: center;
+
+      .session-icon {
+        margin-left: 6px;
+      }
+      .item-content {
+        margin-left: 6px;
+      }
+
+      &.active,
+      &:hover {
+        background-color: $session-shade-7;
+      }
+
+      &.danger {
+        color: $session-color-danger;
+      }
+    }
+  }
+}
+
+.edit-profile-dialog {
+  .session-modal__header__title {
+    font-size: $session-font-lg;
+  }
+
+  .session-modal {
+    width: $session-modal-size-md;
+
+    &__header {
+      height: 68.45px;
+    }
+  }
+
+  .avatar-center-inner {
+    position: relative;
+
+    .module-avatar {
+      box-shadow: 0 0 23px 0 rgba($session-color-black, 0.78);
+    }
+
+    .qr-view-button {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: -3px;
+      height: 26px;
+      width: 26px;
+      border-radius: 50%;
+      padding-top: 3px;
+      background-color: $session-color-white;
+      transition: $session-transition-duration;
+
+      &:hover {
+        filter: brightness(90%);
+      }
+
+      .session-icon-button {
+        opacity: 1;
+      }
+    }
+  }
+
+  .image-upload-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    background-color: rgba($session-color-black, 0.72);
+    box-shadow: 0px 0px 3px 0.5px rgba(0, 0, 0, 0.75);
+    opacity: 0;
+    transition: $session-transition-duration;
+
+    &:after {
+      content: 'Edit';
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .session-id-section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .panel-text-divider {
+      margin-top: 35px;
+      margin-bottom: 35px;
+    }
+
+    &-display {
+      text-align: center;
+      word-break: break-all;
+      font-size: $session-font-md;
+      padding: 0px $session-margin-lg;
+      font-family: 'SF Pro Text';
+      font-weight: 100;
+      color: rgba($session-color-white, 0.8);
+      font-size: $session-font-md;
+      padding: 0px $session-margin-sm;
+    }
+
+    .session-button {
+      width: 148px;
+    }
+  }
+
+  .profile-name {
+    display: flex;
+    justify-content: center;
+    margin-top: $session-margin-lg;
+
+    &-input {
+      height: 38px;
+      width: 142px;
+      border-radius: 5px;
+      text-align: center;
+      font-size: $session-font-md;
+      background-color: $session-shade-5 !important;
+    }
+
+    &-uneditable {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: $session-margin-lg;
+
+      p {
+        font-size: $session-font-md;
+        padding: 0px $session-margin-sm;
+      }
+    }
+  }
+}
+
+.qr-image {
+  display: flex;
+  justify-content: center;
+
+  svg {
+    width: 135px;
+    height: 135px;
+    border-radius: 3px;
+    padding: $session-margin-xs;
+    background-color: $session-color-white;
+  }
+}
+
+.conversation-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -40px 0 0 -40px;
+
+  & > div {
+    display: block;
+  }
+}
+
+.session-loader {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+
+  div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: $session-color-green;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  div:nth-child(1) {
+    left: 8px;
+    animation: session-loader1 0.6s infinite;
+  }
+  div:nth-child(2) {
+    left: 8px;
+    animation: session-loader2 0.6s infinite;
+  }
+  div:nth-child(3) {
+    left: 32px;
+    animation: session-loader2 0.6s infinite;
+  }
+  div:nth-child(4) {
+    left: 56px;
+    animation: session-loader3 0.6s infinite;
+  }
+  @keyframes session-loader1 {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes session-loader3 {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  @keyframes session-loader2 {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(24px, 0);
+    }
+  }
+}
+
+.session-settings {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &-list {
+    overflow-y: scroll;
+  }
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: $session-shade-6;
+    height: $main-view-header-height;
+
+    &-title {
+      line-height: $main-view-header-height;
+      font-weight: bold;
+      font-size: $session-font-lg;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .session-button,
+    .session-icon-button {
+      margin-right: $session-margin-lg;
+    }
+  }
+
+  &-item {
+    font-size: $session-font-md;
+    color: $session-color-white;
+    background-color: $session-shade-1;
+
+    padding: $session-margin-lg;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $session-shade-5;
+
+    &.inline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__info {
+      padding-right: $session-margin-lg;
+    }
+
+    &__title {
+      line-height: 1.7;
+      font-size: $session-font-lg;
+      font-weight: bold;
+    }
+
+    &__description {
+      font-family: 'SF Pro Text';
+      font-size: $session-font-sm;
+      font-weight: 100;
+      max-width: 700px;
+      @include session-color-subtle($session-color-white);
+    }
+
+    &__content {
+      label {
+        @include session-color-subtle($session-color-white);
+      }
+    }
+  }
+
+  &-view {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__version-info {
+    display: flex;
+    justify-content: space-between;
+
+    padding: $session-margin-sm $session-margin-md;
+    background-color: $session-shade-5;
+    font-size: $session-font-xs;
+
+    span {
+      opacity: 0.4;
+      transition: $session-transition-duration;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__password-lock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+
+    &-box {
+      padding: 45px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      max-width: 90%;
+      width: 600px;
+
+      background-color: $session-shade-4;
+      border: 1px solid $session-shade-8;
+      border-radius: 5px;
+
+      h3 {
+        padding: 0px;
+        margin-bottom: $session-margin-lg;
+      }
+
+      input {
+        width: 100%;
+        color: $session-color-white;
+        background-color: $session-shade-7;
+        padding: $session-margin-xs $session-margin-md;
+        margin-bottom: $session-margin-lg;
+        outline: none;
+        border: none;
+        border-radius: 2px;
+        text-align: center;
+        font-size: $session-font-xl;
+        letter-spacing: 5px;
+        font-family: 'SF Pro Text';
+      }
+    }
+  }
+}
+
+#qr svg,
+.qr-image svg {
+  width: $session-modal-size-sm;
+  height: $session-modal-size-sm;
+  padding: $session-margin-xs;
+  background-color: $session-color-white;
+  border-radius: 3px;
+}
+
+.qr-dialog {
+  &__description {
+    max-width: $session-modal-size-sm;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+.seed-dialog {
+  &__description {
+    max-width: $session-modal-size-lg;
+  }
+}
+
+.messages li {
+  transition: $session-transition-duration !important;
+}
+
+.discussion-container {
+  .module-message {
+    font-family: 'SF Pro Text';
+    border-radius: 5px;
+  }
+}
+
+.bottom-bar {
+  .compose {
+    min-height: 60px;
+    max-height: 200px;
+  }
+
+  .send-message-container {
+    display: flex;
+    flex-grow: 1;
+    min-height: 60px;
+    margin-bottom: -5px;
+  }
+
+  textarea.send-message {
+    background-color: $session-shade-4;
+    border: none;
+    margin: 0px;
+    padding: 0px $session-margin-lg;
+    font-size: $session-font-md;
+    line-height: 1.3em;
+    align-self: center;
+
+    @include session-color-subtle($session-color-white);
+  }
+}
+
+.bottom-bar form {
+  &.send {
+    background-color: $session-shade-4;
+  }
+
+  &.active textarea {
+    border: none;
+  }
+}
+
+.dark-theme .bottom-bar .send-message[disabled='disabled'] {
+  background: $session-shade-4 !important;
+}
+
+.session-radio-group fieldset {
+  border: none;
+  margin-left: $session-margin-sm;
+  margin-top: $session-margin-sm;
+
+  .session-radio {
+    padding: $session-margin-xs 0px;
+  }
+}
+
+.session-radio {
+  input[type='radio'] {
+    border: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  label {
+    margin-right: 1em;
+  }
+
+  label:before {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.8em;
+    border-radius: 100%;
+    vertical-align: -3px;
+    border: 2px solid rgba($session-color-white, 0.6);
+    padding: 0.2em;
+    background-color: transparent;
+    background-clip: content-box;
+  }
+
+  input:hover + label:before {
+    border-color: $session-color-white;
+  }
+
+  input:checked + label:before {
+    background-color: $session-color-white;
+    border-color: $session-color-white;
+  }
+}
+
+.session-id-editable {
+  padding: $session-margin-lg;
+
+  textarea {
+    width: 30vh;
+  }
+}
+.session-id-editable textarea {
+  resize: none;
+  overflow: hidden;
+  user-select: all;
+}
+
+input {
+  user-select: text;
+}
+
+.dark-theme .invite-friends-dialog .member-item {
+  height: 64px;
+  background-color: $session-shade-4;
+  border: $session-separator-element-border;
+  display: flex;
+  align-items: center;
+  transition: $session-transition-duration;
+
+  .module-avatar,
+  .name-part {
+    margin: auto $session-margin-md;
+  }
+
+  .check-mark {
+    margin: auto $session-margin-xs;
+  }
+
+  .name-part {
+    flex-grow: 1;
+  }
+}
+
+.dark-theme .modal .content {
+  background-color: $session-shade-4;
+}
+
+.loki-dialog button {
+  border: none;
+}
+
+.friend-selection-list {
+  width: 40vh;
+}
+
+.session-beta-disclaimer {
+  .session-modal {
+    width: 600px;
+
+    &__header {
+      font-size: $session-font-lg;
+    }
+
+    &__body > div:first-child {
+      padding: $session-margin-lg;
+    }
+
+    .session-confirm-main-message {
+      opacity: 0.8;
+      margin-bottom: $session-margin-xs;
+    }
+
+    .session-confirm-sub-message {
+      text-align: center;
+    }
+  }
+}
+
+.session-confirm-wrapper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+
+  .session-modal {
+    margin: auto auto;
+  }
+}
+
+.module-scroll-down {
+  animation: fadein $session-fadein-duration;
+  bottom: 15px;
+
+  .session-icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    opacity: 1;
+    background-color: $session-shade-8;
+
+    svg path {
+      transition: $session-transition-duration;
+      opacity: 0.6;
+    }
+
+    &:hover svg path {
+      opacity: 1;
+    }
+  }
+}
+
+/* Memberlist */
+.member-list-container .member {
+  &-item {
+    font-family: 'SF Pro Text';
+    padding: $session-margin-sm $session-margin-md;
+    background-color: $session-shade-5;
+
+    &:hover:not(.member-selected) {
+      background-color: $session-shade-7;
+    }
+  }
+
+  &-selected {
+    background-color: $session-shade-8;
+  }
+}
+
+.standalone {
+  .button {
+    background: $session-color-green;
+  }
+
+  #reset-button {
+    color: $session-color-green;
+  }
+
+  .inputs {
+    input {
+      color: $color-dark-05;
+      background-color: $color-dark-70;
+      border-color: $color-dark-55;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+
+.clear-data,
+.password-prompt {
+  &-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: $session-color-black;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 3 * $session-margin-lg;
+  }
+
+  &-error-section {
+    width: 100%;
+    color: $session-color-white;
+    margin: -$session-margin-sm 0px 2 * $session-margin-lg 0px;
+
+    .session-label {
+      &.primary {
+        background-color: rgba($session-color-primary, 0.3);
+      }
+      padding: $session-margin-xs $session-margin-sm;
+      font-size: $session-font-xs;
+      text-align: center;
+    }
+  }
+
+  &-container {
+    font-family: 'SF Pro Text';
+    color: $session-color-white;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 600px;
+    min-width: 420px;
+    padding: 3 * $session-margin-lg 2 * $session-margin-lg;
+    box-sizing: border-box;
+    background-color: $session-shade-4;
+    border: 1px solid $session-shade-8;
+    border-radius: 2px;
+
+    .warning-info-area,
+    .password-info-area {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+
+      h1 {
+        color: $session-color-white;
+      }
+      svg {
+        margin-right: $session-margin-lg;
+      }
+    }
+
+    p,
+    input {
+      margin: $session-margin-lg 0px;
+    }
+
+    .button-group {
+      display: inline-flex;
+    }
+
+    #password-prompt-input {
+      width: 100%;
+      color: #fff;
+      background-color: #2e2e2e;
+      margin-top: 2 * $session-margin-lg;
+      padding: $session-margin-xs $session-margin-lg;
+      outline: none;
+      border: none;
+      border-radius: 2px;
+      text-align: center;
+      font-size: 24px;
+      letter-spacing: 5px;
+      font-family: 'SF Pro Text';
+    }
+  }
+}
+
+.onboarding-message-section {
+  display: flex;
+  flex-grow: 1;
+  align-items: flex-start;
+  position: relative;
+  padding: $session-margin-lg 2 * $session-margin-lg;
+  background: linear-gradient(
+    180deg,
+    rgba(29, 28, 28, 1) 0%,
+    rgba(18, 18, 18, 1) 100%
+  );
+
+  &__exit {
+    position: absolute;
+    top: $session-margin-lg;
+    left: $session-margin-lg;
+  }
+
+  &__container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 3 * $session-margin-lg;
+
+    height: 400px;
+
+    text-align: center;
+    font-family: 'SF Pro Text';
+  }
+
+  &__title h1 {
+    color: $session-color-white;
+    font-size: $session-font-h1;
+    font-weight: bold;
+    margin-bottom: 2 * $session-margin-lg;
+  }
+
+  &__icons img {
+    width: 180px;
+    margin-bottom: 2 * $session-margin-lg;
+  }
+
+  &__info {
+    font-family: 'Wasa';
+    margin-bottom: 2 * $session-margin-lg;
+
+    &--title {
+      font-size: $session-font-h3;
+      line-height: $session-font-h2;
+      margin-bottom: $session-margin-md;
+    }
+
+    &--subtitle {
+      font-family: 'SF Pro Text';
+      font-weight: 300;
+      line-height: $session-font-md;
+      opacity: 0.8;
+    }
+  }
+
+  &__spinner-container {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__buttons {
+    width: 100%;
+
+    .session-button:first-child {
+      margin-bottom: $session-margin-md;
+    }
+  }
+}
+
+.group-member-list {
+  &__container {
+    padding: 2px 0px;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: inset 0px 14px 7px -15px $session-color-dark-grey,
+      inset 0px -14px 7px -15px $session-color-dark-grey;
+  }
+
+  &__selection {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__no-contacts {
+    font-family: 'SpaceMono';
+    text-align: center;
+    padding: 20px;
+  }
+}
+.create-group-name-input {
+  .session-id-editable {
+    height: 60px !important;
+
+    textarea {
+      padding-bottom: 0px !important;
+    }
+
+    &-disabled {
+      border: 1px solid $session-color-dark-grey !important;
+    }
+  }
+}
+
+.session-member-item {
+  cursor: pointer;
+  font-family: 'SF Pro Text';
+  padding: 0px $session-margin-sm;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  transition: $session-transition-duration;
+
+  &.selected {
+    background-color: $session-shade-4;
+  }
+
+  &__checkmark {
+    opacity: 0;
+    transition: $session-transition-duration;
+
+    &.selected {
+      opacity: 1;
+    }
+  }
+
+  &__info,
+  &__checkmark {
+    display: flex;
+    align-items: center;
+  }
+
+  &__name {
+    font-weight: bold;
+    margin-left: $session-margin-md;
+  }
+  &__pubkey {
+    margin-left: 5px;
+    opacity: 0.8;
+  }
+}

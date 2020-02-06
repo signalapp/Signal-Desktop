@@ -18,7 +18,7 @@ describe('ContactBuffer', () => {
     const contactInfoBuffer = contactInfo.encode().toArrayBuffer();
 
     for (let i = 0; i < 3; i += 1) {
-      buffer.writeVarint32(contactInfoBuffer.byteLength);
+      buffer.writeInt32(contactInfoBuffer.byteLength);
       buffer.append(contactInfoBuffer);
       buffer.append(avatarBuffer.clone());
     }
@@ -69,7 +69,7 @@ describe('GroupBuffer', () => {
     const groupInfoBuffer = groupInfo.encode().toArrayBuffer();
 
     for (let i = 0; i < 3; i += 1) {
-      buffer.writeVarint32(groupInfoBuffer.byteLength);
+      buffer.writeInt32(groupInfoBuffer.byteLength);
       buffer.append(groupInfoBuffer);
       buffer.append(avatarBuffer.clone());
     }

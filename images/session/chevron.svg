@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="8px" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M12,13.5857864 L6.70710678,8.29289322 C6.31658249,7.90236893 5.68341751,7.90236893 5.29289322,8.29289322 C4.90236893,8.68341751 4.90236893,9.31658249 5.29289322,9.70710678 L11.2928932,15.7071068 C11.6834175,16.0976311 12.3165825,16.0976311 12.7071068,15.7071068 L18.7071068,9.70710678 C19.0976311,9.31658249 19.0976311,8.68341751 18.7071068,8.29289322 C18.3165825,7.90236893 17.6834175,7.90236893 17.2928932,8.29289322 L12,13.5857864 Z" id="path-1"></path>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="chevron-down" transform="translate(-5.000000, -8.000000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+        </g>
+    </g>
+</svg>

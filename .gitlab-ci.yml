@@ -10,7 +10,7 @@ linux:
     - yarn install --frozen-lockfile
     - export SIGNAL_ENV=production
     - yarn generate
-    - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$CI_COMMIT_REF_SLUG' --publish=never --config.directories.output=release
+    - $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$CI_COMMIT_REF_SLUG' --publish=never --config.directories.output=release
   cache:
     paths:
       - node_modules/
@@ -27,7 +27,7 @@ osx:
     - yarn install --frozen-lockfile
     - export SIGNAL_ENV=production
     - yarn generate
-    - $(yarn bin)/build --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$CI_COMMIT_REF_SLUG' --publish=never --config.directories.output=release
+    - $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion='$CI_COMMIT_REF_SLUG' --publish=never --config.directories.output=release
   cache:
     paths:
       - node_modules/
@@ -51,7 +51,7 @@ windows:
     - call yarn generate
     - call node build\grunt.js
     - call yarn prepare-beta-build
-    - call node_modules\.bin\build --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never --config.directories.output=release
+    - call node_modules\.bin\electron-builder --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never --config.directories.output=release
     - call node build\grunt.js test-release:win
   cache:
     paths:

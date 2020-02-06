@@ -130,4 +130,65 @@ describe('Settings', () => {
       });
     });
   });
+  describe('isHideMenuBarSupported', () => {
+    context('on macOS', () => {
+      beforeEach(() => {
+        sandbox.stub(process, 'platform').value('darwin');
+      });
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      it('should return false', () => {
+        assert.isFalse(Settings.isHideMenuBarSupported());
+      });
+    });
+
+    context('on Windows', () => {
+      context('version 7', () => {
+        beforeEach(() => {
+          sandbox.stub(process, 'platform').value('win32');
+          sandbox.stub(os, 'release').returns('7.0.0');
+        });
+
+        afterEach(() => {
+          sandbox.restore();
+        });
+
+        it('should return true', () => {
+          assert.isTrue(Settings.isHideMenuBarSupported());
+        });
+      });
+
+      context('version 8+', () => {
+        beforeEach(() => {
+          sandbox.stub(process, 'platform').value('win32');
+          sandbox.stub(os, 'release').returns('8.0.0');
+        });
+
+        afterEach(() => {
+          sandbox.restore();
+        });
+
+        it('should return true', () => {
+          assert.isTrue(Settings.isHideMenuBarSupported());
+        });
+      });
+    });
+
+    context('on Linux', () => {
+      beforeEach(() => {
+        sandbox.stub(process, 'platform').value('linux');
+      });
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      it('should return true', () => {
+        assert.isTrue(Settings.isHideMenuBarSupported());
+      });
+    });
+  });
 });

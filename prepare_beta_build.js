@@ -27,16 +27,16 @@ const PRODUCTION_NAME = 'loki-messenger-desktop';
 const BETA_NAME = 'loki-messenger-desktop-beta';
 
 const PRODUCT_NAME_PATH = 'productName';
-const PRODUCTION_PRODUCT_NAME = 'Loki Messenger';
-const BETA_PRODUCT_NAME = 'Loki Messenger Beta';
+const PRODUCTION_PRODUCT_NAME = 'Session';
+const BETA_PRODUCT_NAME = 'Session Beta';
 
 const APP_ID_PATH = 'build.appId';
-const PRODUCTION_APP_ID = 'org.loki.messenger-desktop';
-const BETA_APP_ID = 'org.loki.messenger-desktop-beta';
+const PRODUCTION_APP_ID = 'com.loki-project.messenger-desktop';
+const BETA_APP_ID = 'com.loki-project.messenger-desktop-beta';
 
 const STARTUP_WM_CLASS_PATH = 'build.linux.desktop.StartupWMClass';
-const PRODUCTION_STARTUP_WM_CLASS = 'Loki Messenger';
-const BETA_STARTUP_WM_CLASS = 'Loki Messenger Beta';
+const PRODUCTION_STARTUP_WM_CLASS = 'Session';
+const BETA_STARTUP_WM_CLASS = 'Session Beta';
 
 // -------
 
