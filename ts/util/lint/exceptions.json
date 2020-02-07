@@ -9311,16 +9311,16 @@
     "rule": "jQuery-wrap(",
     "path": "ts/shims/textsecure.js",
     "line": "    wrap(textsecure.messaging.sendStickerPackSync([",
-    "lineNumber": 11,
+    "lineNumber": 13,
     "reasonCategory": "falseMatch",
-    "updated": "2019-05-02T20:44:56.470Z"
+    "updated": "2020-02-07T19:52:28.522Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "ts/shims/textsecure.ts",
     "line": "  wrap(",
-    "lineNumber": 60,
+    "lineNumber": 63,
     "reasonCategory": "falseMatch",
-    "updated": "2019-05-02T20:44:56.470Z"
+    "updated": "2020-02-07T19:52:28.522Z"
   }
 ]

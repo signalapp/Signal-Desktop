@@ -102,7 +102,16 @@
     ],
 
     // Adding select dev dependencies here for now, may turn on all in the future
-    "no-implicit-dependencies": [true, ["dashdash", "electron"]],
+    "no-implicit-dependencies": [
+      true,
+      [
+        "dashdash",
+        "electron",
+        "@storybook/react",
+        "@storybook/addon-actions",
+        "@storybook/addon-knobs"
+      ]
+    ],
 
     // Maybe will turn on:
 

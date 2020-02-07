@@ -188,6 +188,8 @@ export class Lightbox extends React.Component<Props, State> {
   public readonly focusRef = React.createRef<HTMLDivElement>();
   public previousFocus: any;
 
+  public state: State = {};
+
   public componentDidMount() {
     this.previousFocus = document.activeElement;
 
