@@ -28,7 +28,7 @@ BuildRequires:  libxcrypt-compat
 BuildRequires:  nodejs >= 12.4.0
 BuildRequires:  openssl-devel
 # Python >= 2.6.0 < 3.0.0
-BuildRequires:  python27
+BuildRequires:  python2
 BuildRequires:  yarn
 
 Requires:   libappindicator-gtk3
