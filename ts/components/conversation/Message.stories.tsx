@@ -15,6 +15,7 @@ const book = storiesOf('Components/Conversation/Message', module);
 const baseDataProps: Pick<
   PropsData,
   | 'id'
+  | 'canReply'
   | 'conversationId'
   | 'interactionMode'
   | 'conversationType'
@@ -23,6 +24,7 @@ const baseDataProps: Pick<
   | 'authorPhoneNumber'
 > = {
   id: 'asdf',
+  canReply: true,
   conversationId: 'asdf',
   interactionMode: 'mouse',
   conversationType: 'direct',

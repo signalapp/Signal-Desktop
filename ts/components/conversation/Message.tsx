@@ -105,6 +105,8 @@ export type PropsData = {
 
   reactions?: ReactionViewerProps['reactions'];
   selectedReaction?: string;
+
+  canReply: boolean;
 };
 
 export type PropsHousekeeping = {
@@ -986,6 +988,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       // tslint:disable-next-line max-func-body-length
+      canReply,
       direction,
       disableMenu,
       id,
@@ -1098,9 +1101,9 @@ export class Message extends React.PureComponent<Props, State> {
             `module-message__buttons--${direction}`
           )}
         >
-          {reactButton}
+          {canReply ? reactButton : null}
           {downloadButton}
-          {replyButton}
+          {canReply ? replyButton : null}
           {menuButton}
         </div>
         {reactionPickerRoot &&
@@ -1132,6 +1135,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderContextMenu(triggerId: string) {
     const {
       attachments,
+      canReply,
       deleteMessage,
       direction,
       i18n,
@@ -1163,32 +1167,36 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('downloadAttachment')}
           </MenuItem>
         ) : null}
-        <MenuItem
-          attributes={{
-            className: 'module-message__context__react',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
+        {canReply ? (
+          <>
+            <MenuItem
+              attributes={{
+                className: 'module-message__context__react',
+              }}
+              onClick={(event: React.MouseEvent) => {
+                event.stopPropagation();
+                event.preventDefault();
 
-            this.toggleReactionPicker();
-          }}
-        >
-          {i18n('reactToMessage')}
-        </MenuItem>
-        <MenuItem
-          attributes={{
-            className: 'module-message__context__reply',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
+                this.toggleReactionPicker();
+              }}
+            >
+              {i18n('reactToMessage')}
+            </MenuItem>
+            <MenuItem
+              attributes={{
+                className: 'module-message__context__reply',
+              }}
+              onClick={(event: React.MouseEvent) => {
+                event.stopPropagation();
+                event.preventDefault();
 
-            replyToMessage(id);
-          }}
-        >
-          {i18n('replyToMessage')}
-        </MenuItem>
+                replyToMessage(id);
+              }}
+            >
+              {i18n('replyToMessage')}
+            </MenuItem>
+          </>
+        ) : null}
         <MenuItem
           attributes={{
             className: 'module-message__context__more-info',
@@ -1831,10 +1839,14 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    // Do not allow reactions to error messages
+    const { canReply } = this.props;
+
     if (
       (event.key === 'E' || event.key === 'e') &&
       (event.metaKey || event.ctrlKey) &&
-      event.shiftKey
+      event.shiftKey &&
+      canReply
     ) {
       this.toggleReactionPicker();
     }

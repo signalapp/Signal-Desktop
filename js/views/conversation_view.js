@@ -2528,6 +2528,10 @@
           })
         : null;
 
+      if (model && !model.canReply()) {
+        return;
+      }
+
       if (model && !model.isNormalBubble()) {
         return;
       }

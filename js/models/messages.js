@@ -534,6 +534,7 @@
         timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
         contact: this.getPropsForEmbeddedContact(),
+        canReply: this.canReply(),
         authorColor,
         authorName: contact.name,
         authorProfileName: contact.profileName,
@@ -1304,6 +1305,24 @@
         e.name === 'SignedPreKeyRotationError' ||
         e.name === 'OutgoingIdentityKeyError'
       );
+    },
+    canReply() {
+      const errors = this.get('errors');
+      const isOutgoing = this.get('type') === 'outgoing';
+      const numDelivered = this.get('delivered');
+
+      // Case 1: We can reply if this is outgoing and delievered to at least one recipient
+      if (isOutgoing && numDelivered > 0) {
+        return true;
+      }
+
+      // Case 2: We can reply if there are no errors
+      if (errors && errors.length === 0) {
+        return true;
+      }
+
+      // Otherwise we cannot reply
+      return false;
     },
 
     // Called when the user ran into an error with a specific user, wants to send to them
