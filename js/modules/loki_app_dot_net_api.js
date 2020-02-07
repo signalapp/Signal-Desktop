@@ -317,7 +317,7 @@ class LokiAppDotNetServerAPI {
 
   // activate token
   async submitToken(token) {
-    const options = {
+    const fetchOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -331,7 +331,8 @@ class LokiAppDotNetServerAPI {
     try {
       const res = await this.proxyFetch(
         `${this.baseServerUrl}/loki/v1/submit_challenge`,
-        options
+        fetchOptions,
+        { textResponse: true }
       );
       return res.ok;
     } catch (e) {
@@ -340,7 +341,7 @@ class LokiAppDotNetServerAPI {
     }
   }
 
-  async proxyFetch(urlObj, fetchOptions = { method: 'GET' }) {
+  async proxyFetch(urlObj, fetchOptions = { method: 'GET' }, options = {}) {
     if (
       window.lokiFeatureFlags.useSnodeProxy &&
       (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
@@ -364,10 +365,10 @@ class LokiAppDotNetServerAPI {
         json: () => response,
       };
     }
-    return nodeFetch(urlObj, fetchOptions);
+    return nodeFetch(urlObj, fetchOptions, options);
   }
 
-  async _sendToProxy(endpoint, pFetchOptions) {
+  async _sendToProxy(endpoint, pFetchOptions, options = {}) {
     const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
     const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
@@ -449,7 +450,7 @@ class LokiAppDotNetServerAPI {
     const result = await nodeFetch(url, firstHopOptions);
 
     const txtResponse = await result.text();
-    if (txtResponse === 'Service node is not ready: not in any swarm; \n') {
+    if (txtResponse.match(/^Service node is not ready: not in any swarm/i)) {
       // mark snode bad
       log.warn(`Marking random snode bad, internet address ${randSnode.ip}:${randSnode.port}`);
       lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
@@ -476,12 +477,12 @@ class LokiAppDotNetServerAPI {
         ivAndCiphertextResponse
       );
       const textDecoder = new TextDecoder();
-      const json = textDecoder.decode(decrypted);
+      const respStr = textDecoder.decode(decrypted);
       // replace response
       try {
-        response = JSON.parse(json);
+        response = options.textResponse ? respStr : JSON.parse(respStr);
       } catch (e) {
-        log.warn(`_sendToProxy Could not parse inner JSON [${json}]`);
+        log.warn(`_sendToProxy Could not parse inner JSON [${respStr}]`);
       }
     } else {
       log.warn(
@@ -557,7 +558,8 @@ class LokiAppDotNetServerAPI {
           .replace(`${this.baseServerUrl}/`, '');
         ({ response, txtResponse, result } = await this._sendToProxy(
           endpointWithQS,
-          fetchOptions
+          fetchOptions,
+          options
         ));
       } else {
         // disable check for .loki
