@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as PQueue from 'p-queue';
+import PQueue from 'p-queue';
 import {
   SortableContainer,
   SortableElement,

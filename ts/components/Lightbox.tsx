@@ -188,10 +188,6 @@ export class Lightbox extends React.Component<Props, State> {
   public readonly focusRef = React.createRef<HTMLDivElement>();
   public previousFocus: any;
 
-  public state = {
-    videoTime: undefined,
-  };
-
   public componentDidMount() {
     this.previousFocus = document.activeElement;
 
@@ -299,7 +295,7 @@ export class Lightbox extends React.Component<Props, State> {
             ) : null}
           </div>
         </div>
-        {isViewOnce && is.number(videoTime) ? (
+        {isViewOnce && videoTime && is.number(videoTime) ? (
           <div style={styles.navigationContainer}>
             <div style={styles.timestampPill}>{formatDuration(videoTime)}</div>
           </div>

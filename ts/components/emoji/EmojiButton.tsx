@@ -10,7 +10,7 @@ import {
 } from './EmojiPicker';
 import { LocalizerType } from '../../types/Util';
 
-export type EmojiPickDataType = EmojiPickDataType;
+export { EmojiPickDataType };
 
 export type OwnProps = {
   readonly i18n: LocalizerType;

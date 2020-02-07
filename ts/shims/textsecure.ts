@@ -37,12 +37,15 @@ interface ShimmedWindow extends Window {
   ConversationController: ConversationControllerType;
 }
 
+const unknownWindow = window as unknown;
+const shimmedWindow = unknownWindow as ShimmedWindow;
+
 export function sendStickerPackSync(
   packId: string,
   packKey: string,
   installed: boolean
 ) {
-  const { ConversationController, textsecure, log } = window as ShimmedWindow;
+  const { ConversationController, textsecure, log } = shimmedWindow;
   const ourNumber = textsecure.storage.user.getNumber();
   const { wrap, sendOptions } = ConversationController.prepareForSend(
     ourNumber,

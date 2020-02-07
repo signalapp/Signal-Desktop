@@ -21,7 +21,7 @@ const BLESSED_PACKS = {
 
 const { isNumber, pick, reject, groupBy, values } = require('lodash');
 const pMap = require('p-map');
-const Queue = require('p-queue');
+const Queue = require('p-queue').default;
 const qs = require('qs');
 
 const { makeLookup } = require('../../ts/util/makeLookup');

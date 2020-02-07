@@ -17,7 +17,7 @@ window.PROTO_ROOT = '../../protos';
 window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getGuid = require('uuid/v4');
-window.PQueue = require('p-queue');
+window.PQueue = require('p-queue').default;
 
 window.localeMessages = ipc.sendSync('locale-data');
 

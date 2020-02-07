@@ -91,7 +91,7 @@ export const EmojiPicker = React.memo(
 
       const debounceSearchChange = React.useMemo(
         () =>
-          debounce(query => {
+          debounce((query: string) => {
             setSearchText(query);
             setScrollToRow(0);
           }, 200),
