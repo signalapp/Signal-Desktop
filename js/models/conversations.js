@@ -221,7 +221,9 @@
       return !!(this.id && this.id.match(/^publicChat:/));
     },
     isClosedGroup() {
-      return this.get('type') === Message.GROUP && !this.isPublic() && !this.isRss();
+      return (
+        this.get('type') === Message.GROUP && !this.isPublic() && !this.isRss()
+      );
     },
     isClosable() {
       return !this.isRss() || this.get('closable');
