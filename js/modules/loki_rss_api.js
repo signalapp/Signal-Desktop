@@ -64,7 +64,7 @@ class LokiRssAPI extends EventEmitter {
       return;
     }
     const result = await window.lokiFileServerAPI._server.serverRequest(
-      map[this.feedUrl]
+      map[this.feedUrl], { textResponse: true }
     );
     if (!result) {
       log.error('LokiRssAPI empty rss proxy response');
