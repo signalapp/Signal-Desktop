@@ -67,6 +67,11 @@ module.exports = {
         {
           rel: 'stylesheet',
           type: 'text/css',
+          href: '/node_modules/sanitize.css/sanitize.css',
+        },
+        {
+          rel: 'stylesheet',
+          type: 'text/css',
           href: '/stylesheets/manifest.css',
         },
         {

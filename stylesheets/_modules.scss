@@ -6720,6 +6720,7 @@ button.module-image__border-overlay:focus {
     width: $size;
     height: $size;
     transform: translate3d(0, 0, 0);
+    vertical-align: baseline;
   }
 }
 
