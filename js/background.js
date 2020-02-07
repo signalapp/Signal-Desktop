@@ -1059,6 +1059,7 @@
       window.setMediaPermissions(!mediaPermissions);
     };
 
+    // attempts a connection to an open group server
     window.attemptConnection = async (serverURL, channelId) => {
       let rawserverURL = serverURL
         .replace(/^https?:\/\//i, '')
