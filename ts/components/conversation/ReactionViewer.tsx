@@ -101,7 +101,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     return (
       <div {...rest} ref={ref} className="module-reaction-viewer">
         <header className="module-reaction-viewer__header">
-          {...renderedEmojis
+          {renderedEmojis
             .filter(e => e === 'all' || Boolean(grouped[e]))
             .map((cat, index) => {
               const re = grouped[cat] || reactions;

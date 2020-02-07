@@ -6724,7 +6724,9 @@ button.module-image__border-overlay:focus {
 }
 
 .module-emoji {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: transparent;
   font-family: auto;
 

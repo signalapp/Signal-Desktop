@@ -65,9 +65,9 @@ export type PropsData = {
   conversationId: string;
   text?: string;
   textPending?: boolean;
-  isSticker: boolean;
-  isSelected: boolean;
-  isSelectedCounter: number;
+  isSticker?: boolean;
+  isSelected?: boolean;
+  isSelectedCounter?: number;
   interactionMode: 'mouse' | 'keyboard';
   direction: 'incoming' | 'outgoing';
   timestamp: number;
@@ -94,7 +94,7 @@ export type PropsData = {
   };
   previews: Array<LinkPreviewType>;
   authorAvatarPath?: string;
-  isExpired: boolean;
+  isExpired?: boolean;
 
   isTapToView?: boolean;
   isTapToViewExpired?: boolean;
@@ -107,7 +107,7 @@ export type PropsData = {
   selectedReaction?: string;
 };
 
-type PropsHousekeeping = {
+export type PropsHousekeeping = {
   i18n: LocalizerType;
   disableMenu?: boolean;
   disableScroll?: boolean;
@@ -158,8 +158,8 @@ interface State {
   expired: boolean;
   imageBroken: boolean;
 
-  isSelected: boolean;
-  prevSelectedCounter: number;
+  isSelected?: boolean;
+  prevSelectedCounter?: number;
 
   pickedReaction?: string;
   reactionViewerRoot: HTMLDivElement | null;

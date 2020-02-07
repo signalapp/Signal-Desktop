@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-const makeApi = (themes?: Array<string>) => ({
+const makeApi = (classes?: Array<string>) => ({
   createRoot: () => {
     const div = document.createElement('div');
 
-    if (themes) {
-      themes.forEach(theme => {
-        div.classList.add(`${theme}-theme`);
+    if (classes) {
+      classes.forEach(theme => {
+        div.classList.add(theme);
       });
     }
 
@@ -21,16 +21,16 @@ const makeApi = (themes?: Array<string>) => ({
 
 export const PopperRootContext = React.createContext(makeApi());
 
-export type ThemedProviderProps = {
-  themes?: Array<string>;
+export type ClassyProviderProps = {
+  classes?: Array<string>;
   children?: React.ReactChildren;
 };
 
-export const ThemedProvider: React.FunctionComponent<ThemedProviderProps> = ({
-  themes,
+export const ClassyProvider: React.FunctionComponent<ClassyProviderProps> = ({
+  classes,
   children,
 }) => {
-  const api = React.useMemo(() => makeApi(themes), [themes]);
+  const api = React.useMemo(() => makeApi(classes), [classes]);
 
   return (
     <PopperRootContext.Provider value={api}>
