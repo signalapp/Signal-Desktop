@@ -61,6 +61,20 @@ export type MessageType = {
       pending: boolean;
     };
   };
+  unread: boolean;
+  reactions?: Array<{
+    emoji: string;
+    timestamp: number;
+    from: {
+      id: string;
+      color?: string;
+      avatarPath?: string;
+      name?: string;
+      profileName?: string;
+      isMe?: boolean;
+      phoneNumber?: string;
+    };
+  }>;
 
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
@@ -570,6 +584,14 @@ function hasMessageHeightChanged(
     Boolean(message.hasSignalAccount || previous.hasSignalAccount) &&
     message.hasSignalAccount !== previous.hasSignalAccount;
   if (signalAccountChanged) {
+    return true;
+  }
+
+  const currentReactions = message.reactions || [];
+  const lastReactions = previous.reactions || [];
+  const reactionsChanged =
+    (currentReactions.length === 0) !== (lastReactions.length === 0);
+  if (reactionsChanged) {
     return true;
   }
 

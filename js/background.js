@@ -857,6 +857,11 @@
         if (reactionViewer) {
           return;
         }
+
+        const reactionPicker = document.querySelector('module-reaction-picker');
+        if (reactionPicker) {
+          return;
+        }
       }
 
       // Close Backbone-based confirmation dialog
@@ -1895,6 +1900,12 @@
           }
         );
         conversation.set(newAttributes);
+      } else {
+        const { attributes } = conversation;
+        if (attributes.avatar && attributes.avatar.path) {
+          await deleteAttachmentData(attributes.avatar.path);
+        }
+        conversation.set({ avatar: null });
       }
 
       window.Signal.Data.updateConversation(id, conversation.attributes);
@@ -2223,6 +2234,7 @@
         targetTimestamp: reaction.targetTimestamp.toNumber(),
         timestamp: Date.now(),
         fromId: ourNumber,
+        fromSync: true,
       });
       // Note: We do not wait for completion here
       Whisper.Reactions.onReaction(reactionModel);

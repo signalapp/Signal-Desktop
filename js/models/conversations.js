@@ -918,10 +918,6 @@
     },
 
     async sendStickerMessage(packId, stickerId) {
-      if (!window.ENABLE_STICKER_SEND) {
-        return;
-      }
-
       const packData = window.Signal.Stickers.getStickerPack(packId);
       const stickerData = window.Signal.Stickers.getSticker(packId, stickerId);
       if (!stickerData || !packData) {
@@ -950,6 +946,134 @@
 
       this.sendMessage(null, [], null, [], sticker);
       window.reduxActions.stickers.useSticker(packId, stickerId);
+    },
+
+    /**
+     * Sends a reaction message
+     * @param {object} reaction - The reaction to send
+     * @param {string} reaction.emoji - The emoji to react with
+     * @param {boolean} [reaction.remove] - Set to `true` if we are removing a
+     *   reaction with the given emoji
+     * @param {object} target - The target of the reaction
+     * @param {string} target.targetAuthorE164 - The E164 address of the target
+     *   message's author
+     * @param {number} target.targetTimestamp - The sent_at timestamp of the
+     *   target message
+     */
+    async sendReactionMessage(reaction, target) {
+      const timestamp = Date.now();
+      const outgoingReaction = { ...reaction, ...target };
+      const reactionModel = Whisper.Reactions.add({
+        ...outgoingReaction,
+        fromId: this.ourNumber || textsecure.storage.user.getNumber(),
+        timestamp,
+        fromSync: true,
+      });
+      Whisper.Reactions.onReaction(reactionModel);
+
+      const destination = this.id;
+      const recipients = this.getRecipients();
+
+      let profileKey;
+      if (this.get('profileSharing')) {
+        profileKey = storage.get('profileKey');
+      }
+
+      return this.queueJob(async () => {
+        window.log.info(
+          'Sending reaction to conversation',
+          this.idForLogging(),
+          'with timestamp',
+          timestamp
+        );
+
+        // Here we move attachments to disk
+        const attributes = {
+          id: window.getGuid(),
+          type: 'outgoing',
+          conversationId: destination,
+          sent_at: timestamp,
+          received_at: timestamp,
+          recipients,
+          reaction: outgoingReaction,
+        };
+
+        if (this.isPrivate()) {
+          attributes.destination = destination;
+        }
+
+        // We are only creating this model so we can use its sync message
+        // sending functionality. It will not be saved to the datbase.
+        const message = new Whisper.Message(attributes);
+
+        // We're offline!
+        if (!textsecure.messaging) {
+          throw new Error('Cannot send reaction while offline!');
+        }
+
+        // Special-case the self-send case - we send only a sync message
+        if (this.isMe()) {
+          const dataMessage = await textsecure.messaging.getMessageProto(
+            destination,
+            null,
+            null,
+            null,
+            null,
+            null,
+            outgoingReaction,
+            timestamp,
+            null,
+            profileKey
+          );
+          return message.sendSyncMessageOnly(dataMessage);
+        }
+
+        const options = this.getSendOptions();
+        const groupNumbers = this.getRecipients();
+
+        const promise = (() => {
+          if (this.isPrivate()) {
+            return textsecure.messaging.sendMessageToNumber(
+              destination,
+              null,
+              null,
+              null,
+              null,
+              null,
+              outgoingReaction,
+              timestamp,
+              null,
+              profileKey,
+              options
+            );
+          }
+
+          return textsecure.messaging.sendMessageToGroup(
+            destination,
+            groupNumbers,
+            null,
+            null,
+            null,
+            null,
+            null,
+            outgoingReaction,
+            timestamp,
+            null,
+            profileKey,
+            options
+          );
+        })();
+
+        return message.send(this.wrapSend(promise));
+      }).catch(error => {
+        window.log.error('Error sending reaction', reaction, target, error);
+
+        const reverseReaction = reactionModel.clone();
+        reverseReaction.set('remove', !reverseReaction.get('remove'));
+        Whisper.Reactions.onReaction(reverseReaction);
+
+        throw error;
+      });
     },
 
     sendMessage(body, attachments, quote, preview, sticker) {
@@ -1055,6 +1179,7 @@
             quote,
             preview,
             sticker,
+            null,
             now,
             expireTimer,
             profileKey
@@ -1076,6 +1201,7 @@
                 quote,
                 preview,
                 sticker,
+                null,
                 now,
                 expireTimer,
                 profileKey,
@@ -1090,6 +1216,7 @@
                 quote,
                 preview,
                 sticker,
+                null,
                 now,
                 expireTimer,
                 profileKey,
@@ -1400,6 +1527,7 @@
           [],
           null,
           [],
+          null,
           null,
           message.get('sent_at'),
           expireTimer,

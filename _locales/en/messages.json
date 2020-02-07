@@ -762,6 +762,10 @@
     "message": "Download Attachment",
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
+  "reactToMessage": {
+    "message": "React to Message",
+    "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+  },
   "replyToMessage": {
     "message": "Reply to Message",
     "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -1145,6 +1149,40 @@
       "emoji": {
         "content": "$2",
         "example": "👍"
+      }
+    }
+  },
+  "notificationReactionMessage": {
+    "message": "$sender$ reacted $emoji$ to: $message$",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "John"
+      },
+      "emoji": {
+        "content": "$2",
+        "example": "👍"
+      },
+      "message": {
+        "content": "$3",
+        "example": "Sounds good."
+      }
+    }
+  },
+  "notificationReactionMessageMostRecent": {
+    "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "John"
+      },
+      "emoji": {
+        "content": "$2",
+        "example": "👍"
+      },
+      "message": {
+        "content": "$3",
+        "example": "Sounds good."
       }
     }
   },
@@ -1831,6 +1869,10 @@
     "message": "Toggle reply to selected message",
     "description": "Shown in the shortcuts guide"
   },
+  "Keyboard--toggle-reaction-picker": {
+    "message": "Toggle reaction picker for selected message",
+    "description": "Shown in the shortcuts guide"
+  },
   "Keyboard--save-attachment": {
     "message": "Save attachment from selected message",
     "description": "Shown in the shortcuts guide"
@@ -2144,6 +2186,10 @@
   "StickerCreator--Authentication--error": {
     "message": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+  },
+  "Reactions--error": {
+    "message": "Failed to send reaction. Please try again.",
+    "description": "Shown when a reaction fails to send"
   },
   "ContactName--you": {
     "message": "$name$ (you)",

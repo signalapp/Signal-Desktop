@@ -19,6 +19,10 @@
         "message": "&ឯកសារ",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
+    "mainMenuCreateStickers": {
+        "message": "បង្កើត/បញ្ជូនកញ្ចប់ស្ទីកគ័រ",
+        "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "mainMenuEdit": {
         "message": "&កែប្រែ",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
@@ -604,7 +608,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Show Keyboard Shortcuts",
+        "message": "បង្ហាញផ្លូវកាត់ក្តារចុច",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "goToReleaseNotes": {
@@ -625,6 +629,10 @@
     },
     "signalDesktopPreferences": {
         "message": "ចំណង់ចំណូលចិត្តSignal Desktop ",
+        "description": "Title of the window that pops up with Signal Desktop preferences in it"
+    },
+    "signalDesktopStickerCreator": {
+        "message": "កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -776,8 +784,18 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice message must have only one attachment.",
+        "message": "សារជាសំឡេងមួយ ត្រូវមានឯកសារភ្ជាប់តែមួយ។",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
+    },
+    "attachmentSaved": {
+        "message": "Attachment saved. Click to show in folder.",
+        "description": "Shown after user selects to save to downloads",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "proof.jpg"
+            }
+        }
     },
     "you": {
         "message": "អ្នក",
@@ -1122,6 +1140,34 @@
     "notificationMostRecent": {
         "message": "ថ្មីៗបំផុត៖",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    },
+    "notificationReaction": {
+        "message": "$sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMostRecent": {
+        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            }
+        }
     },
     "sendFailed": {
         "message": "ផ្ញើបរាជ័យ",
@@ -1555,13 +1601,17 @@
         "message": "មិនគាំទ្រសារ",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
+    "message--getDescription--disappearing-media": {
+        "message": "View-once Media",
+        "description": "Shown in notifications and in the left pane after view-once message is deleted."
+    },
     "message--getDescription--disappearing-photo": {
-        "message": "រូបភាពបាត់ទៅវិញ",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing photo."
+        "message": "View-once Photo",
+        "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "វីដេអូបាត់ទៅវិញ",
-        "description": "Shown in notifications and in the left pane when a message is a disappearing video."
+        "message": "View-once Video",
+        "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
         "message": "កញ្ចប់ស្ទីកគ័រមិនអាចដំឡើងបាន",
@@ -1602,6 +1652,10 @@
     "stickers--StickerManager--UninstallWarning": {
         "message": "អ្នកប្រហែលមិនអាចដំឡើងកញ្ចប់ស្ទីកគ័រនេះឡើងវិញ ប្រសិនបើអ្នកមិនមានសារដើម។",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
+    },
+    "stickers--StickerManager--Introduction--Image": {
+        "message": "ការណែនាំ ស្ទីកគ័រ៖ សត្វឆ្មាមេចោរ",
+        "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
         "message": "ការណែនាំ ស្ទីកគ័រ",
@@ -1705,12 +1759,20 @@
         "message": "ព័ត៌មាន",
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
+    "Message--tap-to-view--incoming--expired-toast": {
+        "message": "អ្នកបានមើលសារនេះហើយ។",
+        "description": "Shown when user clicks on an expired incoming view-once bubble"
+    },
+    "Message--tap-to-view--outgoing--expired-toast": {
+        "message": "View-once messages are not stored in your conversation history.",
+        "description": "Shown when user clicks on an expired outgoing view-once bubble"
+    },
     "Message--tap-to-view--incoming": {
-        "message": "រូបភាព",
+        "message": "បើកមើលរូបភាព",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "វីដេអូ",
+        "message": "បង្ហាញវីដេអូ",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
@@ -1726,39 +1788,39 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navigate by section",
+        "message": "រុករកតាមផ្នែក",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
-        "message": "Previous conversation",
+        "message": "ការសន្ទនាពីមុន",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-conversation": {
-        "message": "Next conversation",
+        "message": "ការសន្ទនាបន្ទាប់",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Previous unread conversation",
+        "message": "ការសន្ទនាមិនទាន់អានពីមុន",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Next unread conversation",
+        "message": "ការសន្ទនាមិនបានអានបន្ទាប់",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Preferences",
+        "message": "ចំណង់ចំណូលចិត្ត",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Open conversation menu",
+        "message": "បើកបញ្ជីការសន្ទនា",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Archive conversation",
+        "message": "សន្ទនាក្នុងបណ្ណសារ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Unarchive conversation",
+        "message": "មិនប័ណ្ណសារ ការសន្ទនា",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
@@ -1766,71 +1828,71 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Search in conversation",
+        "message": "ស្វែងរកក្នុងការសន្ទនា",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Focus composer",
+        "message": "ផ្តោតការសរសេរ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Open All Media view",
+        "message": "បើកការមើលឯកសារមេឌាទាំងអស់",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "Open emoji chooser",
+        "message": "បើកការជ្រើសរើស emoji",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Open sticker chooser",
+        "message": "បើកការជ្រើសរើស ស្ទីកគ័រ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Begin recording voice note",
+        "message": "ចាប់ផ្តើមការថតកំណត់ត្រាសំឡេង",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Default action for selected message",
+        "message": "សកម្មភាពលំនាំដើមសម្រាប់សារដែលបានជ្រើសរើស",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "View selected message details",
+        "message": "មើលព័ត៌មានលម្អិតនៃសារដែលបានជ្រើសរើស",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Toggle reply to selected message",
+        "message": "បិទ / បើកការឆ្លើយតបទៅសារដែលបានជ្រើសរើស",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Save attachment from selected message",
+        "message": "រក្សាទុកឯកសារភ្ជាប់ពីសារដែលបានជ្រើសរើស",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Delete selected message",
+        "message": "លុបសារដែលបានជ្រើសរើស",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Add newline to message",
+        "message": "បន្ថែមបន្ទាត់ថ្មីទៅកាន់សារ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Expand composer",
+        "message": "ពង្រីកកម្មវិធីសរសេរ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Send (in expanded composer)",
+        "message": "ផ្ញើ (នៅក្នុងកម្មវិធីសរសេរ)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Attach file",
+        "message": "ភ្ជាប់ឯកសារ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Remove draft link preview",
+        "message": "យកការមើលតំណភ្ជាប់ព្រាងចេញ",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Remove all draft attachments",
+        "message": "លុបចោលឯកសារភ្ជាប់ព្រាងទាំងអស់",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--Key--ctrl": {
@@ -1854,11 +1916,11 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--header": {
-        "message": "Keyboard Shortcuts",
+        "message": "ផ្លូវកាត់ក្តារចុច",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
-        "message": "Navigation",
+        "message": "ការរុករក",
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
@@ -1866,44 +1928,254 @@
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Composer",
+        "message": "កម្មវិធីសរសេរ",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Scroll to top of list",
+        "message": "រំកិលទៅខាងលើនៃបញ្ជី",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Scroll to bottom of list",
+        "message": "រំកិលទៅខាងក្រោមបញ្ជី",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Close current conversation",
+        "message": "បិទការសន្ទនាបច្ចុប្បន្ន",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
-        "message": "Close Popup",
+        "message": "បិទ ផ្ទាំងលោតឡើង",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Add image attachment",
+        "message": "បន្ថែមឯកសារភ្ជាប់រូបភាព",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Remove attachment",
+        "message": "លុបចោលឯកសារភ្ជាប់",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Back to inbox",
+        "message": "ត្រឡប់ទៅប្រអប់សារ",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Conversation archived",
+        "message": "ការសន្ទនារក្សាទុកក្នុងបណ្ណាសារ",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Conversation returned to inbox",
+        "message": "ការសន្ទនាដែលបានត្រឡប់ទៅកាន់ប្រអប់សារ",
         "description": "A toast that shows up when the user unarchives a conversation"
+    },
+    "StickerCreator--title": {
+        "message": "កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ",
+        "description": "The title of the Sticker Pack Creator window"
+    },
+    "StickerCreator--DropZone--staticText": {
+        "message": "ចុច ដើម្បីបន្ថែម ឬទម្លាក់រូបភាពនៅទីនេះ",
+        "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
+    },
+    "StickerCreator--DropZone--activeText": {
+        "message": "ទម្លាក់រូបភាពនៅទីនេះ",
+        "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
+    },
+    "StickerCreator--Preview--title": {
+        "message": "កញ្ចប់ស្ទីកគ័រ",
+        "description": "The 'title' of the sticker pack preview 'modal'"
+    },
+    "StickerCreator--ConfirmDialog--cancel": {
+        "message": "បោះបង់",
+        "description": "The default text for the confirm dialog cancel button"
+    },
+    "StickerCreator--CopyText--button": {
+        "message": "ចម្លង",
+        "description": "The text which appears on the copy button for the sticker creator share screen"
+    },
+    "StickerCreator--ShareButtons--facebook": {
+        "message": "Facebook",
+        "description": "Title for Facebook button"
+    },
+    "StickerCreator--ShareButtons--twitter": {
+        "message": "Twitter",
+        "description": "Title for Twitter button"
+    },
+    "StickerCreator--ShareButtons--pinterest": {
+        "message": "Pinterest",
+        "description": "Title for Pinterest button"
+    },
+    "StickerCreator--ShareButtons--whatsapp": {
+        "message": "WhatsApp",
+        "description": "Title for WhatsApp button"
+    },
+    "StickerCreator--AppStage--next": {
+        "message": "បន្ទាប់",
+        "description": "Default text for the next button on all stages of the sticker creator"
+    },
+    "StickerCreator--AppStage--prev": {
+        "message": "ត្រលប់ក្រោយ",
+        "description": "Default text for the previous button on all stages of the sticker creator"
+    },
+    "StickerCreator--DropStage--title": {
+        "message": "បន្ថែមស្ទីកគ័ររបស់អ្នក",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--help": {
+        "message": "ស្ទីកគ័រត្រូវតែជាទម្រង់ PNG ឬ WebP ជាមួយផ្ទាំងខាងក្រោយថ្លា និង 512x512 pixels។  ណែនាំគែមស្មើ  16px។",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--showMargins": {
+        "message": "បង្ហាញគែម",
+        "description": "Text for the show margins toggle on the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--addMore": {
+        "message": "បន្ថែម $count$ ឬច្រើន",
+        "description": "Text to show user how many more stickers they must add",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "4"
+            }
+        }
+    },
+    "StickerCreator--EmojiStage--title": {
+        "message": "បន្ថែម emoji ទៅស្ទីកគ័រនីមួយៗ",
+        "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--EmojiStage--help": {
+        "message": "វានឹងអនុញ្ញាតឲ្យយើង ណែនាំស្ទីកគ័រទៅកាន់អ្នក នៅពេលអ្នកកំពុងផ្ញើសារ។",
+        "description": "Help text for the drop stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--title": {
+        "message": "គ្រាន់តែព័ត៌មានលំអិតពីរបីទៀតប៉ុណ្ណោះ…",
+        "description": "Title for the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--title": {
+        "message": "ចំណងជើង",
+        "description": "Label for the title input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--author": {
+        "message": "អ្នកនិពន្ធ",
+        "description": "Label for the author input of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover": {
+        "message": "គម្របរូបភាព",
+        "description": "Label for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--Field--cover--help": {
+        "message": "នេះគឺជារូបភាពដែលនឹងបង្ហាញនៅពេលអ្នកចែកចាយកញ្ចប់ស្ទីកគ័ររបស់អ្នក",
+        "description": "Help text for the cover image picker of the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--title": {
+        "message": "តើអ្នកច្បាស់ថាចង់បញ្ជូនកញ្ចប់ស្ទីកគ័ររបស់អ្នក?",
+        "description": "Title for the confirm dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--confirm": {
+        "message": "បញ្ជូន",
+        "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--MetaStage--ConfirmDialog--text": {
+        "message": "អ្នកនឹងមិនអាចកែប្រែ ឬលុបចោល បន្ទាប់ពីបង្កើតកញ្ចប់ស្ទីកគ័រហើយ។",
+        "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage--title": {
+        "message": "ការបង្កើតកញ្ចប់ស្ទីកគ័ររបស់អ្នក",
+        "description": "Title for the upload stage of the sticker creator"
+    },
+    "StickerCreator--UploadStage-uploaded": {
+        "message": "$count$ នៃ $total$ បានបញ្ជូន",
+        "description": "Title for the upload stage of the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            },
+            "total": {
+                "content": "$2",
+                "example": "20"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--title": {
+        "message": "អបអរសាទរ! អ្នកបានបង្កើតកញ្ចប់ស្ទីកគ័រមួយ។",
+        "description": "Title for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--help": {
+        "message": "ចូលប្រើប្រាស់ស្ទីកគ័រថ្មីរបស់អ្នក តាមរយៈរូបតំណាងស្ទីកគ័រ ឬចែករំលែកជាមួយមិត្តភក្តិរបស់អ្នក ដោយប្រើប្រាស់តំណខាងក្រោម។",
+        "description": "Help text for the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--callToAction": {
+        "message": "ប្រើប្រាស់ hashtag $hashtag$ ដើម្បីជួយអ្នកដទៃស្វែងរក URLs សម្រាប់កញ្ចប់ស្ទីកគ័រណាមួយ ដែលអ្នកចង់ដាក់ឲ្យ​ប្រើប្រាស់ជាសាធារណៈ។",
+        "description": "Call to action text for the share stage of the sticker creator",
+        "placeholders": {
+            "hashtag": {
+                "content": "$1",
+                "example": "<strong>#makeprivacystick</strong>"
+            }
+        }
+    },
+    "StickerCreator--ShareStage--copyTitle": {
+        "message": "កញ្ចប់ស្ទីកគ័រ URL",
+        "description": "Title for the copy button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--close": {
+        "message": "បិទ",
+        "description": "Text for the close button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--createAnother": {
+        "message": "បង្កើតកញ្ចប់ស្ទីកគ័រមួយផ្សេងទៀត",
+        "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
+    },
+    "StickerCreator--ShareStage--socialMessage": {
+        "message": "ឆែកមើលកញ្ចប់ស្ទីកគ័រថ្មីនេះ ដែលខ្ញុំបានបង្កើតសម្រាប់ Signal ។ #makeprivacystick",
+        "description": "Text which is shared to social media platforms for sticker packs"
+    },
+    "StickerCreator--Toasts--imagesAdded": {
+        "message": "$count$ រូបភាព បានបន្ថែម",
+        "description": "Text for the toast when images are added to the sticker creator",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "StickerCreator--Toasts--animated": {
+        "message": "ស្ទីកគ័រជីវចល មិនទាន់គាំទ្រទេ",
+        "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--tooLarge": {
+        "message": "រូបភាពដែលបានទម្លាក់ធំពេក",
+        "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorProcessing": {
+        "message": "Error processing image",
+        "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+    },
+    "StickerCreator--Toasts--errorUploading": {
+        "message": "Error uploading stickers: $message$",
+        "description": "Text for the toast when a sticker pack cannot be uploaded",
+        "placeholders": {
+            "message": {
+                "content": "$1",
+                "example": "Not connected"
+            }
+        }
+    },
+    "StickerCreator--Toasts--linkedCopied": {
+        "message": "បានចម្លងតំណ",
+        "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
+    },
+    "StickerCreator--StickerPreview--light": {
+        "message": "ស្ទីកគ័ររបស់ខ្ញុំក្នុងទម្រង់ភ្លឺ",
+        "description": "Text for the sticker preview for the light theme"
+    },
+    "StickerCreator--StickerPreview--dark": {
+        "message": "ស្ទីកគ័ររបស់ខ្ញុំក្នុងទម្រង់ងងឹត",
+        "description": "Text for the sticker preview for the dark theme"
+    },
+    "StickerCreator--Authentication--error": {
+        "message": "សូមដំឡើង Signal នៅលើទូរស័ព្ទរបស់អ្នក និងកុំព្យូទ័រ ដើម្បីប្រើប្រាស់កម្មវិធីបង្កើតកញ្ចប់ស្ទីកគ័រ",
+        "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "privacyPolicy": {
         "message": "លក្ខខណ្ឌ និងគោលនយោបាយឯកជនភាព",

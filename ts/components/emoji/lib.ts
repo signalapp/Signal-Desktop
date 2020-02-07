@@ -68,9 +68,19 @@ export type EmojiData = {
   };
 };
 
-const data = (untypedData as Array<EmojiData>).filter(
-  emoji => emoji.has_img_apple
-);
+const data = (untypedData as Array<EmojiData>)
+  .filter(emoji => emoji.has_img_apple)
+  .map(emoji =>
+    // Why this weird map?
+    // the emoji dataset has two separate categories for Emotions and People
+    // yet in our UI we display these as a single merged category. In order
+    // for the emojis to be sorted properly we're manually incrementing the
+    // sort_order for the People & Body emojis so that they fall below the
+    // Smiley & Emotions category.
+    emoji.category === 'People & Body'
+      ? { ...emoji, sort_order: emoji.sort_order + 1000 }
+      : emoji
+  );
 
 // @ts-ignore
 const ROOT_PATH = get(
@@ -153,7 +163,11 @@ export const dataByCategory = mapValues(
       return 'travel';
     }
 
-    if (category === 'Smileys & People') {
+    if (category === 'Smileys & Emotion') {
+      return 'emoji';
+    }
+
+    if (category === 'People & Body') {
       return 'emoji';
     }
 
@@ -175,7 +189,15 @@ export function getEmojiData(
   if (skinTone && base.skin_variations) {
     const variation = isNumber(skinTone) ? skinTones[skinTone - 1] : skinTone;
 
-    return base.skin_variations[variation];
+    if (base.skin_variations[variation]) {
+      return base.skin_variations[variation];
+    }
+
+    // For emojis that have two people in them which can have diff skin tones
+    // the Map is of SkinTone-SkinTone. If we don't find the correct skin tone
+    // in the list of variations then we assume it is one of those double skin
+    // emojis and we default to both people having same skin.
+    return base.skin_variations[`${variation}-${variation}`];
   }
 
   return base;
@@ -185,9 +207,9 @@ export function getImagePath(
   shortName: keyof typeof dataByShortName,
   skinTone?: SkinToneKey | number
 ): string {
-  const { image } = getEmojiData(shortName, skinTone);
+  const emojiData = getEmojiData(shortName, skinTone);
 
-  return makeImagePath(image);
+  return makeImagePath(emojiData.image);
 }
 
 const fuse = new Fuse(data, {

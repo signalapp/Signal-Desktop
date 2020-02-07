@@ -295,6 +295,9 @@
           openLink: url => {
             this.trigger('navigate-to', url);
           },
+          reactWith: emoji => {
+            this.trigger('react-with', emoji);
+          },
         },
         errors,
         contacts: sortedContacts,
@@ -515,6 +518,12 @@
         };
       });
 
+      const selectedReaction = (
+        (this.get('reactions') || []).find(
+          re => re.fromId === this.OUR_NUMBER
+        ) || {}
+      ).emoji;
+
       return {
         text: this.createNonBreakingLastSeparator(this.get('body')),
         textPending: this.get('bodyPending'),
@@ -538,6 +547,7 @@
         expirationLength,
         expirationTimestamp,
         reactions,
+        selectedReaction,
 
         isTapToView,
         isTapToViewExpired: isTapToView && this.get('isErased'),
@@ -1234,6 +1244,7 @@
           quoteWithData,
           previewWithData,
           stickerWithData,
+          null,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey
@@ -1253,6 +1264,7 @@
           quoteWithData,
           previewWithData,
           stickerWithData,
+          null,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey,
@@ -1326,6 +1338,7 @@
           quoteWithData,
           previewWithData,
           stickerWithData,
+          null,
           this.get('sent_at'),
           this.get('expireTimer'),
           profileKey
@@ -2229,7 +2242,7 @@
         );
 
         // Only notify for reactions to our own messages
-        if (conversation && this.isOutgoing()) {
+        if (conversation && this.isOutgoing() && !reaction.get('fromSync')) {
           conversation.notify(this, reaction);
         }
       }
