@@ -1149,8 +1149,10 @@ MessageSender.prototype = {
     proto.group.name = name;
     proto.group.members = members;
 
-    const ourPK = textsecure.storage.user.getNumber();
-    proto.group.admins = [ourPK];
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    proto.group.admins = [primaryDeviceKey];
 
     return this.makeAttachmentPointer(avatar).then(attachment => {
       proto.group.avatar = attachment;
