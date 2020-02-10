@@ -48,6 +48,12 @@
     // Should we use ephemeral key pairs here rather than long term keys on each side?
     async encrypt(plaintext) {
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+      if (!myKeyPair) {
+        window.log.warn("encrypt, Can't load myKeyPair from storage");
+        // FIXME: not sure what I should give on failure
+        // just going to stick with the same type of value
+        return {};
+      }
       const myPrivateKey = myKeyPair.privKey;
       const symmetricKey = libsignal.Curve.calculateAgreement(
         this.pubKey,
@@ -63,6 +69,12 @@
 
     async decrypt(ivAndCiphertext) {
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+      if (!myKeyPair) {
+        window.log.warn("decrypt, Can't load myKeyPair from storage");
+        // FIXME: not sure what I should give on failure
+        // just going to stick with the same type of value
+        return {};
+      }
       const myPrivateKey = myKeyPair.privKey;
       const symmetricKey = libsignal.Curve.calculateAgreement(
         this.pubKey,
@@ -169,6 +181,12 @@
     data[len] = type;
 
     const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+    if (!myKeyPair) {
+      window.log.warn("generateSignatureForPairing Can't load myKeyPair from storage");
+      // FIXME: not sure what I should give on failure
+      // just going to stick with the same type of value
+      return {};
+    }
     const signature = await libsignal.Curve.async.calculateSignature(
       myKeyPair.privKey,
       data.buffer
@@ -292,6 +310,12 @@
       dcodeIO.ByteBuffer.fromBase64(serverPubKey64).toArrayBuffer()
     );
     const { privKey } = await textsecure.storage.protocol.getIdentityKeyPair();
+    if (!myKeyPair) {
+      window.log.warn("decryptToken, Can't load myKeyPair from storage");
+      // FIXME: not sure what I should give on failure
+      // just going to stick with the same type of value
+      return {};
+    }
     const symmetricKey = libsignal.Curve.calculateAgreement(
       serverPubKey,
       privKey
