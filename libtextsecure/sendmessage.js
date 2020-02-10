@@ -640,6 +640,10 @@ MessageSender.prototype = {
   },
 
   async sendContactSyncMessage(contactConversation) {
+    if (!contactConversation.isPrivate()) {
+      return Promise.resolve();
+    }
+
     const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
     const allOurDevices = (await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
       primaryDeviceKey
@@ -869,9 +873,7 @@ MessageSender.prototype = {
   },
 
   sendGroupProto(providedNumbers, proto, timestamp = Date.now(), options = {}) {
-    const me = textsecure.storage.user.getNumber();
-    const numbers = providedNumbers.filter(number => number !== me);
-    if (numbers.length === 0) {
+    if (providedNumbers.length === 0) {
       return Promise.resolve({
         successfulNumbers: [],
         failoverNumbers: [],
@@ -894,7 +896,7 @@ MessageSender.prototype = {
 
       this.sendMessageProto(
         timestamp,
-        numbers,
+        providedNumbers,
         proto,
         callback,
         silent,
