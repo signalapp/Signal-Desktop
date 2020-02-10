@@ -1314,8 +1314,9 @@ MessageReceiver.prototype.extend({
               primaryPubKey
             );
 
+            // If we don't have a mapping on the primary then we have been unlinked
             if (!primaryMapping) {
-              return false;
+              return true;
             }
 
             // We expect the primary device to have updated its mapping

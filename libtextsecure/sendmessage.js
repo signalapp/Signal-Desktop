@@ -411,7 +411,7 @@ MessageSender.prototype = {
 
     const ourNumber = textsecure.storage.user.getNumber();
 
-    numbers.forEach(number => {
+    numbers.forEach(async number => {
       // Note: if we are sending a private group message, we do our best to
       // ensure we have signal protocol sessions with every member, but if we
       // fail, let's at least send messages to those members with which we do:
@@ -420,9 +420,17 @@ MessageSender.prototype = {
         s => s.number === number
       );
 
+      let keysFound = false;
+      // If we don't have a session but we already have prekeys to
+      // start communication then we should use them
+      if (!haveSession && !options.isPublic) {
+        keysFound = await outgoing.getKeysForNumber(number, []);
+      }
+
       if (
         number === ourNumber ||
         haveSession ||
+        keysFound ||
         options.isPublic ||
         options.messageType === 'friend-request'
       ) {

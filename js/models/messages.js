@@ -205,7 +205,7 @@
     },
     getLokiNameForNumber(number) {
       const conversation = ConversationController.get(number);
-      if (!conversation) {
+      if (!conversation || !conversation.getLokiProfile()) {
         return number;
       }
       return conversation.getLokiProfile().displayName;
