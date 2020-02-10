@@ -1107,7 +1107,7 @@ MessageSender.prototype = {
     return this.sendMessage(attrs, options);
   },
 
-  updateGroup(groupId, name, avatar, members, recipients, options) {
+  updateGroup(groupId, name, avatar, members, admins, recipients, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
 
@@ -1162,6 +1162,14 @@ MessageSender.prototype = {
       proto.group.avatar = attachment;
       return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
     });
+  },
+
+  requestGroupInfo(groupId, groupNumbers, options) {
+    const proto = new textsecure.protobuf.DataMessage();
+    proto.group = new textsecure.protobuf.GroupContext();
+    proto.group.id = stringToArrayBuffer(groupId);
+    proto.group.type = textsecure.protobuf.GroupContext.Type.REQUEST_INFO;
+    return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
   },
 
   leaveGroup(groupId, groupNumbers, options) {
@@ -1263,6 +1271,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
   this.setGroupName = sender.setGroupName.bind(sender);
   this.setGroupAvatar = sender.setGroupAvatar.bind(sender);
+  this.requestGroupInfo = sender.requestGroupInfo.bind(sender);
   this.leaveGroup = sender.leaveGroup.bind(sender);
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);
   this.getProfile = sender.getProfile.bind(sender);

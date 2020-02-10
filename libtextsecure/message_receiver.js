@@ -1786,6 +1786,10 @@ MessageReceiver.prototype.extend({
           decrypted.group.members = [];
           decrypted.group.avatar = null;
           break;
+        case textsecure.protobuf.GroupContext.Type.REQUEST_INFO:
+          decrypted.body = null;
+          decrypted.attachments = [];
+          break;
         default:
           this.removeFromCache(envelope);
           throw new Error('Unknown group message type');

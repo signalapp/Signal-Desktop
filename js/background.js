@@ -787,6 +787,7 @@
         'group'
       );
 
+      convo.updateGroupAdmins([primaryDeviceKey]);
       convo.updateGroup(ev.groupDetails);
 
       // Group conversations are automatically 'friends'
@@ -794,8 +795,6 @@
       convo.setFriendRequestStatus(
         window.friends.friendRequestStatusEnum.friends
       );
-
-      convo.updateGroupAdmins([primaryDeviceKey]);
 
       appView.openConversation(groupId, {});
     };
