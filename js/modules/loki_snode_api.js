@@ -156,6 +156,10 @@ class LokiSnodeAPI {
         '/storage_rpc/v1',
         snode
       );
+      if (!result) {
+        log.warn(`getSwarmNodes lokiRpc on ${snode.ip}:${snode.port} returned falsish value`, result)
+        return [];
+      }
       const snodes = result.snodes.filter(tSnode => tSnode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
