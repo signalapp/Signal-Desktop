@@ -2188,9 +2188,7 @@
           },
         });
       } else {
-        window.log.verbose(
-          `Already seen session restore for pubkey: ${pubkey}`
-        );
+        window.log.debug(`Already seen session restore for pubkey: ${pubkey}`);
         if (ev.confirm) {
           ev.confirm();
         }
