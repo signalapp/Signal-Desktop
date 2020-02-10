@@ -109,7 +109,7 @@ class LokiAppDotNetServerAPI {
       JSON.stringify(objToSign)
     );
     */
-    let pName = profileName;
+    let pName = profileName || '';
 
     // You cannot use null to clear the profile name
     // the name key has to be set to know what value we want changed
