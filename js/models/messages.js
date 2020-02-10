@@ -2008,7 +2008,7 @@
             }
           });
         } else if (newGroup) {
-          // We have an unknown group, we should request info
+          // We have an unknown group, we should request info from the sender
           textsecure.messaging.requestGroupInfo(conversationId, [
             primarySource,
           ]);

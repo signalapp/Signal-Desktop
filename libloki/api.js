@@ -109,8 +109,9 @@
   }
   async function createContactSyncProtoMessage(conversations) {
     // Extract required contacts information out of conversations
+    const sessionContacts = conversations.filter(c => c.isPrivate());
     const rawContacts = await Promise.all(
-      conversations.map(async conversation => {
+      sessionContacts.map(async conversation => {
         const profile = conversation.getLokiProfile();
         const number = conversation.getNumber();
         const name = profile
