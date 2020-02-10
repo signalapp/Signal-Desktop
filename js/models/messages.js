@@ -1946,38 +1946,38 @@
             conversation.setFriendRequestStatus(
               window.friends.friendRequestStatusEnum.friends
             );
-          }
+          } else {
+            const fromAdmin = conversation
+              .get('groupAdmins')
+              .includes(primarySource);
 
-        const fromAdmin = conversation
-          .get('groupAdmins')
-          .includes(primarySource);
+            if (!fromAdmin) {
+              // Make sure the message is not removing members / renaming the group
+              const nameChanged =
+                conversation.get('name') !== initialMessage.group.name;
 
-          if (!fromAdmin) {
-            // Make sure the message is not removing members / renaming the group
-            const nameChanged =
-              conversation.get('name') !== initialMessage.group.name;
+              if (nameChanged) {
+                window.log.warn(
+                  'Non-admin attempts to change the name of the group'
+                );
+              }
 
-            if (nameChanged) {
-              window.log.warn(
-                'Non-admin attempts to change the name of the group'
-              );
-            }
+              const membersMissing =
+                _.difference(
+                  conversation.get('members'),
+                  initialMessage.group.members
+                ).length > 0;
 
-            const membersMissing =
-              _.difference(
-                conversation.get('members'),
-                initialMessage.group.members
-              ).length > 0;
+              if (membersMissing) {
+                window.log.warn('Non-admin attempts to remove group members');
+              }
 
-            if (membersMissing) {
-              window.log.warn('Non-admin attempts to remove group members');
-            }
+              const messageAllowed = !nameChanged && !membersMissing;
 
-            const messageAllowed = !nameChanged && !membersMissing;
-
-            if (!messageAllowed) {
-              confirm();
-              return null;
+              if (!messageAllowed) {
+                confirm();
+                return null;
+              }
             }
           }
           // For every member, see if we need to establish a session:
