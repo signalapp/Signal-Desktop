@@ -873,7 +873,14 @@ MessageSender.prototype = {
   },
 
   sendGroupProto(providedNumbers, proto, timestamp = Date.now(), options = {}) {
-    if (providedNumbers.length === 0) {
+    // We always assume that only primary device is a member in the group
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    const numbers = providedNumbers.filter(
+      number => number !== primaryDeviceKey
+    );
+    if (numbers.length === 0) {
       return Promise.resolve({
         successfulNumbers: [],
         failoverNumbers: [],
@@ -883,7 +890,7 @@ MessageSender.prototype = {
       });
     }
 
-    return new Promise((resolve, reject) => {
+    const sendPromise = new Promise((resolve, reject) => {
       const silent = true;
       const callback = res => {
         res.dataMessage = proto.toArrayBuffer();
@@ -896,12 +903,19 @@ MessageSender.prototype = {
 
       this.sendMessageProto(
         timestamp,
-        providedNumbers,
+        numbers,
         proto,
         callback,
         silent,
         options
       );
+    });
+
+    return sendPromise.then(result => {
+      // Sync the group message to our other devices
+      const encoded = textsecure.protobuf.DataMessage.encode(proto);
+      this.sendSyncMessage(encoded, timestamp, null, null, [], [], options);
+      return result;
     });
   },
 
@@ -1087,8 +1101,11 @@ MessageSender.prototype = {
     profileKey,
     options
   ) {
-    const me = textsecure.storage.user.getNumber();
-    let numbers = groupNumbers.filter(number => number !== me);
+    // We always assume that only primary device is a member in the group
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    let numbers = groupNumbers.filter(number => number !== primaryDeviceKey);
     if (options.isPublic) {
       numbers = [groupId];
     }
