@@ -1,0 +1,85 @@
+# This script will build session production binaries anytime a branch is updated
+name: Session Build Binaries
+
+on:
+  push:
+    branches:
+      - master
+      - development
+      - clearnet
+      - github-actions
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2016, macos-latest, ubuntu-latest]
+    env:
+      SIGNAL_ENV: production
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout git repo
+        uses: actions/checkout@v1
+
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.13.0
+
+      - name: Setup node for windows
+        if: runner.os == 'Windows'
+        run: |
+          npm install --global --production windows-build-tools@4.0.0
+          npm install --global node-gyp@latest
+          npm config set python python2.7
+          npm config set msvs_version 2015
+
+      - name: Install yarn
+        run: npm install yarn --no-save
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Generate and concat files
+        run: yarn generate
+
+      - name: Lint Files
+        run: yarn lint-full
+
+      - name: Build windows production binaries
+        if: runner.os == 'Windows'
+        run: node_modules\.bin\electron-builder --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never --config.directories.output=release
+
+      - name: Build mac production binaries
+        if: runner.os == 'macOS'
+        run: $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion=${{ github.ref }} --publish=never --config.directories.output=release
+        env:
+          CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+          SIGNING_APPLE_ID: ${{ secrets.SIGNING_APPLE_ID }}
+          SIGNING_APP_PASSWORD: ${{ secrets.SIGNING_APP_PASSWORD }}
+          SIGNING_TEAM_ID: ${{ secrets.SIGNING_TEAM_ID }}
+
+      - name: Build linux production binaries
+        if: runner.os == 'Linux'
+        run: $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --publish=never --config.directories.output=release
+
+      - name: Remove unpacked files
+        run: |
+          ls -d -- */ | xargs -I{} echo "Removing {}"
+          ls -d -- */ | xargs -I{} rm -rf {}
+        shell: bash
+        working-directory: ./release/
+
+      - name: Remaining files
+        run: ls .
+        shell: bash
+        working-directory: ./release/
+
+      - name: Upload Production Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ runner.OS }}-production
+          path: release

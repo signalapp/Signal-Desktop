@@ -166,7 +166,7 @@
     "chai": "4.1.2",
     "dashdash": "1.14.1",
     "electron": "4.1.2",
-    "electron-builder": "21.2.0",
+    "electron-builder": "22.3.2",
     "electron-icon-maker": "0.0.3",
     "electron-notarize": "^0.2.0",
     "eslint": "4.14.0",
@@ -207,8 +207,8 @@
   "build": {
     "appId": "com.loki-project.messenger-desktop",
     "afterSign": "build/notarize.js",
+    "artifactName": "${name}-${os}-${version}.${ext}",
     "mac": {
-      "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
       "target": [
@@ -225,21 +225,16 @@
     },
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "artifactName": "${name}-win-${version}.${ext}",
       "publisherName": "Loki Project",
       "icon": "build/icons/win/icon.ico",
-      "publish": [
-        {
-          "provider": "generic",
-          "url": "https://getsession.org/"
-        }
-      ],
       "target": [
         "nsis"
       ]
     },
     "nsis": {
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     },
     "linux": {
       "category": "Network",
@@ -248,7 +243,8 @@
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [
-        "deb"
+        "deb",
+        "AppImage"
       ],
       "icon": "build/icons/png"
     },
@@ -318,7 +314,8 @@
       "node_modules/socks/build/common/*.js",
       "node_modules/socks/build/client/*.js",
       "node_modules/smart-buffer/build/*.js",
-      "!node_modules/@journeyapps/sqlcipher/deps/*"
+      "!node_modules/@journeyapps/sqlcipher/deps/*",
+      "!build/*.js"
     ]
   }
 }
