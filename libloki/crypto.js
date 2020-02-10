@@ -49,10 +49,7 @@
     async encrypt(plaintext) {
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
       if (!myKeyPair) {
-        window.log.warn("encrypt, Can't load myKeyPair from storage");
-        // FIXME: not sure what I should give on failure
-        // just going to stick with the same type of value
-        return {};
+        throw new Error("Failed to get keypair for encryption");
       }
       const myPrivateKey = myKeyPair.privKey;
       const symmetricKey = libsignal.Curve.calculateAgreement(
@@ -70,10 +67,7 @@
     async decrypt(ivAndCiphertext) {
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
       if (!myKeyPair) {
-        window.log.warn("decrypt, Can't load myKeyPair from storage");
-        // FIXME: not sure what I should give on failure
-        // just going to stick with the same type of value
-        return {};
+        throw new Error("Failed to get keypair for decryption");
       }
       const myPrivateKey = myKeyPair.privKey;
       const symmetricKey = libsignal.Curve.calculateAgreement(
@@ -182,10 +176,7 @@
 
     const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
     if (!myKeyPair) {
-      window.log.warn("generateSignatureForPairing Can't load myKeyPair from storage");
-      // FIXME: not sure what I should give on failure
-      // just going to stick with the same type of value
-      return {};
+      throw new Error("Failed to get keypair for pairing signature generation");
     }
     const signature = await libsignal.Curve.async.calculateSignature(
       myKeyPair.privKey,
@@ -311,10 +302,7 @@
     );
     const { privKey } = await textsecure.storage.protocol.getIdentityKeyPair();
     if (!privKey) {
-      window.log.warn("decryptToken, Can't load myKeyPair from storage");
-      // FIXME: not sure what I should give on failure
-      // just going to stick with the same type of value
-      return {};
+      throw new Error("Failed to get keypair for token decryption");
     }
     const symmetricKey = libsignal.Curve.calculateAgreement(
       serverPubKey,
