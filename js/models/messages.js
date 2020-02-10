@@ -2361,6 +2361,12 @@
               await sendingDeviceConversation.onFriendRequestAccepted();
             }
           }
+
+          // We need to map the original message source to the primary device
+          if (source !== ourNumber) {
+            message.set({ source: primarySource });
+          }
+
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,
           });

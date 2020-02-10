@@ -763,9 +763,10 @@
 
       const ev = new Event('group');
 
-      const ourKey = textsecure.storage.user.getNumber();
-
-      const allMembers = [ourKey, ...members];
+      const primaryDeviceKey =
+        window.storage.get('primaryDevicePubKey') ||
+        textsecure.storage.user.getNumber();
+      const allMembers = [primaryDeviceKey, ...members];
 
       ev.groupDetails = {
         id: groupId,
@@ -794,7 +795,7 @@
         window.friends.friendRequestStatusEnum.friends
       );
 
-      convo.updateGroupAdmins([ourKey]);
+      convo.updateGroupAdmins([primaryDeviceKey]);
 
       appView.openConversation(groupId, {});
     };
