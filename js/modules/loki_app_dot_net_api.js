@@ -357,7 +357,8 @@ class LokiAppDotNetServerAPI {
       const endpoint = urlStr.replace(`${this.baseServerUrl}/`, '');
       const { response, result } = await this._sendToProxy(
         endpoint,
-        finalOptions
+        finalOptions,
+        options
       );
       // emulate nodeFetch response...
       return {
@@ -486,7 +487,7 @@ class LokiAppDotNetServerAPI {
       try {
         response = options.textResponse ? respStr : JSON.parse(respStr);
       } catch (e) {
-        log.warn(`_sendToProxy Could not parse inner JSON [${respStr}]`);
+        log.warn(`_sendToProxy Could not parse inner JSON [${respStr}]`, endpoint);
       }
     } else {
       log.warn(
