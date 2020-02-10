@@ -202,6 +202,12 @@
     isMe() {
       return this.id === window.storage.get('primaryDevicePubKey');
     },
+    async isOurDevice() {
+      const ourDevices = await window.libloki.storage.getPairedDevicesFor(
+        this.ourNumber
+      );
+      return this.id === this.ourNumber || ourDevices.includes(this.id);
+    },
     isPublic() {
       return !!(this.id && this.id.match(/^publicChat:/));
     },

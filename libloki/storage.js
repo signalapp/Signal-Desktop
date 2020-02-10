@@ -240,6 +240,10 @@
     return secondaryPubKeys.concat(primaryDevicePubKey);
   }
 
+  function getPairedDevicesFor(pubkey) {
+    return window.Signal.Data.getPairedDevicesFor(pubkey);
+  }
+
   window.libloki.storage = {
     getPreKeyBundleForContact,
     saveContactPreKeyBundle,
@@ -250,6 +254,7 @@
     removePairingAuthorisationForSecondaryPubKey,
     getGrantAuthorisationForSecondaryPubKey,
     getAuthorisationForSecondaryPubKey,
+    getPairedDevicesFor,
     getAllDevicePubKeysForPrimaryPubKey,
     getSecondaryDevicesFor,
     getPrimaryDeviceMapping,
