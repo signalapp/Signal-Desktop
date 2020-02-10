@@ -187,7 +187,7 @@ class LokiAppDotNetServerAPI {
 
     // if no token to verify, just bail now
     if (!token) {
-      //
+      // if we haven't forced it
       if (!forceRefresh) {
         token = await this.getOrRefreshServerToken(true);
       }
@@ -452,7 +452,11 @@ class LokiAppDotNetServerAPI {
     const txtResponse = await result.text();
     if (txtResponse.match(/^Service node is not ready: not in any swarm/i)) {
       // mark snode bad
-      log.warn(`Marking random snode bad, internet address ${randSnode.ip}:${randSnode.port}`);
+      log.warn(
+        `Marking random snode bad, internet address ${randSnode.ip}:${
+          randSnode.port
+        }`
+      );
       lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
       // retry (hopefully with new snode)
       // FIXME: max number of retries...
@@ -582,7 +586,13 @@ class LokiAppDotNetServerAPI {
           `json: ${txtResponse}`
         );
       } else {
-        log.info(`serverRequest ${mode} error`, e.code, e.message, 'atttempting connection to', url);
+        log.info(
+          `serverRequest ${mode} error`,
+          e.code,
+          e.message,
+          'atttempting connection to',
+          url
+        );
       }
       return {
         err: e,
