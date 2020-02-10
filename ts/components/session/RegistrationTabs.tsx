@@ -827,7 +827,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     const onError = async (error: any) => {
       window.log.error(error);
-
+      // clear the ... to make sure the user realize we're not doing anything
+      this.setState({
+        loading: false,
+      });
       await this.resetRegistration();
     };
 
@@ -839,7 +842,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
     const validationError = c.validateNumber();
     if (validationError) {
       onError('Invalid public key').ignore();
-
+      window.pushToast({
+        title: window.i18n('invalidNumberError'),
+        type: 'error',
+        id: 'invalidNumberError',
+      });
       return;
     }
     try {
