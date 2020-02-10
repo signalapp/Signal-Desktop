@@ -910,7 +910,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     id: 'rss://loki.network/category/messenger-updates/feed/',
     rssFeed: 'https://loki.network/category/messenger-updates/feed/',
     closable: false,
-    name: 'Messenger updates',
+    name: 'Messenger Updates',
     profileAvatar: 'images/session/session_chat_icon.png',
   };
 
