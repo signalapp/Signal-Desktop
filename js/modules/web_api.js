@@ -865,7 +865,7 @@ function initialize({
         filename: 'attachment',
       });
 
-      return lokiFileServerAPI.uploadPrivateAttachment(formData);
+      return lokiFileServerAPI.constructor.uploadPrivateAttachment(formData);
     }
 
     function putAvatar(bin) {
