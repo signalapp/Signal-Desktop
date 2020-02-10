@@ -847,6 +847,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         type: 'error',
         id: 'invalidNumberError',
       });
+
       return;
     }
     try {
