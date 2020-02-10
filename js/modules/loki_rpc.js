@@ -88,7 +88,7 @@ const sendToProxy = async (options = {}, targetNode) => {
     jsonRes.json = () => {
       try {
         return JSON.parse(jsonRes.body);
-      } catch(e) {
+      } catch (e) {
         log.error(
           'lokiRpc sendToProxy error',
           e.code,
@@ -98,7 +98,7 @@ const sendToProxy = async (options = {}, targetNode) => {
         );
       }
       return false;
-    }
+    };
     return jsonRes;
   } catch (e) {
     log.error(
