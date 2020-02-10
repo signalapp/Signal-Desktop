@@ -310,7 +310,7 @@
       dcodeIO.ByteBuffer.fromBase64(serverPubKey64).toArrayBuffer()
     );
     const { privKey } = await textsecure.storage.protocol.getIdentityKeyPair();
-    if (!myKeyPair) {
+    if (!privKey) {
       window.log.warn("decryptToken, Can't load myKeyPair from storage");
       // FIXME: not sure what I should give on failure
       // just going to stick with the same type of value
