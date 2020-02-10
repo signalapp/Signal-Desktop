@@ -717,6 +717,7 @@
       const commandKey = window.platform === 'darwin' && metaKey;
       const controlKey = window.platform !== 'darwin' && ctrlKey;
       const commandOrCtrl = commandKey || controlKey;
+      const commandAndCtrl = commandKey && ctrlKey;
 
       const state = store.getState();
       const selectedId = state.conversations.selectedConversation;
@@ -989,7 +990,12 @@
       }
 
       // Search
-      if (commandOrCtrl && !shiftKey && (key === 'f' || key === 'F')) {
+      if (
+        commandOrCtrl &&
+        !commandAndCtrl &&
+        !shiftKey &&
+        (key === 'f' || key === 'F')
+      ) {
         const { startSearch } = actions.search;
         startSearch();
 
@@ -1002,6 +1008,7 @@
       if (
         conversation &&
         commandOrCtrl &&
+        !commandAndCtrl &&
         shiftKey &&
         (key === 'f' || key === 'F')
       ) {
