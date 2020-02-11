@@ -38,7 +38,7 @@ export class GroupNotification extends React.Component<Props> {
               key={`external-${contact.phoneNumber}`}
               className="module-group-notification__contact"
             >
-              {contact.profileName}
+              {contact.profileName || contact.phoneNumber}
             </span>
           );
 

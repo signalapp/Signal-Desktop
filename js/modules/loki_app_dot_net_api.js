@@ -487,7 +487,10 @@ class LokiAppDotNetServerAPI {
       try {
         response = options.textResponse ? respStr : JSON.parse(respStr);
       } catch (e) {
-        log.warn(`_sendToProxy Could not parse inner JSON [${respStr}]`, endpoint);
+        log.warn(
+          `_sendToProxy Could not parse inner JSON [${respStr}]`,
+          endpoint
+        );
       }
     } else {
       log.warn(

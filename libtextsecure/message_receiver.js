@@ -1314,8 +1314,9 @@ MessageReceiver.prototype.extend({
               primaryPubKey
             );
 
+            // If we don't have a mapping on the primary then we have been unlinked
             if (!primaryMapping) {
-              return false;
+              return true;
             }
 
             // We expect the primary device to have updated its mapping
@@ -1366,7 +1367,11 @@ MessageReceiver.prototype.extend({
           }
         }
 
-        if (friendRequest) {
+        // If we got a friend request message or
+        //  if we're not friends with the current user that sent this private message
+        // Check to see if we need to auto accept their friend request
+        const isGroupMessage = !!groupId;
+        if (friendRequest || (!isGroupMessage && !conversation.isFriend())) {
           if (isMe) {
             window.log.info('refusing to add a friend request to ourselves');
             throw new Error('Cannot add a friend request for ourselves!');

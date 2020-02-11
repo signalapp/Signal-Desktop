@@ -411,7 +411,11 @@ MessageSender.prototype = {
 
     const ourNumber = textsecure.storage.user.getNumber();
 
-    numbers.forEach(number => {
+    // Note: Since we're just doing independant tasks,
+    // using `async` in the `forEach` loop should be fine.
+    // If however we want to use the results from forEach then
+    // we would need to convert this to a Promise.all(numbers.map(...))
+    numbers.forEach(async number => {
       // Note: if we are sending a private group message, we do our best to
       // ensure we have signal protocol sessions with every member, but if we
       // fail, let's at least send messages to those members with which we do:
@@ -420,9 +424,17 @@ MessageSender.prototype = {
         s => s.number === number
       );
 
+      let keysFound = false;
+      // If we don't have a session but we already have prekeys to
+      // start communication then we should use them
+      if (!haveSession && !options.isPublic) {
+        keysFound = await outgoing.getKeysForNumber(number, []);
+      }
+
       if (
         number === ourNumber ||
         haveSession ||
+        keysFound ||
         options.isPublic ||
         options.messageType === 'friend-request'
       ) {
@@ -873,7 +885,14 @@ MessageSender.prototype = {
   },
 
   sendGroupProto(providedNumbers, proto, timestamp = Date.now(), options = {}) {
-    if (providedNumbers.length === 0) {
+    // We always assume that only primary device is a member in the group
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    const numbers = providedNumbers.filter(
+      number => number !== primaryDeviceKey
+    );
+    if (numbers.length === 0) {
       return Promise.resolve({
         successfulNumbers: [],
         failoverNumbers: [],
@@ -883,7 +902,7 @@ MessageSender.prototype = {
       });
     }
 
-    return new Promise((resolve, reject) => {
+    const sendPromise = new Promise((resolve, reject) => {
       const silent = true;
       const callback = res => {
         res.dataMessage = proto.toArrayBuffer();
@@ -896,12 +915,19 @@ MessageSender.prototype = {
 
       this.sendMessageProto(
         timestamp,
-        providedNumbers,
+        numbers,
         proto,
         callback,
         silent,
         options
       );
+    });
+
+    return sendPromise.then(result => {
+      // Sync the group message to our other devices
+      const encoded = textsecure.protobuf.DataMessage.encode(proto);
+      this.sendSyncMessage(encoded, timestamp, null, null, [], [], options);
+      return result;
     });
   },
 
@@ -1087,8 +1113,11 @@ MessageSender.prototype = {
     profileKey,
     options
   ) {
-    const me = textsecure.storage.user.getNumber();
-    let numbers = groupNumbers.filter(number => number !== me);
+    // We always assume that only primary device is a member in the group
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    let numbers = groupNumbers.filter(number => number !== primaryDeviceKey);
     if (options.isPublic) {
       numbers = [groupId];
     }
@@ -1132,8 +1161,10 @@ MessageSender.prototype = {
     proto.group.name = name;
     proto.group.members = members;
 
-    const ourPK = textsecure.storage.user.getNumber();
-    proto.group.admins = [ourPK];
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    proto.group.admins = [primaryDeviceKey];
 
     return this.makeAttachmentPointer(avatar).then(attachment => {
       proto.group.avatar = attachment;
