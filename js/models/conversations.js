@@ -205,10 +205,14 @@
       return this.id === window.storage.get('primaryDevicePubKey');
     },
     async isOurDevice() {
+      if (this.isMe()) {
+        return true;
+      }
+
       const ourDevices = await window.libloki.storage.getPairedDevicesFor(
         this.ourNumber
       );
-      return this.isOurLocalDevice() || ourDevices.includes(this.id);
+      return ourDevices.includes(this.id);
     },
     isOurLocalDevice() {
       return this.id === this.ourNumber;

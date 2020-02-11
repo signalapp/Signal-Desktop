@@ -71,9 +71,12 @@ export class EditProfileDialog extends React.Component<Props, State> {
     const viewDefault = this.state.mode === 'default';
     const viewEdit = this.state.mode === 'edit';
     const viewQR = this.state.mode === 'qr';
+
+    /* tslint:disable:no-backbone-get-set-outside-model */
     const sessionID =
-      window.storage.get('primaryDevicePubKey') ||
+      window.textsecure.storage.get('primaryDevicePubKey') ||
       window.textsecure.storage.user.getNumber();
+    /* tslint:enable:no-backbone-get-set-outside-model */
 
     const backButton =
       viewEdit || viewQR
