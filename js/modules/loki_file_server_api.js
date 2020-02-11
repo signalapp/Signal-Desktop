@@ -240,12 +240,12 @@ class LokiFileServerInstance {
 // extends LokiFileServerInstance with functions we'd only perform on our own home server
 // so we don't accidentally send info to the wrong file server
 class LokiHomeServerInstance extends LokiFileServerInstance {
-  _setOurDeviceMapping(authorisations, isPrimary) {
+  async _setOurDeviceMapping(authorisations, isPrimary) {
     const content = {
       isPrimary: isPrimary ? '1' : '0',
       authorisations,
     };
-    if (!this.token) {
+    if (!this._server.token) {
       log.warn('_setOurDeviceMapping no token yet');
     }
     return this._server.setSelfAnnotation(
@@ -272,7 +272,7 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
   // you only upload to your own home server
   // you can download from any server...
   uploadAvatar(data) {
-    if (!this.token) {
+    if (!this._server.token) {
       log.warn('uploadAvatar no token yet');
     }
     return this._server.uploadAvatar(data);
