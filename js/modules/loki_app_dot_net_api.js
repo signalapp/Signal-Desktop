@@ -121,16 +121,23 @@ class LokiAppDotNetServerAPI {
     );
     */
 
+    // You cannot use null to clear the profile name
+    // the name key has to be set to know what value we want changed
+    const pName = profileName || '';
+
     const res = await this.serverRequest('users/me', {
       method: 'PATCH',
       objBody: {
-        name: profileName,
+        name: pName,
       },
     });
     // no big deal if it fails...
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`setProfileName Error ${res.err}`);
+        log.error(
+          `setProfileName Error ${res.err} ${res.statusCode}`,
+          this.baseServerUrl
+        );
       }
       return [];
     }
@@ -216,10 +223,14 @@ class LokiAppDotNetServerAPI {
       tokenRes.response.data.user
     ) {
       // get our profile name
-      // FIXME: should this be window.storage.get('primaryDevicePubKey')?
-      const ourNumber = textsecure.storage.user.getNumber();
+      // this should be primaryDevicePubKey
+      // because the rest of the profile system uses that...
+      const ourNumber =
+        window.storage.get('primaryDevicePubKey') ||
+        textsecure.storage.user.getNumber();
       const profileConvo = ConversationController.get(ourNumber);
-      const profileName = profileConvo.getProfileName();
+      const profile = profileConvo.getLokiProfile();
+      const profileName = profile && profile.displayName;
       // if doesn't match, write it to the network
       if (tokenRes.response.data.user.name !== profileName) {
         // update our profile name if it got out of sync
@@ -480,7 +491,10 @@ class LokiAppDotNetServerAPI {
     try {
       response = JSON.parse(txtResponse);
     } catch (e) {
-      log.warn(`_sendToProxy Could not parse outer JSON [${txtResponse}]`);
+      log.warn(
+        `_sendToProxy Could not parse outer JSON [${txtResponse}]`,
+        endpoint
+      );
     }
 
     if (response.meta && response.meta.code === 200) {
@@ -508,7 +522,8 @@ class LokiAppDotNetServerAPI {
       log.warn(
         'file server secure_rpc gave an non-200 response: ',
         response,
-        ` txtResponse[${txtResponse}]`
+        ` txtResponse[${txtResponse}]`,
+        endpoint
       );
     }
     return { result, txtResponse, response };
@@ -1054,15 +1069,17 @@ class LokiPublicChannelAPI {
     const res = await this.serverRequest(
       `loki/v1/channels/${this.channelId}/moderators`
     );
-    // FIXME: should this be window.storage.get('primaryDevicePubKey')?
-    const ourNumber = textsecure.storage.user.getNumber();
+    const ourNumberDevice = textsecure.storage.user.getNumber();
+    const ourNumberProfile = window.storage.get('primaryDevicePubKey');
 
     // Get the list of moderators if no errors occurred
     const moderators = !res.err && res.response && res.response.moderators;
 
     // if we encountered problems then we'll keep the old mod status
     if (moderators) {
-      this.modStatus = moderators.includes(ourNumber);
+      this.modStatus =
+        (ourNumberProfile && moderators.includes(ourNumberProfile)) ||
+        moderators.includes(ourNumberDevice);
     }
 
     await this.conversation.setModerators(moderators || []);
@@ -1465,8 +1482,10 @@ class LokiPublicChannelAPI {
     let pendingMessages = [];
 
     // get our profile name
-    // FIXME: should this be window.storage.get('primaryDevicePubKey')?
-    const ourNumber = textsecure.storage.user.getNumber();
+    const ourNumberDevice = textsecure.storage.user.getNumber();
+    // if no primaryDevicePubKey fall back to ourNumberDevice
+    const ourNumberProfile =
+      window.storage.get('primaryDevicePubKey') || ourNumberDevice;
     let lastProfileName = false;
 
     // the signature forces this to be async
@@ -1539,7 +1558,7 @@ class LokiPublicChannelAPI {
         const from = adnMessage.user.name || 'Anonymous'; // profileName
 
         // if us
-        if (pubKey === ourNumber) {
+        if (pubKey === ourNumberProfile || pubKey === ourNumberDevice) {
           // update the last name we saw from ourself
           lastProfileName = from;
         }
@@ -1689,7 +1708,7 @@ class LokiPublicChannelAPI {
       const slaveKey = messageData.source;
 
       // prevent our own device sent messages from coming back in
-      if (slaveKey === ourNumber) {
+      if (slaveKey === ourNumberDevice) {
         // we originally sent these
         return;
       }
@@ -1720,7 +1739,7 @@ class LokiPublicChannelAPI {
     // if we received one of our own messages
     if (lastProfileName !== false) {
       // get current profileName
-      const profileConvo = ConversationController.get(ourNumber);
+      const profileConvo = ConversationController.get(ourNumberProfile);
       const profileName = profileConvo.getProfileName();
       // check to see if it out of sync
       if (profileName !== lastProfileName) {
