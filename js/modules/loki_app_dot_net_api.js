@@ -499,7 +499,10 @@ class LokiAppDotNetServerAPI {
       try {
         response = options.textResponse ? respStr : JSON.parse(respStr);
       } catch (e) {
-        log.warn(`_sendToProxy Could not parse inner JSON [${respStr}]`, endpoint);
+        log.warn(
+          `_sendToProxy Could not parse inner JSON [${respStr}]`,
+          endpoint
+        );
       }
     } else {
       log.warn(
@@ -959,13 +962,13 @@ class LokiPublicChannelAPI {
       `LokiPublicChannel open ${this.channelId} on ${
         this.serverAPI.baseServerUrl
       }`
-    )
+    );
     if (this.running) {
       log.warn(
         `LokiPublicChannel already open ${this.channelId} on ${
           this.serverAPI.baseServerUrl
         }`
-      )
+      );
     }
     this.running = true;
     if (!this.timers.channel) {
@@ -988,13 +991,13 @@ class LokiPublicChannelAPI {
       `LokiPublicChannel close ${this.channelId} on ${
         this.serverAPI.baseServerUrl
       }`
-    )
+    );
     if (!this.running) {
       log.warn(
         `LokiPublicChannel already open ${this.channelId} on ${
           this.serverAPI.baseServerUrl
         }`
-      )
+      );
     }
     this.running = false;
     if (this.timers.channel) {
