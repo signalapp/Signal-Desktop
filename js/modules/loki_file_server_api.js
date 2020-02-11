@@ -240,7 +240,7 @@ class LokiFileServerInstance {
 // extends LokiFileServerInstance with functions we'd only perform on our own home server
 // so we don't accidentally send info to the wrong file server
 class LokiHomeServerInstance extends LokiFileServerInstance {
-  async _setOurDeviceMapping(authorisations, isPrimary) {
+  _setOurDeviceMapping(authorisations, isPrimary) {
     const content = {
       isPrimary: isPrimary ? '1' : '0',
       authorisations,
