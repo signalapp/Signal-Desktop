@@ -10,6 +10,8 @@
     '', // no pubkey needed
     window.getDefaultFileServer()
   );
+  // use the anonymous access token
+  window.tokenlessFileServerAdnAPI.token = 'loki';
   window.tokenlessFileServerAdnAPI.pubKey = window.Signal.Crypto.base64ToArrayBuffer(
     LokiFileServerAPI.secureRpcPubKey
   );

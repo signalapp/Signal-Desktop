@@ -599,14 +599,14 @@ class LokiAppDotNetServerAPI {
           `serverRequest ${mode} error`,
           e.code,
           e.message,
-          `json: ${txtResponse}`
+          `json: ${txtResponse}`, 'attempting connection to', url
         );
       } else {
         log.info(
           `serverRequest ${mode} error`,
           e.code,
           e.message,
-          'atttempting connection to',
+          'attempting connection to',
           url
         );
       }
