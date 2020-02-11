@@ -245,7 +245,7 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
       isPrimary: isPrimary ? '1' : '0',
       authorisations,
     };
-    if (!this.token) {
+    if (!this._server.token) {
       log.warn('_setOurDeviceMapping no token yet');
     }
     return this._server.setSelfAnnotation(
@@ -272,7 +272,7 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
   // you only upload to your own home server
   // you can download from any server...
   uploadAvatar(data) {
-    if (!this.token) {
+    if (!this._server.token) {
       log.warn('uploadAvatar no token yet');
     }
     return this._server.uploadAvatar(data);
