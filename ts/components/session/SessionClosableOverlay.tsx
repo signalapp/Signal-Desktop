@@ -55,11 +55,8 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const conversations = window.getConversations() || [];
 
     const conversationList = conversations.filter((conversation: any) => {
-      // TODO: We need to handle the case with > 1 secondary device
-      const isOurDevice =
-        conversation.isMe() || conversation.isOurConversation();
       return (
-        !isOurDevice &&
+        !conversation.isMe() &&
         conversation.isPrivate() &&
         !conversation.isSecondaryDevice() &&
         conversation.isFriend()

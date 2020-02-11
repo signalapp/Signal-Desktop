@@ -198,15 +198,20 @@
     isOnline() {
       return this.isMe() || this.get('isOnline');
     },
-
     isMe() {
+      return this.isOurLocalDevice() || this.isOurPrimaryDevice();
+    },
+    isOurPrimaryDevice() {
       return this.id === window.storage.get('primaryDevicePubKey');
     },
     async isOurDevice() {
       const ourDevices = await window.libloki.storage.getPairedDevicesFor(
         this.ourNumber
       );
-      return this.id === this.ourNumber || ourDevices.includes(this.id);
+      return this.isOurLocalDevice() || ourDevices.includes(this.id);
+    },
+    isOurLocalDevice() {
+      return this.id === this.ourNumber;
     },
     isPublic() {
       return !!(this.id && this.id.match(/^publicChat:/));
@@ -891,9 +896,6 @@
         default:
           throw new Error('Invalid friend request state');
       }
-    },
-    isOurConversation() {
-      return this.id === this.ourNumber;
     },
     isSecondaryDevice() {
       return !!this.get('secondaryStatus');

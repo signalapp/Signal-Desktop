@@ -411,6 +411,10 @@ MessageSender.prototype = {
 
     const ourNumber = textsecure.storage.user.getNumber();
 
+    // Note: Since we're just doing independant tasks,
+    // using `async` in the `forEach` loop should be fine.
+    // If however we want to use the results from forEach then
+    // we would need to convert this to a Promise.all(numbers.map(...))
     numbers.forEach(async number => {
       // Note: if we are sending a private group message, we do our best to
       // ensure we have signal protocol sessions with every member, but if we
