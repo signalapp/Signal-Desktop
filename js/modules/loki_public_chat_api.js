@@ -13,6 +13,13 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     this.primaryUserProfileName = {};
   }
 
+  // MessageReceiver.connect calls this
+  // start polling in all existing registered channels
+  async open() {
+    await Promise.all(this.servers.map(server => server.open()));
+  }
+
+  // MessageReceiver.close
   async close() {
     await Promise.all(this.servers.map(server => server.close()));
   }
