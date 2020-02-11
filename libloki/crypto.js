@@ -48,6 +48,9 @@
     // Should we use ephemeral key pairs here rather than long term keys on each side?
     async encrypt(plaintext) {
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+      if (!myKeyPair) {
+        throw new Error('Failed to get keypair for encryption');
+      }
       const myPrivateKey = myKeyPair.privKey;
       const symmetricKey = libsignal.Curve.calculateAgreement(
         this.pubKey,
@@ -63,6 +66,9 @@
 
     async decrypt(ivAndCiphertext) {
       const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+      if (!myKeyPair) {
+        throw new Error('Failed to get keypair for decryption');
+      }
       const myPrivateKey = myKeyPair.privKey;
       const symmetricKey = libsignal.Curve.calculateAgreement(
         this.pubKey,
@@ -169,6 +175,9 @@
     data[len] = type;
 
     const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+    if (!myKeyPair) {
+      throw new Error('Failed to get keypair for pairing signature generation');
+    }
     const signature = await libsignal.Curve.async.calculateSignature(
       myKeyPair.privKey,
       data.buffer
@@ -291,7 +300,11 @@
     const serverPubKey = new Uint8Array(
       dcodeIO.ByteBuffer.fromBase64(serverPubKey64).toArrayBuffer()
     );
-    const { privKey } = await textsecure.storage.protocol.getIdentityKeyPair();
+    const keyPair = await textsecure.storage.protocol.getIdentityKeyPair();
+    if (!keyPair) {
+      throw new Error('Failed to get keypair for token decryption');
+    }
+    const { privKey } = keyPair;
     const symmetricKey = libsignal.Curve.calculateAgreement(
       serverPubKey,
       privKey

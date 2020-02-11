@@ -2,15 +2,11 @@
 
 [![Build Status](https://travis-ci.org/loki-project/loki-messenger.svg?branch=development)](https://travis-ci.org/loki-project/loki-messenger)
 
-Session allows for truly decentralized, end to end, and private encrypted chats. Session is built to handle both online and fully Asynchronous offline messages. Session implements the Signal protocol for message encryption. Our Client interface is a fork of [Signal Messenger](https://signal.org/). All communication that passes through Session is routed through [Lokinet](https://github.com/loki-project/loki-network).
+Session allows for truly decentralized, end to end, and private encrypted chats. Session is built to handle both online and fully Asynchronous offline messages. Session implements the Signal protocol for message encryption. Our Client interface is a fork of [Signal Messenger](https://signal.org/).
 
 ## Summary
 
-Session integrates directly with Loki [Service Nodes](https://lokidocs.com/ServiceNodes/SNOverview/), which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as both federated servers which store messages offline, and a set of nodes which allow for onion routing functionality obfuscating users IP Addresses. For a full understanding of how Session works, read the [Loki whitepaper](https://loki.network/whitepaper).
-
-**Online Messages**
-
-If Alice and Bob are both online they can simply resolve each others public keys, to introduction sets, this functionality is handled by interfacing with [Lokinet](https://github.com/loki-project/loki-network). With the appropriate introduction sets Alice and Bob can create a path and using onion routing pass messages through the Loki network without giving away personally identifiable information like their IP address.
+Session integrates directly with Loki [Service Nodes](https://lokidocs.com/ServiceNodes/SNOverview/), which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as servers which store messages offline, and a set of nodes which allow for onion routing functionality obfuscating users IP Addresses. For a full understanding of how Session works, read the [Loki whitepaper](https://loki.network/whitepaper).
 
 **Offline messages**
 

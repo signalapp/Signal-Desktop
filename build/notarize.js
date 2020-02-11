@@ -10,19 +10,36 @@ const { notarize } = require('electron-notarize');
   Notarizing: https://kilianvalkhof.com/2019/electron/notarizing-your-electron-application/
 */
 
+const log = msg => console.log(`\n${msg}`);
+const isEmpty = v => !v || v.length === 0;
+
 exports.default = async function notarizing(context) {
   const { electronPlatformName, appOutDir } = context;
   if (electronPlatformName !== 'darwin') {
     return;
   }
+  log('Notarizing mac application');
 
   const appName = context.packager.appInfo.productFilename;
+  const {
+    SIGNING_APPLE_ID,
+    SIGNING_APP_PASSWORD,
+    SIGNING_TEAM_ID,
+  } = process.env;
 
-  return notarize({
-    appBundleId: 'com.loki-project.messenger-desktop',
+  if (isEmpty(SIGNING_APPLE_ID) || isEmpty(SIGNING_APP_PASSWORD)) {
+    log(
+      'SIGNING_APPLE_ID or SIGNING_APP_PASSWORD not set.\nTerminating noratization.'
+    );
+    return;
+  }
+
+  const options = {
+    appBundleId: 'org.getsession.desktop',
     appPath: `${appOutDir}/${appName}.app`,
-    appleId: process.env.SIGNING_APPLE_ID,
-    appleIdPassword: process.env.SIGNING_APP_PASSWORD,
-    ascProvider: process.env.SIGNING_TEAM_ID,
-  });
+    appleId: SIGNING_APPLE_ID,
+    appleIdPassword: SIGNING_APP_PASSWORD,
+  };
+  if (!isEmpty(SIGNING_TEAM_ID)) options.ascProvider = SIGNING_TEAM_ID;
+  return notarize(options);
 };

@@ -2162,6 +2162,11 @@
     "message": "Leave Closed Group",
     "description": "Button action that the user can click to leave the group"
   },
+  "leaveClosedGroupConfirmation": {
+    "message": "Leave this Closed Group?",
+    "description":
+      "Confirmation dialog text that tells the user what will happen if they leave the closed group."
+  },
   "leaveGroupDialogTitle": {
     "message": "Are you sure you want to leave this group?",
     "description":

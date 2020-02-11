@@ -238,13 +238,16 @@
       this.el.append(dialog.el);
     },
     showLeaveGroupDialog(groupConvo) {
-      const title = groupConvo.isPublic()
-        ? i18n('deletePublicChannel')
-        : i18n('deleteContact');
+      let title = i18n('deleteContact');
+      let message = i18n('deleteContactConfirmation');
 
-      const message = groupConvo.isPublic()
-        ? i18n('deletePublicChannelConfirmation')
-        : i18n('deleteContactConfirmation');
+      if (groupConvo.isPublic()) {
+        title = i18n('deletePublicChannel');
+        message = i18n('deletePublicChannelConfirmation');
+      } else if (groupConvo.isClosedGroup()) {
+        title = i18n('leaveClosedGroup');
+        message = i18n('leaveClosedGroupConfirmation');
+      }
 
       window.confirmationDialog({
         title,

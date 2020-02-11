@@ -763,9 +763,10 @@
 
       const ev = new Event('group');
 
-      const ourKey = textsecure.storage.user.getNumber();
-
-      const allMembers = [ourKey, ...members];
+      const primaryDeviceKey =
+        window.storage.get('primaryDevicePubKey') ||
+        textsecure.storage.user.getNumber();
+      const allMembers = [primaryDeviceKey, ...members];
 
       ev.groupDetails = {
         id: groupId,
@@ -794,7 +795,7 @@
         window.friends.friendRequestStatusEnum.friends
       );
 
-      convo.updateGroupAdmins([ourKey]);
+      convo.updateGroupAdmins([primaryDeviceKey]);
 
       appView.openConversation(groupId, {});
     };
@@ -1059,6 +1060,7 @@
       window.setMediaPermissions(!mediaPermissions);
     };
 
+    // attempts a connection to an open group server
     window.attemptConnection = async (serverURL, channelId) => {
       let rawserverURL = serverURL
         .replace(/^https?:\/\//i, '')
@@ -2187,9 +2189,7 @@
           },
         });
       } else {
-        window.log.verbose(
-          `Already seen session restore for pubkey: ${pubkey}`
-        );
+        window.log.debug(`Already seen session restore for pubkey: ${pubkey}`);
         if (ev.confirm) {
           ev.confirm();
         }

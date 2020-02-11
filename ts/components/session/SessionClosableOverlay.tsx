@@ -52,14 +52,16 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   public getContacts() {
-    const conversations = window.getConversations();
+    const conversations = window.getConversations() || [];
 
-    let conversationList = conversations;
-    if (conversationList !== undefined) {
-      conversationList = conversationList.filter((conv: any) => {
-        return !conv.isRss() && !conv.isPublic() && conv.attributes.lastMessage;
-      });
-    }
+    const conversationList = conversations.filter((conversation: any) => {
+      return (
+        !conversation.isMe() &&
+        conversation.isPrivate() &&
+        !conversation.isSecondaryDevice() &&
+        conversation.isFriend()
+      );
+    });
 
     return conversationList.map((d: any) => {
       const lokiProfile = d.getLokiProfile();

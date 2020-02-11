@@ -205,7 +205,7 @@
     },
     getLokiNameForNumber(number) {
       const conversation = ConversationController.get(number);
-      if (!conversation) {
+      if (!conversation || !conversation.getLokiProfile()) {
         return number;
       }
       return conversation.getLokiProfile().displayName;
@@ -1898,6 +1898,8 @@
       const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
         source
       );
+      const primarySource =
+        (authorisation && authorisation.primaryDevicePubKey) || source;
       const isGroupMessage = !!initialMessage.group;
       if (isGroupMessage) {
         conversationId = initialMessage.group.id;
@@ -1916,10 +1918,12 @@
       const knownMembers = conversation.get('members');
 
       if (!newGroup && knownMembers) {
-        const fromMember = knownMembers.includes(source);
+        const fromMember = knownMembers.includes(primarySource);
 
         if (!fromMember) {
-          window.log.warn(`Ignoring group message from non-member: ${source}`);
+          window.log.warn(
+            `Ignoring group message from non-member: ${primarySource}`
+          );
           confirm();
           return null;
         }
@@ -1938,7 +1942,9 @@
           );
         }
 
-        const fromAdmin = conversation.get('groupAdmins').includes(source);
+        const fromAdmin = conversation
+          .get('groupAdmins')
+          .includes(primarySource);
 
         if (!fromAdmin) {
           // Make sure the message is not removing members / renaming the group
@@ -2016,11 +2022,11 @@
           .getConversations()
           .models.filter(c => c.get('members'))
           .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
-          .includes(source);
+          .includes(primarySource);
 
         if (groupMember) {
           window.log.info(
-            `Auto accepting a 'group' friend request for a known group member: ${groupMember}`
+            `Auto accepting a 'group' friend request for a known group member: ${primarySource}`
           );
 
           window.libloki.api.sendBackgroundMessage(message.get('source'));
@@ -2355,6 +2361,12 @@
               await sendingDeviceConversation.onFriendRequestAccepted();
             }
           }
+
+          // We need to map the original message source to the primary device
+          if (source !== ourNumber) {
+            message.set({ source: primarySource });
+          }
+
           const id = await window.Signal.Data.saveMessage(message.attributes, {
             Message: Whisper.Message,
           });

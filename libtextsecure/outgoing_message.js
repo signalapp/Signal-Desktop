@@ -350,23 +350,33 @@ OutgoingMessage.prototype = {
           } catch (e) {
             // do nothing
           }
-          if (
-            conversation &&
-            !conversation.isFriend() &&
-            !conversation.hasReceivedFriendRequest() &&
-            !this.isGroup
-          ) {
-            // We want to send an automated friend request if:
-            // - We aren't already friends
-            // - We haven't received a friend request from this device
-            // - We haven't sent a friend request recently
-            if (conversation.friendRequestTimerIsExpired()) {
-              isMultiDeviceRequest = true;
-              thisDeviceMessageType = 'friend-request';
-            } else {
-              // Throttle automated friend requests
-              this.successfulNumbers.push(devicePubKey);
-              return null;
+          if (conversation && !this.isGroup) {
+            const isOurDevice = await conversation.isOurDevice();
+            const isFriends =
+              conversation.isFriend() ||
+              conversation.hasReceivedFriendRequest();
+            // We should only send a friend request to our device if we don't have keys
+            const shouldSendAutomatedFR = isOurDevice ? !keysFound : !isFriends;
+            if (shouldSendAutomatedFR) {
+              // We want to send an automated friend request if:
+              // - We aren't already friends
+              // - We haven't received a friend request from this device
+              // - We haven't sent a friend request recently
+              if (conversation.friendRequestTimerIsExpired()) {
+                isMultiDeviceRequest = true;
+                thisDeviceMessageType = 'friend-request';
+              } else {
+                // Throttle automated friend requests
+                this.successfulNumbers.push(devicePubKey);
+                return null;
+              }
+            }
+
+            // If we're not friends with our own device then we should become friends
+            if (isOurDevice && keysFound && !isFriends) {
+              conversation.setFriendRequestStatus(
+                window.friends.friendRequestStatusEnum.friends
+              );
             }
           }
         }

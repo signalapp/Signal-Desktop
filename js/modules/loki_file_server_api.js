@@ -245,6 +245,9 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
       isPrimary: isPrimary ? '1' : '0',
       authorisations,
     };
+    if (!this._server.token) {
+      log.warn('_setOurDeviceMapping no token yet');
+    }
     return this._server.setSelfAnnotation(
       DEVICE_MAPPING_USER_ANNOTATION_TYPE,
       content
@@ -269,11 +272,14 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
   // you only upload to your own home server
   // you can download from any server...
   uploadAvatar(data) {
+    if (!this._server.token) {
+      log.warn('uploadAvatar no token yet');
+    }
     return this._server.uploadAvatar(data);
   }
 
-  uploadPrivateAttachment(data) {
-    return this._server.uploadData(data);
+  static uploadPrivateAttachment(data) {
+    return window.tokenlessFileServerAdnAPI.uploadData(data);
   }
 
   clearOurDeviceMappingAnnotations() {
@@ -298,6 +304,7 @@ class LokiFileServerFactoryAPI {
     if (!thisServer) {
       thisServer = new LokiHomeServerInstance(this.ourKey);
       log.info(`Registering HomeServer ${serverUrl}`);
+      // not await, so a failure or slow connection doesn't hinder loading of the app
       thisServer.establishConnection(serverUrl);
       this.servers.push(thisServer);
     }

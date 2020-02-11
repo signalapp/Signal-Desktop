@@ -85,7 +85,20 @@ const sendToProxy = async (options = {}, targetNode) => {
   try {
     const jsonRes = JSON.parse(plaintext);
     // emulate nodeFetch response...
-    jsonRes.json = () => JSON.parse(jsonRes.body);
+    jsonRes.json = () => {
+      try {
+        return JSON.parse(jsonRes.body);
+      } catch (e) {
+        log.error(
+          'lokiRpc sendToProxy error',
+          e.code,
+          e.message,
+          'json',
+          jsonRes.body
+        );
+      }
+      return false;
+    };
     return jsonRes;
   } catch (e) {
     log.error(

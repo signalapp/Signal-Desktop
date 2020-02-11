@@ -198,12 +198,32 @@
     isOnline() {
       return this.isMe() || this.get('isOnline');
     },
-
     isMe() {
+      return this.isOurLocalDevice() || this.isOurPrimaryDevice();
+    },
+    isOurPrimaryDevice() {
       return this.id === window.storage.get('primaryDevicePubKey');
+    },
+    async isOurDevice() {
+      if (this.isMe()) {
+        return true;
+      }
+
+      const ourDevices = await window.libloki.storage.getPairedDevicesFor(
+        this.ourNumber
+      );
+      return ourDevices.includes(this.id);
+    },
+    isOurLocalDevice() {
+      return this.id === this.ourNumber;
     },
     isPublic() {
       return !!(this.id && this.id.match(/^publicChat:/));
+    },
+    isClosedGroup() {
+      return (
+        this.get('type') === Message.GROUP && !this.isPublic() && !this.isRss()
+      );
     },
     isClosable() {
       return !this.isRss() || this.get('closable');
@@ -2712,13 +2732,16 @@
     },
 
     deleteContact() {
-      const title = this.isPublic()
-        ? i18n('deletePublicChannel')
-        : i18n('deleteContact');
+      let title = i18n('deleteContact');
+      let message = i18n('deleteContactConfirmation');
 
-      const message = this.isPublic()
-        ? i18n('deletePublicChannelConfirmation')
-        : i18n('deleteContactConfirmation');
+      if (this.isPublic()) {
+        title = i18n('deletePublicChannel');
+        message = i18n('deletePublicChannelConfirmation');
+      } else if (this.isClosedGroup()) {
+        title = i18n('leaveClosedGroup');
+        message = i18n('leaveClosedGroupConfirmation');
+      }
 
       window.confirmationDialog({
         title,

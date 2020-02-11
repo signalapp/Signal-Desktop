@@ -34,8 +34,17 @@ class LokiAppDotNetServerAPI {
     log.info(`LokiAppDotNetAPI registered server ${url}`);
   }
 
+  async open() {
+    // check token, we're not sure how long we were asleep, token may have expired
+    await this.getOrRefreshServerToken();
+    // now that we have a working token, start up pollers
+    this.channels.forEach(channel => channel.open());
+  }
+
   async close() {
     this.channels.forEach(channel => channel.stop());
+    // match sure our pending requests are finished
+    // in case it's still starting up
     if (this.tokenPromise) {
       await this.tokenPromise;
     }
@@ -70,6 +79,7 @@ class LokiAppDotNetServerAPI {
   }
 
   async partChannel(channelId) {
+    log.info('partChannel', channelId, 'from', this.baseServerUrl);
     await this.serverRequest(`channels/${channelId}/subscribe`, {
       method: 'DELETE',
     });
@@ -78,6 +88,7 @@ class LokiAppDotNetServerAPI {
 
   // deallocate resources channel uses
   unregisterChannel(channelId) {
+    log.info('unregisterChannel', channelId, 'from', this.baseServerUrl);
     let thisChannel;
     let i = 0;
     for (; i < this.channels.length; i += 1) {
@@ -110,16 +121,23 @@ class LokiAppDotNetServerAPI {
     );
     */
 
+    // You cannot use null to clear the profile name
+    // the name key has to be set to know what value we want changed
+    const pName = profileName || '';
+
     const res = await this.serverRequest('users/me', {
       method: 'PATCH',
       objBody: {
-        name: profileName,
+        name: pName,
       },
     });
     // no big deal if it fails...
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`setProfileName Error ${res.err}`);
+        log.error(
+          `setProfileName Error ${res.err} ${res.statusCode}`,
+          this.baseServerUrl
+        );
       }
       return [];
     }
@@ -187,8 +205,9 @@ class LokiAppDotNetServerAPI {
 
     // if no token to verify, just bail now
     if (!token) {
-      //
+      // if we haven't forced it
       if (!forceRefresh) {
+        // try one more time with requesting a fresh token
         token = await this.getOrRefreshServerToken(true);
       }
       return token;
@@ -204,10 +223,14 @@ class LokiAppDotNetServerAPI {
       tokenRes.response.data.user
     ) {
       // get our profile name
-      // FIXME: should this be window.storage.get('primaryDevicePubKey')?
-      const ourNumber = textsecure.storage.user.getNumber();
+      // this should be primaryDevicePubKey
+      // because the rest of the profile system uses that...
+      const ourNumber =
+        window.storage.get('primaryDevicePubKey') ||
+        textsecure.storage.user.getNumber();
       const profileConvo = ConversationController.get(ourNumber);
-      const profileName = profileConvo.getProfileName();
+      const profile = profileConvo.getLokiProfile();
+      const profileName = profile && profile.displayName;
       // if doesn't match, write it to the network
       if (tokenRes.response.data.user.name !== profileName) {
         // update our profile name if it got out of sync
@@ -317,7 +340,7 @@ class LokiAppDotNetServerAPI {
 
   // activate token
   async submitToken(token) {
-    const options = {
+    const fetchOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -331,7 +354,8 @@ class LokiAppDotNetServerAPI {
     try {
       const res = await this.proxyFetch(
         `${this.baseServerUrl}/loki/v1/submit_challenge`,
-        options
+        fetchOptions,
+        { textResponse: true }
       );
       return res.ok;
     } catch (e) {
@@ -340,7 +364,7 @@ class LokiAppDotNetServerAPI {
     }
   }
 
-  async proxyFetch(urlObj, fetchOptions = { method: 'GET' }) {
+  async proxyFetch(urlObj, fetchOptions = { method: 'GET' }, options = {}) {
     if (
       window.lokiFeatureFlags.useSnodeProxy &&
       (this.baseServerUrl === 'https://file-dev.lokinet.org' ||
@@ -356,7 +380,8 @@ class LokiAppDotNetServerAPI {
       const endpoint = urlStr.replace(`${this.baseServerUrl}/`, '');
       const { response, result } = await this._sendToProxy(
         endpoint,
-        finalOptions
+        finalOptions,
+        options
       );
       // emulate nodeFetch response...
       return {
@@ -364,15 +389,20 @@ class LokiAppDotNetServerAPI {
         json: () => response,
       };
     }
-    return nodeFetch(urlObj, fetchOptions);
+    return nodeFetch(urlObj, fetchOptions, options);
   }
 
-  async _sendToProxy(endpoint, fetchOptions) {
+  async _sendToProxy(endpoint, pFetchOptions, options = {}) {
     const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
     const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
+    const fetchOptions = pFetchOptions; // make lint happy
+    // safety issue with file server, just safer to have this
+    if (fetchOptions.headers === undefined) {
+      fetchOptions.headers = {};
+    }
+
     const payloadObj = {
-      // I think this is a stream, we may need to collect it all?
       body: fetchOptions.body, // might need to b64 if binary...
       endpoint,
       method: fetchOptions.method,
@@ -444,9 +474,13 @@ class LokiAppDotNetServerAPI {
     const result = await nodeFetch(url, firstHopOptions);
 
     const txtResponse = await result.text();
-    if (txtResponse === 'Service node is not ready: not in any swarm; \n') {
+    if (txtResponse.match(/^Service node is not ready: not in any swarm/i)) {
       // mark snode bad
-      log.warn('Marking random snode bad', randSnode);
+      log.warn(
+        `Marking random snode bad, internet address ${randSnode.ip}:${
+          randSnode.port
+        }`
+      );
       lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
       // retry (hopefully with new snode)
       // FIXME: max number of retries...
@@ -457,7 +491,10 @@ class LokiAppDotNetServerAPI {
     try {
       response = JSON.parse(txtResponse);
     } catch (e) {
-      log.warn(`_sendToProxy Could not parse outer JSON [${txtResponse}]`);
+      log.warn(
+        `_sendToProxy Could not parse outer JSON [${txtResponse}]`,
+        endpoint
+      );
     }
 
     if (response.meta && response.meta.code === 200) {
@@ -471,18 +508,22 @@ class LokiAppDotNetServerAPI {
         ivAndCiphertextResponse
       );
       const textDecoder = new TextDecoder();
-      const json = textDecoder.decode(decrypted);
+      const respStr = textDecoder.decode(decrypted);
       // replace response
       try {
-        response = JSON.parse(json);
+        response = options.textResponse ? respStr : JSON.parse(respStr);
       } catch (e) {
-        log.warn(`_sendToProxy Could not parse inner JSON [${json}]`);
+        log.warn(
+          `_sendToProxy Could not parse inner JSON [${respStr}]`,
+          endpoint
+        );
       }
     } else {
       log.warn(
         'file server secure_rpc gave an non-200 response: ',
         response,
-        ` txtResponse[${txtResponse}]`
+        ` txtResponse[${txtResponse}]`,
+        endpoint
       );
     }
     return { result, txtResponse, response };
@@ -552,7 +593,8 @@ class LokiAppDotNetServerAPI {
           .replace(`${this.baseServerUrl}/`, '');
         ({ response, txtResponse, result } = await this._sendToProxy(
           endpointWithQS,
-          fetchOptions
+          fetchOptions,
+          options
         ));
       } else {
         // disable check for .loki
@@ -563,7 +605,8 @@ class LokiAppDotNetServerAPI {
         // always make sure this check is enabled
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
         txtResponse = await result.text();
-        response = JSON.parse(txtResponse);
+        // hrm cloudflare timeouts (504s) will be html...
+        response = options.textResponse ? txtResponse : JSON.parse(txtResponse);
       }
     } catch (e) {
       if (txtResponse) {
@@ -571,10 +614,16 @@ class LokiAppDotNetServerAPI {
           `serverRequest ${mode} error`,
           e.code,
           e.message,
-          `json: ${txtResponse}`
+          `json: ${txtResponse}`, 'attempting connection to', url
         );
       } else {
-        log.info(`serverRequest ${mode} error`, e.code, e.message);
+        log.info(
+          `serverRequest ${mode} error`,
+          e.code,
+          e.message,
+          'attempting connection to',
+          url
+        );
       }
       return {
         err: e,
@@ -879,7 +928,6 @@ class LokiPublicChannelAPI {
     this.modStatus = false;
     this.deleteLastId = 1;
     this.timers = {};
-    this.running = true;
     this.myPrivateKey = false;
     // can escalated to SQL if it start uses too much memory
     this.logMop = {};
@@ -895,12 +943,7 @@ class LokiPublicChannelAPI {
       }`
     );
     // start polling
-    this.pollForMessages();
-    this.pollForDeletions();
-    this.pollForChannel();
-    this.pollForModerators();
-
-    // TODO: poll for group members here?
+    this.open();
   }
 
   async getPrivateKey() {
@@ -929,19 +972,64 @@ class LokiPublicChannelAPI {
     return true;
   }
 
+  open() {
+    log.info(
+      `LokiPublicChannel open ${this.channelId} on ${
+        this.serverAPI.baseServerUrl
+      }`
+    );
+    if (this.running) {
+      log.warn(
+        `LokiPublicChannel already open ${this.channelId} on ${
+          this.serverAPI.baseServerUrl
+        }`
+      );
+    }
+    this.running = true;
+    if (!this.timers.channel) {
+      this.pollForChannel();
+    }
+    if (!this.timers.moderator) {
+      this.pollForModerators();
+    }
+    if (!this.timers.delete) {
+      this.pollForDeletions();
+    }
+    if (!this.timers.message) {
+      this.pollForMessages();
+    }
+    // TODO: poll for group members here?
+  }
+
   stop() {
+    log.info(
+      `LokiPublicChannel close ${this.channelId} on ${
+        this.serverAPI.baseServerUrl
+      }`
+    );
+    if (!this.running) {
+      log.warn(
+        `LokiPublicChannel already open ${this.channelId} on ${
+          this.serverAPI.baseServerUrl
+        }`
+      );
+    }
     this.running = false;
     if (this.timers.channel) {
       clearTimeout(this.timers.channel);
+      this.timers.channel = false;
     }
     if (this.timers.moderator) {
       clearTimeout(this.timers.moderator);
+      this.timers.moderator = false;
     }
     if (this.timers.delete) {
       clearTimeout(this.timers.delete);
+      this.timers.delete = false;
     }
     if (this.timers.message) {
       clearTimeout(this.timers.message);
+      this.timers.message = false;
     }
   }
 
@@ -981,15 +1069,17 @@ class LokiPublicChannelAPI {
     const res = await this.serverRequest(
       `loki/v1/channels/${this.channelId}/moderators`
     );
-    // FIXME: should this be window.storage.get('primaryDevicePubKey')?
-    const ourNumber = textsecure.storage.user.getNumber();
+    const ourNumberDevice = textsecure.storage.user.getNumber();
+    const ourNumberProfile = window.storage.get('primaryDevicePubKey');
 
     // Get the list of moderators if no errors occurred
     const moderators = !res.err && res.response && res.response.moderators;
 
     // if we encountered problems then we'll keep the old mod status
     if (moderators) {
-      this.modStatus = moderators.includes(ourNumber);
+      this.modStatus =
+        (ourNumberProfile && moderators.includes(ourNumberProfile)) ||
+        moderators.includes(ourNumberDevice);
     }
 
     await this.conversation.setModerators(moderators || []);
@@ -1392,8 +1482,10 @@ class LokiPublicChannelAPI {
     let pendingMessages = [];
 
     // get our profile name
-    // FIXME: should this be window.storage.get('primaryDevicePubKey')?
-    const ourNumber = textsecure.storage.user.getNumber();
+    const ourNumberDevice = textsecure.storage.user.getNumber();
+    // if no primaryDevicePubKey fall back to ourNumberDevice
+    const ourNumberProfile =
+      window.storage.get('primaryDevicePubKey') || ourNumberDevice;
     let lastProfileName = false;
 
     // the signature forces this to be async
@@ -1466,7 +1558,7 @@ class LokiPublicChannelAPI {
         const from = adnMessage.user.name || 'Anonymous'; // profileName
 
         // if us
-        if (pubKey === ourNumber) {
+        if (pubKey === ourNumberProfile || pubKey === ourNumberDevice) {
           // update the last name we saw from ourself
           lastProfileName = from;
         }
@@ -1616,7 +1708,7 @@ class LokiPublicChannelAPI {
       const slaveKey = messageData.source;
 
       // prevent our own device sent messages from coming back in
-      if (slaveKey === ourNumber) {
+      if (slaveKey === ourNumberDevice) {
         // we originally sent these
         return;
       }
@@ -1647,7 +1739,7 @@ class LokiPublicChannelAPI {
     // if we received one of our own messages
     if (lastProfileName !== false) {
       // get current profileName
-      const profileConvo = ConversationController.get(ourNumber);
+      const profileConvo = ConversationController.get(ourNumberProfile);
       const profileName = profileConvo.getProfileName();
       // check to see if it out of sync
       if (profileName !== lastProfileName) {
