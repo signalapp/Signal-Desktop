@@ -34,8 +34,17 @@ class LokiAppDotNetServerAPI {
     log.info(`LokiAppDotNetAPI registered server ${url}`);
   }
 
+  async open() {
+    // check token, we're not sure how long we were asleep, token may have expired
+    await this.getOrRefreshServerToken();
+    // now that we have a working token, start up pollers
+    this.channels.forEach(channel => channel.open());
+  }
+
   async close() {
     this.channels.forEach(channel => channel.stop());
+    // match sure our pending requests are finished
+    // in case it's still starting up
     if (this.tokenPromise) {
       await this.tokenPromise;
     }
@@ -70,6 +79,7 @@ class LokiAppDotNetServerAPI {
   }
 
   async partChannel(channelId) {
+    log.info('partChannel', channelId, 'from', this.baseServerUrl);
     await this.serverRequest(`channels/${channelId}/subscribe`, {
       method: 'DELETE',
     });
@@ -78,6 +88,7 @@ class LokiAppDotNetServerAPI {
 
   // deallocate resources channel uses
   unregisterChannel(channelId) {
+    log.info('unregisterChannel', channelId, 'from', this.baseServerUrl);
     let thisChannel;
     let i = 0;
     for (; i < this.channels.length; i += 1) {
@@ -189,6 +200,7 @@ class LokiAppDotNetServerAPI {
     if (!token) {
       // if we haven't forced it
       if (!forceRefresh) {
+        // try one more time with requesting a fresh token
         token = await this.getOrRefreshServerToken(true);
       }
       return token;
@@ -901,7 +913,6 @@ class LokiPublicChannelAPI {
     this.modStatus = false;
     this.deleteLastId = 1;
     this.timers = {};
-    this.running = true;
     this.myPrivateKey = false;
     // can escalated to SQL if it start uses too much memory
     this.logMop = {};
@@ -917,12 +928,7 @@ class LokiPublicChannelAPI {
       }`
     );
     // start polling
-    this.pollForMessages();
-    this.pollForDeletions();
-    this.pollForChannel();
-    this.pollForModerators();
-
-    // TODO: poll for group members here?
+    this.open();
   }
 
   async getPrivateKey() {
@@ -951,19 +957,64 @@ class LokiPublicChannelAPI {
     return true;
   }
 
+  open() {
+    log.info(
+      `LokiPublicChannel open ${this.channelId} on ${
+        this.serverAPI.baseServerUrl
+      }`
+    );
+    if (this.running) {
+      log.warn(
+        `LokiPublicChannel already open ${this.channelId} on ${
+          this.serverAPI.baseServerUrl
+        }`
+      );
+    }
+    this.running = true;
+    if (!this.timers.channel) {
+      this.pollForChannel();
+    }
+    if (!this.timers.moderator) {
+      this.pollForModerators();
+    }
+    if (!this.timers.delete) {
+      this.pollForDeletions();
+    }
+    if (!this.timers.message) {
+      this.pollForMessages();
+    }
+    // TODO: poll for group members here?
+  }
+
   stop() {
+    log.info(
+      `LokiPublicChannel close ${this.channelId} on ${
+        this.serverAPI.baseServerUrl
+      }`
+    );
+    if (!this.running) {
+      log.warn(
+        `LokiPublicChannel already open ${this.channelId} on ${
+          this.serverAPI.baseServerUrl
+        }`
+      );
+    }
     this.running = false;
     if (this.timers.channel) {
       clearTimeout(this.timers.channel);
+      this.timers.channel = false;
     }
     if (this.timers.moderator) {
       clearTimeout(this.timers.moderator);
+      this.timers.moderator = false;
     }
     if (this.timers.delete) {
       clearTimeout(this.timers.delete);
+      this.timers.delete = false;
     }
     if (this.timers.message) {
       clearTimeout(this.timers.message);
+      this.timers.message = false;
     }
   }
 

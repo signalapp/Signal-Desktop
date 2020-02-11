@@ -48,6 +48,17 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   if (options.retryCached) {
     this.pending = this.queueAllCached();
   }
+
+  // only do this once to prevent duplicates
+  if (lokiPublicChatAPI) {
+    // bind events
+    lokiPublicChatAPI.on(
+      'publicMessage',
+      this.handleUnencryptedMessage.bind(this)
+    );
+  } else {
+    window.log.error('Can not handle open group data, API is not available');
+  }
 }
 
 MessageReceiver.stringToArrayBuffer = string =>
@@ -79,11 +90,11 @@ MessageReceiver.prototype.extend({
       handleRequest: this.handleRequest.bind(this),
     });
     this.httpPollingResource.pollServer();
+
+    // start polling all open group rooms you have registered
+    // if not registered yet, they'll get started when they're created
     if (lokiPublicChatAPI) {
-      lokiPublicChatAPI.on(
-        'publicMessage',
-        this.handleUnencryptedMessage.bind(this)
-      );
+      lokiPublicChatAPI.open();
     }
     // set up pollers for any RSS feeds
     feeds.forEach(feed => {
@@ -166,6 +177,7 @@ MessageReceiver.prototype.extend({
       this.wsr.close(3000, 'called close');
     }
 
+    // stop polling all open group rooms
     if (lokiPublicChatAPI) {
       await lokiPublicChatAPI.close();
     }
