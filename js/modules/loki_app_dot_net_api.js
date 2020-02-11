@@ -216,7 +216,9 @@ class LokiAppDotNetServerAPI {
       // get our profile name
       // this should be primaryDevicePubKey
       // because the rest of the profile system uses that...
-      const ourNumber = window.storage.get('primaryDevicePubKey');
+      const ourNumber =
+        window.storage.get('primaryDevicePubKey') ||
+        textsecure.storage.user.getNumber();
       const profileConvo = ConversationController.get(ourNumber);
       const profile = profileConvo.getLokiProfile();
       const profileName = profile && profile.displayName;
@@ -1028,7 +1030,7 @@ class LokiPublicChannelAPI {
     // if we encountered problems then we'll keep the old mod status
     if (moderators) {
       this.modStatus =
-        moderators.includes(ourNumberProfile) ||
+        (ourNumberProfile && moderators.includes(ourNumberProfile)) ||
         moderators.includes(ourNumberDevice);
     }
 
@@ -1432,8 +1434,10 @@ class LokiPublicChannelAPI {
     let pendingMessages = [];
 
     // get our profile name
-    const ourNumberProfile = window.storage.get('primaryDevicePubKey');
     const ourNumberDevice = textsecure.storage.user.getNumber();
+    // if no primaryDevicePubKey fall back to ourNumberDevice
+    const ourNumberProfile =
+      window.storage.get('primaryDevicePubKey') || ourNumberDevice;
     let lastProfileName = false;
 
     // the signature forces this to be async
