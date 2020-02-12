@@ -277,7 +277,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   private handleUnselectMember(member: ContactType) {
     this.setState({
       selectedMembers: this.state.selectedMembers.filter(selectedMember => {
-        return selectedMember !== member;
+        return selectedMember.id !== member.id;
       }),
     });
   }
