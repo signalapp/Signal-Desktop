@@ -58,9 +58,6 @@ export class SessionModal extends React.PureComponent<Props, State> {
     } = this.props;
     const { isVisible } = this.state;
 
-    console.log(this.props.children, "what is actually in here");
-
-
     return isVisible ? (
       <div className={'session-modal'}>
         {showHeader ? (

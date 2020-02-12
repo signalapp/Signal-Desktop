@@ -684,12 +684,12 @@ label {
   animation: fadein $session-transition-duration;
   z-index: 150;
   min-width: 300px;
-
   box-sizing: border-box;
   max-height: 70vh;
   max-width: 70vw;
   background-color: $session-shade-4;
   border: 1px solid $session-shade-8;
+  padding-bottom: $session-margin-lg;
 
   &__header {
     display: flex;
