@@ -1011,6 +1011,9 @@
   "showPairingWordsTitle": {
     "message": "Pairing Secret Words"
   },
+  "secretPrompt": {
+    "message": "Here is your secret"
+  },
   "confirmUnpairingTitle": {
     "message": "Please confirm you want to unpair the following device:"
   },
