@@ -864,7 +864,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
       const words = window.mnemonic.pubkey_to_secret_words(pubkey);
       window.console.log(`Here is your secret:\n${words}`);
       window.pushToast({
-        title: `${window.i18n('secretPrompt')} ${words}`,
+        title: `${window.i18n('secretPrompt')}`,
+        description: words,
         id: 'yourSecret',
         shouldFade: false,
       });

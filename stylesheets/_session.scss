@@ -156,6 +156,10 @@ div.spacer-lg {
   width: 100%;
 }
 
+::selection {
+  background: rgba($session-color-green, 0.6);
+}
+
 input,
 textarea {
   caret-color: $session-color-green !important;
@@ -998,6 +1002,7 @@ label {
     }
 
     &-display {
+      user-select: text;
       text-align: center;
       word-break: break-all;
       font-size: $session-font-md;
@@ -1293,7 +1298,7 @@ label {
   .module-message {
     font-family: 'SF Pro Text';
     border-radius: 5px;
-  
+
     &__text--incoming {
       /* Add padding to large emojis in chat */
       img.emoji.jumbo {
@@ -1301,7 +1306,6 @@ label {
       }
     }
   }
-  
 }
 
 .bottom-bar {

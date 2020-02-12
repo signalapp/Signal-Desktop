@@ -1011,6 +1011,9 @@
   "showPairingWordsTitle": {
     "message": "Pairing Secret Words"
   },
+  "secretPrompt": {
+    "message": "Here is your secret"
+  },
   "confirmUnpairingTitle": {
     "message": "Please confirm you want to unpair the following device:"
   },
@@ -2625,6 +2628,9 @@
   },
   "newSession": {
     "message": "New Session"
+  },
+  "freindRequestsButton": {
+    "message": "Requests"
   },
   "searchForAKeyPhrase": {
     "message": "Search for a key phrase or contact"

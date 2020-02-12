@@ -79,14 +79,34 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
       );
     }
 
-    if (buttonLabel) {
+    if (buttonLabel && !notificationCount) {
       children.push(
         <SessionButton
-          text={window.i18n('newSession')}
+          text={buttonLabel}
           onClick={buttonClicked}
           key="compose"
           disabled={false}
         />
+      );
+    } else if (buttonLabel && notificationCount && notificationCount > 0) {
+      const shortenedNotificationCount =
+        notificationCount > 9 ? 9 : notificationCount;
+      children.push(
+        <div className="contact-notification-section">
+          <SessionButton
+            text={buttonLabel}
+            onClick={buttonClicked}
+            key="compose"
+            disabled={false}
+          />
+          <div
+            className="contact-notification-count-bubble"
+            onClick={this.props.buttonClicked}
+            role="button"
+          >
+            {shortenedNotificationCount}
+          </div>
+        </div>
       );
     } else if (notificationCount && notificationCount > 0) {
       const shortenedNotificationCount =

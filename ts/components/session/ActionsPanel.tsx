@@ -165,15 +165,15 @@ export class ActionsPanel extends React.Component<Props, State> {
           notificationCount={unreadMessageCount}
         />
         <this.Section
+          type={SectionType.Channel}
+          isSelected={isChannelPageSelected}
+          onSelect={this.handleSectionSelect}
+        />
+        <this.Section
           type={SectionType.Contact}
           isSelected={isContactPageSelected}
           onSelect={this.handleSectionSelect}
           notificationCount={receivedFriendRequestCount}
-        />
-        <this.Section
-          type={SectionType.Channel}
-          isSelected={isChannelPageSelected}
-          onSelect={this.handleSectionSelect}
         />
         <this.Section
           type={SectionType.Settings}
