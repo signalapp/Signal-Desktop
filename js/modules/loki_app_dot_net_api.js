@@ -614,7 +614,9 @@ class LokiAppDotNetServerAPI {
           `serverRequest ${mode} error`,
           e.code,
           e.message,
-          `json: ${txtResponse}`, 'attempting connection to', url
+          `json: ${txtResponse}`,
+          'attempting connection to',
+          url
         );
       } else {
         log.info(

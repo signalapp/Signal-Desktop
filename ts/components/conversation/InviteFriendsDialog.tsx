@@ -2,7 +2,10 @@ import React from 'react';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton } from '../session/SessionButton';
-import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
+import {
+  ContactType,
+  SessionMemberListItem,
+} from '../session/SessionMemberListItem';
 
 interface Props {
   friendList: Array<any>;
@@ -53,7 +56,6 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
   }
 
   public render() {
-
     const titleText = `${window.i18n('addingFriends')} ${this.props.chatName}`;
     const cancelText = window.i18n('cancel');
     const okText = window.i18n('ok');
@@ -68,9 +70,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
       >
         <div className="spacer-lg" />
 
-        <div className="friend-selection-list">
-          {this.renderMemberList()}
-        </div>
+        <div className="friend-selection-list">{this.renderMemberList()}</div>
         {hasFriends ? null : (
           <>
             <div className="spacer-lg" />
@@ -154,13 +154,6 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
 
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
-
-    console.log(this.props.onClose);
-    console.log(this.props.onClose);
-    console.log(this.props.onClose);
-    console.log(this.props.onClose);
-    
     this.props.onClose();
   }
-
 }

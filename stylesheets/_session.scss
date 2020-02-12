@@ -115,7 +115,6 @@ $main-view-header-height: 85px;
 $session-left-pane-width: 300px;
 $session-left-pane-sections-container-width: 80px;
 
-
 div.spacer-sm {
   height: $session-margin-sm;
 }
@@ -135,9 +134,8 @@ div.spacer-lg {
   color: rgba($color, 0.6);
 }
 
-
 // Blur for modals
-.loki-dialog ~ .index.inbox{
+.loki-dialog ~ .index.inbox {
   filter: blur(1px);
   transition: filter 0.1s;
 }
@@ -232,7 +230,7 @@ $session_message-container-border-radius: 5px;
   pointer-events: none;
 }
 .overlay {
-  display: block !important;
+  display: flex !important;
   z-index: 1;
 }
 
@@ -580,12 +578,15 @@ label {
 .message-selection-overlay {
   display: none;
   position: absolute;
-  right: $session-margin-sm;
-  left: $session-margin-md;
+  left: 0px;
+  right: 0px;
+  margin: 0px $session-margin-sm;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
 
   .close-button {
     float: left;
-    margin: 17px 0px 0px 0px;
   }
 }
 .message-selection-overlay div[role='button'] {
@@ -594,7 +595,6 @@ label {
 
 .message-selection-overlay .button-group {
   float: right;
-  margin-top: 13.5px;
 }
 
 .hidden {
@@ -1293,7 +1293,15 @@ label {
   .module-message {
     font-family: 'SF Pro Text';
     border-radius: 5px;
+  
+    &__text--incoming {
+      /* Add padding to large emojis in chat */
+      img.emoji.jumbo {
+        margin: $session-margin-sm 0px;
+      }
+    }
   }
+  
 }
 
 .bottom-bar {
@@ -1769,7 +1777,6 @@ input {
     opacity: 0.8;
   }
 }
-
 
 .invite-friends-container {
   height: $session-icon-size-lg;

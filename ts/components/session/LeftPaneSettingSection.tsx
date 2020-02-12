@@ -76,8 +76,6 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
       >
         <div>
           <strong>{item.title}</strong>
-          <br />
-          <span className="text-subtle">{item.description}</span>
         </div>
 
         <div>
@@ -181,31 +179,26 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
       {
         id: SessionSettingCategory.Appearance,
         title: window.i18n('appearanceSettingsTitle'),
-        description: window.i18n('appearanceSettingsDescription'),
         hidden: false,
       },
       {
         id: SessionSettingCategory.Privacy,
         title: window.i18n('privacySettingsTitle'),
-        description: window.i18n('privacySettingsDescription'),
         hidden: false,
       },
       {
         id: SessionSettingCategory.Permissions,
         title: window.i18n('permissionSettingsTitle'),
-        description: window.i18n('permissionSettingsDescription'),
         hidden: true,
       },
       {
         id: SessionSettingCategory.Notifications,
         title: window.i18n('notificationSettingsTitle'),
-        description: window.i18n('notificationSettingsDescription'),
         hidden: false,
       },
       {
         id: SessionSettingCategory.Devices,
         title: window.i18n('devicesSettingsTitle'),
-        description: window.i18n('devicesSettingsDescription'),
       },
     ];
   }

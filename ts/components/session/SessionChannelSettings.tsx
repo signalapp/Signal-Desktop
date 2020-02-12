@@ -54,16 +54,15 @@ export class SessionChannelSettings extends React.Component<Props, any> {
 
     setTimeout(() => {
       this.getMediaGalleryProps()
-      .then(({ documents, media, onItemClick }) => {
-        this.setState({
-          documents,
-          media,
-          onItemClick,
-        });
-      })
-      .ignore();
+        .then(({ documents, media, onItemClick }) => {
+          this.setState({
+            documents,
+            media,
+            onItemClick,
+          });
+        })
+        .ignore();
     }, mediaScanInterval);
-    
   }
 
   public async getMediaGalleryProps() {
@@ -265,7 +264,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
           conversationType="group"
           size={80}
         />
-        
+
         <div className="invite-friends-container">
           {shouldShowInviteFriends && (
             <SessionIconButton
@@ -275,8 +274,6 @@ export class SessionChannelSettings extends React.Component<Props, any> {
             />
           )}
         </div>
-
-        
       </div>
     );
   }
