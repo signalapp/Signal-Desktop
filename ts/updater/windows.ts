@@ -93,25 +93,22 @@ async function checkDownloadAndInstall(
     }
 
     logger.info('checkDownloadAndInstall: showing dialog...');
-    const shouldUpdate = await showUpdateDialog(getMainWindow(), messages);
-    if (!shouldUpdate) {
-      return;
-    }
+    showUpdateDialog(getMainWindow(), messages, async () => {
+      try {
+        await verifyAndInstall(updateFilePath, version, logger);
+        installing = true;
+      } catch (error) {
+        logger.info(
+          'checkDownloadAndInstall: showing general update failure dialog...'
+        );
+        showCannotUpdateDialog(getMainWindow(), messages);
 
-    try {
-      await verifyAndInstall(updateFilePath, version, logger);
-      installing = true;
-    } catch (error) {
-      logger.info(
-        'checkDownloadAndInstall: showing general update failure dialog...'
-      );
-      await showCannotUpdateDialog(getMainWindow(), messages);
+        throw error;
+      }
 
-      throw error;
-    }
-
-    markShouldQuit();
-    app.quit();
+      markShouldQuit();
+      app.quit();
+    });
   } catch (error) {
     logger.error('checkDownloadAndInstall: error', getPrintableError(error));
   } finally {

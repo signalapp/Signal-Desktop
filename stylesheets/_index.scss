@@ -51,45 +51,6 @@
   }
 }
 
-.network-status-container {
-  .network-status {
-    background: url('../images/error_red.svg') no-repeat left 10px center;
-    background-size: 25px 25px;
-    background-color: $color-accent-yellow;
-    padding: 10px;
-    padding-left: 48px;
-    display: none;
-
-    .network-status-message {
-      h3 {
-        padding: 0px;
-        margin: 0px;
-        margin-bottom: 2px;
-        font-size: 14px;
-      }
-      span {
-        display: inline-block;
-        font-size: 12px;
-        padding: 0.5em 0;
-      }
-
-      @include dark-theme {
-        color: $color-gray-90;
-      }
-    }
-    .action {
-      button {
-        border-radius: 5px;
-        border: solid 1px $color-gray-25;
-        cursor: pointer;
-        font-family: inherit;
-        color: $color-white;
-        background: $color-signal-blue;
-      }
-    }
-  }
-}
-
 .left-pane-placeholder {
   height: 100%;
 }

@@ -244,7 +244,7 @@
         };
         Whisper.events.trigger('userChanged', user);
 
-        Whisper.Registration.markDone();
+        window.Signal.Util.Registration.markDone();
         window.log.info('dispatching registration event');
         Whisper.events.trigger('registration_done');
       });
@@ -382,7 +382,10 @@
 
       showStickerPack: async (packId, key) => {
         // We can get these events even if the user has never linked this instance.
-        if (Whisper.Import.isIncomplete() || !Whisper.Registration.everDone()) {
+        if (
+          Whisper.Import.isIncomplete() ||
+          !window.Signal.Util.Registration.everDone()
+        ) {
           return;
         }
 
@@ -559,6 +562,15 @@
     } finally {
       initializeRedux();
       start();
+      window.Signal.Services.initializeNetworkObserver(
+        window.reduxActions.network
+      );
+      window.Signal.Services.initializeUpdateListener(
+        window.reduxActions.updates
+      );
+      window.reduxActions.expiration.hydrateExpirationStatus(
+        window.Signal.Util.hasExpired()
+      );
     }
   });
 
@@ -609,8 +621,20 @@
       Signal.State.Ducks.emojis.actions,
       store.dispatch
     );
+    actions.expiration = Signal.State.bindActionCreators(
+      Signal.State.Ducks.expiration.actions,
+      store.dispatch
+    );
     actions.items = Signal.State.bindActionCreators(
       Signal.State.Ducks.items.actions,
+      store.dispatch
+    );
+    actions.network = Signal.State.bindActionCreators(
+      Signal.State.Ducks.network.actions,
+      store.dispatch
+    );
+    actions.updates = Signal.State.bindActionCreators(
+      Signal.State.Ducks.updates.actions,
       store.dispatch
     );
     actions.user = Signal.State.bindActionCreators(
@@ -1351,7 +1375,7 @@
     if (Whisper.Import.isIncomplete()) {
       window.log.info('Import was interrupted, showing import error screen');
       appView.openImporter();
-    } else if (Whisper.Registration.everDone()) {
+    } else if (window.Signal.Util.Registration.everDone()) {
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
       window.Signal.RefreshSenderCertificate.initialize({
@@ -1376,9 +1400,6 @@
     });
     Whisper.events.on('unauthorized', () => {
       appView.inboxView.networkStatusView.update();
-    });
-    Whisper.events.on('reconnectTimer', () => {
-      appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
     });
     Whisper.events.on('contactsync', () => {
       if (appView.installView) {
@@ -1479,7 +1500,7 @@
       return;
     }
 
-    if (!Whisper.Registration.everDone()) {
+    if (!window.Signal.Util.Registration.everDone()) {
       return;
     }
     if (Whisper.Import.isIncomplete()) {
@@ -2299,7 +2320,7 @@
     window.log.warn(
       'Client is no longer authorized; deleting local configuration'
     );
-    Whisper.Registration.remove();
+    window.Signal.Util.Registration.remove();
 
     const NUMBER_ID_KEY = 'number_id';
     const VERSION_KEY = 'version';
@@ -2317,7 +2338,7 @@
 
       // These two bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
-      Whisper.Registration.markEverDone();
+      window.Signal.Util.Registration.markEverDone();
       textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
 
       // These two are important to ensure we don't rip through every message

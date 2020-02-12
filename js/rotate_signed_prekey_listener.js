@@ -83,7 +83,7 @@
       }
 
       events.on('timetravel', () => {
-        if (Whisper.Registration.isDone()) {
+        if (window.Signal.Util.Registration.isDone()) {
           setTimeoutForNextRun();
         }
       });

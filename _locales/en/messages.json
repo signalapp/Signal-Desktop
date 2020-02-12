@@ -575,6 +575,10 @@
     "message": "Connecting",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
+  "connectingHangOn": {
+    "message": "Shouldn't be long...",
+    "description": "Subtext description for when the client is connecting to the server."
+  },
   "offline": {
     "message": "Offline",
     "description": "Displayed when the desktop client has no network connection."
@@ -582,15 +586,6 @@
   "checkNetworkConnection": {
     "message": "Check your network connection.",
     "description": "Obvious instructions for when a user's computer loses its network connection"
-  },
-  "attemptingReconnection": {
-    "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
-    "placeholders": {
-      "reconnect_duration_in_seconds": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
   },
   "submitDebugLog": {
     "message": "Debug log",
@@ -839,12 +834,28 @@
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "cannotUpdateDetail": {
-    "message": "Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.",
-    "description": "Shown if a general error happened while trying to install update package"
+    "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+    "description": "Shown if a general error happened while trying to install update package",
+    "placeholders": {
+      "url": {
+        "content": "$1",
+        "example": "https://signal.org/download"
+      }
+    }
   },
   "readOnlyVolume": {
-    "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-    "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+    "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+    "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+    "placeholders": {
+      "app": {
+        "content": "$1",
+        "example": "Signal.app"
+      },
+      "folder": {
+        "content": "$2",
+        "example": "/Applications"
+      }
+    }
   },
   "ok": {
     "message": "OK"

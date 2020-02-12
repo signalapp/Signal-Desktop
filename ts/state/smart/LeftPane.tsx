@@ -12,19 +12,34 @@ import {
   getShowArchived,
 } from '../selectors/conversations';
 
+import { SmartExpiredBuildDialog } from './ExpiredBuildDialog';
 import { SmartMainHeader } from './MainHeader';
 import { SmartMessageSearchResult } from './MessageSearchResult';
+import { SmartNetworkStatus } from './NetworkStatus';
+import { SmartUpdateDialog } from './UpdateDialog';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
 const FilteredSmartMainHeader = SmartMainHeader as any;
 const FilteredSmartMessageSearchResult = SmartMessageSearchResult as any;
+const FilteredSmartNetworkStatus = SmartNetworkStatus as any;
+const FilteredSmartUpdateDialog = SmartUpdateDialog as any;
+const FilteredSmartExpiredBuildDialog = SmartExpiredBuildDialog as any;
 
+function renderExpiredBuildDialog(): JSX.Element {
+  return <FilteredSmartExpiredBuildDialog />;
+}
 function renderMainHeader(): JSX.Element {
   return <FilteredSmartMainHeader />;
 }
 function renderMessageSearchResult(id: string): JSX.Element {
   return <FilteredSmartMessageSearchResult id={id} />;
+}
+function renderUpdateDialog(): JSX.Element {
+  return <FilteredSmartUpdateDialog />;
+}
+function renderNetworkStatus(): JSX.Element {
+  return <FilteredSmartNetworkStatus />;
 }
 
 const mapStateToProps = (state: StateType) => {
@@ -40,8 +55,11 @@ const mapStateToProps = (state: StateType) => {
     selectedConversationId,
     showArchived: getShowArchived(state),
     i18n: getIntl(state),
+    renderExpiredBuildDialog,
     renderMainHeader,
     renderMessageSearchResult,
+    renderNetworkStatus,
+    renderUpdateDialog,
   };
 };
 

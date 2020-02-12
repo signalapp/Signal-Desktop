@@ -4,12 +4,13 @@ import { AddressInfo } from 'net';
 import { dirname } from 'path';
 
 import { v4 as getGuid } from 'uuid';
-import { app, autoUpdater, BrowserWindow, dialog } from 'electron';
+import { app, autoUpdater, BrowserWindow, dialog, ipcMain } from 'electron';
 import { get as getFromConfig } from 'config';
 import { gt } from 'semver';
 import got from 'got';
 
 import {
+  ACK_RENDER_TIMEOUT,
   checkForUpdates,
   deleteTempDir,
   downloadUpdate,
@@ -21,6 +22,7 @@ import {
 } from './common';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
+import { Dialogs } from '../types/Dialogs';
 
 let isChecking = false;
 const SECOND = 1000;
@@ -96,12 +98,12 @@ async function checkDownloadAndInstall(
       const message: string = error.message || '';
       if (message.includes(readOnly)) {
         logger.info('checkDownloadAndInstall: showing read-only dialog...');
-        await showReadOnlyDialog(getMainWindow(), messages);
+        showReadOnlyDialog(getMainWindow(), messages);
       } else {
         logger.info(
           'checkDownloadAndInstall: showing general update failure dialog...'
         );
-        await showCannotUpdateDialog(getMainWindow(), messages);
+        showCannotUpdateDialog(getMainWindow(), messages);
       }
 
       throw error;
@@ -111,14 +113,12 @@ async function checkDownloadAndInstall(
     //   because Squirrel has cached the update file and will do the right thing.
 
     logger.info('checkDownloadAndInstall: showing update dialog...');
-    const shouldUpdate = await showUpdateDialog(getMainWindow(), messages);
-    if (!shouldUpdate) {
-      return;
-    }
 
-    logger.info('checkDownloadAndInstall: calling quitAndInstall...');
-    markShouldQuit();
-    autoUpdater.quitAndInstall();
+    showUpdateDialog(getMainWindow(), messages, () => {
+      logger.info('checkDownloadAndInstall: calling quitAndInstall...');
+      markShouldQuit();
+      autoUpdater.quitAndInstall();
+    });
   } catch (error) {
     logger.error('checkDownloadAndInstall: error', getPrintableError(error));
   } finally {
@@ -339,10 +339,29 @@ function shutdown(
   }
 }
 
-export async function showReadOnlyDialog(
+export function showReadOnlyDialog(
   mainWindow: BrowserWindow,
   messages: MessagesType
-): Promise<void> {
+): void {
+  let ack = false;
+
+  ipcMain.once('show-update-dialog-ack', () => {
+    ack = true;
+  });
+
+  mainWindow.webContents.send('show-update-dialog', Dialogs.MacOS_Read_Only);
+
+  setTimeout(async () => {
+    if (!ack) {
+      await showFallbackReadOnlyDialog(mainWindow, messages);
+    }
+  }, ACK_RENDER_TIMEOUT);
+}
+
+async function showFallbackReadOnlyDialog(
+  mainWindow: BrowserWindow,
+  messages: MessagesType
+) {
   const options = {
     type: 'warning',
     buttons: [messages.ok.message],

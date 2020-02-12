@@ -1,7 +1,5 @@
 /* global
   ConversationController,
-  extension,
-  getInboxCollection,
   i18n,
   Whisper,
   Signal
@@ -93,25 +91,6 @@
         this.startConnectionListener();
       } else {
         this.setupLeftPane();
-      }
-
-      const inboxCollection = getInboxCollection();
-
-      this.listenTo(inboxCollection, 'messageError', () => {
-        if (this.networkStatusView) {
-          this.networkStatusView.update();
-        }
-      });
-
-      this.networkStatusView = new Whisper.NetworkStatusView();
-      this.$el
-        .find('.network-status-container')
-        .append(this.networkStatusView.render().el);
-
-      if (extension.expired()) {
-        const banner = new Whisper.ExpiredAlertBanner().render();
-        banner.$el.prependTo(this.$el);
-        this.$el.addClass('expired');
       }
 
       Whisper.events.on('pack-install-failed', () => {
@@ -223,17 +202,6 @@
     },
     onClick(e) {
       this.closeRecording(e);
-    },
-  });
-
-  Whisper.ExpiredAlertBanner = Whisper.View.extend({
-    templateName: 'expired_alert',
-    className: 'expiredAlert clearfix',
-    render_attributes() {
-      return {
-        expiredWarning: i18n('expiredWarning'),
-        upgrade: i18n('upgrade'),
-      };
     },
   });
 })();

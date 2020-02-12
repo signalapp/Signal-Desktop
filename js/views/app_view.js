@@ -29,7 +29,6 @@
       });
     },
     events: {
-      'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
       openInbox: 'openInbox',
     },
     applyTheme() {

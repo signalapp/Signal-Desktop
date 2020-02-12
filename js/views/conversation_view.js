@@ -2642,7 +2642,7 @@
       this.model.clearTypingTimers();
 
       let ToastView;
-      if (extension.expired()) {
+      if (window.reduxStore.getState().expiration.hasExpired) {
         ToastView = Whisper.ExpiredToast;
       }
       if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {

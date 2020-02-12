@@ -8,10 +8,6 @@ describe('i18n', () => {
     it('returns message for given string', () => {
       assert.equal(i18n('reportIssue'), 'Report an issue');
     });
-    it('returns message with single substitution', () => {
-      const actual = i18n('attemptingReconnection', 5);
-      assert.equal(actual, 'Attempting reconnect in 5 seconds');
-    });
     it('returns message with multiple substitutions', () => {
       const actual = i18n('theyChangedTheTimer', ['Someone', '5 minutes']);
       assert.equal(

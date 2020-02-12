@@ -296,28 +296,6 @@ $loading-height: 16px;
   }
 }
 
-.expiredAlert {
-  background: $color-accent-yellow;
-  padding: 10px;
-
-  button {
-    float: right;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    line-height: 36px;
-    padding: 0 20px;
-    margin-left: 20px;
-
-    color: $color-white;
-    background: $color-signal-blue;
-  }
-
-  .message {
-    padding: 10px 0;
-  }
-}
-
 @keyframes loading {
   50% {
     transform: scale(1);

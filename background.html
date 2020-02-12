@@ -54,7 +54,6 @@
 
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
-      <div class='network-status-container' aria-live='assertive'></div>
       <div class='left-pane-placeholder'></div>
     </div>
     <div class='conversation-stack'>
@@ -70,13 +69,6 @@
       </div>
     </div>
     <div class='lightbox-container'></div>
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='expired_alert'>
-    <a target='_blank' href='https://signal.org/download/'>
-      <button class='upgrade'>{{ upgrade }}</button>
-    </a>
-    {{ expiredWarning }}
   </script>
 
   <script type='text/x-tmpl-mustache' id='banner'>
@@ -225,23 +217,6 @@
       </div>
     </div>
     {{/isStep2}}
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='networkStatus'>
-    <div class='network-status-message'>
-      <h3>{{ message }}</h3>
-      <span>{{ instructions }}</span>
-    </div>
-    {{ #reconnectDurationAsSeconds }}
-    <div class="network-status-message">
-      {{ attemptingReconnectionMessage }}
-    </div>
-    {{/reconnectDurationAsSeconds }}
-    {{ #action }}
-      <div class="action">
-        <button class='small blue {{ buttonClass }}'>{{ action }}</button>
-      </div>
-    {{/action }}
   </script>
 
   <script type='text/x-tmpl-mustache' id='import-flow-template'>
@@ -464,8 +439,6 @@
   <script type='text/javascript' src='js/expiring_tap_to_view_messages.js'></script>
 
   <script type='text/javascript' src='js/chromium.js'></script>
-  <script type='text/javascript' src='js/registration.js'></script>
-  <script type='text/javascript' src='js/expire.js'></script>
   <script type='text/javascript' src='js/conversation_controller.js'></script>
   <script type='text/javascript' src='js/message_controller.js'></script>
 
@@ -479,7 +452,6 @@
   <script type='text/javascript' src='js/views/recorder_view.js'></script>
   <script type='text/javascript' src='js/views/conversation_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
-  <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/install_view.js'></script>

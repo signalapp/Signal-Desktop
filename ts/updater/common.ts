@@ -18,9 +18,10 @@ import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
-import { app, BrowserWindow, dialog } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 
 import { getTempPath } from '../../app/attachments';
+import { Dialogs } from '../types/Dialogs';
 
 // @ts-ignore
 import * as packageJson from '../../package.json';
@@ -48,6 +49,8 @@ const writeFile = pify(writeFileCallback);
 const mkdirpPromise = pify(mkdirp);
 const rimrafPromise = pify(rimraf);
 const { platform } = process;
+
+export const ACK_RENDER_TIMEOUT = 10000;
 
 export async function checkForUpdates(
   logger: LoggerType
@@ -141,10 +144,10 @@ export async function downloadUpdate(
   }
 }
 
-export async function showUpdateDialog(
+async function showFallbackUpdateDialog(
   mainWindow: BrowserWindow,
   messages: MessagesType
-): Promise<boolean> {
+) {
   const RESTART_BUTTON = 0;
   const LATER_BUTTON = 1;
   const options = {
@@ -165,10 +168,32 @@ export async function showUpdateDialog(
   return response === RESTART_BUTTON;
 }
 
-export async function showCannotUpdateDialog(
+export function showUpdateDialog(
+  mainWindow: BrowserWindow,
+  messages: MessagesType,
+  performUpdateCallback: () => void
+): void {
+  let ack = false;
+
+  ipcMain.once('start-update', performUpdateCallback);
+
+  ipcMain.once('show-update-dialog-ack', () => {
+    ack = true;
+  });
+
+  mainWindow.webContents.send('show-update-dialog', Dialogs.Update);
+
+  setTimeout(async () => {
+    if (!ack) {
+      await showFallbackUpdateDialog(mainWindow, messages);
+    }
+  }, ACK_RENDER_TIMEOUT);
+}
+
+async function showFallbackCannotUpdateDialog(
   mainWindow: BrowserWindow,
   messages: MessagesType
-): Promise<any> {
+) {
   const options = {
     type: 'error',
     buttons: [messages.ok.message],
@@ -177,6 +202,25 @@ export async function showCannotUpdateDialog(
   };
 
   await dialog.showMessageBox(mainWindow, options);
+}
+
+export function showCannotUpdateDialog(
+  mainWindow: BrowserWindow,
+  messages: MessagesType
+): void {
+  let ack = false;
+
+  ipcMain.once('show-update-dialog-ack', () => {
+    ack = true;
+  });
+
+  mainWindow.webContents.send('show-update-dialog', Dialogs.Cannot_Update);
+
+  setTimeout(async () => {
+    if (!ack) {
+      await showFallbackCannotUpdateDialog(mainWindow, messages);
+    }
+  }, ACK_RENDER_TIMEOUT);
 }
 
 // Helper functions

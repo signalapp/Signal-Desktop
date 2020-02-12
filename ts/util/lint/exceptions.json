@@ -309,7 +309,7 @@
     "rule": "DOM-innerHTML",
     "path": "js/views/app_view.js",
     "line": "      this.el.innerHTML = '';",
-    "lineNumber": 55,
+    "lineNumber": 54,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-15T00:38:04.183Z",
     "reasonDetail": "Hard-coded string"
@@ -318,7 +318,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/app_view.js",
     "line": "      this.el.append(view.el);",
-    "lineNumber": 56,
+    "lineNumber": 55,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -327,7 +327,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/app_view.js",
     "line": "      this.debugLogView.$el.appendTo(this.el);",
-    "lineNumber": 62,
+    "lineNumber": 61,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -461,7 +461,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        view.$el.appendTo(this.el);",
-    "lineNumber": 35,
+    "lineNumber": 33,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -470,7 +470,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        this.$('.message').text(message);",
-    "lineNumber": 69,
+    "lineNumber": 67,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -479,7 +479,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "        el: this.$('.conversation-stack'),",
-    "lineNumber": 85,
+    "lineNumber": 83,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -488,25 +488,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 92,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
-    "reasonDetail": "Known DOM elements"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/inbox_view.js",
-    "line": "        .append(this.networkStatusView.render().el);",
-    "lineNumber": 109,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
-    "reasonDetail": "Known DOM elements"
-  },
-  {
-    "rule": "jQuery-prependTo(",
-    "path": "js/views/inbox_view.js",
-    "line": "        banner.$el.prependTo(this.$el);",
-    "lineNumber": 113,
+    "lineNumber": 90,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -515,7 +497,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 119,
+    "lineNumber": 98,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -524,7 +506,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 139,
+    "lineNumber": 118,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -533,7 +515,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 139,
+    "lineNumber": 118,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -542,7 +524,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 189,
+    "lineNumber": 168,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -551,7 +533,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 193,
+    "lineNumber": 172,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -560,7 +542,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 197,
+    "lineNumber": 176,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -569,7 +551,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 199,
+    "lineNumber": 178,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
@@ -578,7 +560,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 219,
+    "lineNumber": 198,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -587,7 +569,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 222,
+    "lineNumber": 201,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Hardcoded selector"
