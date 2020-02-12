@@ -27,6 +27,7 @@ const SUPPORTED_DOMAINS = [
   'm.youtube.com',
   'youtu.be',
   'reddit.com',
+  'old.reddit.com',
   'www.reddit.com',
   'm.reddit.com',
   'imgur.com',

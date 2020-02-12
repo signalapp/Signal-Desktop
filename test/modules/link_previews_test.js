@@ -24,6 +24,10 @@ describe('Link previews', () => {
         isLinkInWhitelist('https://www.reddit.com/blah'),
         true
       );
+      assert.strictEqual(
+        isLinkInWhitelist('https://old.reddit.com/blah'),
+        true
+      );
       assert.strictEqual(isLinkInWhitelist('https://m.reddit.com/blah'), true);
       assert.strictEqual(isLinkInWhitelist('https://imgur.com/blah'), true);
       assert.strictEqual(isLinkInWhitelist('https://www.imgur.com/blah'), true);
