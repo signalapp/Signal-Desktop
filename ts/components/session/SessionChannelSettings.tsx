@@ -50,15 +50,19 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   }
 
   public componentDidUpdate() {
-    this.getMediaGalleryProps()
-      .then(({ documents, media, onItemClick }) => {
-        this.setState({
-          documents,
-          media,
-          onItemClick,
-        });
-      })
-      .ignore();
+    const mediaScanInterval = 1000;
+
+    setTimeout(() => {
+      this.getMediaGalleryProps()
+        .then(({ documents, media, onItemClick }) => {
+          this.setState({
+            documents,
+            media,
+            onItemClick,
+          });
+        })
+        .ignore();
+    }, mediaScanInterval);
   }
 
   public async getMediaGalleryProps() {
@@ -244,6 +248,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
 
   private renderHeader() {
     const { id, onGoBack, onInviteFriends, avatarPath } = this.props;
+    const shouldShowInviteFriends = !this.props.isPublic;
 
     return (
       <div className="group-settings-header">
@@ -259,11 +264,16 @@ export class SessionChannelSettings extends React.Component<Props, any> {
           conversationType="group"
           size={80}
         />
-        <SessionIconButton
-          iconType={SessionIconType.AddUser}
-          iconSize={SessionIconSize.Medium}
-          onClick={onInviteFriends}
-        />
+
+        <div className="invite-friends-container">
+          {shouldShowInviteFriends && (
+            <SessionIconButton
+              iconType={SessionIconType.AddUser}
+              iconSize={SessionIconSize.Medium}
+              onClick={onInviteFriends}
+            />
+          )}
+        </div>
       </div>
     );
   }

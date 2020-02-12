@@ -28,12 +28,12 @@
       this.$('.session-confirm-wrapper').remove();
 
       this.confirmView = new Whisper.ReactWrapperView({
-        className: 'session-confirm-wrapper',
+        className: 'loki-dialog modal session-confirm-wrapper',
         Component: window.Signal.Components.SessionConfirm,
         props: this.props,
       });
 
-      this.$el.append(this.confirmView.el);
+      this.$el.prepend(this.confirmView.el);
     },
 
     ok() {

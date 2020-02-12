@@ -181,11 +181,11 @@
     },
     showEditProfileDialog(options) {
       const dialog = new Whisper.EditProfileDialogView(options);
-      this.el.append(dialog.el);
+      this.el.prepend(dialog.el);
     },
     showUserDetailsDialog(options) {
       const dialog = new Whisper.UserDetailsDialogView(options);
-      this.el.append(dialog.el);
+      this.el.prepend(dialog.el);
     },
     showNicknameDialog({ pubKey, title, message, nickname, onOk, onCancel }) {
       const _title = title || `Change nickname for ${pubKey}`;
@@ -196,16 +196,16 @@
         resolve: onOk,
         reject: onCancel,
       });
-      this.el.append(dialog.el);
+      this.el.prepend(dialog.el);
       dialog.focusInput();
     },
     showPasswordDialog(options) {
       const dialog = new Whisper.PasswordDialogView(options);
-      this.el.append(dialog.el);
+      this.el.prepend(dialog.el);
     },
     showSeedDialog() {
       const dialog = new Whisper.SeedDialogView();
-      this.el.append(dialog.el);
+      this.el.prepend(dialog.el);
     },
     showQRDialog(string) {
       const dialog = new Whisper.QRDialogView({
@@ -215,12 +215,11 @@
     },
     showDevicePairingDialog(options) {
       const dialog = new Whisper.DevicePairingDialogView(options);
-
-      this.el.append(dialog.el);
+      this.el.prepend(dialog.el);
     },
     showDevicePairingWordsDialog() {
       const dialog = new Whisper.DevicePairingWordsDialogView();
-      this.el.append(dialog.el);
+      this.el.prepend(dialog.el);
     },
     showCreateGroup() {
       // TODO: make it impossible to open 2 dialogs as once
@@ -231,7 +230,7 @@
     },
     showUpdateGroupDialog(groupConvo) {
       const dialog = new Whisper.UpdateGroupDialogView(groupConvo);
-      this.el.append(dialog.el);
+      this.el.prepend(dialog.el);
     },
     showSessionRestoreConfirmation(options) {
       const dialog = new Whisper.ConfirmSessionResetView(options);
