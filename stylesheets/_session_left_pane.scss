@@ -215,7 +215,7 @@ $session-compose-margin: 20px;
 
   &__list {
     height: -webkit-fill-available;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 
     &-popup {
       width: -webkit-fill-available;
@@ -242,6 +242,10 @@ $session-compose-margin: 20px;
     height: -webkit-fill-available;
     .session-icon .exit {
       padding: 13px;
+    }
+
+    h2 {
+      margin-top: 0px;
     }
 
     h3,
@@ -468,7 +472,7 @@ $session-compose-margin: 20px;
   justify-content: center;
   background: $session-color-danger;
   width: 22px;
-  height: 22px;  
+  height: 22px;
   font-size: $session-font-xs;
   margin-left: auto;
   text-align: center;
@@ -508,10 +512,10 @@ $session-compose-margin: 20px;
         .module-conversation__user__profile-name {
           font-size: 13px !important;
         }
-
       }
 
-      &__header__date, &__message {
+      &__header__date,
+      &__message {
         display: none;
       }
 
