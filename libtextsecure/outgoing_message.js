@@ -484,6 +484,7 @@ OutgoingMessage.prototype = {
           sourceDevice: 1,
           content,
           pubKey: devicePubKey,
+          isFriendRequest: enableFallBackEncryption,
         };
       })
     )
@@ -504,10 +505,7 @@ OutgoingMessage.prototype = {
               this.timestamp,
               outgoingObject.ttl
             );
-            if (
-              outgoingObject.type ===
-              textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
-            ) {
+            if (outgoingObject.isFriendRequest) {
               const conversation = ConversationController.get(destination);
               if (conversation) {
                 // Redundant for primary device but marks secondary devices as pending
