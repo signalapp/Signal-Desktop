@@ -721,6 +721,7 @@ async function showPermissionsPopupWindow() {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
+  console.log('see me in here');
   const userDataPath = await getRealPath(app.getPath('userData'));
   const installPath = await getRealPath(app.getAppPath());
 
