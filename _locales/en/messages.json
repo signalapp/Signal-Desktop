@@ -2626,6 +2626,9 @@
   "newSession": {
     "message": "New Session"
   },
+  "freindRequestsButton": {
+    "message": "Requests"
+  },
   "searchForAKeyPhrase": {
     "message": "Search for a key phrase or contact"
   },

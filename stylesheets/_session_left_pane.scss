@@ -178,6 +178,8 @@ $session-compose-margin: 20px;
   &__header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     padding: 15px 7px 14px 0px;
     height: 63px;
 
@@ -461,11 +463,13 @@ $session-compose-margin: 20px;
 }
 
 .contact-notification-count-bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: $session-color-danger;
-  line-height: 30px;
-  width: 30px;
-  height: 30px;
-  font-size: 14px;
+  width: 22px;
+  height: 22px;  
+  font-size: $session-font-xs;
   margin-left: auto;
   text-align: center;
   border-radius: 50%;
@@ -488,7 +492,11 @@ $session-compose-margin: 20px;
 
     .module-conversation-list-item {
       background-color: $session-shade-4;
-      
+
+      &--is-selected {
+        background-color: $session-shade-5;
+      }
+
       &--has-friend-request {
         &:first-child {
           border-top: none !important;
