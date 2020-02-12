@@ -115,6 +115,7 @@ $main-view-header-height: 85px;
 $session-left-pane-width: 300px;
 $session-left-pane-sections-container-width: 80px;
 
+
 div.spacer-sm {
   height: $session-margin-sm;
 }
@@ -132,6 +133,13 @@ div.spacer-lg {
 
 @mixin session-color-subtle($color) {
   color: rgba($color, 0.6);
+}
+
+
+// Blur for modals
+.loki-dialog ~ .index.inbox{
+  filter: blur(1px);
+  transition: filter 0.1s;
 }
 
 .text-subtle {
@@ -597,7 +605,7 @@ label {
   cursor: pointer;
 }
 
-#session-toast-container {
+.session-toast-wrapper {
   position: fixed;
   right: $session-margin-lg;
   bottom: $session-margin-lg;
@@ -1760,4 +1768,10 @@ input {
     margin-left: 5px;
     opacity: 0.8;
   }
+}
+
+
+.invite-friends-container {
+  height: $session-icon-size-lg;
+  width: $session-icon-size-lg;
 }

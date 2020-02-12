@@ -41,7 +41,6 @@
 
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div id='session-toast-container'></div>
-    <div id='session-confirm-container'></div>
     <div class='gutter'>
       <div class='network-status-container'></div>
       <div class='left-pane-placeholder'></div>
@@ -154,75 +153,6 @@
         <button class='cancel' tabindex='2'>{{ cancel }}</button>
         <button class='ok' tabindex='1'>{{ ok }}</button>
       </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='password-change-dialog'>
-    <div class="content">
-      {{ #title }}
-        <h4>{{ title }}</h4>
-      {{ /title }}
-      <input type='password' id='old-password' placeholder='Old password' autofocus>
-      <input type='password' id='new-password' placeholder='New password' autofocus>
-      <input type='password' id='new-password-confirmation' placeholder='Type in your new password again' autofocus>
-      <div class='error'></div>
-      <div class='buttons'>
-        <button class='cancel' tabindex='2'>{{ cancel }}</button>
-        <button class='ok' tabindex='1'>{{ ok }}</button>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='nickname-dialog'>
-    <div class="content">
-      {{ #title }}
-        <h4>{{ title }}</h4>
-      {{ /title }}
-      <input type='text' name='name' class='name' placeholder='Type a name' autofocus maxlength='25'>
-      {{ #message }}
-        <div class='message'>{{ message }}</div>
-      {{ /message }}
-      <div class='buttons'>
-        <button class='cancel' tabindex='2'>{{ cancel }}</button>
-        <button class='ok' tabindex='1'>{{ ok }}</button>
-      </div>
-    </div>
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='device-pairing-words-dialog'>
-    <div class="content">
-        <h4>{{ title }}</h4>
-        <p>{{ secretWords }}</p>
-        <button id='close'>{{ closeText }}</button>
-    </div>
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='connecting-to-server-template'>
-    <div class="content">
-      {{ #title }}
-        <h4>{{ title }}</h4>
-      {{ /title }}
-      <div class='buttons'>
-        <button class='cancel' tabindex='2'>{{ cancel }}</button>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='add-server-template'>
-    <div class="content">
-      {{ #title }}
-        <h4>{{ title }}</h4>
-      {{ /title }}
-      <input type='text' id='server-url' placeholder='Server Url' autofocus>
-      <div class='error'></div>
-      <div class='buttons'>
-        <button class='cancel' tabindex='2'>{{ cancel }}</button>
-        <button class='ok' tabindex='1'>{{ ok }}</button>
-      </div>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='qr-code-template'>
-    <div class="content">
-      <div id="qr">
-      </div>
-      <button class='ok' tabindex='1'>{{ ok }}</button>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='identicon-svg'>

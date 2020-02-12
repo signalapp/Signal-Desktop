@@ -1,8 +1,8 @@
 import React from 'react';
-import { Contact, MemberList } from './MemberList';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton } from '../session/SessionButton';
+import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 
 interface Props {
   friendList: Array<any>;
@@ -11,14 +11,8 @@ interface Props {
   onClose: any;
 }
 
-declare global {
-  interface Window {
-    i18n: any;
-  }
-}
-
 interface State {
-  friendList: Array<Contact>;
+  friendList: Array<ContactType>;
 }
 
 export class InviteFriendsDialog extends React.Component<Props, State> {
@@ -59,6 +53,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
   }
 
   public render() {
+
     const titleText = `${window.i18n('addingFriends')} ${this.props.chatName}`;
     const cancelText = window.i18n('cancel');
     const okText = window.i18n('ok');
@@ -74,12 +69,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
         <div className="spacer-lg" />
 
         <div className="friend-selection-list">
-          <MemberList
-            members={this.state.friendList}
-            selected={{}}
-            i18n={window.i18n}
-            onMemberClicked={this.onMemberClicked}
-          />
+          {this.renderMemberList()}
         </div>
         {hasFriends ? null : (
           <>
@@ -115,6 +105,23 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     this.closeDialog();
   }
 
+  private renderMemberList() {
+    const members = this.state.friendList;
+
+    return members.map((member: ContactType) => (
+      <SessionMemberListItem
+        member={member}
+        isSelected={false}
+        onSelect={(selectedMember: ContactType) => {
+          this.onMemberClicked(selectedMember);
+        }}
+        onUnselect={(selectedMember: ContactType) => {
+          this.onMemberClicked(selectedMember);
+        }}
+      />
+    ));
+  }
+
   private onKeyUp(event: any) {
     switch (event.key) {
       case 'Enter':
@@ -128,15 +135,9 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     }
   }
 
-  private closeDialog() {
-    window.removeEventListener('keyup', this.onKeyUp);
-
-    this.props.onClose();
-  }
-
-  private onMemberClicked(selected: any) {
+  private onMemberClicked(clickedMember: ContactType) {
     const updatedFriends = this.state.friendList.map(member => {
-      if (member.id === selected.id) {
+      if (member.id === clickedMember.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {
         return member;
@@ -150,4 +151,16 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
       };
     });
   }
+
+  private closeDialog() {
+    window.removeEventListener('keyup', this.onKeyUp);
+
+    console.log(this.props.onClose);
+    console.log(this.props.onClose);
+    console.log(this.props.onClose);
+    console.log(this.props.onClose);
+    
+    this.props.onClose();
+  }
+
 }

@@ -67,6 +67,8 @@ window.CONSTANTS = {
   MAX_GROUP_NAME_LENGTH: 64,
   DEFAULT_PUBLIC_CHAT_URL: appConfig.get('defaultPublicChatServer'),
   MAX_CONNECTION_DURATION: 5000,
+  // Limited due to the proof-of-work requirement
+  SMALL_GROUP_SIZE_LIMIT: 10,
 };
 
 window.versionInfo = {
@@ -492,8 +494,6 @@ window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 
-// Limited due to the proof-of-work requirement
-window.SMALL_GROUP_SIZE_LIMIT = 10;
 
 // TODO: activate SealedSender once it is ready on all platforms
 window.lokiFeatureFlags = {

@@ -4,13 +4,6 @@ import { Contact, MemberList } from './MemberList';
 
 import { SessionModal } from './../session/SessionModal';
 
-declare global {
-  interface Window {
-    SMALL_GROUP_SIZE_LIMIT: number;
-    Lodash: any;
-  }
-}
-
 interface Props {
   titleText: string;
   groupName: string;
@@ -229,9 +222,9 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
 
     const newMemberCount = this.getMemberCount(updatedFriends);
 
-    if (newMemberCount > window.SMALL_GROUP_SIZE_LIMIT) {
+    if (newMemberCount > window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT) {
       const msg = `${this.props.i18n('maxGroupMembersError')} ${
-        window.SMALL_GROUP_SIZE_LIMIT
+        window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
       }`;
       this.onShowError(msg);
 

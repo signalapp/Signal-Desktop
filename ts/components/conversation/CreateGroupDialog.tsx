@@ -197,10 +197,10 @@ export class CreateGroupDialog extends React.Component<Props, State> {
 
     if (
       updatedFriends.filter(d => d.checkmarked).length >
-      window.SMALL_GROUP_SIZE_LIMIT - 1
+      window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT - 1
     ) {
       const msg = `${this.props.i18n('maxGroupMembersError')} ${
-        window.SMALL_GROUP_SIZE_LIMIT
+        window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
       }`;
       this.onShowError(msg);
 
