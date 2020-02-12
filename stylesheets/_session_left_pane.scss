@@ -135,7 +135,7 @@ $session-compose-margin: 20px;
 }
 
 .module-left-pane {
-  border-right: none !important;
+  border-right: 1px solid rgba($session-color-white, 0.1) !important;
   width: $session-left-pane-width;
   position: relative;
   height: -webkit-fill-available;
@@ -213,6 +213,8 @@ $session-compose-margin: 20px;
 
   &__list {
     height: -webkit-fill-available;
+    border-top: 1px solid rgba(255,255,255,0.05);
+
     &-popup {
       width: -webkit-fill-available;
       height: -webkit-fill-available;
@@ -485,6 +487,8 @@ $session-compose-margin: 20px;
     flex-grow: 1;
 
     .module-conversation-list-item {
+      background-color: $session-shade-4;
+      
       &--has-friend-request {
         &:first-child {
           border-top: none !important;
@@ -496,6 +500,11 @@ $session-compose-margin: 20px;
         .module-conversation__user__profile-name {
           font-size: 13px !important;
         }
+
+      }
+
+      &__header__date, &__message {
+        display: none;
       }
 
       &__buttons {
@@ -550,11 +559,11 @@ $session-compose-margin: 20px;
     }
 
     &.active {
-      background-color: $session-shade-7;
+      background-color: $session-shade-5;
     }
 
     &:hover {
-      background-color: $session-shade-5;
+      background-color: $session-shade-6;
     }
 
     &__buttons {
