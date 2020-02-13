@@ -32,7 +32,6 @@ interface Props {
 
   phoneNumber: string;
   profileName?: string;
-  color: string;
   avatarPath?: string;
 
   isVerified: boolean;
@@ -88,7 +87,6 @@ interface Props {
 
   onCopyPublicKey: () => void;
 
-  onUpdateGroup: () => void;
   onLeaveGroup: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
@@ -206,7 +204,6 @@ export class ConversationHeader extends React.Component<Props> {
   public renderAvatar() {
     const {
       avatarPath,
-      color,
       i18n,
       isGroup,
       isMe,
@@ -223,7 +220,6 @@ export class ConversationHeader extends React.Component<Props> {
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
-          color={color}
           conversationType={conversationType}
           i18n={i18n}
           noteToSelf={isMe}
@@ -305,7 +301,6 @@ export class ConversationHeader extends React.Component<Props> {
       onDeleteMessages,
       onDeleteContact,
       onCopyPublicKey,
-      onUpdateGroup,
       onLeaveGroup,
       onAddModerators,
       onRemoveModerators,
@@ -323,9 +318,6 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {isPrivateGroup || amMod ? (
-          <MenuItem onClick={onUpdateGroup}>{i18n('updateGroup')}</MenuItem>
-        ) : null}
         {amMod ? (
           <MenuItem onClick={onAddModerators}>{i18n('addModerators')}</MenuItem>
         ) : null}

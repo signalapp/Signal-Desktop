@@ -2,7 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { Contact, MemberList } from './MemberList';
 
-import { SessionModal } from './../session/SessionModal';
+import { SessionModal } from '../session/SessionModal';
+import { SessionButton } from '../session/SessionButton';
 
 interface Props {
   titleText: string;
@@ -21,12 +22,11 @@ interface Props {
 
 interface State {
   friendList: Array<Contact>;
-  groupName: string;
   errorDisplayed: boolean;
   errorMessage: string;
 }
 
-export class UpdateGroupDialog extends React.Component<Props, State> {
+export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
@@ -57,7 +57,6 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
 
     this.state = {
       friendList: friends,
-      groupName: this.props.groupName,
       errorDisplayed: false,
       errorMessage: 'placeholder',
     };
@@ -70,13 +69,7 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
       d => d.id
     );
 
-    if (!this.state.groupName.trim()) {
-      this.onShowError(this.props.i18n('emptyGroupNameError'));
-
-      return;
-    }
-
-    this.props.onSubmit(this.state.groupName, members);
+    this.props.onSubmit(this.props.groupName, members);
 
     this.closeDialog();
   }
@@ -111,24 +104,15 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
     );
 
     return (
-      <SessionModal title={titleText} onClose={() => null} onOk={() => null}>
+      <SessionModal
+        title={titleText}
+        // tslint:disable-next-line: no-void-expression
+        onClose={() => this.closeDialog()}
+        onOk={() => null}
+      >
         <div className="spacer-md" />
         <p className={errorMessageClasses}>{errorMsg}</p>
         <div className="spacer-md" />
-
-        <input
-          type="text"
-          id="group-name"
-          className="group-name"
-          placeholder={this.props.i18n('groupNamePlaceholder')}
-          value={this.state.groupName}
-          disabled={!this.props.isAdmin}
-          onChange={this.onGroupNameChanged}
-          tabIndex={0}
-          required={true}
-          aria-required={true}
-          autoFocus={true}
-        />
 
         <div className="friend-selection-list">
           <MemberList
@@ -139,15 +123,13 @@ export class UpdateGroupDialog extends React.Component<Props, State> {
           />
         </div>
         <p className={noFriendsClasses}>{`(${this.props.i18n(
-          'noFriendsToAdd'
+          'noMembersInThisGroup'
         )})`}</p>
-        <div className="buttons">
-          <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
-            {cancelText}
-          </button>
-          <button className="ok" tabIndex={0} onClick={this.onClickOK}>
-            {okText}
-          </button>
+
+        <div className="session-modal__button-group">
+          <SessionButton text={okText} onClick={this.onClickOK} />
+
+          <SessionButton text={cancelText} onClick={this.closeDialog} />
         </div>
       </SessionModal>
     );

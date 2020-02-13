@@ -1135,9 +1135,14 @@
       }
     });
 
-    Whisper.events.on('updateGroup', async groupConvo => {
+    Whisper.events.on('updateGroupName', async groupConvo => {
       if (appView) {
-        appView.showUpdateGroupDialog(groupConvo);
+        appView.showUpdateGroupNameDialog(groupConvo);
+      }
+    });
+    Whisper.events.on('updateGroupMembers', async groupConvo => {
+      if (appView) {
+        appView.showUpdateGroupMembersDialog(groupConvo);
       }
     });
 

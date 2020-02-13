@@ -34,8 +34,8 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
-  SessionChannelSettings,
-} = require('../../ts/components/session/SessionChannelSettings');
+  SessionGroupSettings,
+} = require('../../ts/components/session/SessionGroupSettings');
 const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
@@ -93,8 +93,11 @@ const {
 } = require('../../ts/components/session/SessionRegistrationView');
 
 const {
-  UpdateGroupDialog,
-} = require('../../ts/components/conversation/UpdateGroupDialog');
+  UpdateGroupNameDialog,
+} = require('../../ts/components/conversation/UpdateGroupNameDialog');
+const {
+  UpdateGroupMembersDialog,
+} = require('../../ts/components/conversation/UpdateGroupMembersDialog');
 const {
   InviteFriendsDialog,
 } = require('../../ts/components/conversation/InviteFriendsDialog');
@@ -278,7 +281,7 @@ exports.setup = (options = {}) => {
     ContactListItem,
     ContactName,
     ConversationHeader,
-    SessionChannelSettings,
+    SessionGroupSettings,
     SettingsView,
     EmbeddedContact,
     Emojify,
@@ -293,7 +296,8 @@ exports.setup = (options = {}) => {
     DevicePairingDialog,
     SessionRegistrationView,
     ConfirmDialog,
-    UpdateGroupDialog,
+    UpdateGroupNameDialog,
+    UpdateGroupMembersDialog,
     InviteFriendsDialog,
     AddModeratorsDialog,
     RemoveModeratorsDialog,
