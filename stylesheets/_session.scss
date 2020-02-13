@@ -204,7 +204,7 @@ a,
 div,
 span,
 label {
-  user-select: none;
+  user-select: text;
 
   &::selection {
     background: $session-shade-17;
