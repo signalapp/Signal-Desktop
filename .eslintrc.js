@@ -63,7 +63,7 @@ module.exports = {
         // high value as a buffer to let Prettier control the line length:
         code: 999,
         // We still want to limit comments as before:
-        comments: 90,
+        comments: 150,
         ignoreUrls: true,
         ignoreRegExpLiterals: true,
       },
