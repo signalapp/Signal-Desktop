@@ -94,7 +94,7 @@
 
 .friend-selection-list {
   max-height: 240px;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin: 4px;
 
   .check-mark {
