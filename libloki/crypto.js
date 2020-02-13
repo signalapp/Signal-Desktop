@@ -359,7 +359,10 @@
         );
       }
 
-      const decryptFunction = type === this.TYPE.PREKEY ? this.sessionCipher.decryptPreKeyWhisperMessage : this.sessionCipher.decryptWhisperMessage;
+      const decryptFunction =
+        type === this.TYPE.PREKEY
+          ? this.sessionCipher.decryptPreKeyWhisperMessage
+          : this.sessionCipher.decryptWhisperMessage;
       const result = await decryptFunction(buffer, encoding);
 
       // Handle session reset
