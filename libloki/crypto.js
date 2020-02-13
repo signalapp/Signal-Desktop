@@ -333,31 +333,25 @@
       this.storage = storage;
       this.address = address;
       this.sessionCipher = new libsignal.SessionCipher(storage, address);
-    }
-
-    async decryptWhisperMessage(buffer, encoding) {
-      // Capture active session
-      const activeSessionBaseKey = await this._getCurrentSessionBaseKey();
-
-      const promise = this.sessionCipher.decryptWhisperMessage(
-        buffer,
-        encoding
-      );
-
-      // Handle session reset
-      // eslint-disable-next-line more/no-then
-      promise.then(() => {
-        this._handleSessionResetIfNeeded(activeSessionBaseKey);
+      this.TYPE = Object.freeze({
+        MESSAGE: 1,
+        PREKEY: 2,
       });
-
-      return promise;
     }
 
-    async decryptPreKeyWhisperMessage(buffer, encoding) {
+    decryptWhisperMessage(buffer, encoding) {
+      return this._decryptMessage(this.TYPE.MESSAGE, buffer, encoding);
+    }
+
+    decryptPreKeyWhisperMessage(buffer, encoding) {
+      return this._decryptMessage(this.TYPE.PREKEY, buffer, encoding);
+    }
+
+    async _decryptMessage(type, buffer, encoding) {
       // Capture active session
       const activeSessionBaseKey = await this._getCurrentSessionBaseKey();
 
-      if (!activeSessionBaseKey) {
+      if (type === this.TYPE.PREKEY && !activeSessionBaseKey) {
         const wrapped = dcodeIO.ByteBuffer.wrap(buffer);
         await window.libloki.storage.verifyFriendRequestAcceptPreKey(
           this.address.getName(),
@@ -365,18 +359,19 @@
         );
       }
 
-      const promise = this.sessionCipher.decryptPreKeyWhisperMessage(
-        buffer,
-        encoding
-      );
+      const decryptFunction = type === this.TYPE.PREKEY ? this.sessionCipher.decryptPreKeyWhisperMessage : this.sessionCipher.decryptWhisperMessage;
+      const result = await decryptFunction(buffer, encoding);
 
       // Handle session reset
-      // eslint-disable-next-line more/no-then
-      promise.then(() => {
-        this._handleSessionResetIfNeeded(activeSessionBaseKey);
-      });
+      // This needs to be done synchronously so that the next time we decrypt a message,
+      // we have the correct session
+      try {
+        await this._handleSessionResetIfNeeded(activeSessionBaseKey);
+      } catch (e) {
+        window.log.info('Failed to handle session reset: ', e);
+      }
 
-      return promise;
+      return result;
     }
 
     async _handleSessionResetIfNeeded(previousSessionBaseKey) {
