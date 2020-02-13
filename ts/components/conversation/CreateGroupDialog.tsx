@@ -123,7 +123,6 @@ export class CreateGroupDialog extends React.Component<Props, State> {
         <div className="spacer-lg" />
 
         <div className="buttons">
-          <h1 style={{color:'white'}}>What is going on here</h1>
           <button className="cancel" tabIndex={0} onClick={this.closeDialog}>
             {cancelText}
           </button>
