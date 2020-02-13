@@ -12,8 +12,8 @@ import {
   deleteTempDir,
   downloadUpdate,
   getPrintableError,
+  LocaleType,
   LoggerType,
-  MessagesType,
   showCannotUpdateDialog,
   showUpdateDialog,
 } from './common';
@@ -30,7 +30,7 @@ const INTERVAL = MINUTE * 30;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   logger: LoggerType
 ) {
   logger.info('windows/start: starting checks...');
@@ -40,14 +40,14 @@ export async function start(
 
   setInterval(async () => {
     try {
-      await checkDownloadAndInstall(getMainWindow, messages, logger);
+      await checkDownloadAndInstall(getMainWindow, locale, logger);
     } catch (error) {
       logger.error('windows/start: error:', getPrintableError(error));
     }
   }, INTERVAL);
 
   await deletePreviousInstallers(logger);
-  await checkDownloadAndInstall(getMainWindow, messages, logger);
+  await checkDownloadAndInstall(getMainWindow, locale, logger);
 }
 
 let fileName: string;
@@ -58,7 +58,7 @@ let loggerForQuitHandler: LoggerType;
 
 async function checkDownloadAndInstall(
   getMainWindow: () => BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   logger: LoggerType
 ) {
   if (isChecking) {
@@ -93,7 +93,7 @@ async function checkDownloadAndInstall(
     }
 
     logger.info('checkDownloadAndInstall: showing dialog...');
-    showUpdateDialog(getMainWindow(), messages, async () => {
+    showUpdateDialog(getMainWindow(), locale, async () => {
       try {
         await verifyAndInstall(updateFilePath, version, logger);
         installing = true;
@@ -101,7 +101,7 @@ async function checkDownloadAndInstall(
         logger.info(
           'checkDownloadAndInstall: showing general update failure dialog...'
         );
-        showCannotUpdateDialog(getMainWindow(), messages);
+        showCannotUpdateDialog(getMainWindow(), locale);
 
         throw error;
       }

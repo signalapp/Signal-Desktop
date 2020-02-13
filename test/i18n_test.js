@@ -8,6 +8,13 @@ describe('i18n', () => {
     it('returns message for given string', () => {
       assert.equal(i18n('reportIssue'), 'Report an issue');
     });
+    it('returns message with single substitution', () => {
+      const actual = i18n('cannotUpdateDetail', 'https://signal.org/download');
+      assert.equal(
+        actual,
+        'Signal Desktop failed to update, but there is a new version available. Please go to https://signal.org/download and install the new version manually, then either contact support or file a bug about this problem.'
+      );
+    });
     it('returns message with multiple substitutions', () => {
       const actual = i18n('theyChangedTheTimer', ['Someone', '5 minutes']);
       assert.equal(

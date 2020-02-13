@@ -15,8 +15,8 @@ import {
   deleteTempDir,
   downloadUpdate,
   getPrintableError,
+  LocaleType,
   LoggerType,
-  MessagesType,
   showCannotUpdateDialog,
   showUpdateDialog,
 } from './common';
@@ -31,7 +31,7 @@ const INTERVAL = MINUTE * 30;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   logger: LoggerType
 ) {
   logger.info('macos/start: starting checks...');
@@ -41,13 +41,13 @@ export async function start(
 
   setInterval(async () => {
     try {
-      await checkDownloadAndInstall(getMainWindow, messages, logger);
+      await checkDownloadAndInstall(getMainWindow, locale, logger);
     } catch (error) {
       logger.error('macos/start: error:', getPrintableError(error));
     }
   }, INTERVAL);
 
-  await checkDownloadAndInstall(getMainWindow, messages, logger);
+  await checkDownloadAndInstall(getMainWindow, locale, logger);
 }
 
 let fileName: string;
@@ -57,7 +57,7 @@ let loggerForQuitHandler: LoggerType;
 
 async function checkDownloadAndInstall(
   getMainWindow: () => BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   logger: LoggerType
 ) {
   if (isChecking) {
@@ -98,12 +98,12 @@ async function checkDownloadAndInstall(
       const message: string = error.message || '';
       if (message.includes(readOnly)) {
         logger.info('checkDownloadAndInstall: showing read-only dialog...');
-        showReadOnlyDialog(getMainWindow(), messages);
+        showReadOnlyDialog(getMainWindow(), locale);
       } else {
         logger.info(
           'checkDownloadAndInstall: showing general update failure dialog...'
         );
-        showCannotUpdateDialog(getMainWindow(), messages);
+        showCannotUpdateDialog(getMainWindow(), locale);
       }
 
       throw error;
@@ -114,7 +114,7 @@ async function checkDownloadAndInstall(
 
     logger.info('checkDownloadAndInstall: showing update dialog...');
 
-    showUpdateDialog(getMainWindow(), messages, () => {
+    showUpdateDialog(getMainWindow(), locale, () => {
       logger.info('checkDownloadAndInstall: calling quitAndInstall...');
       markShouldQuit();
       autoUpdater.quitAndInstall();
@@ -341,7 +341,7 @@ function shutdown(
 
 export function showReadOnlyDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType
+  locale: LocaleType
 ): void {
   let ack = false;
 
@@ -353,20 +353,20 @@ export function showReadOnlyDialog(
 
   setTimeout(async () => {
     if (!ack) {
-      await showFallbackReadOnlyDialog(mainWindow, messages);
+      await showFallbackReadOnlyDialog(mainWindow, locale);
     }
   }, ACK_RENDER_TIMEOUT);
 }
 
 async function showFallbackReadOnlyDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType
+  locale: LocaleType
 ) {
   const options = {
     type: 'warning',
-    buttons: [messages.ok.message],
-    title: messages.cannotUpdate.message,
-    message: messages.readOnlyVolume.message,
+    buttons: [locale.messages.ok.message],
+    title: locale.messages.cannotUpdate.message,
+    message: locale.i18n('readOnlyVolume', ['Signal.app', '/Applications']),
   };
 
   await dialog.showMessageBox(mainWindow, options);

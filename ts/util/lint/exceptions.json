@@ -3,7 +3,7 @@
     "rule": "jQuery-load(",
     "path": "app/locale.js",
     "line": "function load({ appLocale, logger } = {}) {",
-    "lineNumber": 27,
+    "lineNumber": 28,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-13T21:20:44.234Z"
   },

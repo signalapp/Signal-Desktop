@@ -421,7 +421,7 @@ async function readyForUpdates() {
 
   // Second, start checking for app updates
   try {
-    await updater.start(getMainWindow, locale.messages, logger);
+    await updater.start(getMainWindow, locale, logger);
   } catch (error) {
     logger.error(
       'Error starting update checks:',

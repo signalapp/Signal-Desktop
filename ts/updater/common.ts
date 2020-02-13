@@ -27,10 +27,13 @@ import { Dialogs } from '../types/Dialogs';
 import * as packageJson from '../../package.json';
 import { getSignatureFileName } from './signature';
 
-export type MessagesType = {
-  [key: string]: {
-    message: string;
-    description?: string;
+export type LocaleType = {
+  i18n: (key: string, placeholders: Array<string>) => string;
+  messages: {
+    [key: string]: {
+      message: string;
+      description?: string;
+    };
   };
 };
 
@@ -146,19 +149,19 @@ export async function downloadUpdate(
 
 async function showFallbackUpdateDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType
+  locale: LocaleType
 ) {
   const RESTART_BUTTON = 0;
   const LATER_BUTTON = 1;
   const options = {
     type: 'info',
     buttons: [
-      messages.autoUpdateRestartButtonLabel.message,
-      messages.autoUpdateLaterButtonLabel.message,
+      locale.messages.autoUpdateRestartButtonLabel.message,
+      locale.messages.autoUpdateLaterButtonLabel.message,
     ],
-    title: messages.autoUpdateNewVersionTitle.message,
-    message: messages.autoUpdateNewVersionMessage.message,
-    detail: messages.autoUpdateNewVersionInstructions.message,
+    title: locale.messages.autoUpdateNewVersionTitle.message,
+    message: locale.messages.autoUpdateNewVersionMessage.message,
+    detail: locale.messages.autoUpdateNewVersionInstructions.message,
     defaultId: LATER_BUTTON,
     cancelId: LATER_BUTTON,
   };
@@ -170,7 +173,7 @@ async function showFallbackUpdateDialog(
 
 export function showUpdateDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   performUpdateCallback: () => void
 ): void {
   let ack = false;
@@ -185,20 +188,20 @@ export function showUpdateDialog(
 
   setTimeout(async () => {
     if (!ack) {
-      await showFallbackUpdateDialog(mainWindow, messages);
+      await showFallbackUpdateDialog(mainWindow, locale);
     }
   }, ACK_RENDER_TIMEOUT);
 }
 
 async function showFallbackCannotUpdateDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType
+  locale: LocaleType
 ) {
   const options = {
     type: 'error',
-    buttons: [messages.ok.message],
-    title: messages.cannotUpdate.message,
-    message: messages.cannotUpdateDetail.message,
+    buttons: [locale.messages.ok.message],
+    title: locale.messages.cannotUpdate.message,
+    message: locale.i18n('cannotUpdateDetail', ['https://signal.org/download']),
   };
 
   await dialog.showMessageBox(mainWindow, options);
@@ -206,7 +209,7 @@ async function showFallbackCannotUpdateDialog(
 
 export function showCannotUpdateDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType
+  locale: LocaleType
 ): void {
   let ack = false;
 
@@ -218,7 +221,7 @@ export function showCannotUpdateDialog(
 
   setTimeout(async () => {
     if (!ack) {
-      await showFallbackCannotUpdateDialog(mainWindow, messages);
+      await showFallbackCannotUpdateDialog(mainWindow, locale);
     }
   }, ACK_RENDER_TIMEOUT);
 }
