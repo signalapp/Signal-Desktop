@@ -19,8 +19,6 @@
   window.Whisper = window.Whisper || {};
   const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
-  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
-
   Whisper.OriginalNotFoundToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('originalMessageNotFound') };
@@ -1885,7 +1883,7 @@
         toastOptions.title = i18n('youLeftTheGroup');
         toastOptions.id = 'youLeftTheGroup';
       }
-      if (message.length > MAX_MESSAGE_BODY_LENGTH) {
+      if (message.length > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
         toastOptions.title = i18n('messageBodyTooLong');
         toastOptions.id = 'messageBodyTooLong';
       }

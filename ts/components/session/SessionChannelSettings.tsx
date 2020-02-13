@@ -6,6 +6,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
+import { SessionDropdown } from './SessionDropdown';
 import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { TimerOption } from '../conversation/ConversationHeader';
@@ -200,12 +201,28 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   }
 
   public render() {
-    const { memberCount, name, onLeaveGroup, isPublic } = this.props;
+    const {
+      memberCount,
+      name,
+      timerOptions,
+      onLeaveGroup,
+      isPublic,
+    } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
+    const hasDisappearingMessages = !isPublic;
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
       : window.i18n('leaveClosedGroup');
+
+    const disappearingMessagesOptions = timerOptions.map(option => {
+      return {
+        content: option.name,
+        onClick: () => {
+          this.props.onSetDisappearingMessages(option.value);
+        },
+      };
+    });
 
     return (
       <div className="group-settings">
@@ -228,9 +245,14 @@ export class SessionChannelSettings extends React.Component<Props, any> {
         <div className="group-settings-item">
           {window.i18n('notifications')}
         </div>
-        <div className="group-settings-item">
-          {window.i18n('disappearingMessages')}
-        </div>
+
+        {hasDisappearingMessages && (
+          <SessionDropdown
+            label={window.i18n('disappearingMessages')}
+            options={disappearingMessagesOptions}
+          />
+        )}
+
         <MediaGallery
           documents={documents}
           media={media}

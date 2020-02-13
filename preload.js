@@ -67,6 +67,7 @@ window.CONSTANTS = {
   MAX_GROUP_NAME_LENGTH: 64,
   DEFAULT_PUBLIC_CHAT_URL: appConfig.get('defaultPublicChatServer'),
   MAX_CONNECTION_DURATION: 5000,
+  MAX_MESSAGE_BODY_LENGTH: 64 * 1024,
   // Limited due to the proof-of-work requirement
   SMALL_GROUP_SIZE_LIMIT: 10,
 };
