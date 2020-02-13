@@ -9,7 +9,6 @@ export enum SessionDropDownItemType {
 }
 
 interface Props {
-  id: string;
   content: string;
   type: SessionDropDownItemType;
   icon: SessionIconType | null;
@@ -32,12 +31,14 @@ export class SessionDropdownItem extends React.PureComponent<Props> {
 
   public render() {
     const { content, type, icon, active } = this.props;
-    const id = this.props.id || window.generateID();
 
     return (
-      <li
-        id={id}
-        className={classNames(active ? 'active' : '', type || '')}
+      <div
+        className={classNames(
+          'session-dropdown__item',
+          active ? 'active' : '',
+          type || ''
+        )}
         role="button"
         onClick={this.clickHandler}
       >
@@ -47,7 +48,7 @@ export class SessionDropdownItem extends React.PureComponent<Props> {
           ''
         )}
         <div className="item-content">{content}</div>
-      </li>
+      </div>
     );
   }
 

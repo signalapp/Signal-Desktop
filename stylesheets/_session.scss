@@ -878,48 +878,83 @@ label {
 }
 
 .session-dropdown {
-  position: absolute;
-  top: 50px;
-  left: 50px;
-  display: inline-block;
+  position: relative;
+  width: 100%;
 
-  ul {
+  &__label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0px $session-margin-md;
+    font-size: $session-font-sm;
+    color: $session-color-white;
+    background-color: $session-shade-1;
+
+    .session-icon {
+      opacity: 0.6;
+    }
+  }
+
+  &__list-container {
+    z-index: 200;
     display: block;
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    right: 0px;
     list-style: none;
     padding: 0px;
     margin: 0px;
+    max-height: 450px;
+    overflow-y: auto;
+  }
 
-    li {
-      cursor: pointer;
+  &__item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    padding: 0 $session-margin-md;
+    color: $session-color-white;
+    background-color: $session-shade-1;
+    font-size: 0.8rem;
+    width: -webkit-fill-available;
+    transition: $session-transition-duration;
 
-      height: 25px;
-      padding-right: 7px;
-      background-color: $session-shade-4;
+    &:first-child {
+      border-top: $session-separator-element-border;
+    }
+    &:last-child {
+      border-bottom: $session-separator-element-border;
+    }
 
-      color: $session-color-white;
-      font-family: 'Wasa';
-      font-size: $session-font-xs;
-      line-height: $session-icon-size-sm;
-      font-weight: 700;
+    &:hover {
+      @include session-dark-background-hover;
+    }
 
-      display: flex;
-      align-items: center;
+    .session-icon {
+      margin-left: 6px;
+    }
+    .item-content {
+      margin-left: 6px;
+    }
 
-      .session-icon {
-        margin-left: 6px;
-      }
-      .item-content {
-        margin-left: 6px;
-      }
+    &.active,
+    &:hover {
+      background-color: $session-shade-7;
+    }
 
-      &.active,
-      &:hover {
-        background-color: $session-shade-7;
-      }
+    &.danger {
+      color: $session-color-danger;
+    }
+  }
 
-      &.danger {
-        color: $session-color-danger;
-      }
+  &:hover {
+    .session-icon {
+      opacity: 1;
     }
   }
 }
@@ -1492,7 +1527,8 @@ input {
     width: 40px;
     border-radius: 50%;
     opacity: 1;
-    background-color: $session-shade-8;
+    background-color: $session-shade-2;
+    box-shadow: 0px 0px $session-font-sm 0px rgba($session-color-white, 0.1);
 
     svg path {
       transition: $session-transition-duration;

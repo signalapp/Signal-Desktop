@@ -1708,7 +1708,7 @@
     }
   },
   "timerOption_0_seconds": {
-    "message": "off",
+    "message": "Off",
     "description":
       "Label for option to turn off message expiration in the timer menu"
   },
