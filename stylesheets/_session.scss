@@ -587,10 +587,10 @@ label {
   position: absolute;
   left: 0px;
   right: 0px;
-  margin: 0px $session-margin-sm;
+  margin: 0px $session-margin-lg;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
+  height: $main-view-header-height;
 
   .close-button {
     float: left;

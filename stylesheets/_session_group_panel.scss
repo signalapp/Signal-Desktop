@@ -1,3 +1,9 @@
+.conversation-content-right {
+  transition: $session-transition-duration;
+  width: 22vw;
+  margin-right: -22vw;
+}
+
 .group-settings {
   display: flex;
   flex-direction: column;
