@@ -199,9 +199,11 @@ $session-conversation-header-height: 60px;
 * {
   user-select: none;
 
-  .text-selectable, input, textarea {
+  .text-selectable,
+  input,
+  textarea {
     user-select: text;
-  
+
     &::selection {
       background: rgba($session-color-green, 0.6);
     }

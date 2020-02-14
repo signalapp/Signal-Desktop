@@ -399,8 +399,14 @@ export class ConversationHeader extends React.Component<Props> {
             </div>
           </div>
           {this.renderExpirationLength()}
-          {this.renderSearch()}
-          {this.renderAvatar()}
+
+          {!this.props.isRss && (
+            <>
+              {this.renderSearch()}
+              {this.renderAvatar()}
+            </>
+          )}
+
           {this.renderMenu(triggerId)}
         </div>
       </>

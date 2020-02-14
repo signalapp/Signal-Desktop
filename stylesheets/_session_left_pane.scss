@@ -407,7 +407,6 @@ $session-compose-margin: 20px;
   position: absolute;
   bottom: 2px;
   width: 100%;
-  
 
   @at-root .light-theme #{&} {
     background-color: $session-color-white;
@@ -540,7 +539,7 @@ $session-compose-margin: 20px;
 
   &-bottom-buttons {
     @include bottom-buttons();
-    
+
     .session-button {
       height: 57px;
     }
