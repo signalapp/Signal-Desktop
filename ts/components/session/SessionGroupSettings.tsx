@@ -265,9 +265,10 @@ export class SessionGroupSettings extends React.Component<Props, any> {
             </div>
           </>
         )}
-        <div className="group-settings-item">
+        {/*<div className="group-settings-item">
           {window.i18n('notifications')}
         </div>
+        */}
 
         {hasDisappearingMessages && (
           <SessionDropdown
