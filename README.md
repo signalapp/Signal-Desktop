@@ -3,7 +3,7 @@
 ## Summary
 
 Session integrates directly with [Loki Service Nodes](https://lokidocs.com/ServiceNodes/SNOverview/), which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as servers which store messages offline, and a set of nodes which allow for onion routing functionality obfuscating users IP Addresses. For a full understanding of how Session works, read the [Session Whitepaper](https://getsession.org/whitepaper).
-<br/>
+<br/><br/>
 ![DesktopSession](https://i.imgur.com/ZnHvYjo.jpg)
 
 ## Want to Contribute? Found a Bug or Have a feature request?
