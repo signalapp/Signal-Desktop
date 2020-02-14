@@ -36,7 +36,6 @@
 }
 
 // Module: Message
-
 .module-message {
   position: relative;
   display: inline-flex;
@@ -1234,7 +1233,8 @@
   text-align: center;
 }
 
-.module-group-notification__change, .module-timer-notification__message {
+.module-group-notification__change,
+.module-timer-notification__message {
   background-color: #212121;
   width: 90%;
   max-width: 700px;
@@ -1444,7 +1444,6 @@
   flex-direction: row;
   align-items: center;
 
-  height: $header-height;
   color: $color-gray-90;
 
   background-color: $color-white;
@@ -1468,9 +1467,7 @@
   flex-shrink: 1;
   min-width: 0;
   display: block;
-
   text-align: center;
-  height: 48px;
 }
 
 .module-conversation-header__title-text {

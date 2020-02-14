@@ -180,8 +180,8 @@ $session-compose-margin: 20px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 7px 14px 0px;
-    height: 63px;
+    height: $main-view-header-height;
+    padding-right: 7px;
 
     @at-root .light-theme #{&} {
       background-color: $session-color-white;
@@ -405,7 +405,7 @@ $session-compose-margin: 20px;
   display: flex;
   flex-direction: row;
   position: absolute;
-  bottom: 0px;
+  bottom: 2px;
   width: 100%;
 
   @at-root .light-theme #{&} {
@@ -539,6 +539,10 @@ $session-compose-margin: 20px;
 
   &-bottom-buttons {
     @include bottom-buttons();
+
+    .session-button {
+      height: 57px;
+    }
   }
 }
 

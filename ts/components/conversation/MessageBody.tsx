@@ -88,7 +88,7 @@ export class MessageBody extends React.Component<Props> {
     const { i18n, textPending } = this.props;
 
     return (
-      <span>
+      <span className="text-selectable">
         {jsx}
         {textPending ? (
           <span className="module-message-body__highlight">

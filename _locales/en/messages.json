@@ -976,7 +976,7 @@
     "message": "You don't have any messages, yet."
   },
   "noMessagesSubtitle": {
-    "message": "Would you like to join Session's public chat?"
+    "message": "Would you like to join Session's open group?"
   },
   "pairNewDevice": {
     "message": "Pair New Device"
@@ -2131,7 +2131,7 @@
   },
   "banUser": {
     "message": "Ban User",
-    "description": "Ban user from public chat by public key."
+    "description": "Ban user from open group by public key."
   },
   "banUserConfirm": {
     "message": "Are you sure you want to ban user?",
@@ -2214,9 +2214,9 @@
       "Title for the dialog box used to update an existing private group"
   },
   "updatePublicGroupDialogTitle": {
-    "message": "Updating a Public Chat Channel",
+    "message": "Updating a open group Channel",
     "description":
-      "Title for the dialog box used to update an existing public chat channel"
+      "Title for the dialog box used to update an existing open group channel"
   },
   "showSeed": {
     "message": "Show Seed",
@@ -2407,7 +2407,7 @@
     "message": "Failed to connect to server. Check URL"
   },
   "connectToServerSuccess": {
-    "message": "Successfully connected to new public chat server"
+    "message": "Successfully connected to new open group server"
   },
   "setPasswordFail": {
     "message": "Failed to set password"
@@ -2609,13 +2609,10 @@
   },
   "ByUsingThisService...": {
     "message":
-      "By using this service, you agree to our <a href=\"https://getsession.org/privacy-policy/\">Terms and Conditions</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Statement</a>"
+      "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
   },
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToSession": {
-    "message": "Welcome to Session"
   },
   "welcomeToYourSession": {
     "message": "Welcome to your Session"
@@ -2773,7 +2770,7 @@
     "message": "Join Open Group"
   },
   "joinPublicChat": {
-    "message": "Join Public Chat"
+    "message": "Join open group"
   },
   "next": {
     "message": "Next"

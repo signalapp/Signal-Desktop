@@ -191,7 +191,7 @@
   }
 
   &-terms-conditions-agreement {
-    padding-top: 10px;
+    padding-top: $session-margin-md;
     color: $session-color-light-grey;
     text-align: center;
     font-size: 12px;
@@ -227,7 +227,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 94px;
     padding: 20px;
     border-radius: 8px;
     border: 2px solid #353535;
@@ -243,7 +242,7 @@
       line-height: 18px;
       text-align: center;
       overflow-wrap: break-word;
-      padding: 20px 5px 20px 5px;
+      padding: 0px 5px 20px 5px;
       display: inline-block;
       font-family: 'SpaceMono';
       user-select: all;

@@ -136,7 +136,7 @@ div.spacer-lg {
 
 // Blur for modals
 .loki-dialog ~ .index.inbox {
-  filter: blur(1px);
+  filter: blur(2px);
   transition: filter 0.1s;
 }
 
@@ -154,10 +154,6 @@ div.spacer-lg {
 
 .fullwidth {
   width: 100%;
-}
-
-::selection {
-  background: rgba($session-color-green, 0.6);
 }
 
 input,
@@ -200,14 +196,17 @@ $session-conversation-header-height: 60px;
   font-family: $session-font-family;
 }
 
-a,
-div,
-span,
-label {
-  user-select: text;
+* {
+  user-select: none;
 
-  &::selection {
-    background: $session-shade-17;
+  .text-selectable,
+  input,
+  textarea {
+    user-select: text;
+
+    &::selection {
+      background: rgba($session-color-green, 0.6);
+    }
   }
 }
 
@@ -495,6 +494,10 @@ $session-element-border-green: 4px solid $session-color-green;
   }
 }
 
+.module-conversation-header {
+  height: $main-view-header-height;
+}
+
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
   font-family: Wasa;
@@ -591,6 +594,11 @@ label {
 
   .close-button {
     float: left;
+  }
+
+  .session-button.default.danger {
+    display: flex;
+    width: 80px;
   }
 }
 .message-selection-overlay div[role='button'] {
@@ -1345,14 +1353,13 @@ label {
 
 .bottom-bar {
   .compose {
-    min-height: 60px;
     max-height: 200px;
   }
 
   .send-message-container {
     display: flex;
     flex-grow: 1;
-    min-height: 60px;
+    height: 48px;
     margin-bottom: -5px;
   }
 
