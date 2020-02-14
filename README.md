@@ -16,7 +16,7 @@ Build instructions can be found in [BUILDING.md](BUILDING.md).
 
 ## License
 
-Copyright 2011 Whisper Systems
-Copyright 2013-2017 Open Whisper Systems
-Copyright 2019-2020 The Loki Project
-Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
+Copyright 2011 Whisper Systems<br/>
+Copyright 2013-2017 Open Whisper Systems<br/>
+Copyright 2019-2020 The Loki Project<br/>
+Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html<br/>
