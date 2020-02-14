@@ -203,7 +203,9 @@ $session-conversation-header-height: 60px;
 .text-selectable {
   user-select: text;
 
-  ::selection {
+  &::selection {
+    border-radius: 3px;
+    padding: 3px;
     background: rgba($session-color-green, 0.6);
   }
 }
@@ -490,6 +492,10 @@ $session-element-border-green: 4px solid $session-color-green;
   &:hover {
     opacity: 1;
   }
+}
+
+.module-conversation-header {
+  height: $main-view-header-height;
 }
 
 .module-conversation-header__title-flex,
