@@ -391,6 +391,8 @@ OutgoingMessage.prototype = {
           : null;
         const isEndSession =
           flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
+        const isSessionRequest =
+          flags === textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
         const signalCipher = new libsignal.SessionCipher(
           textsecure.storage.protocol,
           address
@@ -485,6 +487,7 @@ OutgoingMessage.prototype = {
           content,
           pubKey: devicePubKey,
           isFriendRequest: enableFallBackEncryption,
+          isSessionRequest,
         };
       })
     )
@@ -494,7 +497,12 @@ OutgoingMessage.prototype = {
           if (!outgoingObject) {
             return;
           }
-          const destination = outgoingObject.pubKey;
+          const {
+            pubKey: destination,
+            ttl,
+            isFriendRequest,
+            isSessionRequest,
+          } = outgoingObject;
           try {
             const socketMessage = await this.wrapInWebsocketMessage(
               outgoingObject
@@ -503,9 +511,9 @@ OutgoingMessage.prototype = {
               destination,
               socketMessage,
               this.timestamp,
-              outgoingObject.ttl
+              ttl
             );
-            if (outgoingObject.isFriendRequest) {
+            if (!this.isGroup && isFriendRequest && !isSessionRequest) {
               const conversation = ConversationController.get(destination);
               if (conversation) {
                 // Redundant for primary device but marks secondary devices as pending
