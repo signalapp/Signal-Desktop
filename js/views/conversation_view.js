@@ -300,7 +300,7 @@
             this.setDisappearingMessages(seconds),
 
           onGoBack: () => {
-            this.$('.conversation-content-right').hide();
+            this.hideConversationRight();
           },
 
           onUpdateGroup: () => {
@@ -340,6 +340,17 @@
         onClicked: this.selectMember.bind(this),
       });
 
+      this.hideConversationRight = () => {
+        this.$('.conversation-content-right').css({
+          'margin-right': '-22vw',
+        });
+      };
+      this.showConversationRight = () => {
+        this.$('.conversation-content-right').css({
+          'margin-right': '0vw',
+        });
+      };
+
       this.showGroupSettings = () => {
         if (!this.groupSettings) {
           this.groupSettings = new Whisper.ReactWrapperView({
@@ -351,11 +362,12 @@
         } else {
           this.groupSettings.update(getGroupSettingsProp(this.model));
         }
-        this.$('.conversation-content-right').show();
+
+        this.showConversationRight();
       };
 
       this.hideGroupSettings = () => {
-        this.$('.conversation-content-right').hide();
+        this.showConversationRight();
       };
 
       this.memberView.render();
