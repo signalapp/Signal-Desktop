@@ -1361,6 +1361,7 @@ MessageReceiver.prototype.extend({
         content.preKeyBundleMessage
       );
     }
+
     if (content.lokiAddressMessage) {
       return this.handleLokiAddressMessage(
         envelope,
@@ -1724,7 +1725,7 @@ MessageReceiver.prototype.extend({
           textsecure.storage.protocol,
           address
         );
-        builder.processPreKey(device);
+        await builder.processPreKey(device);
       })
     );
     await conversation.onSessionResetReceived();
