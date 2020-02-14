@@ -2071,6 +2071,9 @@
     return confirm();
   }
 
+  // Note: We do very little in this function, since everything in handleDataMessage is
+  //   inside a conversation-specific queue(). Any code here might run before an earlier
+  //   message is processed in handleDataMessage().
   async function onMessageReceived(event) {
     const { data, confirm } = event;
 
@@ -2089,27 +2092,6 @@
     }
 
     const message = await initIncomingMessage(data);
-
-    const ourNumber = textsecure.storage.user.getNumber();
-    const isGroupUpdate =
-      data.message.group &&
-      data.message.group.type !== textsecure.protobuf.GroupContext.Type.DELIVER;
-    const conversation = ConversationController.get(messageDescriptor.id);
-
-    // We drop messages for groups we already know about, which we're not a part of,
-    //   except for group updates
-    if (
-      conversation &&
-      !conversation.isPrivate() &&
-      !conversation.hasMember(ourNumber) &&
-      !isGroupUpdate
-    ) {
-      window.log.warn(
-        `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
-      );
-      confirm();
-      return;
-    }
 
     await ConversationController.getOrCreateAndWait(
       messageDescriptor.id,
@@ -2134,12 +2116,9 @@
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    message.handleDataMessage(data.message, event.confirm, {
-      initialLoadComplete,
-    });
+    message.handleDataMessage(data.message, event.confirm);
   }
 
-  // Sent:
   async function handleMessageSentProfileUpdate({
     data,
     confirm,
@@ -2196,6 +2175,9 @@
     });
   }
 
+  // Note: We do very little in this function, since everything in handleDataMessage is
+  //   inside a conversation-specific queue(). Any code here might run before an earlier
+  //   message is processed in handleDataMessage().
   async function onSentMessage(event) {
     const { data, confirm } = event;
 
@@ -2214,44 +2196,8 @@
     }
 
     const message = await createSentMessage(data);
-    const existing = await getExistingMessage(message.attributes);
-    const isUpdate = Boolean(data.isRecipientUpdate);
 
-    if (isUpdate && existing) {
-      event.confirm();
-
-      let sentTo = [];
-      let unidentifiedDeliveries = [];
-      if (Array.isArray(data.unidentifiedStatus)) {
-        sentTo = data.unidentifiedStatus.map(item => item.destination);
-
-        const unidentified = _.filter(data.unidentifiedStatus, item =>
-          Boolean(item.unidentified)
-        );
-        unidentifiedDeliveries = unidentified.map(item => item.destination);
-      }
-
-      existing.set({
-        sent_to: _.union(existing.get('sent_to'), sentTo),
-        unidentifiedDeliveries: _.union(
-          existing.get('unidentifiedDeliveries'),
-          unidentifiedDeliveries
-        ),
-      });
-      await window.Signal.Data.saveMessage(existing.attributes, {
-        Message: Whisper.Message,
-      });
-    } else if (isUpdate) {
-      window.log.warn(
-        `onSentMessage: Received update transcript, but no existing entry for message ${message.idForLogging()}. Dropping.`
-      );
-      event.confirm();
-    } else if (existing) {
-      window.log.warn(
-        `onSentMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
-      );
-      event.confirm();
-    } else if (data.message.reaction) {
+    if (data.message.reaction) {
       const { reaction } = data.message;
       const ourNumber = textsecure.storage.user.getNumber();
       const reactionModel = Whisper.Reactions.add({
@@ -2266,35 +2212,20 @@
       });
       // Note: We do not wait for completion here
       Whisper.Reactions.onReaction(reactionModel);
+
       event.confirm();
-    } else {
-      await ConversationController.getOrCreateAndWait(
-        messageDescriptor.id,
-        messageDescriptor.type
-      );
-
-      // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-      message.handleDataMessage(data.message, event.confirm, {
-        initialLoadComplete,
-      });
+      return;
     }
-  }
 
-  async function getExistingMessage(data) {
-    try {
-      const result = await window.Signal.Data.getMessageBySender(data, {
-        Message: Whisper.Message,
-      });
+    await ConversationController.getOrCreateAndWait(
+      messageDescriptor.id,
+      messageDescriptor.type
+    );
 
-      if (result) {
-        return MessageController.register(result.id, result);
-      }
-
-      return null;
-    } catch (error) {
-      window.log.error('getExistingMessage error:', Errors.toLogFormat(error));
-      return false;
-    }
+    // Don't wait for handleDataMessage, as it has its own per-conversation queueing
+    message.handleDataMessage(data.message, event.confirm, {
+      data,
+    });
   }
 
   async function initIncomingMessage(data) {
@@ -2413,7 +2344,12 @@
 
       // This matches the queueing behavior used in Message.handleDataMessage
       conversation.queueJob(async () => {
-        const existingMessage = await getExistingMessage(message.attributes);
+        const existingMessage = await window.Signal.Data.getMessageBySender(
+          message.attributes,
+          {
+            Message: Whisper.Message,
+          }
+        );
         if (existingMessage) {
           ev.confirm();
           window.log.warn(

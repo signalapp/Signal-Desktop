@@ -11,11 +11,6 @@ const { remote } = electron;
 const { app } = remote;
 const { systemPreferences } = remote.require('electron');
 
-// Waiting for clients to implement changes on receive side
-window.TIMESTAMP_VALIDATION = false;
-window.PAD_ALL_ATTACHMENTS = false;
-window.SEND_RECIPIENT_UPDATES = false;
-
 window.PROTO_ROOT = 'protos';
 const config = require('url').parse(window.location.toString(), true).query;
 
