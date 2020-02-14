@@ -9,7 +9,7 @@
 %global __provides_exclude ^(lib.*\\.so.*)$
 
 Name:       Signal-Desktop
-Version:    1.30.1
+Version:    1.31.0
 Release:    1%{?dist}
 Summary:    Private messaging from your desktop
 License:    GPLv3
@@ -89,6 +89,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_libdir}/%{name}
 
 %changelog
+* Wed Feb 12 2020 Simone Caronni <negativo17@gmail.com> - 1.31.0-1
+- Update to 1.31.0.
+
 * Thu Feb 06 2020 Simone Caronni <negativo17@gmail.com> - 1.30.1-1
 - Update to 1.30.1.
 - Use a patched node-sqlcipher 4.x repository (Python, linked OpenSSL).
