@@ -136,7 +136,7 @@ div.spacer-lg {
 
 // Blur for modals
 .loki-dialog ~ .index.inbox {
-  filter: blur(1px);
+  filter: blur(2px);
   transition: filter 0.1s;
 }
 
@@ -154,10 +154,6 @@ div.spacer-lg {
 
 .fullwidth {
   width: 100%;
-}
-
-::selection {
-  background: rgba($session-color-green, 0.6);
 }
 
 input,
@@ -200,14 +196,15 @@ $session-conversation-header-height: 60px;
   font-family: $session-font-family;
 }
 
-a,
-div,
-span,
-label {
+* {
+  user-select: none;
+}
+
+.text-selectable {
   user-select: text;
 
-  &::selection {
-    background: $session-shade-17;
+  ::selection {
+    background: rgba($session-color-green, 0.6);
   }
 }
 
@@ -591,6 +588,11 @@ label {
 
   .close-button {
     float: left;
+  }
+
+  .session-button.default.danger {
+    display: flex;
+    width: 80px;
   }
 }
 .message-selection-overlay div[role='button'] {

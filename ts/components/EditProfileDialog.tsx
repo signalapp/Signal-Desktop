@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
 import { Avatar } from './Avatar';
@@ -109,7 +110,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
           <div className="panel-text-divider">
             <span>{window.i18n('yourSessionID')}</span>
           </div>
-          <p className="session-id-section-display">{sessionID}</p>
+          <p className={classNames('text-selectable', 'session-id-section-display')}>{sessionID}</p>
 
           <div className="spacer-lg" />
 
