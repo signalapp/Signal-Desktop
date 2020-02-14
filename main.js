@@ -188,8 +188,8 @@ function captureClicks(window) {
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 720;
-const MIN_WIDTH = 1125;
-const MIN_HEIGHT = 750;
+const MIN_WIDTH = 880;
+const MIN_HEIGHT = 600;
 const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {
