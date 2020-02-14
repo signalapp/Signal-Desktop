@@ -198,15 +198,13 @@ $session-conversation-header-height: 60px;
 
 * {
   user-select: none;
-}
 
-.text-selectable {
-  user-select: text;
-
-  &::selection {
-    border-radius: 3px;
-    padding: 3px;
-    background: rgba($session-color-green, 0.6);
+  .text-selectable, input, textarea {
+    user-select: text;
+  
+    &::selection {
+      background: rgba($session-color-green, 0.6);
+    }
   }
 }
 
@@ -1353,14 +1351,13 @@ label {
 
 .bottom-bar {
   .compose {
-    min-height: 60px;
     max-height: 200px;
   }
 
   .send-message-container {
     display: flex;
     flex-grow: 1;
-    min-height: 60px;
+    height: 48px;
     margin-bottom: -5px;
   }
 
