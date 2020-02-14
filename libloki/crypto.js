@@ -329,10 +329,13 @@
    * This handles specific session reset logic that we need.
    */
   class LokiSessionCipher {
-    constructor(storage, address) {
+    constructor(storage, protocolAddress) {
       this.storage = storage;
-      this.address = address;
-      this.sessionCipher = new libsignal.SessionCipher(storage, address);
+      this.protocolAddress = protocolAddress;
+      this.sessionCipher = new libsignal.SessionCipher(
+        storage,
+        protocolAddress
+      );
       this.TYPE = Object.freeze({
         MESSAGE: 1,
         PREKEY: 2,
@@ -354,7 +357,7 @@
       if (type === this.TYPE.PREKEY && !activeSessionBaseKey) {
         const wrapped = dcodeIO.ByteBuffer.wrap(buffer);
         await window.libloki.storage.verifyFriendRequestAcceptPreKey(
-          this.address.getName(),
+          this.protocolAddress.getName(),
           wrapped
         );
       }
@@ -385,11 +388,14 @@
       let conversation;
       try {
         conversation = await window.ConversationController.getOrCreateAndWait(
-          this.address.getName(),
+          this.protocolAddress.getName(),
           'private'
         );
       } catch (e) {
-        window.log.info('Error getting conversation: ', this.address.getName());
+        window.log.info(
+          'Error getting conversation: ',
+          this.protocolAddress.getName()
+        );
         return;
       }
 
@@ -414,7 +420,7 @@
 
     async _getCurrentSessionBaseKey() {
       const record = await this.sessionCipher.getRecord(
-        this.address.toString()
+        this.protocolAddress.toString()
       );
       if (!record) {
         return null;
@@ -429,7 +435,7 @@
 
     async _restoreSession(sessionBaseKey) {
       const record = await this.sessionCipher.getRecord(
-        this.address.toString()
+        this.protocolAddress.toString()
       );
       if (!record) {
         return;
@@ -437,17 +443,21 @@
       record.archiveCurrentState();
 
       const sessionToRestore = record.sessions[sessionBaseKey];
+      if (!sessionToRestore) {
+        throw new Error(`Cannot find session with base key ${sessionBaseKey}`);
+      }
+
       record.promoteState(sessionToRestore);
       record.updateSessionState(sessionToRestore);
       await this.storage.storeSession(
-        this.address.toString(),
+        this.protocolAddress.toString(),
         record.serialize()
       );
     }
 
     async _deleteAllSessionExcept(sessionBaseKey) {
       const record = await this.sessionCipher.getRecord(
-        this.address.toString()
+        this.protocolAddress.toString()
       );
       if (!record) {
         return;
@@ -456,7 +466,7 @@
       record.sessions = {};
       record.updateSessionState(sessionToKeep);
       await this.storage.storeSession(
-        this.address.toString(),
+        this.protocolAddress.toString(),
         record.serialize()
       );
     }
