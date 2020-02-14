@@ -244,11 +244,6 @@
           onMoveToInbox: () => {
             this.model.setArchived(false);
           },
-
-          onUpdateGroup: () => {
-            window.Whisper.events.trigger('updateGroup', this.model);
-          },
-
           onLeaveGroup: () => {
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
@@ -276,7 +271,8 @@
           },
         };
       };
-      const getGroupSettingsProp = () => {
+      const getGroupSettingsProps = () => {
+        const ourPK = window.textsecure.storage.user.getNumber();
         const members = this.model.get('members') || [];
 
         return {
@@ -288,6 +284,7 @@
           avatarPath: this.model.getAvatarPath(),
           isGroup: !this.model.isPrivate(),
           isPublic: this.model.isPublic(),
+          isAdmin: this.model.get('groupAdmins').includes(ourPK),
           isRss: this.model.isRss(),
           memberCount: members.length,
 
@@ -303,8 +300,11 @@
             this.$('.conversation-content-right').hide();
           },
 
-          onUpdateGroup: () => {
-            window.Whisper.events.trigger('updateGroup', this.model);
+          onUpdateGroupName: () => {
+            window.Whisper.events.trigger('updateGroupName', this.model);
+          },
+          onUpdateGroupMembers: () => {
+            window.Whisper.events.trigger('updateGroupMembers', this.model);
           },
 
           onLeaveGroup: () => {
@@ -344,12 +344,15 @@
         if (!this.groupSettings) {
           this.groupSettings = new Whisper.ReactWrapperView({
             className: 'group-settings',
-            Component: window.Signal.Components.SessionChannelSettings,
-            props: getGroupSettingsProp(this.model),
+            Component: window.Signal.Components.SessionGroupSettings,
+            props: getGroupSettingsProps(this.model),
           });
           this.$('.conversation-content-right').append(this.groupSettings.el);
+          this.updateGroupSettingsPanel = () =>
+            this.groupSettings.update(getGroupSettingsProps(this.model));
+          this.listenTo(this.model, 'change', this.updateGroupSettingsPanel);
         } else {
-          this.groupSettings.update(getGroupSettingsProp(this.model));
+          this.groupSettings.update(getGroupSettingsProps(this.model));
         }
         this.$('.conversation-content-right').show();
       };

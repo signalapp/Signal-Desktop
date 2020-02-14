@@ -802,6 +802,15 @@ label {
   }
 }
 
+.create-group-dialog .session-modal__body {
+  display: flex;
+  flex-direction: column;
+
+  .friend-selection-list {
+    width: unset;
+  }
+}
+
 .session-confirm {
   &-wrapper {
     .session-modal__body .session-modal__centered {
