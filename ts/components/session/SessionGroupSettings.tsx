@@ -19,15 +19,18 @@ interface Props {
   avatarPath: string;
   timerOptions: Array<TimerOption>;
   isPublic: boolean;
+  isAdmin: boolean;
 
   onGoBack: () => void;
   onInviteFriends: () => void;
   onLeaveGroup: () => void;
+  onUpdateGroupName: () => void;
+  onUpdateGroupMembers: () => void;
   onShowLightBox: (options: any) => void;
   onSetDisappearingMessages: (seconds: number) => void;
 }
 
-export class SessionChannelSettings extends React.Component<Props, any> {
+export class SessionGroupSettings extends React.Component<Props, any> {
   public constructor(props: Props) {
     super(props);
 
@@ -207,6 +210,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
       timerOptions,
       onLeaveGroup,
       isPublic,
+      isAdmin,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
@@ -231,7 +235,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
         {showMemberCount && (
           <>
             <div className="spacer-lg" />
-            <div className="text-subtle">
+            <div role="button" className="text-subtle">
               {window.i18n('members', memberCount)}
             </div>
             <div className="spacer-lg" />            
@@ -241,7 +245,26 @@ export class SessionChannelSettings extends React.Component<Props, any> {
           className="description"
           placeholder={window.i18n('description')}
         />
-
+        {!isPublic && (
+          <>
+            {isAdmin && (
+              <div
+                className="group-settings-item"
+                role="button"
+                onClick={this.props.onUpdateGroupName}
+              >
+                {window.i18n('editGroupName')}
+              </div>
+            )}
+            <div
+              className="group-settings-item"
+              role="button"
+              onClick={this.props.onUpdateGroupMembers}
+            >
+              {window.i18n('showMembers')}
+            </div>
+          </>
+        )}
         <div className="group-settings-item">
           {window.i18n('notifications')}
         </div>
@@ -269,8 +292,16 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   }
 
   private renderHeader() {
-    const { id, onGoBack, onInviteFriends, avatarPath } = this.props;
-    const shouldShowInviteFriends = !this.props.isPublic;
+    const {
+      id,
+      onGoBack,
+      onInviteFriends,
+      avatarPath,
+      isAdmin,
+      isPublic,
+    } = this.props;
+
+    const showInviteFriends = isPublic || isAdmin;
 
     return (
       <div className="group-settings-header">
@@ -286,9 +317,8 @@ export class SessionChannelSettings extends React.Component<Props, any> {
           conversationType="group"
           size={80}
         />
-
         <div className="invite-friends-container">
-          {shouldShowInviteFriends && (
+          {showInviteFriends && (
             <SessionIconButton
               iconType={SessionIconType.AddUser}
               iconSize={SessionIconSize.Medium}

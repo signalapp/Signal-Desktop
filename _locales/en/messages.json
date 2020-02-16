@@ -2204,12 +2204,16 @@
     "message": "Edit Profile",
     "description": "Button action that the user can click to edit their profile"
   },
+  "editGroupName": {
+    "message": "Edit group name",
+    "description": "Button action that the user can click to edit a group name"
+  },
   "createGroupDialogTitle": {
-    "message": "Creating a Private Group Chat",
+    "message": "Creating a Closed Group",
     "description": "Title for the dialog box used to create a new private group"
   },
   "updateGroupDialogTitle": {
-    "message": "Updating a Private Group Chat",
+    "message": "Updating a Closed Group",
     "description":
       "Title for the dialog box used to update an existing private group"
   },
@@ -2528,6 +2532,9 @@
   },
   "noFriendsToAdd": {
     "message": "No friends to add"
+  },
+  "noMembersInThisGroup": {
+    "message": "No other members in this group"
   },
   "noModeratorsToRemove": {
     "message": "no moderators to remove"

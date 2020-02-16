@@ -475,7 +475,6 @@ SecretSessionCipher.prototype = {
 
   // private byte[] decrypt(UnidentifiedSenderMessageContent message)
   _decryptWithUnidentifiedSenderMessage(message) {
-    const { SessionCipher } = this;
     const signalProtocolStore = this.storage;
 
     const sender = new libsignal.SignalProtocolAddress(
@@ -485,12 +484,12 @@ SecretSessionCipher.prototype = {
 
     switch (message.type) {
       case CiphertextMessage.WHISPER_TYPE:
-        return new SessionCipher(
+        return new libloki.crypto.LokiSessionCipher(
           signalProtocolStore,
           sender
         ).decryptWhisperMessage(message.content);
       case CiphertextMessage.PREKEY_TYPE:
-        return new SessionCipher(
+        return new libloki.crypto.LokiSessionCipher(
           signalProtocolStore,
           sender
         ).decryptPreKeyWhisperMessage(message.content);

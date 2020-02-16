@@ -228,10 +228,15 @@
       const dialog = new Whisper.CreateGroupDialogView();
       this.el.append(dialog.el);
     },
-    showUpdateGroupDialog(groupConvo) {
-      const dialog = new Whisper.UpdateGroupDialogView(groupConvo);
-      this.el.prepend(dialog.el);
+    showUpdateGroupNameDialog(groupConvo) {
+      const dialog = new Whisper.UpdateGroupNameDialogView(groupConvo);
+      this.el.append(dialog.el);
     },
+    showUpdateGroupMembersDialog(groupConvo) {
+      const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
+      this.el.append(dialog.el);
+    },
+
     showSessionRestoreConfirmation(options) {
       const dialog = new Whisper.ConfirmSessionResetView(options);
       this.el.append(dialog.el);

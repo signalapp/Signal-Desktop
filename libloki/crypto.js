@@ -324,6 +324,154 @@
     GRANT: 2,
   });
 
+  /**
+   * A wrapper around Signal's SessionCipher.
+   * This handles specific session reset logic that we need.
+   */
+  class LokiSessionCipher {
+    constructor(storage, protocolAddress) {
+      this.storage = storage;
+      this.protocolAddress = protocolAddress;
+      this.sessionCipher = new libsignal.SessionCipher(
+        storage,
+        protocolAddress
+      );
+      this.TYPE = Object.freeze({
+        MESSAGE: 1,
+        PREKEY: 2,
+      });
+    }
+
+    decryptWhisperMessage(buffer, encoding) {
+      return this._decryptMessage(this.TYPE.MESSAGE, buffer, encoding);
+    }
+
+    decryptPreKeyWhisperMessage(buffer, encoding) {
+      return this._decryptMessage(this.TYPE.PREKEY, buffer, encoding);
+    }
+
+    async _decryptMessage(type, buffer, encoding) {
+      // Capture active session
+      const activeSessionBaseKey = await this._getCurrentSessionBaseKey();
+
+      if (type === this.TYPE.PREKEY && !activeSessionBaseKey) {
+        const wrapped = dcodeIO.ByteBuffer.wrap(buffer);
+        await window.libloki.storage.verifyFriendRequestAcceptPreKey(
+          this.protocolAddress.getName(),
+          wrapped
+        );
+      }
+
+      const decryptFunction =
+        type === this.TYPE.PREKEY
+          ? this.sessionCipher.decryptPreKeyWhisperMessage
+          : this.sessionCipher.decryptWhisperMessage;
+      const result = await decryptFunction(buffer, encoding);
+
+      // Handle session reset
+      // This needs to be done synchronously so that the next time we decrypt a message,
+      // we have the correct session
+      try {
+        await this._handleSessionResetIfNeeded(activeSessionBaseKey);
+      } catch (e) {
+        window.log.info('Failed to handle session reset: ', e);
+      }
+
+      return result;
+    }
+
+    async _handleSessionResetIfNeeded(previousSessionBaseKey) {
+      if (!previousSessionBaseKey) {
+        return;
+      }
+
+      let conversation;
+      try {
+        conversation = await window.ConversationController.getOrCreateAndWait(
+          this.protocolAddress.getName(),
+          'private'
+        );
+      } catch (e) {
+        window.log.info(
+          'Error getting conversation: ',
+          this.protocolAddress.getName()
+        );
+        return;
+      }
+
+      if (conversation.isSessionResetOngoing()) {
+        const currentSessionBaseKey = await this._getCurrentSessionBaseKey();
+        if (currentSessionBaseKey !== previousSessionBaseKey) {
+          if (conversation.isSessionResetReceived()) {
+            // The other user used an old session to contact us; wait for them to switch to a new one.
+            await this._restoreSession(previousSessionBaseKey);
+          } else {
+            // Our session reset was successful; we initiated one and got a new session back from the other user.
+            await this._deleteAllSessionExcept(currentSessionBaseKey);
+            await conversation.onNewSessionAdopted();
+          }
+        } else if (conversation.isSessionResetReceived()) {
+          // Our session reset was successful; we received a message with the same session from the other user.
+          await this._deleteAllSessionExcept(previousSessionBaseKey);
+          await conversation.onNewSessionAdopted();
+        }
+      }
+    }
+
+    async _getCurrentSessionBaseKey() {
+      const record = await this.sessionCipher.getRecord(
+        this.protocolAddress.toString()
+      );
+      if (!record) {
+        return null;
+      }
+      const openSession = record.getOpenSession();
+      if (!openSession) {
+        return null;
+      }
+      const { baseKey } = openSession.indexInfo;
+      return baseKey;
+    }
+
+    async _restoreSession(sessionBaseKey) {
+      const record = await this.sessionCipher.getRecord(
+        this.protocolAddress.toString()
+      );
+      if (!record) {
+        return;
+      }
+      record.archiveCurrentState();
+
+      const sessionToRestore = record.sessions[sessionBaseKey];
+      if (!sessionToRestore) {
+        throw new Error(`Cannot find session with base key ${sessionBaseKey}`);
+      }
+
+      record.promoteState(sessionToRestore);
+      record.updateSessionState(sessionToRestore);
+      await this.storage.storeSession(
+        this.protocolAddress.toString(),
+        record.serialize()
+      );
+    }
+
+    async _deleteAllSessionExcept(sessionBaseKey) {
+      const record = await this.sessionCipher.getRecord(
+        this.protocolAddress.toString()
+      );
+      if (!record) {
+        return;
+      }
+      const sessionToKeep = record.sessions[sessionBaseKey];
+      record.sessions = {};
+      record.updateSessionState(sessionToKeep);
+      await this.storage.storeSession(
+        this.protocolAddress.toString(),
+        record.serialize()
+      );
+    }
+  }
+
   window.libloki.crypto = {
     DHEncrypt,
     DHDecrypt,
@@ -336,6 +484,7 @@
     verifyAuthorisation,
     validateAuthorisation,
     PairingType,
+    LokiSessionCipher,
     // for testing
     _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,
