@@ -2799,5 +2799,25 @@
   },
   "devicePairedSuccessfully": {
     "message": "Device linked successfully"
+  },
+  "invalidGroupName": {
+    "message": "Group Name length must be between 1 to $maxSize$",
+    "description": "Error message displayed on invalid group name",
+    "placeholders": {
+      "maxSize": {
+        "content": "$1",
+        "example": "125"
+      }
+    }
+  },
+  "invalidGroupSize": {
+    "message": "Closed Group size must be between 1 to $maxSize$",
+    "description": "Error message displayed on invalid closed group size",
+    "placeholders": {
+      "maxSize": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
   }
 }
