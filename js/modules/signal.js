@@ -18,6 +18,7 @@ const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
+const { SessionConversation } = require('../../ts/components/session/SessionConversation');
 const {
   ConversationLoadingScreen,
 } = require('../../ts/components/ConversationLoadingScreen');
@@ -274,6 +275,7 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
+    SessionConversation,
     ConversationLoadingScreen,
     AttachmentList,
     CaptionEditor,
