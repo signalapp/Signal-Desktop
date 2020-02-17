@@ -412,7 +412,7 @@ $session-compose-margin: 20px;
     background-color: $session-color-white;
   }
   @at-root .dark-theme #{&} {
-    background-color: $session-shade-2;
+    background-color: $session-background;
   }
 
   .session-button.square-outline.square.green,
