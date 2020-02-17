@@ -428,7 +428,7 @@ ipc.on('ready-for-updates', async () => {
 
 function openReleaseNotes() {
   shell.openExternal(
-    `https://github.com/loki-project/loki-messenger/releases/tag/${app.getVersion()}`
+    `https://github.com/loki-project/loki-messenger/releases/tag/v${app.getVersion()}`
   );
 }
 
