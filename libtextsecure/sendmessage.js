@@ -411,6 +411,19 @@ MessageSender.prototype = {
 
     const ourNumber = textsecure.storage.user.getNumber();
 
+    // Check wether we have the keys to start a session with the user
+    const hasKeys = async number => {
+      try {
+        const [preKey, signedPreKey] = await Promise.all([
+          textsecure.storage.protocol.loadContactPreKey(number),
+          textsecure.storage.protocol.loadContactSignedPreKey(number),
+        ]);
+        return preKey !== undefined && signedPreKey !== undefined;
+      } catch (e) {
+        return false;
+      }
+    };
+
     // Note: Since we're just doing independant tasks,
     // using `async` in the `forEach` loop should be fine.
     // If however we want to use the results from forEach then
@@ -428,7 +441,7 @@ MessageSender.prototype = {
       // If we don't have a session but we already have prekeys to
       // start communication then we should use them
       if (!haveSession && !options.isPublic) {
-        keysFound = await outgoing.getKeysForNumber(number, []);
+        keysFound = await hasKeys(number);
       }
 
       if (
