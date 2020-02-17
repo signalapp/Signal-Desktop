@@ -18,7 +18,6 @@ const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 
 // Components
-const { SessionConversation } = require('../../ts/components/session/SessionConversation');
 const {
   ConversationLoadingScreen,
 } = require('../../ts/components/ConversationLoadingScreen');
@@ -59,6 +58,7 @@ const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const {
   DevicePairingDialog,
 } = require('../../ts/components/DevicePairingDialog');
+const { SessionConversation } = require('../../ts/components/session/SessionConversation');
 const {
   SettingsView,
 } = require('../../ts/components/session/settings/SessionSettings');
@@ -275,7 +275,6 @@ exports.setup = (options = {}) => {
   });
 
   const Components = {
-    SessionConversation,
     ConversationLoadingScreen,
     AttachmentList,
     CaptionEditor,
@@ -305,6 +304,7 @@ exports.setup = (options = {}) => {
     RemoveModeratorsDialog,
     GroupInvitation,
     BulkEdit,
+    SessionConversation,
     SessionToast,
     SessionToggle,
     SessionConfirm,

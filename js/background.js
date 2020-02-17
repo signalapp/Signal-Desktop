@@ -985,8 +985,16 @@
         window.toasts.get(finalToastID).fadeToast();
       }
 
+      const sessionConversation = new Whisper.SessionConversationView({
+        el: $('body'),
+      });
+      sessionConversation.render();
+
+
       return toastID;
     };
+
+
 
     window.getFriendsFromContacts = contacts => {
       // To call from TypeScript, input / output are both
