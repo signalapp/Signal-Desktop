@@ -67,21 +67,32 @@ const sendToProxy = async (options = {}, targetNode) => {
   const response = await nodeFetch(url, firstHopOptions);
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
 
+  // detect SNode is not ready (not in swarm; not done syncing)
+  if (response.status === 503) {
+    const ciphertext = await response.text();
+    log.error(`lokiRpc sendToProxy snode ${randSnode.ip}:${randSnode.port} error`, ciphertext);
+    // mark as bad for this round (should give it some time and improve success rates)
+    lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+    // retry for a new working snode
+    return sendToProxy(options, targetNode);
+  }
+
   // FIXME: handle nodeFetch errors/exceptions...
+  if (response.status !== 200) {
+    // let us know we need to create handlers for new unhandled codes
+    log.warn('lokiRpc sendToProxy fetch non-200 statusCode', response.status);
+  }
 
   const ciphertext = await response.text();
-  let plaintext
+  if (!ciphertext) {
+    // avoid base64 decode failure
+    log.warn('Server did not return any data for', options);
+  }
+
+  let plaintext;
+  let ciphertextBuffer;
   try {
-    // removed the following part to match the check we have in loki_app_dot_net_api.js
-    // ; not done syncing;
-    if (ciphertext.match(/Service node is not ready: not in any swarm/)) {
-      log.error(`lokiRpc sendToProxy snode ${randSnode.ip}:${randSnode.port} error`, ciphertext);
-      // mark as bad
-      lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
-      // retry
-      return sendToProxy(options, targetNode);
-    }
-    const ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
+    ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
       ciphertext,
       'base64'
     ).toArrayBuffer();
@@ -101,6 +112,9 @@ const sendToProxy = async (options = {}, targetNode) => {
       `from ${randSnode.ip}:${randSnode.port} ciphertext:`,
       ciphertext
     );
+    if (ciphertextBuffer) {
+      log.error('ciphertextBuffer', ciphertextBuffer);
+    }
     return false;
   }
 
@@ -172,7 +186,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
   try {
     if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
       const result = await sendToProxy(fetchOptions, targetNode);
-      return result.json();
+      return result ? result.json() : false;
     }
 
     if (url.match(/https:\/\//)) {
