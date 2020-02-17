@@ -119,17 +119,16 @@ class LokiSnodeAPI {
   }
 
   async updateSwarmNodes(pubKey, newNodes) {
-    let filteredNodes = [];
     try {
-      filteredNodes = newNodes.filter(snode => snode.ip !== '0.0.0.0');
+      const filteredNodes = newNodes.filter(snode => snode.ip !== '0.0.0.0');
       const conversation = ConversationController.get(pubKey);
       await conversation.updateSwarmNodes(filteredNodes);
+      return filteredNodes;
     } catch (e) {
       throw new window.textsecure.ReplayableError({
         message: 'Could not get conversation',
       });
     }
-    return filteredNodes;
   }
 
   async refreshSwarmNodesForPubKey(pubKey) {
