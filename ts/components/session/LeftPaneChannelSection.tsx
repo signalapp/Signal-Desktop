@@ -399,11 +399,28 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     groupMembers: Array<ContactType>
   ) {
     // Validate groupName and groupMembers length
+    if (groupName.length === 0 ||
+      groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH) {
+        window.pushToast({
+          title: window.i18n('invalidGroupName', window.CONSTANTS.MAX_GROUP_NAME_LENGTH),
+          type: 'error',
+          id: 'invalidGroupName',
+        });
+
+      return;
+    }
+
+    // >= because we add ourself as a member after this. so a 10 group is already invalid as it will be 11 with ourself
     if (
       groupMembers.length === 0 ||
-      groupName.length === 0 ||
-      groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH
+      groupMembers.length >= window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
     ) {
+      window.pushToast({
+        title: window.i18n('invalidGroupSize', window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT),
+        type: 'error',
+        id: 'invalidGroupSize',
+      });
+
       return;
     }
 

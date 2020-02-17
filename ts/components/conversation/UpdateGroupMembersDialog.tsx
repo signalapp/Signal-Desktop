@@ -202,17 +202,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       }
     });
 
-    const newMemberCount = this.getMemberCount(updatedFriends);
-
-    if (newMemberCount > window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT) {
-      const msg = `${this.props.i18n('maxGroupMembersError')} ${
-        window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
-      }`;
-      this.onShowError(msg);
-
-      return;
-    }
-
     this.setState(state => {
       return {
         ...state,
