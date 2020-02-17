@@ -124,7 +124,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
         key={key}
         style={style}
         {...conversation}
-        onClick={openConversationInternal}
+        onClick={window.renderConversationView}
         i18n={window.i18n}
       />
     );

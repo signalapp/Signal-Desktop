@@ -1,4 +1,4 @@
-/* global Whisper $ */
+/* global Whisper */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -9,13 +9,12 @@
     Whisper.SessionConversationView = Whisper.View.extend({
       initialize(options) {
         this.props = {
-            el: $('body'),
             ...options,
         };
       },
   
       render() {
-        this.conversationView = new Whisper.SessionConversationView({
+        this.conversationView = new Whisper.ReactWrapperView({
           className: 'session-conversation-wrapper',
           Component: window.Signal.Components.SessionConversation,
           props: this.props,
@@ -25,4 +24,5 @@
       },
     });
   })();
+  
   

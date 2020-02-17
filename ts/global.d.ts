@@ -2,6 +2,11 @@ interface Window {
   CONSTANTS: any;
   versionInfo: any;
 
+
+  renderConversationView: any;
+
+
+
   Events: any;
   Lodash: any;
   deleteAllData: any;

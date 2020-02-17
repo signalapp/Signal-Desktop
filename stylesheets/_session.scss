@@ -241,6 +241,7 @@ $session_message-container-border-radius: 5px;
   height: 100vh;
   display: flex;
   flex-grow: 1;
+  position: relative;
 
   .conversation-stack {
     display: block;
@@ -1357,41 +1358,6 @@ label {
         margin: $session-margin-sm 0px;
       }
     }
-  }
-}
-
-.bottom-bar {
-  .compose {
-    max-height: 200px;
-  }
-
-  .send-message-container {
-    display: flex;
-    flex-grow: 1;
-    height: 48px;
-    margin-bottom: -5px;
-  }
-
-  textarea.send-message {
-    background-color: $session-shade-4;
-    border: none;
-    margin: 0px;
-    padding: 0px $session-margin-lg;
-    font-size: $session-font-md;
-    line-height: 1.3em;
-    align-self: center;
-
-    @include session-color-subtle($session-color-white);
-  }
-}
-
-.bottom-bar form {
-  &.send {
-    background-color: $session-shade-4;
-  }
-
-  &.active textarea {
-    border: none;
   }
 }
 

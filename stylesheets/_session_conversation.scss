@@ -1,0 +1,69 @@
+$composition-container-height: 60px;
+
+.conversation-item {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    height: 100%;
+}
+
+.session-conversation-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: $session-shade-2;
+}
+
+.messages-container{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.composition-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $session-shade-4;
+    padding: 0px $session-margin-md;
+    min-height: $composition-container-height;
+    
+    & > .session-icon-button {
+        margin-right: $session-margin-sm;
+    }
+    .session-icon-button {
+        opacity: 0.8;
+            
+        .send {
+            background-color: $session-shade-14;
+            padding: $session-margin-xs;
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+        }
+    }
+    
+    .send-message-input {
+      display: flex;
+      flex-grow: 1;
+      min-height: $composition-container-height
+        
+      textarea {
+        min-height: $composition-container-height / 3;
+        max-height: 3 * $composition-container-height;
+        margin-right: $session-margin-md;
+        color: $session-color-white;
+        resize: none;
+        display: flex;
+        flex-grow: 1;
+        background: transparent;
+        outline: none;
+        border: none;
+        font-size: $session-font-md;
+        line-height: $session-font-h2;
+        padding: $composition-container-height / 3 0px;
+        
+      }
+    }
+}
+
