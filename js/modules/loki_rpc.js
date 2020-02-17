@@ -29,10 +29,10 @@ const decryptResponse = async (response, address) => {
   return {};
 };
 
-// TODO: Don't allow arbitrary URLs, only snodes and loki servers
 const sendToProxy = async (options = {}, targetNode) => {
   const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
 
+  // Don't allow arbitrary URLs, only snodes and loki servers
   const url = `https://${randSnode.ip}:${randSnode.port}/proxy`;
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
@@ -67,20 +67,42 @@ const sendToProxy = async (options = {}, targetNode) => {
   const response = await nodeFetch(url, firstHopOptions);
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
 
+  // FIXME: handle nodeFetch errors/exceptions...
+
   const ciphertext = await response.text();
+  let plaintext
+  try {
+    // removed the following part to match the check we have in loki_app_dot_net_api.js
+    // ; not done syncing;
+    if (ciphertext.match(/Service node is not ready: not in any swarm/)) {
+      log.error(`lokiRpc sendToProxy snode ${randSnode.ip}:${randSnode.port} error`, ciphertext);
+      // mark as bad
+      lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+      // retry
+      return sendToProxy(options, targetNode);
+    }
+    const ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
+      ciphertext,
+      'base64'
+    ).toArrayBuffer();
 
-  const ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
-    ciphertext,
-    'base64'
-  ).toArrayBuffer();
+    const plaintextBuffer = await window.libloki.crypto.DHDecrypt(
+      symmetricKey,
+      ciphertextBuffer
+    );
 
-  const plaintextBuffer = await window.libloki.crypto.DHDecrypt(
-    symmetricKey,
-    ciphertextBuffer
-  );
-
-  const textDecoder = new TextDecoder();
-  const plaintext = textDecoder.decode(plaintextBuffer);
+    const textDecoder = new TextDecoder();
+    plaintext = textDecoder.decode(plaintextBuffer);
+  } catch(e) {
+    log.error(
+      'lokiRpc sendToProxy decode error',
+      e.code,
+      e.message,
+      `from ${randSnode.ip}:${randSnode.port} ciphertext:`,
+      ciphertext
+    );
+    return false;
+  }
 
   try {
     const jsonRes = JSON.parse(plaintext);
@@ -90,10 +112,10 @@ const sendToProxy = async (options = {}, targetNode) => {
         return JSON.parse(jsonRes.body);
       } catch (e) {
         log.error(
-          'lokiRpc sendToProxy error',
+          'lokiRpc sendToProxy parse error',
           e.code,
           e.message,
-          'json',
+          `from ${randSnode.ip}:${randSnode.port} json:`,
           jsonRes.body
         );
       }
@@ -102,10 +124,10 @@ const sendToProxy = async (options = {}, targetNode) => {
     return jsonRes;
   } catch (e) {
     log.error(
-      'lokiRpc sendToProxy error',
+      'lokiRpc sendToProxy parse error',
       e.code,
       e.message,
-      'json',
+      `from ${randSnode.ip}:${randSnode.port} json:`,
       plaintext
     );
   }
