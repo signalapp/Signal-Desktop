@@ -135,7 +135,7 @@ $session-compose-margin: 20px;
 }
 
 .module-left-pane {
-  border-right: none !important;
+  border-right: 1px solid rgba($session-color-white, 0.1) !important;
   width: $session-left-pane-width;
   position: relative;
   height: -webkit-fill-available;
@@ -178,8 +178,10 @@ $session-compose-margin: 20px;
   &__header {
     display: flex;
     flex-direction: row;
-    padding: 15px 7px 14px 0px;
-    height: 63px;
+    justify-content: space-between;
+    align-items: center;
+    height: $main-view-header-height;
+    padding-right: 7px;
 
     @at-root .light-theme #{&} {
       background-color: $session-color-white;
@@ -213,6 +215,8 @@ $session-compose-margin: 20px;
 
   &__list {
     height: -webkit-fill-available;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+
     &-popup {
       width: -webkit-fill-available;
       height: -webkit-fill-available;
@@ -238,6 +242,10 @@ $session-compose-margin: 20px;
     height: -webkit-fill-available;
     .session-icon .exit {
       padding: 13px;
+    }
+
+    h2 {
+      margin-top: 0px;
     }
 
     h3,
@@ -397,14 +405,14 @@ $session-compose-margin: 20px;
   display: flex;
   flex-direction: row;
   position: absolute;
-  bottom: 0px;
+  bottom: 2px;
   width: 100%;
 
   @at-root .light-theme #{&} {
     background-color: $session-color-white;
   }
   @at-root .dark-theme #{&} {
-    background-color: $session-shade-2;
+    background-color: $session-background;
   }
 
   .session-button.square-outline.square.green,
@@ -459,11 +467,13 @@ $session-compose-margin: 20px;
 }
 
 .contact-notification-count-bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: $session-color-danger;
-  line-height: 30px;
-  width: 30px;
-  height: 30px;
-  font-size: 14px;
+  width: 22px;
+  height: 22px;
+  font-size: $session-font-xs;
   margin-left: auto;
   text-align: center;
   border-radius: 50%;
@@ -485,6 +495,12 @@ $session-compose-margin: 20px;
     flex-grow: 1;
 
     .module-conversation-list-item {
+      background-color: $session-shade-4;
+
+      &--is-selected {
+        background-color: $session-shade-5;
+      }
+
       &--has-friend-request {
         &:first-child {
           border-top: none !important;
@@ -496,6 +512,11 @@ $session-compose-margin: 20px;
         .module-conversation__user__profile-name {
           font-size: 13px !important;
         }
+      }
+
+      &__header__date,
+      &__message {
+        display: none;
       }
 
       &__buttons {
@@ -518,6 +539,10 @@ $session-compose-margin: 20px;
 
   &-bottom-buttons {
     @include bottom-buttons();
+
+    .session-button {
+      height: 57px;
+    }
   }
 }
 
@@ -550,11 +575,11 @@ $session-compose-margin: 20px;
     }
 
     &.active {
-      background-color: $session-shade-9;
+      background-color: $session-shade-5;
     }
 
     &:hover {
-      background-color: $session-shade-7;
+      background-color: $session-shade-6;
     }
 
     &__buttons {

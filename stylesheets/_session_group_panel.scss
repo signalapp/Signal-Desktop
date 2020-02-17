@@ -1,3 +1,9 @@
+.conversation-content-right {
+  transition: $session-transition-duration;
+  width: 22vw;
+  margin-right: -22vw;
+}
+
 .group-settings {
   display: flex;
   flex-direction: column;
@@ -19,7 +25,8 @@
       margin: auto;
     }
 
-    .session-icon-button {
+    .session-icon-button,
+    .invite-friends-container {
       margin: 0 $session-margin-md;
     }
   }

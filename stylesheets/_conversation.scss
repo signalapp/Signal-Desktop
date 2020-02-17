@@ -431,8 +431,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-right: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    padding: 0px 15px;
 
     .send-message {
       flex-grow: 1;

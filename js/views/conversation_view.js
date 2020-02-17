@@ -19,8 +19,6 @@
   window.Whisper = window.Whisper || {};
   const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
 
-  const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
-
   Whisper.OriginalNotFoundToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('originalMessageNotFound') };
@@ -246,11 +244,6 @@
           onMoveToInbox: () => {
             this.model.setArchived(false);
           },
-
-          onUpdateGroup: () => {
-            window.Whisper.events.trigger('updateGroup', this.model);
-          },
-
           onLeaveGroup: () => {
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
@@ -278,7 +271,8 @@
           },
         };
       };
-      const getGroupSettingsProp = () => {
+      const getGroupSettingsProps = () => {
+        const ourPK = window.textsecure.storage.user.getNumber();
         const members = this.model.get('members') || [];
 
         return {
@@ -290,6 +284,7 @@
           avatarPath: this.model.getAvatarPath(),
           isGroup: !this.model.isPrivate(),
           isPublic: this.model.isPublic(),
+          isAdmin: this.model.get('groupAdmins').includes(ourPK),
           isRss: this.model.isRss(),
           memberCount: members.length,
 
@@ -302,11 +297,14 @@
             this.setDisappearingMessages(seconds),
 
           onGoBack: () => {
-            this.$('.conversation-content-right').hide();
+            this.hideConversationRight();
           },
 
-          onUpdateGroup: () => {
-            window.Whisper.events.trigger('updateGroup', this.model);
+          onUpdateGroupName: () => {
+            window.Whisper.events.trigger('updateGroupName', this.model);
+          },
+          onUpdateGroupMembers: () => {
+            window.Whisper.events.trigger('updateGroupMembers', this.model);
           },
 
           onLeaveGroup: () => {
@@ -342,22 +340,37 @@
         onClicked: this.selectMember.bind(this),
       });
 
+      this.hideConversationRight = () => {
+        this.$('.conversation-content-right').css({
+          'margin-right': '-22vw',
+        });
+      };
+      this.showConversationRight = () => {
+        this.$('.conversation-content-right').css({
+          'margin-right': '0vw',
+        });
+      };
+
       this.showGroupSettings = () => {
         if (!this.groupSettings) {
           this.groupSettings = new Whisper.ReactWrapperView({
             className: 'group-settings',
-            Component: window.Signal.Components.SessionChannelSettings,
-            props: getGroupSettingsProp(this.model),
+            Component: window.Signal.Components.SessionGroupSettings,
+            props: getGroupSettingsProps(this.model),
           });
           this.$('.conversation-content-right').append(this.groupSettings.el);
+          this.updateGroupSettingsPanel = () =>
+            this.groupSettings.update(getGroupSettingsProps(this.model));
+          this.listenTo(this.model, 'change', this.updateGroupSettingsPanel);
         } else {
-          this.groupSettings.update(getGroupSettingsProp(this.model));
+          this.groupSettings.update(getGroupSettingsProps(this.model));
         }
-        this.$('.conversation-content-right').show();
+
+        this.showConversationRight();
       };
 
       this.hideGroupSettings = () => {
-        this.$('.conversation-content-right').hide();
+        this.showConversationRight();
       };
 
       this.memberView.render();
@@ -1885,7 +1898,7 @@
         toastOptions.title = i18n('youLeftTheGroup');
         toastOptions.id = 'youLeftTheGroup';
       }
-      if (message.length > MAX_MESSAGE_BODY_LENGTH) {
+      if (message.length > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
         toastOptions.title = i18n('messageBodyTooLong');
         toastOptions.id = 'messageBodyTooLong';
       }

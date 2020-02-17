@@ -976,7 +976,7 @@
     "message": "You don't have any messages, yet."
   },
   "noMessagesSubtitle": {
-    "message": "Would you like to join Session's public chat?"
+    "message": "Would you like to join Session's open group?"
   },
   "pairNewDevice": {
     "message": "Pair New Device"
@@ -1010,6 +1010,9 @@
   },
   "showPairingWordsTitle": {
     "message": "Pairing Secret Words"
+  },
+  "secretPrompt": {
+    "message": "Here is your secret"
   },
   "confirmUnpairingTitle": {
     "message": "Please confirm you want to unpair the following device:"
@@ -1705,7 +1708,7 @@
     }
   },
   "timerOption_0_seconds": {
-    "message": "off",
+    "message": "Off",
     "description":
       "Label for option to turn off message expiration in the timer menu"
   },
@@ -2128,7 +2131,7 @@
   },
   "banUser": {
     "message": "Ban User",
-    "description": "Ban user from public chat by public key."
+    "description": "Ban user from open group by public key."
   },
   "banUserConfirm": {
     "message": "Are you sure you want to ban user?",
@@ -2201,19 +2204,23 @@
     "message": "Edit Profile",
     "description": "Button action that the user can click to edit their profile"
   },
+  "editGroupName": {
+    "message": "Edit group name",
+    "description": "Button action that the user can click to edit a group name"
+  },
   "createGroupDialogTitle": {
-    "message": "Creating a Private Group Chat",
+    "message": "Creating a Closed Group",
     "description": "Title for the dialog box used to create a new private group"
   },
   "updateGroupDialogTitle": {
-    "message": "Updating a Private Group Chat",
+    "message": "Updating a Closed Group",
     "description":
       "Title for the dialog box used to update an existing private group"
   },
   "updatePublicGroupDialogTitle": {
-    "message": "Updating a Public Chat Channel",
+    "message": "Updating a open group Channel",
     "description":
-      "Title for the dialog box used to update an existing public chat channel"
+      "Title for the dialog box used to update an existing open group channel"
   },
   "showSeed": {
     "message": "Show Seed",
@@ -2404,7 +2411,7 @@
     "message": "Failed to connect to server. Check URL"
   },
   "connectToServerSuccess": {
-    "message": "Successfully connected to new public chat server"
+    "message": "Successfully connected to new open group server"
   },
   "setPasswordFail": {
     "message": "Failed to set password"
@@ -2481,9 +2488,6 @@
     "message": "Profile name cannot be empty",
     "description": "Error message displayed on empty profile name"
   },
-  "maxGroupMembersError": {
-    "message": "Max number of members for small group chats is: "
-  },
   "nonAdminDeleteMember": {
     "message": "Only group admin can remove members!"
   },
@@ -2525,6 +2529,9 @@
   },
   "noFriendsToAdd": {
     "message": "No friends to add"
+  },
+  "noMembersInThisGroup": {
+    "message": "No other members in this group"
   },
   "noModeratorsToRemove": {
     "message": "no moderators to remove"
@@ -2606,13 +2613,10 @@
   },
   "ByUsingThisService...": {
     "message":
-      "By using this service, you agree to our <a href=\"https://getsession.org/privacy-policy/\">Terms and Conditions</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Statement</a>"
+      "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
   },
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
-  },
-  "welcomeToSession": {
-    "message": "Welcome to Session"
   },
   "welcomeToYourSession": {
     "message": "Welcome to your Session"
@@ -2625,6 +2629,9 @@
   },
   "newSession": {
     "message": "New Session"
+  },
+  "freindRequestsButton": {
+    "message": "Requests"
   },
   "searchForAKeyPhrase": {
     "message": "Search for a key phrase or contact"
@@ -2767,7 +2774,7 @@
     "message": "Join Open Group"
   },
   "joinPublicChat": {
-    "message": "Join Public Chat"
+    "message": "Join open group"
   },
   "next": {
     "message": "Next"
@@ -2789,5 +2796,34 @@
   },
   "devicePairedSuccessfully": {
     "message": "Device linked successfully"
+  },
+  "invalidGroupName": {
+    "message": "Group Name length must be between 1 to $maxSize$",
+    "description": "Error message displayed on invalid group name",
+    "placeholders": {
+      "maxSize": {
+        "content": "$1",
+        "example": "125"
+      }
+    }
+  },
+  "invalidGroupSize": {
+    "message": "Closed Group size must be between 1 to $maxSize$",
+    "description": "Error message displayed on invalid closed group size",
+    "placeholders": {
+      "maxSize": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
+  },
+  "maxGroupMembersError": {
+    "message": "Max number of members for small group chats is $maxSize$",
+    "placeholders": {
+      "maxSize": {
+        "content": "$1",
+        "example": "10"
+      }
+    }
   }
 }

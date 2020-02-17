@@ -411,6 +411,19 @@ MessageSender.prototype = {
 
     const ourNumber = textsecure.storage.user.getNumber();
 
+    // Check wether we have the keys to start a session with the user
+    const hasKeys = async number => {
+      try {
+        const [preKey, signedPreKey] = await Promise.all([
+          textsecure.storage.protocol.loadContactPreKey(number),
+          textsecure.storage.protocol.loadContactSignedPreKey(number),
+        ]);
+        return preKey !== undefined && signedPreKey !== undefined;
+      } catch (e) {
+        return false;
+      }
+    };
+
     // Note: Since we're just doing independant tasks,
     // using `async` in the `forEach` loop should be fine.
     // If however we want to use the results from forEach then
@@ -428,7 +441,7 @@ MessageSender.prototype = {
       // If we don't have a session but we already have prekeys to
       // start communication then we should use them
       if (!haveSession && !options.isPublic) {
-        keysFound = await outgoing.getKeysForNumber(number, []);
+        keysFound = await hasKeys(number);
       }
 
       if (
@@ -1041,64 +1054,6 @@ MessageSender.prototype = {
       silent,
       options
     ).catch(logError('resetSession/sendToContact error:'));
-    /*
-    const deleteAllSessions = targetNumber =>
-      textsecure.storage.protocol.getDeviceIds(targetNumber).then(deviceIds =>
-        Promise.all(
-          deviceIds.map(deviceId => {
-            const address = new libsignal.SignalProtocolAddress(
-              targetNumber,
-              deviceId
-            );
-            window.log.info('deleting sessions for', address.toString());
-            const sessionCipher = new libsignal.SessionCipher(
-              textsecure.storage.protocol,
-              address
-            );
-            return sessionCipher.deleteAllSessionsForDevice();
-          })
-        )
-      );
-
-    const sendToContactPromise = deleteAllSessions(number)
-      .catch(logError('resetSession/deleteAllSessions1 error:'))
-      .then(() => {
-        window.log.info(
-          'finished closing local sessions, now sending to contact'
-        );
-        return this.sendIndividualProto(
-          number,
-          proto,
-          timestamp,
-          silent,
-          options
-        ).catch(logError('resetSession/sendToContact error:'));
-      })
-      .then(() =>
-        deleteAllSessions(number).catch(
-          logError('resetSession/deleteAllSessions2 error:')
-        )
-      );
-
-    const myNumber = textsecure.storage.user.getNumber();
-    // We already sent the reset session to our other devices in the code above!
-    if (number === myNumber) {
-      return sendToContactPromise;
-    }
-
-    const buffer = proto.toArrayBuffer();
-    const sendSyncPromise = this.sendSyncMessage(
-      buffer,
-      timestamp,
-      number,
-      null,
-      [],
-      [],
-      options
-    ).catch(logError('resetSession/sendSync error:'));
-
-    return Promise.all([sendToContact, sendSyncPromise]);
-    */
   },
 
   async sendMessageToGroup(

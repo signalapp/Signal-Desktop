@@ -1,81 +1,95 @@
 import React from 'react';
-import classNames from 'classnames';
 
-import { SessionIconType } from './icon/';
+import { SessionIcon, SessionIconSize, SessionIconType } from './icon/';
 import {
   SessionDropdownItem,
   SessionDropDownItemType,
 } from './SessionDropdownItem';
 
-// THIS IS A FUTURE-PROOFING ELEMENT TO REPLACE ELECTRON CONTEXTMENUS IN PRELOAD.JS
+// THIS IS DROPDOWN ACCORDIAN STYLE OPTIONS SELECTOR ELEMENT, NOT A CONTEXTMENU
 
 interface State {
-  x: number;
-  y: number;
-  isVisible: boolean;
+  expanded: boolean;
 }
 
 interface Props {
-  id?: string;
+  label: string;
   onClick?: any;
-  relativeTo: string | Array<number>;
-  items: Array<{
+  expanded?: boolean;
+  options: Array<{
     content: string;
     id?: string;
     icon?: SessionIconType | null;
     type?: SessionDropDownItemType;
     active?: boolean;
     onClick?: any;
-    display?: boolean;
   }>;
 }
 
 export class SessionDropdown extends React.Component<Props, State> {
+  public static defaultProps = {
+    expanded: false,
+  };
+
   constructor(props: any) {
     super(props);
 
     this.state = {
-      x: 0,
-      y: 0,
-      isVisible: false,
+      expanded: !!this.props.expanded,
     };
-  }
 
-  public show() {
-    this.setState({
-      isVisible: true,
-    });
-  }
-
-  public hide() {
-    this.setState({
-      isVisible: false,
-    });
+    this.toggleDropdown = this.toggleDropdown.bind(this);
   }
 
   public render() {
-    const { items } = this.props;
-    const { isVisible } = this.state;
+    const { label, options } = this.props;
+    const { expanded } = this.state;
+    const chevronOrientation = expanded ? 180 : 0;
 
     return (
-      <div className={classNames('session-dropdown')}>
-        <ul>
-          {isVisible
-            ? items.map((item: any) => {
-                return item.display ? (
-                  <SessionDropdownItem
-                    id={item.id}
-                    content={item.content}
-                    icon={item.icon}
-                    type={item.type}
-                    active={item.active}
-                    onClick={item.onClick}
-                  />
-                ) : null;
-              })
-            : null}
-        </ul>
+      <div className="session-dropdown">
+        <div
+          className="session-dropdown__label"
+          onClick={this.toggleDropdown}
+          role="button"
+        >
+          {label}
+          <SessionIcon
+            iconType={SessionIconType.Chevron}
+            iconSize={SessionIconSize.Small}
+            iconRotation={chevronOrientation}
+          />
+        </div>
+
+        {expanded && (
+          <div className="session-dropdown__list-container">
+            {options.map((item: any) => {
+              return (
+                <SessionDropdownItem
+                  key={item.content}
+                  content={item.content}
+                  icon={item.icon}
+                  type={item.type}
+                  active={item.active}
+                  onClick={() => {
+                    this.handleItemClick(item.onClick);
+                  }}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     );
+  }
+
+  public toggleDropdown() {
+    this.setState({
+      expanded: !this.state.expanded,
+    });
+  }
+
+  public handleItemClick(itemOnClickFn: any) {
+    this.setState({ expanded: false }, itemOnClickFn());
   }
 }

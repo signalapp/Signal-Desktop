@@ -25,7 +25,7 @@
         props: this.props,
       });
 
-      this.$el.append(this.toastView.el);
+      this.$el.prepend(this.toastView.el);
     },
 
     update(options) {

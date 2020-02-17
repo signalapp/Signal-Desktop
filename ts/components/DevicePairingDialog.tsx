@@ -117,12 +117,13 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           <div className="text-subtle">{secretWords}</div>
           <div className="session-modal__button-group">
             <SessionButton
-              text={window.i18n('skip')}
+              text={window.i18n('cancel')}
               onClick={this.skipDevice}
             />
             <SessionButton
               text={window.i18n('allowPairing')}
               onClick={this.allowDevice}
+              buttonColor={SessionButtonColor.Green}
             />
           </div>
         </div>
@@ -158,14 +159,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
                 text={window.i18n('cancel')}
                 onClick={this.closeDialog}
               />
-            ) : (
-              <div className="session-modal__button-group">
-                <SessionButton
-                  text={window.i18n('filterReceivedRequests')}
-                  onClick={this.stopReceivingRequests}
-                />
-              </div>
-            )}
+            ) : null}
           </div>
         </div>
       </SessionModal>
@@ -270,6 +264,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
     });
     if (!this.state.currentPubKey) {
       this.nextPubKey();
+      this.stopReceivingRequests();
     }
   }
 
@@ -307,14 +302,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       this.state.currentPubKey
     );
 
-    const hasNext = this.state.pubKeyRequests.length > 0;
-    this.nextPubKey();
-    if (!hasNext) {
-      this.startReceivingRequests();
-    }
-    this.setState({
-      currentView: hasNext ? 'filterRequestView' : 'qrcodeView',
-    });
+    this.closeDialog();
   }
 
   private nextPubKey() {

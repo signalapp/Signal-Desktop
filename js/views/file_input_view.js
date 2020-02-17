@@ -204,10 +204,10 @@
       });
     },
 
-    showFileSizeError() {
+    showFileSizeError(limit, units) {
       window.pushToast({
         title: i18n('fileSizeWarning'),
-        description: `Max size: ${this.model.limit} ${this.model.units}`,
+        description: `Max size: ${limit} ${units}`,
         type: 'error',
         id: 'fileSizeWarning',
       });
@@ -339,7 +339,7 @@
           contentType,
           file,
         });
-        let limitKb = 1000000;
+        let limitKb = 10000;
         const blobType =
           file.type === 'image/gif' ? 'gif' : contentType.split('/')[0];
 
@@ -348,19 +348,19 @@
             limitKb = 6000;
             break;
           case 'gif':
-            limitKb = 25000;
+            limitKb = 10000;
             break;
           case 'audio':
-            limitKb = 100000;
+            limitKb = 10000;
             break;
           case 'video':
-            limitKb = 100000;
+            limitKb = 10000;
             break;
           default:
-            limitKb = 100000;
+            limitKb = 10000;
             break;
         }
-        if ((blob.size / 1024).toFixed(4) >= limitKb) {
+        if ((blob.file.size / 1024).toFixed(4) >= limitKb) {
           const units = ['kB', 'MB', 'GB'];
           let u = -1;
           let limit = limitKb * 1000;
@@ -368,7 +368,7 @@
             limit /= 1000;
             u += 1;
           } while (limit >= 1000 && u < units.length - 1);
-          this.showFileSizeError();
+          this.showFileSizeError(limit, units[u]);
           return;
         }
       } catch (error) {

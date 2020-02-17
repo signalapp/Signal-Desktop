@@ -6,6 +6,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
+import { SessionDropdown } from './SessionDropdown';
 import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { TimerOption } from '../conversation/ConversationHeader';
@@ -18,15 +19,18 @@ interface Props {
   avatarPath: string;
   timerOptions: Array<TimerOption>;
   isPublic: boolean;
+  isAdmin: boolean;
 
   onGoBack: () => void;
   onInviteFriends: () => void;
   onLeaveGroup: () => void;
+  onUpdateGroupName: () => void;
+  onUpdateGroupMembers: () => void;
   onShowLightBox: (options: any) => void;
   onSetDisappearingMessages: (seconds: number) => void;
 }
 
-export class SessionChannelSettings extends React.Component<Props, any> {
+export class SessionGroupSettings extends React.Component<Props, any> {
   public constructor(props: Props) {
     super(props);
 
@@ -50,15 +54,19 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   }
 
   public componentDidUpdate() {
-    this.getMediaGalleryProps()
-      .then(({ documents, media, onItemClick }) => {
-        this.setState({
-          documents,
-          media,
-          onItemClick,
-        });
-      })
-      .ignore();
+    const mediaScanInterval = 1000;
+
+    setTimeout(() => {
+      this.getMediaGalleryProps()
+        .then(({ documents, media, onItemClick }) => {
+          this.setState({
+            documents,
+            media,
+            onItemClick,
+          });
+        })
+        .ignore();
+    }, mediaScanInterval);
   }
 
   public async getMediaGalleryProps() {
@@ -196,12 +204,29 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   }
 
   public render() {
-    const { memberCount, name, onLeaveGroup, isPublic } = this.props;
+    const {
+      memberCount,
+      name,
+      timerOptions,
+      onLeaveGroup,
+      isPublic,
+      isAdmin,
+    } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
+    const hasDisappearingMessages = !isPublic;
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
       : window.i18n('leaveClosedGroup');
+
+    const disappearingMessagesOptions = timerOptions.map(option => {
+      return {
+        content: option.name,
+        onClick: () => {
+          this.props.onSetDisappearingMessages(option.value);
+        },
+      };
+    });
 
     return (
       <div className="group-settings">
@@ -210,7 +235,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
         {showMemberCount && (
           <>
             <div className="spacer-lg" />
-            <div className="text-subtle">
+            <div role="button" className="text-subtle">
               {window.i18n('members', memberCount)}
             </div>
             <div className="spacer-lg" />
@@ -220,13 +245,38 @@ export class SessionChannelSettings extends React.Component<Props, any> {
           className="description"
           placeholder={window.i18n('description')}
         />
-
-        <div className="group-settings-item">
+        {!isPublic && (
+          <>
+            {isAdmin && (
+              <div
+                className="group-settings-item"
+                role="button"
+                onClick={this.props.onUpdateGroupName}
+              >
+                {window.i18n('editGroupName')}
+              </div>
+            )}
+            <div
+              className="group-settings-item"
+              role="button"
+              onClick={this.props.onUpdateGroupMembers}
+            >
+              {window.i18n('showMembers')}
+            </div>
+          </>
+        )}
+        {/*<div className="group-settings-item">
           {window.i18n('notifications')}
         </div>
-        <div className="group-settings-item">
-          {window.i18n('disappearingMessages')}
-        </div>
+        */}
+
+        {hasDisappearingMessages && (
+          <SessionDropdown
+            label={window.i18n('disappearingMessages')}
+            options={disappearingMessagesOptions}
+          />
+        )}
+
         <MediaGallery
           documents={documents}
           media={media}
@@ -243,7 +293,16 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   }
 
   private renderHeader() {
-    const { id, onGoBack, onInviteFriends, avatarPath } = this.props;
+    const {
+      id,
+      onGoBack,
+      onInviteFriends,
+      avatarPath,
+      isAdmin,
+      isPublic,
+    } = this.props;
+
+    const showInviteFriends = isPublic || isAdmin;
 
     return (
       <div className="group-settings-header">
@@ -259,11 +318,15 @@ export class SessionChannelSettings extends React.Component<Props, any> {
           conversationType="group"
           size={80}
         />
-        <SessionIconButton
-          iconType={SessionIconType.AddUser}
-          iconSize={SessionIconSize.Medium}
-          onClick={onInviteFriends}
-        />
+        <div className="invite-friends-container">
+          {showInviteFriends && (
+            <SessionIconButton
+              iconType={SessionIconType.AddUser}
+              iconSize={SessionIconSize.Medium}
+              onClick={onInviteFriends}
+            />
+          )}
+        </div>
       </div>
     );
   }

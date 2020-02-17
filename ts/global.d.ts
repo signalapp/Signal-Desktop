@@ -3,6 +3,7 @@ interface Window {
   versionInfo: any;
 
   Events: any;
+  Lodash: any;
   deleteAllData: any;
   clearLocalData: any;
   getAccountManager: any;

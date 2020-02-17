@@ -802,7 +802,7 @@
 
     window.confirmationDialog = params => {
       const confirmDialog = new Whisper.SessionConfirmView({
-        el: $('#session-confirm-container'),
+        el: $('body'),
         title: params.title,
         message: params.message,
         messageSub: params.messageSub || undefined,
@@ -969,7 +969,7 @@
         window.toasts.set(
           toastID,
           new Whisper.SessionToastView({
-            el: $('#session-toast-container'),
+            el: $('body'),
           })
         );
 
@@ -1135,9 +1135,14 @@
       }
     });
 
-    Whisper.events.on('updateGroup', async groupConvo => {
+    Whisper.events.on('updateGroupName', async groupConvo => {
       if (appView) {
-        appView.showUpdateGroupDialog(groupConvo);
+        appView.showUpdateGroupNameDialog(groupConvo);
+      }
+    });
+    Whisper.events.on('updateGroupMembers', async groupConvo => {
+      if (appView) {
+        appView.showUpdateGroupMembersDialog(groupConvo);
       }
     });
 
