@@ -100,6 +100,7 @@
         );
       } catch (e) {
         // we'll try again anyway
+        window.log.error('http-resource pollServer error', e.code, e.message);
       }
 
       if (this.calledStop) {
@@ -109,6 +110,10 @@
       connected = false;
       // Exhausted all our snodes urls, trying again later from scratch
       setTimeout(() => {
+        window.log.info(
+          `Exhausted all our snodes urls, trying again in ${EXHAUSTED_SNODES_RETRY_DELAY /
+            1000}s from scratch`
+        );
         this.pollServer();
       }, EXHAUSTED_SNODES_RETRY_DELAY);
     };
