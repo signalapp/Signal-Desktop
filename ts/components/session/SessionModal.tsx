@@ -36,6 +36,8 @@ export class SessionModal extends React.PureComponent<Props, State> {
     headerReverse: false,
   };
 
+  private node: HTMLDivElement | null;
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -44,9 +46,26 @@ export class SessionModal extends React.PureComponent<Props, State> {
 
     this.close = this.close.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
+    this.node = null;
 
     window.addEventListener('keyup', this.onKeyUp);
   }
+
+  public componentWillMount() {
+    document.addEventListener('mousedown', this.handleClick, false);
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClick, false);
+  }
+
+  public handleClick = (e: any) => {
+    if (this.node && this.node.contains(e.target)) {
+      return;
+    }
+
+    this.close();
+  };
 
   public render() {
     const {
@@ -59,7 +78,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
     const { isVisible } = this.state;
 
     return isVisible ? (
-      <div className={'session-modal'}>
+      <div ref={node => (this.node = node)} className={'session-modal'}>
         {showHeader ? (
           <>
             <div

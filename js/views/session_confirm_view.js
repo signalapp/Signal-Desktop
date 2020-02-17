@@ -24,6 +24,17 @@
       };
     },
 
+    registerEvents() {
+      this.unregisterEvents();
+      document.addEventListener('mousedown', this.props.onClickClose, false);
+      document.addEventListener('keyup', this.props.onClickClose, false);
+    },
+
+    unregisterEvents() {
+      document.removeEventListener('mousedown', this.props.onClickClose, false);
+      document.removeEventListener('keyup', this.props.onClickClose, false);
+    },
+
     render() {
       this.$('.session-confirm-wrapper').remove();
 
@@ -32,25 +43,29 @@
         Component: window.Signal.Components.SessionConfirm,
         props: this.props,
       });
+      this.registerEvents();
 
       this.$el.prepend(this.confirmView.el);
     },
 
     ok() {
       this.$('.session-confirm-wrapper').remove();
+      this.unregisterEvents();
       if (this.props.resolve) {
         this.props.resolve();
       }
     },
     cancel() {
       this.$('.session-confirm-wrapper').remove();
+      this.unregisterEvents();
       if (this.props.reject) {
         this.props.reject();
       }
     },
     onKeyup(event) {
       if (event.key === 'Escape' || event.key === 'Esc') {
-        this.cancel();
+        this.unregisterEvents();
+        this.props.onClickClose();
       }
     },
   });
