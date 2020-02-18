@@ -100,11 +100,15 @@ export class SessionSettingListItem extends React.Component<Props, State> {
                   this.handleSlider(sliderValue);
                 }}
               />
+              
               <div className="slider-info">
                 <p>{`${currentSliderValue} Hours`}</p>
               </div>
             </div>
           )}
+        </div>
+        <div>
+          See me in here
         </div>
       </div>
     );

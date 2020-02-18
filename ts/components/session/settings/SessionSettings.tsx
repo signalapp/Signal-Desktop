@@ -83,6 +83,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       }, 1000);
     });
     this.refreshLinkedDevice();
+    console.log(this.state, 'from SessionSettings');
   }
 
   public componentWillUnmount() {
@@ -151,6 +152,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
               </div>
             );
           })}
+
+        <div style={{width:"100%"}} className="ScaleSliderContainer">
+            <input style={{width:"80%", marginLeft:"15%"}} type="range" min="0" max="200" step="25" value="100" className="ScaleSlider" id="ScaleSlider" />
+        </div>
       </>
     );
   }
