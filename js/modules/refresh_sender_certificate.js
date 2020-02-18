@@ -14,6 +14,7 @@ let scheduleNext = null;
 // We need to refresh our own profile regularly to account for newly-added devices which
 //   do not support unidentified delivery.
 function refreshOurProfile() {
+  window.log.info('refreshOurProfile');
   const ourNumber = textsecure.storage.user.getNumber();
   const conversation = ConversationController.getOrCreate(ourNumber, 'private');
   conversation.getProfiles();
