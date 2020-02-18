@@ -132,12 +132,12 @@
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
     "sharp": "0.23.0",
-    "spellchecker": "3.7.0",
     "tar": "4.4.8",
     "testcheck": "1.0.0-rc.2",
     "tmp": "0.0.33",
     "to-arraybuffer": "1.0.1",
     "typeface-inter": "3.10.0",
+    "typo-js": "1.1.0",
     "underscore": "1.9.0",
     "uuid": "3.3.2",
     "websocket": "1.0.28"

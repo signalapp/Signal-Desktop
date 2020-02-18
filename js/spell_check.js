@@ -4,10 +4,12 @@
 
 const electron = require('electron');
 
-const osLocale = require('os-locale');
+const Typo = require('typo-js');
+const fs = require('fs');
 const os = require('os');
+const osLocale = require('os-locale');
+const path = require('path');
 const semver = require('semver');
-const spellchecker = require('spellchecker');
 
 const { remote, webFrame } = electron;
 
@@ -40,6 +42,8 @@ function setupLinux(locale) {
     // apt-get install hunspell-<locale> can be run for easy access
     //   to other dictionaries
     const location = process.env.HUNSPELL_DICTIONARIES || '/usr/share/hunspell';
+    const affDataPath = path.join(location, `${locale}.aff`);
+    const dicDataPath = path.join(location, `${locale}.dic`);
 
     window.log.info(
       'Detected Linux. Setting up spell check with locale',
@@ -47,30 +51,20 @@ function setupLinux(locale) {
       'and dictionary location',
       location
     );
-    spellchecker.setDictionary(locale, location);
-  } else {
-    window.log.info(
-      'Detected Linux. Using default en_US spell check dictionary'
-    );
-  }
-}
 
-function setupWin7AndEarlier(locale) {
-  if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
-    const location = process.env.HUNSPELL_DICTIONARIES;
+    if (fs.existsSync(affDataPath) && fs.existsSync(dicDataPath)) {
+      const affData = fs.readFileSync(affDataPath, 'utf-8');
+      const dicData = fs.readFileSync(dicDataPath, 'utf-8');
 
-    window.log.info(
-      'Detected Windows 7 or below. Setting up spell-check with locale',
-      locale,
-      'and dictionary location',
-      location
-    );
-    spellchecker.setDictionary(locale, location);
-  } else {
-    window.log.info(
-      'Detected Windows 7 or below. Using default en_US spell check dictionary'
-    );
+      return new Typo(locale, affData, dicData);
+    }
+
+    window.log.error(`Could not find one of ${affDataPath} or ${dicDataPath} on filesystem`);
   }
+
+  window.log.info('Detected Linux. Using default en_US spell check dictionary');
+
+  return new Typo(locale);
 }
 
 // We load locale this way and not via app.getLocale() because this call returns
@@ -83,11 +77,12 @@ if (!process.env.LANG) {
   process.env.LANG = locale;
 }
 
+let spellchecker = null;
+
 if (process.platform === 'linux') {
-  setupLinux(locale);
-} else if (process.platform === 'windows' && semver.lt(os.release(), '8.0.0')) {
-  setupWin7AndEarlier(locale);
+  spellchecker = setupLinux(locale);
 } else {
+  spellchecker = new Typo(locale);
   // OSX and Windows 8+ have OS-level spellcheck APIs
   window.log.info(
     'Using OS-level spell check API with locale',
@@ -101,7 +96,7 @@ const simpleChecker = {
     callback(mispelled);
   },
   isMisspelled(word) {
-    const misspelled = spellchecker.isMisspelled(word);
+    const misspelled = !spellchecker.check(word);
 
     // The idea is to make this as fast as possible. For the many, many calls which
     //   don't result in the red squiggly, we minimize the number of checks.
@@ -117,11 +112,9 @@ const simpleChecker = {
     return true;
   },
   getSuggestions(text) {
-    return spellchecker.getCorrectionsForMisspelling(text);
+    return spellchecker.suggest(text);
   },
-  add(word) {
-    spellchecker.add(word);
-  },
+  add() {},
 };
 
 const dummyChecker = {

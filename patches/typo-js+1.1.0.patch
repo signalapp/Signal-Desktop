@@ -1,0 +1,21 @@
+diff --git a/node_modules/typo-js/typo.js b/node_modules/typo-js/typo.js
+index 68c285b..11710a1 100644
+--- a/node_modules/typo-js/typo.js
++++ b/node_modules/typo-js/typo.js
+@@ -431,7 +431,7 @@ Typo.prototype = {
+ 				dictionaryTable[word] = null;
+ 			}
+
+-			if (rules.length > 0) {
++			if (rules && rules.length > 0) {
+ 				if (dictionaryTable[word] === null) {
+ 					dictionaryTable[word] = [];
+ 				}
+@@ -546,6 +546,7 @@ Typo.prototype = {
+ 		else if (this.flags.FLAG === "num") {
+ 			return textCodes.split(",");
+ 		}
++    return [];
+ 	},
+
+ 	/**
