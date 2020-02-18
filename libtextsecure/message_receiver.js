@@ -1574,11 +1574,10 @@ MessageReceiver.prototype.extend({
   },
   handleGroups(envelope, groups) {
     window.log.info('group sync');
-    const { blob } = groups;
 
     // Note: we do not return here because we don't want to block the next message on
     //   this attachment download and a lot of processing of that attachment.
-    this.handleAttachment(blob).then(attachmentPointer => {
+    this.handleAttachment(groups).then(attachmentPointer => {
       const groupBuffer = new GroupBuffer(attachmentPointer.data);
       let groupDetails = groupBuffer.next();
       const promises = [];

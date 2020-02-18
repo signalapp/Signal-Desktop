@@ -700,6 +700,22 @@ MessageSender.prototype = {
     );
   },
 
+  async sendGroupSyncMessage(conversations) {
+    const ourNumber = textsecure.storage.user.getNumber();
+    const syncMessage = await libloki.api.createGroupSyncProtoMessage(conversations);
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      ourNumber,
+      contentMessage,
+      Date.now(),
+      silent,
+      {} // options
+    );
+  },
+
   sendRequestContactSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();

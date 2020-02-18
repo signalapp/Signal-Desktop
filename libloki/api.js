@@ -152,6 +152,34 @@
     });
     return syncMessage;
   }
+  async function createGroupSyncProtoMessage(conversations) {
+    // We only want to sync across closed groups that we haven't left
+    const sessionGroups = conversations.filter(c => c.isClosedGroup() && !c.get('left') && c.isFriend());
+    const rawGroups = await Promise.all(
+      sessionGroups.map(async conversation => ({
+          id: conversation.id,
+          name: conversation.get('name'),
+          members: conversation.get('members') || [],
+          blocked: conversation.isBlocked(),
+          expireTimer: conversation.get('expireTimer'),
+          admins: conversation.get('groupAdmins') || [],
+        }))
+    );
+    // Convert raw groups to an array of buffers
+    const groupDetails = rawGroups
+      .map(x => new textsecure.protobuf.GroupDetails(x))
+      .map(x => x.encode());
+    // Serialise array of byteBuffers into 1 byteBuffer
+    const byteBuffer = serialiseByteBuffers(groupDetails);
+    const data = new Uint8Array(byteBuffer.toArrayBuffer());
+    const groups = new textsecure.protobuf.SyncMessage.Groups({
+      data,
+    });
+    const syncMessage = new textsecure.protobuf.SyncMessage({
+      groups,
+    });
+    return syncMessage;
+  }
   async function sendPairingAuthorisation(authorisation, recipientPubKey) {
     const pairingAuthorisation = createPairingAuthorisationProtoMessage(
       authorisation
@@ -222,5 +250,6 @@
     createPairingAuthorisationProtoMessage,
     sendUnpairingMessageToSecondary,
     createContactSyncProtoMessage,
+    createGroupSyncProtoMessage,
   };
 })();
