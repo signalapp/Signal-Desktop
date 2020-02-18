@@ -8,6 +8,7 @@ import {
   SessionButtonType,
 } from '../SessionButton';
 
+
 export enum SessionSettingCategory {
   Appearance = 'appearance',
   Account = 'account',
@@ -34,6 +35,7 @@ interface State {
   pwdLockError: string | null;
   shouldLockSettings: boolean | null;
   linkedPubKeys: Array<any>;
+  scaleValue: number;
 }
 
 interface LocalSettingType {
@@ -61,6 +63,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       pwdLockError: null,
       shouldLockSettings: true,
       linkedPubKeys: new Array(),
+      scaleValue: 200
     };
 
     this.settingsViewRef = React.createRef();
@@ -71,10 +74,12 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     this.refreshLinkedDevice = this.refreshLinkedDevice.bind(this);
 
     this.onKeyUp = this.onKeyUp.bind(this);
+    this.handleScaleChange = this.handleScaleChange.bind(this)
     window.addEventListener('keyup', this.onKeyUp);
   }
 
   public componentDidMount() {
+    console.log(this.state, 'Print state of SessionSettings');
     setTimeout(() => $('#password-lock-input').focus(), 100);
 
     window.Whisper.events.on('refreshLinkedDeviceList', async () => {
@@ -83,7 +88,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       }, 1000);
     });
     this.refreshLinkedDevice();
-    console.log(this.state, 'from SessionSettings');
+    
+    
   }
 
   public componentWillUnmount() {
@@ -106,6 +112,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
       settings = this.getLocalSettings();
     }
+
+    
 
     return (
       <>
@@ -154,8 +162,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           })}
 
         <div style={{width:"100%"}} className="ScaleSliderContainer">
-            <input style={{width:"80%", marginLeft:"15%"}} type="range" min="0" max="200" step="25" value="100" className="ScaleSlider" id="ScaleSlider" />
+            <input onChange={this.handleScaleChange}style={{width:"80%", marginLeft:"15%"}} type="range" min="0" max="200" step="25" className="ScaleSlider" id="ScaleSlider" value={this.state.scaleValue}/>
         </div>
+        <div>Scale: {this.state.scaleValue}</div>
       </>
     );
   }
@@ -250,6 +259,16 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     );
   }
 
+
+  public handleScaleChange(event:any):any {
+    const {value} = event.target;
+    let scaleVal:number = parseInt(value,10);
+    this.setState({
+      scaleValue:scaleVal
+    })
+  }
+
+
   public renderSessionInfo(): JSX.Element {
     return (
       <div className="session-settings__version-info">
@@ -306,6 +325,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       });
     }
   }
+
+
+  
 
   private getPubkeyName(pubKey: string | null) {
     if (!pubKey) {
