@@ -115,7 +115,7 @@ NODE_APP_INSTANCE=alice yarn run start
 ```
 
 This changes the [userData](https://electron.atom.io/docs/all/#appgetpathname)
-directory from `%appData%/Loki-Messenger` to `%appData%/Loki-Messenger-aliceProfile`.
+directory from `%appData%/Session` to `%appData%/Session-aliceProfile`.
 
 # Making changes
 
