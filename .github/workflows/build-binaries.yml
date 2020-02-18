@@ -54,10 +54,10 @@ jobs:
 
       - name: Setup mac certificate
         if: runner.os == 'macOS'
-        run: ./build/setup-mac-certificate.sh
         env:
           MAC_CERTIFICATE: ${{ secrets.MAC_CERTIFICATE }}
           MAC_CERTIFICATE_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+        run: ./build/setup-mac-certificate.sh
 
       - name: Build mac production binaries
         if: runner.os == 'macOS'
