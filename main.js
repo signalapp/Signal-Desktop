@@ -428,19 +428,19 @@ ipc.on('ready-for-updates', async () => {
 
 function openReleaseNotes() {
   shell.openExternal(
-    `https://github.com/loki-project/loki-messenger/releases/tag/v${app.getVersion()}`
+    `https://github.com/loki-project/session-desktop/releases/tag/v${app.getVersion()}`
   );
 }
 
 function openNewBugForm() {
   shell.openExternal(
-    'https://github.com/loki-project/loki-messenger/issues/new'
+    'https://github.com/loki-project/session-desktop/issues/new'
   );
 }
 
 function openSupportPage() {
   shell.openExternal(
-    'https://loki-project.github.io/loki-docs/LokiServices/Messenger/'
+    'https://docs.loki.network/LokiServices/Messenger/Messenger/'
   );
 }
 
