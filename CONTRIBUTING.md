@@ -11,7 +11,7 @@ for it or creating a new one yourself. You can use also that issue as a place to
 your intentions and get feedback from the users most likely to appreciate your changes.
 
 You're most likely to have your pull request accepted easily if it addresses bugs already
-in the [Next Steps project](https://github.com/loki-project/loki-messenger/projects/1),
+in the [Next Steps project](https://github.com/loki-project/session-desktop/projects/1),
 especially if they are near the top of the Backlog column. Those are what we'll be looking
 at next, so it would be great if you helped us out!
 
@@ -22,7 +22,7 @@ ounce of prevention, as they say!](https://www.goodreads.com/quotes/247269-an-ou
 ## Developer Setup
 
 First, you'll need [Node.js](https://nodejs.org/) which matches our current version.
-You can check [`.nvmrc` in the `development` branch](https://github.com/loki-project/loki-messenger/blob/development/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
+You can check [`.nvmrc` in the `development` branch](https://github.com/loki-project/session-desktop/blob/development/.nvmrc) to see what the current version is. If you have [nvm](https://github.com/creationix/nvm)
 you can just run `nvm use` in the project directory and it will switch to the project's
 desired Node.js version. [nvm for windows](https://github.com/coreybutler/nvm-windows) is
 still useful, but it doesn't support `.nvmrc` files.
@@ -56,8 +56,8 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 Now, run these commands in your preferred terminal in a good directory for development:
 
 ```
-git clone https://github.com/loki-project/loki-messenger.git
-cd loki-messenger
+git clone https://github.com/loki-project/session-desktop.git
+cd session-desktop
 npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn grunt                     # Generate final JS and CSS assets
