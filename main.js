@@ -440,7 +440,7 @@ function openNewBugForm() {
 
 function openSupportPage() {
   shell.openExternal(
-    'https://docs.loki.network/LokiServices/Messenger/Messenger/'
+    'https://docs.loki.network/LokiServices/Messenger/Session/'
   );
 }
 
