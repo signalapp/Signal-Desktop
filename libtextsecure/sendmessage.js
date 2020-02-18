@@ -702,7 +702,9 @@ MessageSender.prototype = {
 
   async sendGroupSyncMessage(conversations) {
     const ourNumber = textsecure.storage.user.getNumber();
-    const syncMessage = await libloki.api.createGroupSyncProtoMessage(conversations);
+    const syncMessage = await libloki.api.createGroupSyncProtoMessage(
+      conversations
+    );
     const contentMessage = new textsecure.protobuf.Content();
     contentMessage.syncMessage = syncMessage;
 

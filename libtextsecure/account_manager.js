@@ -635,7 +635,9 @@
         }
       );
       // Send group sync message
-      await textsecure.messaging.sendGroupSyncMessage(window.getConversations())
+      await textsecure.messaging.sendGroupSyncMessage(
+        window.getConversations()
+      );
     },
     validatePubKeyHex(pubKey) {
       const c = new Whisper.Conversation({
