@@ -286,7 +286,7 @@ function createWindow() {
   // Disable system main menu
   mainWindow.setMenu(null);
 
-  electronLocalshortcut.register(mainWindow, 'f5', () => {
+  electronLocalshortcut.register(mainWindow, 'F5', () => {
     mainWindow.reload();
   });
   electronLocalshortcut.register(mainWindow, 'CommandOrControl+R', () => {
