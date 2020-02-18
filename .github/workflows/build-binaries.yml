@@ -52,12 +52,17 @@ jobs:
         if: runner.os == 'Windows'
         run: node_modules\.bin\electron-builder --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never --config.directories.output=release
 
+      - name: Setup mac certificate
+        if: runner.os == 'macOS'
+        run: ./build/setup-mac-certificate.sh
+        env:
+          MAC_CERTIFICATE: ${{ secrets.MAC_CERTIFICATE }}
+          MAC_CERTIFICATE_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+
       - name: Build mac production binaries
         if: runner.os == 'macOS'
         run: $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion=${{ github.ref }} --publish=never --config.directories.output=release
         env:
-          CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
-          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
           SIGNING_APPLE_ID: ${{ secrets.SIGNING_APPLE_ID }}
           SIGNING_APP_PASSWORD: ${{ secrets.SIGNING_APP_PASSWORD }}
           SIGNING_TEAM_ID: ${{ secrets.SIGNING_TEAM_ID }}
