@@ -131,7 +131,7 @@
     if (deviceMapping.isPrimary === '0') {
       const { primaryDevicePubKey } =
         authorisations.find(
-          authorisation => authorisation.secondaryDevicePubKey === pubKey
+          authorisation => authorisation && authorisation.secondaryDevicePubKey === pubKey
         ) || {};
       if (primaryDevicePubKey) {
         // do NOT call getprimaryDeviceMapping recursively

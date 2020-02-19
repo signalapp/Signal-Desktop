@@ -1469,18 +1469,20 @@ MessageReceiver.prototype.extend({
     this.removeFromCache(envelope);
   },
   async handleSyncMessage(envelope, syncMessage) {
+    // We should only accept sync messages from our devices
     const ourNumber = textsecure.storage.user.getNumber();
-    // NOTE: Maybe we should be caching this list?
-    const ourDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+    const ourPrimaryNumber = window.storage.get('primaryDevicePubKey');
+    const ourOtherDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
       window.storage.get('primaryDevicePubKey')
     );
-    const validSyncSender =
-      ourDevices && ourDevices.some(devicePubKey => devicePubKey === ourNumber);
+    const ourDevices = new Set([ourNumber, ourPrimaryNumber, ...ourOtherDevices]);
+    const validSyncSender = ourDevices.has(envelope.source);
     if (!validSyncSender) {
       throw new Error(
         "Received sync message from a device we aren't paired with"
       );
     }
+
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
       const to = sentMessage.message.group
