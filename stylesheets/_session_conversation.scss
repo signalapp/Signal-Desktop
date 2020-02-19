@@ -18,7 +18,16 @@ $composition-container-height: 60px;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: 4px;
   padding: $session-margin-lg;
+
+  &__loading {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .composition-container {
