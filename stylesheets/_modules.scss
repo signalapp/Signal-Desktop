@@ -3918,9 +3918,6 @@ button.module-image__border-overlay:focus {
   object-fit: cover;
   // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
-
-  // Seems to be related to body text size
-  margin-bottom: -5px;
 }
 
 .module-image__bottom-overlay {
