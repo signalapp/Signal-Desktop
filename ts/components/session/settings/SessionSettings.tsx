@@ -491,6 +491,21 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: undefined,
       },
       {
+        id: 'zoom-factor-setting',
+        title: window.i18n('zoomFactorSettingTitle'),
+        description: window.i18n('zoomFactorSettingTitleDescription'),
+        hidden: false,
+        type: SessionSettingType.Slider,
+        category: SessionSettingCategory.Appearance,
+        setFn: undefined,
+        comparisonValue: undefined,
+        onClick: undefined,
+        content: {
+          defaultValue: 24,
+        },
+        confirmationDialogParams: undefined,
+      },
+      {
         id: 'read-receipt-setting',
         title: window.i18n('readReceiptSettingTitle'),
         description: window.i18n('readReceiptSettingDescription'),
@@ -575,7 +590,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             onSuccess: this.onPasswordUpdated,
           }),
         confirmationDialogParams: undefined,
-      },
+      }
     ];
   }
 

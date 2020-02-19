@@ -577,6 +577,7 @@ let settingsWindow;
 async function showSettingsWindow() {
   if (settingsWindow) {
     settingsWindow.show();
+    console.log(window.getSettingValue('zoom-factor-setting'), 'from settingsWindow')
     return;
   }
   if (!mainWindow) {
@@ -836,6 +837,7 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
 
   createWindow();
 
+
   if (usingTrayIcon) {
     tray = createTrayIcon(getMainWindow, locale.messages);
   }
@@ -1025,6 +1027,7 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     const passwordAttempt = true;
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
+  
     if (passwordWindow) {
       passwordWindow.close();
       passwordWindow = null;
