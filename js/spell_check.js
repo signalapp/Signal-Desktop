@@ -6,10 +6,8 @@ const electron = require('electron');
 
 const Typo = require('typo-js');
 const fs = require('fs');
-const os = require('os');
 const osLocale = require('os-locale');
 const path = require('path');
-const semver = require('semver');
 
 const { remote, webFrame } = electron;
 
@@ -59,7 +57,9 @@ function setupLinux(locale) {
       return new Typo(locale, affData, dicData);
     }
 
-    window.log.error(`Could not find one of ${affDataPath} or ${dicDataPath} on filesystem`);
+    window.log.error(
+      `Could not find one of ${affDataPath} or ${dicDataPath} on filesystem`
+    );
   }
 
   window.log.info('Detected Linux. Using default en_US spell check dictionary');

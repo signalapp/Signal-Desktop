@@ -29,7 +29,6 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 1.  Install the [Xcode Command-Line Tools](http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/).
 2.  Ensure [git-lfs](https://github.com/git-lfs/git-lfs/wiki/Installation) is installed. You'll need it to to checkout and install the node requirements. Install with `brew install git-lfs`
 
-
 ### Windows
 
 1.  **Windows 7 only:**
