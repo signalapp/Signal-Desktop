@@ -1257,14 +1257,18 @@ class LokiPublicChannelAPI {
 
         // download a copy and save it
         const imageData = await nodeFetch(avatarAbsUrl);
+        // eslint-disable-next-line no-inner-declarations
         function toArrayBuffer(buf) {
-          var ab = new ArrayBuffer(buf.length);
-          var view = new Uint8Array(ab);
-          for (var i = 0; i < buf.length; ++i) {
+          const ab = new ArrayBuffer(buf.length);
+          const view = new Uint8Array(ab);
+          // eslint-disable-next-line no-plusplus
+          for (let i = 0; i < buf.length; i++) {
             view[i] = buf[i];
           }
           return ab;
         }
+        // eslint-enable-next-line no-inner-declarations
+
         const buffer = await imageData.buffer();
         const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
           this.conversation.attributes,
@@ -1290,7 +1294,6 @@ class LokiPublicChannelAPI {
       Conversation: Whisper.Conversation,
     });
     await this.pollForChannelOnce();
-    this.conversation.trigger('change');
   }
 
   // get moderation actions

@@ -61,24 +61,21 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
       this.inputEl.current.files &&
       this.inputEl.current.files.length > 0
         ? this.inputEl.current.files[0]
-        : this.props.avatarPath; // otherwise use the current avatar
+        : null; // otherwise use the current avatar
 
-    this.props.onSubmit(this.props.groupName, avatar);
+    this.props.onSubmit(this.state.groupName, avatar);
 
     this.closeDialog();
   }
 
   public render() {
-    const { isPublic, okText, cancelText } = this.props;
+    const { okText, cancelText } = this.props;
 
     const titleText = `${this.props.titleText}`;
     let noAvatarClasses;
 
-    if (isPublic) {
-      noAvatarClasses = classNames('avatar-center');
-    } else {
-      noAvatarClasses = classNames('hidden');
-    }
+    noAvatarClasses = classNames('avatar-center');
+
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
@@ -195,12 +192,10 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
 
   private renderAvatar() {
     const avatarPath = this.state.avatar;
-    const color = '#00ff00';
 
     return (
       <Avatar
         avatarPath={avatarPath}
-        color={color}
         conversationType="group"
         i18n={this.props.i18n}
         size={80}

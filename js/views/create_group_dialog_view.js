@@ -54,13 +54,12 @@
 
       this.conversation = groupConvo;
       this.titleText = i18n('updateGroupDialogTitle');
-      this.okText = i18n('ok');
-      this.cancelText = i18n('cancel');
       this.close = this.close.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.isPublic = groupConvo.isPublic();
       this.groupId = groupConvo.id;
       this.members = groupConvo.get('members') || [];
+      this.avatarPath = groupConvo.getAvatarPath();
 
       const ourPK = textsecure.storage.user.getNumber();
 
@@ -96,6 +95,7 @@
           i18n,
           onSubmit: this.onSubmit,
           onClose: this.close,
+          avatarPath: this.avatarPath,
         },
       });
 
