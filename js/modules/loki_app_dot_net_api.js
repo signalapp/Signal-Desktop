@@ -1276,11 +1276,6 @@ class LokiPublicChannelAPI {
         );
         // update group
         this.conversation.set('avatar', newAttributes.avatar);
-
-        await window.Signal.Data.updateConversation(this.conversation.id, this.conversation.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-        this.conversation.trigger('change');
       }
       // is it mutable?
       // who are the moderators?
@@ -1290,6 +1285,12 @@ class LokiPublicChannelAPI {
     if (data.counts && Number.isInteger(data.counts.subscribers)) {
       this.conversation.setSubscriberCount(data.counts.subscribers);
     }
+
+    await window.Signal.Data.updateConversation(this.conversation.id, this.conversation.attributes, {
+      Conversation: Whisper.Conversation,
+    });
+    await this.pollForChannelOnce();
+    this.conversation.trigger('change');
   }
 
   // get moderation actions
