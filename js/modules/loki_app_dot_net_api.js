@@ -877,6 +877,7 @@ class LokiAppDotNetServerAPI {
     };
   }
 
+  // for avatar
   async uploadData(data) {
     const endpoint = 'files';
     const options = {
@@ -901,6 +902,7 @@ class LokiAppDotNetServerAPI {
     };
   }
 
+  // for files
   putAttachment(attachmentBin) {
     const formData = new FormData();
     const buffer = Buffer.from(attachmentBin);
@@ -1246,7 +1248,37 @@ class LokiPublicChannelAPI {
         this.conversation.setGroupName(note.value.name);
       }
       if (note.value && note.value.avatar) {
-        this.conversation.setProfileAvatar(note.value.avatar);
+        const avatarAbsUrl = this.serverAPI.baseServerUrl + note.value.avatar;
+        console.log('setting', avatarAbsUrl);
+        const {
+          upgradeMessageSchema,
+          writeNewAttachmentData,
+          deleteAttachmentData,
+        } = window.Signal.Migrations;
+        // do we already have this image? no, then
+
+        // download a copy and save it
+        const imageData = await nodeFetch(avatarAbsUrl);
+        function toArrayBuffer(buf) {
+          var ab = new ArrayBuffer(buf.length);
+          var view = new Uint8Array(ab);
+          for (var i = 0; i < buf.length; ++i) {
+            view[i] = buf[i];
+          }
+          return ab;
+        }
+        const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+          this.conversation.attributes,
+          toArrayBuffer(imageData),
+          {
+            writeNewAttachmentData,
+            deleteAttachmentData,
+          }
+        );
+        console.log('newAttributes.avatar', newAttributes.avatar);
+        // update group
+        this.conversation.set(newAttributes);
+        //this.conversation.setProfileAvatar(newAttributes.avatar);
       }
       // is it mutable?
       // who are the moderators?

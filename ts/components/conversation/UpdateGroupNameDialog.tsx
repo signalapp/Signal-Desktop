@@ -3,9 +3,11 @@ import classNames from 'classnames';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton } from '../session/SessionButton';
+import { Avatar } from '../Avatar';
 
 interface Props {
   titleText: string;
+  isPublic: boolean;
   groupName: string;
   okText: string;
   cancelText: string;
@@ -13,30 +15,35 @@ interface Props {
   i18n: any;
   onSubmit: any;
   onClose: any;
-  existingMembers: Array<String>;
+  // avatar stuff
+  avatarPath: string;
 }
 
 interface State {
   groupName: string;
   errorDisplayed: boolean;
   errorMessage: string;
+  avatar: string;
 }
 
 export class UpdateGroupNameDialog extends React.Component<Props, State> {
+  private readonly inputEl: any;
+
   constructor(props: any) {
     super(props);
 
     this.onClickOK = this.onClickOK.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
-    this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
+    this.onFileSelected = this.onFileSelected.bind(this);
 
     this.state = {
       groupName: this.props.groupName,
       errorDisplayed: false,
       errorMessage: 'placeholder',
+      avatar: this.props.avatarPath,
     };
-
+    this.inputEl = React.createRef();
     window.addEventListener('keyup', this.onKeyUp);
   }
 
@@ -47,18 +54,30 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
       return;
     }
 
-    this.props.onSubmit(this.state.groupName, this.props.existingMembers);
+    const avatar =
+      this.inputEl &&
+      this.inputEl.current &&
+      this.inputEl.current.files &&
+      this.inputEl.current.files.length > 0
+        ? this.inputEl.current.files[0]
+        : this.props.avatarPath; // otherwise use the current avatar
+
+    this.props.onSubmit(this.props.groupName, avatar);
 
     this.closeDialog();
   }
 
   public render() {
-    const okText = this.props.okText;
-    const cancelText = this.props.cancelText;
+    const { isPublic, okText, cancelText } = this.props;
 
-    let titleText;
+    const titleText = `${this.props.titleText}`;
+    let noAvatarClasses;
 
-    titleText = `${this.props.titleText}`;
+    if (isPublic) {
+      noAvatarClasses = classNames('avatar-center');
+    } else {
+      noAvatarClasses = classNames('hidden');
+    }
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
@@ -75,6 +94,33 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
       >
         <div className="spacer-md" />
         <p className={errorMessageClasses}>{errorMsg}</p>
+        <div className="spacer-md" />
+
+        <div className={noAvatarClasses}>
+          <div className="avatar-center-inner">
+            {this.renderAvatar()}
+            <div className="upload-btn-background">
+              <input
+                type="file"
+                ref={this.inputEl}
+                className="input-file"
+                placeholder="input file"
+                name="name"
+                onChange={this.onFileSelected}
+              />
+              <div
+                role="button"
+                className={'module-message__buttons__upload'}
+                onClick={() => {
+                  const el = this.inputEl.current;
+                  if (el) {
+                    el.click();
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
         <div className="spacer-md" />
 
         <input
@@ -143,6 +189,30 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         ...state,
         groupName: event.target.value,
       };
+    });
+  }
+
+  private renderAvatar() {
+    const avatarPath = this.state.avatar;
+    const color = '#00ff00';
+
+    return (
+      <Avatar
+        avatarPath={avatarPath}
+        color={color}
+        conversationType="group"
+        i18n={this.props.i18n}
+        size={80}
+      />
+    );
+  }
+
+  private onFileSelected() {
+    const file = this.inputEl.current.files[0];
+    const url = window.URL.createObjectURL(file);
+
+    this.setState({
+      avatar: url,
     });
   }
 }

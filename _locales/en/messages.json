@@ -2205,7 +2205,7 @@
     "description": "Button action that the user can click to edit their profile"
   },
   "editGroupName": {
-    "message": "Edit group name",
+    "message": "Edit group name or picture",
     "description": "Button action that the user can click to edit a group name"
   },
   "createGroupDialogTitle": {

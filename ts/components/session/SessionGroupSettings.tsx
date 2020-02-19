@@ -20,6 +20,7 @@ interface Props {
   timerOptions: Array<TimerOption>;
   isPublic: boolean;
   isAdmin: boolean;
+  amMod: boolean;
 
   onGoBack: () => void;
   onInviteFriends: () => void;
@@ -211,6 +212,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       onLeaveGroup,
       isPublic,
       isAdmin,
+      amMod,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
@@ -227,6 +229,9 @@ export class SessionGroupSettings extends React.Component<Props, any> {
         },
       };
     });
+
+    const showUpdateGroupNameButton = isPublic ? amMod : isAdmin;
+    const showUpdateGroupMembersButton = !isPublic && isAdmin;
 
     return (
       <div className="group-settings">
@@ -245,25 +250,23 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           className="description"
           placeholder={window.i18n('description')}
         />
-        {!isPublic && (
-          <>
-            {isAdmin && (
-              <div
-                className="group-settings-item"
-                role="button"
-                onClick={this.props.onUpdateGroupName}
-              >
-                {window.i18n('editGroupName')}
-              </div>
-            )}
-            <div
-              className="group-settings-item"
-              role="button"
-              onClick={this.props.onUpdateGroupMembers}
-            >
-              {window.i18n('showMembers')}
-            </div>
-          </>
+        {showUpdateGroupNameButton && (
+          <div
+            className="group-settings-item"
+            role="button"
+            onClick={this.props.onUpdateGroupName}
+          >
+            {window.i18n('editGroupName')}
+          </div>
+        )}
+        {showUpdateGroupMembersButton && (
+          <div
+            className="group-settings-item"
+            role="button"
+            onClick={this.props.onUpdateGroupMembers}
+          >
+            {window.i18n('showMembers')}
+          </div>
         )}
         {/*<div className="group-settings-item">
           {window.i18n('notifications')}

@@ -34,7 +34,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     this.onClickOK = this.onClickOK.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
-    this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
 
     let friends = this.props.friendList;
     friends = friends.map(d => {
@@ -206,17 +205,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       return {
         ...state,
         friendList: updatedFriends,
-      };
-    });
-  }
-
-  private onGroupNameChanged(event: any) {
-    event.persist();
-
-    this.setState(state => {
-      return {
-        ...state,
-        groupName: event.target.value,
       };
     });
   }
