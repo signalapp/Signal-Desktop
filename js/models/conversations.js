@@ -935,7 +935,7 @@
         if (newStatus === FriendRequestStatusEnum.friends) {
           if (!blockSync) {
             // Sync contact
-            this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
+            this.wrapSend(textsecure.messaging.sendContactSyncMessage([this]));
           }
           // Only enable sending profileKey after becoming friends
           this.set({ profileSharing: true });

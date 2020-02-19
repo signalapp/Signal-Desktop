@@ -634,10 +634,10 @@
           blockSync: true,
         }
       );
-      // Send group sync message
-      await textsecure.messaging.sendGroupSyncMessage(
-        window.getConversations()
-      );
+      // Send sync messages
+      const conversations = window.getConversations().models;
+      textsecure.messaging.sendContactSyncMessage(conversations);
+      textsecure.messaging.sendGroupSyncMessage(conversations);
     },
     validatePubKeyHex(pubKey) {
       const c = new Whisper.Conversation({

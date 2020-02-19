@@ -664,58 +664,67 @@ MessageSender.prototype = {
     return Promise.resolve();
   },
 
-  async sendContactSyncMessage(contactConversation) {
-    if (!contactConversation.isPrivate()) {
-      return Promise.resolve();
-    }
-
+  async sendContactSyncMessage(conversations) {
+    // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    // primaryDevicePubKey is set to our own number if we are the master device
     const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
-    const allOurDevices = (await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-      primaryDeviceKey
-    ))
-      // Don't send to ourselves
-      .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
-    if (
-      allOurDevices.includes(contactConversation.id) ||
-      !primaryDeviceKey ||
-      allOurDevices.length === 0
-    ) {
-      // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    if (!primaryDeviceKey) {
       return Promise.resolve();
     }
 
-    const syncMessage = await libloki.api.createContactSyncProtoMessage([
-      contactConversation,
-    ]);
-    const contentMessage = new textsecure.protobuf.Content();
-    contentMessage.syncMessage = syncMessage;
-
-    const silent = true;
-    return this.sendIndividualProto(
-      primaryDeviceKey,
-      contentMessage,
-      Date.now(),
-      silent,
-      {} // options
+    // We need to sync across 3 contacts at a time
+    // This is to avoid hitting storage server limit
+    const chunked = _.chunk(conversations, 3);
+    const syncMessages = await Promise.all(
+      chunked.map(c => libloki.api.createContactSyncProtoMessage(c))
     );
+    const syncPromises = syncMessages
+      .filter(message => message != null)
+      .map(syncMessage => {
+        const contentMessage = new textsecure.protobuf.Content();
+        contentMessage.syncMessage = syncMessage;
+
+        const silent = true;
+        return this.sendIndividualProto(
+          primaryDeviceKey,
+          contentMessage,
+          Date.now(),
+          silent,
+          {} // options
+        );
+      });
+
+    return Promise.all(syncPromises);
   },
 
-  async sendGroupSyncMessage(conversations) {
-    const ourNumber = textsecure.storage.user.getNumber();
-    const syncMessage = await libloki.api.createGroupSyncProtoMessage(
-      conversations
-    );
-    const contentMessage = new textsecure.protobuf.Content();
-    contentMessage.syncMessage = syncMessage;
+  sendGroupSyncMessage(conversations) {
+    // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    // primaryDevicePubKey is set to our own number if we are the master device
+    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    if (!primaryDeviceKey) {
+      return Promise.resolve();
+    }
 
-    const silent = true;
-    return this.sendIndividualProto(
-      ourNumber,
-      contentMessage,
-      Date.now(),
-      silent,
-      {} // options
-    );
+    // We need to sync across 1 group at a time
+    // This is because we could hit the storage server limit with one group
+    const syncPromises = conversations
+      .map(c => libloki.api.createGroupSyncProtoMessage([c]))
+      .filter(message => message != null)
+      .map(syncMessage => {
+        const contentMessage = new textsecure.protobuf.Content();
+        contentMessage.syncMessage = syncMessage;
+
+        const silent = true;
+        return this.sendIndividualProto(
+          primaryDeviceKey,
+          contentMessage,
+          Date.now(),
+          silent,
+          {} // options
+        );
+      });
+
+    return Promise.all(syncPromises);
   },
 
   sendRequestContactSyncMessage(options) {
@@ -1277,6 +1286,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
     sender
   );
   this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
+  this.sendGroupSyncMessage = sender.sendGroupSyncMessage.bind(sender);
   this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(
     sender
   );
