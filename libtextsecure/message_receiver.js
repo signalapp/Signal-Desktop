@@ -1475,7 +1475,11 @@ MessageReceiver.prototype.extend({
     const ourOtherDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
       window.storage.get('primaryDevicePubKey')
     );
-    const ourDevices = new Set([ourNumber, ourPrimaryNumber, ...ourOtherDevices]);
+    const ourDevices = new Set([
+      ourNumber,
+      ourPrimaryNumber,
+      ...ourOtherDevices,
+    ]);
     const validSyncSender = ourDevices.has(envelope.source);
     if (!validSyncSender) {
       throw new Error(
