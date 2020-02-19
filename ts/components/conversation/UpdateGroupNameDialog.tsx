@@ -72,10 +72,6 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     const { okText, cancelText } = this.props;
 
     const titleText = `${this.props.titleText}`;
-    let noAvatarClasses;
-
-    noAvatarClasses = classNames('avatar-center');
-
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
@@ -93,32 +89,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         <div className="spacer-md" />
         <p className={errorMessageClasses}>{errorMsg}</p>
         <div className="spacer-md" />
-
-        <div className={noAvatarClasses}>
-          <div className="avatar-center-inner">
-            {this.renderAvatar()}
-            <div className="upload-btn-background">
-              <input
-                type="file"
-                ref={this.inputEl}
-                className="input-file"
-                placeholder="input file"
-                name="name"
-                onChange={this.onFileSelected}
-              />
-              <div
-                role="button"
-                className={'module-message__buttons__upload'}
-                onClick={() => {
-                  const el = this.inputEl.current;
-                  if (el) {
-                    el.click();
-                  }
-                }}
-              />
-            </div>
-          </div>
-        </div>
+        {this.renderAvatar()}
         <div className="spacer-md" />
 
         <input
@@ -192,14 +163,43 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
 
   private renderAvatar() {
     const avatarPath = this.state.avatar;
+    const isPublic = this.props.isPublic;
+
+    if (!isPublic) {
+      return undefined;
+    }
 
     return (
-      <Avatar
-        avatarPath={avatarPath}
-        conversationType="group"
-        i18n={this.props.i18n}
-        size={80}
-      />
+      <div className="avatar-center">
+        <div className="avatar-center-inner">
+          <Avatar
+            avatarPath={avatarPath}
+            conversationType="group"
+            i18n={this.props.i18n}
+            size={80}
+          />
+          <div className="upload-btn-background">
+            <input
+              type="file"
+              ref={this.inputEl}
+              className="input-file"
+              placeholder="input file"
+              name="name"
+              onChange={this.onFileSelected}
+            />
+            <div
+              role="button"
+              className={'module-message__buttons__upload'}
+              onClick={() => {
+                const el = this.inputEl.current;
+                if (el) {
+                  el.click();
+                }
+              }}
+            />
+            </div>
+          </div>
+        </div>
     );
   }
 

@@ -754,7 +754,7 @@
           const fileObj = await API.serverAPI.putAttachment(attachment.data);
           if (fileObj === null) {
             // problem
-            log.warn('File upload failed');
+            window.warn('File upload failed');
             return;
           }
 
@@ -764,7 +764,7 @@
             ''
           );
           // write it to the channel
-          const changeRes = await API.setChannelAvatar(relativeFileUrl);
+          await API.setChannelAvatar(relativeFileUrl);
         }
 
         if (await API.setChannelName(groupName)) {
