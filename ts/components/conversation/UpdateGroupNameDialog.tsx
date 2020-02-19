@@ -178,27 +178,25 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
             i18n={this.props.i18n}
             size={80}
           />
-          <div className="upload-btn-background">
-            <input
-              type="file"
-              ref={this.inputEl}
-              className="input-file"
-              placeholder="input file"
-              name="name"
-              onChange={this.onFileSelected}
-            />
-            <div
-              role="button"
-              className={'module-message__buttons__upload'}
-              onClick={() => {
-                const el = this.inputEl.current;
-                if (el) {
-                  el.click();
-                }
-              }}
-            />
-            </div>
-          </div>
+          <div
+            className="image-upload-section"
+            role="button"
+            onClick={() => {
+              const el = this.inputEl.current;
+              if (el) {
+                el.click();
+              }
+            }}
+          />
+          <input
+            type="file"
+            ref={this.inputEl}
+            className="input-file"
+            placeholder="input file"
+            name="name"
+            onChange={this.onFileSelected}
+          />
+        </div>
         </div>
     );
   }
