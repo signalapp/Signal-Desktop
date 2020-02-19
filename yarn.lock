@@ -1264,9 +1264,9 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@journeyapps/sqlcipher@https://github.com/scottnonnenberg-signal/node-sqlcipher.git#00fd0f8a6623c6683280976d2a92b41d09c744bc":
+"@journeyapps/sqlcipher@https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b":
   version "4.0.0"
-  resolved "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#00fd0f8a6623c6683280976d2a92b41d09c744bc"
+  resolved "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b"
   dependencies:
     nan "^2.12.1"
     node-pre-gyp "^0.11.0"
