@@ -371,5 +371,25 @@ describe('Link previews', () => {
       const actual = isLinkSneaky(link);
       assert.strictEqual(actual, true);
     });
+
+    it('returns true for =', () => {
+      const link = 'r.id=s.id';
+      assert.strictEqual(isLinkSneaky(link), true);
+    });
+
+    it('returns true for $', () => {
+      const link = 'r.id$s.id';
+      assert.strictEqual(isLinkSneaky(link), true);
+    });
+
+    it('returns true for +', () => {
+      const link = 'r.id+s.id';
+      assert.strictEqual(isLinkSneaky(link), true);
+    });
+
+    it('returns true for ^', () => {
+      const link = 'r.id^s.id';
+      assert.strictEqual(isLinkSneaky(link), true);
+    });
   });
 });
