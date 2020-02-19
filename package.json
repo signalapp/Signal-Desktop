@@ -203,8 +203,8 @@
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "dashdash": "1.14.1",
-    "electron": "6.1.4",
-    "electron-builder": "21.2.0",
+    "electron": "8.0.1",
+    "electron-builder": "22.3.2",
     "electron-icon-maker": "0.0.3",
     "eslint": "4.14.0",
     "eslint-config-airbnb-base": "12.1.0",
@@ -250,7 +250,7 @@
     "webpack-dev-server": "3.8.0"
   },
   "engines": {
-    "node": "12.4.0"
+    "node": "12.13.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
