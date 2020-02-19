@@ -988,11 +988,16 @@
       return toastID;
     };
 
-    window.renderConversationView = () => {
+    window.renderConversationView = conversationKey => {
       const sessionConversation = new Whisper.SessionConversationView({
         el: $('#main-view'),
+        conversationKey,
       });
       sessionConversation.render();
+
+      console.log(conversationKey);
+      console.log(conversationKey);
+      console.log(conversationKey);
     };
 
     window.getFriendsFromContacts = contacts => {

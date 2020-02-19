@@ -109,7 +109,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     key,
     style,
   }: RowRendererParamsType): JSX.Element => {
-    const { openConversationInternal } = this.props;
+    // const { openConversationInternal } = this.props;
 
     const conversations = this.getCurrentConversations();
 
@@ -118,13 +118,14 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     }
 
     const conversation = conversations[index];
+    const conversationKey = conversation.id;
 
     return (
       <ConversationListItem
         key={key}
         style={style}
         {...conversation}
-        onClick={window.renderConversationView}
+        onClick={() => window.renderConversationView(conversationKey)}
         i18n={window.i18n}
       />
     );

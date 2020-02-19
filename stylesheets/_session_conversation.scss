@@ -1,69 +1,102 @@
 $composition-container-height: 60px;
 
 .conversation-item {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  height: 100%;
 }
 
 .session-conversation-wrapper {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: $session-shade-2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: $session-shade-2;
 }
 
-.messages-container{
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
+.messages-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  padding: $session-margin-lg;
 }
 
 .composition-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $session-shade-4;
+  padding: 0px $session-margin-md;
+  min-height: $composition-container-height;
+
+  & > .session-icon-button {
+    margin-right: $session-margin-sm;
+  }
+  .session-icon-button {
+    opacity: 0.8;
+
+    .send {
+      background-color: $session-shade-14;
+      padding: $session-margin-xs;
+      border-radius: 50%;
+      height: 30px;
+      width: 30px;
+    }
+  }
+
+  .send-message-input {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $session-shade-4;
-    padding: 0px $session-margin-md;
+    flex-grow: 1;
     min-height: $composition-container-height;
-    
-    & > .session-icon-button {
-        margin-right: $session-margin-sm;
-    }
-    .session-icon-button {
-        opacity: 0.8;
-            
-        .send {
-            background-color: $session-shade-14;
-            padding: $session-margin-xs;
-            border-radius: 50%;
-            height: 30px;
-            width: 30px;
-        }
-    }
-    
-    .send-message-input {
+    padding: $composition-container-height / 3 0px;
+
+    textarea {
+      font-family: 'SF Pro Text';
+      min-height: $composition-container-height / 3;
+      max-height: 2 * $composition-container-height;
+      margin-right: $session-margin-md;
+      color: $session-color-white;
+      resize: none;
       display: flex;
       flex-grow: 1;
-      min-height: $composition-container-height
-        
-      textarea {
-        min-height: $composition-container-height / 3;
-        max-height: 3 * $composition-container-height;
-        margin-right: $session-margin-md;
-        color: $session-color-white;
-        resize: none;
-        display: flex;
-        flex-grow: 1;
-        background: transparent;
-        outline: none;
-        border: none;
-        font-size: $session-font-md;
-        line-height: $session-font-h2;
-        padding: $composition-container-height / 3 0px;
-        
-      }
+      background: transparent;
+      outline: none;
+      border: none;
+      font-size: $session-font-md;
+      line-height: $session-font-h2;
+      letter-spacing: 0.5px;
     }
+  }
 }
 
+
+
+.session-emoji-panel {
+  position: absolute;
+    bottom: 68px;
+    right: 0px;
+    min-height: 400px;
+    min-width: 400px;
+    background-color: $session-shade-4;
+    border: 1px solid $session-shade-6;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    padding: $session-margin-lg;
+}
+
+
+.session-progress {
+  position: relative;
+  background-color: rgba(30, 30, 30, 0.5);
+
+  &__progress {
+    transition: opacity 0.15s;
+    position: absolute;
+    left: 0px;
+    font-size: 0px;
+    height: 3px;
+
+    background-color: $session-color-green;
+
+  }
+}

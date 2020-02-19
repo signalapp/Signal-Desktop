@@ -2,18 +2,19 @@ interface Window {
   CONSTANTS: any;
   versionInfo: any;
 
-
   renderConversationView: any;
-
-
 
   Events: any;
   Lodash: any;
   deleteAllData: any;
   clearLocalData: any;
+
   getAccountManager: any;
   getConversations: any;
+  getConversationByKey: any;
+  getMessagesByKey: any;
   getFriendsFromContacts: any;
+  
   mnemonic: any;
   clipboard: any;
   attemptConnection: any;

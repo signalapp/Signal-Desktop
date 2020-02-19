@@ -58,7 +58,9 @@ const { UserDetailsDialog } = require('../../ts/components/UserDetailsDialog');
 const {
   DevicePairingDialog,
 } = require('../../ts/components/DevicePairingDialog');
-const { SessionConversation } = require('../../ts/components/session/SessionConversation');
+const {
+  SessionConversation,
+} = require('../../ts/components/session/SessionConversation');
 const {
   SettingsView,
 } = require('../../ts/components/session/settings/SessionSettings');

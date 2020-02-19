@@ -59,6 +59,25 @@
   window.getInboxCollection = () => inboxCollection;
   window.getConversations = () => conversations;
 
+  window.getConversationByKey = key => {
+    // Key is pubkey or public chat name
+    const conversation = conversations.models.filter(conv => conv.id === key)[0] || null;
+
+    return conversation;
+  }
+  window.getMessagesByKey = async key => {
+    const conversation = window.getConversationByKey(key);
+    
+    // Grab messages and push to conv object.
+    await conversation.fetchMessages();
+    
+    const messagesModel = conversation.messageCollection.models;
+    const messages = messagesModel.map(conv => conv.attributes);
+
+    return messages;
+  }
+
+
   window.ConversationController = {
     get(id) {
       if (!this._initialFetchComplete) {

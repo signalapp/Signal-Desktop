@@ -1,7 +1,7 @@
 {
-  "name": "session-messenger-desktop",
+  "name": "session-desktop",
   "productName": "Session",
-  "description": "Private messaging from your desktop",
+  "description": "Send messages not metadata",
   "repository": "https://github.com/loki-project/loki-messenger.git",
   "version": "1.0.1",
   "license": "GPL-3.0",
@@ -199,7 +199,7 @@
     "tslint": "5.13.0",
     "tslint-microsoft-contrib": "6.0.0",
     "tslint-react": "3.6.0",
-    "typescript": "3.3.3333",
+    "typescript": "^3.7",
     "webpack": "4.4.1"
   },
   "engines": {

@@ -238,7 +238,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
             <div role="button" className="text-subtle">
               {window.i18n('members', memberCount)}
             </div>
-            <div className="spacer-lg" />            
+            <div className="spacer-lg" />
           </>
         )}
         <input

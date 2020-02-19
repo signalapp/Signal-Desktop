@@ -131,6 +131,7 @@
       this.messageCollection.on('change:errors', this.handleMessageError, this);
       this.messageCollection.on('send-error', this.onMessageError, this);
 
+
       this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
       const debouncedUpdateLastMessage = _.debounce(
         this.updateLastMessage.bind(this),
