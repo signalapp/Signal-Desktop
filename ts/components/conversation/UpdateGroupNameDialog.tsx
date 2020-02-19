@@ -197,7 +197,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
             onChange={this.onFileSelected}
           />
         </div>
-        </div>
+      </div>
     );
   }
 

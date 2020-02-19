@@ -2206,11 +2206,13 @@
   },
   "editGroupNameOrPicture": {
     "message": "Edit group name or picture",
-    "description": "Button action that the user can click to edit a group name (open)"
+    "description":
+      "Button action that the user can click to edit a group name (open)"
   },
   "editGroupName": {
     "message": "Edit group name",
-    "description": "Button action that the user can click to edit a group name (closed)"
+    "description":
+      "Button action that the user can click to edit a group name (closed)"
   },
   "createGroupDialogTitle": {
     "message": "Creating a Closed Group",
