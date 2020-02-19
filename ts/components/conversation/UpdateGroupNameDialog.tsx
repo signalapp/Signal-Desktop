@@ -36,6 +36,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     this.onKeyUp = this.onKeyUp.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
     this.onFileSelected = this.onFileSelected.bind(this);
+    this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
 
     this.state = {
       groupName: this.props.groupName,

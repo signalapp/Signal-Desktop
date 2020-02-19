@@ -1249,9 +1249,7 @@ class LokiPublicChannelAPI {
       }
       if (note.value && note.value.avatar) {
         const avatarAbsUrl = this.serverAPI.baseServerUrl + note.value.avatar;
-        console.log('setting', avatarAbsUrl);
         const {
-          upgradeMessageSchema,
           writeNewAttachmentData,
           deleteAttachmentData,
         } = window.Signal.Migrations;
@@ -1267,18 +1265,22 @@ class LokiPublicChannelAPI {
           }
           return ab;
         }
+        const buffer = await imageData.buffer();
         const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
           this.conversation.attributes,
-          toArrayBuffer(imageData),
+          toArrayBuffer(buffer),
           {
             writeNewAttachmentData,
             deleteAttachmentData,
           }
         );
-        console.log('newAttributes.avatar', newAttributes.avatar);
         // update group
-        this.conversation.set(newAttributes);
-        //this.conversation.setProfileAvatar(newAttributes.avatar);
+        this.conversation.set('avatar', newAttributes.avatar);
+
+        await window.Signal.Data.updateConversation(this.conversation.id, this.conversation.attributes, {
+          Conversation: Whisper.Conversation,
+        });
+        this.conversation.trigger('change');
       }
       // is it mutable?
       // who are the moderators?
