@@ -2,6 +2,7 @@
 /* global window: false */
 const path = require('path');
 const electron = require('electron');
+const {webFrame} = electron;
 const semver = require('semver');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
@@ -69,6 +70,7 @@ window.CONSTANTS = {
   MAX_CONNECTION_DURATION: 5000,
 };
 
+
 window.versionInfo = {
   environment: window.getEnvironment(),
   version: window.getVersion(),
@@ -82,9 +84,14 @@ const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
 
 
-Window.updateScaling = (number) => {
-  ipc.s
+window.setScaling = (number) => {
+  return webFrame.setZoomFactor(number);
 }
+
+window.getScaling = () => {
+  return webFrame.getZoomFactor();
+}
+
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
@@ -185,7 +192,7 @@ ipc.on('set-up-as-standalone', () => {
 
 // Settings-related events
 
-console.log(window.getSettingValue('zoom-factor-setting'), 'from preloadJS and get the setting value');
+
 
 
 window.showSettings = () => ipc.send('show-settings');
@@ -228,6 +235,9 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
 window.setSettingValue = (settingID, value) => {
   window.storage.put(settingID, value);
 };
+
+
+
 
 installGetter('device-name', 'getDeviceName');
 
