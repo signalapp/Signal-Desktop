@@ -81,6 +81,11 @@ window.wrapDeferred = deferredToPromise;
 const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
 
+
+Window.updateScaling = (number) => {
+  ipc.s
+}
+
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
 // Set the password for the database
@@ -160,6 +165,9 @@ ipc.on('on-unblock-number', (event, number) => {
 window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
+
+
+
 window.updateTrayIcon = unreadCount =>
   ipc.send('update-tray-icon', unreadCount);
 
@@ -176,6 +184,9 @@ ipc.on('set-up-as-standalone', () => {
 });
 
 // Settings-related events
+
+console.log(window.getSettingValue('zoom-factor-setting'), 'from preloadJS and get the setting value');
+
 
 window.showSettings = () => ipc.send('show-settings');
 window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
@@ -212,6 +223,8 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   return comparisonValue ? !!settingVal === comparisonValue : settingVal;
 };
 
+
+
 window.setSettingValue = (settingID, value) => {
   window.storage.put(settingID, value);
 };
@@ -229,9 +242,9 @@ installGetter('message-ttl', 'getMessageTTL');
 installSetter('message-ttl', 'setMessageTTL');
 
 // Get the zoom Factor setting
-window.getZoomFactor = () => window.storage.get('zoom-factor-setting',50)
-installGetter('zoom-factor-setting', 'getZoomFactor');
-installSetter('zoom-factor-setting', 'setZoomFactor');
+// window.getZoomFactor = () => window.storage.get('zoom-factor-setting',50)
+// installGetter('zoom-factor-setting', 'getZoomFactor');
+// installSetter('zoom-factor-setting', 'setZoomFactor');
 
 installGetter('read-receipt-setting', 'getReadReceiptSetting');
 installSetter('read-receipt-setting', 'setReadReceiptSetting');

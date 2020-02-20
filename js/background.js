@@ -325,13 +325,13 @@
       },
 
 
-      getZoomFactor: () => storage.get('zoom-factor-setting', 48),
-      setZoomFactor: value => {
-        // Make sure the ttl is between a given range and is valid
-        const intValue = parseInt(value, 10);
-        const factor = Number.isNaN(intValue) ? 24 : intValue;
-        storage.put('zoom-factor-setting', factor);
-      },
+      // getZoomFactor: () => storage.get('zoom-factor-setting', 48),
+      // setZoomFactor: value => {
+      //   // Make sure the ttl is between a given range and is valid
+      //   const intValue = parseInt(value, 10);
+      //   const factor = Number.isNaN(intValue) ? 24 : intValue;
+      //   storage.put('zoom-factor-setting', factor);
+      // },
 
       getReadReceiptSetting: () => storage.get('read-receipt-setting'),
       setReadReceiptSetting: value =>
