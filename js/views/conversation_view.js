@@ -1682,7 +1682,9 @@
     handleAudioConfirm(blob, lostFocus) {
       const dialog = new Whisper.ConfirmationDialogView({
         cancelText: i18n('discard'),
-        message: lostFocus ? i18n('voiceRecordingInterruptedBlur') : i18n('voiceRecordingInterruptedMax'),
+        message: lostFocus
+          ? i18n('voiceRecordingInterruptedBlur')
+          : i18n('voiceRecordingInterruptedMax'),
         okText: i18n('sendAnyway'),
         resolve: async () => {
           await this.handleAudioCapture(blob);

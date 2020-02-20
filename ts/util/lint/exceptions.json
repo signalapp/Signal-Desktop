@@ -793,7 +793,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
     "line": "      this.$('.time').text(`${minutes}:${seconds}`);",
-    "lineNumber": 50,
+    "lineNumber": 51,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -802,7 +802,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/recorder_view.js",
     "line": "      $(window).off('blur', this.onSwitchAwayBound);",
-    "lineNumber": 81,
+    "lineNumber": 82,
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-11T19:22:47.331Z",
     "reasonDetail": "Operating on already-existing DOM elements"
