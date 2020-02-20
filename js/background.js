@@ -986,19 +986,7 @@
       }
 
       return toastID;
-    };
-
-    window.renderConversationView = conversationKey => {
-      const sessionConversation = new Whisper.SessionConversationView({
-        el: $('#main-view'),
-        conversationKey,
-      });
-      sessionConversation.render();
-
-      console.log(conversationKey);
-      console.log(conversationKey);
-      console.log(conversationKey);
-    };
+    };    
 
     window.getFriendsFromContacts = contacts => {
       // To call from TypeScript, input / output are both

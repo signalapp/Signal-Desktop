@@ -21,61 +21,16 @@
   Whisper.ConversationStack = Whisper.View.extend({
     className: 'conversation-stack',
     open(conversation) {
-      const id = `conversation-${conversation.cid}`;
-      const container = $('#main-view .conversation-stack');
+      // const container = $('#main-view .conversation-stack');
+      // container.html('');
 
-      // Has been opened since app start, but not focussed
-      const conversationExists = container.children(`#${id}`).length > 0;
-      // Is focussed
-      const conversationOpened = container.children().first().id === id;
+      this.setupSessionConversation();
+      // const sessionConversationView = new Whisper.SessionConversationView({
+      //   el: container,
+      //   conversationKey: conversation.id,
+      // });
+      // sessionConversationView.render();
 
-      // To limit the size of the DOM for speed
-      const maxNumConversations = 10;
-      const numConversations = container
-        .children()
-        .not('.conversation.placeholder').length;
-      const shouldTrimConversations = numConversations > maxNumConversations;
-
-      if (shouldTrimConversations) {
-        // Removes conversation which has been hidden the longest
-        container.children()[numConversations - 1].remove();
-      }
-
-      if (conversationExists) {
-        // User opened conversation, move it to top of stack, rather than re-rendering
-        const conversations = container
-          .children()
-          .not('.conversation.placeholder');
-        container
-          .children(`#${id}`)
-          .first()
-          .insertBefore(conversations.first());
-        conversation.trigger('opened');
-
-        return;
-      }
-
-      if (!conversationOpened) {
-        this.$el
-          .first()
-          .find('video, audio')
-          .each(function pauseMedia() {
-            this.pause();
-          });
-        let $el = this.$(`#${id}`);
-        if ($el === null || $el.length === 0) {
-          const view = new Whisper.ConversationView({
-            model: conversation,
-            window: this.model.window,
-          });
-          view.view.resetScrollPosition();
-
-          // eslint-disable-next-line prefer-destructuring
-          $el = view.$el;
-        }
-
-        container.prepend($el);
-      }
       conversation.trigger('opened');
     },
     close(conversation) {
@@ -97,6 +52,77 @@
         resolve: onOk,
         reject: onCancel,
       });
+    },
+    setupSessionConversation() {
+      // Here we set up a full redux store with initial state for our LeftPane Root
+      const convoCollection = getConversations();
+      const conversations = convoCollection.map(
+        conversation => conversation.cachedProps
+      );
+
+      const initialState = {
+        conversations: {
+          conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
+        },
+        user: {
+          regionCode: window.storage.get('regionCode'),
+          ourNumber:
+            window.storage.get('primaryDevicePubKey') ||
+            textsecure.storage.user.getNumber(),
+          isSecondaryDevice: !!window.storage.get('isSecondaryDevice'),
+          i18n: window.i18n,
+        },
+      };
+
+      this.store = Signal.State.createStore(initialState);
+      window.inboxStore = this.store;
+
+      this.sessionConversationView = new Whisper.ReactWrapperView({
+        JSX: Signal.State.Roots.createSessionConversation(this.store),
+        className: 'session-conversation-redux-wrapper',
+      });
+
+      // Enables our redux store to be updated by backbone events in the outside world
+      const {
+        conversationAdded,
+        conversationChanged,
+        conversationRemoved,
+        removeAllConversations,
+        messageExpired,
+        openConversationExternal,
+      } = Signal.State.bindActionCreators(
+        Signal.State.Ducks.conversations.actions,
+        this.store.dispatch
+      );
+      const { userChanged } = Signal.State.bindActionCreators(
+        Signal.State.Ducks.user.actions,
+        this.store.dispatch
+      );
+
+      this.openConversationAction = openConversationExternal;
+
+      this.listenTo(convoCollection, 'remove', conversation => {
+        const { id } = conversation || {};
+        conversationRemoved(id);
+      });
+      this.listenTo(convoCollection, 'add', conversation => {
+        const { id, cachedProps } = conversation || {};
+        conversationAdded(id, cachedProps);
+      });
+      this.listenTo(convoCollection, 'change', conversation => {
+        const { id, cachedProps } = conversation || {};
+        conversationChanged(id, cachedProps);
+      });
+      this.listenTo(convoCollection, 'reset', removeAllConversations);
+
+      Whisper.events.on('messageExpired', messageExpired);
+      Whisper.events.on('userChanged', userChanged);
+
+      // Add sessionConversation to the DOM
+      // Don't worry - this isn't fetching messages on every re-render. It's pulling
+      // from Redux 
+      // $('#main-view .conversation-stack').html('');
+      $('#main-view .conversation-stack').prepend(this.sessionConversationView.el);
     },
   });
 
@@ -345,7 +371,7 @@
       }
 
       this.conversation_stack.open(conversation);
-      this.focusConversation();
+      // this.focusConversation();
     },
     closeConversation(conversation) {
       if (conversation) {

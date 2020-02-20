@@ -69,14 +69,15 @@
     const conversation = window.getConversationByKey(key);
     
     // Grab messages and push to conv object.
-    await conversation.fetchMessages();
+    if (!conversation.messageCollection.models.length){
+      await conversation.fetchMessages();
+    }
     
     const messagesModel = conversation.messageCollection.models;
     const messages = messagesModel.map(conv => conv.attributes);
 
     return messages;
   }
-
 
   window.ConversationController = {
     get(id) {
