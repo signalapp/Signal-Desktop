@@ -84,11 +84,11 @@ const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
 
 
-window.setScaling = (number) => {
+window.setZoomFactor = (number) => {
   return webFrame.setZoomFactor(number);
 }
 
-window.getScaling = () => {
+window.getZoomFactor = () => {
   return webFrame.getZoomFactor();
 }
 

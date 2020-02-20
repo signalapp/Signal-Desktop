@@ -11,6 +11,7 @@ interface Window {
   mnemonic: any;
   clipboard: any;
   attemptConnection: any;
+  setZoomFactor: any;
 
   passwordUtil: any;
   userConfig: any;
@@ -58,6 +59,7 @@ interface Window {
   lokiFeatureFlags: any;
 
   resetDatabase: any;
+
 }
 
 interface Promise<T> {
