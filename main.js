@@ -227,6 +227,7 @@ function createWindow() {
       minWidth: MIN_WIDTH,
       minHeight: MIN_HEIGHT,
       autoHideMenuBar: false,
+      backgroundColor: '#fff',
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
