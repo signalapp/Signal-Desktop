@@ -75,6 +75,11 @@
       return { toastMessage: i18n('messageFoundButNotLoaded') };
     },
   });
+  Whisper.VoiceNoteLimit = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('voiceNoteLimit') };
+    },
+  });
   Whisper.VoiceNoteMustBeOnlyAttachmentToast = Whisper.ToastView.extend({
     render_attributes() {
       return { toastMessage: i18n('voiceNoteMustBeOnlyAttachment') };
@@ -1650,6 +1655,8 @@
         return;
       }
 
+      this.showToast(Whisper.VoiceNoteLimit);
+
       // Note - clicking anywhere will close the audio capture panel, due to
       //   the onClick handler in InboxView, which calls its closeRecording method.
 
@@ -1663,6 +1670,7 @@
       const view = this.captureAudioView;
       view.render();
       view.on('send', this.handleAudioCapture.bind(this));
+      view.on('confirm', this.handleAudioConfirm.bind(this));
       view.on('closed', this.endCaptureAudio.bind(this));
       view.$el.appendTo(this.$('.capture-audio'));
       view.$('.finish').focus();
@@ -1670,6 +1678,19 @@
 
       this.disableMessageField();
       this.$('.microphone').hide();
+    },
+    handleAudioConfirm(blob, lostFocus) {
+      const dialog = new Whisper.ConfirmationDialogView({
+        cancelText: i18n('discard'),
+        message: lostFocus ? i18n('voiceRecordingInterruptedBlur') : i18n('voiceRecordingInterruptedMax'),
+        okText: i18n('sendAnyway'),
+        resolve: async () => {
+          await this.handleAudioCapture(blob);
+        },
+      });
+
+      this.$el.prepend(dialog.el);
+      dialog.focusCancel();
     },
     async handleAudioCapture(blob) {
       if (this.hasFiles()) {
