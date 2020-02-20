@@ -1471,6 +1471,10 @@
       "Warning! Lowering the TTL could result in messages being lost if the recipient doesn't collect them in time!",
     "description": "Warning for the time to live setting"
   },
+  "zoomFactorSettingTitle": {
+    "message": "Zoom Factor",
+    "description": "Title of the Zoom Factor setting"
+  },
   "notificationSettingsDialog": {
     "message": "When messages arrive, display notifications that reveal...",
     "description": "Explain the purpose of the notification settings"

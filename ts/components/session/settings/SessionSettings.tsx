@@ -474,7 +474,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       {
         id: 'zoom-factor-setting',
         title: window.i18n('zoomFactorSettingTitle'),
-        description: window.i18n('zoomFactorSettingTitleDescription'),
+        description: undefined,
         hidden: false,
         type: SessionSettingType.Slider,
         category: SessionSettingCategory.Appearance,

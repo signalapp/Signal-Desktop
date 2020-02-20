@@ -114,7 +114,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
                 min={60}
                 max={200}
                 defaultValue={currentSliderValue}
-                onAfterChange={sliderValue => {
+                onChange={sliderValue => {
                   this.handleSlider(sliderValue);
                 }}
                 />
