@@ -39,7 +39,7 @@ export class SessionConversation extends React.Component<any, any> {
   // }
 
   render() {
-  //   console.log(`[vince]`, this.props);
+    console.log(`[vince]`, this.props);
 
   //   // const headerProps = this.props.getHeaderProps;
   //   const { conversationKey } = this.props;
@@ -195,4 +195,4 @@ export class SessionConversation extends React.Component<any, any> {
 //   public scrollToBottom() {
 
 //   }
-// }
+}

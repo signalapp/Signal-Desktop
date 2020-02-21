@@ -22,8 +22,7 @@ export const getConversationLookup = createSelector(
   }
 );
 
-export const getSelectedConversation = createSelector(
-  getConversations,
+export const getSelectedConversation = createSelector(getConversations,
   (state: ConversationsStateType): string | undefined => {
     return state.selectedConversation;
   }

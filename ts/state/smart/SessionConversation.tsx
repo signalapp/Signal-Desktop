@@ -3,12 +3,16 @@ import { mapDispatchToProps } from '../actions';
 import { SessionConversation } from '../../components/session/SessionConversation';
 import { StateType } from '../reducer';
 
-import { getSessionConversationInfo } from '../selectors/conversations';
+import { getSessionConversationInfo, getSelectedConversation } from '../selectors/conversations';
 
 const mapStateToProps = (state: StateType) => {
-  const lists = getSessionConversationList(state);
-
-  return lists;
+  const lists = getSessionConversationInfo(state);
+  const selectedConversation = getSelectedConversation(state);
+  
+  return {
+    ...lists,
+    selectedConversation,
+  }
 };
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
