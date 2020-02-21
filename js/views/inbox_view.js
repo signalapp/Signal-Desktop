@@ -24,7 +24,7 @@
       // const container = $('#main-view .conversation-stack');
       // container.html('');
 
-      this.setupSessionConversation();
+      this.setupSessionConversation(conversation.id);
       // const sessionConversationView = new Whisper.SessionConversationView({
       //   el: container,
       //   conversationKey: conversation.id,
@@ -53,8 +53,8 @@
         reject: onCancel,
       });
     },
-    setupSessionConversation() {
-      // Here we set up a full redux store with initial state for our LeftPane Root
+    setupSessionConversation(conversationId) {
+      // Here we set up a full redux store with initial state for our Conversation Root
       const convoCollection = getConversations();
       const conversations = convoCollection.map(
         conversation => conversation.cachedProps
@@ -75,7 +75,7 @@
       };
 
       this.store = Signal.State.createStore(initialState);
-      window.inboxStore = this.store;
+      window.conversationStore = this.store;
 
       this.sessionConversationView = new Whisper.ReactWrapperView({
         JSX: Signal.State.Roots.createSessionConversation(this.store),
