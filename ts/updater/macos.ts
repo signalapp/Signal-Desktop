@@ -24,7 +24,6 @@ import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
 import { Dialogs } from '../types/Dialogs';
 
-let isChecking = false;
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
 const INTERVAL = MINUTE * 30;
@@ -60,14 +59,8 @@ async function checkDownloadAndInstall(
   locale: LocaleType,
   logger: LoggerType
 ) {
-  if (isChecking) {
-    return;
-  }
-
   logger.info('checkDownloadAndInstall: checking for update...');
   try {
-    isChecking = true;
-
     const result = await checkForUpdates(logger);
     if (!result) {
       return;
@@ -121,8 +114,6 @@ async function checkDownloadAndInstall(
     });
   } catch (error) {
     logger.error('checkDownloadAndInstall: error', getPrintableError(error));
-  } finally {
-    isChecking = false;
   }
 }
 
@@ -358,10 +349,16 @@ export function showReadOnlyDialog(
   }, ACK_RENDER_TIMEOUT);
 }
 
+let showingReadOnlyDialog = false;
+
 async function showFallbackReadOnlyDialog(
   mainWindow: BrowserWindow,
   locale: LocaleType
 ) {
+  if (showingReadOnlyDialog) {
+    return;
+  }
+
   const options = {
     type: 'warning',
     buttons: [locale.messages.ok.message],
@@ -369,5 +366,9 @@ async function showFallbackReadOnlyDialog(
     message: locale.i18n('readOnlyVolume', ['Signal.app', '/Applications']),
   };
 
+  showingReadOnlyDialog = true;
+
   await dialog.showMessageBox(mainWindow, options);
+
+  showingReadOnlyDialog = false;
 }

@@ -23,7 +23,6 @@ import { markShouldQuit } from '../../app/window_state';
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);
 
-let isChecking = false;
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
 const INTERVAL = MINUTE * 30;
@@ -61,13 +60,7 @@ async function checkDownloadAndInstall(
   locale: LocaleType,
   logger: LoggerType
 ) {
-  if (isChecking) {
-    return;
-  }
-
   try {
-    isChecking = true;
-
     logger.info('checkDownloadAndInstall: checking for update...');
     const result = await checkForUpdates(logger);
     if (!result) {
@@ -111,8 +104,6 @@ async function checkDownloadAndInstall(
     });
   } catch (error) {
     logger.error('checkDownloadAndInstall: error', getPrintableError(error));
-  } finally {
-    isChecking = false;
   }
 }
 

@@ -147,10 +147,16 @@ export async function downloadUpdate(
   }
 }
 
+let showingUpdateDialog = false;
+
 async function showFallbackUpdateDialog(
   mainWindow: BrowserWindow,
   locale: LocaleType
-) {
+): Promise<boolean> {
+  if (showingUpdateDialog) {
+    return false;
+  }
+
   const RESTART_BUTTON = 0;
   const LATER_BUTTON = 1;
   const options = {
@@ -166,7 +172,11 @@ async function showFallbackUpdateDialog(
     cancelId: LATER_BUTTON,
   };
 
+  showingUpdateDialog = true;
+
   const { response } = await dialog.showMessageBox(mainWindow, options);
+
+  showingUpdateDialog = false;
 
   return response === RESTART_BUTTON;
 }
@@ -188,15 +198,24 @@ export function showUpdateDialog(
 
   setTimeout(async () => {
     if (!ack) {
-      await showFallbackUpdateDialog(mainWindow, locale);
+      const shouldUpdate = await showFallbackUpdateDialog(mainWindow, locale);
+      if (shouldUpdate) {
+        performUpdateCallback();
+      }
     }
   }, ACK_RENDER_TIMEOUT);
 }
 
+let showingCannotUpdateDialog = false;
+
 async function showFallbackCannotUpdateDialog(
   mainWindow: BrowserWindow,
   locale: LocaleType
-) {
+): Promise<void> {
+  if (showingCannotUpdateDialog) {
+    return;
+  }
+
   const options = {
     type: 'error',
     buttons: [locale.messages.ok.message],
@@ -204,7 +223,11 @@ async function showFallbackCannotUpdateDialog(
     message: locale.i18n('cannotUpdateDetail', ['https://signal.org/download']),
   };
 
+  showingCannotUpdateDialog = true;
+
   await dialog.showMessageBox(mainWindow, options);
+
+  showingCannotUpdateDialog = false;
 }
 
 export function showCannotUpdateDialog(
