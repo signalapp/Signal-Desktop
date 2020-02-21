@@ -193,6 +193,29 @@
     });
     return syncMessage;
   }
+  function createOpenGroupsSyncProtoMessage(conversations) {
+    // We only want to sync across open groups that we haven't left
+    const sessionOpenGroups = conversations.filter(
+      c => c.isPublic() && !c.isRss() && !c.get('left')
+    );
+
+    if (sessionOpenGroups.length === 0) {
+      return null;
+    }
+
+    const openGroups = sessionOpenGroups.map(
+      conversation =>
+        new textsecure.protobuf.SyncMessage.OpenGroupDetails({
+          url: conversation.id.split('@').pop(),
+          channelId: conversation.get('channelId'),
+        })
+    );
+
+    const syncMessage = new textsecure.protobuf.SyncMessage({
+      openGroups,
+    });
+    return syncMessage;
+  }
   async function sendPairingAuthorisation(authorisation, recipientPubKey) {
     const pairingAuthorisation = createPairingAuthorisationProtoMessage(
       authorisation
@@ -257,5 +280,6 @@
     sendUnpairingMessageToSecondary,
     createContactSyncProtoMessage,
     createGroupSyncProtoMessage,
+    createOpenGroupsSyncProtoMessage,
   };
 })();
