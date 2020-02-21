@@ -1,5 +1,3 @@
-import * as RegistrationSelectors from '../state/selectors/registration';
-
 export function markEverDone() {
   // @ts-ignore
   window.storage.put('chromiumRegistrationDoneEver', '');
@@ -18,10 +16,12 @@ export function remove() {
 
 export function isDone() {
   // @ts-ignore
-  return RegistrationSelectors.isDone(window.reduxStore.getState());
+  // tslint:disable-next-line no-backbone-get-set-outside-model
+  return window.storage.get('chromiumRegistrationDone') === '';
 }
 
 export function everDone() {
   // @ts-ignore
-  return RegistrationSelectors.everDone(window.reduxStore.getState());
+  // tslint:disable-next-line no-backbone-get-set-outside-model
+  return window.storage.get('chromiumRegistrationDoneEver') === '' || isDone();
 }

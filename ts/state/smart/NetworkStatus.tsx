@@ -4,14 +4,14 @@ import { NetworkStatus } from '../../components/NetworkStatus';
 import { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { hasNetworkDialog } from '../selectors/network';
-import { isDone } from '../selectors/registration';
+import { isDone } from '../../util/registration';
 
 const mapStateToProps = (state: StateType) => {
   return {
     ...state.network,
     hasNetworkDialog: hasNetworkDialog(state),
     i18n: getIntl(state),
-    isRegistrationDone: isDone(state),
+    isRegistrationDone: isDone(),
   };
 };
 

@@ -73,7 +73,6 @@ const updatesDuck = require('../../ts/state/ducks/updates');
 const userDuck = require('../../ts/state/ducks/user');
 
 const conversationsSelectors = require('../../ts/state/selectors/conversations');
-const registrationSelectors = require('../../ts/state/selectors/registration');
 const searchSelectors = require('../../ts/state/selectors/search');
 
 // Migrations
@@ -311,7 +310,6 @@ exports.setup = (options = {}) => {
 
   const Selectors = {
     conversations: conversationsSelectors,
-    registration: registrationSelectors,
     search: searchSelectors,
   };
 

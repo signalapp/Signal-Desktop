@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import { StateType } from '../reducer';
 import { NetworkStateType } from '../ducks/network';
-import { isDone } from './registration';
+import { isDone } from '../../util/registration';
 
 const getNetwork = (state: StateType): NetworkStateType => state.network;
 
