@@ -1929,78 +1929,90 @@
         }
       }
 
-      if (
-        initialMessage.group &&
-        initialMessage.group.members &&
-        initialMessage.group.type === GROUP_TYPES.UPDATE
-      ) {
-        if (newGroup) {
-          conversation.updateGroupAdmins(initialMessage.group.admins);
+      if (initialMessage.group) {
+        if (
+          initialMessage.group.type === GROUP_TYPES.REQUEST_INFO &&
+          !newGroup
+        ) {
+          conversation.sendGroupInfo([source]);
+          return null;
+        } else if (
+          initialMessage.group.members &&
+          initialMessage.group.type === GROUP_TYPES.UPDATE
+        ) {
+          if (newGroup) {
+            conversation.updateGroupAdmins(initialMessage.group.admins);
 
-          conversation.setFriendRequestStatus(
-            window.friends.friendRequestStatusEnum.friends
-          );
-        }
-
-        const fromAdmin = conversation
-          .get('groupAdmins')
-          .includes(primarySource);
-
-        if (!fromAdmin) {
-          // Make sure the message is not removing members / renaming the group
-          const nameChanged =
-            conversation.get('name') !== initialMessage.group.name;
-
-          if (nameChanged) {
-            window.log.warn(
-              'Non-admin attempts to change the name of the group'
+            conversation.setFriendRequestStatus(
+              window.friends.friendRequestStatusEnum.friends
             );
+          } else {
+            const fromAdmin = conversation
+              .get('groupAdmins')
+              .includes(primarySource);
+
+            if (!fromAdmin) {
+              // Make sure the message is not removing members / renaming the group
+              const nameChanged =
+                conversation.get('name') !== initialMessage.group.name;
+
+              if (nameChanged) {
+                window.log.warn(
+                  'Non-admin attempts to change the name of the group'
+                );
+              }
+
+              const membersMissing =
+                _.difference(
+                  conversation.get('members'),
+                  initialMessage.group.members
+                ).length > 0;
+
+              if (membersMissing) {
+                window.log.warn('Non-admin attempts to remove group members');
+              }
+
+              const messageAllowed = !nameChanged && !membersMissing;
+
+              if (!messageAllowed) {
+                confirm();
+                return null;
+              }
+            }
           }
+          // For every member, see if we need to establish a session:
+          initialMessage.group.members.forEach(memberPubKey => {
+            const haveSession = _.some(
+              textsecure.storage.protocol.sessions,
+              s => s.number === memberPubKey
+            );
 
-          const membersMissing =
-            _.difference(
-              conversation.get('members'),
-              initialMessage.group.members
-            ).length > 0;
-
-          if (membersMissing) {
-            window.log.warn('Non-admin attempts to remove group members');
-          }
-
-          const messageAllowed = !nameChanged && !membersMissing;
-
-          if (!messageAllowed) {
-            confirm();
-            return null;
-          }
-        }
-        // For every member, see if we need to establish a session:
-        initialMessage.group.members.forEach(memberPubKey => {
-          const haveSession = _.some(
-            textsecure.storage.protocol.sessions,
-            s => s.number === memberPubKey
-          );
-
-          const ourPubKey = textsecure.storage.user.getNumber();
-          if (!haveSession && memberPubKey !== ourPubKey) {
-            ConversationController.getOrCreateAndWait(
-              memberPubKey,
-              'private'
-            ).then(() => {
-              textsecure.messaging.sendMessageToNumber(
+            const ourPubKey = textsecure.storage.user.getNumber();
+            if (!haveSession && memberPubKey !== ourPubKey) {
+              ConversationController.getOrCreateAndWait(
                 memberPubKey,
-                '(If you see this message, you must be using an out-of-date client)',
-                [],
-                undefined,
-                [],
-                Date.now(),
-                undefined,
-                undefined,
-                { messageType: 'friend-request', sessionRequest: true }
-              );
-            });
-          }
-        });
+                'private'
+              ).then(() => {
+                textsecure.messaging.sendMessageToNumber(
+                  memberPubKey,
+                  '(If you see this message, you must be using an out-of-date client)',
+                  [],
+                  undefined,
+                  [],
+                  Date.now(),
+                  undefined,
+                  undefined,
+                  { messageType: 'friend-request', sessionRequest: true }
+                );
+              });
+            }
+          });
+        } else if (newGroup) {
+          // We have an unknown group, we should request info from the sender
+          textsecure.messaging.requestGroupInfo(conversationId, [
+            primarySource,
+          ]);
+        }
       }
 
       const isSessionRequest =

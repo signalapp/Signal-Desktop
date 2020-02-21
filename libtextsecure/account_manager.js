@@ -634,6 +634,10 @@
           blockSync: true,
         }
       );
+      // Send sync messages
+      const conversations = window.getConversations().models;
+      textsecure.messaging.sendContactSyncMessage(conversations);
+      textsecure.messaging.sendGroupSyncMessage(conversations);
     },
     validatePubKeyHex(pubKey) {
       const c = new Whisper.Conversation({

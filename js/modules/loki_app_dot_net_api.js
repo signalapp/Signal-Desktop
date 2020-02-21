@@ -229,7 +229,7 @@ class LokiAppDotNetServerAPI {
         window.storage.get('primaryDevicePubKey') ||
         textsecure.storage.user.getNumber();
       const profileConvo = ConversationController.get(ourNumber);
-      const profile = profileConvo.getLokiProfile();
+      const profile = profileConvo && profileConvo.getLokiProfile();
       const profileName = profile && profile.displayName;
       // if doesn't match, write it to the network
       if (tokenRes.response.data.user.name !== profileName) {

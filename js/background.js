@@ -787,6 +787,7 @@
         'group'
       );
 
+      convo.updateGroupAdmins([primaryDeviceKey]);
       convo.updateGroup(ev.groupDetails);
 
       // Group conversations are automatically 'friends'
@@ -794,8 +795,6 @@
       convo.setFriendRequestStatus(
         window.friends.friendRequestStatusEnum.friends
       );
-
-      convo.updateGroupAdmins([primaryDeviceKey]);
 
       appView.openConversation(groupId, {});
     };
@@ -1372,6 +1371,8 @@
       await window.lokiFileServerAPI.updateOurDeviceMapping();
       // TODO: we should ensure the message was sent and retry automatically if not
       await libloki.api.sendUnpairingMessageToSecondary(pubKey);
+      // Remove all traces of the device
+      ConversationController.deleteContact(pubKey);
       Whisper.events.trigger('refreshLinkedDeviceList');
     });
   }
