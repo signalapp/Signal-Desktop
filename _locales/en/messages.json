@@ -2597,6 +2597,9 @@
     "message": "Enter other device’s Session ID here"
   },
   "continueYourSession": {
+    "message": "Continue Your Session"
+  },
+  "linkDevice": {
     "message": "Link Device"
   },
   "restoreSessionID": {
