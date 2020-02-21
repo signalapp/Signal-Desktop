@@ -169,6 +169,13 @@ export const getLeftPaneLists = createSelector(
   _getLeftPaneLists
 );
 
+export const getSessionConversationInfo = createSelector(
+  getConversationLookup,
+  getConversationComparator,
+  getSelectedConversation,
+  _getLeftPaneLists
+);
+
 export const getMe = createSelector(
   [getConversationLookup, getUserNumber],
   (lookup: ConversationLookupType, ourNumber: string): ConversationType => {

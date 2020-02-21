@@ -60,6 +60,8 @@
         conversation => conversation.cachedProps
       );
 
+      console.log(conversationId);
+
       const initialState = {
         conversations: {
           conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
