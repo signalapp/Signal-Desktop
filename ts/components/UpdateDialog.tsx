@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 
 import { Dialogs } from '../types/Dialogs';
 import { Intl } from './Intl';
@@ -8,46 +7,25 @@ import { LocalizerType } from '../types/Util';
 export interface PropsType {
   ackRender: () => void;
   dialogType: Dialogs;
+  didSnooze: boolean;
   dismissDialog: () => void;
   hasNetworkDialog: boolean;
   i18n: LocalizerType;
+  showEventsCount: number;
+  snoozeUpdate: () => void;
   startUpdate: () => void;
-}
-
-type MaybeMoment = moment.Moment | null;
-type ReactSnoozeHook = React.Dispatch<React.SetStateAction<MaybeMoment>>;
-
-const SNOOZE_TIMER = 60 * 1000 * 30;
-
-function handleSnooze(setSnoozeForLater: ReactSnoozeHook) {
-  setSnoozeForLater(moment().add(SNOOZE_TIMER));
-  setTimeout(() => {
-    setSnoozeForLater(moment());
-  }, SNOOZE_TIMER);
-}
-
-function canSnooze(snoozeUntil: MaybeMoment) {
-  return snoozeUntil === null;
-}
-
-function isSnoozed(snoozeUntil: MaybeMoment) {
-  if (snoozeUntil === null) {
-    return false;
-  }
-
-  return moment().isBefore(snoozeUntil);
 }
 
 export const UpdateDialog = ({
   ackRender,
   dialogType,
+  didSnooze,
   dismissDialog,
   hasNetworkDialog,
   i18n,
+  snoozeUpdate,
   startUpdate,
 }: PropsType): JSX.Element | null => {
-  const [snoozeUntil, setSnoozeForLater] = React.useState<MaybeMoment>(null);
-
   React.useEffect(() => {
     ackRender();
   });
@@ -56,7 +34,7 @@ export const UpdateDialog = ({
     return null;
   }
 
-  if (dialogType === Dialogs.None || isSnoozed(snoozeUntil)) {
+  if (dialogType === Dialogs.None) {
     return null;
   }
 
@@ -116,12 +94,10 @@ export const UpdateDialog = ({
         <span>{i18n('autoUpdateNewVersionMessage')}</span>
       </div>
       <div className="module-left-pane-dialog__actions">
-        {canSnooze(snoozeUntil) && (
+        {!didSnooze && (
           <button
             className="module-left-pane-dialog__button--no-border"
-            onClick={() => {
-              handleSnooze(setSnoozeForLater);
-            }}
+            onClick={snoozeUpdate}
           >
             {i18n('autoUpdateLaterButtonLabel')}
           </button>

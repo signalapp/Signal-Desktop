@@ -1,10 +1,13 @@
 import { Dialogs } from '../../types/Dialogs';
 import * as updateIpc from '../../shims/updateIpc';
+import { trigger } from '../../shims/events';
 
 // State
 
 export type UpdatesStateType = {
   dialogType: Dialogs;
+  didSnooze: boolean;
+  showEventsCount: number;
 };
 
 // Actions
@@ -12,6 +15,7 @@ export type UpdatesStateType = {
 const ACK_RENDER = 'updates/ACK_RENDER';
 const DISMISS_DIALOG = 'updates/DISMISS_DIALOG';
 const SHOW_UPDATE_DIALOG = 'updates/SHOW_UPDATE_DIALOG';
+const SNOOZE_UPDATE = 'updates/SNOOZE_UPDATE';
 const START_UPDATE = 'updates/START_UPDATE';
 
 type AckRenderAction = {
@@ -27,6 +31,10 @@ export type ShowUpdateDialogAction = {
   payload: Dialogs;
 };
 
+type SnoozeUpdateActionType = {
+  type: 'updates/SNOOZE_UPDATE';
+};
+
 type StartUpdateAction = {
   type: 'updates/START_UPDATE';
 };
@@ -35,6 +43,7 @@ export type UpdatesActionType =
   | AckRenderAction
   | DismissDialogAction
   | ShowUpdateDialogAction
+  | SnoozeUpdateActionType
   | StartUpdateAction;
 
 // Action Creators
@@ -60,6 +69,18 @@ function showUpdateDialog(dialogType: Dialogs): ShowUpdateDialogAction {
   };
 }
 
+const SNOOZE_TIMER = 60 * 1000 * 30;
+
+function snoozeUpdate(): SnoozeUpdateActionType {
+  setTimeout(() => {
+    trigger('snooze-update');
+  }, SNOOZE_TIMER);
+
+  return {
+    type: SNOOZE_UPDATE,
+  };
+}
+
 function startUpdate(): StartUpdateAction {
   updateIpc.startUpdate();
 
@@ -72,6 +93,7 @@ export const actions = {
   ackRender,
   dismissDialog,
   showUpdateDialog,
+  snoozeUpdate,
   startUpdate,
 };
 
@@ -80,6 +102,8 @@ export const actions = {
 function getEmptyState(): UpdatesStateType {
   return {
     dialogType: Dialogs.None,
+    didSnooze: false,
+    showEventsCount: 0,
   };
 }
 
@@ -90,6 +114,16 @@ export function reducer(
   if (action.type === SHOW_UPDATE_DIALOG) {
     return {
       dialogType: action.payload,
+      didSnooze: state.didSnooze,
+      showEventsCount: state.showEventsCount + 1,
+    };
+  }
+
+  if (action.type === SNOOZE_UPDATE) {
+    return {
+      dialogType: Dialogs.None,
+      didSnooze: true,
+      showEventsCount: state.showEventsCount,
     };
   }
 
@@ -99,6 +133,8 @@ export function reducer(
   ) {
     return {
       dialogType: Dialogs.None,
+      didSnooze: state.didSnooze,
+      showEventsCount: state.showEventsCount,
     };
   }
 

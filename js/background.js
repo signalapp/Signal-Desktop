@@ -566,7 +566,8 @@
         window.reduxActions.network
       );
       window.Signal.Services.initializeUpdateListener(
-        window.reduxActions.updates
+        window.reduxActions.updates,
+        window.Whisper.events
       );
       window.reduxActions.expiration.hydrateExpirationStatus(
         window.Signal.Util.hasExpired()

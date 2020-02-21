@@ -6,8 +6,19 @@ type UpdatesActions = {
   showUpdateDialog: (x: Dialogs) => ShowUpdateDialogAction;
 };
 
-export function initializeUpdateListener(updatesActions: UpdatesActions) {
+type EventsType = {
+  once: (ev: string, f: () => void) => void;
+};
+
+export function initializeUpdateListener(
+  updatesActions: UpdatesActions,
+  events: EventsType
+) {
   ipcRenderer.on('show-update-dialog', (_, dialogType: Dialogs) => {
     updatesActions.showUpdateDialog(dialogType);
+  });
+
+  events.once('snooze-update', () => {
+    updatesActions.showUpdateDialog(Dialogs.Update);
   });
 }

@@ -17,6 +17,9 @@ const defaultProps = {
   dismissDialog: action('dismiss-dialog'),
   hasNetworkDialog: false,
   i18n,
+  didSnooze: false,
+  showEventsCount: 0,
+  snoozeUpdate: action('snooze-update'),
   startUpdate: action('start-update'),
 };
 
@@ -25,6 +28,13 @@ const permutations = [
     title: 'Update',
     props: {
       dialogType: 1,
+    },
+  },
+  {
+    title: 'Update (didSnooze=true)',
+    props: {
+      dialogType: 1,
+      didSnooze: true,
     },
   },
   {
@@ -54,11 +64,13 @@ storiesOf('Components/UpdateDialog', module)
       1
     );
     const hasNetworkDialog = boolean('hasNetworkDialog', false);
+    const didSnooze = boolean('didSnooze', false);
 
     return (
       <UpdateDialog
         {...defaultProps}
         dialogType={dialogType}
+        didSnooze={didSnooze}
         hasNetworkDialog={hasNetworkDialog}
       />
     );
