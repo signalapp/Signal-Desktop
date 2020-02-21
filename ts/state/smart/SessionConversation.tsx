@@ -3,15 +3,13 @@ import { mapDispatchToProps } from '../actions';
 import { SessionConversation } from '../../components/session/SessionConversation';
 import { StateType } from '../reducer';
 
-import { getSessionConversationInfo, getSelectedConversation } from '../selectors/conversations';
+import { getSessionConversationInfo } from '../selectors/conversations';
 
 const mapStateToProps = (state: StateType) => {
-  const lists = getSessionConversationInfo(state);
-  const selectedConversation = getSelectedConversation(state);
-  
+  const conversationInfo = getSessionConversationInfo(state);
+
   return {
-    ...lists,
-    selectedConversation,
+    ...conversationInfo,
   }
 };
 

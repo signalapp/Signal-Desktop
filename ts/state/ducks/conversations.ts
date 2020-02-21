@@ -247,7 +247,7 @@ export function reducer(
   action: ConversationActionType
 ): ConversationsStateType {
   if (!state) {
-    return getEmptyState();
+    return getEmptyState();\
   }
 
   if (action.type === 'CONVERSATION_ADDED') {

@@ -76,8 +76,8 @@
         },
       };
 
-      this.store = Signal.State.createStore(initialState);
-      window.conversationStore = this.store;
+      const store = Signal.State.createStore(initialState);
+      window.conversationStore = store;
 
       this.sessionConversationView = new Whisper.ReactWrapperView({
         JSX: Signal.State.Roots.createSessionConversation(this.store),
@@ -94,11 +94,11 @@
         openConversationExternal,
       } = Signal.State.bindActionCreators(
         Signal.State.Ducks.conversations.actions,
-        this.store.dispatch
+        store.dispatch
       );
       const { userChanged } = Signal.State.bindActionCreators(
         Signal.State.Ducks.user.actions,
-        this.store.dispatch
+        store.dispatch
       );
 
       this.openConversationAction = openConversationExternal;

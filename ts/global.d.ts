@@ -5,6 +5,7 @@ interface Window {
   renderConversationView: any;
 
   Events: any;
+  inboxStore: any;
   Lodash: any;
   deleteAllData: any;
   clearLocalData: any;

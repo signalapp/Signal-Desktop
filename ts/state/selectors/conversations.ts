@@ -161,6 +161,36 @@ export const _getLeftPaneLists = (
   };
 };
 
+export const _getSessionConversationInfo = (
+  lookup: ConversationLookupType,
+  comparator: (left: ConversationType, right: ConversationType) => number,
+  selectedConversation?: string
+): {
+  conversation: ConversationType | undefined;
+  selectedConversation?: string;
+} => {
+  const values = Object.values(lookup);
+  const sorted = values.sort(comparator);
+
+  let conversation;
+  const max = sorted.length; 
+
+  for (let i = 0; i < max; i += 1) {
+    let conv = sorted[i];
+
+    if (conv.id === selectedConversation){
+      conversation = conv;
+      break;
+    }
+
+  }
+
+  return {
+    conversation,
+    selectedConversation,
+  };
+};
+
 export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
@@ -172,7 +202,7 @@ export const getSessionConversationInfo = createSelector(
   getConversationLookup,
   getConversationComparator,
   getSelectedConversation,
-  _getLeftPaneLists
+  _getSessionConversationInfo,
 );
 
 export const getMe = createSelector(
