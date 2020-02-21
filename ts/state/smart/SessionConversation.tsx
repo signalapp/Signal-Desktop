@@ -8,6 +8,8 @@ import { getSessionConversationInfo } from '../selectors/conversations';
 const mapStateToProps = (state: StateType) => {
   const conversationInfo = getSessionConversationInfo(state);
 
+  console.log(`[vince] stateToProps from SessionConversation:`, conversationInfo);
+
   return {
     ...conversationInfo,
   }

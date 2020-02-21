@@ -60,8 +60,6 @@
         conversation => conversation.cachedProps
       );
 
-      console.log(conversationId);
-
       const initialState = {
         conversations: {
           conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
@@ -80,8 +78,8 @@
       window.conversationStore = store;
 
       this.sessionConversationView = new Whisper.ReactWrapperView({
-        JSX: Signal.State.Roots.createSessionConversation(this.store),
-        className: 'session-conversation-redux-wrapper',
+        JSX: Signal.State.Roots.createSessionConversation(store),
+        className: 'conversation-item',
       });
 
       // Enables our redux store to be updated by backbone events in the outside world
@@ -122,9 +120,9 @@
 
       // Add sessionConversation to the DOM
       // Don't worry - this isn't fetching messages on every re-render. It's pulling
-      // from Redux 
-      // $('#main-view .conversation-stack').html('');
-      $('#main-view .conversation-stack').prepend(this.sessionConversationView.el);
+      // from Redux
+      $('#main-view .conversation-stack').html('');
+      $('#main-view .conversation-stack').append(this.sessionConversationView.el);
     },
   });
 
