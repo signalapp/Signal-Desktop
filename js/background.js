@@ -500,6 +500,8 @@
 
     if (newVersion) {
       await window.Signal.Data.cleanupOrphanedAttachments();
+      // Don't block on the following operation
+      window.Signal.Data.ensureFilePermissions();
     }
 
     Views.Initialization.setMessage(window.i18n('loading'));

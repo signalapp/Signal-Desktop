@@ -2,8 +2,7 @@ const crypto = require('crypto');
 const path = require('path');
 const { app, dialog, shell, remote } = require('electron');
 
-const pify = require('pify');
-const glob = require('glob');
+const fastGlob = require('fast-glob');
 const fse = require('fs-extra');
 const toArrayBuffer = require('to-arraybuffer');
 const { map, isArrayBuffer, isString } = require('lodash');
@@ -28,7 +27,7 @@ exports.getAllAttachments = async userDataPath => {
   const dir = exports.getPath(userDataPath);
   const pattern = path.join(dir, '**', '*');
 
-  const files = await pify(glob)(pattern, { nodir: true });
+  const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => path.relative(dir, file));
 };
 
@@ -36,7 +35,7 @@ exports.getAllStickers = async userDataPath => {
   const dir = exports.getStickersPath(userDataPath);
   const pattern = path.join(dir, '**', '*');
 
-  const files = await pify(glob)(pattern, { nodir: true });
+  const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => path.relative(dir, file));
 };
 
@@ -44,7 +43,7 @@ exports.getAllDraftAttachments = async userDataPath => {
   const dir = exports.getDraftPath(userDataPath);
   const pattern = path.join(dir, '**', '*');
 
-  const files = await pify(glob)(pattern, { nodir: true });
+  const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => path.relative(dir, file));
 };
 
@@ -52,7 +51,7 @@ exports.getBuiltInImages = async () => {
   const dir = path.join(__dirname, '../images');
   const pattern = path.join(dir, '**', '*.svg');
 
-  const files = await pify(glob)(pattern, { nodir: true });
+  const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => path.relative(dir, file));
 };
 

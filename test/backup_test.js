@@ -239,7 +239,7 @@ describe('Backup', () => {
     it('exports then imports to produce the same data we started with', async function thisNeeded() {
       this.timeout(6000);
 
-      const { attachmentsPath, fse, glob, path, tmp } = window.test;
+      const { attachmentsPath, fse, fastGlob, path, tmp } = window.test;
       const {
         upgradeMessageSchema,
         loadAttachmentData,
@@ -509,7 +509,7 @@ describe('Backup', () => {
         console.log(
           'Backup test: Ensure that all attachments were saved to disk'
         );
-        const attachmentFiles = removeDirs(glob.sync(attachmentsPattern));
+        const attachmentFiles = removeDirs(fastGlob.sync(attachmentsPattern));
         console.log({ attachmentFiles });
         assert.strictEqual(ATTACHMENT_COUNT, attachmentFiles.length);
 
@@ -529,7 +529,7 @@ describe('Backup', () => {
           'Backup test: Ensure that all attachments made it to backup dir'
         );
         const backupAttachmentPattern = path.join(backupDir, 'attachments/*');
-        const backupAttachments = glob.sync(backupAttachmentPattern);
+        const backupAttachments = fastGlob.sync(backupAttachmentPattern);
         console.log({ backupAttachments });
         assert.strictEqual(ATTACHMENT_COUNT, backupAttachments.length);
 
@@ -568,7 +568,7 @@ describe('Backup', () => {
 
         console.log('Backup test: ensure that all attachments were imported');
         const recreatedAttachmentFiles = removeDirs(
-          glob.sync(attachmentsPattern)
+          fastGlob.sync(attachmentsPattern)
         );
         console.log({ recreatedAttachmentFiles });
         assert.strictEqual(ATTACHMENT_COUNT, recreatedAttachmentFiles.length);

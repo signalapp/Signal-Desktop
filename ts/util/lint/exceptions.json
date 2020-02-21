@@ -3398,6 +3398,62 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/fast-glob/node_modules/braces/lib/expand.js",
+    "line": "        result.push(append(value, stash, enclose));",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/fast-glob/node_modules/braces/lib/expand.js",
+    "line": "        result.push(Array.isArray(ele) ? append(item, ele, enclose) : (item + ele));",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/fast-glob/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), stringify(node, options)));",
+    "lineNumber": 48,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/fast-glob/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), ['{}']));",
+    "lineNumber": 53,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/fast-glob/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), range));",
+    "lineNumber": 69,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/fast-glob/node_modules/braces/lib/expand.js",
+    "line": "        q.push(append(q.pop(), queue, enclose));",
+    "lineNumber": 93,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/fast-glob/node_modules/braces/lib/expand.js",
+    "line": "        queue.push(append(queue.pop(), child.value));",
+    "lineNumber": 98,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/file-entry-cache/cache.js",
     "line": "    var cache = flatCache.load( cacheId, _path );",
@@ -10052,6 +10108,38 @@
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/picomatch/lib/parse.js",
+    "line": "    if (tok.value || tok.output) append(tok);",
+    "lineNumber": 210,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/picomatch/lib/parse.js",
+    "line": "      append({ value });",
+    "lineNumber": 415,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/picomatch/lib/parse.js",
+    "line": "      append({ value });",
+    "lineNumber": 427,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/picomatch/lib/parse.js",
+    "line": "      append({ value });",
+    "lineNumber": 511,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T14:09:28.005Z"
   },
   {
     "rule": "thenify-multiArgs",

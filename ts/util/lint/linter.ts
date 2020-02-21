@@ -3,8 +3,7 @@
 import { readFileSync } from 'fs';
 import { join, relative } from 'path';
 
-// @ts-ignore
-import * as glob from 'glob';
+import { sync as fgSync } from 'fast-glob';
 import { forEach, some, values } from 'lodash';
 
 import { ExceptionType, REASONS, RuleType } from './types';
@@ -44,7 +43,7 @@ const exceptions: Array<ExceptionType> = loadJSON(exceptionsPath);
 const exceptionsLookup = createLookup(exceptions);
 let scannedCount = 0;
 
-const allSourceFiles = glob.sync(searchPattern, { nodir: true });
+const allSourceFiles = fgSync(searchPattern, { onlyFiles: true });
 
 const results: Array<ExceptionType> = [];
 
