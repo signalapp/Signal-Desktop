@@ -88,7 +88,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
             />
           )}
 
-          {type === SessionSettingType.Slider && title === 'messageTTL' ? (
+          {type === SessionSettingType.Slider && title === 'Message TTL' ? (
             <div className="slider-wrapper">
               <Slider
                 dots={true}
@@ -105,9 +105,8 @@ export class SessionSettingListItem extends React.Component<Props, State> {
                 <p>{`${currentSliderValue} Hours`}</p>
               </div>
             </div>
-          ):type === SessionSettingType.Slider ? (
+          ):type === SessionSettingType.Slider && title === "Zoom Factor" ? (
             <div>
-
                <Slider
                 dots={true}
                 step={20}
@@ -118,11 +117,13 @@ export class SessionSettingListItem extends React.Component<Props, State> {
                   this.handleSlider(sliderValue);
                 }}
                 />
+
                 <div className="slider-info">
-                <p>{`% ${currentSliderValue} Zoom Level`}</p>
-              </div>
-              </div>
+                  <p>{`% ${currentSliderValue} Zoom Level`}</p>
+                </div>
+            </div>
           ):
+
           null}
         </div>
       </div>
@@ -144,7 +145,9 @@ export class SessionSettingListItem extends React.Component<Props, State> {
       sliderValue: value,
     });
 
-    if(this.props.title !== 'messageTTL' && this.state.sliderValue!==null) {
+    console.log(this.props.title, 'from here')
+
+    if(this.props.title === 'Zoom Factor' && this.state.sliderValue!==null) {
       window.setZoomFactor(this.state.sliderValue/100)
     }
 
