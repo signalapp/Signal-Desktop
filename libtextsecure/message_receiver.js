@@ -1505,6 +1505,8 @@ MessageReceiver.prototype.extend({
       return this.handleContacts(envelope, syncMessage.contacts);
     } else if (syncMessage.groups) {
       return this.handleGroups(envelope, syncMessage.groups);
+    } else if (syncMessage.openGroups) {
+      return this.handleOpenGroups(envelope, syncMessage.openGroups);
     } else if (syncMessage.blocked) {
       return this.handleBlocked(envelope, syncMessage.blocked);
     } else if (syncMessage.request) {
@@ -1605,6 +1607,12 @@ MessageReceiver.prototype.extend({
         return this.dispatchAndWait(ev);
       });
     });
+  },
+  handleOpenGroups(envelope, openGroups) {
+    openGroups.forEach(({ url, channelId }) => {
+      window.attemptConnection(url, channelId);
+    });
+    return this.removeFromCache(envelope);
   },
   handleBlocked(envelope, blocked) {
     window.log.info('Setting these numbers as blocked:', blocked.numbers);

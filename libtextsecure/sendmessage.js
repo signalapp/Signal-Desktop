@@ -727,6 +727,38 @@ MessageSender.prototype = {
     return Promise.all(syncPromises);
   },
 
+  sendOpenGroupsSyncMessage(conversations) {
+    // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    // primaryDevicePubKey is set to our own number if we are the master device
+    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    if (!primaryDeviceKey) {
+      return Promise.resolve();
+    }
+
+    // Send the whole list of open groups in a single message
+
+    const openGroupsSyncMessage = libloki.api.createOpenGroupsSyncProtoMessage(
+      conversations
+    );
+
+    if (!openGroupsSyncMessage) {
+      window.log.info('No open groups to sync');
+      return Promise.resolve();
+    }
+
+    const contentMessage = new textsecure.protobuf.Content();
+    contentMessage.syncMessage = openGroupsSyncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      primaryDeviceKey,
+      contentMessage,
+      Date.now(),
+      silent,
+      {} // options
+    );
+  },
+
   sendRequestContactSyncMessage(options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -1287,6 +1319,9 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   );
   this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
   this.sendGroupSyncMessage = sender.sendGroupSyncMessage.bind(sender);
+  this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
+    sender
+  );
   this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(
     sender
   );
