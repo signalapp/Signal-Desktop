@@ -6,12 +6,13 @@ import { StateType } from '../reducer';
 import { getSessionConversationInfo } from '../selectors/conversations';
 
 const mapStateToProps = (state: StateType) => {
-  const conversationInfo = getSessionConversationInfo(state);
+  //const conversationInfo = getSessionConversationInfo(state);
 
-  console.log(`[vince] stateToProps from SessionConversation:`, conversationInfo);
+  // console.log(`[vince] stateToProps from SessionConversation:`, conversationInfo);
+  console.log(`[vince] stateToProps from SessionConversation:`,state);
 
   return {
-    ...conversationInfo,
+    ...state,
   }
 };
 

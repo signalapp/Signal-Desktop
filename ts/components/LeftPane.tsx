@@ -28,23 +28,23 @@ interface State {
 }
 
 interface Props {
-  conversations: Array<ConversationListItemPropsType>;
-  friends: Array<ConversationType>;
-  sentFriendsRequest: Array<ConversationListItemPropsType>;
-  receivedFriendsRequest: Array<ConversationListItemPropsType>;
-  unreadMessageCount: number;
-  receivedFriendRequestCount: number;
-  searchResults?: SearchResultsProps;
-  searchTerm: string;
-  isSecondaryDevice: boolean;
+  // conversations: Array<ConversationListItemPropsType>;
+  // friends: Array<ConversationType>;
+  // sentFriendsRequest: Array<ConversationListItemPropsType>;
+  // receivedFriendsRequest: Array<ConversationListItemPropsType>;
+  // unreadMessageCount: number;
+  // receivedFriendRequestCount: number;
+  // searchResults?: SearchResultsProps;
+  // searchTerm: string;
+  // isSecondaryDevice: boolean;
 
-  openConversationInternal: (id: string, messageId?: string) => void;
-  updateSearchTerm: (searchTerm: string) => void;
-  search: (query: string, options: SearchOptions) => void;
-  clearSearch: () => void;
+  // openConversationInternal: (id: string, messageId?: string) => void;
+  // updateSearchTerm: (searchTerm: string) => void;
+  // search: (query: string, options: SearchOptions) => void;
+  // clearSearch: () => void;
 }
 
-export class LeftPane extends React.Component<Props, State> {
+export class LeftPane extends React.Component<any, State> {
   public state = {
     selectedSection: SectionType.Message,
   };
@@ -52,6 +52,9 @@ export class LeftPane extends React.Component<Props, State> {
   public constructor(props: any) {
     super(props);
     this.handleSectionSelected = this.handleSectionSelected.bind(this);
+
+    console.log(`[vince] These are my props:`, props);
+    
   }
 
   // this static function is set here to be used by all subsections (message, contacts,...) to render their headers
