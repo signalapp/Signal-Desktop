@@ -14,6 +14,7 @@ interface Window {
   getConversations: any;
   getConversationByKey: any;
   getMessagesByKey: any;
+  getLastMessageByKey: any;
   getFriendsFromContacts: any;
   
   mnemonic: any;

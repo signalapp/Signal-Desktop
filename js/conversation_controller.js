@@ -65,18 +65,37 @@
 
     return conversation;
   }
-  window.getMessagesByKey = async key => {
-    const conversation = window.getConversationByKey(key);
-    
-    // Grab messages and push to conv object.
-    if (!conversation.messageCollection.models.length){
-      await conversation.fetchMessages();
-    }
-    
-    const messagesModel = conversation.messageCollection.models;
-    const messages = messagesModel.map(conv => conv.attributes);
 
+  window.getMessagesByKey = async (key, loadLive = false) => {
+    // loadLive gets messages live, not from the database which can lag behind.
+
+    let messages = [];
+    let messageSet;
+
+    // if (loadLive){
+      messageSet = await window.Signal.Data.getMessagesByConversation(
+        key,
+        { limit: 100, MessageCollection: Whisper.MessageCollection }
+      );
+    // } else {
+    //   const conversation = window.getConversationByKey(key);
+    //   // Grab messages and push to conv object.
+    //   await conversation.fetchMessages();
+    //   messageSet = conversation.messageCollection;
+    // }
+
+    messages = messageSet.models.map(conv => conv.attributes);
     return messages;
+  }
+
+  window.getLastMessageByKey = async key => {
+    const messageSet = await window.Signal.Data.getMessagesByConversation(
+      key,
+      { limit: 1, MessageCollection: Whisper.MessageCollection }
+    );
+
+    const message = messageSet.models.map(conv => conv.attributes)[0];
+    return message;
   }
 
   window.ConversationController = {

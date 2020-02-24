@@ -9,10 +9,13 @@ const mapStateToProps = (state: StateType) => {
   //const conversationInfo = getSessionConversationInfo(state);
 
   // console.log(`[vince] stateToProps from SessionConversation:`, conversationInfo);
-  console.log(`[vince] stateToProps from SessionConversation:`,state);
+  // console.log(`[vince] stateToProps from SessionConversation:`, state);
+
+  // You only want to rerender SessionConversation if the CURRENT conversation updates
+  // Use SelectedConversationChangedActionType FROM actions.ts
 
   return {
-    ...state,
+    conversations: state.conversations,
   }
 };
 

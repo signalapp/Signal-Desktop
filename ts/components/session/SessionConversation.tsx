@@ -6,6 +6,7 @@ import { SessionProgress } from './SessionProgress'
 
 import { Message } from '../conversation/Message';
 import { SessionSpinner } from './SessionSpinner';
+import { configure } from 'protobufjs';
 
 
 // interface Props {
@@ -23,7 +24,7 @@ interface State {
 export class SessionConversation extends React.Component<any, State> {
   constructor(props: any) {
     super(props);
-    const conversationKey = window.inboxStore.getState().conversations.selectedConversation;
+    const conversationKey = this.props.conversations.selectedConversation;
 
     this.state = {
       sendingProgess: 0,
@@ -31,33 +32,51 @@ export class SessionConversation extends React.Component<any, State> {
       conversationKey,
       messages: [],
     };
+
   }
 
-  async componentWillMount() {
-    const {conversationKey} = this.state;
+  public async componentWillUpdate () {
+    console.log(`[vince][update] State:`, this.state);
+    console.log(`[vince][update] Props:`, this.props);
+  }
 
-    if (conversationKey){
+  public async componentWillReceiveProps() {
+    const { conversationKey, messages } = this.state;
+    const conversation = this.props.conversations.conversationLookup[conversationKey];
+
+    // Check if another message came through
+    const shouldLoad = !messages.length || (conversation.lastUpdated > messages[messages.length - 1]?.received_at);
+
+    console.log(`[vince][update] conversation:`, conversation);
+    console.log(`[vince][update] conversation.lastupdated: `, conversation.lastUpdated)
+    console.log(`[vince][update] last message received at: `, messages[messages.length - 1]?.received_at)
+    console.log(`[vince][update] Should Update: `, shouldLoad)
+    console.log(`[vince][update] called ComponentWillRevieceProps. Messages: `, this.state.messages)
+
+    if (conversationKey && shouldLoad){
       this.setState({
-        messages: await window.getMessagesByKey(conversationKey)
+        messages: await window.getMessagesByKey(conversationKey, true)
       });
     }
+    
   }
 
   render() {
-    
+    console.log('[vince] SessionConversation was just rerendered!');
+    console.log(`[vince] These are SessionConversation props: `, this.props);
+
     // const headerProps = this.props.getHeaderProps;
     const { conversationKey } = this.state;
     const loadingMessages = this.state.messages.length === 0;
+
+    console.log(`[vince] My conversation key is: `, conversationKey);
 
     // TMEPORARY SOLUTION TO GETTING CONVERSATION UNTIL
     // SessionConversationStack is created
 
     // Get conversation by Key (NOT cid)
-    const conversation = window.getConversationByKey(conversationKey);
-    const conversationType = conversation.attributes.type;
-
-    console.log(`[vince] Conversation key: `, conversationKey);
-    console.log(`[vince] Conversation:`, conversation);
+    const conversation = this.props.conversations.conversationLookup[conversationKey]
+    const conversationType = conversation.type;
 
     return (
       <div className={`conversation-item conversation-${conversation.cid}`}>

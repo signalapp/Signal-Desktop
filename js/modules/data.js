@@ -770,6 +770,9 @@ async function updateConversation(id, data, { Conversation }) {
     throw new Error(`Conversation ${id} does not exist!`);
   }
 
+  console.log(`[vince][update] Updating conversation ${id}`);
+  console.log(`[vince][update] New data:`, data);
+
   const merged = _.merge({}, existing.attributes, data);
 
   // Merging is a really bad idea and not what we want here, e.g.

@@ -53,74 +53,15 @@
         reject: onCancel,
       });
     },
-    setupSessionConversation(conversationId) {
+    setupSessionConversation() {
       // Here we set up a full redux store with initial state for our Conversation Root
-      const convoCollection = getConversations();
-      const conversations = convoCollection.map(
-        conversation => conversation.cachedProps
-      );
-
-      const initialState = {
-        conversations: {
-          conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
-        },
-        user: {
-          regionCode: window.storage.get('regionCode'),
-          ourNumber:
-            window.storage.get('primaryDevicePubKey') ||
-            textsecure.storage.user.getNumber(),
-          isSecondaryDevice: !!window.storage.get('isSecondaryDevice'),
-          i18n: window.i18n,
-        },
-      };
-
-      const store = Signal.State.createStore(initialState);
-      window.conversationStore = store;
 
       this.sessionConversationView = new Whisper.ReactWrapperView({
-        JSX: Signal.State.Roots.createSessionConversation(store),
+        JSX: Signal.State.Roots.createSessionConversation(window.inboxStore),
         className: 'conversation-item',
       });
 
-      // Enables our redux store to be updated by backbone events in the outside world
-      const {
-        conversationAdded,
-        conversationChanged,
-        conversationRemoved,
-        removeAllConversations,
-        messageExpired,
-        openConversationExternal,
-      } = Signal.State.bindActionCreators(
-        Signal.State.Ducks.conversations.actions,
-        store.dispatch
-      );
-      const { userChanged } = Signal.State.bindActionCreators(
-        Signal.State.Ducks.user.actions,
-        store.dispatch
-      );
-
-      this.openConversationAction = openConversationExternal;
-
-      this.listenTo(convoCollection, 'remove', conversation => {
-        const { id } = conversation || {};
-        conversationRemoved(id);
-      });
-      this.listenTo(convoCollection, 'add', conversation => {
-        const { id, cachedProps } = conversation || {};
-        conversationAdded(id, cachedProps);
-      });
-      this.listenTo(convoCollection, 'change', conversation => {
-        const { id, cachedProps } = conversation || {};
-        conversationChanged(id, cachedProps);
-      });
-      this.listenTo(convoCollection, 'reset', removeAllConversations);
-
-      Whisper.events.on('messageExpired', messageExpired);
-      Whisper.events.on('userChanged', userChanged);
-
       // Add sessionConversation to the DOM
-      // Don't worry - this isn't fetching messages on every re-render. It's pulling
-      // from Redux
       $('#main-view .conversation-stack').html('');
       $('#main-view .conversation-stack').append(this.sessionConversationView.el);
     },

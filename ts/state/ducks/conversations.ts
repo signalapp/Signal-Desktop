@@ -62,6 +62,7 @@ export type ConversationLookupType = {
 
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
+  messageCollection: string;
   selectedConversation?: string;
   showArchived: boolean;
 };
@@ -238,6 +239,7 @@ function showArchivedConversations() {
 function getEmptyState(): ConversationsStateType {
   return {
     conversationLookup: {},
+    messageCollection: 'stuff',
     showArchived: false,
   };
 }
@@ -247,7 +249,7 @@ export function reducer(
   action: ConversationActionType
 ): ConversationsStateType {
   if (!state) {
-    return getEmptyState();\
+    return getEmptyState();
   }
 
   if (action.type === 'CONVERSATION_ADDED') {
@@ -291,10 +293,17 @@ export function reducer(
       }
     }
 
+    let lastMessage: any;
+    window.getLastMessageByKey(id).then((message: any) => lastMessage = message);
+    const messages = [...state.messageCollection].push(lastMessage);
+
+    console.log(`[vince][update] Updated messages to `, messages);
+
     return {
       ...state,
       selectedConversation,
       showArchived,
+      messageCollection: 'afgjvhbrgvkhbrg',
       conversationLookup: {
         ...conversationLookup,
         [id]: data,
