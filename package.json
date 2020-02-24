@@ -2,12 +2,15 @@
   "name": "session-messenger-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "repository": "https://github.com/loki-project/loki-messenger.git",
   "version": "1.0.3",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
     "email": "team@loki.network"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loki-project/session-desktop.git"
   },
   "main": "main.js",
   "scripts": {
@@ -25,7 +28,6 @@
     "build": "electron-builder  --config.extraMetadata.environment=$SIGNAL_ENV",
     "build-release": "cross-env SIGNAL_ENV=production npm run build -- --config.directories.output=release",
     "make:linux:x64:appimage": "electron-builder build --linux appimage --x64",
-    "sign-release": "node ts/updater/generateSignature.js",
     "build-module-protobuf": "pbjs --target static-module --wrap commonjs --out ts/protobuf/compiled.js protos/*.proto && pbts --out ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "clean-module-protobuf": "rm -f ts/protobuf/compiled.d.ts ts/protobuf/compiled.js",
     "build-protobuf": "yarn build-module-protobuf",
@@ -78,8 +80,9 @@
     "dompurify": "^2.0.7",
     "electron-context-menu": "^0.15.0",
     "electron-editor-context-menu": "1.1.1",
-    "electron-is-dev": "0.3.0",
+    "electron-is-dev": "^1.1.0",
     "electron-localshortcut": "^3.2.1",
+    "electron-updater": "^4.2.2",
     "emoji-datasource": "4.0.0",
     "emoji-datasource-apple": "4.0.0",
     "emoji-js": "3.4.0",
@@ -139,6 +142,7 @@
     "@types/classnames": "2.2.3",
     "@types/color": "^3.0.0",
     "@types/config": "0.0.34",
+    "@types/electron-is-dev": "^1.1.1",
     "@types/filesize": "3.6.0",
     "@types/fs-extra": "5.0.5",
     "@types/google-libphonenumber": "7.4.14",
@@ -208,7 +212,8 @@
   "build": {
     "appId": "com.loki-project.messenger-desktop",
     "afterSign": "build/notarize.js",
-    "artifactName": "${name}-${os}-${version}.${ext}",
+    "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
+    "publish": "github",
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
@@ -318,7 +323,8 @@
       "!node_modules/@journeyapps/sqlcipher/deps/*",
       "!node_modules/@journeyapps/sqlcipher/build/*",
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
-      "!build/*.js"
+      "!build/*.js",
+      "!dev-app-update.yml"
     ]
   }
 }
