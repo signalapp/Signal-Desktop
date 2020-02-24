@@ -254,19 +254,6 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderSearch() {
-    return (
-      <div className="search-icon">
-        <SessionIconButton
-          iconType={SessionIconType.Search}
-          iconSize={SessionIconSize.Large}
-          iconPadded={true}
-          onClick={this.highlightMessageSearch}
-        />
-      </div>
-    );
-  }
-
   public renderOptions(triggerId: string) {
     const { showBackButton } = this.props;
 
@@ -394,7 +381,6 @@ export class ConversationHeader extends React.Component<Props> {
 
           {!this.props.isRss && (
             <>
-              {this.renderSearch()}
               {this.renderAvatar()}
             </>
           )}
@@ -409,12 +395,6 @@ export class ConversationHeader extends React.Component<Props> {
     if (this.props.onAvatarClick) {
       this.props.onAvatarClick(userPubKey);
     }
-  }
-
-  public highlightMessageSearch() {
-    // This is a temporary fix. In future we want to search
-    // messages in the current conversation
-    $('.session-search-input input').focus();
   }
 
   private renderPublicMenuItems() {
