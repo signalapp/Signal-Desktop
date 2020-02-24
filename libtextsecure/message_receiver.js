@@ -24,6 +24,8 @@
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
 
+let openGroupBound = false;
+
 function MessageReceiver(username, password, signalingKey, options = {}) {
   this.count = 0;
 
@@ -51,11 +53,15 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
 
   // only do this once to prevent duplicates
   if (lokiPublicChatAPI) {
-    // bind events
-    lokiPublicChatAPI.on(
-      'publicMessage',
-      this.handleUnencryptedMessage.bind(this)
-    );
+    window.log.info('Binding open group events handler', openGroupBound);
+    if (!openGroupBound) {
+      // clear any previous binding
+      lokiPublicChatAPI.removeAllListeners('publicMessage');
+      // we only need one MR in the system handling these
+      // bind events
+      lokiPublicChatAPI.on('publicMessage', this.handleUnencryptedMessage.bind(this));
+      openGroupBound = true;
+    }
   } else {
     window.log.error('Can not handle open group data, API is not available');
   }
