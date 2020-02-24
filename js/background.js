@@ -993,7 +993,9 @@
       let friendList = contacts;
       if (friendList !== undefined) {
         friendList = friendList.filter(
-          friend => friend.type === 'direct' && !friend.isMe
+          friend =>
+            (friend.type === 'direct' && !friend.isMe) ||
+            (friend.type === 'group' && !friend.isPublic && !friend.isRss)
         );
       }
       return friendList;
