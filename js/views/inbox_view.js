@@ -143,16 +143,23 @@
       click: 'onClick',
       'click .section-toggle': 'toggleSection',
     },
-    setupLeftPane() {
+    async setupLeftPane() {
       // Here we set up a full redux store with initial state for our LeftPane Root
       const convoCollection = getConversations();
       const conversations = convoCollection.map(
         conversation => conversation.cachedProps
       );
 
+      const filledConversations = conversations.map(async conv => {
+        const messages = await window.getMessagesByKey(conv.id);
+        return { ...conv, messages};
+      });
+
+      const fullFilledConversations = await Promise.all(filledConversations);
+
       const initialState = {
         conversations: {
-          conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
+          conversationLookup: Signal.Util.makeLookup(fullFilledConversations, 'id'),
         },
         user: {
           regionCode: window.storage.get('regionCode'),
