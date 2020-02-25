@@ -70,6 +70,7 @@ window.CONSTANTS = {
   MAX_MESSAGE_BODY_LENGTH: 64 * 1024,
   // Limited due to the proof-of-work requirement
   SMALL_GROUP_SIZE_LIMIT: 10,
+  NOTIFICATION_ENABLE_TIMEOUT_SECONDS: 10, // number of seconds to turn on notifications after reconnect/start of app
 };
 
 window.versionInfo = {

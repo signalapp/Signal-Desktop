@@ -1471,6 +1471,9 @@
     };
 
     Whisper.Notifications.disable(); // avoid notification flood until empty
+    setTimeout(() => {
+      Whisper.Notifications.enable();
+    }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
 
     if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
       const ourKey = textsecure.storage.user.getNumber();
@@ -1643,6 +1646,11 @@
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
     Whisper.Notifications.disable();
+
+    // Enable back notifications once most messages have been fetched
+    setTimeout(() => {
+      Whisper.Notifications.enable();
+    }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
   }
   function onProgress(ev) {
     const { count } = ev;
