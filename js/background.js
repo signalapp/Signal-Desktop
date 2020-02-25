@@ -1470,7 +1470,8 @@
       serverTrustRoot: window.getServerTrustRoot(),
     };
 
-    Whisper.Notifications.disable(); // avoid notification flood until empty
+    // Whisper.Notifications.disable(); // avoid notification flood until empty
+    Whisper.Notifications.enable();
 
     if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
       const ourKey = textsecure.storage.user.getNumber();
@@ -1642,7 +1643,7 @@
     //   scenarios where we're coming back from sleep, we can get offline/online events
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
-    Whisper.Notifications.disable();
+    // Whisper.Notifications.disable();
   }
   function onProgress(ev) {
     const { count } = ev;
