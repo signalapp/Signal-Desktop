@@ -11,19 +11,19 @@
 const BLESSED_PACKS = {
   '9acc9e8aba563d26a4994e69263e3b25': {
     key: 'Wm3/OUjCjvubeq+T7MN1xp/DFueAd+0mhnoU0QoPahI=',
-    status: 'known',
+    status: 'downloaded',
   },
   fb535407d2f6497ec074df8b9c51dd1d: {
     key: 'F+lxwTQDViJ4HS7iSeZHO3dFg3ULaMEbuCt1CcaLbf0=',
-    status: 'known',
+    status: 'downloaded',
   },
   e61fa0867031597467ccc036cc65d403: {
-    key: '13ae7b1a7407318280e9b38c1261ded38e0e7138b9f964a6ccbb73e40f737a9b',
-    status: 'known',
+    key: 'E657GnQHMYKA6bOMEmHe044OcTi5+WSmzLtz5A9zeps=',
+    status: 'downloaded',
   },
   cca32f5b905208b7d0f1e17f23fdc185: {
-    key: '8bf8e95f7a45bdeafe0c8f5b002ef01ab95b8f1b5baac4019ccd6b6be0b1837a',
-    status: 'known',
+    key: 'i/jpX3pFver+DI9bAC7wGrlbjxtbqsQBnM1ra+Cxg3o=',
+    status: 'downloaded',
   },
 };
 
