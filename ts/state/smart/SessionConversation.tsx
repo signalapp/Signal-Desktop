@@ -3,7 +3,15 @@ import { mapDispatchToProps } from '../actions';
 import { SessionConversation } from '../../components/session/SessionConversation';
 import { StateType } from '../reducer';
 
-import { getSessionConversationInfo } from '../selectors/conversations';
+import { getQuery, getSearchResults, isSearching } from '../selectors/search';
+import {
+  getIntl,
+  getIsSecondaryDevice,
+  getRegionCode,
+  getUserNumber,
+} from '../selectors/user';
+
+
 
 const mapStateToProps = (state: StateType) => {
   //const conversationInfo = getSessionConversationInfo(state);

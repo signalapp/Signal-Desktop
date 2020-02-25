@@ -72,20 +72,18 @@ export class SessionGroupSettings extends React.Component<Props, any> {
   public async getMediaGalleryProps() {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
-    const DEFAULT_MEDIA_FETCH_COUNT = 50;
-    const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
     const conversationId = this.props.id;
     const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
       conversationId,
       {
-        limit: DEFAULT_MEDIA_FETCH_COUNT,
+        limit: window.CONSTANTS.DEFAULT_MEDIA_FETCH_COUNT,
         MessageCollection: window.Whisper.MessageCollection,
       }
     );
     const rawDocuments = await window.Signal.Data.getMessagesWithFileAttachments(
       conversationId,
       {
-        limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
+        limit: window.CONSTANTS.DEFAULT_DOCUMENTS_FETCH_COUNT,
         MessageCollection: window.Whisper.MessageCollection,
       }
     );

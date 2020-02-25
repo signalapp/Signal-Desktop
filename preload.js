@@ -70,6 +70,9 @@ window.CONSTANTS = {
   MAX_MESSAGE_BODY_LENGTH: 64 * 1024,
   // Limited due to the proof-of-work requirement
   SMALL_GROUP_SIZE_LIMIT: 10,
+  DEFAULT_MEDIA_FETCH_COUNT: 50,
+  DEFAULT_DOCUMENTS_FETCH_COUNT: 150,
+  DEFAULT_MESSAGE_FETCH_COUNT: 30,
 };
 
 window.versionInfo = {

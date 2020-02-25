@@ -28,7 +28,6 @@ $composition-container-height: 60px;
   overflow-y: auto;
   scrollbar-width: 4px;
   padding: $session-margin-lg;
-  scroll-behavior: smooth;
 
   &__loading {
     position: absolute;
