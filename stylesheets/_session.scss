@@ -1497,9 +1497,11 @@ input {
   }
 }
 
-.module-scroll-down {
+.session-scroll-button {
   animation: fadein $session-fadein-duration;
+  position: absolute;
   bottom: 15px;
+  right: 25px;
 
   .session-icon-button {
     display: flex;
@@ -1510,7 +1512,7 @@ input {
     border-radius: 50%;
     opacity: 1;
     background-color: $session-shade-2;
-    box-shadow: 0px 0px $session-font-sm 0px rgba($session-color-white, 0.1);
+    box-shadow: 0px 0px $session-font-sm 0px rgba($session-color-white, 0.2);
 
     svg path {
       transition: $session-transition-duration;

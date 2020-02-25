@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { ConversationHeader } from '../conversation/ConversationHeader';
 import { SessionCompositionBox } from './SessionCompositionBox';
@@ -6,7 +6,8 @@ import { SessionProgress } from './SessionProgress'
 
 import { Message } from '../conversation/Message';
 import { SessionSpinner } from './SessionSpinner';
-import { configure } from 'protobufjs';
+import { SessionScrollButton } from './SessionScrollButton';
+
 
 
 // interface Props {
@@ -19,28 +20,54 @@ interface State {
   prevSendingProgess: number;
   conversationKey: string;
   messages: Array<any>;
+  // Scroll position as percentage of message-list
+  scrollPositionPc: number;
+  // Scroll position in pixels
+  scrollPositionPx: number;
+  doneInitialScroll: boolean;
 }
 
 export class SessionConversation extends React.Component<any, State> {
+  private messagesEndRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: any) {
     super(props);
     const conversationKey = this.props.conversations.selectedConversation;
+    const messages = this.props.conversations.conversationLookup[conversationKey].messages;
 
     this.state = {
       sendingProgess: 0,
       prevSendingProgess: 0,
       conversationKey,
-      messages: [],
+      messages,
+      doneInitialScroll: false,
+      scrollPositionPc: 0,
+      scrollPositionPx: 0,
     };
 
+    this.scrollToUnread = this.scrollToUnread.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
+
+    this.messagesEndRef = React.createRef();
   }
 
-  public async componentWillUpdate () {
+  public componentDidMount() {
+    setTimeout(() => {
+      this.scrollToBottom(true);
+    }, 20);
+
+    this.setState({
+      doneInitialScroll: true,
+    });
+  }
+
+  public componentWillUpdate () {
     console.log(`[vince][update] State:`, this.state);
     console.log(`[vince][update] Props:`, this.props);
+    
   }
 
-  public async componentWillReceiveProps() {
+  public componentWillReceiveProps() {
     const { conversationKey, messages } = this.state;
     const conversation = this.props.conversations.conversationLookup[conversationKey];
 
@@ -53,12 +80,16 @@ export class SessionConversation extends React.Component<any, State> {
     console.log(`[vince][update] Should Update: `, shouldLoad)
     console.log(`[vince][update] called ComponentWillRevieceProps. Messages: `, this.state.messages)
 
-    if (conversationKey && shouldLoad){
-      this.setState({
-        messages: await window.getMessagesByKey(conversationKey, true)
-      });
-    }
-    
+    // if (conversationKey && shouldLoad){
+    //   this.setState({
+    //     messages: await window.getMessagesByKey(conversationKey, true)
+    //   });
+    // }
+
+    // this.setState({
+    //       messages: this.props.conversations.conversationLookup[conversationKey]?.messsages,
+    // });
+
   }
 
   render() {
@@ -66,9 +97,10 @@ export class SessionConversation extends React.Component<any, State> {
     console.log(`[vince] These are SessionConversation props: `, this.props);
 
     // const headerProps = this.props.getHeaderProps;
-    const { conversationKey } = this.state;
-    const loadingMessages = this.state.messages.length === 0;
+    const { messages, conversationKey, doneInitialScroll } = this.state;
+    const loading = !doneInitialScroll
 
+    console.log(`[vince] Loading: `, loading);
     console.log(`[vince] My conversation key is: `, conversationKey);
 
     // TMEPORARY SOLUTION TO GETTING CONVERSATION UNTIL
@@ -79,7 +111,7 @@ export class SessionConversation extends React.Component<any, State> {
     const conversationType = conversation.type;
 
     return (
-      <div className={`conversation-item conversation-${conversation.cid}`}>
+      <div className="conversation-item">
         <div className="conversation-header">
           {this.renderHeader(conversation)}
         </div>
@@ -90,16 +122,21 @@ export class SessionConversation extends React.Component<any, State> {
           prevValue={this.state.prevSendingProgess}
         />
 
-        <div className="messages-container">
-          { loadingMessages ? (
+        <div className="messages-wrapper">
+          { loading && (
             <div className="messages-container__loading">
               <SessionSpinner/>
             </div>
-          ) : (
-            <>
-              {this.renderMessages(conversationKey, conversationType)}
-            </>
           )}
+
+          <div className="messages-container">
+            {this.renderMessages(conversationKey, conversationType)}
+            <div ref={this.messagesEndRef} />
+          </div>
+
+          <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
+
+          
         </div>
         
         <SessionCompositionBox
@@ -111,8 +148,8 @@ export class SessionConversation extends React.Component<any, State> {
 
   public renderMessages(conversationKey: string, conversationType: 'group' | 'direct') {
     const { messages } = this.state;
-
-    console.log(`Messages`, messages);
+    
+    console.log(`[vince][messages]`, messages);
 
     // FIND FOR EACH MESSAGE
     const isExpired = false;
@@ -209,7 +246,9 @@ export class SessionConversation extends React.Component<any, State> {
 
   }
 
-  public scrollToBottom() {
-
+  public scrollToBottom(firstLoad = false) {
+    this.messagesEndRef.current?.scrollIntoView(
+      { behavior: firstLoad ? 'auto' : 'smooth' }
+    );
   }
 }
