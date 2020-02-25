@@ -1090,7 +1090,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && this.props.isPublic;
-    const divClasses = ['loki-message-wrapper'];
+    const divClasses = ['session-message-wrapper'];
 
     if (shouldHightlight) {
       //divClasses.push('message-highlighted');
@@ -1108,6 +1108,7 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <div
         className={classNames(divClasses)}
+        id={id}
         role="button"
         onClick={() => {
           const selection = window.getSelection();
