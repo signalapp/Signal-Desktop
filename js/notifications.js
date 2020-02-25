@@ -34,8 +34,6 @@
   Whisper.Notifications = new (Backbone.Collection.extend({
     initialize() {
       this.isEnabled = false;
-      this.on('add', this.update);
-      this.on('remove', this.onRemove);
 
       this.lastNotification = null;
 
@@ -45,7 +43,11 @@
       //   and batches up the quick successive update() calls we get from an incoming
       //   read sync, which might have a number of messages referenced inside of it.
       this.fastUpdate = this.update;
-      this.update = _.debounce(this.update, 1000);
+      this.update = _.debounce(this.update, 2000);
+
+      // make those calls use the debounced function
+      this.on('add', this.update);
+      this.on('remove', this.onRemove);
     },
     update() {
       if (this.lastNotification) {
