@@ -77,6 +77,7 @@ export interface Props {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
+  firstMessageOfSeries: boolean;
   authorColor?: ColorType;
   conversationType: 'group' | 'direct';
   attachments?: Array<AttachmentType>;
@@ -664,6 +665,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorName,
       authorPhoneNumber,
       authorProfileName,
+      firstMessageOfSeries,
       collapseMetadata,
       senderIsModerator,
       authorColor,
@@ -673,29 +675,31 @@ export class Message extends React.PureComponent<Props, State> {
       onShowUserDetails,
     } = this.props;
 
-    if (
-      collapseMetadata ||
-      conversationType !== 'group' ||
-      direction === 'outgoing'
-    ) {
-      return;
-    }
+    const shouldRenderAvatar =
+      (firstMessageOfSeries ||
+      ! collapseMetadata ||
+      conversationType === 'group') &&
+      direction === 'incoming';
 
     return (
       <div className="module-message__author-avatar">
-        <Avatar
-          avatarPath={authorAvatarPath}
-          color={authorColor}
-          conversationType="direct"
-          i18n={i18n}
-          name={authorName}
-          phoneNumber={authorPhoneNumber}
-          profileName={authorProfileName}
-          size={36}
-          onAvatarClick={() => {
-            onShowUserDetails(authorPhoneNumber);
-          }}
-        />
+        <>
+          {shouldRenderAvatar && (
+            <Avatar
+              avatarPath={authorAvatarPath}
+              color={authorColor}
+              conversationType="direct"
+              i18n={i18n}
+              name={authorName}
+              phoneNumber={authorPhoneNumber}
+              profileName={authorProfileName}
+              size={36}
+              onAvatarClick={() => {
+                onShowUserDetails(authorPhoneNumber);
+              }}
+            />
+          )}
+        </>
         {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />

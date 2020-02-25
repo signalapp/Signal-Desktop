@@ -6,6 +6,7 @@ import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
+import { SessionIcon, SessionIconSize, SessionIconType } from '../session/icon';
 
 interface Props {
   type: 'fromOther' | 'fromMe' | 'fromSync';
@@ -69,12 +70,12 @@ export class TimerNotification extends React.Component<Props> {
     return (
       <div className="module-timer-notification">
         <div className="module-timer-notification__icon-container">
-          <div
-            className={classNames(
-              'module-timer-notification__icon',
-              disabled ? 'module-timer-notification__icon--disabled' : null
-            )}
-          />
+          { !disabled && (
+            <SessionIcon
+              iconType={SessionIconType.Stopwatch}
+              iconSize={SessionIconSize.Large}
+            />
+          )}
           <div className="module-timer-notification__icon-label">
             {timespan}
           </div>

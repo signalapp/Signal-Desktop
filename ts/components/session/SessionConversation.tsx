@@ -5,7 +5,9 @@ import { SessionCompositionBox } from './SessionCompositionBox';
 import { SessionProgress } from './SessionProgress'
 
 import { Message } from '../conversation/Message';
+import { FriendRequest } from '../conversation/FriendRequest';
 import { TimerNotification } from '../conversation/TimerNotification';
+
 
 import { SessionSpinner } from './SessionSpinner';
 import { SessionScrollButton } from './SessionScrollButton';
@@ -50,6 +52,7 @@ export class SessionConversation extends React.Component<any, State> {
 
     this.renderMessage = this.renderMessage.bind(this);
     this.renderTimerNotification = this.renderTimerNotification.bind(this);
+    this.renderFriendRequest = this.renderFriendRequest.bind(this);
 
     this.messagesEndRef = React.createRef();
   }
@@ -71,7 +74,7 @@ export class SessionConversation extends React.Component<any, State> {
 
   public async componentWillReceiveProps() {
     const { conversationKey } = this.state;
-
+    await this.getMessages(conversationKey);
   }
 
   render() {
@@ -84,7 +87,6 @@ export class SessionConversation extends React.Component<any, State> {
 
     console.log(`[vince] Loading: `, loading);
     console.log(`[vince] My conversation key is: `, conversationKey);
-    console.log(`[vince][messages]`, messages);
 
 
     // TMEPORARY SOLUTION TO GETTING CONVERSATION UNTIL
@@ -131,26 +133,26 @@ export class SessionConversation extends React.Component<any, State> {
 
   public renderMessages() {
     const { messages } = this.state;
-  
-    // FIXME PAY ATTENTION; ONLY RENDER MESSAGES THAT ARE VISIBLE
+    
     return (
       <>{
         messages.map((message: any) => {
           const messageProps = message.propsForMessage;
           const timerProps = message.propsForTimerNotification;
+          const friendRequestProps = message.propsForFriendRequest;
           const attachmentProps = message.propsForAttachment;
+          const groupNotificationProps = message.propsForGroupNotification;
           const quoteProps = message.propsForQuote;
           
-          console.log(`[vince][props] messageProps`, messageProps);
-          console.log(`[vince][props] timerProps`, timerProps);
-          console.log(`[vince][props] attachmentProps`, attachmentProps);
-          console.log(`[vince][props] quoteProps`, quoteProps);
-
           let item;
-          item = messageProps     ? this.renderMessage(messageProps) : item;
+          // firstMessageOfSeries tells us to render the avatar only for the first message
+          // in a series of messages from the same user
+          item = messageProps     ? this.renderMessage(messageProps, message.firstMessageOfSeries) : item;
           item = timerProps       ? this.renderTimerNotification(timerProps) : item;
-          item = attachmentProps  ? this.renderMessage(timerProps) : item;
-          item = quoteProps       ? this.renderMessage(timerProps) : item;
+          item = quoteProps       ? this.renderMessage(timerProps, message.firstMessageOfSeries, quoteProps) : item;
+          item = friendRequestProps
+            ? this.renderFriendRequest(friendRequestProps): item;
+          // item = attachmentProps  ? this.renderMessage(timerProps) : item;
 
           return item;
         })
@@ -222,33 +224,73 @@ export class SessionConversation extends React.Component<any, State> {
       { limit, MessageCollection: window.Whisper.MessageCollection },
     );
 
-    console.log(`[vince][messages] MessageSet!!!`, messageSet);32
+    // Set first member of series here.
+    const messageModels = messageSet.models;
+    let messages = [];
+    let previousSender;
+    for (let i = 0; i < messageModels.length; i++){
+      let firstMessageOfSeries = true;
+      if (i > 0 && previousSender === messageModels[i].authorPhoneNumber){
+        firstMessageOfSeries = false;
+      }
+      messages.push({...messageModels[i], firstMessageOfSeries});
+      previousSender = messageModels[i].authorPhoneNumber;
+    }
 
-    const messages = messageSet.models;
+    console.log(`[vince][messages] Messages`, messages);
+
     this.setState({ messages });
   }
 
-  public renderMessage(messageProps: any) {
+  public renderMessage(messageProps: any, firstMessageOfSeries: boolean, quoteProps?: any) {
+
     return (
       <Message
-        text = {messageProps.text || ''}
-        direction = {messageProps.direction}
-        timestamp = {messageProps.timestamp}
         i18n = {window.i18n}
-        authorPhoneNumber = {messageProps.source}
-        conversationType = {messageProps.conversationType}
-        previews = {messageProps.previews}
-        isExpired = {messageProps.isExpired}
-        isDeletable = {messageProps.isDeletable}
-        convoId = {messageProps.convoId}
-        selected = {messageProps.selected}
-        multiSelectMode = {messageProps.multiSelectMode}
-        onSelectMessage = {messageProps.onSelectMessage}
-        onSelectMessageUnchecked = {messageProps.onSelectMessageUnchecked}
-        onShowDetail = {messageProps.onShowDetail}
-        onShowUserDetails = {messageProps.onShowUserDetails}
+        text = {messageProps?.text}
+        direction = {messageProps?.direction}
+        timestamp = {messageProps?.timestamp}
+        attachments = {messageProps?.attachments}
+        authorAvatarPath = {messageProps?.authorAvatarPath}
+        authorColor = {messageProps?.authorColor}
+        authorName = {messageProps?.authorName}
+        authorPhoneNumber = {messageProps?.authorPhoneNumber}
+        firstMessageOfSeries = {firstMessageOfSeries}
+        authorProfileName = {messageProps?.authorProfileName}
+        contact = {messageProps?.contact}
+        conversationType = {messageProps?.conversationType}
+        convoId = {messageProps?.convoId}
+        expirationLength = {messageProps?.expirationLength}
+        expirationTimestamp = {messageProps?.expirationTimestamp}
+        id = {messageProps?.id}
+        isDeletable = {messageProps?.isDeletable}
+        isExpired = {messageProps?.isExpired}
+        isModerator = {messageProps?.isModerator}
+        isPublic = {messageProps?.isPublic}
+        isRss = {messageProps?.isRss}
+        multiSelectMode = {messageProps?.multiSelectMode}
+        onBanUser = {messageProps?.onBanUser}
+        onClickAttachment = {messageProps?.onClickAttachment}
+        onClickLinkPreview = {messageProps?.onClickLinkPreview}
+        onCopyPubKey = {messageProps?.onCopyPubKey}
+        onCopyText = {messageProps?.onCopyText}
+        onDelete = {messageProps?.onDelete}
+        onDownload = {messageProps?.onDownload}
+        onReply = {messageProps?.onReply}
+        onRetrySend = {messageProps?.onRetrySend}
+        onSelectMessage = {messageProps?.onSelectMessage}
+        onSelectMessageUnchecked = {messageProps?.onSelectMessageUnchecked}
+        onShowDetail = {messageProps?.onShowDetail}
+        onShowUserDetails = {messageProps?.onShowUserDetails}
+        previews = {messageProps?.previews}
+        quote = {quoteProps || undefined}
+        selected = {messageProps?.selected}
+        senderIsModerator = {messageProps?.senderIsModerator}
+        status = {messageProps?.status}
+        textPending = {messageProps?.textPending}
       />
     );
+
   }
 
   public renderTimerNotification(timerProps: any) {
@@ -261,6 +303,26 @@ export class SessionConversation extends React.Component<any, State> {
         disabled={timerProps.disabled}
         timespan={timerProps.timespan}
         i18n={window.i18n}
+      />
+    );
+  }
+
+  public renderFriendRequest(friendRequestProps: any){
+    return (
+      <FriendRequest
+        text={friendRequestProps.text}
+        direction={friendRequestProps.direction}
+        status={friendRequestProps.status}
+        friendStatus={friendRequestProps.friendStatus}
+        i18n={window.i18n}
+        isBlocked={friendRequestProps.isBlocked}
+        timestamp={friendRequestProps.timestamp}
+        onAccept={friendRequestProps.onAccept}
+        onDecline={friendRequestProps.onDecline}
+        onDeleteConversation={friendRequestProps.onDeleteConversation}
+        onRetrySend={friendRequestProps.onRetrySend}
+        onBlockUser={friendRequestProps.onBlockUser}
+        onUnblockUser={friendRequestProps.onUnblockUser}
       />
     );
   }
