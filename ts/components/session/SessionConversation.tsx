@@ -24,10 +24,7 @@ interface State {
   conversationKey: string;
   unreadCount: number;
   messages: Array<any>;
-  // Scroll position as percentage of message-list
-  scrollPositionPc: number;
-  // Scroll position in pixels
-  scrollPositionPx: number;
+  isScrolledToBottom: boolean;
   doneInitialScroll: boolean;
   messageFetchTimestamp: number;
 }
@@ -51,12 +48,12 @@ export class SessionConversation extends React.Component<any, State> {
       conversationKey,
       unreadCount,
       messages: [],
+      isScrolledToBottom: !unreadCount,
       doneInitialScroll: false,
-      scrollPositionPc: 0,
-      scrollPositionPx: 0,
       messageFetchTimestamp: 0,
     };
 
+    this.handleScroll = this.handleScroll.bind(this);
     this.scrollToUnread = this.scrollToUnread.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
 
@@ -68,50 +65,41 @@ export class SessionConversation extends React.Component<any, State> {
   }
 
   public async componentWillMount() {
-    const { conversationKey } = this.state;
-    await this.getMessages(conversationKey);
+    await this.getMessages();
     
     // Inside a setTimeout to simultate onready()
     setTimeout(() => {
-      this.scrollToBottom(true);
+      this.scrollToUnread();
     }, 0);
     setTimeout(() => {
       this.setState({
         doneInitialScroll: true,
       });
     }, 100);
+  }
 
+  public componentDidUpdate(){
+    // Keep scrolled to bottom unless user scrolls up
+    if (this.state.isScrolledToBottom){
+      this.scrollToBottom();
+    }
   }
 
   public async componentWillReceiveProps() {
-    const { conversationKey } = this.state;
     const timestamp = this.getTimestamp();
 
     // If we have pulled messages in the last second, don't bother rescanning
     // This avoids getting messages on every re-render.
     if (timestamp > this.state.messageFetchTimestamp) {
-      await this.getMessages(conversationKey);
-    } else{
-      console.log(`[vince][info] Messages recieved in last second, stream`);
+      await this.getMessages();
     }
   }
 
   render() {
-    console.log('[vince] SessionConversation was just rerendered!');
-    console.log(`[vince] These are SessionConversation props: `, this.props);
-
     // const headerProps = this.props.getHeaderProps;
     const { messages, conversationKey, doneInitialScroll } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
 
-    console.log(`[vince] Loading: `, loading);
-    console.log(`[vince] My conversation key is: `, conversationKey);
-
-
-    // TMEPORARY SOLUTION TO GETTING CONVERSATION UNTIL
-    // SessionConversationStack is created
-
-    // Get conversation by Key (NOT cid)
     const conversation = this.props.conversations.conversationLookup[conversationKey]
 
     return (
@@ -133,13 +121,12 @@ export class SessionConversation extends React.Component<any, State> {
             </div>
           )}
 
-          <div className="messages-container">
+          <div className="messages-container" onScroll={this.handleScroll}>
             {this.renderMessages()}
             <div ref={this.messagesEndRef} />
           </div>
 
-          <SessionScrollButton display={true} onClick={this.scrollToUnread}/>
-
+          <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
           
         </div>
         
@@ -153,6 +140,9 @@ export class SessionConversation extends React.Component<any, State> {
   public renderMessages() {
     const { messages } = this.state;
     
+    // IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
+
+
     return (
       <>{
         messages.map((message: any) => {
@@ -228,34 +218,7 @@ export class SessionConversation extends React.Component<any, State> {
   }
 
 
-  public async getMessages(conversationKey: string){
-    const msgCount = window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT + this.state.unreadCount;
-    
-    const messageSet = await window.Signal.Data.getMessagesByConversation(
-      conversationKey,
-      { msgCount, MessageCollection: window.Whisper.MessageCollection },
-    );
-
-    // Set first member of series here.
-    const messageModels = messageSet.models;
-    let messages = [];
-    let previousSender;
-    for (let i = 0; i < messageModels.length; i++){
-      // Handle firstMessageOfSeries for conditional avatar rendering
-      let firstMessageOfSeries = true;
-      if (i > 0 && previousSender === messageModels[i].authorPhoneNumber){
-        firstMessageOfSeries = false;
-      }
-
-      messages.push({...messageModels[i], firstMessageOfSeries});
-      previousSender = messageModels[i].authorPhoneNumber;
-    }
-
-    const messageFetchTimestamp = this.getTimestamp();
-    
-    console.log(`[vince][messages] Messages Set`, messageModels);
-    this.setState({ messages, messageFetchTimestamp });
-  }
+  
 
   public renderMessage(messageProps: any, firstMessageOfSeries: boolean, quoteProps?: any) {
 
@@ -321,7 +284,7 @@ export class SessionConversation extends React.Component<any, State> {
       />
     );
   }
-
+  
   public renderFriendRequest(friendRequestProps: any){
     return (
       <FriendRequest
@@ -342,26 +305,100 @@ export class SessionConversation extends React.Component<any, State> {
     );
   }
 
+  public async getMessages(numMessages?: number, fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL){
+    const { conversationKey, messageFetchTimestamp } = this.state;
+    const timestamp = this.getTimestamp();
+
+    // If we have pulled messages in the last interval, don't bother rescanning
+    // This avoids getting messages on every re-render.
+    if (timestamp >= messageFetchTimestamp + fetchInterval) {
+      return;
+    }
+
+    const msgCount = numMessages || window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT + this.state.unreadCount;
+    const messageSet = await window.Signal.Data.getMessagesByConversation(
+      conversationKey,
+      { limit: msgCount, MessageCollection: window.Whisper.MessageCollection },
+    );
+
+    // Set first member of series here.
+    const messageModels = messageSet.models;
+    let messages = [];
+    let previousSender;
+    for (let i = 0; i < messageModels.length; i++){
+      // Handle firstMessageOfSeries for conditional avatar rendering
+      let firstMessageOfSeries = true;
+      if (i > 0 && previousSender === messageModels[i].authorPhoneNumber){
+        firstMessageOfSeries = false;
+      }
+
+      messages.push({...messageModels[i], firstMessageOfSeries});
+      previousSender = messageModels[i].authorPhoneNumber;
+    }
+
+    const previousTopMessage = this.state.messages[0]?.id;
+    const newTopMessage = messages[0]?.id;
+
+    this.setState({ messages, messageFetchTimestamp });
+
+    console.log(`[vince][messages] Previous Top Message: `, previousTopMessage);
+    console.log(`[vince][messages] New Top Message: `, newTopMessage);
+
+    return { newTopMessage, previousTopMessage };
+  }
+
   public getTimestamp() {
     return Math.floor(Date.now() / 1000);
   }
 
-  public handleScroll() {
-    // Update unread count
+  public async handleScroll() {
+    const { messages } = this.state;
+    const messageContainer = document.getElementsByClassName('messages-container')[0];
+    const isScrolledToBottom = messageContainer.scrollHeight - messageContainer.clientHeight <= messageContainer.scrollTop + 1;
 
-    // Get id of message at bottom of screen in full view. This is scroll position by messageID
+    // FIXME VINCE: Update unread count
+    // In models/conversations
+    // Update unread count by geting all divs of .session-message-wrapper
+    // which are currently in view.
 
+    // Pin scroll to bottom on new message, unless user has scrolled up
+    if (this.state.isScrolledToBottom !== isScrolledToBottom){
+      this.setState({ isScrolledToBottom });
+    }
+
+    // Fetch more messages when nearing the top of the message list
+    const shouldFetchMoreMessages = messageContainer.scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
+    
+    if (shouldFetchMoreMessages){
+      const numMessages = this.state.messages.length + window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
+      
+      // Prevent grabbing messags with scroll more frequently than once per 5s.
+      // const messageFetchInterval = 5;
+      // const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval))?.previousTopMessage;
+      // this.scrollToMessage(previousTopMessage);
+    }
   }
 
   public scrollToUnread() {
-    const topUnreadMessage = document.getElementById('70fd6220-5292-43d8-9e0d-f98bf4792f43');
-    topUnreadMessage?.scrollIntoView(false);
+    const { messages, unreadCount } = this.state;
+
+    const message = messages[(messages.length - 1) - unreadCount];
+    this.scrollToMessage(message.id);
+  }
+
+  public scrollToMessage(messageId: string) {
+    const topUnreadMessage = document.getElementById(messageId);
+    topUnreadMessage?.scrollIntoView();
   }
 
   public scrollToBottom(firstLoad = false) {
-    this.messagesEndRef.current?.scrollIntoView(
-      { behavior: firstLoad ? 'auto' : 'smooth' }
-    );
+    // FIXME VINCE: Smooth scrolling that isn't slow@!
+    // this.messagesEndRef.current?.scrollIntoView(
+    //   { behavior: firstLoad ? 'auto' : 'smooth' }
+    // );
+
+    const messageContainer = document.getElementsByClassName('messages-container')[0];
+    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
   }
 }
 

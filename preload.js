@@ -73,6 +73,10 @@ window.CONSTANTS = {
   DEFAULT_MEDIA_FETCH_COUNT: 50,
   DEFAULT_DOCUMENTS_FETCH_COUNT: 150,
   DEFAULT_MESSAGE_FETCH_COUNT: 30,
+  // Pixels (scroll) from the top of the top of message container
+  // at which more messages should be loaded
+  MESSAGE_CONTAINER_BUFFER_OFFSET_PX: 300,
+  MESSAGE_FETCH_INTERVAL: 1,
 };
 
 window.versionInfo = {
