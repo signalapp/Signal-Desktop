@@ -139,9 +139,8 @@ export class SessionConversation extends React.Component<any, State> {
 
   public renderMessages() {
     const { messages } = this.state;
-    
-    // IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
 
+    // FIXME VINCE: IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
 
     return (
       <>{
@@ -217,8 +216,6 @@ export class SessionConversation extends React.Component<any, State> {
     );
   }
 
-
-  
 
   public renderMessage(messageProps: any, firstMessageOfSeries: boolean, quoteProps?: any) {
 
@@ -311,8 +308,8 @@ export class SessionConversation extends React.Component<any, State> {
 
     // If we have pulled messages in the last interval, don't bother rescanning
     // This avoids getting messages on every re-render.
-    if (timestamp >= messageFetchTimestamp + fetchInterval) {
-      return;
+    if (timestamp - messageFetchTimestamp < fetchInterval) {
+      return { newTopMessage: undefined, previousTopMessage: undefined };
     }
 
     const msgCount = numMessages || window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT + this.state.unreadCount;
@@ -340,9 +337,6 @@ export class SessionConversation extends React.Component<any, State> {
     const newTopMessage = messages[0]?.id;
 
     this.setState({ messages, messageFetchTimestamp });
-
-    console.log(`[vince][messages] Previous Top Message: `, previousTopMessage);
-    console.log(`[vince][messages] New Top Message: `, newTopMessage);
 
     return { newTopMessage, previousTopMessage };
   }
@@ -373,9 +367,9 @@ export class SessionConversation extends React.Component<any, State> {
       const numMessages = this.state.messages.length + window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
       
       // Prevent grabbing messags with scroll more frequently than once per 5s.
-      // const messageFetchInterval = 5;
-      // const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval))?.previousTopMessage;
-      // this.scrollToMessage(previousTopMessage);
+      const messageFetchInterval = 5;
+      const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval))?.previousTopMessage;
+      previousTopMessage && this.scrollToMessage(previousTopMessage);
     }
   }
 
@@ -391,7 +385,7 @@ export class SessionConversation extends React.Component<any, State> {
     topUnreadMessage?.scrollIntoView();
   }
 
-  public scrollToBottom(firstLoad = false) {
+  public scrollToBottom(instant = false) {
     // FIXME VINCE: Smooth scrolling that isn't slow@!
     // this.messagesEndRef.current?.scrollIntoView(
     //   { behavior: firstLoad ? 'auto' : 'smooth' }

@@ -61,6 +61,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 };
 
 window.CONSTANTS = {
+  SECS_IN_DAY: 60*60*24,
   MAX_LOGIN_TRIES: 3,
   MAX_PASSWORD_LENGTH: 32,
   MAX_USERNAME_LENGTH: 20,

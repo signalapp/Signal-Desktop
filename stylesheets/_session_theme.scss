@@ -41,7 +41,7 @@
       @include session-color-subtle($session-color-white);
     }
     @at-root .dark-theme #{&} {
-      background-color: $session-shade-8;
+      background-color: $session-shade-5;
     }
   }
 
