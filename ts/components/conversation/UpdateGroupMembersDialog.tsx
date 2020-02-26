@@ -1,9 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Contact, MemberList } from './MemberList';
+import { Contact } from './MemberList';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton } from '../session/SessionButton';
+import {
+  ContactType,
+  SessionMemberListItem,
+} from '../session/SessionMemberListItem';
 
 interface Props {
   titleText: string;
@@ -114,13 +118,8 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         <p className={errorMessageClasses}>{errorMsg}</p>
         <div className="spacer-md" />
 
-        <div className="friend-selection-list">
-          <MemberList
-            members={this.state.friendList}
-            selected={{}}
-            i18n={this.props.i18n}
-            onMemberClicked={this.onMemberClicked}
-          />
+        <div className="group-member-list__selection">
+          {this.renderMemberList()}
         </div>
         <p className={noFriendsClasses}>{`(${this.props.i18n(
           'noMembersInThisGroup'
@@ -133,6 +132,19 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         </div>
       </SessionModal>
     );
+  }
+
+  private renderMemberList() {
+    const members = this.state.friendList;
+
+    return members.map((member: ContactType) => (
+      <SessionMemberListItem
+        member={member}
+        isSelected={!member.checkmarked}
+        onSelect={this.onMemberClicked}
+        onUnselect={this.onMemberClicked}
+      />
+    ));
   }
 
   private onShowError(msg: string) {
