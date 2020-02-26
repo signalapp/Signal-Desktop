@@ -16,6 +16,7 @@ import {
   SessionIconType,
 } from './session/icon';
 import { SessionModal } from './session/SessionModal';
+import { PillDivider } from './session/PillDivider';
 
 declare global {
   interface Window {
@@ -107,9 +108,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
         {viewEdit && this.renderEditView()}
 
         <div className="session-id-section">
-          <div className="panel-text-divider">
-            <span>{window.i18n('yourSessionID')}</span>
-          </div>
+          <PillDivider text={window.i18n('yourSessionID')} />
           <p
             className={classNames(
               'text-selectable',
