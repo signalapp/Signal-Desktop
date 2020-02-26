@@ -36,10 +36,6 @@ export class SessionToggle extends React.PureComponent<Props, State> {
     };
   }
 
-  
-  
-
-
   public render() {
     return (
       <div

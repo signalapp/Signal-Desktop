@@ -3,7 +3,7 @@
 const path = require('path');
 const electron = require('electron');
 
-const {webFrame} = electron;
+const { webFrame } = electron;
 const semver = require('semver');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
@@ -71,7 +71,6 @@ window.CONSTANTS = {
   MAX_CONNECTION_DURATION: 5000,
 };
 
-
 window.versionInfo = {
   environment: window.getEnvironment(),
   version: window.getVersion(),
@@ -84,15 +83,18 @@ window.wrapDeferred = deferredToPromise;
 const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
 
-
-window.setZoomFactor = (number) => {
-  return webFrame.setZoomFactor(number);
+window.updateZoomFactor = () => {
+  const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
+  window.setZoomFactor(zoomFactor / 100);
 }
+
+window.setZoomFactor = number => {
+  webFrame.setZoomFactor(number);
+};
 
 window.getZoomFactor = () => {
-  return webFrame.getZoomFactor();
-}
-
+  webFrame.getZoomFactor();
+};
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
@@ -173,9 +175,6 @@ ipc.on('on-unblock-number', (event, number) => {
 window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
-
-
-
 window.updateTrayIcon = unreadCount =>
   ipc.send('update-tray-icon', unreadCount);
 
@@ -192,9 +191,6 @@ ipc.on('set-up-as-standalone', () => {
 });
 
 // Settings-related events
-
-
-
 
 window.showSettings = () => ipc.send('show-settings');
 window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
@@ -231,14 +227,13 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   return comparisonValue ? !!settingVal === comparisonValue : settingVal;
 };
 
-
-
 window.setSettingValue = (settingID, value) => {
   window.storage.put(settingID, value);
+
+  if (settingID === 'zoom-factor-setting') {
+    window.updateZoomFactor();
+  }
 };
-
-
-
 
 installGetter('device-name', 'getDeviceName');
 

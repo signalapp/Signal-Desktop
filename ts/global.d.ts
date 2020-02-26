@@ -59,7 +59,6 @@ interface Window {
   lokiFeatureFlags: any;
 
   resetDatabase: any;
-
 }
 
 interface Promise<T> {

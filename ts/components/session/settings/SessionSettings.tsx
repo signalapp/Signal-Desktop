@@ -8,7 +8,6 @@ import {
   SessionButtonType,
 } from '../SessionButton';
 
-
 export enum SessionSettingCategory {
   Appearance = 'appearance',
   Account = 'account',
@@ -76,7 +75,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public componentDidMount() {
-    console.log(this.state, 'Print state of SessionSettings');
     setTimeout(() => $('#password-lock-input').focus(), 100);
 
     window.Whisper.events.on('refreshLinkedDeviceList', async () => {
@@ -85,8 +83,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       }, 1000);
     });
     this.refreshLinkedDevice();
-    
-    
   }
 
   public componentWillUnmount() {
@@ -109,8 +105,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
       settings = this.getLocalSettings();
     }
-
-    
 
     return (
       <>
@@ -227,27 +221,22 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public render() {
-
-    console.log(this.props, 'From SessionSettings');
     const { category } = this.props;
     const shouldRenderPasswordLock =
       this.state.shouldLockSettings && this.state.hasPassword;
 
     return (
       <div className="session-settings">
-        
         <SettingsHeader
           showLinkDeviceButton={!shouldRenderPasswordLock}
           category={category}
         />
 
-
         <div className="session-settings-view">
-
           {shouldRenderPasswordLock ? (
             this.renderPasswordLock()
-            //
           ) : (
+            //
             <div ref={this.settingsViewRef} className="session-settings-list">
               {this.renderSettingInCategory()}
               {/* what gets rendered back from calling renderSettingInCategory */}
@@ -317,9 +306,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       });
     }
   }
-
-
-  
 
   private getPubkeyName(pubKey: string | null) {
     if (!pubKey) {
@@ -563,7 +549,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             onSuccess: this.onPasswordUpdated,
           }),
         confirmationDialogParams: undefined,
-      }
+      },
     ];
   }
 

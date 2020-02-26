@@ -286,6 +286,9 @@
     }
     first = false;
 
+    // Update zoom
+    window.updateZoomFactor();
+
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
@@ -323,7 +326,7 @@
         const ttl = Number.isNaN(intValue) ? 24 : intValue;
         storage.put('message-ttl', ttl);
       },
-      
+
       getReadReceiptSetting: () => storage.get('read-receipt-setting'),
       setReadReceiptSetting: value =>
         storage.put('read-receipt-setting', value),

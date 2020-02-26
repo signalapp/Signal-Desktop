@@ -100,14 +100,14 @@ export class SessionSettingListItem extends React.Component<Props, State> {
                   this.handleSlider(sliderValue);
                 }}
               />
-              
+
               <div className="slider-info">
                 <p>{`${currentSliderValue} Hours`}</p>
               </div>
             </div>
-          ):type === SessionSettingType.Slider && title === "Zoom Factor" ? (
+          ) : type === SessionSettingType.Slider && title === 'Zoom Factor' ? (
             <div>
-               <Slider
+              <Slider
                 dots={true}
                 step={20}
                 min={60}
@@ -116,15 +116,13 @@ export class SessionSettingListItem extends React.Component<Props, State> {
                 onChange={sliderValue => {
                   this.handleSlider(sliderValue);
                 }}
-                />
+              />
 
-                <div className="slider-info">
-                  <p>{`% ${currentSliderValue} Zoom Level`}</p>
-                </div>
+              <div className="slider-info">
+                <p>{`% ${currentSliderValue} Zoom Level`}</p>
+              </div>
             </div>
-          ):
-
-          null}
+          ) : null}
         </div>
       </div>
     );
@@ -145,10 +143,6 @@ export class SessionSettingListItem extends React.Component<Props, State> {
       sliderValue: value,
     });
 
-    if(this.props.title === 'Zoom Factor' && this.state.sliderValue!==null) {
-      window.setZoomFactor(this.state.sliderValue/100)
-    }
-
-
+    
   }
 }
