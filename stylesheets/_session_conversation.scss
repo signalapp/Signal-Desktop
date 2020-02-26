@@ -92,21 +92,18 @@ $composition-container-height: 60px;
   }
 }
 
-
-
 .session-emoji-panel {
   position: absolute;
-    bottom: 68px;
-    right: 0px;
-    min-height: 400px;
-    min-width: 400px;
-    background-color: $session-shade-4;
-    border: 1px solid $session-shade-6;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
-    padding: $session-margin-lg;
+  bottom: 68px;
+  right: 0px;
+  min-height: 400px;
+  min-width: 400px;
+  background-color: $session-shade-4;
+  border: 1px solid $session-shade-6;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  padding: $session-margin-lg;
 }
-
 
 .session-progress {
   position: relative;
@@ -120,6 +117,5 @@ $composition-container-height: 60px;
     height: 3px;
 
     background-color: $session-color-green;
-
   }
 }

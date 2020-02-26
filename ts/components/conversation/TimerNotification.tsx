@@ -70,7 +70,7 @@ export class TimerNotification extends React.Component<Props> {
     return (
       <div className="module-timer-notification">
         <div className="module-timer-notification__icon-container">
-          { !disabled && (
+          {!disabled && (
             <SessionIcon
               iconType={SessionIconType.Stopwatch}
               iconSize={SessionIconSize.Large}

@@ -58,12 +58,14 @@ export class Timestamp extends React.Component<Props> {
 
     // Use relative time for under 24hrs ago.
     const now = Math.floor(Date.now());
-    const messageAgeInDays = (now - timestamp) / (1000 * window.CONSTANTS.SECS_IN_DAY);
+    const messageAgeInDays =
+      (now - timestamp) / (1000 * window.CONSTANTS.SECS_IN_DAY);
     const daysBeforeRelativeTiming = 1;
-    
-    const dateString = messageAgeInDays > daysBeforeRelativeTiming
-      ? formatRelativeTime(timestamp, { i18n, extended })
-      : moment(timestamp).fromNow();
+
+    const dateString =
+      messageAgeInDays > daysBeforeRelativeTiming
+        ? formatRelativeTime(timestamp, { i18n, extended })
+        : moment(timestamp).fromNow();
 
     return (
       <span

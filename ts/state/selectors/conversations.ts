@@ -22,7 +22,8 @@ export const getConversationLookup = createSelector(
   }
 );
 
-export const getSelectedConversation = createSelector(getConversations,
+export const getSelectedConversation = createSelector(
+  getConversations,
   (state: ConversationsStateType): string | undefined => {
     return state.selectedConversation;
   }
@@ -173,16 +174,15 @@ export const _getSessionConversationInfo = (
   const sorted = values.sort(comparator);
 
   let conversation;
-  const max = sorted.length; 
+  const max = sorted.length;
 
   for (let i = 0; i < max; i += 1) {
     let conv = sorted[i];
 
-    if (conv.id === selectedConversation){
+    if (conv.id === selectedConversation) {
       conversation = conv;
       break;
     }
-
   }
 
   return {
@@ -202,7 +202,7 @@ export const getSessionConversationInfo = createSelector(
   getConversationLookup,
   getConversationComparator,
   getSelectedConversation,
-  _getSessionConversationInfo,
+  _getSessionConversationInfo
 );
 
 export const getMe = createSelector(

@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 interface Props {
   // Value ranges from 0 to 100
   value: number;
@@ -53,12 +52,14 @@ export class SessionProgress extends React.PureComponent<Props, State> {
 
     // 1. Width depends on progress.
     // 2. Opacity is the inverse of fade.
-    // 3. Transition duration scales with the 
+    // 3. Transition duration scales with the
     //    distance it needs to travel
     const style = {
       width: `${this.state.value}%`,
       opacity: `${Number(!startFade)}`,
-      transition: `width ${shiftDuration.toFixed(2)}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`,
+      transition: `width ${shiftDuration.toFixed(
+        2
+      )}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`,
     };
 
     if (value >= 100) {
@@ -66,27 +67,23 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     }
 
     return (
-        <div className="session-progress">
-            <div
-                className="session-progress__progress"
-                style={style}
-            >
-                &nbsp
-            </div>
+      <div className="session-progress">
+        <div className="session-progress__progress" style={style}>
+          &nbsp
         </div>
+      </div>
     );
   }
 
   public onComplete() {
     const { fadeOnComplete } = this.props;
-    
+
     // Fade
-    if ( fadeOnComplete ) {
+    if (fadeOnComplete) {
       this.setState({
         startFade: true,
       });
     }
-
   }
 
   private getShiftDuration(value: number, prevValue?: number) {

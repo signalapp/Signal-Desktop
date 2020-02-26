@@ -61,42 +61,34 @@
 
   window.getConversationByKey = key => {
     // Key is pubkey or public chat name
-    const conversation = conversations.models.filter(conv => conv.id === key)[0] || null;
+    const conversation =
+      conversations.models.filter(conv => conv.id === key)[0] || null;
 
     return conversation;
-  }
+  };
 
-  window.getMessagesByKey = async (key, loadLive = false) => {
+  window.getMessagesByKey = async key => {
     // loadLive gets messages live, not from the database which can lag behind.
 
     let messages = [];
-    let messageSet;
-
-    // if (loadLive){
-      messageSet = await window.Signal.Data.getMessagesByConversation(
-        key,
-        { limit: 100, MessageCollection: Whisper.MessageCollection }
-      );
-    // } else {
-    //   const conversation = window.getConversationByKey(key);
-    //   // Grab messages and push to conv object.
-    //   await conversation.fetchMessages();
-    //   messageSet = conversation.messageCollection;
-    // }
+    const messageSet = await window.Signal.Data.getMessagesByConversation(key, {
+      limit: 100,
+      MessageCollection: Whisper.MessageCollection,
+    });
 
     messages = messageSet.models.map(conv => conv.attributes);
     return messages;
-  }
+  };
 
   window.getLastMessageByKey = async key => {
-    const messageSet = await window.Signal.Data.getMessagesByConversation(
-      key,
-      { limit: 1, MessageCollection: Whisper.MessageCollection }
-    );
+    const messageSet = await window.Signal.Data.getMessagesByConversation(key, {
+      limit: 1,
+      MessageCollection: Whisper.MessageCollection,
+    });
 
     const message = messageSet.models.map(conv => conv.attributes)[0];
     return message;
-  }
+  };
 
   window.ConversationController = {
     get(id) {

@@ -7,9 +7,7 @@ import {
 } from './ducks/conversations';
 import { reducer as user, UserStateType } from './ducks/user';
 
-
 import { reducer as messages } from './ducks/search';
-
 
 export type StateType = {
   search: SearchStateType;

@@ -677,8 +677,8 @@ export class Message extends React.PureComponent<Props, State> {
 
     const shouldRenderAvatar =
       (firstMessageOfSeries ||
-      ! collapseMetadata ||
-      conversationType === 'group') &&
+        !collapseMetadata ||
+        conversationType === 'group') &&
       direction === 'incoming';
 
     return (

@@ -1,15 +1,13 @@
 import React from 'react';
 
-
 interface Props {}
 
 interface State {
   // FIXME Use Emoji-Mart categories
-  category: null
+  category: null;
 }
 
 export class SessionEmojiPanel extends React.Component<Props, State> {
-
   constructor(props: any) {
     super(props);
 
@@ -19,11 +17,6 @@ export class SessionEmojiPanel extends React.Component<Props, State> {
   }
 
   render() {
-
-    return (
-      <div className='session-emoji-panel'>
-        THIS IS EMOJI STUFF
-      </div>
-    );
+    return <div className="session-emoji-panel">THIS IS EMOJI STUFF</div>;
   }
 }

@@ -986,7 +986,7 @@
       }
 
       return toastID;
-    };    
+    };
 
     window.getFriendsFromContacts = contacts => {
       // To call from TypeScript, input / output are both

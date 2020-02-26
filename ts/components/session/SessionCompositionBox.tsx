@@ -4,15 +4,14 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
 
-
 interface Props {
   placeholder?: string;
   onSendMessage: any;
 }
 
 interface State {
-    message: string;
-    showEmojiPanel: boolean;
+  message: string;
+  showEmojiPanel: boolean;
 }
 
 export class SessionCompositionBox extends React.Component<Props, State> {
@@ -22,8 +21,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-        message: '',
-        showEmojiPanel: false,
+      message: '',
+      showEmojiPanel: false,
     };
 
     this.textarea = React.createRef();
@@ -69,10 +68,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           />
         </div>
 
-        { showEmojiPanel && 
-          ( <SessionEmojiPanel/> )
-        }
-
+        {showEmojiPanel && <SessionEmojiPanel />}
       </div>
     );
   }
@@ -80,6 +76,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   public toggleEmojiPanel() {
     this.setState({
       showEmojiPanel: !this.state.showEmojiPanel,
-    })
+    });
   }
 }

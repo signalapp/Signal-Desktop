@@ -80,7 +80,6 @@ export class LeftPane extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-
     return (
       <div className="module-left-pane-session">
         <ActionsPanel

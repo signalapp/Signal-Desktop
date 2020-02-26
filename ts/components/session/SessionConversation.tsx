@@ -40,8 +40,6 @@ export class SessionConversation extends React.Component<any, State> {
     const conversation = this.props.conversations.conversationLookup[conversationKey];
     const unreadCount = conversation.unreadCount;
 
-    console.log(`[vince][info] Conversation: `, conversation);
-
     this.state = {
       sendingProgess: 0,
       prevSendingProgess: 0,
@@ -76,6 +74,8 @@ export class SessionConversation extends React.Component<any, State> {
         doneInitialScroll: true,
       });
     }, 100);
+
+    console.log(`[vince][info] HeaderProps:`, this.getHeaderProps());
   }
 
   public componentDidUpdate(){
@@ -96,11 +96,17 @@ export class SessionConversation extends React.Component<any, State> {
   }
 
   render() {
+    console.log(`[vince][info] Props`, this.props);
+    console.log(`[vince][info] Unread: `, this.state.unreadCount);
+    console.log(`[vince][info] Messages:`, this.state.messages);
+
+
     // const headerProps = this.props.getHeaderProps;
     const { messages, conversationKey, doneInitialScroll } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
 
-    const conversation = this.props.conversations.conversationLookup[conversationKey]
+    const conversation = this.props.conversations.conversationLookup[conversationKey];
+    const isRss = conversation.isRss;
 
     return (
       <div className="conversation-item">
@@ -130,9 +136,12 @@ export class SessionConversation extends React.Component<any, State> {
           
         </div>
         
-        <SessionCompositionBox
+        { !isRss && (
+          <SessionCompositionBox
             onSendMessage={() => null}
-        />
+          />
+        )}
+        
       </div>
     );
   }
@@ -302,17 +311,30 @@ export class SessionConversation extends React.Component<any, State> {
     );
   }
 
-  public async getMessages(numMessages?: number, fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL){
+  public async getMessages(numMessages?: number, fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL, loopback = false){
     const { conversationKey, messageFetchTimestamp } = this.state;
     const timestamp = this.getTimestamp();
 
     // If we have pulled messages in the last interval, don't bother rescanning
     // This avoids getting messages on every re-render.
-    if (timestamp - messageFetchTimestamp < fetchInterval) {
+    const timeBuffer = timestamp - messageFetchTimestamp;
+    if (timeBuffer < fetchInterval) {
+      // Loopback gets messages after time has elapsed,
+      // rather than completely cancelling the fetch.
+      // if (loopback) {
+      //   setTimeout(() => {
+      //     this.getMessages(numMessages, fetchInterval, false);
+      //   }, timeBuffer * 1000);
+      // }      
+
       return { newTopMessage: undefined, previousTopMessage: undefined };
     }
 
-    const msgCount = numMessages || window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT + this.state.unreadCount;
+    let msgCount = numMessages || window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT + this.state.unreadCount;
+    msgCount = msgCount > window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
+      ? window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
+      : msgCount;
+
     const messageSet = await window.Signal.Data.getMessagesByConversation(
       conversationKey,
       { limit: msgCount, MessageCollection: window.Whisper.MessageCollection },
@@ -336,7 +358,7 @@ export class SessionConversation extends React.Component<any, State> {
     const previousTopMessage = this.state.messages[0]?.id;
     const newTopMessage = messages[0]?.id;
 
-    this.setState({ messages, messageFetchTimestamp });
+    await this.setState({ messages, messageFetchTimestamp: timestamp });
 
     return { newTopMessage, previousTopMessage };
   }
@@ -367,8 +389,8 @@ export class SessionConversation extends React.Component<any, State> {
       const numMessages = this.state.messages.length + window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
       
       // Prevent grabbing messags with scroll more frequently than once per 5s.
-      const messageFetchInterval = 5;
-      const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval))?.previousTopMessage;
+      const messageFetchInterval = 2;
+      const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval, true))?.previousTopMessage;
       previousTopMessage && this.scrollToMessage(previousTopMessage);
     }
   }
@@ -394,5 +416,179 @@ export class SessionConversation extends React.Component<any, State> {
     const messageContainer = document.getElementsByClassName('messages-container')[0];
     messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
   }
+
+  public getHeaderProps() {
+    const conversationKey = this.props.conversations.selectedConversation;
+    const conversation = window.getConversationByKey(conversationKey);
+    
+    console.log(`[vince][info] Key:`, conversationKey);
+    console.log(`[vince][info] Conversation`, conversation);
+    console.log(`[vince] Manual: `, );
+
+    const expireTimer = conversation.get('expireTimer');
+    const expirationSettingName = expireTimer
+      ? window.Whisper.ExpirationTimerOptions.getName(expireTimer || 0)
+      : null;
+
+    const members = conversation.get('members') || [];
+
+    return {
+      id: conversation.id,
+      name: conversation.getName(),
+      phoneNumber: conversation.getNumber(),
+      profileName: conversation.getProfileName(),
+      color: conversation.getColor(),
+      avatarPath: conversation.getAvatarPath(),
+      isVerified: conversation.isVerified(),
+      isFriendRequestPending: conversation.isPendingFriendRequest(),
+      isFriend: conversation.isFriend(),
+      isMe: conversation.isMe(),
+      isClosable: conversation.isClosable(),
+      isBlocked: conversation.isBlocked(),
+      isGroup: !conversation.isPrivate(),
+      isOnline: conversation.isOnline(),
+      isArchived: conversation.get('isArchived'),
+      isPublic: conversation.isPublic(),
+      isRss: conversation.isRss(),
+      amMod: conversation.isModerator(
+        window.storage.get('primaryDevicePubKey')
+      ),
+      members,
+      subscriberCount: conversation.get('subscriberCount'),
+      selectedMessages: conversation.selectedMessages,
+      expirationSettingName,
+      showBackButton: Boolean(conversation.panels && conversation.panels.length),
+      timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
+        name: item.getName(),
+        value: item.get('seconds'),
+      })),
+      hasNickname: !!conversation.getNickname(),
+
+      onSetDisappearingMessages: (seconds: any) =>
+      conversation.setDisappearingMessages(seconds),
+      onDeleteMessages: () => conversation.destroyMessages(),
+      onDeleteSelectedMessages: () => conversation.deleteSelectedMessages(),
+      onCloseOverlay: () => conversation.resetMessageSelection(),
+      onDeleteContact: () => conversation.deleteContact(),
+      onResetSession: () => conversation.endSession(),
+
+      // These are view only and don't update the Conversation model, so they
+      //   need a manual update call.
+      onShowSafetyNumber: () => {
+        conversation.showSafetyNumber();
+      },
+      onShowAllMedia: async () => {
+        conversation.updateHeader();
+      },
+      onShowGroupMembers: async () => {
+        await conversation.showMembers();
+        conversation.updateHeader();
+      },
+      onGoBack: () => {
+        conversation.resetPanel();
+        conversation.updateHeader();
+      },
+
+      onBlockUser: () => {
+        conversation.block();
+      },
+      onUnblockUser: () => {
+        conversation.unblock();
+      },
+      onChangeNickname: () => {
+        conversation.changeNickname();
+      },
+      onClearNickname: () => {
+        conversation.setNickname(null);
+      },
+      onCopyPublicKey: () => {
+        conversation.copyPublicKey();
+      },
+      onArchive: () => {
+        conversation.unload('archive');
+        conversation.setArchived(true);
+      },
+      onMoveToInbox: () => {
+        conversation.setArchived(false);
+      },
+      onLeaveGroup: () => {
+        window.Whisper.events.trigger('leaveGroup', conversation);
+      },
+
+      onInviteFriends: () => {
+        window.Whisper.events.trigger('inviteFriends', conversation);
+      },
+
+      onAddModerators: () => {
+        window.Whisper.events.trigger('addModerators', conversation);
+      },
+
+      onRemoveModerators: () => {
+        window.Whisper.events.trigger('removeModerators', conversation);
+      },
+
+      onAvatarClick: (pubkey: any) => {
+        if (conversation.isPrivate()) {
+          window.Whisper.events.trigger('onShowUserDetails', {
+            userPubKey: pubkey,
+          });
+        } else if (!conversation.isRss()) {
+          conversation.showGroupSettings();
+        }
+      },
+    };
+  };
+
+  public getGroupSettingsProps() {
+    const {conversationKey} = this.state;
+    const conversation = window.getConversationByKey[conversationKey];
+
+    const ourPK = window.textsecure.storage.user.getNumber();
+    const members = conversation.get('members') || [];
+
+    return {
+      id: conversation.id,
+      name: conversation.getName(),
+      phoneNumber: conversation.getNumber(),
+      profileName: conversation.getProfileName(),
+      color: conversation.getColor(),
+      avatarPath: conversation.getAvatarPath(),
+      isGroup: !conversation.isPrivate(),
+      isPublic: conversation.isPublic(),
+      isAdmin: conversation.get('groupAdmins').includes(ourPK),
+      isRss: conversation.isRss(),
+      memberCount: members.length,
+
+      timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
+        name: item.getName(),
+        value: item.get('seconds'),
+      })),
+
+      onSetDisappearingMessages: (seconds: any) =>
+        conversation.setDisappearingMessages(seconds),
+
+      onGoBack: () => {
+        conversation.hideConversationRight();
+      },
+
+      onUpdateGroupName: () => {
+        window.Whisper.events.trigger('updateGroupName', conversation);
+      },
+      onUpdateGroupMembers: () => {
+        window.Whisper.events.trigger('updateGroupMembers', conversation);
+      },
+
+      onLeaveGroup: () => {
+        window.Whisper.events.trigger('leaveGroup', conversation);
+      },
+
+      onInviteFriends: () => {
+        window.Whisper.events.trigger('inviteFriends', conversation);
+      },
+      onShowLightBox: (lightBoxOptions = {}) => {
+        conversation.showChannelLightbox(lightBoxOptions);
+      },
+    };
+  };
 }
 

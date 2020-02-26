@@ -63,7 +63,9 @@
 
       // Add sessionConversation to the DOM
       $('#main-view .conversation-stack').html('');
-      $('#main-view .conversation-stack').append(this.sessionConversationView.el);
+      $('#main-view .conversation-stack').append(
+        this.sessionConversationView.el
+      );
     },
   });
 
@@ -152,14 +154,17 @@
 
       const filledConversations = conversations.map(async conv => {
         const messages = await window.getMessagesByKey(conv.id);
-        return { ...conv, messages};
+        return { ...conv, messages };
       });
 
       const fullFilledConversations = await Promise.all(filledConversations);
 
       const initialState = {
         conversations: {
-          conversationLookup: Signal.Util.makeLookup(fullFilledConversations, 'id'),
+          conversationLookup: Signal.Util.makeLookup(
+            fullFilledConversations,
+            'id'
+          ),
         },
         user: {
           regionCode: window.storage.get('regionCode'),

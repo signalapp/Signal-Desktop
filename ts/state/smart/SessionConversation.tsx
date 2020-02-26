@@ -11,8 +11,6 @@ import {
   getUserNumber,
 } from '../selectors/user';
 
-
-
 const mapStateToProps = (state: StateType) => {
   //const conversationInfo = getSessionConversationInfo(state);
 
@@ -24,7 +22,7 @@ const mapStateToProps = (state: StateType) => {
 
   return {
     conversations: state.conversations,
-  }
+  };
 };
 
 const smart = connect(mapStateToProps, mapDispatchToProps);

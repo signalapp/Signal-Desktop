@@ -157,7 +157,6 @@ const getMessageProps = (messages: Array<MessageType>) => {
   });
 };
 
-
 async function doGetMessages(
   query: string,
   options: SearchOptions
@@ -187,10 +186,6 @@ async function doGetMessages(
     messages: messageSet,
   };
 }
-
-
-
-
 
 async function queryMessages(query: string) {
   try {

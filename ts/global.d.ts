@@ -16,7 +16,7 @@ interface Window {
   getMessagesByKey: any;
   getLastMessageByKey: any;
   getFriendsFromContacts: any;
-  
+
   mnemonic: any;
   clipboard: any;
   attemptConnection: any;

@@ -146,7 +146,9 @@ const {
 
 // State
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
-const { createSessionConversation } = require('../../ts/state/roots/createSessionConversation');
+const {
+  createSessionConversation,
+} = require('../../ts/state/roots/createSessionConversation');
 const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const userDuck = require('../../ts/state/ducks/user');

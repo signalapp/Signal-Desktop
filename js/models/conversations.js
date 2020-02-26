@@ -131,7 +131,6 @@
       this.messageCollection.on('change:errors', this.handleMessageError, this);
       this.messageCollection.on('send-error', this.onMessageError, this);
 
-
       this.throttledBumpTyping = _.throttle(this.bumpTyping, 300);
       const debouncedUpdateLastMessage = _.debounce(
         this.updateLastMessage.bind(this),
@@ -2274,6 +2273,9 @@
     },
 
     async markRead(newestUnreadDate, providedOptions) {
+
+      console.log(`[vince][unread] Marking messages as read!!`);
+
       const options = providedOptions || {};
       _.defaults(options, { sendReadReceipts: true });
 
@@ -2285,6 +2287,9 @@
       );
 
       let unreadMessages = await this.getUnread();
+
+      console.log(`[vince][unread] Unread: `, unreadMessages);
+
       const oldUnread = unreadMessages.filter(
         message => message.get('received_at') <= newestUnreadDate
       );
@@ -2309,6 +2314,8 @@
           };
         })
       );
+
+      console.log(`[vince][unread] Read:`, read);
 
       // Some messages we're marking read are local notifications with no sender
       read = _.filter(read, m => Boolean(m.sender));

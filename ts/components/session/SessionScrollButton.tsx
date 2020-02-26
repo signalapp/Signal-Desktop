@@ -14,8 +14,8 @@ export class SessionScrollButton extends React.PureComponent<Props> {
 
   public render() {
     return (
-        <>
-        { this.props.display && (
+      <>
+        {this.props.display && (
           <div className="session-scroll-button">
             <SessionIconButton
               iconType={SessionIconType.Chevron}
@@ -25,7 +25,7 @@ export class SessionScrollButton extends React.PureComponent<Props> {
             />
           </div>
         )}
-        </>
+      </>
     );
   }
 }
