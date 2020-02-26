@@ -137,10 +137,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
                 this.updateSetting(setting);
               });
 
-              //define a bunch of function that will be used in the setting list.
-              //since setting elem itself is an array elem, this either becomes, onlick function
-              // or a function returned by others.
-
             return (
               <div key={setting.id}>
                 {shouldRenderSettings &&
@@ -238,11 +234,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       this.state.shouldLockSettings && this.state.hasPassword;
 
     return (
-
-      //this is the section where the actually setting group of components gets render!
       <div className="session-settings">
         
-        {/* header is always rendered */}
         <SettingsHeader
           showLinkDeviceButton={!shouldRenderPasswordLock}
           category={category}
@@ -251,7 +244,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
         <div className="session-settings-view">
 
-          {/* some show lock logic is put in here to make sure that every time if you want to change the appearance  */}
           {shouldRenderPasswordLock ? (
             this.renderPasswordLock()
             //

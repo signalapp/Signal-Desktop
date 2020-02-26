@@ -577,7 +577,6 @@ let settingsWindow;
 async function showSettingsWindow() {
   if (settingsWindow) {
     settingsWindow.show();
-    console.log(window.getSettingValue('zoom-factor-setting'), 'from settingsWindow')
     return;
   }
   if (!mainWindow) {

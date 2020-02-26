@@ -2,6 +2,7 @@
 /* global window: false */
 const path = require('path');
 const electron = require('electron');
+
 const {webFrame} = electron;
 const semver = require('semver');
 
@@ -250,11 +251,6 @@ installSetter('hide-menu-bar', 'setHideMenuBar');
 window.getMessageTTL = () => window.storage.get('message-ttl', 24);
 installGetter('message-ttl', 'getMessageTTL');
 installSetter('message-ttl', 'setMessageTTL');
-
-// Get the zoom Factor setting
-// window.getZoomFactor = () => window.storage.get('zoom-factor-setting',50)
-// installGetter('zoom-factor-setting', 'getZoomFactor');
-// installSetter('zoom-factor-setting', 'setZoomFactor');
 
 installGetter('read-receipt-setting', 'getReadReceiptSetting');
 installSetter('read-receipt-setting', 'setReadReceiptSetting');

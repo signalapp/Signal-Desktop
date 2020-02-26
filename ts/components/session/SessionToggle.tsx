@@ -34,7 +34,6 @@ export class SessionToggle extends React.PureComponent<Props, State> {
     this.state = {
       active: active,
     };
-    console.log('it is the constructor runs the first')
   }
 
   
@@ -42,9 +41,6 @@ export class SessionToggle extends React.PureComponent<Props, State> {
 
 
   public render() {
-
-    console.log(this.props, 'from Session Toggle')
-
     return (
       <div
         className={classNames(
@@ -70,11 +66,6 @@ export class SessionToggle extends React.PureComponent<Props, State> {
         this.props.onClick();
       }
     };
-
-
-    //what does the following piece of code do? //
-
-    //what is the window.comfirmationDialog doing in here?
 
     if (
       this.props.confirmationDialogParams &&

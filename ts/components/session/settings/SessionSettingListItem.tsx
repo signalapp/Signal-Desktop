@@ -145,8 +145,6 @@ export class SessionSettingListItem extends React.Component<Props, State> {
       sliderValue: value,
     });
 
-    console.log(this.props.title, 'from here')
-
     if(this.props.title === 'Zoom Factor' && this.state.sliderValue!==null) {
       window.setZoomFactor(this.state.sliderValue/100)
     }
