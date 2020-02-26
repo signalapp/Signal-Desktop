@@ -142,7 +142,5 @@ export class SessionSettingListItem extends React.Component<Props, State> {
     this.setState({
       sliderValue: value,
     });
-
-    
   }
 }

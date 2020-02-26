@@ -86,7 +86,7 @@ const localeMessages = ipc.sendSync('locale-data');
 window.updateZoomFactor = () => {
   const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
   window.setZoomFactor(zoomFactor / 100);
-}
+};
 
 window.setZoomFactor = number => {
   webFrame.setZoomFactor(number);
