@@ -172,7 +172,7 @@ async function queryConversationsAndContacts(
   providedQuery: string,
   options: SearchOptions
 ) {
-  const { ourNumber, noteToSelf, isSecondaryDevice } = options;
+  const { ourNumber, isSecondaryDevice } = options;
   const query = providedQuery.replace(/[+-.()]*/g, '');
 
   const searchResults: Array<ConversationType> = await searchConversations(
@@ -193,8 +193,8 @@ async function queryConversationsAndContacts(
   );
 
   // Split into two groups - active conversations and items just from address book
-  let conversations: Array<string> = [];
-  let contacts: Array<string> = [];
+  const conversations: Array<string> = [];
+  const contacts: Array<string> = [];
   const max = searchResults.length;
   for (let i = 0; i < max; i += 1) {
     const conversation = searchResults[i];
@@ -213,15 +213,6 @@ async function queryConversationsAndContacts(
     } else {
       conversations.push(conversation.id);
     }
-  }
-
-  // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
-  if (noteToSelf.indexOf(providedQuery.toLowerCase()) !== -1) {
-    // ensure that we don't have duplicates in our results
-    contacts = contacts.filter(id => id !== ourNumber);
-    conversations = conversations.filter(id => id !== ourNumber);
-
-    contacts.unshift(ourNumber);
   }
 
   return { conversations, contacts };
