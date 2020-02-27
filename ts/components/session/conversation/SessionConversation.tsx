@@ -1,16 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
-import { ConversationHeader } from '../conversation/ConversationHeader';
+import { ConversationHeader } from '../../conversation/ConversationHeader';
 import { SessionCompositionBox } from './SessionCompositionBox';
-import { SessionProgress } from './SessionProgress'
+import { SessionProgress } from '../SessionProgress'
 
-import { Message } from '../conversation/Message';
-import { FriendRequest } from '../conversation/FriendRequest';
-import { TimerNotification } from '../conversation/TimerNotification';
+import { Message } from '../../conversation/Message';
+import { FriendRequest } from '../../conversation/FriendRequest';
+import { TimerNotification } from '../../conversation/TimerNotification';
 
 
-import { SessionSpinner } from './SessionSpinner';
-import { SessionScrollButton } from './SessionScrollButton';
+import { SessionScrollButton } from '../SessionScrollButton';
 
 // interface Props {
 //   getHeaderProps: any;
@@ -27,6 +26,7 @@ interface State {
   isScrolledToBottom: boolean;
   doneInitialScroll: boolean;
   messageFetchTimestamp: number;
+  isRecording: boolean;
 }
 
 export class SessionConversation extends React.Component<any, State> {
@@ -48,6 +48,7 @@ export class SessionConversation extends React.Component<any, State> {
       isScrolledToBottom: !unreadCount,
       doneInitialScroll: false,
       messageFetchTimestamp: 0,
+      isRecording: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -57,6 +58,9 @@ export class SessionConversation extends React.Component<any, State> {
     this.renderMessage = this.renderMessage.bind(this);
     this.renderTimerNotification = this.renderTimerNotification.bind(this);
     this.renderFriendRequest = this.renderFriendRequest.bind(this);
+
+    this.onStartedRecording = this.onStartedRecording.bind(this);
+    this.onStoppedRecording = this.onStoppedRecording.bind(this);
 
     this.messagesEndRef = React.createRef();
   }
@@ -116,9 +120,7 @@ export class SessionConversation extends React.Component<any, State> {
 
         <div className="messages-wrapper">
           { loading && (
-            <div className="messages-container__loading">
-              {/* <SessionSpinner/> */}
-            </div>
+            <div className="messages-container__loading"></div>
           )}
 
           <div className="messages-container" onScroll={this.handleScroll}>
@@ -127,12 +129,14 @@ export class SessionConversation extends React.Component<any, State> {
           </div>
 
           <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
-          
+          <div className="messages-wrapper--blocking-overlay"></div>
         </div>
         
         { !isRss && (
           <SessionCompositionBox
             sendMessage={conversationModel.sendMessage}
+            onStartedRecording={this.onStartedRecording}
+            onStoppedRecording={this.onStoppedRecording}
           />
         )}
         
@@ -582,5 +586,17 @@ export class SessionConversation extends React.Component<any, State> {
       },
     };
   };
+
+  private onStartedRecording() {
+    this.setState({
+      isRecording: true,
+    })
+  }
+
+  private onStoppedRecording() {
+    this.setState({
+      isRecording: false,
+    })
+  }
 }
 

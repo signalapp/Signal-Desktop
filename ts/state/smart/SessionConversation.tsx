@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import { SessionConversation } from '../../components/session/SessionConversation';
+import { SessionConversation } from '../../components/session/conversation/SessionConversation';
 import { StateType } from '../reducer';
 
 import { getQuery, getSearchResults, isSearching } from '../selectors/search';

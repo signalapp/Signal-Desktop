@@ -78,6 +78,7 @@ $session-color-white: #fff;
 $session-color-dark-grey: #353535;
 $session-color-black: #000;
 $session-color-danger: #ff453a;
+$session-color-danger-alt: #FF4538;
 $session-color-primary: $session-shade-13;
 $session-color-secondary: $session-shade-6;
 $session-background-overlay: #212121;
@@ -268,6 +269,7 @@ $session_message-container-border-radius: 5px;
   width: auto;
   display: flex;
   justify-content: center;
+  align-items: center;
   font-weight: 700;
   user-select: none;
   white-space: nowrap;
@@ -318,6 +320,9 @@ $session_message-container-border-radius: 5px;
     }
     &.danger {
       background-color: $session-color-danger;
+    }
+    &.danger-alt {
+      background-color: $session-color-danger-alt;
     }
     &.warning {
       background-color: $session-color-warning;
@@ -611,6 +616,7 @@ label {
 }
 
 .hidden {
+  display: none;
   visibility: hidden;
 }
 

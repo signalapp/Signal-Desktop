@@ -1,5 +1,16 @@
 $composition-container-height: 60px;
 
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
 .conversation-item {
   display: flex;
   flex-grow: 1;
@@ -19,6 +30,15 @@ $composition-container-height: 60px;
   flex-grow: 1;
   flex-direction: column;
   position: relative;
+
+  &--blocking-overlay{
+    background-color: rgba(0,0,0,0.80);
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+  }
 }
 .messages-container {
   display: flex;
@@ -56,6 +76,9 @@ $composition-container-height: 60px;
     margin-right: $session-margin-sm;
   }
   .session-icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     opacity: 0.8;
 
     .send {
@@ -117,5 +140,57 @@ $composition-container-height: 60px;
     height: 3px;
 
     background-color: $session-color-green;
+  }
+}
+
+
+.session-recording {
+  height: $composition-container-height;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+
+  $actions-element-size: 45px;
+
+  &--actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $session-shade-5;
+    width: $actions-element-size;
+    height: $actions-element-size;
+    border-radius: 50%;
+
+    .session-icon-button {
+      animation: fadein $session-transition-duration;
+      opacity: 1;
+      border-radius: 50%;
+      width: $actions-element-size;
+      height: $actions-element-size;
+
+      .play {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &--delete {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: $composition-container-height + $session-margin-md;
+
+    .session-button.danger-alt{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 173px;
+      font-weight: 300;
+      font-family: "SF Pro Text";
+      
+    }
   }
 }

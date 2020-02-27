@@ -60,7 +60,7 @@ const {
 } = require('../../ts/components/DevicePairingDialog');
 const {
   SessionConversation,
-} = require('../../ts/components/session/SessionConversation');
+} = require('../../ts/components/session/conversation/SessionConversation');
 const {
   SettingsView,
 } = require('../../ts/components/session/settings/SessionSettings');
