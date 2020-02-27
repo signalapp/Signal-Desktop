@@ -792,7 +792,7 @@
       convo.updateGroup({
         groupId,
         groupName,
-        nullAvatar,
+        avatar: nullAvatar,
         recipients,
         members,
         options,
