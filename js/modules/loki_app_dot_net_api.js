@@ -5,6 +5,7 @@ const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
 const https = require('https');
+const path = require('path');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -1254,38 +1255,50 @@ class LokiPublicChannelAPI {
         this.conversation.setGroupName(note.value.name);
       }
       if (note.value && note.value.avatar) {
-        const avatarAbsUrl = this.serverAPI.baseServerUrl + note.value.avatar;
-        const {
-          writeNewAttachmentData,
-          deleteAttachmentData,
-        } = window.Signal.Migrations;
-        // do we already have this image? no, then
-
-        // download a copy and save it
-        const imageData = await nodeFetch(avatarAbsUrl);
-        // eslint-disable-next-line no-inner-declarations
-        function toArrayBuffer(buf) {
-          const ab = new ArrayBuffer(buf.length);
-          const view = new Uint8Array(ab);
-          // eslint-disable-next-line no-plusplus
-          for (let i = 0; i < buf.length; i++) {
-            view[i] = buf[i];
+        if (note.value.avatar.match(/^images\//)) {
+          // local file avatar
+          const resolvedAvatar = path.normalize(note.value.avatar);
+          const base = path.normalize('images/');
+          const re = new RegExp(`^${base}`)
+          // do we at least ends up inside images/ somewhere?
+          if (re.test(resolvedAvatar)) {
+            this.conversation.set('avatar', resolvedAvatar);
           }
-          return ab;
-        }
-        // eslint-enable-next-line no-inner-declarations
-
-        const buffer = await imageData.buffer();
-        const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-          this.conversation.attributes,
-          toArrayBuffer(buffer),
-          {
+        } else {
+          // relative URL avatar
+          const avatarAbsUrl = this.serverAPI.baseServerUrl + note.value.avatar;
+          const {
             writeNewAttachmentData,
             deleteAttachmentData,
+          } = window.Signal.Migrations;
+          // do we already have this image? no, then
+
+          // download a copy and save it
+          const imageData = await nodeFetch(avatarAbsUrl);
+          // eslint-disable-next-line no-inner-declarations
+          function toArrayBuffer(buf) {
+            const ab = new ArrayBuffer(buf.length);
+            const view = new Uint8Array(ab);
+            // eslint-disable-next-line no-plusplus
+            for (let i = 0; i < buf.length; i++) {
+              view[i] = buf[i];
+            }
+            return ab;
           }
-        );
-        // update group
-        this.conversation.set('avatar', newAttributes.avatar);
+          // eslint-enable-next-line no-inner-declarations
+
+          const buffer = await imageData.buffer();
+          const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+            this.conversation.attributes,
+            toArrayBuffer(buffer),
+            {
+              writeNewAttachmentData,
+              deleteAttachmentData,
+            }
+          );
+          // update group
+          this.conversation.set('avatar', newAttributes.avatar);
+        }
       }
       // is it mutable?
       // who are the moderators?
@@ -1420,7 +1433,7 @@ class LokiPublicChannelAPI {
     }
 
     if (quote) {
-      // TODO: Enable quote attachments again using proper ADN style
+      // Disable quote attachments
       quote.attachments = [];
     }
 
