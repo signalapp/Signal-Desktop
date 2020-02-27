@@ -287,6 +287,9 @@
           isAdmin: this.model.get('groupAdmins').includes(ourPK),
           isRss: this.model.isRss(),
           memberCount: members.length,
+          amMod: this.model.isModerator(
+            window.storage.get('primaryDevicePubKey')
+          ),
 
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
             name: item.getName(),
