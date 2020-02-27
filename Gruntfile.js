@@ -1,4 +1,4 @@
-const path = require('path');
+const { join } = require('path');
 const packageJson = require('./package.json');
 const importOnce = require('node-sass-import-once');
 const rimraf = require('rimraf');
@@ -223,9 +223,13 @@ module.exports = grunt => {
     const { Application } = spectron;
     const electronBinary =
       process.platform === 'win32' ? 'electron.cmd' : 'electron';
+
+    const path = join(__dirname, 'node_modules', '.bin', electronBinary);
+    const args = [join(__dirname, 'main.js')];
+    console.log('Starting path', path, 'with args', args);
     const app = new Application({
-      path: path.join(__dirname, 'node_modules', '.bin', electronBinary),
-      args: [path.join(__dirname, 'main.js')],
+      path,
+      args,
       env: {
         NODE_ENV: environment,
       },
@@ -239,19 +243,24 @@ module.exports = grunt => {
 
     app
       .start()
-      .then(() =>
-        app.client.waitUntil(
+      .then(() => {
+        console.log('App started. Now waiting for test results...');
+        return app.client.waitUntil(
           () =>
             app.client
               .execute(getMochaResults)
               .then(data => Boolean(data.value)),
           25000,
           'Expected to find window.mochaResults set!'
-        )
-      )
+        );
+      })
       .then(() => app.client.execute(getMochaResults))
       .then(data => {
         const results = data.value;
+        if (!results) {
+          failure = () => grunt.fail.fatal("Couldn't extract test results.");
+          return app.client.log('browser');
+        }
         if (results.failures > 0) {
           console.error(results.reports);
           failure = () =>
@@ -368,14 +377,23 @@ module.exports = grunt => {
       // A simple test to verify a visible window is opened with a title
       const { Application } = spectron;
 
+      const path = [dir, config.exe].join('/');
+      console.log('Starting path', path);
       const app = new Application({
-        path: [dir, config.exe].join('/'),
-        requireName: 'unused',
+        path,
       });
 
-      app
-        .start()
-        .then(() => app.client.getWindowCount())
+      const sleep = millis =>
+        new Promise(resolve => setTimeout(resolve, millis));
+
+      Promise.race([app.start(), sleep(15000)])
+        .then(() => {
+          if (!app.isRunning()) {
+            throw new Error('Application failed to start');
+          }
+
+          return app.client.getWindowCount();
+        })
         .then(count => {
           assert.equal(count, 1);
           console.log('window opened');
@@ -405,6 +423,17 @@ module.exports = grunt => {
               grunt.fail.fatal(`Test failed: ${error.message} ${error.stack}`);
             })
         )
+        .catch(error => {
+          console.log('Main process logs:');
+          app.client.getMainProcessLogs().then(logs => {
+            logs.forEach(log => {
+              console.log(log);
+            });
+
+            // Test failed!
+            grunt.fail.fatal(`Failure! ${error.message} ${error.stack}`);
+          });
+        })
         .then(done);
     }
   );

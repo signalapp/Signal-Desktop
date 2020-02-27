@@ -2,6 +2,7 @@
 
 import { readFileSync } from 'fs';
 import { join, relative } from 'path';
+import normalizePath from 'normalize-path';
 
 import { sync as fgSync } from 'fast-glob';
 import { forEach, some, values } from 'lodash';
@@ -36,7 +37,7 @@ const rulesPath = join(__dirname, 'rules.json');
 const exceptionsPath = join(__dirname, 'exceptions.json');
 const basePath = join(__dirname, '../../..');
 
-const searchPattern = join(basePath, '**/*.{js,ts,tsx}');
+const searchPattern = normalizePath(join(basePath, '**/*.{js,ts,tsx}'));
 
 const rules: Array<RuleType> = loadJSON(rulesPath);
 const exceptions: Array<ExceptionType> = loadJSON(exceptionsPath);

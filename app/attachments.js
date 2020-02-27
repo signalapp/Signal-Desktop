@@ -3,9 +3,12 @@ const path = require('path');
 const { app, dialog, shell, remote } = require('electron');
 
 const fastGlob = require('fast-glob');
+const glob = require('glob');
+const pify = require('pify');
 const fse = require('fs-extra');
 const toArrayBuffer = require('to-arraybuffer');
 const { map, isArrayBuffer, isString } = require('lodash');
+const normalizePath = require('normalize-path');
 const sanitizeFilename = require('sanitize-filename');
 const getGuid = require('uuid/v4');
 
@@ -25,7 +28,7 @@ const DRAFT_PATH = 'drafts.noindex';
 
 exports.getAllAttachments = async userDataPath => {
   const dir = exports.getPath(userDataPath);
-  const pattern = path.join(dir, '**', '*');
+  const pattern = normalizePath(path.join(dir, '**', '*'));
 
   const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => path.relative(dir, file));
@@ -33,7 +36,7 @@ exports.getAllAttachments = async userDataPath => {
 
 exports.getAllStickers = async userDataPath => {
   const dir = exports.getStickersPath(userDataPath);
-  const pattern = path.join(dir, '**', '*');
+  const pattern = normalizePath(path.join(dir, '**', '*'));
 
   const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => path.relative(dir, file));
@@ -41,7 +44,7 @@ exports.getAllStickers = async userDataPath => {
 
 exports.getAllDraftAttachments = async userDataPath => {
   const dir = exports.getDraftPath(userDataPath);
-  const pattern = path.join(dir, '**', '*');
+  const pattern = normalizePath(path.join(dir, '**', '*'));
 
   const files = await fastGlob(pattern, { onlyFiles: true });
   return map(files, file => path.relative(dir, file));
@@ -51,7 +54,9 @@ exports.getBuiltInImages = async () => {
   const dir = path.join(__dirname, '../images');
   const pattern = path.join(dir, '**', '*.svg');
 
-  const files = await fastGlob(pattern, { onlyFiles: true });
+  // Note: we cannot use fast-glob here because, inside of .asar files, readdir will not
+  //   honor the withFileTypes flag: https://github.com/electron/electron/issues/19074
+  const files = await pify(glob)(pattern, { nodir: true });
   return map(files, file => path.relative(dir, file));
 };
 
