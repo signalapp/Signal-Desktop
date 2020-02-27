@@ -330,9 +330,13 @@
     resetMessageSelection() {
       this.selectedMessages.clear();
       this.messageCollection.forEach(m => {
-        // eslint-disable-next-line no-param-reassign
-        m.selected = false;
-        m.trigger('change');
+        // on change for ALL messages without real changes is a really costly operation
+        // -> cause refresh of the whole conversation view even if not a single message was selected
+        if (m.selected) {
+          // eslint-disable-next-line no-param-reassign
+          m.selected = false;
+          m.trigger('change');
+        }
       });
 
       this.trigger('message-selection-changed');
