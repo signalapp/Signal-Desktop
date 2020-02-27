@@ -11,6 +11,7 @@ interface Window {
   clearLocalData: any;
 
   getAccountManager: any;
+  getMediaPermissions: any;
   getConversations: any;
   getConversationByKey: any;
   getMessagesByKey: any;

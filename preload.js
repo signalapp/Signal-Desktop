@@ -205,29 +205,6 @@ ipc.on('remove-dark-overlay', () => {
   }
 });
 
-window.getSettingValue = (settingID, comparisonValue = null) => {
-  // Comparison value allows you to pull boolean values from any type.
-  // Eg. window.getSettingValue('theme', 'light')
-  // returns 'false' when the value is 'dark'.
-
-  if (settingID === 'media-permissions') {
-    let permissionValue;
-    // eslint-disable-next-line more/no-then
-    window.getMediaPermissions().then(value => {
-      permissionValue = value;
-    });
-
-    return permissionValue;
-  }
-
-  const settingVal = window.storage.get(settingID);
-  return comparisonValue ? !!settingVal === comparisonValue : settingVal;
-};
-
-window.setSettingValue = (settingID, value) => {
-  window.storage.put(settingID, value);
-};
-
 installGetter('device-name', 'getDeviceName');
 
 installGetter('theme-setting', 'getThemeSetting');
@@ -260,6 +237,7 @@ installSetter('spell-check', 'setSpellCheck');
 installGetter('media-permissions', 'getMediaPermissions');
 installGetter('media-permissions', 'setMediaPermissions');
 
+
 window.getMediaPermissions = () =>
   new Promise((resolve, reject) => {
     ipc.once('get-success-media-permissions', (_event, error, value) => {
@@ -271,6 +249,30 @@ window.getMediaPermissions = () =>
     });
     ipc.send('get-media-permissions');
   });
+
+window.setMediaPermissions = value => {
+  ipc.send('set-media-permissions', value);
+};
+
+window.getSettingValue = (settingID, comparisonValue = null) => {
+  // Comparison value allows you to pull boolean values from any type.
+  // Eg. window.getSettingValue('theme', 'light')
+  // returns 'false' when the value is 'dark'.
+
+  if (settingID === 'media-permissions') {
+    // This must be done asynchronously. Call
+    // await window.getMediaPermissions();
+    return null;
+  }
+
+  const settingVal = window.storage.get(settingID);
+  return comparisonValue ? !!settingVal === comparisonValue : settingVal;
+};
+
+
+window.setSettingValue = (settingID, value) => {
+  window.storage.put(settingID, value);
+};
 
 installGetter('is-primary', 'isPrimary');
 installGetter('sync-request', 'getSyncRequest');

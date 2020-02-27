@@ -107,7 +107,7 @@ export interface Props {
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
   onCopyText?: () => void;
-  onSelectMessage: () => void;
+  onSelectMessage: (messageId: string) => void;
   onSelectMessageUnchecked: () => void;
   onReply?: () => void;
   onRetrySend?: () => void;

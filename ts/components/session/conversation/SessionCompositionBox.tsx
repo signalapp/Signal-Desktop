@@ -16,6 +16,7 @@ interface Props {
 interface State {
   message: string;
   isRecording: boolean;
+  mediaSetting: boolean | null;
   showEmojiPanel: boolean;
 }
 
@@ -28,19 +29,30 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.state = {
       message: '',
-      isRecording: true,
+      isRecording: false,
+      mediaSetting: null,
       showEmojiPanel: false,
     };
 
     this.textarea = React.createRef();
     this.fileInput = React.createRef();
 
-    this.onKeyDown = this.onKeyDown.bind(this);
-
-    this.onChooseAttachment = this.onChooseAttachment.bind(this);
     this.toggleEmojiPanel = this.toggleEmojiPanel.bind(this);
-    
+
+    this.renderRecordingView = this.renderRecordingView.bind(this);
+    this.renderCompositionView = this.renderCompositionView.bind(this);
+
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onStartRecording = this.onStartRecording.bind(this);
+    this.onStopRecording = this.onStopRecording.bind(this);
     this.onSendMessage = this.onSendMessage.bind(this);
+    this.onChooseAttachment = this.onChooseAttachment.bind(this);
+    
+  }
+
+  public async componentWillMount() {
+    const mediaSetting = await window.getMediaPermissions();
+    this.setState({mediaSetting});
   }
 
   public componentWillReceiveProps(){
@@ -48,66 +60,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   render() {
-    const { placeholder } = this.props;
-    const { showEmojiPanel } = this.state;
+    const { isRecording } = this.state;
 
     return (
       <div className="composition-container">
-        { this.state.isRecording ? (
-          <SessionRecording
-            onStoppedRecording={this.props.onStoppedRecording}
-          />
+        { isRecording ? (
+          <>{this.renderRecordingView()}</>
         ) : (
-          <>
-            <SessionIconButton
-              iconType={SessionIconType.CirclePlus}
-              iconSize={SessionIconSize.Large}
-              onClick={this.onChooseAttachment}
-            />
-
-            <input
-              className="hidden"
-              multiple={true}
-              ref={this.fileInput}
-              type='file'
-            />
-            
-            <SessionIconButton
-              iconType={SessionIconType.Microphone}
-              iconSize={SessionIconSize.Huge}
-              onClick={this.onStartRecording}
-            />
-
-            <div className="send-message-input">
-              <TextareaAutosize
-                rows={1}
-                maxRows={3}
-                ref={this.textarea}
-                placeholder={placeholder}
-                maxLength={window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH}
-                onKeyDown={this.onKeyDown}
-              />
-            </div>
-
-            <SessionIconButton
-              iconType={SessionIconType.Emoji}
-              iconSize={SessionIconSize.Large}
-              onClick={this.toggleEmojiPanel}
-            />
-            <div className="send-message-button">
-              <SessionIconButton
-                iconType={SessionIconType.Send}
-                iconSize={SessionIconSize.Large}
-                iconColor={'#FFFFFF'}
-                iconRotation={90}
-                onClick={this.onSendMessage}
-              />
-            </div>
-
-            {showEmojiPanel && <SessionEmojiPanel />}
-          </>
+          <>{this.renderCompositionView()}</>
         )}
-
       </div>
     );
   }
@@ -118,7 +79,72 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     });
   }
   
+  private renderRecordingView() {
+    return (
+      <SessionRecording
+        onStoppedRecording={this.props.onStoppedRecording}
+      />
+      );
+  }
 
+  private renderCompositionView() {
+    const { placeholder } = this.props;
+    const { showEmojiPanel } = this.state;
+
+    return (
+      <>
+        <SessionIconButton
+          iconType={SessionIconType.CirclePlus}
+          iconSize={SessionIconSize.Large}
+          onClick={this.onChooseAttachment}
+        />
+
+        <input
+          className="hidden"
+          multiple={true}
+          ref={this.fileInput}
+          type='file'
+        />
+        
+        { this.state.mediaSetting && (
+          <SessionIconButton
+            iconType={SessionIconType.Microphone}
+            iconSize={SessionIconSize.Huge}
+            onClick={this.onStartRecording}
+          />
+        )}
+
+        <div className="send-message-input">
+          <TextareaAutosize
+            rows={1}
+            maxRows={3}
+            ref={this.textarea}
+            placeholder={placeholder}
+            maxLength={window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH}
+            onKeyDown={this.onKeyDown}
+          />
+        </div>
+
+        <SessionIconButton
+          iconType={SessionIconType.Emoji}
+          iconSize={SessionIconSize.Large}
+          onClick={this.toggleEmojiPanel}
+        />
+        <div className="send-message-button">
+          <SessionIconButton
+            iconType={SessionIconType.Send}
+            iconSize={SessionIconSize.Large}
+            iconColor={'#FFFFFF'}
+            iconRotation={90}
+            onClick={this.onSendMessage}
+          />
+        </div>
+
+        {showEmojiPanel && <SessionEmojiPanel />}
+      </>
+    );
+  }
+  
   private onChooseAttachment() {
     this.fileInput.current?.click();
   }
@@ -143,7 +169,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       console.log(`[vince][msg] Message:`, messagePlaintext);
       console.log(`[vince][msg] Attachments:`, attachments);
 
-
     if (false){
       this.props.sendMessage();
     }
@@ -151,6 +176,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private onStartRecording(){
     // Do stuff for component, then run callback to SessionConversation
+    this.setState({
+      isRecording: true,
+    });
 
     this.props.onStartedRecording();
   }
@@ -160,5 +188,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.props.onStoppedRecording();
   }
+
 
 }

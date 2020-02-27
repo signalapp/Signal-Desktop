@@ -1056,8 +1056,11 @@
     };
 
     window.toggleMediaPermissions = () => {
-      const mediaPermissions = window.getMediaPermissions();
-      window.setMediaPermissions(!mediaPermissions);
+      // eslint-disable-next-line more/no-then
+      window.getMediaPermissions().then(value => {
+        window.setMediaPermissions(!value);
+      });
+
     };
 
     // attempts a connection to an open group server

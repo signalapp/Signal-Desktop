@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {ReactMic} from 'react-mic';
+
 import {  SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionButton, SessionButtonType, SessionButtonColor } from '../SessionButton';
 
@@ -25,7 +27,6 @@ export class SessionRecording extends React.Component<Props, State> {
       isPaused: false,
       actionHover: false,
     };
-
     
     this.handleHoverActions = this.handleHoverActions.bind(this);
     this.handleUnhoverActions = this.handleUnhoverActions.bind(this);
@@ -39,6 +40,8 @@ export class SessionRecording extends React.Component<Props, State> {
 
   public componentWillReceiveProps(){
     console.log(`[vince][mic] Here are my composition props: `, this.props);
+
+    console.log(`[vince][mic] Permissions: `, navigator.getUserMedia({ audio: true }, () => null, error => alert(error)));
   }
 
   render() {
@@ -78,6 +81,15 @@ export class SessionRecording extends React.Component<Props, State> {
             )}
         </div>
 
+        {/* <ReactMic
+            record={this.state.isRecording}
+            visualSetting={'frequencyBars'}
+            className='session-recording--visualisation'
+            onStop={() => null}
+            onData= {(data: any) => console.log(`[vince][mic] Data:`, data)}
+            strokeColor={'#00F480'}
+        /> */}
+
 
         <div className="send-message-button">
           <SessionIconButton
@@ -108,7 +120,6 @@ export class SessionRecording extends React.Component<Props, State> {
         });
     }
 
-    navigator.getUserMedia();
   }
 
   private handleUnhoverActions() {

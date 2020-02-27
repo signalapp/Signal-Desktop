@@ -157,36 +157,6 @@ const getMessageProps = (messages: Array<MessageType>) => {
   });
 };
 
-async function doGetMessages(
-  query: string,
-  options: SearchOptions
-): Promise<SearchResultsPayloadType> {
-  const { regionCode } = options;
-
-  const [discussions, messages] = await Promise.all([
-    queryConversationsAndContacts(query, options),
-    queryMessages(query),
-  ]);
-  const { conversations, contacts } = discussions;
-  const filteredMessages = messages.filter(message => message !== undefined);
-
-  let messageSet = [];
-  if (filteredMessages && !filteredMessages.length) {
-    messageSet = filteredMessages.map(message => {
-      const model = getMessageModel(message);
-      return model.propsForMessage;
-    });
-  }
-
-  return {
-    query,
-    normalizedPhoneNumber: normalize(query, { regionCode }),
-    conversations,
-    contacts,
-    messages: messageSet,
-  };
-}
-
 async function queryMessages(query: string) {
   try {
     const normalized = cleanSearchTerm(query);

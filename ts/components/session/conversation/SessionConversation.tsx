@@ -23,6 +23,7 @@ interface State {
   conversationKey: string;
   unreadCount: number;
   messages: Array<any>;
+  selectedMessages: Array<string>;
   isScrolledToBottom: boolean;
   doneInitialScroll: boolean;
   messageFetchTimestamp: number;
@@ -45,6 +46,7 @@ export class SessionConversation extends React.Component<any, State> {
       conversationKey,
       unreadCount,
       messages: [],
+      selectedMessages: [],
       isScrolledToBottom: !unreadCount,
       doneInitialScroll: false,
       messageFetchTimestamp: 0,
@@ -99,7 +101,7 @@ export class SessionConversation extends React.Component<any, State> {
   render() {
     console.log(`[vince][info] Props`, this.props);
 
-    const { messages, conversationKey, doneInitialScroll } = this.state;
+    const { messages, conversationKey, doneInitialScroll, isRecording } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
 
     const conversation = this.props.conversations.conversationLookup[conversationKey];
@@ -129,7 +131,9 @@ export class SessionConversation extends React.Component<any, State> {
           </div>
 
           <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
-          <div className="messages-wrapper--blocking-overlay"></div>
+          { isRecording && (
+            <div className="messages-wrapper--blocking-overlay"></div>
+          )}
         </div>
         
         { !isRss && (
@@ -262,7 +266,7 @@ export class SessionConversation extends React.Component<any, State> {
         onDownload = {messageProps?.onDownload}
         onReply = {messageProps?.onReply}
         onRetrySend = {messageProps?.onRetrySend}
-        onSelectMessage = {messageProps?.onSelectMessage}
+        onSelectMessage = {messageId => this.onSelectMessage(messageId)}
         onSelectMessageUnchecked = {messageProps?.onSelectMessageUnchecked}
         onShowDetail = {messageProps?.onShowDetail}
         onShowUserDetails = {messageProps?.onShowUserDetails}
@@ -399,7 +403,7 @@ export class SessionConversation extends React.Component<any, State> {
     const { messages, unreadCount } = this.state;
 
     const message = messages[(messages.length - 1) - unreadCount];
-    this.scrollToMessage(message.id);
+    message.id && this.scrollToMessage(message.id);
   }
 
   public scrollToMessage(messageId: string) {
@@ -534,6 +538,14 @@ export class SessionConversation extends React.Component<any, State> {
       },
     };
   };
+
+  public onSelectMessage(messageId: string) {
+    const selectedMessages = !this.state.selectedMessages.includes(messageId)
+      ? [...this.state.selectedMessages, messageId] : [];
+    
+    selectedMessages && this.setState({ selectedMessages });
+    console.log(`[vince] SelectedMessages: `, selectedMessages);
+  }
 
   public getGroupSettingsProps() {
     const {conversationKey} = this.state;
