@@ -259,7 +259,6 @@
     window.initialisedAPI = true;
 
     if (storage.get('isSecondaryDevice')) {
-      window.log.info('Initialising as a secondary device');
       window.lokiFileServerAPI.updateOurDeviceMapping();
     }
   };
@@ -1366,7 +1365,6 @@
     });
 
     Whisper.events.on('deviceUnpairingRequested', async pubKey => {
-      window.log.info('unpairing device...');
       await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
         pubKey
       );
