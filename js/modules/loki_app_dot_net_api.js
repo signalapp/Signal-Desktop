@@ -627,6 +627,12 @@ class LokiAppDotNetServerAPI {
           url
         );
       }
+      if (mode === '_sendToProxy') {
+        // if we can detect, certain types of failures, we can retry...
+        if (e.code === 'ECONNRESET') {
+          // retry with counter?
+        }
+      }
       return {
         err: e,
       };
@@ -1476,6 +1482,14 @@ class LokiPublicChannelAPI {
     });
 
     if (res.err || !res.response) {
+      log.error(
+        'Could not get messages from',
+        this.serverAPI.baseServerUrl,
+        this.baseChannelUrl
+      );
+      if (res.err) {
+        log.error('pollOnceForMessages receive error', res.err);
+      }
       return;
     }
 
@@ -1663,18 +1677,31 @@ class LokiPublicChannelAPI {
     // filter out invalid messages
     pendingMessages = pendingMessages.filter(messageData => !!messageData);
     // separate messages coming from primary and secondary devices
-    const [primaryMessages, slaveMessages] = _.partition(
+    let [primaryMessages, slaveMessages] = _.partition(
       pendingMessages,
       message => !(message.source in slavePrimaryMap)
     );
-    // process primary devices' message directly
-    primaryMessages.forEach(message =>
-      this.chatAPI.emit('publicMessage', {
-        message,
-      })
-    );
-
-    pendingMessages = []; // allow memory to be freed
+    // get minimum ID for primaryMessages and slaveMessages
+    const firstPrimaryId = Math.min(...primaryMessages.map(msg => msg.serverId));
+    const firstSlaveId = Math.min(...slaveMessages.map(msg => msg.serverId));
+    if (firstPrimaryId < firstSlaveId) {
+      // early send
+      // split off count from pendingMessages
+      let sendNow = [];
+      ([sendNow, pendingMessages] = _.partition(
+        pendingMessages,
+        message => message.serverId < firstSlaveId
+      ));
+      sendNow.forEach(message => {
+        // send them out now
+        log.info('emitting primary message', message.serverId);
+        this.chatAPI.emit('publicMessage', {
+          message,
+        });
+      });
+      sendNow = false;
+    }
+    primaryMessages = false; // free memory
 
     // get actual chat server data (mainly the name rn) of primary device
     const verifiedDeviceResults = await this.serverAPI.getUsers(
@@ -1731,11 +1758,25 @@ class LokiPublicChannelAPI {
           messageData.message.profileKey = profileKey;
         }
       }
-      /* eslint-enable no-param-reassign */
+    });
+    slaveMessages = false; // free memory
+
+    // process all messages in the order received
+    pendingMessages.forEach(message => {
+      // if slave device
+      if (message.source in slavePrimaryMap) {
+        // prevent our own device sent messages from coming back in
+        if (message.source === ourNumberDevice) {
+          // we originally sent these
+          return;
+        }
+      }
+      log.info('emitting pending message', message.serverId);
       this.chatAPI.emit('publicMessage', {
-        message: messageData,
+        message,
       });
     });
+
     /* eslint-enable no-param-reassign */
 
     // if we received one of our own messages
