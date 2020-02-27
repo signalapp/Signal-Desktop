@@ -1064,9 +1064,13 @@ export class Message extends React.PureComponent<Props, State> {
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
-    const triggerId = String(id || `${authorPhoneNumber}-${timestamp}`);
-    const rightClickTriggerId = `${authorPhoneNumber}-ctx-${timestamp}`;
-
+    // The Date.now() is a workaround to be sure a single triggerID with this id exists
+    const triggerId = id
+      ? String(`${id}-${Date.now()}`)
+      : String(`${authorPhoneNumber}-${timestamp}`);
+    const rightClickTriggerId = id
+      ? String(`${id}-ctx-${Date.now()}`)
+      : String(`${authorPhoneNumber}-ctx-${timestamp}`);
     if (expired) {
       return null;
     }
