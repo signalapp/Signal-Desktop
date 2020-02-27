@@ -1422,7 +1422,7 @@
           if (this.get('type') !== 'friend-request') {
             const c = this.getConversation();
             // Don't bother sending sync messages to public chats
-            if (!c.isPublic()) {
+            if (c && !c.isPublic()) {
               this.sendSyncMessage();
             }
           }

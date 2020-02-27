@@ -9704,13 +9704,13 @@ speedometer@~0.1.2:
   resolved "https://registry.yarnpkg.com/speedometer/-/speedometer-0.1.4.tgz#9876dbd2a169d3115402d48e6ea6329c8816a50d"
   integrity sha1-mHbb0qFp0xFUAtSObqYynIgWpQ0=
 
-spellchecker@3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/spellchecker/-/spellchecker-3.5.1.tgz#72cc2bcbb0c610536bc2a36df1ced9b2665816cc"
-  integrity sha512-R1qUBsDZzio+7MFZN6/AtPUe5NGvnc0wywckuXAlp9akASaYSFqKuI5O8p3rSiA+yKP31qC7Iijjoygmzkh6xw==
+spellchecker@3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/spellchecker/-/spellchecker-3.7.0.tgz#d63e6fd612352b0108e7bbf942f271665ff63c8b"
+  integrity sha512-saQT4BR9nivbK70s0YjyIlSbZzO6bfWRULcGL2JU7fi7wotOnWl70P0QoUwwLywNQJQ47osgCo6GmOlqzRTxbQ==
   dependencies:
     any-promise "^1.3.0"
-    nan "^2.10.0"
+    nan "^2.14.0"
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"

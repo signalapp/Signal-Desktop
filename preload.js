@@ -475,23 +475,6 @@ contextMenu({
 //   /tmp mounted as noexec on Linux.
 require('./js/spell_check');
 
-if (config.environment === 'test') {
-  const isTravis = 'TRAVIS' in process.env && 'CI' in process.env;
-  const isWindows = process.platform === 'win32';
-  /* eslint-disable global-require, import/no-extraneous-dependencies */
-  window.test = {
-    glob: require('glob'),
-    fse: require('fs-extra'),
-    tmp: require('tmp'),
-    path: require('path'),
-    basePath: __dirname,
-    attachmentsPath: window.Signal.Migrations.attachmentsPath,
-    isTravis,
-    isWindows,
-  };
-  /* eslint-enable global-require, import/no-extraneous-dependencies */
-}
-
 window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
@@ -509,3 +492,28 @@ Promise.prototype.ignore = function() {
   // eslint-disable-next-line more/no-then
   this.then(() => {});
 };
+
+if (config.environment.includes('test')) {
+  const isTravis = 'TRAVIS' in process.env && 'CI' in process.env;
+  const isWindows = process.platform === 'win32';
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
+  window.test = {
+    glob: require('glob'),
+    fse: require('fs-extra'),
+    tmp: require('tmp'),
+    path: require('path'),
+    basePath: __dirname,
+    attachmentsPath: window.Signal.Migrations.attachmentsPath,
+    isTravis,
+    isWindows,
+  };
+  /* eslint-enable global-require, import/no-extraneous-dependencies */
+  window.lokiFeatureFlags = {};
+  window.lokiSnodeAPI = {
+    refreshSwarmNodesForPubKey: () => [],
+    getFreshSwarmNodes: () => [],
+    updateSwarmNodes: () => {},
+    updateLastHash: () => {},
+    getSwarmNodesForPubKey: () => [],
+  };
+}

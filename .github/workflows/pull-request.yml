@@ -1,0 +1,67 @@
+# This script will run tests anytime a pull request is added
+name: Session Test
+
+on:
+  pull_request:
+    branches:
+      - development
+      - clearnet
+      - github-actions
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2016, macos-latest, ubuntu-latest]
+    env:
+      SIGNAL_ENV: production
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - run: git config --global core.autocrlf false
+
+      - name: Checkout git repo
+        uses: actions/checkout@v1
+
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.13.0
+
+      - name: Setup node for windows
+        if: runner.os == 'Windows'
+        run: |
+          npm install --global --production windows-build-tools@4.0.0
+          npm install --global node-gyp@latest
+          npm config set python python2.7
+          npm config set msvs_version 2015
+
+      - name: Install yarn
+        run: npm install yarn --no-save
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Generate and concat files
+        run: yarn generate
+
+      - name: Lint Files
+        run: |
+          yarn format-full --list-different
+          yarn eslint
+          yarn tslint
+
+      - name: Make linux use en_US locale
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install -y hunspell-en-us
+          sudo locale-gen en_US.UTF-8
+          sudo dpkg-reconfigure locales
+          echo ::set-env name=DISPLAY:::9.0
+          echo ::set-env name=LANG::en_US.UTF-8
+
+      - name: Test
+        uses: GabrielBB/xvfb-action@v1.0
+        with:
+          run: yarn test

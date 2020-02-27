@@ -31,7 +31,10 @@ class LokiSnodeAPI {
     ];
   }
 
-  async initialiseRandomPool(seedNodes = [...window.seedNodeList], consecutiveErrors = 0) {
+  async initialiseRandomPool(
+    seedNodes = [...window.seedNodeList],
+    consecutiveErrors = 0
+  ) {
     const params = {
       limit: 20,
       active_only: true,
@@ -71,7 +74,10 @@ class LokiSnodeAPI {
       if (consecutiveErrors < 3) {
         // retry after a possible delay
         setTimeout(() => {
-          log.info('Retrying initialising random snode pool, try #', consecutiveErrors);
+          log.info(
+            'Retrying initialising random snode pool, try #',
+            consecutiveErrors
+          );
           this.initialiseRandomPool(seedNodes, consecutiveErrors + 1);
         }, consecutiveErrors * consecutiveErrors * 5000);
       } else {
@@ -181,7 +187,12 @@ class LokiSnodeAPI {
       const snodes = result.snodes.filter(tSnode => tSnode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
-      log.error('getSnodesForPubkey error', e.code, e.message, `for ${snode.ip}:${snode.port}`);
+      log.error(
+        'getSnodesForPubkey error',
+        e.code,
+        e.message,
+        `for ${snode.ip}:${snode.port}`
+      );
       this.markRandomNodeUnreachable(snode);
       return [];
     }
@@ -197,7 +208,9 @@ class LokiSnodeAPI {
         const resList = await this.getSnodesForPubkey(rSnode, pubKey);
         // should we only activate entries that are in all results?
         resList.map(item => {
-          const hasItem = snodes.some(hItem => item.ip === hItem.ip && item.port === hItem.port);
+          const hasItem = snodes.some(
+            hItem => item.ip === hItem.ip && item.port === hItem.port
+          );
           if (!hasItem) {
             snodes.push(item);
           }
