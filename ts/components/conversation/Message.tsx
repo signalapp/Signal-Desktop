@@ -213,7 +213,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderMetadataBadges() {
-    const { direction, isPublic, senderIsModerator } = this.props;
+    const { direction, isPublic, senderIsModerator, id } = this.props;
 
     const badges = [isPublic && 'Public', senderIsModerator && 'Mod'];
 
@@ -224,7 +224,7 @@ export class Message extends React.PureComponent<Props, State> {
         }
 
         return (
-          <>
+          <div key={`${id}-${badgeText}`}>
             <span className="module-message__metadata__badge--separator">
               &nbsp;•&nbsp;
             </span>
@@ -239,7 +239,7 @@ export class Message extends React.PureComponent<Props, State> {
             >
               {badgeText}
             </span>
-          </>
+          </div>
         );
       })
       .filter(i => !!i);
