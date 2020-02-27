@@ -236,14 +236,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           {shouldRenderPasswordLock ? (
             this.renderPasswordLock()
           ) : (
-            //
             <div ref={this.settingsViewRef} className="session-settings-list">
               {this.renderSettingInCategory()}
-              {/* what gets rendered back from calling renderSettingInCategory */}
             </div>
           )}
-
-          {/* session info is always shown in here  */}
           {this.renderSessionInfo()}
         </div>
       </div>
@@ -451,6 +447,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           max: 96,
           sliderCategory: 'messageTTLSlider',
           defaultValue: 24,
+          info: (value: number) => `${value} Hours`,
         },
         confirmationDialogParams: undefined,
       },
@@ -471,6 +468,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           max: 200,
           sliderCategory: 'zoomFactorSlider',
           defaultValue: 100,
+          info: (value: number) => `Zoom Factor: ${value}%`
         },
         confirmationDialogParams: undefined,
       },

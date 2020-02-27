@@ -88,8 +88,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
             />
           )}
 
-          {type === SessionSettingType.Slider &&
-          content.sliderCategory === 'messageTTLSlider' ? (
+          {type === SessionSettingType.Slider && (
             <div className="slider-wrapper">
               <Slider
                 dots={content.dotsEnable}
@@ -103,28 +102,10 @@ export class SessionSettingListItem extends React.Component<Props, State> {
               />
 
               <div className="slider-info">
-                <p>{`${currentSliderValue} Hours`}</p>
+                <p>{content.info(currentSliderValue)}</p>
               </div>
             </div>
-          ) : type === SessionSettingType.Slider &&
-          content.sliderCategory === 'zoomFactorSlider' ? (
-            <div>
-              <Slider
-                dots={content.dotsEnable}
-                step={content.step}
-                min={content.min}
-                max={content.max}
-                defaultValue={currentSliderValue}
-                onChange={sliderValue => {
-                  this.handleSlider(sliderValue);
-                }}
-              />
-
-              <div className="slider-info">
-                <p>{`Zoom Level:   %${currentSliderValue}`}</p>
-              </div>
-            </div>
-          ) : null}
+          )}
         </div>
       </div>
     );
