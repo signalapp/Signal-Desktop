@@ -36,7 +36,6 @@ export class SessionConversation extends React.Component<any, State> {
     super(props);
     
     const conversationKey = this.props.conversations.selectedConversation;
-    
     const conversation = this.props.conversations.conversationLookup[conversationKey];
     const unreadCount = conversation.unreadCount;
 
@@ -74,8 +73,6 @@ export class SessionConversation extends React.Component<any, State> {
         doneInitialScroll: true,
       });
     }, 100);
-
-    console.log(`[vince][info] HeaderProps:`, this.getHeaderProps());
   }
 
   public componentDidUpdate(){
@@ -97,21 +94,18 @@ export class SessionConversation extends React.Component<any, State> {
 
   render() {
     console.log(`[vince][info] Props`, this.props);
-    console.log(`[vince][info] Unread: `, this.state.unreadCount);
-    console.log(`[vince][info] Messages:`, this.state.messages);
 
-
-    // const headerProps = this.props.getHeaderProps;
     const { messages, conversationKey, doneInitialScroll } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
 
     const conversation = this.props.conversations.conversationLookup[conversationKey];
+    const conversationModel = window.getConversationByKey(conversationKey);
     const isRss = conversation.isRss;
 
     return (
       <div className="conversation-item">
         <div className="conversation-header">
-          {this.renderHeader(conversation)}
+          {this.renderHeader()}
         </div>
 
         <SessionProgress
@@ -138,7 +132,7 @@ export class SessionConversation extends React.Component<any, State> {
         
         { !isRss && (
           <SessionCompositionBox
-            onSendMessage={() => null}
+            sendMessage={conversationModel.sendMessage}
           />
         )}
         
@@ -178,49 +172,51 @@ export class SessionConversation extends React.Component<any, State> {
 
   }
 
-  public renderHeader(conversation: any) {
+  public renderHeader() {
+    const headerProps = this.getHeaderProps();
+
     return (
       <ConversationHeader
-        id={conversation.cid}
-        phoneNumber={conversation.id}
-        isVerified={true}
-        isMe={false}
-        isFriend={true}
+        id={headerProps.id}
+        phoneNumber={headerProps.phoneNumber}
+        isVerified={headerProps.isVerified}
+        isMe={headerProps.isMe}
+        isFriend={headerProps.isFriend}
         i18n={window.i18n}
-        isGroup={false}
-        isArchived={false}
-        isPublic={false}
-        isRss={false}
-        amMod={false}
-        members={[]}
-        showBackButton={false}
-        timerOptions={[]}
-        isBlocked={false}
-        hasNickname={false}
-        isFriendRequestPending={false}
-        isOnline={true}
-        selectedMessages={null}
-        onSetDisappearingMessages={() => null}
-        onDeleteMessages={() => null}
-        onDeleteContact={() => null}
-        onResetSession={() => null}
-        onCloseOverlay={() => null}
-        onDeleteSelectedMessages={() => null}
-        onArchive={() => null}
-        onMoveToInbox={() => null}
-        onShowSafetyNumber={() => null}
-        onShowAllMedia={() => null}
-        onShowGroupMembers={() => null}
-        onGoBack={() => null}
-        onBlockUser={() => null}
-        onUnblockUser={() => null}
-        onClearNickname={() => null}
-        onChangeNickname={() => null}
-        onCopyPublicKey={() => null}
-        onLeaveGroup={() => null}
-        onAddModerators={() => null}
-        onRemoveModerators={() => null}
-        onInviteFriends={() => null}
+        isGroup={headerProps.isGroup}
+        isArchived={headerProps.isArchived}
+        isPublic={headerProps.isPublic}
+        isRss={headerProps.isRss}
+        amMod={headerProps.amMod}
+        members={headerProps.members}
+        showBackButton={headerProps.showBackButton}
+        timerOptions={headerProps.timerOptions}
+        isBlocked={headerProps.isBlocked}
+        hasNickname={headerProps.hasNickname}
+        isFriendRequestPending={headerProps.isFriendRequestPending}
+        isOnline={headerProps.isOnline}
+        selectedMessages={headerProps.selectedMessages}
+        onSetDisappearingMessages={headerProps.onSetDisappearingMessages}
+        onDeleteMessages={headerProps.onDeleteMessages}
+        onDeleteContact={headerProps.onDeleteContact}
+        onResetSession={headerProps.onResetSession}
+        onCloseOverlay={headerProps.onCloseOverlay}
+        onDeleteSelectedMessages={headerProps.onDeleteSelectedMessages}
+        onArchive={headerProps.onArchive}
+        onMoveToInbox={headerProps.onMoveToInbox}
+        onShowSafetyNumber={headerProps.onShowSafetyNumber}
+        onShowAllMedia={headerProps.onShowAllMedia}
+        onShowGroupMembers={headerProps.onShowGroupMembers}
+        onGoBack={headerProps.onGoBack}
+        onBlockUser={headerProps.onBlockUser}
+        onUnblockUser={headerProps.onUnblockUser}
+        onClearNickname={headerProps.onClearNickname}
+        onChangeNickname={headerProps.onChangeNickname}
+        onCopyPublicKey={headerProps.onCopyPublicKey}
+        onLeaveGroup={headerProps.onLeaveGroup}
+        onAddModerators={headerProps.onAddModerators}
+        onRemoveModerators={headerProps.onRemoveModerators}
+        onInviteFriends={headerProps.onInviteFriends}
       />
     );
   }
@@ -407,7 +403,7 @@ export class SessionConversation extends React.Component<any, State> {
     topUnreadMessage?.scrollIntoView();
   }
 
-  public scrollToBottom(instant = false) {
+  public scrollToBottom() {
     // FIXME VINCE: Smooth scrolling that isn't slow@!
     // this.messagesEndRef.current?.scrollIntoView(
     //   { behavior: firstLoad ? 'auto' : 'smooth' }
@@ -418,12 +414,8 @@ export class SessionConversation extends React.Component<any, State> {
   }
 
   public getHeaderProps() {
-    const conversationKey = this.props.conversations.selectedConversation;
+    const {conversationKey} = this.state;
     const conversation = window.getConversationByKey(conversationKey);
-    
-    console.log(`[vince][info] Key:`, conversationKey);
-    console.log(`[vince][info] Conversation`, conversation);
-    console.log(`[vince] Manual: `, );
 
     const expireTimer = conversation.get('expireTimer');
     const expirationSettingName = expireTimer

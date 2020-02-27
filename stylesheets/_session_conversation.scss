@@ -50,7 +50,7 @@ $composition-container-height: 60px;
   align-items: center;
   background-color: $session-shade-4;
   padding: 0px $session-margin-md;
-  min-height: $composition-container-height;
+  min-height: min-content;
 
   & > .session-icon-button {
     margin-right: $session-margin-sm;
