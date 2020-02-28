@@ -169,14 +169,14 @@
   opacity: 1;
 }
 
-.session-message-wrapper {
+.session-message {
   .react-contextmenu-wrapper {
     display: inline-flex;
     width: 100%;
   }
 }
 
-.session-message-wrapper {
+.session-message {
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -186,7 +186,7 @@
   padding-right: 10px;
 }
 
-.session-message-wrapper {
+.session-message {
   display: flow-root;
   padding-bottom: 4px;
   padding-top: 4px;

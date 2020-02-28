@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { ConversationHeader } from '../../conversation/ConversationHeader';
 import { SessionCompositionBox } from './SessionCompositionBox';
@@ -10,12 +11,6 @@ import { TimerNotification } from '../../conversation/TimerNotification';
 
 
 import { SessionScrollButton } from '../SessionScrollButton';
-
-// interface Props {
-//   getHeaderProps: any;
-//   conversationKey: any;
-// }
-
 
 interface State {
   sendingProgess: number;
@@ -61,8 +56,11 @@ export class SessionConversation extends React.Component<any, State> {
     this.renderTimerNotification = this.renderTimerNotification.bind(this);
     this.renderFriendRequest = this.renderFriendRequest.bind(this);
 
+    this.onKeyUp = this.onKeyUp.bind(this);
     this.onStartedRecording = this.onStartedRecording.bind(this);
     this.onStoppedRecording = this.onStoppedRecording.bind(this);
+    this.selectMessage = this.selectMessage.bind(this);
+    this.resetSelection = this.resetSelection.bind(this);
 
     this.messagesEndRef = React.createRef();
   }
@@ -103,13 +101,18 @@ export class SessionConversation extends React.Component<any, State> {
 
     const { messages, conversationKey, doneInitialScroll, isRecording } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
+    const selectionMode = !!this.state.selectedMessages.length;
 
     const conversation = this.props.conversations.conversationLookup[conversationKey];
     const conversationModel = window.getConversationByKey(conversationKey);
     const isRss = conversation.isRss;
 
     return (
-      <div className="conversation-item">
+      <div
+        className={classNames('conversation-item', selectionMode && 'selection-mode')}
+        tabIndex={0}
+        onKeyUp={this.onKeyUp}  
+      >
         <div className="conversation-header">
           {this.renderHeader()}
         </div>
@@ -231,12 +234,15 @@ export class SessionConversation extends React.Component<any, State> {
 
 
   public renderMessage(messageProps: any, firstMessageOfSeries: boolean, quoteProps?: any) {
+    const selected = !! messageProps?.id
+      && this.state.selectedMessages.includes(messageProps.id);
 
     return (
       <Message
         i18n = {window.i18n}
         text = {messageProps?.text}
         direction = {messageProps?.direction}
+        selected = {selected}
         timestamp = {messageProps?.timestamp}
         attachments = {messageProps?.attachments}
         authorAvatarPath = {messageProps?.authorAvatarPath}
@@ -266,13 +272,12 @@ export class SessionConversation extends React.Component<any, State> {
         onDownload = {messageProps?.onDownload}
         onReply = {messageProps?.onReply}
         onRetrySend = {messageProps?.onRetrySend}
-        onSelectMessage = {messageId => this.onSelectMessage(messageId)}
+        onSelectMessage = {messageId => this.selectMessage(messageId)}
         onSelectMessageUnchecked = {messageProps?.onSelectMessageUnchecked}
         onShowDetail = {messageProps?.onShowDetail}
         onShowUserDetails = {messageProps?.onShowUserDetails}
         previews = {messageProps?.previews}
         quote = {quoteProps || undefined}
-        selected = {messageProps?.selected}
         senderIsModerator = {messageProps?.senderIsModerator}
         status = {messageProps?.status}
         textPending = {messageProps?.textPending}
@@ -378,7 +383,7 @@ export class SessionConversation extends React.Component<any, State> {
 
     // FIXME VINCE: Update unread count
     // In models/conversations
-    // Update unread count by geting all divs of .session-message-wrapper
+    // Update unread count by geting all divs of .session-message
     // which are currently in view.
 
     // Pin scroll to bottom on new message, unless user has scrolled up
@@ -403,7 +408,7 @@ export class SessionConversation extends React.Component<any, State> {
     const { messages, unreadCount } = this.state;
 
     const message = messages[(messages.length - 1) - unreadCount];
-    message.id && this.scrollToMessage(message.id);
+    message && this.scrollToMessage(message.id);
   }
 
   public scrollToMessage(messageId: string) {
@@ -455,7 +460,7 @@ export class SessionConversation extends React.Component<any, State> {
       ),
       members,
       subscriberCount: conversation.get('subscriberCount'),
-      selectedMessages: conversation.selectedMessages,
+      selectedMessages: this.state.selectedMessages,
       expirationSettingName,
       showBackButton: Boolean(conversation.panels && conversation.panels.length),
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
@@ -470,7 +475,7 @@ export class SessionConversation extends React.Component<any, State> {
       onDeleteSelectedMessages: () => conversation.deleteSelectedMessages(),
       onCloseOverlay: () => conversation.resetMessageSelection(),
       onDeleteContact: () => conversation.deleteContact(),
-      onResetSession: () => conversation.endSession(),
+      onResetSession: () => this.resetSelection(),
 
       // These are view only and don't update the Conversation model, so they
       //   need a manual update call.
@@ -539,12 +544,19 @@ export class SessionConversation extends React.Component<any, State> {
     };
   };
 
-  public onSelectMessage(messageId: string) {
-    const selectedMessages = !this.state.selectedMessages.includes(messageId)
-      ? [...this.state.selectedMessages, messageId] : [];
+  public selectMessage(messageId: string) {
+    const selectedMessages = this.state.selectedMessages.includes(messageId)
+      // Add to array if not selected. Else remove.
+      ? this.state.selectedMessages.filter(id => id !== messageId)
+      : [...this.state.selectedMessages, messageId];
     
-    selectedMessages && this.setState({ selectedMessages });
-    console.log(`[vince] SelectedMessages: `, selectedMessages);
+    this.setState({ selectedMessages },
+      () => console.log(`[vince] SelectedMessages: `, this.state.selectedMessages)
+    );
+  }
+
+  public resetSelection(){
+    this.setState({selectedMessages: []});
   }
 
   public getGroupSettingsProps() {
@@ -609,6 +621,19 @@ export class SessionConversation extends React.Component<any, State> {
     this.setState({
       isRecording: false,
     })
+  }
+
+  private onKeyUp(event: any) {
+    const selectionMode = !!this.state.selectedMessages.length;
+    console.log(`[vince][key] event: `, event);
+
+    console.log(`[vince][key] key: `, event.key);
+    console.log(`[vince][key] key: `, event.keyCode);
+    if (event.key === 'Escape') {
+      if (selectionMode){
+        this.resetSelection();
+      }
+    }
   }
 }
 

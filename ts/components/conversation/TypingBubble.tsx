@@ -52,7 +52,7 @@ export class TypingBubble extends React.Component<Props> {
     const { i18n, color } = this.props;
 
     return (
-      <div className="session-message-wrapper">
+      <div className="session-message">
         <div
           className={classNames('module-message', 'module-message--incoming')}
         >

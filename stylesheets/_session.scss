@@ -588,32 +588,7 @@ label {
     margin-bottom: 6px;
   }
 }
-.message-selection-overlay {
-  display: none;
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  margin: 0px $session-margin-lg;
-  align-items: center;
-  justify-content: space-between;
-  height: $main-view-header-height;
 
-  .close-button {
-    float: left;
-  }
-
-  .session-button.default.danger {
-    display: flex;
-    width: 80px;
-  }
-}
-.message-selection-overlay div[role='button'] {
-  display: inline-block;
-}
-
-.message-selection-overlay .button-group {
-  float: right;
-}
 
 .hidden {
   display: none;

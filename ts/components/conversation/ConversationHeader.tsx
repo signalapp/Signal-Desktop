@@ -61,7 +61,10 @@ interface Props {
   isFriendRequestPending: boolean;
   isOnline?: boolean;
 
-  selectedMessages: any;
+  // We don't pass this as a bool, because in future we
+  // want to forward messages from Header and will need
+  // the message ID.
+  selectedMessages: Array<string>;
 
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
@@ -349,7 +352,7 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderSelectionOverlay() {
-    const { onDeleteSelectedMessages, onCloseOverlay, i18n } = this.props;
+    const { onDeleteSelectedMessages, onResetSession, i18n } = this.props;
 
     return (
       <div className="message-selection-overlay">
@@ -357,7 +360,7 @@ export class ConversationHeader extends React.Component<Props> {
           <SessionIconButton
             iconType={SessionIconType.Exit}
             iconSize={SessionIconSize.Medium}
-            onClick={onCloseOverlay}
+            onClick={onResetSession}
           />
         </div>
 
@@ -376,11 +379,11 @@ export class ConversationHeader extends React.Component<Props> {
   public render() {
     const { id } = this.props;
     const triggerId = `conversation-${id}-${Date.now()}`;
+    const selectionMode = !!this.props.selectedMessages.length;
 
     return (
-      <>
-        {this.renderSelectionOverlay()}
-        <div className="module-conversation-header">
+      <div className="module-conversation-header">
+        <div className="conversation-header--items-wrapper">
           {this.renderBackButton()}
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
@@ -401,7 +404,9 @@ export class ConversationHeader extends React.Component<Props> {
 
           {this.renderMenu(triggerId)}
         </div>
-      </>
+
+        { selectionMode && this.renderSelectionOverlay() }
+      </div>
     );
   }
 

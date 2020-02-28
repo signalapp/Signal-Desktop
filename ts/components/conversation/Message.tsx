@@ -1090,7 +1090,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && this.props.isPublic;
-    const divClasses = ['session-message-wrapper'];
+    const divClasses = ['session-message'];
 
     if (shouldHightlight) {
       //divClasses.push('message-highlighted');
@@ -1111,11 +1111,7 @@ export class Message extends React.PureComponent<Props, State> {
         id={id}
         role="button"
         onClick={() => {
-          const selection = window.getSelection();
-          if (selection && selection.type === 'Range') {
-            return;
-          }
-          this.props.onSelectMessage();
+          id && this.props.onSelectMessage(id);
         }}
       >
         <ContextMenuTrigger id={rightClickTriggerId}>

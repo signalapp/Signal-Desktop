@@ -176,7 +176,7 @@ export class FriendRequest extends React.Component<Props> {
     const { direction } = this.props;
 
     return (
-      <div className={'session-message-wrapper'}>
+      <div className={'session-message'}>
         <div
           className={classNames(
             `module-message module-message--${direction}`,

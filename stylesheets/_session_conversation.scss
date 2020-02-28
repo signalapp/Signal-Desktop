@@ -1,9 +1,28 @@
 $composition-container-height: 60px;
 
 
+
+
 @keyframes fadein {
   from {
     opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes toShadow {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
+@keyframes fromShadow {
+  from {
+    opacity: 0.25;
   }
   to {
     opacity: 1;
@@ -16,7 +35,69 @@ $composition-container-height: 60px;
   flex-grow: 1;
   flex-direction: column;
   height: 100%;
+  outline: none;
+  
+  .selection-mode {
+    .messages-container > *:not(.message-selected) {
+      animation: toShadow $session-transition-duration;
+      opacity: 0.25;
+    }
+
+    .conversation-header{
+      .conversation-header{
+        &--items-wrapper{
+          .session-icon {
+            opacity: 0;
+          }
+
+          user-select: none;
+          pointer-events: none;
+          opacity: 0.25;
+        }
+      }
+    }
+  }
 }
+
+
+.conversation-header {
+  &--items-wrapper{
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .message-selection-overlay {
+    position: absolute;
+    display: flex;
+    left: 0px;
+    right: 0px;
+    margin: 0px $session-margin-md;
+    align-items: center;
+    justify-content: space-between;
+    height: $main-view-header-height;
+  
+    .close-button {
+      float: left;
+    }
+  
+    .session-button.default.danger {
+      display: flex;
+      width: 80px;
+    }
+  }
+  .message-selection-overlay div[role='button'] {
+    display: inline-block;
+  }
+  
+  .message-selection-overlay .button-group {
+    float: right;
+  }
+}
+
+
+
 
 .session-conversation-wrapper {
   position: absolute;
