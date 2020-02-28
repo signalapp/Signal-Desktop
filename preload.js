@@ -494,7 +494,6 @@ Promise.prototype.ignore = function() {
 };
 
 if (config.environment.includes('test')) {
-  const isTravis = 'TRAVIS' in process.env && 'CI' in process.env;
   const isWindows = process.platform === 'win32';
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.test = {
@@ -504,7 +503,6 @@ if (config.environment.includes('test')) {
     path: require('path'),
     basePath: __dirname,
     attachmentsPath: window.Signal.Migrations.attachmentsPath,
-    isTravis,
     isWindows,
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
