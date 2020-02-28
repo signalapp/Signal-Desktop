@@ -466,7 +466,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           min: 60,
           max: 200,
           defaultValue: 100,
-          info: (value: number) => `Zoom Factor: ${value}%`
+          info: (value: number) => `Zoom Factor: ${value}%`,
         },
         confirmationDialogParams: undefined,
       },
