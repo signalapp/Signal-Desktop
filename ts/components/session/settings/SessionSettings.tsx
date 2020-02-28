@@ -445,7 +445,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           step: 6,
           min: 12,
           max: 96,
-          sliderCategory: 'messageTTLSlider',
           defaultValue: 24,
           info: (value: number) => `${value} Hours`,
         },
@@ -466,7 +465,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           step: 20,
           min: 60,
           max: 200,
-          sliderCategory: 'zoomFactorSlider',
           defaultValue: 100,
           info: (value: number) => `Zoom Factor: ${value}%`
         },
