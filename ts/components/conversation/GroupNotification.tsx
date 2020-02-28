@@ -3,6 +3,7 @@ import React from 'react';
 import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
+import { Emojify } from './Emojify';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
@@ -59,7 +60,7 @@ export class GroupNotification extends React.Component<Props> {
 
     switch (type) {
       case 'name':
-        return i18n('titleIsNow', [newName || '']);
+        return <Emojify text={i18n('titleIsNow', [newName || ''])} />;
       case 'add':
         if (!contacts || !contacts.length) {
           throw new Error('Group update is missing contacts');
