@@ -11,7 +11,6 @@ interface Window {
   mnemonic: any;
   clipboard: any;
   attemptConnection: any;
-  setZoomFactor: any;
 
   passwordUtil: any;
   userConfig: any;
