@@ -25,6 +25,7 @@ interface State {
 }
 
 export class SessionSettingListItem extends React.Component<Props, State> {
+  
   public static defaultProps = {
     inline: true,
   };
@@ -40,7 +41,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     const { title, description, type, value, content } = this.props;
-
+    console.log(content.dotsEnable, 'dotenable?');
     const inline =
       !!type &&
       ![SessionSettingType.Options, SessionSettingType.Slider].includes(type);
@@ -91,7 +92,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
           {type === SessionSettingType.Slider && (
             <div className="slider-wrapper">
               <Slider
-                dots={content.dotsEnable}
+                dots={true}
                 step={content.step}
                 min={content.min}
                 max={content.max}
