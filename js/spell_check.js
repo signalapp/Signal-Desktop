@@ -145,10 +145,15 @@ window.enableSpellCheck = () => {
   window.removeEventListener('contextmenu', defaultContextMenuHandler);
 };
 
-const defaultContextMenuHandler = () => {
+const defaultContextMenuHandler = e => {
+  // Only show the context menu in text editors.
+  if (!e.target.closest('textarea, input, [contenteditable="true"]')) {
+    return;
+  }
+
   const menu = buildEditorContextMenu({});
 
-  // @see js/spell_check.js:183
+  // @see js/spell_check.js:177
   setTimeout(() => {
     menu.popup(remote.getCurrentWindow());
   }, 30);
