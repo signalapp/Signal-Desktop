@@ -256,6 +256,13 @@ $composition-container-height: 60px;
     }
   }
 
+  &--visualisation {
+    margin-top: -900px;
+    z-index: 1000;
+    height: 400px;
+    width: 100%;
+  }
+
   &--delete {
     display: flex;
     justify-content: center;

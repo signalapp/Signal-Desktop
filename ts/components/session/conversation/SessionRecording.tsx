@@ -81,14 +81,14 @@ export class SessionRecording extends React.Component<Props, State> {
             )}
         </div>
 
-        {/* <ReactMic
+        <ReactMic
             record={this.state.isRecording}
-            visualSetting={'frequencyBars'}
             className='session-recording--visualisation'
             onStop={() => null}
             onData= {(data: any) => console.log(`[vince][mic] Data:`, data)}
             strokeColor={'#00F480'}
-        /> */}
+            backgroundColor={'blue'}
+        />
 
 
         <div className="send-message-button">
@@ -149,7 +149,8 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private onDeleteVoiceMessage() {
-      console.log(`[vince][mic] Deleting voice message`)
+    this.onStopRecording();
+    this.props.onStoppedRecording();
   }
 
   private onSendVoiceMessage() {

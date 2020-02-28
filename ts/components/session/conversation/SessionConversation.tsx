@@ -56,7 +56,7 @@ export class SessionConversation extends React.Component<any, State> {
     this.renderTimerNotification = this.renderTimerNotification.bind(this);
     this.renderFriendRequest = this.renderFriendRequest.bind(this);
 
-    this.onKeyUp = this.onKeyUp.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.onStartedRecording = this.onStartedRecording.bind(this);
     this.onStoppedRecording = this.onStoppedRecording.bind(this);
     this.selectMessage = this.selectMessage.bind(this);
@@ -111,7 +111,7 @@ export class SessionConversation extends React.Component<any, State> {
       <div
         className={classNames('conversation-item', selectionMode && 'selection-mode')}
         tabIndex={0}
-        onKeyUp={this.onKeyUp}  
+        onKeyDown={this.onKeyDown}  
       >
         <div className="conversation-header">
           {this.renderHeader()}
@@ -614,26 +614,61 @@ export class SessionConversation extends React.Component<any, State> {
   private onStartedRecording() {
     this.setState({
       isRecording: true,
+      selectedMessages: [],
     })
   }
 
   private onStoppedRecording() {
     this.setState({
       isRecording: false,
-    })
+    });
+
+    console.log(`[vince] Stopped recording entirely`);
   }
 
-  private onKeyUp(event: any) {
+  private onKeyDown(event: any) {
     const selectionMode = !!this.state.selectedMessages.length;
+    
+    const messageContainer = document.getElementsByClassName('messages-container')[0];
+    const pageHeight = messageContainer.clientHeight;
+    const arrowScrollPx = 50;
+    const pageScrollPx = 0.80 * pageHeight;
+    
     console.log(`[vince][key] event: `, event);
 
     console.log(`[vince][key] key: `, event.key);
     console.log(`[vince][key] key: `, event.keyCode);
     if (event.key === 'Escape') {
-      if (selectionMode){
-        this.resetSelection();
-      }
+      
     }
+
+    switch(event.key){
+      case 'Escape':
+        if (selectionMode){
+          this.resetSelection();
+        }
+        break;
+
+      // Scrolling
+      case 'ArrowUp':
+        messageContainer.scrollBy(0, -arrowScrollPx);
+        break;
+      case 'ArrowDown':
+        messageContainer.scrollBy(0, arrowScrollPx);
+        break;
+      case 'PageUp':
+        messageContainer.scrollBy(0, -pageScrollPx);
+        break;
+      case 'PageDown':
+        messageContainer.scrollBy(0, pageScrollPx);
+        break;
+      default:
+        break;
+    }
+
+
+
   }
 }
+
 
