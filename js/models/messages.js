@@ -1317,7 +1317,7 @@
       }
 
       // Case 2: We can reply if there are no errors
-      if (errors && errors.length === 0) {
+      if (!errors || (errors && errors.length === 0)) {
         return true;
       }
 
