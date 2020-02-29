@@ -8,6 +8,7 @@ on [Android](https://github.com/signalapp/Signal-Android)
 or [iOS](https://github.com/signalapp/Signal-iOS).
 
 ## Install the production version: https://signal.org/download/
+## Install the production version from [Flathub](https://flathub.org/apps/details/org.signal.Signal)
 
 ## Install the beta
 
