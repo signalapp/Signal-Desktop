@@ -6040,10 +6040,10 @@ button.module-image__border-overlay:focus {
       }
 
       &__info {
-        width: 317px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        flex-grow: 1;
 
         &__title {
           margin: 0;
@@ -6082,7 +6082,8 @@ button.module-image__border-overlay:focus {
       }
 
       &__install {
-        flex-shrink: 1;
+        flex-shrink: 0;
+        overflow: hidden;
       }
     }
   }
