@@ -217,7 +217,12 @@ class LokiMessageAPI {
         }
         return true;
       } catch (e) {
-        log.warn('Loki send message error:', e.code, e.message, `from ${address}`);
+        log.warn(
+          'Loki send message error:',
+          e.code,
+          e.message,
+          `from ${address}`
+        );
         if (e instanceof textsecure.WrongSwarmError) {
           const { newSwarm } = e;
           await lokiSnodeAPI.updateSwarmNodes(params.pubKey, newSwarm);

@@ -95,7 +95,11 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     );
 
     return (
-      <SessionModal title={titleText} onClose={this.closeDialog} onOk={() => null}>
+      <SessionModal
+        title={titleText}
+        onClose={this.closeDialog}
+        onOk={() => null}
+      >
         <div className="spacer-lg" />
 
         <p className={errorMessageClasses}>{this.state.errorMessage}</p>

@@ -73,6 +73,7 @@ const excludedFiles = [
   '^js/Mp3LameEncoder.min.js',
 
   // Test files
+  '^libloki/test/*',
   '^libtextsecure/test/*',
   '^test/*',
 
