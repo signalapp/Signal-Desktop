@@ -2,6 +2,8 @@
 /* global window: false */
 const path = require('path');
 const electron = require('electron');
+
+const { webFrame } = electron;
 const semver = require('semver');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
@@ -84,6 +86,19 @@ window.wrapDeferred = deferredToPromise;
 
 const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
+
+window.updateZoomFactor = () => {
+  const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
+  window.setZoomFactor(zoomFactor / 100);
+};
+
+window.setZoomFactor = number => {
+  webFrame.setZoomFactor(number);
+};
+
+window.getZoomFactor = () => {
+  webFrame.getZoomFactor();
+};
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
@@ -218,6 +233,10 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
 
 window.setSettingValue = (settingID, value) => {
   window.storage.put(settingID, value);
+
+  if (settingID === 'zoom-factor-setting') {
+    window.updateZoomFactor();
+  }
 };
 
 installGetter('device-name', 'getDeviceName');

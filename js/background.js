@@ -286,6 +286,9 @@
     }
     first = false;
 
+    // Update zoom
+    window.updateZoomFactor();
+
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());

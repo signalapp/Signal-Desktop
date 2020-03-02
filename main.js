@@ -1026,6 +1026,7 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     const passwordAttempt = true;
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
+
     if (passwordWindow) {
       passwordWindow.close();
       passwordWindow = null;
