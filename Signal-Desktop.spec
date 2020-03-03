@@ -2,7 +2,7 @@
 # External nodejs from https://rpm.nodesource.com/pub_12.x/ (requires Python 2)
 
 %global debug_package %{nil}
-%global beta beta.2
+%global beta beta.4
 
 # Remove bundled libraries from requirements/provides
 %global __requires_exclude ^(libffmpeg\\.so.*|libEGL\\.so.*|libGLESv2\\.so.*|libVkICD_mock_icd\\.so\\..*)$
@@ -10,7 +10,7 @@
 
 Name:       Signal-Desktop
 Version:    1.32.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Private messaging from your desktop
 License:    GPLv3
 URL:        https://signal.org/
@@ -89,6 +89,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_libdir}/%{name}
 
 %changelog
+* Thu Feb 27 2020 Simone Caronni <negativo17@gmail.com> - 1.32.0-2
+- Update to 1.32.0-beta.4.
+
 * Thu Feb 20 2020 Simone Caronni <negativo17@gmail.com> - 1.32.0-1
 - Update to 1.32.0 beta 2.
 
