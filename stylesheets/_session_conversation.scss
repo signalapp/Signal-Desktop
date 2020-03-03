@@ -257,10 +257,13 @@ $composition-container-height: 60px;
   }
 
   &--visualisation {
-    margin-top: -900px;
     z-index: 1000;
-    height: 400px;
     width: 100%;
+    padding: 0px $session-margin-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 850px;
   }
 
   &--delete {
@@ -281,4 +284,13 @@ $composition-container-height: 60px;
       
     }
   }
+}
+
+.freq-band-item{
+  width: 5px;
+  margin: 0px 3px;
+  border-radius: 15px;
+  display: inline-block;
+  background-color: #AFAFAF;  
+  transition: height 0.05s;
 }

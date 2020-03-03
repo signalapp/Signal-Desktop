@@ -1,4 +1,5 @@
 interface Window {
+  // Low level
   CONSTANTS: any;
   versionInfo: any;
 
@@ -10,6 +11,11 @@ interface Window {
   deleteAllData: any;
   clearLocalData: any;
 
+  // Microphone
+  MediaRecorder: any;
+  AudioContext: any;
+  
+  // Gets
   getAccountManager: any;
   getMediaPermissions: any;
   getConversations: any;
@@ -35,9 +41,6 @@ interface Window {
   Whisper: any;
   ConversationController: any;
 
-  // Following function needs to be written in background.js
-  // getMemberList: any;
-
   onLogin: any;
   setPassword: any;
   textsecure: any;
@@ -57,6 +60,7 @@ interface Window {
 
   deleteAccount: any;
 
+  // Toggles
   toggleTheme: any;
   toggleMenuBar: any;
   toggleSpellCheck: any;

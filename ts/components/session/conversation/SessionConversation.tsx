@@ -21,6 +21,7 @@ interface State {
   selectedMessages: Array<string>;
   isScrolledToBottom: boolean;
   doneInitialScroll: boolean;
+  displayScrollToBottomButton: boolean;
   messageFetchTimestamp: number;
   isRecording: boolean;
 }
@@ -44,6 +45,7 @@ export class SessionConversation extends React.Component<any, State> {
       selectedMessages: [],
       isScrolledToBottom: !unreadCount,
       doneInitialScroll: false,
+      displayScrollToBottomButton: false,
       messageFetchTimestamp: 0,
       isRecording: false,
     };
@@ -622,7 +624,7 @@ export class SessionConversation extends React.Component<any, State> {
     this.setState({
       isRecording: false,
     });
-
+    
     console.log(`[vince] Stopped recording entirely`);
   }
 

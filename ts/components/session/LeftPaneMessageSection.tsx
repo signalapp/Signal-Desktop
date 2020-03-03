@@ -209,7 +209,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     );
   }
 
-  public renderConversations() {\
+  public renderConversations() {
     return (
       <div className="module-conversations-list-content">
         {this.state.shouldRenderMessageOnboarding ? (

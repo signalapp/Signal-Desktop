@@ -2273,7 +2273,6 @@
     },
 
     async markRead(newestUnreadDate, providedOptions) {
-
       console.log(`[vince][unread] Marking messages as read!!`);
 
       const options = providedOptions || {};
