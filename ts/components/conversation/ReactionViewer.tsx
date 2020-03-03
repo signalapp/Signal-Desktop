@@ -158,12 +158,16 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                 />
               </div>
               <div className="module-reaction-viewer__body__row__name">
-                <ContactName
-                  module="module-reaction-viewer__body__row__name__contact-name"
-                  name={from.name}
-                  profileName={from.profileName}
-                  phoneNumber={from.phoneNumber}
-                />
+                {from.isMe ? (
+                  i18n('you')
+                ) : (
+                  <ContactName
+                    module="module-reaction-viewer__body__row__name__contact-name"
+                    name={from.name}
+                    profileName={from.profileName}
+                    phoneNumber={from.phoneNumber}
+                  />
+                )}
               </div>
               <div className="module-reaction-viewer__body__row__emoji">
                 <Emoji size={18} emoji={emoji} />

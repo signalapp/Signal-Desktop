@@ -805,7 +805,7 @@
   },
   "you": {
     "message": "You",
-    "description": "In Android theme, shown in quote if you or someone else replies to you"
+    "description": "Shown when the user represented is the current user."
   },
   "replyingTo": {
     "message": "Replying to $name$",
