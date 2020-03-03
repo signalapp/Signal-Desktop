@@ -199,7 +199,7 @@ export class SessionRecording extends React.Component<Props, State> {
     const bufferSize = 8192;
     const analyser = audioContext.createAnalyser();
     analyser.smoothingTimeConstant = 0.3;
-    analyser.fftSize = 256;
+    analyser.fftSize = 512;
 
     const processor = audioContext.createScriptProcessor(bufferSize, 1, 1);
 
@@ -225,57 +225,36 @@ export class SessionRecording extends React.Component<Props, State> {
         const barWidth = 4;
 
         const numBars = Math.floor(CANVAS_WIDTH / (barPadding + barWidth));
-        const maxSumVal = Math.max(...freqArray) * numBars;
-        const sumReset = Math.floor(freqArray.length / numBars);
 
-        // This takes the while frequency spectrum and splits it into
-        // the number of bars required to take up the entire width
-        let sum = 0;
-        let barHeightArray = [];
-        for (let i = 0; i < freqArray.length; i++) {
-          sum += freqArray[i];
-          const initialHeight = maxVisualisationHeight * (sum / (maxSumVal));
+        let volumeArray = freqArray.map(n => {
+          const maxVal = Math.max(...freqArray);
+          const initialHeight = maxVisualisationHeight * (n / maxVal);
           const freqBarHeight = initialHeight > minVisualisationHeight
-              ? initialHeight
-              : minVisualisationHeight;
-              
-          if (i % sumReset === 0){
-            barHeightArray.push(freqBarHeight);
-            sum = 0;
-            continue;
-          }
-
-          
-        }
-
-        console.log(`[vince][mic] freqArray:`, freqArray);
-        console.log(`[vince][mic] Num bars`, numBars);
-        console.log(`[vince][mic] Max sum`, maxSumVal);
-        console.log(`[vince][mic] Barheight:`, barHeightArray);
-
-        // let barHeightArray = freqArray.map(n => {
-        //   const maxVal = Math.max(...freqArray);
-        //   const initialHeight = maxVisualisationHeight * (n / maxVal);
-        //   const freqBarHeight = initialHeight > minVisualisationHeight
-        //     ? initialHeight
-        //     : minVisualisationHeight;
+            ? initialHeight
+            : minVisualisationHeight;
   
-        //   return freqBarHeight;
-        // });
+          return freqBarHeight;
+        });
         
-        // // Create initial fake bars to improve appearance.
-        // // Gradually increasing wave rather than a wall at the beginning
+        // Create initial fake bars to improve appearance.
+        // Gradually increasing wave rather than a wall at the beginning
         // const frontLoadLen = Math.ceil(volumeArray.length / 10);
         // const frontLoad = volumeArray.slice(0, frontLoadLen - 1).reverse().map(n => n * 0.80);
-        // volumeArray = [...frontLoad, ...volumeArray].slice(0, volumeArray.length - frontLoadLen - 1);
+        // volumeArray = [...frontLoad, ...volumeArray];
+        
+        // Chop off values which exceed the bouinds of the container
+        //volumeArray = volumeArray.slice(0, numBars);
 
+        console.log(`[vince][mic] Width: `, VISUALISATION_WIDTH);
+        console.log(`[vince][mic] Nmbars:`, numBars);
+        console.log(`[vince][mic] volumeArray`, volumeArray); 
         
         canvas && (canvas.height = CANVAS_HEIGHT);
-        canvas && (canvas.width = CANVAS_WIDTH);
+        //canvas && (canvas.width = CANVAS_WIDTH);
         const canvasContext = canvas && (canvas.getContext(`2d`));
         
-        for (var i = 0; i < barHeightArray.length; i++) {
-          const barHeight = Math.ceil(barHeightArray[i]);
+        for (let i = 0; i < volumeArray.length; i++) {
+          const barHeight = Math.ceil(volumeArray[i]);
           const offset_x = Math.ceil(i * (barWidth + barPadding));
           const offset_y = Math.ceil((CANVAS_HEIGHT / 2 ) - (barHeight / 2 ));
           const radius = 15;
