@@ -262,10 +262,11 @@ $composition-container-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    /*max-width: 850px;*/
 
     canvas {
-      width: auto;
+      width: 100%;
+      padding: 0px $session-margin-lg;
+      max-width: 700px;
     }
   }
 

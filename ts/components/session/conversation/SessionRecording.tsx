@@ -196,7 +196,7 @@ export class SessionRecording extends React.Component<Props, State> {
     const audioContext = new window.AudioContext();
     const input = audioContext.createMediaStreamSource(stream);
     
-    const bufferSize = 8192;
+    const bufferSize = 1024;
     const analyser = audioContext.createAnalyser();
     analyser.smoothingTimeConstant = 0.3;
     analyser.fftSize = 512;
@@ -224,8 +224,8 @@ export class SessionRecording extends React.Component<Props, State> {
         const barPadding = 3;
         const barWidth = 4;
 
-        const numBars = Math.floor(CANVAS_WIDTH / (barPadding + barWidth));
-
+        const numBars = CANVAS_WIDTH / (barPadding + barWidth);
+        
         let volumeArray = freqArray.map(n => {
           const maxVal = Math.max(...freqArray);
           const initialHeight = maxVisualisationHeight * (n / maxVal);
@@ -238,22 +238,20 @@ export class SessionRecording extends React.Component<Props, State> {
         
         // Create initial fake bars to improve appearance.
         // Gradually increasing wave rather than a wall at the beginning
-        // const frontLoadLen = Math.ceil(volumeArray.length / 10);
-        // const frontLoad = volumeArray.slice(0, frontLoadLen - 1).reverse().map(n => n * 0.80);
-        // volumeArray = [...frontLoad, ...volumeArray];
+        const frontLoadLen = Math.ceil(volumeArray.length / 10);
+        const frontLoad = volumeArray.slice(0, frontLoadLen - 1).reverse().map(n => n * 0.80);
+        volumeArray = [...frontLoad, ...volumeArray];
         
         // Chop off values which exceed the bouinds of the container
-        //volumeArray = volumeArray.slice(0, numBars);
-
+        volumeArray = volumeArray.slice(0, numBars);
         console.log(`[vince][mic] Width: `, VISUALISATION_WIDTH);
-        console.log(`[vince][mic] Nmbars:`, numBars);
-        console.log(`[vince][mic] volumeArray`, volumeArray); 
         
+
         canvas && (canvas.height = CANVAS_HEIGHT);
-        //canvas && (canvas.width = CANVAS_WIDTH);
+        canvas && (canvas.width = CANVAS_WIDTH);
         const canvasContext = canvas && (canvas.getContext(`2d`));
         
-        for (let i = 0; i < volumeArray.length; i++) {
+        for (var i = 0; i < freqArray.length; i++) {
           const barHeight = Math.ceil(volumeArray[i]);
           const offset_x = Math.ceil(i * (barWidth + barPadding));
           const offset_y = Math.ceil((CANVAS_HEIGHT / 2 ) - (barHeight / 2 ));
