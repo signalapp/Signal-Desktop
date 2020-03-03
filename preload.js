@@ -412,7 +412,14 @@ try {
     /* eslint-enable global-require, import/no-extraneous-dependencies */
   }
 } catch (error) {
-  window.log.info('preload error!', error.stack);
+  /* eslint-disable no-console */
+  if (console._log) {
+    console._log('preload error!', error.stack);
+  } else {
+    console.log('preload error!', error.stack);
+  }
+  /* eslint-enable no-console */
+
   throw error;
 }
 
