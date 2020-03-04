@@ -316,7 +316,9 @@ export class ConversationHeader extends React.Component<Props> {
           </MenuItem>
         ) : null}
         {amMod ? (
-          <MenuItem onClick={onUpdateGroupName}>{i18n('editGroupNameOrPicture')}</MenuItem>
+          <MenuItem onClick={onUpdateGroupName}>
+            {i18n('editGroupNameOrPicture')}
+          </MenuItem>
         ) : null}
         {isPrivateGroup ? (
           <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
