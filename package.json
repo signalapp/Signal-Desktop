@@ -244,10 +244,7 @@
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [
         "deb",
-        "rpm",
-        "snap",
-        "AppImage",
-        "tar.xz"
+        "AppImage"
       ],
       "icon": "build/icons/png"
     },
