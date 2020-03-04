@@ -398,19 +398,15 @@
     await storage.put('version', currentVersion);
 
     if (newVersion) {
-      await window.Signal.Data.cleanupOrphanedAttachments();
-
       window.log.info(
         `New version detected: ${currentVersion}; previous: ${lastVersion}`
       );
 
-      if (
-        lastVersion &&
-        window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')
-      ) {
-        await window.Signal.Logs.deleteAll();
-        window.restart();
-      }
+      await window.Signal.Data.cleanupOrphanedAttachments();
+
+      await window.Signal.Logs.deleteAll();
+
+      window.restart();
     }
 
     if (isIndexedDBPresent) {
