@@ -30,7 +30,6 @@ try {
   window.getEnvironment = () => config.environment;
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;
-  window.isImportMode = () => config.importMode;
   window.getExpiration = () => config.buildExpiration;
   window.getNodeVersion = () => config.node_version;
   window.getHostName = () => config.hostname;
@@ -105,10 +104,6 @@ try {
 
   window.updateTrayIcon = unreadCount =>
     ipc.send('update-tray-icon', unreadCount);
-
-  ipc.on('set-up-with-import', () => {
-    Whisper.events.trigger('setupWithImport');
-  });
 
   ipc.on('set-up-as-new-device', () => {
     Whisper.events.trigger('setupAsNewDevice');

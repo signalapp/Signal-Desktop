@@ -66,40 +66,8 @@
         this.debugLogView = null;
       }
     },
-    openImporter() {
-      window.addSetupMenuItems();
-      this.resetViews();
-
-      const importView = new Whisper.ImportView();
-      this.importView = importView;
-
-      this.listenTo(
-        importView,
-        'light-import',
-        this.finishLightImport.bind(this)
-      );
-      this.openView(this.importView);
-    },
-    finishLightImport() {
-      const options = {
-        hasExistingData: true,
-      };
-      this.openInstaller(options);
-    },
-    closeImporter() {
-      if (this.importView) {
-        this.importView.remove();
-        this.importView = null;
-      }
-    },
     openInstaller(options = {}) {
-      // If we're in the middle of import, we don't want to show the menu options
-      //   allowing the user to switch to other ways to set up the app. If they
-      //   switched back and forth in the middle of a light import, they'd lose all
-      //   that imported data.
-      if (!options.hasExistingData) {
-        window.addSetupMenuItems();
-      }
+      window.addSetupMenuItems();
 
       this.resetViews();
       const installView = new Whisper.InstallView(options);
@@ -129,7 +97,6 @@
     },
     resetViews() {
       this.closeInstaller();
-      this.closeImporter();
       this.closeStandalone();
     },
     openInbox(options = {}) {

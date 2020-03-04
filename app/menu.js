@@ -14,7 +14,6 @@ exports.createTemplate = (options, messages) => {
     platform,
     setupAsNewDevice,
     setupAsStandalone,
-    setupWithImport,
     showAbout,
     showDebugLog,
     showKeyboardShortcuts,
@@ -189,10 +188,6 @@ exports.createTemplate = (options, messages) => {
     fileMenu.submenu.unshift({
       label: messages.menuSetupAsNewDevice.message,
       click: setupAsNewDevice,
-    });
-    fileMenu.submenu.unshift({
-      label: messages.menuSetupWithImport.message,
-      click: setupWithImport,
     });
   }
 

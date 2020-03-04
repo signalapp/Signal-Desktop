@@ -450,14 +450,6 @@
     "reasonDetail": "Getting the value, not setting it"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "js/views/import_view.js",
-    "line": "      return ConversationController.load()",
-    "lineNumber": 176,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        view.$el.appendTo(this.el);",

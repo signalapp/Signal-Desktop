@@ -139,10 +139,6 @@
     "message": "Toggle Developer Tools",
     "description": "View menu command to show or hide the developer tools"
   },
-  "menuSetupWithImport": {
-    "message": "Set Up with Import",
-    "description": "When the application is not yet set up, menu option to start up the import sequence"
-  },
   "menuSetupAsNewDevice": {
     "message": "Set Up as New Device",
     "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
