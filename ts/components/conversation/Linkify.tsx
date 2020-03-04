@@ -67,7 +67,7 @@ export class Linkify extends React.Component<Props> {
           !HAS_AT.test(url)
         ) {
           results.push(
-            <a key={count++} href={url}>
+            <a key={count++} href={url} onClick={this.handleClick}>
               {originalText}
             </a>
           );
@@ -85,4 +85,10 @@ export class Linkify extends React.Component<Props> {
 
     return results;
   }
+
+  // disable click on <a> elements so clicking a message containing a link doesn't
+  // select the message.The link will still be opened in the browser.
+  public handleClick = (e: any) => {
+    e.stopPropagation();
+  };
 }

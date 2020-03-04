@@ -53,7 +53,7 @@ export class SessionConfirm extends React.Component<Props> {
     return (
       <SessionModal
         title={title}
-        onClose={() => null}
+        onClose={onClickClose}
         onOk={() => null}
         showExitIcon={false}
         showHeader={showHeader}

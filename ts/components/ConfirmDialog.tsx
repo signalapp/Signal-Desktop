@@ -21,7 +21,7 @@ export class ConfirmDialog extends React.Component<Props> {
     return (
       <SessionModal
         title={this.props.titleText}
-        onClose={() => null}
+        onClose={this.props.onClose}
         onOk={() => null}
       >
         <div className="spacer-md" />

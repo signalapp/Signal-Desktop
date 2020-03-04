@@ -26,12 +26,10 @@
 
     registerEvents() {
       this.unregisterEvents();
-      document.addEventListener('mousedown', this.props.onClickClose, false);
       document.addEventListener('keyup', this.props.onClickClose, false);
     },
 
     unregisterEvents() {
-      document.removeEventListener('mousedown', this.props.onClickClose, false);
       document.removeEventListener('keyup', this.props.onClickClose, false);
     },
 

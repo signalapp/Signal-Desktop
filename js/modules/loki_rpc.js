@@ -29,10 +29,10 @@ const decryptResponse = async (response, address) => {
   return {};
 };
 
-// TODO: Don't allow arbitrary URLs, only snodes and loki servers
 const sendToProxy = async (options = {}, targetNode) => {
   const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
 
+  // Don't allow arbitrary URLs, only snodes and loki servers
   const url = `https://${randSnode.ip}:${randSnode.port}/proxy`;
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
@@ -67,20 +67,59 @@ const sendToProxy = async (options = {}, targetNode) => {
   const response = await nodeFetch(url, firstHopOptions);
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
 
+  // detect SNode is not ready (not in swarm; not done syncing)
+  if (response.status === 503) {
+    const ciphertext = await response.text();
+    log.error(
+      `lokiRpc sendToProxy snode ${randSnode.ip}:${randSnode.port} error`,
+      ciphertext
+    );
+    // mark as bad for this round (should give it some time and improve success rates)
+    lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+    // retry for a new working snode
+    return sendToProxy(options, targetNode);
+  }
+
+  // FIXME: handle nodeFetch errors/exceptions...
+  if (response.status !== 200) {
+    // let us know we need to create handlers for new unhandled codes
+    log.warn('lokiRpc sendToProxy fetch non-200 statusCode', response.status);
+  }
+
   const ciphertext = await response.text();
+  if (!ciphertext) {
+    // avoid base64 decode failure
+    log.warn('Server did not return any data for', options);
+  }
 
-  const ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
-    ciphertext,
-    'base64'
-  ).toArrayBuffer();
+  let plaintext;
+  let ciphertextBuffer;
+  try {
+    ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
+      ciphertext,
+      'base64'
+    ).toArrayBuffer();
 
-  const plaintextBuffer = await window.libloki.crypto.DHDecrypt(
-    symmetricKey,
-    ciphertextBuffer
-  );
+    const plaintextBuffer = await window.libloki.crypto.DHDecrypt(
+      symmetricKey,
+      ciphertextBuffer
+    );
 
-  const textDecoder = new TextDecoder();
-  const plaintext = textDecoder.decode(plaintextBuffer);
+    const textDecoder = new TextDecoder();
+    plaintext = textDecoder.decode(plaintextBuffer);
+  } catch (e) {
+    log.error(
+      'lokiRpc sendToProxy decode error',
+      e.code,
+      e.message,
+      `from ${randSnode.ip}:${randSnode.port} ciphertext:`,
+      ciphertext
+    );
+    if (ciphertextBuffer) {
+      log.error('ciphertextBuffer', ciphertextBuffer);
+    }
+    return false;
+  }
 
   try {
     const jsonRes = JSON.parse(plaintext);
@@ -90,10 +129,10 @@ const sendToProxy = async (options = {}, targetNode) => {
         return JSON.parse(jsonRes.body);
       } catch (e) {
         log.error(
-          'lokiRpc sendToProxy error',
+          'lokiRpc sendToProxy parse error',
           e.code,
           e.message,
-          'json',
+          `from ${randSnode.ip}:${randSnode.port} json:`,
           jsonRes.body
         );
       }
@@ -102,10 +141,10 @@ const sendToProxy = async (options = {}, targetNode) => {
     return jsonRes;
   } catch (e) {
     log.error(
-      'lokiRpc sendToProxy error',
+      'lokiRpc sendToProxy parse error',
       e.code,
       e.message,
-      'json',
+      `from ${randSnode.ip}:${randSnode.port} json:`,
       plaintext
     );
   }
@@ -150,7 +189,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
   try {
     if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
       const result = await sendToProxy(fetchOptions, targetNode);
-      return result.json();
+      return result ? result.json() : false;
     }
 
     if (url.match(/https:\/\//)) {

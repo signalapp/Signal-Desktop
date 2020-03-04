@@ -51,7 +51,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
     window.addEventListener('keyup', this.onKeyUp);
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     document.addEventListener('mousedown', this.handleClick, false);
   }
 
@@ -127,6 +127,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
     });
 
     window.removeEventListener('keyup', this.onKeyUp);
+    document.removeEventListener('mousedown', this.handleClick, false);
 
     if (this.props.onClose) {
       this.props.onClose();

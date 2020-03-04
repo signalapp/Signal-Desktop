@@ -231,6 +231,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           showLinkDeviceButton={!shouldRenderPasswordLock}
           category={category}
         />
+
         <div className="session-settings-view">
           {shouldRenderPasswordLock ? (
             this.renderPasswordLock()
@@ -440,7 +441,32 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         comparisonValue: undefined,
         onClick: undefined,
         content: {
+          dotsEnabled: true,
+          step: 6,
+          min: 12,
+          max: 96,
           defaultValue: 24,
+          info: (value: number) => `${value} Hours`,
+        },
+        confirmationDialogParams: undefined,
+      },
+      {
+        id: 'zoom-factor-setting',
+        title: window.i18n('zoomFactorSettingTitle'),
+        description: undefined,
+        hidden: false,
+        type: SessionSettingType.Slider,
+        category: SessionSettingCategory.Appearance,
+        setFn: undefined,
+        comparisonValue: undefined,
+        onClick: undefined,
+        content: {
+          dotsEnabled: true,
+          step: 20,
+          min: 60,
+          max: 200,
+          defaultValue: 100,
+          info: (value: number) => `${value}%`,
         },
         confirmationDialogParams: undefined,
       },
