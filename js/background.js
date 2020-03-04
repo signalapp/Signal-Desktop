@@ -405,8 +405,6 @@
       await window.Signal.Data.cleanupOrphanedAttachments();
 
       await window.Signal.Logs.deleteAll();
-
-      window.restart();
     }
 
     if (isIndexedDBPresent) {
