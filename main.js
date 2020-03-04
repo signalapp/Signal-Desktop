@@ -292,10 +292,10 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
-  if (windowConfig && windowConfig.maximized) {
+  if (!usingTrayIcon && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
-  if (windowConfig && windowConfig.fullscreen) {
+  if (!usingTrayIcon && windowConfig && windowConfig.fullscreen) {
     mainWindow.setFullScreen(true);
   }
 
