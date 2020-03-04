@@ -61,7 +61,7 @@
     "ready": "yarn clean-transpile && yarn grunt && yarn lint-full && yarn test-node && yarn test-electron && yarn lint-deps"
   },
   "dependencies": {
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#2e28733b61640556b0272a3bfc78b0357daf71e6",
+    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
     "@sindresorhus/is": "0.8.0",
     "@types/dompurify": "^2.0.0",
     "@types/rc-slider": "^8.6.5",
@@ -316,6 +316,8 @@
       "node_modules/socks/build/client/*.js",
       "node_modules/smart-buffer/build/*.js",
       "!node_modules/@journeyapps/sqlcipher/deps/*",
+      "!node_modules/@journeyapps/sqlcipher/build/*",
+      "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
       "!build/*.js"
     ]
   }
