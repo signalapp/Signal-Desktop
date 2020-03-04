@@ -143,6 +143,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         isSelected={!member.checkmarked}
         onSelect={this.onMemberClicked}
         onUnselect={this.onMemberClicked}
+        key={member.id}
       />
     ));
   }
