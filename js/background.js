@@ -398,6 +398,13 @@
     await storage.put('version', currentVersion);
 
     if (newVersion) {
+
+      await window.Signal.Data.cleanupOrphanedAttachments();
+
+      window.log.info(
+        `New version detected: ${currentVersion}; previous: ${lastVersion}`
+      );
+
       if (
         lastVersion &&
         window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')
@@ -405,10 +412,6 @@
         await window.Signal.Logs.deleteAll();
         window.restart();
       }
-
-      window.log.info(
-        `New version detected: ${currentVersion}; previous: ${lastVersion}`
-      );
     }
 
     if (isIndexedDBPresent) {
@@ -430,10 +433,6 @@
     }
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
-
-    if (newVersion) {
-      await window.Signal.Data.cleanupOrphanedAttachments();
-    }
 
     Views.Initialization.setMessage(window.i18n('loading'));
 
