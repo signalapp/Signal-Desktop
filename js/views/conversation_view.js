@@ -252,6 +252,10 @@
             window.Whisper.events.trigger('inviteFriends', this.model);
           },
 
+          onUpdateGroupName: () => {
+            window.Whisper.events.trigger('updateGroupName', this.model);
+          },
+
           onAddModerators: () => {
             window.Whisper.events.trigger('addModerators', this.model);
           },
