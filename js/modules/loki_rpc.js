@@ -70,7 +70,10 @@ const sendToProxy = async (options = {}, targetNode) => {
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
     const ciphertext = await response.text();
-    log.error(`lokiRpc sendToProxy snode ${randSnode.ip}:${randSnode.port} error`, ciphertext);
+    log.error(
+      `lokiRpc sendToProxy snode ${randSnode.ip}:${randSnode.port} error`,
+      ciphertext
+    );
     // mark as bad for this round (should give it some time and improve success rates)
     lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
     // retry for a new working snode
@@ -104,7 +107,7 @@ const sendToProxy = async (options = {}, targetNode) => {
 
     const textDecoder = new TextDecoder();
     plaintext = textDecoder.decode(plaintextBuffer);
-  } catch(e) {
+  } catch (e) {
     log.error(
       'lokiRpc sendToProxy decode error',
       e.code,

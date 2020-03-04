@@ -59,7 +59,10 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
       lokiPublicChatAPI.removeAllListeners('publicMessage');
       // we only need one MR in the system handling these
       // bind events
-      lokiPublicChatAPI.on('publicMessage', this.handleUnencryptedMessage.bind(this));
+      lokiPublicChatAPI.on(
+        'publicMessage',
+        this.handleUnencryptedMessage.bind(this)
+      );
       openGroupBound = true;
     }
   } else {

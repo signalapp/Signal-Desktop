@@ -1259,7 +1259,7 @@ class LokiPublicChannelAPI {
           // local file avatar
           const resolvedAvatar = path.normalize(note.value.avatar);
           const base = path.normalize('images/');
-          const re = new RegExp(`^${base}`)
+          const re = new RegExp(`^${base}`);
           // do we at least ends up inside images/ somewhere?
           if (re.test(resolvedAvatar)) {
             this.conversation.set('avatar', resolvedAvatar);
@@ -1743,10 +1743,10 @@ class LokiPublicChannelAPI {
       // early send
       // split off count from pendingMessages
       let sendNow = [];
-      ([sendNow, pendingMessages] = _.partition(
+      [sendNow, pendingMessages] = _.partition(
         pendingMessages,
         message => message.serverId < firstSlaveId
-      ));
+      );
       sendNow.forEach(message => {
         // send them out now
         log.info('emitting primary message', message.serverId);
