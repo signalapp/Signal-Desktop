@@ -398,7 +398,6 @@
     await storage.put('version', currentVersion);
 
     if (newVersion) {
-
       await window.Signal.Data.cleanupOrphanedAttachments();
 
       window.log.info(
