@@ -1737,8 +1737,8 @@ class LokiPublicChannelAPI {
       message => !(message.source in slavePrimaryMap)
     );
     // get minimum ID for primaryMessages and slaveMessages
-    const firstPrimaryId = Math.min(...primaryMessages.map(msg => msg.serverId));
-    const firstSlaveId = Math.min(...slaveMessages.map(msg => msg.serverId));
+    const firstPrimaryId = _.min(primaryMessages.map(msg => msg.serverId));
+    const firstSlaveId = _.min(slaveMessages.map(msg => msg.serverId));
     if (firstPrimaryId < firstSlaveId) {
       // early send
       // split off count from pendingMessages
