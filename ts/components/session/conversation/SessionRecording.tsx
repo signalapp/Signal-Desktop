@@ -1,5 +1,5 @@
 import React from 'react';
-
+import moment from 'moment';
 
 import {  SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionButton, SessionButtonType, SessionButtonColor } from '../SessionButton';
@@ -17,6 +17,9 @@ interface State {
   actionHover: boolean;
   mediaSetting?: boolean;
   volumeArray?: Array<number>;
+  startTimestamp: number;
+  nowTimestamp: number;
+  updateTimerInterval: NodeJS.Timeout;
 }
 
 export class SessionRecording extends React.Component<Props, State> {
@@ -26,15 +29,6 @@ export class SessionRecording extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    this.state = {
-      recordDuration: 0,
-      isRecording: true,
-      isPaused: false,
-      actionHover: false,
-      mediaSetting: undefined,
-      volumeArray: undefined,
-    };
-    
     this.handleHoverActions = this.handleHoverActions.bind(this);
     this.handleUnhoverActions = this.handleUnhoverActions.bind(this);
     
@@ -44,25 +38,52 @@ export class SessionRecording extends React.Component<Props, State> {
     this.onSendVoiceMessage = this.onSendVoiceMessage.bind(this);
     this.onDeleteVoiceMessage = this.onDeleteVoiceMessage.bind(this);
 
+    this.timerUpdate = this.timerUpdate.bind(this);
     this.onStream = this.onStream.bind(this);
 
     this.visualisationRef = React.createRef();
     this.visualisationCanvas = React.createRef();
+
+    const now = moment().unix();
+    const updateTimerInterval = setInterval(this.timerUpdate, 1000);
+    
+    this.state = {
+      recordDuration: 0,
+      isRecording: true,
+      isPaused: false,
+      actionHover: false,
+      mediaSetting: undefined,
+      volumeArray: undefined,
+      startTimestamp: now,
+      nowTimestamp: now,
+      updateTimerInterval: updateTimerInterval,
+    };
+    
+
   }
 
   public async componentWillMount(){
     // This turns on the microphone on the system. Later we need to turn it off.
-
     this.initiateStream();
-
   }
 
+  public componentWillUnmount(){
+    clearInterval(this.state.updateTimerInterval);
+  }
 
 
   render() {
     const actionPause = (this.state.actionHover && this.state.isRecording);
     const actionPlay = (!this.state.isRecording || this.state.isPaused);
     const actionDefault = !actionPause && !actionPlay;
+    const { isRecording, startTimestamp, nowTimestamp } = this.state;
+    
+    const elapsedTime = nowTimestamp - startTimestamp;
+    const displayTimeString = moment(elapsedTime).format('mm:ss');
+
+    console.log(`[vince][time] Elapsed time: `, this.state.nowTimestamp - this.state.startTimestamp);
+    console.log(`[vince][time] Elapsed time calculated: `, elapsedTime);
+
 
     return (
       <div className="session-recording">
@@ -104,23 +125,43 @@ export class SessionRecording extends React.Component<Props, State> {
         </div>
         
 
-        <div className="send-message-button">
-          <SessionIconButton
-            iconType={SessionIconType.Send}
-            iconSize={SessionIconSize.Large}
-            iconColor={'#FFFFFF'}
-            iconRotation={90}
-            onClick={this.onSendVoiceMessage}
-          />
-        </div>
+        { isRecording ? (
+            <div className="session-recording--timer">
+              { displayTimeString }
+              <div className="session-recording--timer-light">
 
-        <div className="session-recording--delete">
-          <SessionButton
-              text={window.i18n('delete')}
+              </div>
+            </div>
+          ) : (
+            <div className="send-message-button">
+              <SessionIconButton
+                iconType={SessionIconType.Send}
+                iconSize={SessionIconSize.Large}
+                iconColor={'#FFFFFF'}
+                iconRotation={90}
+                onClick={this.onSendVoiceMessage}
+              />
+            </div>
+          )}
+
+        
+
+        <div className="session-recording--status">
+          { isRecording ? (
+            <SessionButton
+              text={window.i18n('recording')}
               buttonType={SessionButtonType.Brand}
-              buttonColor={SessionButtonColor.DangerAlt}
-              onClick={this.onDeleteVoiceMessage}
-          />
+              buttonColor={SessionButtonColor.Primary}
+            />
+          ) : (
+            <SessionButton
+                text={window.i18n('delete')}
+                buttonType={SessionButtonType.Brand}
+                buttonColor={SessionButtonColor.DangerAlt}
+                onClick={this.onDeleteVoiceMessage}
+            />
+          )}
+          
         </div>
       </div>
     );
@@ -138,6 +179,12 @@ export class SessionRecording extends React.Component<Props, State> {
             actionHover: true,
         });
     }
+  }
+
+  private timerUpdate(){
+    this.setState({
+      nowTimestamp: moment().unix()
+    });
   }
 
   private handleUnhoverActions() {
@@ -245,7 +292,6 @@ export class SessionRecording extends React.Component<Props, State> {
         // Chop off values which exceed the bouinds of the container
         volumeArray = volumeArray.slice(0, numBars);
         console.log(`[vince][mic] Width: `, VISUALISATION_WIDTH);
-        
 
         canvas && (canvas.height = CANVAS_HEIGHT);
         canvas && (canvas.width = CANVAS_WIDTH);
@@ -286,6 +332,8 @@ export class SessionRecording extends React.Component<Props, State> {
 
   }
 
+
+  
   private onStreamError(error: any) {
     return error;
   }
@@ -306,4 +354,3 @@ export class SessionRecording extends React.Component<Props, State> {
 
   
 }
-

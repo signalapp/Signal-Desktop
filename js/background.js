@@ -942,6 +942,7 @@
         .toString(36)
         .substring(3);
 
+
     window.toasts = new Map();
     window.pushToast = options => {
       // Setting toasts with the same ID can be used to prevent identical

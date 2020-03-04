@@ -79,6 +79,7 @@ window.CONSTANTS = {
   // at which more messages should be loaded
   MESSAGE_CONTAINER_BUFFER_OFFSET_PX: 30,
   MESSAGE_FETCH_INTERVAL: 1,
+  MAX_VOICE_MESSAGE_DURATION: 600,
 };
 
 window.versionInfo = {

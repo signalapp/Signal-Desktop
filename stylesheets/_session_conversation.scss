@@ -266,11 +266,10 @@ $composition-container-height: 60px;
     canvas {
       width: 100%;
       padding: 0px $session-margin-lg;
-      max-width: 700px;
     }
   }
 
-  &--delete {
+  &--status {
     display: flex;
     justify-content: center;
     position: absolute;
@@ -278,7 +277,7 @@ $composition-container-height: 60px;
     right: 0;
     bottom: $composition-container-height + $session-margin-md;
 
-    .session-button.danger-alt{
+    .session-button{
       display: flex;
       justify-content: center;
       align-items: center;
@@ -286,6 +285,29 @@ $composition-container-height: 60px;
       font-weight: 300;
       font-family: "SF Pro Text";
       
+      &.primary {
+        cursor: default;
+        user-select: none;
+        &:hover{
+          filter: brightness(100%);
+        }
+      }
+    }
+  }
+
+  &--timer {
+    display: inline-flex;
+    align-items: center;
+    font-family: "SF Pro Text";
+    font-weight: bold;
+    font-size: 14px;
+
+    &-light{
+      height: $session-margin-sm;
+      width: $session-margin-sm;
+      border-radius: 50%;
+      background-color: $session-color-danger-alt;
+      margin-left: $session-margin-sm;
     }
   }
 }

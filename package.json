@@ -63,6 +63,7 @@
     "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#2e28733b61640556b0272a3bfc78b0357daf71e6",
     "@sindresorhus/is": "0.8.0",
     "@types/dompurify": "^2.0.0",
+    "@types/moment": "^2.13.0",
     "@types/rc-slider": "^8.6.5",
     "@types/react-mic": "^12.4.1",
     "backbone": "1.3.3",
