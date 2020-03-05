@@ -1196,6 +1196,13 @@
 
         const el = this.$(`#${message.id}`);
         const position = el.position();
+        // This message is likely not loaded yet in the DOM
+        if (!position) {
+          // should this be break?
+
+          // eslint-disable-next-line no-continue
+          continue;
+        }
         const { top } = position;
 
         // We're fully below the viewport, continue searching up.
