@@ -1973,6 +1973,15 @@
   "autoUpdateLaterButtonLabel": {
     "message": "Later"
   },
+  "autoUpdateDownloadButtonLabel": {
+    "message": "Download"
+  },
+  "autoUpdateDownloadedMessage": {
+    "message": "The new update has been downloaded."
+  },
+  "autoUpdateDownloadInstructions": {
+    "message": "Would you like to download the update?"
+  },
   "leftTheGroup": {
     "message": "$name$ left the group",
     "description":

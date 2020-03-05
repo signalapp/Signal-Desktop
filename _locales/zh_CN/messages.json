@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal 有可用更新",
+        "message": "Session 有可用更新",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "有新版的 Signal 可用。",
+        "message": "有新版的 Session 可用。",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "点击“重启 Signal”来安装更新。",
+        "message": "点击“重启 Session",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "重启 Signal",
+        "message": "重启 Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

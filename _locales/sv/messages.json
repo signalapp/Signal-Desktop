@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Uppdatering för Signal tillgänglig",
+        "message": "Uppdatering för Session tillgänglig",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Det finns en ny version av Signal tillgänglig.",
+        "message": "Det finns en ny version av Session tillgänglig.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Vänligen starta om Signal för att uppdatera",
+        "message": "Vänligen starta om Session för att uppdatera",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Starta om Signal",
+        "message": "Starta om Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

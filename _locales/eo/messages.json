@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Ĝisdatiĝo de Signal disponeblas",
+        "message": "Ĝisdatiĝo de Session disponeblas",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Nova versio de Signal disponeblas.",
+        "message": "Nova versio de Session disponeblas.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Premu „Restartigi Signal-on“ por ĝisdatigi.",
+        "message": "Premu „Restartigi Session-on“ por ĝisdatigi.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restartigi Signal-on",
+        "message": "Restartigi Session-on",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

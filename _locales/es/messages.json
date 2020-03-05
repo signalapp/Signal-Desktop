@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Actualización de Signal Desktop disponible",
+        "message": "Actualización de Session Desktop disponible",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Hay una nueva versión de Signal Desktop disponible.",
+        "message": "Hay una nueva versión de Session Desktop disponible.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Pulsa en 'Reiniciar Signal' para aplicar cambios.",
+        "message": "Pulsa en 'Reiniciar Session' para aplicar cambios.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Reiniciar Signal",
+        "message": "Reiniciar Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

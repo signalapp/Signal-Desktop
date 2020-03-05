@@ -1460,11 +1460,11 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Dostępna aktualizacja aplikacji Signal",
+        "message": "Dostępna aktualizacja aplikacji Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Dostępna nowa wersja Signal",
+        "message": "Dostępna nowa wersja Session",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {

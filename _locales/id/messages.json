@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Tersedia Signal versi terbaru",
+        "message": "Tersedia Session versi terbaru",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Tersedia versi terbaru Signal.",
+        "message": "Tersedia versi terbaru Session.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Tekan memulai awal Signal untuk mendapatkan versi terbaru.",
+        "message": "Tekan memulai awal Session untuk mendapatkan versi terbaru.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Mulai ulang Signal",
+        "message": "Mulai ulang Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

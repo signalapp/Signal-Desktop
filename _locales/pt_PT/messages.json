@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Existe uma actualização disponível para o Signal",
+        "message": "Existe uma actualização disponível para o Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Está disponível uma nova versão do Signal.",
+        "message": "Está disponível uma nova versão do Session.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Pressione 'Reiniciar o Signal' para aplicar as atualizações.",
+        "message": "Pressione 'Reiniciar o Session' para aplicar as atualizações.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Reiniciar o Signal",
+        "message": "Reiniciar o Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

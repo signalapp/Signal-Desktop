@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "มีการอัพเดทสำหรับ Signal",
+        "message": "มีการอัพเดทสำหรับ Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "มี Signal รุ่นใหม่แล้ว",
+        "message": "มี Session รุ่นใหม่แล้ว",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "กด เริ่มต้น Signal ใหม่เพื่อเริ่มใช้การอัพเดต",
+        "message": "กด เริ่มต้น Session ใหม่เพื่อเริ่มใช้การอัพเดต",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "เริ่มต้น Signal ใหม่",
+        "message": "เริ่มต้น Session ใหม่",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

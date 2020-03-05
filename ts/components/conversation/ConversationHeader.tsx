@@ -255,17 +255,17 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
-  public renderSearch() {	
-    return (	
-      <div className="search-icon">	
-        <SessionIconButton	
-          iconType={SessionIconType.Search}	
-          iconSize={SessionIconSize.Large}	
-          iconPadded={true}	
-          onClick={this.highlightMessageSearch}	
-        />	
-      </div>	
-    );	
+  public renderSearch() {
+    return (
+      <div className="search-icon">
+        <SessionIconButton
+          iconType={SessionIconType.Search}
+          iconSize={SessionIconSize.Large}
+          iconPadded={true}
+          onClick={this.highlightMessageSearch}
+        />
+      </div>
+    );
   }
 
   public renderOptions(triggerId: string) {
@@ -398,12 +398,8 @@ export class ConversationHeader extends React.Component<Props> {
             </div>
           </div>
           {this.renderExpirationLength()}
-          
-          {!this.props.isRss && (
-            <>	
-              {this.renderAvatar()}	
-            </>	
-          )}
+
+          {!this.props.isRss && <>{this.renderAvatar()}</>}
 
           {!this.props.isRss && this.renderAvatar()}
 
@@ -419,10 +415,10 @@ export class ConversationHeader extends React.Component<Props> {
     }
   }
 
-  public highlightMessageSearch() {	
-    // This is a temporary fix. In future we want to search	
-    // messages in the current conversation	
-    $('.session-search-input input').focus();	
+  public highlightMessageSearch() {
+    // This is a temporary fix. In future we want to search
+    // messages in the current conversation
+    $('.session-search-input input').focus();
   }
 
   private renderPublicMenuItems() {

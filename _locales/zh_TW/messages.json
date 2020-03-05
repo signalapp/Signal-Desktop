@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal 可用的更新",
+        "message": "Session 可用的更新",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "這是新版本的 Signal。",
+        "message": "這是新版本的 Session",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "點選重啟 Signal 來套用更新。",
+        "message": "點選重啟 Session 來套用更新。",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "重啟 Signal",
+        "message": "重啟 Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

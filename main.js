@@ -65,9 +65,7 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 
-// TODO: Enable when needed
-// const updater = require('./ts/updater/index');
-const updater = null;
+const updater = require('./ts/updater/index');
 
 const createTrayIcon = require('./app/tray_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
@@ -410,22 +408,40 @@ ipc.on('show-window', () => {
   showWindow();
 });
 
-let updatesStarted = false;
-ipc.on('ready-for-updates', async () => {
-  if (updatesStarted || !updater) {
+let isReadyForUpdates = false;
+async function readyForUpdates() {
+  if (isReadyForUpdates) {
     return;
   }
-  updatesStarted = true;
 
+  isReadyForUpdates = true;
+
+  // disable for now
+  /*
+  // First, install requested sticker pack
+  const incomingUrl = getIncomingUrl(process.argv);
+  if (incomingUrl) {
+    handleSgnlLink(incomingUrl);
+  }
+  */
+
+  // Second, start checking for app updates
   try {
     await updater.start(getMainWindow, locale.messages, logger);
   } catch (error) {
-    logger.error(
+    const log = logger || console;
+    log.error(
       'Error starting update checks:',
       error && error.stack ? error.stack : error
     );
   }
-});
+}
+ipc.once('ready-for-updates', readyForUpdates);
+
+// Forcefully call readyForUpdates after 10 minutes.
+// This ensures we start the updater.
+const TEN_MINUTES = 10 * 60 * 1000;
+setTimeout(readyForUpdates, TEN_MINUTES);
 
 function openReleaseNotes() {
   shell.openExternal(
@@ -842,6 +858,9 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
   }
 
   setupMenu();
+
+  // Check updates
+  readyForUpdates();
 }
 
 function setupMenu(options) {

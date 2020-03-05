@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal frissítés elérhető",
+        "message": "Session frissítés elérhető",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "A Signal új verziója érhető el.",
+        "message": "A Session új verziója érhető el.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Kattints a Signal újraindítására a frissítések alkalmazásához! ",
+        "message": "Kattints a Session újraindítására a frissítések alkalmazásához! ",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Signal újraindítása",
+        "message": "Session újraindítása",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
