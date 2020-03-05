@@ -1,5 +1,7 @@
+import * as path from 'path';
+import * as fs from 'fs-extra';
 import { autoUpdater } from 'electron-updater';
-import { BrowserWindow } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import { markShouldQuit } from '../../app/window_state';
 import {
   getPrintableError,
@@ -44,6 +46,13 @@ async function checkForUpdates(
     return;
   }
 
+  const canUpdate = await canAutoUpdate();
+  if (!canUpdate) {
+    return;
+  }
+
+  isUpdating = true;
+
   logger.info('auto-update: checking for update...');
 
   try {
@@ -74,4 +83,35 @@ async function checkForUpdates(
   } finally {
     isUpdating = false;
   }
+}
+
+/*
+  Check if we have the required files to auto update.
+  These files won't exist inside certain formats such as a linux deb file.
+*/
+async function canAutoUpdate(): Promise<boolean> {
+  const isPackaged = app.isPackaged;
+
+  // On a production app, we need to use resources path to check for the file
+  if (isPackaged && !process.resourcesPath) {
+    return false;
+  }
+
+  // Taken from: https://github.com/electron-userland/electron-builder/blob/d4feb6d3c8b008f8b455c761d654c8088f90d8fa/packages/electron-updater/src/ElectronAppAdapter.ts#L25
+  const updateFile = isPackaged ? 'app-update.yml' : 'dev-app-update.yml';
+  const basePath =
+    isPackaged && process.resourcesPath
+      ? process.resourcesPath
+      : app.getAppPath();
+  const appUpdateConfigPath = path.join(basePath, updateFile);
+
+  return new Promise(resolve => {
+    try {
+      // tslint:disable-next-line: non-literal-fs-path
+      const exists = fs.existsSync(appUpdateConfigPath);
+      resolve(exists);
+    } catch (e) {
+      resolve(false);
+    }
+  });
 }

@@ -213,12 +213,12 @@
     "appId": "com.loki-project.messenger-desktop",
     "afterSign": "build/notarize.js",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
-    "publish": "github",
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
       "target": [
-        "dmg"
+        "dmg",
+        "zip"
       ],
       "bundleVersion": "1",
       "hardenedRuntime": true,
@@ -232,6 +232,7 @@
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "publisherName": "Loki Project",
+      "verifyUpdateCodeSignature": false,
       "icon": "build/icons/win/icon.ico",
       "target": [
         "nsis"
