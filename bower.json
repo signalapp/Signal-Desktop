@@ -1,7 +1,7 @@
 {
-  "name": "loki-messenger",
+  "name": "session-desktop",
   "version": "0.0.0",
-  "homepage": "https://github.com/loki-project/loki-messenger",
+  "homepage": "https://github.com/loki-project/session-desktop",
   "license": "GPLV3",
   "private": true,
   "dependencies": {

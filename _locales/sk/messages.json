@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Dostupná aktualizácia pre Signal",
+        "message": "Dostupná aktualizácia pre Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Je k dispozícii nová verzia Signal.",
+        "message": "Je k dispozícii nová verzia Session.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Reštartujte Signal pre dokončenie aktualizácie.",
+        "message": "Reštartujte Session pre dokončenie aktualizácie.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Reštartovať Signal",
+        "message": "Reštartovať Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

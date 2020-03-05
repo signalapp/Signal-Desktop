@@ -40,7 +40,6 @@ export class SessionSettingListItem extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     const { title, description, type, value, content } = this.props;
-
     const inline =
       !!type &&
       ![SessionSettingType.Options, SessionSettingType.Slider].includes(type);
@@ -92,16 +91,17 @@ export class SessionSettingListItem extends React.Component<Props, State> {
             <div className="slider-wrapper">
               <Slider
                 dots={true}
-                step={6}
-                min={12}
-                max={96}
+                step={content.step}
+                min={content.min}
+                max={content.max}
                 defaultValue={currentSliderValue}
                 onChange={sliderValue => {
                   this.handleSlider(sliderValue);
                 }}
               />
+
               <div className="slider-info">
-                <p>{`${currentSliderValue} Hours`}</p>
+                <p>{content.info(currentSliderValue)}</p>
               </div>
             </div>
           )}

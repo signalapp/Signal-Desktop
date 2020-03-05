@@ -227,7 +227,7 @@
   },
   "loadDataDescription": {
     "message":
-      "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+      "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Session data.",
     "description":
       "Introduction to the process of importing messages and contacts from disk"
   },
@@ -246,7 +246,7 @@
   },
   "importErrorFirst": {
     "message":
-      "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+      "Make sure you have chosen the correct directory that contains your saved Session data. Its name should begin with 'Session Export.' You can also save a new copy of your data from the Chrome App.",
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "importErrorSecond": {
@@ -403,13 +403,13 @@
   },
   "changedSinceVerifiedMultiple": {
     "message":
-      "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+      "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
     "description":
       "Shown on confirmation dialog when user attempts to send a message"
   },
   "changedSinceVerified": {
     "message":
-      "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+      "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
     "description":
       "Shown on confirmation dialog when user attempts to send a message",
     "placeholders": {
@@ -421,7 +421,7 @@
   },
   "changedRightAfterVerify": {
     "message":
-      "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+      "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
     "description":
       "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
     "placeholders": {
@@ -433,13 +433,13 @@
   },
   "changedRecentlyMultiple": {
     "message":
-      "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+      "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
     "description":
       "Shown on confirmation dialog when user attempts to send a message"
   },
   "changedRecently": {
     "message":
-      "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+      "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
     "description":
       "Shown on confirmation dialog when user attempts to send a message",
     "placeholders": {
@@ -451,7 +451,7 @@
   },
   "identityKeyErrorOnSend": {
     "message":
-      "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+      "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session. You may wish to verify your saftey number with this contact.",
     "description":
       "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
     "placeholders": {
@@ -545,7 +545,7 @@
   },
   "identityChanged": {
     "message":
-      "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
+      "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Session. You may wish to verify the new safety number below."
   },
   "incomingError": {
     "message": "Error handling incoming message"
@@ -610,12 +610,12 @@
   "loadingPreview": {
     "message": "Loading Preview...",
     "description":
-      "Shown while Signal Desktop is fetching metadata for a url in composition area"
+      "Shown while Session Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
     "message": "Draft thumbnail link preview for $domain$",
     "description":
-      "Shown while Signal Desktop is fetching metadata for a url in composition area",
+      "Shown while Session Desktop is fetching metadata for a url in composition area",
     "placeholders": {
       "path": {
         "content": "$1",
@@ -626,7 +626,7 @@
   "previewThumbnail": {
     "message": "Thumbnail link preview for $domain$",
     "description":
-      "Shown while Signal Desktop is fetching metadata for a url in composition area",
+      "Shown while Session Desktop is fetching metadata for a url in composition area",
     "placeholders": {
       "path": {
         "content": "$1",
@@ -726,7 +726,7 @@
   "signalDesktopPreferences": {
     "message": "Session Preferences",
     "description":
-      "Title of the window that pops up with Signal Desktop preferences in it"
+      "Title of the window that pops up with Session Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "About Session",
@@ -809,7 +809,7 @@
   "sendMessageToContact": {
     "message": "Send Message",
     "description":
-      "Shown when you are sent a contact and that contact has a signal account"
+      "Shown when you are sent a contact and that contact has a session"
   },
   "home": {
     "message": "home",
@@ -935,13 +935,13 @@
   },
   "cannotUpdateDetail": {
     "message":
-      "Signal Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+      "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
     "description":
       "Shown if a general error happened while trying to install update package"
   },
   "readOnlyVolume": {
     "message":
-      "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
+      "Session Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Session.app to /Applications with Finder.",
     "description":
       "Shown on MacOS if running on a read-only volume and we cannot update"
   },
@@ -1474,6 +1474,10 @@
       "Warning! Lowering the TTL could result in messages being lost if the recipient doesn't collect them in time!",
     "description": "Warning for the time to live setting"
   },
+  "zoomFactorSettingTitle": {
+    "message": "Zoom Factor",
+    "description": "Title of the Zoom Factor setting"
+  },
   "notificationSettingsDialog": {
     "message": "When messages arrive, display notifications that reveal...",
     "description": "Explain the purpose of the notification settings"
@@ -1946,7 +1950,7 @@
   },
   "unlinkedWarning": {
     "message":
-      "Relink Signal Desktop to your mobile device to continue messaging."
+      "Relink Session Desktop to your mobile device to continue messaging."
   },
   "unlinked": {
     "message": "Unlinked"
@@ -1955,19 +1959,28 @@
     "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Signal update available"
+    "message": "Session update available"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "There is a new version of Signal available."
+    "message": "There is a new version of Session available."
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Press Restart Signal to apply the updates."
+    "message": "Press Restart Session to apply the updates."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Restart Signal"
+    "message": "Restart Session"
   },
   "autoUpdateLaterButtonLabel": {
     "message": "Later"
+  },
+  "autoUpdateDownloadButtonLabel": {
+    "message": "Download"
+  },
+  "autoUpdateDownloadedMessage": {
+    "message": "The new update has been downloaded."
+  },
+  "autoUpdateDownloadInstructions": {
+    "message": "Would you like to download the update?"
   },
   "leftTheGroup": {
     "message": "$name$ left the group",
@@ -2204,9 +2217,15 @@
     "message": "Edit Profile",
     "description": "Button action that the user can click to edit their profile"
   },
+  "editGroupNameOrPicture": {
+    "message": "Edit group name or picture",
+    "description":
+      "Button action that the user can click to edit a group name (open)"
+  },
   "editGroupName": {
     "message": "Edit group name",
-    "description": "Button action that the user can click to edit a group name"
+    "description":
+      "Button action that the user can click to edit a group name (closed)"
   },
   "createGroupDialogTitle": {
     "message": "Creating a Closed Group",
@@ -2597,6 +2616,9 @@
     "message": "Enter other device’s Session ID here"
   },
   "continueYourSession": {
+    "message": "Continue Your Session"
+  },
+  "linkDevice": {
     "message": "Link Device"
   },
   "restoreSessionID": {

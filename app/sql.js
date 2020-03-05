@@ -231,6 +231,15 @@ async function getSQLCipherVersion(instance) {
   }
 }
 
+async function getSQLIntegrityCheck(instance) {
+  const row = await instance.get('PRAGMA cipher_integrity_check;');
+  if (row) {
+    return row.cipher_integrity_check;
+  }
+
+  return null;
+}
+
 const HEX_KEY = /[^0-9A-Fa-f]/;
 async function setupSQLCipher(instance, { key }) {
   // If the key isn't hex then we need to derive a hex key from it
@@ -239,6 +248,9 @@ async function setupSQLCipher(instance, { key }) {
   // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
   const value = deriveKey ? `'${key}'` : `"x'${key}'"`;
   await instance.run(`PRAGMA key = ${value};`);
+
+  // https://www.zetetic.net/blog/2018/11/30/sqlcipher-400-release/#compatability-sqlcipher-4-0-0
+  await instance.run('PRAGMA cipher_migrate;');
 }
 
 async function setSQLPassword(password) {
@@ -1071,6 +1083,13 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
     db = promisified;
 
     // test database
+
+    const result = await getSQLIntegrityCheck(db);
+    if (result) {
+      console.log('Database integrity check failed:', result);
+      throw new Error(`Integrity check failed: ${result}`);
+    }
+
     await getMessageCount();
   } catch (error) {
     if (passwordAttempt) {

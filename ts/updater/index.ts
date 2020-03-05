@@ -1,14 +1,7 @@
 import { get as getFromConfig } from 'config';
 import { BrowserWindow } from 'electron';
-
-import { start as startMacOS } from './macos';
-import { start as startWindows } from './windows';
-import {
-  deleteBaseTempDir,
-  getPrintableError,
-  LoggerType,
-  MessagesType,
-} from './common';
+import { start as startUpdater } from './updater';
+import { LoggerType, MessagesType } from './common';
 
 let initialized = false;
 
@@ -17,8 +10,6 @@ export async function start(
   messages?: MessagesType,
   logger?: LoggerType
 ) {
-  const { platform } = process;
-
   if (initialized) {
     throw new Error('updater/start: Updates have already been initialized!');
   }
@@ -32,6 +23,13 @@ export async function start(
   }
 
   if (autoUpdateDisabled()) {
+    /*
+      If you really want to enable auto-updating in dev mode
+      You need to create a dev-app-update.yml file.
+      A sample can be found in dev-app-update.yml.sample.
+      After that you can change `updatesEnabled` to `true` in the default config.
+    */
+
     logger.info(
       'updater/start: Updates disabled - not starting new version checks'
     );
@@ -39,28 +37,11 @@ export async function start(
     return;
   }
 
-  try {
-    await deleteBaseTempDir();
-  } catch (error) {
-    logger.error(
-      'updater/start: Error deleting temp dir:',
-      getPrintableError(error)
-    );
-  }
-
-  if (platform === 'win32') {
-    await startWindows(getMainWindow, messages, logger);
-  } else if (platform === 'darwin') {
-    await startMacOS(getMainWindow, messages, logger);
-  } else {
-    throw new Error('updater/start: Unsupported platform');
-  }
+  await startUpdater(getMainWindow, messages, logger);
 }
 
 function autoUpdateDisabled() {
   return (
-    process.platform === 'linux' ||
-    process.mas ||
-    !getFromConfig('updatesEnabled')
+    process.mas || !getFromConfig('updatesEnabled') // From Electron: Mac App Store build
   );
 }

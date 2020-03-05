@@ -12,6 +12,7 @@ import {
 } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
 import { SessionGroupType } from './LeftPaneChannelSection';
+import { PillDivider } from './PillDivider';
 
 interface Props {
   overlayMode: 'message' | 'contact' | SessionGroupType;
@@ -223,9 +224,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         )}
 
         {isAddContactView && (
-          <div className="panel-text-divider">
-            <span>{window.i18n('yourPublicKey')}</span>
-          </div>
+          <PillDivider text={window.i18n('yourPublicKey')} />
         )}
 
         {isAddContactView && (

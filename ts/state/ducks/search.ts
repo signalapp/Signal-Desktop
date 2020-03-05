@@ -214,7 +214,6 @@ async function queryConversationsAndContacts(
       conversations.push(conversation.id);
     }
   }
-
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
   if (noteToSelf.indexOf(providedQuery.toLowerCase()) !== -1) {
     // ensure that we don't have duplicates in our results

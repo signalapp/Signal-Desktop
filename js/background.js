@@ -286,6 +286,9 @@
     }
     first = false;
 
+    // Update zoom
+    window.updateZoomFactor();
+
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
@@ -398,17 +401,13 @@
     await storage.put('version', currentVersion);
 
     if (newVersion) {
-      if (
-        lastVersion &&
-        window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')
-      ) {
-        await window.Signal.Logs.deleteAll();
-        window.restart();
-      }
-
       window.log.info(
         `New version detected: ${currentVersion}; previous: ${lastVersion}`
       );
+
+      await window.Signal.Data.cleanupOrphanedAttachments();
+
+      await window.Signal.Logs.deleteAll();
     }
 
     if (isIndexedDBPresent) {
@@ -430,10 +429,6 @@
     }
 
     Views.Initialization.setMessage(window.i18n('optimizingApplication'));
-
-    if (newVersion) {
-      await window.Signal.Data.cleanupOrphanedAttachments();
-    }
 
     Views.Initialization.setMessage(window.i18n('loading'));
 
@@ -702,7 +697,7 @@
       }
     });
 
-    window.doUpdateGroup = async (groupId, groupName, members) => {
+    window.doUpdateGroup = async (groupId, groupName, members, avatar) => {
       const ourKey = textsecure.storage.user.getNumber();
 
       const ev = new Event('message');
@@ -729,6 +724,44 @@
 
       if (convo.isPublic()) {
         const API = await convo.getPublicSendData();
+
+        if (avatar) {
+          // I hate duplicating this...
+          const readFile = attachment =>
+            new Promise((resolve, reject) => {
+              const fileReader = new FileReader();
+              fileReader.onload = e => {
+                const data = e.target.result;
+                resolve({
+                  ...attachment,
+                  data,
+                  size: data.byteLength,
+                });
+              };
+              fileReader.onerror = reject;
+              fileReader.onabort = reject;
+              fileReader.readAsArrayBuffer(attachment.file);
+            });
+          const attachment = await readFile({ file: avatar });
+          // const tempUrl = window.URL.createObjectURL(avatar);
+
+          // Get file onto public chat server
+          const fileObj = await API.serverAPI.putAttachment(attachment.data);
+          if (fileObj === null) {
+            // problem
+            window.warn('File upload failed');
+            return;
+          }
+
+          // lets not allow ANY URLs, lets force it to be local to public chat server
+          const relativeFileUrl = fileObj.url.replace(
+            API.serverAPI.baseServerUrl,
+            ''
+          );
+          // write it to the channel
+          await API.setChannelAvatar(relativeFileUrl);
+        }
+
         if (await API.setChannelName(groupName)) {
           // queue update from server
           // and let that set the conversation
@@ -741,7 +774,11 @@
         return;
       }
 
-      const avatar = '';
+      const nullAvatar = '';
+      if (avatar) {
+        // would get to download this file on each client in the group
+        // and reference the local file
+      }
       const options = {};
 
       const recipients = _.union(convo.get('members'), members);
@@ -750,7 +787,7 @@
       convo.updateGroup({
         groupId,
         groupName,
-        avatar,
+        avatar: nullAvatar,
         recipients,
         members,
         options,
@@ -787,6 +824,7 @@
         'group'
       );
 
+      convo.updateGroupAdmins([primaryDeviceKey]);
       convo.updateGroup(ev.groupDetails);
 
       // Group conversations are automatically 'friends'
@@ -794,8 +832,6 @@
       convo.setFriendRequestStatus(
         window.friends.friendRequestStatusEnum.friends
       );
-
-      convo.updateGroupAdmins([primaryDeviceKey]);
 
       appView.openConversation(groupId, {});
     };
@@ -994,7 +1030,9 @@
       let friendList = contacts;
       if (friendList !== undefined) {
         friendList = friendList.filter(
-          friend => friend.type === 'direct' && !friend.isMe
+          friend =>
+            (friend.type === 'direct' && !friend.isMe) ||
+            (friend.type === 'group' && !friend.isPublic && !friend.isRss)
         );
       }
       return friendList;
@@ -1372,6 +1410,8 @@
       await window.lokiFileServerAPI.updateOurDeviceMapping();
       // TODO: we should ensure the message was sent and retry automatically if not
       await libloki.api.sendUnpairingMessageToSecondary(pubKey);
+      // Remove all traces of the device
+      ConversationController.deleteContact(pubKey);
       Whisper.events.trigger('refreshLinkedDeviceList');
     });
   }
@@ -1470,6 +1510,9 @@
     };
 
     Whisper.Notifications.disable(); // avoid notification flood until empty
+    setTimeout(() => {
+      Whisper.Notifications.enable();
+    }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
 
     if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
       const ourKey = textsecure.storage.user.getNumber();
@@ -1642,6 +1685,11 @@
     //   very fast, and it looks like a network blip. But we need to suppress
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
     Whisper.Notifications.disable();
+
+    // Enable back notifications once most messages have been fetched
+    setTimeout(() => {
+      Whisper.Notifications.enable();
+    }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
   }
   function onProgress(ev) {
     const { count } = ev;

@@ -24,6 +24,8 @@
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
 
+let openGroupBound = false;
+
 function MessageReceiver(username, password, signalingKey, options = {}) {
   this.count = 0;
 
@@ -51,11 +53,18 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
 
   // only do this once to prevent duplicates
   if (lokiPublicChatAPI) {
-    // bind events
-    lokiPublicChatAPI.on(
-      'publicMessage',
-      this.handleUnencryptedMessage.bind(this)
-    );
+    window.log.info('Binding open group events handler', openGroupBound);
+    if (!openGroupBound) {
+      // clear any previous binding
+      lokiPublicChatAPI.removeAllListeners('publicMessage');
+      // we only need one MR in the system handling these
+      // bind events
+      lokiPublicChatAPI.on(
+        'publicMessage',
+        this.handleUnencryptedMessage.bind(this)
+      );
+      openGroupBound = true;
+    }
   } else {
     window.log.error('Can not handle open group data, API is not available');
   }
@@ -1469,18 +1478,24 @@ MessageReceiver.prototype.extend({
     this.removeFromCache(envelope);
   },
   async handleSyncMessage(envelope, syncMessage) {
+    // We should only accept sync messages from our devices
     const ourNumber = textsecure.storage.user.getNumber();
-    // NOTE: Maybe we should be caching this list?
-    const ourDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+    const ourPrimaryNumber = window.storage.get('primaryDevicePubKey');
+    const ourOtherDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
       window.storage.get('primaryDevicePubKey')
     );
-    const validSyncSender =
-      ourDevices && ourDevices.some(devicePubKey => devicePubKey === ourNumber);
+    const ourDevices = new Set([
+      ourNumber,
+      ourPrimaryNumber,
+      ...ourOtherDevices,
+    ]);
+    const validSyncSender = ourDevices.has(envelope.source);
     if (!validSyncSender) {
       throw new Error(
         "Received sync message from a device we aren't paired with"
       );
     }
+
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
       const to = sentMessage.message.group
@@ -1499,6 +1514,8 @@ MessageReceiver.prototype.extend({
       return this.handleContacts(envelope, syncMessage.contacts);
     } else if (syncMessage.groups) {
       return this.handleGroups(envelope, syncMessage.groups);
+    } else if (syncMessage.openGroups) {
+      return this.handleOpenGroups(envelope, syncMessage.openGroups);
     } else if (syncMessage.blocked) {
       return this.handleBlocked(envelope, syncMessage.blocked);
     } else if (syncMessage.request) {
@@ -1574,11 +1591,10 @@ MessageReceiver.prototype.extend({
   },
   handleGroups(envelope, groups) {
     window.log.info('group sync');
-    const { blob } = groups;
 
     // Note: we do not return here because we don't want to block the next message on
     //   this attachment download and a lot of processing of that attachment.
-    this.handleAttachment(blob).then(attachmentPointer => {
+    this.handleAttachment(groups).then(attachmentPointer => {
       const groupBuffer = new GroupBuffer(attachmentPointer.data);
       let groupDetails = groupBuffer.next();
       const promises = [];
@@ -1600,6 +1616,12 @@ MessageReceiver.prototype.extend({
         return this.dispatchAndWait(ev);
       });
     });
+  },
+  handleOpenGroups(envelope, openGroups) {
+    openGroups.forEach(({ url, channelId }) => {
+      window.attemptConnection(url, channelId);
+    });
+    return this.removeFromCache(envelope);
   },
   handleBlocked(envelope, blocked) {
     window.log.info('Setting these numbers as blocked:', blocked.numbers);
@@ -1785,6 +1807,10 @@ MessageReceiver.prototype.extend({
           decrypted.group.name = null;
           decrypted.group.members = [];
           decrypted.group.avatar = null;
+          break;
+        case textsecure.protobuf.GroupContext.Type.REQUEST_INFO:
+          decrypted.body = null;
+          decrypted.attachments = [];
           break;
         default:
           this.removeFromCache(envelope);

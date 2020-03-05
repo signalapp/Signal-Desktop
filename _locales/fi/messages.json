@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal päivitys saatavilla",
+        "message": "Session päivitys saatavilla",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Uusi versio Signalista on saatavilla.",
+        "message": "Uusi versio Session on saatavilla.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Paina Käynnistä Signal uudelleen asentaaksesi päivitykset.",
+        "message": "Paina Käynnistä Session uudelleen asentaaksesi päivitykset.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Käynnistä Signal uudelleen",
+        "message": "Käynnistä Session uudelleen",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

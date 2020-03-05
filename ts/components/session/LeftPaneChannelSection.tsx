@@ -399,13 +399,18 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     groupMembers: Array<ContactType>
   ) {
     // Validate groupName and groupMembers length
-    if (groupName.length === 0 ||
-      groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH) {
-        window.pushToast({
-          title: window.i18n('invalidGroupName', window.CONSTANTS.MAX_GROUP_NAME_LENGTH),
-          type: 'error',
-          id: 'invalidGroupName',
-        });
+    if (
+      groupName.length === 0 ||
+      groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH
+    ) {
+      window.pushToast({
+        title: window.i18n(
+          'invalidGroupName',
+          window.CONSTANTS.MAX_GROUP_NAME_LENGTH
+        ),
+        type: 'error',
+        id: 'invalidGroupName',
+      });
 
       return;
     }
@@ -416,7 +421,10 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
       groupMembers.length >= window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
     ) {
       window.pushToast({
-        title: window.i18n('invalidGroupSize', window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT),
+        title: window.i18n(
+          'invalidGroupSize',
+          window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
+        ),
         type: 'error',
         id: 'invalidGroupSize',
       });

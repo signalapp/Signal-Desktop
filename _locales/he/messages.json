@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "עדכון Signal זמין",
+        "message": "עדכון Session זמין",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "יש גרסה חדשה של Signal זמינה.",
+        "message": "יש גרסה חדשה של Session זמינה.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "לחץ על הפעל מחדש את Signal כדי להחיל את העדכונים.",
+        "message": "לחץ על הפעל מחדש את Session כדי להחיל את העדכונים.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "הפעל מחדש את Signal",
+        "message": "הפעל מחדש את Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

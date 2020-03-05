@@ -215,7 +215,6 @@ $session-compose-margin: 20px;
 
   &__list {
     height: -webkit-fill-available;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
 
     &-popup {
       width: -webkit-fill-available;
@@ -642,14 +641,20 @@ $session-compose-margin: 20px;
 .panel-text-divider {
   width: 100%;
   text-align: center;
-  border-bottom: 1px solid $session-color-dark-grey;
-  line-height: 0.1em;
+  display: flex;
   margin: 50px 0 50px;
+
+  .panel-text-divider-line {
+    border-bottom: 1px solid $session-color-dark-grey;
+    line-height: 0.1em;
+    flex-grow: 1;
+    height: 1px;
+    align-self: center;
+  }
 
   span {
     padding: 5px 10px;
     border-radius: 50px;
-    background-color: $session-background;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
     font-family: 'SF Pro Text';

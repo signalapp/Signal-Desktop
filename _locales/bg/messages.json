@@ -1468,11 +1468,11 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Натиснете Рестарт на Signal за да валидирате промените.",
+        "message": "Натиснете Рестарт на Session за да валидирате промените.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Рестарт на Signal",
+        "message": "Рестарт на Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

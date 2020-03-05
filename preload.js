@@ -2,6 +2,8 @@
 /* global window: false */
 const path = require('path');
 const electron = require('electron');
+
+const { webFrame } = electron;
 const semver = require('semver');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
@@ -70,6 +72,7 @@ window.CONSTANTS = {
   MAX_MESSAGE_BODY_LENGTH: 64 * 1024,
   // Limited due to the proof-of-work requirement
   SMALL_GROUP_SIZE_LIMIT: 10,
+  NOTIFICATION_ENABLE_TIMEOUT_SECONDS: 10, // number of seconds to turn on notifications after reconnect/start of app
 };
 
 window.versionInfo = {
@@ -83,6 +86,19 @@ window.wrapDeferred = deferredToPromise;
 
 const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
+
+window.updateZoomFactor = () => {
+  const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
+  window.setZoomFactor(zoomFactor / 100);
+};
+
+window.setZoomFactor = number => {
+  webFrame.setZoomFactor(number);
+};
+
+window.getZoomFactor = () => {
+  webFrame.getZoomFactor();
+};
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
@@ -217,6 +233,10 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
 
 window.setSettingValue = (settingID, value) => {
   window.storage.put(settingID, value);
+
+  if (settingID === 'zoom-factor-setting') {
+    window.updateZoomFactor();
+  }
 };
 
 installGetter('device-name', 'getDeviceName');
@@ -474,23 +494,6 @@ contextMenu({
 //   /tmp mounted as noexec on Linux.
 require('./js/spell_check');
 
-if (config.environment === 'test') {
-  const isTravis = 'TRAVIS' in process.env && 'CI' in process.env;
-  const isWindows = process.platform === 'win32';
-  /* eslint-disable global-require, import/no-extraneous-dependencies */
-  window.test = {
-    glob: require('glob'),
-    fse: require('fs-extra'),
-    tmp: require('tmp'),
-    path: require('path'),
-    basePath: __dirname,
-    attachmentsPath: window.Signal.Migrations.attachmentsPath,
-    isTravis,
-    isWindows,
-  };
-  /* eslint-enable global-require, import/no-extraneous-dependencies */
-}
-
 window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
@@ -508,3 +511,26 @@ Promise.prototype.ignore = function() {
   // eslint-disable-next-line more/no-then
   this.then(() => {});
 };
+
+if (config.environment.includes('test')) {
+  const isWindows = process.platform === 'win32';
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
+  window.test = {
+    glob: require('glob'),
+    fse: require('fs-extra'),
+    tmp: require('tmp'),
+    path: require('path'),
+    basePath: __dirname,
+    attachmentsPath: window.Signal.Migrations.attachmentsPath,
+    isWindows,
+  };
+  /* eslint-enable global-require, import/no-extraneous-dependencies */
+  window.lokiFeatureFlags = {};
+  window.lokiSnodeAPI = {
+    refreshSwarmNodesForPubKey: () => [],
+    getFreshSwarmNodes: () => [],
+    updateSwarmNodes: () => {},
+    updateLastHash: () => {},
+    getSwarmNodesForPubKey: () => [],
+  };
+}

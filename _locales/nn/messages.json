@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal-oppdatering tilgjengeleg",
+        "message": "Session-oppdatering tilgjengeleg",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Ei ny utgåve av Signal er tilgjengeleg",
+        "message": "Ei ny utgåve av Session er tilgjengeleg",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Trykk «Start Signal på nytt» for å fullføra oppgraderinga.",
+        "message": "Trykk «Start Session på nytt» for å fullføra oppgraderinga.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Start Signal på nytt",
+        "message": "Start Session på nytt",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

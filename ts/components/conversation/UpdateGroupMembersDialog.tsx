@@ -1,9 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Contact, MemberList } from './MemberList';
+import { Contact } from './MemberList';
 
 import { SessionModal } from '../session/SessionModal';
 import { SessionButton } from '../session/SessionButton';
+import {
+  ContactType,
+  SessionMemberListItem,
+} from '../session/SessionMemberListItem';
 
 interface Props {
   titleText: string;
@@ -34,7 +38,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     this.onClickOK = this.onClickOK.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
-    this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
 
     let friends = this.props.friendList;
     friends = friends.map(d => {
@@ -114,13 +117,8 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         <p className={errorMessageClasses}>{errorMsg}</p>
         <div className="spacer-md" />
 
-        <div className="friend-selection-list">
-          <MemberList
-            members={this.state.friendList}
-            selected={{}}
-            i18n={this.props.i18n}
-            onMemberClicked={this.onMemberClicked}
-          />
+        <div className="group-member-list__selection">
+          {this.renderMemberList()}
         </div>
         <p className={noFriendsClasses}>{`(${this.props.i18n(
           'noMembersInThisGroup'
@@ -133,6 +131,20 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         </div>
       </SessionModal>
     );
+  }
+
+  private renderMemberList() {
+    const members = this.state.friendList;
+
+    return members.map((member: ContactType) => (
+      <SessionMemberListItem
+        member={member}
+        isSelected={!member.checkmarked}
+        onSelect={this.onMemberClicked}
+        onUnselect={this.onMemberClicked}
+        key={member.id}
+      />
+    ));
   }
 
   private onShowError(msg: string) {
@@ -206,17 +218,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       return {
         ...state,
         friendList: updatedFriends,
-      };
-    });
-  }
-
-  private onGroupNameChanged(event: any) {
-    event.persist();
-
-    this.setState(state => {
-      return {
-        ...state,
-        groupName: event.target.value,
       };
     });
   }
