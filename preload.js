@@ -60,13 +60,15 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
+const DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
+
 window.CONSTANTS = {
   SECS_IN_DAY: 60 * 60 * 24,
   MAX_LOGIN_TRIES: 3,
   MAX_PASSWORD_LENGTH: 32,
   MAX_USERNAME_LENGTH: 20,
   MAX_GROUP_NAME_LENGTH: 64,
-  DEFAULT_PUBLIC_CHAT_URL: appConfig.get('defaultPublicChatServer'),
+  DEFAULT_PUBLIC_CHAT_URL,
   MAX_CONNECTION_DURATION: 5000,
   MAX_MESSAGE_BODY_LENGTH: 64 * 1024,
   // Limited due to the proof-of-work requirement
@@ -79,7 +81,8 @@ window.CONSTANTS = {
   // at which more messages should be loaded
   MESSAGE_CONTAINER_BUFFER_OFFSET_PX: 30,
   MESSAGE_FETCH_INTERVAL: 1,
-  MAX_VOICE_MESSAGE_DURATION: 600,
+  // Maximum voice message duraiton of 5 minutes
+  MAX_VOICE_MESSAGE_DURATION: 300,
 };
 
 window.versionInfo = {

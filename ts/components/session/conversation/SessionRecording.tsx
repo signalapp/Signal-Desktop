@@ -13,12 +13,27 @@ interface Props {
 interface State {
   recordDuration: number;
   isRecording: boolean;
+  isPlaying: boolean;
   isPaused: boolean;
+
   actionHover: boolean;
   mediaSetting?: boolean;
+
+  // Steam information and data
+  mediaBlob?: any;
+  audioElement?: HTMLAudioElement;
+  streamParams?:  {
+    stream: any;
+    media: any;
+    input: any; 
+    processor: any;
+  }
+
   volumeArray?: Array<number>;
+
   startTimestamp: number;
   nowTimestamp: number;
+  
   updateTimerInterval: NodeJS.Timeout;
 }
 
@@ -40,6 +55,7 @@ export class SessionRecording extends React.Component<Props, State> {
 
     this.timerUpdate = this.timerUpdate.bind(this);
     this.onStream = this.onStream.bind(this);
+    this.stopStream = this.stopStream.bind(this);
 
     this.visualisationRef = React.createRef();
     this.visualisationCanvas = React.createRef();
@@ -50,10 +66,15 @@ export class SessionRecording extends React.Component<Props, State> {
     this.state = {
       recordDuration: 0,
       isRecording: true,
+      isPlaying: false,
       isPaused: false,
       actionHover: false,
       mediaSetting: undefined,
+      mediaBlob: undefined,
+      audioElement: undefined,
+      streamParams: undefined,
       volumeArray: undefined,
+      
       startTimestamp: now,
       nowTimestamp: now,
       updateTimerInterval: updateTimerInterval,
@@ -78,12 +99,8 @@ export class SessionRecording extends React.Component<Props, State> {
     const actionDefault = !actionPause && !actionPlay;
     const { isRecording, startTimestamp, nowTimestamp } = this.state;
     
-    const elapsedTime = nowTimestamp - startTimestamp;
-    const displayTimeString = moment(elapsedTime).format('mm:ss');
-
-    console.log(`[vince][time] Elapsed time: `, this.state.nowTimestamp - this.state.startTimestamp);
-    console.log(`[vince][time] Elapsed time calculated: `, elapsedTime);
-
+    const elapsedTimeMs = 1000 * (nowTimestamp - startTimestamp);
+    const displayTimeString = moment.utc(elapsedTimeMs).format('m:ss');
 
     return (
       <div className="session-recording">
@@ -98,7 +115,7 @@ export class SessionRecording extends React.Component<Props, State> {
                 iconSize={SessionIconSize.Medium}
                 // FIXME VINCE: Globalise constants for JS Session Colors
                 iconColor={'#FF4538'}
-                onClick={this.stopRecording}
+                onClick={this.stopStream}
               />
             )}
             {actionPlay && (
@@ -166,12 +183,6 @@ export class SessionRecording extends React.Component<Props, State> {
       </div>
     );
   }
-  
-  public blobToFile (data: any, fileName:string) {
-    const file = new File([data.blob], fileName);
-    console.log(`[vince][mic] File: `, file);
-    return file;
-  }
 
   private handleHoverActions() {
     if ((this.state.isRecording) && !this.state.actionHover) {
@@ -182,6 +193,15 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private timerUpdate(){
+    const { nowTimestamp, startTimestamp } = this.state;
+    const elapsedTime = nowTimestamp - startTimestamp;
+
+    if (elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION){
+      clearInterval(this.state.updateTimerInterval);
+      this.stopStream();
+      return;
+    }
+
     this.setState({
       nowTimestamp: moment().unix()
     });
@@ -195,9 +215,7 @@ export class SessionRecording extends React.Component<Props, State> {
     }
   }
 
-  private stopRecording() {
-    console.log(`[vince][mic] Stopped recording`);
-  
+  private async stopRecording() {
     this.setState({
         isRecording: false,
         isPaused: true,
@@ -205,23 +223,47 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private playRecording() {
-      console.log(`[vince][mic] Playing recording`);
+    const { mediaBlob, streamParams } = this.state;
 
-      this.setState({
-        isRecording: false,
-        isPaused: false,
+    if (!mediaBlob){
+      window.pushToast({
+        title: 'There was an error playing your voice recording.',
+      });
+      return;
+    }
+
+    this.setState({
+      isRecording: false,
+      isPaused: false,
+      isPlaying: true,
     });
+
+    // Start playing recording
+    const audioURL = window.URL.createObjectURL(mediaBlob.data);
+    const audioElement = new Audio(audioURL);
+    this.setState({audioElement});
+    audioElement.play();
+    
+
+    console.log(`[vince][stream] Audio: `, audioURL);
+    console.log(`[vince][stream] AudioURL: `, audioURL);
+
   }
 
   private initSendVoiceRecording(){
+    // Is the audio file < 10mb? That's the attachment filesize limit
+
+
     return;
   }
 
   private onDeleteVoiceMessage() {
-    //this.stopRecording();
+    this.stopStream();
+
     this.setState({
       isRecording: false,
       isPaused: true,
+      isPlaying: false,
     }, () => this.props.onStoppedRecording());
   }
 
@@ -231,15 +273,48 @@ export class SessionRecording extends React.Component<Props, State> {
 
   private async initiateStream() {
     navigator.getUserMedia({audio:true}, this.onStream, this.onStreamError);
+  }
+
+  private stopStream() {
+    const {streamParams} = this.state;
     
-    //const mediaStreamSource = audioContext.createMediaStreamSource(stream);
-    //const meter = getMeter(audioContext);
-    //mediaStreamSource.connect(meter);
+    // Exit if parameters aren't yet set
+    if (!streamParams){
+      return;
+    }
+    
+    // Stop the stream
+    streamParams.media.stop();
+    streamParams.input.disconnect();
+    streamParams.processor.disconnect();
+    streamParams.stream.getTracks().forEach((track: any) => track.stop);
+    
+    console.log(`[vince][stream] Stream: `, streamParams.stream);
+    console.log(`[vince][stream] Media: `, streamParams.media);
+    console.log(`[vince][stream] Input: `, streamParams.input);
+    console.log(`[vince][stream] Processor: `, streamParams.processor);
+    
+
+    // Stop recording
+    this.stopRecording();
   }
 
   private onStream(stream: any) {
+    // If not recording, stop stream
+    if (!this.state.isRecording) {
+      this.stopStream();
+      return;
+    }
+
+    // Start recording the stream
+    const media = new window.MediaRecorder(stream);
+    media.ondataavailable = (mediaBlob: any) => {
+      this.setState({mediaBlob});
+    };
+    media.start();
+
     
-    // AUDIO CONTEXT
+    // Audio Context
     const audioContext = new window.AudioContext();
     const input = audioContext.createMediaStreamSource(stream);
     
@@ -251,6 +326,9 @@ export class SessionRecording extends React.Component<Props, State> {
     const processor = audioContext.createScriptProcessor(bufferSize, 1, 1);
 
     processor.onaudioprocess = () => {
+      const streamParams = {stream, media, input, processor};
+      this.setState({streamParams});
+
       // Array of volumes by frequency (not in Hz, arbitrary unit)
       const freqTypedArray = new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(freqTypedArray);
@@ -263,7 +341,7 @@ export class SessionRecording extends React.Component<Props, State> {
     
 
       // CANVAS CONTEXT
-      const drawCanvas = () => {
+      const drawRecordingCanvas = () => {
         const canvas = this.visualisationCanvas.current;
         const CANVAS_HEIGHT = 35;
         const CANVAS_WIDTH = VISUALISATION_WIDTH || 600;
@@ -289,9 +367,8 @@ export class SessionRecording extends React.Component<Props, State> {
         const frontLoad = volumeArray.slice(0, frontLoadLen - 1).reverse().map(n => n * 0.80);
         volumeArray = [...frontLoad, ...volumeArray];
         
-        // Chop off values which exceed the bouinds of the container
+        // Chop off values which exceed the bounds of the container
         volumeArray = volumeArray.slice(0, numBars);
-        console.log(`[vince][mic] Width: `, VISUALISATION_WIDTH);
 
         canvas && (canvas.height = CANVAS_HEIGHT);
         canvas && (canvas.width = CANVAS_WIDTH);
@@ -316,24 +393,20 @@ export class SessionRecording extends React.Component<Props, State> {
         }
       }
 
-      requestAnimationFrame(drawCanvas);
+      const drawPlayingCanvas = () => {
+        return;
+      }
 
+      this.state.isRecording && requestAnimationFrame(drawRecordingCanvas);
+      this.state.isPlaying && requestAnimationFrame(drawPlayingCanvas);
     }
-      
 
-    // Get volume for visualisation
+    // Init listeners for visualisation visualisation
     input.connect(analyser);
     processor.connect(audioContext.destination);
-
-    console.log(`[vince][mic] Freq:`, analyser.frequencyBinCount);
-
-    //Start recording the stream
-    const media = new window.MediaRecorder(stream);
-
   }
 
 
-  
   private onStreamError(error: any) {
     return error;
   }
