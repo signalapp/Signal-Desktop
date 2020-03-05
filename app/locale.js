@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
+const { setup } = require('../js/modules/i18n');
 
 function normalizeLocaleName(locale) {
   if (/^en-/.test(locale)) {
@@ -58,7 +59,10 @@ function load({ appLocale, logger } = {}) {
     messages = english;
   }
 
+  const i18n = setup(appLocale, messages);
+
   return {
+    i18n,
     name: localeName,
     messages,
   };

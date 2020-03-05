@@ -866,25 +866,25 @@ async function exportConversations(options) {
   window.log.info('Done exporting conversations!');
 }
 
-function getDirectory(options = {}) {
-  return new Promise((resolve, reject) => {
-    const browserWindow = BrowserWindow.getFocusedWindow();
-    const dialogOptions = {
-      title: options.title,
-      properties: ['openDirectory'],
-      buttonLabel: options.buttonLabel,
-    };
+async function getDirectory(options = {}) {
+  const browserWindow = BrowserWindow.getFocusedWindow();
+  const dialogOptions = {
+    title: options.title,
+    properties: ['openDirectory'],
+    buttonLabel: options.buttonLabel,
+  };
 
-    dialog.showOpenDialog(browserWindow, dialogOptions, directory => {
-      if (!directory || !directory[0]) {
-        const error = new Error('Error choosing directory');
-        error.name = 'ChooseError';
-        return reject(error);
-      }
+  const { canceled, filePaths } = await dialog.showOpenDialog(
+    browserWindow,
+    dialogOptions
+  );
+  if (canceled || !filePaths || !filePaths[0]) {
+    const error = new Error('Error choosing directory');
+    error.name = 'ChooseError';
+    throw error;
+  }
 
-      return resolve(directory[0]);
-    });
-  });
+  return filePaths[0];
 }
 
 function getDirContents(dir) {

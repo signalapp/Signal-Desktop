@@ -29,6 +29,8 @@
       close: 'close',
     },
     onSwitchAway() {
+      this.lostFocus = true;
+      this.recorder.finishRecording();
       this.close();
     },
     handleKeyDown(event) {
@@ -89,11 +91,14 @@
     handleBlob(recorder, blob) {
       if (blob && this.clickedFinish) {
         this.trigger('send', blob);
+      } else if (blob) {
+        this.trigger('confirm', blob, this.lostFocus);
       } else {
         this.close();
       }
     },
     start() {
+      this.lostFocus = false;
       this.clickedFinish = false;
       this.context = new AudioContext();
       this.input = this.context.createGain();
@@ -103,6 +108,7 @@
       });
       this.recorder.onComplete = this.handleBlob.bind(this);
       this.recorder.onError = this.onError.bind(this);
+      this.recorder.onTimeout = this.onTimeout.bind(this);
       navigator.webkitGetUserMedia(
         { audio: true },
         stream => {
@@ -112,6 +118,10 @@
         this.onError.bind(this)
       );
       this.recorder.startRecording();
+    },
+    onTimeout() {
+      this.recorder.finishRecording();
+      this.close();
     },
     onError(error) {
       // Protect against out-of-band errors, which can happen if the user revokes media

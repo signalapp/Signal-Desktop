@@ -3918,9 +3918,6 @@ button.module-image__border-overlay:focus {
   object-fit: cover;
   // redundant with attachment-container, but we get cursor flashing on move otherwise
   cursor: pointer;
-
-  // Seems to be related to body text size
-  margin-bottom: -5px;
 }
 
 .module-image__bottom-overlay {
@@ -4685,8 +4682,10 @@ button.module-image__border-overlay:focus {
 .module-search-results__conversations-header {
   @include font-body-1-bold;
 
-  height: 36px;
+  height: 52px;
   margin-left: 16px;
+  padding-bottom: 8px;
+  padding-top: 8px;
 
   @include dark-theme {
     color: $color-gray-05;
@@ -4716,8 +4715,10 @@ button.module-image__border-overlay:focus {
 .module-search-results__messages-header {
   @include font-body-1-bold;
 
-  height: 36px;
+  height: 52px;
   margin-left: 16px;
+  padding-bottom: 8px;
+  padding-top: 8px;
 
   @include dark-theme {
     color: $color-gray-05;
@@ -6039,10 +6040,10 @@ button.module-image__border-overlay:focus {
       }
 
       &__info {
-        width: 317px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        flex-grow: 1;
 
         &__title {
           margin: 0;
@@ -6081,7 +6082,8 @@ button.module-image__border-overlay:focus {
       }
 
       &__install {
-        flex-shrink: 1;
+        flex-shrink: 0;
+        overflow: hidden;
       }
     }
   }
@@ -6377,6 +6379,79 @@ button.module-image__border-overlay:focus {
           }
         }
       }
+    }
+  }
+}
+
+.module-left-pane-dialog {
+  background: $color-accent-green;
+  color: $color-white;
+  padding: 16px;
+
+  .module-left-pane-dialog__message {
+    h3 {
+      @include font-body-1-bold;
+      padding: 0px;
+      margin: 0px;
+      margin-bottom: 8px;
+    }
+    span {
+      @include font-body-1;
+      display: inline-block;
+    }
+  }
+
+  .module-left-pane-dialog__actions {
+    margin-top: 8px;
+    text-align: right;
+
+    .module-left-pane-dialog__link {
+      @include keyboard-mode {
+        display: inline-block;
+        outline: 0;
+      }
+    }
+
+    button {
+      background: inherit;
+      border-radius: 20px;
+      border: solid 1px $color-white;
+      color: $color-white;
+      cursor: pointer;
+      font-family: inherit;
+      margin: 0 4px;
+      padding: 8px 16px;
+      outline: 0;
+
+      &:focus {
+        @include keyboard-mode {
+          box-shadow: 0 0 0 3px $color-signal-blue;
+        }
+      }
+
+      &:hover {
+        @include mouse-mode {
+          box-shadow: 0 0 0 3px $color-signal-blue;
+        }
+      }
+    }
+
+    .module-left-pane-dialog__button--no-border {
+      border: none;
+    }
+  }
+
+  &.module-left-pane-dialog--error {
+    background-color: $color-accent-red;
+  }
+
+  &.module-left-pane-dialog--warning {
+    background-color: $color-accent-yellow;
+    color: $color-black;
+
+    button {
+      border-color: $color-black;
+      color: $color-black;
     }
   }
 }
@@ -6720,11 +6795,14 @@ button.module-image__border-overlay:focus {
     width: $size;
     height: $size;
     transform: translate3d(0, 0, 0);
+    vertical-align: baseline;
   }
 }
 
 .module-emoji {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: transparent;
   font-family: auto;
 

@@ -1,9 +1,6 @@
-* {
-  box-sizing: border-box;
-}
-
 html {
   height: 100%;
+  cursor: inherit;
 }
 
 body {
@@ -297,28 +294,6 @@ $loading-height: 16px;
     width: 100%;
     height: 100%;
     @include color-svg('../images/icons/v2/x-24.svg', $color-white);
-  }
-}
-
-.expiredAlert {
-  background: $color-accent-yellow;
-  padding: 10px;
-
-  button {
-    float: right;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    line-height: 36px;
-    padding: 0 20px;
-    margin-left: 20px;
-
-    color: $color-white;
-    background: $color-signal-blue;
-  }
-
-  .message {
-    padding: 10px 0;
   }
 }
 

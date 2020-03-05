@@ -1239,19 +1239,17 @@ MessageReceiver.prototype.extend({
     // Note that messages may (generally) only perform one action and we ignore remaining
     //   fields after the first action.
 
-    if (window.TIMESTAMP_VALIDATION) {
-      if (!envelope.timestamp || !decrypted.timestamp) {
-        throw new Error('Missing timestamp on dataMessage or envelope');
-      }
+    if (!envelope.timestamp || !decrypted.timestamp) {
+      throw new Error('Missing timestamp on dataMessage or envelope');
+    }
 
-      const envelopeTimestamp = envelope.timestamp.toNumber();
-      const decryptedTimestamp = decrypted.timestamp.toNumber();
+    const envelopeTimestamp = envelope.timestamp.toNumber();
+    const decryptedTimestamp = decrypted.timestamp.toNumber();
 
-      if (envelopeTimestamp !== decryptedTimestamp) {
-        throw new Error(
-          `Timestamp ${decrypted.timestamp} in DataMessage did not match envelope timestamp ${envelope.timestamp}`
-        );
-      }
+    if (envelopeTimestamp !== decryptedTimestamp) {
+      throw new Error(
+        `Timestamp ${decrypted.timestamp} in DataMessage did not match envelope timestamp ${envelope.timestamp}`
+      );
     }
 
     if (decrypted.flags == null) {

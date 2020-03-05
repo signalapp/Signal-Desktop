@@ -1,11 +1,11 @@
 language: node_js
 node_js:
-  - '12.4.0'
+  - '12.13.0'
 os:
   - linux
 dist: trusty
 before_install:
-  - npm install -g yarn@1.17.3
+  - npm install -g yarn@1.22.0
 install:
   - yarn install --frozen-lockfile
 script:

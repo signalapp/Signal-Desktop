@@ -8,8 +8,8 @@ cache:
 install:
   - systeminfo | findstr /C:"OS"
   - set PATH=C:\Ruby23-x64\bin;%PATH%
-  - ps: Install-Product node 12.4.0 x64
-  - ps: .\build\install-yarn.ps1
+  - ps: Install-Product node 12.13.0 x64
+  - npm install -g yarn@1.22.0
   - yarn install --frozen-lockfile
 
 build_script:
@@ -19,6 +19,8 @@ build_script:
   - node build\grunt.js
   - yarn test-node
   - type package.json | findstr /v certificateSubjectName > temp.json
+  - move temp.json package.json
+  - type package.json | findstr /v certificateSha1 > temp.json
   - move temp.json package.json
   - yarn prepare-beta-build
   - yarn build

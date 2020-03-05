@@ -3,13 +3,13 @@ import { BrowserWindow } from 'electron';
 
 import { start as startMacOS } from './macos';
 import { start as startWindows } from './windows';
-import { LoggerType, MessagesType } from './common';
+import { LocaleType, LoggerType } from './common';
 
 let initialized = false;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
-  messages?: MessagesType,
+  locale?: LocaleType,
   logger?: LoggerType
 ) {
   const { platform } = process;
@@ -19,8 +19,8 @@ export async function start(
   }
   initialized = true;
 
-  if (!messages) {
-    throw new Error('updater/start: Must provide messages!');
+  if (!locale) {
+    throw new Error('updater/start: Must provide locale!');
   }
   if (!logger) {
     throw new Error('updater/start: Must provide logger!');
@@ -35,9 +35,9 @@ export async function start(
   }
 
   if (platform === 'win32') {
-    await startWindows(getMainWindow, messages, logger);
+    await startWindows(getMainWindow, locale, logger);
   } else if (platform === 'darwin') {
-    await startMacOS(getMainWindow, messages, logger);
+    await startMacOS(getMainWindow, locale, logger);
   } else {
     throw new Error('updater/start: Unsupported platform');
   }

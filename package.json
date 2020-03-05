@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "1.31.0",
+  "version": "1.32.0-beta.6",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
@@ -43,9 +43,10 @@
     "styleguide": "styleguidist server",
     "ready": "yarn clean-transpile && yarn grunt && yarn lint && yarn test-node && yarn test-electron && yarn lint-deps",
     "dev": "run-p --print-label dev:*",
+    "dev:grunt": "yarn grunt dev",
     "dev:webpack": "NODE_ENV=development webpack-dev-server --hot",
     "dev:typed-scss": "yarn build:typed-scss -w",
-    "dev:storybook": "start-storybook -p 6006 -s ./",
+    "dev:storybook": "SIGNAL_ENV=storybook start-storybook -p 6006 -s ./",
     "build": "run-s --print-label build:grunt build:typed-scss build:webpack build:release",
     "build:dev": "run-s --print-label build:grunt build:typed-scss build:webpack",
     "build:grunt": "yarn grunt",
@@ -61,7 +62,7 @@
     "fs-xattr": "0.3.0"
   },
   "dependencies": {
-    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#00fd0f8a6623c6683280976d2a92b41d09c744bc",
+    "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
     "@sindresorhus/is": "0.8.0",
     "array-move": "2.1.0",
     "backbone": "1.3.3",
@@ -81,12 +82,13 @@
     "emoji-datasource": "5.0.1",
     "emoji-datasource-apple": "5.0.1",
     "emoji-regex": "8.0.0",
+    "fast-glob": "3.2.1",
     "filesize": "3.6.1",
     "firstline": "1.2.1",
     "form-data": "2.3.2",
     "fs-extra": "5.0.0",
     "fuse.js": "3.4.4",
-    "glob": "7.1.2",
+    "glob": "7.1.6",
     "google-libphonenumber": "3.2.6",
     "got": "8.2.0",
     "he": "1.2.0",
@@ -94,7 +96,7 @@
     "intl-tel-input": "12.1.15",
     "jquery": "3.4.1",
     "js-yaml": "3.13.1",
-    "linkify-it": "2.0.3",
+    "linkify-it": "2.2.0",
     "lodash": "4.17.13",
     "memoizee": "0.4.14",
     "mkdirp": "0.5.1",
@@ -102,9 +104,10 @@
     "mustache": "2.3.0",
     "node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4",
     "node-gyp": "5.0.3",
+    "normalize-path": "3.0.0",
     "os-locale": "2.1.0",
     "p-map": "2.1.0",
-    "p-queue": "5.0.0",
+    "p-queue": "6.2.1",
     "pify": "3.0.0",
     "protobufjs": "6.8.6",
     "proxy-agent": "3.0.3",
@@ -131,12 +134,12 @@
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
     "sharp": "0.23.0",
-    "spellchecker": "3.7.0",
     "tar": "4.4.8",
     "testcheck": "1.0.0-rc.2",
     "tmp": "0.0.33",
     "to-arraybuffer": "1.0.1",
     "typeface-inter": "3.10.0",
+    "typo-js": "1.1.0",
     "underscore": "1.9.0",
     "uuid": "3.3.2",
     "websocket": "1.0.28"
@@ -147,6 +150,7 @@
   "devDependencies": {
     "@babel/core": "7.7.7",
     "@babel/plugin-proposal-class-properties": "7.7.4",
+    "@babel/plugin-transform-runtime": "7.8.3",
     "@babel/preset-react": "7.7.4",
     "@babel/preset-typescript": "7.7.7",
     "@storybook/addon-actions": "5.1.11",
@@ -165,11 +169,12 @@
     "@types/html-webpack-plugin": "3.2.1",
     "@types/jquery": "3.3.29",
     "@types/js-yaml": "3.12.0",
-    "@types/linkify-it": "2.0.3",
+    "@types/linkify-it": "2.1.0",
     "@types/lodash": "4.14.106",
     "@types/memoizee": "0.4.2",
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "5.0.0",
+    "@types/normalize-path": "3.0.0",
     "@types/pify": "3.0.2",
     "@types/qs": "6.5.1",
     "@types/react": "16.8.5",
@@ -197,12 +202,12 @@
     "babel-plugin-lodash": "3.3.4",
     "bower": "1.8.2",
     "chai": "4.1.2",
-    "core-js": "^2.4.0",
+    "core-js": "2.4.1",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "dashdash": "1.14.1",
-    "electron": "6.1.4",
-    "electron-builder": "21.2.0",
+    "electron": "8.0.3",
+    "electron-builder": "22.3.6",
     "electron-icon-maker": "0.0.3",
     "eslint": "4.14.0",
     "eslint-config-airbnb-base": "12.1.0",
@@ -242,13 +247,13 @@
     "tslint-microsoft-contrib": "6.2.0",
     "tslint-react": "3.6.0",
     "typed-scss-modules": "0.0.11",
-    "typescript": "3.3.3333",
+    "typescript": "3.7.4",
     "webpack": "4.39.2",
     "webpack-cli": "3.3.7",
     "webpack-dev-server": "3.8.0"
   },
   "engines": {
-    "node": "12.4.0"
+    "node": "12.13.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
@@ -277,7 +282,8 @@
         "node_modules/sharp"
       ],
       "artifactName": "${name}-win-${version}.${ext}",
-      "certificateSubjectName": "Signal",
+      "certificateSubjectName": "Signal (Quiet Riddle Ventures, LLC)",
+      "certificateSha1": "77B2AA4421E5F377454B8B91E573746592D1543D",
       "publisherName": "Signal (Quiet Riddle Ventures, LLC)",
       "icon": "build/icons/win/icon.ico",
       "publish": [
@@ -288,16 +294,6 @@
       ],
       "target": [
         "nsis"
-      ],
-      "extraFiles": [
-        {
-          "from": "node_modules/@journeyapps/sqlcipher/build/Release/",
-          "to": ".",
-          "filter": [
-            "msvcp140.dll",
-            "vcruntime140.dll"
-          ]
-        }
       ]
     },
     "nsis": {
@@ -385,9 +381,7 @@
       "node_modules/sharp/build/**",
       "!node_modules/@journeyapps/sqlcipher/deps/*",
       "!node_modules/@journeyapps/sqlcipher/build/*",
-      "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",
-      "!node_modules/@journeyapps/sqlcipher/lib/binding/electron-*/msvcp140.dll",
-      "!node_modules/@journeyapps/sqlcipher/lib/binding/electron-*/vcruntime140.dll"
+      "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*"
     ]
   }
 }

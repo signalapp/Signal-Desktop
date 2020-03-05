@@ -38,7 +38,7 @@
 
       // Keep data around if it's a re-link, or the middle of a light import
       this.shouldRetainData =
-        Whisper.Registration.everDone() || options.hasExistingData;
+        window.Signal.Util.Registration.everDone() || options.hasExistingData;
     },
     render_attributes() {
       let errorMessage;

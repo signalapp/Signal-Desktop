@@ -534,6 +534,7 @@
         timestamp: this.get('sent_at'),
         status: this.getMessagePropStatus(),
         contact: this.getPropsForEmbeddedContact(),
+        canReply: this.canReply(),
         authorColor,
         authorName: contact.name,
         authorProfileName: contact.profileName,
@@ -1305,6 +1306,24 @@
         e.name === 'OutgoingIdentityKeyError'
       );
     },
+    canReply() {
+      const errors = this.get('errors');
+      const isOutgoing = this.get('type') === 'outgoing';
+      const numDelivered = this.get('delivered');
+
+      // Case 1: We can reply if this is outgoing and delievered to at least one recipient
+      if (isOutgoing && numDelivered > 0) {
+        return true;
+      }
+
+      // Case 2: We can reply if there are no errors
+      if (!errors || (errors && errors.length === 0)) {
+        return true;
+      }
+
+      // Otherwise we cannot reply
+      return false;
+    },
 
     // Called when the user ran into an error with a specific user, wants to send to them
     //   One caller today: ConversationView.forceSend()
@@ -1387,11 +1406,7 @@
 
           // This is used by sendSyncMessage, then set to null
           if (result.dataMessage) {
-            // When we're not sending recipient updates, we won't save the dataMessage
-            //   unless it's the first time we attempt to send the message.
-            if (!this.get('synced') || window.SEND_RECIPIENT_UPDATES) {
-              this.set({ dataMessage: result.dataMessage });
-            }
+            this.set({ dataMessage: result.dataMessage });
           }
 
           const sentTo = this.get('sent_to') || [];
@@ -1527,11 +1542,6 @@
           return Promise.resolve();
         }
         const isUpdate = Boolean(this.get('synced'));
-
-        // Until isRecipientUpdate sync messages are widely supported, will not send them
-        if (isUpdate && !window.SEND_RECIPIENT_UPDATES) {
-          return Promise.resolve();
-        }
 
         return wrap(
           textsecure.messaging.sendSyncMessage(
@@ -1853,7 +1863,9 @@
       return message;
     },
 
-    handleDataMessage(initialMessage, confirm) {
+    handleDataMessage(initialMessage, confirm, options = {}) {
+      const { data } = options;
+
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
       //   2. on a sent message sync'd from another device
@@ -1878,8 +1890,82 @@
         const existingMessage = await getMessageBySender(this.attributes, {
           Message: Whisper.Message,
         });
-        if (existingMessage) {
+        const isUpdate = Boolean(data && data.isRecipientUpdate);
+
+        if (existingMessage && type === 'incoming') {
           window.log.warn('Received duplicate message', this.idForLogging());
+          confirm();
+          return;
+        }
+        if (type === 'outgoing') {
+          if (isUpdate && existingMessage) {
+            window.log.info(
+              `handleDataMessage: Updating message ${message.idForLogging()} with received transcript`
+            );
+
+            let sentTo = [];
+            let unidentifiedDeliveries = [];
+            if (Array.isArray(data.unidentifiedStatus)) {
+              sentTo = data.unidentifiedStatus.map(item => item.destination);
+
+              const unidentified = _.filter(data.unidentifiedStatus, item =>
+                Boolean(item.unidentified)
+              );
+              unidentifiedDeliveries = unidentified.map(
+                item => item.destination
+              );
+            }
+
+            const toUpdate = MessageController.register(
+              existingMessage.id,
+              existingMessage
+            );
+            toUpdate.set({
+              sent_to: _.union(toUpdate.get('sent_to'), sentTo),
+              unidentifiedDeliveries: _.union(
+                toUpdate.get('unidentifiedDeliveries'),
+                unidentifiedDeliveries
+              ),
+            });
+            await window.Signal.Data.saveMessage(toUpdate.attributes, {
+              Message: Whisper.Message,
+            });
+
+            confirm();
+            return;
+          } else if (isUpdate) {
+            window.log.warn(
+              `handleDataMessage: Received update transcript, but no existing entry for message ${message.idForLogging()}. Dropping.`
+            );
+
+            confirm();
+            return;
+          } else if (existingMessage) {
+            window.log.warn(
+              `handleDataMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
+            );
+
+            confirm();
+            return;
+          }
+        }
+
+        // We drop incoming messages for groups we already know about, which we're not a
+        //   part of, except for group updates.
+        const ourNumber = textsecure.storage.user.getNumber();
+        const isGroupUpdate =
+          initialMessage.group &&
+          initialMessage.group.type !==
+            textsecure.protobuf.GroupContext.Type.DELIVER;
+        if (
+          type === 'incoming' &&
+          !conversation.isPrivate() &&
+          !conversation.hasMember(ourNumber) &&
+          !isGroupUpdate
+        ) {
+          window.log.warn(
+            `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
+          );
           confirm();
           return;
         }
@@ -2222,8 +2308,11 @@
 
     async handleReaction(reaction) {
       const reactions = this.get('reactions') || [];
+      const messageId = this.idForLogging();
+      const count = reactions.length;
 
       if (reaction.get('remove')) {
+        window.log.info('Removing reaction for message', messageId);
         const newReactions = reactions.filter(
           re =>
             re.emoji !== reaction.get('emoji') ||
@@ -2231,6 +2320,7 @@
         );
         this.set({ reactions: newReactions });
       } else {
+        window.log.info('Adding reaction for message', messageId);
         const newReactions = reactions.filter(
           re => re.fromId !== reaction.get('fromId')
         );
@@ -2246,6 +2336,11 @@
           conversation.notify(this, reaction);
         }
       }
+
+      const newCount = this.get('reactions').length;
+      window.log.info(
+        `Done processing reaction for message ${messageId}. Went from ${count} to ${newCount} reactions.`
+      );
 
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,

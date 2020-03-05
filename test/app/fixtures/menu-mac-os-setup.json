@@ -42,10 +42,6 @@
     "label": "&File",
     "submenu": [
       {
-        "label": "Set Up with Import",
-        "click": null
-      },
-      {
         "label": "Set Up as New Device",
         "click": null
       },

@@ -35,7 +35,6 @@
 
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
-      <div class='network-status-container'></div>
       <div class='left-pane-placeholder'></div>
     </div>
     <div class='conversation-stack'>
@@ -64,13 +63,6 @@
     <div class='module-last-seen-indicator__text'>
       {{ unreadMessages }}
     </div>
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='expired_alert'>
-    <a target='_blank' href='https://signal.org/download/'>
-      <button class='upgrade'>{{ upgrade }}</button>
-    </a>
-    {{ expiredWarning }}
   </script>
 
   <script type='text/x-tmpl-mustache' id='banner'>
@@ -237,99 +229,6 @@
     {{/isStep2}}
   </script>
 
-  <script type='text/x-tmpl-mustache' id='networkStatus'>
-    <div class='network-status-message'>
-      <h3>{{ message }}</h3>
-      <span>{{ instructions }}</span>
-    </div>
-    {{ #reconnectDurationAsSeconds }}
-    <div class="network-status-message">
-      {{ attemptingReconnectionMessage }}
-    </div>
-    {{/reconnectDurationAsSeconds }}
-    {{ #action }}
-      <div class="action">
-        <button class='small blue {{ buttonClass }}'>{{ action }}</button>
-      </div>
-    {{/action }}
-  </script>
-
-  <script type='text/x-tmpl-mustache' id='import-flow-template'>
-    {{#isStep2}}
-    <div id='step2' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon folder-outline'></span>
-          <div class='header'>{{ chooseHeader }}</div>
-          <div class='body-text'>{{ choose }}</div>
-        </div>
-        <div class='nav'>
-          <div>
-            <a class='button choose'>{{ chooseButton }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep2}}
-    {{#isStep3}}
-    <div id='step3' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon import'></span>
-          <div class='header'>{{ importingHeader }}</div>
-        </div>
-        <div class='progress'>
-          <div class='bar-container'>
-            <div class='bar progress-bar progress-bar-striped active'></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep3}}
-    {{#isStep4}}
-    <div id='step4' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon check-circle-outline'></span>
-          <div class='header'>{{ completeHeader }}</div>
-        </div>
-        <div class='nav'>
-          {{#restartButton}}
-          <div>
-            <a class='button restart'>{{ restartButton }}</a>
-          </div>
-          {{/restartButton}}
-          {{#registerButton}}
-          <div>
-            <a class='button register'>{{ registerButton }}</a>
-          </div>
-          {{/registerButton}}
-        </div>
-      </div>
-    </div>
-    {{/isStep4}}
-
-    {{#isError}}
-    <div id='error' class='step'>
-      <div class='inner error-dialog clearfix'>
-        <div class='step-body'>
-          <span class='banner-icon alert-outline'></span>
-          <div class='header'>{{ errorHeader }}</div>
-          <div class='body-text-wide'>
-            {{ errorMessageFirst }}
-            <p>{{ errorMessageSecond }}</p>
-          </div>
-        </div>
-        <div class='nav'>
-          <div>
-            <a class='button choose'>{{ chooseButton }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isError}}
-  </script>
-
   <script type='text/x-tmpl-mustache' id='link-flow-template'>
     {{#isStep3}}
     <div id='step3' class='step'>
@@ -458,8 +357,6 @@
   <script type="text/javascript" src="../js/reliable_trigger.js" data-cover></script>
   <script type="text/javascript" src="test.js"></script>
 
-  <script type='text/javascript' src='../js/registration.js' data-cover></script>
-  <script type="text/javascript" src="../js/expire.js" data-cover></script>
   <script type="text/javascript" src="../js/chromium.js" data-cover></script>
   <script type="text/javascript" src="../js/database.js" data-cover></script>
   <script type="text/javascript" src="../js/storage.js" data-cover></script>
@@ -490,7 +387,6 @@
   <script type='text/javascript' src='../js/views/recorder_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/conversation_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/identicon_svg_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/banner_view.js' data-cover></script>
@@ -500,12 +396,10 @@
 
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
   <script type="text/javascript" src="views/list_view_test.js"></script>
-  <script type="text/javascript" src="views/network_status_view_test.js"></script>
 
   <script type="text/javascript" src="models/messages_test.js"></script>
 
   <script type="text/javascript" src="libphonenumber_util_test.js"></script>
-  <script type="text/javascript" src="conversation_controller_test.js"></script>
   <script type="text/javascript" src="storage_test.js"></script>
   <script type="text/javascript" src="keychange_listener_test.js"></script>
   <script type="text/javascript" src="reliable_trigger_test.js"></script>

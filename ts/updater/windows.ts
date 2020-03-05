@@ -12,8 +12,8 @@ import {
   deleteTempDir,
   downloadUpdate,
   getPrintableError,
+  LocaleType,
   LoggerType,
-  MessagesType,
   showCannotUpdateDialog,
   showUpdateDialog,
 } from './common';
@@ -23,14 +23,13 @@ import { markShouldQuit } from '../../app/window_state';
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);
 
-let isChecking = false;
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
 const INTERVAL = MINUTE * 30;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   logger: LoggerType
 ) {
   logger.info('windows/start: starting checks...');
@@ -40,14 +39,14 @@ export async function start(
 
   setInterval(async () => {
     try {
-      await checkDownloadAndInstall(getMainWindow, messages, logger);
+      await checkDownloadAndInstall(getMainWindow, locale, logger);
     } catch (error) {
       logger.error('windows/start: error:', getPrintableError(error));
     }
   }, INTERVAL);
 
   await deletePreviousInstallers(logger);
-  await checkDownloadAndInstall(getMainWindow, messages, logger);
+  await checkDownloadAndInstall(getMainWindow, locale, logger);
 }
 
 let fileName: string;
@@ -58,16 +57,10 @@ let loggerForQuitHandler: LoggerType;
 
 async function checkDownloadAndInstall(
   getMainWindow: () => BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   logger: LoggerType
 ) {
-  if (isChecking) {
-    return;
-  }
-
   try {
-    isChecking = true;
-
     logger.info('checkDownloadAndInstall: checking for update...');
     const result = await checkForUpdates(logger);
     if (!result) {
@@ -93,29 +86,24 @@ async function checkDownloadAndInstall(
     }
 
     logger.info('checkDownloadAndInstall: showing dialog...');
-    const shouldUpdate = await showUpdateDialog(getMainWindow(), messages);
-    if (!shouldUpdate) {
-      return;
-    }
+    showUpdateDialog(getMainWindow(), locale, async () => {
+      try {
+        await verifyAndInstall(updateFilePath, version, logger);
+        installing = true;
+      } catch (error) {
+        logger.info(
+          'checkDownloadAndInstall: showing general update failure dialog...'
+        );
+        showCannotUpdateDialog(getMainWindow(), locale);
 
-    try {
-      await verifyAndInstall(updateFilePath, version, logger);
-      installing = true;
-    } catch (error) {
-      logger.info(
-        'checkDownloadAndInstall: showing general update failure dialog...'
-      );
-      await showCannotUpdateDialog(getMainWindow(), messages);
+        throw error;
+      }
 
-      throw error;
-    }
-
-    markShouldQuit();
-    app.quit();
+      markShouldQuit();
+      app.quit();
+    });
   } catch (error) {
     logger.error('checkDownloadAndInstall: error', getPrintableError(error));
-  } finally {
-    isChecking = false;
   }
 }
 

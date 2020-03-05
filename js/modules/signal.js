@@ -64,9 +64,12 @@ const {
 const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const emojisDuck = require('../../ts/state/ducks/emojis');
+const expirationDuck = require('../../ts/state/ducks/expiration');
 const itemsDuck = require('../../ts/state/ducks/items');
+const networkDuck = require('../../ts/state/ducks/network');
 const searchDuck = require('../../ts/state/ducks/search');
 const stickersDuck = require('../../ts/state/ducks/stickers');
+const updatesDuck = require('../../ts/state/ducks/updates');
 const userDuck = require('../../ts/state/ducks/user');
 
 const conversationsSelectors = require('../../ts/state/selectors/conversations');
@@ -97,6 +100,14 @@ const Initialization = require('./views/initialization');
 // Workflow
 const { IdleDetector } = require('./idle_detector');
 const MessageDataMigrator = require('./messages_data_migrator');
+
+// Processes / Services
+const {
+  initializeNetworkObserver,
+} = require('../../ts/services/networkObserver');
+const {
+  initializeUpdateListener,
+} = require('../../ts/services/updateListener');
 
 function initializeMigrations({
   userDataPath,
@@ -284,17 +295,27 @@ exports.setup = (options = {}) => {
     createStickerPreviewModal,
     createTimeline,
   };
+
   const Ducks = {
     conversations: conversationsDuck,
     emojis: emojisDuck,
+    expiration: expirationDuck,
     items: itemsDuck,
+    network: networkDuck,
+    updates: updatesDuck,
     user: userDuck,
     search: searchDuck,
     stickers: stickersDuck,
   };
+
   const Selectors = {
     conversations: conversationsSelectors,
     search: searchSelectors,
+  };
+
+  const Services = {
+    initializeNetworkObserver,
+    initializeUpdateListener,
   };
 
   const State = {
@@ -344,6 +365,7 @@ exports.setup = (options = {}) => {
     OS,
     RefreshSenderCertificate,
     Settings,
+    Services,
     State,
     Stickers,
     Types,

@@ -6,8 +6,9 @@ module.exports = ({ config }) => {
 
   config.module.rules.unshift(
     {
-      test: /\.tsx?$/,
+      test: /\.[jt]sx?$/,
       loader: 'babel-loader',
+      exclude: /node_modules/,
     },
     {
       test: /\.scss$/,

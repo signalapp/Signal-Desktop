@@ -18,18 +18,22 @@ import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
-import { app, BrowserWindow, dialog } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 
 import { getTempPath } from '../../app/attachments';
+import { Dialogs } from '../types/Dialogs';
 
 // @ts-ignore
 import * as packageJson from '../../package.json';
 import { getSignatureFileName } from './signature';
 
-export type MessagesType = {
-  [key: string]: {
-    message: string;
-    description?: string;
+export type LocaleType = {
+  i18n: (key: string, placeholders: Array<string>) => string;
+  messages: {
+    [key: string]: {
+      message: string;
+      description?: string;
+    };
   };
 };
 
@@ -48,6 +52,8 @@ const writeFile = pify(writeFileCallback);
 const mkdirpPromise = pify(mkdirp);
 const rimrafPromise = pify(rimraf);
 const { platform } = process;
+
+export const ACK_RENDER_TIMEOUT = 10000;
 
 export async function checkForUpdates(
   logger: LoggerType
@@ -141,42 +147,106 @@ export async function downloadUpdate(
   }
 }
 
-export async function showUpdateDialog(
+let showingUpdateDialog = false;
+
+async function showFallbackUpdateDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType
+  locale: LocaleType
 ): Promise<boolean> {
+  if (showingUpdateDialog) {
+    return false;
+  }
+
   const RESTART_BUTTON = 0;
   const LATER_BUTTON = 1;
   const options = {
     type: 'info',
     buttons: [
-      messages.autoUpdateRestartButtonLabel.message,
-      messages.autoUpdateLaterButtonLabel.message,
+      locale.messages.autoUpdateRestartButtonLabel.message,
+      locale.messages.autoUpdateLaterButtonLabel.message,
     ],
-    title: messages.autoUpdateNewVersionTitle.message,
-    message: messages.autoUpdateNewVersionMessage.message,
-    detail: messages.autoUpdateNewVersionInstructions.message,
+    title: locale.messages.autoUpdateNewVersionTitle.message,
+    message: locale.messages.autoUpdateNewVersionMessage.message,
+    detail: locale.messages.autoUpdateNewVersionInstructions.message,
     defaultId: LATER_BUTTON,
     cancelId: LATER_BUTTON,
   };
 
+  showingUpdateDialog = true;
+
   const { response } = await dialog.showMessageBox(mainWindow, options);
+
+  showingUpdateDialog = false;
 
   return response === RESTART_BUTTON;
 }
 
-export async function showCannotUpdateDialog(
+export function showUpdateDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType
-): Promise<any> {
+  locale: LocaleType,
+  performUpdateCallback: () => void
+): void {
+  let ack = false;
+
+  ipcMain.once('start-update', performUpdateCallback);
+
+  ipcMain.once('show-update-dialog-ack', () => {
+    ack = true;
+  });
+
+  mainWindow.webContents.send('show-update-dialog', Dialogs.Update);
+
+  setTimeout(async () => {
+    if (!ack) {
+      const shouldUpdate = await showFallbackUpdateDialog(mainWindow, locale);
+      if (shouldUpdate) {
+        performUpdateCallback();
+      }
+    }
+  }, ACK_RENDER_TIMEOUT);
+}
+
+let showingCannotUpdateDialog = false;
+
+async function showFallbackCannotUpdateDialog(
+  mainWindow: BrowserWindow,
+  locale: LocaleType
+): Promise<void> {
+  if (showingCannotUpdateDialog) {
+    return;
+  }
+
   const options = {
     type: 'error',
-    buttons: [messages.ok.message],
-    title: messages.cannotUpdate.message,
-    message: messages.cannotUpdateDetail.message,
+    buttons: [locale.messages.ok.message],
+    title: locale.messages.cannotUpdate.message,
+    message: locale.i18n('cannotUpdateDetail', ['https://signal.org/download']),
   };
 
+  showingCannotUpdateDialog = true;
+
   await dialog.showMessageBox(mainWindow, options);
+
+  showingCannotUpdateDialog = false;
+}
+
+export function showCannotUpdateDialog(
+  mainWindow: BrowserWindow,
+  locale: LocaleType
+): void {
+  let ack = false;
+
+  ipcMain.once('show-update-dialog-ack', () => {
+    ack = true;
+  });
+
+  mainWindow.webContents.send('show-update-dialog', Dialogs.Cannot_Update);
+
+  setTimeout(async () => {
+    if (!ack) {
+      await showFallbackCannotUpdateDialog(mainWindow, locale);
+    }
+  }, ACK_RENDER_TIMEOUT);
 }
 
 // Helper functions

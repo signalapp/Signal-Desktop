@@ -1,5 +1,5 @@
 const electron = require('electron');
-const Queue = require('p-queue');
+const Queue = require('p-queue').default;
 const sql = require('./sql');
 const { remove: removeUserConfig } = require('./user_config');
 const { remove: removeEphemeralConfig } = require('./ephemeral_config');

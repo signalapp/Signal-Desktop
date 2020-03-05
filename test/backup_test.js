@@ -239,14 +239,23 @@ describe('Backup', () => {
     it('exports then imports to produce the same data we started with', async function thisNeeded() {
       this.timeout(6000);
 
-      const { attachmentsPath, fse, glob, path, tmp } = window.test;
+      const {
+        attachmentsPath,
+        fse,
+        fastGlob,
+        normalizePath,
+        path,
+        tmp,
+      } = window.test;
       const {
         upgradeMessageSchema,
         loadAttachmentData,
       } = window.Signal.Migrations;
 
       const staticKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
-      const attachmentsPattern = path.join(attachmentsPath, '**');
+      const attachmentsPattern = normalizePath(
+        path.join(attachmentsPath, '**')
+      );
 
       const OUR_NUMBER = '+12025550000';
       const CONTACT_ONE_NUMBER = '+12025550001';
@@ -509,7 +518,7 @@ describe('Backup', () => {
         console.log(
           'Backup test: Ensure that all attachments were saved to disk'
         );
-        const attachmentFiles = removeDirs(glob.sync(attachmentsPattern));
+        const attachmentFiles = removeDirs(fastGlob.sync(attachmentsPattern));
         console.log({ attachmentFiles });
         assert.strictEqual(ATTACHMENT_COUNT, attachmentFiles.length);
 
@@ -528,8 +537,10 @@ describe('Backup', () => {
         console.log(
           'Backup test: Ensure that all attachments made it to backup dir'
         );
-        const backupAttachmentPattern = path.join(backupDir, 'attachments/*');
-        const backupAttachments = glob.sync(backupAttachmentPattern);
+        const backupAttachmentPattern = normalizePath(
+          path.join(backupDir, 'attachments/*')
+        );
+        const backupAttachments = fastGlob.sync(backupAttachmentPattern);
         console.log({ backupAttachments });
         assert.strictEqual(ATTACHMENT_COUNT, backupAttachments.length);
 
@@ -568,7 +579,7 @@ describe('Backup', () => {
 
         console.log('Backup test: ensure that all attachments were imported');
         const recreatedAttachmentFiles = removeDirs(
-          glob.sync(attachmentsPattern)
+          fastGlob.sync(attachmentsPattern)
         );
         console.log({ recreatedAttachmentFiles });
         assert.strictEqual(ATTACHMENT_COUNT, recreatedAttachmentFiles.length);

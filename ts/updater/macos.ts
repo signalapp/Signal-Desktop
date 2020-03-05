@@ -4,32 +4,33 @@ import { AddressInfo } from 'net';
 import { dirname } from 'path';
 
 import { v4 as getGuid } from 'uuid';
-import { app, autoUpdater, BrowserWindow, dialog } from 'electron';
+import { app, autoUpdater, BrowserWindow, dialog, ipcMain } from 'electron';
 import { get as getFromConfig } from 'config';
 import { gt } from 'semver';
 import got from 'got';
 
 import {
+  ACK_RENDER_TIMEOUT,
   checkForUpdates,
   deleteTempDir,
   downloadUpdate,
   getPrintableError,
+  LocaleType,
   LoggerType,
-  MessagesType,
   showCannotUpdateDialog,
   showUpdateDialog,
 } from './common';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
+import { Dialogs } from '../types/Dialogs';
 
-let isChecking = false;
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
 const INTERVAL = MINUTE * 30;
 
 export async function start(
   getMainWindow: () => BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   logger: LoggerType
 ) {
   logger.info('macos/start: starting checks...');
@@ -39,13 +40,13 @@ export async function start(
 
   setInterval(async () => {
     try {
-      await checkDownloadAndInstall(getMainWindow, messages, logger);
+      await checkDownloadAndInstall(getMainWindow, locale, logger);
     } catch (error) {
       logger.error('macos/start: error:', getPrintableError(error));
     }
   }, INTERVAL);
 
-  await checkDownloadAndInstall(getMainWindow, messages, logger);
+  await checkDownloadAndInstall(getMainWindow, locale, logger);
 }
 
 let fileName: string;
@@ -55,17 +56,11 @@ let loggerForQuitHandler: LoggerType;
 
 async function checkDownloadAndInstall(
   getMainWindow: () => BrowserWindow,
-  messages: MessagesType,
+  locale: LocaleType,
   logger: LoggerType
 ) {
-  if (isChecking) {
-    return;
-  }
-
   logger.info('checkDownloadAndInstall: checking for update...');
   try {
-    isChecking = true;
-
     const result = await checkForUpdates(logger);
     if (!result) {
       return;
@@ -96,12 +91,12 @@ async function checkDownloadAndInstall(
       const message: string = error.message || '';
       if (message.includes(readOnly)) {
         logger.info('checkDownloadAndInstall: showing read-only dialog...');
-        await showReadOnlyDialog(getMainWindow(), messages);
+        showReadOnlyDialog(getMainWindow(), locale);
       } else {
         logger.info(
           'checkDownloadAndInstall: showing general update failure dialog...'
         );
-        await showCannotUpdateDialog(getMainWindow(), messages);
+        showCannotUpdateDialog(getMainWindow(), locale);
       }
 
       throw error;
@@ -111,18 +106,14 @@ async function checkDownloadAndInstall(
     //   because Squirrel has cached the update file and will do the right thing.
 
     logger.info('checkDownloadAndInstall: showing update dialog...');
-    const shouldUpdate = await showUpdateDialog(getMainWindow(), messages);
-    if (!shouldUpdate) {
-      return;
-    }
 
-    logger.info('checkDownloadAndInstall: calling quitAndInstall...');
-    markShouldQuit();
-    autoUpdater.quitAndInstall();
+    showUpdateDialog(getMainWindow(), locale, () => {
+      logger.info('checkDownloadAndInstall: calling quitAndInstall...');
+      markShouldQuit();
+      autoUpdater.quitAndInstall();
+    });
   } catch (error) {
     logger.error('checkDownloadAndInstall: error', getPrintableError(error));
-  } finally {
-    isChecking = false;
   }
 }
 
@@ -339,16 +330,45 @@ function shutdown(
   }
 }
 
-export async function showReadOnlyDialog(
+export function showReadOnlyDialog(
   mainWindow: BrowserWindow,
-  messages: MessagesType
-): Promise<void> {
+  locale: LocaleType
+): void {
+  let ack = false;
+
+  ipcMain.once('show-update-dialog-ack', () => {
+    ack = true;
+  });
+
+  mainWindow.webContents.send('show-update-dialog', Dialogs.MacOS_Read_Only);
+
+  setTimeout(async () => {
+    if (!ack) {
+      await showFallbackReadOnlyDialog(mainWindow, locale);
+    }
+  }, ACK_RENDER_TIMEOUT);
+}
+
+let showingReadOnlyDialog = false;
+
+async function showFallbackReadOnlyDialog(
+  mainWindow: BrowserWindow,
+  locale: LocaleType
+) {
+  if (showingReadOnlyDialog) {
+    return;
+  }
+
   const options = {
     type: 'warning',
-    buttons: [messages.ok.message],
-    title: messages.cannotUpdate.message,
-    message: messages.readOnlyVolume.message,
+    buttons: [locale.messages.ok.message],
+    title: locale.messages.cannotUpdate.message,
+    message: locale.i18n('readOnlyVolume', ['Signal.app', '/Applications']),
   };
 
+  showingReadOnlyDialog = true;
+
   await dialog.showMessageBox(mainWindow, options);
+
+  showingReadOnlyDialog = false;
 }

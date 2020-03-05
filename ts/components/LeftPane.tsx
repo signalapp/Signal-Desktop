@@ -32,8 +32,11 @@ export interface PropsType {
   showInbox: () => void;
 
   // Render Props
+  renderExpiredBuildDialog: () => JSX.Element;
   renderMainHeader: () => JSX.Element;
   renderMessageSearchResult: (id: string) => JSX.Element;
+  renderNetworkStatus: () => JSX.Element;
+  renderUpdateDialog: () => JSX.Element;
 }
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
@@ -378,13 +381,22 @@ export class LeftPane extends React.Component<PropsType> {
   };
 
   public render(): JSX.Element {
-    const { renderMainHeader, showArchived } = this.props;
+    const {
+      renderExpiredBuildDialog,
+      renderMainHeader,
+      renderNetworkStatus,
+      renderUpdateDialog,
+      showArchived,
+    } = this.props;
 
     return (
       <div className="module-left-pane">
         <div className="module-left-pane__header">
           {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
         </div>
+        {renderExpiredBuildDialog()}
+        {renderNetworkStatus()}
+        {renderUpdateDialog()}
         {this.renderList()}
       </div>
     );

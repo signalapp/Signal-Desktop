@@ -27,9 +27,9 @@
       setTimeoutForNextRun();
     } catch (error) {
       window.log.error(
-        'rotateSignedPrekey() failed. Trying again in five seconds'
+        'rotateSignedPrekey() failed. Trying again in five minutes'
       );
-      setTimeout(setTimeoutForNextRun, 5000);
+      setTimeout(setTimeoutForNextRun, 5 * 60 * 1000);
     }
   }
 
@@ -83,7 +83,7 @@
       }
 
       events.on('timetravel', () => {
-        if (Whisper.Registration.isDone()) {
+        if (window.Signal.Util.Registration.isDone()) {
           setTimeoutForNextRun();
         }
       });

@@ -10,36 +10,43 @@ module.exports = {
       name: 'Components',
       description: '',
       components: 'ts/components/[^_]*.tsx',
+      ignore: ['**/*.stories.*'],
     },
     {
       name: 'Conversation',
       description: 'Everything necessary to render a conversation',
       components: 'ts/components/conversation/[^_]*.tsx',
+      ignore: ['**/*.stories.*'],
     },
     {
       name: 'Emoji',
       description: 'All components related to emojis',
       components: 'ts/components/emoji/[^_]*.tsx',
+      ignore: ['**/*.stories.*'],
     },
     {
       name: 'Media Gallery',
       description: 'Display media and documents in a conversation',
       components: 'ts/components/conversation/media-gallery/[^_]*.tsx',
+      ignore: ['**/*.stories.*'],
     },
     {
       name: 'Stickers',
       description: 'All components related to stickers',
       components: 'ts/components/stickers/[^_]*.tsx',
+      ignore: ['**/*.stories.*'],
     },
     {
       name: 'Utility',
       description: 'Utility components used across the application',
       components: 'ts/components/utility/[^_]*.tsx',
+      ignore: ['**/*.stories.*'],
     },
     {
       name: 'Test',
       description: 'Components only used for testing',
       components: 'ts/styleguide/**/*.tsx',
+      ignore: ['**/*.stories.*'],
     },
   ],
   context: {
@@ -57,6 +64,11 @@ module.exports = {
   template: {
     head: {
       links: [
+        {
+          rel: 'stylesheet',
+          type: 'text/css',
+          href: '/node_modules/sanitize.css/sanitize.css',
+        },
         {
           rel: 'stylesheet',
           type: 'text/css',
