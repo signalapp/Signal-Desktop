@@ -17,6 +17,16 @@ export const getRegionCode = createSelector(
   (state: UserStateType): string => state.regionCode
 );
 
+export const getUserConversationId = createSelector(
+  getUser,
+  (state: UserStateType): string => state.ourConversationId
+);
+
+export const getUserUuid = createSelector(
+  getUser,
+  (state: UserStateType): string => state.ourUuid
+);
+
 export const getIntl = createSelector(
   getUser,
   (state: UserStateType): LocalizerType => state.i18n

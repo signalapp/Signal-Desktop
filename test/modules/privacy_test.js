@@ -21,6 +21,20 @@ describe('Privacy', () => {
     });
   });
 
+  describe('redactUuids', () => {
+    it('should redact all uuids', () => {
+      const text =
+        'This is a log line with a uuid 9e420799-acdf-4bf4-8dee-353d7e2096b4\n' +
+        'and another one IN ALL UPPERCASE 340727FB-E43A-413B-941B-AADA033B6CA3';
+
+      const actual = Privacy.redactUuids(text);
+      const expected =
+        'This is a log line with a uuid [REDACTED]b4\n' +
+        'and another one IN ALL UPPERCASE [REDACTED]A3';
+      assert.equal(actual, expected);
+    });
+  });
+
   describe('redactGroupIds', () => {
     it('should redact all group IDs', () => {
       const text =

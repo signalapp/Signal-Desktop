@@ -36521,7 +36521,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
 })();
 
 (function() {
-    var VERSION = 0;
+    var VERSION = shortToArrayBuffer(0);
 
     function iterateHash(data, key, count) {
         data = dcodeIO.ByteBuffer.concat([data, key]).toArrayBuffer();
@@ -36551,10 +36551,21 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
         return s;
     }
 
+    function decodeUuid(uuid) {
+        let i = 0;
+        let buf = new Uint8Array(16);
+
+        uuid.replace(/[0-9A-F]{2}/ig, oct => {
+            buf[i++] = parseInt(oct, 16);
+        });
+
+        return buf;
+    }
+
     function getDisplayStringFor(identifier, key, iterations) {
-        var bytes = dcodeIO.ByteBuffer.concat([
-            shortToArrayBuffer(VERSION), key, identifier
-        ]).toArrayBuffer();
+        var isUuid = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(identifier);
+        var encodedIdentifier = isUuid ? decodeUuid(identifier) : identifier;
+        var bytes = dcodeIO.ByteBuffer.concat([VERSION, key, encodedIdentifier]).toArrayBuffer();
         return iterateHash(bytes, key, iterations).then(function(output) {
             output = new Uint8Array(output);
             return getEncodedChunk(output, 0) +

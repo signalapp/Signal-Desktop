@@ -10,7 +10,13 @@ import {
   getSearchConversationName,
   getStartSearchCounter,
 } from '../selectors/search';
-import { getIntl, getRegionCode, getUserNumber } from '../selectors/user';
+import {
+  getIntl,
+  getRegionCode,
+  getUserConversationId,
+  getUserNumber,
+  getUserUuid,
+} from '../selectors/user';
 import { getMe } from '../selectors/conversations';
 
 const mapStateToProps = (state: StateType) => {
@@ -20,7 +26,9 @@ const mapStateToProps = (state: StateType) => {
     searchConversationName: getSearchConversationName(state),
     startSearchCounter: getStartSearchCounter(state),
     regionCode: getRegionCode(state),
+    ourConversationId: getUserConversationId(state),
     ourNumber: getUserNumber(state),
+    ourUuid: getUserUuid(state),
     ...getMe(state),
     i18n: getIntl(state),
   };

@@ -261,6 +261,8 @@ describe('Backup', () => {
       const CONTACT_ONE_NUMBER = '+12025550001';
       const CONTACT_TWO_NUMBER = '+12025550002';
 
+      const CONVERSATION_ID = 'bdaa7f4f-e9bd-493e-ab0d-8331ad604269';
+
       const toArrayBuffer = nodeBuffer =>
         nodeBuffer.buffer.slice(
           nodeBuffer.byteOffset,
@@ -405,7 +407,7 @@ describe('Backup', () => {
         const CONVERSATION_COUNT = 1;
 
         const messageWithAttachments = {
-          conversationId: CONTACT_ONE_NUMBER,
+          conversationId: CONVERSATION_ID,
           body: 'Totally!',
           source: OUR_NUMBER,
           received_at: 1524185933350,
@@ -493,7 +495,7 @@ describe('Backup', () => {
           active_at: 1524185933350,
           color: 'orange',
           expireTimer: 0,
-          id: CONTACT_ONE_NUMBER,
+          id: CONVERSATION_ID,
           name: 'Someone Somewhere',
           profileAvatar: {
             contentType: 'image/jpeg',

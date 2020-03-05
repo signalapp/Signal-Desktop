@@ -1,4 +1,4 @@
-/* global window, setTimeout, IDBKeyRange */
+/* global window, setTimeout, IDBKeyRange, ConversationController */
 
 const electron = require('electron');
 
@@ -84,10 +84,10 @@ module.exports = {
   createOrUpdateSession,
   createOrUpdateSessions,
   getSessionById,
-  getSessionsByNumber,
+  getSessionsById,
   bulkAddSessions,
   removeSessionById,
-  removeSessionsByNumber,
+  removeSessionsById,
   removeAllSessions,
   getAllSessions,
 
@@ -431,10 +431,14 @@ async function removeIndexedDBFiles() {
 
 const IDENTITY_KEY_KEYS = ['publicKey'];
 async function createOrUpdateIdentityKey(data) {
-  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, data);
+  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, {
+    ...data,
+    id: ConversationController.getConversationId(data.id),
+  });
   await channels.createOrUpdateIdentityKey(updated);
 }
-async function getIdentityKeyById(id) {
+async function getIdentityKeyById(identifier) {
+  const id = ConversationController.getConversationId(identifier);
   const data = await channels.getIdentityKeyById(id);
   return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
 }
@@ -444,7 +448,8 @@ async function bulkAddIdentityKeys(array) {
   );
   await channels.bulkAddIdentityKeys(updated);
 }
-async function removeIdentityKeyById(id) {
+async function removeIdentityKeyById(identifier) {
+  const id = ConversationController.getConversationId(identifier);
   await channels.removeIdentityKeyById(id);
 }
 async function removeAllIdentityKeys() {
@@ -515,6 +520,11 @@ const ITEM_KEYS = {
     'value.signature',
     'value.serialized',
   ],
+  senderCertificateWithUuid: [
+    'value.certificate',
+    'value.signature',
+    'value.serialized',
+  ],
   signaling_key: ['value'],
   profileKey: ['value'],
 };
@@ -572,8 +582,8 @@ async function getSessionById(id) {
   const session = await channels.getSessionById(id);
   return session;
 }
-async function getSessionsByNumber(number) {
-  const sessions = await channels.getSessionsByNumber(number);
+async function getSessionsById(id) {
+  const sessions = await channels.getSessionsById(id);
   return sessions;
 }
 async function bulkAddSessions(array) {
@@ -582,8 +592,8 @@ async function bulkAddSessions(array) {
 async function removeSessionById(id) {
   await channels.removeSessionById(id);
 }
-async function removeSessionsByNumber(number) {
-  await channels.removeSessionsByNumber(number);
+async function removeSessionsById(id) {
+  await channels.removeSessionsById(id);
 }
 async function removeAllSessions(id) {
   await channels.removeAllSessions(id);
@@ -799,11 +809,12 @@ async function getAllMessageIds() {
 
 async function getMessageBySender(
   // eslint-disable-next-line camelcase
-  { source, sourceDevice, sent_at },
+  { source, sourceUuid, sourceDevice, sent_at },
   { Message }
 ) {
   const messages = await channels.getMessageBySender({
     source,
+    sourceUuid,
     sourceDevice,
     sent_at,
   });

@@ -6,6 +6,7 @@ try {
   const electron = require('electron');
   const semver = require('semver');
   const curve = require('curve25519-n');
+  const _ = require('lodash');
   const { installGetter, installSetter } = require('./preload_utils');
 
   const { deferredToPromise } = require('./js/modules/deferred_to_promise');
@@ -253,6 +254,30 @@ try {
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
   window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
+
+  window.isValidGuid = maybeGuid =>
+    /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
+      maybeGuid
+    );
+  // https://stackoverflow.com/a/23299989
+  window.isValidE164 = maybeE164 => /^\+?[1-9]\d{1,14}$/.test(maybeE164);
+
+  window.normalizeUuids = (obj, paths, context) => {
+    if (!obj) {
+      return;
+    }
+    paths.forEach(path => {
+      const val = _.get(obj, path);
+      if (val) {
+        if (!window.isValidGuid(val)) {
+          window.log.warn(
+            `Normalizing invalid uuid: ${val} at path ${path} in context "${context}"`
+          );
+        }
+        _.set(obj, path, val.toLowerCase());
+      }
+    });
+  };
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');

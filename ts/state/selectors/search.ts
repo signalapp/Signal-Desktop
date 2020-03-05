@@ -149,6 +149,7 @@ export const getSearchResults = createSelector(
       });
       contacts.forEach(id => {
         const data = lookup[id];
+
         items.push({
           type: 'contact',
           data: {

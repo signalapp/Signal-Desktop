@@ -16,6 +16,7 @@ message Envelope {
 
   optional Type   type            = 1;
   optional string source          = 2;
+  optional string sourceUuid      = 11;
   optional uint32 sourceDevice    = 7;
   optional string relay           = 3;
   optional uint64 timestamp       = 5;
@@ -85,6 +86,7 @@ message DataMessage {
 
     optional uint64           id          = 1;
     optional string           author      = 2;
+    optional string           authorUuid  = 5;
     optional string           text        = 3;
     repeated QuotedAttachment attachments = 4;
   }
@@ -236,20 +238,23 @@ message Verified {
     UNVERIFIED = 2;
   }
 
-  optional string destination = 1;
-  optional bytes  identityKey = 2;
-  optional State  state       = 3;
-  optional bytes  nullMessage = 4;
+  optional string destination     = 1;
+  optional string destinationUuid = 5;
+  optional bytes  identityKey     = 2;
+  optional State  state           = 3;
+  optional bytes  nullMessage     = 4;
 }
 
 message SyncMessage {
   message Sent {
     message UnidentifiedDeliveryStatus {
-      optional string destination  = 1;
-      optional bool   unidentified = 2;
+      optional string destination     = 1;
+      optional string destinationUuid = 3;
+      optional bool   unidentified    = 2;
     }
 
     optional string                     destination              = 1;
+    optional string                     destinationUuid          = 7;
     optional uint64                     timestamp                = 2;
     optional DataMessage                message                  = 3;
     optional uint64                     expirationStartTimestamp = 4;
@@ -268,6 +273,7 @@ message SyncMessage {
 
   message Blocked {
     repeated string numbers = 1;
+    repeated string uuids   = 3;
     repeated bytes groupIds = 2;
   }
 
@@ -284,8 +290,9 @@ message SyncMessage {
   }
 
   message Read {
-    optional string sender    = 1;
-    optional uint64 timestamp = 2;
+    optional string sender     = 1;
+    optional string senderUuid = 3;
+    optional uint64 timestamp  = 2;
   }
 
   message Configuration {
@@ -306,8 +313,9 @@ message SyncMessage {
   }
 
   message ViewOnceOpen {
-    optional string sender    = 1;
-    optional uint64 timestamp = 2;
+    optional string sender     = 1;
+    optional string senderUuid = 3;
+    optional uint64 timestamp  = 2;
   }
 
   optional Sent                 sent                 = 1;
@@ -349,11 +357,18 @@ message GroupContext {
     QUIT         = 3;
     REQUEST_INFO = 4;
   }
-  optional bytes             id      = 1;
-  optional Type              type    = 2;
-  optional string            name    = 3;
-  repeated string            members = 4;
-  optional AttachmentPointer avatar  = 5;
+
+  message Member {
+    optional string uuid = 1;
+    optional string e164 = 2;
+  }
+
+  optional bytes             id          = 1;
+  optional Type              type        = 2;
+  optional string            name        = 3;
+  repeated string            membersE164 = 4;
+  repeated Member            members     = 6;
+  optional AttachmentPointer avatar      = 5;
 }
 
 message ContactDetails {
@@ -363,6 +378,7 @@ message ContactDetails {
   }
 
   optional string   number      = 1;
+  optional string   uuid        = 9;
   optional string   name        = 2;
   optional Avatar   avatar      = 3;
   optional string   color       = 4;
@@ -378,9 +394,15 @@ message GroupDetails {
     optional uint32 length      = 2;
   }
 
+  message Member {
+    optional string uuid = 1;
+    optional string e164 = 2;
+  }
+
   optional bytes  id          = 1;
   optional string name        = 2;
-  repeated string members     = 3;
+  repeated string membersE164 = 3;
+  repeated Member members     = 9;
   optional Avatar avatar      = 4;
   optional bool   active      = 5 [default = true];
   optional uint32 expireTimer = 6;

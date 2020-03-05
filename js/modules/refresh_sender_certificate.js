@@ -16,7 +16,15 @@ let scheduleNext = null;
 function refreshOurProfile() {
   window.log.info('refreshOurProfile');
   const ourNumber = textsecure.storage.user.getNumber();
-  const conversation = ConversationController.getOrCreate(ourNumber, 'private');
+  const ourUuid = textsecure.storage.user.getUuid();
+  const conversation = ConversationController.getOrCreate(
+    // This is explicitly ourNumber first in order to avoid creating new
+    // conversations when an old one exists
+    ourNumber || ourUuid,
+    'private'
+  );
+  conversation.updateUuid(ourUuid);
+  conversation.updateE164(ourNumber);
   conversation.getProfiles();
 }
 
@@ -66,21 +74,36 @@ function initialize({ events, storage, navigator, logger }) {
   async function run() {
     logger.info('refreshSenderCertificate: Getting new certificate...');
     try {
-      const username = storage.get('number_id');
-      const password = storage.get('password');
-      const server = WebAPI.connect({ username, password });
+      const OLD_USERNAME = storage.get('number_id');
+      const USERNAME = storage.get('uuid_id');
+      const PASSWORD = storage.get('password');
+      const server = WebAPI.connect({
+        username: USERNAME || OLD_USERNAME,
+        password: PASSWORD,
+      });
 
-      const { certificate } = await server.getSenderCertificate();
-      const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(certificate);
-      const decoded = textsecure.protobuf.SenderCertificate.decode(arrayBuffer);
+      await Promise.all(
+        [false, true].map(async withUuid => {
+          const { certificate } = await server.getSenderCertificate(withUuid);
+          const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(
+            certificate
+          );
+          const decoded = textsecure.protobuf.SenderCertificate.decode(
+            arrayBuffer
+          );
 
-      decoded.certificate = decoded.certificate.toArrayBuffer();
-      decoded.signature = decoded.signature.toArrayBuffer();
-      decoded.serialized = arrayBuffer;
+          decoded.certificate = decoded.certificate.toArrayBuffer();
+          decoded.signature = decoded.signature.toArrayBuffer();
+          decoded.serialized = arrayBuffer;
 
-      storage.put('senderCertificate', decoded);
+          storage.put(
+            `senderCertificate${withUuid ? 'WithUuid' : ''}`,
+            decoded
+          );
+        })
+      );
+
       scheduledTime = null;
-
       scheduleNextRotation();
     } catch (error) {
       logger.error(

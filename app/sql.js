@@ -1,6 +1,7 @@
 const { join } = require('path');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
+const Queue = require('p-queue').default;
 const sql = require('@journeyapps/sqlcipher');
 const { app, dialog, clipboard } = require('electron');
 const { redactAll } = require('../js/modules/privacy');
@@ -15,6 +16,7 @@ const {
   isNumber,
   isObject,
   isString,
+  keyBy,
   last,
   map,
   pick,
@@ -57,10 +59,10 @@ module.exports = {
   createOrUpdateSession,
   createOrUpdateSessions,
   getSessionById,
-  getSessionsByNumber,
+  getSessionsById,
   bulkAddSessions,
   removeSessionById,
-  removeSessionsByNumber,
+  removeSessionsById,
   removeAllSessions,
   getAllSessions,
 
@@ -1181,6 +1183,7 @@ async function updateToSchemaVersion18(currentVersion, instance) {
     throw error;
   }
 }
+
 async function updateToSchemaVersion19(currentVersion, instance) {
   if (currentVersion >= 19) {
     return;
@@ -1210,6 +1213,230 @@ async function updateToSchemaVersion19(currentVersion, instance) {
     throw error;
   }
 }
+
+async function updateToSchemaVersion20(currentVersion, instance) {
+  if (currentVersion >= 20) {
+    return;
+  }
+
+  console.log('updateToSchemaVersion20: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  try {
+    const migrationJobQueue = new Queue({ concurrency: 10 });
+    // The triggers on the messages table slow down this migration
+    // significantly, so we drop them and recreate them later.
+    // Drop triggers
+    const triggers = await instance.all(
+      'SELECT * FROM sqlite_master WHERE type = "trigger" AND tbl_name = "messages"'
+    );
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const trigger of triggers) {
+      // eslint-disable-next-line no-await-in-loop
+      await instance.run(`DROP TRIGGER ${trigger.name}`);
+    }
+
+    // Create new columns and indices
+    await instance.run('ALTER TABLE conversations ADD COLUMN e164 TEXT;');
+    await instance.run('ALTER TABLE conversations ADD COLUMN uuid TEXT;');
+    await instance.run('ALTER TABLE conversations ADD COLUMN groupId TEXT;');
+    await instance.run('ALTER TABLE messages ADD COLUMN sourceUuid TEXT;');
+    await instance.run(
+      'ALTER TABLE sessions RENAME COLUMN number TO conversationId;'
+    );
+    await instance.run(
+      'CREATE INDEX conversations_e164 ON conversations(e164);'
+    );
+    await instance.run(
+      'CREATE INDEX conversations_uuid ON conversations(uuid);'
+    );
+    await instance.run(
+      'CREATE INDEX conversations_groupId ON conversations(groupId);'
+    );
+    await instance.run(
+      'CREATE INDEX messages_sourceUuid on messages(sourceUuid);'
+    );
+
+    // Migrate existing IDs
+    await instance.run(
+      "UPDATE conversations SET e164 = '+' || id WHERE type = 'private';"
+    );
+    await instance.run(
+      "UPDATE conversations SET groupId = id WHERE type = 'group';"
+    );
+
+    // Drop invalid groups and any associated messages
+    const maybeInvalidGroups = await instance.all(
+      "SELECT * FROM conversations WHERE type = 'group' AND members IS NULL;"
+    );
+    // eslint-disable-next-line no-restricted-syntax
+    for (const group of maybeInvalidGroups) {
+      const json = JSON.parse(group.json);
+      if (!json.members || !json.members.length) {
+        // eslint-disable-next-line no-await-in-loop
+        await instance.run('DELETE FROM conversations WHERE id = $id;', {
+          $id: json.id,
+        });
+        // eslint-disable-next-line no-await-in-loop
+        await instance.run('DELETE FROM messages WHERE conversationId = $id;', {
+          $id: json.id,
+        });
+        // eslint-disable-next-line no-await-in-loop
+        // await instance.run('DELETE FROM sessions WHERE conversationId = $id;', {
+        //   $id: json.id,
+        // });
+      }
+    }
+
+    // Generate new IDs and alter data
+    const allConversations = await instance.all('SELECT * FROM conversations;');
+    const allConversationsByOldId = keyBy(allConversations, 'id');
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const row of allConversations) {
+      const oldId = row.id;
+      const newId = generateUUID();
+      allConversationsByOldId[oldId].id = newId;
+      const patchObj = { id: newId };
+      if (row.type === 'private') {
+        patchObj.e164 = `+${oldId}`;
+      } else if (row.type === 'group') {
+        patchObj.groupId = oldId;
+      }
+      const patch = JSON.stringify(patchObj);
+      // eslint-disable-next-line no-await-in-loop
+      await instance.run(
+        'UPDATE conversations SET id = $newId, json = JSON_PATCH(json, $patch) WHERE id = $oldId',
+        {
+          $newId: newId,
+          $oldId: oldId,
+          $patch: patch,
+        }
+      );
+      const messagePatch = JSON.stringify({ conversationId: newId });
+      // eslint-disable-next-line no-await-in-loop
+      await instance.run(
+        'UPDATE messages SET conversationId = $newId, json = JSON_PATCH(json, $patch) WHERE conversationId = $oldId',
+        { $newId: newId, $oldId: oldId, $patch: messagePatch }
+      );
+    }
+
+    const groupConverations = await instance.all(
+      "SELECT * FROM conversations WHERE type = 'group';"
+    );
+
+    // Update group conversations, point members at new conversation ids
+    migrationJobQueue.addAll(
+      groupConverations.map(groupRow => async () => {
+        const members = groupRow.members.split(/\s?\+/).filter(Boolean);
+        const newMembers = [];
+        // eslint-disable-next-line no-restricted-syntax
+        for (const m of members) {
+          const memberRow = allConversationsByOldId[m];
+
+          if (memberRow) {
+            newMembers.push(memberRow.id);
+          } else {
+            // We didn't previously have a private conversation for this member,
+            // we need to create one
+            const id = generateUUID();
+            // eslint-disable-next-line no-await-in-loop
+            await saveConversation(
+              {
+                id,
+                e164: m,
+                type: 'private',
+                version: 2,
+                unreadCount: 0,
+                verified: 0,
+              },
+              instance
+            );
+
+            newMembers.push(id);
+          }
+        }
+        const json = { ...jsonToObject(groupRow.json), members: newMembers };
+        const newMembersValue = newMembers.join(' ');
+        await instance.run(
+          'UPDATE conversations SET members = $newMembersValue, json = $newJsonValue WHERE id = $id',
+          {
+            $id: groupRow.id,
+            $newMembersValue: newMembersValue,
+            $newJsonValue: objectToJSON(json),
+          }
+        );
+      })
+    );
+    // Wait for group conversation updates to finish
+    await migrationJobQueue.onEmpty();
+
+    // Update sessions to stable IDs
+    const allSessions = await instance.all('SELECT * FROM sessions;');
+    // eslint-disable-next-line no-restricted-syntax
+    for (const session of allSessions) {
+      // Not using patch here so we can explicitly delete a property rather than
+      // implicitly delete via null
+      const newJson = JSON.parse(session.json);
+      const conversation = allConversationsByOldId[newJson.number.substr(1)];
+      if (conversation) {
+        newJson.conversationId = conversation.id;
+        newJson.id = `${newJson.conversationId}.${newJson.deviceId}`;
+      }
+      delete newJson.number;
+      // eslint-disable-next-line no-await-in-loop
+      await instance.run(
+        `
+        UPDATE sessions
+        SET id = $newId, json = $newJson, conversationId = $newConversationId
+        WHERE id = $oldId
+      `,
+        {
+          $newId: newJson.id,
+          $newJson: objectToJSON(newJson),
+          $oldId: session.id,
+          $newConversationId: newJson.conversationId,
+        }
+      );
+    }
+
+    // Update identity keys to stable IDs
+    const allIdentityKeys = await instance.all('SELECT * FROM identityKeys;');
+    // eslint-disable-next-line no-restricted-syntax
+    for (const identityKey of allIdentityKeys) {
+      const newJson = JSON.parse(identityKey.json);
+      newJson.id = allConversationsByOldId[newJson.id];
+      // eslint-disable-next-line no-await-in-loop
+      await instance.run(
+        `
+        UPDATE identityKeys
+        SET id = $newId, json = $newJson
+        WHERE id = $oldId
+      `,
+        {
+          $newId: newJson.id,
+          $newJson: objectToJSON(newJson),
+          $oldId: identityKey.id,
+        }
+      );
+    }
+
+    // Recreate triggers
+    // eslint-disable-next-line no-restricted-syntax
+    for (const trigger of triggers) {
+      // eslint-disable-next-line no-await-in-loop
+      await instance.run(trigger.sql);
+    }
+
+    await instance.run('PRAGMA user_version = 20;');
+    await instance.run('COMMIT TRANSACTION;');
+  } catch (error) {
+    await instance.run('ROLLBACK;');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1230,6 +1457,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion17,
   updateToSchemaVersion18,
   updateToSchemaVersion19,
+  updateToSchemaVersion20,
 ];
 
 async function updateSchema(instance) {
@@ -1479,31 +1707,31 @@ async function removeAllItems() {
 
 const SESSIONS_TABLE = 'sessions';
 async function createOrUpdateSession(data) {
-  const { id, number } = data;
+  const { id, conversationId } = data;
   if (!id) {
     throw new Error(
       'createOrUpdateSession: Provided data did not have a truthy id'
     );
   }
-  if (!number) {
+  if (!conversationId) {
     throw new Error(
-      'createOrUpdateSession: Provided data did not have a truthy number'
+      'createOrUpdateSession: Provided data did not have a truthy conversationId'
     );
   }
 
   await db.run(
     `INSERT OR REPLACE INTO sessions (
       id,
-      number,
+      conversationId,
       json
     ) values (
       $id,
-      $number,
+      $conversationId,
       $json
     )`,
     {
       $id: id,
-      $number: number,
+      $conversationId: conversationId,
       $json: objectToJSON(data),
     }
   );
@@ -1524,10 +1752,13 @@ createOrUpdateSessions.needsSerial = true;
 async function getSessionById(id) {
   return getById(SESSIONS_TABLE, id);
 }
-async function getSessionsByNumber(number) {
-  const rows = await db.all('SELECT * FROM sessions WHERE number = $number;', {
-    $number: number,
-  });
+async function getSessionsById(id) {
+  const rows = await db.all(
+    'SELECT * FROM sessions WHERE conversationId = $id;',
+    {
+      $id: id,
+    }
+  );
   return map(rows, row => jsonToObject(row.json));
 }
 async function bulkAddSessions(array) {
@@ -1536,9 +1767,9 @@ async function bulkAddSessions(array) {
 async function removeSessionById(id) {
   return removeById(SESSIONS_TABLE, id);
 }
-async function removeSessionsByNumber(number) {
-  await db.run('DELETE FROM sessions WHERE number = $number;', {
-    $number: number,
+async function removeSessionsById(id) {
+  await db.run('DELETE FROM sessions WHERE conversationId = $id;', {
+    $id: id,
   });
 }
 async function removeAllSessions() {
@@ -1634,22 +1865,29 @@ async function getConversationCount() {
   return row['count(*)'];
 }
 
-async function saveConversation(data) {
+async function saveConversation(data, instance = db) {
   const {
-    id,
     // eslint-disable-next-line camelcase
     active_at,
-    type,
+    e164,
+    groupId,
+    id,
     members,
     name,
-    profileName,
     profileFamilyName,
+    profileName,
+    type,
+    uuid,
   } = data;
 
-  await db.run(
+  await instance.run(
     `INSERT INTO conversations (
     id,
     json,
+
+    e164,
+    uuid,
+    groupId,
 
     active_at,
     type,
@@ -1662,6 +1900,10 @@ async function saveConversation(data) {
     $id,
     $json,
 
+    $e164,
+    $uuid,
+    $groupId,
+
     $active_at,
     $type,
     $members,
@@ -1673,6 +1915,10 @@ async function saveConversation(data) {
     {
       $id: id,
       $json: objectToJSON(data),
+
+      $e164: e164,
+      $uuid: uuid,
+      $groupId: groupId,
 
       $active_at: active_at,
       $type: type,
@@ -1713,11 +1959,16 @@ async function updateConversation(data) {
     name,
     profileName,
     profileFamilyName,
+    e164,
+    uuid,
   } = data;
 
   await db.run(
     `UPDATE conversations SET
       json = $json,
+
+      e164 = $e164,
+      uuid = $uuid,
 
       active_at = $active_at,
       type = $type,
@@ -1730,6 +1981,9 @@ async function updateConversation(data) {
     {
       $id: id,
       $json: objectToJSON(data),
+
+      $e164: e164,
+      $uuid: uuid,
 
       $active_at: active_at,
       $type: type,
@@ -1920,6 +2174,7 @@ async function saveMessage(data, { forceSave } = {}) {
     // eslint-disable-next-line camelcase
     sent_at,
     source,
+    sourceUuid,
     sourceDevice,
     type,
     unread,
@@ -1945,6 +2200,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $schemaVersion: schemaVersion,
     $sent_at: sent_at,
     $source: source,
+    $sourceUuid: sourceUuid,
     $sourceDevice: sourceDevice,
     $type: type,
     $unread: unread,
@@ -1970,6 +2226,7 @@ async function saveMessage(data, { forceSave } = {}) {
         schemaVersion = $schemaVersion,
         sent_at = $sent_at,
         source = $source,
+        sourceUuid = $sourceUuid,
         sourceDevice = $sourceDevice,
         type = $type,
         unread = $unread
@@ -2004,6 +2261,7 @@ async function saveMessage(data, { forceSave } = {}) {
     schemaVersion,
     sent_at,
     source,
+    sourceUuid,
     sourceDevice,
     type,
     unread
@@ -2025,6 +2283,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $schemaVersion,
     $sent_at,
     $source,
+    $sourceUuid,
     $sourceDevice,
     $type,
     $unread
@@ -2095,14 +2354,21 @@ async function getAllMessageIds() {
 }
 
 // eslint-disable-next-line camelcase
-async function getMessageBySender({ source, sourceDevice, sent_at }) {
+async function getMessageBySender({
+  source,
+  sourceUuid,
+  sourceDevice,
+  // eslint-disable-next-line camelcase
+  sent_at,
+}) {
   const rows = await db.all(
     `SELECT json FROM messages WHERE
-      source = $source AND
+      (source = $source OR sourceUuid = $sourceUuid) AND
       sourceDevice = $sourceDevice AND
       sent_at = $sent_at;`,
     {
       $source: source,
+      $sourceUuid: sourceUuid,
       $sourceDevice: sourceDevice,
       $sent_at: sent_at,
     }

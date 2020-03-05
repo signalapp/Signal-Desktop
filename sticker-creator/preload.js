@@ -69,10 +69,11 @@ window.encryptAndUpload = async (
   cover,
   onProgress = noop
 ) => {
-  const usernameItem = await window.Signal.Data.getItemById('number_id');
+  const usernameItem = await window.Signal.Data.getItemById('uuid_id');
+  const oldUsernameItem = await window.Signal.Data.getItemById('number_id');
   const passwordItem = await window.Signal.Data.getItemById('password');
 
-  if (!usernameItem || !passwordItem) {
+  if (!oldUsernameItem || !passwordItem) {
     const { message } = window.localeMessages[
       'StickerCreator--Authentication--error'
     ];
@@ -86,13 +87,17 @@ window.encryptAndUpload = async (
   }
 
   const { value: username } = usernameItem;
+  const { value: oldUsername } = oldUsernameItem;
   const { value: password } = passwordItem;
 
   const packKey = window.libsignal.crypto.getRandomBytes(32);
   const encryptionKey = await deriveStickerPackKey(packKey);
   const iv = window.libsignal.crypto.getRandomBytes(16);
 
-  const server = WebAPI.connect({ username, password });
+  const server = WebAPI.connect({
+    username: username || oldUsername,
+    password,
+  });
 
   const uniqueStickers = uniqBy([...stickers, { webp: cover }], 'webp');
 

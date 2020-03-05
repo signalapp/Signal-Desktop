@@ -164,17 +164,17 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 171,
+    "lineNumber": 210,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 216,
+    "lineNumber": 255,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-$(",
@@ -301,9 +301,9 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 894,
+    "lineNumber": 983,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2020-02-28T18:14:42.951Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -669,44 +669,44 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 42,
+    "lineNumber": 43,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "js/views/key_verification_view.js",
     "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 43,
+    "lineNumber": 44,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "js/views/key_verification_view.js",
     "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 72,
+    "lineNumber": 86,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 76,
+    "lineNumber": 90,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 107,
+    "lineNumber": 121,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
@@ -1203,65 +1203,65 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();",
-    "lineNumber": 62,
+    "lineNumber": 72,
     "reasonCategory": "falseMatch",
-    "updated": "2019-09-20T18:36:19.909Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');",
-    "lineNumber": 64,
+    "lineNumber": 74,
     "reasonCategory": "falseMatch",
-    "updated": "2019-09-20T18:36:19.909Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
-    "lineNumber": 66,
+    "lineNumber": 76,
     "reasonCategory": "falseMatch",
-    "updated": "2019-09-20T18:36:19.909Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "  dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');",
-    "lineNumber": 68,
+    "lineNumber": 78,
     "reasonCategory": "falseMatch",
-    "updated": "2019-09-20T18:36:19.909Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 752,
+    "lineNumber": 812,
     "reasonCategory": "falseMatch",
-    "updated": "2019-10-21T22:30:15.622Z"
+    "updated": "2020-03-04T21:24:23.269Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 777,
+    "lineNumber": 837,
     "reasonCategory": "falseMatch",
-    "updated": "2019-10-21T22:30:15.622Z"
+    "updated": "2020-03-04T21:24:23.269Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sendmessage.js",
     "line": "  return dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();",
-    "lineNumber": 17,
+    "lineNumber": 18,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T17:48:30.675Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/sendmessage.js",
     "line": "  return dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
-    "lineNumber": 20,
+    "lineNumber": 21,
     "reasonCategory": "falseMatch",
-    "updated": "2019-04-26T17:48:30.675Z"
+    "updated": "2020-02-14T20:02:37.507Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -11663,18 +11663,18 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 144,
+    "lineNumber": 146,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-08-09T21:17:57.798Z",
+    "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 65,
+    "lineNumber": 69,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-08-09T21:17:57.798Z",
+    "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
   },
   {

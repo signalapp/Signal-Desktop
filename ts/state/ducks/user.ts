@@ -6,6 +6,8 @@ export type UserStateType = {
   attachmentsPath: string;
   stickersPath: string;
   tempPath: string;
+  ourConversationId: string;
+  ourUuid: string;
   ourNumber: string;
   platform: string;
   regionCode: string;
@@ -18,6 +20,8 @@ export type UserStateType = {
 type UserChangedActionType = {
   type: 'USER_CHANGED';
   payload: {
+    ourConversationId?: string;
+    ourUuid?: string;
     ourNumber?: string;
     regionCode?: string;
     interactionMode?: 'mouse' | 'keyboard';
@@ -34,7 +38,9 @@ export const actions = {
 
 function userChanged(attributes: {
   interactionMode?: 'mouse' | 'keyboard';
+  ourConversationId: string;
   ourNumber: string;
+  ourUuid: string;
   regionCode: string;
 }): UserChangedActionType {
   return {
@@ -50,6 +56,8 @@ function getEmptyState(): UserStateType {
     attachmentsPath: 'missing',
     stickersPath: 'missing',
     tempPath: 'missing',
+    ourConversationId: 'missing',
+    ourUuid: 'missing',
     ourNumber: 'missing',
     regionCode: 'missing',
     platform: 'missing',

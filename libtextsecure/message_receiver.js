@@ -14,13 +14,20 @@
 
 const RETRY_TIMEOUT = 2 * 60 * 1000;
 
-function MessageReceiver(username, password, signalingKey, options = {}) {
+function MessageReceiver(
+  oldUsername,
+  username,
+  password,
+  signalingKey,
+  options = {}
+) {
   this.count = 0;
 
   this.signalingKey = signalingKey;
-  this.username = username;
+  this.username = oldUsername;
+  this.uuid = username;
   this.password = password;
-  this.server = WebAPI.connect({ username, password });
+  this.server = WebAPI.connect({ username: username || oldUsername, password });
 
   if (!options.serverTrustRoot) {
     throw new Error('Server trust root is required!');
@@ -29,9 +36,12 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
     options.serverTrustRoot
   );
 
-  const address = libsignal.SignalProtocolAddress.fromString(username);
-  this.number = address.getName();
-  this.deviceId = address.getDeviceId();
+  this.number_id = oldUsername
+    ? textsecure.utils.unencodeNumber(oldUsername)[0]
+    : null;
+  this.uuid_id = username ? textsecure.utils.unencodeNumber(username)[0] : null;
+  // eslint-disable-next-line prefer-destructuring
+  this.deviceId = textsecure.utils.unencodeNumber(username || oldUsername)[1];
 
   this.incomingQueue = new window.PQueue({ concurrency: 1 });
   this.pendingQueue = new window.PQueue({ concurrency: 1 });
@@ -176,7 +186,7 @@ MessageReceiver.prototype.extend({
     }
     // possible 403 or network issue. Make an request to confirm
     return this.server
-      .getDevices(this.number)
+      .getDevices(this.number_id || this.uuid_id)
       .then(this.connect.bind(this)) // No HTTP error? Reconnect
       .catch(e => {
         const event = new Event('error');
@@ -213,11 +223,21 @@ MessageReceiver.prototype.extend({
 
       try {
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
+        window.normalizeUuids(
+          envelope,
+          ['sourceUuid'],
+          'message_receiver::handleRequest::job'
+        );
         // After this point, decoding errors are not the server's
         //   fault, and we should handle them gracefully and tell the
         //   user they received an invalid message
 
         if (this.isBlocked(envelope.source)) {
+          request.respond(200, 'OK');
+          return;
+        }
+
+        if (this.isUuidBlocked(envelope.sourceUuid)) {
           request.respond(200, 'OK');
           return;
         }
@@ -333,6 +353,7 @@ MessageReceiver.prototype.extend({
       const envelope = textsecure.protobuf.Envelope.decode(envelopePlaintext);
       envelope.id = envelope.serverGuid || item.id;
       envelope.source = envelope.source || item.source;
+      envelope.sourceUuid = envelope.sourceUuid || item.sourceUuid;
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
       envelope.serverTimestamp =
         envelope.serverTimestamp || item.serverTimestamp;
@@ -378,8 +399,8 @@ MessageReceiver.prototype.extend({
     }
   },
   getEnvelopeId(envelope) {
-    if (envelope.source) {
-      return `${envelope.source}.${
+    if (envelope.sourceUuid || envelope.source) {
+      return `${envelope.sourceUuid || envelope.source}.${
         envelope.sourceDevice
       } ${envelope.timestamp.toNumber()} (${envelope.id})`;
     }
@@ -485,6 +506,7 @@ MessageReceiver.prototype.extend({
     const { id } = envelope;
     const data = {
       source: envelope.source,
+      sourceUuid: envelope.sourceUuid,
       sourceDevice: envelope.sourceDevice,
       serverTimestamp: envelope.serverTimestamp,
       decrypted: MessageReceiver.arrayBufferToStringBase64(plaintext),
@@ -586,6 +608,7 @@ MessageReceiver.prototype.extend({
       ev.deliveryReceipt = {
         timestamp: envelope.timestamp.toNumber(),
         source: envelope.source,
+        sourceUuid: envelope.sourceUuid,
         sourceDevice: envelope.sourceDevice,
       };
       this.dispatchAndWait(ev).then(resolve, reject);
@@ -613,16 +636,21 @@ MessageReceiver.prototype.extend({
 
     let promise;
     const address = new libsignal.SignalProtocolAddress(
-      envelope.source,
+      // Using source as opposed to sourceUuid allows us to get the existing
+      // session if we haven't yet harvested the incoming uuid
+      envelope.source || envelope.sourceUuid,
       envelope.sourceDevice
     );
 
     const ourNumber = textsecure.storage.user.getNumber();
-    const number = address.toString().split('.')[0];
+    const ourUuid = textsecure.storage.user.getUuid();
     const options = {};
 
     // No limit on message keys if we're communicating with our other devices
-    if (ourNumber === number) {
+    if (
+      (envelope.source && ourNumber && ourNumber === envelope.source) ||
+      (envelope.sourceUuid && ourUuid && ourUuid === envelope.sourceUuid)
+    ) {
       options.messageKeysLimit = false;
     }
 
@@ -637,6 +665,7 @@ MessageReceiver.prototype.extend({
 
     const me = {
       number: ourNumber,
+      uuid: ourUuid,
       deviceId: parseInt(textsecure.storage.user.getDeviceId(), 10),
     };
 
@@ -666,7 +695,7 @@ MessageReceiver.prototype.extend({
           )
           .then(
             result => {
-              const { isMe, sender, content } = result;
+              const { isMe, sender, senderUuid, content } = result;
 
               // We need to drop incoming messages from ourself since server can't
               //   do it for us
@@ -674,7 +703,10 @@ MessageReceiver.prototype.extend({
                 return { isMe: true };
               }
 
-              if (this.isBlocked(sender.getName())) {
+              if (
+                (sender && this.isBlocked(sender.getName())) ||
+                (senderUuid && this.isUuidBlocked(senderUuid.getName()))
+              ) {
                 window.log.info(
                   'Dropping blocked message after sealed sender decryption'
                 );
@@ -685,25 +717,41 @@ MessageReceiver.prototype.extend({
               //   to make the rest of the app work properly.
 
               const originalSource = envelope.source;
+              const originalSourceUuid = envelope.sourceUuid;
 
               // eslint-disable-next-line no-param-reassign
-              envelope.source = sender.getName();
+              envelope.source = sender && sender.getName();
               // eslint-disable-next-line no-param-reassign
-              envelope.sourceDevice = sender.getDeviceId();
+              envelope.sourceUuid = senderUuid && senderUuid.getName();
+              window.normalizeUuids(
+                envelope,
+                ['sourceUuid'],
+                'message_receiver::decrypt::UNIDENTIFIED_SENDER'
+              );
               // eslint-disable-next-line no-param-reassign
-              envelope.unidentifiedDeliveryReceived = !originalSource;
+              envelope.sourceDevice =
+                (sender && sender.getDeviceId()) ||
+                (senderUuid && senderUuid.getDeviceId());
+              // eslint-disable-next-line no-param-reassign
+              envelope.unidentifiedDeliveryReceived = !(
+                originalSource || originalSourceUuid
+              );
 
               // Return just the content because that matches the signature of the other
               //   decrypt methods used above.
               return this.unpad(content);
             },
             error => {
-              const { sender } = error || {};
+              const { sender, senderUuid } = error || {};
 
-              if (sender) {
+              if (sender || senderUuid) {
                 const originalSource = envelope.source;
+                const originalSourceUuid = envelope.sourceUuid;
 
-                if (this.isBlocked(sender.getName())) {
+                if (
+                  (sender && this.isBlocked(sender.getName())) ||
+                  (senderUuid && this.isUuidBlocked(senderUuid.getName()))
+                ) {
                   window.log.info(
                     'Dropping blocked message with error after sealed sender decryption'
                   );
@@ -711,11 +759,23 @@ MessageReceiver.prototype.extend({
                 }
 
                 // eslint-disable-next-line no-param-reassign
-                envelope.source = sender.getName();
+                envelope.source = sender && sender.getName();
                 // eslint-disable-next-line no-param-reassign
-                envelope.sourceDevice = sender.getDeviceId();
+                envelope.sourceUuid =
+                  senderUuid && senderUuid.getName().toLowerCase();
+                window.normalizeUuids(
+                  envelope,
+                  ['sourceUuid'],
+                  'message_receiver::decrypt::UNIDENTIFIED_SENDER::error'
+                );
                 // eslint-disable-next-line no-param-reassign
-                envelope.unidentifiedDeliveryReceived = !originalSource;
+                envelope.sourceDevice =
+                  (sender && sender.getDeviceId()) ||
+                  (senderUuid && senderUuid.getDeviceId());
+                // eslint-disable-next-line no-param-reassign
+                envelope.unidentifiedDeliveryReceived = !(
+                  originalSource || originalSourceUuid
+                );
 
                 throw error;
               }
@@ -803,7 +863,12 @@ MessageReceiver.prototype.extend({
       this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
-        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const { source, sourceUuid } = envelope;
+        const ourE164 = textsecure.storage.user.getNumber();
+        const ourUuid = textsecure.storage.user.getUuid();
+        const isMe =
+          (source && ourE164 && source === ourE164) ||
+          (sourceUuid && ourUuid && sourceUuid === ourUuid);
         const isLeavingGroup = Boolean(
           message.group &&
             message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
@@ -840,13 +905,18 @@ MessageReceiver.prototype.extend({
     let p = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
-      p = this.handleEndSession(envelope.source);
+      p = this.handleEndSession(envelope.source || envelope.sourceUuid);
     }
     return p.then(() =>
       this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
         const isBlocked = this.isGroupBlocked(groupId);
-        const isMe = envelope.source === textsecure.storage.user.getNumber();
+        const { source, sourceUuid } = envelope;
+        const ourE164 = textsecure.storage.user.getNumber();
+        const ourUuid = textsecure.storage.user.getUuid();
+        const isMe =
+          (source && ourE164 && source === ourE164) ||
+          (sourceUuid && ourUuid && sourceUuid === ourUuid);
         const isLeavingGroup = Boolean(
           message.group &&
             message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
@@ -865,6 +935,7 @@ MessageReceiver.prototype.extend({
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.data = {
           source: envelope.source,
+          sourceUuid: envelope.sourceUuid,
           sourceDevice: envelope.sourceDevice,
           timestamp: envelope.timestamp.toNumber(),
           receivedAt: envelope.receivedAt,
@@ -930,6 +1001,7 @@ MessageReceiver.prototype.extend({
         ev.deliveryReceipt = {
           timestamp: receiptMessage.timestamp[i].toNumber(),
           source: envelope.source,
+          sourceUuid: envelope.sourceUuid,
           sourceDevice: envelope.sourceDevice,
         };
         results.push(this.dispatchAndWait(ev));
@@ -943,7 +1015,7 @@ MessageReceiver.prototype.extend({
         ev.timestamp = envelope.timestamp.toNumber();
         ev.read = {
           timestamp: receiptMessage.timestamp[i].toNumber(),
-          reader: envelope.source,
+          reader: envelope.source || envelope.sourceUuid,
         };
         results.push(this.dispatchAndWait(ev));
       }
@@ -968,6 +1040,7 @@ MessageReceiver.prototype.extend({
     }
 
     ev.sender = envelope.source;
+    ev.senderUuid = envelope.sourceUuid;
     ev.senderDevice = envelope.sourceDevice;
     ev.typing = {
       typingMessage,
@@ -992,7 +1065,24 @@ MessageReceiver.prototype.extend({
     this.removeFromCache(envelope);
   },
   handleSyncMessage(envelope, syncMessage) {
-    if (envelope.source !== this.number) {
+    const unidentified = syncMessage.sent
+      ? syncMessage.sent.unidentifiedStatus || []
+      : [];
+    window.normalizeUuids(
+      syncMessage,
+      [
+        'sent.destinationUuid',
+        ...unidentified.map(
+          (_el, i) => `sent.unidentifiedStatus.${i}.destinationUuid`
+        ),
+      ],
+      'message_receiver::handleSyncMessage'
+    );
+    const fromSelfSource =
+      envelope.source && envelope.source === this.number_id;
+    const fromSelfSourceUuid =
+      envelope.sourceUuid && envelope.sourceUuid === this.uuid_id;
+    if (!fromSelfSource && !fromSelfSourceUuid) {
       throw new Error('Received sync message from another number');
     }
     // eslint-disable-next-line eqeqeq
@@ -1057,7 +1147,14 @@ MessageReceiver.prototype.extend({
     const ev = new Event('viewSync');
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.source = sync.sender;
+    ev.sourceUuid = sync.senderUuid;
     ev.timestamp = sync.timestamp ? sync.timestamp.toNumber() : null;
+
+    window.normalizeUuids(
+      ev,
+      ['sourceUuid'],
+      'message_receiver::handleViewOnceOpen'
+    );
 
     return this.dispatchAndWait(ev);
   },
@@ -1080,8 +1177,14 @@ MessageReceiver.prototype.extend({
     ev.verified = {
       state: verified.state,
       destination: verified.destination,
+      destinationUuid: verified.destinationUuid,
       identityKey: verified.identityKey.toArrayBuffer(),
     };
+    window.normalizeUuids(
+      ev,
+      ['verified.destinationUuid'],
+      'message_receiver::handleVerified'
+    );
     return this.dispatchAndWait(ev);
   },
   handleRead(envelope, read) {
@@ -1093,7 +1196,13 @@ MessageReceiver.prototype.extend({
       ev.read = {
         timestamp: read[i].timestamp.toNumber(),
         sender: read[i].sender,
+        senderUuid: read[i].senderUuid,
       };
+      window.normalizeUuids(
+        ev,
+        ['read.senderUuid'],
+        'message_receiver::handleRead'
+      );
       results.push(this.dispatchAndWait(ev));
     }
     return Promise.all(results);
@@ -1158,6 +1267,15 @@ MessageReceiver.prototype.extend({
   handleBlocked(envelope, blocked) {
     window.log.info('Setting these numbers as blocked:', blocked.numbers);
     textsecure.storage.put('blocked', blocked.numbers);
+    if (blocked.uuids) {
+      window.normalizeUuids(
+        blocked,
+        blocked.uuids.map((_uuid, i) => `uuids.${i}`),
+        'message_receiver::handleBlocked'
+      );
+      window.log.info('Setting these uuids as blocked:', blocked.uuids);
+      textsecure.storage.put('blocked-uuids', blocked.uuids);
+    }
 
     const groupIds = _.map(blocked.groupIds, groupId => groupId.toBinary());
     window.log.info(
@@ -1169,10 +1287,13 @@ MessageReceiver.prototype.extend({
     return this.removeFromCache(envelope);
   },
   isBlocked(number) {
-    return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
+    return textsecure.storage.get('blocked', []).includes(number);
+  },
+  isUuidBlocked(uuid) {
+    return textsecure.storage.get('blocked-uuids', []).includes(uuid);
   },
   isGroupBlocked(groupId) {
-    return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
+    return textsecure.storage.get('blocked-groups', []).includes(groupId);
   },
   cleanAttachment(attachment) {
     return {
@@ -1213,13 +1334,18 @@ MessageReceiver.prototype.extend({
     const cleaned = this.cleanAttachment(attachment);
     return this.downloadAttachment(cleaned);
   },
-  async handleEndSession(number) {
+  async handleEndSession(identifier) {
     window.log.info('got end session');
-    const deviceIds = await textsecure.storage.protocol.getDeviceIds(number);
+    const deviceIds = await textsecure.storage.protocol.getDeviceIds(
+      identifier
+    );
 
     return Promise.all(
       deviceIds.map(deviceId => {
-        const address = new libsignal.SignalProtocolAddress(number, deviceId);
+        const address = new libsignal.SignalProtocolAddress(
+          identifier,
+          deviceId
+        );
         const sessionCipher = new libsignal.SessionCipher(
           textsecure.storage.protocol,
           address
@@ -1274,8 +1400,6 @@ MessageReceiver.prototype.extend({
       throw new Error('Unknown flags in message');
     }
 
-    const promises = [];
-
     if (decrypted.group !== null) {
       decrypted.group.id = decrypted.group.id.toBinary();
 
@@ -1290,6 +1414,7 @@ MessageReceiver.prototype.extend({
           break;
         case textsecure.protobuf.GroupContext.Type.DELIVER:
           decrypted.group.name = null;
+          decrypted.group.membersE164 = [];
           decrypted.group.members = [];
           decrypted.group.avatar = null;
           break;
@@ -1383,7 +1508,19 @@ MessageReceiver.prototype.extend({
       }
     }
 
-    return Promise.all(promises).then(() => decrypted);
+    const groupMembers = decrypted.group ? decrypted.group.members || [] : [];
+
+    window.normalizeUuids(
+      decrypted,
+      [
+        'quote.authorUuid',
+        'reaction.targetAuthorUuid',
+        ...groupMembers.map((_member, i) => `group.members.${i}.uuid`),
+      ],
+      'message_receiver::processDecrypted'
+    );
+
+    return Promise.resolve(decrypted);
     /* eslint-enable no-bitwise, no-param-reassign */
   },
 });
@@ -1392,12 +1529,14 @@ window.textsecure = window.textsecure || {};
 
 textsecure.MessageReceiver = function MessageReceiverWrapper(
   username,
+  uuid,
   password,
   signalingKey,
   options
 ) {
   const messageReceiver = new MessageReceiver(
     username,
+    uuid,
     password,
     signalingKey,
     options

@@ -22,6 +22,7 @@ import {
   getInteractionMode,
   getIntl,
   getRegionCode,
+  getUserConversationId,
   getUserNumber,
 } from './user';
 
@@ -181,9 +182,12 @@ export const getLeftPaneLists = createSelector(
 );
 
 export const getMe = createSelector(
-  [getConversationLookup, getUserNumber],
-  (lookup: ConversationLookupType, ourNumber: string): ConversationType => {
-    return lookup[ourNumber];
+  [getConversationLookup, getUserConversationId],
+  (
+    lookup: ConversationLookupType,
+    ourConversationId: string
+  ): ConversationType => {
+    return lookup[ourConversationId];
   }
 );
 

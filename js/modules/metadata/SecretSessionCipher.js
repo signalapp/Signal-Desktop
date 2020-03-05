@@ -117,13 +117,14 @@ function _createSenderCertificateFromBuffer(serialized) {
     !certificate.identityKey ||
     !certificate.senderDevice ||
     !certificate.expires ||
-    !certificate.sender
+    !(certificate.sender || certificate.senderUuid)
   ) {
     throw new Error('Missing fields');
   }
 
   return {
     sender: certificate.sender,
+    senderUuid: certificate.senderUuid,
     senderDevice: certificate.senderDevice,
     expires: certificate.expires.toNumber(),
     identityKey: certificate.identityKey.toArrayBuffer(),
@@ -344,7 +345,7 @@ SecretSessionCipher.prototype = {
 
   // public Pair<SignalProtocolAddress, byte[]> decrypt(
   //   CertificateValidator validator, byte[] ciphertext, long timestamp)
-  async decrypt(validator, ciphertext, timestamp, me) {
+  async decrypt(validator, ciphertext, timestamp, me = {}) {
     // Capture this.xxx variables to replicate Java's implicit this syntax
     const signalProtocolStore = this.storage;
     const _calculateEphemeralKeys = this._calculateEphemeralKeys.bind(this);
@@ -401,18 +402,29 @@ SecretSessionCipher.prototype = {
       );
     }
 
-    const { sender, senderDevice } = content.senderCertificate;
-    const { number, deviceId } = me || {};
-    if (sender === number && senderDevice === deviceId) {
+    const { sender, senderUuid, senderDevice } = content.senderCertificate;
+    if (
+      ((sender && me.number && sender === me.number) ||
+        (senderUuid && me.uuid && senderUuid === me.uuid)) &&
+      senderDevice === me.deviceId
+    ) {
       return {
         isMe: true,
       };
     }
-    const address = new libsignal.SignalProtocolAddress(sender, senderDevice);
+    const addressE164 =
+      sender && new libsignal.SignalProtocolAddress(sender, senderDevice);
+    const addressUuid =
+      senderUuid &&
+      new libsignal.SignalProtocolAddress(
+        senderUuid.toLowerCase(),
+        senderDevice
+      );
 
     try {
       return {
-        sender: address,
+        sender: addressE164,
+        senderUuid: addressUuid,
         content: await _decryptWithUnidentifiedSenderMessage(content),
       };
     } catch (error) {
@@ -421,7 +433,8 @@ SecretSessionCipher.prototype = {
         error = new Error('Decryption error was falsey!');
       }
 
-      error.sender = address;
+      error.sender = addressE164;
+      error.senderUuid = addressUuid;
 
       throw error;
     }
@@ -504,7 +517,7 @@ SecretSessionCipher.prototype = {
     const signalProtocolStore = this.storage;
 
     const sender = new libsignal.SignalProtocolAddress(
-      message.senderCertificate.sender,
+      message.senderCertificate.sender || message.senderCertificate.senderUuid,
       message.senderCertificate.senderDevice
     );
 

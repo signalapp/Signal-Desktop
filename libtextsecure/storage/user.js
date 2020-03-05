@@ -16,13 +16,33 @@
       }
     },
 
+    setUuidAndDeviceId(uuid, deviceId) {
+      textsecure.storage.put('uuid_id', `${uuid}.${deviceId}`);
+    },
+
     getNumber() {
       const numberId = textsecure.storage.get('number_id');
       if (numberId === undefined) return undefined;
       return textsecure.utils.unencodeNumber(numberId)[0];
     },
 
+    getUuid() {
+      const uuid = textsecure.storage.get('uuid_id');
+      if (uuid === undefined) return undefined;
+      return textsecure.utils.unencodeNumber(uuid)[0];
+    },
+
     getDeviceId() {
+      return this._getDeviceIdFromUuid() || this._getDeviceIdFromNumber();
+    },
+
+    _getDeviceIdFromUuid() {
+      const uuid = textsecure.storage.get('uuid_id');
+      if (uuid === undefined) return undefined;
+      return textsecure.utils.unencodeNumber(uuid)[1];
+    },
+
+    _getDeviceIdFromNumber() {
       const numberId = textsecure.storage.get('number_id');
       if (numberId === undefined) return undefined;
       return textsecure.utils.unencodeNumber(numberId)[1];

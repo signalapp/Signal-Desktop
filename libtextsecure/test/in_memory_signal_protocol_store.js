@@ -4,6 +4,12 @@ function SignalProtocolStore() {
 
 SignalProtocolStore.prototype = {
   Direction: { SENDING: 1, RECEIVING: 2 },
+  VerifiedStatus: {
+    DEFAULT: 0,
+    VERIFIED: 1,
+    UNVERIFIED: 2,
+  },
+
   getIdentityKeyPair() {
     return Promise.resolve(this.get('identityKey'));
   },

@@ -4,12 +4,14 @@ describe('MessageReceiver', () => {
   textsecure.storage.impl = new SignalProtocolStore();
   const { WebSocket } = window;
   const number = '+19999999999';
+  const uuid = 'AAAAAAAA-BBBB-4CCC-9DDD-EEEEEEEEEEEE';
   const deviceId = 1;
   const signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
 
   before(() => {
     window.WebSocket = MockSocket;
     textsecure.storage.user.setNumberAndDeviceId(number, deviceId, 'name');
+    textsecure.storage.user.setUuidAndDeviceId(uuid, deviceId);
     textsecure.storage.put('password', 'password');
     textsecure.storage.put('signaling_key', signalingKey);
   });
@@ -21,6 +23,7 @@ describe('MessageReceiver', () => {
     const attrs = {
       type: textsecure.protobuf.Envelope.Type.CIPHERTEXT,
       source: number,
+      sourceUuid: uuid,
       sourceDevice: deviceId,
       timestamp: Date.now(),
     };
@@ -72,7 +75,7 @@ describe('MessageReceiver', () => {
     it('connects', done => {
       const mockServer = new MockServer(
         `ws://localhost:8080/v1/websocket/?login=${encodeURIComponent(
-          number
+          uuid
         )}.1&password=password`
       );
 

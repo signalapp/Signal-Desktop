@@ -36,6 +36,22 @@ ProtoParser.prototype = {
         proto.profileKey = proto.profileKey.toArrayBuffer();
       }
 
+      if (proto.uuid) {
+        window.normalizeUuids(
+          proto,
+          ['uuid'],
+          'ProtoParser::next (proto.uuid)'
+        );
+      }
+
+      if (proto.members) {
+        window.normalizeUuids(
+          proto,
+          proto.members.map((_member, i) => `members.${i}.uuid`),
+          'ProtoParser::next (proto.members)'
+        );
+      }
+
       return proto;
     } catch (error) {
       window.log.error(

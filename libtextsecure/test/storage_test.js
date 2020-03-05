@@ -1,9 +1,7 @@
-/* global libsignal, textsecure */
+/* global libsignal, textsecure, storage, ConversationController */
 
 describe('SignalProtocolStore', () => {
-  before(() => {
-    localStorage.clear();
-  });
+  // debugger;
   const store = textsecure.storage.protocol;
   const identifier = '+5558675309';
   const identityKey = {
@@ -14,6 +12,14 @@ describe('SignalProtocolStore', () => {
     pubKey: libsignal.crypto.getRandomBytes(33),
     privKey: libsignal.crypto.getRandomBytes(32),
   };
+  before(async () => {
+    localStorage.clear();
+    ConversationController.reset();
+    // store.hydrateCaches();
+    await storage.fetch();
+    await ConversationController.load();
+    await ConversationController.getOrCreateAndWait(identifier, 'private');
+  });
   it('retrieves my registration id', async () => {
     store.put('registrationId', 1337);
 
