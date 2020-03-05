@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signalopdatering tilgængelig",
+        "message": "Sessionopdatering tilgængelig",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Der er en ny version af Signal tilgængelig.",
+        "message": "Der er en ny version af Session tilgængelig.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Genstart Signal for at anvende opdateringerne.",
+        "message": "Genstart Session for at anvende opdateringerne.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Genstart Signal",
+        "message": "Genstart Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

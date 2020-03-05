@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Доступно обновление Signal",
+        "message": "Доступно обновление Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Доступна новая версия Signal",
+        "message": "Доступна новая версия Session",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Для применения обновлений перезапустите Signal.",
+        "message": "Для применения обновлений перезапустите Session.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Перезапустите Signal",
+        "message": "Перезапустите Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

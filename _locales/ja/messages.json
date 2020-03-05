@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signalのアップデートがあります",
+        "message": "Sessionのアップデートがあります",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "新しく生まれ変わったSignalがあります",
+        "message": "新しく生まれ変わったSessionがあります",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "アップデートを適用するにはSignalを再起動してください。",
+        "message": "アップデートを適用するにはSessionを再起動してください。",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Signalを再起動",
+        "message": "Sessionを再起動",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

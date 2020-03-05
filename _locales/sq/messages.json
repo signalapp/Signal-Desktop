@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Ka gati përditësim të Signal-it",
+        "message": "Ka gati përditësim të Session-it",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Ka të gatshëm një version të ri të Signal-it",
+        "message": "Ka të gatshëm një version të ri të Session-it",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Shtypni Rinise Signal-in që të zbatohen përditësimet.",
+        "message": "Shtypni Rinise Session-in që të zbatohen përditësimet.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Riniseni Signal-in",
+        "message": "Riniseni Session-in",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

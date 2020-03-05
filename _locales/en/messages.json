@@ -1965,7 +1965,7 @@
     "message": "There is a new version of Session available."
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Would you like to download the update?"
+    "message": "Press Restart Session to apply the updates."
   },
   "autoUpdateRestartButtonLabel": {
     "message": "Restart Session"
@@ -1979,8 +1979,8 @@
   "autoUpdateDownloadedMessage": {
     "message": "The new update has been downloaded."
   },
-  "autoUpdateRestartInstructions": {
-    "message": "Press Restart Session to apply the updates."
+  "autoUpdateDownloadInstructions": {
+    "message": "Would you like to download the update?"
   },
   "leftTheGroup": {
     "message": "$name$ left the group",

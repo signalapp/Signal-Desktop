@@ -32,7 +32,7 @@ export async function showDownloadUpdateDialog(
     ],
     title: messages.autoUpdateNewVersionTitle.message,
     message: messages.autoUpdateNewVersionMessage.message,
-    detail: messages.autoUpdateNewVersionInstructions.message,
+    detail: messages.autoUpdateDownloadInstructions.message,
     defaultId: LATER_BUTTON,
     cancelId: DOWNLOAD_BUTTON,
   };
@@ -58,7 +58,7 @@ export async function showUpdateDialog(
     ],
     title: messages.autoUpdateNewVersionTitle.message,
     message: messages.autoUpdateDownloadedMessage.message,
-    detail: messages.autoUpdateRestartInstructions.message,
+    detail: messages.autoUpdateNewVersionInstructions.message,
     defaultId: LATER_BUTTON,
     cancelId: RESTART_BUTTON,
   };

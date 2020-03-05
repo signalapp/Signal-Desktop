@@ -1324,19 +1324,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Actualización de Signal disponible",
+        "message": "Actualización de Session disponible",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Hay una nueva versión de Signal disponible.",
+        "message": "Hay una nueva versión de Session disponible.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "Press Restart Session to apply the updates.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "Restart Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Na voljo je posodobitev aplikacije Signal",
+        "message": "Na voljo je posodobitev aplikacije Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Na voljo je nova različica aplikacije Signal.",
+        "message": "Na voljo je nova različica aplikacije Session.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Za uveljavitev nadgradenj pritisnite tipko Ponovno zaženi Signal",
+        "message": "Za uveljavitev nadgradenj pritisnite tipko Ponovno zaženi Session",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Ponovno zaženi Signal",
+        "message": "Ponovno zaženi Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

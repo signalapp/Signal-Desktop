@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Dostupna nadogradnja za Signal",
+        "message": "Dostupna nadogradnja za Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Dostupna je nova inačica Signala.",
+        "message": "Dostupna je nova inačica Session.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart Signal to apply the updates.",
+        "message": "Press Restart Session to apply the updates.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "Restart Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

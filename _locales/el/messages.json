@@ -1460,11 +1460,11 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Διαθέσιμη ενημέρωση του Signal",
+        "message": "Διαθέσιμη ενημέρωση του Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Μια νέα έκδοση του Signal είναι διαθέσιμη.",
+        "message": "Μια νέα έκδοση του Session είναι διαθέσιμη.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -1472,7 +1472,7 @@
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Επανεκκίνηση του Signal",
+        "message": "Επανεκκίνηση του Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
