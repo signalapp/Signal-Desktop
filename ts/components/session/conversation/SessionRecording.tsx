@@ -47,7 +47,8 @@ export class SessionRecording extends React.Component<Props, State> {
     this.handleHoverActions = this.handleHoverActions.bind(this);
     this.handleUnhoverActions = this.handleUnhoverActions.bind(this);
     
-    this.playRecording = this.playRecording.bind(this);
+    this.playAudio = this.playAudio.bind(this);
+    this.pauseAudio = this.pauseAudio.bind(this);
     this.stopRecording = this.stopRecording.bind(this);
 
     this.onSendVoiceMessage = this.onSendVoiceMessage.bind(this);
@@ -92,15 +93,39 @@ export class SessionRecording extends React.Component<Props, State> {
     clearInterval(this.state.updateTimerInterval);
   }
 
+  public componentDidUpdate() {
+    const { audioElement, isPlaying } = this.state;
+    
+    if (audioElement){
+      if (isPlaying) {
+        audioElement.play();
+      } else {
+        audioElement.pause();
+      }
+    }
+  }
+
 
   render() {
-    const actionPause = (this.state.actionHover && this.state.isRecording);
-    const actionPlay = (!this.state.isRecording || this.state.isPaused);
-    const actionDefault = !actionPause && !actionPlay;
-    const { isRecording, startTimestamp, nowTimestamp } = this.state;
+    const {
+      actionHover,
+      isPlaying,
+      isPaused,
+      isRecording,
+      startTimestamp,
+      nowTimestamp,
+    } = this.state;
+
+    const actionStopRecording = actionHover && isRecording;
+    const actionPlayAudio = !isRecording && !isPlaying;
+    const actionPauseAudio = !isRecording && !isPaused && isPlaying;
+    const actionDefault = !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
     
     const elapsedTimeMs = 1000 * (nowTimestamp - startTimestamp);
     const displayTimeString = moment.utc(elapsedTimeMs).format('m:ss');
+
+    const actionPauseFn = isPlaying ? this.pauseAudio : this.stopStream;
+
 
     return (
       <div className="session-recording">
@@ -109,20 +134,29 @@ export class SessionRecording extends React.Component<Props, State> {
             onMouseEnter={this.handleHoverActions}
             onMouseLeave={this.handleUnhoverActions}
         >
-            {actionPause && (
+            {actionStopRecording && (
               <SessionIconButton
                 iconType={SessionIconType.Pause}
                 iconSize={SessionIconSize.Medium}
                 // FIXME VINCE: Globalise constants for JS Session Colors
                 iconColor={'#FF4538'}
-                onClick={this.stopStream}
+                onClick={actionPauseFn}
               />
             )}
-            {actionPlay && (
+            {actionPauseAudio && (
+              <SessionIconButton
+                iconType={SessionIconType.Pause}
+                iconSize={SessionIconSize.Medium}
+                // FIXME VINCE: Globalise constants for JS Session Colors
+                iconColor={'#FFFFFF'}
+                onClick={actionPauseFn}
+              />
+            )}
+            {actionPlayAudio && (
               <SessionIconButton
                 iconType={SessionIconType.Play}
                 iconSize={SessionIconSize.Medium}
-                onClick={this.playRecording}
+                onClick={this.playAudio}
               />
             )}
             
@@ -160,8 +194,6 @@ export class SessionRecording extends React.Component<Props, State> {
               />
             </div>
           )}
-
-        
 
         <div className="session-recording--status">
           { isRecording ? (
@@ -222,7 +254,7 @@ export class SessionRecording extends React.Component<Props, State> {
     });
   }
 
-  private playRecording() {
+  private playAudio() {
     const { mediaBlob, streamParams } = this.state;
 
     if (!mediaBlob){
@@ -232,22 +264,28 @@ export class SessionRecording extends React.Component<Props, State> {
       return;
     }
 
+    // Start playing recording
+    const audioURL = window.URL.createObjectURL(mediaBlob.data);
+    const audioElement = new Audio(audioURL);
+
+    console.log(`[vince][stream] Audio Element: `, audioElement);
+    console.log(`[vince][stream] AudioURL: `, audioURL);
+
     this.setState({
+      audioElement,
       isRecording: false,
       isPaused: false,
       isPlaying: true,
     });
 
-    // Start playing recording
-    const audioURL = window.URL.createObjectURL(mediaBlob.data);
-    const audioElement = new Audio(audioURL);
-    this.setState({audioElement});
-    audioElement.play();
-    
-
-    console.log(`[vince][stream] Audio: `, audioURL);
-    console.log(`[vince][stream] AudioURL: `, audioURL);
-
+  }
+  
+  private pauseAudio() {
+    this.state.audioElement?.pause();
+    this.setState({
+      isPlaying: false,
+      isPaused: true,
+    });
   }
 
   private initSendVoiceRecording(){
