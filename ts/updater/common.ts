@@ -18,6 +18,32 @@ export type LoggerType = {
   trace: LogFunction;
 };
 
+export async function showDownloadUpdateDialog(
+  mainWindow: BrowserWindow,
+  messages: MessagesType
+): Promise<boolean> {
+  const DOWNLOAD_BUTTON = 0;
+  const LATER_BUTTON = 1;
+  const options = {
+    type: 'info',
+    buttons: [
+      messages.autoUpdateDownloadButtonLabel.message,
+      messages.autoUpdateLaterButtonLabel.message,
+    ],
+    title: messages.autoUpdateNewVersionTitle.message,
+    message: messages.autoUpdateNewVersionMessage.message,
+    detail: messages.autoUpdateNewVersionInstructions.message,
+    defaultId: LATER_BUTTON,
+    cancelId: DOWNLOAD_BUTTON,
+  };
+
+  return new Promise(resolve => {
+    dialog.showMessageBox(mainWindow, options, response => {
+      resolve(response === DOWNLOAD_BUTTON);
+    });
+  });
+}
+
 export async function showUpdateDialog(
   mainWindow: BrowserWindow,
   messages: MessagesType
@@ -31,24 +57,18 @@ export async function showUpdateDialog(
       messages.autoUpdateLaterButtonLabel.message,
     ],
     title: messages.autoUpdateNewVersionTitle.message,
-    message: messages.autoUpdateNewVersionMessage.message,
-    detail: messages.autoUpdateNewVersionInstructions.message,
+    message: messages.autoUpdateDownloadedMessage.message,
+    detail: messages.autoUpdateRestartInstructions.message,
     defaultId: LATER_BUTTON,
     cancelId: RESTART_BUTTON,
   };
 
   return new Promise(resolve => {
     dialog.showMessageBox(mainWindow, options, response => {
-      if (response === RESTART_BUTTON) {
-        // It's key to delay any install calls here because they don't seem to work inside this
-        //   callback - but only if the message box has a parent window.
-        // Fixes this: https://github.com/signalapp/Signal-Desktop/issues/1864
-        resolve(true);
-
-        return;
-      }
-
-      resolve(false);
+      // It's key to delay any install calls here because they don't seem to work inside this
+      //   callback - but only if the message box has a parent window.
+      // Fixes this: https://github.com/signalapp/Signal-Desktop/issues/1864
+      resolve(response === RESTART_BUTTON);
     });
   });
 }

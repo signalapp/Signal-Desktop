@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { autoUpdater } from 'electron-updater';
+import { autoUpdater, UpdateInfo } from 'electron-updater';
 import { app, BrowserWindow } from 'electron';
 import { markShouldQuit } from '../../app/window_state';
 import {
@@ -8,10 +8,13 @@ import {
   LoggerType,
   MessagesType,
   showCannotUpdateDialog,
+  showDownloadUpdateDialog,
   showUpdateDialog,
 } from './common';
+import { gt as isVersionGreaterThan, parse as parseVersion } from 'semver';
 
 let isUpdating = false;
+let downloadIgnored = false;
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -25,6 +28,7 @@ export async function start(
   logger.info('auto-update: starting checks...');
 
   autoUpdater.logger = logger;
+  autoUpdater.autoDownload = false;
 
   setInterval(async () => {
     try {
@@ -42,7 +46,7 @@ async function checkForUpdates(
   messages: MessagesType,
   logger: LoggerType
 ) {
-  if (isUpdating) {
+  if (isUpdating || downloadIgnored) {
     return;
   }
 
@@ -51,20 +55,39 @@ async function checkForUpdates(
     return;
   }
 
-  isUpdating = true;
-
   logger.info('auto-update: checking for update...');
+
+  isUpdating = true;
 
   try {
     // Get the update using electron-updater
+    const result = await autoUpdater.checkForUpdates();
+    if (!result.updateInfo) {
+      logger.info('auto-update: no update info received');
+
+      return;
+    }
+
     try {
-      const info = await autoUpdater.checkForUpdates();
-      if (!info.downloadPromise) {
-        logger.info('auto-update: no update to download');
+      const hasUpdate = isUpdateAvailable(result.updateInfo);
+      if (!hasUpdate) {
+        logger.info('auto-update: no update available');
 
         return;
       }
-      await info.downloadPromise;
+
+      logger.info('auto-update: showing download dialog...');
+      const shouldDownload = await showDownloadUpdateDialog(
+        getMainWindow(),
+        messages
+      );
+      if (!shouldDownload) {
+        downloadIgnored = true;
+
+        return;
+      }
+
+      await autoUpdater.downloadUpdate();
     } catch (error) {
       await showCannotUpdateDialog(getMainWindow(), messages);
       throw error;
@@ -83,6 +106,18 @@ async function checkForUpdates(
   } finally {
     isUpdating = false;
   }
+}
+
+function isUpdateAvailable(updateInfo: UpdateInfo): boolean {
+  const latestVersion = parseVersion(updateInfo.version);
+  if (!latestVersion) {
+    return false;
+  }
+
+  // We need to convert this to string because typescript won't let us use types across submodules ....
+  const currentVersion = autoUpdater.currentVersion.toString();
+
+  return isVersionGreaterThan(latestVersion, currentVersion);
 }
 
 /*
