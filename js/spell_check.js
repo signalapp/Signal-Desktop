@@ -5,9 +5,7 @@
 const electron = require('electron');
 
 const Typo = require('typo-js');
-const fs = require('fs');
 const osLocale = require('os-locale');
-const path = require('path');
 
 const { remote, webFrame } = electron;
 
@@ -36,35 +34,17 @@ const ENGLISH_SKIP_WORDS = [
 ];
 
 function setupLinux(locale) {
-  if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
-    // apt-get install hunspell-<locale> can be run for easy access
-    //   to other dictionaries
-    const location = process.env.HUNSPELL_DICTIONARIES || '/usr/share/hunspell';
-    const affDataPath = path.join(location, `${locale}.aff`);
-    const dicDataPath = path.join(location, `${locale}.dic`);
+  if (EN_VARIANT.test(locale)) {
+    window.log.info('Detected English locale on Linux. Enabling spell check.');
 
-    window.log.info(
-      'Detected Linux. Setting up spell check with locale',
-      locale,
-      'and dictionary location',
-      location
-    );
-
-    if (fs.existsSync(affDataPath) && fs.existsSync(dicDataPath)) {
-      const affData = fs.readFileSync(affDataPath, 'utf-8');
-      const dicData = fs.readFileSync(dicDataPath, 'utf-8');
-
-      return new Typo(locale, affData, dicData);
-    }
-
-    window.log.error(
-      `Could not find one of ${affDataPath} or ${dicDataPath} on filesystem`
-    );
+    return new Typo(locale);
   }
 
-  window.log.info('Detected Linux. Using default en_US spell check dictionary');
+  window.log.info(
+    'Detected non-English locale on Linux. Disabling spell check.'
+  );
 
-  return new Typo(locale);
+  return null;
 }
 
 // We load locale this way and not via app.getLocale() because this call returns
@@ -96,6 +76,10 @@ const simpleChecker = {
     callback(mispelled);
   },
   isMisspelled(word) {
+    if (!spellchecker) {
+      return false;
+    }
+
     const misspelled = !spellchecker.check(word);
 
     // The idea is to make this as fast as possible. For the many, many calls which
@@ -112,6 +96,10 @@ const simpleChecker = {
     return true;
   },
   getSuggestions(text) {
+    if (!spellchecker) {
+      return [];
+    }
+
     return spellchecker.suggest(text);
   },
   add() {},
