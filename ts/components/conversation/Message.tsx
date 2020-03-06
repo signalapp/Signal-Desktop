@@ -163,7 +163,6 @@ interface State {
   isSelected?: boolean;
   prevSelectedCounter?: number;
 
-  pickedReaction?: string;
   reactionViewerRoot: HTMLDivElement | null;
   reactionPickerRoot: HTMLDivElement | null;
 
@@ -1426,10 +1425,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public toggleReactionViewer = (
-    onlyRemove = false,
-    pickedReaction?: string
-  ) => {
+  public toggleReactionViewer = (onlyRemove = false) => {
     this.setState(({ reactionViewerRoot }) => {
       if (reactionViewerRoot) {
         document.body.removeChild(reactionViewerRoot);
@@ -1439,7 +1435,7 @@ export class Message extends React.PureComponent<Props, State> {
           true
         );
 
-        return { reactionViewerRoot: null, pickedReaction };
+        return { reactionViewerRoot: null };
       }
 
       if (!onlyRemove) {
@@ -1453,11 +1449,10 @@ export class Message extends React.PureComponent<Props, State> {
 
         return {
           reactionViewerRoot: root,
-          pickedReaction,
         };
       }
 
-      return { reactionViewerRoot: null, pickedReaction };
+      return { reactionViewerRoot: null };
     });
   };
 
@@ -1550,7 +1545,7 @@ export class Message extends React.PureComponent<Props, State> {
       someNotRendered &&
       maybeNotRendered.some(res => res.some(re => Boolean(re.from.isMe)));
 
-    const { reactionViewerRoot, containerWidth, pickedReaction } = this.state;
+    const { reactionViewerRoot, containerWidth } = this.state;
 
     // Calculate the width of the reactions container
     const reactionsWidth = toRender.reduce((sum, res, i, arr) => {
@@ -1611,7 +1606,6 @@ export class Message extends React.PureComponent<Props, State> {
                     onClick={e => {
                       e.stopPropagation();
                       e.preventDefault();
-
                       this.toggleReactionViewer(false);
                     }}
                     onKeyDown={e => {
@@ -1667,7 +1661,6 @@ export class Message extends React.PureComponent<Props, State> {
                     zIndex: 2,
                   }}
                   reactions={reactions}
-                  pickedReaction={pickedReaction}
                   i18n={i18n}
                   onClose={this.toggleReactionViewer}
                 />
