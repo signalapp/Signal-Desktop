@@ -104,19 +104,29 @@ async function doSearch(
 
   const [discussions, messages] = await Promise.all([
     queryConversationsAndContacts(processedQuery, options),
-    queryMessages(processedQuery)
+    queryMessages(processedQuery),
   ]);
   const { conversations, contacts } = discussions;
   let filteredMessages = messages.filter(message => message !== undefined);
 
   if (isAdvancedQuery) {
     let senderFilter: string[] = [];
-    if (advancedSearchOptions['from'] !== null && advancedSearchOptions['from'].length > 0) {
-      const senderFilterQuery  = await queryConversationsAndContacts(advancedSearchOptions['from'], options);
+    if (
+      advancedSearchOptions['from'] !== null &&
+      advancedSearchOptions['from'].length > 0
+    ) {
+      const senderFilterQuery = await queryConversationsAndContacts(
+        advancedSearchOptions['from'],
+        options
+      );
       senderFilter = senderFilterQuery.contacts;
       console.log(senderFilter);
     }
-    filteredMessages = filterMessages(filteredMessages, advancedSearchOptions, senderFilter);
+    filteredMessages = filterMessages(
+      filteredMessages,
+      advancedSearchOptions,
+      senderFilter
+    );
     console.log(filteredMessages);
     console.log(advancedSearchOptions);
   }
@@ -162,14 +172,18 @@ function startNewConversation(
 
 // Helper functions for search
 
-function filterMessages(messages: any[], filters: AdvancedSearchOptions, contacts: string[]) {
+function filterMessages(
+  messages: any[],
+  filters: AdvancedSearchOptions,
+  contacts: string[]
+) {
   let filteredMessages = messages;
   if (filters['from'] !== null && filters['from'].length > 0) {
     if (filters['from'] === '@me') {
       filteredMessages = filteredMessages.filter(message => message.sent);
     } else {
       filteredMessages = [];
-      for(let contact of contacts) {
+      for (let contact of contacts) {
         for (const message of messages) {
           if (message.source === contact) {
             filteredMessages.push(message);
@@ -179,14 +193,18 @@ function filterMessages(messages: any[], filters: AdvancedSearchOptions, contact
     }
   }
   if (filters['before'] > 0) {
-    filteredMessages = filteredMessages.filter(message => message.received_at < filters['before']);
+    filteredMessages = filteredMessages.filter(
+      message => message.received_at < filters['before']
+    );
   }
   if (filters['after'] > 0) {
-    filteredMessages = filteredMessages.filter(message => message.received_at > filters['after']);
+    filteredMessages = filteredMessages.filter(
+      message => message.received_at > filters['after']
+    );
   }
 
   return filteredMessages;
-};
+}
 
 function getUnixTimestampParameter(timestamp: string): number {
   if (!isNaN(parseInt(timestamp))) {
@@ -197,22 +215,24 @@ function getUnixTimestampParameter(timestamp: string): number {
   }
 }
 
-function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions {
+function getAdvancedSearchOptionsFromQuery(
+  query: string
+): AdvancedSearchOptions {
   const filterSeperator = ':';
   const filters: any = {
     query: null,
     from: null,
     before: null,
-    after: null
+    after: null,
   };
 
   let newQuery = query;
   const splitQuery = query.toLowerCase().split(' ');
   const filtersList = Object.keys(filters);
-  for(let queryPart of splitQuery) {
-    for(let filter of filtersList) {
+  for (let queryPart of splitQuery) {
+    for (let filter of filtersList) {
       const filterMatcher = filter + filterSeperator;
-      if(queryPart.startsWith(filterMatcher)) {
+      if (queryPart.startsWith(filterMatcher)) {
         filters[filter] = queryPart.replace(filterMatcher, '');
         newQuery = newQuery.replace(queryPart, '').trim();
       }
@@ -223,7 +243,7 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
   filters['after'] = getUnixTimestampParameter(filters['after']);
   filters['query'] = newQuery;
   return filters;
-};
+}
 
 const getMessageProps = (messages: Array<MessageType>) => {
   if (!messages || !messages.length) {

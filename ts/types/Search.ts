@@ -6,8 +6,8 @@ export type SearchOptions = {
 };
 
 export type AdvancedSearchOptions = {
-  query: string; 
-  from: string; 
-  before: number; 
+  query: string;
+  from: string;
+  before: number;
   after: number;
 };
