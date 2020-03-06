@@ -754,12 +754,10 @@
           }
 
           // lets not allow ANY URLs, lets force it to be local to public chat server
-          const relativeFileUrl = fileObj.url.replace(
-            API.serverAPI.baseServerUrl,
-            ''
-          );
+          const url = new URL(fileObj.url);
+
           // write it to the channel
-          await API.setChannelAvatar(relativeFileUrl);
+          await API.setChannelAvatar(url.pathname);
         }
 
         if (await API.setChannelName(groupName)) {
@@ -2029,7 +2027,7 @@
       }
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
-        // RSS expects duplciates, so squelch log
+        // RSS expects duplicates, so squelch log
         if (!descriptorId.match(/^rss:/)) {
           window.log.warn('Received duplicate message', message.idForLogging());
         }
