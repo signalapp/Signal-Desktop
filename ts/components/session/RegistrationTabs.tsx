@@ -143,12 +143,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
         seedHex = seedHex.concat(seedHex);
         seedHex = seedHex.substring(0, privKeyHexLength);
       }
-      const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
-      const privKey = window.dcodeIO.ByteBuffer.wrap(
-        privKeyHex,
+      const seed = window.dcodeIO.ByteBuffer.wrap(
+        seedHex,
         'hex'
       ).toArrayBuffer();
-      const keyPair = await window.libsignal.Curve.async.createKeyPair(privKey);
+      const keyPair = await window.libsignal.Curve.async.createKeyPair(seed);
       const hexGeneratedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
 
       this.setState({
