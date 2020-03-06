@@ -27,7 +27,7 @@ const {
   shell,
 } = electron;
 
-const appUserModelId = `org.whispersystems.${packageJson.name}`;
+const appUserModelId = packageJson.build.appId;
 console.log('Set Windows Application User Model ID (AUMID)', {
   appUserModelId,
 });
