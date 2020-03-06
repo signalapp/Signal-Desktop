@@ -274,8 +274,10 @@ $composition-container-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 
     canvas {
+      position: absolute;
       width: 100%;
       padding: 0px $session-margin-lg;
     }

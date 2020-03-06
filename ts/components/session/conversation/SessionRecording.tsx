@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import {  SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionButton, SessionButtonType, SessionButtonColor } from '../SessionButton';
+import { Timestamp } from '../../conversation/Timestamp';
 
 
 interface Props {
@@ -40,6 +41,7 @@ interface State {
 export class SessionRecording extends React.Component<Props, State> {
   private visualisationRef: React.RefObject<HTMLDivElement>;
   private visualisationCanvas: React.RefObject<HTMLCanvasElement>;
+  private progressCanvas: React.RefObject<HTMLCanvasElement>;
 
   constructor(props: any) {
     super(props);
@@ -55,13 +57,14 @@ export class SessionRecording extends React.Component<Props, State> {
     this.onDeleteVoiceMessage = this.onDeleteVoiceMessage.bind(this);
 
     this.timerUpdate = this.timerUpdate.bind(this);
-    this.onStream = this.onStream.bind(this);
-    this.stopStream = this.stopStream.bind(this);
+    this.onRecordingStream = this.onRecordingStream.bind(this);
+    this.stopRecordingStream = this.stopRecordingStream.bind(this);
 
     this.visualisationRef = React.createRef();
     this.visualisationCanvas = React.createRef();
+    this.progressCanvas = React.createRef();
 
-    const now = moment().unix();
+    const now = Number(moment().format('x')) / 1000;
     const updateTimerInterval = setInterval(this.timerUpdate, 1000);
     
     this.state = {
@@ -78,15 +81,14 @@ export class SessionRecording extends React.Component<Props, State> {
       
       startTimestamp: now,
       nowTimestamp: now,
-      updateTimerInterval: updateTimerInterval,
+      updateTimerInterval,
     };
     
-
   }
 
   public async componentWillMount(){
     // This turns on the microphone on the system. Later we need to turn it off.
-    this.initiateStream();
+    this.initiateRecordingStream();
   }
 
   public componentWillUnmount(){
@@ -124,7 +126,7 @@ export class SessionRecording extends React.Component<Props, State> {
     const elapsedTimeMs = 1000 * (nowTimestamp - startTimestamp);
     const displayTimeString = moment.utc(elapsedTimeMs).format('m:ss');
 
-    const actionPauseFn = isPlaying ? this.pauseAudio : this.stopStream;
+    const actionPauseFn = isPlaying ? this.pauseAudio : this.stopRecordingStream;
 
 
     return (
@@ -172,7 +174,8 @@ export class SessionRecording extends React.Component<Props, State> {
          className="session-recording--visualisation"
          ref={this.visualisationRef}
         >
-          <canvas ref={this.visualisationCanvas}></canvas>
+          {isPlaying && <canvas ref={this.progressCanvas}></canvas>}
+          {isRecording && <canvas ref={this.visualisationCanvas}></canvas>}
         </div>
         
 
@@ -225,17 +228,16 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private timerUpdate(){
-    const { nowTimestamp, startTimestamp } = this.state;
-    const elapsedTime = nowTimestamp - startTimestamp;
+    const { nowTimestamp, startTimestamp, isRecording } = this.state;
+    const elapsedTime = (nowTimestamp - startTimestamp);
 
-    if (elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION){
+    if (!isRecording || elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION){
       clearInterval(this.state.updateTimerInterval);
       this.stopStream();
-      return;
     }
 
     this.setState({
-      nowTimestamp: moment().unix()
+      nowTimestamp: Number(moment().format('x')) / 1000
     });
   }
 
@@ -248,28 +250,50 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private async stopRecording() {
+    const { nowTimestamp, startTimestamp } = this.state;
+    const recordDuration = nowTimestamp - startTimestamp;
+
     this.setState({
+        recordDuration,
         isRecording: false,
         isPaused: true,
     });
   }
 
   private playAudio() {
-    const { mediaBlob, streamParams } = this.state;
+    // Generate audio element if it doesn't exist
+    const generateAudioElement = () => {
+      const { mediaBlob, recordDuration } = this.state;
+  
+      if (!mediaBlob){
+        return undefined;
+      }
+  
+      const audioURL = window.URL.createObjectURL(mediaBlob.data);
+      const audioElement = new Audio(audioURL);
 
-    if (!mediaBlob){
-      window.pushToast({
-        title: 'There was an error playing your voice recording.',
-      });
-      return;
+      audioElement.loop = false;
+
+      audioElement.oncanplaythrough = data => {
+        const duration = audioElement.duration;
+        const progress = recordDuration - audioElement.currentTime;
+
+        if (duration && audioElement.currentTime < duration) {
+          audioElement.play();
+        }
+      };
+
+      return audioElement;
+  
     }
 
+    const audioElement = this.state.audioElement || generateAudioElement();
+    
     // Start playing recording
-    const audioURL = window.URL.createObjectURL(mediaBlob.data);
-    const audioElement = new Audio(audioURL);
+    audioElement && audioElement.play();
 
-    console.log(`[vince][stream] Audio Element: `, audioElement);
-    console.log(`[vince][stream] AudioURL: `, audioURL);
+    // Draw canvas
+    this.onPlaybackStream(audioElement);
 
     this.setState({
       audioElement,
@@ -282,6 +306,7 @@ export class SessionRecording extends React.Component<Props, State> {
   
   private pauseAudio() {
     this.state.audioElement?.pause();
+
     this.setState({
       isPlaying: false,
       isPaused: true,
@@ -291,12 +316,11 @@ export class SessionRecording extends React.Component<Props, State> {
   private initSendVoiceRecording(){
     // Is the audio file < 10mb? That's the attachment filesize limit
 
-
     return;
   }
 
   private onDeleteVoiceMessage() {
-    this.stopStream();
+    this.stopRecordingStream();
 
     this.setState({
       isRecording: false,
@@ -309,12 +333,13 @@ export class SessionRecording extends React.Component<Props, State> {
       console.log(`[vince][mic] Sending voice message`);
   }
 
-  private async initiateStream() {
-    navigator.getUserMedia({audio:true}, this.onStream, this.onStreamError);
+  private async initiateRecordingStream() {
+    navigator.getUserMedia({audio:true}, this.onRecordingStream, this.onStreamError);
   }
 
-  private stopStream() {
-    const {streamParams} = this.state;
+  private stopRecordingStream() {
+    const { streamParams, updateTimerInterval} = this.state;
+    updateTimerInterval && clearInterval(updateTimerInterval);
     
     // Exit if parameters aren't yet set
     if (!streamParams){
@@ -332,15 +357,14 @@ export class SessionRecording extends React.Component<Props, State> {
     console.log(`[vince][stream] Input: `, streamParams.input);
     console.log(`[vince][stream] Processor: `, streamParams.processor);
     
-
     // Stop recording
     this.stopRecording();
   }
 
-  private onStream(stream: any) {
+  private onRecordingStream(stream: any) {
     // If not recording, stop stream
     if (!this.state.isRecording) {
-      this.stopStream();
+      this.stopRecordingStream();
       return;
     }
 
@@ -351,7 +375,6 @@ export class SessionRecording extends React.Component<Props, State> {
     };
     media.start();
 
-    
     // Audio Context
     const audioContext = new window.AudioContext();
     const input = audioContext.createMediaStreamSource(stream);
@@ -376,7 +399,6 @@ export class SessionRecording extends React.Component<Props, State> {
       
       const maxVisualisationHeight = 30;
       const minVisualisationHeight = 3;
-    
 
       // CANVAS CONTEXT
       const drawRecordingCanvas = () => {
@@ -431,22 +453,94 @@ export class SessionRecording extends React.Component<Props, State> {
         }
       }
 
-      const drawPlayingCanvas = () => {
-        return;
-      }
-
       this.state.isRecording && requestAnimationFrame(drawRecordingCanvas);
-      this.state.isPlaying && requestAnimationFrame(drawPlayingCanvas);
     }
 
-    // Init listeners for visualisation visualisation
+    // Init listeners for visualisation
     input.connect(analyser);
     processor.connect(audioContext.destination);
   }
 
-
   private onStreamError(error: any) {
     return error;
+  }
+
+  private onPlaybackStream(audioElement?: HTMLAudioElement) {
+
+    // Audio Context
+    const audioContext = new window.AudioContext();
+    const input = audioContext.createMediaElementSource(audioElement);
+    
+    const bufferSize = 1024;
+    const analyser = audioContext.createAnalyser();
+    analyser.smoothingTimeConstant = 0.3;
+    analyser.fftSize = 64;
+
+    const processor = audioContext.createScriptProcessor(bufferSize, 1, 1);
+
+    processor.onaudioprocess = () => {
+      // Array of volumes by frequency (not in Hz, arbitrary unit)
+      const dataUint8Array = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteTimeDomainData(dataUint8Array);
+
+      const dataArray = Array.from(dataUint8Array);
+      const VISUALISATION_WIDTH = this.progressCanvas.current?.clientWidth;
+      
+      const maxVisualisationHeight = 30;
+      const minVisualisationHeight = 3;
+
+      // CANVAS CONTEXT
+      const drawPlaybackCanvas = () => {
+        // const canvas = this.progressCanvas.current;
+        // const CANVAS_HEIGHT = 35;
+        // const CANVAS_WIDTH = VISUALISATION_WIDTH || 600;
+
+        // const barPadding = 3;
+        // const barWidth = 4;
+
+        // const numBars = CANVAS_WIDTH / (barPadding + barWidth);
+        
+        // const avgVolumeBar = dataArray.reduce((a, b) => a + b) / dataArray.length;
+
+        // canvas && (canvas.height = CANVAS_HEIGHT);
+        // canvas && (canvas.width = CANVAS_WIDTH);
+        // const canvasContext = canvas && (canvas.getContext(`2d`));
+        
+        // const barHeight = 45;
+        // const offset_x = Math.ceil(3 * (barWidth + barPadding));
+        // const offset_y = Math.ceil((CANVAS_HEIGHT / 2 ) - (barHeight / 2 ));
+        // const radius = 15;
+
+        // // FIXME VINCE - Globalise JS references to colors
+        // canvasContext && (canvasContext.fillStyle = '#11FF11');
+        // canvasContext && this.drawRoundedRect(
+        //   canvasContext,
+        //   offset_x,
+        //   offset_y,
+        //   barWidth,
+        //   barHeight,
+        //   radius,
+        // );
+
+        // console.log(`[play] Data array: `, avgVolumeBar);
+
+        
+
+      }
+
+      this.state.isPlaying && requestAnimationFrame(drawPlaybackCanvas);
+      
+      console.log(`[play] Data array: `, dataArray);
+      
+    }
+
+    console.log(`[play] AudioContext: `, audioContext);
+    console.log(`[play] progressCanvas: `, this.progressCanvas.current);
+    
+
+    // Init listeners for visualisation
+    input.connect(analyser);
+    processor.connect(audioContext.destination);
   }
 
   private drawRoundedRect (ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
