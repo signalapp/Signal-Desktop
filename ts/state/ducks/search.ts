@@ -1,7 +1,7 @@
 import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
-import { SearchOptions, AdvancedSearchOptions } from '../../types/Search';
+import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { trigger } from '../../shims/events';
 import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
@@ -99,7 +99,7 @@ async function doSearch(
   const { regionCode } = options;
 
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
-  const processedQuery = advancedSearchOptions['query'];
+  const processedQuery = advancedSearchOptions.query;
   const isAdvancedQuery = query !== processedQuery;
 
   const [discussions, messages] = await Promise.all([
@@ -110,13 +110,13 @@ async function doSearch(
   let filteredMessages = messages.filter(message => message !== undefined);
 
   if (isAdvancedQuery) {
-    let senderFilter: string[] = [];
+    let senderFilter: Array<string> = [];
     if (
-      advancedSearchOptions['from'] !== null &&
-      advancedSearchOptions['from'].length > 0
+      advancedSearchOptions.from !== null &&
+      advancedSearchOptions.from.length > 0
     ) {
       const senderFilterQuery = await queryConversationsAndContacts(
-        advancedSearchOptions['from'],
+        advancedSearchOptions.from,
         options
       );
       senderFilter = senderFilterQuery.contacts;
@@ -170,17 +170,17 @@ function startNewConversation(
 // Helper functions for search
 
 function filterMessages(
-  messages: any[],
+  messages: Array<any>,
   filters: AdvancedSearchOptions,
-  contacts: string[]
+  contacts: Array<string>
 ) {
   let filteredMessages = messages;
-  if (filters['from'] !== null && filters['from'].length > 0) {
-    if (filters['from'] === '@me') {
+  if (filters.from !== null && filters.from.length > 0) {
+    if (filters.from=== '@me') {
       filteredMessages = filteredMessages.filter(message => message.sent);
     } else {
       filteredMessages = [];
-      for (let contact of contacts) {
+      for (const contact of contacts) {
         for (const message of messages) {
           if (message.source === contact) {
             filteredMessages.push(message);
@@ -189,14 +189,14 @@ function filterMessages(
       }
     }
   }
-  if (filters['before'] > 0) {
+  if (filters.before > 0) {
     filteredMessages = filteredMessages.filter(
-      message => message.received_at < filters['before']
+      message => message.received_at < filters.before
     );
   }
-  if (filters['after'] > 0) {
+  if (filters.after > 0) {
     filteredMessages = filteredMessages.filter(
-      message => message.received_at > filters['after']
+      message => message.received_at > filters.after
     );
   }
 
@@ -204,18 +204,21 @@ function filterMessages(
 }
 
 function getUnixMillisecondsTimestamp(timestamp: string): number {
-  if (!isNaN(parseInt(timestamp))) {
-    const timestampInt = parseInt(timestamp);
+  const timestampInt = parseInt(timestamp, 10);
+  if (!isNaN(timestampInt)) {
     try {
       if (timestampInt > 10000) {
         return new Date(timestampInt).getTime();
       }
+
       return new Date(timestamp).getTime();
     } catch (error) {
-      console.warn('Advanced Search: ' + error);
+      console.warn('Advanced Search: ', error);
+
       return 0;
     }
   }
+
   return 0;
 }
 
@@ -233,8 +236,8 @@ function getAdvancedSearchOptionsFromQuery(
   let newQuery = query;
   const splitQuery = query.toLowerCase().split(' ');
   const filtersList = Object.keys(filters);
-  for (let queryPart of splitQuery) {
-    for (let filter of filtersList) {
+  for (const queryPart of splitQuery) {
+    for (const filter of filtersList) {
       const filterMatcher = filter + filterSeperator;
       if (queryPart.startsWith(filterMatcher)) {
         filters[filter] = queryPart.replace(filterMatcher, '');
@@ -243,9 +246,10 @@ function getAdvancedSearchOptionsFromQuery(
     }
   }
 
-  filters['before'] = getUnixMillisecondsTimestamp(filters['before']);
-  filters['after'] = getUnixMillisecondsTimestamp(filters['after']);
-  filters['query'] = newQuery;
+  filters.before = getUnixMillisecondsTimestamp(filters.before);
+  filters.after = getUnixMillisecondsTimestamp(filters.after);
+  filters.query = newQuery;
+
   return filters;
 }
 
