@@ -120,15 +120,12 @@ async function doSearch(
         options
       );
       senderFilter = senderFilterQuery.contacts;
-      console.log(senderFilter);
     }
     filteredMessages = filterMessages(
       filteredMessages,
       advancedSearchOptions,
       senderFilter
     );
-    console.log(filteredMessages);
-    console.log(advancedSearchOptions);
   }
 
   return {
@@ -206,13 +203,20 @@ function filterMessages(
   return filteredMessages;
 }
 
-function getUnixTimestampParameter(timestamp: string): number {
-  if (!isNaN(parseInt(timestamp))) {
-    return parseInt(timestamp);
-  } else {
-    // ToDo: (konstantinullrich) Add Support for dateformats
-    return 0;
+function getUnixMillisecondsTimestamp(timestamp: string): number {
+  if(!isNaN(parseInt(timestamp))) {
+    const timestampInt = parseInt(timestamp);
+    try {
+      if (timestampInt > 10000) {
+        return new Date(timestampInt).getTime();
+      }
+      return new Date(timestamp).getTime();
+    } catch (error) {
+      console.warn('Advanced Search: ' + error);
+      return 0;
+    }
   }
+  return 0;
 }
 
 function getAdvancedSearchOptionsFromQuery(
@@ -239,8 +243,8 @@ function getAdvancedSearchOptionsFromQuery(
     }
   }
 
-  filters['before'] = getUnixTimestampParameter(filters['before']);
-  filters['after'] = getUnixTimestampParameter(filters['after']);
+  filters['before'] = getUnixMillisecondsTimestamp(filters['before']);
+  filters['after'] = getUnixMillisecondsTimestamp(filters['after']);
   filters['query'] = newQuery;
   return filters;
 }
