@@ -204,7 +204,7 @@ function filterMessages(
 }
 
 function getUnixMillisecondsTimestamp(timestamp: string): number {
-  if(!isNaN(parseInt(timestamp))) {
+  if (!isNaN(parseInt(timestamp))) {
     const timestampInt = parseInt(timestamp);
     try {
       if (timestampInt > 10000) {
