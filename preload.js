@@ -211,8 +211,11 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   // Eg. window.getSettingValue('theme', 'light')
   // returns 'false' when the value is 'dark'.
 
+  // We need to get specific settings from the main process
   if (settingID === 'media-permissions') {
     return window.getMediaPermissions();
+  } else if (settingID === 'auto-update') {
+    return window.getAutoUpdateEnabled();
   }
 
   const settingVal = window.storage.get(settingID);
@@ -220,6 +223,12 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
 };
 
 window.setSettingValue = (settingID, value) => {
+  // For auto updating we need to pass the value to the main process
+  if (settingID === 'auto-update') {
+    window.setAutoUpdateEnabled(value);
+    return;
+  }
+
   window.storage.put(settingID, value);
 
   if (settingID === 'zoom-factor-setting') {
@@ -230,6 +239,10 @@ window.setSettingValue = (settingID, value) => {
 // Get the message TTL setting
 window.getMessageTTL = () => window.storage.get('message-ttl', 24);
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
+
+// Auto update setting
+window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-enabled');
+window.setAutoUpdateEnabled = (value) => ipc.send('set-auto-update-enabled', !!value);
 
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};
