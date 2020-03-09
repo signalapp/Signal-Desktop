@@ -590,54 +590,6 @@ function showAbout() {
   });
 }
 
-let settingsWindow;
-async function showSettingsWindow() {
-  if (settingsWindow) {
-    settingsWindow.show();
-    return;
-  }
-  if (!mainWindow) {
-    return;
-  }
-
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
-  const size = mainWindow.getSize();
-  const options = {
-    width: Math.min(500, size[0]),
-    height: Math.max(size[1] - 100, MIN_HEIGHT),
-    resizable: false,
-    title: locale.messages.signalDesktopPreferences.message,
-    autoHideMenuBar: true,
-    backgroundColor: '#FFFFFF',
-    show: false,
-    modal: true,
-    webPreferences: {
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'settings_preload.js'),
-      nativeWindowOpen: true,
-    },
-    parent: mainWindow,
-  };
-
-  settingsWindow = new BrowserWindow(options);
-
-  captureClicks(settingsWindow);
-
-  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html'], { theme }));
-
-  settingsWindow.on('closed', () => {
-    removeDarkOverlay();
-    settingsWindow = null;
-  });
-
-  settingsWindow.once('ready-to-show', () => {
-    addDarkOverlay();
-    settingsWindow.show();
-  });
-}
-
 let debugLogWindow;
 async function showDebugLogWindow() {
   if (debugLogWindow) {
@@ -870,7 +822,6 @@ function setupMenu(options) {
     showDebugLog: showDebugLogWindow,
     showWindow,
     showAbout,
-    showSettings: showSettingsWindow,
     openReleaseNotes,
     openNewBugForm,
     openSupportPage,
@@ -1122,40 +1073,6 @@ function removeDarkOverlay() {
   }
 }
 
-ipc.on('show-settings', showSettingsWindow);
-ipc.on('close-settings', () => {
-  if (settingsWindow) {
-    settingsWindow.close();
-  }
-});
-
-installSettingsGetter('device-name');
-
-installSettingsGetter('theme-setting');
-installSettingsSetter('theme-setting');
-installSettingsGetter('hide-menu-bar');
-installSettingsSetter('hide-menu-bar');
-
-installSettingsGetter('message-ttl');
-installSettingsSetter('message-ttl');
-
-installSettingsGetter('read-receipt-setting');
-installSettingsSetter('read-receipt-setting');
-
-installSettingsGetter('typing-indicators-setting');
-installSettingsSetter('typing-indicators-setting');
-
-installSettingsGetter('notification-setting');
-installSettingsSetter('notification-setting');
-installSettingsGetter('audio-notification');
-installSettingsSetter('audio-notification');
-
-installSettingsGetter('link-preview-setting');
-installSettingsSetter('link-preview-setting');
-
-installSettingsGetter('spell-check');
-installSettingsSetter('spell-check');
-
 // This one is different because its single source of truth is userConfig, not IndexedDB
 ipc.on('get-media-permissions', event => {
   event.sender.send(
@@ -1176,57 +1093,9 @@ ipc.on('set-media-permissions', (event, value) => {
   }
 });
 
-ipc.on('on-unblock-number', (event, number) => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('on-unblock-number', number);
-  }
-});
-
-installSettingsGetter('is-primary');
-installSettingsGetter('sync-request');
-installSettingsGetter('sync-time');
-installSettingsSetter('sync-time');
-
-ipc.on('delete-all-data', () => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('delete-all-data');
-  }
-});
-
 function getDataFromMainWindow(name, callback) {
   ipc.once(`get-success-${name}`, (_event, error, value) =>
     callback(error, value)
   );
   mainWindow.webContents.send(`get-${name}`);
-}
-
-function installSettingsGetter(name) {
-  ipc.on(`get-${name}`, event => {
-    if (mainWindow && mainWindow.webContents) {
-      getDataFromMainWindow(name, (error, value) => {
-        const contents = event.sender;
-        if (contents.isDestroyed()) {
-          return;
-        }
-
-        contents.send(`get-success-${name}`, error, value);
-      });
-    }
-  });
-}
-
-function installSettingsSetter(name) {
-  ipc.on(`set-${name}`, (event, value) => {
-    if (mainWindow && mainWindow.webContents) {
-      ipc.once(`set-success-${name}`, (_event, error) => {
-        const contents = event.sender;
-        if (contents.isDestroyed()) {
-          return;
-        }
-
-        contents.send(`set-success-${name}`, error);
-      });
-      mainWindow.webContents.send(`set-${name}`, value);
-    }
-  });
 }
