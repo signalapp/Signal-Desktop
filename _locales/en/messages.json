@@ -255,10 +255,6 @@
       }
     }
   },
-  "me": {
-    "message": "Me",
-    "description": "The label for yourself when shown in a group member list"
-  },
   "view": {
     "message": "View",
     "description": "Used as a label on a button allowing user to see more information"
