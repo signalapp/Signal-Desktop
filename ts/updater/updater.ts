@@ -3,7 +3,6 @@ import * as fs from 'fs-extra';
 import { autoUpdater, UpdateInfo } from 'electron-updater';
 import { app, BrowserWindow } from 'electron';
 import { markShouldQuit } from '../../app/window_state';
-import { UserConfig } from '../../app/user_config';
 
 import {
   getPrintableError,
@@ -29,6 +28,12 @@ export async function start(
   messages: MessagesType,
   logger: LoggerType
 ) {
+  if (interval) {
+    logger.info('auto-update: Already running');
+
+    return;
+  }
+
   logger.info('auto-update: starting checks...');
 
   autoUpdater.logger = logger;

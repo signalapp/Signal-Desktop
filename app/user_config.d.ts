@@ -1,3 +1,3 @@
-import { BaseConfig } from "./base_config";
+import { BaseConfig } from './base_config';
 
-type UserConfig = BaseConfig
+type UserConfig = BaseConfig;
