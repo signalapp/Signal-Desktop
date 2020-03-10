@@ -41,7 +41,7 @@ interface State {
 export class SessionRecording extends React.Component<Props, State> {
   private visualisationRef: React.RefObject<HTMLDivElement>;
   private visualisationCanvas: React.RefObject<HTMLCanvasElement>;
-  private progressCanvas: React.RefObject<HTMLCanvasElement>;
+  private playbackCanvas: React.RefObject<HTMLCanvasElement>;
 
   constructor(props: any) {
     super(props);
@@ -62,7 +62,9 @@ export class SessionRecording extends React.Component<Props, State> {
 
     this.visualisationRef = React.createRef();
     this.visualisationCanvas = React.createRef();
-    this.progressCanvas = React.createRef();
+    this.playbackCanvas = React.createRef();
+
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     const now = Number(moment().format('x')) / 1000;
     const updateTimerInterval = setInterval(this.timerUpdate, 1000);
@@ -130,7 +132,10 @@ export class SessionRecording extends React.Component<Props, State> {
 
 
     return (
-      <div className="session-recording">
+      <div
+        className="session-recording"
+        onKeyDown={this.onKeyDown}
+      >
         <div
             className="session-recording--actions"
             onMouseEnter={this.handleHoverActions}
@@ -174,7 +179,7 @@ export class SessionRecording extends React.Component<Props, State> {
          className="session-recording--visualisation"
          ref={this.visualisationRef}
         >
-          {isPlaying && <canvas ref={this.progressCanvas}></canvas>}
+          {!isRecording && <canvas ref={this.playbackCanvas}></canvas>}
           {isRecording && <canvas ref={this.visualisationCanvas}></canvas>}
         </div>
         
@@ -233,7 +238,7 @@ export class SessionRecording extends React.Component<Props, State> {
 
     if (!isRecording || elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION){
       clearInterval(this.state.updateTimerInterval);
-      this.stopStream();
+      this.stopRecordingStream();
     }
 
     this.setState({
@@ -250,11 +255,8 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private async stopRecording() {
-    const { nowTimestamp, startTimestamp } = this.state;
-    const recordDuration = nowTimestamp - startTimestamp;
 
     this.setState({
-        recordDuration,
         isRecording: false,
         isPaused: true,
     });
@@ -274,26 +276,30 @@ export class SessionRecording extends React.Component<Props, State> {
 
       audioElement.loop = false;
 
-      audioElement.oncanplaythrough = data => {
-        const duration = audioElement.duration;
+      audioElement.oncanplaythrough = () => {
+        const duration = recordDuration;
         const progress = recordDuration - audioElement.currentTime;
 
         if (duration && audioElement.currentTime < duration) {
           audioElement.play();
         }
+        
       };
 
+      
+
       return audioElement;
-  
     }
 
     const audioElement = this.state.audioElement || generateAudioElement();
     
     // Start playing recording
-    audioElement && audioElement.play();
+    // FIXME VINCE: Prevent looping of playing
+    audioElement.play();
 
     // Draw canvas
-    this.onPlaybackStream(audioElement);
+    this.onPlaybackStream();
+
 
     this.setState({
       audioElement,
@@ -306,6 +312,9 @@ export class SessionRecording extends React.Component<Props, State> {
   
   private pauseAudio() {
     this.state.audioElement?.pause();
+
+    // STOP ANIMAION FRAME
+    // cancelAnimationFrame(playbackAnimationID);
 
     this.setState({
       isPlaying: false,
@@ -395,6 +404,7 @@ export class SessionRecording extends React.Component<Props, State> {
       analyser.getByteFrequencyData(freqTypedArray);
 
       const freqArray = Array.from(freqTypedArray);
+
       const VISUALISATION_WIDTH = this.visualisationRef.current?.clientWidth;
       
       const maxVisualisationHeight = 30;
@@ -434,7 +444,7 @@ export class SessionRecording extends React.Component<Props, State> {
         canvas && (canvas.width = CANVAS_WIDTH);
         const canvasContext = canvas && (canvas.getContext(`2d`));
         
-        for (var i = 0; i < freqArray.length; i++) {
+        for (var i = 0; i < volumeArray.length; i++) {
           const barHeight = Math.ceil(volumeArray[i]);
           const offset_x = Math.ceil(i * (barWidth + barPadding));
           const offset_y = Math.ceil((CANVAS_HEIGHT / 2 ) - (barHeight / 2 ));
@@ -465,82 +475,129 @@ export class SessionRecording extends React.Component<Props, State> {
     return error;
   }
 
-  private onPlaybackStream(audioElement?: HTMLAudioElement) {
+  private compactPCM(array: Float32Array<number>, numGroups: number) {
+    // Takes an array of arbitary size and compresses it down into a smaller
+    // array, by grouping elements into bundles of groupSize and taking their
+    // average.
+    // Eg. [73, 6, 1, 9, 5, 11, 2, 19, 35] of groupSize 3, becomes
+    // = [(73 + 6 + 1) / 3 + (9 + 5 + 11) / 3 + (2 + 19 + 35) / 3]
+    // = [27, 8, 19]
+    // It's used to get a fixed number of freqBars or volumeBars out of 
+    // a huge sample array.
 
-    // Audio Context
-    const audioContext = new window.AudioContext();
-    const input = audioContext.createMediaElementSource(audioElement);
-    
-    const bufferSize = 1024;
-    const analyser = audioContext.createAnalyser();
-    analyser.smoothingTimeConstant = 0.3;
-    analyser.fftSize = 64;
+    const groupSize = Math.floor(array.length / numGroups);
 
-    const processor = audioContext.createScriptProcessor(bufferSize, 1, 1);
+    let compacted = new Float32Array(numGroups);
+    let sum = 0;
+    for (let i = 0; i < array.length; i++){
+      sum += array[i];
 
-    processor.onaudioprocess = () => {
-      // Array of volumes by frequency (not in Hz, arbitrary unit)
-      const dataUint8Array = new Uint8Array(analyser.frequencyBinCount);
-      analyser.getByteTimeDomainData(dataUint8Array);
-
-      const dataArray = Array.from(dataUint8Array);
-      const VISUALISATION_WIDTH = this.progressCanvas.current?.clientWidth;
-      
-      const maxVisualisationHeight = 30;
-      const minVisualisationHeight = 3;
-
-      // CANVAS CONTEXT
-      const drawPlaybackCanvas = () => {
-        // const canvas = this.progressCanvas.current;
-        // const CANVAS_HEIGHT = 35;
-        // const CANVAS_WIDTH = VISUALISATION_WIDTH || 600;
-
-        // const barPadding = 3;
-        // const barWidth = 4;
-
-        // const numBars = CANVAS_WIDTH / (barPadding + barWidth);
-        
-        // const avgVolumeBar = dataArray.reduce((a, b) => a + b) / dataArray.length;
-
-        // canvas && (canvas.height = CANVAS_HEIGHT);
-        // canvas && (canvas.width = CANVAS_WIDTH);
-        // const canvasContext = canvas && (canvas.getContext(`2d`));
-        
-        // const barHeight = 45;
-        // const offset_x = Math.ceil(3 * (barWidth + barPadding));
-        // const offset_y = Math.ceil((CANVAS_HEIGHT / 2 ) - (barHeight / 2 ));
-        // const radius = 15;
-
-        // // FIXME VINCE - Globalise JS references to colors
-        // canvasContext && (canvasContext.fillStyle = '#11FF11');
-        // canvasContext && this.drawRoundedRect(
-        //   canvasContext,
-        //   offset_x,
-        //   offset_y,
-        //   barWidth,
-        //   barHeight,
-        //   radius,
-        // );
-
-        // console.log(`[play] Data array: `, avgVolumeBar);
-
-        
-
+      if ((i + 1) % groupSize === 0){
+        const compactedIndex = ((i + 1) / groupSize)
+        const average = sum / groupSize;
+        compacted[compactedIndex] = average;
+        sum = 0;
       }
-
-      this.state.isPlaying && requestAnimationFrame(drawPlaybackCanvas);
-      
-      console.log(`[play] Data array: `, dataArray);
-      
     }
 
-    console.log(`[play] AudioContext: `, audioContext);
-    console.log(`[play] progressCanvas: `, this.progressCanvas.current);
-    
+    return compacted;
+  }
 
-    // Init listeners for visualisation
-    input.connect(analyser);
-    processor.connect(audioContext.destination);
+  private async onPlaybackStream() {
+    const VISUALISATION_WIDTH = this.playbackCanvas.current?.clientWidth;
+    const CANVAS_WIDTH = VISUALISATION_WIDTH || 600;
+    const barPadding = 3;
+    const barWidth = 4;
+    const numBars = CANVAS_WIDTH / (barPadding + barWidth);
+
+    const startPlayingTimestamp = moment().format('x') / 1000;
+    
+    // Then scan through audio file getting average volume per bar
+    // to display amplitude over time as a static image
+    const blob = this.state.mediaBlob.data;
+    
+    const arrayBuffer = await new Response(blob).arrayBuffer();
+    const audioContext = new window.AudioContext();
+    
+    let audioDuration = 0;
+    audioContext.decodeAudioData(arrayBuffer, (buffer: AudioBuffer) => {
+      audioDuration = buffer.duration;
+
+      // Get audio amplitude with PCM Data in Float32
+      // Grab single channel only to save compuation
+      const channelData = buffer.getChannelData(0);
+      const pcmData = this.compactPCM(channelData, numBars);
+      const pcmDataArray = Array.from(pcmData);
+      const pcmDataArrayNormalised = pcmDataArray.map(v => Math.abs(v));
+      
+      // Prepare values for drawing to canvas
+      const maxVisualisationHeight = 30;
+      const minVisualisationHeight = 3;
+      const maxAmplitude = Math.max(...pcmDataArrayNormalised);
+
+      const barSizeArray = pcmDataArrayNormalised.map(amplitude => {
+        let barSize = maxVisualisationHeight * (amplitude / maxAmplitude);
+        
+        // Prevent values that are too small
+        if (barSize < minVisualisationHeight){
+          barSize = minVisualisationHeight;
+        }
+
+        return barSize;
+      });
+
+      // CANVAS CONTEXT
+      let playbackAnimationID;
+      const drawPlaybackCanvas = () => {
+        const canvas = this.playbackCanvas.current;
+        const CANVAS_HEIGHT = 35;
+
+        canvas.height = CANVAS_HEIGHT;
+        canvas.width = CANVAS_WIDTH;
+
+        const canvasContext = canvas.getContext(`2d`);
+        
+        for (let i = 0; i < barSizeArray.length; i++){
+          const barHeight = Math.ceil(barSizeArray[i]);
+          const offset_x = Math.ceil(i * (barWidth + barPadding));
+          const offset_y = Math.ceil((CANVAS_HEIGHT / 2 ) - (barHeight / 2 ));
+          const radius = 15;
+
+          // FIXME VINCE - Globalise JS references to colors
+          canvasContext.fillStyle = '#AFAFAF';
+
+          this.drawRoundedRect(
+            canvasContext,
+            offset_x,
+            offset_y,
+            barWidth,
+            barHeight,
+            radius,
+          );
+        }
+
+        // Draw sweeping timeline
+        const now = moment().format('x') / 1000;
+        const progress = CANVAS_WIDTH * ((now - startPlayingTimestamp) / audioDuration);
+        
+        canvasContext.beginPath();
+        canvasContext.fillStyle = '#FFFFFF';
+        canvasContext.globalCompositeOperation = 'source-atop';
+        canvasContext.fillRect(0, 0, progress, CANVAS_HEIGHT);
+        
+        playbackAnimationID = requestAnimationFrame(drawPlaybackCanvas);
+      }
+
+      requestAnimationFrame(drawPlaybackCanvas);
+
+    });
+
+    // FIXME VINCE SET ASUIDO DURATION TO STATE
+    await this.setState({recordDuration: audioDuration});
+
+    // this.state.isPlaying && requestAnimationFrame(drawPlaybackCanvas);
+      
+
   }
 
   private drawRoundedRect (ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
@@ -556,6 +613,11 @@ export class SessionRecording extends React.Component<Props, State> {
     ctx.fill();
   }
 
-
+  private onKeyDown(event: any) {
+    if (event.key === 'Escape') {
+      // FIXME VINCE: Add SessionConfirm
+      this.onDeleteVoiceMessage();
+    }
+  }
   
 }
