@@ -22,7 +22,7 @@ jobs:
       - run: git config --global core.autocrlf false
 
       - name: Checkout git repo
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Install node
         uses: actions/setup-node@v1
