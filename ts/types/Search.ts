@@ -7,7 +7,7 @@ export type SearchOptions = {
 
 export type AdvancedSearchOptions = {
   query: string;
-  from: string;
+  from?: string;
   before: number;
   after: number;
 };

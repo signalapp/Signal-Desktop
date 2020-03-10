@@ -175,7 +175,7 @@ function filterMessages(
   contacts: Array<string>
 ) {
   let filteredMessages = messages;
-  if (filters.from !== null && filters.from.length > 0) {
+  if (filters.from && filters.from.length > 0) {
     if (filters.from === '@me') {
       filteredMessages = filteredMessages.filter(message => message.sent);
     } else {
