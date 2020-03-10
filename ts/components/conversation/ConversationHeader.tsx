@@ -29,6 +29,7 @@ interface Props {
   isMe: boolean;
   isGroup: boolean;
   isArchived: boolean;
+  isPaneCollapsed: boolean;
 
   expirationSettingName?: string;
   showBackButton: boolean;
@@ -46,6 +47,8 @@ interface Props {
 
   onArchive: () => void;
   onMoveToInbox: () => void;
+
+  onTogglePane: () => void;
 
   i18n: LocalizerType;
 }
@@ -79,6 +82,24 @@ export class ConversationHeader extends React.Component<Props> {
         )}
         disabled={!showBackButton}
       />
+    );
+  }
+
+  public renderPaneCollapseButton() {
+    const { onTogglePane, isPaneCollapsed } = this.props;
+
+    return (
+      <div>
+        <button
+          onClick={onTogglePane}
+          className={classNames(
+            'module-conversation-header__toggle-panel-icon',
+            isPaneCollapsed
+              ? 'module-conversation-header__toggle-panel-icon--open'
+              : 'module-conversation-header__toggle-panel-icon--close'
+          )}
+        />
+      </div>
     );
   }
 
@@ -277,7 +298,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <div className="module-conversation-header">
-        {this.renderBackButton()}
+        {this.renderPaneCollapseButton()}
         <div className="module-conversation-header__title-container">
           <div className="module-conversation-header__title-flex">
             {this.renderAvatar()}
@@ -288,6 +309,7 @@ export class ConversationHeader extends React.Component<Props> {
         {this.renderSearchButton()}
         {this.renderMoreButton(triggerId)}
         {this.renderMenu(triggerId)}
+        {this.renderBackButton()}
       </div>
     );
   }

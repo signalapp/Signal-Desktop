@@ -115,6 +115,13 @@
         JSX: Signal.State.Roots.createLeftPane(window.reduxStore),
       });
 
+      Whisper.events.on('leftPaneChanged', () => {
+        if (window.storage.get('isPaneCollapsed', false)) {
+          this.$('#header, .gutter').css('display', 'none');
+        } else {
+          this.$('#header, .gutter').css('display', 'inline');
+        }
+      });
       this.$('.left-pane-placeholder').append(this.leftPaneView.el);
     },
     startConnectionListener() {

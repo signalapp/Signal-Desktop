@@ -2284,6 +2284,19 @@
         this.trigger('change', this);
       }
     },
+
+    isPaneCollapsed() {
+      return storage.get('isPaneCollapsed', false);
+    },
+
+    async setTogglePane(isPaneCollapsed) {
+      await storage.put('isPaneCollapsed', isPaneCollapsed);
+      Whisper.events.trigger('leftPaneChanged');
+      this.trigger('change');
+
+      // We wait a little to visual changes take place
+      await new Promise(resolve => setTimeout(() => resolve('changed'), 15));
+    },
   });
 
   Whisper.ConversationCollection = Backbone.Collection.extend({

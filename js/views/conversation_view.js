@@ -371,6 +371,7 @@
           isMe: this.model.isMe(),
           isGroup: !this.model.isPrivate(),
           isArchived: this.model.get('isArchived'),
+          isPaneCollapsed: this.model.isPaneCollapsed(),
 
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),
@@ -423,6 +424,11 @@
               Whisper.ConversationUnarchivedToast,
               document.body
             );
+          },
+
+          onTogglePane: () => {
+            const newPaneStatus = !storage.get('isPaneCollapsed', false);
+            this.model.setTogglePane(newPaneStatus);
           },
         };
       };

@@ -572,6 +572,8 @@
         window.Signal.Util.hasExpired()
       );
     }
+
+    window.storage.put('isPaneCollapsed', false);
   });
 
   function initializeRedux() {
