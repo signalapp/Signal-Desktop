@@ -736,7 +736,7 @@
       return null;
     }
 
-    document.addEventListener('keydown', event => {
+    document.addEventListener('keydown', async event => {
       const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
 
       const optionOrAlt = altKey;
@@ -749,6 +749,7 @@
       const selectedId = state.conversations.selectedConversation;
       const conversation = ConversationController.get(selectedId);
       const isSearching = Signal.State.Selectors.search.isSearching(state);
+      const isPaneCollapsed = conversation.isPaneCollapsed();
 
       // NAVIGATION
 
@@ -765,6 +766,10 @@
 
       // Navigate by section
       if (commandOrCtrl && !shiftKey && (key === 't' || key === 'T')) {
+        if (isPaneCollapsed) {
+          await conversation.setTogglePane(false);
+        }
+
         window.enterKeyboardMode();
         const focusedElement = document.activeElement;
 
@@ -1023,6 +1028,11 @@
         (key === 'f' || key === 'F')
       ) {
         const { startSearch } = actions.search;
+
+        if (isPaneCollapsed) {
+          await conversation.setTogglePane(false);
+        }
+
         startSearch();
 
         event.preventDefault();
@@ -1042,6 +1052,11 @@
         const name = conversation.isMe()
           ? window.i18n('noteToSelf')
           : conversation.getTitle();
+
+        if (isPaneCollapsed) {
+          await conversation.setTogglePane(false);
+        }
+
         searchInConversation(conversation.id, name);
 
         event.preventDefault();
@@ -1100,6 +1115,10 @@
         shiftKey &&
         (key === 'a' || key === 'A')
       ) {
+        if (isPaneCollapsed) {
+          await conversation.setTogglePane(false);
+        }
+
         conversation.setArchived(true);
         conversation.trigger('unload', 'keyboard shortcut archive');
         Whisper.ToastView.show(
@@ -1135,6 +1154,9 @@
         shiftKey &&
         (key === 'u' || key === 'U')
       ) {
+        if (isPaneCollapsed) {
+          await conversation.setTogglePane(false);
+        }
         conversation.setArchived(false);
         Whisper.ToastView.show(
           Whisper.ConversationUnarchivedToast,
@@ -1157,6 +1179,9 @@
         shiftKey &&
         (key === 'c' || key === 'C')
       ) {
+        if (isPaneCollapsed) {
+          await conversation.setTogglePane(false);
+        }
         conversation.trigger('unload', 'keyboard shortcut close');
         event.preventDefault();
         event.stopPropagation();
