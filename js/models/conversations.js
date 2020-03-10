@@ -385,6 +385,7 @@
       const draftText = this.get('draft');
       const shouldShowDraft =
         this.hasDraft() && draftTimestamp && draftTimestamp >= timestamp;
+      const inboxPosition = this.get('inbox_position');
 
       const result = {
         id: this.id,
@@ -400,6 +401,7 @@
         name: this.getName(),
         profileName: this.getProfileName(),
         timestamp,
+        inboxPosition,
         title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
 
@@ -1658,6 +1660,38 @@
       }
 
       await message.send(this.wrapSend(promise));
+
+      return message;
+    },
+
+    async addMessageHistoryDisclaimer() {
+      const timestamp = Date.now();
+
+      const model = new Whisper.Message({
+        type: 'message-history-unsynced',
+        // Even though this isn't reflected to the user, we want to place the last seen
+        //   indicator above it. We set it to 'unread' to trigger that placement.
+        unread: 1,
+        conversationId: this.id,
+        // No type; 'incoming' messages are specially treated by conversation.markRead()
+        sent_at: timestamp,
+        received_at: timestamp,
+      });
+
+      if (this.isPrivate()) {
+        model.set({ destination: this.id });
+      }
+      if (model.isOutgoing()) {
+        model.set({ recipients: this.getRecipients() });
+      }
+      const id = await window.Signal.Data.saveMessage(model.attributes, {
+        Message: Whisper.Message,
+      });
+
+      model.set({ id });
+
+      const message = MessageController.register(id, model);
+      this.addSingleMessage(message);
 
       return message;
     },

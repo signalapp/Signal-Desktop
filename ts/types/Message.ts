@@ -2,7 +2,10 @@ import { Attachment } from './Attachment';
 import { ContactType } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
-export type Message = UserMessage | VerifiedChangeMessage;
+export type Message =
+  | UserMessage
+  | VerifiedChangeMessage
+  | MessageHistoryUnsyncedMessage;
 export type UserMessage = IncomingMessage | OutgoingMessage;
 
 export type IncomingMessage = Readonly<
@@ -60,6 +63,14 @@ export type OutgoingMessage = Readonly<
 export type VerifiedChangeMessage = Readonly<
   {
     type: 'verified-change';
+  } & SharedMessageProperties &
+    MessageSchemaVersion5 &
+    ExpirationTimerUpdate
+>;
+
+export type MessageHistoryUnsyncedMessage = Readonly<
+  {
+    type: 'message-history-unsynced';
   } & SharedMessageProperties &
     MessageSchemaVersion5 &
     ExpirationTimerUpdate

@@ -32,6 +32,10 @@ import {
 } from './GroupNotification';
 import { ResetSessionNotification } from './ResetSessionNotification';
 
+type LinkNotificationType = {
+  type: 'linkNotification';
+  data: null;
+};
 type MessageType = {
   type: 'message';
   data: MessageProps;
@@ -61,12 +65,13 @@ type ResetSessionNotificationType = {
   data: null;
 };
 export type TimelineItemType =
+  | LinkNotificationType
   | MessageType
-  | UnsupportedMessageType
-  | TimerNotificationType
-  | SafetyNumberNotificationType
-  | VerificationNotificationType
   | ResetSessionNotificationType
+  | SafetyNumberNotificationType
+  | TimerNotificationType
+  | UnsupportedMessageType
+  | VerificationNotificationType
   | GroupNotificationType;
 
 type PropsLocalType = {
@@ -111,6 +116,13 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     if (item.type === 'unsupportedMessage') {
       notification = (
         <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'linkNotification') {
+      notification = (
+        <div className="module-message-unsynced">
+          <div className="module-message-unsynced__icon" />
+          {i18n('messageHistoryUnsynced')}
+        </div>
       );
     } else if (item.type === 'timerNotification') {
       notification = (

@@ -285,6 +285,10 @@
       }
     }
   },
+  "messageHistoryUnsynced": {
+    "message": "For your security, conversation history isn't transferred to new linked devices.",
+    "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
+  },
   "youMarkedAsVerified": {
     "message": "You marked your Safety Number with $name$ as verified",
     "description": "Shown in the conversation history when the user marks a contact as verified.",
@@ -1529,6 +1533,10 @@
   "startConversation": {
     "message": "Start new conversation…",
     "description": "Label underneath number a user enters that is not an existing contact"
+  },
+  "notSupportedSMS": {
+    "message": "SMS/MMS messages are not supported.",
+    "description": "Label underneath number informing user that SMS is not supported on desktop"
   },
   "newPhoneNumber": {
     "message": "Enter a phone number to add a contact.",

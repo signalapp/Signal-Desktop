@@ -35,6 +35,10 @@ type StartNewConversationType = {
   type: 'start-new-conversation';
   data: undefined;
 };
+type NotSupportedSMS = {
+  type: 'sms-mms-not-supported-text';
+  data: undefined;
+};
 type ConversationHeaderType = {
   type: 'conversations-header';
   data: undefined;
@@ -66,6 +70,7 @@ type SpinnerType = {
 
 export type SearchResultRowType =
   | StartNewConversationType
+  | NotSupportedSMS
   | ConversationHeaderType
   | ContactsHeaderType
   | MessagesHeaderType
@@ -367,6 +372,12 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           i18n={i18n}
           onClick={this.handleStartNewConversation}
         />
+      );
+    } else if (row.type === 'sms-mms-not-supported-text') {
+      return (
+        <div className="module-search-results__sms-not-supported">
+          {i18n('notSupportedSMS')}
+        </div>
       );
     } else if (row.type === 'conversations-header') {
       return (

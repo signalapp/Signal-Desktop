@@ -1,6 +1,7 @@
 import memoizee from 'memoizee';
 import { createSelector } from 'reselect';
 import { getSearchResultsProps } from '../../shims/Whisper';
+import { instance } from '../../util/libphonenumberInstance';
 
 import { StateType } from '../reducer';
 
@@ -20,7 +21,7 @@ import {
 } from '../../components/SearchResults';
 import { PropsDataType as MessageSearchResultPropsDataType } from '../../components/MessageSearchResult';
 
-import { getRegionCode, getUserNumber } from './user';
+import { getRegionCode, getUserAgent, getUserNumber } from './user';
 import {
   GetConversationByIdType,
   getConversationLookup,
@@ -72,6 +73,7 @@ export const getSearchResults = createSelector(
   [
     getSearch,
     getRegionCode,
+    getUserAgent,
     getConversationLookup,
     getSelectedConversation,
     getSelectedMessage,
@@ -79,6 +81,7 @@ export const getSearchResults = createSelector(
   (
     state: SearchStateType,
     regionCode: string,
+    userAgent: string,
     lookup: ConversationLookupType,
     selectedConversationId?: string,
     selectedMessageId?: string
@@ -114,6 +117,17 @@ export const getSearchResults = createSelector(
         type: 'start-new-conversation',
         data: undefined,
       });
+
+      const isIOS = userAgent === 'OWI';
+      const parsedNumber = instance.parse(state.query, regionCode);
+      const isValidNumber = instance.isValidNumber(parsedNumber);
+
+      if (!isIOS && isValidNumber) {
+        items.push({
+          type: 'sms-mms-not-supported-text',
+          data: undefined,
+        });
+      }
     }
 
     if (haveConversations) {

@@ -2335,6 +2335,36 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-message-unsynced {
+  padding-bottom: 24px;
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-message-unsynced__icon {
+  height: 24px;
+  margin-bottom: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/info-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/info-solid-24.svg', $color-gray-25);
+  }
+}
+
 // Module: Verification Notification
 
 .module-verification-notification {
@@ -4726,6 +4756,19 @@ button.module-image__border-overlay:focus {
 
   @include dark-theme {
     color: $color-gray-05;
+  }
+}
+
+.module-search-results__sms-not-supported {
+  font-size: 14px;
+  padding-top: 12px;
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
   }
 }
 

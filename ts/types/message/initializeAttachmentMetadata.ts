@@ -16,6 +16,9 @@ export const initializeAttachmentMetadata = async (
   if (message.type === 'verified-change') {
     return message;
   }
+  if (message.type === 'message-history-unsynced') {
+    return message;
+  }
   if (message.messageTimer || message.isViewOnce) {
     return message;
   }

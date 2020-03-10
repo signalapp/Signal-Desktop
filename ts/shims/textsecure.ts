@@ -5,6 +5,7 @@ type TextSecureType = {
     user: {
       getNumber: () => string;
     };
+    get: (item: string) => any;
   };
   messaging: {
     sendStickerPackSync: (

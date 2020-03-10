@@ -27,6 +27,7 @@ export type ConversationType = {
   isArchived: boolean;
   activeAt?: number;
   timestamp: number;
+  inboxPosition: number;
   lastMessage?: {
     status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
     text: string;
@@ -56,7 +57,13 @@ export type MessageType = {
   id: string;
   conversationId: string;
   source: string;
-  type: 'incoming' | 'outgoing' | 'group' | 'keychange' | 'verified-change';
+  type:
+    | 'incoming'
+    | 'outgoing'
+    | 'group'
+    | 'keychange'
+    | 'verified-change'
+    | 'message-history-unsynced';
   quote?: { author: string };
   received_at: number;
   hasSignalAccount?: boolean;

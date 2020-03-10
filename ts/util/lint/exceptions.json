@@ -570,7 +570,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr img').remove();",
-    "lineNumber": 135,
+    "lineNumber": 136,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -579,7 +579,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr .container').show();",
-    "lineNumber": 137,
+    "lineNumber": 138,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -588,7 +588,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      if ($('#qr').length === 0) {",
-    "lineNumber": 141,
+    "lineNumber": 142,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -597,15 +597,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr .container').hide();",
-    "lineNumber": 146,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.qr = new QRCode(this.$('#qr')[0]).makeCode(url);",
     "lineNumber": 147,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
@@ -614,8 +605,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
+    "line": "      this.qr = new QRCode(this.$('#qr')[0]).makeCode(url);",
+    "lineNumber": 148,
+    "reasonCategory": "usageTrusted",
+    "updated": "2018-09-19T21:59:32.770Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/install_view.js",
     "line": "      this.$('#qr').addClass('ready');",
-    "lineNumber": 149,
+    "lineNumber": 150,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -624,7 +624,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());",
-    "lineNumber": 154,
+    "lineNumber": 155,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -633,7 +633,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#link-phone').submit();",
-    "lineNumber": 159,
+    "lineNumber": 160,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -642,7 +642,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "        this.$('#link-phone').submit(e => {",
-    "lineNumber": 169,
+    "lineNumber": 170,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -651,7 +651,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "          let name = this.$(DEVICE_NAME_SELECTOR).val();",
-    "lineNumber": 173,
+    "lineNumber": 174,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -660,7 +660,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "            this.$(DEVICE_NAME_SELECTOR).focus();",
-    "lineNumber": 176,
+    "lineNumber": 177,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -11812,7 +11812,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/shims/textsecure.ts",
     "line": "  wrap(",
-    "lineNumber": 63,
+    "lineNumber": 64,
     "reasonCategory": "falseMatch",
     "updated": "2020-02-07T19:52:28.522Z"
   }

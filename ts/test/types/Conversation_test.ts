@@ -3,6 +3,7 @@ import { assert } from 'chai';
 import * as Conversation from '../../types/Conversation';
 import {
   IncomingMessage,
+  MessageHistoryUnsyncedMessage,
   OutgoingMessage,
   VerifiedChangeMessage,
 } from '../../types/Message';
@@ -44,6 +45,30 @@ describe('Conversation', () => {
         assert.deepEqual(actual, expected);
       });
     });
+
+    context('for message history unsynced message', () => {
+      it('should skip update', () => {
+        const input = {
+          currentTimestamp: 555,
+          lastMessage: {
+            type: 'message-history-unsynced',
+            conversationId: 'foo',
+            sent_at: 666,
+            timestamp: 666,
+          } as MessageHistoryUnsyncedMessage,
+          lastMessageNotificationText: 'xoxoxoxo',
+        };
+        const expected = {
+          lastMessage: 'xoxoxoxo',
+          lastMessageStatus: null,
+          timestamp: 555,
+        };
+
+        const actual = Conversation.createLastMessageUpdate(input);
+        assert.deepEqual(actual, expected);
+      });
+    });
+
     context('for verified change message', () => {
       it('should skip update', () => {
         const input = {
