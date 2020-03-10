@@ -112,7 +112,7 @@ async function doSearch(
   if (isAdvancedQuery) {
     let senderFilter: Array<string> = [];
     if (
-      advancedSearchOptions.from !== null &&
+      advancedSearchOptions.from &&
       advancedSearchOptions.from.length > 0
     ) {
       const senderFilterQuery = await queryConversationsAndContacts(
