@@ -2528,16 +2528,53 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 
   @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-left-24.svg',
-      $color-gray-90
-    );
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-90);
   }
   @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/chevron-left-24.svg',
-      $color-gray-02
-    );
+    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-02);
+  }
+}
+
+.module-conversation-header__toggle-panel-icon {
+  display: inline-block;
+  margin-left: -10px;
+  margin-right: -2px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  vertical-align: text-bottom;
+  border: none;
+  opacity: 1;
+  transition: opacity 250ms ease-out;
+
+  &--close {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-gray-90
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/chevron-left-24.svg',
+        $color-gray-02
+      );
+    }
+  }
+
+  &--open {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/chevron-right-24.svg',
+        $color-gray-90
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/chevron-right-24.svg',
+        $color-gray-02
+      );
+    }
   }
 }
 
