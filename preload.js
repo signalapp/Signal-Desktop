@@ -241,9 +241,9 @@ window.getMessageTTL = () => window.storage.get('message-ttl', 24);
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 
 // Auto update setting
-window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-enabled');
+window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');
 window.setAutoUpdateEnabled = value =>
-  ipc.send('set-auto-update-enabled', !!value);
+  ipc.send('set-auto-update-setting', !!value);
 
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};

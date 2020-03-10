@@ -1091,18 +1091,20 @@ ipc.on('set-media-permissions', (event, value) => {
 });
 
 // Loki - Auto updating
-ipc.on('get-auto-update-enabled', event => {
+ipc.on('get-auto-update-setting', event => {
   const configValue = userConfig.get('autoUpdate');
   // eslint-disable-next-line no-param-reassign
   event.returnValue = typeof configValue !== 'boolean' ? true : configValue;
 });
 
-ipc.on('set-auto-update-enabled', (event, value) => {
-  userConfig.set('autoUpdate', !!value);
+ipc.on('set-auto-update-setting', (event, enabled) => {
+  userConfig.set('autoUpdate', !!enabled);
 
-  // Stop updater if user turned it off
-  if (!value) {
+  if (enabled) {
+    readyForUpdates();
+  } else {
     updater.stop();
+    isReadyForUpdates = false;
   }
 });
 
