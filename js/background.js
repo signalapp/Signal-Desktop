@@ -305,8 +305,6 @@
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
-      getDeviceName: () => textsecure.storage.user.getDeviceName(),
-
       getThemeSetting: () => 'dark', // storage.get('theme-setting', 'dark')
       setThemeSetting: value => {
         storage.put('theme-setting', value);
@@ -319,50 +317,11 @@
         window.setMenuBarVisibility(!value);
       },
 
-      getMessageTTL: () => storage.get('message-ttl', 24),
-      setMessageTTL: value => {
-        // Make sure the ttl is between a given range and is valid
-        const intValue = parseInt(value, 10);
-        const ttl = Number.isNaN(intValue) ? 24 : intValue;
-        storage.put('message-ttl', ttl);
-      },
-
-      getReadReceiptSetting: () => storage.get('read-receipt-setting'),
-      setReadReceiptSetting: value =>
-        storage.put('read-receipt-setting', value),
-
-      getTypingIndicatorsSetting: () =>
-        storage.get('typing-indicators-setting'),
-      setTypingIndicatorsSetting: value =>
-        storage.put('typing-indicators-setting', value),
-
-      getLinkPreviewSetting: () => storage.get('link-preview-setting', false),
-      setLinkPreviewSetting: value =>
-        storage.put('link-preview-setting', value),
-
-      getNotificationSetting: () =>
-        storage.get('notification-setting', 'message'),
-      setNotificationSetting: value =>
-        storage.put('notification-setting', value),
-      getAudioNotification: () => storage.get('audio-notification'),
-      setAudioNotification: value => storage.put('audio-notification', value),
-
       getSpellCheck: () => storage.get('spell-check', true),
       setSpellCheck: value => {
         storage.put('spell-check', value);
         startSpellCheck();
       },
-
-      // eslint-disable-next-line eqeqeq
-      isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
-      getSyncRequest: () =>
-        new Promise((resolve, reject) => {
-          const syncRequest = window.getSyncRequest();
-          syncRequest.addEventListener('success', resolve);
-          syncRequest.addEventListener('timeout', reject);
-        }),
-      getLastSyncTime: () => storage.get('synced_at'),
-      setLastSyncTime: value => storage.put('synced_at', value),
 
       addDarkOverlay: () => {
         if ($('.dark-overlay').length) {
@@ -372,10 +331,6 @@
         $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
       },
       removeDarkOverlay: () => $('.dark-overlay').remove(),
-      deleteAllData: () => {
-        const clearDataView = new window.Whisper.ClearDataView().render();
-        $('body').append(clearDataView.el);
-      },
 
       shutdown: async () => {
         // Stop background processing
