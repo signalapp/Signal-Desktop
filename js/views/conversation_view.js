@@ -2419,7 +2419,6 @@
         direction = 'none';
       }
 
-      console.log(isLeft, direction, posStart, posEnd, newPosStart, newPosEnd);
       if (direction === 'forward') {
         newPosStart = posStart;
       } else if (direction === 'backward') {
