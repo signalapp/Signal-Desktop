@@ -2408,7 +2408,7 @@
       let direction = $input.selectionDirection;
 
       if (event.shiftKey) {
-        if (direction === 'none') {
+        if (direction === 'none' || direction === 'forward') {
           if (isLeft) {
             direction = 'backward';
           } else {
@@ -2419,6 +2419,7 @@
         direction = 'none';
       }
 
+      console.log(isLeft, direction, posStart, posEnd, newPosStart, newPosEnd);
       if (direction === 'forward') {
         newPosStart = posStart;
       } else if (direction === 'backward') {
