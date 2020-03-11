@@ -3,8 +3,6 @@ import moment from 'moment';
 
 import {  SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionButton, SessionButtonType, SessionButtonColor } from '../SessionButton';
-import { Timestamp } from '../../conversation/Timestamp';
-
 
 interface Props {
   onStoppedRecording: any;
@@ -30,6 +28,18 @@ interface State {
     processor: any;
   }
 
+  canvasParams: {
+    width: number;
+    height: number;
+    barRadius: number;
+    barWidth: number;
+    barPadding: number;
+    barColorInit: string;
+    barColorPlay: string;
+    maxBarHeight: number;
+    minBarHeight: number;
+  }
+
   volumeArray?: Array<number>;
 
   startTimestamp: number;
@@ -46,25 +56,32 @@ export class SessionRecording extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
+    // Mouse interaction
     this.handleHoverActions = this.handleHoverActions.bind(this);
     this.handleUnhoverActions = this.handleUnhoverActions.bind(this);
     
+    // Component actions
     this.playAudio = this.playAudio.bind(this);
     this.pauseAudio = this.pauseAudio.bind(this);
     this.stopRecording = this.stopRecording.bind(this);
 
+    // Voice message actions
     this.onSendVoiceMessage = this.onSendVoiceMessage.bind(this);
     this.onDeleteVoiceMessage = this.onDeleteVoiceMessage.bind(this);
 
+    // Stream monitors
     this.timerUpdate = this.timerUpdate.bind(this);
     this.onRecordingStream = this.onRecordingStream.bind(this);
     this.stopRecordingStream = this.stopRecordingStream.bind(this);
 
+    // Refs
     this.visualisationRef = React.createRef();
     this.visualisationCanvas = React.createRef();
     this.playbackCanvas = React.createRef();
 
+    // Listeners
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.updateCanvasDimensions = this.updateCanvasDimensions.bind(this);
 
     const now = Number(moment().format('x')) / 1000;
     const updateTimerInterval = setInterval(this.timerUpdate, 1000);
@@ -84,6 +101,19 @@ export class SessionRecording extends React.Component<Props, State> {
       startTimestamp: now,
       nowTimestamp: now,
       updateTimerInterval,
+
+      // Initial width of 0 until bounds are located
+      canvasParams: {
+        width: 0,
+        height: 35,
+        barRadius: 15,
+        barWidth: 4,
+        barPadding: 3,
+        barColorInit: '#AFAFAF',
+        barColorPlay: '#FFFFFF',
+        maxBarHeight: 30,
+        minBarHeight: 3,
+      },
     };
     
   }
@@ -93,8 +123,14 @@ export class SessionRecording extends React.Component<Props, State> {
     this.initiateRecordingStream();
   }
 
+  public componentDidMount() {
+    window.addEventListener('resize', this.updateCanvasDimensions);
+    this.updateCanvasDimensions();
+  }
+
   public componentWillUnmount(){
     clearInterval(this.state.updateTimerInterval);
+    window.removeEventListener('resize', this.updateCanvasDimensions);
   }
 
   public componentDidUpdate() {
@@ -286,20 +322,51 @@ export class SessionRecording extends React.Component<Props, State> {
         
       };
 
-      
-
       return audioElement;
     }
 
     const audioElement = this.state.audioElement || generateAudioElement();
+    if (!audioElement) return;
     
-    // Start playing recording
-    // FIXME VINCE: Prevent looping of playing
-    audioElement.play();
 
-    // Draw canvas
-    this.onPlaybackStream();
+    // Draw sweeping timeline
+    const drawSweepingTimeline = () => {
+      const { isPaused } = this.state;
+      const {
+        width,
+        height,
+        barColorPlay,
+      } = this.state.canvasParams;
 
+
+      const canvas = this.playbackCanvas.current;
+      if ( !canvas || isPaused ) return;
+
+      // Once audioElement is fully buffered, we get the true duration
+      let audioDuration = this.state.recordDuration
+      if (audioElement.duration !== Infinity) audioDuration = audioElement.duration;
+      const progress = width * (audioElement.currentTime / audioDuration);
+
+      console.log(`[details] Current Time:`, audioElement.currentTime);
+      console.log(`[details] Record Duration:`, audioDuration);
+      console.log(`[details] Audio element duration`, audioElement.duration);
+      
+      const canvasContext = canvas.getContext(`2d`);
+      if (!canvasContext) return;
+
+      canvasContext.beginPath();
+      canvasContext.fillStyle = barColorPlay
+      canvasContext.globalCompositeOperation = 'source-atop';
+      canvasContext.fillRect(0, 0, progress, height);
+
+      // Pause audio when it reaches the end of the blob
+      if (audioElement.duration && audioElement.currentTime === audioElement.duration){
+        this.pauseAudio();
+        return;
+      }
+
+      requestAnimationFrame(drawSweepingTimeline);
+    }
 
     this.setState({
       audioElement,
@@ -308,13 +375,19 @@ export class SessionRecording extends React.Component<Props, State> {
       isPlaying: true,
     });
 
+
+    // If end of audio reached, reset the position of the sweeping timeline
+    if (audioElement.duration && audioElement.currentTime === audioElement.duration){
+      this.initPlaybackView();
+    }
+
+    audioElement.play();
+    requestAnimationFrame(drawSweepingTimeline);
+
   }
   
   private pauseAudio() {
     this.state.audioElement?.pause();
-
-    // STOP ANIMAION FRAME
-    // cancelAnimationFrame(playbackAnimationID);
 
     this.setState({
       isPlaying: false,
@@ -380,7 +453,10 @@ export class SessionRecording extends React.Component<Props, State> {
     // Start recording the stream
     const media = new window.MediaRecorder(stream);
     media.ondataavailable = (mediaBlob: any) => {
-      this.setState({mediaBlob});
+      this.setState({mediaBlob}, () => {
+        // Generate PCM waveform for playback
+        this.initPlaybackView();
+      });
     };
     media.start();
 
@@ -399,34 +475,34 @@ export class SessionRecording extends React.Component<Props, State> {
       const streamParams = {stream, media, input, processor};
       this.setState({streamParams});
 
+      const {
+        width,
+        height,
+        barWidth,
+        barPadding,
+        barColorInit,
+        maxBarHeight,
+        minBarHeight 
+      } = this.state.canvasParams;
+
       // Array of volumes by frequency (not in Hz, arbitrary unit)
       const freqTypedArray = new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(freqTypedArray);
 
       const freqArray = Array.from(freqTypedArray);
-
-      const VISUALISATION_WIDTH = this.visualisationRef.current?.clientWidth;
       
-      const maxVisualisationHeight = 30;
-      const minVisualisationHeight = 3;
-
       // CANVAS CONTEXT
       const drawRecordingCanvas = () => {
         const canvas = this.visualisationCanvas.current;
-        const CANVAS_HEIGHT = 35;
-        const CANVAS_WIDTH = VISUALISATION_WIDTH || 600;
 
-        const barPadding = 3;
-        const barWidth = 4;
-
-        const numBars = CANVAS_WIDTH / (barPadding + barWidth);
+        const numBars = width / (barPadding + barWidth);
         
         let volumeArray = freqArray.map(n => {
           const maxVal = Math.max(...freqArray);
-          const initialHeight = maxVisualisationHeight * (n / maxVal);
-          const freqBarHeight = initialHeight > minVisualisationHeight
+          const initialHeight = maxBarHeight * (n / maxVal);
+          const freqBarHeight = initialHeight > minBarHeight
             ? initialHeight
-            : minVisualisationHeight;
+            : minBarHeight;
   
           return freqBarHeight;
         });
@@ -440,25 +516,22 @@ export class SessionRecording extends React.Component<Props, State> {
         // Chop off values which exceed the bounds of the container
         volumeArray = volumeArray.slice(0, numBars);
 
-        canvas && (canvas.height = CANVAS_HEIGHT);
-        canvas && (canvas.width = CANVAS_WIDTH);
+        canvas && (canvas.height = height);
+        canvas && (canvas.width = width);
         const canvasContext = canvas && (canvas.getContext(`2d`));
         
         for (var i = 0; i < volumeArray.length; i++) {
           const barHeight = Math.ceil(volumeArray[i]);
           const offset_x = Math.ceil(i * (barWidth + barPadding));
-          const offset_y = Math.ceil((CANVAS_HEIGHT / 2 ) - (barHeight / 2 ));
-          const radius = 15;
+          const offset_y = Math.ceil((height / 2 ) - (barHeight / 2 ));
 
           // FIXME VINCE - Globalise JS references to colors
-          canvasContext && (canvasContext.fillStyle = '#AFAFAF');
+          canvasContext && (canvasContext.fillStyle = barColorInit);
           canvasContext && this.drawRoundedRect(
             canvasContext,
             offset_x,
             offset_y,
-            barWidth,
             barHeight,
-            radius,
           );
         }
       }
@@ -475,7 +548,7 @@ export class SessionRecording extends React.Component<Props, State> {
     return error;
   }
 
-  private compactPCM(array: Float32Array<number>, numGroups: number) {
+  private compactPCM(array: Float32Array, numGroups: number) {
     // Takes an array of arbitary size and compresses it down into a smaller
     // array, by grouping elements into bundles of groupSize and taking their
     // average.
@@ -503,15 +576,23 @@ export class SessionRecording extends React.Component<Props, State> {
     return compacted;
   }
 
-  private async onPlaybackStream() {
-    const VISUALISATION_WIDTH = this.playbackCanvas.current?.clientWidth;
-    const CANVAS_WIDTH = VISUALISATION_WIDTH || 600;
-    const barPadding = 3;
-    const barWidth = 4;
-    const numBars = CANVAS_WIDTH / (barPadding + barWidth);
+  private async initPlaybackView() {
+    const {
+      width,
+      height,
+      barWidth,
+      barPadding,
+      barColorInit,
+      maxBarHeight,
+      minBarHeight 
+    } = this.state.canvasParams;
 
-    const startPlayingTimestamp = moment().format('x') / 1000;
-    
+    const numBars = width / (barPadding + barWidth);
+
+    //FIXME VINCE
+    // update numbars with animation so that changing width of screen 
+    // accomodates
+
     // Then scan through audio file getting average volume per bar
     // to display amplitude over time as a static image
     const blob = this.state.mediaBlob.data;
@@ -519,10 +600,9 @@ export class SessionRecording extends React.Component<Props, State> {
     const arrayBuffer = await new Response(blob).arrayBuffer();
     const audioContext = new window.AudioContext();
     
-    let audioDuration = 0;
     audioContext.decodeAudioData(arrayBuffer, (buffer: AudioBuffer) => {
-      audioDuration = buffer.duration;
-
+      this.setState({recordDuration: buffer.duration});
+      
       // Get audio amplitude with PCM Data in Float32
       // Grab single channel only to save compuation
       const channelData = buffer.getChannelData(0);
@@ -531,76 +611,57 @@ export class SessionRecording extends React.Component<Props, State> {
       const pcmDataArrayNormalised = pcmDataArray.map(v => Math.abs(v));
       
       // Prepare values for drawing to canvas
-      const maxVisualisationHeight = 30;
-      const minVisualisationHeight = 3;
       const maxAmplitude = Math.max(...pcmDataArrayNormalised);
 
       const barSizeArray = pcmDataArrayNormalised.map(amplitude => {
-        let barSize = maxVisualisationHeight * (amplitude / maxAmplitude);
+        let barSize = maxBarHeight * (amplitude / maxAmplitude);
         
         // Prevent values that are too small
-        if (barSize < minVisualisationHeight){
-          barSize = minVisualisationHeight;
+        if (barSize < minBarHeight){
+          barSize = minBarHeight;
         }
 
         return barSize;
       });
 
       // CANVAS CONTEXT
-      let playbackAnimationID;
       const drawPlaybackCanvas = () => {
         const canvas = this.playbackCanvas.current;
-        const CANVAS_HEIGHT = 35;
+        if (!canvas) return;
 
-        canvas.height = CANVAS_HEIGHT;
-        canvas.width = CANVAS_WIDTH;
-
+        canvas.height = height;
+        canvas.width = width;
+          
         const canvasContext = canvas.getContext(`2d`);
+        if (!canvasContext) return;
         
         for (let i = 0; i < barSizeArray.length; i++){
           const barHeight = Math.ceil(barSizeArray[i]);
           const offset_x = Math.ceil(i * (barWidth + barPadding));
-          const offset_y = Math.ceil((CANVAS_HEIGHT / 2 ) - (barHeight / 2 ));
-          const radius = 15;
+          const offset_y = Math.ceil((height / 2 ) - (barHeight / 2 ));
 
           // FIXME VINCE - Globalise JS references to colors
-          canvasContext.fillStyle = '#AFAFAF';
+          canvasContext.fillStyle = barColorInit;
 
           this.drawRoundedRect(
             canvasContext,
             offset_x,
             offset_y,
-            barWidth,
             barHeight,
-            radius,
           );
         }
-
-        // Draw sweeping timeline
-        const now = moment().format('x') / 1000;
-        const progress = CANVAS_WIDTH * ((now - startPlayingTimestamp) / audioDuration);
-        
-        canvasContext.beginPath();
-        canvasContext.fillStyle = '#FFFFFF';
-        canvasContext.globalCompositeOperation = 'source-atop';
-        canvasContext.fillRect(0, 0, progress, CANVAS_HEIGHT);
-        
-        playbackAnimationID = requestAnimationFrame(drawPlaybackCanvas);
       }
 
-      requestAnimationFrame(drawPlaybackCanvas);
+      drawPlaybackCanvas();
 
     });
 
-    // FIXME VINCE SET ASUIDO DURATION TO STATE
-    await this.setState({recordDuration: audioDuration});
-
-    // this.state.isPlaying && requestAnimationFrame(drawPlaybackCanvas);
-      
-
   }
 
-  private drawRoundedRect (ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  private drawRoundedRect (ctx: CanvasRenderingContext2D, x: number, y: number, h: number) {
+    let r = this.state.canvasParams.barRadius;
+    const w = this.state.canvasParams.barWidth;
+    
     if (w < 2 * r) r = w / 2;
     if (h < 2 * r) r = h / 2;
     ctx.beginPath();
@@ -611,6 +672,15 @@ export class SessionRecording extends React.Component<Props, State> {
     ctx.arcTo(x,   y,   x+w, y,   r);
     ctx.closePath();
     ctx.fill();
+  }
+
+  private updateCanvasDimensions(){
+    const canvas = this.visualisationCanvas.current || this.playbackCanvas.current;
+    const width = canvas?.clientWidth || 0;
+
+    this.setState({
+      canvasParams: {...this.state.canvasParams, width}
+    });
   }
 
   private onKeyDown(event: any) {
