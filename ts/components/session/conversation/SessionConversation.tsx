@@ -23,7 +23,7 @@ interface State {
   doneInitialScroll: boolean;
   displayScrollToBottomButton: boolean;
   messageFetchTimestamp: number;
-  isRecording: boolean;
+  isRecordingView: boolean;
 }
 
 export class SessionConversation extends React.Component<any, State> {
@@ -47,7 +47,7 @@ export class SessionConversation extends React.Component<any, State> {
       doneInitialScroll: false,
       displayScrollToBottomButton: false,
       messageFetchTimestamp: 0,
-      isRecording: false,
+      isRecordingView: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -58,9 +58,11 @@ export class SessionConversation extends React.Component<any, State> {
     this.renderTimerNotification = this.renderTimerNotification.bind(this);
     this.renderFriendRequest = this.renderFriendRequest.bind(this);
 
+    // Recording View render and unrender
+    this.onLoadVoiceNoteView = this.onLoadVoiceNoteView.bind(this);
+    this.onExitVoiceNoteView = this.onExitVoiceNoteView.bind(this);
+
     this.onKeyDown = this.onKeyDown.bind(this);
-    this.onStartedRecording = this.onStartedRecording.bind(this);
-    this.onStoppedRecording = this.onStoppedRecording.bind(this);
     this.selectMessage = this.selectMessage.bind(this);
     this.resetSelection = this.resetSelection.bind(this);
 
@@ -70,7 +72,7 @@ export class SessionConversation extends React.Component<any, State> {
   public async componentWillMount() {
     await this.getMessages();
     
-    // Inside a setTimeout to simultate onready()
+    // Pause thread to wait for rendering to complete
     setTimeout(() => {
       this.scrollToUnread();
     }, 0);
@@ -101,7 +103,7 @@ export class SessionConversation extends React.Component<any, State> {
   render() {
     console.log(`[vince][info] Props`, this.props);
 
-    const { messages, conversationKey, doneInitialScroll, isRecording } = this.state;
+    const { messages, conversationKey, doneInitialScroll, isRecordingView } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
     const selectionMode = !!this.state.selectedMessages.length;
 
@@ -136,7 +138,7 @@ export class SessionConversation extends React.Component<any, State> {
           </div>
 
           <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
-          { isRecording && (
+          { isRecordingView && (
             <div className="messages-wrapper--blocking-overlay"></div>
           )}
         </div>
@@ -144,8 +146,8 @@ export class SessionConversation extends React.Component<any, State> {
         { !isRss && (
           <SessionCompositionBox
             sendMessage={conversationModel.sendMessage}
-            onStartedRecording={this.onStartedRecording}
-            onStoppedRecording={this.onStoppedRecording}
+            onLoadVoiceNoteView={this.onLoadVoiceNoteView}
+            onExitVoiceNoteView={this.onExitVoiceNoteView}
           />
         )}
         
@@ -613,16 +615,16 @@ export class SessionConversation extends React.Component<any, State> {
     };
   };
 
-  private onStartedRecording() {
+  private onLoadVoiceNoteView() {
     this.setState({
-      isRecording: true,
+      isRecordingView: true,
       selectedMessages: [],
     })
   }
 
-  private onStoppedRecording() {
+  private onExitVoiceNoteView() {
     this.setState({
-      isRecording: false,
+      isRecordingView: false,
     });
     
     console.log(`[vince] Stopped recording entirely`);

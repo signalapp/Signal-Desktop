@@ -9,13 +9,15 @@ import { SessionRecording } from './SessionRecording';
 interface Props {
   placeholder?: string;
   sendMessage: any;
-  onStartedRecording: any;
-  onStoppedRecording: any;
+  
+  onLoadVoiceNoteView: any;
+  onExitVoiceNoteView: any;
 }
 
 interface State {
   message: string;
-  isRecording: boolean;
+  isRecordingView: boolean;
+
   mediaSetting: boolean | null;
   showEmojiPanel: boolean;
   attachments: Array<File>;
@@ -33,7 +35,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       message: '',
       attachments: [],
       voiceRecording: undefined,
-      isRecording: false,
+      isRecordingView: false,
       mediaSetting: null,
       showEmojiPanel: false,
     };
@@ -46,9 +48,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.renderRecordingView = this.renderRecordingView.bind(this);
     this.renderCompositionView = this.renderCompositionView.bind(this);
 
+    // Recording View render and unrender
+    this.onLoadVoiceNoteView = this.onLoadVoiceNoteView.bind(this);
+    this.onExitVoiceNoteView = this.onExitVoiceNoteView.bind(this);
+
     this.onKeyDown = this.onKeyDown.bind(this);
-    this.onStartedRecording = this.onStartedRecording.bind(this);
-    this.onStoppedRecording = this.onStoppedRecording.bind(this);
     this.onSendMessage = this.onSendMessage.bind(this);
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
     
@@ -64,11 +68,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   render() {
-    const { isRecording } = this.state;
+    const { isRecordingView } = this.state;
 
     return (
       <div className="composition-container">
-        { isRecording ? (
+        { isRecordingView ? (
           <>{this.renderRecordingView()}</>
         ) : (
           <>{this.renderCompositionView()}</>
@@ -86,8 +90,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private renderRecordingView() {
     return (
       <SessionRecording
-        onStartedRecording={this.onStartedRecording}
-        onStoppedRecording={this.onStoppedRecording}
+        onLoadVoiceNoteView={this.onLoadVoiceNoteView}
+        onExitVoiceNoteView={this.onExitVoiceNoteView}
       />
       );
   }
@@ -115,7 +119,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         <SessionIconButton
           iconType={SessionIconType.Microphone}
           iconSize={SessionIconSize.Huge}
-          onClick={this.onStartedRecording}
+          onClick={this.onLoadVoiceNoteView}
         />
 
         <div className="send-message-input">
@@ -180,13 +184,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
   }
 
-  private onStartedRecording(){
+  private onLoadVoiceNoteView(){
     // Do stuff for component, then run callback to SessionConversation
     const {mediaSetting} = this.state;
 
     if (mediaSetting){
-      this.setState({ isRecording: true });
-      this.props.onStartedRecording();
+      this.setState({ isRecordingView: true });
+      this.props.onLoadVoiceNoteView();
       return;
     }
 
@@ -199,10 +203,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     
   }
 
-  private onStoppedRecording() {
+  private onExitVoiceNoteView() {
     // Do stuff for component, then run callback to SessionConversation
-    this.setState({ isRecording: false });
-    this.props.onStoppedRecording();
+    this.setState({ isRecordingView: false });
+    this.props.onExitVoiceNoteView();
   }
 
 

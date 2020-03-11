@@ -5,8 +5,8 @@ import {  SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionButton, SessionButtonType, SessionButtonColor } from '../SessionButton';
 
 interface Props {
-  onStoppedRecording: any;
-  onStartedRecording: any;
+  onLoadVoiceNoteView: any;
+  onExitVoiceNoteView: any;
 }
 
 interface State {
@@ -248,10 +248,10 @@ export class SessionRecording extends React.Component<Props, State> {
             />
           ) : (
             <SessionButton
-                text={window.i18n('delete')}
-                buttonType={SessionButtonType.Brand}
-                buttonColor={SessionButtonColor.DangerAlt}
-                onClick={this.onDeleteVoiceMessage}
+              text={window.i18n('delete')}
+              buttonType={SessionButtonType.Brand}
+              buttonColor={SessionButtonColor.DangerAlt}
+              onClick={this.onDeleteVoiceMessage}
             />
           )}
           
@@ -402,13 +402,9 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private onDeleteVoiceMessage() {
+    this.pauseAudio();
     this.stopRecordingStream();
-
-    this.setState({
-      isRecording: false,
-      isPaused: true,
-      isPlaying: false,
-    }, () => this.props.onStoppedRecording());
+    this.props.onExitVoiceNoteView();
   }
 
   private onSendVoiceMessage() {
@@ -429,7 +425,7 @@ export class SessionRecording extends React.Component<Props, State> {
     }
     
     // Stop the stream
-    streamParams.media.stop();
+    if (streamParams.media.state !== 'inactive') streamParams.media.stop();
     streamParams.input.disconnect();
     streamParams.processor.disconnect();
     streamParams.stream.getTracks().forEach((track: any) => track.stop);
@@ -589,11 +585,9 @@ export class SessionRecording extends React.Component<Props, State> {
 
     const numBars = width / (barPadding + barWidth);
 
-    //FIXME VINCE
-    // update numbars with animation so that changing width of screen 
-    // accomodates
+    console.log(`[] Starting playback view`);
 
-    // Then scan through audio file getting average volume per bar
+    // Scan through audio file getting average volume per bar
     // to display amplitude over time as a static image
     const blob = this.state.mediaBlob.data;
     
@@ -626,14 +620,21 @@ export class SessionRecording extends React.Component<Props, State> {
 
       // CANVAS CONTEXT
       const drawPlaybackCanvas = () => {
-        const canvas = this.playbackCanvas.current;
-        if (!canvas) return;
+        console.log(`[canvas] Drawing`); 
 
+        const canvas = this.playbackCanvas.current;
+        if (!canvas) {
+          console.log(`[canvas] Couldnt get playback canvas`); 
+          return;
+        }
         canvas.height = height;
         canvas.width = width;
           
         const canvasContext = canvas.getContext(`2d`);
-        if (!canvasContext) return;
+        if (!canvasContext){
+          console.log(`[canvas] Couldnt get cointext canvas`); 
+          return;
+        } 
         
         for (let i = 0; i < barSizeArray.length; i++){
           const barHeight = Math.ceil(barSizeArray[i]);
