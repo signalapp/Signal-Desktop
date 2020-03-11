@@ -2,7 +2,6 @@
 
 const { isNumber, compact } = require('lodash');
 const he = require('he');
-const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
 
 const linkify = LinkifyIt();
@@ -213,6 +212,9 @@ function assembleChunks(chunkDescriptors) {
 }
 
 const ASCII_PATTERN = new RegExp('[\\u0000-\\u007F]', 'g');
+const DOMAIN_PATTERN = new RegExp(
+  /^(?<protocol>https?:\/\/)?(?<domain>[^/]+).*$/
+);
 
 function isLinkSneaky(link) {
   const domain = getDomain(link);
@@ -226,12 +228,8 @@ function isLinkSneaky(link) {
     return true;
   }
 
-  // This is necesary because getDomain returns domains in punycode form.
-  const unicodeDomain = nodeUrl.domainToUnicode
-    ? nodeUrl.domainToUnicode(domain)
-    : domain;
-
-  const withoutPeriods = unicodeDomain.replace(/\./g, '');
+  const linkDomain = link.match(DOMAIN_PATTERN).groups.domain;
+  const withoutPeriods = linkDomain.replace(/\./g, '');
 
   const hasASCII = ASCII_PATTERN.test(withoutPeriods);
   const withoutASCII = withoutPeriods.replace(ASCII_PATTERN, '');

@@ -391,5 +391,10 @@ describe('Link previews', () => {
       const link = 'r.id^s.id';
       assert.strictEqual(isLinkSneaky(link), true);
     });
+
+    it('returns false for punycode form', () => {
+      const link = 'https://xn--msic-0ra.example.com/';
+      assert.strictEqual(isLinkSneaky(link), false);
+    });
   });
 });
