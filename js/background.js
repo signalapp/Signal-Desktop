@@ -1964,21 +1964,23 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
-      const allOurDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        primaryDeviceKey
-      );
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
       let message;
       if (
         messageDescriptor.type === 'group' &&
-        descriptorId.match(/^publicChat:/) &&
-        allOurDevices.includes(data.source)
+        descriptorId.match(/^publicChat:/)
       ) {
-        // Public chat messages from ourselves should be outgoing
-        message = await createSentMessage(data);
+        // Note: This only works currently because we have a 1 device limit
+        // When we change that, the check below needs to change too
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primaryDevice = window.storage.get('primaryDevicePubKey');
+        const { source } = data;
+        if (source && (source === ourNumber || source === primaryDevice)) {
+          // Public chat messages from ourselves should be outgoing
+          message = await createSentMessage(data);
+        }
       } else {
         message = await createMessage(data);
       }
