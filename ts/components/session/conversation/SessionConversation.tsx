@@ -100,7 +100,7 @@ export class SessionConversation extends React.Component<any, State> {
     }
   }
 
-  render() {
+  public render() {
     console.log(`[vince][info] Props`, this.props);
 
     const { messages, conversationKey, doneInitialScroll, isRecordingView } = this.state;

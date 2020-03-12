@@ -1,8 +1,5 @@
 $composition-container-height: 60px;
 
-
-
-
 @keyframes fadein {
   from {
     opacity: 0;
@@ -41,23 +38,22 @@ $composition-container-height: 60px;
   }
 }
 
-
 .conversation-item {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
   height: 100%;
   outline: none;
-  
+
   .selection-mode {
     .messages-container > *:not(.message-selected) {
       animation: toShadow $session-transition-duration;
       opacity: 0.25;
     }
 
-    .conversation-header{
-      .conversation-header{
-        &--items-wrapper{
+    .conversation-header {
+      .conversation-header {
+        &--items-wrapper {
           .session-icon {
             opacity: 0;
           }
@@ -71,9 +67,8 @@ $composition-container-height: 60px;
   }
 }
 
-
 .conversation-header {
-  &--items-wrapper{
+  &--items-wrapper {
     display: flex;
     flex-grow: 1;
     align-items: center;
@@ -89,11 +84,11 @@ $composition-container-height: 60px;
     align-items: center;
     justify-content: space-between;
     height: $main-view-header-height;
-  
+
     .close-button {
       float: left;
     }
-  
+
     .session-button.default.danger {
       display: flex;
       width: 80px;
@@ -102,14 +97,11 @@ $composition-container-height: 60px;
   .message-selection-overlay div[role='button'] {
     display: inline-block;
   }
-  
+
   .message-selection-overlay .button-group {
     float: right;
   }
 }
-
-
-
 
 .session-conversation-wrapper {
   position: absolute;
@@ -124,8 +116,8 @@ $composition-container-height: 60px;
   flex-direction: column;
   position: relative;
 
-  &--blocking-overlay{
-    background-color: rgba(0,0,0,0.80);
+  &--blocking-overlay {
+    background-color: rgba(0, 0, 0, 0.8);
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -212,13 +204,37 @@ $composition-container-height: 60px;
   position: absolute;
   bottom: 68px;
   right: 0px;
-  min-height: 400px;
-  min-width: 400px;
-  background-color: $session-shade-4;
-  border: 1px solid $session-shade-6;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
   padding: $session-margin-lg;
+
+  z-index: 5;
+  opacity: 0;
+  visibility: hidden;
+  transition: $session-transition-duration;
+
+  button:focus {
+    outline: none;
+  }
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  & > section {
+    background-color: $session-shade-4;
+    border: 1px solid $session-shade-6-alt;
+    border-radius: $session-margin-lg;
+
+    .emoji-mart-category-label {
+      top: -2px;
+      
+      span {
+        font-family: 'SF Pro Text';
+        padding-top: $session-margin-sm;
+        background-color: $session-shade-4;
+      }
+    }
+  }
 }
 
 .session-progress {
@@ -235,7 +251,6 @@ $composition-container-height: 60px;
     background-color: $session-color-green;
   }
 }
-
 
 .session-recording {
   height: $composition-container-height;
@@ -282,7 +297,6 @@ $composition-container-height: 60px;
       width: 100%;
       padding: 0px $session-margin-lg;
     }
-    
   }
 
   &--status {
@@ -293,18 +307,18 @@ $composition-container-height: 60px;
     right: 0;
     bottom: $composition-container-height + $session-margin-md;
 
-    .session-button{
+    .session-button {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 173px;
       font-weight: 300;
-      font-family: "SF Pro Text";
-      
+      font-family: 'SF Pro Text';
+
       &.primary {
         cursor: default;
         user-select: none;
-        &:hover{
+        &:hover {
           filter: brightness(100%);
           border: 2px solid #161819;
         }
@@ -317,7 +331,7 @@ $composition-container-height: 60px;
   &--timer {
     display: inline-flex;
     align-items: center;
-    font-family: "SF Pro Text";
+    font-family: 'SF Pro Text';
     font-weight: bold;
     font-size: 14px;
 
@@ -325,7 +339,7 @@ $composition-container-height: 60px;
       margin-right: $session-margin-sm;
     }
 
-    &-light{
+    &-light {
       height: $session-margin-sm;
       width: $session-margin-sm;
       border-radius: 50%;

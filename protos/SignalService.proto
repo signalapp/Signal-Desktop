@@ -218,7 +218,7 @@ message DataMessage {
   optional Quote              quote       = 8;
   repeated Contact            contact     = 9;
   repeated Preview            preview     = 10;
-  optional LokiProfile        profile     = 101; // Loki: The profile of the current user
+  optional LokiProfile        profile     = 101;  // Loki: The profile of the current user
   optional GroupInvitation groupInvitation = 102; // Loki: Invitation to a public chat
 }
 

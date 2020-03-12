@@ -1,4 +1,5 @@
 import React from 'react';
+import { debounce } from 'lodash';
 
 import { Attachment } from '../../../types/Attachment';
 import * as MIME from '../../../types/MIME';
@@ -33,6 +34,7 @@ interface State {
 export class SessionCompositionBox extends React.Component<Props, State> {
   private textarea: React.RefObject<HTMLTextAreaElement>;
   private fileInput: React.RefObject<HTMLInputElement>;
+  private emojiPanel: any;
 
   constructor(props: any) {
     super(props);
@@ -49,7 +51,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.textarea = React.createRef();
     this.fileInput = React.createRef();
 
-    this.toggleEmojiPanel = this.toggleEmojiPanel.bind(this);
+    // Emojis
+    this.emojiPanel = null;
+    this.toggleEmojiPanel = debounce(this.toggleEmojiPanel.bind(this), 100);
+    this.hideEmojiPanel = this.hideEmojiPanel.bind(this);
+    this.onEmojiClick = this.onEmojiClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.renderRecordingView = this.renderRecordingView.bind(this);
     this.renderCompositionView = this.renderCompositionView.bind(this);
@@ -64,6 +71,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
     
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onChange = this.onChange.bind(this);
     
   }
 
@@ -76,7 +84,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.setState({mediaSetting});
   }
 
-  render() {
+  public render() {
     const { isRecordingView } = this.state;
 
     return (
@@ -90,10 +98,36 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     );
   }
 
-  public toggleEmojiPanel() {
+  private handleClick(e: any) {
+    if (this.emojiPanel && this.emojiPanel.contains(e.target)) {
+      return;
+    }
+
+    this.toggleEmojiPanel();
+  };
+
+  private showEmojiPanel() {
+    document.addEventListener('mousedown', this.handleClick, false);
+
     this.setState({
-      showEmojiPanel: !this.state.showEmojiPanel,
+      showEmojiPanel: true,
     });
+  }
+
+  private hideEmojiPanel() {
+    document.removeEventListener('mousedown', this.handleClick, false);
+    
+    this.setState({
+      showEmojiPanel: false,
+    });
+  }
+
+  public toggleEmojiPanel() {
+    if (this.state.showEmojiPanel) {
+      this.hideEmojiPanel();
+    } else {
+      this.showEmojiPanel();
+    }
   }
   
   private renderRecordingView() {
@@ -108,7 +142,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private renderCompositionView() {
     const { placeholder } = this.props;
-    const { showEmojiPanel } = this.state;
+    const { showEmojiPanel, message } = this.state;
 
     return (
       <>
@@ -122,7 +156,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           className="hidden"
           multiple={true}
           ref={this.fileInput}
-          type='file'
+          type="file"
           onChange={this.onChoseAttachment}
         />
         
@@ -140,6 +174,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             placeholder={placeholder}
             maxLength={window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH}
             onKeyDown={this.onKeyDown}
+            value={message}
+            onChange={this.onChange}
           />
         </div>
 
@@ -158,11 +194,19 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           />
         </div>
 
-        {showEmojiPanel && <SessionEmojiPanel />}
+        <div
+          ref={ref => (this.emojiPanel = ref)}
+          onKeyDown={this.onKeyDown}
+          role="button"
+        >
+          <SessionEmojiPanel onEmojiClicked={this.onEmojiClick} show={showEmojiPanel}/>
+        </div>
       </>
     );
   }
   
+
+
   private onChooseAttachment() {
     this.fileInput.current?.click();
   }
@@ -182,7 +226,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         fileName: file.name,
         flags: undefined,
         // FIXME VINCE: Set appropriate type
-        contentType: undefined,
+        contentType: MIME.AUDIO_WEBM,
         size: file.size,
         data: fileBuffer,
       }
@@ -199,45 +243,47 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       // If shift, newline. Else send message.
       event.preventDefault();
       this.onSendMessage();
+    } else if (event.key === 'Escape' && this.state.showEmojiPanel) {
+      this.hideEmojiPanel();
     }
   }
 
-  private onDrop(){
-    // On drop attachments!
-    // this.textarea.current?.ondrop;
-    // Look into react-dropzone
-  }
 
   private onSendMessage(){  
     // FIXME VINCE: Get emoiji, attachments, etc
     const messagePlaintext = this.textarea.current?.value;
-    const {attachments, voiceRecording} = this.state;
+    const {attachments} = this.state;
     const messageInput = this.textarea.current;
 
     if (!messageInput) return;
 
     console.log(`[vince][msg] Message:`, messagePlaintext);
     console.log(`[vince][msg] fileAttachments:`, attachments);
-    console.log(`[vince][msg] Voice message:`, voiceRecording);
-    
+
 
     // Verify message length
 
 
     // Handle emojis
 
+
+    // Send message
     const messageSuccess = this.props.sendMessage(
       messagePlaintext,
       attachments,
-      MIME.IMAGE_JPEG,
+      undefined,
       undefined,
       null,
       {},
     );
 
     if (messageSuccess) {
+      // Empty attachments
       // Empty composition box
-      messageInput.value = '';
+      this.setState({
+        message: '',
+        attachments: [],
+      });
     }
   }
 
@@ -249,6 +295,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const audioAttachment: Attachment = {
       data: fileBuffer,
       flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+      contentType: MIME.AUDIO_MP3,
     };
 
     const messageSuccess = this.props.sendMessage(
@@ -295,5 +342,40 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.props.onExitVoiceNoteView();
   }
 
+  private onDrop(){
+    // On drop attachments!
+    // this.textarea.current?.ondrop;
+    // Look into react-dropzone
+  }
+
+  private onChange(event: any) {
+    this.setState({message: event.target.value});
+  }
+
+  private onEmojiClick({native}: any) {
+    const messageBox = this.textarea.current;
+    if (!messageBox) return;
+
+    const { message } = this.state;
+    const currentSelectionStart = Number(messageBox.selectionStart);
+    const currentSelectionEnd = Number(messageBox.selectionEnd);
+    const before = message.slice(0, currentSelectionStart);
+    const end = message.slice(currentSelectionEnd);
+    const newMessage = `${before}${native}${end}`;
+
+    this.setState({ message: newMessage }, () => {
+      // update our selection because updating text programmatically
+      // will put the selection at the end of the textarea
+      const selectionStart = currentSelectionStart + Number(native.length);
+      messageBox.selectionStart = selectionStart;
+      messageBox.selectionEnd = selectionStart;
+      
+      // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
+      setTimeout(() => {
+        messageBox.selectionStart = selectionStart;
+        messageBox.selectionEnd = selectionStart;
+      }, 20);
+    });
+  }
 
 }
