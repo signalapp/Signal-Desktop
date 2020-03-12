@@ -62,10 +62,14 @@ export class Timestamp extends React.Component<Props> {
       (now - timestamp) / (1000 * window.CONSTANTS.SECS_IN_DAY);
     const daysBeforeRelativeTiming = 1;
 
-    const dateString =
-      messageAgeInDays > daysBeforeRelativeTiming
-        ? formatRelativeTime(timestamp, { i18n, extended })
-        : moment(timestamp).fromNow();
+    let dateString;
+    if (messageAgeInDays > daysBeforeRelativeTiming) {
+      dateString = formatRelativeTime(timestamp, { i18n, extended });
+    } else {
+      dateString = moment(timestamp).fromNow();
+      // Prevent times reading "NOW AGO"
+      if (dateString.startsWith('now')) dateString = 'now';
+    }
 
     return (
       <span
