@@ -111,11 +111,13 @@ export class SessionConversation extends React.Component<any, State> {
     const conversationModel = window.getConversationByKey(conversationKey);
     const isRss = conversation.isRss;
 
+    const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);
+
     return (
       <div
         className={classNames('conversation-item', selectionMode && 'selection-mode')}
         tabIndex={0}
-        onKeyDown={this.onKeyDown}  
+        onKeyDown={this.onKeyDown}
       >
         <div className="conversation-header">
           {this.renderHeader()}
@@ -145,7 +147,7 @@ export class SessionConversation extends React.Component<any, State> {
         
         { !isRss && (
           <SessionCompositionBox
-            sendMessage={conversationModel.sendMessage}
+            sendMessage={sendMessageFn}
             onLoadVoiceNoteView={this.onLoadVoiceNoteView}
             onExitVoiceNoteView={this.onExitVoiceNoteView}
           />
@@ -632,6 +634,7 @@ export class SessionConversation extends React.Component<any, State> {
 
   private onKeyDown(event: any) {
     const selectionMode = !!this.state.selectedMessages.length;
+    const recordingMode = this.state.isRecordingView;
     
     const messageContainer = document.getElementsByClassName('messages-container')[0];
     const pageHeight = messageContainer.clientHeight;
@@ -648,9 +651,7 @@ export class SessionConversation extends React.Component<any, State> {
 
     switch(event.key){
       case 'Escape':
-        if (selectionMode){
-          this.resetSelection();
-        }
+        if (selectionMode) this.resetSelection();
         break;
 
       // Scrolling

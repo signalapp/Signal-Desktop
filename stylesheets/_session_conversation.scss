@@ -140,7 +140,7 @@ $composition-container-height: 60px;
   position: relative;
   overflow-y: auto;
   scrollbar-width: 4px;
-  padding: $session-margin-lg;
+  padding: $session-margin-sm $session-margin-lg;
 
   &__loading {
     position: absolute;
@@ -243,6 +243,7 @@ $composition-container-height: 60px;
   justify-content: space-between;
   align-items: center;
   flex-grow: 1;
+  outline: none;
 
   $actions-element-size: 45px;
 
@@ -319,6 +320,10 @@ $composition-container-height: 60px;
     font-family: "SF Pro Text";
     font-weight: bold;
     font-size: 14px;
+
+    &.playback-timer {
+      margin-right: $session-margin-sm;
+    }
 
     &-light{
       height: $session-margin-sm;

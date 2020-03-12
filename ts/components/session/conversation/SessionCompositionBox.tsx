@@ -1,10 +1,16 @@
 import React from 'react';
 
+import { Attachment } from '../../../types/Attachment';
+import * as MIME from '../../../types/MIME';
+
 import TextareaAutosize from 'react-autosize-textarea';
+
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionEmojiPanel } from './SessionEmojiPanel';
-
 import { SessionRecording } from './SessionRecording';
+
+import { SignalService } from '../../../../ts/protobuf';
+
 
 interface Props {
   placeholder?: string;
@@ -20,8 +26,8 @@ interface State {
 
   mediaSetting: boolean | null;
   showEmojiPanel: boolean;
-  attachments: Array<File>;
-  voiceRecording?: File;
+  attachments: Array<Attachment>;
+  voiceRecording?: Blob;
 }
 
 export class SessionCompositionBox extends React.Component<Props, State> {
@@ -48,13 +54,16 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.renderRecordingView = this.renderRecordingView.bind(this);
     this.renderCompositionView = this.renderCompositionView.bind(this);
 
-    // Recording View render and unrender
+    // Recording view functions
+    this.sendVoiceMessage = this.sendVoiceMessage.bind(this);
     this.onLoadVoiceNoteView = this.onLoadVoiceNoteView.bind(this);
     this.onExitVoiceNoteView = this.onExitVoiceNoteView.bind(this);
 
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onSendMessage = this.onSendMessage.bind(this);
+    // Attachments
+    this.onChoseAttachment = this.onChoseAttachment.bind(this);
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
+    
+    this.onKeyDown = this.onKeyDown.bind(this);
     
   }
 
@@ -90,6 +99,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private renderRecordingView() {
     return (
       <SessionRecording
+        sendVoiceMessage={this.sendVoiceMessage}
         onLoadVoiceNoteView={this.onLoadVoiceNoteView}
         onExitVoiceNoteView={this.onExitVoiceNoteView}
       />
@@ -113,8 +123,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           multiple={true}
           ref={this.fileInput}
           type='file'
+          onChange={this.onChoseAttachment}
         />
-        
         
         <SessionIconButton
           iconType={SessionIconType.Microphone}
@@ -158,7 +168,30 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private onChoseAttachment() {
+    // Build attachments list
+    const attachmentsFileList = this.fileInput.current?.files;
+    if (!attachmentsFileList) return;
 
+    const attachments: Array<Attachment> = [];
+    Array.from(attachmentsFileList).forEach(async (file: File) => {
+      
+      const fileBlob = new Blob([file]);
+      const fileBuffer = await new Response(fileBlob).arrayBuffer();
+
+      const attachment = {
+        fileName: file.name,
+        flags: undefined,
+        // FIXME VINCE: Set appropriate type
+        contentType: undefined,
+        size: file.size,
+        data: fileBuffer,
+      }
+
+      // Push if size is nonzero
+      attachment.data.byteLength && attachments.push(attachment);
+    });
+
+    this.setState({attachments});
   }
 
   private onKeyDown(event: any) {    
@@ -169,19 +202,72 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
   }
 
+  private onDrop(){
+    // On drop attachments!
+    // this.textarea.current?.ondrop;
+    // Look into react-dropzone
+  }
+
   private onSendMessage(){  
-      // FIXME VINCE: Get emoiji, attachments, etc
-      const messagePlaintext = this.textarea.current?.value;
-      const attachments = this.fileInput.current?.files;
+    // FIXME VINCE: Get emoiji, attachments, etc
+    const messagePlaintext = this.textarea.current?.value;
+    const {attachments, voiceRecording} = this.state;
+    const messageInput = this.textarea.current;
 
-      console.log(`[vince][msg] Message:`, messagePlaintext);
-      console.log(`[vince][msg] Attachments:`, attachments);
-      console.log(`[vince][msg] Voice message:`, this.state.voiceRecording);
+    if (!messageInput) return;
 
-      
-    if (false){
-      this.props.sendMessage();
+    console.log(`[vince][msg] Message:`, messagePlaintext);
+    console.log(`[vince][msg] fileAttachments:`, attachments);
+    console.log(`[vince][msg] Voice message:`, voiceRecording);
+    
+
+    // Verify message length
+
+
+    // Handle emojis
+
+    const messageSuccess = this.props.sendMessage(
+      messagePlaintext,
+      attachments,
+      MIME.IMAGE_JPEG,
+      undefined,
+      null,
+      {},
+    );
+
+    if (messageSuccess) {
+      // Empty composition box
+      messageInput.value = '';
     }
+  }
+
+  private async sendVoiceMessage(audioBlob: Blob) {
+    if (!this.state.isRecordingView) return;
+
+    const fileBuffer = await new Response(audioBlob).arrayBuffer();
+
+    const audioAttachment: Attachment = {
+      data: fileBuffer,
+      flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
+    };
+
+    const messageSuccess = this.props.sendMessage(
+      '',
+      [audioAttachment],
+      undefined,
+      undefined,
+      null,
+      {},
+    );
+
+    if (messageSuccess) {
+      alert('MESSAGE VOICE SUCCESS');
+    }
+
+    console.log(`[compositionbox] Sending voice message:`, audioBlob);
+
+
+    this.onExitVoiceNoteView();
   }
 
   private onLoadVoiceNoteView(){

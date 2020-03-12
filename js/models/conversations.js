@@ -1523,6 +1523,7 @@
       groupInvitation = null,
       otherOptions = {}
     ) {
+
       this.clearTypingTimers();
 
       const destination = this.id;

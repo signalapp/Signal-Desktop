@@ -70,7 +70,7 @@ window.CONSTANTS = {
   MAX_GROUP_NAME_LENGTH: 64,
   DEFAULT_PUBLIC_CHAT_URL,
   MAX_CONNECTION_DURATION: 5000,
-  MAX_MESSAGE_BODY_LENGTH: 64 * 1024,
+  MAX_MESSAGE_BODY_LENGTH: 2000,
   // Limited due to the proof-of-work requirement
   SMALL_GROUP_SIZE_LIMIT: 10,
   DEFAULT_MEDIA_FETCH_COUNT: 50,
@@ -82,7 +82,10 @@ window.CONSTANTS = {
   MESSAGE_CONTAINER_BUFFER_OFFSET_PX: 30,
   MESSAGE_FETCH_INTERVAL: 1,
   // Maximum voice message duraiton of 5 minutes
+  // which equates to 1.97 MB
   MAX_VOICE_MESSAGE_DURATION: 300,
+  // Max attachment size: 10 MB
+  MAX_ATTACHMENT_FILESIZE: 10000000,
 };
 
 window.versionInfo = {

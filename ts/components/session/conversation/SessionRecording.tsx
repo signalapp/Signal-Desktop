@@ -1,10 +1,12 @@
 import React from 'react';
+import classNames from 'classnames';
 import moment from 'moment';
 
 import {  SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionButton, SessionButtonType, SessionButtonColor } from '../SessionButton';
 
 interface Props {
+  sendVoiceMessage: any;
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
 }
@@ -39,8 +41,6 @@ interface State {
     maxBarHeight: number;
     minBarHeight: number;
   }
-
-  volumeArray?: Array<number>;
 
   startTimestamp: number;
   nowTimestamp: number;
@@ -83,8 +83,8 @@ export class SessionRecording extends React.Component<Props, State> {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.updateCanvasDimensions = this.updateCanvasDimensions.bind(this);
 
-    const now = Number(moment().format('x')) / 1000;
-    const updateTimerInterval = setInterval(this.timerUpdate, 1000);
+    const now = this.getTimestamp();
+    const updateTimerInterval = setInterval(this.timerUpdate, 500);
     
     this.state = {
       recordDuration: 0,
@@ -96,7 +96,6 @@ export class SessionRecording extends React.Component<Props, State> {
       mediaBlob: undefined,
       audioElement: undefined,
       streamParams: undefined,
-      volumeArray: undefined,
       
       startTimestamp: now,
       nowTimestamp: now,
@@ -145,7 +144,6 @@ export class SessionRecording extends React.Component<Props, State> {
     }
   }
 
-
   render() {
     const {
       actionHover,
@@ -154,22 +152,27 @@ export class SessionRecording extends React.Component<Props, State> {
       isRecording,
       startTimestamp,
       nowTimestamp,
+      audioElement,
     } = this.state;
 
     const actionStopRecording = actionHover && isRecording;
     const actionPlayAudio = !isRecording && !isPlaying;
     const actionPauseAudio = !isRecording && !isPaused && isPlaying;
     const actionDefault = !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
+
     
-    const elapsedTimeMs = 1000 * (nowTimestamp - startTimestamp);
-    const displayTimeString = moment.utc(elapsedTimeMs).format('m:ss');
-
+    const displayTimeMs = isRecording
+      ? (nowTimestamp - startTimestamp) * 1000
+      : audioElement && audioElement?.currentTime * 1000 || 0;
+    
+    const displayTimeString = moment.utc(displayTimeMs).format('m:ss');
+    
     const actionPauseFn = isPlaying ? this.pauseAudio : this.stopRecordingStream;
-
 
     return (
       <div
         className="session-recording"
+        tabIndex={0}
         onKeyDown={this.onKeyDown}
       >
         <div
@@ -177,38 +180,38 @@ export class SessionRecording extends React.Component<Props, State> {
             onMouseEnter={this.handleHoverActions}
             onMouseLeave={this.handleUnhoverActions}
         >
-            {actionStopRecording && (
-              <SessionIconButton
-                iconType={SessionIconType.Pause}
-                iconSize={SessionIconSize.Medium}
-                // FIXME VINCE: Globalise constants for JS Session Colors
-                iconColor={'#FF4538'}
-                onClick={actionPauseFn}
-              />
-            )}
-            {actionPauseAudio && (
-              <SessionIconButton
-                iconType={SessionIconType.Pause}
-                iconSize={SessionIconSize.Medium}
-                // FIXME VINCE: Globalise constants for JS Session Colors
-                iconColor={'#FFFFFF'}
-                onClick={actionPauseFn}
-              />
-            )}
-            {actionPlayAudio && (
-              <SessionIconButton
-                iconType={SessionIconType.Play}
-                iconSize={SessionIconSize.Medium}
-                onClick={this.playAudio}
-              />
-            )}
-            
-            {actionDefault && (
-              <SessionIconButton
-                iconType={SessionIconType.Microphone}
-                iconSize={SessionIconSize.Huge}
-              />
-            )}
+          {actionStopRecording && (
+            <SessionIconButton
+              iconType={SessionIconType.Pause}
+              iconSize={SessionIconSize.Medium}
+              // FIXME VINCE: Globalise constants for JS Session Colors
+              iconColor={'#FF4538'}
+              onClick={actionPauseFn}
+            />
+          )}
+          {actionPauseAudio && (
+            <SessionIconButton
+              iconType={SessionIconType.Pause}
+              iconSize={SessionIconSize.Medium}
+              // FIXME VINCE: Globalise constants for JS Session Colors
+              iconColor={'#FFFFFF'}
+              onClick={actionPauseFn}
+            />
+          )}
+          {actionPlayAudio && (
+            <SessionIconButton
+              iconType={SessionIconType.Play}
+              iconSize={SessionIconSize.Medium}
+              onClick={this.playAudio}
+            />
+          )}
+          
+          {actionDefault && (
+            <SessionIconButton
+              iconType={SessionIconType.Microphone}
+              iconSize={SessionIconSize.Huge}
+            />
+          )}
         </div>
 
         <div
@@ -219,25 +222,25 @@ export class SessionRecording extends React.Component<Props, State> {
           {isRecording && <canvas ref={this.visualisationCanvas}></canvas>}
         </div>
         
-
-        { isRecording ? (
-            <div className="session-recording--timer">
-              { displayTimeString }
-              <div className="session-recording--timer-light">
-
-              </div>
-            </div>
-          ) : (
-            <div className="send-message-button">
-              <SessionIconButton
-                iconType={SessionIconType.Send}
-                iconSize={SessionIconSize.Large}
-                iconColor={'#FFFFFF'}
-                iconRotation={90}
-                onClick={this.onSendVoiceMessage}
-              />
-            </div>
+        
+        <div className={classNames('session-recording--timer', !isRecording && 'playback-timer')}>
+          { displayTimeString }
+          { isRecording && (
+            <div className="session-recording--timer-light"></div>
           )}
+        </div>
+          
+        { !isRecording && (
+          <div className="send-message-button">
+            <SessionIconButton
+              iconType={SessionIconType.Send}
+              iconSize={SessionIconSize.Large}
+              iconColor={'#FFFFFF'}
+              iconRotation={90}
+              onClick={this.onSendVoiceMessage}
+            />
+          </div>
+        )}
 
         <div className="session-recording--status">
           { isRecording ? (
@@ -269,16 +272,16 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private timerUpdate(){
-    const { nowTimestamp, startTimestamp, isRecording } = this.state;
+    const { nowTimestamp, startTimestamp } = this.state;
     const elapsedTime = (nowTimestamp - startTimestamp);
 
-    if (!isRecording || elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION){
-      clearInterval(this.state.updateTimerInterval);
+    // Prevent voice messages exceeding max length.
+    if (elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION){
       this.stopRecordingStream();
     }
 
     this.setState({
-      nowTimestamp: Number(moment().format('x')) / 1000
+      nowTimestamp: this.getTimestamp()
     });
   }
 
@@ -346,10 +349,6 @@ export class SessionRecording extends React.Component<Props, State> {
       let audioDuration = this.state.recordDuration
       if (audioElement.duration !== Infinity) audioDuration = audioElement.duration;
       const progress = width * (audioElement.currentTime / audioDuration);
-
-      console.log(`[details] Current Time:`, audioElement.currentTime);
-      console.log(`[details] Record Duration:`, audioDuration);
-      console.log(`[details] Audio element duration`, audioElement.duration);
       
       const canvasContext = canvas.getContext(`2d`);
       if (!canvasContext) return;
@@ -395,12 +394,6 @@ export class SessionRecording extends React.Component<Props, State> {
     });
   }
 
-  private initSendVoiceRecording(){
-    // Is the audio file < 10mb? That's the attachment filesize limit
-
-    return;
-  }
-
   private onDeleteVoiceMessage() {
     this.pauseAudio();
     this.stopRecordingStream();
@@ -408,7 +401,20 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private onSendVoiceMessage() {
-      console.log(`[vince][mic] Sending voice message`);
+    console.log(`[vince][mic] Sending voice message to composition box1`);
+
+    const audioBlob = this.state.mediaBlob.data;
+    if (!audioBlob) return;
+
+    // Is the audio file > attachment filesize limit
+    if (audioBlob.size > window.CONSTANTS.MAX_ATTACHMENT_FILESIZE) {
+      console.log(`[send] Voice message too large: ${audioBlob.size / 1000000} MB`);
+      return;
+    }
+
+    this.props.sendVoiceMessage(audioBlob);
+
+    return;
   }
 
   private async initiateRecordingStream() {
@@ -416,8 +422,7 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private stopRecordingStream() {
-    const { streamParams, updateTimerInterval} = this.state;
-    updateTimerInterval && clearInterval(updateTimerInterval);
+    const { streamParams} = this.state;
     
     // Exit if parameters aren't yet set
     if (!streamParams){
@@ -429,12 +434,7 @@ export class SessionRecording extends React.Component<Props, State> {
     streamParams.input.disconnect();
     streamParams.processor.disconnect();
     streamParams.stream.getTracks().forEach((track: any) => track.stop);
-    
-    console.log(`[vince][stream] Stream: `, streamParams.stream);
-    console.log(`[vince][stream] Media: `, streamParams.media);
-    console.log(`[vince][stream] Input: `, streamParams.input);
-    console.log(`[vince][stream] Processor: `, streamParams.processor);
-    
+        
     // Stop recording
     this.stopRecording();
   }
@@ -585,8 +585,6 @@ export class SessionRecording extends React.Component<Props, State> {
 
     const numBars = width / (barPadding + barWidth);
 
-    console.log(`[] Starting playback view`);
-
     // Scan through audio file getting average volume per bar
     // to display amplitude over time as a static image
     const blob = this.state.mediaBlob.data;
@@ -595,7 +593,9 @@ export class SessionRecording extends React.Component<Props, State> {
     const audioContext = new window.AudioContext();
     
     audioContext.decodeAudioData(arrayBuffer, (buffer: AudioBuffer) => {
-      this.setState({recordDuration: buffer.duration});
+      this.setState({
+        recordDuration: buffer.duration
+      });
       
       // Get audio amplitude with PCM Data in Float32
       // Grab single channel only to save compuation
@@ -620,21 +620,14 @@ export class SessionRecording extends React.Component<Props, State> {
 
       // CANVAS CONTEXT
       const drawPlaybackCanvas = () => {
-        console.log(`[canvas] Drawing`); 
-
+        
         const canvas = this.playbackCanvas.current;
-        if (!canvas) {
-          console.log(`[canvas] Couldnt get playback canvas`); 
-          return;
-        }
+        if (!canvas) return;
         canvas.height = height;
         canvas.width = width;
           
         const canvasContext = canvas.getContext(`2d`);
-        if (!canvasContext){
-          console.log(`[canvas] Couldnt get cointext canvas`); 
-          return;
-        } 
+        if (!canvasContext) return;
         
         for (let i = 0; i < barSizeArray.length; i++){
           const barHeight = Math.ceil(barSizeArray[i]);
@@ -673,6 +666,10 @@ export class SessionRecording extends React.Component<Props, State> {
     ctx.arcTo(x,   y,   x+w, y,   r);
     ctx.closePath();
     ctx.fill();
+  }
+
+  private getTimestamp(){
+    return Number(moment().format('x')) / 1000;
   }
 
   private updateCanvasDimensions(){
