@@ -653,11 +653,14 @@
 
 // Module: Expire Timer
 
+.module-expire-timer-margin {
+  margin-left: 6px;
+}
+
 .module-expire-timer {
   width: 12px;
   height: 12px;
   display: inline-block;
-  margin-left: 6px;
   margin-bottom: 2px;
   @include color-svg('../images/timer-60.svg', $color-gray-60);
 }
