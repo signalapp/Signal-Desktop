@@ -3,22 +3,42 @@ import { mapDispatchToProps } from '../actions';
 import { SessionConversation } from '../../components/session/conversation/SessionConversation';
 import { StateType } from '../reducer';
 
-import { getQuery, getSearchResults, isSearching } from '../selectors/search';
-import {
-  getIntl,
-  getIsSecondaryDevice,
-  getRegionCode,
-  getUserNumber,
-} from '../selectors/user';
+const mapStateToProps = async (state: StateType) => {
+  // Get messages here!!!!!
 
-const mapStateToProps = (state: StateType) => {
-  //const conversationInfo = getSessionConversationInfo(state);
 
-  // console.log(`[vince] stateToProps from SessionConversation:`, conversationInfo);
-  // console.log(`[vince] stateToProps from SessionConversation:`, state);
+  // FIXME VINCE: Get messages for all conversations, not just this one
+  // Store as object of objects with key refs
 
-  // You only want to rerender SessionConversation if the CURRENT conversation updates
-  // Use SelectedConversationChangedActionType FROM actions.ts
+  // console.log(`[update] State from dispatch:`, state);
+
+
+  // const message: Array<any> = [];
+  // if(state.conversations) {
+  //   const conversationKey = state.conversations.selectedConversation;
+  
+  //   // FIXME VINCE: msgCount should not be a magic number
+  //   const msgCount = 30;
+
+  //   const messageSet = await window.Signal.Data.getMessagesByConversation(
+  //     conversationKey,
+  //     { limit: msgCount, MessageCollection: window.Whisper.MessageCollection },
+  //   );
+
+  //   const messageModels = messageSet.models;
+  //   let previousSender;
+  //   for (let i = 0; i < messageModels.length; i++){
+  //     // Handle firstMessageOfSeries for conditional avatar rendering
+  //     let firstMessageOfSeries = true;
+  //     if (i > 0 && previousSender === messageModels[i].authorPhoneNumber){
+  //       firstMessageOfSeries = false;
+  //     }
+
+  //     messages.push({...messageModels[i], firstMessageOfSeries});
+  //     previousSender = messageModels[i].authorPhoneNumber;
+  //   }
+  // }
+  
 
   return {
     conversations: state.conversations,

@@ -9,13 +9,15 @@ import { Message } from '../../conversation/Message';
 import { FriendRequest } from '../../conversation/FriendRequest';
 import { TimerNotification } from '../../conversation/TimerNotification';
 
+import { getTimestamp } from './SessionConversationManager';
+
 
 import { SessionScrollButton } from '../SessionScrollButton';
 
 interface State {
+  conversationKey: string;
   sendingProgess: number;
   prevSendingProgess: number;
-  conversationKey: string;
   unreadCount: number;
   messages: Array<any>;
   selectedMessages: Array<string>;
@@ -90,10 +92,12 @@ export class SessionConversation extends React.Component<any, State> {
     if (this.state.isScrolledToBottom){
       this.scrollToBottom();
     }
+
+    console.log(`[update] Props: `, this.props);
   }
 
   public async componentWillReceiveProps() {
-    const timestamp = this.getTimestamp();
+    const timestamp = getTimestamp();
 
     // If we have pulled messages in the last second, don't bother rescanning
     // This avoids getting messages on every re-render.
@@ -197,6 +201,8 @@ export class SessionConversation extends React.Component<any, State> {
 
   public renderHeader() {
     const headerProps = this.getHeaderProps();
+
+    console.log(`[header] Headerprops: `, headerProps);
 
     return (
       <ConversationHeader
@@ -334,7 +340,7 @@ export class SessionConversation extends React.Component<any, State> {
 
   public async getMessages(numMessages?: number, fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL, loopback = false){
     const { conversationKey, messageFetchTimestamp } = this.state;
-    const timestamp = this.getTimestamp();
+    const timestamp = getTimestamp();
 
     // If we have pulled messages in the last interval, don't bother rescanning
     // This avoids getting messages on every re-render.
@@ -405,10 +411,6 @@ export class SessionConversation extends React.Component<any, State> {
     if (unread) {
       const model = window.ConversationController.get(conversationKey);
       model.markRead.bind(model)(unread.attributes.received_at);
-
-      console.log(`[read] Unread:`, unread);
-      console.log(`[read] Model:`, model);
-      
     }
   }
 
@@ -527,6 +529,8 @@ export class SessionConversation extends React.Component<any, State> {
   public getHeaderProps() {
     const {conversationKey} = this.state;
     const conversation = window.getConversationByKey(conversationKey);
+
+    console.log(`[header] Conversation`, conversation);
 
     const expireTimer = conversation.get('expireTimer');
     const expirationSettingName = expireTimer
@@ -768,13 +772,8 @@ export class SessionConversation extends React.Component<any, State> {
         break;
     }
 
-
-
   }
-
-  public getTimestamp() {
-    return Math.floor(Date.now() / 1000);
-  }
+  
 }
 
 

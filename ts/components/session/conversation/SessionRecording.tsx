@@ -2,6 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
+import { getTimestamp } from './SessionConversationManager';
+
 import {  SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import { SessionButton, SessionButtonType, SessionButtonColor } from '../SessionButton';
 
@@ -83,7 +85,7 @@ export class SessionRecording extends React.Component<Props, State> {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.updateCanvasDimensions = this.updateCanvasDimensions.bind(this);
 
-    const now = this.getTimestamp();
+    const now = getTimestamp();
     const updateTimerInterval = setInterval(this.timerUpdate, 500);
     
     this.state = {
@@ -144,7 +146,7 @@ export class SessionRecording extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  public render() {
     const {
       actionHover,
       isPlaying,
@@ -281,7 +283,7 @@ export class SessionRecording extends React.Component<Props, State> {
     }
 
     this.setState({
-      nowTimestamp: this.getTimestamp()
+      nowTimestamp: getTimestamp()
     });
   }
 
@@ -317,7 +319,6 @@ export class SessionRecording extends React.Component<Props, State> {
 
       audioElement.oncanplaythrough = () => {
         const duration = recordDuration;
-        const progress = recordDuration - audioElement.currentTime;
 
         if (duration && audioElement.currentTime < duration) {
           audioElement.play();
@@ -666,10 +667,6 @@ export class SessionRecording extends React.Component<Props, State> {
     ctx.arcTo(x,   y,   x+w, y,   r);
     ctx.closePath();
     ctx.fill();
-  }
-
-  private getTimestamp(){
-    return Number(moment().format('x')) / 1000;
   }
 
   private updateCanvasDimensions(){
