@@ -224,6 +224,7 @@ $composition-container-height: 60px;
     background-color: $session-shade-4;
     border: 1px solid $session-shade-6-alt;
     border-radius: 8px;
+    padding-bottom: $session-margin-sm;
 
 
     .emoji-mart-category-label {
@@ -259,7 +260,6 @@ $composition-container-height: 60px;
       border: 0.7px solid $session-shade-6-alt;
       clip-path: polygon(100% 100%, 7.2px 100%, 100% 7.2px);
     }
-
   }
 }
 

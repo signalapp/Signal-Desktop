@@ -994,7 +994,7 @@ export class Message extends React.PureComponent<Props, State> {
       const dimensions = getGridDimensions(attachments);
       if (dimensions) {
         return dimensions.width;
-      }
+      } 
     }
 
     if (previews && previews.length) {

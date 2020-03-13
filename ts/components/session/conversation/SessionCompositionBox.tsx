@@ -208,7 +208,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
 
   private onChooseAttachment() {
-    this.fileInput.current?.click();
+    const fileInput = this.fileInput.current;
+    if(fileInput) fileInput.click();
   }
 
   private onChoseAttachment() {
@@ -250,12 +251,13 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
 
   private onSendMessage(){  
-    // FIXME VINCE: Get emoiji, attachments, etc
-    const messagePlaintext = this.textarea.current?.value;
-    const {attachments} = this.state;
     const messageInput = this.textarea.current;
-
     if (!messageInput) return;
+    
+    const messagePlaintext = messageInput.value;
+    const {attachments} = this.state;
+
+    // FIXME VINCE: Get emoiji, attachments, etc
 
     console.log(`[vince][msg] Message:`, messagePlaintext);
     console.log(`[vince][msg] fileAttachments:`, attachments);

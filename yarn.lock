@@ -198,6 +198,13 @@
   dependencies:
     electron-is-dev "*"
 
+"@types/emoji-mart@^2.11.3":
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/@types/emoji-mart/-/emoji-mart-2.11.3.tgz#9949f6a8a231aea47aac1b2d4212597b41140b07"
+  integrity sha512-pRlU6+CFIB+9+FwjGGCVtDQq78u7N0iUijrO0Qh1j9RJ6T23DSNNfe0X6kf81N4ubVhF9jVckCI1M3kHpkwjqA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
