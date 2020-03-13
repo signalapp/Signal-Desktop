@@ -29,11 +29,11 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     try {
       // allow .loki (may only need an agent but not sure
       //              until we have a .loki to test with)
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = serverUrl.match(/\.loki\//)
-        ? 0
-        : 1;
+      if (serverUrl.match(/\.loki$/)) {
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+      }
       await nodeFetch(serverUrl);
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
       // const txt = await res.text();
     } catch (e) {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;

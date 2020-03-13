@@ -390,7 +390,13 @@ class LokiAppDotNetServerAPI {
         json: () => response,
       };
     }
-    return nodeFetch(urlObj, fetchOptions, options);
+    const urlStr = urlObj.toString();
+    if (urlStr.match(/\.loki\//)) {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    }
+    const result = await nodeFetch(urlObj, fetchOptions, options);
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+    return result;
   }
 
   async _sendToProxy(endpoint, pFetchOptions, options = {}) {
@@ -565,7 +571,7 @@ class LokiAppDotNetServerAPI {
       fetchOptions.headers = headers;
 
       // domain ends in .loki
-      if (endpoint.match(/\.loki\//)) {
+      if (url.toString().match(/\.loki\//)) {
         fetchOptions.agent = snodeHttpsAgent;
       }
     } catch (e) {
@@ -599,9 +605,9 @@ class LokiAppDotNetServerAPI {
         ));
       } else {
         // disable check for .loki
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = endpoint.match(/\.loki\//)
-          ? 0
-          : 1;
+        if (url.toString().match(/\.loki/)) {
+          process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+        }
         result = await nodeFetch(url, fetchOptions);
         // always make sure this check is enabled
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
