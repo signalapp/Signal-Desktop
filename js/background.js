@@ -1964,21 +1964,23 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
-      const allOurDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        primaryDeviceKey
-      );
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
       let message;
       if (
         messageDescriptor.type === 'group' &&
-        descriptorId.match(/^publicChat:/) &&
-        allOurDevices.includes(data.source)
+        descriptorId.match(/^publicChat:/)
       ) {
-        // Public chat messages from ourselves should be outgoing
-        message = await createSentMessage(data);
+        // Note: This only works currently because we have a 1 device limit
+        // When we change that, the check below needs to change too
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primaryDevice = window.storage.get('primaryDevicePubKey');
+        const { source } = data;
+        if (source && (source === ourNumber || source === primaryDevice)) {
+          // Public chat messages from ourselves should be outgoing
+          message = await createSentMessage(data);
+        }
       } else {
         message = await createMessage(data);
       }
@@ -2132,35 +2134,35 @@
 
     const message = new Whisper.Message(messageData);
 
-    // If we don't return early here, we can get into infinite error loops. So, no
-    //   delivery receipts for sealed sender errors.
-
+    // Send a delivery receipt
+    // If we don't return early here, we can get into infinite error loops. So, no delivery receipts for sealed sender errors.
     // Note(LOKI): don't send receipt for FR as we don't have a session yet
-    if (isError || !data.unidentifiedDeliveryReceived || data.friendRequest) {
-      return message;
-    }
+    const isGroup = data && data.message && data.message.group;
+    const shouldSendReceipt =
+      !isError &&
+      data.unidentifiedDeliveryReceived &&
+      !data.isFriendRequest &&
+      !isGroup;
 
-    try {
+    // Send the receipt async and hope that it succeeds
+    if (shouldSendReceipt) {
       const { wrap, sendOptions } = ConversationController.prepareForSend(
         data.source
       );
-      const isGroup = data && data.message && data.message.group;
-      if (!isGroup) {
-        await wrap(
-          textsecure.messaging.sendDeliveryReceipt(
-            data.source,
-            data.timestamp,
-            sendOptions
-          )
+      wrap(
+        textsecure.messaging.sendDeliveryReceipt(
+          data.source,
+          data.timestamp,
+          sendOptions
+        )
+      ).catch(error => {
+        window.log.error(
+          `Failed to send delivery receipt to ${data.source} for message ${
+            data.timestamp
+          }:`,
+          error && error.stack ? error.stack : error
         );
-      }
-    } catch (error) {
-      window.log.error(
-        `Failed to send delivery receipt to ${data.source} for message ${
-          data.timestamp
-        }:`,
-        error && error.stack ? error.stack : error
-      );
+      });
     }
 
     return message;
