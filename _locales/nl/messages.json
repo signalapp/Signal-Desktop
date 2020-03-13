@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update voor Signal beschikbaar",
+        "message": "Update voor Session beschikbaar",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Er is een nieuwe versie van Signal beschikbaar.",
+        "message": "Er is een nieuwe versie van Session beschikbaar.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Klik op ‘Signal herstarten’ om de updates toe te passen.",
+        "message": "Klik op Session herstarten’ om de updates toe te passen.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Signal herstarten",
+        "message": "Session herstarten",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

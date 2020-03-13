@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "មានបច្ចុប្បន្នភាព Signal",
+        "message": "មានបច្ចុប្បន្នភាព Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "មានSignalជំនាន់ថ្មី",
+        "message": "មានSessionជំនាន់ថ្មី",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
+        "message": "ចុច បើក Sessionឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "បើកSignal ឡើងវិញ",
+        "message": "បើកSession ឡើងវិញ",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

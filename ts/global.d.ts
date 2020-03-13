@@ -8,7 +8,6 @@ interface Window {
   Events: any;
   inboxStore: any;
   Lodash: any;
-  deleteAllData: any;
   clearLocalData: any;
 
   // Microphone

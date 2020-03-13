@@ -2,6 +2,8 @@
 /* global window: false */
 const path = require('path');
 const electron = require('electron');
+
+const { webFrame } = electron;
 const semver = require('semver');
 
 const { deferredToPromise } = require('./js/modules/deferred_to_promise');
@@ -86,6 +88,7 @@ window.CONSTANTS = {
   MAX_VOICE_MESSAGE_DURATION: 300,
   // Max attachment size: 10 MB
   MAX_ATTACHMENT_FILESIZE: 10000000,
+  NOTIFICATION_ENABLE_TIMEOUT_SECONDS: 10, // number of seconds to turn on notifications after reconnect/start of app
 };
 
 window.versionInfo = {
@@ -99,6 +102,19 @@ window.wrapDeferred = deferredToPromise;
 
 const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
+
+window.updateZoomFactor = () => {
+  const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
+  window.setZoomFactor(zoomFactor / 100);
+};
+
+window.setZoomFactor = number => {
+  webFrame.setZoomFactor(number);
+};
+
+window.getZoomFactor = () => {
+  webFrame.getZoomFactor();
+};
 
 window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
@@ -147,16 +163,7 @@ window.resetDatabase = () => {
   ipc.send('resetDatabase');
 };
 
-// Events for updating block number states across different windows.
-// In this case we need these to update the blocked number
-//  collection on the main window from the settings window.
-window.onUnblockNumber = number => ipc.send('on-unblock-number', number);
-
-ipc.on('mediaPermissionsChanged', () => {
-  Whisper.events.trigger('mediaPermissionsChanged');
-});
-
-ipc.on('on-unblock-number', (event, number) => {
+window.onUnblockNumber = number => {
   // Unblock the number
   if (window.BlockedNumberController) {
     window.BlockedNumberController.unblock(number);
@@ -174,6 +181,10 @@ ipc.on('on-unblock-number', (event, number) => {
       );
     }
   }
+};
+
+ipc.on('mediaPermissionsChanged', () => {
+  Whisper.events.trigger('mediaPermissionsChanged');
 });
 
 window.closeAbout = () => ipc.send('close-about');
@@ -196,7 +207,6 @@ ipc.on('set-up-as-standalone', () => {
 
 // Settings-related events
 
-window.showSettings = () => ipc.send('show-settings');
 window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
 
 ipc.on('add-dark-overlay', () => {
@@ -212,63 +222,13 @@ ipc.on('remove-dark-overlay', () => {
   }
 });
 
-installGetter('device-name', 'getDeviceName');
-
-installGetter('theme-setting', 'getThemeSetting');
-installSetter('theme-setting', 'setThemeSetting');
-installGetter('hide-menu-bar', 'getHideMenuBar');
-installSetter('hide-menu-bar', 'setHideMenuBar');
-
-// Get the message TTL setting
-window.getMessageTTL = () => window.storage.get('message-ttl', 24);
-installGetter('message-ttl', 'getMessageTTL');
-installSetter('message-ttl', 'setMessageTTL');
-
-installGetter('read-receipt-setting', 'getReadReceiptSetting');
-installSetter('read-receipt-setting', 'setReadReceiptSetting');
-
-installGetter('typing-indicators-setting', 'getTypingIndicatorsSetting');
-installSetter('typing-indicators-setting', 'setTypingIndicatorsSetting');
-
-installGetter('notification-setting', 'getNotificationSetting');
-installSetter('notification-setting', 'setNotificationSetting');
-installGetter('audio-notification', 'getAudioNotification');
-installSetter('audio-notification', 'setAudioNotification');
-
-installGetter('link-preview-setting', 'getLinkPreviewSetting');
-installSetter('link-preview-setting', 'setLinkPreviewSetting');
-
-installGetter('spell-check', 'getSpellCheck');
-installSetter('spell-check', 'setSpellCheck');
-
-installGetter('media-permissions', 'getMediaPermissions');
-installGetter('media-permissions', 'setMediaPermissions');
-
-window.getMediaPermissions = () =>
-  new Promise((resolve, reject) => {
-    ipc.once('get-success-media-permissions', (_event, error, value) => {
-      if (error) {
-        return reject(error);
-      }
-
-      return resolve(value);
-    });
-    ipc.send('get-media-permissions');
-  });
-
-window.setMediaPermissions = value => {
-  ipc.send('set-media-permissions', value);
-};
-
 window.getSettingValue = (settingID, comparisonValue = null) => {
   // Comparison value allows you to pull boolean values from any type.
   // Eg. window.getSettingValue('theme', 'light')
   // returns 'false' when the value is 'dark'.
 
   if (settingID === 'media-permissions') {
-    // This must be done asynchronously. Call
-    // await window.getMediaPermissions();
-    return null;
+    return window.getMediaPermissions();
   }
 
   const settingVal = window.storage.get(settingID);
@@ -277,19 +237,15 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
 
 window.setSettingValue = (settingID, value) => {
   window.storage.put(settingID, value);
+
+  if (settingID === 'zoom-factor-setting') {
+    window.updateZoomFactor();
+  }
 };
 
-installGetter('is-primary', 'isPrimary');
-installGetter('sync-request', 'getSyncRequest');
-installGetter('sync-time', 'getLastSyncTime');
-installSetter('sync-time', 'setLastSyncTime');
-
-ipc.on('delete-all-data', () => {
-  const { deleteAllData } = window.Events;
-  if (deleteAllData) {
-    deleteAllData();
-  }
-});
+// Get the message TTL setting
+window.getMessageTTL = () => window.storage.get('message-ttl', 24);
+window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};
@@ -309,49 +265,6 @@ ipc.on('get-ready-for-shutdown', async () => {
     );
   }
 });
-
-function installGetter(name, functionName) {
-  ipc.on(`get-${name}`, async () => {
-    const getFn = window.Events[functionName];
-    if (!getFn) {
-      ipc.send(
-        `get-success-${name}`,
-        `installGetter: ${functionName} not found for event ${name}`
-      );
-      return;
-    }
-    try {
-      ipc.send(`get-success-${name}`, null, await getFn());
-    } catch (error) {
-      ipc.send(
-        `get-success-${name}`,
-        error && error.stack ? error.stack : error
-      );
-    }
-  });
-}
-
-function installSetter(name, functionName) {
-  ipc.on(`set-${name}`, async (_event, value) => {
-    const setFn = window.Events[functionName];
-    if (!setFn) {
-      ipc.send(
-        `set-success-${name}`,
-        `installSetter: ${functionName} not found for event ${name}`
-      );
-      return;
-    }
-    try {
-      await setFn(value);
-      ipc.send(`set-success-${name}`);
-    } catch (error) {
-      ipc.send(
-        `set-success-${name}`,
-        error && error.stack ? error.stack : error
-      );
-    }
-  });
-}
 
 window.addSetupMenuItems = () => ipc.send('add-setup-menu-items');
 window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');
@@ -490,23 +403,6 @@ contextMenu({
 //   /tmp mounted as noexec on Linux.
 require('./js/spell_check');
 
-if (config.environment === 'test') {
-  const isTravis = 'TRAVIS' in process.env && 'CI' in process.env;
-  const isWindows = process.platform === 'win32';
-  /* eslint-disable global-require, import/no-extraneous-dependencies */
-  window.test = {
-    glob: require('glob'),
-    fse: require('fs-extra'),
-    tmp: require('tmp'),
-    path: require('path'),
-    basePath: __dirname,
-    attachmentsPath: window.Signal.Migrations.attachmentsPath,
-    isTravis,
-    isWindows,
-  };
-  /* eslint-enable global-require, import/no-extraneous-dependencies */
-}
-
 window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
@@ -524,3 +420,26 @@ Promise.prototype.ignore = function() {
   // eslint-disable-next-line more/no-then
   this.then(() => {});
 };
+
+if (config.environment.includes('test')) {
+  const isWindows = process.platform === 'win32';
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
+  window.test = {
+    glob: require('glob'),
+    fse: require('fs-extra'),
+    tmp: require('tmp'),
+    path: require('path'),
+    basePath: __dirname,
+    attachmentsPath: window.Signal.Migrations.attachmentsPath,
+    isWindows,
+  };
+  /* eslint-enable global-require, import/no-extraneous-dependencies */
+  window.lokiFeatureFlags = {};
+  window.lokiSnodeAPI = {
+    refreshSwarmNodesForPubKey: () => [],
+    getFreshSwarmNodes: () => [],
+    updateSwarmNodes: () => {},
+    updateLastHash: () => {},
+    getSwarmNodesForPubKey: () => [],
+  };
+}

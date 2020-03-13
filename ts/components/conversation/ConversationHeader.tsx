@@ -95,6 +95,7 @@ interface Props {
   onRemoveModerators: () => void;
   onInviteFriends: () => void;
   onAvatarClick?: (userPubKey: string) => void;
+  onUpdateGroupName: () => void;
 
   i18n: LocalizerType;
 }
@@ -308,6 +309,7 @@ export class ConversationHeader extends React.Component<Props> {
       onAddModerators,
       onRemoveModerators,
       onInviteFriends,
+      onUpdateGroupName,
     } = this.props;
 
     const isPrivateGroup = isGroup && !isPublic && !isRss;
@@ -327,6 +329,11 @@ export class ConversationHeader extends React.Component<Props> {
         {amMod ? (
           <MenuItem onClick={onRemoveModerators}>
             {i18n('removeModerators')}
+          </MenuItem>
+        ) : null}
+        {amMod ? (
+          <MenuItem onClick={onUpdateGroupName}>
+            {i18n('editGroupNameOrPicture')}
           </MenuItem>
         ) : null}
         {isPrivateGroup ? (
@@ -395,12 +402,7 @@ export class ConversationHeader extends React.Component<Props> {
           </div>
           {this.renderExpirationLength()}
 
-          {!this.props.isRss && (
-            <>
-              {this.renderSearch()}
-              {this.renderAvatar()}
-            </>
-          )}
+          {!this.props.isRss && this.renderAvatar()}
 
           {this.renderMenu(triggerId)}
         </div>

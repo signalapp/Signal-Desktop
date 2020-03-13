@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Yra prieinamas Signal atnaujinimas",
+        "message": "Yra prieinamas Session atnaujinimas",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Yra prieinama nauja Signal versija.",
+        "message": "Yra prieinama nauja Session versija.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti Signal iš naujo\".",
+        "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti Session iš naujo\".",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Paleisti Signal iš naujo",
+        "message": "Paleisti Session iš naujo",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

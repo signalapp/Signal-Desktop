@@ -1,37 +1,13 @@
 const crc32 = require('buffer-crc32');
-const sc_reduce32_module = require('./sc_reduce32');
 
 module.exports = {
   mn_encode,
   mn_decode,
-  sc_reduce32,
   get_languages,
   pubkey_to_secret_words,
 };
 class MnemonicError extends Error {}
 
-function hexToUint8Array(e) {
-  if (e.length % 2 != 0) throw 'Hex string has invalid length!';
-  for (var t = new Uint8Array(e.length / 2), r = 0; r < e.length / 2; ++r)
-    t[r] = parseInt(e.slice(2 * r, 2 * r + 2), 16);
-  return t;
-}
-
-function Uint8ArrayToHex(e) {
-  for (var t = [], r = 0; r < e.length; ++r)
-    t.push(('0' + e[r].toString(16)).slice(-2));
-  return t.join('');
-}
-
-function sc_reduce32(e) {
-  var t = hexToUint8Array(e);
-  if (32 !== t.length) throw 'Invalid input length';
-  var r = sc_reduce32_module._malloc(32);
-  sc_reduce32_module.HEAPU8.set(t, r),
-    sc_reduce32_module.ccall('sc_reduce32', 'void', ['number'], [r]);
-  var o = sc_reduce32_module.HEAPU8.subarray(r, r + 32);
-  return sc_reduce32_module._free(r), Uint8ArrayToHex(o);
-}
 /*
  mnemonic.js : Converts between 4-byte aligned strings and a human-readable
  sequence of words. Uses 1626 common words taken from wikipedia article:

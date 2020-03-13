@@ -75,6 +75,10 @@ export class SearchResults extends React.Component<Props> {
             ))}
           </div>
         ) : null}
+        {haveFriends
+          ? this.renderContacts(i18n('friendsHeader'), friends, true)
+          : null}
+
         {haveMessages ? (
           <div className="module-search-results__messages">
             {hideMessagesHeader ? null : (
@@ -92,6 +96,28 @@ export class SearchResults extends React.Component<Props> {
             ))}
           </div>
         ) : null}
+      </div>
+    );
+  }
+  private renderContacts(
+    header: string,
+    items: Array<ConversationListItemPropsType>,
+    friends?: boolean
+  ) {
+    const { i18n, openConversation } = this.props;
+
+    return (
+      <div className="module-search-results__contacts">
+        <div className="module-search-results__contacts-header">{header}</div>
+        {items.map(contact => (
+          <ConversationListItem
+            key={contact.phoneNumber}
+            isFriend={friends}
+            {...contact}
+            onClick={openConversation}
+            i18n={i18n}
+          />
+        ))}
       </div>
     );
   }

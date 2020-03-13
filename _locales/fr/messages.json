@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Une mise à jour de Signal est proposée",
+        "message": "Une mise à jour de Session est proposée",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Une nouvelle version de Signal est proposée.",
+        "message": "Une nouvelle version de Session est proposée.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Appuyez sur « Redémarrer Signal » pour appliquer les mises à jour.",
+        "message": "Appuyez sur « Redémarrer Session » pour appliquer les mises à jour.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Redémarrer Signal",
+        "message": "Redémarrer Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

@@ -1106,14 +1106,7 @@ export class Message extends React.PureComponent<Props, State> {
     const enableContextMenu = !isRss && !multiSelectMode;
 
     return (
-      <div
-        className={classNames(divClasses)}
-        id={id}
-        role="button"
-        onClick={() => {
-          id && this.props.onSelectMessage(id);
-        }}
-      >
+      <div className={classNames(divClasses)}>
         <ContextMenuTrigger id={rightClickTriggerId}>
           {this.renderAvatar()}
           <div
@@ -1122,6 +1115,14 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message--${direction}`,
               expiring ? 'module-message--expired' : null
             )}
+            role="button"
+            onClick={() => {
+              const selection = window.getSelection();
+              if (selection && selection.type === 'Range') {
+                return;
+              }
+              id && this.props.onSelectMessage(id);
+            }}
           >
             {this.renderError(isIncoming)}
             {isRss ? null : this.renderMenu(!isIncoming, triggerId)}
