@@ -23,7 +23,7 @@ export class SessionSearchInput extends React.Component<Props> {
 
   public render() {
     const { searchString } = this.props;
-    const triggerId = `session-search-input-context`;
+    const triggerId = 'session-search-input-context';
 
     return (
       <>
