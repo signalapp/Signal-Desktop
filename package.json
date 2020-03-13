@@ -235,7 +235,13 @@
       "verifyUpdateCodeSignature": false,
       "icon": "build/icons/win/icon.ico",
       "target": [
-        "nsis"
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
       ]
     },
     "nsis": {
