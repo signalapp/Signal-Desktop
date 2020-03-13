@@ -244,7 +244,6 @@ installSetter('spell-check', 'setSpellCheck');
 installGetter('media-permissions', 'getMediaPermissions');
 installGetter('media-permissions', 'setMediaPermissions');
 
-
 window.getMediaPermissions = () =>
   new Promise((resolve, reject) => {
     ipc.once('get-success-media-permissions', (_event, error, value) => {
@@ -275,7 +274,6 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   const settingVal = window.storage.get(settingID);
   return comparisonValue ? !!settingVal === comparisonValue : settingVal;
 };
-
 
 window.setSettingValue = (settingID, value) => {
   window.storage.put(settingID, value);

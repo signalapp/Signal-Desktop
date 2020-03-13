@@ -405,7 +405,7 @@ export class ConversationHeader extends React.Component<Props> {
           {this.renderMenu(triggerId)}
         </div>
 
-        { selectionMode && this.renderSelectionOverlay() }
+        {selectionMode && this.renderSelectionOverlay()}
       </div>
     );
   }

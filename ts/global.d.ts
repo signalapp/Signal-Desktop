@@ -14,7 +14,7 @@ interface Window {
   // Microphone
   MediaRecorder: any;
   AudioContext: any;
-  
+
   // Gets
   getAccountManager: any;
   getMediaPermissions: any;

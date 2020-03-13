@@ -220,20 +220,46 @@ $composition-container-height: 60px;
     visibility: visible;
   }
 
-  & > section {
+  & > section.emoji-mart {
     background-color: $session-shade-4;
     border: 1px solid $session-shade-6-alt;
-    border-radius: $session-margin-lg;
+    border-radius: 8px;
+
 
     .emoji-mart-category-label {
       top: -2px;
-      
+
       span {
         font-family: 'SF Pro Text';
         padding-top: $session-margin-sm;
         background-color: $session-shade-4;
       }
     }
+
+    .emoji-mart-bar:last-child {
+      border: none;
+
+      .emoji-mart-preview { 
+        display: none;
+      }
+
+    }
+
+    &:after{
+      content: '';
+      position: absolute;
+      top: calc(100% - 40px);
+      left: calc(100% - 79px);
+      width: 22px;
+      height: 22px;
+      background-color: $session-shade-4;
+      transform: rotate(45deg);
+      border-radius: 3px;
+      transform: scaleY(1.4) rotate(45deg);
+      border: 0.7px solid $session-shade-6-alt;
+      clip-path: polygon(100% 100%, 7.2px 100%, 100% 7.2px);
+    }
+
   }
 }
 

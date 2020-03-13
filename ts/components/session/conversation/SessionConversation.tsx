@@ -23,7 +23,7 @@ interface State {
   doneInitialScroll: boolean;
   displayScrollToBottomButton: boolean;
   messageFetchTimestamp: number;
-  isRecordingView: boolean;
+  showRecordingView: boolean;
 }
 
 export class SessionConversation extends React.Component<any, State> {
@@ -47,7 +47,7 @@ export class SessionConversation extends React.Component<any, State> {
       doneInitialScroll: false,
       displayScrollToBottomButton: false,
       messageFetchTimestamp: 0,
-      isRecordingView: false,
+      showRecordingView: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -103,7 +103,7 @@ export class SessionConversation extends React.Component<any, State> {
   public render() {
     console.log(`[vince][info] Props`, this.props);
 
-    const { messages, conversationKey, doneInitialScroll, isRecordingView } = this.state;
+    const { messages, conversationKey, doneInitialScroll, showRecordingView } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
     const selectionMode = !!this.state.selectedMessages.length;
 
@@ -140,7 +140,7 @@ export class SessionConversation extends React.Component<any, State> {
           </div>
 
           <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
-          { isRecordingView && (
+          { showRecordingView && (
             <div className="messages-wrapper--blocking-overlay"></div>
           )}
         </div>
@@ -619,14 +619,14 @@ export class SessionConversation extends React.Component<any, State> {
 
   private onLoadVoiceNoteView() {
     this.setState({
-      isRecordingView: true,
+      showRecordingView: true,
       selectedMessages: [],
     })
   }
 
   private onExitVoiceNoteView() {
     this.setState({
-      isRecordingView: false,
+      showRecordingView: false,
     });
     
     console.log(`[vince] Stopped recording entirely`);
@@ -634,7 +634,7 @@ export class SessionConversation extends React.Component<any, State> {
 
   private onKeyDown(event: any) {
     const selectionMode = !!this.state.selectedMessages.length;
-    const recordingMode = this.state.isRecordingView;
+    const recordingMode = this.state.showRecordingView;
     
     const messageContainer = document.getElementsByClassName('messages-container')[0];
     const pageHeight = messageContainer.clientHeight;

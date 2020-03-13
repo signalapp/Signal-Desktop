@@ -23,7 +23,7 @@ interface Props {
 
 interface State {
   message: string;
-  isRecordingView: boolean;
+  showRecordingView: boolean;
 
   mediaSetting: boolean | null;
   showEmojiPanel: boolean;
@@ -43,7 +43,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       message: '',
       attachments: [],
       voiceRecording: undefined,
-      isRecordingView: false,
+      showRecordingView: false,
       mediaSetting: null,
       showEmojiPanel: false,
     };
@@ -85,11 +85,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isRecordingView } = this.state;
+    const { showRecordingView } = this.state;
 
     return (
       <div className="composition-container">
-        { isRecordingView ? (
+        { showRecordingView ? (
           <>{this.renderRecordingView()}</>
         ) : (
           <>{this.renderCompositionView()}</>
@@ -288,7 +288,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
-    if (!this.state.isRecordingView) return;
+    if (!this.state.showRecordingView) return;
 
     const fileBuffer = await new Response(audioBlob).arrayBuffer();
 
@@ -322,7 +322,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const {mediaSetting} = this.state;
 
     if (mediaSetting){
-      this.setState({ isRecordingView: true });
+      this.setState({ 
+        showRecordingView: true,
+        showEmojiPanel: false,
+      });
       this.props.onLoadVoiceNoteView();
       return;
     }
@@ -338,7 +341,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private onExitVoiceNoteView() {
     // Do stuff for component, then run callback to SessionConversation
-    this.setState({ isRecordingView: false });
+    this.setState({ showRecordingView: false });
     this.props.onExitVoiceNoteView();
   }
 

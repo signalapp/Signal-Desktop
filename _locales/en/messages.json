@@ -903,14 +903,12 @@
     }
   },
   "audioPermissionNeededTitle": {
-    "message":
-      "Sending audio messages requires microphone access",
+    "message": "Sending audio messages requires microphone access",
     "description":
       "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
   "audioPermissionNeededDescription": {
-    "message":
-      "Give Session microphone permissions in your settings",
+    "message": "Give Session microphone permissions in your settings",
     "description":
       "Shown if the user attempts to send an audio message without audio permssions turned on"
   },

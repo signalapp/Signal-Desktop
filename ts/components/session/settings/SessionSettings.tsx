@@ -79,7 +79,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
   public async componentWillMount() {
     const mediaSetting = await window.getMediaPermissions();
-    this.setState({mediaSetting});
+    this.setState({ mediaSetting });
   }
 
   public componentDidMount() {
@@ -123,14 +123,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             const description = setting.description || '';
 
             const comparisonValue = setting.comparisonValue || null;
-            
+
             let value;
-            if (setting.id === 'media-permissions'){
+            if (setting.id === 'media-permissions') {
               value = this.state.mediaSetting;
             } else {
               value =
-              window.getSettingValue(setting.id, comparisonValue) ||
-              (setting.content && setting.content.defaultValue);
+                window.getSettingValue(setting.id, comparisonValue) ||
+                (setting.content && setting.content.defaultValue);
             }
 
             const sliderFn =
