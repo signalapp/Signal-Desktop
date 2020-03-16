@@ -2408,7 +2408,7 @@
       let direction = $input.selectionDirection;
 
       if (event.shiftKey) {
-        if (direction === 'none') {
+        if (direction === 'none' || direction === 'forward') {
           if (isLeft) {
             direction = 'backward';
           } else {
