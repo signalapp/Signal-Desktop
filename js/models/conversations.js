@@ -2289,8 +2289,6 @@
     },
 
     async markRead(newestUnreadDate, providedOptions) {
-      console.log(`[vince][unread] Marking messages as read!!`);
-
       const options = providedOptions || {};
       _.defaults(options, { sendReadReceipts: true });
 
@@ -2302,8 +2300,7 @@
       );
 
       let unreadMessages = await this.getUnread();
-
-      console.log(`[vince][unread] Unread: `, unreadMessages);
+      
 
       const oldUnread = unreadMessages.filter(
         message => message.get('received_at') <= newestUnreadDate

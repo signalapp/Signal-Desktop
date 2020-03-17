@@ -1106,7 +1106,10 @@ export class Message extends React.PureComponent<Props, State> {
     const enableContextMenu = !isRss && !multiSelectMode;
 
     return (
-      <div className={classNames(divClasses)}>
+      <div
+        id={id}
+        className={classNames(divClasses)}
+      >
         <ContextMenuTrigger id={rightClickTriggerId}>
           {this.renderAvatar()}
           <div

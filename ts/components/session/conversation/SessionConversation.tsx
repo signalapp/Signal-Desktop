@@ -87,6 +87,8 @@ export class SessionConversation extends React.Component<any, State> {
         });
       }, 100);
     });
+
+    console.log(`[unread] Loaded conversation:`, this.props.conversations.conversationLookup[this.state.conversationKey]);
   }
 
   public componentDidUpdate(){
@@ -389,6 +391,7 @@ export class SessionConversation extends React.Component<any, State> {
 
     this.setState({ messages, messageFetchTimestamp: timestamp }, () => {
       if (this.state.isScrolledToBottom) {
+        console.log(`[unread] Updating messages from getMessage`);
         this.updateReadMessages();
       }
     });
@@ -404,15 +407,21 @@ export class SessionConversation extends React.Component<any, State> {
       return;
     }
 
+    console.log(`[unread] isScrollToBottom:`, isScrolledToBottom);
+
     if (isScrolledToBottom) {
       unread = messages[messages.length - 1];
     } else {
+      console.log(`[unread] Calling findNewestVisibleUnread`)
       unread = this.findNewestVisibleUnread();
     }
 
+    //console.log(`[unread] Messages:`, messages);
+    console.log(`[unread] Updating read messages: `, unread);
+    
     if (unread) {
       const model = window.ConversationController.get(conversationKey);
-      model.markRead.bind(model)(unread.attributes.received_at);
+      model.markRead(unread.attributes.received_at);
     }
   }
 
@@ -424,6 +433,9 @@ export class SessionConversation extends React.Component<any, State> {
     const { length } = messages;
 
     const viewportBottom = (messageContainer?.clientHeight + messageContainer?.scrollTop) || 0;
+
+    console.log(`[findNew] messages`, messages);
+
     // Start with the most recent message, search backwards in time
     let foundUnread = 0;
     for (let i = length - 1; i >= 0; i -= 1) {
@@ -432,6 +444,7 @@ export class SessionConversation extends React.Component<any, State> {
       // Why? local notifications can be unread but won't be reflected the
       //   conversation's unread count.
       if (i > 30 && foundUnread >= unreadCount) {
+        console.log(`[findNew] foundUnread > unreadCount`);
         return null;
       }
 
@@ -439,6 +452,7 @@ export class SessionConversation extends React.Component<any, State> {
 
       if (!message.attributes.unread) {
         // eslint-disable-next-line no-continue
+        console.log(`[findNew] no message.attributes`);
         continue;
       }
 
@@ -448,6 +462,7 @@ export class SessionConversation extends React.Component<any, State> {
 
       if (!el) {
         // eslint-disable-next-line no-continue
+        console.log(`[findNew] no message.id`);
         continue;
       }
 
@@ -461,10 +476,13 @@ export class SessionConversation extends React.Component<any, State> {
       // We're fully below the viewport, continue searching up.
       if (top > viewportBottom) {
         // eslint-disable-next-line no-continue
+        console.log(`[findNew] top > viewportBottom`);
         continue;
       }
 
       if (bottom <= viewportBottom) {
+        console.log(`[findNew] bottom <= viewportBottom`);
+        console.log(`[findNew] Message set`);
         return message;
       }
 
@@ -481,10 +499,8 @@ export class SessionConversation extends React.Component<any, State> {
 
     const isScrolledToBottom = messageContainer.scrollHeight - messageContainer.clientHeight <= messageContainer.scrollTop + 1;
 
-    // FIXME VINCE: Update unread count
-    // In models/conversations
-    // Update unread count by geting all divs of .session-message
-    // which are currently in view.
+    // Mark messages read
+    console.log(`[unread] Updating messages from handleScroll`);
     this.updateReadMessages();
 
     // Pin scroll to bottom on new message, unless user has scrolled up

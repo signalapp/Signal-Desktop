@@ -4,7 +4,7 @@ import { SessionConversation } from '../../components/session/conversation/Sessi
 import { StateType } from '../reducer';
 
 
-const mapStateToProps = async (state: StateType) => {
+const mapStateToProps = (state: StateType) => {
   // Get messages here!!!!!
 
 
