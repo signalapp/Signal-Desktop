@@ -34,7 +34,9 @@ export class SessionConversation extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
-    
+
+    console.log(`[conv] Props:`, props);
+  
     const conversationKey = this.props.conversations.selectedConversation;
     const conversation = this.props.conversations.conversationLookup[conversationKey];
     const unreadCount = conversation.unreadCount;

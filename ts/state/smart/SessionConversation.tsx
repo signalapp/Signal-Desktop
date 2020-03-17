@@ -3,6 +3,7 @@ import { mapDispatchToProps } from '../actions';
 import { SessionConversation } from '../../components/session/conversation/SessionConversation';
 import { StateType } from '../reducer';
 
+
 const mapStateToProps = async (state: StateType) => {
   // Get messages here!!!!!
 
