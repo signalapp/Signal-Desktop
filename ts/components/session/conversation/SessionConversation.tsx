@@ -11,8 +11,8 @@ import { TimerNotification } from '../../conversation/TimerNotification';
 
 import { getTimestamp } from './SessionConversationManager';
 
-
 import { SessionScrollButton } from '../SessionScrollButton';
+import { SessionGroupSettings } from './SessionGroupSettings';
 
 interface State {
   conversationKey: string;
@@ -26,6 +26,7 @@ interface State {
   displayScrollToBottomButton: boolean;
   messageFetchTimestamp: number;
   showRecordingView: boolean;
+  showOptionsPane: boolean;
 }
 
 export class SessionConversation extends React.Component<any, State> {
@@ -53,6 +54,7 @@ export class SessionConversation extends React.Component<any, State> {
       displayScrollToBottomButton: false,
       messageFetchTimestamp: 0,
       showRecordingView: false,
+      showOptionsPane: true,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -62,6 +64,9 @@ export class SessionConversation extends React.Component<any, State> {
     this.renderMessage = this.renderMessage.bind(this);
     this.renderTimerNotification = this.renderTimerNotification.bind(this);
     this.renderFriendRequest = this.renderFriendRequest.bind(this);
+
+    // Group options panels
+    this.toggleOptionsPane = this.toggleOptionsPane.bind(this);
 
     // Recording View render and unrender
     this.onLoadVoiceNoteView = this.onLoadVoiceNoteView.bind(this);
@@ -88,7 +93,9 @@ export class SessionConversation extends React.Component<any, State> {
       }, 100);
     });
 
-    console.log(`[unread] Loaded conversation:`, this.props.conversations.conversationLookup[this.state.conversationKey]);
+    
+    //FIXME VINCE
+    // Only now should you renderGroupOptionsPane
   }
 
   public componentDidUpdate(){
@@ -113,7 +120,7 @@ export class SessionConversation extends React.Component<any, State> {
   public render() {
     console.log(`[vince][info] Props`, this.props);
 
-    const { messages, conversationKey, doneInitialScroll, showRecordingView } = this.state;
+    const { messages, conversationKey, doneInitialScroll, showRecordingView, showOptionsPane } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
     const selectionMode = !!this.state.selectedMessages.length;
 
@@ -124,50 +131,83 @@ export class SessionConversation extends React.Component<any, State> {
     const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);
 
     return (
-      <div
-        className={classNames('conversation-item', selectionMode && 'selection-mode')}
-        tabIndex={0}
-        onKeyDown={this.onKeyDown}
-      >
-        <div className="conversation-header">
-          {this.renderHeader()}
-        </div>
-
-        <SessionProgress
-          visible={true}
-          value={this.state.sendingProgess}
-          prevValue={this.state.prevSendingProgess}
-        />
-
-        <div className="messages-wrapper">
-          { loading && (
-            <div className="messages-container__loading"></div>
-          )}
-
-          <div
-            className="messages-container"
-            onScroll={this.handleScroll}
-            ref={this.messageContainerRef}
-          >
-            {this.renderMessages()}
-            <div ref={this.messagesEndRef} />
+      <>
+        <div
+          className={classNames('conversation-item__content', selectionMode && 'selection-mode')}
+          tabIndex={0}
+          onKeyDown={this.onKeyDown}
+        >
+          <div className="conversation-header">
+            {this.renderHeader()}
           </div>
 
-          <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
-          { showRecordingView && (
-            <div className="messages-wrapper--blocking-overlay"></div>
-          )}
-        </div>
-        
-        { !isRss && (
-          <SessionCompositionBox
-            sendMessage={sendMessageFn}
-            onLoadVoiceNoteView={this.onLoadVoiceNoteView}
-            onExitVoiceNoteView={this.onExitVoiceNoteView}
+          <SessionProgress
+            visible={true}
+            value={this.state.sendingProgess}
+            prevValue={this.state.prevSendingProgess}
           />
-        )}
-        
-      </div>
+
+          <div className="messages-wrapper">
+            { loading && (
+              <div className="messages-container__loading"></div>
+            )}
+
+            <div
+              className="messages-container"
+              onScroll={this.handleScroll}
+              ref={this.messageContainerRef}
+            >
+              {this.renderMessages()}
+              <div ref={this.messagesEndRef} />
+            </div>
+
+            <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
+            { showRecordingView && (
+              <div className="messages-wrapper--blocking-overlay"></div>
+            )}
+          </div>
+          
+          { !isRss && (
+            <SessionCompositionBox
+              sendMessage={sendMessageFn}
+              onLoadVoiceNoteView={this.onLoadVoiceNoteView}
+              onExitVoiceNoteView={this.onExitVoiceNoteView}
+            />
+          )}
+          
+        </div>
+
+        <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
+          {/* Don't render this to the DOM unless it needs to be rendered */}
+          {/* { showOptionsPane && ( */}
+            <SessionGroupSettings
+              id={conversationKey}
+              name={"asdfasd"}
+              memberCount={345}
+              description={"Super cool open group"}
+              avatarPath={conversation.avatarPath}
+              timerOptions={
+                window.Whisper.ExpirationTimerOptions.map((item: any) => ({
+                  name: item.getName(),
+                  value: item.get('seconds'),
+                }))
+              }
+              isPublic={conversation.isPublic}
+              isAdmin={conversation.isAdmin}
+              amMod={conversation.amMod}
+              onGoBack={this.toggleOptionsPane}
+              onInviteFriends={() => null}
+              onLeaveGroup={() => null}
+              onUpdateGroupName={() => null}
+              onUpdateGroupMembers={() => null}
+              onShowLightBox={(options: any) => null}
+              onSetDisappearingMessages={(seconds: number) => null}
+            />
+          {/* )} */}
+          
+        </div>
+
+      </>
     );
   }
 
@@ -251,6 +291,8 @@ export class SessionConversation extends React.Component<any, State> {
         onAddModerators={headerProps.onAddModerators}
         onRemoveModerators={headerProps.onRemoveModerators}
         onInviteFriends={headerProps.onInviteFriends}
+
+        onAvatarClick={headerProps.onAvatarClick}
       />
     );
   }
@@ -492,6 +534,10 @@ export class SessionConversation extends React.Component<any, State> {
     return null;
   }
 
+  public toggleOptionsPane() {
+    const { showOptionsPane } = this.state;
+    this.setState({ showOptionsPane: !showOptionsPane });
+  }
 
   public async handleScroll() {
     const messageContainer = this.messageContainerRef.current;
@@ -661,7 +707,7 @@ export class SessionConversation extends React.Component<any, State> {
             userPubKey: pubkey,
           });
         } else if (!conversation.isRss()) {
-          conversation.showGroupSettings();
+          this.toggleOptionsPane();
         }
       },
     };

@@ -1,15 +1,15 @@
 import React from 'react';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
-import { Avatar } from '../Avatar';
+import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import { Avatar } from '../../Avatar';
 import {
   SessionButton,
   SessionButtonColor,
   SessionButtonType,
-} from './SessionButton';
-import { SessionDropdown } from './SessionDropdown';
-import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
+} from '../SessionButton';
+import { SessionDropdown } from '../SessionDropdown';
+import { MediaGallery } from '../../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
-import { TimerOption } from '../conversation/ConversationHeader';
+import { TimerOption } from '../../conversation/ConversationHeader';
 
 interface Props {
   id: string;
@@ -312,7 +312,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
         <SessionIconButton
           iconType={SessionIconType.Chevron}
           iconSize={SessionIconSize.Medium}
-          iconRotation={90}
+          iconRotation={270}
           onClick={onGoBack}
         />
         <Avatar

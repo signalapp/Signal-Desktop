@@ -41,7 +41,6 @@ $composition-container-height: 60px;
 .conversation-item {
   display: flex;
   flex-grow: 1;
-  flex-direction: column;
   height: 100%;
   outline: none;
 
@@ -63,6 +62,27 @@ $composition-container-height: 60px;
           opacity: 0.25;
         }
       }
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    outline: none;
+  }
+
+  &__options-pane {
+    position: absolute;
+    height: 100%;
+    right: 0vw;
+
+    transition: transform $session-transition-duration ease-in-out;
+    transform: translateX(100%);
+    will-change: transform;
+
+    &.show {
+      transform: none;
+      transition: transform $session-transition-duration ease-in-out;
     }
   }
 }
@@ -179,7 +199,7 @@ $composition-container-height: 60px;
     display: flex;
     flex-grow: 1;
     min-height: $composition-container-height;
-    padding: $composition-container-height / 3 0px;
+    padding: 16px 0px;
 
     textarea {
       font-family: 'SF Pro Text';
