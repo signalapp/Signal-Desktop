@@ -13,12 +13,6 @@ export class SessionSearchInput extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleUndo = this.handleUndo.bind(this);
-    this.handleRedo = this.handleRedo.bind(this);
-    this.handleCut = this.handleCut.bind(this);
-    this.handleCopy = this.handleCopy.bind(this);
-    this.handlePast = this.handlePast.bind(this);
-    this.handleSelectAll = this.handleSelectAll.bind(this);
   }
 
   public render() {
@@ -42,23 +36,23 @@ export class SessionSearchInput extends React.Component<Props> {
           </div>
         </ContextMenuTrigger>
         <ContextMenu id={triggerId}>
-          <MenuItem onClick={this.handleUndo}>
+          <MenuItem onClick={() => document.execCommand('undo')}>
             {window.i18n('editMenuUndo')}
           </MenuItem>
-          <MenuItem onClick={this.handleRedo}>
+          <MenuItem onClick={() => document.execCommand('redo')}>
             {window.i18n('editMenuRedo')}
           </MenuItem>
           <hr />
-          <MenuItem onClick={this.handleCut}>
+          <MenuItem onClick={() => document.execCommand('cut')}>
             {window.i18n('editMenuCut')}
           </MenuItem>
-          <MenuItem onClick={this.handleCopy}>
+          <MenuItem onClick={() => document.execCommand('copy')}>
             {window.i18n('editMenuCopy')}
           </MenuItem>
-          <MenuItem onClick={this.handlePast}>
+          <MenuItem onClick={() => document.execCommand('paste')}>
             {window.i18n('editMenuPaste')}
           </MenuItem>
-          <MenuItem onClick={this.handleSelectAll}>
+          <MenuItem onClick={() => document.execCommand('selectAll')}>
             {window.i18n('editMenuSelectAll')}
           </MenuItem>
         </ContextMenu>
@@ -74,29 +68,5 @@ export class SessionSearchInput extends React.Component<Props> {
         this.props.handleNavigation(e);
       }
     }
-  }
-
-  public handleUndo() {
-    document.execCommand('undo');
-  }
-
-  public handleRedo() {
-    document.execCommand('redo');
-  }
-
-  public handleCut() {
-    document.execCommand('cut');
-  }
-
-  public handleCopy() {
-    document.execCommand('copy');
-  }
-
-  public handlePast() {
-    document.execCommand('paste');
-  }
-
-  public handleSelectAll() {
-    document.execCommand('selectAll');
   }
 }
