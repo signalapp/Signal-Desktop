@@ -6124,6 +6124,8 @@ button.module-image__border-overlay:focus {
         flex-direction: column;
         justify-content: center;
         flex-grow: 1;
+        flex-shrink: 1;
+        overflow: hidden;
 
         &__title {
           margin: 0;
