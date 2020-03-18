@@ -1946,6 +1946,10 @@
   }) {
     return async event => {
       const { data, confirm } = event;
+      if (!data) {
+        window.log.warn('Invalid data passed to createMessageHandler.', event);
+        return confirm();
+      }
 
       const messageDescriptor = getMessageDescriptor(data);
 
@@ -1968,23 +1972,21 @@
         messageDescriptor.id
       );
       let message;
-      if (
-        messageDescriptor.type === 'group' &&
-        descriptorId.match(/^publicChat:/)
-      ) {
-        // Note: This only works currently because we have a 1 device limit
-        // When we change that, the check below needs to change too
-        const ourNumber = textsecure.storage.user.getNumber();
-        const primaryDevice = window.storage.get('primaryDevicePubKey');
-        const { source } = data;
-        if (source && (source === ourNumber || source === primaryDevice)) {
-          // Public chat messages from ourselves should be outgoing
-          message = await createSentMessage(data);
-        }
-      }
+      const { source } = data;
 
-      // All other messages should be incoming
-      if (!message) {
+      // Note: This only works currently because we have a 1 device limit
+      // When we change that, the check below needs to change too
+      const ourNumber = textsecure.storage.user.getNumber();
+      const primaryDevice = window.storage.get('primaryDevicePubKey');
+      const isOurDevice =
+        source && (source === ourNumber || source === primaryDevice);
+      const isPublicChatMessage =
+        messageDescriptor.type === 'group' &&
+        descriptorId.match(/^publicChat:/);
+      if (isPublicChatMessage && isOurDevice) {
+        // Public chat messages from ourselves should be outgoing
+        message = await createSentMessage(data);
+      } else {
         message = await createMessage(data);
       }
 
@@ -1994,14 +1996,14 @@
         if (!descriptorId.match(/^rss:/)) {
           window.log.warn('Received duplicate message', message.idForLogging());
         }
-        return event.confirm();
+        return confirm();
       }
 
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,
         messageDescriptor.type
       );
-      return message.handleDataMessage(data.message, event.confirm, {
+      return message.handleDataMessage(data.message, confirm, {
         initialLoadComplete,
       });
     };
