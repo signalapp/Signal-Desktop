@@ -16,8 +16,14 @@ import { SessionGroupSettings } from './SessionGroupSettings';
 
 interface State {
   conversationKey: string;
-  sendingProgess: number;
-  prevSendingProgess: number;
+  sendingProgress: number;
+  prevSendingProgress: number;
+  // Sending failed:  -1
+  // Not send yet:     0
+  // Sending message:  1
+  // Sending success:  2
+  sendingProgressStatus: -1 | 0 | 1 | 2;
+
   unreadCount: number;
   messages: Array<any>;
   selectedMessages: Array<string>;
@@ -36,15 +42,16 @@ export class SessionConversation extends React.Component<any, State> {
   constructor(props: any) {
     super(props);
 
-    console.log(`[conv] Props:`, props);
-  
     const conversationKey = this.props.conversations.selectedConversation;
     const conversation = this.props.conversations.conversationLookup[conversationKey];
     const unreadCount = conversation.unreadCount;
 
+    console.log(`[conv] Conversation:`, conversation);
+
     this.state = {
-      sendingProgess: 0,
-      prevSendingProgess: 0,
+      sendingProgress: 0,
+      prevSendingProgress: 0,
+      sendingProgressStatus: 0,
       conversationKey,
       unreadCount,
       messages: [],
@@ -54,7 +61,7 @@ export class SessionConversation extends React.Component<any, State> {
       displayScrollToBottomButton: false,
       messageFetchTimestamp: 0,
       showRecordingView: false,
-      showOptionsPane: true,
+      showOptionsPane: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -65,20 +72,33 @@ export class SessionConversation extends React.Component<any, State> {
     this.renderTimerNotification = this.renderTimerNotification.bind(this);
     this.renderFriendRequest = this.renderFriendRequest.bind(this);
 
-    // Group options panels
-    this.toggleOptionsPane = this.toggleOptionsPane.bind(this);
+    // Group settings panel
+    this.toggleGroupSettingsPane = this.toggleGroupSettingsPane.bind(this);
+    this.getGroupSettingsProps = this.getGroupSettingsProps.bind(this);
 
-    // Recording View render and unrender
+    // Recording view
     this.onLoadVoiceNoteView = this.onLoadVoiceNoteView.bind(this);
     this.onExitVoiceNoteView = this.onExitVoiceNoteView.bind(this);
 
-    this.onKeyDown = this.onKeyDown.bind(this);
+    // Messages
     this.selectMessage = this.selectMessage.bind(this);
     this.resetSelection = this.resetSelection.bind(this);
+    this.updateSendingProgres = this.updateSendingProgres.bind(this);
+    this.onMessageSending = this.onMessageSending.bind(this);
+    this.onMessageSuccess = this.onMessageSuccess.bind(this);
+    this.onMessageFailure = this.onMessageFailure.bind(this);
 
     this.messagesEndRef = React.createRef();
     this.messageContainerRef = React.createRef();
+        
+    // Keyboard navigation
+    this.onKeyDown = this.onKeyDown.bind(this);
+
   }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~ LIFECYCLES ~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidMount() {
     this.getMessages().then(() => {    
@@ -92,10 +112,6 @@ export class SessionConversation extends React.Component<any, State> {
         });
       }, 100);
     });
-
-    
-    //FIXME VINCE
-    // Only now should you renderGroupOptionsPane
   }
 
   public componentDidUpdate(){
@@ -117,9 +133,10 @@ export class SessionConversation extends React.Component<any, State> {
     }
   }
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
-    console.log(`[vince][info] Props`, this.props);
-
     const { messages, conversationKey, doneInitialScroll, showRecordingView, showOptionsPane } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
     const selectionMode = !!this.state.selectedMessages.length;
@@ -129,6 +146,9 @@ export class SessionConversation extends React.Component<any, State> {
     const isRss = conversation.isRss;
 
     const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);
+
+    const shouldRenderGroupSettings = !conversationModel.isPrivate() && !conversationModel.isRss()
+    const groupSettingsProps = this.getGroupSettingsProps();
 
     return (
       <>
@@ -143,8 +163,9 @@ export class SessionConversation extends React.Component<any, State> {
 
           <SessionProgress
             visible={true}
-            value={this.state.sendingProgess}
-            prevValue={this.state.prevSendingProgess}
+            value={this.state.sendingProgress}
+            prevValue={this.state.prevSendingProgress}
+            sendStatus={this.state.sendingProgressStatus}
           />
 
           <div className="messages-wrapper">
@@ -170,6 +191,9 @@ export class SessionConversation extends React.Component<any, State> {
           { !isRss && (
             <SessionCompositionBox
               sendMessage={sendMessageFn}
+              onMessageSending={this.onMessageSending}
+              onMessageSuccess={this.onMessageSuccess}
+              onMessageFailure={this.onMessageFailure}
               onLoadVoiceNoteView={this.onLoadVoiceNoteView}
               onExitVoiceNoteView={this.onExitVoiceNoteView}
             />
@@ -177,36 +201,11 @@ export class SessionConversation extends React.Component<any, State> {
           
         </div>
 
-        <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
-          {/* Don't render this to the DOM unless it needs to be rendered */}
-          {/* { showOptionsPane && ( */}
-            <SessionGroupSettings
-              id={conversationKey}
-              name={"asdfasd"}
-              memberCount={345}
-              description={"Super cool open group"}
-              avatarPath={conversation.avatarPath}
-              timerOptions={
-                window.Whisper.ExpirationTimerOptions.map((item: any) => ({
-                  name: item.getName(),
-                  value: item.get('seconds'),
-                }))
-              }
-              isPublic={conversation.isPublic}
-              isAdmin={conversation.isAdmin}
-              amMod={conversation.amMod}
-              onGoBack={this.toggleOptionsPane}
-              onInviteFriends={() => null}
-              onLeaveGroup={() => null}
-              onUpdateGroupName={() => null}
-              onUpdateGroupMembers={() => null}
-              onShowLightBox={(options: any) => null}
-              onSetDisappearingMessages={(seconds: number) => null}
-            />
-          {/* )} */}
-          
-        </div>
-
+        {shouldRenderGroupSettings && (
+          <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
+              <SessionGroupSettings {...groupSettingsProps}/>
+          </div>
+        )}
       </>
     );
   }
@@ -301,88 +300,38 @@ export class SessionConversation extends React.Component<any, State> {
     const selected = !! messageProps?.id
       && this.state.selectedMessages.includes(messageProps.id);
 
+    messageProps.i18n = window.i18n;
+    messageProps.selected = selected;
+    messageProps.firstMessageOfSeries = firstMessageOfSeries;
+    messageProps.onSelectMessage = (messageId: string) => this.selectMessage(messageId);
+    messageProps.quote = quoteProps || undefined;
+
     return (
-      <Message
-        i18n = {window.i18n}
-        text = {messageProps?.text}
-        direction = {messageProps?.direction}
-        selected = {selected}
-        timestamp = {messageProps?.timestamp}
-        attachments = {messageProps?.attachments}
-        authorAvatarPath = {messageProps?.authorAvatarPath}
-        authorColor = {messageProps?.authorColor}
-        authorName = {messageProps?.authorName}
-        authorPhoneNumber = {messageProps?.authorPhoneNumber}
-        firstMessageOfSeries = {firstMessageOfSeries}
-        authorProfileName = {messageProps?.authorProfileName}
-        contact = {messageProps?.contact}
-        conversationType = {messageProps?.conversationType}
-        convoId = {messageProps?.convoId}
-        expirationLength = {messageProps?.expirationLength}
-        expirationTimestamp = {messageProps?.expirationTimestamp}
-        id = {messageProps?.id}
-        isDeletable = {messageProps?.isDeletable}
-        isExpired = {messageProps?.isExpired}
-        isModerator = {messageProps?.isModerator}
-        isPublic = {messageProps?.isPublic}
-        isRss = {messageProps?.isRss}
-        multiSelectMode = {messageProps?.multiSelectMode}
-        onBanUser = {messageProps?.onBanUser}
-        onClickAttachment = {messageProps?.onClickAttachment}
-        onClickLinkPreview = {messageProps?.onClickLinkPreview}
-        onCopyPubKey = {messageProps?.onCopyPubKey}
-        onCopyText = {messageProps?.onCopyText}
-        onDelete = {messageProps?.onDelete}
-        onDownload = {messageProps?.onDownload}
-        onReply = {messageProps?.onReply}
-        onRetrySend = {messageProps?.onRetrySend}
-        onSelectMessage = {messageId => this.selectMessage(messageId)}
-        onSelectMessageUnchecked = {messageProps?.onSelectMessageUnchecked}
-        onShowDetail = {messageProps?.onShowDetail}
-        onShowUserDetails = {messageProps?.onShowUserDetails}
-        previews = {messageProps?.previews}
-        quote = {quoteProps || undefined}
-        senderIsModerator = {messageProps?.senderIsModerator}
-        status = {messageProps?.status}
-        textPending = {messageProps?.textPending}
-      />
+      <Message {...messageProps} />
     );
 
   }
 
   public renderTimerNotification(timerProps: any) {
+    timerProps.i18n = window.i18n;
+
     return (
-      <TimerNotification
-        type={timerProps.type}
-        phoneNumber={timerProps.phoneNumber}
-        profileName={timerProps.profileName}
-        name={timerProps.name}
-        disabled={timerProps.disabled}
-        timespan={timerProps.timespan}
-        i18n={window.i18n}
-      />
+      <TimerNotification {...timerProps} />
     );
   }
   
   public renderFriendRequest(friendRequestProps: any){
+    friendRequestProps.i18n = window.i18n;
+
     return (
-      <FriendRequest
-        text={friendRequestProps.text}
-        direction={friendRequestProps.direction}
-        status={friendRequestProps.status}
-        friendStatus={friendRequestProps.friendStatus}
-        i18n={window.i18n}
-        isBlocked={friendRequestProps.isBlocked}
-        timestamp={friendRequestProps.timestamp}
-        onAccept={friendRequestProps.onAccept}
-        onDecline={friendRequestProps.onDecline}
-        onDeleteConversation={friendRequestProps.onDeleteConversation}
-        onRetrySend={friendRequestProps.onRetrySend}
-        onBlockUser={friendRequestProps.onBlockUser}
-        onUnblockUser={friendRequestProps.onUnblockUser}
-      />
+      <FriendRequest {...friendRequestProps} />
     );
   }
+
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~ GETTER METHODS ~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public async getMessages(numMessages?: number, fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL, loopback = false){
     const { conversationKey, messageFetchTimestamp } = this.state;
@@ -441,160 +390,9 @@ export class SessionConversation extends React.Component<any, State> {
     return { newTopMessage, previousTopMessage };
   }
 
-  public updateReadMessages() {
-    const { isScrolledToBottom, messages, conversationKey } = this.state;
-    let unread;
-
-    if (!messages || messages.length === 0) {
-      return;
-    }
-
-    console.log(`[unread] isScrollToBottom:`, isScrolledToBottom);
-
-    if (isScrolledToBottom) {
-      unread = messages[messages.length - 1];
-    } else {
-      console.log(`[unread] Calling findNewestVisibleUnread`)
-      unread = this.findNewestVisibleUnread();
-    }
-
-    //console.log(`[unread] Messages:`, messages);
-    console.log(`[unread] Updating read messages: `, unread);
-    
-    if (unread) {
-      const model = window.ConversationController.get(conversationKey);
-      model.markRead(unread.attributes.received_at);
-    }
-  }
-
-  public findNewestVisibleUnread() {
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) return null;
-
-    const { messages, unreadCount } = this.state;
-    const { length } = messages;
-
-    const viewportBottom = (messageContainer?.clientHeight + messageContainer?.scrollTop) || 0;
-
-    console.log(`[findNew] messages`, messages);
-
-    // Start with the most recent message, search backwards in time
-    let foundUnread = 0;
-    for (let i = length - 1; i >= 0; i -= 1) {
-      // Search the latest 30, then stop if we believe we've covered all known
-      //   unread messages. The unread should be relatively recent.
-      // Why? local notifications can be unread but won't be reflected the
-      //   conversation's unread count.
-      if (i > 30 && foundUnread >= unreadCount) {
-        console.log(`[findNew] foundUnread > unreadCount`);
-        return null;
-      }
-
-      const message = messages[i];
-
-      if (!message.attributes.unread) {
-        // eslint-disable-next-line no-continue
-        console.log(`[findNew] no message.attributes`);
-        continue;
-      }
-
-      foundUnread += 1;
-
-      const el = document.getElementById(`${message.id}`);
-
-      if (!el) {
-        // eslint-disable-next-line no-continue
-        console.log(`[findNew] no message.id`);
-        continue;
-      }
-
-      const top = el.offsetTop;
-
-      // If the bottom fits on screen, we'll call it visible. Even if the
-      //   message is really tall.
-      const height = el.offsetHeight;
-      const bottom = top + height;
-
-      // We're fully below the viewport, continue searching up.
-      if (top > viewportBottom) {
-        // eslint-disable-next-line no-continue
-        console.log(`[findNew] top > viewportBottom`);
-        continue;
-      }
-
-      if (bottom <= viewportBottom) {
-        console.log(`[findNew] bottom <= viewportBottom`);
-        console.log(`[findNew] Message set`);
-        return message;
-      }
-
-      // Continue searching up.
-    }
-
-    return null;
-  }
-
-  public toggleOptionsPane() {
-    const { showOptionsPane } = this.state;
-    this.setState({ showOptionsPane: !showOptionsPane });
-  }
-
-  public async handleScroll() {
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) return;
-
-    const isScrolledToBottom = messageContainer.scrollHeight - messageContainer.clientHeight <= messageContainer.scrollTop + 1;
-
-    // Mark messages read
-    console.log(`[unread] Updating messages from handleScroll`);
-    this.updateReadMessages();
-
-    // Pin scroll to bottom on new message, unless user has scrolled up
-    if (this.state.isScrolledToBottom !== isScrolledToBottom){
-      this.setState({ isScrolledToBottom });
-    }
-
-    // Fetch more messages when nearing the top of the message list
-    const shouldFetchMoreMessages = messageContainer.scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
-    
-    if (shouldFetchMoreMessages){
-      const numMessages = this.state.messages.length + window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
-      
-      // Prevent grabbing messags with scroll more frequently than once per 5s.
-      const messageFetchInterval = 2;
-      const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval, true))?.previousTopMessage;
-      previousTopMessage && this.scrollToMessage(previousTopMessage);
-    }
-  }
-
-  public scrollToUnread() {
-    const { messages, unreadCount } = this.state;
-    const message = messages[(messages.length - 1) - unreadCount];
-    
-    if(message) this.scrollToMessage(message.id);
-  }
-
-  public scrollToMessage(messageId: string) {
-    const topUnreadMessage = document.getElementById(messageId);
-    topUnreadMessage?.scrollIntoView();
-  }
-
-  public scrollToBottom() {
-    // FIXME VINCE: Smooth scrolling that isn't slow@!
-    // this.messagesEndRef.current?.scrollIntoView(
-    //   { behavior: firstLoad ? 'auto' : 'smooth' }
-    // );
-
-    const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) return;
-    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
-  }
-
   public getHeaderProps() {
     const {conversationKey} = this.state;
     const conversation = window.getConversationByKey(conversationKey);
-
-    console.log(`[header] Conversation`, conversation);
 
     const expireTimer = conversation.get('expireTimer');
     const expirationSettingName = expireTimer
@@ -707,30 +505,17 @@ export class SessionConversation extends React.Component<any, State> {
             userPubKey: pubkey,
           });
         } else if (!conversation.isRss()) {
-          this.toggleOptionsPane();
+          this.toggleGroupSettingsPane();
         }
       },
     };
   };
-
-  public selectMessage(messageId: string) {
-    const selectedMessages = this.state.selectedMessages.includes(messageId)
-      // Add to array if not selected. Else remove.
-      ? this.state.selectedMessages.filter(id => id !== messageId)
-      : [...this.state.selectedMessages, messageId];
-    
-    this.setState({ selectedMessages },
-      () => console.log(`[vince] SelectedMessages: `, this.state.selectedMessages)
-    );
-  }
-
-  public resetSelection(){
-    this.setState({selectedMessages: []});
-  }
-
+  
   public getGroupSettingsProps() {
-    const {conversationKey} = this.state;
-    const conversation = window.getConversationByKey[conversationKey];
+    const { conversationKey } = this.state;
+    const conversation = window.getConversationByKey(conversationKey);
+
+    console.log(`[settings] Conversation:`, conversation);
 
     const ourPK = window.textsecure.storage.user.getNumber();
     const members = conversation.get('members') || [];
@@ -738,6 +523,7 @@ export class SessionConversation extends React.Component<any, State> {
     return {
       id: conversation.id,
       name: conversation.getName(),
+      memberCount: members.length,
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
       color: conversation.getColor(),
@@ -746,7 +532,6 @@ export class SessionConversation extends React.Component<any, State> {
       isPublic: conversation.isPublic(),
       isAdmin: conversation.get('groupAdmins').includes(ourPK),
       isRss: conversation.isRss(),
-      memberCount: members.length,
 
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
         name: item.getName(),
@@ -757,7 +542,7 @@ export class SessionConversation extends React.Component<any, State> {
         conversation.setDisappearingMessages(seconds),
 
       onGoBack: () => {
-        conversation.hideConversationRight();
+        this.toggleGroupSettingsPane();
       },
 
       onUpdateGroupName: () => {
@@ -780,6 +565,196 @@ export class SessionConversation extends React.Component<any, State> {
     };
   };
 
+  public toggleGroupSettingsPane() {
+    const { showOptionsPane } = this.state;
+    this.setState({ showOptionsPane: !showOptionsPane });
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~ MESSAGE HANDLING ~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  public updateSendingProgres(value: number, status: -1 | 0 | 1 | 2) {
+    // If you're sending a new message, reset previous value to zero
+    const prevSendingProgress = status === 1 ? 0 : this.state.sendingProgress;
+
+    this.setState({
+      sendingProgress: value,
+      prevSendingProgress,
+      sendingProgressStatus: status,
+    });
+  }
+
+  public onMessageSending() {
+    // Set sending state to random between 10% and 50% to show message sending
+    const minInitVal = 10;
+    const maxInitVal = 50;
+    const initialValue = minInitVal + (maxInitVal - minInitVal) * Math.random();
+
+    console.log(`[sending] Message Sending`);
+    this.updateSendingProgres(initialValue, 1);
+  }
+
+  public onMessageSuccess(){
+    console.log(`[sending] Message Sent`);
+    this.updateSendingProgres(100, 2);
+  }
+
+  public onMessageFailure(){
+    console.log(`[sending] Message Failure`);
+    this.updateSendingProgres(100, -1);
+  }
+  
+  public updateReadMessages() {
+    const { isScrolledToBottom, messages, conversationKey } = this.state;
+    let unread;
+
+    if (!messages || messages.length === 0) {
+      return;
+    }
+
+    if (isScrolledToBottom) {
+      unread = messages[messages.length - 1];
+    } else {
+      unread = this.findNewestVisibleUnread();
+    }
+    
+    if (unread) {
+      const model = window.ConversationController.get(conversationKey);
+      model.markRead(unread.attributes.received_at);
+    }
+  }
+
+  public findNewestVisibleUnread() {
+    const messageContainer = this.messageContainerRef.current;
+    if (!messageContainer) return null;
+
+    const { messages, unreadCount } = this.state;
+    const { length } = messages;
+
+    const viewportBottom = (messageContainer?.clientHeight + messageContainer?.scrollTop) || 0;
+
+    // Start with the most recent message, search backwards in time
+    let foundUnread = 0;
+    for (let i = length - 1; i >= 0; i -= 1) {
+      // Search the latest 30, then stop if we believe we've covered all known
+      //   unread messages. The unread should be relatively recent.
+      // Why? local notifications can be unread but won't be reflected the
+      //   conversation's unread count.
+      if (i > 30 && foundUnread >= unreadCount) {
+        return null;
+      }
+
+      const message = messages[i];
+
+      if (!message.attributes.unread) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      foundUnread += 1;
+
+      const el = document.getElementById(`${message.id}`);
+
+      if (!el) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      const top = el.offsetTop;
+
+      // If the bottom fits on screen, we'll call it visible. Even if the
+      //   message is really tall.
+      const height = el.offsetHeight;
+      const bottom = top + height;
+
+      // We're fully below the viewport, continue searching up.
+      if (top > viewportBottom) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      if (bottom <= viewportBottom) {
+        return message;
+      }
+
+      // Continue searching up.
+    }
+
+    return null;
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~ SCROLLING METHODS ~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  public async handleScroll() {
+    const messageContainer = this.messageContainerRef.current;
+    if (!messageContainer) return;
+
+    const isScrolledToBottom = messageContainer.scrollHeight - messageContainer.clientHeight <= messageContainer.scrollTop + 1;
+
+    // Mark messages read
+    this.updateReadMessages();
+
+    // Pin scroll to bottom on new message, unless user has scrolled up
+    if (this.state.isScrolledToBottom !== isScrolledToBottom){
+      this.setState({ isScrolledToBottom });
+    }
+
+    // Fetch more messages when nearing the top of the message list
+    const shouldFetchMoreMessages = messageContainer.scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
+    
+    if (shouldFetchMoreMessages){
+      const numMessages = this.state.messages.length + window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
+      
+      // Prevent grabbing messags with scroll more frequently than once per 5s.
+      const messageFetchInterval = 2;
+      const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval, true))?.previousTopMessage;
+      previousTopMessage && this.scrollToMessage(previousTopMessage);
+    }
+  }
+
+  public scrollToUnread() {
+    const { messages, unreadCount } = this.state;
+    const message = messages[(messages.length - 1) - unreadCount];
+    
+    if(message) this.scrollToMessage(message.id);
+  }
+
+  public scrollToMessage(messageId: string) {
+    const topUnreadMessage = document.getElementById(messageId);
+    topUnreadMessage?.scrollIntoView();
+  }
+
+  public scrollToBottom() {
+    // FIXME VINCE: Smooth scrolling that isn't slow@!
+    // this.messagesEndRef.current?.scrollIntoView(
+    //   { behavior: firstLoad ? 'auto' : 'smooth' }
+    // );
+
+    const messageContainer = this.messageContainerRef.current;
+    if (!messageContainer) return;
+    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~ MESSAGE SELECTION ~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  public selectMessage(messageId: string) {
+    const selectedMessages = this.state.selectedMessages.includes(messageId)
+      // Add to array if not selected. Else remove.
+      ? this.state.selectedMessages.filter(id => id !== messageId)
+      : [...this.state.selectedMessages, messageId];
+    
+    this.setState({ selectedMessages });
+  }
+
+  public resetSelection(){
+    this.setState({selectedMessages: []});
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~ MICROPHONE METHODS ~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onLoadVoiceNoteView() {
     this.setState({
       showRecordingView: true,
@@ -791,10 +766,11 @@ export class SessionConversation extends React.Component<any, State> {
     this.setState({
       showRecordingView: false,
     });
-    
-    console.log(`[vince] Stopped recording entirely`);
   }
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~ KEYBOARD NAVIGATION ~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onKeyDown(event: any) {
     const messageContainer = this.messageContainerRef.current;
     if (!messageContainer) return;

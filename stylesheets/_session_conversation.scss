@@ -68,6 +68,7 @@ $composition-container-height: 60px;
   &__content {
     display: flex;
     flex-direction: column;
+    width: 100%;
     outline: none;
   }
 
@@ -76,7 +77,7 @@ $composition-container-height: 60px;
     height: 100%;
     right: 0vw;
 
-    transition: transform $session-transition-duration ease-in-out;
+    transition: transform 1.5 * $session-transition-duration ease-in-out;
     transform: translateX(100%);
     will-change: transform;
 
@@ -285,16 +286,23 @@ $composition-container-height: 60px;
 
 .session-progress {
   position: relative;
-  background-color: rgba(30, 30, 30, 0.5);
+  z-index: 100;
 
   &__progress {
-    transition: opacity 0.15s;
+    transition: opacity 0.25s;
+    will-change: transform;
+    
+    width: 100%;
     position: absolute;
     left: 0px;
     font-size: 0px;
     height: 3px;
 
     background-color: $session-color-green;
+
+    &.fade {
+      opacity: 0;
+    }
   }
 }
 

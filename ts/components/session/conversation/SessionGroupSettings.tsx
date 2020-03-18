@@ -15,12 +15,12 @@ interface Props {
   id: string;
   name: string;
   memberCount: number;
-  description: string;
+  description?: string;
   avatarPath: string;
   timerOptions: Array<TimerOption>;
   isPublic: boolean;
-  isAdmin: boolean;
-  amMod: boolean;
+  isAdmin?: boolean;
+  amMod?: boolean;
 
   onGoBack: () => void;
   onInviteFriends: () => void;

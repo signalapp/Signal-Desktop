@@ -15,8 +15,12 @@ import { SignalService } from '../../../../ts/protobuf';
 
 interface Props {
   placeholder?: string;
+
   sendMessage: any;
-  
+  onMessageSending: any;
+  onMessageSuccess: any;
+  onMessageFailure: any;
+
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
 }
@@ -270,23 +274,30 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
 
     // Send message
-    const messageSuccess = this.props.sendMessage(
+    this.props.onMessageSending();
+
+    this.props.sendMessage(
       messagePlaintext,
       attachments,
       undefined,
       undefined,
       null,
       {},
-    );
-
-    if (messageSuccess) {
+    ).then(() => {
+      // Message sending sucess
+      this.props.onMessageSuccess();
+      
       // Empty attachments
       // Empty composition box
       this.setState({
         message: '',
         attachments: [],
       });
-    }
+    }).catch(() => {
+      // Message sending failed
+      this.props.onMessageFailure();
+    });
+
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -333,7 +344,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
 
     window.pushToast({
-      id: window.generateID(),
+      id: 'audioPermissionNeeded',
       title: window.i18n('audioPermissionNeededTitle'),
       description: window.i18n('audioPermissionNeededDescription'),
       type: 'info',

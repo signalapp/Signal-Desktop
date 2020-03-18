@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames'; 
 
 interface Props {
   // Value ranges from 0 to 100
@@ -6,12 +7,12 @@ interface Props {
   // Optional. Load with initial value and have
   // it shoot to new value immediately
   prevValue?: number;
+  sendStatus: -1 | 0 | 1 | 2;
   visible: boolean;
   fadeOnComplete: boolean;
 }
 
 interface State {
-  value: number;
   visible: boolean;
   startFade: boolean;
 }
@@ -24,42 +25,39 @@ export class SessionProgress extends React.PureComponent<Props, State> {
   constructor(props: any) {
     super(props);
 
-    const { visible, value, prevValue } = this.props;
+    const { visible } = this.props;
 
     this.state = {
       visible,
       startFade: false,
-      value: prevValue || value,
     };
   }
 
-  public componentWillMount() {
-    setTimeout(() => {
-      this.setState({
-        value: this.props.value,
-      });
-    }, 20);
-  }
-
   public render() {
-    const { startFade, value } = this.state;
-    const { prevValue } = this.props;
+    const { startFade } = this.state;
+    const { value, prevValue, sendStatus } = this.props;
 
     // Duration will be the decimal (in seconds) of
     // the percentage differnce, else 0.25s;
     // Minimum shift duration of 0.25s;
-    const shiftDuration = this.getShiftDuration(this.props.value, prevValue);
+    const shiftDuration = this.getShiftDuration(this.props.value, prevValue).toFixed(2);
 
     // 1. Width depends on progress.
     // 2. Opacity is the inverse of fade.
     // 3. Transition duration scales with the
     //    distance it needs to travel
+    
+    // FIXME VINCE - globalise all JS color references
+    const sessionBrandColor = '#00f782';
+    const sessionDangerAlt = '#ff4538';
+    const successColor = sessionBrandColor;
+    const failureColor = sessionDangerAlt;
+    const backgroundColor = sendStatus === 2 ? failureColor : successColor;
+
     const style = {
-      width: `${this.state.value}%`,
-      opacity: `${Number(!startFade)}`,
-      transition: `width ${shiftDuration.toFixed(
-        2
-      )}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`,
+      'background-color': backgroundColor,
+      transform: `translateX(-${100 - value}%)`,
+      transition: `transform ${shiftDuration}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`,
     };
 
     if (value >= 100) {
@@ -68,7 +66,10 @@ export class SessionProgress extends React.PureComponent<Props, State> {
 
     return (
       <div className="session-progress">
-        <div className="session-progress__progress" style={style}>
+        <div
+          className={classNames('session-progress__progress', startFade && 'fade')}
+          style={style}
+        >
           &nbsp
         </div>
       </div>
