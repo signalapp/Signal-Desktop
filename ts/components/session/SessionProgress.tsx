@@ -40,11 +40,9 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     // Duration will be the decimal (in seconds) of
     // the percentage differnce, else 0.25s;
     // Minimum shift duration of 0.25s;
-    const shiftDuration = this.getShiftDuration(this.props.value, prevValue).toFixed(2);
 
     // 1. Width depends on progress.
-    // 2. Opacity is the inverse of fade.
-    // 3. Transition duration scales with the
+    // 2. Transition duration scales with the
     //    distance it needs to travel
     
     // FIXME VINCE - globalise all JS color references
@@ -52,13 +50,20 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     const sessionDangerAlt = '#ff4538';
     const successColor = sessionBrandColor;
     const failureColor = sessionDangerAlt;
-    const backgroundColor = sendStatus === 2 ? failureColor : successColor;
+    const backgroundColor = sendStatus === -1 ? failureColor : successColor;
+
+    const shiftDurationMs = this.getShiftDuration(this.props.value, prevValue) * 1000;
+    const fadeDurationMs = 500;
+    const fadeOffsetMs = shiftDurationMs + 500;
 
     const style = {
-      'background-color': backgroundColor,
-      transform: `translateX(-${100 - value}%)`,
-      transition: `transform ${shiftDuration}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`,
-    };
+      'background-color':         backgroundColor,
+      'transform':                `translateX(-${100 - value}%)`,
+      'transition-property':      'transform, opacity',
+      'transition-duration':      `${shiftDurationMs}ms, ${fadeDurationMs}ms`,
+      'transition-delay':         `0ms, ${fadeOffsetMs}ms`,
+      'transition-timing-funtion':'cubic-bezier(0.25, 0.46, 0.45, 0.94), linear',
+    }
 
     if (value >= 100) {
       this.onComplete();
@@ -84,6 +89,7 @@ export class SessionProgress extends React.PureComponent<Props, State> {
       this.setState({
         startFade: true,
       });
+      
     }
   }
 

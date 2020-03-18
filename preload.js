@@ -238,6 +238,8 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
 window.setSettingValue = (settingID, value) => {
   window.storage.put(settingID, value);
 
+  // FIXME - This should be called in the settings object in 
+  // SessionSettings
   if (settingID === 'zoom-factor-setting') {
     window.updateZoomFactor();
   }
@@ -245,7 +247,10 @@ window.setSettingValue = (settingID, value) => {
 
 // Get the message TTL setting
 window.getMessageTTL = () => window.storage.get('message-ttl', 24);
+
+// Media Permissions
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
+window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
 
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};

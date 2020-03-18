@@ -83,7 +83,7 @@ export class SessionConversation extends React.Component<any, State> {
     // Messages
     this.selectMessage = this.selectMessage.bind(this);
     this.resetSelection = this.resetSelection.bind(this);
-    this.updateSendingProgres = this.updateSendingProgres.bind(this);
+    this.updateSendingProgress = this.updateSendingProgress.bind(this);
     this.onMessageSending = this.onMessageSending.bind(this);
     this.onMessageSuccess = this.onMessageSuccess.bind(this);
     this.onMessageFailure = this.onMessageFailure.bind(this);
@@ -112,6 +112,8 @@ export class SessionConversation extends React.Component<any, State> {
         });
       }, 100);
     });
+
+    this.updateReadMessages();
   }
 
   public componentDidUpdate(){
@@ -573,9 +575,9 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~ MESSAGE HANDLING ~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  public updateSendingProgres(value: number, status: -1 | 0 | 1 | 2) {
+  public updateSendingProgress(value: number, status: -1 | 0 | 1 | 2) {
     // If you're sending a new message, reset previous value to zero
-    const prevSendingProgress = status === 1 ? 0 : this.state.sendingProgress;
+    const prevSendingProgress = 0//status === 1 ? 0 : this.state.sendingProgress;
 
     this.setState({
       sendingProgress: value,
@@ -585,23 +587,21 @@ export class SessionConversation extends React.Component<any, State> {
   }
 
   public onMessageSending() {
-    // Set sending state to random between 10% and 50% to show message sending
-    const minInitVal = 10;
-    const maxInitVal = 50;
-    const initialValue = minInitVal + (maxInitVal - minInitVal) * Math.random();
+    // Set sending state 5% to show message sending
+    const initialValue = 5;
 
     console.log(`[sending] Message Sending`);
-    this.updateSendingProgres(initialValue, 1);
+    this.updateSendingProgress(initialValue, 1);
   }
 
   public onMessageSuccess(){
     console.log(`[sending] Message Sent`);
-    this.updateSendingProgres(100, 2);
+    this.updateSendingProgress(100, 2);
   }
 
   public onMessageFailure(){
     console.log(`[sending] Message Failure`);
-    this.updateSendingProgres(100, -1);
+    this.updateSendingProgress(100, -1);
   }
   
   public updateReadMessages() {

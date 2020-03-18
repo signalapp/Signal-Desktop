@@ -258,16 +258,17 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const messageInput = this.textarea.current;
     if (!messageInput) return;
     
+    // Verify message length
     const messagePlaintext = messageInput.value;
-    const {attachments} = this.state;
+    const msgLen = messagePlaintext.length;
+    if (msgLen === 0 || msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) return;
 
-    // FIXME VINCE: Get emoiji, attachments, etc
+
+    // handle Attachments
+    const {attachments} = this.state;
 
     console.log(`[vince][msg] Message:`, messagePlaintext);
     console.log(`[vince][msg] fileAttachments:`, attachments);
-
-
-    // Verify message length
 
 
     // Handle emojis
