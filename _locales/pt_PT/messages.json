@@ -135,10 +135,6 @@
         "message": "Ativar ferramentas do programador",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "Configurar com a importação",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "Configurar como novo dispositivo",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -198,7 +194,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Acabou de passar pelo processo de exportação, e os seus contactos e mensagens estão a aguardar pacientemente no seu computados. Selecione a pasta que contém os seus dados Signal guardados.",
+        "message": "Acabou de passar pelo processo de exportação, e os seus contactos e mensagens estão a aguardar pacientemente no seu computador. Selecione a pasta que contém os seus dados Signal guardados.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -214,7 +210,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Assegure-se que escolheu a diretoria correta onde se encontram os seus dados do Signal. O nome da diretoria deverá começar por 'Signal Export'. Também poderá copiar os seus dados a partir da aplicação Chrome. ",
+        "message": "Assegure-se que escolheu a pasta correta onde se encontram os seus dados do Signal. O nome da pasta deverá começar por 'Signal Export'. Também poderá copiar os seus dados a partir da aplicação Chrome. ",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -264,7 +260,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Você saiu do grupo",
+        "message": "Abandonou o grupo",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -468,11 +464,11 @@
         "description": ""
     },
     "media": {
-        "message": "Média",
+        "message": "Multimédia",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Não tem nenhum multimédia nesta conversa",
+        "message": "Não tem nenhum ficheiro multimédia nesta conversa",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
@@ -581,6 +577,10 @@
         "message": "A ligar",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "Não deverá demorar muito...",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "Verifique a sua ligação de rede.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "Nova tentativa de ligação dentro de $reconnect_duration_in_seconds$ segundos",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "Enviar relatório de depuração",
@@ -767,6 +757,10 @@
         "message": "Descarregar anexo",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "Reagir à mensagem",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "Responder à mensagem",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "A mensagem original foi encontrada mas não carregada. Mova o texto para cima para a carregar.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "A gravação de mensagem de voz parou porque foi atingido o limite máximo permitido.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "Parou a gravação da mensagem porque você mudou para outra aplicação.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "As mensagens de voz estão limitadas ao máximo de 5 minutos. A gravação irá parar caso mude para outra aplicação.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Uma mensagem de voz deverá apenas ter um anexo",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "Você",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "A responder a $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Ocorreu um erro ao tentar atualizar o Signal Desktop para a versão mais recente. Por favor, vá até https://signal.org/download e instale manualmente a nova versão. Depois, ou contacte a nossa equipa de suporte ou envie-nos um ficheiro de erro com este problema.",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Ocorreu um erro ao tentar atualizar o Signal Desktop para a versão mais recente. Por favor, vá até  $url$ e instale manualmente a nova versão. Depois, ou contacte a nossa equipa de suporte ou envie-nos um ficheiro de erro com este problema.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Provavelmente o Signal Desktop encontra-se na quarentena do macOS e como tal não será possível atualizar automaticamente. Por favor, tente mover o programa Signal.app para /Aplicações com o Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Provavelmente o Signal Desktop encontra-se na quarentena do macOS e como tal não será possível atualizar automaticamente. Por favor, tente mover $app$ para $folder$ com o Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "OK",
@@ -855,8 +877,12 @@
         "message": "Cancelar",
         "description": ""
     },
+    "discard": {
+        "message": "Descartar",
+        "description": ""
+    },
     "failedToSend": {
-        "message": "Falha ao enviar para alguns destinatários. Verifique a sua ligação à rede",
+        "message": "Falha ao enviar para alguns destinatários. Verifique a sua ligação à rede.",
         "description": ""
     },
     "error": {
@@ -920,7 +946,7 @@
         "description": ""
     },
     "viewAllMedia": {
-        "message": "Ver todos os média",
+        "message": "Ver todos os ficheiros multimédia",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1142,7 +1168,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$ reagiu $emoji$ à sua mensagem",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1156,7 +1182,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "message": "Mais recente:  $sender$ reagiu $emoji$ à sua mensagem",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$ reagiu  $emoji$ a: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "Mais recente: $sender$ reagiu $emoji$ a: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1194,7 +1256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Mensagem de média",
+        "message": "Mensagem de multimédia",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -1602,7 +1664,7 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "Media de visualização única",
+        "message": "Multimédia de visualização única",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
@@ -1720,7 +1782,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ enviou-lhe uma mensagem que não pode ser processada ou exibida porque utiliza um recurso novo do Signal.",
+        "message": "$contact$ enviou-lhe uma mensagem que não pode ser processada ou exibida porque utiliza uma nova funcionalidade do Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1740,7 +1802,7 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Um dos seus dispositivos enviou uma mensagem que não pode ser processada ou exibida porque utiliza um recurso novo do Signal.",
+        "message": "Um dos seus dispositivos enviou uma mensagem que não pode ser processada ou exibida porque utiliza uma nova funcionalidade do Signal.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
@@ -1760,7 +1822,7 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "Já vi esta mensagem.",
+        "message": "Já viu esta mensagem.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
@@ -1836,7 +1898,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Abrir na vista de 'Todos os média'",
+        "message": "Abrir na vista de 'Todos os multimédia'",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -1861,6 +1923,10 @@
     },
     "Keyboard--toggle-reply": {
         "message": "Ligue e desligue a resposta para a mensagem selecionada",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "Alternar o selecionador de reação para a mensagem selecionada",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2126,7 +2192,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Veja este autocolante que eu criei para a Signal. #makeprivacystick",
+        "message": "Veja este autocolante que eu criei para o Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2176,6 +2242,14 @@
     "StickerCreator--Authentication--error": {
         "message": "Por favor, defina o Signal no seu telemóvel e desktop para utilizar o 'Criador de pacotes de autocolantes'",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "Falha ao enviar reação. Por favor, tente novamente.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "Tudo",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "Termos e política de privacidade",

@@ -135,10 +135,6 @@
         "message": "Shfaq/Fshih Mjete Zhvilluesi",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "Rregulloje me Importim",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "Rregulloje si Pajisje të Re",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -581,6 +577,10 @@
         "message": "Po lidhet",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "S’do vonojë…",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "I palidhur",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "Kontrolloni lidhjen tuaj në rrjet.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "Përpjekje për rilidhje pas $reconnect_duration_in_seconds$ sekondash",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "Regjistër diagnostikimesh",
@@ -767,6 +757,10 @@
         "message": "Shkarko Bashkëngjitjen",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "Reagoni ndaj Mesazhit",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "Përgjigjuni Mesazhit",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "Mesazhi origjinal u gjet, por s’u ngarkua dot. Rrëshqitni më poshtë që të ngarkohet.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "Incizimi i mesazhit zanor u ndal, ngaqë u mbërrit në kufi kohe maksimum.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "Incizimi i mesazhit zanor u ndal, ngaqë kaluat te një tjetër aplikacion.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "Mesazhet zanorë janë të kufizuar në pesë minuta. Incizimi fo të ndalet, nëse kaloni te një aplikacion tjetër.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Një mesazh zanor duhet të ketë vetëm një bashkëngjitje.",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "Ju",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "Përgjigje për $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop s'arriti të përditësohet, por ka një version të ri të gatshëm. Ju lutemi, shkoni te https://signal.org/download dhe instaloni versionin e ri dorazi, mandej ose lidhuni me asistencën, ose parashtroni një të metë rreth këtij problemi.",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Signal-i për Desktop s’arriti të përditësohej, por ka gati një version të ri. Ju lutemi, kaloni te $url$ dhe instaloni versionin e ri dorazi, mandej ose lidhuni me asistencën, ose parashtroni një të metë rreth këtij problemi.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Ka gjasa që Signal Desktop të gjendet nën karantinë nga macOS, dhe s’do të jetë në gjendje të vetëpërditësohet. Ju lutemi, provoni ta shpini Signal.app te /Applications përmes Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Signal-i për Desktop gjendet në një si punë karantine nga macOS-i, dhe s’do të jetë në gjendje të vetëpërditësohet. Ju lutemi, provoni të kaloni $app$ te $folder$ me Finder-in.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "OK",
@@ -853,6 +875,10 @@
     },
     "cancel": {
         "message": "Anuloje",
+        "description": ""
+    },
+    "discard": {
+        "message": "Hidhe tej",
         "description": ""
     },
     "failedToSend": {
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$ reagoi $emoji$ te: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "Më të freskëtat: $sender$ reagoi $emoji$ te: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1863,6 +1925,10 @@
         "message": "Hap/mbyll përgjigje mesazhit të përzgjedhur",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "Shfaq/fshih zgjedhës reagimi për mesazhin e përzgjedhur",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--save-attachment": {
         "message": "Ruani bashkëngjitje prej mesazhi të përzgjedhur",
         "description": "Shown in the shortcuts guide"
@@ -2176,6 +2242,14 @@
     "StickerCreator--Authentication--error": {
         "message": "Ju lutemi, ujdisni Signal-in në telefonin dhe desktopin tuaj që të përdorë Krijues Paketash Ngjitësish",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "S’u arrit të dërgohej reagim. Ju lutemi, riprovoni.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "Krejt",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "Kushte & Rregulla Privatësie",

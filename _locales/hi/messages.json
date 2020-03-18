@@ -135,10 +135,6 @@
         "message": "डेवलपर टूल्स दिखाएँ/हटाएँ",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "इमपोर्ट से स्थापना करें",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "नये डिवाइस कि तरह स्थापना करें",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -581,6 +577,10 @@
         "message": "कनेक्टिंग",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "Shouldn't be long...",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "ऑफ़लाइन",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "अपने नेटवर्क कनेक्शन की जांच करें।",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "फिर से कनेक्ट करने का प्रयास करना$reconnect_duration_in_seconds$सेकंड",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "डीबग लॉग",
@@ -767,6 +757,10 @@
         "message": "अटैचमेंट डाउनलोड करें",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "React to Message",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "मेसेज का जवाब दें",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "मूल मेसेज मिल गया पर लोड नहीं हुआ। लोड करने के लिये ऊपर स्क्रोल करें।",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "Voice message recording stopped because the maximum time limit was reached.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "Voice message recording stopped because you switched to another app.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "एक वॉयस मेसेज में एक ही अटैचमेंट हो सकता है।",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "आप",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "$name$ को जवाब दे रहे हैं",
@@ -840,18 +846,38 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop अपडेट नहीं हो पाया, पर एक नया वर्ज़न उपलब्ध है। कृपया https://signal.org/download पर जाएँ और नया वर्ज़न डाउनलोड कर के स्थापित कर लें, फिर या तो समर्थन से संपर्क करें या फिर इस परेशानी के बारे में बग फ़ाइल कर दें।",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop macOS कोरांटीन में हो सकता है जिसकी वजह से स्वाचालित अपडेट नहीं हो पाएगा। कृपया Signal.app को /Applications में Finder की मदद से भेज दें",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "ठीक",
         "description": ""
     },
     "cancel": {
+        "message": "रद्द करें",
+        "description": ""
+    },
+    "discard": {
         "message": "रद्द करें",
         "description": ""
     },
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$ reacted $emoji$ to: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1768,11 +1830,11 @@
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
-        "message": "View Photo",
+        "message": "फ़ोटो देखें",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "View Video",
+        "message": "वीडियो देखें",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
@@ -1861,6 +1923,10 @@
     },
     "Keyboard--toggle-reply": {
         "message": "चुने हुए मेसेज के जवाब को टॉगल करें",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "Toggle reaction picker for selected message",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2176,6 +2242,14 @@
     "StickerCreator--Authentication--error": {
         "message": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "Failed to send reaction. Please try again.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "सब",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "नियम और गोपनीयता नीति",

@@ -88,7 +88,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Markera alla",
+        "message": "Markera allt",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -134,10 +134,6 @@
     "viewMenuToggleDevTools": {
         "message": "Slå på utvecklingsverktyg",
         "description": "View menu command to show or hide the developer tools"
-    },
-    "menuSetupWithImport": {
-        "message": "Ställ in med import",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
     "menuSetupAsNewDevice": {
         "message": "Ställ in som ny enhet",
@@ -581,6 +577,10 @@
         "message": "Ansluter",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "Borde inte ta lång...",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "Inte ansluten",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "Kontrollera din nätverksanslutning.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "Försöker återansluta om $reconnect_duration_in_seconds$  sekunder",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "Loggfil för felsökning",
@@ -632,7 +622,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Skapare av Klistermärkespaketet",
+        "message": "Skapare av klistermärkespaketet",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -767,6 +757,10 @@
         "message": "Hämta bifogad fil",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "Reagera på meddelandet",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "Svara på meddelande",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "Originalmeddelande hittades, men lästes inte in. Rulla upp för att läsa in den.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "Röstmeddelandeinspelning stoppades eftersom den maximala tidsgränsen uppnåddes.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "Röstmeddelandeinspelning stoppades eftersom du bytte till en annan app.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "Röstmeddelanden är begränsade till fem minuter. Inspelningen stoppas om du byter till en annan app.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Ett röstmeddelande måste bara ha en bilaga.",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "Du",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "Svarar till $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop misslyckades med att uppdatera, men det finns en ny version tillgänglig. Gå till https://signal.org/download och installera den nya versionen manuellt. Ta sedan kontakt med support eller öppna en felrapport om detta problem.",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Det gick inte att uppdatera Signal Desktop, men det finns en ny version tillgänglig. Gå till  $url$ och installera den nya versionen manuellt, kontakta antingen sedan supporten eller skicka en felrapport om detta problem.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop är sannolikt i en karantän av macOS, och kan inte uppdateras automatiskt. Försök att flytta Signal.app till /Program med Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Signal Desktop är sannolikt i en MacOS-karantän, och kommer inte att kunna uppdateras automatiskt. Försök att flytta $app$ till $folder$ med Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "OK",
@@ -853,6 +875,10 @@
     },
     "cancel": {
         "message": "Avbryt",
+        "description": ""
+    },
+    "discard": {
+        "message": "Släng",
         "description": ""
     },
     "failedToSend": {
@@ -1094,7 +1120,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Kopplar bort och radera alla data",
+        "message": "Kopplar bort och tar bort alla data",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
@@ -1142,7 +1168,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$ reagerade $emoji$ på ditt meddelande",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1156,7 +1182,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "message": "Senast: $sender$ reagerade $emoji$ på ditt meddelande",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$ reagerade $emoji$ på: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "Senast: $sender$ reagerade $emoji$ på: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1730,7 +1792,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Du kan fråga $contact$ för att skicka det här meddelandet igen nu när du använder en uppdaterad version av signalen.",
+        "message": "Du kan fråga $contact$ om att skicka det här meddelandet igen nu när du använder en uppdaterad version av signalen.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1863,6 +1925,10 @@
         "message": "Växla svar till valt meddelande",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "Växla reaktionsplockare för valt meddelande",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--save-attachment": {
         "message": "Spara bilaga från valt meddelande",
         "description": "Shown in the shortcuts guide"
@@ -1968,7 +2034,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "StickerCreator--title": {
-        "message": "Skapare av Klistermärkespaketet",
+        "message": "Skapare av klistermärkespaket",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
@@ -2174,8 +2240,16 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Vänligen ställ in Signal på telefonen och skrivbordet för att använda Sticker Pack Creator",
+        "message": "Vänligen ställ in Signal på telefonen och skrivbordet för att använda skaparen av klistermärkespaket",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "Det gick inte att skicka reaktion. Vänligen försök igen.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "Alla",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "Licens- och sekretessvillkor",

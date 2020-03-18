@@ -135,10 +135,6 @@
         "message": "Activar herramientas de desarrollador",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "Configurar con datos a importar",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "Configurar como nuevo dispositivo",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -520,11 +516,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Cargando previsualización ...",
+        "message": "Cargando vista previa ...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Preparando miniatura de visualización de enlace para $domain$",
+        "message": "Preparando miniatura de vista previa de enlace para  $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -534,7 +530,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Miniatura de previsualización para $domain$",
+        "message": "Miniatura de vista previa para  $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -581,6 +577,10 @@
         "message": "Conectando",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "No tomará mucho tiempo ...",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "Desconectado",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "Comprueba la conexión de red.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "Intentando volver a conectar en $reconnect_duration_in_seconds$ segundos",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "Registro de depuración (log)",
@@ -674,7 +664,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Sin resultados para «$searchTerm$»",
+        "message": "Sin resultados para ««$searchTerm$»",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -684,7 +674,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "No se encontró «$searchTerm$» en «$conversationName$».",
+        "message": "No se encontró ««$searchTerm$» en ««$conversationName$».",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -767,6 +757,10 @@
         "message": "Descargar adjunto",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "Reaccionar a este mensaje",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "Responder al mensaje",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "Se ha encontrado el mensaje original pero no se ha cargado. Desliza para cargar el mensaje.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "La grabación de la nota de voz se ha detenido al alcanzar el tiempo máximo permitido. ",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "La grabación de la nota de voz se ha detenido al cambiar a otra aplicación.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "Las notas de voz están limitadas a 5 minutos. La grabación se detendrá si cambias a otra aplicación.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Las notas de voz sólo pueden tener un adjunto.",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "Para ti",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "Respuesta a $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop no se ha podido actualizar a pesar de estar disponible una versión más actual. Ve a https://www.signal.org/download e instálala manualmente. Después, contacta con el soporte técnico de Signal o envíanos un informe de fallo con el problema.",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Signal Desktop no ha podido actualizarse, a pesar que una nueva versión está disponible. Ve a  $url$ e instala la nueva versión, después contacta con el soporte o envía un informe del fallo explicando el problema.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Parece que Signal Desktop está en cuarentena en macOS, lo que impide actualizar la aplicación automáticamente. Prueba a mover la aplicación «Signal.app» a la categoría «Aplicaciones» en «Finder».",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Signal Desktop está probablemente en cuarentena en macOS y la aplicación no se podrá actualizar automáticamente. Intenta transferir  $app$ a la carpeta  $folder$ usando el Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "Aceptar",
@@ -853,6 +875,10 @@
     },
     "cancel": {
         "message": "Cancelar",
+        "description": ""
+    },
+    "discard": {
+        "message": "Descartar",
         "description": ""
     },
     "failedToSend": {
@@ -1142,7 +1168,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$reacciona  $emoji$ a tu mensaje",
+        "message": "$sender$ reaccionó con « $emoji$» a tu mensaje",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1156,7 +1182,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Más reciente: $sender$ reacciona  $emoji$ a tu mensaje",
+        "message": "Más reciente:  $sender$ reaccionó con « $emoji$» a tu mensaje",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$ reaccionó con « $emoji$» a « $message$»",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "Más reciente: $sender$ reaccionó con « $emoji$» a « $message$»",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1863,6 +1925,10 @@
         "message": "Responder al mensaje seleccionado",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "Muestra la paleta de reacciones para el mensaje seleccionado ",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--save-attachment": {
         "message": "Guardar adjunto del mensaje seleccionado",
         "description": "Shown in the shortcuts guide"
@@ -1888,7 +1954,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Eliminar previsualización de enlace",
+        "message": "Eliminar vista previa de enlace en borrador",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -2176,6 +2242,14 @@
     "StickerCreator--Authentication--error": {
         "message": "Por favor, configura Signal en tu teléfono y ordenador para usar el Creador de Paquetes de Cromos",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "Fallo al enviar la reacción. Inténtalo de nuevo.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "Todo",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "Términos y política de privacidad",

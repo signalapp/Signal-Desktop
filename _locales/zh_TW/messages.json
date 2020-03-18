@@ -135,10 +135,6 @@
         "message": "切換開發者工具",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "設定匯入",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "設定新裝置",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -581,6 +577,10 @@
         "message": "連線中",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "應該不長...",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "離線",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "檢查你的網路連線。",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "嘗試在 $reconnect_duration_in_seconds$ 秒內重新連線",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "除錯紀錄",
@@ -767,6 +757,10 @@
         "message": "下載附件",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "對訊息的回應",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "回覆訊息",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "找到了原始訊息，但未載入，向上滑動以進行載入。",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "語音訊息錄音已停止，因為已達到最大時間限制。",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "語音訊息錄音已停止，因為你已切換到另一個應用程式。",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "語音訊息限制為五分鐘。 如果你切換到另一個應用程式，錄音將停止。",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "語音留言必須只有一個附件。",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "你",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "正在回覆給 $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal 電腦版無法升級，但是線上有新版提供。請到 https://signal.org/download 網站手動下載及安裝。也煩請聯繫支援部門告知這個問題。",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Signal 電腦版更新失敗，但是有可用的新版本。 請到 $url$並手動安裝新版本，然後與支援人員聯繫或提供有關此問題的錯誤。",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Signal 電腦版似乎被 macOS  隔離，所以無法自動更新。請嘗試將 Signal.app 透過 Finder 移動到 /應用軟體。",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Signal 電腦版可能在macOS隔離區中，將無法自動更新。 請嘗試使用Finder移動 $app$到 $folder$。",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "好",
@@ -853,6 +875,10 @@
     },
     "cancel": {
         "message": "取消",
+        "description": ""
+    },
+    "discard": {
+        "message": "放棄",
         "description": ""
     },
     "failedToSend": {
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$對 $emoji$到: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "最近的: $sender$對 $emoji$到: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1863,6 +1925,10 @@
         "message": "切換回覆所選訊息",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "切換所選訊息的回應選擇器",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--save-attachment": {
         "message": "從所選的訊息中儲存附件",
         "description": "Shown in the shortcuts guide"
@@ -2176,6 +2242,14 @@
     "StickerCreator--Authentication--error": {
         "message": "請在手機和桌上型電腦設定 Signal 以使用貼圖包製作器",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "傳送回應失敗。請再試一次。",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "全部",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "服務條款與隱私政策",

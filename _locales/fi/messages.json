@@ -135,10 +135,6 @@
         "message": "Näytä/piilota kehittäjätyökalut",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "Asenna tuoduilla tiedoilla",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "Asenna uutena laitteena",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -581,6 +577,10 @@
         "message": "Yhdistetään",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "Ei pitäisi kestää kauan…",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "Ei yhteyttä",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "Tarkista vekkoyhteytesi",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "Yritetään uudelleen $reconnect_duration_in_seconds$ sekunnin kuluttua",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "Virheenkorjausloki",
@@ -767,6 +757,10 @@
         "message": "Lataa liite",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "Reagoi viestiin",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "Vastaa viestiin",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "Alkuperäinen viesti löytyi, mutta sitä ei ole ladattu. Kelaa ylöspäin ladataksesi sen.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "Ääniviestin tallennus lopetettiin, koska enimmäisaikaraja oli saavutettu.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "Ääniviestin tallennus lopetettiin, koska vaihdoit toiseen sovellukseen.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "Ääniviestien aikaraja on viisi minuuttia. Tallennus lopetetaan, jos vaihdat toiseen sovellukseen.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Ääniviestissä on oltava vain yksi liite.",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "Sinä",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "Vastaus: $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktopin päivitys epäonnistui, mutta uusi versio on saatavilla. Siirry osoitteeseen https://signal.org/download ja asenna uusi versio manuaalisesti. Ota sitten yhteyttä tukeen tai lähetä vikailmoitus tästä ongelmasta.",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Signal Desktopin päivitys epäonnistui, mutta uusi versio on saatavilla. Siirry osoitteeseen  $url$ ja asenna uusi versio manuaalisesti, ota sitten yhteyttä tukeen tai kirjoita virheraportti tästä ongelmasta.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop on todennäköisesti macOS-karanteenissa, eikä sitä voi päivittää automaattisesti. Yritä siirtää Signal.app -sovellus /Ohjelmat -kansioon Finderin avulla.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Signal Desktop on todennäköisesti macOS-karanteenissa, eikä sitä voi päivittää automaattisesti. Yritä siirtää  $app$ -sovellus  $folder$ -kansioon Finderin avulla.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "OK",
@@ -853,6 +875,10 @@
     },
     "cancel": {
         "message": "Peruuta",
+        "description": ""
+    },
+    "discard": {
+        "message": "Hylkää",
         "description": ""
     },
     "failedToSend": {
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$ reagoi  $emoji$ viestiin:  $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "Viimeisin:  $sender$ reagoi  $emoji$ viestiin:  $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1863,6 +1925,10 @@
         "message": "Avaa tai sulje vastaaminen valittuun viestiin",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "Avaa tai sulje valitun viestin reaktiovalitsin",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--save-attachment": {
         "message": "Tallenna valitun viestin liitetiedosto",
         "description": "Shown in the shortcuts guide"
@@ -2176,6 +2242,14 @@
     "StickerCreator--Authentication--error": {
         "message": "Asenna Signal puhelimeesi ja tietokoneelle, jotta voit käyttää tarrapakettiluojaa",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "Reaktion lähetys epäonnistui. Yritä uudelleen.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "Kaikki",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "Käyttöehdot ja tietosuoja",
