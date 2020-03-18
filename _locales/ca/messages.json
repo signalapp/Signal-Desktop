@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Disponible una actualització del Signal",
+        "message": "Disponible una actualització del Session",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Hi ha disponible una versió nova del Signal.",
+        "message": "Hi ha disponible una versió nova del Session.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Premeu Reinicia el Signal per a aplicar les actualitzacions.",
+        "message": "Premeu Reinicia el Session per a aplicar les actualitzacions.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Reinicia el Signal",
+        "message": "Reinicia el Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

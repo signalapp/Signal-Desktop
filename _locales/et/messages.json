@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signali uuendus on saadaval",
+        "message": "Session uuendus on saadaval",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signalist on saadaval uus versioon.",
+        "message": "Session on saadaval uus versioon.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Signal\".",
+        "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Session\".",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Taaskäivita Signal",
+        "message": "Taaskäivita Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

@@ -1,6 +1,9 @@
 /* global chai, Whisper, _, Backbone */
 
-mocha.setup('bdd');
+mocha
+  .setup('bdd')
+  .fullTrace()
+  .timeout(10000);
 window.assert = chai.assert;
 window.PROTO_ROOT = '../protos';
 

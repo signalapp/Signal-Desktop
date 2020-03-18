@@ -132,11 +132,16 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
     const { openConversationInternal, searchResults } = this.props;
+    const friends =
+      (searchResults &&
+        searchResults.contacts.filter(contact => contact.isFriend)) ||
+      [];
 
     if (searchResults) {
       return (
         <SearchResults
           {...searchResults}
+          friends={friends}
           openConversation={openConversationInternal}
           i18n={window.i18n}
         />

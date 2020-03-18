@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Este disponibilă o actualizare de Signal ",
+        "message": "Este disponibilă o actualizare de Session ",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Este disponibilă o nouă versiune de Signal.",
+        "message": "Este disponibilă o nouă versiune de Session.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Apasă pe Repornire Signal pentru a aplica actualizările.",
+        "message": "Apasă pe Repornire Session pentru a aplica actualizările.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Repornește Signal",
+        "message": "Repornește Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

@@ -282,6 +282,7 @@ message SyncMessage {
 
   message Groups {
     optional AttachmentPointer blob = 1;
+    optional bytes             data = 101;
   }
 
   message Blocked {
@@ -313,15 +314,21 @@ message SyncMessage {
     optional bool linkPreviews                   = 4;
   }
 
-  optional Sent          sent          = 1;
-  optional Contacts      contacts      = 2;
-  optional Groups        groups        = 3;
-  optional Request       request       = 4;
-  repeated Read          read          = 5;
-  optional Blocked       blocked       = 6;
-  optional Verified      verified      = 7;
-  optional Configuration configuration = 9;
-  optional bytes         padding       = 8;
+  message OpenGroupDetails {
+    optional string url         = 1;
+    optional uint32 channelId   = 2;
+  }
+
+  optional Sent             sent             = 1;
+  optional Contacts         contacts         = 2;
+  optional Groups           groups           = 3;
+  optional Request          request          = 4;
+  repeated Read             read             = 5;
+  optional Blocked          blocked          = 6;
+  optional Verified         verified         = 7;
+  optional Configuration    configuration    = 9;
+  optional bytes            padding          = 8;
+  repeated OpenGroupDetails openGroups       = 100;
 }
 
 message AttachmentPointer {
@@ -390,4 +397,5 @@ message GroupDetails {
   optional uint32 expireTimer = 6;
   optional string color       = 7;
   optional bool   blocked     = 8;
+  repeated string admins      = 9;
 }

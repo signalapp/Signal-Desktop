@@ -935,7 +935,7 @@
         if (newStatus === FriendRequestStatusEnum.friends) {
           if (!blockSync) {
             // Sync contact
-            this.wrapSend(textsecure.messaging.sendContactSyncMessage(this));
+            this.wrapSend(textsecure.messaging.sendContactSyncMessage([this]));
           }
           // Only enable sending profileKey after becoming friends
           this.set({ profileSharing: true });
@@ -2232,11 +2232,27 @@
             this.get('name'),
             this.get('avatar'),
             this.get('members'),
+            this.get('groupAdmins'),
             groupUpdate.recipients,
             options
           )
         )
       );
+    },
+
+    sendGroupInfo(recipients) {
+      if (this.isClosedGroup()) {
+        const options = this.getSendOptions();
+        textsecure.messaging.updateGroup(
+          this.id,
+          this.get('name'),
+          this.get('avatar'),
+          this.get('members'),
+          this.get('groupAdmins'),
+          recipients,
+          options
+        );
+      }
     },
 
     async leaveGroup() {
@@ -2323,6 +2339,7 @@
         const ourNumber = textsecure.storage.user.getNumber();
         return !stillUnread.some(
           m =>
+            m.propsForMessage &&
             m.propsForMessage.text &&
             m.propsForMessage.text.indexOf(`@${ourNumber}`) !== -1
         );

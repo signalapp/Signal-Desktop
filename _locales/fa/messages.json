@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "به‌روزرسانی Signal در دسترس است",
+        "message": "به‌روزرسانی Session در دسترس است",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "نسخه جدیدی از Signal در دسترس است.",
+        "message": "نسخه جدیدی از Session در دسترس است.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "برای اعمال آپدیت ها Signal را ری استارت کنید.",
+        "message": "برای اعمال آپدیت ها Session را ری استارت کنید.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "راه اندازی مجدد Signal",
+        "message": "راه اندازی مجدد Session",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

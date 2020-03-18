@@ -1,5 +1,3 @@
-provider: s3
-region: us-east-1
-bucket: your-test-bucket.signal.org
-path: desktop
-acl: public-read
+owner: <yourGHName>
+repo: <yourGHRepoName>
+provider: github

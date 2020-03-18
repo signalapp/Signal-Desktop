@@ -132,12 +132,8 @@
             seedHex = seedHex.concat(seedHex);
             seedHex = seedHex.substring(0, privKeyHexLength);
           }
-          const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
-          const privKey = dcodeIO.ByteBuffer.wrap(
-            privKeyHex,
-            'hex'
-          ).toArrayBuffer();
-          return libsignal.Curve.async.createKeyPair(privKey);
+          const seed = dcodeIO.ByteBuffer.wrap(seedHex, 'hex').toArrayBuffer();
+          return libsignal.Curve.async.createKeyPair(seed);
         };
       } else {
         generateKeypair = libsignal.KeyHelper.generateIdentityKeyPair;
@@ -634,6 +630,11 @@
           blockSync: true,
         }
       );
+      // Send sync messages
+      const conversations = window.getConversations().models;
+      textsecure.messaging.sendContactSyncMessage(conversations);
+      textsecure.messaging.sendGroupSyncMessage(conversations);
+      textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
     },
     validatePubKeyHex(pubKey) {
       const c = new Whisper.Conversation({

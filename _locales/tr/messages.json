@@ -1460,19 +1460,19 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal güncellemesi mevcut",
+        "message": "Session güncellemesi mevcut",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signal'ın yeni bir sürümü mevcut.",
+        "message": "Session'ın yeni bir sürümü mevcut.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Güncellemeleri uygulamak için 'Signal'i Yeniden Başlat'a basınız.",
+        "message": "Güncellemeleri uygulamak için 'Session'i Yeniden Başlat'a basınız.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Signal'i Yeniden Başlat",
+        "message": "Session'i Yeniden Başlat",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {

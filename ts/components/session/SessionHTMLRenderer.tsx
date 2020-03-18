@@ -7,6 +7,7 @@ interface ReceivedProps {
   key?: any;
 }
 
+// Needed because of https://github.com/microsoft/tslint-microsoft-contrib/issues/339
 type Props = ReceivedProps;
 
 export const SessionHtmlRenderer: React.SFC<Props> = ({

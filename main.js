@@ -27,7 +27,7 @@ const {
   shell,
 } = electron;
 
-const appUserModelId = `org.whispersystems.${packageJson.name}`;
+const appUserModelId = packageJson.build.appId;
 console.log('Set Windows Application User Model ID (AUMID)', {
   appUserModelId,
 });
@@ -65,9 +65,7 @@ const appInstance = config.util.getEnv('NODE_APP_INSTANCE') || 0;
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
 
-// TODO: Enable when needed
-// const updater = require('./ts/updater/index');
-const updater = null;
+const updater = require('./ts/updater/index');
 
 const createTrayIcon = require('./app/tray_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
@@ -188,8 +186,8 @@ function captureClicks(window) {
 
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 720;
-const MIN_WIDTH = 1125;
-const MIN_HEIGHT = 750;
+const MIN_WIDTH = 880;
+const MIN_HEIGHT = 580;
 const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {
@@ -227,6 +225,7 @@ function createWindow() {
       minWidth: MIN_WIDTH,
       minHeight: MIN_HEIGHT,
       autoHideMenuBar: false,
+      backgroundColor: '#fff',
       webPreferences: {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
@@ -286,7 +285,7 @@ function createWindow() {
   // Disable system main menu
   mainWindow.setMenu(null);
 
-  electronLocalshortcut.register(mainWindow, 'f5', () => {
+  electronLocalshortcut.register(mainWindow, 'F5', () => {
     mainWindow.reload();
   });
   electronLocalshortcut.register(mainWindow, 'CommandOrControl+R', () => {
@@ -409,38 +408,56 @@ ipc.on('show-window', () => {
   showWindow();
 });
 
-let updatesStarted = false;
-ipc.on('ready-for-updates', async () => {
-  if (updatesStarted || !updater) {
+let isReadyForUpdates = false;
+async function readyForUpdates() {
+  if (isReadyForUpdates) {
     return;
   }
-  updatesStarted = true;
 
+  isReadyForUpdates = true;
+
+  // disable for now
+  /*
+  // First, install requested sticker pack
+  const incomingUrl = getIncomingUrl(process.argv);
+  if (incomingUrl) {
+    handleSgnlLink(incomingUrl);
+  }
+  */
+
+  // Second, start checking for app updates
   try {
     await updater.start(getMainWindow, locale.messages, logger);
   } catch (error) {
-    logger.error(
+    const log = logger || console;
+    log.error(
       'Error starting update checks:',
       error && error.stack ? error.stack : error
     );
   }
-});
+}
+ipc.once('ready-for-updates', readyForUpdates);
+
+// Forcefully call readyForUpdates after 10 minutes.
+// This ensures we start the updater.
+const TEN_MINUTES = 10 * 60 * 1000;
+setTimeout(readyForUpdates, TEN_MINUTES);
 
 function openReleaseNotes() {
   shell.openExternal(
-    `https://github.com/loki-project/loki-messenger/releases/tag/${app.getVersion()}`
+    `https://github.com/loki-project/session-desktop/releases/tag/v${app.getVersion()}`
   );
 }
 
 function openNewBugForm() {
   shell.openExternal(
-    'https://github.com/loki-project/loki-messenger/issues/new'
+    'https://github.com/loki-project/session-desktop/issues/new'
   );
 }
 
 function openSupportPage() {
   shell.openExternal(
-    'https://loki-project.github.io/loki-docs/LokiServices/Messenger/'
+    'https://docs.loki.network/LokiServices/Messenger/Session/'
   );
 }
 
@@ -570,54 +587,6 @@ function showAbout() {
 
   aboutWindow.once('ready-to-show', () => {
     aboutWindow.show();
-  });
-}
-
-let settingsWindow;
-async function showSettingsWindow() {
-  if (settingsWindow) {
-    settingsWindow.show();
-    return;
-  }
-  if (!mainWindow) {
-    return;
-  }
-
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
-  const size = mainWindow.getSize();
-  const options = {
-    width: Math.min(500, size[0]),
-    height: Math.max(size[1] - 100, MIN_HEIGHT),
-    resizable: false,
-    title: locale.messages.signalDesktopPreferences.message,
-    autoHideMenuBar: true,
-    backgroundColor: '#FFFFFF',
-    show: false,
-    modal: true,
-    webPreferences: {
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'settings_preload.js'),
-      nativeWindowOpen: true,
-    },
-    parent: mainWindow,
-  };
-
-  settingsWindow = new BrowserWindow(options);
-
-  captureClicks(settingsWindow);
-
-  settingsWindow.loadURL(prepareURL([__dirname, 'settings.html'], { theme }));
-
-  settingsWindow.on('closed', () => {
-    removeDarkOverlay();
-    settingsWindow = null;
-  });
-
-  settingsWindow.once('ready-to-show', () => {
-    addDarkOverlay();
-    settingsWindow.show();
   });
 }
 
@@ -841,6 +810,9 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
   }
 
   setupMenu();
+
+  // Check updates
+  readyForUpdates();
 }
 
 function setupMenu(options) {
@@ -850,7 +822,6 @@ function setupMenu(options) {
     showDebugLog: showDebugLogWindow,
     showWindow,
     showAbout,
-    showSettings: showSettingsWindow,
     openReleaseNotes,
     openNewBugForm,
     openSupportPage,
@@ -1025,6 +996,7 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     const passwordAttempt = true;
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
+
     if (passwordWindow) {
       passwordWindow.close();
       passwordWindow = null;
@@ -1101,47 +1073,10 @@ function removeDarkOverlay() {
   }
 }
 
-ipc.on('show-settings', showSettingsWindow);
-ipc.on('close-settings', () => {
-  if (settingsWindow) {
-    settingsWindow.close();
-  }
-});
-
-installSettingsGetter('device-name');
-
-installSettingsGetter('theme-setting');
-installSettingsSetter('theme-setting');
-installSettingsGetter('hide-menu-bar');
-installSettingsSetter('hide-menu-bar');
-
-installSettingsGetter('message-ttl');
-installSettingsSetter('message-ttl');
-
-installSettingsGetter('read-receipt-setting');
-installSettingsSetter('read-receipt-setting');
-
-installSettingsGetter('typing-indicators-setting');
-installSettingsSetter('typing-indicators-setting');
-
-installSettingsGetter('notification-setting');
-installSettingsSetter('notification-setting');
-installSettingsGetter('audio-notification');
-installSettingsSetter('audio-notification');
-
-installSettingsGetter('link-preview-setting');
-installSettingsSetter('link-preview-setting');
-
-installSettingsGetter('spell-check');
-installSettingsSetter('spell-check');
-
-// This one is different because its single source of truth is userConfig, not IndexedDB
+// This should be called with an ipc sendSync
 ipc.on('get-media-permissions', event => {
-  event.sender.send(
-    'get-success-media-permissions',
-    null,
-    userConfig.get('mediaPermissions') || false
-  );
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = userConfig.get('mediaPermissions') || false;
 });
 ipc.on('set-media-permissions', (event, value) => {
   userConfig.set('mediaPermissions', value);
@@ -1155,57 +1090,9 @@ ipc.on('set-media-permissions', (event, value) => {
   }
 });
 
-ipc.on('on-unblock-number', (event, number) => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('on-unblock-number', number);
-  }
-});
-
-installSettingsGetter('is-primary');
-installSettingsGetter('sync-request');
-installSettingsGetter('sync-time');
-installSettingsSetter('sync-time');
-
-ipc.on('delete-all-data', () => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('delete-all-data');
-  }
-});
-
 function getDataFromMainWindow(name, callback) {
   ipc.once(`get-success-${name}`, (_event, error, value) =>
     callback(error, value)
   );
   mainWindow.webContents.send(`get-${name}`);
-}
-
-function installSettingsGetter(name) {
-  ipc.on(`get-${name}`, event => {
-    if (mainWindow && mainWindow.webContents) {
-      getDataFromMainWindow(name, (error, value) => {
-        const contents = event.sender;
-        if (contents.isDestroyed()) {
-          return;
-        }
-
-        contents.send(`get-success-${name}`, error, value);
-      });
-    }
-  });
-}
-
-function installSettingsSetter(name) {
-  ipc.on(`set-${name}`, (event, value) => {
-    if (mainWindow && mainWindow.webContents) {
-      ipc.once(`set-success-${name}`, (_event, error) => {
-        const contents = event.sender;
-        if (contents.isDestroyed()) {
-          return;
-        }
-
-        contents.send(`set-success-${name}`, error);
-      });
-      mainWindow.webContents.send(`set-${name}`, value);
-    }
-  });
 }

@@ -252,6 +252,10 @@
             window.Whisper.events.trigger('inviteFriends', this.model);
           },
 
+          onUpdateGroupName: () => {
+            window.Whisper.events.trigger('updateGroupName', this.model);
+          },
+
           onAddModerators: () => {
             window.Whisper.events.trigger('addModerators', this.model);
           },
@@ -287,6 +291,9 @@
           isAdmin: this.model.get('groupAdmins').includes(ourPK),
           isRss: this.model.isRss(),
           memberCount: members.length,
+          amMod: this.model.isModerator(
+            window.storage.get('primaryDevicePubKey')
+          ),
 
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
             name: item.getName(),
@@ -1189,6 +1196,13 @@
 
         const el = this.$(`#${message.id}`);
         const position = el.position();
+        // This message is likely not loaded yet in the DOM
+        if (!position) {
+          // should this be break?
+
+          // eslint-disable-next-line no-continue
+          continue;
+        }
         const { top } = position;
 
         // We're fully below the viewport, continue searching up.
@@ -2394,7 +2408,7 @@
       let direction = $input.selectionDirection;
 
       if (event.shiftKey) {
-        if (direction === 'none') {
+        if (direction === 'none' || direction === 'forward') {
           if (isLeft) {
             direction = 'backward';
           } else {

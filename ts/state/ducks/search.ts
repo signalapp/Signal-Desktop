@@ -1,7 +1,7 @@
 import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
-import { SearchOptions } from '../../types/Search';
+import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { trigger } from '../../shims/events';
 import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
@@ -98,12 +98,32 @@ async function doSearch(
 ): Promise<SearchResultsPayloadType> {
   const { regionCode } = options;
 
+  const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
+  const processedQuery = advancedSearchOptions.query;
+  const isAdvancedQuery = query !== processedQuery;
+
   const [discussions, messages] = await Promise.all([
-    queryConversationsAndContacts(query, options),
-    queryMessages(query),
+    queryConversationsAndContacts(processedQuery, options),
+    queryMessages(processedQuery),
   ]);
   const { conversations, contacts } = discussions;
-  const filteredMessages = messages.filter(message => message !== undefined);
+  let filteredMessages = messages.filter(message => message !== undefined);
+
+  if (isAdvancedQuery) {
+    let senderFilter: Array<string> = [];
+    if (advancedSearchOptions.from && advancedSearchOptions.from.length > 0) {
+      const senderFilterQuery = await queryConversationsAndContacts(
+        advancedSearchOptions.from,
+        options
+      );
+      senderFilter = senderFilterQuery.contacts;
+    }
+    filteredMessages = filterMessages(
+      filteredMessages,
+      advancedSearchOptions,
+      senderFilter
+    );
+  }
 
   return {
     query,
@@ -145,6 +165,90 @@ function startNewConversation(
 }
 
 // Helper functions for search
+
+function filterMessages(
+  messages: Array<any>,
+  filters: AdvancedSearchOptions,
+  contacts: Array<string>
+) {
+  let filteredMessages = messages;
+  if (filters.from && filters.from.length > 0) {
+    if (filters.from === '@me') {
+      filteredMessages = filteredMessages.filter(message => message.sent);
+    } else {
+      filteredMessages = [];
+      for (const contact of contacts) {
+        for (const message of messages) {
+          if (message.source === contact) {
+            filteredMessages.push(message);
+          }
+        }
+      }
+    }
+  }
+  if (filters.before > 0) {
+    filteredMessages = filteredMessages.filter(
+      message => message.received_at < filters.before
+    );
+  }
+  if (filters.after > 0) {
+    filteredMessages = filteredMessages.filter(
+      message => message.received_at > filters.after
+    );
+  }
+
+  return filteredMessages;
+}
+
+function getUnixMillisecondsTimestamp(timestamp: string): number {
+  const timestampInt = parseInt(timestamp, 10);
+  if (!isNaN(timestampInt)) {
+    try {
+      if (timestampInt > 10000) {
+        return new Date(timestampInt).getTime();
+      }
+
+      return new Date(timestamp).getTime();
+    } catch (error) {
+      console.warn('Advanced Search: ', error);
+
+      return 0;
+    }
+  }
+
+  return 0;
+}
+
+function getAdvancedSearchOptionsFromQuery(
+  query: string
+): AdvancedSearchOptions {
+  const filterSeperator = ':';
+  const filters: any = {
+    query: null,
+    from: null,
+    before: null,
+    after: null,
+  };
+
+  let newQuery = query;
+  const splitQuery = query.toLowerCase().split(' ');
+  const filtersList = Object.keys(filters);
+  for (const queryPart of splitQuery) {
+    for (const filter of filtersList) {
+      const filterMatcher = filter + filterSeperator;
+      if (queryPart.startsWith(filterMatcher)) {
+        filters[filter] = queryPart.replace(filterMatcher, '');
+        newQuery = newQuery.replace(queryPart, '').trim();
+      }
+    }
+  }
+
+  filters.before = getUnixMillisecondsTimestamp(filters.before);
+  filters.after = getUnixMillisecondsTimestamp(filters.after);
+  filters.query = newQuery;
+
+  return filters;
+}
 
 const getMessageProps = (messages: Array<MessageType>) => {
   if (!messages || !messages.length) {
@@ -214,7 +318,6 @@ async function queryConversationsAndContacts(
       conversations.push(conversation.id);
     }
   }
-
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
   if (noteToSelf.indexOf(providedQuery.toLowerCase()) !== -1) {
     // ensure that we don't have duplicates in our results

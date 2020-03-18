@@ -31,4 +31,3 @@ ts/**/*.js
 # Libloki specific files
 libloki/test/components.js
 libloki/modules/mnemonic.js
-libloki/modules/sc_reduce32.js

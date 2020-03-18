@@ -143,12 +143,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
         seedHex = seedHex.concat(seedHex);
         seedHex = seedHex.substring(0, privKeyHexLength);
       }
-      const privKeyHex = window.mnemonic.sc_reduce32(seedHex);
-      const privKey = window.dcodeIO.ByteBuffer.wrap(
-        privKeyHex,
+      const seed = window.dcodeIO.ByteBuffer.wrap(
+        seedHex,
         'hex'
       ).toArrayBuffer();
-      const keyPair = await window.libsignal.Curve.async.createKeyPair(privKey);
+      const keyPair = await window.libsignal.Curve.async.createKeyPair(seed);
       const hexGeneratedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
 
       this.setState({
@@ -585,6 +584,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     } = this.state;
 
     let enableContinue = true;
+    let text = window.i18n('continueYourSession');
     const displayNameOK = !displayNameError && !!displayName; //display name required
     const mnemonicOK = !mnemonicError && !!mnemonicSeed; //Mnemonic required
     const passwordsOK =
@@ -593,6 +593,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       enableContinue = displayNameOK && mnemonicOK && passwordsOK;
     } else if (signInMode === SignInMode.LinkingDevice) {
       enableContinue = !!primaryDevicePubKey;
+      text = window.i18n('linkDevice');
     } else if (signUpMode === SignUpMode.EnterDetails) {
       enableContinue = displayNameOK && passwordsOK;
     }
@@ -604,7 +605,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         }}
         buttonType={SessionButtonType.Brand}
         buttonColor={SessionButtonColor.Green}
-        text={window.i18n('continueYourSession')}
+        text={text}
         disabled={!enableContinue}
       />
     );

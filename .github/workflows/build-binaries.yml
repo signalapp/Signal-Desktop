@@ -21,7 +21,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout git repo
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Install node
         uses: actions/setup-node@v1
@@ -54,10 +54,12 @@ jobs:
 
       - name: Build mac production binaries
         if: runner.os == 'macOS'
-        run: $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion=${{ github.ref }} --publish=never --config.directories.output=release
+        run: |
+          source ./build/setup-mac-certificate.sh
+          $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --config.mac.bundleVersion=${{ github.ref }} --publish=never --config.directories.output=release
         env:
-          CSC_LINK: ${{ secrets.MAC_CERTIFICATE }}
-          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+          MAC_CERTIFICATE: ${{ secrets.MAC_CERTIFICATE }}
+          MAC_CERTIFICATE_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
           SIGNING_APPLE_ID: ${{ secrets.SIGNING_APPLE_ID }}
           SIGNING_APP_PASSWORD: ${{ secrets.SIGNING_APP_PASSWORD }}
           SIGNING_TEAM_ID: ${{ secrets.SIGNING_TEAM_ID }}

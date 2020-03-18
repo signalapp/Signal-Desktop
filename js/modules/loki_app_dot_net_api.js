@@ -5,6 +5,7 @@ const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
 const https = require('https');
+const path = require('path');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
@@ -229,7 +230,7 @@ class LokiAppDotNetServerAPI {
         window.storage.get('primaryDevicePubKey') ||
         textsecure.storage.user.getNumber();
       const profileConvo = ConversationController.get(ourNumber);
-      const profile = profileConvo.getLokiProfile();
+      const profile = profileConvo && profileConvo.getLokiProfile();
       const profileName = profile && profile.displayName;
       // if doesn't match, write it to the network
       if (tokenRes.response.data.user.name !== profileName) {
@@ -389,7 +390,13 @@ class LokiAppDotNetServerAPI {
         json: () => response,
       };
     }
-    return nodeFetch(urlObj, fetchOptions, options);
+    const urlStr = urlObj.toString();
+    if (urlStr.match(/\.loki\//)) {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    }
+    const result = await nodeFetch(urlObj, fetchOptions, options);
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+    return result;
   }
 
   async _sendToProxy(endpoint, pFetchOptions, options = {}) {
@@ -564,7 +571,7 @@ class LokiAppDotNetServerAPI {
       fetchOptions.headers = headers;
 
       // domain ends in .loki
-      if (endpoint.match(/\.loki\//)) {
+      if (url.toString().match(/\.loki\//)) {
         fetchOptions.agent = snodeHttpsAgent;
       }
     } catch (e) {
@@ -598,9 +605,9 @@ class LokiAppDotNetServerAPI {
         ));
       } else {
         // disable check for .loki
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = endpoint.match(/\.loki\//)
-          ? 0
-          : 1;
+        if (url.toString().match(/\.loki/)) {
+          process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+        }
         result = await nodeFetch(url, fetchOptions);
         // always make sure this check is enabled
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
@@ -626,6 +633,12 @@ class LokiAppDotNetServerAPI {
           'attempting connection to',
           url
         );
+      }
+      if (mode === '_sendToProxy') {
+        // if we can detect, certain types of failures, we can retry...
+        if (e.code === 'ECONNRESET') {
+          // retry with counter?
+        }
       }
       return {
         err: e,
@@ -877,6 +890,7 @@ class LokiAppDotNetServerAPI {
     };
   }
 
+  // for avatar
   async uploadData(data) {
     const endpoint = 'files';
     const options = {
@@ -901,6 +915,7 @@ class LokiAppDotNetServerAPI {
     };
   }
 
+  // for files
   putAttachment(attachmentBin) {
     const formData = new FormData();
     const buffer = Buffer.from(attachmentBin);
@@ -1246,7 +1261,50 @@ class LokiPublicChannelAPI {
         this.conversation.setGroupName(note.value.name);
       }
       if (note.value && note.value.avatar) {
-        this.conversation.setProfileAvatar(note.value.avatar);
+        if (note.value.avatar.match(/^images\//)) {
+          // local file avatar
+          const resolvedAvatar = path.normalize(note.value.avatar);
+          const base = path.normalize('images/');
+          const re = new RegExp(`^${base}`);
+          // do we at least ends up inside images/ somewhere?
+          if (re.test(resolvedAvatar)) {
+            this.conversation.set('avatar', resolvedAvatar);
+          }
+        } else {
+          // relative URL avatar
+          const avatarAbsUrl = this.serverAPI.baseServerUrl + note.value.avatar;
+          const {
+            writeNewAttachmentData,
+            deleteAttachmentData,
+          } = window.Signal.Migrations;
+          // do we already have this image? no, then
+
+          // download a copy and save it
+          const imageData = await nodeFetch(avatarAbsUrl);
+          // eslint-disable-next-line no-inner-declarations
+          function toArrayBuffer(buf) {
+            const ab = new ArrayBuffer(buf.length);
+            const view = new Uint8Array(ab);
+            // eslint-disable-next-line no-plusplus
+            for (let i = 0; i < buf.length; i++) {
+              view[i] = buf[i];
+            }
+            return ab;
+          }
+          // eslint-enable-next-line no-inner-declarations
+
+          const buffer = await imageData.buffer();
+          const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+            this.conversation.attributes,
+            toArrayBuffer(buffer),
+            {
+              writeNewAttachmentData,
+              deleteAttachmentData,
+            }
+          );
+          // update group
+          this.conversation.set('avatar', newAttributes.avatar);
+        }
       }
       // is it mutable?
       // who are the moderators?
@@ -1256,6 +1314,15 @@ class LokiPublicChannelAPI {
     if (data.counts && Number.isInteger(data.counts.subscribers)) {
       this.conversation.setSubscriberCount(data.counts.subscribers);
     }
+
+    await window.Signal.Data.updateConversation(
+      this.conversation.id,
+      this.conversation.attributes,
+      {
+        Conversation: Whisper.Conversation,
+      }
+    );
+    await this.pollForChannelOnce();
   }
 
   // get moderation actions
@@ -1372,7 +1439,7 @@ class LokiPublicChannelAPI {
     }
 
     if (quote) {
-      // TODO: Enable quote attachments again using proper ADN style
+      // Disable quote attachments
       quote.attachments = [];
     }
 
@@ -1476,6 +1543,14 @@ class LokiPublicChannelAPI {
     });
 
     if (res.err || !res.response) {
+      log.error(
+        'Could not get messages from',
+        this.serverAPI.baseServerUrl,
+        this.baseChannelUrl
+      );
+      if (res.err) {
+        log.error('pollOnceForMessages receive error', res.err);
+      }
       return;
     }
 
@@ -1663,18 +1738,31 @@ class LokiPublicChannelAPI {
     // filter out invalid messages
     pendingMessages = pendingMessages.filter(messageData => !!messageData);
     // separate messages coming from primary and secondary devices
-    const [primaryMessages, slaveMessages] = _.partition(
+    let [primaryMessages, slaveMessages] = _.partition(
       pendingMessages,
       message => !(message.source in slavePrimaryMap)
     );
-    // process primary devices' message directly
-    primaryMessages.forEach(message =>
-      this.chatAPI.emit('publicMessage', {
-        message,
-      })
-    );
-
-    pendingMessages = []; // allow memory to be freed
+    // get minimum ID for primaryMessages and slaveMessages
+    const firstPrimaryId = _.min(primaryMessages.map(msg => msg.serverId));
+    const firstSlaveId = _.min(slaveMessages.map(msg => msg.serverId));
+    if (firstPrimaryId < firstSlaveId) {
+      // early send
+      // split off count from pendingMessages
+      let sendNow = [];
+      [sendNow, pendingMessages] = _.partition(
+        pendingMessages,
+        message => message.serverId < firstSlaveId
+      );
+      sendNow.forEach(message => {
+        // send them out now
+        log.info('emitting primary message', message.serverId);
+        this.chatAPI.emit('publicMessage', {
+          message,
+        });
+      });
+      sendNow = false;
+    }
+    primaryMessages = false; // free memory
 
     // get actual chat server data (mainly the name rn) of primary device
     const verifiedDeviceResults = await this.serverAPI.getUsers(
@@ -1731,11 +1819,25 @@ class LokiPublicChannelAPI {
           messageData.message.profileKey = profileKey;
         }
       }
-      /* eslint-enable no-param-reassign */
+    });
+    slaveMessages = false; // free memory
+
+    // process all messages in the order received
+    pendingMessages.forEach(message => {
+      // if slave device
+      if (message.source in slavePrimaryMap) {
+        // prevent our own device sent messages from coming back in
+        if (message.source === ourNumberDevice) {
+          // we originally sent these
+          return;
+        }
+      }
+      log.info('emitting pending message', message.serverId);
       this.chatAPI.emit('publicMessage', {
-        message: messageData,
+        message,
       });
     });
+
     /* eslint-enable no-param-reassign */
 
     // if we received one of our own messages

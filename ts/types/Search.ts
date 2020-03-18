@@ -4,3 +4,10 @@ export type SearchOptions = {
   noteToSelf: string;
   isSecondaryDevice: boolean;
 };
+
+export type AdvancedSearchOptions = {
+  query: string;
+  from?: string;
+  before: number;
+  after: number;
+};

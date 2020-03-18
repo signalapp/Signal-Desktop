@@ -57,7 +57,7 @@ exports.upload = async content => {
   form.append('Content-Type', contentType);
   form.append('file', contentBuffer, {
     contentType,
-    filename: `loki-messenger-debug-log-${VERSION}.txt`,
+    filename: `session-desktop-debug-log-${VERSION}.txt`,
   });
 
   // WORKAROUND: See comment on `submitFormData`:
