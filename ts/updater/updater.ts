@@ -16,7 +16,7 @@ import { gt as isVersionGreaterThan, parse as parseVersion } from 'semver';
 
 let isUpdating = false;
 let downloadIgnored = false;
-let interval: NodeJS.Timeout;
+let interval: NodeJS.Timeout | undefined;
 let stopped = false;
 
 const SECOND = 1000;
@@ -54,6 +54,7 @@ export async function start(
 export function stop() {
   if (interval) {
     clearInterval(interval);
+    interval = undefined;
     stopped = true;
   }
 }
