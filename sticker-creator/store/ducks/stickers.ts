@@ -41,7 +41,7 @@ export const dismissToast = createAction<void>('stickers/dismissToast');
 export const resetStatus = createAction<void>('stickers/resetStatus');
 export const reset = createAction<void>('stickers/reset');
 
-export const minStickers = 4;
+export const minStickers = 1;
 export const maxStickers = 200;
 export const maxByteSize = 100 * 1024;
 
