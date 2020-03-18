@@ -1981,9 +1981,13 @@
           // Public chat messages from ourselves should be outgoing
           message = await createSentMessage(data);
         }
-      } else {
+      }
+
+      // All other messages should be incoming
+      if (!message) {
         message = await createMessage(data);
       }
+
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
         // RSS expects duplciates, so squelch log
