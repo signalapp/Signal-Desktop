@@ -34,15 +34,12 @@ class LokiSnodeAPI {
     ];
   }
 
-
-  async refreshRandomPool(
-    seedNodes = [...window.seedNodeList]
-  ) {
+  async refreshRandomPool(seedNodes = [...window.seedNodeList]) {
     // if currently not in progress
     if (this.refreshRandomPoolPromise === false) {
       // set lock
       this.refreshRandomPoolPromise = new Promise(async (resolve, reject) => {
-        let timeoutTimer = null
+        let timeoutTimer = null;
         // private retry container
         const trySeedNode = async (consecutiveErrors = 0) => {
           const params = {
@@ -61,7 +58,9 @@ class LokiSnodeAPI {
           )[0];
           let snodes = [];
           try {
-            log.info('loki_snodes:::refreshRandomPoolPromise - Refreshing random snode pool');
+            log.info(
+              'loki_snodes:::refreshRandomPoolPromise - Refreshing random snode pool'
+            );
             const response = await lokiRpc(
               `http://${seedNode.ip}`,
               seedNode.port,
@@ -108,36 +107,44 @@ class LokiSnodeAPI {
                 trySeedNode(consecutiveErrors + 1);
               }, consecutiveErrors * consecutiveErrors * 5000);
             } else {
-              log.error('loki_snodes:::refreshRandomPoolPromise -  Giving up trying to contact seed node');
+              log.error(
+                'loki_snodes:::refreshRandomPoolPromise -  Giving up trying to contact seed node'
+              );
               if (snodes.length === 0) {
                 this.refreshRandomPoolPromise = null; // clear lock
                 if (timeoutTimer !== null) {
                   clearTimeout(timeoutTimer);
                   timeoutTimer = null;
                 }
-                reject()
+                reject();
               }
             }
           }
-        }
+        };
         const delay = (SEED_NODE_RETRIES + 1) * (SEED_NODE_RETRIES + 1) * 5000;
         timeoutTimer = setTimeout(() => {
-          log.warn('loki_snodes:::refreshRandomPoolPromise - TIMEDOUT after', delay, 's');
+          log.warn(
+            'loki_snodes:::refreshRandomPoolPromise - TIMEDOUT after',
+            delay,
+            's'
+          );
           reject();
         }, delay);
-        trySeedNode()
+        trySeedNode();
       });
     }
     try {
       await this.refreshRandomPoolPromise;
-    } catch(e) {
+    } catch (e) {
       // we will throw for each time initialiseRandomPool has been called in parallel
-      log.error('loki_snodes:::refreshRandomPoolPromise - error', e.code, e.message);
-      throw new window.textsecure.SeedNodeError(
-        'Failed to contact seed node'
+      log.error(
+        'loki_snodes:::refreshRandomPoolPromise - error',
+        e.code,
+        e.message
       );
+      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
-    log.info('loki_snodes:::refreshRandomPoolPromise - RESOLVED')
+    log.info('loki_snodes:::refreshRandomPoolPromise - RESOLVED');
   }
 
   // unreachableNode.url is like 9hrje1bymy7hu6nmtjme9idyu3rm8gr3mkstakjyuw1997t7w4ny.snode
@@ -223,7 +230,11 @@ class LokiSnodeAPI {
         try {
           newSwarmNodes = await this.getSwarmNodes(pubKey);
         } catch (e) {
-          log.error('loki_snodes:::getFreshSwarmNodes - error', e.code, e.message);
+          log.error(
+            'loki_snodes:::getFreshSwarmNodes - error',
+            e.code,
+            e.message
+          );
           // TODO: Handle these errors sensibly
           newSwarmNodes = [];
         }

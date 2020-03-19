@@ -152,7 +152,9 @@ class LokiMessageAPI {
         'Ran out of swarm nodes to query'
       );
     }
-    log.info(`loki_message:::sendMessage - Successfully stored message to ${pubKey}`);
+    log.info(
+      `loki_message:::sendMessage - Successfully stored message to ${pubKey}`
+    );
   }
 
   async refreshSendingSwarm(pubKey, timestamp) {
@@ -340,9 +342,9 @@ class LokiMessageAPI {
           nodeData
         );
         log.warn(
-          `loki_message:::_openRetrieveConnection - too many successive failures, removing ${nodeData.ip}:${
-            nodeData.port
-          } from our swarm pool. We have ${
+          `loki_message:::_openRetrieveConnection - too many successive failures, removing ${
+            nodeData.ip
+          }:${nodeData.port} from our swarm pool. We have ${
             Object.keys(this.ourSwarmNodes).length
           } usable swarm nodes left (${
             remainingSwarmSnodes.length
