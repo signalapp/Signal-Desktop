@@ -27,7 +27,8 @@ const {
   shell,
 } = electron;
 
-const appUserModelId = packageJson.build.appId;
+//const appUserModelId = packageJson.build.appId;
+const appUserModelId = 'com.loki-project.messenger-desktop';
 console.log('Set Windows Application User Model ID (AUMID)', {
   appUserModelId,
 });
