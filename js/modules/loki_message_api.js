@@ -152,7 +152,7 @@ class LokiMessageAPI {
         'Ran out of swarm nodes to query'
       );
     }
-    log.info(`loki_message: Successfully stored message to ${pubKey}`);
+    log.info(`loki_message:::sendMessage - Successfully stored message to ${pubKey}`);
   }
 
   async refreshSendingSwarm(pubKey, timestamp) {
@@ -216,7 +216,7 @@ class LokiMessageAPI {
         return true;
       } catch (e) {
         log.warn(
-          'loki_message: send error:',
+          'loki_message:::_sendToNode - send error:',
           e.code,
           e.message,
           `destination ${targetNode.ip}:${targetNode.port}`
@@ -236,12 +236,12 @@ class LokiMessageAPI {
         } else if (e instanceof textsecure.NotFoundError) {
           // TODO: Handle resolution error
         } else if (e instanceof textsecure.TimestampError) {
-          log.warn('loki_message: Timestamp is invalid');
+          log.warn('loki_message:::_sendToNode - Timestamp is invalid');
           throw e;
         } else if (e instanceof textsecure.HTTPError) {
           // TODO: Handle working connection but error response
           const body = await e.response.text();
-          log.warn('loki_message: HTTPError body:', body);
+          log.warn('loki_message:::_sendToNode - HTTPError body:', body);
         }
         successiveFailures += 1;
       }
@@ -251,7 +251,7 @@ class LokiMessageAPI {
       targetNode
     );
     log.error(
-      `loki_message: Too many successive failures trying to send to node ${
+      `loki_message:::_sendToNode - Too many successive failures trying to send to node ${
         targetNode.ip
       }:${targetNode.port}, ${remainingSwarmSnodes.lengt} remaining swarm nodes`
     );
@@ -307,7 +307,7 @@ class LokiMessageAPI {
           callback(messages);
         } catch (e) {
           log.warn(
-            'loki_message: retrieve error:',
+            'loki_message:::_openRetrieveConnection - retrieve error:',
             e.code,
             e.message,
             `on ${nodeData.ip}:${nodeData.port}`
@@ -340,7 +340,7 @@ class LokiMessageAPI {
           nodeData
         );
         log.warn(
-          `loki_message: removing ${nodeData.ip}:${
+          `loki_message:::_openRetrieveConnection - too many successive failures, removing ${nodeData.ip}:${
             nodeData.port
           } from our swarm pool. We have ${
             Object.keys(this.ourSwarmNodes).length
@@ -353,7 +353,7 @@ class LokiMessageAPI {
     // if not stopPollingResult
     if (_.isEmpty(this.ourSwarmNodes)) {
       log.error(
-        'loki_message: We no longer have any swarm nodes available to try in pool, closing retrieve connection'
+        'loki_message:::_openRetrieveConnection - We no longer have any swarm nodes available to try in pool, closing retrieve connection'
       );
       return false;
     }
@@ -396,18 +396,18 @@ class LokiMessageAPI {
     let nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey);
     if (nodes.length < numConnections) {
       log.warn(
-        'loki_message: Not enough SwarmNodes for our pubkey in local database, getting current list from blockchain'
+        'loki_message:::startLongPolling - Not enough SwarmNodes for our pubkey in local database, getting current list from blockchain'
       );
       // load from blockchain
       nodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(this.ourKey);
       if (nodes.length < numConnections) {
         log.error(
-          'loki_message: Could not get enough SwarmNodes for our pubkey from blockchain'
+          'loki_message:::startLongPolling - Could not get enough SwarmNodes for our pubkey from blockchain'
         );
       }
     }
     log.info(
-      'loki_message: startLongPolling for',
+      'loki_message:::startLongPolling - start polling for',
       numConnections,
       'connections. We have swarmNodes',
       nodes.length,
@@ -438,7 +438,7 @@ class LokiMessageAPI {
         this._openRetrieveConnection(stopPolling, callback).then(() => {
           unresolved -= 1;
           log.info(
-            'loki_message: There are',
+            'loki_message:::startLongPolling - There are',
             unresolved,
             'open retrieve connections left'
           );
@@ -451,7 +451,7 @@ class LokiMessageAPI {
     // or if there is network issues (ENOUTFOUND due to lokinet)
     await Promise.all(promises);
     log.error(
-      'loki_message: All our long poll swarm connections have been removed'
+      'loki_message:::startLongPolling - All our long poll swarm connections have been removed'
     );
     // should we just call ourself again?
     // no, our caller already handles this...
