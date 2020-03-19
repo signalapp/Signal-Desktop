@@ -84,6 +84,8 @@
     };
 
     this.pollServer = async () => {
+      // bg.connect calls mr connect after storage system is ready
+      window.log.info('http-resource pollServer start');
       // This blocking call will return only when all attempts
       // at reaching snodes are exhausted or a DNS error occured
       try {
@@ -93,25 +95,30 @@
           messages => {
             connected = true;
             messages.forEach(message => {
-              const { data } = message;
-              this.handleMessage(data);
+              this.handleMessage(message.data);
             });
           }
         );
       } catch (e) {
         // we'll try again anyway
-        window.log.error('http-resource pollServer error', e.code, e.message);
+        window.log.error(
+          'http-resource pollServer error',
+          e.code,
+          e.message,
+          e.stack
+        );
       }
+      connected = false;
 
       if (this.calledStop) {
+        // don't restart
         return;
       }
 
-      connected = false;
       // Exhausted all our snodes urls, trying again later from scratch
       setTimeout(() => {
         window.log.info(
-          `Exhausted all our snodes urls, trying again in ${EXHAUSTED_SNODES_RETRY_DELAY /
+          `http-resource: Exhausted all our snodes urls, trying again in ${EXHAUSTED_SNODES_RETRY_DELAY /
             1000}s from scratch`
         );
         this.pollServer();
