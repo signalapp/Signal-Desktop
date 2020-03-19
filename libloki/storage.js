@@ -147,7 +147,9 @@
         ({ authorisations } = primaryDeviceMapping);
       }
     }
-    return authorisations || [];
+
+    // filter out any invalid authorisations
+    return authorisations.filter(a => a && typeof a === 'object') || [];
   }
 
   // if the device is a secondary device,
@@ -168,6 +170,10 @@
   }
 
   async function savePairingAuthorisation(authorisation) {
+    if (!authorisation) {
+      return;
+    }
+
     // Ensure that we have a conversation for all the devices
     const conversation = await ConversationController.getOrCreateAndWait(
       authorisation.secondaryDevicePubKey,

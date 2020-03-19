@@ -3,6 +3,7 @@ import * as fs from 'fs-extra';
 import { autoUpdater, UpdateInfo } from 'electron-updater';
 import { app, BrowserWindow } from 'electron';
 import { markShouldQuit } from '../../app/window_state';
+
 import {
   getPrintableError,
   LoggerType,
@@ -15,6 +16,8 @@ import { gt as isVersionGreaterThan, parse as parseVersion } from 'semver';
 
 let isUpdating = false;
 let downloadIgnored = false;
+let interval: NodeJS.Timeout | undefined;
+let stopped = false;
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -25,20 +28,35 @@ export async function start(
   messages: MessagesType,
   logger: LoggerType
 ) {
+  if (interval) {
+    logger.info('auto-update: Already running');
+
+    return;
+  }
+
   logger.info('auto-update: starting checks...');
 
   autoUpdater.logger = logger;
   autoUpdater.autoDownload = false;
 
-  setInterval(async () => {
+  interval = setInterval(async () => {
     try {
       await checkForUpdates(getMainWindow, messages, logger);
     } catch (error) {
       logger.error('auto-update: error:', getPrintableError(error));
     }
   }, INTERVAL);
+  stopped = false;
 
   await checkForUpdates(getMainWindow, messages, logger);
+}
+
+export function stop() {
+  if (interval) {
+    clearInterval(interval);
+    interval = undefined;
+    stopped = true;
+  }
 }
 
 async function checkForUpdates(
@@ -46,7 +64,7 @@ async function checkForUpdates(
   messages: MessagesType,
   logger: LoggerType
 ) {
-  if (isUpdating || downloadIgnored) {
+  if (stopped || isUpdating || downloadIgnored) {
     return;
   }
 
