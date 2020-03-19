@@ -5543,9 +5543,9 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-"curve25519-n@https://github.com/scottnonnenberg-signal/node-curve25519.git#1bd0580843dcf836284dee7f1c4dfb4c698f7969":
+"curve25519-n@https://github.com/scottnonnenberg-signal/node-curve25519.git#3e94f60bc54b2426476520d8d1a0aa835c25f5cc":
   version "1.5.0"
-  resolved "https://github.com/scottnonnenberg-signal/node-curve25519.git#1bd0580843dcf836284dee7f1c4dfb4c698f7969"
+  resolved "https://github.com/scottnonnenberg-signal/node-curve25519.git#3e94f60bc54b2426476520d8d1a0aa835c25f5cc"
   dependencies:
     bindings "^1.5.0"
     nan "^2.14.0"

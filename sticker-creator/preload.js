@@ -10,7 +10,7 @@ const { deriveStickerPackKey } = require('../js/modules/crypto');
 const { makeGetter } = require('../preload_utils');
 
 const { dialog } = remote;
-const { systemPreferences } = remote.require('electron');
+const { nativeTheme } = remote.require('electron');
 
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.PROTO_ROOT = '../../protos';
@@ -157,7 +157,7 @@ const getThemeSetting = makeGetter('theme-setting');
 async function resolveTheme() {
   const theme = (await getThemeSetting()) || 'light';
   if (process.platform === 'darwin' && theme === 'system') {
-    return systemPreferences.isDarkMode() ? 'dark' : 'light';
+    return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
   }
   return theme;
 }
@@ -170,11 +170,8 @@ async function applyTheme() {
 
 window.addEventListener('DOMContentLoaded', applyTheme);
 
-if (systemPreferences && systemPreferences.subscribeNotification) {
-  systemPreferences.subscribeNotification(
-    'AppleInterfaceThemeChangedNotification',
-    applyTheme
-  );
-}
+nativeTheme.on('updated', () => {
+  applyTheme();
+});
 
 window.log.info('sticker-creator preload complete...');

@@ -73,7 +73,7 @@
     "classnames": "2.2.5",
     "config": "1.28.1",
     "copy-text-to-clipboard": "2.1.0",
-    "curve25519-n": "https://github.com/scottnonnenberg-signal/node-curve25519.git#1bd0580843dcf836284dee7f1c4dfb4c698f7969",
+    "curve25519-n": "https://github.com/scottnonnenberg-signal/node-curve25519.git#3e94f60bc54b2426476520d8d1a0aa835c25f5cc",
     "draft-js": "0.10.5",
     "electron-context-menu": "0.11.0",
     "electron-editor-context-menu": "1.1.1",

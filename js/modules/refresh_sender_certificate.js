@@ -43,28 +43,27 @@ function initialize({ events, storage, navigator, logger }) {
   function scheduleNextRotation() {
     const now = Date.now();
     const certificate = storage.get('senderCertificate');
-    if (!certificate) {
+    if (!certificate || !certificate.expires) {
       setTimeoutForNextRun(scheduledTime || now);
 
       return;
     }
 
-    // The useful information in a SenderCertificate is all serialized, so we
-    //   need to do another layer of decoding.
-    const decoded = textsecure.protobuf.SenderCertificate.Certificate.decode(
-      certificate.certificate
-    );
-    const expires = decoded.expires.toNumber();
-
     // If we have a time in place and it's already before the safety zone before expire,
     //   we keep it
-    if (scheduledTime && scheduledTime <= expires - MINIMUM_TIME_LEFT) {
+    if (
+      scheduledTime &&
+      scheduledTime <= certificate.expires - MINIMUM_TIME_LEFT
+    ) {
       setTimeoutForNextRun(scheduledTime);
       return;
     }
 
     // Otherwise, we reset every day, or earlier if the safety zone requires it
-    const time = Math.min(now + ONE_DAY, expires - MINIMUM_TIME_LEFT);
+    const time = Math.min(
+      now + ONE_DAY,
+      certificate.expires - MINIMUM_TIME_LEFT
+    );
     setTimeoutForNextRun(time);
   }
 
@@ -88,18 +87,21 @@ function initialize({ events, storage, navigator, logger }) {
           const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(
             certificate
           );
-          const decoded = textsecure.protobuf.SenderCertificate.decode(
+          const decodedContainer = textsecure.protobuf.SenderCertificate.decode(
             arrayBuffer
           );
-
-          decoded.certificate = decoded.certificate.toArrayBuffer();
-          decoded.signature = decoded.signature.toArrayBuffer();
-          decoded.serialized = arrayBuffer;
-
-          storage.put(
-            `senderCertificate${withUuid ? 'WithUuid' : ''}`,
-            decoded
+          const decodedCert = textsecure.protobuf.SenderCertificate.Certificate.decode(
+            decodedContainer.certificate
           );
+
+          // We don't want to send a protobuf-generated object across IPC, so we make
+          //   our own object.
+          const toSave = {
+            expires: decodedCert.expires.toNumber(),
+            serialized: arrayBuffer,
+          };
+
+          storage.put(`senderCertificate${withUuid ? 'WithUuid' : ''}`, toSave);
         })
       );
 

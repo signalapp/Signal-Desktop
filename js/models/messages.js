@@ -230,9 +230,11 @@
 
       const unidentifiedLookup = (
         this.get('unidentifiedDeliveries') || []
-      ).reduce((accumulator, item) => {
+      ).reduce((accumulator, uuidOrE164) => {
         // eslint-disable-next-line no-param-reassign
-        accumulator[item] = true;
+        accumulator[
+          ConversationController.getConversationId(uuidOrE164)
+        ] = true;
         return accumulator;
       }, Object.create(null));
 
