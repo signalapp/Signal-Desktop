@@ -1,4 +1,4 @@
-/* global log, window, process */
+/* global log, window, process, URL */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
