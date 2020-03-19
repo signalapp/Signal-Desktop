@@ -76,9 +76,17 @@ class LokiSnodeAPI {
             pubkey_x25519: snode.pubkey_x25519,
             pubkey_ed25519: snode.pubkey_ed25519,
           }));
-          log.info('loki_snodes: Refreshed random snode pool with', this.randomSnodePool.length, 'snodes');
+          log.info(
+            'loki_snodes: Refreshed random snode pool with',
+            this.randomSnodePool.length,
+            'snodes'
+          );
         } catch (e) {
-          log.warn('loki_snodes: initialiseRandomPool error', e.code, e.message);
+          log.warn(
+            'loki_snodes: initialiseRandomPool error',
+            e.code,
+            e.message
+          );
           if (consecutiveErrors < 3) {
             // retry after a possible delay
             setTimeout(() => {
@@ -100,7 +108,7 @@ class LokiSnodeAPI {
         // clear lock
         this.initialiseRandomPoolPromise = null;
         resolve();
-      })
+      });
     }
     await this.initialiseRandomPoolPromise;
   }
@@ -109,23 +117,30 @@ class LokiSnodeAPI {
   async unreachableNode(pubKey, unreachableNode) {
     const conversation = ConversationController.get(pubKey);
     const swarmNodes = [...conversation.get('swarmNodes')];
-    if (typeof(unreachableNode) === 'string') {
-      log.warn('loki_snodes::unreachableNode: String passed as unreachableNode to unreachableNode');
+    if (typeof unreachableNode === 'string') {
+      log.warn(
+        'loki_snodes::unreachableNode: String passed as unreachableNode to unreachableNode'
+      );
       return swarmNodes;
     }
-    let found = false
-    const filteredNodes = swarmNodes.filter(
-      node => {
-        // keep all but thisNode
-        const thisNode = (node.address === unreachableNode.address && node.ip === unreachableNode.ip && node.port === unreachableNode.port)
-        if (thisNode) {
-          found = true
-        }
-        return !thisNode
+    let found = false;
+    const filteredNodes = swarmNodes.filter(node => {
+      // keep all but thisNode
+      const thisNode =
+        node.address === unreachableNode.address &&
+        node.ip === unreachableNode.ip &&
+        node.port === unreachableNode.port;
+      if (thisNode) {
+        found = true;
       }
-    );
+      return !thisNode;
+    });
     if (!found) {
-      log.warn(`loki_snodes::unreachableNode snode ${unreachableNode.ip}:${unreachableNode.port} has already been marked as bad`);
+      log.warn(
+        `loki_snodes::unreachableNode snode ${unreachableNode.ip}:${
+          unreachableNode.port
+        } has already been marked as bad`
+      );
     }
     await conversation.updateSwarmNodes(filteredNodes);
     return filteredNodes;
@@ -232,7 +247,9 @@ class LokiSnodeAPI {
         'loki_snodes: getSnodesForPubkey error',
         e.code,
         e.message,
-        `for ${snode.ip}:${snode.port}. ${randomPoolRemainingCount} snodes remaining in randomPool`
+        `for ${snode.ip}:${
+          snode.port
+        }. ${randomPoolRemainingCount} snodes remaining in randomPool`
       );
       return [];
     }

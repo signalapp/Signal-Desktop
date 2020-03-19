@@ -29,7 +29,7 @@ const decryptResponse = async (response, address) => {
   return {};
 };
 
-const timeoutDelay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
@@ -73,10 +73,14 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // remove
     // but which the proxy or the target...
     // we got a ton of randomPool nodes, let's just not worry about this one
-    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(
+      randSnode
+    );
     log.warn(
       `lokiRpc sendToProxy`,
-      `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${targetNode.port}`,
+      `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+        targetNode.port
+      }`,
       `snode is decom or dereg: `,
       ciphertext,
       // `marking random snode bad ${randomPoolRemainingCount} remaining`
@@ -95,10 +99,14 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // but the target node
 
     // we got a ton of randomPool nodes, let's just not worry about this one
-    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(
+      randSnode
+    );
     log.warn(
       `lokiRpc sendToProxy`,
-      `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${targetNode.port}`,
+      `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+        targetNode.port
+      }`,
       `code ${response.status} error`,
       ciphertext,
       // `marking random snode bad ${randomPoolRemainingCount} remaining`
@@ -137,7 +145,9 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     log.warn(
       'lokiRpc sendToProxy fetch non-200 statusCode',
       response.status,
-      `from snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${targetNode.port}`
+      `from snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+        targetNode.port
+      }`
     );
     return false;
   }
@@ -171,7 +181,9 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
       'lokiRpc sendToProxy decode error',
       e.code,
       e.message,
-      `from ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${targetNode.port} ciphertext:`,
+      `from ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+        targetNode.port
+      } ciphertext:`,
       ciphertext
     );
     if (ciphertextBuffer) {
@@ -198,9 +210,13 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
       return false;
     };
     if (retryNumber) {
-      log.info(`lokiRpc sendToProxy request succeeded,`,
-      `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${targetNode.port}`,
-      `on retry #${retryNumber}`);
+      log.info(
+        `lokiRpc sendToProxy request succeeded,`,
+        `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+          targetNode.port
+        }`,
+        `on retry #${retryNumber}`
+      );
     }
     return jsonRes;
   } catch (e) {
@@ -259,7 +275,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       fetchOptions.agent = snodeHttpsAgent;
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     } else {
-      log.info ('lokiRpc http communication', url);
+      log.info('lokiRpc http communication', url);
     }
     const response = await nodeFetch(url, fetchOptions);
     // restore TLS checking
