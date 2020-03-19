@@ -243,9 +243,8 @@ const serverRequest = async (endpoint, options = {}) => {
     ) {
       mode = 'sendToProxy';
       // strip trailing slash
-      const endpointWithQS = (
-        url.pathname + (url.search ? '?' + url.search : '')
-      ).replace(/^\//, '');
+      const search = url.search ? `?${url.search}` : '';
+      const endpointWithQS = `${url.pathname}${search}`.replace(/^\//, '');
       // log.info('endpointWithQS', endpointWithQS)
       ({ response, txtResponse, result } = await sendToProxy(
         srvPubKey,
@@ -691,7 +690,8 @@ class LokiAppDotNetServerAPI {
   }
 
   // make a request to the server
-  async serverRequest(endpoint, options = {}) {
+  async serverRequest(endpoint, pOptions = {}) {
+    const options = pOptions;
     options.token = this.token;
     options.srvPubKey = this.pubKey;
     if (options.forceFreshToken) {
