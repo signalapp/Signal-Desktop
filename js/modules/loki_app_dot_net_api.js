@@ -296,12 +296,11 @@ const serverRequest = async (endpoint, options = {}) => {
   // if it's a response style with a meta
   if (result.status !== 200) {
     if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
-      // copy options because lint complains if we modify this directly
-      const updatedOptions = options;
-      // force it this time
-      updatedOptions.forceFreshToken = true;
-      // retry with updated options
-      return this.serverRequest(endpoint, updatedOptions);
+      // retry with forcing a fresh token
+      return this.serverRequest(endpoint, {
+        ...options,
+        forceFreshToken: true,
+      });
     }
     return {
       err: 'statusCode',
@@ -690,14 +689,15 @@ class LokiAppDotNetServerAPI {
   }
 
   // make a request to the server
-  async serverRequest(endpoint, pOptions = {}) {
-    const options = pOptions;
-    options.token = this.token;
-    options.srvPubKey = this.pubKey;
+  async serverRequest(endpoint, options = {}) {
     if (options.forceFreshToken) {
       await this.getOrRefreshServerToken(true);
     }
-    return serverRequest(`${this.baseServerUrl}/${endpoint}`, options);
+    return serverRequest(`${this.baseServerUrl}/${endpoint}`, {
+      ...options,
+      token: this.token,
+      srvPubKey: this.pubKey,
+    });
   }
 
   async getUserAnnotations(pubKey) {
