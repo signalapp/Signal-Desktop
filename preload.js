@@ -395,22 +395,16 @@ try {
   window.Signal.Debug = require('./js/modules/debug');
   window.Signal.Logs = require('./js/modules/logs');
 
-  // Add right-click listener for selected text and urls
-  const contextMenu = require('electron-context-menu');
-
-  contextMenu({
-    showInspectElement: false,
-    shouldShowMenu: (event, params) =>
-      Boolean(
-        !params.isEditable &&
-          params.mediaType === 'none' &&
-          (params.linkURL || params.selectionText)
-      ),
+  window.addEventListener('contextmenu', e => {
+    const editable = e.target.closest(
+      'textarea, input, [contenteditable="true"]'
+    );
+    const link = e.target.closest('a');
+    const selection = Boolean(window.getSelection().toString());
+    if (!editable && !selection && !link) {
+      e.preventDefault();
+    }
   });
-
-  // We pull this in last, because the native module involved appears to be sensitive to
-  //   /tmp mounted as noexec on Linux.
-  require('./js/spell_check');
 
   if (config.environment === 'test') {
     /* eslint-disable global-require, import/no-extraneous-dependencies */

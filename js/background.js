@@ -334,7 +334,6 @@
       getSpellCheck: () => storage.get('spell-check', true),
       setSpellCheck: value => {
         storage.put('spell-check', value);
-        startSpellCheck();
       },
 
       // eslint-disable-next-line eqeqeq
@@ -544,19 +543,6 @@
         idleDetector.stop();
       }
     });
-
-    const startSpellCheck = () => {
-      if (!window.enableSpellCheck || !window.disableSpellCheck) {
-        return;
-      }
-
-      if (window.Events.getSpellCheck()) {
-        window.enableSpellCheck();
-      } else {
-        window.disableSpellCheck();
-      }
-    };
-    startSpellCheck();
 
     try {
       await Promise.all([

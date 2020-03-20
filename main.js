@@ -16,6 +16,7 @@ const electron = require('electron');
 
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
+const { setup: setupSpellChecker } = require('./app/spell_check');
 
 GlobalErrors.addHandler();
 
@@ -93,6 +94,19 @@ const {
   installWebHandler,
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
+
+let appStartInitialSpellcheckSetting = true;
+
+async function getSpellCheckSetting() {
+  const json = await sql.getItemById('spell-check');
+
+  // Default to `true` if setting doesn't exist yet
+  if (!json) {
+    return true;
+  }
+
+  return json.value;
+}
 
 function showWindow() {
   if (!mainWindow) {
@@ -182,6 +196,7 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       importMode: importMode ? true : undefined, // for stringify()
       serverTrustRoot: config.get('serverTrustRoot'),
+      appStartInitialSpellcheckSetting,
       ...moreKeys,
     },
   });
@@ -240,7 +255,7 @@ function isVisible(window, bounds) {
   );
 }
 
-function createWindow() {
+async function createWindow() {
   const { screen } = electron;
   const windowOptions = Object.assign(
     {
@@ -260,6 +275,7 @@ function createWindow() {
         contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
+        spellcheck: await getSpellCheckSetting(),
       },
       icon: path.join(__dirname, 'images', 'icon_256.png'),
     },
@@ -296,6 +312,7 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  setupSpellChecker(mainWindow, locale.messages);
   if (!usingTrayIcon && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
@@ -525,7 +542,7 @@ function showAbout() {
 }
 
 let settingsWindow;
-async function showSettingsWindow() {
+function showSettingsWindow() {
   if (settingsWindow) {
     settingsWindow.show();
     return;
@@ -621,10 +638,12 @@ async function showStickerCreator() {
       contextIsolation: false,
       preload: path.join(__dirname, 'sticker-creator/preload.js'),
       nativeWindowOpen: true,
+      spellcheck: await getSpellCheckSetting(),
     },
   };
 
   stickerCreatorWindow = new BrowserWindow(options);
+  setupSpellChecker(stickerCreatorWindow, locale.messages);
 
   handleCommonWindowEvents(stickerCreatorWindow);
 
@@ -797,6 +816,8 @@ app.on('ready', async () => {
     console.log('sql.initialize was unsuccessful; returning early');
     return;
   }
+  // eslint-disable-next-line more/no-then
+  appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   await sqlChannels.initialize();
 
   try {

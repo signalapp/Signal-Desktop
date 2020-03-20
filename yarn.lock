@@ -6181,23 +6181,6 @@ electron-chromedriver@~3.0.0:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
 
-electron-context-menu@0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/electron-context-menu/-/electron-context-menu-0.11.0.tgz#3ecefb0231151add474c9b0df2fb66fde3ad5731"
-  integrity sha512-sgDIGqjgazUQ5fbfz0ObRkmODAsw00eylQprp5q4jyuL6dskd27yslhoJTrjLbFGErfVVYzRXPW2rQPJxARKmg==
-  dependencies:
-    electron-dl "^1.2.0"
-    electron-is-dev "^1.0.1"
-
-electron-dl@^1.2.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-1.14.0.tgz#1466f1b945664ca3d784268307c2b935728177bf"
-  integrity sha512-4okyei42a1mLsvLK7hLrIfd20EQzB18nIlLTwBV992aMSmTGLUEFRTmO1MfSslGNrzD8nuPuy1l/VxO8so4lig==
-  dependencies:
-    ext-name "^5.0.0"
-    pupa "^1.0.0"
-    unused-filename "^1.0.0"
-
 electron-download@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/electron-download/-/electron-download-4.1.0.tgz#bf932c746f2f87ffcc09d1dd472f2ff6b9187845"
@@ -6212,17 +6195,6 @@ electron-download@^4.1.0:
     semver "^5.3.0"
     sumchecker "^2.0.1"
 
-electron-editor-context-menu@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/electron-editor-context-menu/-/electron-editor-context-menu-1.1.1.tgz#dc30098e0dfb37f62628e43303124c7f3379572d"
-  integrity sha1-3DAJjg37N/YmKOQzAxJMfzN5Vy0=
-  dependencies:
-    lodash.clonedeep "^4.3.0"
-    lodash.defaults "^4.0.1"
-    lodash.isarray "^4.0.0"
-    lodash.isempty "^4.1.2"
-    lodash.isfunction "^3.0.8"
-
 electron-icon-maker@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/electron-icon-maker/-/electron-icon-maker-0.0.3.tgz#bcd2e91896d7200f84fcc6652aed924fdaaa8307"
@@ -6231,11 +6203,6 @@ electron-icon-maker@0.0.3:
     args "^2.3.0"
     icon-gen "^1.0.7"
     jimp "^0.2.27"
-
-electron-is-dev@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-1.0.1.tgz#6e0a184736fe7aea77d18210b0b0f6a02402c4bc"
-  integrity sha512-iwM3EotA9HTXqMGpQRkR/kT8OZqBbdfHTnlwcxsjSLYqY8svvsq0MuujsWCn3/vtgRmDv/PC/gKUUpoZvi5C1w==
 
 electron-mocha@8.1.1:
   version "8.1.1"
@@ -6949,21 +6916,6 @@ express@^4.17.0, express@^4.17.1:
     type-is "~1.6.18"
     utils-merge "1.0.1"
     vary "~1.1.2"
-
-ext-list@^2.0.0:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/ext-list/-/ext-list-2.2.2.tgz#0b98e64ed82f5acf0f2931babf69212ef52ddd37"
-  integrity sha512-u+SQgsubraE6zItfVA0tBuCBhfU9ogSRnsvygI7wht9TS510oLkBRXBsqopeUG/GBOIQyKZO9wjTqIu/sf5zFA==
-  dependencies:
-    mime-db "^1.28.0"
-
-ext-name@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/ext-name/-/ext-name-5.0.0.tgz#70781981d183ee15d13993c8822045c506c8f0a6"
-  integrity sha512-yblEwXAbGv1VQDmow7s38W77hzAgJAO50ztBLMcUyUBfxv1HC+LGwtiEN+Co6LtlqT/5uwVOxsD4TNIilWhwdQ==
-  dependencies:
-    ext-list "^2.0.0"
-    sort-keys-length "^1.0.0"
 
 extend-shallow@^2.0.1:
   version "2.0.1"
@@ -10264,10 +10216,6 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
 
-lodash.clonedeep@^4.3.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
-
 lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
@@ -10277,25 +10225,9 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
-lodash.defaults@^4.0.1:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
-
 lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
-
-lodash.isarray@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/lodash.isarray/-/lodash.isarray-4.0.0.tgz#2aca496b28c4ca6d726715313590c02e6ea34403"
-
-lodash.isempty@^4.1.2:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.isempty/-/lodash.isempty-4.4.0.tgz#6f86cbedd8be4ec987be9aaf33c9684db1b31e7e"
-
-lodash.isfunction@^3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-3.0.8.tgz#4db709fc81bc4a8fd7127a458a5346c5cdce2c6b"
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
@@ -10804,11 +10736,6 @@ mime-db@1.40.0, "mime-db@>= 1.40.0 < 2":
   version "1.33.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.33.0.tgz#a3492050a5cb9b63450541e39d9788d2272783db"
 
-mime-db@^1.28.0:
-  version "1.39.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.39.0.tgz#f95a20275742f7d2ad0429acfe40f4233543780e"
-  integrity sha512-DTsrw/iWVvwHH+9Otxccdyy0Tgiil6TWK/xhfARJZF/QFhwOgZgOIvA2/VIGpM8U7Q8z5nDmdDWC6tuVMJNibw==
-
 mime-db@~1.27.0:
   version "1.27.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.27.0.tgz#820f572296bbd20ec25ed55e5b5de869e5436eb1"
@@ -11103,11 +11030,6 @@ mocha@~6.2.0:
     yargs "13.2.2"
     yargs-parser "13.0.0"
     yargs-unparser "1.5.0"
-
-modify-filename@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/modify-filename/-/modify-filename-1.1.0.tgz#9a2dec83806fbb2d975f22beec859ca26b393aa1"
-  integrity sha1-mi3sg4Bvuy2XXyK+7IWcoms5OqE=
 
 moment@2.21.0:
   version "2.21.0"
@@ -13155,11 +13077,6 @@ punycode@^1.2.4, punycode@^1.4.1:
 punycode@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.0.tgz#5f863edc89b96db09074bad7947bf09056ca4e7d"
-
-pupa@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/pupa/-/pupa-1.0.0.tgz#9a9568a5af7e657b8462a6e9d5328743560ceff6"
-  integrity sha1-mpVopa9+ZXuEYqbp1TKHQ1YM7/Y=
 
 pupa@^2.0.1:
   version "2.0.1"
@@ -15312,13 +15229,6 @@ socks@~2.2.0:
     ip "^1.1.5"
     smart-buffer "^4.0.1"
 
-sort-keys-length@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/sort-keys-length/-/sort-keys-length-1.0.1.tgz#9cb6f4f4e9e48155a6aa0671edd336ff1479a188"
-  integrity sha1-nLb09OnkgVWmqgZx7dM2/xR5oYg=
-  dependencies:
-    sort-keys "^1.0.0"
-
 sort-keys@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
@@ -16622,11 +16532,6 @@ typescript@3.7.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
   integrity sha512-A25xv5XCtarLwXpcDNZzCGvW2D1S3/bACratYBx2sax8PefsFhlYmkQicKHvpYflFS8if4zne5zT5kpJ7pzuvw==
 
-typo-js@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/typo-js/-/typo-js-1.1.0.tgz#a5a9f592bcb453666bf70c9694da58705d025ed8"
-  integrity sha512-W3kLbx+ML9PBl5Bzso/lTvVxk4BCveSNAtQeht59FEtxCdGThmn6wSHA4Xq3eQYAK24NHdisMM4JmsK0GFy/pg==
-
 ua-parser-js@^0.7.18:
   version "0.7.19"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.19.tgz#94151be4c0a7fb1d001af7022fdaca4642659e4b"
@@ -16854,14 +16759,6 @@ unset-value@^1.0.0:
   dependencies:
     has-value "^0.3.1"
     isobject "^3.0.0"
-
-unused-filename@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/unused-filename/-/unused-filename-1.0.0.tgz#d340880f71ae2115ebaa1325bef05cc6684469c6"
-  integrity sha1-00CID3GuIRXrqhMlvvBcxmhEacY=
-  dependencies:
-    modify-filename "^1.1.0"
-    path-exists "^3.0.0"
 
 unzip-response@^2.0.1:
   version "2.0.1"
