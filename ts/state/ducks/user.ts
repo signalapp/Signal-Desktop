@@ -1,3 +1,6 @@
+import { trigger } from '../../shims/events';
+
+import { NoopActionType } from './noop';
 import { LocalizerType } from '../../types/Util';
 
 // State
@@ -34,6 +37,7 @@ export type UserActionType = UserChangedActionType;
 
 export const actions = {
   userChanged,
+  manualReconnect,
 };
 
 function userChanged(attributes: {
@@ -46,6 +50,15 @@ function userChanged(attributes: {
   return {
     type: 'USER_CHANGED',
     payload: attributes,
+  };
+}
+
+function manualReconnect(): NoopActionType {
+  trigger('manualConnect');
+
+  return {
+    type: 'NOOP',
+    payload: null,
   };
 }
 

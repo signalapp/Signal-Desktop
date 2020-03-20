@@ -571,6 +571,10 @@
     "message": "Connecting",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
+  "connect": {
+    "message": "Connect",
+    "description": "Shown to allow the user to manually attempt a reconnect."
+  },
   "connectingHangOn": {
     "message": "Shouldn't be long...",
     "description": "Subtext description for when the client is connecting to the server."
