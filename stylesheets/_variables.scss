@@ -4,8 +4,6 @@ $inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
 
 // -- V3 Colors
 
-$color-signal-blue: #2090ea;
-
 $color-accent-blue: #2c6bed;
 $color-accent-green: #4caf50;
 $color-accent-red: #f44336;
@@ -35,10 +33,11 @@ $color-black-alpha-20: rgba($color-black, 0.2);
 $color-black-alpha-40: rgba($color-black, 0.4);
 $color-black-alpha-60: rgba($color-black, 0.6);
 
-$color-ultramarine-brand-light: #3a76f0;
-$color-ultramarine-brand-dark: #1851b4;
-$color-ultramarine-ui-light: #2c6bed;
-$color-ultramarine-ui-dark: #6191f3;
+$ultramarine-brand-light: #3a76f0;
+$ultramarine-brand-dark: #1851b4;
+$ultramarine-ui-light: #2c6bed;
+$ultramarine-ui-dark: #6191f3;
+
 $color-crimson: #cc163d;
 $color-vermilion: #c73800;
 $color-burlap: #746c53;
@@ -178,9 +177,9 @@ $color-white-alpha-40: rgba($color-white, 0.4);
 $color-deep-red: #ff261f;
 
 // Used in iOS quote composition and reference warnings
-$color-signal-blue-alpha-25: rgba($color-signal-blue, 0.25);
-$color-signal-blue-alpha-50: rgba($color-signal-blue, 0.5);
-$color-signal-blue-tint-alpha-50: rgba($color-ios-blue-tint, 0.5);
+$ultramarine-ui-light-alpha-25: rgba($ultramarine-ui-light, 0.25);
+$ultramarine-ui-light-alpha-50: rgba($ultramarine-ui-light, 0.5);
+$ultramarine-ui-light-tint-alpha-50: rgba($color-ios-blue-tint, 0.5);
 
 // -- A few layout variables used cross-file
 

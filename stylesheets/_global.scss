@@ -142,7 +142,7 @@ button.grey {
 }
 
 a {
-  color: $color-signal-blue;
+  color: $ultramarine-ui-light;
 }
 
 .file-input {
@@ -314,7 +314,7 @@ $loading-height: 16px;
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: $color-ultramarine-brand-light;
+  background-color: $ultramarine-brand-light;
   color: $color-white;
   display: flex;
   align-items: center;
@@ -369,7 +369,7 @@ $loading-height: 16px;
 
   color: $color-black;
   a {
-    color: $color-signal-blue;
+    color: $ultramarine-ui-light;
   }
   background: linear-gradient(
     to bottom,
@@ -388,7 +388,7 @@ $loading-height: 16px;
   input {
     margin-top: 1em;
     font-size: 12pt;
-    border: 2px solid $color-signal-blue;
+    border: 2px solid $ultramarine-ui-light;
     padding: 0.5em;
     text-align: center;
     width: 20em;
@@ -406,7 +406,7 @@ $loading-height: 16px;
     display: inline-block;
 
     &.ready {
-      border: 5px solid $color-signal-blue;
+      border: 5px solid $ultramarine-ui-light;
       box-shadow: 2px 2px 4px $color-black-alpha-40;
     }
 
@@ -425,7 +425,7 @@ $loading-height: 16px;
     .dot {
       width: 14px;
       height: 14px;
-      border: 3px solid $color-signal-blue;
+      border: 3px solid $ultramarine-ui-light;
       border-radius: 50%;
       float: left;
       margin: 0 6px;
@@ -593,7 +593,7 @@ $loading-height: 16px;
     margin-left: 0.5em;
     margin-right: 0.5em;
     color: $color-white;
-    background: $color-signal-blue;
+    background: $ultramarine-ui-light;
     box-shadow: 2px 2px 4px $color-black-alpha-40;
 
     font-size: 12pt;
@@ -615,7 +615,7 @@ $loading-height: 16px;
     cursor: pointer;
     text-decoration: underline;
     margin: 0.5em;
-    color: $color-signal-blue;
+    color: $ultramarine-ui-light;
   }
 
   .progress {

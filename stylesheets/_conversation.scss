@@ -233,8 +233,8 @@
 
     border-left-style: none;
     @include ios-theme {
-      background-color: $color-signal-blue-alpha-25;
-      border-left-color: $color-signal-blue;
+      background-color: $ultramarine-ui-light-alpha-25;
+      border-left-color: $ultramarine-ui-light;
     }
   }
 
@@ -282,7 +282,7 @@
 
   form.active {
     textarea {
-      border: solid 1px $color-signal-blue;
+      border: solid 1px $ultramarine-ui-light;
     }
   }
 
