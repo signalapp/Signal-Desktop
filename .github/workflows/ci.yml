@@ -3,7 +3,33 @@ name: CI
 on: [push]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - run: lsb_release -a
+    - run: uname -a
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.0'
+    - run: npm install -g yarn@1.22.0
+
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
+
+    - run: yarn install --frozen-lockfile
+    - run: yarn generate
+    - run: yarn lint
+    - run: yarn lint-deps
+
   macos:
+    needs: lint
     runs-on: macos-latest
 
     steps:
@@ -35,9 +61,11 @@ jobs:
         NODE_ENV: production
 
   linux:
+    needs: lint
     runs-on: ubuntu-latest
 
     steps:
+    - run: lsb_release -a
     - run: uname -a
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
@@ -70,6 +98,7 @@ jobs:
         NODE_ENV: production
 
   windows:
+    needs: lint
     runs-on: windows-latest
 
     steps:
