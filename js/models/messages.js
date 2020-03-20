@@ -2401,11 +2401,11 @@
             await conversation.notify(message);
           }
 
-          // Does this message have a pending, previously-received associated reaction?
-          const reaction = Whisper.Reactions.forMessage(message);
-          if (reaction) {
+          // Does this message have any pending, previously-received associated reactions?
+          const reactions = Whisper.Reactions.forMessage(message);
+          reactions.forEach(reaction => {
             message.handleReaction(reaction);
-          }
+          });
 
           Whisper.events.trigger('incrementProgress');
           confirm();
