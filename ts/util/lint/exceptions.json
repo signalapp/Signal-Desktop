@@ -1235,17 +1235,17 @@
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "          const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 812,
+    "lineNumber": 822,
     "reasonCategory": "falseMatch",
-    "updated": "2020-03-04T21:24:23.269Z"
+    "updated": "2020-03-20T17:24:11.472Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "libtextsecure/message_receiver.js",
     "line": "        const buffer = dcodeIO.ByteBuffer.wrap(ciphertext);",
-    "lineNumber": 837,
+    "lineNumber": 847,
     "reasonCategory": "falseMatch",
-    "updated": "2020-03-04T21:24:23.269Z"
+    "updated": "2020-03-20T17:24:11.472Z"
   },
   {
     "rule": "jQuery-wrap(",

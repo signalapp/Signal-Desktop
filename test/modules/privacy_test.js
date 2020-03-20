@@ -29,8 +29,8 @@ describe('Privacy', () => {
 
       const actual = Privacy.redactUuids(text);
       const expected =
-        'This is a log line with a uuid [REDACTED]b4\n' +
-        'and another one IN ALL UPPERCASE [REDACTED]A3';
+        'This is a log line with a uuid [REDACTED]6b4\n' +
+        'and another one IN ALL UPPERCASE [REDACTED]CA3';
       assert.equal(actual, expected);
     });
   });

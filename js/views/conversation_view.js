@@ -2004,7 +2004,7 @@
             await contact.setApproved();
           }
 
-          message.resend(contact.get('e164'), contact.get('uuid'));
+          message.resend(contact.get('uuid') || contact.get('e164'));
         },
       });
 

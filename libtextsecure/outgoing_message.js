@@ -63,8 +63,6 @@ OutgoingMessage.prototype = {
     }
 
     // eslint-disable-next-line no-param-reassign
-    error.number = identifier;
-    // eslint-disable-next-line no-param-reassign
     error.reason = reason;
     this.errors[this.errors.length] = error;
     this.numberCompleted();

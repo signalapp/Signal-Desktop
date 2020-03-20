@@ -264,7 +264,9 @@
 
       // If an error has a specific number it's associated with, we'll show it next to
       //   that contact. Otherwise, it will be a standalone entry.
-      const errors = _.reject(allErrors, error => Boolean(error.number));
+      const errors = _.reject(allErrors, error =>
+        Boolean(error.identifer || error.number)
+      );
       const errorsGroupedById = _.groupBy(allErrors, 'number');
       const finalContacts = (conversationIds || []).map(id => {
         const errorsForContact = errorsGroupedById[id];
@@ -1264,16 +1266,27 @@
       this.set({ errors: null });
 
       const conversation = this.getConversation();
-      const intendedRecipients = this.get('recipients') || [];
-      const successfulRecipients = this.get('sent_to') || [];
-      const currentRecipients = conversation.getRecipients();
+      const intendedRecipients = (this.get('recipients') || [])
+        .map(identifier => ConversationController.getConversationId(identifier))
+        .filter(Boolean);
+      const successfulRecipients = (this.get('sent_to') || [])
+        .map(identifier => ConversationController.getConversationId(identifier))
+        .filter(Boolean);
+      const currentRecipients = conversation
+        .getRecipients()
+        .map(identifier => ConversationController.getConversationId(identifier))
+        .filter(Boolean);
 
       const profileKey = conversation.get('profileSharing')
         ? storage.get('profileKey')
         : null;
 
+      // Determine retry recipients and get their most up-to-date addressing information
       let recipients = _.intersection(intendedRecipients, currentRecipients);
-      recipients = _.without(recipients, successfulRecipients);
+      recipients = _.without(recipients, successfulRecipients).map(id => {
+        const c = ConversationController.get(id);
+        return c.get('uuid') || c.get('e164');
+      });
 
       if (!recipients.length) {
         window.log.warn('retrySend: Nobody to send to!');
@@ -1297,7 +1310,10 @@
       const stickerWithData = await loadStickerData(this.get('sticker'));
 
       // Special-case the self-send case - we send only a sync message
-      if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
+      if (
+        recipients.length === 1 &&
+        (recipients[0] === this.OUR_NUMBER || recipients[0] === this.OUR_UUID)
+      ) {
         const [identifier] = recipients;
         const dataMessage = await textsecure.messaging.getMessageProto(
           identifier,
@@ -1348,7 +1364,7 @@
             expireTimer: this.get('expireTimer'),
             profileKey,
             group: {
-              id: this.get('conversationId'),
+              id: this.getConversation().get('groupId'),
               type: textsecure.protobuf.GroupContext.Type.DELIVER,
             },
           },
@@ -1429,13 +1445,14 @@
       const { wrap, sendOptions } = ConversationController.prepareForSend(
         identifier
       );
-      const promise = textsecure.messaging.sendMessageToNumber(
+      const promise = textsecure.messaging.sendMessageToIdentifier(
         identifier,
         body,
         attachments,
         quoteWithData,
         previewWithData,
         stickerWithData,
+        null,
         this.get('sent_at'),
         this.get('expireTimer'),
         profileKey,
@@ -1444,11 +1461,15 @@
 
       return this.send(wrap(promise));
     },
-    removeOutgoingErrors(number) {
+    removeOutgoingErrors(incomingIdentifier) {
+      const incomingConversationId = ConversationController.getConversationId(
+        incomingIdentifier
+      );
       const errors = _.partition(
         this.get('errors'),
         e =>
-          e.number === number &&
+          ConversationController.getConversationId(e.identifer || e.number) ===
+            incomingConversationId &&
           (e.name === 'MessageError' ||
             e.name === 'OutgoingMessageError' ||
             e.name === 'SendMessageNetworkError' ||
@@ -1535,7 +1556,9 @@
             promises = promises.concat(
               _.map(result.errors, error => {
                 if (error.name === 'OutgoingIdentityKeyError') {
-                  const c = ConversationController.get(error.number);
+                  const c = ConversationController.get(
+                    error.identifer || error.number
+                  );
                   promises.push(c.getProfiles());
                 }
               })

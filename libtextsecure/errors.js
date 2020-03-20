@@ -35,33 +35,38 @@
   }
   inherit(Error, ReplayableError);
 
-  function IncomingIdentityKeyError(number, message, key) {
+  function IncomingIdentityKeyError(identifier, message, key) {
     // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
+    this.identifier = identifier.split('.')[0];
     this.identityKey = key;
 
     ReplayableError.call(this, {
       name: 'IncomingIdentityKeyError',
-      message: `The identity of ${this.number} has changed.`,
+      message: `The identity of ${this.identifier} has changed.`,
     });
   }
   inherit(ReplayableError, IncomingIdentityKeyError);
 
-  function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
+  function OutgoingIdentityKeyError(
+    identifier,
+    message,
+    timestamp,
+    identityKey
+  ) {
     // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
+    this.identifier = identifier.split('.')[0];
     this.identityKey = identityKey;
 
     ReplayableError.call(this, {
       name: 'OutgoingIdentityKeyError',
-      message: `The identity of ${this.number} has changed.`,
+      message: `The identity of ${this.identifier} has changed.`,
     });
   }
   inherit(ReplayableError, OutgoingIdentityKeyError);
 
-  function OutgoingMessageError(number, message, timestamp, httpError) {
+  function OutgoingMessageError(identifier, message, timestamp, httpError) {
     // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
+    this.identifier = identifier.split('.')[0];
 
     ReplayableError.call(this, {
       name: 'OutgoingMessageError',
@@ -75,8 +80,9 @@
   }
   inherit(ReplayableError, OutgoingMessageError);
 
-  function SendMessageNetworkError(number, jsonData, httpError) {
-    this.number = number;
+  function SendMessageNetworkError(identifier, jsonData, httpError) {
+    // eslint-disable-next-line prefer-destructuring
+    this.identifier = identifier.split('.')[0];
     this.code = httpError.code;
 
     ReplayableError.call(this, {
@@ -108,7 +114,7 @@
   }
   inherit(ReplayableError, MessageError);
 
-  function UnregisteredUserError(number, httpError) {
+  function UnregisteredUserError(identifier, httpError) {
     this.message = httpError.message;
     this.name = 'UnregisteredUserError';
 
@@ -120,7 +126,7 @@
       Error.captureStackTrace(this);
     }
 
-    this.number = number;
+    this.identifier = identifier;
     this.code = httpError.code;
 
     appendStack(this, httpError);

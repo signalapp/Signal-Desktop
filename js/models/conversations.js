@@ -1229,7 +1229,7 @@
           ).map(contact => {
             const error = new Error('Network is not available');
             error.name = 'SendMessageNetworkError';
-            error.number = contact.get('uuid') || contact.get('e164');
+            error.identifier = contact.get('uuid') || contact.get('e164');
             return error;
           });
           await message.saveErrors(errors);

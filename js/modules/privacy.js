@@ -8,7 +8,7 @@ const { escapeRegExp } = require('lodash');
 
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
-const UUID_PATTERN = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{10}([0-9A-F]{2})/gi;
+const UUID_PATTERN = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{9}([0-9A-F]{3})/gi;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 

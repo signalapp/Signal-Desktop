@@ -242,7 +242,12 @@ MessageReceiver.prototype.extend({
           return;
         }
 
-        envelope.id = envelope.serverGuid || window.getGuid();
+        // Make non-private envelope IDs dashless so they don't get redacted
+        // from logs
+        envelope.id = (envelope.serverGuid || window.getGuid()).replace(
+          /-/g,
+          ''
+        );
         envelope.serverTimestamp = envelope.serverTimestamp
           ? envelope.serverTimestamp.toNumber()
           : null;
@@ -550,12 +555,17 @@ MessageReceiver.prototype.extend({
     const promise = this.addToQueue(taskWithTimeout);
 
     return promise.catch(error => {
-      window.log.error(
+      const args = [
         'queueEnvelope error handling envelope',
         this.getEnvelopeId(envelope),
         ':',
-        error && error.stack ? error.stack : error
-      );
+        error && error.stack ? error.stack : error,
+      ];
+      if (error.warn) {
+        window.log.warn(...args);
+      } else {
+        window.log.error(...args);
+      }
     });
   },
   // Same as handleEnvelope, just without the decryption step. Necessary for handling
@@ -1418,9 +1428,12 @@ MessageReceiver.prototype.extend({
           decrypted.group.members = [];
           decrypted.group.avatar = null;
           break;
-        default:
+        default: {
           this.removeFromCache(envelope);
-          throw new Error('Unknown group message type');
+          const err = new Error('Unknown group message type');
+          err.warn = true;
+          throw err;
+        }
       }
     }
 
