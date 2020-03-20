@@ -207,25 +207,25 @@
     "rule": "jQuery-append(",
     "path": "js/modules/debuglogs.js",
     "line": "  form.append('key', fields.key);",
-    "lineNumber": 48,
+    "lineNumber": 50,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-03-20T20:40:34.498Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/modules/debuglogs.js",
     "line": "      form.append(key, value);",
-    "lineNumber": 52,
+    "lineNumber": 54,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-03-20T20:40:34.498Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/modules/debuglogs.js",
     "line": "  form.append('Content-Type', contentType);",
-    "lineNumber": 57,
+    "lineNumber": 59,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-03-20T20:40:34.498Z"
   },
   {
     "rule": "jQuery-load(",

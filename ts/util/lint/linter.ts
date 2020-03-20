@@ -153,7 +153,6 @@ const excludedFiles = [
   '^node_modules/eslint*',
   '^node_modules/esprima/*',
   '^node_modules/express/*',
-  '^node_modules/extract-zip/*',
   '^node_modules/file-loader/*',
   '^node_modules/file-system-cache/*', // Currently only used in storybook
   '^node_modules/finalhandler/*',

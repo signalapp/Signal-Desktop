@@ -3,6 +3,8 @@
 
 const FormData = require('form-data');
 const got = require('got');
+const pify = require('pify');
+const { gzip } = require('zlib');
 
 const BASE_URL = 'https://debuglogs.org';
 const VERSION = window.getVersion();
@@ -52,12 +54,12 @@ exports.upload = async content => {
       form.append(key, value);
     });
 
-  const contentBuffer = Buffer.from(content, 'utf8');
-  const contentType = 'text/plain';
+  const contentBuffer = await pify(gzip)(Buffer.from(content, 'utf8'));
+  const contentType = 'application/gzip';
   form.append('Content-Type', contentType);
   form.append('file', contentBuffer, {
     contentType,
-    filename: `signal-desktop-debug-log-${VERSION}.txt`,
+    filename: `signal-desktop-debug-log-${VERSION}.txt.gz`,
   });
 
   window.log.info('Debug log upload starting...');
