@@ -209,12 +209,14 @@ class LokiMessageAPI {
 
         // Make sure we aren't doing too much PoW
         const currentDifficulty = window.storage.get('PoWDifficulty', null);
-        if (result && result.difficulty) {
-          const newDifficulty = result.difficulty;
-          if (newDifficulty != null && newDifficulty !== currentDifficulty) {
-            window.storage.put('PoWDifficulty', newDifficulty);
-          }
-        } // else should we return false?
+        if (
+          result &&
+          result.difficulty &&
+          result.difficulty !== currentDifficulty
+        ) {
+          window.storage.put('PoWDifficulty', result.difficulty);
+          // should we return false?
+        }
         return true;
       } catch (e) {
         log.warn(
