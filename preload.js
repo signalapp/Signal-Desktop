@@ -147,16 +147,7 @@ window.resetDatabase = () => {
   ipc.send('resetDatabase');
 };
 
-// Events for updating block number states across different windows.
-// In this case we need these to update the blocked number
-//  collection on the main window from the settings window.
-window.onUnblockNumber = number => ipc.send('on-unblock-number', number);
-
-ipc.on('mediaPermissionsChanged', () => {
-  Whisper.events.trigger('mediaPermissionsChanged');
-});
-
-ipc.on('on-unblock-number', (event, number) => {
+window.onUnblockNumber = number => {
   // Unblock the number
   if (window.BlockedNumberController) {
     window.BlockedNumberController.unblock(number);
@@ -174,6 +165,10 @@ ipc.on('on-unblock-number', (event, number) => {
       );
     }
   }
+};
+
+ipc.on('mediaPermissionsChanged', () => {
+  Whisper.events.trigger('mediaPermissionsChanged');
 });
 
 window.closeAbout = () => ipc.send('close-about');
@@ -196,7 +191,6 @@ ipc.on('set-up-as-standalone', () => {
 
 // Settings-related events
 
-window.showSettings = () => ipc.send('show-settings');
 window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
 
 ipc.on('add-dark-overlay', () => {
@@ -217,14 +211,11 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   // Eg. window.getSettingValue('theme', 'light')
   // returns 'false' when the value is 'dark'.
 
+  // We need to get specific settings from the main process
   if (settingID === 'media-permissions') {
-    let permissionValue;
-    // eslint-disable-next-line more/no-then
-    window.getMediaPermissions().then(value => {
-      permissionValue = value;
-    });
-
-    return permissionValue;
+    return window.getMediaPermissions();
+  } else if (settingID === 'auto-update') {
+    return window.getAutoUpdateEnabled();
   }
 
   const settingVal = window.storage.get(settingID);
@@ -232,6 +223,12 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
 };
 
 window.setSettingValue = (settingID, value) => {
+  // For auto updating we need to pass the value to the main process
+  if (settingID === 'auto-update') {
+    window.setAutoUpdateEnabled(value);
+    return;
+  }
+
   window.storage.put(settingID, value);
 
   if (settingID === 'zoom-factor-setting') {
@@ -239,61 +236,14 @@ window.setSettingValue = (settingID, value) => {
   }
 };
 
-installGetter('device-name', 'getDeviceName');
-
-installGetter('theme-setting', 'getThemeSetting');
-installSetter('theme-setting', 'setThemeSetting');
-installGetter('hide-menu-bar', 'getHideMenuBar');
-installSetter('hide-menu-bar', 'setHideMenuBar');
-
 // Get the message TTL setting
 window.getMessageTTL = () => window.storage.get('message-ttl', 24);
-installGetter('message-ttl', 'getMessageTTL');
-installSetter('message-ttl', 'setMessageTTL');
+window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 
-installGetter('read-receipt-setting', 'getReadReceiptSetting');
-installSetter('read-receipt-setting', 'setReadReceiptSetting');
-
-installGetter('typing-indicators-setting', 'getTypingIndicatorsSetting');
-installSetter('typing-indicators-setting', 'setTypingIndicatorsSetting');
-
-installGetter('notification-setting', 'getNotificationSetting');
-installSetter('notification-setting', 'setNotificationSetting');
-installGetter('audio-notification', 'getAudioNotification');
-installSetter('audio-notification', 'setAudioNotification');
-
-installGetter('link-preview-setting', 'getLinkPreviewSetting');
-installSetter('link-preview-setting', 'setLinkPreviewSetting');
-
-installGetter('spell-check', 'getSpellCheck');
-installSetter('spell-check', 'setSpellCheck');
-
-installGetter('media-permissions', 'getMediaPermissions');
-installGetter('media-permissions', 'setMediaPermissions');
-
-window.getMediaPermissions = () =>
-  new Promise((resolve, reject) => {
-    ipc.once('get-success-media-permissions', (_event, error, value) => {
-      if (error) {
-        return reject(error);
-      }
-
-      return resolve(value);
-    });
-    ipc.send('get-media-permissions');
-  });
-
-installGetter('is-primary', 'isPrimary');
-installGetter('sync-request', 'getSyncRequest');
-installGetter('sync-time', 'getLastSyncTime');
-installSetter('sync-time', 'setLastSyncTime');
-
-ipc.on('delete-all-data', () => {
-  const { deleteAllData } = window.Events;
-  if (deleteAllData) {
-    deleteAllData();
-  }
-});
+// Auto update setting
+window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');
+window.setAutoUpdateEnabled = value =>
+  ipc.send('set-auto-update-setting', !!value);
 
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};
@@ -313,49 +263,6 @@ ipc.on('get-ready-for-shutdown', async () => {
     );
   }
 });
-
-function installGetter(name, functionName) {
-  ipc.on(`get-${name}`, async () => {
-    const getFn = window.Events[functionName];
-    if (!getFn) {
-      ipc.send(
-        `get-success-${name}`,
-        `installGetter: ${functionName} not found for event ${name}`
-      );
-      return;
-    }
-    try {
-      ipc.send(`get-success-${name}`, null, await getFn());
-    } catch (error) {
-      ipc.send(
-        `get-success-${name}`,
-        error && error.stack ? error.stack : error
-      );
-    }
-  });
-}
-
-function installSetter(name, functionName) {
-  ipc.on(`set-${name}`, async (_event, value) => {
-    const setFn = window.Events[functionName];
-    if (!setFn) {
-      ipc.send(
-        `set-success-${name}`,
-        `installSetter: ${functionName} not found for event ${name}`
-      );
-      return;
-    }
-    try {
-      await setFn(value);
-      ipc.send(`set-success-${name}`);
-    } catch (error) {
-      ipc.send(
-        `set-success-${name}`,
-        error && error.stack ? error.stack : error
-      );
-    }
-  });
-}
 
 window.addSetupMenuItems = () => ipc.send('add-setup-menu-items');
 window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');

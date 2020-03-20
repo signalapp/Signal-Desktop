@@ -305,8 +305,6 @@
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
-      getDeviceName: () => textsecure.storage.user.getDeviceName(),
-
       getThemeSetting: () => 'dark', // storage.get('theme-setting', 'dark')
       setThemeSetting: value => {
         storage.put('theme-setting', value);
@@ -319,50 +317,11 @@
         window.setMenuBarVisibility(!value);
       },
 
-      getMessageTTL: () => storage.get('message-ttl', 24),
-      setMessageTTL: value => {
-        // Make sure the ttl is between a given range and is valid
-        const intValue = parseInt(value, 10);
-        const ttl = Number.isNaN(intValue) ? 24 : intValue;
-        storage.put('message-ttl', ttl);
-      },
-
-      getReadReceiptSetting: () => storage.get('read-receipt-setting'),
-      setReadReceiptSetting: value =>
-        storage.put('read-receipt-setting', value),
-
-      getTypingIndicatorsSetting: () =>
-        storage.get('typing-indicators-setting'),
-      setTypingIndicatorsSetting: value =>
-        storage.put('typing-indicators-setting', value),
-
-      getLinkPreviewSetting: () => storage.get('link-preview-setting', false),
-      setLinkPreviewSetting: value =>
-        storage.put('link-preview-setting', value),
-
-      getNotificationSetting: () =>
-        storage.get('notification-setting', 'message'),
-      setNotificationSetting: value =>
-        storage.put('notification-setting', value),
-      getAudioNotification: () => storage.get('audio-notification'),
-      setAudioNotification: value => storage.put('audio-notification', value),
-
       getSpellCheck: () => storage.get('spell-check', true),
       setSpellCheck: value => {
         storage.put('spell-check', value);
         startSpellCheck();
       },
-
-      // eslint-disable-next-line eqeqeq
-      isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
-      getSyncRequest: () =>
-        new Promise((resolve, reject) => {
-          const syncRequest = window.getSyncRequest();
-          syncRequest.addEventListener('success', resolve);
-          syncRequest.addEventListener('timeout', reject);
-        }),
-      getLastSyncTime: () => storage.get('synced_at'),
-      setLastSyncTime: value => storage.put('synced_at', value),
 
       addDarkOverlay: () => {
         if ($('.dark-overlay').length) {
@@ -372,10 +331,6 @@
         $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
       },
       removeDarkOverlay: () => $('.dark-overlay').remove(),
-      deleteAllData: () => {
-        const clearDataView = new window.Whisper.ClearDataView().render();
-        $('body').append(clearDataView.el);
-      },
 
       shutdown: async () => {
         // Stop background processing
@@ -754,12 +709,10 @@
           }
 
           // lets not allow ANY URLs, lets force it to be local to public chat server
-          const relativeFileUrl = fileObj.url.replace(
-            API.serverAPI.baseServerUrl,
-            ''
-          );
+          const url = new URL(fileObj.url);
+
           // write it to the channel
-          await API.setChannelAvatar(relativeFileUrl);
+          await API.setChannelAvatar(url.pathname);
         }
 
         if (await API.setChannelName(groupName)) {
@@ -1991,6 +1944,10 @@
   }) {
     return async event => {
       const { data, confirm } = event;
+      if (!data) {
+        window.log.warn('Invalid data passed to createMessageHandler.', event);
+        return confirm();
+      }
 
       const messageDescriptor = getMessageDescriptor(data);
 
@@ -2009,38 +1966,42 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
-      const allOurDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        primaryDeviceKey
-      );
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
       let message;
-      if (
+      const { source } = data;
+
+      // Note: This only works currently because we have a 1 device limit
+      // When we change that, the check below needs to change too
+      const ourNumber = textsecure.storage.user.getNumber();
+      const primaryDevice = window.storage.get('primaryDevicePubKey');
+      const isOurDevice =
+        source && (source === ourNumber || source === primaryDevice);
+      const isPublicChatMessage =
         messageDescriptor.type === 'group' &&
-        descriptorId.match(/^publicChat:/) &&
-        allOurDevices.includes(data.source)
-      ) {
+        descriptorId.match(/^publicChat:/);
+      if (isPublicChatMessage && isOurDevice) {
         // Public chat messages from ourselves should be outgoing
         message = await createSentMessage(data);
       } else {
         message = await createMessage(data);
       }
+
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
-        // RSS expects duplciates, so squelch log
+        // RSS expects duplicates, so squelch log
         if (!descriptorId.match(/^rss:/)) {
           window.log.warn('Received duplicate message', message.idForLogging());
         }
-        return event.confirm();
+        return confirm();
       }
 
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,
         messageDescriptor.type
       );
-      return message.handleDataMessage(data.message, event.confirm, {
+      return message.handleDataMessage(data.message, confirm, {
         initialLoadComplete,
       });
     };
@@ -2177,35 +2138,35 @@
 
     const message = new Whisper.Message(messageData);
 
-    // If we don't return early here, we can get into infinite error loops. So, no
-    //   delivery receipts for sealed sender errors.
-
+    // Send a delivery receipt
+    // If we don't return early here, we can get into infinite error loops. So, no delivery receipts for sealed sender errors.
     // Note(LOKI): don't send receipt for FR as we don't have a session yet
-    if (isError || !data.unidentifiedDeliveryReceived || data.friendRequest) {
-      return message;
-    }
+    const isGroup = data && data.message && data.message.group;
+    const shouldSendReceipt =
+      !isError &&
+      data.unidentifiedDeliveryReceived &&
+      !data.isFriendRequest &&
+      !isGroup;
 
-    try {
+    // Send the receipt async and hope that it succeeds
+    if (shouldSendReceipt) {
       const { wrap, sendOptions } = ConversationController.prepareForSend(
         data.source
       );
-      const isGroup = data && data.message && data.message.group;
-      if (!isGroup) {
-        await wrap(
-          textsecure.messaging.sendDeliveryReceipt(
-            data.source,
-            data.timestamp,
-            sendOptions
-          )
+      wrap(
+        textsecure.messaging.sendDeliveryReceipt(
+          data.source,
+          data.timestamp,
+          sendOptions
+        )
+      ).catch(error => {
+        window.log.error(
+          `Failed to send delivery receipt to ${data.source} for message ${
+            data.timestamp
+          }:`,
+          error && error.stack ? error.stack : error
         );
-      }
-    } catch (error) {
-      window.log.error(
-        `Failed to send delivery receipt to ${data.source} for message ${
-          data.timestamp
-        }:`,
-        error && error.stack ? error.stack : error
-      );
+      });
     }
 
     return message;
