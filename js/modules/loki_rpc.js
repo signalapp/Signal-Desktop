@@ -73,9 +73,8 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // remove
     // but which the proxy or the target...
     // we got a ton of randomPool nodes, let's just not worry about this one
-    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(
-      randSnode
-    );
+    lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+    const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
     log.warn(
       `lokiRpc sendToProxy`,
       `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
@@ -99,9 +98,8 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // but the target node
 
     // we got a ton of randomPool nodes, let's just not worry about this one
-    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(
-      randSnode
-    );
+    lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+    const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
     log.warn(
       `lokiRpc sendToProxy`,
       `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${

@@ -185,6 +185,9 @@ class LokiSnodeAPI {
       this.randomSnodePool,
       _.find(this.randomSnodePool, { ip: snode.ip, port: snode.port })
     );
+  }
+
+  getRandomPoolLength() {
     return this.randomSnodePool.length;
   }
 
@@ -281,7 +284,8 @@ class LokiSnodeAPI {
       const snodes = result.snodes.filter(tSnode => tSnode.ip !== '0.0.0.0');
       return snodes;
     } catch (e) {
-      const randomPoolRemainingCount = this.markRandomNodeUnreachable(snode);
+      this.markRandomNodeUnreachable(snode);
+      const randomPoolRemainingCount = this.getRandomPoolLength();
       log.error(
         'loki_snodes:::getSnodesForPubkey - error',
         e.code,
