@@ -2763,7 +2763,9 @@
       window.confirmationDialog({
         title,
         message,
-        resolve: () => ConversationController.deleteContact(this.id),
+        resolve: () => {
+          ConversationController.deleteContact(this.id);
+        },
       });
     },
 

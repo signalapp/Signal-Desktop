@@ -210,7 +210,7 @@
     "node": "^10.13.0"
   },
   "build": {
-    "appId": "com.loki-project.messenger-desktop",
+    "appId": "org.getsession.session-desktop",
     "afterSign": "build/notarize.js",
     "artifactName": "${name}-${os}-${arch}-${version}.${ext}",
     "mac": {

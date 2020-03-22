@@ -187,6 +187,7 @@
       }
 
       await conversation.destroyMessages();
+
       await window.Signal.Data.removeConversation(id, {
         Conversation: Whisper.Conversation,
       });
@@ -195,7 +196,7 @@
     getOrCreateAndWait(id, type) {
       return this._initialPromise.then(() => {
         const conversation = this.getOrCreate(id, type);
-
+5
         if (conversation) {
           return conversation.initialPromise.then(() => conversation);
         }
