@@ -1,4 +1,4 @@
-/* global log, window, process */
+/* global log, window, process, URL */
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
@@ -27,16 +27,18 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
   static async validServer(serverUrl) {
     // test to make sure it's online (and maybe has a valid SSL cert)
     try {
+      const url = new URL(serverUrl);
       // allow .loki (may only need an agent but not sure
       //              until we have a .loki to test with)
-      if (serverUrl.match(/\.loki$/)) {
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-      }
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = url.host.match(/\.loki$/i)
+        ? '0'
+        : '1';
+      // FIXME: use proxy when we have open groups that work with proxy
       await nodeFetch(serverUrl);
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
       // const txt = await res.text();
     } catch (e) {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
       log.warn(`failing to created ${serverUrl}`, e.code, e.message);
       // bail out if not valid enough
       return false;

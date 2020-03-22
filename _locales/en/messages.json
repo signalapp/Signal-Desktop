@@ -1958,6 +1958,12 @@
   "relink": {
     "message": "Relink"
   },
+  "autoUpdateSettingTitle": {
+    "message": "Auto Update"
+  },
+  "autoUpdateSettingDescription": {
+    "message": "Automatically check for updates on launch"
+  },
   "autoUpdateNewVersionTitle": {
     "message": "Session update available"
   },

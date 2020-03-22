@@ -709,12 +709,10 @@
           }
 
           // lets not allow ANY URLs, lets force it to be local to public chat server
-          const relativeFileUrl = fileObj.url.replace(
-            API.serverAPI.baseServerUrl,
-            ''
-          );
+          const url = new URL(fileObj.url);
+
           // write it to the channel
-          await API.setChannelAvatar(relativeFileUrl);
+          await API.setChannelAvatar(url.pathname);
         }
 
         if (await API.setChannelName(groupName)) {
@@ -1946,6 +1944,10 @@
   }) {
     return async event => {
       const { data, confirm } = event;
+      if (!data) {
+        window.log.warn('Invalid data passed to createMessageHandler.', event);
+        return confirm();
+      }
 
       const messageDescriptor = getMessageDescriptor(data);
 
@@ -1968,36 +1970,38 @@
         messageDescriptor.id
       );
       let message;
-      if (
+      const { source } = data;
+
+      // Note: This only works currently because we have a 1 device limit
+      // When we change that, the check below needs to change too
+      const ourNumber = textsecure.storage.user.getNumber();
+      const primaryDevice = window.storage.get('primaryDevicePubKey');
+      const isOurDevice =
+        source && (source === ourNumber || source === primaryDevice);
+      const isPublicChatMessage =
         messageDescriptor.type === 'group' &&
-        descriptorId.match(/^publicChat:/)
-      ) {
-        // Note: This only works currently because we have a 1 device limit
-        // When we change that, the check below needs to change too
-        const ourNumber = textsecure.storage.user.getNumber();
-        const primaryDevice = window.storage.get('primaryDevicePubKey');
-        const { source } = data;
-        if (source && (source === ourNumber || source === primaryDevice)) {
-          // Public chat messages from ourselves should be outgoing
-          message = await createSentMessage(data);
-        }
+        descriptorId.match(/^publicChat:/);
+      if (isPublicChatMessage && isOurDevice) {
+        // Public chat messages from ourselves should be outgoing
+        message = await createSentMessage(data);
       } else {
         message = await createMessage(data);
       }
+
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
-        // RSS expects duplciates, so squelch log
+        // RSS expects duplicates, so squelch log
         if (!descriptorId.match(/^rss:/)) {
           window.log.warn('Received duplicate message', message.idForLogging());
         }
-        return event.confirm();
+        return confirm();
       }
 
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,
         messageDescriptor.type
       );
-      return message.handleDataMessage(data.message, event.confirm, {
+      return message.handleDataMessage(data.message, confirm, {
         initialLoadComplete,
       });
     };
