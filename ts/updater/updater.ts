@@ -55,8 +55,8 @@ export function stop() {
   if (interval) {
     clearInterval(interval);
     interval = undefined;
-    stopped = true;
   }
+  stopped = true;
 }
 
 async function checkForUpdates(
