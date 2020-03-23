@@ -242,8 +242,8 @@ const serverRequest = async (endpoint, options = {}) => {
       FILESERVER_HOSTS.includes(host)
     ) {
       mode = 'sendToProxy';
-      // strip trailing slash
       const search = url.search ? `?${url.search}` : '';
+      // strip first slash
       const endpointWithQS = `${url.pathname}${search}`.replace(/^\//, '');
       // log.info('endpointWithQS', endpointWithQS)
       ({ response, txtResponse, result } = await sendToProxy(
@@ -297,7 +297,7 @@ const serverRequest = async (endpoint, options = {}) => {
   if (result.status !== 200) {
     if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
       // retry with forcing a fresh token
-      return this.serverRequest(endpoint, {
+      return serverRequest(endpoint, {
         ...options,
         forceFreshToken: true,
       });
