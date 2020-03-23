@@ -40,7 +40,7 @@ import { ContactType } from '../../types/Contact';
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { ColorType, LocalizerType } from '../../types/Util';
-import { mergeRefs } from '../_util';
+import { createRefMerger } from '../_util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Trigger {
@@ -181,6 +181,7 @@ export class Message extends React.PureComponent<Props, State> {
   public reactionsContainerRef: React.RefObject<
     HTMLDivElement
   > = React.createRef();
+  public reactionsContainerRefMerger = createRefMerger();
 
   public wideMl: MediaQueryList;
 
@@ -1572,7 +1573,10 @@ export class Message extends React.PureComponent<Props, State> {
         <Reference>
           {({ ref: popperRef }) => (
             <div
-              ref={mergeRefs(this.reactionsContainerRef, popperRef)}
+              ref={this.reactionsContainerRefMerger(
+                this.reactionsContainerRef,
+                popperRef
+              )}
               className={classNames(
                 'module-message__reactions',
                 outgoing
