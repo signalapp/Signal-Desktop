@@ -1,8 +1,9 @@
 /* eslint-disable class-methods-use-this */
-/* global window, ConversationController, _, log, clearTimeout */
+/* global window, textsecure, ConversationController, _, log, clearTimeout */
 
 const is = require('@sindresorhus/is');
 const { lokiRpc } = require('./loki_rpc');
+const nodeFetch = require('node-fetch');
 
 const RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM = 3;
 const RANDOM_SNODES_POOL_SIZE = 1024;
@@ -18,6 +19,203 @@ class LokiSnodeAPI {
     this.randomSnodePool = [];
     this.swarmsPendingReplenish = {};
     this.refreshRandomPoolPromise = false;
+
+    this.onionPaths = [];
+    this.guardNodes = [];
+  }
+
+  async getRandomSnodePool() {
+
+    if (this.randomSnodePool.length === 0) {
+      await this.refreshRandomPool();
+    }
+    return this.randomSnodePool;
+  }
+
+  async test_guard_node(snode) {
+
+    log.info("Testing a candidate guard node ", snode);
+
+    // Send a post request and make sure it is OK
+    const endpoint = "/storage_rpc/v1";
+
+    const url = `https://${snode.ip}:${snode.port}${endpoint}`;
+
+    const our_pk = textsecure.storage.user.getNumber();
+    const pubKey = window.getStoragePubKey(our_pk); // truncate if testnet
+
+    const method = 'get_snodes_for_pubkey';
+    const params = { pubKey }
+    const body = {
+      jsonrpc: '2.0',
+      id: '0',
+      method,
+      params,
+    };
+
+    const fetchOptions = {
+      method: 'POST',
+      body:    JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+      timeout: 1000 // 1s, we want a small timeout for testing
+    };
+
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    const response = await nodeFetch(url, fetchOptions);
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+
+    if (!response.ok) {
+      log.log(`Node ${snode} failed the guard test`);
+    }
+
+    return response.ok;
+  }
+
+  async selectGuardNodes() {
+
+    const _ = window.Lodash;
+
+    let node_pool = await this.getRandomSnodePool();
+
+    if (node_pool.length === 0) {
+      log.error(`Could not select guarn nodes: node pool is empty`)
+      return [];
+    }
+
+    let shuffled = _.shuffle(node_pool);
+
+    let guard_nodes = [];
+
+    const DESIRED_GUARD_COUNT = 3;
+
+    while (guard_nodes.length < 3) {
+
+      if (shuffled.length < DESIRED_GUARD_COUNT) {
+        log.error(`Not enought nodes in the pool`);
+        break;
+      }
+
+      const candidate_nodes = shuffled.splice(0, DESIRED_GUARD_COUNT);
+
+      // Test all three nodes at once
+      const idx_ok = await Promise.all(candidate_nodes.map(n => this.test_guard_node(n)));
+
+      const good_nodes = _.zip(idx_ok, candidate_nodes).filter(x => x[0]).map(x => x[1]);
+
+      guard_nodes = _.concat(guard_nodes, good_nodes);
+    }
+
+    if (guard_nodes.length < DESIRED_GUARD_COUNT) {
+      log.error(`COULD NOT get enough guard nodes, only have: ${guard_nodes.length}`);
+      debugger;
+    }
+
+    console.log("new guard nodes: ", guard_nodes);
+
+    const edKeys = guard_nodes.map(n => n.pubkey_ed25519);
+
+    await window.libloki.storage.updateGuardNodes(edKeys);
+
+    return guard_nodes;
+  }
+
+  async getOnionPath(toExclude = null) {
+
+    const _ = window.Lodash;
+
+    const good_paths = this.onionPaths.filter(x => !x.bad);
+
+    if (good_paths.length < 2) {
+      log.error(`Must have at least 2 good onion paths, actual: ${good_paths.length}`);
+      await this.buildNewOnionPaths();
+    }
+
+    const paths = _.shuffle(good_paths);
+
+    if (!toExclude) {
+      return paths[0];
+    }
+
+    // Select a path that doesn't contain `toExclude`
+    const other_paths = paths.filter(path => !_.some(path, node => node.pubkey_ed25519 == toExclude.pubkey_ed25519));
+
+    if (other_paths.length === 0) {
+      // This should never happen!
+      log.error("No onion paths available after filtering");
+    }
+
+    return other_paths[0].path;
+  }
+
+  async markPathAsBad(path) {
+    this.onionPaths.forEach(p => {
+      if (p.path == path) {
+        p.bad = true;
+      }
+    })
+  }
+  
+  async buildNewOnionPaths() {
+
+    // Note: this function may be called concurrently, so
+    // might consider blocking the other calls
+    
+    const _ = window.Lodash;
+
+    log.info("building new onion paths");
+
+    const all_nodes = await this.getRandomSnodePool();
+
+    if (this.guardNodes.length == 0) {
+
+      // Not cached, load from DB
+      let nodes = await window.libloki.storage.getGuardNodes();
+
+      if (nodes.length == 0) {
+        log.warn("no guard nodes in DB. Will be selecting new guards nodes...");
+      } else {
+        // We only store the nodes' keys, need to find full entries:
+        let ed_keys = nodes.map(x => x.ed25519PubKey);
+        this.guardNodes = all_nodes.filter(x => ed_keys.indexOf(x.pubkey_ed25519) !== -1);
+
+        if (this.guardNodes.length < ed_keys.length) {
+          log.warn(`could not find some guard nodes: ${this.guardNodes.length}/${ed_keys.length}`);
+        }
+
+      }
+
+      // If guard nodes is still empty (the old nodes are now invalid), select new ones:
+      if (this.guardNodes.length == 0 || true) {
+        this.guardNodes = await this.selectGuardNodes();
+      }
+
+    }
+
+    // TODO: select one guard node and 2 other nodes randomly
+    let other_nodes = _.difference(all_nodes, this.guardNodes);
+
+    if (other_nodes.length < 2) {
+      log.error("Too few nodes to build an onion path!");
+      return;
+    }
+
+    other_nodes = _.shuffle(other_nodes);
+    const guards = _.shuffle(this.guardNodes);
+
+    // Create path for every guard node:
+
+    // Each path needs 2 nodes in addition to the guard node:
+    const max_path = Math.floor(Math.min(guards.length, other_nodes.length / 2));
+
+    // TODO: might want to keep some of the existing paths
+    this.onionPaths = [];
+
+    for (let i = 0; i < max_path; i++) {
+      const path = [guards[i], other_nodes[i * 2], other_nodes[i * 2 + 1]];
+      this.onionPaths.push({path, bad: false});
+    }
+
+    log.info("Built onion paths: ", this.onionPaths);
   }
 
   async getRandomSnodeAddress() {

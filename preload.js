@@ -411,6 +411,7 @@ window.lokiFeatureFlags = {
   privateGroupChats: true,
   useSnodeProxy: true,
   useSealedSender: true,
+  useOnionRequests: true,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -419,7 +420,7 @@ Promise.prototype.ignore = function() {
   this.then(() => {});
 };
 
-if (config.environment.includes('test')) {
+if (config.environment.includes('test') && !config.environment == "swarm-testing1" && !config.environment == "swarm-testing2") {
   const isWindows = process.platform === 'win32';
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.test = {
@@ -439,5 +440,6 @@ if (config.environment.includes('test')) {
     updateSwarmNodes: () => {},
     updateLastHash: () => {},
     getSwarmNodesForPubKey: () => [],
+    buildNewOnionPaths: () => [],
   };
 }
