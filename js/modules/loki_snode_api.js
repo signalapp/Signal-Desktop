@@ -240,8 +240,10 @@ class LokiSnodeAPI {
         let timeoutTimer = null;
         // private retry container
         const trySeedNode = async (consecutiveErrors = 0) => {
+
+          // Removed limit until there is a way to get snode info
+          // for individual nodes (needed for guard nodes)
           const params = {
-            limit: RANDOM_SNODES_POOL_SIZE,
             active_only: true,
             fields: {
               public_ip: true,
