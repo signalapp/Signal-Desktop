@@ -1340,6 +1340,18 @@
       }
     });
 
+    Whisper.events.on('devicePairingRequestReceivedNoListener', async () => {
+      window.pushToast({
+        title: window.i18n('devicePairingRequestReceivedNoListenerTitle'),
+        description: window.i18n(
+          'devicePairingRequestReceivedNoListenerDescription'
+        ),
+        type: 'info',
+        id: 'pairingRequestNoListener',
+        shouldFade: false,
+      });
+    });
+
     Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
       try {
         await getAccountManager().authoriseSecondaryDevice(pubKey);

@@ -977,6 +977,11 @@ MessageReceiver.prototype.extend({
           'devicePairingRequestReceived',
           pairingRequest.secondaryDevicePubKey
         );
+      } else {
+        Whisper.events.trigger(
+          'devicePairingRequestReceivedNoListener',
+          pairingRequest.secondaryDevicePubKey
+        );
       }
       // Ignore requests if the dialog is closed
     }

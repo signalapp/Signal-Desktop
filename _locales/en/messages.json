@@ -987,6 +987,13 @@
   "devicePairingReceived": {
     "message": "Device Pairing Received"
   },
+  "devicePairingRequestReceivedNoListenerTitle": {
+    "message": "Device pairing request received."
+  },
+  "devicePairingRequestReceivedNoListenerDescription": {
+    "message":
+      "Device pairing request received but you are not on the device pairing screen. \nFirst go to Settings -> Device -> Link New Device."
+  },
   "waitingForDeviceToRegister": {
     "message": "Waiting for device to register..."
   },
