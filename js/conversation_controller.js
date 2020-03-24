@@ -187,6 +187,7 @@
       }
 
       await conversation.destroyMessages();
+
       await window.Signal.Data.removeConversation(id, {
         Conversation: Whisper.Conversation,
       });
