@@ -597,72 +597,72 @@
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr .container').hide();",
-    "lineNumber": 147,
+    "lineNumber": 148,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.qr = new QRCode(this.$('#qr')[0]).makeCode(url);",
-    "lineNumber": 148,
+    "lineNumber": 149,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#qr').addClass('ready');",
-    "lineNumber": 150,
+    "lineNumber": 151,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());",
-    "lineNumber": 155,
+    "lineNumber": 156,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "      this.$('#link-phone').submit();",
-    "lineNumber": 160,
+    "lineNumber": 161,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "        this.$('#link-phone').submit(e => {",
-    "lineNumber": 170,
+    "lineNumber": 171,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "          let name = this.$(DEVICE_NAME_SELECTOR).val();",
-    "lineNumber": 174,
+    "lineNumber": 175,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
     "line": "            this.$(DEVICE_NAME_SELECTOR).focus();",
-    "lineNumber": 177,
+    "lineNumber": 178,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {

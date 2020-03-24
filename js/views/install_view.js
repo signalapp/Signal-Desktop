@@ -144,6 +144,7 @@
         return;
       }
 
+      this.clearQR();
       this.$('#qr .container').hide();
       this.qr = new QRCode(this.$('#qr')[0]).makeCode(url);
       this.$('#qr').removeAttr('title');
