@@ -181,6 +181,11 @@
 
       return null;
     },
+    getOurConversationId() {
+      const e164 = textsecure.storage.user.getNumber();
+      const uuid = textsecure.storage.user.getUuid();
+      return this.getConversationId(e164 || uuid);
+    },
     prepareForSend(id, options) {
       // id is any valid conversation identifier
       const conversation = this.get(id);

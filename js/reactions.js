@@ -31,7 +31,9 @@
         const recid = ConversationController.getConversationId(
           re.get('targetAuthorE164') || re.get('targetAuthorUuid')
         );
-        return mcid === recid;
+        const mTime = message.get('sent_at');
+        const rTime = re.get('targetTimestamp');
+        return mcid === recid && mTime === rTime;
       });
 
       if (reactionsBySource.length > 0) {
@@ -51,13 +53,15 @@
           }
         );
 
-        const targetMessage = messages.find(
-          m =>
-            m.get('source') === reaction.get('targetAuthorE164') ||
-            // Outgoing messages don't have a source and are extremely unlikely
-            // to have the same timestamp
-            m.isOutgoing()
-        );
+        const targetMessage = messages.find(m => {
+          const mcid = m.isOutgoing()
+            ? ConversationController.getOurConversationId()
+            : m.get('conversationId');
+          const recid = ConversationController.getConversationId(
+            reaction.get('targetAuthorE164') || reaction.get('targetAuthorUuid')
+          );
+          return mcid === recid;
+        });
 
         if (!targetMessage) {
           window.log.info(
