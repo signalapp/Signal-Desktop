@@ -1124,8 +1124,10 @@ export class Message extends React.PureComponent<Props, State> {
               }
 
               // User clicked on message body
-              const target = (event.target as HTMLDivElement);
-              if(target.className === 'text-selectable') return;
+              const target = event.target as HTMLDivElement;
+              if (target.className === 'text-selectable') {
+                return;
+              }
 
               this.props.onSelectMessage();
             }}

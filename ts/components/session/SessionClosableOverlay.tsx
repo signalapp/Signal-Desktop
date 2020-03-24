@@ -285,5 +285,4 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       groupName: event,
     });
   }
-
 }
