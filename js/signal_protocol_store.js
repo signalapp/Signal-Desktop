@@ -223,7 +223,7 @@
       if (item) {
         return item.value;
       }
-
+      window.log.error('Could not load identityKey from SignalData');
       return undefined;
     },
     async getLocalRegistrationId() {

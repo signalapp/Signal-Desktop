@@ -110,7 +110,7 @@
   async function createContactSyncProtoMessage(conversations) {
     // Extract required contacts information out of conversations
     const sessionContacts = conversations.filter(
-      c => c.isPrivate() && !c.isSecondaryDevice()
+      c => c.isPrivate() && !c.isSecondaryDevice() && c.isFriend()
     );
 
     if (sessionContacts.length === 0) {

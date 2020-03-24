@@ -9,17 +9,19 @@ interface Props {
   prevValue?: number;
   sendStatus: -1 | 0 | 1 | 2;
   visible: boolean;
-  fadeOnComplete: boolean;
+  showOnComplete: boolean;
+
+  resetProgress: any;
 }
 
 interface State {
+  show: boolean;
   visible: boolean;
-  startFade: boolean;
 }
 
 export class SessionProgress extends React.PureComponent<Props, State> {
   public static defaultProps = {
-    fadeOnComplete: true,
+    showOnComplete: true,
   };
 
   constructor(props: any) {
@@ -28,14 +30,21 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     const { visible } = this.props;
 
     this.state = {
+      show: true,
       visible,
-      startFade: false,
     };
+
+    this.onComplete = this.onComplete.bind(this);
+  }
+
+  public componentWillReceiveProps() {
+    // Reset show for each reset
+    this.setState({show: true});
   }
 
   public render() {
-    const { startFade } = this.state;
     const { value, prevValue, sendStatus } = this.props;
+    const { show } = this.state;
 
     // Duration will be the decimal (in seconds) of
     // the percentage differnce, else 0.25s;
@@ -53,44 +62,54 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     const backgroundColor = sendStatus === -1 ? failureColor : successColor;
 
     const shiftDurationMs = this.getShiftDuration(this.props.value, prevValue) * 1000;
-    const fadeDurationMs = 500;
-    const fadeOffsetMs = shiftDurationMs + 500;
+    const showDurationMs = 500;
+    const showOffsetMs = shiftDurationMs + 500;
+
+    const willComplete = value >= 100;
+    if (willComplete && !show){
+      setTimeout(
+        this.onComplete,
+        shiftDurationMs,
+      );
+    }
 
     const style = {
       'background-color':         backgroundColor,
       'transform':                `translateX(-${100 - value}%)`,
-      'transition-property':      'transform, opacity',
-      'transition-duration':      `${shiftDurationMs}ms, ${fadeDurationMs}ms`,
-      'transition-delay':         `0ms, ${fadeOffsetMs}ms`,
-      'transition-timing-funtion':'cubic-bezier(0.25, 0.46, 0.45, 0.94), linear',
+      'transition-property':      'transform',
+      // 'transition-property':      'transform, opacity',
+      'transition-duration':      `${shiftDurationMs}ms`,
+      // 'transition-duration':      `${shiftDurationMs}ms, ${showDurationMs}ms`,
+      'transition-delay':         `0ms`,
+      // 'transition-delay':         `0ms, ${showOffsetMs}ms`,
+      'transition-timing-funtion':'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      //'transition-timing-funtion':'cubic-bezier(0.25, 0.46, 0.45, 0.94), linear',
     }
-
-    if (value >= 100) {
-      this.onComplete();
-    }
-
+      
     return (
       <div className="session-progress">
-        <div
-          className={classNames('session-progress__progress', startFade && 'fade')}
-          style={style}
-        >
-          &nbsp
-        </div>
+        { show && (
+          <div
+            className="session-progress__progress"
+            style={style}
+          >
+            &nbsp
+          </div>
+        )}
       </div>
     );
   }
-
-  public onComplete() {
-    const { fadeOnComplete } = this.props;
-
-    // Fade
-    if (fadeOnComplete) {
-      this.setState({
-        startFade: true,
-      });
-      
+  
+  public onComplete(){
+    if (!this.state.show) {
+      return;
     }
+
+    console.log(`[sending] ONCOMPLETE`);
+    this.setState({show: false}, () => {
+      setTimeout(this.props.resetProgress, 2000);
+    });
+    
   }
 
   private getShiftDuration(value: number, prevValue?: number) {

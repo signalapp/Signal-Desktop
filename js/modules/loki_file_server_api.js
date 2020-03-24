@@ -103,8 +103,11 @@ class LokiFileServerInstance {
         if (!Array.isArray(authorisations)) {
           return;
         }
+        const validAuthorisations = authorisations.filter(
+          a => a && typeof auth === 'object'
+        );
         await Promise.all(
-          authorisations.map(async auth => {
+          validAuthorisations.map(async auth => {
             // only skip, if in secondary search mode
             if (isRequest && auth.secondaryDevicePubKey !== user.username) {
               // this is not the authorization we're looking for

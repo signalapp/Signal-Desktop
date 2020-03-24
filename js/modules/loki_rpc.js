@@ -29,7 +29,9 @@ const decryptResponse = async (response, address) => {
   return {};
 };
 
-const sendToProxy = async (options = {}, targetNode) => {
+const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
 
   // Don't allow arbitrary URLs, only snodes and loki servers
@@ -60,36 +62,101 @@ const sendToProxy = async (options = {}, targetNode) => {
       'X-Sender-Public-Key': StringView.arrayBufferToHex(myKeys.pubKey),
       'X-Target-Snode-Key': targetNode.pubkey_ed25519,
     },
+    agent: snodeHttpsAgent,
   };
 
   // we only proxy to snodes...
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
   const response = await nodeFetch(url, firstHopOptions);
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+
+  if (response.status === 401) {
+    // decom or dereg
+    // remove
+    // but which the proxy or the target...
+    // we got a ton of randomPool nodes, let's just not worry about this one
+    lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+    const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
+    log.warn(
+      `lokiRpc sendToProxy`,
+      `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+        targetNode.port
+      }`,
+      `snode is decom or dereg: `,
+      ciphertext,
+      // `marking random snode bad ${randomPoolRemainingCount} remaining`
+      `Try #${retryNumber}`,
+      `removing randSnode leaving ${randomPoolRemainingCount} in the random pool`
+    );
+    // retry, just count it happening 5 times to be the target for now
+    return sendToProxy(options, targetNode, retryNumber + 1);
+  }
 
   // detect SNode is not ready (not in swarm; not done syncing)
-  if (response.status === 503) {
+  if (response.status === 503 || response.status === 500) {
     const ciphertext = await response.text();
-    log.error(
-      `lokiRpc sendToProxy snode ${randSnode.ip}:${randSnode.port} error`,
-      ciphertext
+    // we shouldn't do these,
+    // it's seems to be not the random node that's always bad
+    // but the target node
+
+    // we got a ton of randomPool nodes, let's just not worry about this one
+    lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
+    const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
+    log.warn(
+      `lokiRpc sendToProxy`,
+      `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+        targetNode.port
+      }`,
+      `code ${response.status} error`,
+      ciphertext,
+      // `marking random snode bad ${randomPoolRemainingCount} remaining`
+      `Try #${retryNumber}`,
+      `removing randSnode leaving ${randomPoolRemainingCount} in the random pool`
     );
     // mark as bad for this round (should give it some time and improve success rates)
-    lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
     // retry for a new working snode
-    return sendToProxy(options, targetNode);
+    const pRetryNumber = retryNumber + 1;
+    if (pRetryNumber > 5) {
+      // it's likely a net problem or an actual problem on the target node
+      // lets mark the target node bad for now
+      // we'll just rotate it back in if it's a net problem
+      log.warn(`Failing ${targetNode.ip}:${targetNode.port} after 5 retries`);
+      if (options.ourPubKey) {
+        lokiSnodeAPI.unreachableNode(options.ourPubKey, targetNode);
+      }
+      return false;
+    }
+    // 500 burns through a node too fast,
+    // let's slow the retry to give it more time to recover
+    if (response.status === 500) {
+      await timeoutDelay(5000);
+    }
+    return sendToProxy(options, targetNode, pRetryNumber);
   }
+  /*
+  if (response.status === 500) {
+    // usually when the server returns nothing...
+  }
+  */
 
   // FIXME: handle nodeFetch errors/exceptions...
   if (response.status !== 200) {
     // let us know we need to create handlers for new unhandled codes
-    log.warn('lokiRpc sendToProxy fetch non-200 statusCode', response.status);
+    log.warn(
+      'lokiRpc sendToProxy fetch non-200 statusCode',
+      response.status,
+      `from snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+        targetNode.port
+      }`
+    );
+    return false;
   }
 
   const ciphertext = await response.text();
   if (!ciphertext) {
     // avoid base64 decode failure
-    log.warn('Server did not return any data for', options);
+    // usually a 500 but not always
+    // could it be a timeout?
+    log.warn('Server did not return any data for', options, targetNode);
+    return false;
   }
 
   let plaintext;
@@ -112,7 +179,9 @@ const sendToProxy = async (options = {}, targetNode) => {
       'lokiRpc sendToProxy decode error',
       e.code,
       e.message,
-      `from ${randSnode.ip}:${randSnode.port} ciphertext:`,
+      `from ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+        targetNode.port
+      } ciphertext:`,
       ciphertext
     );
     if (ciphertextBuffer) {
@@ -138,6 +207,15 @@ const sendToProxy = async (options = {}, targetNode) => {
       }
       return false;
     };
+    if (retryNumber) {
+      log.info(
+        `lokiRpc sendToProxy request succeeded,`,
+        `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
+          targetNode.port
+        }`,
+        `on retry #${retryNumber}`
+      );
+    }
     return jsonRes;
   } catch (e) {
     log.error(
@@ -182,22 +260,24 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     timeout,
     method,
   };
-  if (url.match(/https:\/\//)) {
-    fetchOptions.agent = snodeHttpsAgent;
-  }
 
   try {
     if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
       const result = await sendToProxy(fetchOptions, targetNode);
-      return result ? result.json() : false;
+      // if not result, maybe we should throw??
+      return result ? result.json() : {};
     }
 
     if (url.match(/https:\/\//)) {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+      // import that this does not get set in sendToProxy fetchOptions
+      fetchOptions.agent = snodeHttpsAgent;
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    } else {
+      log.info('lokiRpc http communication', url);
     }
     const response = await nodeFetch(url, fetchOptions);
     // restore TLS checking
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
     let result;
     // Wrong swarm

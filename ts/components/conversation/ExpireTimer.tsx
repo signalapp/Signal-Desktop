@@ -47,11 +47,27 @@ export class ExpireTimer extends React.Component<Props> {
     } = this.props;
 
     const bucket = getTimerBucket(expirationTimestamp, expirationLength);
+    let timeLeft = Math.round((expirationTimestamp - Date.now()) / 1000);
+    timeLeft = timeLeft >= 0 ? timeLeft : 0;
+    if (timeLeft <= 60) {
+      return (
+        <span
+          className={classNames(
+            'module-expire-timer-margin',
+            'module-message__metadata__date',
+            `module-message__metadata__date--${direction}`
+          )}
+        >
+          {timeLeft}
+        </span>
+      );
+    }
 
     return (
       <div
         className={classNames(
           'module-expire-timer',
+          'module-expire-timer-margin',
           `module-expire-timer--${bucket}`,
           `module-expire-timer--${direction}`,
           withImageNoCaption

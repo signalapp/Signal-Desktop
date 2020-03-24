@@ -227,8 +227,11 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   // Eg. window.getSettingValue('theme', 'light')
   // returns 'false' when the value is 'dark'.
 
+  // We need to get specific settings from the main process
   if (settingID === 'media-permissions') {
     return window.getMediaPermissions();
+  } else if (settingID === 'auto-update') {
+    return window.getAutoUpdateEnabled();
   }
 
   const settingVal = window.storage.get(settingID);
@@ -236,6 +239,12 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
 };
 
 window.setSettingValue = (settingID, value) => {
+  // For auto updating we need to pass the value to the main process
+  if (settingID === 'auto-update') {
+    window.setAutoUpdateEnabled(value);
+    return;
+  }
+
   window.storage.put(settingID, value);
 
   // FIXME - This should be called in the settings object in 
@@ -251,6 +260,11 @@ window.getMessageTTL = () => window.storage.get('message-ttl', 24);
 // Media Permissions
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
+
+// Auto update setting
+window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');
+window.setAutoUpdateEnabled = value =>
+  ipc.send('set-auto-update-setting', !!value);
 
 ipc.on('get-ready-for-shutdown', async () => {
   const { shutdown } = window.Events || {};

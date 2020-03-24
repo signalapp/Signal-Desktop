@@ -1407,6 +1407,7 @@ label {
   resize: none;
   overflow: hidden;
   user-select: all;
+  overflow-y: auto;
 }
 
 input {
@@ -1496,7 +1497,7 @@ input {
     border-radius: 50%;
     opacity: 1;
     background-color: $session-shade-2;
-    box-shadow: 0px 0px $session-font-sm 0px rgba($session-color-white, 0.2);
+    box-shadow: 0px 0px 10px 0px rgba($session-color-white, 0.1);
 
     svg path {
       transition: $session-transition-duration;

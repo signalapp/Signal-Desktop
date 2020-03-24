@@ -429,7 +429,7 @@ async function readyForUpdates() {
 
   // Second, start checking for app updates
   try {
-    await updater.start(getMainWindow, locale.messages, logger);
+    await updater.start(getMainWindow, userConfig, locale.messages, logger);
   } catch (error) {
     const log = logger || console;
     log.error(
@@ -1089,6 +1089,24 @@ ipc.on('set-media-permissions', (event, value) => {
   event.sender.send('set-success-media-permissions', null);
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send('mediaPermissionsChanged');
+  }
+});
+
+// Loki - Auto updating
+ipc.on('get-auto-update-setting', event => {
+  const configValue = userConfig.get('autoUpdate');
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = typeof configValue !== 'boolean' ? true : configValue;
+});
+
+ipc.on('set-auto-update-setting', (event, enabled) => {
+  userConfig.set('autoUpdate', !!enabled);
+
+  if (enabled) {
+    readyForUpdates();
+  } else {
+    updater.stop();
+    isReadyForUpdates = false;
   }
 });
 

@@ -709,12 +709,10 @@
           }
 
           // lets not allow ANY URLs, lets force it to be local to public chat server
-          const relativeFileUrl = fileObj.url.replace(
-            API.serverAPI.baseServerUrl,
-            ''
-          );
+          const url = new URL(fileObj.url);
+
           // write it to the channel
-          await API.setChannelAvatar(relativeFileUrl);
+          await API.setChannelAvatar(url.pathname);
         }
 
         if (await API.setChannelName(groupName)) {
@@ -1947,6 +1945,10 @@
   }) {
     return async event => {
       const { data, confirm } = event;
+      if (!data) {
+        window.log.warn('Invalid data passed to createMessageHandler.', event);
+        return confirm();
+      }
 
       const messageDescriptor = getMessageDescriptor(data);
 
@@ -1965,38 +1967,42 @@
         return handleProfileUpdate({ data, confirm, messageDescriptor });
       }
 
-      const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
-      const allOurDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        primaryDeviceKey
-      );
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
       let message;
-      if (
+      const { source } = data;
+
+      // Note: This only works currently because we have a 1 device limit
+      // When we change that, the check below needs to change too
+      const ourNumber = textsecure.storage.user.getNumber();
+      const primaryDevice = window.storage.get('primaryDevicePubKey');
+      const isOurDevice =
+        source && (source === ourNumber || source === primaryDevice);
+      const isPublicChatMessage =
         messageDescriptor.type === 'group' &&
-        descriptorId.match(/^publicChat:/) &&
-        allOurDevices.includes(data.source)
-      ) {
+        descriptorId.match(/^publicChat:/);
+      if (isPublicChatMessage && isOurDevice) {
         // Public chat messages from ourselves should be outgoing
         message = await createSentMessage(data);
       } else {
         message = await createMessage(data);
       }
+
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {
-        // RSS expects duplciates, so squelch log
+        // RSS expects duplicates, so squelch log
         if (!descriptorId.match(/^rss:/)) {
           window.log.warn('Received duplicate message', message.idForLogging());
         }
-        return event.confirm();
+        return confirm();
       }
 
       await ConversationController.getOrCreateAndWait(
         messageDescriptor.id,
         messageDescriptor.type
       );
-      return message.handleDataMessage(data.message, event.confirm, {
+      return message.handleDataMessage(data.message, confirm, {
         initialLoadComplete,
       });
     };
@@ -2133,35 +2139,35 @@
 
     const message = new Whisper.Message(messageData);
 
-    // If we don't return early here, we can get into infinite error loops. So, no
-    //   delivery receipts for sealed sender errors.
-
+    // Send a delivery receipt
+    // If we don't return early here, we can get into infinite error loops. So, no delivery receipts for sealed sender errors.
     // Note(LOKI): don't send receipt for FR as we don't have a session yet
-    if (isError || !data.unidentifiedDeliveryReceived || data.friendRequest) {
-      return message;
-    }
+    const isGroup = data && data.message && data.message.group;
+    const shouldSendReceipt =
+      !isError &&
+      data.unidentifiedDeliveryReceived &&
+      !data.isFriendRequest &&
+      !isGroup;
 
-    try {
+    // Send the receipt async and hope that it succeeds
+    if (shouldSendReceipt) {
       const { wrap, sendOptions } = ConversationController.prepareForSend(
         data.source
       );
-      const isGroup = data && data.message && data.message.group;
-      if (!isGroup) {
-        await wrap(
-          textsecure.messaging.sendDeliveryReceipt(
-            data.source,
-            data.timestamp,
-            sendOptions
-          )
+      wrap(
+        textsecure.messaging.sendDeliveryReceipt(
+          data.source,
+          data.timestamp,
+          sendOptions
+        )
+      ).catch(error => {
+        window.log.error(
+          `Failed to send delivery receipt to ${data.source} for message ${
+            data.timestamp
+          }:`,
+          error && error.stack ? error.stack : error
         );
-      }
-    } catch (error) {
-      window.log.error(
-        `Failed to send delivery receipt to ${data.source} for message ${
-          data.timestamp
-        }:`,
-        error && error.stack ? error.stack : error
-      );
+      });
     }
 
     return message;

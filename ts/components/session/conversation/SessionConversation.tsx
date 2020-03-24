@@ -88,6 +88,7 @@ export class SessionConversation extends React.Component<any, State> {
     this.selectMessage = this.selectMessage.bind(this);
     this.resetSelection = this.resetSelection.bind(this);
     this.updateSendingProgress = this.updateSendingProgress.bind(this);
+    this.resetSendingProgress = this.resetSendingProgress.bind(this);
     this.onMessageSending = this.onMessageSending.bind(this);
     this.onMessageSuccess = this.onMessageSuccess.bind(this);
     this.onMessageFailure = this.onMessageFailure.bind(this);
@@ -148,7 +149,7 @@ export class SessionConversation extends React.Component<any, State> {
     const selectionMode = !!this.state.selectedMessages.length;
 
     const conversation = this.props.conversations.conversationLookup[conversationKey];
-    const conversationModel = window.getConversationByKey(conversationKey);
+    const conversationModel = window.ConversationController.get(conversationKey);
     const isRss = conversation.isRss;
 
     const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);
@@ -172,6 +173,7 @@ export class SessionConversation extends React.Component<any, State> {
             value={this.state.sendingProgress}
             prevValue={this.state.prevSendingProgress}
             sendStatus={this.state.sendingProgressStatus}
+            resetProgress={this.resetSendingProgress}
           />
 
           <div className="messages-wrapper">
@@ -188,7 +190,7 @@ export class SessionConversation extends React.Component<any, State> {
               <div ref={this.messagesEndRef} />
             </div>
 
-            <SessionScrollButton display={showScrollButton} onClick={this.scrollToBottom}/>
+            <SessionScrollButton show={showScrollButton} onClick={this.scrollToBottom}/>
             { showRecordingView && (
               <div className="messages-wrapper--blocking-overlay"></div>
             )}
@@ -398,7 +400,7 @@ export class SessionConversation extends React.Component<any, State> {
 
   public getHeaderProps() {
     const {conversationKey} = this.state;
-    const conversation = window.getConversationByKey(conversationKey);
+    const conversation = window.ConversationController.get(conversationKey);
 
     const expireTimer = conversation.get('expireTimer');
     const expirationSettingName = expireTimer
@@ -519,7 +521,7 @@ export class SessionConversation extends React.Component<any, State> {
   
   public getGroupSettingsProps() {
     const { conversationKey } = this.state;
-    const conversation = window.getConversationByKey(conversationKey);
+    const conversation = window.ConversationController.get(conversationKey);
 
     const ourPK = window.textsecure.storage.user.getNumber();
     const members = conversation.get('members') || [];
@@ -579,7 +581,7 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public updateSendingProgress(value: number, status: -1 | 0 | 1 | 2) {
     // If you're sending a new message, reset previous value to zero
-    const prevSendingProgress = 0//status === 1 ? 0 : this.state.sendingProgress;
+    const prevSendingProgress = status === 1 ? 0 : this.state.sendingProgress;
 
     this.setState({
       sendingProgress: value,
@@ -588,12 +590,20 @@ export class SessionConversation extends React.Component<any, State> {
     });
   }
 
+  public resetSendingProgress() {
+    this.setState({
+      sendingProgress: 0,
+      prevSendingProgress: 0,
+      sendingProgressStatus: 0,
+    });
+  }
+
   public onMessageSending() {
     // Set sending state 5% to show message sending
     const initialValue = 5;
+    this.updateSendingProgress(initialValue, 1);
 
     console.log(`[sending] Message Sending`);
-    this.updateSendingProgress(initialValue, 1);
   }
 
   public onMessageSuccess(){
@@ -608,6 +618,14 @@ export class SessionConversation extends React.Component<any, State> {
   
   public updateReadMessages() {
     const { isScrolledToBottom, messages, conversationKey } = this.state;
+
+    // If you're not friends, don't mark anything as read. Otherwise
+    // this will automatically accept friend request.
+    const conversation = window.ConversationController.get(conversationKey);
+    if (!conversation.isFriend()){
+      return;
+    }
+
     let unread;
 
     if (!messages || messages.length === 0) {
@@ -690,9 +708,35 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public async handleScroll() {
     const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) return;
+    if (!messageContainer){
+      return;
+    }
 
-    const isScrolledToBottom = messageContainer.scrollHeight - messageContainer.clientHeight <= messageContainer.scrollTop + 1;
+    
+    const scrollTop = messageContainer.scrollTop;
+    const scrollHeight = messageContainer.scrollHeight;
+    const clientHeight = messageContainer.clientHeight;
+
+    const scrollButtonViewShowLimit = 0.75;
+    const scrollButtonViewHideLimit = 0.40;
+    const scrollOffsetPx = scrollHeight - scrollTop - clientHeight;
+    const scrollOffsetPc = scrollOffsetPx / clientHeight;
+    
+    // Scroll button appears if you're more than 75% scrolled up
+    if (scrollOffsetPc > scrollButtonViewShowLimit && !this.state.showScrollButton){
+      this.setState({showScrollButton: true});
+    }
+    // Scroll button disappears if you're more less than 40% scrolled up
+    if (scrollOffsetPc < scrollButtonViewHideLimit && this.state.showScrollButton){
+      this.setState({showScrollButton: false});
+    }
+
+    console.log(`[scroll] scrollOffsetPx: `, scrollOffsetPx);
+    console.log(`[scroll] scrollOffsetPc: `, scrollOffsetPc);
+
+    // Scrolled to bottom
+    const isScrolledToBottom = scrollOffsetPc === 0;
+    if (isScrolledToBottom) console.log(`[scroll] Scrolled to bottom`);
 
     // Mark messages read
     this.updateReadMessages();
@@ -702,16 +746,8 @@ export class SessionConversation extends React.Component<any, State> {
       this.setState({ isScrolledToBottom });
     }
 
-    // Scroll button appears if you're more than 75vh scrolled up
-    console.log(`[scroll] MessageContainer: `, messageContainer);
-    console.log(`[scroll] scrollTop: `, messageContainer.scrollTop);
-    console.log(`[scroll] scrollHeight: `, messageContainer.scrollHeight);
-    console.log(`[scroll] clientHeight: `, messageContainer.clientHeight);
-    
-    const scrollButtonViewLimit = messageContainer.clientHeight;
-
     // Fetch more messages when nearing the top of the message list
-    const shouldFetchMoreMessages = messageContainer.scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
+    const shouldFetchMoreMessages = scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
     
     if (shouldFetchMoreMessages){
       const numMessages = this.state.messages.length + window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;

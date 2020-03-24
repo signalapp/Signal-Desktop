@@ -4,7 +4,7 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {
   onClick?: any;
-  display?: boolean;
+  show?: boolean;
 }
 
 export class SessionScrollButton extends React.PureComponent<Props> {
@@ -15,7 +15,7 @@ export class SessionScrollButton extends React.PureComponent<Props> {
   public render() {
     return (
       <>
-        {this.props.display && (
+        {this.props.show && (
           <div className="session-scroll-button">
             <SessionIconButton
               iconType={SessionIconType.Chevron}
