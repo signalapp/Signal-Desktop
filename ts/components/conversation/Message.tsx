@@ -1116,7 +1116,7 @@ export class Message extends React.PureComponent<Props, State> {
               expiring ? 'module-message--expired' : null
             )}
             role="button"
-            onClick={e => {
+            onClick={event => {
               const selection = window.getSelection();
               // Text is being selected
               if (selection && selection.type === 'Range') {
@@ -1124,12 +1124,8 @@ export class Message extends React.PureComponent<Props, State> {
               }
 
               // User clicked on message body
-              // if (e.target === 'span.text-selectable'){
-
-              // }
-              console.log(`[event] EVENT: `, e);
-              console.log(`[event] Target: `, e.target);
-              console.log(`[event] Tagname: `, e.target);
+              const target = (event.target as HTMLDivElement);
+              if(target.className === 'text-selectable') return;
 
               this.props.onSelectMessage();
             }}
