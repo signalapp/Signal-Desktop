@@ -160,7 +160,7 @@ class LokiSnodeAPI {
 
     if (otherPaths.length === 0) {
       // This should never happen!
-      log.error('No onion paths available after filtering');
+      throw new Error('No onion paths available after filtering');
     }
 
     return otherPaths[0].path;
