@@ -1037,6 +1037,8 @@
     async sendReactionMessage(reaction, target) {
       const timestamp = Date.now();
       const outgoingReaction = { ...reaction, ...target };
+      const expireTimer = this.get('expireTimer');
+
       const reactionModel = Whisper.Reactions.add({
         ...outgoingReaction,
         fromId:
@@ -1099,7 +1101,7 @@
             null,
             outgoingReaction,
             timestamp,
-            null,
+            expireTimer,
             profileKey
           );
           return message.sendSyncMessageOnly(dataMessage);
@@ -1118,7 +1120,7 @@
               null,
               outgoingReaction,
               timestamp,
-              null,
+              expireTimer,
               profileKey,
               options
             );
@@ -1134,7 +1136,7 @@
             null,
             outgoingReaction,
             timestamp,
-            null,
+            expireTimer,
             profileKey,
             options
           );
