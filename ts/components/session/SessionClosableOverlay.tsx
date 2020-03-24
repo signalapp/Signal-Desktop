@@ -176,9 +176,8 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
               value={this.state.groupName}
               maxLength={window.CONSTANTS.MAX_GROUPNAME_LENGTH}
               onChange={this.onGroupNameChanged}
+              onPressEnter={onButtonClick ?? onButtonClick()}
             />
-
-            {/*  */}
           </div>
         ) : (
           <SessionIdEditable
@@ -286,4 +285,5 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       groupName: event,
     });
   }
+
 }
