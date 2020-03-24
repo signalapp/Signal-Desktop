@@ -7,7 +7,6 @@ const { lokiRpc } = require('./loki_rpc');
 
 const DEFAULT_CONNECTIONS = 3;
 const MAX_ACCEPTABLE_FAILURES = 1;
-const LOKI_LONGPOLL_HEADER = 'X-Loki-Long-Poll';
 
 function sleepFor(time) {
   return new Promise(resolve => {
@@ -283,7 +282,6 @@ class LokiMessageAPI {
         !stopPollingResult &&
         successiveFailures < MAX_ACCEPTABLE_FAILURES
       ) {
-
         // TODO: Revert back to using snode address instead of IP
         try {
           // in general, I think we want exceptions to bubble up
@@ -339,7 +337,6 @@ class LokiMessageAPI {
 
         // Always wait a bit as we are no longer long-polling
         await sleepFor(Math.max(successiveFailures, 2) * 1000);
-
       }
       if (successiveFailures >= MAX_ACCEPTABLE_FAILURES) {
         const remainingSwarmSnodes = await lokiSnodeAPI.unreachableNode(

@@ -1,5 +1,5 @@
 /* global log, libloki, textsecure, getStoragePubKey, lokiSnodeAPI, StringView,
-  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process */
+  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process, crypto */
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
@@ -12,9 +12,8 @@ const snodeHttpsAgent = new https.Agent({
 const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 const endpointBase = '/storage_rpc/v1';
 
-
 // Request index for debugging
-let onion_req_idx = 0;
+let onionReqIdx = 0;
 
 const decryptResponse = async (response, address) => {
   let plaintext = false;
@@ -36,7 +35,6 @@ const decryptResponse = async (response, address) => {
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const encryptForNode = async (node, payload) => {
-
   const textEncoder = new TextEncoder();
   const plaintext = textEncoder.encode(payload);
 
@@ -49,64 +47,72 @@ const encryptForNode = async (node, payload) => {
     ephemeral.privKey
   );
 
-  const salt = window.Signal.Crypto.bytesFromString("LOKI");
+  const salt = window.Signal.Crypto.bytesFromString('LOKI');
 
-  let key = await crypto.subtle.importKey('raw', salt, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']);
-  let symmetricKey = await crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, ephemeralSecret);
+  const key = await crypto.subtle.importKey(
+    'raw',
+    salt,
+    { name: 'HMAC', hash: { name: 'SHA-256' } },
+    false,
+    ['sign']
+  );
+  const symmetricKey = await crypto.subtle.sign(
+    { name: 'HMAC', hash: 'SHA-256' },
+    key,
+    ephemeralSecret
+  );
 
   const ciphertext = await window.libloki.crypto.EncryptGCM(
     symmetricKey,
     plaintext
   );
 
-  return {ciphertext, symmetricKey, "ephemeral_key": ephemeral.pubKey};
-
-}
+  return { ciphertext, symmetricKey, ephemeral_key: ephemeral.pubKey };
+};
 
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
 const encryptForDestination = async (node, payload) => {
   // Do we still need "headers"?
-  const req_str = JSON.stringify({"body": payload, "headers": ""});
+  const reqStr = JSON.stringify({ body: payload, headers: '' });
 
-  return await encryptForNode(node, req_str);
-}
+  return encryptForNode(node, reqStr);
+};
 
 // `ctx` holds info used by `node` to relay further
-const encryptForRelay = async (node, next_node, ctx) => {
-
+const encryptForRelay = async (node, nextNode, ctx) => {
   const payload = ctx.ciphertext;
 
-  const req_json = {
-    "ciphertext": dcodeIO.ByteBuffer.wrap(payload).toString('base64'),
-    "ephemeral_key": StringView.arrayBufferToHex(ctx.ephemeral_key),
-    "destination": next_node.pubkey_ed25519,
-  }
+  const reqJson = {
+    ciphertext: dcodeIO.ByteBuffer.wrap(payload).toString('base64'),
+    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeral_key),
+    destination: nextNode.pubkey_ed25519,
+  };
 
-  const req_str = JSON.stringify(req_json);
+  const reqStr = JSON.stringify(reqJson);
 
-  return await encryptForNode(node, req_str);
+  return encryptForNode(node, reqStr);
+};
 
-}
+const BAD_PATH = 'bad_path';
 
-const BAD_PATH = "bad_path";
+// May return false BAD_PATH, indicating that we should try a new
+const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
+  log.info('Sending an onion request');
 
-// May return false BAD_PATH, indicating that we should try a new 
-const sendOnionRequest = async (req_idx, nodePath, targetNode, plaintext) => {
+  const ctx1 = await encryptForDestination(targetNode, plaintext);
+  const ctx2 = await encryptForRelay(nodePath[2], targetNode, ctx1);
+  const ctx3 = await encryptForRelay(nodePath[1], nodePath[2], ctx2);
+  const ctx4 = await encryptForRelay(nodePath[0], nodePath[1], ctx3);
 
-  log.info("Sending an onion request");
-
-  let ctx_1 = await encryptForDestination(targetNode, plaintext);
-  let ctx_2 = await encryptForRelay(nodePath[2], targetNode, ctx_1);
-  let ctx_3 = await encryptForRelay(nodePath[1], nodePath[2], ctx_2);
-  let ctx_4 = await encryptForRelay(nodePath[0], nodePath[1], ctx_3);
-
-  const ciphertext_base64 = dcodeIO.ByteBuffer.wrap(ctx_4.ciphertext).toString('base64');
+  const ciphertextBase64 = dcodeIO.ByteBuffer.wrap(ctx4.ciphertext).toString(
+    'base64'
+  );
 
   const payload = {
-    "ciphertext": ciphertext_base64,
-    "ephemeral_key": StringView.arrayBufferToHex(ctx_4.ephemeral_key),
-  }
+    ciphertext: ciphertextBase64,
+    ephemeral_key: StringView.arrayBufferToHex(ctx4.ephemeral_key),
+  };
 
   const fetchOptions = {
     method: 'POST',
@@ -120,42 +126,44 @@ const sendOnionRequest = async (req_idx, nodePath, targetNode, plaintext) => {
   const response = await nodeFetch(url, fetchOptions);
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
-  return await processOnionResponse(req_idx, response, ctx_1.symmetricKey, true);
-}
+  return processOnionResponse(reqIdx, response, ctx1.symmetricKey, true);
+};
 
 // Process a response as it arrives from `nodeFetch`, handling
-// http errors and attempting to decrypt the body with `shared_key`
-const processOnionResponse = async (req_idx, response, shared_key, use_aes_gcm) => {
-
-  console.log(`(${req_idx}) [path] processing onion response`);
+// http errors and attempting to decrypt the body with `sharedKey`
+const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
+  log.info(`(${reqIdx}) [path] processing onion response`);
 
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
-    console.warn("Got 503: snode not ready");
+    log.warn('Got 503: snode not ready');
 
     return BAD_PATH;
   }
 
-  if (response.status == 504) {
+  if (response.status === 504) {
     log.warn('Got 504: Gateway timeout');
     return BAD_PATH;
   }
 
-  if (response.status == 404) {
+  if (response.status === 404) {
     // Why would we get this error on testnet?
     log.warn('Got 404: Gateway timeout');
     return BAD_PATH;
   }
 
   if (response.status !== 200) {
-    log.warn('lokiRpc sendToProxy fetch unhandled error code:', response.status);
-    return;
+    log.warn(
+      'lokiRpc sendToProxy fetch unhandled error code:',
+      response.status
+    );
+    return false;
   }
-  
+
   const ciphertext = await response.text();
   if (!ciphertext) {
-    log.warn("[path]: Target node return empty ciphertext");
-    return;
+    log.warn('[path]: Target node return empty ciphertext');
+    return false;
   }
 
   let plaintext;
@@ -166,27 +174,20 @@ const processOnionResponse = async (req_idx, response, shared_key, use_aes_gcm) 
       'base64'
     ).toArrayBuffer();
 
-    const decrypt_fn = use_aes_gcm ? window.libloki.crypto.DecryptGCM : window.libloki.crypto.DHDecrypt;
+    const decryptFn = useAesGcm
+      ? window.libloki.crypto.DecryptGCM
+      : window.libloki.crypto.DHDecrypt;
 
-    const plaintextBuffer = await decrypt_fn(
-      shared_key,
-      ciphertextBuffer
-    );
+    const plaintextBuffer = await decryptFn(sharedKey, ciphertextBuffer);
 
     const textDecoder = new TextDecoder();
     plaintext = textDecoder.decode(plaintextBuffer);
-  } catch(e) {
-    log.error(
-      'lokiRpc sendToProxy decode error',
-      e.code,
-      e.message,
-      `from ${randSnode.ip}:${randSnode.port} ciphertext:`,
-      ciphertext
-    );
+  } catch (e) {
+    log.error(`(${reqIdx}) lokiRpc sendToProxy decode error`);
     if (ciphertextBuffer) {
       log.error('ciphertextBuffer', ciphertextBuffer);
     }
-    return;
+    return false;
   }
 
   try {
@@ -194,14 +195,11 @@ const processOnionResponse = async (req_idx, response, shared_key, use_aes_gcm) 
     // emulate nodeFetch response...
     jsonRes.json = () => {
       try {
-        let res = JSON.parse(jsonRes.body);
+        const res = JSON.parse(jsonRes.body);
         return res;
       } catch (e) {
         log.error(
-          'lokiRpc sendToProxy parse error',
-          e.code,
-          e.message,
-          `from ${randSnode.ip}:${randSnode.port} json:`,
+          `(${reqIdx}) lokiRpc sendToProxy parse error json: `,
           jsonRes.body
         );
       }
@@ -213,22 +211,24 @@ const processOnionResponse = async (req_idx, response, shared_key, use_aes_gcm) 
       'lokiRpc sendToProxy parse error',
       e.code,
       e.message,
-      `from ${randSnode.ip}:${randSnode.port} json:`,
+      `json:`,
       plaintext
     );
-
-    return;
+    return false;
   }
-
-}
+};
 
 const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
+  const _ = window.Lodash;
 
-  let snodePool = await lokiSnodeAPI.getRandomSnodePool();
+  const snodePool = await lokiSnodeAPI.getRandomSnodePool();
 
   if (snodePool.length < 2) {
-    console.error("Not enough service nodes for a proxy request, only have: ", snodePool.length);
-    return;
+    log.error(
+      'Not enough service nodes for a proxy request, only have: ',
+      snodePool.length
+    );
+    return false;
   }
 
   // Making sure the proxy node is not the same as the target node:
@@ -467,33 +467,42 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
   };
 
   try {
-
     // Absence of targetNode indicates that we want a direct connection
     // (e.g. to connect to a seed node for the first time)
     if (window.lokiFeatureFlags.useOnionRequests && targetNode) {
-
       // Loop until the result is not BAD_PATH
+      // eslint-disable-next-line no-constant-condition
       while (true) {
-
         // Get a path excluding `targetNode`:
+        // eslint-disable-next-line no-await-in-loop
         const path = await lokiSnodeAPI.getOnionPath(targetNode);
-        const this_idx = onion_req_idx++;
-  
-        log.info(`(${this_idx}) using path ${path[0].ip}:${path[0].port} -> ${path[1].ip}:${path[1].port} -> ${path[2].ip}:${path[2].port} => ${targetNode.ip}:${targetNode.port}`);
-  
-        const result = await sendOnionRequest(this_idx, path, targetNode, fetchOptions.body);
-  
-        if (result == BAD_PATH) {
-          log.error("[path] Error on the path");
+        const thisIdx = onionReqIdx;
+        onionReqIdx += 1;
+
+        log.info(
+          `(${thisIdx}) using path ${path[0].ip}:${path[0].port} -> ${
+            path[1].ip
+          }:${path[1].port} -> ${path[2].ip}:${path[2].port} => ${
+            targetNode.ip
+          }:${targetNode.port}`
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        const result = await sendOnionRequest(
+          thisIdx,
+          path,
+          targetNode,
+          fetchOptions.body
+        );
+
+        if (result === BAD_PATH) {
+          log.error('[path] Error on the path');
           lokiSnodeAPI.markPathAsBad(path);
         } else {
           return result ? result.json() : false;
         }
-
       }
-
     }
-
 
     if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
       const result = await sendToProxy(fetchOptions, targetNode);

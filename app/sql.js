@@ -993,7 +993,6 @@ async function updateToLokiSchemaVersion3(currentVersion, instance) {
   console.log('updateToLokiSchemaVersion3: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-
   await instance.run(
     `INSERT INTO loki_schema (
         version
@@ -1505,7 +1504,6 @@ async function getSecondaryDevicesFor(primaryDevicePubKey) {
 }
 
 async function getGuardNodes() {
-
   const nodes = await db.all(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`);
 
   if (!nodes) {
@@ -1513,55 +1511,27 @@ async function getGuardNodes() {
   }
 
   return nodes;
-
-}
-
-async function createOrUpdatePreKey(data) {
-  const { id, recipient } = data;
-  if (!id) {
-    throw new Error('createOrUpdate: Provided data did not have a truthy id');
-  }
-
-  await db.run(
-    `INSERT OR REPLACE INTO ${PRE_KEYS_TABLE} (
-      id,
-      recipient,
-      json
-    ) values (
-      $id,
-      $recipient,
-      $json
-    )`,
-    {
-      $id: id,
-      $recipient: recipient || '',
-      $json: objectToJSON(data),
-    }
-  );
 }
 
 async function updateGuardNodes(nodes) {
-
   await db.run('BEGIN TRANSACTION;');
 
   await db.run(`DELETE FROM ${GUARD_NODE_TABLE}`);
 
-  await Promise.all(nodes.map(edkey => 
-
-    db.run(
-      `INSERT INTO ${GUARD_NODE_TABLE} (
+  await Promise.all(
+    nodes.map(edkey =>
+      db.run(
+        `INSERT INTO ${GUARD_NODE_TABLE} (
         ed25519PubKey
       ) values ($ed25519PubKey)`,
-      {
-        $ed25519PubKey: edkey,
-      }
+        {
+          $ed25519PubKey: edkey,
+        }
+      )
     )
-
-  ));
+  );
 
   await db.run('END TRANSACTION;');
-
-
 }
 
 async function getPrimaryDeviceFor(secondaryDevicePubKey) {

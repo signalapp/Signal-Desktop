@@ -35,12 +35,21 @@
   }
 
   async function EncryptGCM(symmetricKey, plaintext) {
-
     const nonce = crypto.getRandomValues(new Uint8Array(NONCE_LENGTH));
 
-    const key = await crypto.subtle.importKey('raw', symmetricKey, {name: 'AES-GCM'}, false, ['encrypt']);
+    const key = await crypto.subtle.importKey(
+      'raw',
+      symmetricKey,
+      { name: 'AES-GCM' },
+      false,
+      ['encrypt']
+    );
 
-    const ciphertext = await crypto.subtle.encrypt({name: 'AES-GCM', iv: nonce, tagLength: 128}, key, plaintext);
+    const ciphertext = await crypto.subtle.encrypt(
+      { name: 'AES-GCM', iv: nonce, tagLength: 128 },
+      key,
+      plaintext
+    );
 
     const ivAndCiphertext = new Uint8Array(
       NONCE_LENGTH + ciphertext.byteLength
@@ -53,14 +62,22 @@
   }
 
   async function DecryptGCM(symmetricKey, ivAndCiphertext) {
+    const nonce = ivAndCiphertext.slice(0, NONCE_LENGTH);
+    const ciphertext = ivAndCiphertext.slice(NONCE_LENGTH);
 
-      const nonce = ivAndCiphertext.slice(0, NONCE_LENGTH);
-      const ciphertext = ivAndCiphertext.slice(NONCE_LENGTH);
+    const key = await crypto.subtle.importKey(
+      'raw',
+      symmetricKey,
+      { name: 'AES-GCM' },
+      false,
+      ['decrypt']
+    );
 
-      const key = await crypto.subtle.importKey('raw', symmetricKey, {name: 'AES-GCM'}, false, ['decrypt']);
-
-      return await crypto.subtle.decrypt({name: 'AES-GCM', iv: nonce}, key, ciphertext);
-
+    return crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv: nonce },
+      key,
+      ciphertext
+    );
   }
 
   async function DHDecrypt(symmetricKey, ivAndCiphertext) {
@@ -137,7 +154,7 @@
   }
 
   function generateEphemeralKeyPair() {
-    let keys = libsignal.Curve.generateKeyPair();
+    const keys = libsignal.Curve.generateKeyPair();
     // Signal protocol prepends with "0x05"
     keys.pubKey = keys.pubKey.slice(1);
     return keys;
@@ -145,7 +162,6 @@
 
   class LokiSnodeChannel {
     constructor() {
-
       this._ephemeralKeyPair = generateEphemeralKeyPair();
       this._ephemeralPubKeyHex = StringView.arrayBufferToHex(
         this._ephemeralKeyPair.pubKey

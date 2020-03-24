@@ -274,7 +274,7 @@
     getSecondaryDevicesFor,
     getPrimaryDeviceMapping,
     getGuardNodes,
-    updateGuardNodes
+    updateGuardNodes,
   };
 
   // Libloki protocol store
