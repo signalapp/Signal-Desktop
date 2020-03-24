@@ -27,7 +27,9 @@ const {
   shell,
 } = electron;
 
-const appUserModelId = `org.whispersystems.${packageJson.name}`;
+// FIXME Hardcoding appId to prevent build failrues on release.
+// const appUserModelId = packageJson.build.appId;
+const appUserModelId = 'com.loki-project.messenger-desktop';
 console.log('Set Windows Application User Model ID (AUMID)', {
   appUserModelId,
 });

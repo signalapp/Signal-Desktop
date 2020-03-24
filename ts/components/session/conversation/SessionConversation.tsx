@@ -31,8 +31,10 @@ interface State {
   doneInitialScroll: boolean;
   displayScrollToBottomButton: boolean;
   messageFetchTimestamp: number;
+
   showRecordingView: boolean;
   showOptionsPane: boolean;
+  showScrollButton: boolean;
 }
 
 export class SessionConversation extends React.Component<any, State> {
@@ -60,8 +62,10 @@ export class SessionConversation extends React.Component<any, State> {
       doneInitialScroll: false,
       displayScrollToBottomButton: false,
       messageFetchTimestamp: 0,
+
       showRecordingView: false,
       showOptionsPane: false,
+      showScrollButton: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -139,7 +143,7 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
-    const { messages, conversationKey, doneInitialScroll, showRecordingView, showOptionsPane } = this.state;
+    const { messages, conversationKey, doneInitialScroll, showRecordingView, showOptionsPane, showScrollButton } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
     const selectionMode = !!this.state.selectedMessages.length;
 
@@ -184,7 +188,7 @@ export class SessionConversation extends React.Component<any, State> {
               <div ref={this.messagesEndRef} />
             </div>
 
-            <SessionScrollButton display={true} onClick={this.scrollToBottom}/>
+            <SessionScrollButton display={showScrollButton} onClick={this.scrollToBottom}/>
             { showRecordingView && (
               <div className="messages-wrapper--blocking-overlay"></div>
             )}
@@ -517,8 +521,6 @@ export class SessionConversation extends React.Component<any, State> {
     const { conversationKey } = this.state;
     const conversation = window.getConversationByKey(conversationKey);
 
-    console.log(`[settings] Conversation:`, conversation);
-
     const ourPK = window.textsecure.storage.user.getNumber();
     const members = conversation.get('members') || [];
 
@@ -699,6 +701,14 @@ export class SessionConversation extends React.Component<any, State> {
     if (this.state.isScrolledToBottom !== isScrolledToBottom){
       this.setState({ isScrolledToBottom });
     }
+
+    // Scroll button appears if you're more than 75vh scrolled up
+    console.log(`[scroll] MessageContainer: `, messageContainer);
+    console.log(`[scroll] scrollTop: `, messageContainer.scrollTop);
+    console.log(`[scroll] scrollHeight: `, messageContainer.scrollHeight);
+    console.log(`[scroll] clientHeight: `, messageContainer.clientHeight);
+    
+    const scrollButtonViewLimit = messageContainer.clientHeight;
 
     // Fetch more messages when nearing the top of the message list
     const shouldFetchMoreMessages = messageContainer.scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
