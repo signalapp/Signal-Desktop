@@ -116,9 +116,9 @@ const sendOnionRequest = async (req_idx, nodePath, targetNode, plaintext) => {
   const url = `https://${nodePath[0].ip}:${nodePath[0].port}/onion_req`;
 
   // we only proxy to snodes...
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   const response = await nodeFetch(url, fetchOptions);
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
   return await processOnionResponse(req_idx, response, ctx_1.symmetricKey, true);
 }

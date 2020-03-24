@@ -34,7 +34,7 @@ class LokiSnodeAPI {
 
   async test_guard_node(snode) {
 
-    log.info("Testing a candidate guard node ", snode);
+    log.info("[maxim] Testing a candidate guard node ", snode);
 
     // Send a post request and make sure it is OK
     const endpoint = "/storage_rpc/v1";
@@ -57,15 +57,26 @@ class LokiSnodeAPI {
       method: 'POST',
       body:    JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
-      timeout: 1000 // 1s, we want a small timeout for testing
+      timeout: 10000 // 10s, we want a smaller timeout for testing
     };
 
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-    const response = await nodeFetch(url, fetchOptions);
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 1;
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+    let response;
+
+    try {
+      response = await nodeFetch(url, fetchOptions);
+    } catch (e) {
+      if (e.type === 'request-timeout') {
+        log.warn(`[maxim] test timeout for node,`, snode);
+      }
+      return false;
+    } finally {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+    }
 
     if (!response.ok) {
-      log.log(`Node ${snode} failed the guard test`);
+      log.info(`Node failed the guard test:`, snode);
     }
 
     return response.ok;
@@ -166,6 +177,8 @@ class LokiSnodeAPI {
 
     const all_nodes = await this.getRandomSnodePool();
 
+    log.info("[maxim] all nodes: ", all_nodes.length);
+
     if (this.guardNodes.length == 0) {
 
       // Not cached, load from DB
@@ -242,7 +255,8 @@ class LokiSnodeAPI {
         const trySeedNode = async (consecutiveErrors = 0) => {
 
           // Removed limit until there is a way to get snode info
-          // for individual nodes (needed for guard nodes)
+          // for individual nodes (needed for guard nodes);  this way
+          // we get all active nodes
           const params = {
             active_only: true,
             fields: {
