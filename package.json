@@ -40,7 +40,7 @@
     "test-lib-view": "NODE_ENV=test-lib yarn run start",
     "test-loki-view": "NODE_ENV=test-loki yarn run start",
     "test-electron": "yarn grunt test",
-    "test-integration-session": "ELECTRON_DISABLE_SANDBOX=1 mocha --exit integration_test/integration_test.js",
+    "test-integration-session": "ELECTRON_DISABLE_SANDBOX=1 mocha --exit --timeout 5000 integration_test/integration_test.js",
     "test-node": "mocha --recursive --exit test/app test/modules ts/test libloki/test/node",
     "test-node-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/app test/modules ts/test libloki/test/node",
     "test-node-coverage-html": "nyc --reporter=lcov --reporter=html mocha --recursive test/a/*  */pp test/modules ts/test libloki/test/node",
