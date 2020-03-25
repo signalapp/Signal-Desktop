@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /* global Whisper: false */
 /* global window: false */
 const path = require('path');
@@ -49,6 +50,13 @@ window.getStoragePubKey = key =>
   window.isDev() ? key.substring(0, key.length - 2) : key;
 window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
+
+if (
+  typeof process.env.NODE_APP_INSTANCE === 'string' &&
+  process.env.NODE_APP_INSTANCE.includes('test-integration')
+) {
+  window.electronRequire = require;
+}
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
@@ -297,6 +305,10 @@ window.lokiSnodeAPI = new LokiSnodeAPI({
 
 window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
+if (process.env.USE_STUBBED_NETWORK) {
+  window.StubMessageAPI = require('./integration_test/stubs/stub_message_api');
+  window.StubAppDotNetApi = require('./integration_test/stubs/stub_app_dot_net_api');
+}
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
 window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
@@ -409,7 +421,7 @@ window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,
-  useSnodeProxy: true,
+  useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useSealedSender: true,
 };
 

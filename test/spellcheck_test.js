@@ -1,12 +1,15 @@
 describe('spellChecker', () => {
   it('should work', () => {
-    assert(
-      window.spellChecker.spellCheck('correct'),
-      'Spellchecker returned false on a correct word.'
-    );
-    assert(
-      !window.spellChecker.spellCheck('fhqwgads'),
-      'Spellchecker returned true on a incorrect word.'
-    );
+    let result = null;
+
+    window.spellChecker.spellCheck(['correct'], answer => {
+      result = answer;
+    });
+    assert.deepEqual(result, []);
+
+    window.spellChecker.spellCheck(['fhqwgads'], answer => {
+      result = answer;
+    });
+    assert.deepEqual(result, ['fhqwgads']);
   });
 });

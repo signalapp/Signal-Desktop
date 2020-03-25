@@ -4,10 +4,10 @@
 
 const electron = require('electron');
 
+const Typo = require('typo-js');
+const fs = require('fs');
 const osLocale = require('os-locale');
-const os = require('os');
-const semver = require('semver');
-const spellchecker = require('spellchecker');
+const path = require('path');
 
 const { remote, webFrame } = electron;
 
@@ -40,6 +40,8 @@ function setupLinux(locale) {
     // apt-get install hunspell-<locale> can be run for easy access
     //   to other dictionaries
     const location = process.env.HUNSPELL_DICTIONARIES || '/usr/share/hunspell';
+    const affDataPath = path.join(location, `${locale}.aff`);
+    const dicDataPath = path.join(location, `${locale}.dic`);
 
     window.log.info(
       'Detected Linux. Setting up spell check with locale',
@@ -47,30 +49,22 @@ function setupLinux(locale) {
       'and dictionary location',
       location
     );
-    spellchecker.setDictionary(locale, location);
-  } else {
-    window.log.info(
-      'Detected Linux. Using default en_US spell check dictionary'
+
+    if (fs.existsSync(affDataPath) && fs.existsSync(dicDataPath)) {
+      const affData = fs.readFileSync(affDataPath, 'utf-8');
+      const dicData = fs.readFileSync(dicDataPath, 'utf-8');
+
+      return new Typo(locale, affData, dicData);
+    }
+
+    window.log.error(
+      `Could not find one of ${affDataPath} or ${dicDataPath} on filesystem`
     );
   }
-}
 
-function setupWin7AndEarlier(locale) {
-  if (process.env.HUNSPELL_DICTIONARIES || locale !== 'en_US') {
-    const location = process.env.HUNSPELL_DICTIONARIES;
+  window.log.info('Detected Linux. Using default en_US spell check dictionary');
 
-    window.log.info(
-      'Detected Windows 7 or below. Setting up spell-check with locale',
-      locale,
-      'and dictionary location',
-      location
-    );
-    spellchecker.setDictionary(locale, location);
-  } else {
-    window.log.info(
-      'Detected Windows 7 or below. Using default en_US spell check dictionary'
-    );
-  }
+  return new Typo(locale);
 }
 
 // We load locale this way and not via app.getLocale() because this call returns
@@ -83,11 +77,12 @@ if (!process.env.LANG) {
   process.env.LANG = locale;
 }
 
+let spellchecker = null;
+
 if (process.platform === 'linux') {
-  setupLinux(locale);
-} else if (process.platform === 'windows' && semver.lt(os.release(), '8.0.0')) {
-  setupWin7AndEarlier(locale);
+  spellchecker = setupLinux(locale);
 } else {
+  spellchecker = new Typo(locale);
   // OSX and Windows 8+ have OS-level spellcheck APIs
   window.log.info(
     'Using OS-level spell check API with locale',
@@ -96,11 +91,18 @@ if (process.platform === 'linux') {
 }
 
 const simpleChecker = {
-  spellCheck(text) {
-    return !this.isMisspelled(text);
+  spellCheck(words, callback) {
+    let mispelled;
+    if (Array.isArray(words)) {
+      mispelled = words.filter(word => this.isMisspelled(word));
+    } else {
+      mispelled = this.isMisspelled(words);
+    }
+
+    callback(mispelled);
   },
-  isMisspelled(text) {
-    const misspelled = spellchecker.isMisspelled(text);
+  isMisspelled(word) {
+    const misspelled = !spellchecker.check(word);
 
     // The idea is to make this as fast as possible. For the many, many calls which
     //   don't result in the red squiggly, we minimize the number of checks.
@@ -109,23 +111,21 @@ const simpleChecker = {
     }
 
     // Only if we think we've found an error do we check the locale and skip list.
-    if (locale.match(EN_VARIANT) && _.contains(ENGLISH_SKIP_WORDS, text)) {
+    if (locale.match(EN_VARIANT) && _.contains(ENGLISH_SKIP_WORDS, word)) {
       return false;
     }
 
     return true;
   },
   getSuggestions(text) {
-    return spellchecker.getCorrectionsForMisspelling(text);
+    return spellchecker.suggest(text);
   },
-  add(text) {
-    spellchecker.add(text);
-  },
+  add() {},
 };
 
 const dummyChecker = {
-  spellCheck() {
-    return true;
+  spellCheck(words, callback) {
+    callback([]);
   },
   isMisspelled() {
     return false;
@@ -141,18 +141,23 @@ const dummyChecker = {
 window.spellChecker = simpleChecker;
 window.disableSpellCheck = () => {
   window.removeEventListener('contextmenu', spellCheckHandler);
-  webFrame.setSpellCheckProvider('en-US', false, dummyChecker);
+  window.addEventListener('contextmenu', defaultContextMenuHandler);
+  webFrame.setSpellCheckProvider('en-US', dummyChecker);
 };
 
 window.enableSpellCheck = () => {
-  webFrame.setSpellCheckProvider(
-    'en-US',
-    // Not sure what this parameter (`autoCorrectWord`) does: https://github.com/atom/electron/issues/4371
-    // The documentation for `webFrame.setSpellCheckProvider` passes `true` so we do too.
-    true,
-    simpleChecker
-  );
+  webFrame.setSpellCheckProvider('en-US', simpleChecker);
   window.addEventListener('contextmenu', spellCheckHandler);
+  window.removeEventListener('contextmenu', defaultContextMenuHandler);
+};
+
+const defaultContextMenuHandler = () => {
+  const menu = buildEditorContextMenu({});
+
+  // @see js/spell_check.js:183
+  setTimeout(() => {
+    menu.popup(remote.getCurrentWindow());
+  }, 30);
 };
 
 const spellCheckHandler = e => {
