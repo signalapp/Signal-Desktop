@@ -25,6 +25,7 @@ class LokiSnodeAPI {
     this.swarmsPendingReplenish = {};
     this.refreshRandomPoolPromise = false;
     this.versionPools = {};
+    this.versionMap = {};
 
     this.onionPaths = [];
     this.guardNodes = [];
@@ -35,6 +36,10 @@ class LokiSnodeAPI {
       await this.refreshRandomPool();
     }
     return this.randomSnodePool;
+  }
+
+  getRandomPoolLength() {
+    return this.randomSnodePool.length;
   }
 
   async testGuardNode(snode) {
@@ -271,38 +276,52 @@ class LokiSnodeAPI {
     if (this.randomSnodePool.length === 0) {
       throw new window.textsecure.SeedNodeError('Invalid seed node response');
     }
-    const goodVersions = Object.keys(this.versionPools).filter(version => {
-      return semver.gt(version, '2.0.1')
-    })
+    const goodVersions = Object.keys(this.versionPools).filter(version =>
+      semver.gt(version, '2.0.1')
+    );
     if (!goodVersions.length) {
       return false;
     }
-    console.log('goodVersions', goodVersions);
-    const goodVersion = goodVersions[Math.floor(Math.random() * goodVersions.length)];
-    console.log('goodVersion', goodVersion);
+    const goodVersion =
+      goodVersions[Math.floor(Math.random() * goodVersions.length)];
     const pool = this.versionPools[goodVersion];
-    console.log('poolsize', pool.length);
-    return pool[
-      Math.floor(Math.random() * pool.length)
-    ];
+    return pool[Math.floor(Math.random() * pool.length)];
   }
 
   async getVersion(node, count, total) {
     try {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-      const result = await nodeFetch(`https://${node.ip}:${node.port}/get_stats/v1`, { agent: snodeHttpsAgent });
+      const result = await nodeFetch(
+        `https://${node.ip}:${node.port}/get_stats/v1`,
+        { agent: snodeHttpsAgent }
+      );
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
       const data = await result.json();
-      console.log(`${count}/${total} ${node.ip}:${node.port}`, 'is on', data.version);
+      log.info(
+        `${count}/${total} ${node.ip}:${node.port}`,
+        'is on',
+        data.version
+      );
       if (data.version) {
         if (this.versionPools[data.version] === undefined) {
-          this.versionPools[data.version] = [ node ];
+          this.versionPools[data.version] = [node];
         } else {
           this.versionPools[data.version].push(node);
         }
+        // set up reverse mapping for removal lookup
+        this.versionMap[`${node.ip}:${node.port}`] = data.version;
       }
-    } catch(e) {
-      console.log('loki_snode:::getVersion - Error', e.code, e.message);
+    } catch (e) {
+      this.markRandomNodeUnreachable(node);
+      const randomNodesLeft = this.getRandomPoolLength();
+      log.warn(
+        'loki_snode:::getVersion - Error',
+        e.code,
+        e.message,
+        `removing ${node.ip}:${
+          node.port
+        } leaving ${randomNodesLeft} in the randomPool`
+      );
     }
   }
 
@@ -371,10 +390,10 @@ class LokiSnodeAPI {
             resolve();
             let c = 0;
             const t = this.randomSnodePool.length;
-            for(let node of this.randomSnodePool) {
+            this.randomSnodePool.forEach(async node => {
               c += 1;
               await this.getVersion(node, c, t);
-            }
+            });
           } catch (e) {
             log.warn(
               'loki_snodes:::refreshRandomPoolPromise - error',
@@ -465,14 +484,20 @@ class LokiSnodeAPI {
   }
 
   markRandomNodeUnreachable(snode) {
+    const snodeVersion = this.versionMap[`${snode.ip}:${snode.port}`];
+    if (this.versionPools[snodeVersion]) {
+      this.versionPools[snodeVersion] = _.without(
+        this.versionPools[snodeVersion],
+        _.find(this.versionPools[snodeVersion], {
+          ip: snode.ip,
+          port: snode.port,
+        })
+      );
+    }
     this.randomSnodePool = _.without(
       this.randomSnodePool,
       _.find(this.randomSnodePool, { ip: snode.ip, port: snode.port })
     );
-  }
-
-  getRandomPoolLength() {
-    return this.randomSnodePool.length;
   }
 
   async updateLastHash(snode, hash, expiresAt) {
