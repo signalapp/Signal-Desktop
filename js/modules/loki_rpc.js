@@ -505,7 +505,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       fetchOptions.agent = snodeHttpsAgent;
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     } else {
-      log.info('[path] http communication', url);
+      log.info('lokirpc:::lokiFetch - http communication', url);
     }
     const response = await nodeFetch(url, fetchOptions);
     // restore TLS checking
