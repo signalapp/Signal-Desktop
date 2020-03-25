@@ -136,33 +136,32 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
 
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
-    log.warn('Got 503: snode not ready');
+    log.warn(`(${reqIdx}) [path] Got 503: snode not ready`);
 
     return BAD_PATH;
   }
 
   if (response.status === 504) {
-    log.warn('Got 504: Gateway timeout');
+    log.warn(`(${reqIdx}) [path] Got 504: Gateway timeout`);
     return BAD_PATH;
   }
 
   if (response.status === 404) {
     // Why would we get this error on testnet?
-    log.warn('Got 404: Gateway timeout');
+    log.warn(`(${reqIdx}) [path] Got 404: Gateway timeout`);
     return BAD_PATH;
   }
 
   if (response.status !== 200) {
     log.warn(
-      'lokiRpc sendToProxy fetch unhandled error code:',
-      response.status
+      `(${reqIdx}) [path] fetch unhandled error code: ${response.status}`
     );
     return false;
   }
 
   const ciphertext = await response.text();
   if (!ciphertext) {
-    log.warn('[path]: Target node return empty ciphertext');
+    log.warn(`(${reqIdx}) [path]: Target node return empty ciphertext`);
     return false;
   }
 
@@ -183,9 +182,9 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
     const textDecoder = new TextDecoder();
     plaintext = textDecoder.decode(plaintextBuffer);
   } catch (e) {
-    log.error(`(${reqIdx}) lokiRpc sendToProxy decode error`);
+    log.error(`(${reqIdx}) [path] decode error`);
     if (ciphertextBuffer) {
-      log.error('ciphertextBuffer', ciphertextBuffer);
+      log.error(`(${reqIdx}) [path] ciphertextBuffer`, ciphertextBuffer);
     }
     return false;
   }
@@ -198,22 +197,13 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
         const res = JSON.parse(jsonRes.body);
         return res;
       } catch (e) {
-        log.error(
-          `(${reqIdx}) lokiRpc sendToProxy parse error json: `,
-          jsonRes.body
-        );
+        log.error(`(${reqIdx}) [path] parse error json: `, jsonRes.body);
       }
       return false;
     };
     return jsonRes;
   } catch (e) {
-    log.error(
-      'lokiRpc sendToProxy parse error',
-      e.code,
-      e.message,
-      `json:`,
-      plaintext
-    );
+    log.error('[path] parse error', e.code, e.message, `json:`, plaintext);
     return false;
   }
 };
@@ -281,7 +271,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
     const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
     log.warn(
-      `lokiRpc sendToProxy`,
+      `lokiRpc:::sendToProxy - `,
       `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
         targetNode.port
       }`,
@@ -306,7 +296,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
     const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
     log.warn(
-      `lokiRpc sendToProxy`,
+      `lokiRpc:::sendToProxy - `,
       `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
         targetNode.port
       }`,
@@ -346,7 +336,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   if (response.status !== 200) {
     // let us know we need to create handlers for new unhandled codes
     log.warn(
-      'lokiRpc sendToProxy fetch non-200 statusCode',
+      'lokiRpc:::sendToProxy - fetch non-200 statusCode',
       response.status,
       `from snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
         targetNode.port
@@ -381,7 +371,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     plaintext = textDecoder.decode(plaintextBuffer);
   } catch (e) {
     log.error(
-      'lokiRpc sendToProxy decode error',
+      'lokiRpc:::sendToProxy - decode error',
       e.code,
       e.message,
       `from ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
@@ -403,7 +393,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
         return JSON.parse(jsonRes.body);
       } catch (e) {
         log.error(
-          'lokiRpc sendToProxy parse error',
+          'lokiRpc:::sendToProxy - parse error',
           e.code,
           e.message,
           `from ${randSnode.ip}:${randSnode.port} json:`,
@@ -414,7 +404,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     };
     if (retryNumber) {
       log.info(
-        `lokiRpc sendToProxy request succeeded,`,
+        `lokiRpc:::sendToProxy - request succeeded,`,
         `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
           targetNode.port
         }`,
@@ -424,7 +414,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     return jsonRes;
   } catch (e) {
     log.error(
-      'lokiRpc sendToProxy parse error',
+      'lokiRpc:::sendToProxy - parse error',
       e.code,
       e.message,
       `from ${randSnode.ip}:${randSnode.port} json:`,
@@ -515,7 +505,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       fetchOptions.agent = snodeHttpsAgent;
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     } else {
-      log.info('lokiRpc http communication', url);
+      log.info('[path] http communication', url);
     }
     const response = await nodeFetch(url, fetchOptions);
     // restore TLS checking
