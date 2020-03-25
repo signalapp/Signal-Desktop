@@ -291,6 +291,17 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
+      direction="outgoing"
+      status="error"
+      authorColor="purple"
+      timestamp={Date.now() - 57}
+      text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur finibus tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu metus leo. Nullam consequat leo ut accumsan aliquam. In est elit, faucibus vel arcu vitae, dapibus egestas nunc. Curabitur nec orci semper, auctor justo ornare, sagittis massa. Aliquam ultrices sem ac ex vestibulum dapibus. Etiam erat purus, interdum sit amet magna vitae, elementum lacinia leo. Duis vel mauris dui. Morbi sed accumsan erat, at facilisis metus. Nullam molestie lectus eleifend congue ultrices. Nunc porta at justo semper egestas. Proin non iaculis nibh. Cras sit amet urna dignissim, venenatis arcu a, pulvinar ipsum."
+      i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
       direction="incoming"
       status="error"
       authorColor="purple"

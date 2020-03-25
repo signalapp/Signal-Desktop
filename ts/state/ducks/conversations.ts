@@ -89,6 +89,8 @@ export type MessageType = {
     };
   }>;
 
+  errors?: Array<Error>;
+
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
 };
@@ -561,12 +563,23 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
+// tslint:disable-next-line cyclomatic-complexity
 function hasMessageHeightChanged(
   message: MessageType,
   previous: MessageType
 ): Boolean {
   const messageAttachments = message.attachments || [];
   const previousAttachments = previous.attachments || [];
+
+  const errorStatusChanged =
+    (!message.errors && previous.errors) ||
+    (message.errors && !previous.errors) ||
+    (message.errors &&
+      previous.errors &&
+      message.errors.length !== previous.errors.length);
+  if (errorStatusChanged) {
+    return true;
+  }
 
   const stickerPendingChanged =
     message.sticker &&
