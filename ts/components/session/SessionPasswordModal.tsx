@@ -33,6 +33,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     this.closeDialog = this.closeDialog.bind(this);
 
     this.onKeyUp = this.onKeyUp.bind(this);
+    this.onPaste = this.onPaste.bind(this);
   }
 
   public componentDidMount() {
@@ -66,6 +67,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
             placeholder={placeholders[0]}
             onKeyUp={this.onKeyUp}
             maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
+            onPaste={this.onPaste}
           />
           {action !== PasswordAction.Remove && (
             <input
@@ -74,6 +76,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
               placeholder={placeholders[1]}
               onKeyUp={this.onKeyUp}
               maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
+              onPaste={this.onPaste}
             />
           )}
         </div>
@@ -189,6 +192,27 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     if (this.props.onClose) {
       this.props.onClose();
     }
+  }
+
+  private onPaste(event: any) {
+    const clipboard = event.clipboardData.getData('text');
+
+    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH) {
+      const title = String(
+        window.i18n(
+          'pasteLongPasswordToastTitle',
+          window.CONSTANTS.MAX_PASSWORD_LENGTH
+        )
+      );
+
+      window.pushToast({
+        title,
+        type: 'warning',
+      });
+    }
+
+    // Prevent pating into input
+    return false;
   }
 
   private async onKeyUp(event: any) {

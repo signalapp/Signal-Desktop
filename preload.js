@@ -72,7 +72,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 
 window.CONSTANTS = {
   MAX_LOGIN_TRIES: 3,
-  MAX_PASSWORD_LENGTH: 32,
+  MAX_PASSWORD_LENGTH: 64,
   MAX_USERNAME_LENGTH: 20,
   MAX_GROUP_NAME_LENGTH: 64,
   DEFAULT_PUBLIC_CHAT_URL: appConfig.get('defaultPublicChatServer'),
