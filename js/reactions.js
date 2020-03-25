@@ -54,9 +54,13 @@
         );
 
         const targetMessage = messages.find(m => {
-          const mcid = m.isOutgoing()
-            ? ConversationController.getOurConversationId()
-            : m.get('conversationId');
+          const contact = m.getContact();
+
+          if (!contact) {
+            return false;
+          }
+
+          const mcid = contact.get('id');
           const recid = ConversationController.getConversationId(
             reaction.get('targetAuthorE164') || reaction.get('targetAuthorUuid')
           );
