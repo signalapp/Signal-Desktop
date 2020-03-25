@@ -928,36 +928,36 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 198,
+    "lineNumber": 200,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T19:55:50.800Z",
+    "updated": "2020-03-25T13:52:04.149Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 202,
+    "lineNumber": 204,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T19:55:50.800Z",
+    "updated": "2020-03-25T13:52:04.149Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 214,
+    "lineNumber": 216,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T19:55:50.800Z",
+    "updated": "2020-03-25T13:52:04.149Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 219,
+    "lineNumber": 221,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T19:55:50.800Z",
+    "updated": "2020-03-25T13:52:04.149Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {

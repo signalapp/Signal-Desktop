@@ -141,9 +141,9 @@
       'click .clear-data': 'onClearData',
     },
     render_attributes() {
+      const appStartSpellCheck = window.appStartInitialSpellcheckSetting;
       const spellCheckDirty =
-        window.initialData.spellCheck !==
-        window.appStartInitialSpellcheckSetting;
+        window.initialData.spellCheck !== appStartSpellCheck;
 
       return {
         deviceNameLabel: i18n('deviceName'),
@@ -173,7 +173,9 @@
         spellCheckDescription: i18n('spellCheckDescription'),
         spellCheckHidden: spellCheckDirty ? 'false' : 'true',
         spellCheckDisplay: spellCheckDirty ? 'inherit' : 'none',
-        spellCheckDirtyText: i18n('spellCheckDirty'),
+        spellCheckDirtyText: appStartSpellCheck
+          ? i18n('spellCheckWillBeDisabled')
+          : i18n('spellCheckWillBeEnabled'),
       };
     },
     onClose() {

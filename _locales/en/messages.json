@@ -1088,9 +1088,13 @@
     "message": "Enable spell check of text entered in message composition box",
     "description": "Description of the media permission description"
   },
-  "spellCheckDirty": {
-    "message": "You must restart Signal to apply your new settings",
-    "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
+  "spellCheckWillBeEnabled": {
+    "message": "Spell check will be enabled the next time Signal starts.",
+    "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+  },
+  "spellCheckWillBeDisabled": {
+    "message": "Spell check will be disabled the next time Signal starts.",
+    "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
   },
   "clearDataHeader": {
     "message": "Clear Data",
