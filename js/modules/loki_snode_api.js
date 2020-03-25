@@ -3,7 +3,13 @@
 
 const is = require('@sindresorhus/is');
 const { lokiRpc } = require('./loki_rpc');
+const https = require('https');
 const nodeFetch = require('node-fetch');
+const semver = require('semver');
+
+const snodeHttpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 const RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM = 3;
 const SEED_NODE_RETRIES = 3;
@@ -18,6 +24,7 @@ class LokiSnodeAPI {
     this.randomSnodePool = [];
     this.swarmsPendingReplenish = {};
     this.refreshRandomPoolPromise = false;
+    this.versionPools = {};
 
     this.onionPaths = [];
     this.guardNodes = [];
@@ -254,6 +261,51 @@ class LokiSnodeAPI {
     ];
   }
 
+  // use nodes that support more than 1mb
+  async getRandomProxySnodeAddress() {
+    /* resolve random snode */
+    if (this.randomSnodePool.length === 0) {
+      // allow exceptions to pass through upwards
+      await this.refreshRandomPool();
+    }
+    if (this.randomSnodePool.length === 0) {
+      throw new window.textsecure.SeedNodeError('Invalid seed node response');
+    }
+    const goodVersions = Object.keys(this.versionPools).filter(version => {
+      return semver.gt(version, '2.0.1')
+    })
+    if (!goodVersions.length) {
+      return false;
+    }
+    console.log('goodVersions', goodVersions);
+    const goodVersion = goodVersions[Math.floor(Math.random() * goodVersions.length)];
+    console.log('goodVersion', goodVersion);
+    const pool = this.versionPools[goodVersion];
+    console.log('poolsize', pool.length);
+    return pool[
+      Math.floor(Math.random() * pool.length)
+    ];
+  }
+
+  async getVersion(node, count, total) {
+    try {
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+      const result = await nodeFetch(`https://${node.ip}:${node.port}/get_stats/v1`, { agent: snodeHttpsAgent });
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+      const data = await result.json();
+      console.log(`${count}/${total} ${node.ip}:${node.port}`, 'is on', data.version);
+      if (data.version) {
+        if (this.versionPools[data.version] === undefined) {
+          this.versionPools[data.version] = [ node ];
+        } else {
+          this.versionPools[data.version].push(node);
+        }
+      }
+    } catch(e) {
+      console.log('loki_snode:::getVersion - Error', e.code, e.message);
+    }
+  }
+
   async refreshRandomPool(seedNodes = [...window.seedNodeList]) {
     // if currently not in progress
     if (this.refreshRandomPoolPromise === false) {
@@ -295,6 +347,9 @@ class LokiSnodeAPI {
             snodes = response.result.service_node_states.filter(
               snode => snode.public_ip !== '0.0.0.0'
             );
+            // commit changes to be live
+            // we'll update the version (in case they upgrade) every cycle
+            this.versionPools = {};
             this.randomSnodePool = snodes.map(snode => ({
               ip: snode.public_ip,
               port: snode.storage_port,
@@ -312,7 +367,14 @@ class LokiSnodeAPI {
               clearTimeout(timeoutTimer);
               timeoutTimer = null;
             }
+            // start polling versions
             resolve();
+            let c = 0;
+            const t = this.randomSnodePool.length;
+            for(let node of this.randomSnodePool) {
+              c += 1;
+              await this.getVersion(node, c, t);
+            }
           } catch (e) {
             log.warn(
               'loki_snodes:::refreshRandomPoolPromise - error',
