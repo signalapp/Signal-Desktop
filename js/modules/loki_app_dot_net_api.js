@@ -49,8 +49,9 @@ const sendToProxy = async (
   // use nodes that support more than 1mb
   const randSnode = await lokiSnodeAPI.getRandomProxySnodeAddress();
   if (randSnode === false) {
+    log.warn('proxy random snode pool is not ready, retrying 10s', endpoint);
     // no nodes in the pool yet, give it some time and retry
-    await timeoutDelay(1000);
+    await timeoutDelay(10000);
     return sendToProxy(srvPubKey, endpoint, pFetchOptions, options);
   }
   const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
