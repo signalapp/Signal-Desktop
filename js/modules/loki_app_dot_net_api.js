@@ -32,6 +32,8 @@ const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
+const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 const sendToProxy = async (
   srvPubKey,
   endpoint,
@@ -44,7 +46,13 @@ const sendToProxy = async (
     );
     return {};
   }
-  const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
+  // use nodes that support more than 1mb
+  const randSnode = await lokiSnodeAPI.getRandomProxySnodeAddress();
+  if (randSnode === false) {
+    // no nodes in the pool yet, give it some time and retry
+    await timeoutDelay(1000);
+    return sendToProxy(srvPubKey, endpoint, pFetchOptions, options);
+  }
   const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
   const fetchOptions = pFetchOptions; // make lint happy
@@ -138,7 +146,7 @@ const sendToProxy = async (
     );
     // retry (hopefully with new snode)
     // FIXME: max number of retries...
-    return sendToProxy(srvPubKey, endpoint, fetchOptions);
+    return sendToProxy(srvPubKey, endpoint, fetchOptions, options);
   }
 
   let response = {};
